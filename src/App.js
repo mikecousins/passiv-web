@@ -14,10 +14,10 @@ class App extends Component {
           </div>
         </nav>
         <Router>
-            <Switch>
-              <Route path="/group" component={AccountGroupPage} />
-              <Route path="/" component={DashboardPage} />
-            </Switch>
+          <Switch>
+            <Route path="/group" component={AccountGroupPage} />
+            <Route path="/" component={DashboardPage} />
+          </Switch>
         </Router>
       </div>
     );
