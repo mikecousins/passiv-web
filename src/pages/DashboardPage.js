@@ -7,6 +7,9 @@ const DashboardPage = () => (
     <div className="mb-4 text-xl font-bold">
       Dashboard
     </div>
+    <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded mb-4">
+      Re-Balance
+    </button>
     <AccountGroup
       name="Retirement"
       slices={[
