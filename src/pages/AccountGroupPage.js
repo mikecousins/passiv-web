@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import StockGroup from '../components/StockGroup';
 import Stock from '../components/Stock';
 
@@ -6,6 +7,11 @@ const AccountGroupPage = () => (
   <div>
     <div className="mb-4 text-xl font-bold">
       Retirement Account Group
+    </div>
+    <div className="mb-4 py-2">
+      <Link to="/" class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded mb-4 mr-4 no-underline">
+        Balance
+      </Link>
     </div>
     <StockGroup name="Canada">
       <Stock name="VCN" />
