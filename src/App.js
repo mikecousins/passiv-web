@@ -7,10 +7,10 @@ import './index.css';
 class App extends Component {
   render() {
     return (
-      <div className="container mx-auto shadow bg-grey-lightest px-4">
+      <div className="container mx-auto shadow bg-grey-lightest px-4 pb-2">
         <nav className="flex items-center justify-between flex-wrap py-6">
           <div className="flex items-center flex-no-shrink text-black mr-6">
-            <span className="font-semibold text-xl tracking-tight">Passiv</span>
+            <span className="font-semibold text-5xl tracking-tight">Passiv</span>
           </div>
         </nav>
         <Router>
