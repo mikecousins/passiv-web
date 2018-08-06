@@ -7,7 +7,7 @@ const Account = (props) => {
         <div className="w-1/4 bg-white py-1 align-middle">{props.name}</div>
         <div className="w-3/4 bg-white py-1 align-middle">
           <label>
-            <span className="px-4">Account Group</span>
+            <span className="px-4">Account Group:</span>
             <select className="px-2">
               <option>Retirement</option>
               <option>RESP</option>

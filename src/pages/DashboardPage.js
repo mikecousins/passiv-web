@@ -12,7 +12,7 @@ class DashboardPage extends React.Component {
     return (
       <div>
         <div className="mb-4 text-xl font-bold">
-          Dashboard
+          Portfolio
         </div>
         <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded mb-4 mr-4">
           Balance
