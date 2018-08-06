@@ -1,6 +1,4 @@
 import React from 'react';
-import PieChart from 'react-simple-pie-chart';
-import { Link } from 'react-router-dom';
 
 const StockGroup = (props) => (
   <div className="rounded overflow-hidden px-6 py-4 mb-4 bg-white shadow">
