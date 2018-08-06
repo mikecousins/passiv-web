@@ -10,6 +10,10 @@ const Stock = (props) => (
         <select className="px-2">
           <option>Canada</option>
           <option>USA</option>
+          <option>Europe/Asia</option>
+          <option>Emerging</option>
+          <option>Bonds</option>
+          <option>Exclude</option>
           <option>New Group</option>
         </select>
       </label>
