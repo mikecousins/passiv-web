@@ -8,7 +8,7 @@ const AccountGroup = (props) => (
       <span className="font-bold text-lg mb-2 px-4">{props.name}</span>
       <span className="font-semi-bold text-lg px-4">$123,456</span>
       <span className="font-semi-bold text-lg text-grey px-4">97% accuracy</span>
-      <Link to="/group" className="text-lg text-blue-light px-4 no-underline">
+      <Link to="/group" className="text-lg text-green-lighter px-4 no-underline">
         Edit
       </Link>
     </div>

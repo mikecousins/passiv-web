@@ -14,10 +14,10 @@ class DashboardPage extends React.Component {
         <div className="mb-4 text-xl font-bold">
           Portfolio
         </div>
-        <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded mb-4 mr-4">
+        <button class="bg-green hover:bg-green-dark text-white font-bold py-2 px-4 rounded mb-4 mr-4">
           Balance
         </button>
-        <button class="bg-transparent hover:bg-blue text-blue-dark font-semibold hover:text-white py-2 px-4 border border-blue hover:border-transparent rounded" onClick={() => this.setState({ edit: !this.state.edit })}>
+        <button class="bg-transparent hover:bg-green text-green-dark font-semibold hover:text-white py-2 px-4 border border-green hover:border-transparent rounded" onClick={() => this.setState({ edit: !this.state.edit })}>
           { !edit ? <span>Edit Groups</span> : <span>Stop Editing</span> }
         </button>
         <AccountGroup

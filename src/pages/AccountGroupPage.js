@@ -9,8 +9,8 @@ const AccountGroupPage = () => (
       Retirement Account Group
     </div>
     <div className="mb-4 py-2">
-      <Link to="/" class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded mb-4 mr-4 no-underline">
-        Balance
+      <Link to="/" class="bg-green hover:bg-green-dark text-white font-bold py-2 px-4 rounded mb-4 mr-4 no-underline">
+        Portfolio
       </Link>
     </div>
     <StockGroup name="Canada">
