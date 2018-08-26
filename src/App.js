@@ -1,25 +1,34 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Header from './components/Header';
+import SideBar from './components/SideBar';
 import AccountGroupPage from './pages/AccountGroupPage';
 import DashboardPage from './pages/DashboardPage';
+import AccountPage from './pages/AccountPage';
+import SettingsPage from './pages/SettingsPage';
 import './index.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="container mx-auto shadow bg-grey-lightest px-4 pb-2">
-        <nav className="flex items-center justify-between flex-wrap py-6">
-          <div className="flex items-center flex-no-shrink text-black mr-6">
-            <span className="font-semibold text-5xl tracking-tight">Passiv</span>
+      <Router>
+        <div className="container mx-auto shadow bg-grey-lightest pb-2">
+          <Header />
+          <div class="min-h-screen md:flex">
+            <div class="flex-none w-full md:max-w-xs bg-black text-white">
+              <SideBar />
+            </div>
+            <div class="flex-1 bg-grey-lightest p-4">
+              <Switch>
+                <Route path="/" exact component={DashboardPage} />
+                <Route path="/group" component={AccountGroupPage} />
+                <Route path="/account" component={AccountPage} />
+                <Route path="/settings" component={SettingsPage} />
+              </Switch>
+            </div>
           </div>
-        </nav>
-        <Router>
-          <Switch>
-            <Route path="/group" component={AccountGroupPage} />
-            <Route path="/" component={DashboardPage} />
-          </Switch>
-        </Router>
-      </div>
+        </div>
+      </Router>
     );
   }
 }
