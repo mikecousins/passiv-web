@@ -9,7 +9,14 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-const store = createStore(rootReducer, applyMiddleware(reduxThunk, logger));
+const defaultState = {
+  auth: {
+    loggedIn: false,
+    logginIn: false,
+  }
+};
+
+const store = createStore(rootReducer, defaultState, applyMiddleware(reduxThunk, logger));
 
 ReactDOM.render(
   <Provider store={store}>

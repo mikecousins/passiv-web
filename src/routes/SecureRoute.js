@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const SecureRoute = ({ component, ...rest }) => {
-  const isLoggedIn = true;
-
   return (
     <Route
       {...rest}
       render={props => (
-        isLoggedIn ? (
+        props.loggedIn ? (
           React.createElement(component, props)
         ) : (
           <Redirect
@@ -24,6 +23,10 @@ const SecureRoute = ({ component, ...rest }) => {
   );
 };
 
+const select = (state) => ({
+  loggedIn: state.auth.loggedIn, 
+});
+
 SecureRoute.propTypes = {
   component: PropTypes.func.isRequired,
   location: Location,
@@ -33,4 +36,4 @@ SecureRoute.defaultProps = {
   location: null,
 };
 
-export default SecureRoute;
+export default connect(select)(SecureRoute);

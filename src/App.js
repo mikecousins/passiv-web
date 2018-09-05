@@ -21,11 +21,11 @@ class App extends Component {
       <Router>
         <div className="container mx-auto shadow bg-grey-lightest pb-2">
           <Header />
-          <div class="min-h-screen md:flex">
-            <div class="flex-none w-full md:max-w-xs bg-black text-white">
+          <div className="min-h-screen md:flex">
+            <div className="flex-none w-full md:max-w-xs bg-black text-white">
               <SideBar />
             </div>
-            <div class="flex-1 bg-grey-lightest p-4">
+            <div className="flex-1 bg-grey-lightest p-4">
               <Switch>
                 <Route path="/" exact component={LandingPage} />
                 <Route path="/login" component={LoginPage} />
