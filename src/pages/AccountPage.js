@@ -6,7 +6,7 @@ import Stock from '../components/Stock';
 const AccountPage = () => (
   <div>
     <div className="mb-4 text-xl font-bold">
-      Retirement Account Group
+      Account
     </div>
     <div className="mb-4 py-2">
       <Link to="/" class="bg-green hover:bg-green-dark text-white font-bold py-2 px-4 rounded mb-4 mr-4 no-underline">

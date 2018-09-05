@@ -2,10 +2,17 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
 import SideBar from './components/SideBar';
+import LandingPage from './pages/LandingPage';
+import PricingPage from './pages/PricingPage';
+import LoginPage from './pages/LoginPage';
+import RegistrationPage from './pages/RegistrationPage';
+import AboutPage from './pages/AboutPage';
+import SecurityPage from './pages/SecurityPage';
 import AccountGroupPage from './pages/AccountGroupPage';
 import DashboardPage from './pages/DashboardPage';
 import AccountPage from './pages/AccountPage';
 import SettingsPage from './pages/SettingsPage';
+import SecureRoute from './routes/SecureRoute';
 import './index.css';
 
 class App extends Component {
@@ -20,10 +27,16 @@ class App extends Component {
             </div>
             <div class="flex-1 bg-grey-lightest p-4">
               <Switch>
-                <Route path="/" exact component={DashboardPage} />
-                <Route path="/group" component={AccountGroupPage} />
-                <Route path="/account" component={AccountPage} />
-                <Route path="/settings" component={SettingsPage} />
+                <Route path="/" exact component={LandingPage} />
+                <Route path="/login" component={LoginPage} />
+                <Route path="/register" component={RegistrationPage} />
+                <Route path="/about" component={AboutPage} />
+                <Route path="/pricing" component={PricingPage} />
+                <Route path="/security" component={SecurityPage} />
+                <SecureRoute path="/dashboard" component={DashboardPage} />
+                <SecureRoute path="/group" component={AccountGroupPage} />
+                <SecureRoute path="/account" component={AccountPage} />
+                <SecureRoute path="/settings" component={SettingsPage} />
               </Switch>
             </div>
           </div>
