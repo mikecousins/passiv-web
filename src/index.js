@@ -5,10 +5,14 @@ import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { createBrowserHistory } from 'history';
+import { ConnectedRouter, connectRouter, routerMiddleware } from 'connected-react-router';
 import rootReducer from './reducers';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+
+const history = createBrowserHistory();
 
 const defaultState = {
   auth: {
@@ -17,11 +21,23 @@ const defaultState = {
   }
 };
 
-const store = createStore(rootReducer, defaultState, composeWithDevTools(applyMiddleware(reduxThunk, logger)));
+const store = createStore(
+  connectRouter(history)(rootReducer),
+  defaultState,
+  composeWithDevTools(
+    applyMiddleware(
+      routerMiddleware(history),
+      reduxThunk,
+      logger
+    )
+  )
+);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root'));
 
