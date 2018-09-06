@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^9.1.0",
-    "concurrently": "^3.6.1",
+    "concurrently": "4.0.1",
     "cypress": "3.1.0",
     "postcss-cli": "^6.0.0",
     "tailwindcss": "^0.6.4"
