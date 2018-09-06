@@ -13,7 +13,7 @@ import registerServiceWorker from './registerServiceWorker';
 const defaultState = {
   auth: {
     loggedIn: false,
-    logginIn: false,
+    loggingIn: false,
   }
 };
 
