@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/passiv/passiv-web.svg?branch=master)](https://travis-ci.org/passiv/passiv-web)
+[![Dependencies](https://david-dm.org/passiv/passiv-web.svg)](https://david-dm.org/passiv/passiv-web)
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
