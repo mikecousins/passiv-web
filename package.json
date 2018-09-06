@@ -1,7 +1,16 @@
 {
-  "name": "passiv-groups",
+  "name": "passiv-web",
   "version": "0.1.0",
-  "private": true,
+  "description": "The main website for Passiv",
+  "keywords": ["passiv", "investing"],
+  "homepage": "https://getpassiv.com",
+  "license": "MIT",
+  "author": {
+    "name": "Mike Cousins",
+    "email": "mike@mikecousins.com",
+    "url": "https://www.mikecousins.com"
+  },
+  "repository": "github:passiv/passiv-web",
   "dependencies": {
     "connected-react-router": "^4.4.1",
     "formik": "1.1.1",
