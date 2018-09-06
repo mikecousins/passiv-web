@@ -17,7 +17,6 @@ const history = createBrowserHistory();
 const defaultState = {
   auth: {
     loggedIn: false,
-    loggingIn: false,
   }
 };
 

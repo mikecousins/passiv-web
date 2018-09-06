@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loginStarted } from '../actions';
+import { loginStartedAsync } from '../actions';
 
 const LoginPage = (props) => (
   <React.Fragment>
@@ -14,6 +14,6 @@ const select = state => ({
   loggedIn: state.auth.loggedIn,
 });
 
-const actions = { startLogin: loginStarted };
+const actions = { startLogin: loginStartedAsync };
 
 export default connect(select, actions)(LoginPage);

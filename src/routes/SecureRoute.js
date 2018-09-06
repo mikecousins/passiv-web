@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const SecureRoute = ({ component, ...rest }) => {
+const SecureRoute = ({ component: Component, loggedIn, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props => (
-        props.loggedIn ? (
-          React.createElement(component, props)
+      render={routeProps => (
+        loggedIn ? (
+          <Component {...routeProps} />
         ) : (
           <Redirect
             to={{
               pathname: '/login',
-              state: { nextPathname: props.location.pathname },
+              state: { nextPathname: routeProps.location.pathname },
             }}
           />
         )
@@ -24,7 +24,7 @@ const SecureRoute = ({ component, ...rest }) => {
 };
 
 const select = (state) => ({
-  loggedIn: state.auth.loggedIn, 
+  loggedIn: state.auth.loggedIn,
 });
 
 SecureRoute.propTypes = {
