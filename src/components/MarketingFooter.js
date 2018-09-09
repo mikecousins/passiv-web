@@ -2,11 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const MarketingFooter = () => (
-  <nav className="flex items-center justify-between flex-wrap py-6 bg-white">
-    <div className="flex items-center flex-no-shrink text-black mr-6">
-      <Link to="/" className="font-semibold tracking-tight">Passiv</Link>
-    </div>
-  </nav>
+  <ul className="list-reset flex bg-green py-4">
+    <li className="mr-6">
+      <Link className="text-white hover:text-blue-darker no-underline" to="/blog">Blog</Link>
+    </li>
+    <li className="mr-6">
+      <Link className="text-white hover:text-blue-darker no-underline" to="/termsofuse">Terms Of Use</Link>
+    </li>
+    <li className="mr-6">
+      <Link className="text-white hover:text-blue-darker no-underline" to="/privacy">Privacy</Link>
+    </li>
+    <li className="mr-6">
+      <Link className="text-white hover:text-blue-darker no-underline" to="/security">Security</Link>
+    </li>
+  </ul>
 );
 
 export default MarketingFooter;
