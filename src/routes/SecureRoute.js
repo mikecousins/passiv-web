@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { selectLoggedIn } from '../selectors';
 
 const SecureRoute = ({ component: Component, loggedIn, ...rest }) => {
   return (
@@ -24,7 +25,7 @@ const SecureRoute = ({ component: Component, loggedIn, ...rest }) => {
 };
 
 const select = (state) => ({
-  loggedIn: state.auth.loggedIn,
+  loggedIn: selectLoggedIn(state),
 });
 
 SecureRoute.propTypes = {
