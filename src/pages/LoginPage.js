@@ -6,7 +6,11 @@ import { selectLoggedIn } from '../selectors';
 
 const LoginPage = (props) => {
   if (props.loggedIn) {
-    return <Redirect to={props.location.state.nextPathname} />;
+    let nextPath = '/dashboard';
+    if (props && props.location && props.location.state && props.location.state.nextPathname) {
+      nextPath = props.location.state.nextPathname;
+    }
+    return <Redirect to={nextPath} />;
   } else {
     return (
       <div>
