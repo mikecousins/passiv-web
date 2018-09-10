@@ -100,7 +100,7 @@ const LandingPage = () => (
     <section className="security">
       <div className="wrapper">
         <h2>We make sure everything is <span>secure</span></h2>
-        <p>We work with brokerages directly and use their APIs in order to keep your information safe and secure. This ensures that you are not breaching their terms & conditions. We do not store your login credentials to your brokerage account nor do we share your information with any third parties. <a href="/security/">Click here</a> to learn more.</p>
+        <p>We work with brokerages directly and use their APIs in order to keep your information safe and secure. This ensures that you are not breaching their terms & conditions. We do not store your login credentials to your brokerage account nor do we share your information with any third parties. <Link to="/security">Lean more about our security policies.</Link></p>
       </div>
     </section>
   </React.Fragment>
