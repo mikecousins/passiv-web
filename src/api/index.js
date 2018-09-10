@@ -1,12 +1,12 @@
-export const getData(url = '') => {
+export const getData = (url = '') => {
   return fetch(url, {
     method: "GET",
     mode: "cors",
   })
   .then(response => response.json());
-}
+};
 
-export const postData(url = '', data = {}) => {
+export const postData = (url = '', data = {}) => {
     return fetch(url, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, cors, *same-origin
@@ -21,4 +21,4 @@ export const postData(url = '', data = {}) => {
         body: JSON.stringify(data), // body data type must match "Content-Type" header
     })
     .then(response => response.json()); // parses response to JSON
-}
+};
