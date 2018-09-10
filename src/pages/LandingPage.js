@@ -16,7 +16,7 @@ const LandingPage = () => (
       <section className="mission">
         <div className="wrapper">
           <div className="img-container">
-            <img alt="Passiv Interface" src="https://getpassiv.com/assets/images/interface.png" srcset="https://getpassiv.com/assets/images/interface@2x.png 2x" />
+            <img alt="Passiv Interface" src="https://getpassiv.com/assets/images/interface.png" srcSet="https://getpassiv.com/assets/images/interface@2x.png 2x" />
           </div>
           <div className="copy-container">
             <h2>The Mission</h2>
@@ -31,7 +31,7 @@ const LandingPage = () => (
         <div className="col-3">
           <div className="inner-col tile">
             <div className="tile-container">
-              <img src="https://getpassiv.com/assets/images/allocation.jpg" srcset="https://getpassiv.com/assets/images/allocation@2x.jpg 2x" alt="Target Allocation" />
+              <img src="https://getpassiv.com/assets/images/allocation.jpg" srcSet="https://getpassiv.com/assets/images/allocation@2x.jpg 2x" alt="Target Allocation" />
               <h3>Maintain Your Portfolio’s Target Allocation</h3>
               <p>Build your portfolio and maintain your target allocation. Use Passiv's "buy-only" setting to identify the underweight assets in your portfolio.
               </p>
@@ -39,7 +39,7 @@ const LandingPage = () => (
           </div>
           <div className="inner-col tile">
             <div className="tile-container">
-              <img src="https://getpassiv.com/assets/images/automate.jpg" srcset="https://getpassiv.com/assets/images/automate@2x.jpg 2x" alt="Target Allocation" />
+              <img src="https://getpassiv.com/assets/images/automate.jpg" srcSet="https://getpassiv.com/assets/images/automate@2x.jpg 2x" alt="Target Allocation" />
               <h3>Automate Your Investments</h3>
               <p>Save time by letting Passiv calculate & execute the trades needed to keep your portfolio balanced.
               </p>
@@ -47,7 +47,7 @@ const LandingPage = () => (
           </div>
           <div className="inner-col tile">
             <div className="tile-container">
-              <img src="https://getpassiv.com/assets/images/smart-alerts.jpg" srcset="https://getpassiv.com/assets/images/smart-alerts@2x.jpg 2x" alt="Smart Alerts" />
+              <img src="https://getpassiv.com/assets/images/smart-alerts.jpg" srcSet="https://getpassiv.com/assets/images/smart-alerts@2x.jpg 2x" alt="Smart Alerts" />
               <h3>Smart Alerts</h3>
               <p>Get notified whenever new cash & dividend payments come in or whenever your portfolio drifts out of alignment.
               </p>
@@ -75,8 +75,8 @@ const LandingPage = () => (
       <div className="wrapper">
         <h2>Stay Informed</h2>
         <p>We are are constantly working on new features for the app, sign up for the opportunity to gain first access. <strong>We will also let you know as more brokerages become available.</strong></p>
-        <div id="subscribe" class="form-container">
-          <form method="post" novalidate action="https://getpassiv.com/ajax/subscribe">
+        <div id="subscribe" className="form-container">
+          <form method="post" noValidate action="https://getpassiv.com/ajax/subscribe">
             <label htmlFor="id_email">
               Enter your email
             </label>
