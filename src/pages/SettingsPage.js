@@ -6,6 +6,7 @@ import { selectSettings } from '../selectors';
 const SettingsPage = (props) => (
   <React.Fragment>
     <h1>Settings</h1>
+    <p>Logged in as {props.settings && props.settings.email}</p>
     <button
       type="button"
       onClick={props.startLogout}
