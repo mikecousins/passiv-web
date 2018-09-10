@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { logoutStartedAsync } from '../actions';
+import { selectSettings } from '../selectors';
 
 const SettingsPage = (props) => (
   <React.Fragment>
@@ -18,4 +21,4 @@ const select = state => ({
 });
 const actions = { startLogout: logoutStartedAsync };
 
-export default connect(select, actions)(LoginPage);
+export default connect(select, actions)(SettingsPage);
