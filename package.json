@@ -32,17 +32,11 @@
     "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "test-ci": "yarn jest -i --config jest.config.ci.js",
-    "eject": "react-scripts eject",
-    "cypress": "npm start & cypress run",
-    "cy:verify": "cypress verify",
-    "cy:version": "cypress version",
-    "cy:run": "cypress run",
-    "cy:open": "cypress open"
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
     "autoprefixer": "^9.1.0",
     "concurrently": "4.0.1",
-    "cypress": "3.1.0",
     "postcss-cli": "^6.0.0",
     "tailwindcss": "^0.6.4"
   }
