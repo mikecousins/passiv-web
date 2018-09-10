@@ -1,12 +1,13 @@
-export const loginStarted = () => ({
-  type: 'LOGIN_STARTED',
-});
-
-export const loginStartedAsync = () => {
+export const loginStartedAsync = payload => {
   return dispatch => {
     setTimeout(() => {
       dispatch(loginSucceeded());
-    }, 1000); 
+    }, 1000);
+    /*
+    fetch('')
+      .then(response => dispatch(loginSucceeded()))
+      .catch(() => dispatch(loginFailed()));
+    */
   };
 };
 
