@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Formik, Field } from 'formik';
 import { loginStartedAsync } from '../actions';
 import { selectLoggedIn } from '../selectors';
@@ -63,9 +63,9 @@ const LoginPage = (props) => {
                 >
                   Sign In
                 </button>
-                <a className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" href="#">
+                <Link className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" to="#">
                   Forgot Password?
-                </a>
+                </Link>
               </div>
             </form>
           )}
