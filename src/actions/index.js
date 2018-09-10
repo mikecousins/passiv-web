@@ -24,7 +24,9 @@ export const loginFailed = () => ({
 
 export const logoutStartedAsync = () => {
   return dispatch => {
-    dispatch(logout);
+    setTimeout(() => {
+      dispatch(logout());
+    }, 1000);
   }
 }
 
