@@ -1,12 +1,14 @@
+import Api from '../api';
+
 export const loginStartedAsync = payload => {
   return dispatch => {
     setTimeout(() => {
       dispatch(loginSucceeded());
     }, 1000);
     /*
-    fetch('')
-      .then(response => dispatch(loginSucceeded()))
-      .catch(() => dispatch(loginFailed()));
+    Api.postData('', { email: payload.email, password: payload.password })
+      .then(response => dispatch(loginSucceeded(response)))
+      .catch(error => dispatch(loginFailed(error)));
     */
   };
 };
