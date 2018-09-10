@@ -37,16 +37,16 @@ const LandingPage = () => (
               </p>
             </div>
           </div>
-          <div class="inner-col tile">
-            <div class="tile-container">
+          <div className="inner-col tile">
+            <div className="tile-container">
               <img src="https://getpassiv.com/assets/images/automate.jpg" srcset="https://getpassiv.com/assets/images/automate@2x.jpg 2x" alt="Target Allocation" />
               <h3>Automate Your Investments</h3>
               <p>Save time by letting Passiv calculate & execute the trades needed to keep your portfolio balanced.
               </p>
             </div>
           </div>
-          <div class="inner-col tile">
-            <div class="tile-container">
+          <div className="inner-col tile">
+            <div className="tile-container">
               <img src="https://getpassiv.com/assets/images/smart-alerts.jpg" srcset="https://getpassiv.com/assets/images/smart-alerts@2x.jpg 2x" alt="Smart Alerts" />
               <h3>Smart Alerts</h3>
               <p>Get notified whenever new cash & dividend payments come in or whenever your portfolio drifts out of alignment.
@@ -56,36 +56,36 @@ const LandingPage = () => (
         </div>
       </div>
     </section>
-    <section class="testimonials">
-      <div class="wrapper">
+    <section className="testimonials">
+      <div className="wrapper">
         <h2>What Passiv Users Have to Say</h2>
-        <div class="col-2">
-          <div class="inner-col testimonial">
+        <div className="col-2">
+          <div className="inner-col testimonial">
             <p><span>"</span>This is a great tool! Sign up is simple, connecting to my stock portfolio was a breeze, and the interface is really clean and straightforward. Highly recommend to anyone who manages a portfolio.<span>"</span></p>
-            <span class="name">Tyler F.</span>
+            <span className="name">Tyler F.</span>
           </div>
-          <div class="inner-col testimonial">
+          <div className="inner-col testimonial">
             <p><span>"</span> I’ve saved a ton of time and money using Passiv. Its simplicity has given me the confidence to manage my retirement investments.<span>"</span></p>
-            <span class="name">Santi C.</span>
+            <span className="name">Santi C.</span>
           </div>
         </div>
       </div>
     </section>
-    <section class="stay-informed">
-      <div class="wrapper">
+    <section className="stay-informed">
+      <div className="wrapper">
         <h2>Stay Informed</h2>
         <p>We are are constantly working on new features for the app, sign up for the opportunity to gain first access. <strong>We will also let you know as more brokerages become available.</strong></p>
         <div id="subscribe" class="form-container">
-            <form method="post" novalidate action="https://getpassiv.com/ajax/subscribe">
-            <label>Enter your email</label>
+          <form method="post" novalidate action="https://getpassiv.com/ajax/subscribe">
+            <label htmlFor="email">Enter your email</label>
             <input type="email" placeholder="example@client.com" name="email" required max_length="512" id="id_email" />
             <input type="submit" id="email-capture" value="submit" />
           </form>
         </div>
       </div>
     </section>
-    <section class="security">
-      <div class="wrapper">
+    <section className="security">
+      <div className="wrapper">
         <h2>We make sure everything is <span>secure</span></h2>
         <p>We work with brokerages directly and use their APIs in order to keep your information safe and secure. This ensures that you are not breaching their terms & conditions. We do not store your login credentials to your brokerage account nor do we share your information with any third parties. <a href="/security/">Click here</a> to learn more.</p>
       </div>
