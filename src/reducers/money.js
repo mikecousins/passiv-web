@@ -1,4 +1,4 @@
-const money = (state = [], action) => {
+const money = (state = {}, action) => {
   if (action.type === 'PORTFOLIO_GROUPS_SUCCEEDED') {
     return {
       portfolioGroups: action.payload,

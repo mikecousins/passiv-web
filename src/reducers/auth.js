@@ -1,4 +1,4 @@
-const auth = (state = [], action) => {
+const auth = (state = {}, action) => {
   if (action.type === 'LOGIN_SUCCEEDED') {
     return {
       loggedIn: true,
