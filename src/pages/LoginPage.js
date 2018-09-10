@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { Formik, Field } from 'formik';
 import { loginStartedAsync } from '../actions';
 import { selectLoggedIn } from '../selectors';
 
@@ -13,11 +14,52 @@ const LoginPage = (props) => {
     return <Redirect to={nextPath} />;
   } else {
     return (
-      <div>
-        <div>Login</div>
-        <div>{props.loggedIn ? <span>Logged In</span> : <span>Not Logged In</span>}</div>
-        <button onClick={props.startLogin} className="bg-green hover:bg-green-dark text-white font-bold py-2 px-4 rounded mb-4 mr-4">Login</button>
-      </div>
+      <React.Fragment>
+        <h1>Welcome back!</h1>
+        <Formik
+          initialValues={{
+            email: '',
+            password: ''
+          }}
+          validate={(values) => {
+            const errors = {};
+            if (!values.email || values.email.trim() === '') {
+              errors.email = 'Email is required';
+            }
+            if (!values.password || values.password.trim() === '') {
+              errors.password = 'Password is required';
+            }
+            return errors;
+          }}
+          onSubmit={(values, actions) => {
+            props.startLogin();
+          }}
+          render={formikProps => (
+            <form>
+              <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="email">
+                Email
+              </label>
+              <Field name="email" className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" />
+              <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="password">
+                Password
+              </label>
+              <Field name="password" className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" />
+              <div className="flex items-center justify-between">
+                <button
+                  className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="submit"
+                  onClick={formikProps.handleSubmit}
+                >
+                  Sign In
+                </button>
+                <a className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" href="#">
+                  Forgot Password?
+                </a>
+              </div>
+            </form>
+          )}
+        />
+      </React.Fragment>
     );
   }
 }
