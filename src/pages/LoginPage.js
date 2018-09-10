@@ -40,15 +40,26 @@ const LoginPage = (props) => {
                 Email
               </label>
               <Field name="email" className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" />
+              {formikProps.touched.email && formikProps.errors.email && (
+                <div className="f-error-message">
+                  {formikProps.errors.email}
+                </div>
+              )}
               <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="password">
                 Password
               </label>
               <Field name="password" className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" />
+              {formikProps.touched.password && formikProps.errors.password && (
+                <div className="f-error-message">
+                  {formikProps.errors.password}
+                </div>
+              )}
               <div className="flex items-center justify-between">
                 <button
                   className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   type="submit"
                   onClick={formikProps.handleSubmit}
+                  disabled={formikProps.isSubmitting || !formikProps.isValid || !formikProps.dirty}
                 >
                   Sign In
                 </button>
