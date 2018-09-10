@@ -21,3 +21,13 @@ export const loginSucceeded = payload => ({
 export const loginFailed = () => ({
   type: 'LOGIN_FAILED',
 });
+
+export const logoutStartedAsync = () => {
+  return dispatch => {
+    dispatch(logout);
+  }
+}
+
+export const logout = () => ({
+  type: 'LOGOUT',
+});

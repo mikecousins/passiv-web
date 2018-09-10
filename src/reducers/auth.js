@@ -7,6 +7,10 @@ const auth = (state = [], action) => {
     return {
       loggedIn: false,
     };
+  } else if (action.type === 'LOGOUT') {
+    return {
+      loggedIn: false,
+    };
   }
   return state;
 };
