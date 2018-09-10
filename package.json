@@ -32,7 +32,6 @@
     "start": "concurrently \"npm run watch:css\" \"react-scripts start\"",
     "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "test-ci": "yarn jest -i --config jest.config.ci.js",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
