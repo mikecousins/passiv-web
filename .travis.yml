@@ -12,6 +12,8 @@ before_install:
 cache:
   yarn: true
   directories:
+    - '~/.npm'
+    - '~/.cache'
     - '.eslintcache'
     - 'node_modules'
 
