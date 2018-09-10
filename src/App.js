@@ -34,7 +34,7 @@ const App = ({ history }) => (
       <SecureRoute path="/group" component={AccountGroupPage} />
       <SecureRoute path="/account" component={AccountPage} />
       <SecureRoute path="/settings" component={SettingsPage} />
-    </Switch> 
+    </Switch>
   </Layout>
 );
 
