@@ -12,18 +12,19 @@
   },
   "repository": "github:passiv/passiv-web",
   "dependencies": {
-    "connected-react-router": "^4.4.1",
+    "connected-react-router": "4.4.1",
     "formik": "1.2.0",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "react-redux": "^5.0.7",
-    "react-router-dom": "^4.3.1",
+    "react": "16.5.0",
+    "react-dom": "16.5.0",
+    "react-redux": "5.0.7",
+    "react-router": "4.3.1",
+    "react-router-dom": "4.3.1",
     "react-scripts": "1.1.5",
-    "react-simple-pie-chart": "^0.5.0",
+    "react-simple-pie-chart": "0.5.0",
     "redux": "4.0.0",
-    "redux-devtools-extension": "^2.13.5",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-devtools-extension": "2.13.5",
+    "redux-logger": "3.0.6",
+    "redux-thunk": "2.3.0"
   },
   "scripts": {
     "build:css": "postcss src/styles/index.css -o src/index.css",
