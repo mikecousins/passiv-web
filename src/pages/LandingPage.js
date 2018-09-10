@@ -77,9 +77,22 @@ const LandingPage = () => (
         <p>We are are constantly working on new features for the app, sign up for the opportunity to gain first access. <strong>We will also let you know as more brokerages become available.</strong></p>
         <div id="subscribe" class="form-container">
           <form method="post" novalidate action="https://getpassiv.com/ajax/subscribe">
-            <label htmlFor="email">Enter your email</label>
-            <input type="email" placeholder="example@client.com" name="email" required max_length="512" id="id_email" />
-            <input type="submit" id="email-capture" value="submit" />
+            <label htmlFor="id_email">
+              Enter your email
+            </label>
+            <input
+              type="email"
+              placeholder="example@client.com"
+              name="email"
+              required
+              max_length="512"
+              id="id_email"
+            />
+            <input
+              type="submit"
+              id="email-capture"
+              value="submit"
+            />
           </form>
         </div>
       </div>
