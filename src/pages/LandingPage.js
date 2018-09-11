@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import RetirementComparer from '../components/RetirementComparer';
 
 const LandingPage = () => (
   <React.Fragment>
@@ -26,6 +27,7 @@ const LandingPage = () => (
         </div>
       </section>
     </div>
+    <RetirementComparer />
     <section className="features">
       <div className="wrapper">
         <div className="col-3">

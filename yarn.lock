@@ -6663,7 +6663,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   integrity sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
@@ -6945,6 +6945,13 @@ react-simple-pie-chart@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/react-simple-pie-chart/-/react-simple-pie-chart-0.5.0.tgz#207238a6fcfc268d20706894fd28169dc84b42c2"
   integrity sha1-IHI4pvz8Jo0gcGiU/SgWnchLQsI=
+
+react-trend@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/react-trend/-/react-trend-1.2.4.tgz#498987286abd43ee3dff881115cd64d1c8e72d95"
+  integrity sha1-SYmHKGq9Q+49/4gRFc1k0cjnLZU=
+  dependencies:
+    prop-types "^15.5.8"
 
 react@16.5.0:
   version "16.5.0"
