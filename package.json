@@ -17,6 +17,7 @@
   "dependencies": {
     "connected-react-router": "4.4.1",
     "formik": "1.2.0",
+    "rc-slider": "8.6.2",
     "react": "16.5.0",
     "react-dom": "16.5.0",
     "react-redux": "5.0.7",

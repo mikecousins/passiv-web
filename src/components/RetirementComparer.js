@@ -1,5 +1,7 @@
 import React from 'react';
 import Trend from 'react-trend';
+import Slider from 'rc-slider/lib/Slider';
+import 'rc-slider/assets/index.css';
 
 class RetirementComparer extends React.Component {
   state = {
@@ -43,28 +45,35 @@ class RetirementComparer extends React.Component {
   }
 
   render() {
-    const ultimate = this.getUltimateData();
-    const passiv = this.getPassivData();
-    const robo = this.getRoboData();
-    const mutual = this.getMutualData();
+    const ultimateTrend = this.getUltimateData();
+    const passivTrend = this.getPassivData();
+    const roboTrend = this.getRoboData();
+    const mutualTrend = this.getMutualData();
+    const ultimateFinal = ultimateTrend[ultimateTrend.length - 1];
+    const passivFinal = passivTrend[passivTrend.length - 1];
+    const roboFinal = roboTrend[roboTrend.length -1];
+    const mutualFinal = mutualTrend[mutualTrend.length - 1];
     return (
-      <div>
-        <label htmlFor="yearlySavings">Yearly Savings Rate</label>
-        <input
-          type="text"
-          name="yearlySavings"
-          id="yearlySavings"
-          value={this.state.yearlySavings}
-          onChange={(e) => this.setState({ yearlySavings: e.target.value })}
-        />
-        <div>
-          <Trend data={passiv} />
+      <div className="flex mb-4">
+        <div className="w-1/2 bg-grey-light h-64">
+          <label htmlFor="yearlySavings">Household Savings Rate (${this.state.yearlySavings}/yr)</label>
+          <Slider
+            name="yearlySavings"
+            id="yearlySavings"
+            value={this.state.yearlySavings}
+            onChange={(value) => this.setState({ yearlySavings: value })}
+            min={1000}
+            max={100000}
+          />
+          <div>
+            Ideal: ${new Intl.NumberFormat().format(ultimateFinal)}<br />
+            Passiv: ${new Intl.NumberFormat().format(passivFinal)}<br />
+            Robo: ${new Intl.NumberFormat().format(roboFinal)} <span className="text-red">(${new Intl.NumberFormat().format(roboFinal - passivFinal)})</span><br />
+            Mutual: ${new Intl.NumberFormat().format(mutualFinal)} <span className="text-red">(${new Intl.NumberFormat().format(mutualFinal - passivFinal)})</span><br />
+          </div>
         </div>
-        <div>
-          Ideal: ${new Intl.NumberFormat().format(ultimate[ultimate.length - 1])}<br />
-          Passiv: ${new Intl.NumberFormat().format(passiv[passiv.length -1])}<br />
-          Robo: ${new Intl.NumberFormat().format(robo[robo.length - 1])}<br />
-          Mutual: ${new Intl.NumberFormat().format(mutual[mutual.length -1])}<br />
+        <div className="w-1/2 bg-grey h-64">
+          <Trend data={passivTrend} />
         </div>
       </div>
     );

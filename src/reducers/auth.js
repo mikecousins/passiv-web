@@ -1,15 +1,15 @@
 const auth = (state = {}, action) => {
   if (action.type === 'LOGIN_SUCCEEDED') {
     return {
-      loggedIn: true,
+      token: action.payload.token,
     };
   } else if (action.type === 'LOGIN_FAILED') {
     return {
-      loggedIn: false,
+      token: null,
     };
   } else if (action.type === 'LOGOUT') {
     return {
-      loggedIn: false,
+      token: null,
     };
   }
   return state;

@@ -32,7 +32,7 @@ const LoginPage = (props) => {
             return errors;
           }}
           onSubmit={(values, actions) => {
-            props.startLogin();
+            props.startLogin(values);
           }}
           render={formikProps => (
             <form>

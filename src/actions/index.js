@@ -1,15 +1,14 @@
-// import Api from '../api';
+import { postData } from '../api';
 
 export const loginStartedAsync = payload => {
   return dispatch => {
-    setTimeout(() => {
+    /*setTimeout(() => {
       dispatch(loginSucceeded());
     }, 1000);
-    /*
-    Api.postData('', { email: payload.email, password: payload.password })
+    */
+    postData('https://dev.getpassiv.com/api/v1/auth/login/', { email: payload.email, password: payload.password })
       .then(response => dispatch(loginSucceeded(response)))
       .catch(error => dispatch(loginFailed(error)));
-    */
   };
 };
 

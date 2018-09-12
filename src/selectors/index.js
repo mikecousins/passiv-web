@@ -1,3 +1,3 @@
-export const selectLoggedIn = state => state.auth.loggedIn;
+export const selectLoggedIn = state => !!(state.auth.token);
 
 export const selectSettings = state => state.settings;
