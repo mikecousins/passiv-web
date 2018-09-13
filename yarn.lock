@@ -3997,13 +3997,6 @@ https-browserify@^1.0.0:
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
   integrity sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=
 
-human-redux-reactor@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/human-redux-reactor/-/human-redux-reactor-0.1.1.tgz#18999f6141a958ec1e40d1204d19acaa78097eee"
-  integrity sha512-Wy2LbwuigwHIlNkyuS8lhA61QaD3sovA05nREPbk77JpKeriiU7JttaOcC2Zy++W63v/ZxF6jha9FdgvUqwfew==
-  dependencies:
-    safe-memory-cache "^1.5.1"
-
 iconv-lite@0.4.19:
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
@@ -7550,11 +7543,6 @@ safe-buffer@5.1.2, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, s
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
   integrity sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
-
-safe-memory-cache@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/safe-memory-cache/-/safe-memory-cache-1.5.1.tgz#c3e01e148e214e1b6197d58e3ebf278af0e4c925"
-  integrity sha1-w+AeFI4hThthl9WOPr8nivDkySU=
 
 safe-regex@^1.1.0:
   version "1.1.0"
