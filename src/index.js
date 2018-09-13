@@ -7,7 +7,10 @@ import logger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter, connectRouter, routerMiddleware } from 'connected-react-router';
+import 'ric';
+import { addReactorsToStore } from 'human-redux-reactor';
 import rootReducer from './reducers';
+import { loadData } from './reactors';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
@@ -31,6 +34,12 @@ const store = createStore(
     )
   )
 );
+
+addReactorsToStore({
+  store: store,
+  reactors: [ loadData ],
+  runIdle: true,
+});
 
 ReactDOM.render(
   <Provider store={store}>
