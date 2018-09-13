@@ -7,7 +7,6 @@ import logger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter, connectRouter, routerMiddleware } from 'connected-react-router';
-import 'ric';
 import { addReactorsToStore } from './reactors/HumanRedux';
 import rootReducer from './reducers';
 import { loadData } from './reactors';

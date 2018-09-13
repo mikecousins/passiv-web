@@ -1,4 +1,8 @@
+// taken from https://github.com/naugtur/human-redux-reactor/blob/master/index.js
+// went this way because the package doesn't work with create-react-app
+
 import safeMemoryCache from 'safe-memory-cache/map';
+import requestIdleCallback from 'ric-shim';
 
 function debounce(func, delay) {
   let timer;
@@ -10,9 +14,6 @@ function debounce(func, delay) {
     }, delay);
   };
 }
-
-const requestIdleCallback =
-  window.requestIdleCallback || (f => setTimeout(f, 0));
 
 export const addReactorsToStore = ({ store, reactors, runIdle, idleInterval, throttle, dev }) => {
   const aCache = safeMemoryCache({ maxTTL: throttle || 1000 });
