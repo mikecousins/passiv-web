@@ -18,7 +18,7 @@ import SettingsPage from './pages/SettingsPage';
 import SecureRoute from './routes/SecureRoute';
 import './index.css';
 
-const App = ({ history }) => (
+const App = () => (
   <Layout>
     <Switch>
       <Route path="/" exact component={LandingPage} />
