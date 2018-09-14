@@ -47,5 +47,8 @@
     "concurrently": "4.0.1",
     "postcss-cli": "^6.0.0",
     "tailwindcss": "^0.6.4"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   }
 }
