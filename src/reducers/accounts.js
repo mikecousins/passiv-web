@@ -1,4 +1,4 @@
-const accounts = (state = {}, action) => {
+const accounts = (state = [], action) => {
   if (action.type === 'GET_ACCOUNTS_SUCCEEDED') {
     return action.payload;
   } else if (action.type === 'GET_ACCOUNTS_FAILED') {
