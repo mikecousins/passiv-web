@@ -1,13 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { selectAccounts } from '../selectors';
 
-const SideBar = () => (
-  <div>
-    <Link to="/dashboard" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">Dashboard</Link>
-    <Link to="/group" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">Group</Link>
-    <Link to="/account" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">Account</Link>
-    <Link to="/settings" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">Settings</Link>
-  </div>
-);
+const SideBar = (props) => {
+  let accounts = <FontAwesomeIcon icon={faSpinner} />;
+  if (props.accounts) {
+    accounts = props.accounts.map((account) => <Link to="/account" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">{account.number}</Link>);
+  }
+  return (
+    <div>
+      <Link to="/dashboard" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">Dashboard</Link>
+      {accounts}
+    </div>
+  );
+}
 
-export default SideBar;
+const select = state => ({
+  accounts: selectAccounts(state),
+});
+
+export default connect(select)(SideBar);
