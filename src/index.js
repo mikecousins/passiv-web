@@ -18,7 +18,7 @@ const history = createBrowserHistory();
 
 const defaultState = {
   auth: {
-    token: null,
+    token: localStorage.getItem('jwt'),
   }
 };
 

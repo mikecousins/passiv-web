@@ -1,5 +1,6 @@
 const auth = (state = {}, action) => {
   if (action.type === 'LOGIN_SUCCEEDED') {
+    localStorage.setItem('jwt', action.payload.token);
     return {
       token: action.payload.token,
     };
