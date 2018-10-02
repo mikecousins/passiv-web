@@ -35,59 +35,65 @@ export const logout = () => ({
 export const loadInitialData = payload => {
   return dispatch => {
     getData('https://dev.getpassiv.com/api/v1/currencies/', payload)
-      .then(response => dispatch(getCurrenciesSucceeded(response)))
-      .catch(error => dispatch(getCurrenciesFailed(error)));
+      .then(response => dispatch(fetchCurrenciesSuccess(response)))
+      .catch(error => dispatch(fetchCurrenciesError(error)));
 
     getData('https://dev.getpassiv.com/api/v1/portfolioGroups/', payload)
-      .then(response => dispatch(getGroupsSucceeded(response)))
-      .catch(error => dispatch(getGroupsFailed(error)));
-
-    getData('https://dev.getpassiv.com/api/v1/accounts/', payload)
-      .then(response => dispatch(getAccountsSucceeded(response)))
-      .catch(error => dispatch(getAccountsFailed(error)));
+      .then(response => dispatch(fetchGroupsSuccess(response)))
+      .catch(error => dispatch(fetchGroupsError(error)));
 
     getData('https://dev.getpassiv.com/api/v1/all_symbols/', payload)
-      .then(response => dispatch(getSymbolsSucceeded(response)))
-      .catch(error => dispatch(getSymbolsFailed(error)));
+      .then(response => dispatch(fetchSymbolsSuccess(response)))
+      .catch(error => dispatch(fetchSymbolsError(error)));
+
+    dispatch(fetchAccountsStart());
+    getData('https://dev.getpassiv.com/api/v1/accounts/', payload)
+      .then(response => dispatch(fetchAccountsSuccess(response)))
+      .catch(error => dispatch(fetchAccountsError(error)));
   };
 };
 
-export const getCurrenciesSucceeded = payload => ({
-  type: 'GET_CURRENCIES_SUCCEEDED',
+export const fetchCurrenciesSuccess = payload => ({
+  type: 'FETCH_CURRENCIES_SUCCESS',
   payload,
 });
 
-export const getCurrenciesFailed = payload => ({
-  type: 'GET_CURRENCIES_FAILED',
+export const fetchCurrenciesError = payload => ({
+  type: 'FETCH_CURRENCIES_ERROR',
   payload,
 });
 
-export const getGroupsSucceeded = payload => ({
-  type: 'GET_GROUPS_SUCCEEDED',
+export const fetchGroupsSuccess = payload => ({
+  type: 'FETCH_GROUPS_SUCCESS',
   payload,
 });
 
-export const getGroupsFailed = payload => ({
-  type: 'GET_GROUPS_FAILED',
+export const fetchGroupsError = payload => ({
+  type: 'FETCH_GROUPS_ERROR',
   payload,
 });
 
-export const getAccountsSucceeded = payload => ({
-  type: 'GET_ACCOUNTS_SUCCEEDED',
+export const fetchAccountsStart = payload => ({
+  type: 'FETCH_ACCOUNTS_START',
   payload,
 });
 
-export const getAccountsFailed = payload => ({
-  type: 'GET_ACCOUNTS_FAILED',
+export const fetchAccountsSuccess = payload => ({
+  type: 'FETCH_ACCOUNTS_SUCCESS',
   payload,
 });
 
-export const getSymbolsSucceeded = payload => ({
-  type: 'GET_SYMBOLS_SUCCEEDED',
+export const fetchAccountsError = payload => ({
+  type: 'FETCH_ACCOUNTS_ERROR',
   payload,
 });
 
-export const getSymbolsFailed = payload => ({
-  type: 'GET_SYMBOLS_FAILED',
+export const fetchSymbolsSuccess = payload => ({
+  type: 'FETCH_SYMBOLS_SUCCESS',
+  payload,
+});
+
+export const fetchSymbolsError = payload => ({
+  type: 'FETCH_SYMBOLS_ERROR',
   payload,
 });

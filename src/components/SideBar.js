@@ -7,8 +7,8 @@ import { selectAccounts } from '../selectors';
 
 const SideBar = (props) => {
   let accounts = <FontAwesomeIcon icon={faSpinner} />;
-  if (props.accounts) {
-    accounts = props.accounts.map((account) => <Link to="/account" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">{account.number}</Link>);
+  if (props.accounts && props.accounts.data) {
+    accounts = props.accounts.data.map((account) => <Link to="/account" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">{account.number}</Link>);
   }
   return (
     <div>

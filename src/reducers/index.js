@@ -1,19 +1,26 @@
 import { combineReducers } from 'redux';
-import accounts from './accounts';
 import auth from './auth';
-import brokerages from './brokerages';
-import currencies from './currencies';
-import groups from './groups';
-import settings from './settings';
-import symbols from './symbols';
+import simple from './simple';
 
 export default combineReducers({
   appTime: Date.now,
-  accounts,
   auth,
-  brokerages,
-  currencies,
-  groups,
-  settings,
-  symbols,
+  brokerages: simple({
+    baseType: 'FETCH_BROKERAGES'
+  }),
+  currencies: simple({
+    baseType: 'FETCH_CURRENCIES'
+  }),
+  groups: simple({
+    baseType: 'FETCH_GROUPS'
+  }),
+  settings: simple({
+    baseType: 'FETCH_SETTINGS'
+  }),
+  symbols: simple({
+    baseType: 'FETCH_SYMBOLS'
+  }),
+  accounts: simple({
+    baseType: 'FETCH_ACCOUNTS'
+  })
 });
