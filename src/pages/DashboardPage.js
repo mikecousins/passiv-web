@@ -7,7 +7,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 class DashboardPage extends React.Component {
   render() {
-    let accounts = <FontAwesomeIcon icon={faSpinner} />;
+    let accounts = <FontAwesomeIcon icon={faSpinner} spin />;
     if (this.props.accounts && this.props.accounts.data) {
       accounts = this.props.accounts.data.map((account) => <Account account={account} key={account.number} />);
     }
