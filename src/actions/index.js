@@ -32,24 +32,36 @@ export const logout = () => ({
   type: 'LOGOUT',
 });
 
-export const loadInitialData = payload => {
+export const loadInitialData = token => {
   return dispatch => {
-    getData('https://dev.getpassiv.com/api/v1/currencies/', payload)
+    getData('https://dev.getpassiv.com/api/v1/currencies/', token)
       .then(response => dispatch(fetchCurrenciesSuccess(response)))
       .catch(error => dispatch(fetchCurrenciesError(error)));
 
-    getData('https://dev.getpassiv.com/api/v1/portfolioGroups/', payload)
+    getData('https://dev.getpassiv.com/api/v1/portfolioGroups/', token)
       .then(response => dispatch(fetchGroupsSuccess(response)))
       .catch(error => dispatch(fetchGroupsError(error)));
 
-    getData('https://dev.getpassiv.com/api/v1/all_symbols/', payload)
+    getData('https://dev.getpassiv.com/api/v1/all_symbols/', token)
       .then(response => dispatch(fetchSymbolsSuccess(response)))
       .catch(error => dispatch(fetchSymbolsError(error)));
 
     dispatch(fetchAccountsStart());
-    getData('https://dev.getpassiv.com/api/v1/accounts/', payload)
+    getData('https://dev.getpassiv.com/api/v1/accounts/', token)
       .then(response => dispatch(fetchAccountsSuccess(response)))
       .catch(error => dispatch(fetchAccountsError(error)));
+  };
+};
+
+export const loadAccount = payload => {
+  return dispatch => {
+    dispatch(fetchAccountDetailsStart());
+    payload.ids.forEach((id) => {
+      console.log(id);
+      getData(`https://dev.getpassiv.com/api/v1/accounts/${id}/`, payload.token)
+        .then(response => dispatch(fetchAccountDetailsSuccess(response)))
+        .catch(error => dispatch(fetchAccountDetailsError(error)));
+    });
   };
 };
 
@@ -73,6 +85,16 @@ export const fetchGroupsError = payload => ({
   payload,
 });
 
+export const fetchSymbolsSuccess = payload => ({
+  type: 'FETCH_SYMBOLS_SUCCESS',
+  payload,
+});
+
+export const fetchSymbolsError = payload => ({
+  type: 'FETCH_SYMBOLS_ERROR',
+  payload,
+});
+
 export const fetchAccountsStart = payload => ({
   type: 'FETCH_ACCOUNTS_START',
   payload,
@@ -88,12 +110,17 @@ export const fetchAccountsError = payload => ({
   payload,
 });
 
-export const fetchSymbolsSuccess = payload => ({
-  type: 'FETCH_SYMBOLS_SUCCESS',
+export const fetchAccountDetailsStart = payload => ({
+  type: 'FETCH_ACCOUNT_DETAILS_START',
   payload,
 });
 
-export const fetchSymbolsError = payload => ({
-  type: 'FETCH_SYMBOLS_ERROR',
+export const fetchAccountDetailsSuccess = payload => ({
+  type: 'FETCH_ACCOUNT_DETAILS_SUCCESS',
+  payload,
+});
+
+export const fetchAccountDetailsError = payload => ({
+  type: 'FETCH_ACCOUNT_DETAILS_ERROR',
   payload,
 });

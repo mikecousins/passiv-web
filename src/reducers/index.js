@@ -22,5 +22,8 @@ export default combineReducers({
   }),
   accounts: simple({
     baseType: 'FETCH_ACCOUNTS'
+  }),
+  accountDetails: simple({
+    baseType: 'FETCH_ACCOUNT_DETAILS'
   })
 });

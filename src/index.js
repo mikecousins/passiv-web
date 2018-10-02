@@ -11,7 +11,7 @@ import decode from 'jwt-decode';
 import isFuture from 'date-fns/is_future';
 import { addReactorsToStore } from './reactors/HumanRedux';
 import rootReducer from './reducers';
-import { loadData } from './reactors';
+import { loadData, loadAccountDetails } from './reactors';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
@@ -48,7 +48,7 @@ const store = createStore(
 
 addReactorsToStore({
   store: store,
-  reactors: [ loadData ],
+  reactors: [ loadData, loadAccountDetails ],
   runIdle: true,
 });
 
