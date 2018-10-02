@@ -32,29 +32,51 @@ export const logout = () => ({
   type: 'LOGOUT',
 });
 
-export const loadInitialData = token => {
+export const loadCurrencies = payload => {
   return dispatch => {
-    getData('https://dev.getpassiv.com/api/v1/currencies/', token)
+    getData('https://dev.getpassiv.com/api/v1/currencies/', payload)
       .then(response => dispatch(fetchCurrenciesSuccess(response)))
       .catch(error => dispatch(fetchCurrenciesError(error)));
+  };
+};
 
-    getData('https://dev.getpassiv.com/api/v1/portfolioGroups/', token)
+export const loadGroups = payload => {
+  return dispatch => {
+    getData('https://dev.getpassiv.com/api/v1/portfolioGroups/', payload)
       .then(response => dispatch(fetchGroupsSuccess(response)))
       .catch(error => dispatch(fetchGroupsError(error)));
+  };
+};
 
-    getData('https://dev.getpassiv.com/api/v1/all_symbols/', token)
+export const loadSymbols = payload => {
+  return dispatch => {
+    getData('https://dev.getpassiv.com/api/v1/all_symbols/', payload)
       .then(response => dispatch(fetchSymbolsSuccess(response)))
       .catch(error => dispatch(fetchSymbolsError(error)));
+  };
+};
 
+export const loadAccounts = payload => {
+  return dispatch => {
     dispatch(fetchAccountsStart());
-    getData('https://dev.getpassiv.com/api/v1/accounts/', token)
+    getData('https://dev.getpassiv.com/api/v1/accounts/', payload)
       .then(response => dispatch(fetchAccountsSuccess(response)))
       .catch(error => dispatch(fetchAccountsError(error)));
   };
 };
 
+export const loadBrokerages = payload => {
+  return dispatch => {
+    dispatch(fetchBrokeragesStart());
+    getData('https://dev.getpassiv.com/api/v1/brokerages/', payload)
+      .then(response => dispatch(fetchBrokeragesSuccess(response)))
+      .catch(error => dispatch(fetchBrokeragesError(error)));
+  };
+};
+
 export const loadAccount = payload => {
   return dispatch => {
+    console.log("inside loadaccount");
     dispatch(fetchAccountDetailsStart());
     payload.ids.forEach((id) => {
       console.log(id);
@@ -122,5 +144,20 @@ export const fetchAccountDetailsSuccess = payload => ({
 
 export const fetchAccountDetailsError = payload => ({
   type: 'FETCH_ACCOUNT_DETAILS_ERROR',
+  payload,
+});
+
+export const fetchBrokeragesStart = payload => ({
+  type: 'FETCH_BROKERAGES_START',
+  payload,
+});
+
+export const fetchBrokeragesSuccess = payload => ({
+  type: 'FETCH_BROKERAGES_SUCCESS',
+  payload,
+});
+
+export const fetchBrokeragesError = payload => ({
+  type: 'FETCH_BROKERAGES_ERROR',
   payload,
 });
