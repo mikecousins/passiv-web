@@ -32,8 +32,38 @@ export const logout = () => ({
   type: 'LOGOUT',
 });
 
+export const initialLoad = payload => {
+  return dispatch => {
+    dispatch(fetchCurrenciesStart);
+    getData('https://dev.getpassiv.com/api/v1/currencies/', payload)
+      .then(response => dispatch(fetchCurrenciesSuccess(response)))
+      .catch(error => dispatch(fetchCurrenciesError(error)));
+
+    dispatch(fetchGroupsStart);
+    getData('https://dev.getpassiv.com/api/v1/portfolioGroups/', payload)
+      .then(response => dispatch(fetchGroupsSuccess(response)))
+      .catch(error => dispatch(fetchGroupsError(error)));
+
+    dispatch(fetchSymbolsStart());
+    getData('https://dev.getpassiv.com/api/v1/all_symbols/', payload)
+      .then(response => dispatch(fetchSymbolsSuccess(response)))
+      .catch(error => dispatch(fetchSymbolsError(error)));
+
+    dispatch(fetchAccountsStart());
+    getData('https://dev.getpassiv.com/api/v1/accounts/', payload)
+      .then(response => dispatch(fetchAccountsSuccess(response)))
+      .catch(error => dispatch(fetchAccountsError(error)));
+
+    dispatch(fetchAccountsStart());
+    getData('https://dev.getpassiv.com/api/v1/accounts/', payload)
+      .then(response => dispatch(fetchAccountsSuccess(response)))
+      .catch(error => dispatch(fetchAccountsError(error)));
+  };
+};
+
 export const loadCurrencies = payload => {
   return dispatch => {
+    dispatch(fetchCurrenciesStart);
     getData('https://dev.getpassiv.com/api/v1/currencies/', payload)
       .then(response => dispatch(fetchCurrenciesSuccess(response)))
       .catch(error => dispatch(fetchCurrenciesError(error)));
@@ -42,6 +72,7 @@ export const loadCurrencies = payload => {
 
 export const loadGroups = payload => {
   return dispatch => {
+    dispatch(fetchGroupsStart);
     getData('https://dev.getpassiv.com/api/v1/portfolioGroups/', payload)
       .then(response => dispatch(fetchGroupsSuccess(response)))
       .catch(error => dispatch(fetchGroupsError(error)));
@@ -50,18 +81,10 @@ export const loadGroups = payload => {
 
 export const loadSymbols = payload => {
   return dispatch => {
+    dispatch(fetchSymbolsStart());
     getData('https://dev.getpassiv.com/api/v1/all_symbols/', payload)
       .then(response => dispatch(fetchSymbolsSuccess(response)))
       .catch(error => dispatch(fetchSymbolsError(error)));
-  };
-};
-
-export const loadAccounts = payload => {
-  return dispatch => {
-    dispatch(fetchAccountsStart());
-    getData('https://dev.getpassiv.com/api/v1/accounts/', payload)
-      .then(response => dispatch(fetchAccountsSuccess(response)))
-      .catch(error => dispatch(fetchAccountsError(error)));
   };
 };
 
@@ -74,24 +97,39 @@ export const loadBrokerages = payload => {
   };
 };
 
+export const loadAccounts = payload => {
+  return dispatch => {
+    dispatch(fetchAccountsStart());
+    getData('https://dev.getpassiv.com/api/v1/accounts/', payload)
+      .then(response => dispatch(fetchAccountsSuccess(response)))
+      .catch(error => dispatch(fetchAccountsError(error)));
+  };
+};
+
+
+
 export const loadAccount = payload => {
   return dispatch => {
-    console.log("inside loadaccount");
     dispatch(fetchAccountDetailsStart());
     payload.ids.forEach((id) => {
       console.log(id);
       getData(`https://dev.getpassiv.com/api/v1/accounts/${id}/`, payload.token)
         .then(response => dispatch(fetchAccountDetailsSuccess(response)))
         .catch(error => dispatch(fetchAccountDetailsError(error)));
-      getData(`https://dev.getpassiv.com/api/v1/accounts/${id}/balances`, payload.token)
+      getData(`https://dev.getpassiv.com/api/v1/accounts/${id}/balances/`, payload.token)
         .then(response => dispatch(fetchAccountBalancesSuccess(response)))
         .catch(error => dispatch(fetchAccountBalancesError(error)));
-      getData(`https://dev.getpassiv.com/api/v1/accounts/${id}/positions`, payload.token)
+      getData(`https://dev.getpassiv.com/api/v1/accounts/${id}/positions/`, payload.token)
         .then(response => dispatch(fetchAccountPositionsSuccess(response)))
         .catch(error => dispatch(fetchAccountPositionsError(error)));
     });
   };
 };
+
+export const fetchCurrenciesStart = payload => ({
+  type: 'FETCH_CURRENCIES_START',
+  payload,
+});
 
 export const fetchCurrenciesSuccess = payload => ({
   type: 'FETCH_CURRENCIES_SUCCESS',
@@ -103,6 +141,11 @@ export const fetchCurrenciesError = payload => ({
   payload,
 });
 
+export const fetchGroupsStart = payload => ({
+  type: 'FETCH_GROUPS_START',
+  payload,
+});
+
 export const fetchGroupsSuccess = payload => ({
   type: 'FETCH_GROUPS_SUCCESS',
   payload,
@@ -110,6 +153,11 @@ export const fetchGroupsSuccess = payload => ({
 
 export const fetchGroupsError = payload => ({
   type: 'FETCH_GROUPS_ERROR',
+  payload,
+});
+
+export const fetchSymbolsStart = payload => ({
+  type: 'FETCH_SYMBOLS_START',
   payload,
 });
 
