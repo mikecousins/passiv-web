@@ -83,6 +83,12 @@ export const loadAccount = payload => {
       getData(`https://dev.getpassiv.com/api/v1/accounts/${id}/`, payload.token)
         .then(response => dispatch(fetchAccountDetailsSuccess(response)))
         .catch(error => dispatch(fetchAccountDetailsError(error)));
+      getData(`https://dev.getpassiv.com/api/v1/accounts/${id}/balances`, payload.token)
+        .then(response => dispatch(fetchAccountBalancesSuccess(response)))
+        .catch(error => dispatch(fetchAccountBalancesError(error)));
+      getData(`https://dev.getpassiv.com/api/v1/accounts/${id}/positions`, payload.token)
+        .then(response => dispatch(fetchAccountPositionsSuccess(response)))
+        .catch(error => dispatch(fetchAccountPositionsError(error)));
     });
   };
 };
@@ -117,6 +123,21 @@ export const fetchSymbolsError = payload => ({
   payload,
 });
 
+export const fetchBrokeragesStart = payload => ({
+  type: 'FETCH_BROKERAGES_START',
+  payload,
+});
+
+export const fetchBrokeragesSuccess = payload => ({
+  type: 'FETCH_BROKERAGES_SUCCESS',
+  payload,
+});
+
+export const fetchBrokeragesError = payload => ({
+  type: 'FETCH_BROKERAGES_ERROR',
+  payload,
+});
+
 export const fetchAccountsStart = payload => ({
   type: 'FETCH_ACCOUNTS_START',
   payload,
@@ -147,17 +168,32 @@ export const fetchAccountDetailsError = payload => ({
   payload,
 });
 
-export const fetchBrokeragesStart = payload => ({
-  type: 'FETCH_BROKERAGES_START',
+export const fetchAccountBalancesStart = payload => ({
+  type: 'FETCH_ACCOUNT_BALANCES_START',
   payload,
 });
 
-export const fetchBrokeragesSuccess = payload => ({
-  type: 'FETCH_BROKERAGES_SUCCESS',
+export const fetchAccountBalancesSuccess = payload => ({
+  type: 'FETCH_ACCOUNT_BALANCES_SUCCESS',
   payload,
 });
 
-export const fetchBrokeragesError = payload => ({
-  type: 'FETCH_BROKERAGES_ERROR',
+export const fetchAccountBalancesError = payload => ({
+  type: 'FETCH_ACCOUNT_BALANCES_ERROR',
+  payload,
+});
+
+export const fetchAccountPositionsStart = payload => ({
+  type: 'FETCH_ACCOUNT_POSITIONS_START',
+  payload,
+});
+
+export const fetchAccountPositionsSuccess = payload => ({
+  type: 'FETCH_ACCOUNT_POSITIONS_SUCCESS',
+  payload,
+});
+
+export const fetchAccountPositionsError = payload => ({
+  type: 'FETCH_ACCOUNT_POSITIONS_ERROR',
   payload,
 });
