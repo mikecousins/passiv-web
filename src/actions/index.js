@@ -49,6 +49,11 @@ export const initialLoad = payload => {
       .then(response => dispatch(fetchSymbolsSuccess(response)))
       .catch(error => dispatch(fetchSymbolsError(error)));
 
+    dispatch(fetchBrokeragesStart());
+      getData('https://dev.getpassiv.com/api/v1/brokerages/', payload)
+        .then(response => dispatch(fetchBrokeragesSuccess(response)))
+        .catch(error => dispatch(fetchBrokeragesError(error)));
+
     dispatch(fetchAccountsStart());
     getData('https://dev.getpassiv.com/api/v1/accounts/', payload)
       .then(response => dispatch(fetchAccountsSuccess(response)))

@@ -25,5 +25,11 @@ export default combineReducers({
   }),
   accountDetails: simple({
     baseType: 'FETCH_ACCOUNT_DETAILS'
+  }),
+  accountBalances: simple({
+    baseType: 'FETCH_ACCOUNT_BALANCES'
+  }),
+  accountPositions: simple({
+    baseType: 'FETCH_ACCOUNT_POSITIONS'
   })
 });

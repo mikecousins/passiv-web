@@ -81,8 +81,9 @@ export const loadAccountDetails = createSelector(
   (accounts, accountDetails, token) => {
     if (!!token && accounts && accounts.data && accounts.data.length > 0) {
       const ids = Array.from(accounts.data, account => account.id);
-      if (isNeeded(accountDetails))
-      return loadAccount({ ids, token });
+      if (isNeeded(accountDetails)) {
+        return loadAccount({ ids, token });
+      }
     }
   }
 );
