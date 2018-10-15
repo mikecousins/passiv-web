@@ -117,7 +117,6 @@ export const loadAccount = payload => {
   return dispatch => {
     dispatch(fetchAccountDetailsStart());
     payload.ids.forEach((id) => {
-      console.log(id);
       getData(`https://dev.getpassiv.com/api/v1/accounts/${id}/`, payload.token)
         .then(response => dispatch(fetchAccountDetailsSuccess(response)))
         .catch(error => dispatch(fetchAccountDetailsError(error)));
