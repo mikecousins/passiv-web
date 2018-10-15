@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router';
+import { Switch, Route } from 'react-router-dom';
 import Layout from './layouts/Layout';
 import LandingPage from './pages/LandingPage';
 import PricingPage from './pages/PricingPage';
@@ -37,9 +36,5 @@ const App = () => (
     </Switch>
   </Layout>
 );
-
-App.propTypes = {
-  history: PropTypes.object,
-};
 
 export default App;
