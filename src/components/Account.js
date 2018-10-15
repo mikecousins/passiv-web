@@ -10,7 +10,7 @@ const Account = (props) => {
           {props.balances
             && props.balances.data
             && props.balances.data.map(balance => (
-              <span>{balance.currency.name}: {new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(balance.cash)}&nbsp;</span>
+              <span key={balance.currency.id}>{balance.currency.name}: {new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(balance.cash)}&nbsp;</span>
             ))
           }
         </div>
@@ -18,7 +18,7 @@ const Account = (props) => {
           {props.positions
             && props.positions.data
             && props.positions.data.map(position => (
-              <div key={position.id} >
+              <div key={position.symbol.id} >
                 <span title={position.symbol.description}>{position.symbol.symbol.symbol}</span> - {position.units} - {new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(position.price * position.units)}
               </div>
             ))
