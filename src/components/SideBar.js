@@ -8,12 +8,21 @@ import { selectAccounts } from '../selectors';
 const SideBar = (props) => {
   let accounts = <FontAwesomeIcon icon={faSpinner} spin />;
   if (props.accounts && props.accounts.data) {
-    accounts = props.accounts.data.map((account) => <Link to="/account" className="block text-white no-underline text-lg tracking-wide pl-10 py-2" key={account.number}>{account.number}</Link>);
+    accounts = props.accounts.data.map((account) => (
+      <Link
+        to={`/account/${account.id}`}
+        className="block text-white no-underline text-lg tracking-wide pl-10 py-2"
+        key={account.number}
+      >
+        {account.number}
+      </Link>
+    ));
   }
   return (
     <div>
       <Link to="/dashboard" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">Dashboard</Link>
       {accounts}
+      <Link to="/settings" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">Settings</Link>
     </div>
   );
 }

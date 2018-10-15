@@ -10,7 +10,6 @@ import BlogPage from './pages/BlogPage';
 import PrivacyPage from './pages/PrivacyPage';
 import SecurityPage from './pages/SecurityPage';
 import TermsOfServicePage from './pages/TermsOfServicePage';
-import AccountGroupPage from './pages/AccountGroupPage';
 import DashboardPage from './pages/DashboardPage';
 import AccountPage from './pages/AccountPage';
 import SettingsPage from './pages/SettingsPage';
@@ -30,8 +29,7 @@ const App = () => (
       <Route path="/security" component={SecurityPage} />
       <Route path="/termsofservice" component={TermsOfServicePage} />
       <SecureRoute path="/dashboard" component={DashboardPage} />
-      <SecureRoute path="/group" component={AccountGroupPage} />
-      <SecureRoute path="/account" component={AccountPage} />
+      <SecureRoute path="/account/:accountId" component={AccountPage} />
       <SecureRoute path="/settings" component={SettingsPage} />
     </Switch>
   </Layout>

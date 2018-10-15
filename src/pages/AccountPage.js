@@ -1,35 +1,24 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import StockGroup from '../components/StockGroup';
-import Stock from '../components/Stock';
+import { connect } from 'react-redux';
+import { selectAccounts, selectBalances, selectPositions } from '../selectors';
+import AccountMetadata from '../components/AccountMetadata';
+import AccountTargets from '../components/AccountMetadata';
+import AccountBalance from '../components/AccountMetadata';
+import AccountHoldings from '../components/AccountMetadata';
 
 const AccountPage = () => (
   <div>
-    <div className="mb-4 text-xl font-bold">
-      Account
-    </div>
-    <div className="mb-4 py-2">
-      <Link to="/" className="bg-green hover:bg-green-dark text-white font-bold py-2 px-4 rounded mb-4 mr-4 no-underline">
-        Portfolio
-      </Link>
-    </div>
-    <StockGroup name="Canada">
-      <Stock name="VCN" />
-      <Stock name="XIC" />
-    </StockGroup>
-    <StockGroup name="USA">
-      <Stock name="XUU" />
-    </StockGroup>
-    <StockGroup name="Europe/Asia">
-      <Stock name="XEF" />
-    </StockGroup>
-    <StockGroup name="Emerging">
-      <Stock name="XEC" />
-    </StockGroup>
-    <StockGroup name="Bonds">
-      <Stock name="ZAG" />
-    </StockGroup>
+    <AccountMetadata />
+    <AccountTargets />
+    <AccountBalance />
+    <AccountHoldings />
   </div>
 );
 
-export default AccountPage;
+const select = state => ({
+  accounts: selectAccounts(state),
+  balances: selectBalances(state),
+  positions: selectPositions(state),
+});
+
+export default connect(select)(AccountPage);
