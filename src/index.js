@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
-import logger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter, connectRouter, routerMiddleware } from 'connected-react-router';
@@ -41,7 +40,6 @@ const store = createStore(
     applyMiddleware(
       routerMiddleware(history),
       reduxThunk,
-      logger
     )
   )
 );
