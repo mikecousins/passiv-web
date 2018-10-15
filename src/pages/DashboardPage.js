@@ -12,12 +12,12 @@ class DashboardPage extends React.Component {
       accounts = this.props.accounts.data.map((account) => <Account account={account} key={account.number} balances={this.props.balances} positions={this.props.positions} />);
     }
     return (
-      <div>
+      <React.Fragment>
         <div className="mb-4 text-xl font-bold">
           Dashboard
         </div>
         {accounts}
-      </div>
+      </React.Fragment>
     );
   }
 }
