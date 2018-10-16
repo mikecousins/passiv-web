@@ -31,8 +31,8 @@ const AccountPage = (props) => {
   let excludedEquity = 0;
   return (
     <React.Fragment>
-      <div class="flex mb-4">
-        <div class="w-full">
+      <div className="flex mb-4">
+        <div className="w-full">
           <AccountMetadata
             name={name}
             type={type}
@@ -45,17 +45,17 @@ const AccountPage = (props) => {
         </div>
       </div>
 
-      <div class="flex mb-4">
-        <div class="w-1/2 mr-4">
+      <div className="flex mb-4">
+        <div className="w-1/2 mr-4">
           <AccountTargets />
         </div>
-        <div class="w-1/2">
+        <div className="w-1/2">
           <AccountBalance />
         </div>
       </div>
 
-      <div class="flex mb-4">
-        <div class="w-full">
+      <div className="flex mb-4">
+        <div className="w-full">
           <AccountHoldings positions={props.positions.data} />
         </div>
       </div>
