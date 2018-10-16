@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectAccounts, selectBalances, selectPositions } from '../selectors';
 import AccountMetadata from '../components/AccountMetadata';
-import AccountTargets from '../components/AccountMetadata';
-import AccountBalance from '../components/AccountMetadata';
+import AccountTargets from '../components/AccountTargets';
+import AccountBalance from '../components/AccountBalance';
 import AccountHoldings from '../components/AccountHoldings';
 
 const AccountPage = (props) => {
@@ -46,7 +46,7 @@ const AccountPage = (props) => {
       </div>
 
       <div class="flex mb-4">
-        <div class="w-1/2">
+        <div class="w-1/2 mr-4">
           <AccountTargets />
         </div>
         <div class="w-1/2">
