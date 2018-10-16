@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const AccountMetadata = (props) => (
-  <div>
+  <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
     Account Name<br />
     {props.name}<br />
     {props.type}<br />

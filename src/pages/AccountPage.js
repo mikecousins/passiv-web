@@ -6,7 +6,7 @@ import { selectAccounts, selectBalances, selectPositions } from '../selectors';
 import AccountMetadata from '../components/AccountMetadata';
 import AccountTargets from '../components/AccountMetadata';
 import AccountBalance from '../components/AccountMetadata';
-import AccountHoldings from '../components/AccountMetadata';
+import AccountHoldings from '../components/AccountHoldings';
 
 const AccountPage = (props) => {
   if (!props.accounts || !props.accounts.data || props.accounts.data.length === 0) {
@@ -30,20 +30,36 @@ const AccountPage = (props) => {
   }
   let excludedEquity = 0;
   return (
-    <div>
-      <AccountMetadata
-        name={name}
-        type={type}
-        number={number}
-        accuracy={accuracy}
-        cash={cash}
-        equity={equity}
-        excludedEquity={excludedEquity}
-      />
-      <AccountTargets />
-      <AccountBalance />
-      <AccountHoldings />
-    </div>
+    <React.Fragment>
+      <div class="flex mb-4">
+        <div class="w-full">
+          <AccountMetadata
+            name={name}
+            type={type}
+            number={number}
+            accuracy={accuracy}
+            cash={cash}
+            equity={equity}
+            excludedEquity={excludedEquity}
+          />
+        </div>
+      </div>
+
+      <div class="flex mb-4">
+        <div class="w-1/2">
+          <AccountTargets />
+        </div>
+        <div class="w-1/2">
+          <AccountBalance />
+        </div>
+      </div>
+
+      <div class="flex mb-4">
+        <div class="w-full">
+          <AccountHoldings positions={props.positions.data} />
+        </div>
+      </div>
+    </React.Fragment>
   );
 }
 
