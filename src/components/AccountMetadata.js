@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const AccountMetadata = (props) => (
   <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
-    <div className="border-grey border-0 border-b-2 py-2 flex w-full">
+    <div className="border-grey-lighter border-b py-2 flex w-full">
       <div className="w-2/3 text-4xl font-bold">
         **Account Name**
       </div>
@@ -17,7 +17,7 @@ const AccountMetadata = (props) => (
       </div>
     </div>
     <div className="py-2 flex w-full">
-      <div className="w-1/5 border-grey border-0 border-r-2 px-2 text-center">
+      <div className="w-1/5 border-grey-lighter border-r px-2 text-center">
         <h3>Accuracy</h3>
         {props.accuracy}%
       </div>
