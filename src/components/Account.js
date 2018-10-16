@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Account = (props) => {
   return (
-    <div className="flex py-2">
+    <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white flex">
       <div className="w-1/4 bg-white py-1 align-middle">{props.account.meta.type} {props.account.number}</div>
       <div className="w-3/4 bg-white py-1 align-middle">
         <div>
