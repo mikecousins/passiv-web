@@ -55,7 +55,7 @@ class RetirementComparer extends React.Component {
     const mutualFinal = mutualTrend[mutualTrend.length - 1];
     return (
       <div className="flex mb-4">
-        <div className="w-1/2 bg-grey-light h-64">
+        <div className="w-1/2 bg-grey-lightest h-64">
           <label htmlFor="yearlySavings">Household Savings Rate (${this.state.yearlySavings}/yr)</label>
           <Slider
             name="yearlySavings"
@@ -72,7 +72,7 @@ class RetirementComparer extends React.Component {
             Mutual: ${new Intl.NumberFormat().format(mutualFinal)} <span className="text-red">(${new Intl.NumberFormat().format(mutualFinal - passivFinal)})</span><br />
           </div>
         </div>
-        <div className="w-1/2 bg-grey h-64">
+        <div className="w-1/2 bg-grey-light h-64">
           <Trend data={passivTrend} />
         </div>
       </div>
