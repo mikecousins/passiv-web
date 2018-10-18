@@ -68,8 +68,8 @@ class RetirementComparer extends React.Component {
           <div>
             Ideal: ${new Intl.NumberFormat().format(ultimateFinal)}<br />
             Passiv: ${new Intl.NumberFormat().format(passivFinal)}<br />
-            Robo: ${new Intl.NumberFormat().format(roboFinal)} <span className="text-red">(${new Intl.NumberFormat().format(roboFinal - passivFinal)})</span><br />
-            Mutual: ${new Intl.NumberFormat().format(mutualFinal)} <span className="text-red">(${new Intl.NumberFormat().format(mutualFinal - passivFinal)})</span><br />
+            Robo: ${new Intl.NumberFormat().format(roboFinal)} <span className="text-red-darker">(${new Intl.NumberFormat().format(roboFinal - passivFinal)})</span><br />
+            Mutual: ${new Intl.NumberFormat().format(mutualFinal)} <span className="text-red-darker">(${new Intl.NumberFormat().format(mutualFinal - passivFinal)})</span><br />
           </div>
         </div>
         <div className="w-1/2 bg-grey-light h-64">
