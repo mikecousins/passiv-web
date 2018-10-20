@@ -28,7 +28,7 @@
     "react-redux": "5.0.7",
     "react-router": "4.3.1",
     "react-router-dom": "4.3.1",
-    "react-scripts": "2.0.4",
+    "react-scripts": "2.0.5",
     "react-simple-pie-chart": "0.5.0",
     "react-trend": "1.2.4",
     "redux": "4.0.1",
@@ -47,7 +47,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "autoprefixer": "^9.1.5",
+    "autoprefixer": "^9.2.1",
     "concurrently": "4.0.1",
     "postcss-cli": "^6.0.0",
     "tailwindcss": "^0.6.6"
