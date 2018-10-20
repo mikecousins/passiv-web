@@ -31,5 +31,17 @@ export default combineReducers({
   }),
   accountPositions: simple({
     baseType: 'FETCH_ACCOUNT_POSITIONS'
+  }),
+  groupAllocations: simple({
+    baseType: 'FETCH_GROUP_ALLOCATIONS'
+  }),
+  groupBalances: simple({
+    baseType: 'FETCH_GROUP_BALANCES'
+  }),
+  groupPositions: simple({
+    baseType: 'FETCH_GROUP_POSITIONS'
+  }),
+  groupSettings: simple({
+    baseType: 'FETCH_GROUP_SETTINGS'
   })
 });

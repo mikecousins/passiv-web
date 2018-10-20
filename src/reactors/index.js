@@ -6,7 +6,8 @@ import {
   loadGroups,
   loadSymbols,
   loadBrokerages,
-  loadAccount
+  loadAccount,
+  loadGroup,
 } from '../actions';
 
 const isNeeded = (entity) => {
@@ -42,7 +43,7 @@ export const loadData = createSelector(
   [state => state.auth.token,
   state => state.currencies,
   state => state.accounts,
-  state => state.groups, 
+  state => state.groups,
   state => state.brokerages,
   state => state.symbols],
   (token, currencies, accounts, groups, brokerages, symbols) => {
@@ -83,6 +84,20 @@ export const loadAccountDetails = createSelector(
       const ids = Array.from(accounts.data, account => account.id);
       if (isNeeded(accountDetails)) {
         return loadAccount({ ids, token });
+      }
+    }
+  }
+);
+
+export const loadGroupDetails = createSelector(
+  [state => state.groups,
+  state => state.groupSettings,
+  state => state.auth.token],
+  (groups, groupSettings, token) => {
+    if (!!token && groups && groups.data && groups.data.length > 0) {
+      const ids = Array.from(groups.data, group => group.id);
+      if (isNeeded(groupSettings)) {
+        return loadGroup({ ids, token });
       }
     }
   }

@@ -111,24 +111,52 @@ export const loadAccounts = payload => {
   };
 };
 
-
-
 export const loadAccount = payload => {
   return dispatch => {
-    dispatch(fetchAccountDetailsStart());
     payload.ids.forEach((id) => {
+      dispatch(fetchAccountDetailsStart());
       getData(`https://dev.getpassiv.com/api/v1/accounts/${id}/`, payload.token)
         .then(response => dispatch(fetchAccountDetailsSuccess(response)))
         .catch(error => dispatch(fetchAccountDetailsError(error)));
+
+      dispatch(fetchAccountBalancesStart());
       getData(`https://dev.getpassiv.com/api/v1/accounts/${id}/balances/`, payload.token)
         .then(response => dispatch(fetchAccountBalancesSuccess(response)))
         .catch(error => dispatch(fetchAccountBalancesError(error)));
+
+      dispatch(fetchAccountPositionsStart());
       getData(`https://dev.getpassiv.com/api/v1/accounts/${id}/positions/`, payload.token)
         .then(response => dispatch(fetchAccountPositionsSuccess(response)))
         .catch(error => dispatch(fetchAccountPositionsError(error)));
     });
   };
 };
+
+export const loadGroup = payload => {
+  return dispatch => {
+    payload.ids.forEach((id) => {
+      dispatch(fetchGroupAllocationsStart());
+      getData(`https://dev.getpassiv.com/api/v1/portfolioGroups/${id}/assetsallocations/`, payload.token)
+        .then(response => dispatch(fetchGroupAllocationsSuccess(response)))
+        .catch(error => dispatch(fetchGroupAllocationsError(error)));
+
+      dispatch(fetchGroupBalancesStart());
+      getData(`https://dev.getpassiv.com/api/v1/portfolioGroups/${id}/balances/`, payload.token)
+        .then(response => dispatch(fetchGroupBalancesSuccess(response)))
+        .catch(error => dispatch(fetchGroupBalancesError(error)));
+
+      dispatch(fetchGroupPositionsStart());
+      getData(`https://dev.getpassiv.com/api/v1/portfolioGroups/${id}/positions/`, payload.token)
+        .then(response => dispatch(fetchGroupPositionsSuccess(response)))
+        .catch(error => dispatch(fetchGroupPositionsError(error)));
+
+      dispatch(fetchGroupSettingsStart());
+      getData(`https://dev.getpassiv.com/api/v1/portfolioGroups/${id}/settings/`, payload.token)
+        .then(response => dispatch(fetchGroupSettingsSuccess(response)))
+        .catch(error => dispatch(fetchGroupPositionsError(error)));
+    });
+  }
+}
 
 export const fetchCurrenciesStart = payload => ({
   type: 'FETCH_CURRENCIES_START',
@@ -247,5 +275,65 @@ export const fetchAccountPositionsSuccess = payload => ({
 
 export const fetchAccountPositionsError = payload => ({
   type: 'FETCH_ACCOUNT_POSITIONS_ERROR',
+  payload,
+});
+
+export const fetchGroupAllocationsStart = payload => ({
+  type: 'FETCH_GROUP_ALLOCATIONS_START',
+  payload,
+});
+
+export const fetchGroupAllocationsSuccess = payload => ({
+  type: 'FETCH_GROUP_ALLOCATIONS_SUCCESS',
+  payload,
+});
+
+export const fetchGroupAllocationsError = payload => ({
+  type: 'FETCH_GROUP_ALLOCATIONS_ERROR',
+  payload,
+});
+
+export const fetchGroupBalancesStart = payload => ({
+  type: 'FETCH_GROUP_BALANCES_START',
+  payload,
+});
+
+export const fetchGroupBalancesSuccess = payload => ({
+  type: 'FETCH_GROUP_BALANCES_SUCCESS',
+  payload,
+});
+
+export const fetchGroupBalancesError = payload => ({
+  type: 'FETCH_GROUP_BALANCES_ERROR',
+  payload,
+});
+
+export const fetchGroupPositionsStart = payload => ({
+  type: 'FETCH_GROUP_POSITIONS_START',
+  payload,
+});
+
+export const fetchGroupPositionsSuccess = payload => ({
+  type: 'FETCH_GROUP_POSITIONS_SUCCESS',
+  payload,
+});
+
+export const fetchGroupPositionsError = payload => ({
+  type: 'FETCH_GROUP_POSITIONS_ERROR',
+  payload,
+});
+
+export const fetchGroupSettingsStart = payload => ({
+  type: 'FETCH_GROUP_SETTINGS_START',
+  payload,
+});
+
+export const fetchGroupSettingsSuccess = payload => ({
+  type: 'FETCH_GROUP_SETTINGS_SUCCESS',
+  payload,
+});
+
+export const fetchGroupSettingsError = payload => ({
+  type: 'FETCH_GROUP_SETTINGS_ERROR',
   payload,
 });
