@@ -16,7 +16,7 @@ const AccountHoldings = (props) => (
         </tr>
       </thead>
       <tbody>
-        {!props.positions && <FontAwesomeIcon icon={faSpinner} spin />}
+        {!props.positions && <tr><td colSpan="4" className="text-center py-4"><FontAwesomeIcon icon={faSpinner} spin /></td></tr>}
         {props.positions
           && props.positions.map(position => (
             <tr key={position.symbol.id}>
