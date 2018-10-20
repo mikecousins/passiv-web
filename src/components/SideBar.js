@@ -7,7 +7,7 @@ import { selectAccounts } from '../selectors';
 
 const SideBar = (props) => {
   let accounts = <FontAwesomeIcon icon={faSpinner} spin />;
-  if (props.accounts && props.accounts.data) {
+  if (props.accounts && props.accounts.data && props.accounts.data.length > 0) {
     accounts = props.accounts.data.map((account) => (
       <Link
         to={`/account/${account.id}`}
