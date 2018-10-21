@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux';
 import auth from './auth';
+import demo from './demo';
+import language from './language';
 import simple from './simple';
 
 export default combineReducers({
   appTime: Date.now,
   auth,
+  demo,
+  language,
   brokerages: simple({
     baseType: 'FETCH_BROKERAGES'
   }),

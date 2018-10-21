@@ -11,3 +11,5 @@ export const selectPositions = state => state.accountPositions;
 export const selectGroups = state => state.groups;
 
 export const selectGroupSettings = state => state.groupSettings;
+
+export const selectIsDemoMode =  state => state.demo;

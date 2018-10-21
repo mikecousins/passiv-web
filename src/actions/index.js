@@ -32,6 +32,12 @@ export const logout = () => ({
   type: 'LOGOUT',
 });
 
+export const toggleDemoMode = () => {
+  return dispatch => {
+    dispatch({ type: 'TOGGLE_DEMO_MODE' });
+  }
+};
+
 export const initialLoad = payload => {
   return dispatch => {
     dispatch(fetchCurrenciesStart);
@@ -136,7 +142,7 @@ export const loadGroup = payload => {
   return dispatch => {
     payload.ids.forEach((id) => {
       dispatch(fetchGroupAllocationsStart());
-      getData(`https://dev.getpassiv.com/api/v1/portfolioGroups/${id}/assetsallocations/`, payload.token)
+      getData(`https://dev.getpassiv.com/api/v1/portfolioGroups/${id}/targets/`, payload.token)
         .then(response => dispatch(fetchGroupAllocationsSuccess(response)))
         .catch(error => dispatch(fetchGroupAllocationsError(error)));
 
