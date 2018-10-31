@@ -3,6 +3,7 @@ import auth from './auth';
 import demo from './demo';
 import language from './language';
 import simple from './simple';
+import simpleList from './simpleList';
 
 export default combineReducers({
   appTime: Date.now,
@@ -27,25 +28,25 @@ export default combineReducers({
   accounts: simple({
     baseType: 'FETCH_ACCOUNTS'
   }),
-  accountDetails: simple({
+  accountDetails: simpleList({
     baseType: 'FETCH_ACCOUNT_DETAILS'
   }),
-  accountBalances: simple({
+  accountBalances: simpleList({
     baseType: 'FETCH_ACCOUNT_BALANCES'
   }),
-  accountPositions: simple({
+  accountPositions: simpleList({
     baseType: 'FETCH_ACCOUNT_POSITIONS'
   }),
-  groupAllocations: simple({
+  groupAllocations: simpleList({
     baseType: 'FETCH_GROUP_ALLOCATIONS'
   }),
-  groupBalances: simple({
+  groupBalances: simpleList({
     baseType: 'FETCH_GROUP_BALANCES'
   }),
-  groupPositions: simple({
+  groupPositions: simpleList({
     baseType: 'FETCH_GROUP_POSITIONS'
   }),
-  groupSettings: simple({
+  groupSettings: simpleList({
     baseType: 'FETCH_GROUP_SETTINGS'
   })
 });
