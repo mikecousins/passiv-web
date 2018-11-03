@@ -81,9 +81,10 @@ export const loadAccountDetails = createSelector(
   state => state.auth.token],
   (accounts, accountDetails, token) => {
     if (!!token && accounts && accounts.data && accounts.data.length > 0) {
-      const ids = Array.from(accounts.data, account => account.id);
-      if (isNeeded(accountDetails)) {
-        return loadAccount({ ids, token });
+      const allIds = Array.from(accounts.data, account => account.id);
+      const neededIds = allIds.filter(id => accountDetails && isNeeded(accountDetails[id]));
+      if (neededIds.length > 0) {
+        return loadAccount({ ids: neededIds, token });
       }
     }
   }
@@ -95,9 +96,10 @@ export const loadGroupDetails = createSelector(
   state => state.auth.token],
   (groups, groupSettings, token) => {
     if (!!token && groups && groups.data && groups.data.length > 0) {
-      const ids = Array.from(groups.data, group => group.id);
-      if (isNeeded(groupSettings)) {
-        return loadGroup({ ids, token });
+      const allIds = Array.from(groups.data, group => group.id);
+      const neededIds = allIds.filter(id => groupSettings && isNeeded(groupSettings[id]));
+      if (neededIds.length > 0) {
+        return loadGroup({ ids: neededIds, token });
       }
     }
   }
