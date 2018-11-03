@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Account from '../components/Account';
-import { selectAccounts, selectBalances, selectPositions, selectIsDemoMode } from '../selectors';
+import { selectFullGroups, selectAccounts, selectBalances, selectPositions, selectIsDemoMode } from '../selectors';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
@@ -35,6 +35,7 @@ class DashboardPage extends React.Component {
 }
 
 const select = state => ({
+  groups: selectFullGroups(state),
   accounts: selectAccounts(state),
   balances: selectBalances(state),
   positions: selectPositions(state),
