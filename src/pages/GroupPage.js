@@ -17,8 +17,12 @@ const GroupPage = (props) => {
     return <span>Account not found</span>;
   }
   const name = group.name || 'No Name Provided';
-  const type = group.type;
-  const number = null; //group.account.number;
+  let type = null;
+  let number = null;
+  if (group.accounts && group.accounts[0]) {
+    type = group.accounts[0].type;
+    number = group.accounts[0].number;
+  }
   const accuracy = 0;
   let cash = 0;
   if (props.balances && props.balances.data) {
