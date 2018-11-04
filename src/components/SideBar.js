@@ -3,26 +3,26 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
-import { selectAccounts, selectIsDemoMode } from '../selectors';
+import { selectGroups, selectIsDemoMode } from '../selectors';
 import { toggleDemoMode } from '../actions';
 
 const SideBar = (props) => {
-  let accounts = <FontAwesomeIcon icon={faSpinner} spin />;
-  if (props.accounts && props.accounts.data && props.accounts.data.length > 0) {
-    accounts = props.accounts.data.map((account) => (
+  let groups = <FontAwesomeIcon icon={faSpinner} spin />;
+  if (props.groups && props.groups.data && props.groups.data.length > 0) {
+    groups = props.groups.data.map((group) => (
       <Link
-        to={`/account/${account.id}`}
+        to={`/group/${group.id}`}
         className="block text-white no-underline text-lg tracking-wide pl-10 py-2"
-        key={account.number}
+        key={group.name}
       >
-        {account.number}
+        {group.name}
       </Link>
     ));
   }
   return (
     <div>
       <Link to="/dashboard" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">Dashboard</Link>
-      {accounts}
+      {groups}
       <Link to="/settings" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">Settings</Link>
       <button
         onClick={props.toggleDemo}
@@ -37,7 +37,7 @@ const SideBar = (props) => {
 }
 
 const select = state => ({
-  accounts: selectAccounts(state),
+  groups: selectGroups(state),
   demoMode:  selectIsDemoMode(state),
 });
 

@@ -2,23 +2,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { selectAccounts, selectBalances, selectPositions } from '../selectors';
+import { selectAccounts, selectBalances, selectPositions, selectFullGroups } from '../selectors';
 import AccountMetadata from '../components/AccountMetadata';
 import AccountTargets from '../components/AccountTargets';
 import AccountBalance from '../components/AccountBalance';
 import AccountHoldings from '../components/AccountHoldings';
 
-const AccountPage = (props) => {
-  if (!props.accounts || !props.accounts.data || props.accounts.data.length === 0) {
+const GroupPage = (props) => {
+  if (!props.groups || props.groups.length === 0) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
   }
-  const account = props.accounts.data.find(account => account.id = props.match.params.accountId);
-  if (!account) {
+  const group = props.groups.find(group => group.id = props.match.params.groupId);
+  if (!group) {
     return <span>Account not found</span>;
   }
-  const name = account.name || 'No Name Provided';
-  const type = account.meta.type;
-  const number = account.number;
+  const name = group.name || 'No Name Provided';
+  const type = group.type;
+  const number = null; //group.account.number;
   const accuracy = 0;
   let cash = 0;
   if (props.balances && props.balances.data) {
@@ -64,9 +64,10 @@ const AccountPage = (props) => {
 }
 
 const select = state => ({
+  groups: selectFullGroups(state),
   accounts: selectAccounts(state),
   balances: selectBalances(state),
   positions: selectPositions(state),
 });
 
-export default connect(select)(AccountPage);
+export default connect(select)(GroupPage);
