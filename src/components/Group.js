@@ -20,26 +20,26 @@ const Group = (props) => {
 
   return (
     <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white flex">
-      <div className="w-1/4 bg-white py-1 align-middle text-xl">{props.group.name}</div>
-      <div className="w-1/4 bg-white py-1 align-middle">
-        <div className="text-xl">
+      <div className="w-1/3 bg-white py-1 align-middle text-2xl font-bold">{props.group.name}</div>
+      <div className="w-1/6 bg-white py-1 align-middle">
+        <div className="text-xl font-bold">
           Accuracy
         </div>
         {accuracy}
       </div>
-      <div className="w-1/4 bg-white py-1 align-middle">
-        <div className="text-xl">
+      <div className="w-1/6 bg-white py-1 align-middle">
+        <div className="text-xl font-bold">
           Cash
         </div>
         {cash}
       </div>
-      <div className="w-1/4 bg-white py-1 align-middle">
-        <div className="text-xl">
+      <div className="w-1/6 bg-white py-1 align-middle">
+        <div className="text-xl font-bold">
           Total Value
         </div>
         {totalValue}
       </div>
-      <div className="w-1/4 bg-white py-1 align-middle">
+      <div className="w-1/6 bg-white py-1 align-middle">
         <Link to="">View</Link>
       </div>
     </div>
