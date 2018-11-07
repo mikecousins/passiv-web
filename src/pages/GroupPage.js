@@ -19,20 +19,25 @@ const GroupPage = (props) => {
   const name = group.name || 'No Name Provided';
   let type = null;
   let number = null;
+  let equity = 0;
+  const accuracy = 0;
+  let cash = 0;
+  let excludedEquity = 0;
+
   if (group.accounts && group.accounts[0]) {
     type = group.accounts[0].type;
     number = group.accounts[0].number;
+
+    // get our cash
+    if (props.balances && props.balances[group.accounts[0].id] && props.balances[group.accounts[0].id].data) {
+      props.balances[group.accounts[0].id].data.forEach(balance => cash += parseFloat(balance.cash));
+    }
+
+    // get our equity
+    if (props.positions && props.positions[group.accounts[0].id] && props.positions[group.accounts[0].id].data) {
+      props.positions[group.accounts[0].id].data.forEach(position => equity += (parseFloat(position.price) * position.units));
+    }
   }
-  const accuracy = 0;
-  let cash = 0;
-  if (props.balances && props.balances.data) {
-    props.balances.data.forEach(balance => cash += parseFloat(balance.cash))
-  }
-  let equity = 0;
-  if (props.positions && props.positions.data) {
-    props.positions.data.forEach(position => equity += (parseFloat(position.price) * position.units));
-  }
-  let excludedEquity = 0;
   return (
     <React.Fragment>
       <div className="flex mb-4">
