@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
+import { connectRouter } from 'connected-react-router';
 import auth from './auth';
 import demo from './demo';
 import language from './language';
 import simple from './simple';
 import simpleList from './simpleList';
 
-export default combineReducers({
+export default (history) => combineReducers({
+  router: connectRouter(history),
   appTime: Date.now,
   auth,
   demo,

@@ -15,20 +15,21 @@
   },
   "repository": "github:passiv/passiv-web",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "1.2.7",
-    "@fortawesome/free-solid-svg-icons": "5.4.2",
+    "@fortawesome/fontawesome-svg-core": "1.2.8",
+    "@fortawesome/free-solid-svg-icons": "5.5.0",
     "@fortawesome/react-fontawesome": "0.1.3",
-    "connected-react-router": "4.5.0",
+    "connected-react-router": "5.0.1",
     "date-fns": "1.29.0",
     "formik": "1.3.1",
+    "history": "4.7.2",
     "jwt-decode": "2.2.0",
     "rc-slider": "8.6.3",
-    "react": "16.6.0",
-    "react-dom": "16.6.0",
+    "react": "16.6.1",
+    "react-dom": "16.6.1",
     "react-redux": "5.1.0",
     "react-router": "4.3.1",
     "react-router-dom": "4.3.1",
-    "react-scripts": "2.1.0",
+    "react-scripts": "2.1.1",
     "react-simple-pie-chart": "0.5.0",
     "react-trend": "1.2.4",
     "redux": "4.0.1",
@@ -47,10 +48,10 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "autoprefixer": "^9.2.1",
+    "autoprefixer": "^9.3.1",
     "concurrently": "4.0.1",
-    "postcss-cli": "^6.0.0",
-    "tailwindcss": "^0.6.6"
+    "postcss-cli": "^6.0.1",
+    "tailwindcss": "^0.7.2"
   },
   "eslintConfig": {
     "extends": "react-app"
