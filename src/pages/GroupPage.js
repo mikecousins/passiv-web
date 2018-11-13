@@ -2,7 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { selectCurrentGroup, selectCurrentPositions, selectCurrentCash, selectCurrentBalancedEquity } from '../selectors';
+import {
+  selectCurrentGroup,
+  selectCurrentPositions,
+  selectCurrentCash,
+  selectCurrentBalancedEquity,
+  selectCurrentTarget
+} from '../selectors';
 import AccountMetadata from '../components/AccountMetadata';
 import AccountTargets from '../components/AccountTargets';
 import AccountBalance from '../components/AccountBalance';
@@ -42,7 +48,7 @@ const GroupPage = (props) => {
 
       <div className="flex mb-4">
         <div className="w-1/2 mr-4">
-          <AccountTargets />
+          <AccountTargets target={props.target} />
         </div>
         <div className="w-1/2">
           <AccountBalance />
@@ -63,6 +69,7 @@ const select = state => ({
   positions: selectCurrentPositions(state),
   cash: selectCurrentCash(state),
   balancedEquity: selectCurrentBalancedEquity(state),
+  targets: selectCurrentTarget(state),
 });
 
 export default connect(select)(GroupPage);

@@ -50,6 +50,12 @@ export const selectGroupSettings = createSelector(
   }
 );
 
+export const selectGroupAllocations = state => state.groupAllocations;
+
+export const selectGroupBalances = state => state.groupBalances;
+
+export const selectGroupPositions = state => state.groupPositions;
+
 export const selectIsDemoMode =  state => state.demo;
 
 export const selectRouter = state => state.router;
@@ -173,6 +179,13 @@ export const selectCurrentCash = createSelector(
     return cash;
   }
 );
+
+export const selectCurrentTarget = createSelector(
+  selectGroupAllocations,
+  (target) => {
+    return null;
+  }
+)
 
 export const selectTotalHoldings = createSelector(
   selectAccounts,
