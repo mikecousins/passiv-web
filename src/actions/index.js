@@ -139,10 +139,10 @@ export const loadAccount = payload => {
 export const loadGroup = payload => {
   return dispatch => {
     payload.ids.forEach((id) => {
-      dispatch(fetchGroupAllocationsStart(id));
+      dispatch(fetchGroupTargetsStart(id));
       getData(baseUrl + `/api/v1/portfolioGroups/${id}/targets/`, payload.token)
-        .then(response => dispatch(fetchGroupAllocationsSuccess(response, id)))
-        .catch(error => dispatch(fetchGroupAllocationsError(error, id)));
+        .then(response => dispatch(fetchGroupTargetsSuccess(response, id)))
+        .catch(error => dispatch(fetchGroupTargetsError(error, id)));
 
       dispatch(fetchGroupBalancesStart(id));
       getData(baseUrl + `/api/v1/portfolioGroups/${id}/balances/`, payload.token)
@@ -283,19 +283,19 @@ export const fetchAccountPositionsError = (payload, id) => ({
   id,
 });
 
-export const fetchGroupAllocationsStart = id => ({
-  type: 'FETCH_GROUP_ALLOCATIONS_START',
+export const fetchGroupTargetsStart = id => ({
+  type: 'FETCH_GROUP_TARGETS_START',
   id,
 });
 
-export const fetchGroupAllocationsSuccess = (payload, id) => ({
-  type: 'FETCH_GROUP_ALLOCATIONS_SUCCESS',
+export const fetchGroupTargetsSuccess = (payload, id) => ({
+  type: 'FETCH_GROUP_TARGETS_SUCCESS',
   payload,
   id,
 });
 
-export const fetchGroupAllocationsError = (payload, id) => ({
-  type: 'FETCH_GROUP_ALLOCATIONS_ERROR',
+export const fetchGroupTargetsError = (payload, id) => ({
+  type: 'FETCH_GROUP_TARGETS_ERROR',
   payload,
   id,
 });
@@ -350,3 +350,27 @@ export const fetchGroupSettingsError = (payload, id) => ({
   payload,
   id,
 });
+
+export const importTargetStart = payload => ({
+  type: 'IMPORT_TARGET_START',
+  payload,
+});
+
+export const importTargetSuccess = payload => ({
+  type: 'IMPORT_TARGET_SUCCESS',
+  payload,
+});
+
+export const importTargetError = payload => ({
+  type: 'IMPORT_TARGET_ERROR',
+  payload,
+});
+
+export const importTarget = groupId => {
+  return dispatch => {
+    dispatch(importTargetStart);
+    postData(baseUrl + '/api/v1/portfolioGroups/' + groupId + '/import')
+      .then(response => dispatch(importTargetSuccess(response)))
+      .catch(error => dispatch(importTargetError(error)));
+  };
+};

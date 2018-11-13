@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect'
+import { createSelector } from 'reselect';
 
 export const selectLoggedIn = state => !!(state.auth.token);
 
@@ -50,11 +50,22 @@ export const selectGroupSettings = createSelector(
   }
 );
 
-export const selectGroupAllocations = state => state.groupAllocations;
+export const selectGroupTargets = state => state.groupTargets;
 
 export const selectGroupBalances = state => state.groupBalances;
 
 export const selectGroupPositions = state => state.groupPositions;
+
+export const selectSymbolsRaw = state => state.symbols;
+
+export const selectSymbols = createSelector(
+  selectSymbolsRaw,
+  (rawSymbols) => {
+    if (rawSymbols.data) {
+      return rawSymbols.data;
+    }
+  }
+)
 
 export const selectIsDemoMode =  state => state.demo;
 
@@ -181,9 +192,20 @@ export const selectCurrentCash = createSelector(
 );
 
 export const selectCurrentTarget = createSelector(
-  selectGroupAllocations,
-  (target) => {
-    return null;
+  selectCurrentGroupId,
+  selectGroupTargets,
+  selectSymbols,
+  (groupId, target, symbols) => {
+    if (!target[groupId] || !target[groupId].data) {
+      return null;
+    }
+    const currentTarget = target[groupId].data;
+    const currentTargetWithSymbols = currentTarget.map(target => {
+      const targetWithSymbol = target;
+      targetWithSymbol.displaySymbol = symbols.find(symbol => symbol.id === target.symbol);
+      return targetWithSymbol;
+    })
+    return currentTargetWithSymbols;
   }
 )
 

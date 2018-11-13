@@ -1,18 +1,12 @@
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import {
-  selectCurrentGroup,
-  selectCurrentPositions,
-  selectCurrentCash,
-  selectCurrentBalancedEquity,
-  selectCurrentTarget
-} from '../selectors';
-import AccountMetadata from '../components/AccountMetadata';
-import AccountTargets from '../components/AccountTargets';
 import AccountBalance from '../components/AccountBalance';
 import AccountHoldings from '../components/AccountHoldings';
+import AccountMetadata from '../components/AccountMetadata';
+import AccountTargets from '../components/AccountTargets';
+import { selectCurrentBalancedEquity, selectCurrentCash, selectCurrentGroup, selectCurrentPositions } from '../selectors';
 
 const GroupPage = (props) => {
   const { group } = props;
@@ -69,7 +63,6 @@ const select = state => ({
   positions: selectCurrentPositions(state),
   cash: selectCurrentCash(state),
   balancedEquity: selectCurrentBalancedEquity(state),
-  targets: selectCurrentTarget(state),
 });
 
 export default connect(select)(GroupPage);
