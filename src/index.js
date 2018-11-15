@@ -5,11 +5,11 @@ import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createBrowserHistory } from 'history';
-import { ConnectedRouter, connectRouter, routerMiddleware } from 'connected-react-router';
+import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 import decode from 'jwt-decode';
 import isFuture from 'date-fns/is_future';
 import { addReactorsToStore } from './reactors/HumanRedux';
-import rootReducer from './reducers';
+import createRootReducer from './reducers';
 import { loadData, loadAccountDetails, loadGroupDetails } from './reactors';
 import './index.css';
 import App from './App';
@@ -34,7 +34,7 @@ const defaultState = {
 };
 
 const store = createStore(
-  connectRouter(history)(rootReducer),
+  createRootReducer(history),
   defaultState,
   composeWithDevTools(
     applyMiddleware(

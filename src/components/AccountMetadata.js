@@ -37,7 +37,7 @@ const AccountMetadata = (props) => (
       </div>
       <div className="w-1/5 px-2 text-center">
         <h3>Total Value</h3>
-        <b>{props.total ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(props.cash + props.equity + props.excludedEquity) : <FontAwesomeIcon icon={faSpinner} spin />}</b>
+        <b>{props.cash && props.equity ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(props.cash + props.equity + props.excludedEquity) : <FontAwesomeIcon icon={faSpinner} spin />}</b>
       </div>
     </div>
   </div>
