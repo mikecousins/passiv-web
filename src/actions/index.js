@@ -62,6 +62,11 @@ export const initialLoad = payload => {
         .then(response => dispatch(fetchBrokeragesSuccess(response)))
         .catch(error => dispatch(fetchBrokeragesError(error)));
 
+    dispatch(fetchSettingsStart());
+      getData(baseUrl + '/api/v1/settings/', payload)
+        .then(response => dispatch(fetchSettingsSuccess(response)))
+        .catch(error => dispatch(fetchSettingsError(error)));
+
     dispatch(fetchAccountsStart());
     getData(baseUrl + '/api/v1/accounts/', payload)
       .then(response => dispatch(fetchAccountsSuccess(response)))
@@ -103,6 +108,15 @@ export const loadBrokerages = payload => {
     getData(baseUrl + '/api/v1/brokerages/', payload)
       .then(response => dispatch(fetchBrokeragesSuccess(response)))
       .catch(error => dispatch(fetchBrokeragesError(error)));
+  };
+};
+
+export const loadSettings = payload => {
+  return dispatch => {
+    dispatch(fetchSettingsStart());
+    getData(baseUrl + '/api/v1/settings/', payload)
+      .then(response => dispatch(fetchSettingsSuccess(response)))
+      .catch(error => dispatch(fetchSettingsError(error)));
   };
 };
 
@@ -215,6 +229,20 @@ export const fetchBrokeragesSuccess = payload => ({
 
 export const fetchBrokeragesError = payload => ({
   type: 'FETCH_BROKERAGES_ERROR',
+  payload,
+});
+
+export const fetchSettingsStart = () => ({
+  type: 'FETCH_SETTINGS_START',
+});
+
+export const fetchSettingsSuccess = payload => ({
+  type: 'FETCH_SETTINGS_SUCCESS',
+  payload,
+});
+
+export const fetchSettingsError = payload => ({
+  type: 'FETCH_SETTINGS_ERROR',
   payload,
 });
 
