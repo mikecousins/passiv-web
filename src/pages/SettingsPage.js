@@ -14,6 +14,13 @@ const SettingsPage = (props) => (
     >
       Log Out
     </button>
+    <a
+      href="https://login.questrade.com/oauth2/authorize?client_id=AMTP_SauxtnL1ZkwIa2UnPoAwjQhkQ&response_type=code&scope=read_acc,read_md&redirect_uri=https://staging.getpassiv.com/api/v1/oauth/questrade"
+      type="button"
+      className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    >
+      Authorize
+    </a>
   </React.Fragment>
 );
 

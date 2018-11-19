@@ -14,6 +14,7 @@ export const postData = (url = '', data = {}) => {
     body: JSON.stringify(data),
     headers: {
       "Authorization": "JWT " + localStorage.getItem('jwt'),
+      "Content-Type": "application/json",
     },
   })
   .then(response => response.json());

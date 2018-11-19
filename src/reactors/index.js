@@ -6,6 +6,7 @@ import {
   loadGroups,
   loadSymbols,
   loadBrokerages,
+  loadSettings,
   loadAccount,
   loadGroup,
 } from '../actions';
@@ -45,8 +46,9 @@ export const loadData = createSelector(
   state => state.accounts,
   state => state.groups,
   state => state.brokerages,
+  state => state.settings,
   state => state.symbols],
-  (token, currencies, accounts, groups, brokerages, symbols) => {
+  (token, currencies, accounts, groups, brokerages, settings, symbols) => {
     // ignore if we aren't logged in
     if (!token) {
       return;
@@ -63,6 +65,10 @@ export const loadData = createSelector(
 
     if (isNeeded(brokerages)) {
       return loadBrokerages(token);
+    }
+
+    if (isNeeded(settings)) {
+      return loadSettings(token);
     }
 
     if (isNeeded(groups)) {
