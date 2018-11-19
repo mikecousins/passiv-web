@@ -1,3 +1,4 @@
+import { connectRouter } from 'connected-react-router';
 import { combineReducers } from 'redux';
 import auth from './auth';
 import demo from './demo';
@@ -5,7 +6,8 @@ import language from './language';
 import simple from './simple';
 import simpleList from './simpleList';
 
-export default combineReducers({
+export default (history) => combineReducers({
+  router: connectRouter(history),
   appTime: Date.now,
   auth,
   demo,
@@ -37,8 +39,8 @@ export default combineReducers({
   accountPositions: simpleList({
     baseType: 'FETCH_ACCOUNT_POSITIONS'
   }),
-  groupAllocations: simpleList({
-    baseType: 'FETCH_GROUP_ALLOCATIONS'
+  groupTargets: simpleList({
+    baseType: 'FETCH_GROUP_TARGETS'
   }),
   groupBalances: simpleList({
     baseType: 'FETCH_GROUP_BALANCES'

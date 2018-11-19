@@ -8,8 +8,8 @@ import { toggleDemoMode } from '../actions';
 
 const SideBar = (props) => {
   let groups = <FontAwesomeIcon icon={faSpinner} spin />;
-  if (props.groups && props.groups.data && props.groups.data.length > 0) {
-    groups = props.groups.data.map((group) => (
+  if (props.groups) {
+    groups = props.groups.map((group) => (
       <Link
         to={`/group/${group.id}`}
         className="block text-white no-underline text-lg tracking-wide pl-10 py-2"
