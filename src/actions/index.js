@@ -34,6 +34,36 @@ export const logout = () => ({
   type: 'LOGOUT',
 });
 
+export const registerStartedAsync = payload => {
+  return dispatch => {
+    dispatch(registerStarted());
+    postData(
+      baseUrl + '/api/v1/auth/register/',
+      { name: payload.name, email: payload.email, password: payload.password }
+    )
+      .then(response => {
+        // login
+        return dispatch(registerSucceeded(response));
+      })
+      .catch(error => dispatch(registerFailed(error)));
+  };
+};
+
+export const registerStarted = payload => ({
+  type: 'REGISTER_STARTED',
+  payload,
+});
+
+export const registerSucceeded = payload => ({
+  type: 'REGISTER_SUCCEEDED',
+  payload,
+});
+
+export const registerFailed = payload => ({
+  type: 'REGISTER_FAILED',
+  payload,
+});
+
 export const toggleDemoMode = () => {
   return dispatch => {
     dispatch({ type: 'TOGGLE_DEMO_MODE' });

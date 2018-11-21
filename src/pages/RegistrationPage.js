@@ -1,6 +1,9 @@
 import React from 'react';
 import { Field, Formik } from 'formik';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { registerStartedAsync } from '../actions';
+import { selectLoggedIn } from '../selectors';
 
 const RegistrationPage = (props) => (
   <React.Fragment>
@@ -25,7 +28,7 @@ const RegistrationPage = (props) => (
         return errors;
       }}
       onSubmit={(values, actions) => {
-        props.startLogin();
+        props.startRegister(values);
       }}
       render={formikProps => (
         <form>
@@ -50,7 +53,7 @@ const RegistrationPage = (props) => (
           <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="password">
             Password
           </label>
-          <Field name="password" className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" />
+          <Field name="password" type="password" className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" />
           {formikProps.touched.password && formikProps.errors.password && (
             <div className="f-error-message">
               {formikProps.errors.password}
@@ -75,4 +78,10 @@ const RegistrationPage = (props) => (
   </React.Fragment>
 );
 
-export default RegistrationPage;
+const select = state => ({
+  loggedIn: selectLoggedIn(state),
+});
+
+const actions = { startRegister: registerStartedAsync };
+
+export default connect(select, actions)(RegistrationPage);
