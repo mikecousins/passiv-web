@@ -40,7 +40,7 @@ const Group = (props) => {
         {totalValue}
       </div>
       <div className="w-1/6 bg-white py-1 align-middle">
-        <Link to={`/group/${props.group.id}`}>View</Link>
+        <Link to={`/app/group/${props.group.id}`}>View</Link>
       </div>
     </div>
   );

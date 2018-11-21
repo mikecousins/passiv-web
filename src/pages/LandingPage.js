@@ -11,7 +11,7 @@ const LandingPage = () => (
           <p className="tagline">A tool for managing your questrade portfolio</p>
           <p className="blurb">Canadians are managing over $40M of their own money using Passiv </p>
           <p className="blurb">Link your account. Set your target. Stay on course.</p>
-          <Link to="/register" className="btn-1">Try For Free</Link>
+          <Link to="/app/register" className="btn-1">Try For Free</Link>
         </div>
       </section>
       <section className="mission">

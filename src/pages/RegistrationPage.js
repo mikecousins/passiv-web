@@ -65,7 +65,7 @@ const RegistrationPage = (props) => (
             >
               Register
             </button>
-            <Link className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" to="/login">
+            <Link className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" to="/app/login">
               Already Registered?
             </Link>
           </div>

@@ -7,7 +7,7 @@ import { selectLoggedIn } from '../selectors';
 
 const LoginPage = (props) => {
   if (props.loggedIn) {
-    let nextPath = '/dashboard';
+    let nextPath = '/app/dashboard';
     if (props && props.location && props.location.state && props.location.state.nextPathname) {
       nextPath = props.location.state.nextPathname;
     }

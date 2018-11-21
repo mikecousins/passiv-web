@@ -11,7 +11,7 @@ const SideBar = (props) => {
   if (props.groups) {
     groups = props.groups.map((group) => (
       <Link
-        to={`/group/${group.id}`}
+        to={`/app/group/${group.id}`}
         className="block text-white no-underline text-lg tracking-wide pl-10 py-2"
         key={group.name}
       >
@@ -21,9 +21,9 @@ const SideBar = (props) => {
   }
   return (
     <div>
-      <Link to="/dashboard" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">Dashboard</Link>
+      <Link to="/app/dashboard" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">Dashboard</Link>
       {groups}
-      <Link to="/settings" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">Settings</Link>
+      <Link to="/app/settings" className="block text-white no-underline text-lg tracking-wide pl-10 py-2">Settings</Link>
       <button
         onClick={props.toggleDemo}
         className="block text-white no-underline text-lg tracking-wide pl-10 py-2 focus:outline-none"

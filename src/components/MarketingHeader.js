@@ -7,8 +7,8 @@ const MarketingHeader = () => (
       <Link to="/" className="font-semibold text-5xl tracking-tight no-underline">Passiv</Link>
       <Link to="/pricing" className="no-underline">Pricing</Link>
       <Link to="/about" className="no-underline">About</Link>
-      <Link to="/login" className="no-underline">Login</Link>
-      <Link to="/register" className="no-underline">Try For Free</Link>
+      <Link to="/app/login" className="no-underline">Login</Link>
+      <Link to="/app/register" className="no-underline">Try For Free</Link>
     </div>
   </nav>
 );
