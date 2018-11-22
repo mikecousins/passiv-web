@@ -75,8 +75,8 @@ export const selectCurrentGroupId = createSelector(
   selectRouter,
   (router) => {
     let groupId = null;
-    if (router && router.location && router.location.pathname && router.location.pathname.split('/').length === 3) {
-      groupId = router.location.pathname.split('/')[2];
+    if (router && router.location && router.location.pathname && router.location.pathname.split('/').length === 4) {
+      groupId = router.location.pathname.split('/')[3];
     }
     return groupId;
   }
@@ -97,28 +97,27 @@ export const selectCurrentAccountId = createSelector(
   }
 )
 
-export const selectFullGroups = createSelector(
+export const selectDashboardGroups = createSelector(
   selectGroups,
-  selectGroupSettings,
-  selectAccounts,
-  selectBalances,
-  (groups, groupSettings, accounts, balances) => {
+  selectGroupBalances,
+  selectGroupPositions,
+  (groups, balances, positions) => {
     const fullGroups = [];
     if (!groups) {
       return fullGroups;
     }
     groups.forEach(g => {
-      const group = { id: g.id, name: g.name };
-      if (accounts) {
-        const account = accounts.find(a => a.portfolio_group === g.id);
-        if (account) {
-          group.accounts = [{ id: account.id, name: account.name, number: account.number, type: account.meta.type }];
-          if (balances && balances[account.id] && balances[account.id].data && balances[account.id].data.length > 0) {
-            group.accounts[0].balance = balances[account.id].data[0].cash;
-          }
-        }
+      const group = { id: g.id, name: g.name, totalCash: null, totalHoldings: null, totalValue: null };
+      if (balances && balances[group.id] && balances[group.id].data && balances[group.id].data.length > 0) {
+        balances[group.id].data.forEach(balance => group.totalCash += parseFloat(balance.cash));
       }
-
+      if (positions && positions[group.id] && positions[group.id].data && positions[group.id].data.length > 0) {
+        // TODO use actual price once it's fixed
+        positions[group.id].data.forEach(position => group.totalHoldings += position.units * 1);
+      }
+      if (group.totalCash && group.totalHoldings) {
+        group.totalValue = group.totalCash + group.totalHoldings;
+      }
       fullGroups.push(group);
     });
 
