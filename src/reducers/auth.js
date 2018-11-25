@@ -9,6 +9,7 @@ const auth = (state = {}, action) => {
       token: null,
     };
   } else if (action.type === 'LOGOUT') {
+    localStorage.removeItem('jwt');
     return {
       token: null,
     };
