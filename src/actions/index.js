@@ -43,7 +43,7 @@ export const registerStartedAsync = payload => {
     )
       .then(response => {
         // login
-        return dispatch(registerSucceeded(response));
+        return dispatch(loginSucceeded(response));
       })
       .catch(error => dispatch(registerFailed(error)));
   };
@@ -51,11 +51,6 @@ export const registerStartedAsync = payload => {
 
 export const registerStarted = payload => ({
   type: 'REGISTER_STARTED',
-  payload,
-});
-
-export const registerSucceeded = payload => ({
-  type: 'REGISTER_SUCCEEDED',
   payload,
 });
 
