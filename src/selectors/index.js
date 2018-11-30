@@ -56,6 +56,8 @@ export const selectGroupBalances = state => state.groupBalances;
 
 export const selectGroupPositions = state => state.groupPositions;
 
+export const selectGroupAccuracy = state => state.groupAccuracy;
+
 export const selectSymbolsRaw = state => state.symbols;
 
 export const selectSymbols = createSelector(
@@ -101,7 +103,8 @@ export const selectDashboardGroups = createSelector(
   selectGroups,
   selectGroupBalances,
   selectGroupPositions,
-  (groups, balances, positions) => {
+  selectGroupAccuracy,
+  (groups, balances, positions, accuracies) => {
     const fullGroups = [];
     if (!groups) {
       return fullGroups;
@@ -117,6 +120,9 @@ export const selectDashboardGroups = createSelector(
       }
       if (group.totalCash && group.totalHoldings) {
         group.totalValue = group.totalCash + group.totalHoldings;
+      }
+      if (accuracies && accuracies[group.id] && accuracies[group.id].data) {
+        group.accuracy = accuracies[group.id].data;
       }
       fullGroups.push(group);
     });

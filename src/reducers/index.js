@@ -50,5 +50,8 @@ export default (history) => combineReducers({
   }),
   groupSettings: simpleList({
     baseType: 'FETCH_GROUP_SETTINGS'
+  }),
+  groupAccuracy: simpleList({
+    baseType: 'FETCH_GROUP_ACCURACY'
   })
 });

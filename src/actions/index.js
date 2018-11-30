@@ -181,16 +181,19 @@ export const loadGroup = payload => {
       dispatch(fetchGroupBalancesStart(id));
       dispatch(fetchGroupPositionsStart(id));
       dispatch(fetchGroupSettingsStart(id));
+      dispatch(fetchGroupAccuracyStart(id));
       getData(baseUrl + `/api/v1/portfolioGroups/${id}/info/`, payload.token)
         .then(response => {
           dispatch(fetchGroupBalancesSuccess(response.balances, id));
           dispatch(fetchGroupPositionsSuccess(response.positions, id));
           dispatch(fetchGroupSettingsSuccess(response.settings, id));
+          dispatch(fetchGroupAccuracySuccess(response.accuracy, id));
         })
         .catch(error => {
           dispatch(fetchGroupBalancesError(error, id));
           dispatch(fetchGroupPositionsError(error, id));
           dispatch(fetchGroupPositionsError(error, id));
+          dispatch(fetchGroupAccuracyError(error, id));
         });
     });
   }
@@ -395,6 +398,23 @@ export const fetchGroupSettingsSuccess = (payload, id) => ({
 
 export const fetchGroupSettingsError = (payload, id) => ({
   type: 'FETCH_GROUP_SETTINGS_ERROR',
+  payload,
+  id,
+});
+
+export const fetchGroupAccuracyStart = id => ({
+  type: 'FETCH_GROUP_ACCURACY_START',
+  id,
+});
+
+export const fetchGroupAccuracySuccess = (payload, id) => ({
+  type: 'FETCH_GROUP_ACCURACY_SUCCESS',
+  payload,
+  id,
+});
+
+export const fetchGroupAccuracyError = (payload, id) => ({
+  type: 'FETCH_GROUP_ACCURACY_ERROR',
   payload,
   id,
 });
