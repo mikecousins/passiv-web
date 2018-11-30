@@ -208,7 +208,7 @@ export const selectCurrentTarget = createSelector(
   }
 )
 
-export const selectTotalHoldings = createSelector(
+export const selectTotalAccountHoldings = createSelector(
   selectAccounts,
   selectPositions,
   selectBalances,
@@ -223,6 +223,29 @@ export const selectTotalHoldings = createSelector(
         if (positions && positions[account.id] && positions[account.id].data && positions[account.id].data.length > 0) {
           const accountPositions = positions[account.id].data;
           accountPositions.forEach(position => total += position.units * parseFloat(position.price));
+        }
+      });
+    }
+
+    return total;
+  }
+)
+
+export const selectTotalHoldings = createSelector(
+  selectGroups,
+  selectGroupPositions,
+  selectGroupBalances,
+  (groups, positions, balances) => {
+    let total = null;
+    if (groups) {
+      groups.forEach(group => {
+        if (balances && balances[group.id] && balances[group.id].data && balances[group.id].data.length > 0) {
+          const groupBalances = balances[group.id].data;
+          groupBalances.forEach(balance => total += parseFloat(balance.cash));
+        }
+        if (positions && positions[group.id] && positions[group.id].data && positions[group.id].data.length > 0) {
+          const groupPositions = positions[group.id].data;
+          groupPositions.forEach(position => total += position.units * parseFloat(position.price));
         }
       });
     }
