@@ -113,7 +113,7 @@ export const selectDashboardGroups = createSelector(
       }
       if (positions && positions[group.id] && positions[group.id].data && positions[group.id].data.length > 0) {
         // TODO use actual price once it's fixed
-        positions[group.id].data.forEach(position => group.totalHoldings += position.units * 1);
+        positions[group.id].data.forEach(position => group.totalHoldings += position.units * position.price);
       }
       if (group.totalCash && group.totalHoldings) {
         group.totalValue = group.totalCash + group.totalHoldings;
