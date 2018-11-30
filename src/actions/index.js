@@ -178,25 +178,20 @@ export const loadAccount = payload => {
 export const loadGroup = payload => {
   return dispatch => {
     payload.ids.forEach((id) => {
-      dispatch(fetchGroupTargetsStart(id));
-      getData(baseUrl + `/api/v1/portfolioGroups/${id}/targets/`, payload.token)
-        .then(response => dispatch(fetchGroupTargetsSuccess(response, id)))
-        .catch(error => dispatch(fetchGroupTargetsError(error, id)));
-
       dispatch(fetchGroupBalancesStart(id));
-      getData(baseUrl + `/api/v1/portfolioGroups/${id}/balances/`, payload.token)
-        .then(response => dispatch(fetchGroupBalancesSuccess(response, id)))
-        .catch(error => dispatch(fetchGroupBalancesError(error, id)));
-
       dispatch(fetchGroupPositionsStart(id));
-      getData(baseUrl + `/api/v1/portfolioGroups/${id}/positions/`, payload.token)
-        .then(response => dispatch(fetchGroupPositionsSuccess(response, id)))
-        .catch(error => dispatch(fetchGroupPositionsError(error, id)));
-
       dispatch(fetchGroupSettingsStart(id));
-      getData(baseUrl + `/api/v1/portfolioGroups/${id}/settings/`, payload.token)
-        .then(response => dispatch(fetchGroupSettingsSuccess(response, id)))
-        .catch(error => dispatch(fetchGroupPositionsError(error, id)));
+      getData(baseUrl + `/api/v1/portfolioGroups/${id}/info/`, payload.token)
+        .then(response => {
+          dispatch(fetchGroupBalancesSuccess(response.balances, id));
+          dispatch(fetchGroupPositionsSuccess(response.positions, id));
+          dispatch(fetchGroupSettingsSuccess(response.settings, id));
+        })
+        .catch(error => {
+          dispatch(fetchGroupBalancesError(error, id));
+          dispatch(fetchGroupPositionsError(error, id));
+          dispatch(fetchGroupPositionsError(error, id));
+        });
     });
   }
 }
@@ -422,7 +417,7 @@ export const importTargetError = payload => ({
 export const importTarget = groupId => {
   return dispatch => {
     dispatch(importTargetStart);
-    postData(baseUrl + '/api/v1/portfolioGroups/' + groupId + '/import')
+    postData(baseUrl + '/api/v1/portfolioGroups/' + groupId + '/import/')
       .then(response => dispatch(importTargetSuccess(response)))
       .catch(error => dispatch(importTargetError(error)));
   };
