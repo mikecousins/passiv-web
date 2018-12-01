@@ -10,6 +10,7 @@ const auth = (state = {}, action) => {
     };
   } else if (action.type === 'LOGOUT') {
     localStorage.removeItem('jwt');
+    window.location.reload();
     return {
       token: null,
     };

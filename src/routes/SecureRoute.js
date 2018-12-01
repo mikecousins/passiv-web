@@ -18,7 +18,7 @@ const SecureRoute = ({
         ) : (
           <Redirect
             to={{
-              pathname: '/login',
+              pathname: '/app/login',
               state: { nextPathname: routeProps.location.pathname },
             }}
           />
