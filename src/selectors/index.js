@@ -131,6 +131,7 @@ export const selectDashboardGroups = createSelector(
 
 export const selectCurrentGroup = createSelector(
   selectGroups,
+  selectAccounts,
   selectBalances,
   selectPositions,
   selectCurrentGroupId,
