@@ -61,13 +61,7 @@ export const selectGroupSettings = createSelector(
   }
 );
 
-export const selectGroupTargets = state => state.groupTargets;
-
-export const selectGroupBalances = state => state.groupBalances;
-
-export const selectGroupPositions = state => state.groupPositions;
-
-export const selectGroupAccuracy = state => state.groupAccuracy;
+export const selectGroupInfo = state => state.groupInfo;
 
 export const selectSymbolsRaw = state => state.symbols;
 
@@ -112,28 +106,21 @@ export const selectCurrentAccountId = createSelector(
 
 export const selectDashboardGroups = createSelector(
   selectGroups,
-  selectGroupBalances,
-  selectGroupPositions,
-  selectGroupAccuracy,
-  (groups, balances, positions, accuracies) => {
+  selectGroupInfo,
+  (groups, groupInfo) => {
     const fullGroups = [];
     if (!groups) {
       return fullGroups;
     }
     groups.forEach(g => {
       const group = { id: g.id, name: g.name, totalCash: null, totalHoldings: null, totalValue: null };
-      if (balances && balances[group.id] && balances[group.id].data && balances[group.id].data.length > 0) {
-        balances[group.id].data.forEach(balance => group.totalCash += parseFloat(balance.cash));
-      }
-      if (positions && positions[group.id] && positions[group.id].data && positions[group.id].data.length > 0) {
-        // TODO use actual price once it's fixed
-        positions[group.id].data.forEach(position => group.totalHoldings += position.units * position.price);
+      if (groupInfo && groupInfo[group.id] && groupInfo[group.id].data) {
+        groupInfo[group.id].data.balances.forEach(balance => group.totalCash += parseFloat(balance.cash));
+        groupInfo[group.id].data.positions.forEach(position => group.totalHoldings += position.units * position.price);
+        group.accuracy = groupInfo[group.id].data.accuracy;
       }
       if (group.totalCash && group.totalHoldings) {
         group.totalValue = group.totalCash + group.totalHoldings;
-      }
-      if (accuracies && accuracies[group.id] && accuracies[group.id].data) {
-        group.accuracy = accuracies[group.id].data;
       }
       fullGroups.push(group);
     });
@@ -144,12 +131,10 @@ export const selectDashboardGroups = createSelector(
 
 export const selectCurrentGroup = createSelector(
   selectGroups,
-  selectGroupSettings,
-  selectAccounts,
   selectBalances,
   selectPositions,
   selectCurrentGroupId,
-  (groups, groupSettings, accounts, balances, positions, groupId) => {
+  (groups, accounts, balances, positions, groupId) => {
     let group = null;
     if (groupId) {
       if (!groups) {
@@ -209,13 +194,13 @@ export const selectCurrentCash = createSelector(
 
 export const selectCurrentTarget = createSelector(
   selectCurrentGroupId,
-  selectGroupTargets,
+  selectGroupInfo,
   selectSymbols,
-  (groupId, target, symbols) => {
-    if (!target[groupId] || !target[groupId].data) {
+  (groupId, groupInfo, symbols) => {
+    if (!groupInfo || !groupInfo[groupId] || !groupInfo[groupId].data) {
       return null;
     }
-    const currentTarget = target[groupId].data;
+    const currentTarget = groupInfo[groupId].data;
     const currentTargetWithSymbols = currentTarget.map(target => {
       const targetWithSymbol = target;
       targetWithSymbol.displaySymbol = symbols.find(symbol => symbol.id === target.symbol);
@@ -250,19 +235,14 @@ export const selectTotalAccountHoldings = createSelector(
 
 export const selectTotalHoldings = createSelector(
   selectGroups,
-  selectGroupPositions,
-  selectGroupBalances,
-  (groups, positions, balances) => {
+  selectGroupInfo,
+  (groups, groupInfo) => {
     let total = null;
     if (groups) {
       groups.forEach(group => {
-        if (balances && balances[group.id] && balances[group.id].data && balances[group.id].data.length > 0) {
-          const groupBalances = balances[group.id].data;
-          groupBalances.forEach(balance => total += parseFloat(balance.cash));
-        }
-        if (positions && positions[group.id] && positions[group.id].data && positions[group.id].data.length > 0) {
-          const groupPositions = positions[group.id].data;
-          groupPositions.forEach(position => total += position.units * parseFloat(position.price));
+        if (groupInfo && groupInfo[group.id] && groupInfo[group.id].data) {
+          groupInfo[group.id].data.balances.forEach(balance => total += parseFloat(balance.cash));
+          groupInfo[group.id].data.positions.forEach(position => total += position.units * parseFloat(position.price));
         }
       });
     }

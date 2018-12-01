@@ -12,7 +12,7 @@ const Group = (props) => {
 
   let accuracy = <FontAwesomeIcon icon={faSpinner} spin />;
   if (group.accuracy) {
-      accuracy = new Intl.NumberFormat('en-CA', { style: 'percent', maximumFractionDigits: 1 }).format(group.accuracy);
+      accuracy = new Intl.NumberFormat('en-CA', { style: 'percent', maximumFractionDigits: 1 }).format(group.accuracy / 100);
   }
 
   let cash = <FontAwesomeIcon icon={faSpinner} spin />;

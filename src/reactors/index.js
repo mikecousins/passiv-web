@@ -98,12 +98,12 @@ export const loadAccountDetails = createSelector(
 
 export const loadGroupDetails = createSelector(
   [state => state.groups,
-  state => state.groupSettings,
+  state => state.groupInfo,
   state => state.auth.token],
-  (groups, groupSettings, token) => {
+  (groups, groupInfo, token) => {
     if (!!token && groups && groups.data && groups.data.length > 0) {
       const allIds = Array.from(groups.data, group => group.id);
-      const neededIds = allIds.filter(id => groupSettings && isNeeded(groupSettings[id]));
+      const neededIds = allIds.filter(id => groupInfo && isNeeded(groupInfo[id]));
       if (neededIds.length > 0) {
         return loadGroup({ ids: neededIds, token });
       }

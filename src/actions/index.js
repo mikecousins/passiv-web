@@ -183,22 +183,13 @@ export const loadAccount = payload => {
 export const loadGroup = payload => {
   return dispatch => {
     payload.ids.forEach((id) => {
-      dispatch(fetchGroupBalancesStart(id));
-      dispatch(fetchGroupPositionsStart(id));
-      dispatch(fetchGroupSettingsStart(id));
-      dispatch(fetchGroupAccuracyStart(id));
+      dispatch(fetchGroupInfoStart(id));
       getData(baseUrl + `/api/v1/portfolioGroups/${id}/info/`, payload.token)
         .then(response => {
-          dispatch(fetchGroupBalancesSuccess(response.balances, id));
-          dispatch(fetchGroupPositionsSuccess(response.positions, id));
-          dispatch(fetchGroupSettingsSuccess(response.settings, id));
-          dispatch(fetchGroupAccuracySuccess(response.accuracy, id));
+          dispatch(fetchGroupInfoSuccess(response, id));
         })
         .catch(error => {
-          dispatch(fetchGroupBalancesError(error, id));
-          dispatch(fetchGroupPositionsError(error, id));
-          dispatch(fetchGroupPositionsError(error, id));
-          dispatch(fetchGroupAccuracyError(error, id));
+          dispatch(fetchGroupInfoError(error, id));
         });
     });
   }
@@ -353,87 +344,19 @@ export const fetchAccountPositionsError = (payload, id) => ({
   id,
 });
 
-export const fetchGroupTargetsStart = id => ({
-  type: 'FETCH_GROUP_TARGETS_START',
+export const fetchGroupInfoStart = id => ({
+  type: 'FETCH_GROUP_INFO_START',
   id,
 });
 
-export const fetchGroupTargetsSuccess = (payload, id) => ({
-  type: 'FETCH_GROUP_TARGETS_SUCCESS',
+export const fetchGroupInfoSuccess = (payload, id) => ({
+  type: 'FETCH_GROUP_INFO_SUCCESS',
   payload,
   id,
 });
 
-export const fetchGroupTargetsError = (payload, id) => ({
-  type: 'FETCH_GROUP_TARGETS_ERROR',
-  payload,
-  id,
-});
-
-export const fetchGroupBalancesStart = id => ({
-  type: 'FETCH_GROUP_BALANCES_START',
-  id,
-});
-
-export const fetchGroupBalancesSuccess = (payload, id) => ({
-  type: 'FETCH_GROUP_BALANCES_SUCCESS',
-  payload,
-  id,
-});
-
-export const fetchGroupBalancesError = (payload, id) => ({
-  type: 'FETCH_GROUP_BALANCES_ERROR',
-  payload,
-  id,
-});
-
-export const fetchGroupPositionsStart = id => ({
-  type: 'FETCH_GROUP_POSITIONS_START',
-  id,
-});
-
-export const fetchGroupPositionsSuccess = (payload, id) => ({
-  type: 'FETCH_GROUP_POSITIONS_SUCCESS',
-  payload,
-  id,
-});
-
-export const fetchGroupPositionsError = (payload, id) => ({
-  type: 'FETCH_GROUP_POSITIONS_ERROR',
-  payload,
-  id,
-});
-
-export const fetchGroupSettingsStart = id => ({
-  type: 'FETCH_GROUP_SETTINGS_START',
-  id,
-});
-
-export const fetchGroupSettingsSuccess = (payload, id) => ({
-  type: 'FETCH_GROUP_SETTINGS_SUCCESS',
-  payload,
-  id,
-});
-
-export const fetchGroupSettingsError = (payload, id) => ({
-  type: 'FETCH_GROUP_SETTINGS_ERROR',
-  payload,
-  id,
-});
-
-export const fetchGroupAccuracyStart = id => ({
-  type: 'FETCH_GROUP_ACCURACY_START',
-  id,
-});
-
-export const fetchGroupAccuracySuccess = (payload, id) => ({
-  type: 'FETCH_GROUP_ACCURACY_SUCCESS',
-  payload,
-  id,
-});
-
-export const fetchGroupAccuracyError = (payload, id) => ({
-  type: 'FETCH_GROUP_ACCURACY_ERROR',
+export const fetchGroupInfoError = (payload, id) => ({
+  type: 'FETCH_GROUP_INFO_ERROR',
   payload,
   id,
 });
