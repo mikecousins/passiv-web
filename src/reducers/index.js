@@ -12,6 +12,9 @@ export default (history) => combineReducers({
   auth,
   demo,
   language,
+  authorizations: simple({
+    baseType: 'FETCH_AUTHORIZATIONS'
+  }),
   brokerages: simple({
     baseType: 'FETCH_BROKERAGES'
   }),

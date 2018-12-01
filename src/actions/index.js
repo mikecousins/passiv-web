@@ -67,6 +67,11 @@ export const toggleDemoMode = () => {
 
 export const initialLoad = payload => {
   return dispatch => {
+    dispatch(fetchAuthorizationsStart);
+    getData(baseUrl + '/api/v1/authorizations', payload)
+      .then(response => dispatch(fetchAuthorizationsSuccess(response)))
+      .catch(error => dispatch(fetchAuthorizationsError(error)));
+
     dispatch(fetchCurrenciesStart);
     getData(baseUrl + '/api/v1/currencies/', payload)
       .then(response => dispatch(fetchCurrenciesSuccess(response)))
@@ -198,6 +203,20 @@ export const loadGroup = payload => {
     });
   }
 }
+
+export const fetchAuthorizationsStart = () => ({
+  type: 'FETCH_AUTHORIZATIONS_START',
+});
+
+export const fetchAuthorizationsSuccess = payload => ({
+  type: 'FETCH_AUTHORIZATIONS_SUCCESS',
+  payload,
+});
+
+export const fetchAuthorizationsError = payload => ({
+  type: 'FETCH_AUTHORIZATIONS_ERROR',
+  payload,
+});
 
 export const fetchCurrenciesStart = () => ({
   type: 'FETCH_CURRENCIES_START',

@@ -2,12 +2,23 @@ import { createSelector } from 'reselect';
 
 export const selectLoggedIn = state => !!(state.auth.token);
 
+export const selectAuthorizationsRaw = state => state.authorizations;
+
+export const selectAuthorizations = createSelector(
+  selectAuthorizationsRaw,
+  (rawAuthorizations) => {
+    if (rawAuthorizations.data) {
+      return rawAuthorizations.data;
+    }
+  }
+)
+
 export const selectSettingsRaw = state => state.settings;
 
 export const selectSettings = createSelector(
   selectSettingsRaw,
   (rawSettings) => {
-    if (rawSettings && rawSettings.data) {
+    if (rawSettings.data) {
       return rawSettings.data;
     }
   }
@@ -18,7 +29,7 @@ export const selectAccountsRaw = state => state.accounts;
 export const selectAccounts = createSelector(
   selectAccountsRaw,
   (rawAccounts) => {
-    if (rawAccounts && rawAccounts.data) {
+    if (rawAccounts.data) {
       return rawAccounts.data;
     }
   }
@@ -33,7 +44,7 @@ export const selectGroupsRaw = state => state.groups;
 export const selectGroups = createSelector(
   selectGroupsRaw,
   (rawGroups) => {
-    if (rawGroups && rawGroups.data) {
+    if (rawGroups.data) {
       return rawGroups.data;
     }
   }
@@ -44,7 +55,7 @@ export const selectGroupSettingsRaw = state => state.groupSettings;
 export const selectGroupSettings = createSelector(
   selectGroupSettingsRaw,
   (rawGroupSettings) => {
-    if (rawGroupSettings && rawGroupSettings.data) {
+    if (rawGroupSettings.data) {
       return rawGroupSettings.data;
     }
   }
@@ -257,5 +268,18 @@ export const selectTotalHoldings = createSelector(
     }
 
     return total;
+  }
+)
+
+export const selectIsAuthorized = createSelector(
+  selectAuthorizations,
+  (authorizations) => {
+    if (authorizations === undefined) {
+      return undefined;
+    }
+    if (authorizations.length > 0) {
+      return true;
+    }
+    return false;
   }
 )
