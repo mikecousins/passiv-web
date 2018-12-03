@@ -11,7 +11,7 @@ const AccountTargets = (props) => {
   if (target && target.length === 0) {
     content = <span>No target set<button onClick={() => startImportTarget(groupId)}>Import</button></span>
   } else if (target) {
-    content = target.map(target => <div key={target.id}>{target.displaySymbol.symbol} - {target.percent}%</div>);
+    content = target.map(target => <div key={target.symbol}>{target.displaySymbol.symbol} - {target.percent}%</div>);
   }
   return (
     <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">

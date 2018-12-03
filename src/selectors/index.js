@@ -198,10 +198,10 @@ export const selectCurrentTarget = createSelector(
   selectGroupInfo,
   selectSymbols,
   (groupId, groupInfo, symbols) => {
-    if (!groupInfo || !groupInfo[groupId] || !groupInfo[groupId].data) {
+    if (!groupInfo || !groupInfo[groupId] || !groupInfo[groupId].data || !groupInfo[groupId].data.ideal_positions) {
       return null;
     }
-    const currentTarget = groupInfo[groupId].data;
+    const currentTarget = groupInfo[groupId].data.ideal_positions;
     const currentTargetWithSymbols = currentTarget.map(target => {
       const targetWithSymbol = target;
       targetWithSymbol.displaySymbol = symbols.find(symbol => symbol.id === target.symbol);
