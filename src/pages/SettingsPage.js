@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logoutStartedAsync } from '../actions';
-import { selectSettings } from '../selectors';
+import { selectSettings, selectBrokerages } from '../selectors';
+import AuthorizationPicker from '../components/AuthorizationPicker';
 
 const SettingsPage = (props) => (
   <React.Fragment>
@@ -14,8 +15,11 @@ const SettingsPage = (props) => (
     >
       Log Out
     </button>
+    <AuthorizationPicker
+      brokerages={selectBrokerages}
+    />
     <a
-      href="https://login.questrade.com/oauth2/authorize?client_id=AMTP_SauxtnL1ZkwIa2UnPoAwjQhkQ&response_type=code&scope=read_acc,read_md&redirect_uri=https://staging.getpassiv.com/api/v1/oauth/questrade"
+      href="https://login.questrade.com/oauth2/authorize?client_id=AMTP_SauxtnL1ZkwIa2UnPoAwjQhkQ&response_type=code&scope=read_acc,read_md&redirect_uri=https://staging.getpassiv.com/app/settings/oauth/questrade"
       type="button"
       className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
     >
