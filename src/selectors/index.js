@@ -2,6 +2,10 @@ import { createSelector } from 'reselect';
 
 export const selectLoggedIn = state => !!(state.auth.token);
 
+export const selectCurrencies = state => stage.currencies;
+
+export const selectBrokerages = state => stage.brokerages;
+
 export const selectAuthorizationsRaw = state => state.authorizations;
 
 export const selectAuthorizations = createSelector(
