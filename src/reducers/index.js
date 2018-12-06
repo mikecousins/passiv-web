@@ -44,5 +44,8 @@ export default (history) => combineReducers({
   }),
   groupInfo: simpleList({
     baseType: 'FETCH_GROUP_INFO'
-  })
+  }),
+  authorizationURL: simple({
+    baseType: 'BEGIN_AUTHORIZATION'
+  }),
 });
