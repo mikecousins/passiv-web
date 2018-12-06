@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logoutStartedAsync } from '../actions';
-import { selectSettings, selectBrokerages } from '../selectors';
+import { selectSettings } from '../selectors';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 
 const SettingsPage = (props) => (
@@ -15,15 +15,12 @@ const SettingsPage = (props) => (
     >
       Log Out
     </button>
-    <AuthorizationPicker
-      brokerages={props.brokerages}
-    />
+    <AuthorizationPicker/>
   </React.Fragment>
 );
 
 const select = state => ({
   settings: selectSettings(state),
-  brokerages: selectBrokerages(state),
 });
 const actions = { startLogout: logoutStartedAsync };
 

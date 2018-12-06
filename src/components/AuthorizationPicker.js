@@ -1,33 +1,30 @@
 import React, { Component } from 'react';
-import { beginAuthorization } from '../actions';
+import { connect } from 'react-redux';
+import { selectBrokerages } from '../selectors';
+import { postData } from '../api';
+import { baseUrl } from '../actions';
 
 class AuthorizationPicker extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      brokerage: '',
-      type: '',
-    };
-    this.handleBrokerageChange = this.handleBrokerageChange.bind(this);
-    this.handleTypeChange = this.handleTypeChange.bind(this);
+  state = {
+    brokerage: '',
+    type: '',
   }
 
-  handleBrokerageChange(event) {
-    this.setState({brokerage: event.target.value});
-  }
-
-  handleTypeChange(event) {
-    this.setState({type: event.target.value});
-  }
-
-  selectBrokerageById(id) {
-    return this.props.brokerages.find(x => x.id === id)
+  startAuthorization() {
+    postData(`${baseUrl}/api/v1/brokerages/${this.state.brokerage}/authorize/`, {type: this.state.type})
+      .then(response => {
+        console.log('success', response);
+        window.location = response.url;
+      })
+      .catch(error => {console.log('error', error)});
   }
 
   render() {
-    let brokerages = null;
-    if (this.props.brokerages) {
-      brokerages = this.props.brokerages.map((brokerage, index) => {
+    const { brokerages } = this.props;
+
+    let brokerageOptions = null;
+    if (brokerages) {
+      brokerageOptions = brokerages.map((brokerage, index) => {
         return <option key={brokerage.id} value={brokerage.id}>{brokerage.name}</option>
       })
     }
@@ -52,7 +49,7 @@ class AuthorizationPicker extends Component {
       submitButton = (
           <button
           type="button"
-          onClick={() => {beginAuthorization(this.state)}}
+          onClick={() => {this.startAuthorization()}}
           className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 mx-2 rounded focus:outline-none focus:shadow-outline"
           >
             Connect
@@ -65,15 +62,15 @@ class AuthorizationPicker extends Component {
         <select
           className="px-4 py-2 mx-2 rounded"
           value={this.state.brokerage}
-          onChange={this.handleBrokerageChange}
+          onChange={(event) => {this.setState({brokerage: event.target.value})}}
         >
           <option disabled value="">Choose your brokerage</option>
-          {brokerages}
+          {brokerageOptions}
         </select>
         <select
           className="px-4 py-2 mx-2 rounded"
           value={this.state.type}
-          onChange={this.handleTypeChange}
+          onChange={(event) => {this.setState({type: event.target.value})}}
         >
           <option disabled value="">Select an access level</option>
           {types}
@@ -84,4 +81,10 @@ class AuthorizationPicker extends Component {
   }
 }
 
-export default AuthorizationPicker;
+const actions = {};
+
+const select = state => ({
+  brokerages: selectBrokerages(state),
+});
+
+export default connect(select, actions)(AuthorizationPicker);

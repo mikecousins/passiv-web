@@ -1,6 +1,6 @@
 import { getData, postData } from '../api';
 
-const baseUrl = 'https://staging.getpassiv.com';
+export const baseUrl = 'https://staging.getpassiv.com';
 
 export const loginStartedAsync = payload => {
   return dispatch => {
@@ -198,30 +198,6 @@ export const loadGroup = payload => {
     });
   }
 }
-
-export const beginAuthorization = payload => {
-  return dispatch => {
-    console.log('inside beginAuthorization dispatch')
-    dispatch(beginAuthorizationStart());
-    postData(`${baseUrl}/api/v1/brokerages/${payload.brokerage}/authorize/`, {type: payload.type})
-      .then(response => dispatch(beginAuthorizationSuccess(response, payload.brokerage)))
-      .catch(error => dispatch(beginAuthorizationError(error, payload.brokerage)));
-  }
-}
-
-export const beginAuthorizationStart = () => ({
-  type: 'BEGIN_AUTHORIZATION_START',
-});
-
-export const beginAuthorizationSuccess = payload => ({
-  type: 'BEGIN_AUTHORIZATION_SUCCESS',
-  payload,
-});
-
-export const beginAuthorizationError = payload => ({
-  type: 'BEGIN_AUTHORIZATION_ERROR',
-  payload,
-});
 
 export const fetchAuthorizationsStart = () => ({
   type: 'FETCH_AUTHORIZATIONS_START',
