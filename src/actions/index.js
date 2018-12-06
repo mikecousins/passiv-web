@@ -67,19 +67,27 @@ export const toggleDemoMode = () => {
 
 export const initialLoad = payload => {
   return dispatch => {
-    dispatch(fetchAuthorizationsStart);
+    dispatch(fetchAuthorizationsStart());
     getData(baseUrl + '/api/v1/authorizations', payload)
       .then(response => dispatch(fetchAuthorizationsSuccess(response)))
       .catch(error => dispatch(fetchAuthorizationsError(error)));
 
-    dispatch(fetchCurrenciesStart);
+    dispatch(fetchCurrenciesStart());
     getData(baseUrl + '/api/v1/currencies/', payload)
       .then(response => dispatch(fetchCurrenciesSuccess(response)))
       .catch(error => dispatch(fetchCurrenciesError(error)));
 
-    dispatch(fetchGroupsStart);
+    dispatch(fetchGroupsStart());
     getData(baseUrl + '/api/v1/portfolioGroups/', payload)
-      .then(response => dispatch(fetchGroupsSuccess(response)))
+      .then(response => {
+        response.forEach(group => {
+          dispatch(fetchGroupInfoStart(group.id));
+          getData(baseUrl + '/api/v1/portfolioGroups/' + group.id + '/info/', payload)
+            .then(r => dispatch(fetchGroupInfoSuccess(r, group.id)))
+            .catch(e => dispatch(fetchGroupInfoError(e, group.id)));
+        });
+        return dispatch(fetchGroupsSuccess(response));
+      })
       .catch(error => dispatch(fetchGroupsError(error)));
 
     dispatch(fetchSymbolsStart());
@@ -184,13 +192,9 @@ export const loadGroup = payload => {
   return dispatch => {
     payload.ids.forEach((id) => {
       dispatch(fetchGroupInfoStart(id));
-      getData(baseUrl + `/api/v1/portfolioGroups/${id}/info/`, payload.token)
-        .then(response => {
-          dispatch(fetchGroupInfoSuccess(response, id));
-        })
-        .catch(error => {
-          dispatch(fetchGroupInfoError(error, id));
-        });
+      getData(`${baseUrl}/api/v1/portfolioGroups/${id}/info/`, payload.token)
+        .then(response => dispatch(fetchGroupInfoSuccess(response, id)))
+        .catch(error => dispatch(fetchGroupInfoError(error, id)));
     });
   }
 }
