@@ -1,32 +1,70 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { postData } from '../api';
+import { baseUrl } from '../actions';
 
 // import { logoutStartedAsync } from '../actions';
 // import { selectSettings } from '../selectors';
 
-const QuestradeOauthPage = (props) => (
-  <React.Fragment>
-    <h1>Questrade Connection</h1>
-    <button
-      type="button"
-      onClick={props.startLogout}
-      className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-    >
-      Log Out
-    </button>
-    <a
-      href="https://login.questrade.com/oauth2/authorize?client_id=AMTP_SauxtnL1ZkwIa2UnPoAwjQhkQ&response_type=code&scope=read_acc,read_md&redirect_uri=https://staging.getpassiv.com/api/v1/oauth/questrade"
-      type="button"
-      className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-    >
-      Authorize
-    </a>
-  </React.Fragment>
-);
+class QuestradeOauthPage extends Component {
+  state = {
+    started: false,
+    loading: false,
+    error: null,
+    success: false,
+    token: '',
+  }
 
-const select = state => ({
-  settings: selectSettings(state),
-});
-const actions = { startLogout: logoutStartedAsync };
+  finishAuthorization() {
+    let urlParams = new URLSearchParams(window.location.search);
+    let token = urlParams.get('code');
+
+    if (!this.state.started) {
+      this.setState({started: true});
+      this.setState({loading: true});
+      postData(`${baseUrl}/api/v1/brokerages/authComplete/`, {token: token})
+        .then(response => {
+          console.log('success', response);
+          this.setState({loading: false});
+          this.setState({success: true});
+        })
+        .catch(error => {
+          this.setState({loading: false});
+          this.setState({error: error});
+          console.log('error', error);
+        });
+    }
+  }
+
+  componentDidMount() {
+    this.finishAuthorization();
+  }
+
+  render() {
+    if (this.state.success) {
+      return (
+        <Redirect to='/app/dashboard' />
+      )
+    }
+    else {
+      return (
+        <React.Fragment>
+          <h1>Questrade Connection</h1>
+          {
+            this.state.loading ? (
+                <p>Loading...</p>
+              ) : (
+                <p>Failure!</p>
+              )
+          }
+        </React.Fragment>
+      )
+    }
+  };
+}
+
+const select = state => ({});
+const actions = {};
 
 export default connect(select, actions)(QuestradeOauthPage);

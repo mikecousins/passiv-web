@@ -31,7 +31,7 @@ class AuthorizationPicker extends Component {
 
     let types = null;
     if (this.state.brokerage) {
-      types = this.props.brokerages.find(x => x.id === this.state.brokerage).authorization_types.map((type, index) => {
+      types = brokerages.find(x => x.id === this.state.brokerage).authorization_types.map((type, index) => {
         return <option key={type.type} value={type.type}>{type.type}</option>
       })
     }
