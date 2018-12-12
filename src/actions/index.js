@@ -90,11 +90,6 @@ export const initialLoad = payload => {
       })
       .catch(error => dispatch(fetchGroupsError(error)));
 
-    dispatch(fetchSymbolsStart());
-    getData(baseUrl + '/api/v1/all_symbols/', payload)
-      .then(response => dispatch(fetchSymbolsSuccess(response)))
-      .catch(error => dispatch(fetchSymbolsError(error)));
-
     dispatch(fetchBrokeragesStart());
       getData(baseUrl + '/api/v1/brokerages/', payload)
         .then(response => dispatch(fetchBrokeragesSuccess(response)))
@@ -128,15 +123,6 @@ export const loadGroups = payload => {
     getData(baseUrl + '/api/v1/portfolioGroups/', payload)
       .then(response => dispatch(fetchGroupsSuccess(response)))
       .catch(error => dispatch(fetchGroupsError(error)));
-  };
-};
-
-export const loadSymbols = payload => {
-  return dispatch => {
-    dispatch(fetchSymbolsStart());
-    getData(baseUrl + '/api/v1/all_symbols/', payload)
-      .then(response => dispatch(fetchSymbolsSuccess(response)))
-      .catch(error => dispatch(fetchSymbolsError(error)));
   };
 };
 
@@ -238,20 +224,6 @@ export const fetchGroupsSuccess = payload => ({
 
 export const fetchGroupsError = payload => ({
   type: 'FETCH_GROUPS_ERROR',
-  payload,
-});
-
-export const fetchSymbolsStart = () => ({
-  type: 'FETCH_SYMBOLS_START',
-});
-
-export const fetchSymbolsSuccess = payload => ({
-  type: 'FETCH_SYMBOLS_SUCCESS',
-  payload,
-});
-
-export const fetchSymbolsError = payload => ({
-  type: 'FETCH_SYMBOLS_ERROR',
   payload,
 });
 

@@ -4,7 +4,6 @@ import {
   initialLoad,
   loadAccounts,
   loadGroups,
-  loadSymbols,
   loadBrokerages,
   loadSettings,
   loadAccount,
@@ -41,13 +40,14 @@ const isNeeded = (entity) => {
 }
 
 export const loadData = createSelector(
-  [state => state.auth.token,
-  state => state.currencies,
-  state => state.accounts,
-  state => state.groups,
-  state => state.brokerages,
-  state => state.settings,
-  state => state.symbols],
+  [
+    state => state.auth.token,
+    state => state.currencies,
+    state => state.accounts,
+    state => state.groups,
+    state => state.brokerages,
+    state => state.settings,
+  ],
   (token, currencies, accounts, groups, brokerages, settings, symbols) => {
     // ignore if we aren't logged in
     if (!token) {
@@ -57,10 +57,6 @@ export const loadData = createSelector(
     // if we need currencies we need everything, perform a full load
     if (isNeeded(currencies)) {
       return initialLoad(token);
-    }
-
-    if (isNeeded(symbols)) {
-      return loadSymbols(token);
     }
 
     if (isNeeded(brokerages)) {
