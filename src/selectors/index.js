@@ -77,16 +77,26 @@ export const selectGroupSettings = createSelector(
 
 export const selectGroupInfo = state => state.groupInfo;
 
-export const selectSymbolsRaw = state => state.symbols;
-
 export const selectSymbols = createSelector(
-  selectSymbolsRaw,
-  (rawSymbols) => {
-    if (rawSymbols.data) {
-      return rawSymbols.data;
+  selectGroups,
+  selectGroupInfo,
+  (groups, groupInfo) => {
+    const fullSymbols = [];
+    if (!groups) {
+      return fullSymbols;
     }
+    groups.forEach(group => {
+      if (groupInfo && groupInfo[group.id] && groupInfo[group.id].data){
+        groupInfo[group.id].data.symbols.forEach(
+          symbol => {
+            fullSymbols.push(symbol);
+          }
+        )
+      }
+    });
+    return fullSymbols;
   }
-)
+);
 
 export const selectIsDemoMode =  state => state.demo;
 
