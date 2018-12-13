@@ -6,8 +6,9 @@ import { baseUrl } from '../actions';
 
 class AuthorizationPicker extends Component {
   state = {
-    brokerage: '',
-    type: '',
+    allowSelect: this.props.allowSelect === undefined ? true : this.props.allowSelect,
+    brokerage: this.props.brokerage ? this.props.brokerage : '',
+    type: this.props.type ? this.props.type : '',
   }
 
   startAuthorization() {
@@ -59,22 +60,29 @@ class AuthorizationPicker extends Component {
 
     return (
       <div className="my-2">
-        <select
-          className="px-4 py-2 mx-2 rounded"
-          value={this.state.brokerage}
-          onChange={(event) => {this.setState({brokerage: event.target.value})}}
-        >
-          <option disabled value="">Choose your brokerage</option>
-          {brokerageOptions}
-        </select>
-        <select
-          className="px-4 py-2 mx-2 rounded"
-          value={this.state.type}
-          onChange={(event) => {this.setState({type: event.target.value})}}
-        >
-          <option disabled value="">Select an access level</option>
-          {types}
-        </select>
+        {this.state.allowSelect ? (
+          <div>
+            <select
+              className="px-4 py-2 mx-2 rounded"
+              value={this.state.brokerage}
+              onChange={(event) => {this.setState({brokerage: event.target.value})}}
+            >
+              <option disabled value="">Choose your brokerage</option>
+              {brokerageOptions}
+            </select>
+            <select
+              className="px-4 py-2 mx-2 rounded"
+              value={this.state.type}
+              onChange={(event) => {this.setState({type: event.target.value})}}
+            >
+              <option disabled value="">Select an access level</option>
+              {types}
+            </select>
+          </div>
+        ) : (
+          <div>Connect {this.props.brokerages.find(x => x.id === this.state.brokerage).name} to Passiv</div>
+        )}
+
         {submitButton}
       </div>
     )

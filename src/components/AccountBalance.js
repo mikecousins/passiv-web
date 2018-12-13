@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const AccountBalance = (props) => {
   let content = (
     <div>
-      <h3>Balance</h3>
+      <h3>Balances</h3>
       <br />
       <table className="w-full text-left">
         <thead>
