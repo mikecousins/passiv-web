@@ -19,24 +19,22 @@ class AccountMetadata extends Component {
   }
 
   finishEditingName() {
-    this.setState({loading: true});
-    let group = Object.assign({}, this.props.group);
-    group.name = this.state.name;
-    patchData(`${baseUrl}/api/v1/portfolioGroups/${this.props.group.id}/`, group)
-      .then(response => {
-        console.log('success', response);
-        // window.location = response.url;
-        this.setState({loading: false});
-        this.props.refreshGroups();
-      })
-      .catch(error => {
-        console.log('error', error);
-        this.setState({loading: false});
-      });
-
-
+    if (this.state.name != this.props.group.name) {
+      this.setState({loading: true});
+      let group = Object.assign({}, this.props.group);
+      group.name = this.state.name;
+      patchData(`${baseUrl}/api/v1/portfolioGroups/${this.props.group.id}/`, group)
+        .then(response => {
+          console.log('success', response);
+          this.setState({loading: false});
+          this.props.refreshGroups();
+        })
+        .catch(error => {
+          console.log('error', error);
+          this.setState({loading: false});
+        });
+    }
     this.setState({editingName: false});
-
   }
 
   render() {
