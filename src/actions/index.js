@@ -153,26 +153,26 @@ export const loadAccounts = payload => {
   };
 };
 
-export const loadAccount = payload => {
-  return dispatch => {
-    payload.ids.forEach((id) => {
-      dispatch(fetchAccountDetailsStart(id));
-      getData(baseUrl + `/api/v1/accounts/${id}/`, payload.token)
-        .then(response => dispatch(fetchAccountDetailsSuccess(response, id)))
-        .catch(error => dispatch(fetchAccountDetailsError(error, id)));
-
-      dispatch(fetchAccountBalancesStart(id));
-      getData(baseUrl + `/api/v1/accounts/${id}/balances/`, payload.token)
-        .then(response => dispatch(fetchAccountBalancesSuccess(response, id)))
-        .catch(error => dispatch(fetchAccountBalancesError(error, id)));
-
-      dispatch(fetchAccountPositionsStart(id));
-      getData(baseUrl + `/api/v1/accounts/${id}/positions/`, payload.token)
-        .then(response => dispatch(fetchAccountPositionsSuccess(response, id)))
-        .catch(error => dispatch(fetchAccountPositionsError(error, id)));
-    });
-  };
-};
+// export const loadAccount = payload => {
+//   return dispatch => {
+//     payload.ids.forEach((id) => {
+//       dispatch(fetchAccountDetailsStart(id));
+//       getData(baseUrl + `/api/v1/accounts/${id}/`, payload.token)
+//         .then(response => dispatch(fetchAccountDetailsSuccess(response, id)))
+//         .catch(error => dispatch(fetchAccountDetailsError(error, id)));
+//
+//       dispatch(fetchAccountBalancesStart(id));
+//       getData(baseUrl + `/api/v1/accounts/${id}/balances/`, payload.token)
+//         .then(response => dispatch(fetchAccountBalancesSuccess(response, id)))
+//         .catch(error => dispatch(fetchAccountBalancesError(error, id)));
+//
+//       dispatch(fetchAccountPositionsStart(id));
+//       getData(baseUrl + `/api/v1/accounts/${id}/positions/`, payload.token)
+//         .then(response => dispatch(fetchAccountPositionsSuccess(response, id)))
+//         .catch(error => dispatch(fetchAccountPositionsError(error, id)));
+//     });
+//   };
+// };
 
 export const loadGroup = payload => {
   return dispatch => {

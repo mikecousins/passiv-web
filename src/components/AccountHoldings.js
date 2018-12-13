@@ -21,7 +21,7 @@ const AccountHoldings = (props) => (
           && props.positions.map(position => (
             <tr key={position.symbol.id}>
               <td className="p-2 border-t border-grey-lighter">
-                <span title={position.symbol.description}>{position.symbol.symbol.symbol}</span>
+                <span title={position.symbol.description}>{position.symbol.symbol}</span>
               </td>
               <td className="p-2 border-t border-grey-lighter">
                 {position.units}

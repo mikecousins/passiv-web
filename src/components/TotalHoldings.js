@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { selectTotalHoldings, selectIsDemoMode } from '../selectors';
+import { selectTotalGroupHoldings, selectIsDemoMode } from '../selectors';
 
 const TotalHoldings = (props) => {
   const { demoMode, totalHoldings } = props;
@@ -21,7 +21,7 @@ const TotalHoldings = (props) => {
 }
 
 const select = state => ({
-  totalHoldings: selectTotalHoldings(state),
+  totalHoldings: selectTotalGroupHoldings(state),
   demoMode: selectIsDemoMode(state),
 });
 

@@ -13,7 +13,7 @@ const SideBar = (props) => {
       <Link
         to={`/app/group/${group.id}`}
         className="block text-white no-underline text-lg tracking-wide pl-10 py-2"
-        key={group.name}
+        key={group.id}
       >
         {group.name}
       </Link>

@@ -4,9 +4,6 @@ import { Redirect } from 'react-router-dom';
 import { postData } from '../api';
 import { baseUrl } from '../actions';
 
-// import { logoutStartedAsync } from '../actions';
-// import { selectSettings } from '../selectors';
-
 class QuestradeOauthPage extends Component {
   state = {
     started: false,

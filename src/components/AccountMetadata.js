@@ -21,23 +21,15 @@ const AccountMetadata = (props) => (
     <div className="py-2 flex w-full">
       <div className="w-1/5 border-grey-lighter border-r px-2 text-center">
         <h3>Accuracy</h3>
-        {props.accuracy ? <span>{props.accuracy}%</span> : <FontAwesomeIcon icon={faSpinner} spin />}
+        {props.accuracy ? <span>{Intl.NumberFormat('en-CA', { style: 'percent', maximumFractionDigits: 1}).format(props.accuracy / 100)}</span> : <FontAwesomeIcon icon={faSpinner} spin />}
       </div>
       <div className="w-1/5 px-2 text-center">
         <h3>Cash</h3>
         {props.cash ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(props.cash) : <FontAwesomeIcon icon={faSpinner} spin />}
       </div>
       <div className="w-1/5 px-2 text-center">
-        <h3>Equity</h3>
-        {props.equity ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(props.equity) : <FontAwesomeIcon icon={faSpinner} spin />}
-      </div>
-      <div className="w-1/5 px-2 text-center">
-        <h3>Excluded</h3>
-        {props.excludedEquity ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(props.excludedEquity) : <FontAwesomeIcon icon={faSpinner} spin />}
-      </div>
-      <div className="w-1/5 px-2 text-center">
         <h3>Total Value</h3>
-        <b>{props.cash && props.equity ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(props.cash + props.equity + props.excludedEquity) : <FontAwesomeIcon icon={faSpinner} spin />}</b>
+        <b>{props.equity ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(props.equity) : <FontAwesomeIcon icon={faSpinner} spin />}</b>
       </div>
     </div>
   </div>
@@ -50,7 +42,6 @@ AccountMetadata.propTypes = {
   accuracy: PropTypes.number,
   cash: PropTypes.number,
   equity: PropTypes.number,
-  excludedEquity: PropTypes.number,
 };
 
 export default AccountMetadata;
