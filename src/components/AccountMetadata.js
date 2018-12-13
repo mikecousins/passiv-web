@@ -14,12 +14,16 @@ class AccountMetadata extends Component {
     loading: false,
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({name: nextProps.name, editingName: false, loading: false});
+  }
+
   startEditingName() {
     this.setState({editingName: true});
   }
 
   finishEditingName() {
-    if (this.state.name != this.props.group.name) {
+    if (this.state.name !== this.props.group.name) {
       this.setState({loading: true});
       let group = Object.assign({}, this.props.group);
       group.name = this.state.name;
