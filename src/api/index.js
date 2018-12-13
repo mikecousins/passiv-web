@@ -19,3 +19,15 @@ export const postData = (url = '', data = {}) => {
   })
   .then(response => response.json());
 };
+
+export const patchData = (url = '', data = {}) => {
+  return fetch(url, {
+    method: "PATCH",
+    body: JSON.stringify(data),
+    headers: {
+      "Authorization": "JWT " + localStorage.getItem('jwt'),
+      "Content-Type": "application/json",
+    },
+  })
+  .then(response => response.json());
+};

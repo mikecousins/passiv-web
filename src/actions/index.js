@@ -153,26 +153,37 @@ export const loadAccounts = payload => {
   };
 };
 
-// export const loadAccount = payload => {
-//   return dispatch => {
-//     payload.ids.forEach((id) => {
-//       dispatch(fetchAccountDetailsStart(id));
-//       getData(baseUrl + `/api/v1/accounts/${id}/`, payload.token)
-//         .then(response => dispatch(fetchAccountDetailsSuccess(response, id)))
-//         .catch(error => dispatch(fetchAccountDetailsError(error, id)));
-//
-//       dispatch(fetchAccountBalancesStart(id));
-//       getData(baseUrl + `/api/v1/accounts/${id}/balances/`, payload.token)
-//         .then(response => dispatch(fetchAccountBalancesSuccess(response, id)))
-//         .catch(error => dispatch(fetchAccountBalancesError(error, id)));
-//
-//       dispatch(fetchAccountPositionsStart(id));
-//       getData(baseUrl + `/api/v1/accounts/${id}/positions/`, payload.token)
-//         .then(response => dispatch(fetchAccountPositionsSuccess(response, id)))
-//         .catch(error => dispatch(fetchAccountPositionsError(error, id)));
-//     });
-//   };
-// };
+export const loadAccount = payload => {
+  return dispatch => {
+    payload.ids.forEach((id) => {
+      dispatch(fetchAccountDetailsStart(id));
+      getData(baseUrl + `/api/v1/accounts/${id}/`, payload.token)
+        .then(response => dispatch(fetchAccountDetailsSuccess(response, id)))
+        .catch(error => dispatch(fetchAccountDetailsError(error, id)));
+
+      // dispatch(fetchAccountBalancesStart(id));
+      // getData(baseUrl + `/api/v1/accounts/${id}/balances/`, payload.token)
+      //   .then(response => dispatch(fetchAccountBalancesSuccess(response, id)))
+      //   .catch(error => dispatch(fetchAccountBalancesError(error, id)));
+      //
+      // dispatch(fetchAccountPositionsStart(id));
+      // getData(baseUrl + `/api/v1/accounts/${id}/positions/`, payload.token)
+      //   .then(response => dispatch(fetchAccountPositionsSuccess(response, id)))
+      //   .catch(error => dispatch(fetchAccountPositionsError(error, id)));
+    });
+  };
+};
+
+export const loadGroupDetails = payload => {
+  return dispatch => {
+    payload.ids.forEach((id) => {
+      dispatch(fetchGroupDetailsStart(id));
+      getData(baseUrl + `/api/v1/portfolioGroups/${id}/`, payload.token)
+        .then(response => dispatch(fetchGroupDetailsSuccess(response, id)))
+        .catch(error => dispatch(fetchGroupDetailsError(error, id)));
+    });
+  };
+};
 
 export const loadGroup = payload => {
   return dispatch => {
@@ -319,6 +330,24 @@ export const fetchAccountPositionsError = (payload, id) => ({
   payload,
   id,
 });
+
+export const fetchGroupDetailsStart = id => ({
+  type: 'FETCH_GROUP_DETAILS_START',
+  id,
+});
+
+export const fetchGroupDetailsSuccess = (payload, id) => ({
+  type: 'FETCH_GROUP_DETAILS_SUCCESS',
+  payload,
+  id,
+});
+
+export const fetchGroupDetailsError = (payload, id) => ({
+  type: 'FETCH_GROUP_DETAILS_ERROR',
+  payload,
+  id,
+});
+
 
 export const fetchGroupInfoStart = id => ({
   type: 'FETCH_GROUP_INFO_START',

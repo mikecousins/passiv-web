@@ -305,6 +305,30 @@ export const selectCurrentGroupTarget = createSelector(
   }
 )
 
+export const selectCurrentGroupTrades = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    let trades = null;
+    if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.calculated_trades) {
+      trades = groupInfo[groupId].data.calculated_trades;
+    }
+    return trades
+  }
+);
+
+export const selectCurrentGroupSymbols = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    let symbols = null;
+    if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.symbols) {
+      symbols = groupInfo[groupId].data.symbols;
+    }
+    return symbols
+  }
+);
+
 export const selectTotalAccountHoldings = createSelector(
   selectAccounts,
   selectPositions,
