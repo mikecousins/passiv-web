@@ -13,8 +13,12 @@ import TermsOfServicePage from './pages/TermsOfServicePage';
 import DashboardPage from './pages/DashboardPage';
 import GroupPage from './pages/GroupPage';
 import SettingsPage from './pages/SettingsPage';
+import QuestradeOauthPage from './pages/QuestradeOauthPage';
 import SecureRoute from './routes/SecureRoute';
 import './index.css';
+
+
+
 
 const App = () => (
   <Layout>
@@ -31,6 +35,7 @@ const App = () => (
       <SecureRoute path="/app/dashboard" component={DashboardPage} />
       <SecureRoute path="/app/group/:groupId" component={GroupPage} />
       <SecureRoute path="/app/settings" component={SettingsPage} />
+      <SecureRoute path="/app/oauth/questrade" component={QuestradeOauthPage} />
     </Switch>
   </Layout>
 );

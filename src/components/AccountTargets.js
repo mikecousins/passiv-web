@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
 import { importTarget } from '../actions';
-import { selectCurrentGroupId, selectCurrentTarget } from '../selectors';
+import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
 
 class AccountTargets extends React.Component {
@@ -45,7 +45,7 @@ const actions = { startImportTarget: importTarget };
 
 const select = state => ({
   groupId: selectCurrentGroupId(state),
-  target: selectCurrentTarget(state),
+  target: selectCurrentGroupTarget(state),
   symbols: select
 });
 

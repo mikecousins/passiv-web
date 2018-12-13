@@ -2,7 +2,21 @@ import { createSelector } from 'reselect';
 
 export const selectLoggedIn = state => !!(state.auth.token);
 
+export const selectCurrencies = state => state.currencies;
+
+export const selectBrokeragesRaw = state => state.brokerages;
+
 export const selectAuthorizationsRaw = state => state.authorizations;
+
+
+export const selectBrokerages = createSelector(
+  selectBrokeragesRaw,
+  (rawBrokerages) => {
+    if (rawBrokerages.data) {
+      return rawBrokerages.data;
+    }
+  }
+)
 
 export const selectAuthorizations = createSelector(
   selectAuthorizationsRaw,
@@ -63,16 +77,26 @@ export const selectGroupSettings = createSelector(
 
 export const selectGroupInfo = state => state.groupInfo;
 
-export const selectSymbolsRaw = state => state.symbols;
-
 export const selectSymbols = createSelector(
-  selectSymbolsRaw,
-  (rawSymbols) => {
-    if (rawSymbols.data) {
-      return rawSymbols.data;
+  selectGroups,
+  selectGroupInfo,
+  (groups, groupInfo) => {
+    const fullSymbols = [];
+    if (!groups) {
+      return fullSymbols;
     }
+    groups.forEach(group => {
+      if (groupInfo && groupInfo[group.id] && groupInfo[group.id].data){
+        groupInfo[group.id].data.symbols.forEach(
+          symbol => {
+            fullSymbols.push(symbol);
+          }
+        )
+      }
+    });
+    return fullSymbols;
   }
-)
+);
 
 export const selectIsDemoMode =  state => state.demo;
 
@@ -157,7 +181,7 @@ export const selectCurrentGroup = createSelector(
   }
 );
 
-export const selectCurrentPositions = createSelector(
+export const selectCurrentAccountPositions = createSelector(
   selectCurrentAccountId,
   selectPositions,
   (accountId, positions) => {
@@ -169,8 +193,8 @@ export const selectCurrentPositions = createSelector(
   }
 );
 
-export const selectCurrentBalancedEquity = createSelector(
-  selectCurrentPositions,
+export const selectCurrentAccountBalancedEquity = createSelector(
+  selectCurrentAccountPositions,
   (positions) => {
     if (!positions) {
       return null;
@@ -181,7 +205,7 @@ export const selectCurrentBalancedEquity = createSelector(
   }
 );
 
-export const selectCurrentCash = createSelector(
+export const selectCurrentAccountCash = createSelector(
   selectCurrentAccountId,
   selectBalances,
   (accountId, balances) => {
@@ -193,7 +217,77 @@ export const selectCurrentCash = createSelector(
   }
 );
 
-export const selectCurrentTarget = createSelector(
+export const selectCurrentGroupAccuracy = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    let accuracy = null;
+    if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.accuracy) {
+      accuracy = groupInfo[groupId].data.accuracy;
+    }
+    return accuracy
+  }
+)
+
+export const selectCurrentGroupBalances = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    let balances = null;
+    if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.balances) {
+      balances = groupInfo[groupId].data.balances;
+    }
+    return balances
+  }
+);
+
+export const selectCurrentGroupCash = createSelector(
+  selectCurrentGroupBalances,
+  (balances) => {
+    let cash = null;
+    if (balances) {
+      balances.forEach(balance => cash += parseFloat(balance.cash))
+    }
+    return cash
+  }
+)
+
+export const selectCurrentGroupPositions = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    let positions = null;
+    if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.positions) {
+      positions = groupInfo[groupId].data.positions;
+    }
+    return positions
+  }
+);
+
+export const selectCurrentGroupBalancedEquity = createSelector(
+  selectCurrentGroupPositions,
+  (positions) => {
+    if (!positions) {
+      return null;
+    }
+    let total = 0;
+    positions.forEach(position => total += position.units * parseFloat(position.price));
+    return total;
+  }
+);
+
+export const selectCurrentGroupTotalEquity = createSelector(
+  selectCurrentGroupCash,
+  selectCurrentGroupBalancedEquity,
+  (cash, balancedEquity) => {
+    if (!cash && !balancedEquity) {
+      return null;
+    }
+    return cash + balancedEquity;
+  }
+);
+
+export const selectCurrentGroupTarget = createSelector(
   selectCurrentGroupId,
   selectGroupInfo,
   selectSymbols,
@@ -234,7 +328,7 @@ export const selectTotalAccountHoldings = createSelector(
   }
 )
 
-export const selectTotalHoldings = createSelector(
+export const selectTotalGroupHoldings = createSelector(
   selectGroups,
   selectGroupInfo,
   (groups, groupInfo) => {

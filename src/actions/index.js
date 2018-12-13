@@ -1,6 +1,6 @@
 import { getData, postData } from '../api';
 
-const baseUrl = 'https://dev.getpassiv.com';
+export const baseUrl = 'https://staging.getpassiv.com';
 
 export const loginStartedAsync = payload => {
   return dispatch => {
@@ -90,11 +90,6 @@ export const initialLoad = payload => {
       })
       .catch(error => dispatch(fetchGroupsError(error)));
 
-    dispatch(fetchSymbolsStart());
-    getData(baseUrl + '/api/v1/all_symbols/', payload)
-      .then(response => dispatch(fetchSymbolsSuccess(response)))
-      .catch(error => dispatch(fetchSymbolsError(error)));
-
     dispatch(fetchBrokeragesStart());
       getData(baseUrl + '/api/v1/brokerages/', payload)
         .then(response => dispatch(fetchBrokeragesSuccess(response)))
@@ -131,15 +126,6 @@ export const loadGroups = payload => {
   };
 };
 
-export const loadSymbols = payload => {
-  return dispatch => {
-    dispatch(fetchSymbolsStart());
-    getData(baseUrl + '/api/v1/all_symbols/', payload)
-      .then(response => dispatch(fetchSymbolsSuccess(response)))
-      .catch(error => dispatch(fetchSymbolsError(error)));
-  };
-};
-
 export const loadBrokerages = payload => {
   return dispatch => {
     dispatch(fetchBrokeragesStart());
@@ -167,26 +153,26 @@ export const loadAccounts = payload => {
   };
 };
 
-export const loadAccount = payload => {
-  return dispatch => {
-    payload.ids.forEach((id) => {
-      dispatch(fetchAccountDetailsStart(id));
-      getData(baseUrl + `/api/v1/accounts/${id}/`, payload.token)
-        .then(response => dispatch(fetchAccountDetailsSuccess(response, id)))
-        .catch(error => dispatch(fetchAccountDetailsError(error, id)));
-
-      dispatch(fetchAccountBalancesStart(id));
-      getData(baseUrl + `/api/v1/accounts/${id}/balances/`, payload.token)
-        .then(response => dispatch(fetchAccountBalancesSuccess(response, id)))
-        .catch(error => dispatch(fetchAccountBalancesError(error, id)));
-
-      dispatch(fetchAccountPositionsStart(id));
-      getData(baseUrl + `/api/v1/accounts/${id}/positions/`, payload.token)
-        .then(response => dispatch(fetchAccountPositionsSuccess(response, id)))
-        .catch(error => dispatch(fetchAccountPositionsError(error, id)));
-    });
-  };
-};
+// export const loadAccount = payload => {
+//   return dispatch => {
+//     payload.ids.forEach((id) => {
+//       dispatch(fetchAccountDetailsStart(id));
+//       getData(baseUrl + `/api/v1/accounts/${id}/`, payload.token)
+//         .then(response => dispatch(fetchAccountDetailsSuccess(response, id)))
+//         .catch(error => dispatch(fetchAccountDetailsError(error, id)));
+//
+//       dispatch(fetchAccountBalancesStart(id));
+//       getData(baseUrl + `/api/v1/accounts/${id}/balances/`, payload.token)
+//         .then(response => dispatch(fetchAccountBalancesSuccess(response, id)))
+//         .catch(error => dispatch(fetchAccountBalancesError(error, id)));
+//
+//       dispatch(fetchAccountPositionsStart(id));
+//       getData(baseUrl + `/api/v1/accounts/${id}/positions/`, payload.token)
+//         .then(response => dispatch(fetchAccountPositionsSuccess(response, id)))
+//         .catch(error => dispatch(fetchAccountPositionsError(error, id)));
+//     });
+//   };
+// };
 
 export const loadGroup = payload => {
   return dispatch => {
@@ -238,20 +224,6 @@ export const fetchGroupsSuccess = payload => ({
 
 export const fetchGroupsError = payload => ({
   type: 'FETCH_GROUPS_ERROR',
-  payload,
-});
-
-export const fetchSymbolsStart = () => ({
-  type: 'FETCH_SYMBOLS_START',
-});
-
-export const fetchSymbolsSuccess = payload => ({
-  type: 'FETCH_SYMBOLS_SUCCESS',
-  payload,
-});
-
-export const fetchSymbolsError = payload => ({
-  type: 'FETCH_SYMBOLS_ERROR',
   payload,
 });
 

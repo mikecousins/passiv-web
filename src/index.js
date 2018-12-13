@@ -10,7 +10,8 @@ import decode from 'jwt-decode';
 import isFuture from 'date-fns/is_future';
 import { addReactorsToStore } from './reactors/HumanRedux';
 import createRootReducer from './reducers';
-import { loadData, loadAccountDetails, loadGroupDetails } from './reactors';
+import { loadData, loadGroupDetails } from './reactors';
+// import { loadData, loadAccountDetails, loadGroupDetails } from './reactors';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
@@ -46,7 +47,8 @@ const store = createStore(
 
 addReactorsToStore({
   store: store,
-  reactors: [ loadData, loadAccountDetails, loadGroupDetails ],
+  reactors: [ loadData, loadGroupDetails ],
+  // reactors: [ loadData, loadAccountDetails, loadGroupDetails ],
   runIdle: true,
 });
 

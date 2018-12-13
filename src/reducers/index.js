@@ -27,9 +27,6 @@ export default (history) => combineReducers({
   settings: simple({
     baseType: 'FETCH_SETTINGS'
   }),
-  symbols: simple({
-    baseType: 'FETCH_SYMBOLS'
-  }),
   accounts: simple({
     baseType: 'FETCH_ACCOUNTS'
   }),
@@ -44,5 +41,5 @@ export default (history) => combineReducers({
   }),
   groupInfo: simpleList({
     baseType: 'FETCH_GROUP_INFO'
-  })
+  }),
 });

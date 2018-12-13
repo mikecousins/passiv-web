@@ -6,7 +6,7 @@ import AccountBalance from '../components/AccountBalance';
 import AccountHoldings from '../components/AccountHoldings';
 import AccountMetadata from '../components/AccountMetadata';
 import AccountTargets from '../components/AccountTargets';
-import { selectCurrentBalancedEquity, selectCurrentCash, selectCurrentGroup, selectCurrentPositions } from '../selectors';
+import { selectCurrentGroupTotalEquity, selectCurrentGroupCash, selectCurrentGroup, selectCurrentGroupAccuracy, selectCurrentGroupPositions, selectCurrentGroupBalances } from '../selectors';
 
 const GroupPage = (props) => {
   const { group } = props;
@@ -17,8 +17,6 @@ const GroupPage = (props) => {
   const name = group.name || 'No Name Provided';
   let type = null;
   let number = null;
-  const accuracy = 0;
-  let excludedEquity = 0;
 
   if (group.accounts && group.accounts[0]) {
     type = group.accounts[0].type;
@@ -32,10 +30,9 @@ const GroupPage = (props) => {
             name={name}
             type={type}
             number={number}
-            accuracy={accuracy}
+            accuracy={props.accuracy}
             cash={props.cash}
-            equity={props.balancedEquity}
-            excludedEquity={excludedEquity}
+            equity={props.equity}
           />
         </div>
       </div>
@@ -45,7 +42,7 @@ const GroupPage = (props) => {
           <AccountTargets />
         </div>
         <div className="w-1/2">
-          <AccountBalance />
+          <AccountBalance balances={props.balances} />
         </div>
       </div>
 
@@ -60,9 +57,11 @@ const GroupPage = (props) => {
 
 const select = state => ({
   group: selectCurrentGroup(state),
-  positions: selectCurrentPositions(state),
-  cash: selectCurrentCash(state),
-  balancedEquity: selectCurrentBalancedEquity(state),
+  positions: selectCurrentGroupPositions(state),
+  balances: selectCurrentGroupBalances(state),
+  cash: selectCurrentGroupCash(state),
+  equity: selectCurrentGroupTotalEquity(state),
+  accuracy: selectCurrentGroupAccuracy(state),
 });
 
 export default connect(select)(GroupPage);

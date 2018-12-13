@@ -4,10 +4,9 @@ import {
   initialLoad,
   loadAccounts,
   loadGroups,
-  loadSymbols,
   loadBrokerages,
   loadSettings,
-  loadAccount,
+  // loadAccount,
   loadGroup,
 } from '../actions';
 
@@ -41,14 +40,15 @@ const isNeeded = (entity) => {
 }
 
 export const loadData = createSelector(
-  [state => state.auth.token,
-  state => state.currencies,
-  state => state.accounts,
-  state => state.groups,
-  state => state.brokerages,
-  state => state.settings,
-  state => state.symbols],
-  (token, currencies, accounts, groups, brokerages, settings, symbols) => {
+  [
+    state => state.auth.token,
+    state => state.currencies,
+    state => state.accounts,
+    state => state.groups,
+    state => state.brokerages,
+    state => state.settings,
+  ],
+  (token, currencies, accounts, groups, brokerages, settings) => {
     // ignore if we aren't logged in
     if (!token) {
       return;
@@ -57,10 +57,6 @@ export const loadData = createSelector(
     // if we need currencies we need everything, perform a full load
     if (isNeeded(currencies)) {
       return initialLoad(token);
-    }
-
-    if (isNeeded(symbols)) {
-      return loadSymbols(token);
     }
 
     if (isNeeded(brokerages)) {
@@ -81,20 +77,20 @@ export const loadData = createSelector(
   }
 );
 
-export const loadAccountDetails = createSelector(
-  [state => state.accounts,
-  state => state.accountDetails,
-  state => state.auth.token],
-  (accounts, accountDetails, token) => {
-    if (!!token && accounts && accounts.data && accounts.data.length > 0) {
-      const allIds = Array.from(accounts.data, account => account.id);
-      const neededIds = allIds.filter(id => accountDetails && isNeeded(accountDetails[id]));
-      if (neededIds.length > 0) {
-        return loadAccount({ ids: neededIds, token });
-      }
-    }
-  }
-);
+// export const loadAccountDetails = createSelector(
+//   [state => state.accounts,
+//   state => state.accountDetails,
+//   state => state.auth.token],
+//   (accounts, accountDetails, token) => {
+//     if (!!token && accounts && accounts.data && accounts.data.length > 0) {
+//       const allIds = Array.from(accounts.data, account => account.id);
+//       const neededIds = allIds.filter(id => accountDetails && isNeeded(accountDetails[id]));
+//       if (neededIds.length > 0) {
+//         return loadAccount({ ids: neededIds, token });
+//       }
+//     }
+//   }
+// );
 
 export const loadGroupDetails = createSelector(
   [state => state.groups,
