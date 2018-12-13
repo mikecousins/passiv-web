@@ -6,6 +6,7 @@ import AccountBalance from '../components/AccountBalance';
 import AccountHoldings from '../components/AccountHoldings';
 import AccountMetadata from '../components/AccountMetadata';
 import AccountTargets from '../components/AccountTargets';
+import AccountTrades from '../components/AccountTrades';
 import { selectCurrentGroupTotalEquity, selectCurrentGroupCash, selectCurrentGroup, selectCurrentGroupAccuracy, selectCurrentGroupPositions, selectCurrentGroupBalances } from '../selectors';
 
 const GroupPage = (props) => {
@@ -24,6 +25,12 @@ const GroupPage = (props) => {
   }
   return (
     <React.Fragment>
+    <div className="flex mb-4">
+      <div className="w-full">
+        <AccountTrades />
+      </div>
+    </div>
+
       <div className="flex mb-4">
         <div className="w-full">
           <AccountMetadata
