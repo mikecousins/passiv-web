@@ -1,6 +1,12 @@
 import { getData, postData } from '../api';
 
-export const baseUrl = 'https://dev.getpassiv.com';
+let baseUrlOverride = 'dev.getpassiv.com';
+if (process.env.REACT_APP_BASE_URL_OVERRIDE) {
+  baseUrlOverride = process.env.REACT_APP_BASE_URL_OVERRIDE;
+}
+export const baseUrl = 'https://' + baseUrlOverride;
+
+console.log('Base URL:', baseUrl);
 
 export const loginStartedAsync = payload => {
   return dispatch => {
