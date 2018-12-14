@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Layout from './layouts/Layout';
 import LandingPage from './pages/LandingPage';
 import PricingPage from './pages/PricingPage';
@@ -18,7 +18,11 @@ import SecureRoute from './routes/SecureRoute';
 import './index.css';
 
 
-
+const questradeOauthRedirect = () => {
+  let urlParams = new URLSearchParams(window.location.search);
+  let newPath = "/app/oauth/questrade?" + urlParams;
+  return (<Redirect to={newPath}/>)
+}
 
 const App = () => (
   <Layout>
@@ -36,6 +40,8 @@ const App = () => (
       <SecureRoute path="/app/group/:groupId" component={GroupPage} />
       <SecureRoute path="/app/settings" component={SettingsPage} />
       <SecureRoute path="/app/oauth/questrade" component={QuestradeOauthPage} />
+      <Route exact path="/oauth/questrade" render={() => questradeOauthRedirect()} />
+      <Route exact path="/oauth/questrade-trade" render={() => questradeOauthRedirect()} />
     </Switch>
   </Layout>
 );
