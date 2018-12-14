@@ -7,8 +7,7 @@ import { Button } from '../styled/Button';
 import { AccountTargets } from '../components/AccountTargets';
 
 storiesOf('Button', module)
-  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-  .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>);
+  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>);
 
 storiesOf('AccountTargets', module)
   .add('Loading', () => <AccountTargets />);
