@@ -37,7 +37,7 @@ class RebalanceWidget extends Component {
     getData(`${baseUrl}/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/impact`)
       .then(response => {
         console.log('success', response);
-        this.setState({validatingOrders: true});
+        this.setState({validatingOrders: false});
       })
       .catch(error => {
         console.log('error', error);
