@@ -1,6 +1,6 @@
 import { getData, postData } from '../api';
 
-export const baseUrl = 'https://staging.getpassiv.com';
+export const baseUrl = 'https://dev.getpassiv.com';
 
 export const loginStartedAsync = payload => {
   return dispatch => {

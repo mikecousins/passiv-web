@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import { importTarget } from '../actions';
 import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
+import { Button } from '../styled/Button';
 
-class AccountTargets extends React.Component {
+export class AccountTargets extends React.Component {
   state = { edit: false }
 
   render() {
@@ -24,17 +25,17 @@ class AccountTargets extends React.Component {
         {content}
         {edit ? (
           <React.Fragment>
-            <button onClick={() => this.setState({ edit: false })}>
+            <Button onClick={() => this.setState({ edit: false })}>
               Save
-            </button>
-            <button onClick={() => this.setState({ edit: false })}>
+            </Button>
+            <Button onClick={() => this.setState({ edit: false })}>
               Cancel
-            </button>
+            </Button>
           </React.Fragment>
         ) : (
-          <button onClick={() => this.setState({ edit: true })}>
+          <Button onClick={() => this.setState({ edit: true })}>
             Edit
-          </button>
+          </Button>
         )}
       </div>
     );
