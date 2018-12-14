@@ -7,7 +7,7 @@ import AccountHoldings from '../components/AccountHoldings';
 import AccountMetadata from '../components/AccountMetadata';
 import AccountTargets from '../components/AccountTargets';
 import AccountTrades from '../components/AccountTrades';
-import { selectCurrentGroupTotalEquity, selectCurrentGroupCash, selectCurrentGroup, selectCurrentGroupAccuracy, selectCurrentGroupPositions, selectCurrentGroupBalances } from '../selectors';
+import { selectCurrentGroupTotalEquity, selectCurrentGroupCash, selectCurrentGroup, selectCurrentGroupAccuracy, selectCurrentGroupPositions, selectCurrentGroupBalances, selectCurrentGroupTrades } from '../selectors';
 
 const GroupPage = (props) => {
   const { group } = props;
@@ -23,14 +23,20 @@ const GroupPage = (props) => {
     type = group.accounts[0].type;
     number = group.accounts[0].number;
   }
+
+  let trades = null;
+  if (props.trades) {
+    trades = (
+      <div className="flex mb-4">
+        <div className="w-full">
+          <AccountTrades />
+        </div>
+      </div>
+    )
+  }
   return (
     <React.Fragment>
-    <div className="flex mb-4">
-      <div className="w-full">
-        <AccountTrades />
-      </div>
-    </div>
-
+      {trades}
       <div className="flex mb-4">
         <div className="w-full">
           <AccountMetadata
@@ -69,6 +75,7 @@ const select = state => ({
   cash: selectCurrentGroupCash(state),
   equity: selectCurrentGroupTotalEquity(state),
   accuracy: selectCurrentGroupAccuracy(state),
+  trades: selectCurrentGroupTrades(state),
 });
 
 export default connect(select)(GroupPage);
