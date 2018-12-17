@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectLoggedIn } from '../selectors';
+import LogoutButton from './LogoutButton';
 
 
 const Header = () => (
@@ -10,6 +11,9 @@ const Header = () => (
       <Link to="/" >
         <span className="font-semibold text-5xl tracking-tight">Passiv</span>
       </Link>
+    </div>
+    <div className="flex items-center flex-no-shrink text-black mr-6">
+      <LogoutButton />
     </div>
   </nav>
 );
