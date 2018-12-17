@@ -1,19 +1,38 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectSettings } from '../selectors';
-import AuthorizationPicker from '../components/AuthorizationPicker';
+import { selectSettings, selectBrokerages, selectAuthorizations } from '../selectors';
+import CredentialsManager from '../components/CredentialsManager';
+import SubscriptionManager from '../components/SubscriptionManager';
+import ConnectionsManager from '../components/ConnectionsManager';
+import deleteData from '../api';
 
-const SettingsPage = (props) => (
-  <React.Fragment>
-    <h1>Settings</h1>
-    <p className="my-2">Logged in as {props.settings && props.settings.email}</p>
-    <AuthorizationPicker/>
-  </React.Fragment>
-);
 
-const select = state => ({
-  settings: selectSettings(state),
-});
+class SettingsPage extends Component {
+
+
+  render() {
+    return (
+    <React.Fragment>
+      <div className="flex mb-4">
+        <div className="w-1/2 mr-4">
+          <CredentialsManager />
+        </div>
+        <div className="w-1/2">
+          <SubscriptionManager />
+        </div>
+      </div>
+
+      <div className="flex mb-4">
+        <div className="w-full">
+          <ConnectionsManager />
+        </div>
+      </div>
+    </React.Fragment>
+    );
+  }
+};
+
+const select = state => ({});
 const actions = {};
 
 export default connect(select, actions)(SettingsPage);
