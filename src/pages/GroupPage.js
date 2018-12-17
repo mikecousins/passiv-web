@@ -25,7 +25,7 @@ const GroupPage = (props) => {
   }
 
   let trades = null;
-  if (props.trades) {
+  if (props.trades && props.trades.trades.length) {
     trades = (
       <div className="flex mb-4">
         <div className="w-full">
