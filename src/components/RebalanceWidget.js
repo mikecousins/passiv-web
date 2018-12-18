@@ -18,6 +18,7 @@ class RebalanceWidget extends Component {
       if (trade.action === 'SELL') {
         sellsFound = true;
       }
+      return null;
     })
     return sellsFound;
   }

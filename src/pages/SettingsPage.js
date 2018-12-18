@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectSettings, selectBrokerages, selectAuthorizations } from '../selectors';
 import CredentialsManager from '../components/CredentialsManager';
 import SubscriptionManager from '../components/SubscriptionManager';
 import ConnectionsManager from '../components/ConnectionsManager';
-import deleteData from '../api';
 
 
 class SettingsPage extends Component {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings } from '../selectors';
 import { baseUrl, loadSettings } from '../actions';
 import { putData } from '../api';
@@ -49,7 +49,6 @@ export class CredentialsManager extends React.Component {
 
 
   render() {
-    console.log('name', this.state.name);
     return (
       <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
         <h1>Credentials</h1>

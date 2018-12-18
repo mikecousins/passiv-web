@@ -1,3 +1,14 @@
+
+const handleNoContentResponse = (response) => {
+  if (response.status === 204) {
+    return null;
+  }
+  else {
+    return response.json();
+  }
+}
+
+
 export const getData = (url = '') => {
   return fetch(url, {
     method: "GET",
@@ -46,11 +57,10 @@ export const patchData = (url = '', data = {}) => {
 
 export const deleteData = (url = '') => {
   return fetch(url, {
-    method: "PATCH",
+    method: "DELETE",
     headers: {
       "Authorization": "JWT " + localStorage.getItem('jwt'),
-      "Content-Type": "application/json",
     },
   })
-  .then(response => response.json());
+  .then(response => handleNoContentResponse(response));
 };

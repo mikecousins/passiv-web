@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { selectLoggedIn } from '../selectors';
 import LogoutButton from './LogoutButton';
 import RefreshButton from './RefreshButton';
 
@@ -22,8 +21,6 @@ const Header = () => (
   </nav>
 );
 
-const select = state => ({
-  loggedIn: selectLoggedIn(state),
-});
+const select = state => ({});
 
 export default connect(select)(Header);
