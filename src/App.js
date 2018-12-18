@@ -28,6 +28,7 @@ const App = () => (
   <Layout>
     <Switch>
       <Route path="/" exact component={LandingPage} />
+      <Route path="/app" exact render={() => (<Redirect to="/app/login"/>)} />
       <Route path="/app/login" component={LoginPage} />
       <Route path="/app/register" component={RegistrationPage} />
       <Route path="/about" component={AboutPage} />
