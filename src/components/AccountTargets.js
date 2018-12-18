@@ -34,28 +34,34 @@ export class AccountTargets extends React.Component {
         </div>
       );
     }
+    const SignupSchema = Yup.array().of(Yup.object().shape({
+      percent: Yup.number()
+        .required('Required'),
+    }));
 
     return (
       <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
         <h3>Target Portfolio</h3>
         <Formik
           initialValues={{ targets: target }}
+          validationSchema={TargetSchema}
           onSubmit={values => {
             // post the new targets and update our data
           }}
-          render={({ values }) => (
+          render={({ props }) => (
             <Form>
               <FieldArray
                 name="targets"
                 render={arrayHelpers => (
                   <React.Fragment>
-                    {values.targets.map(t => <TargetBar key={t.symbol} symbol={t.displaySymbol.symbol} percentage={t.percent} edit={edit} />)}
+                    {props.values.targets.map(t => <TargetBar key={t.symbol} symbol={t.displaySymbol.symbol} percentage={t.percent} edit={edit} />)}
                   </React.Fragment>
                 )}
               />
+              <ErrorMessage name="targets" />
               {edit ? (
                 <React.Fragment>
-                  <Button onClick={() => this.setState({ edit: false })}>
+                  <Button onClick={() => this.setState({ edit: false })} disabled={}>
                     Save
                   </Button>
                   <Button onClick={() => this.setState({ edit: false })}>

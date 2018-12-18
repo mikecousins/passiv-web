@@ -40,7 +40,8 @@
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
     "ric-shim": "1.0.0",
-    "safe-memory-cache": "1.5.1"
+    "safe-memory-cache": "1.5.1",
+    "yup": "^0.26.6"
   },
   "scripts": {
     "build:css": "postcss src/styles/index.css -o src/index.css",
@@ -53,13 +54,13 @@
     "build-storybook": "build-storybook -s public"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^4.1.1",
+    "@storybook/addon-links": "^4.1.1",
     "@storybook/react": "^4.1.1",
     "autoprefixer": "^9.3.1",
     "concurrently": "4.1.0",
     "postcss-cli": "^6.0.1",
-    "tailwindcss": "^0.7.2",
-    "@storybook/addon-actions": "^4.1.1",
-    "@storybook/addon-links": "^4.1.1"
+    "tailwindcss": "^0.7.2"
   },
   "eslintConfig": {
     "extends": "react-app"
