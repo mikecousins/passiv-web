@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { selectBrokerages } from '../selectors';
 import { postData } from '../api';
 import { baseUrl } from '../actions';
+import { Button } from '../styled/Button';
+import { DisabledButton } from '../styled/DisabledButton';
 
 class AuthorizationPicker extends Component {
   state = {
@@ -38,23 +40,15 @@ class AuthorizationPicker extends Component {
     }
 
     let submitButton = (
-      <button
-        type="button"
-        className="bg-grey text-white font-bold py-2 px-4 mx-2 rounded focus:outline-none focus:shadow-outline"
-        disabled
-      >
+      <DisabledButton disabled>
         Connect
-      </button>
+      </DisabledButton>
     )
     if (this.state.brokerage && this.state.type) {
       submitButton = (
-          <button
-          type="button"
-          onClick={() => {this.startAuthorization()}}
-          className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 mx-2 rounded focus:outline-none focus:shadow-outline"
-          >
+          <Button onClick={() => {this.startAuthorization()}}>
             Connect
-          </button>
+          </Button>
       )
     }
 

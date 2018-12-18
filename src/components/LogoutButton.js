@@ -1,16 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logoutStartedAsync } from '../actions';
-
+import { LogoutButton as StyledLogoutButton } from '../styled/LogoutButton';
 
 const LogoutButton = (props) => (
-  <button
-    type="button"
+  <StyledLogoutButton
     onClick={props.startLogout}
-    className="bg-blue hover:bg-blue-dark text-white font-bold my-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
   >
-    Log Out
-  </button>
+  Logout
+  </StyledLogoutButton>
+
 );
 
 const select = state => ({});

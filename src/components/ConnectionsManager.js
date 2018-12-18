@@ -4,6 +4,7 @@ import { selectBrokerages, selectAuthorizations, selectAccounts } from '../selec
 import { baseUrl, initialLoad, loadBrokerages } from '../actions';
 import { deleteData } from '../api';
 import AuthorizationPicker from '../components/AuthorizationPicker';
+import { Button } from '../styled/Button';
 
 export class ConnectionsManager extends React.Component {
   state = {
@@ -75,20 +76,20 @@ export class ConnectionsManager extends React.Component {
                 </div>
                 <div>
                   Are you sure you want to delete this connection and all of its accounts?
-                  <button onClick={() => {this.cancelDeletingConnection()}}>
+                  <Button onClick={() => {this.cancelDeletingConnection()}}>
                     Cancel
-                  </button>
-                  <button onClick={() => {this.confirmDeleteConnection()}}>
+                  </Button>
+                  <Button onClick={() => {this.confirmDeleteConnection()}}>
                     Delete
-                  </button>
+                  </Button>
                 </div>
               </div>
             ) : (
               <div>
                 <span>{a.brokerage.name}</span>
-                <button onClick={() => {this.startDeletingConnection(a.id)}}>
+                <Button onClick={() => {this.startDeletingConnection(a.id)}}>
                   Delete
-                </button>
+                </Button>
               </div>
             )
           }
@@ -104,22 +105,16 @@ export class ConnectionsManager extends React.Component {
           this.state.creatingNewConnection ?
             (
               <div>
-                <button
-                  onClick={() => {this.cancelCreatingNewConnection()}}
-                  className="bg-blue hover:bg-blue-dark text-white font-bold my-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
+                <Button onClick={() => {this.cancelCreatingNewConnection()}}>
                   Cancel
-                </button>
+                </Button>
                 <AuthorizationPicker />
               </div>
             ) : (
               <div>
-                <button
-                  onClick={() => {this.startCreatingNewConnection()}}
-                  className="bg-blue hover:bg-blue-dark text-white font-bold my-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
+                <Button onClick={() => {this.startCreatingNewConnection()}}>
                   New Connection
-                </button>
+                </Button>
               </div>
             )
         }

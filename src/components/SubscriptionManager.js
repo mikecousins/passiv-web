@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectSubscriptions } from '../selectors';
+import { Button } from '../styled/Button';
 
 export class SubscriptionManager extends React.Component {
   state = {
@@ -30,20 +31,15 @@ export class SubscriptionManager extends React.Component {
                 {this.state.creatingSubscription ? (
                     <div>
                         Enter your payment information
-                        <button
-                          onClick={() => {this.cancelCreateSubscription()}}
-                        >
+                        <Button onClick={() => {this.cancelCreateSubscription()}}>
                           Cancel
-                        </button>
+                        </Button>
                     </div>
                   ) : (
                     <div>
-                      <button
-                        onClick={() => {this.createSubscription()}}
-                        className="bg-blue hover:bg-blue-dark text-white font-bold my-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
+                      <Button onClick={() => {this.createSubscription()}}>
                         Upgrade to Elite
-                      </button>
+                      </Button>
                     </div>
                   )
                 }
