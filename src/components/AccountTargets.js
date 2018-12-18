@@ -2,7 +2,8 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Formik, Form, Field, FieldArray } from 'formik';
+import { Formik, Form, Field, FieldArray, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import { importTarget } from '../actions';
 import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
@@ -34,7 +35,7 @@ export class AccountTargets extends React.Component {
         </div>
       );
     }
-    const SignupSchema = Yup.array().of(Yup.object().shape({
+    const targetSchema = Yup.array().of(Yup.object().shape({
       percent: Yup.number()
         .required('Required'),
     }));
@@ -44,11 +45,11 @@ export class AccountTargets extends React.Component {
         <h3>Target Portfolio</h3>
         <Formik
           initialValues={{ targets: target }}
-          validationSchema={TargetSchema}
+          validationSchema={targetSchema}
           onSubmit={values => {
             // post the new targets and update our data
           }}
-          render={({ props }) => (
+          render={(props) => (
             <Form>
               <FieldArray
                 name="targets"
@@ -61,7 +62,7 @@ export class AccountTargets extends React.Component {
               <ErrorMessage name="targets" />
               {edit ? (
                 <React.Fragment>
-                  <Button onClick={() => this.setState({ edit: false })} disabled={}>
+                  <Button onClick={() => this.setState({ edit: false })} disabled={!props.isDirty}>
                     Save
                   </Button>
                   <Button onClick={() => this.setState({ edit: false })}>
