@@ -38,6 +38,17 @@ export const selectSettings = createSelector(
   }
 );
 
+export const selectSubscriptionsRaw = state => state.subscriptions;
+
+export const selectSubscriptions = createSelector(
+  selectSubscriptionsRaw,
+  (rawSubscriptions) => {
+    if (rawSubscriptions.data) {
+      return rawSubscriptions.data;
+    }
+  }
+);
+
 export const selectAccountsRaw = state => state.accounts;
 
 export const selectAccounts = createSelector(
