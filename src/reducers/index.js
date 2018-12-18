@@ -27,6 +27,9 @@ export default (history) => combineReducers({
   settings: simple({
     baseType: 'FETCH_SETTINGS'
   }),
+  subscriptions: simple({
+    baseType: 'FETCH_SUBSCRIPTIONS'
+  }),
   accounts: simple({
     baseType: 'FETCH_ACCOUNTS'
   }),

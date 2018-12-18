@@ -106,6 +106,11 @@ export const initialLoad = payload => {
         .then(response => dispatch(fetchSettingsSuccess(response)))
         .catch(error => dispatch(fetchSettingsError(error)));
 
+    dispatch(fetchSubscriptionsStart());
+      getData(baseUrl + '/api/v1/subscriptions/', payload)
+        .then(response => dispatch(fetchSubscriptionsSuccess(response)))
+        .catch(error => dispatch(fetchSubscriptionsError(error)));
+
     dispatch(fetchAccountsStart());
     getData(baseUrl + '/api/v1/accounts/', payload)
       .then(response => dispatch(fetchAccountsSuccess(response)))
@@ -147,6 +152,15 @@ export const loadSettings = payload => {
     getData(baseUrl + '/api/v1/settings/', payload)
       .then(response => dispatch(fetchSettingsSuccess(response)))
       .catch(error => dispatch(fetchSettingsError(error)));
+  };
+};
+
+export const loadSubscriptions = payload => {
+  return dispatch => {
+    dispatch(fetchSubscriptionsStart());
+    getData(baseUrl + '/api/v1/subscriptions/', payload)
+      .then(response => dispatch(fetchSubscriptionsSuccess(response)))
+      .catch(error => dispatch(fetchSubscriptionsError(error)));
   };
 };
 
@@ -269,6 +283,20 @@ export const fetchSettingsSuccess = payload => ({
 
 export const fetchSettingsError = payload => ({
   type: 'FETCH_SETTINGS_ERROR',
+  payload,
+});
+
+export const fetchSubscriptionsStart = () => ({
+  type: 'FETCH_SUBSCRIPTIONS_START',
+});
+
+export const fetchSubscriptionsSuccess = payload => ({
+  type: 'FETCH_SUBSCRIPTIONS_SUCCESS',
+  payload,
+});
+
+export const fetchSubscriptionsError = payload => ({
+  type: 'FETCH_SUBSCRIPTIONS_ERROR',
   payload,
 });
 
