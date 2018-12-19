@@ -15,7 +15,15 @@ import GroupPage from './pages/GroupPage';
 import SettingsPage from './pages/SettingsPage';
 import QuestradeOauthPage from './pages/QuestradeOauthPage';
 import SecureRoute from './routes/SecureRoute';
+import { StripeProvider } from 'react-stripe-elements';
 import './index.css';
+// import moment from 'moment/min/moment-with-locales';
+import Moment from 'react-moment';
+
+// Moment.globalMoment = moment;
+Moment.globalLocale = 'en';
+Moment.globalFormat = 'MMMM D, YYYY';
+Moment.globalElement = 'span';
 
 
 const questradeOauthRedirect = () => {
@@ -26,24 +34,26 @@ const questradeOauthRedirect = () => {
 
 const App = () => (
   <Layout>
-    <Switch>
-      <Route path="/" exact component={LandingPage} />
-      <Route path="/app" exact render={() => (<Redirect to="/app/login"/>)} />
-      <Route path="/app/login" component={LoginPage} />
-      <Route path="/app/register" component={RegistrationPage} />
-      <Route path="/about" component={AboutPage} />
-      <Route path="/blog" component={BlogPage} />
-      <Route path="/pricing" component={PricingPage} />
-      <Route path="/privacy" component={PrivacyPage} />
-      <Route path="/security" component={SecurityPage} />
-      <Route path="/termsofservice" component={TermsOfServicePage} />
-      <SecureRoute path="/app/dashboard" component={DashboardPage} />
-      <SecureRoute path="/app/group/:groupId" component={GroupPage} />
-      <SecureRoute path="/app/settings" component={SettingsPage} />
-      <SecureRoute path="/app/oauth/questrade" component={QuestradeOauthPage} />
-      <Route exact path="/oauth/questrade" render={() => questradeOauthRedirect()} />
-      <Route exact path="/oauth/questrade-trade" render={() => questradeOauthRedirect()} />
-    </Switch>
+    <StripeProvider apiKey="pk_test_UEivjUoJpfSDWq5i4xc64YNK">
+      <Switch>
+        <Route path="/" exact component={LandingPage} />
+        <Route path="/app" exact render={() => (<Redirect to="/app/login"/>)} />
+        <Route path="/app/login" component={LoginPage} />
+        <Route path="/app/register" component={RegistrationPage} />
+        <Route path="/about" component={AboutPage} />
+        <Route path="/blog" component={BlogPage} />
+        <Route path="/pricing" component={PricingPage} />
+        <Route path="/privacy" component={PrivacyPage} />
+        <Route path="/security" component={SecurityPage} />
+        <Route path="/termsofservice" component={TermsOfServicePage} />
+        <SecureRoute path="/app/dashboard" component={DashboardPage} />
+        <SecureRoute path="/app/group/:groupId" component={GroupPage} />
+        <SecureRoute path="/app/settings" component={SettingsPage} />
+        <SecureRoute path="/app/oauth/questrade" component={QuestradeOauthPage} />
+        <Route exact path="/oauth/questrade" render={() => questradeOauthRedirect()} />
+        <Route exact path="/oauth/questrade-trade" render={() => questradeOauthRedirect()} />
+      </Switch>
+    </StripeProvider>
   </Layout>
 );
 
