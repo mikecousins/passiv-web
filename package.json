@@ -59,6 +59,8 @@
     "@storybook/react": "^4.1.1",
     "autoprefixer": "^9.3.1",
     "concurrently": "4.1.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
     "postcss-cli": "^6.0.1",
     "tailwindcss": "^0.7.2"
   },
