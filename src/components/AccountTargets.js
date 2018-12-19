@@ -2,12 +2,13 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Formik, Form, Field, FieldArray, ErrorMessage } from 'formik';
+import { Formik, Form, FieldArray, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { importTarget } from '../actions';
+import { baseUrl, importTarget } from '../actions';
 import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
 import { Button } from '../styled/Button';
+import { postData } from '../api';
 
 export class AccountTargets extends React.Component {
   state = { edit: false }
@@ -48,6 +49,16 @@ export class AccountTargets extends React.Component {
           validationSchema={targetSchema}
           onSubmit={values => {
             // post the new targets and update our data
+            postData(`${baseUrl}/api/v1/portfolioGroups/${this.props.group.id}/`, values)
+            .then(response => {
+              console.log('success', response);
+              this.setState({loading: false});
+              this.props.refreshGroups();
+            })
+            .catch(error => {
+              console.log('error', error);
+              this.setState({loading: false});
+            });
           }}
           render={(props) => (
             <Form>
