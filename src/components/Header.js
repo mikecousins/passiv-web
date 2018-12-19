@@ -5,7 +5,7 @@ import LogoutButton from './LogoutButton';
 import RefreshButton from './RefreshButton';
 
 
-const Header = () => (
+export const Header = () => (
   <nav className="flex items-center justify-between flex-wrap py-6 bg-white">
     <div className="flex items-center flex-no-shrink text-black mr-6">
       <Link to="/" >

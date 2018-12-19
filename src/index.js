@@ -54,14 +54,15 @@ history.listen(function (location) {
   ReactGA.pageview(location.pathname + location.search);
 });
 
+const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 });
 const store = createStore(
   createRootReducer(history),
   defaultState,
-  composeWithDevTools(
+  composeEnhancers(
     applyMiddleware(
       routerMiddleware(history),
       reduxThunk,
-    )
+    ),
   )
 );
 
