@@ -5,11 +5,14 @@ import { Button } from '../styled/Button';
 import {CardElement, injectStripe} from 'react-stripe-elements';
 import { baseUrl, loadSubscriptions } from '../actions';
 import { postData } from '../api';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 
 export class CheckoutForm extends React.Component {
   state = {
+    error: null,
+    loading: false,
   }
 
   constructor(props) {
@@ -18,27 +21,42 @@ export class CheckoutForm extends React.Component {
   }
 
   async submit(event) {
-    console.log(event);
+    this.setState({loading: true, error: null});
+    this.props.startCreateSubscription();
     let {token} = await this.props.stripe.createToken({name: "Name"});
-    console.log('token', JSON.stringify(token));
     postData(`${baseUrl}/api/v1/subscriptions`, {token: token, period: 'annual'})
       .then(response => {
         console.log('success', response);
         this.props.reloadSubscriptions();
         this.props.finishCreateSubscription();
+        this.setState({loading: false});
       })
       .catch(error => {
         console.log('error', error);
-        this.props.reloadSubscriptions();
-        this.props.finishCreateSubscription();
+        this.props.finishCreateSubscriptionFail();
+        this.setState({loading: false, error: error.detail});
       });
   }
-  //<CardElement />
   render() {
     return (
       <div className="checkout">
         <CardElement />
-        <Button onClick={this.submit}>Submit</Button>
+        {
+          !this.state.loading && this.state.error && (
+            <div>
+              {this.state.error}
+            </div>
+          )
+        }
+        {
+          this.props.loading ? (
+              <div>
+                Processing your payment... <FontAwesomeIcon icon={faSpinner} spin />
+              </div>
+            ) : (
+              <Button onClick={this.submit}>Submit</Button>
+            )
+        }
       </div>
     )
   }

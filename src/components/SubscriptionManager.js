@@ -14,6 +14,7 @@ import { format } from 'date-fns';
 export class SubscriptionManager extends React.Component {
   state = {
     creatingSubscription: false,
+    loading: false,
     cancelingSubscription: false,
   }
 
@@ -25,9 +26,18 @@ export class SubscriptionManager extends React.Component {
     this.setState({creatingSubscription: false});
   }
 
+  startCreateSubscription() {
+    this.setState({loading: true});
+    console.log('start create subscription!')
+  }
+
   finishCreateSubscription() {
-    this.setState({creatingSubscription: false});
+    this.setState({creatingSubscription: false, loading: false});
     console.log('finished!')
+  }
+
+  finishCreateSubscriptionFail() {
+    this.setState({loading: false});
   }
 
   cancelSubscription() {
@@ -57,12 +67,19 @@ export class SubscriptionManager extends React.Component {
                 Enter your payment information
                 <Elements>
                   <InjectedCheckoutForm
+                    loading={this.state.loading}
+                    startCreateSubscription={() => this.startCreateSubscription()}
                     finishCreateSubscription={() => this.finishCreateSubscription()}
+                    finishCreateSubscriptionFail={() => this.finishCreateSubscriptionFail()}
                   />
                 </Elements>
-                <Button onClick={() => {this.cancelCreateSubscription()}}>
-                  Cancel
-                </Button>
+                {
+                  !this.state.loading && (
+                    <Button onClick={() => {this.cancelCreateSubscription()}}>
+                      Cancel
+                    </Button>
+                  )
+                }
             </div>
           ) : (
             <div>
