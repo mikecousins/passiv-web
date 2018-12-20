@@ -1,10 +1,12 @@
 
-const handleNoContentResponse = (response) => {
-  if (response.status === 204) {
-    return null;
+
+const handleResponse = (response) => {
+  let json = response.json().catch(() => null);
+  if (response.status >= 200 && response.status < 300) {
+    return json;
   }
   else {
-    return response.json();
+    return json.then(Promise.reject.bind(Promise));
   }
 }
 
@@ -16,7 +18,7 @@ export const getData = (url = '') => {
       "Authorization": "JWT " + localStorage.getItem('jwt'),
     },
   })
-  .then(response => response.json());
+  .then(handleResponse);
 };
 
 export const postData = (url = '', data = {}) => {
@@ -28,7 +30,7 @@ export const postData = (url = '', data = {}) => {
       "Content-Type": "application/json",
     },
   })
-  .then(response => response.json());
+  .then(handleResponse);
 };
 
 export const putData = (url = '', data = {}) => {
@@ -40,7 +42,7 @@ export const putData = (url = '', data = {}) => {
       "Content-Type": "application/json",
     },
   })
-  .then(response => response.json());
+  .then(handleResponse);
 };
 
 export const patchData = (url = '', data = {}) => {
@@ -52,7 +54,7 @@ export const patchData = (url = '', data = {}) => {
       "Content-Type": "application/json",
     },
   })
-  .then(response => response.json());
+  .then(handleResponse);
 };
 
 export const deleteData = (url = '') => {
@@ -62,5 +64,5 @@ export const deleteData = (url = '') => {
       "Authorization": "JWT " + localStorage.getItem('jwt'),
     },
   })
-  .then(response => handleNoContentResponse(response));
+  .then(handleResponse);
 };
