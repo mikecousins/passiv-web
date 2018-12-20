@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectCurrentGroupId } from '../selectors';
+import { selectCurrentGroupId, selectAccounts, selectCurrencies } from '../selectors';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { baseUrl } from '../actions';
@@ -10,6 +10,8 @@ class RebalanceWidget extends Component {
   state = {
     expanded: false,
     validatingOrders: false,
+    orderSummary: null,
+    error: null,
   }
 
   anySells() {
@@ -38,11 +40,11 @@ class RebalanceWidget extends Component {
     getData(`${baseUrl}/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/impact`)
       .then(response => {
         console.log('success', response);
-        this.setState({validatingOrders: false});
+        this.setState({validatingOrders: false, orderSummary: response, error: null});
       })
       .catch(error => {
         console.log('error', error);
-        this.setState({validatingOrders: false});
+        this.setState({validatingOrders: false, orderSummary: null, error: error});
       });
   }
 
@@ -65,7 +67,62 @@ class RebalanceWidget extends Component {
       }
       else {
         orderValidation = (
-          <p>Orders validated!</p>
+          this.state.orderSummary ? (
+              <div>
+                <h1>Order Summary</h1>
+                <div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <td>
+                          Account
+                        </td>
+                        <td>
+                          Currency
+                        </td>
+                        <td>
+                          Remaining Cash
+                        </td>
+                        <td>
+                          Estimated Commissions
+                        </td>
+                        <td>
+                          Forex Fees
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.state.orderSummary.map((order) => (
+                        <tr>
+                          <td>
+                            {this.props.accounts.find(a => a.id === order.account).name}
+                          </td>
+                          <td>
+                            {this.props.currencies.find(c => c.id === order.currency).code}
+                          </td>
+                          <td>
+                            {order.remaining_cash}
+                          </td>
+                          <td>
+                            {order.estimated_commissions}
+                          </td>
+                          <td>
+                            {order.forex_fees}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div>
+                  There is a problem with your orders: {this.state.error}
+                </div>
+              </div>
+            )
+
         )
       }
     }
@@ -81,6 +138,8 @@ class RebalanceWidget extends Component {
 
 const select = state => ({
   groupId: selectCurrentGroupId(state),
+  accounts: selectAccounts(state),
+  currencies: selectCurrencies(state),
 });
 const actions = {
 };
