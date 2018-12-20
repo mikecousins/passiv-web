@@ -8,8 +8,7 @@ import { baseUrl, loadSubscriptions } from '../actions';
 import { deleteData } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import Moment from 'react-moment';
-
+import { format } from 'date-fns';
 
 
 export class SubscriptionManager extends React.Component {
@@ -102,14 +101,14 @@ export class SubscriptionManager extends React.Component {
                     this.props.subscriptions.details.canceled ? (
                       <div>
                         <div>
-                          Your subscription has been canceled. You will have access to Elite features until this billing period ends on <Moment date={this.props.subscriptions.details.period_end} />.
+                          Your subscription has been canceled. You will have access to Elite features until this billing period ends on {format(this.props.subscriptions.details.period_end, 'MMMM D, YYYY')}.
                         </div>
                         {upgradeForm}
                       </div>
                     ): (
                       <div>
                         <div>
-                          Your subscription will renew on <Moment date={this.props.subscriptions.details.period_end} />.
+                          Your subscription will renew on {format(this.props.subscriptions.details.period_end, 'MMMM D, YYYY')}.
                         </div>
                         <Button onClick={() => {this.cancelSubscription()}}>
                           Cancel Subscription

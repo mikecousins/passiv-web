@@ -17,13 +17,6 @@ import QuestradeOauthPage from './pages/QuestradeOauthPage';
 import SecureRoute from './routes/SecureRoute';
 import { StripeProvider } from 'react-stripe-elements';
 import './index.css';
-// import moment from 'moment/min/moment-with-locales';
-import Moment from 'react-moment';
-
-// Moment.globalMoment = moment;
-Moment.globalLocale = 'en';
-Moment.globalFormat = 'MMMM D, YYYY';
-Moment.globalElement = 'span';
 
 
 const questradeOauthRedirect = () => {
