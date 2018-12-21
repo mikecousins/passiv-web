@@ -52,7 +52,7 @@ const GroupPage = (props) => {
 
       <div className="flex mb-4">
         <div className="w-full">
-          <AccountTargets />
+          <AccountTargets positions={props.positions} />
         </div>
       </div>
 
