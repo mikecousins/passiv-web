@@ -2,7 +2,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Formik, Form, FieldArray, ErrorMessage } from 'formik';
+import { Formik, Form, FieldArray, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { baseUrl, importTarget } from '../actions';
 import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
@@ -46,10 +46,10 @@ export class AccountTargets extends React.Component {
         <h3>Target Portfolio</h3>
         <Formik
           initialValues={{ targets: target }}
-          validationSchema={targetSchema}
-          onSubmit={values => {
+          onSubmit={(values, actions) => {
+            console.log('submitting');
             // post the new targets and update our data
-            postData(`${baseUrl}/api/v1/portfolioGroups/${this.props.group.id}/`, values)
+            postData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets`, values)
             .then(response => {
               console.log('success', response);
               this.setState({loading: false});
@@ -66,14 +66,18 @@ export class AccountTargets extends React.Component {
                 name="targets"
                 render={arrayHelpers => (
                   <React.Fragment>
-                    {props.values.targets.map(t => <TargetBar key={t.symbol} symbol={t.displaySymbol.symbol} percentage={t.percent} edit={edit} />)}
+                    {props.values.targets.map((t, index) => (
+                      <TargetBar key={t.symbol} symbol={t.displaySymbol.symbol} percentage={t.percent} edit={edit}>
+                        <Field name={`targets.${index}.percent`} />
+                      </TargetBar>
+                      ))}
                   </React.Fragment>
                 )}
               />
               <ErrorMessage name="targets" />
               {edit ? (
                 <React.Fragment>
-                  <Button onClick={() => this.setState({ edit: false })} disabled={!props.isDirty}>
+                  <Button type="submit" onClick={props.handleSubmit} disabled={!props.dirty}>
                     Save
                   </Button>
                   <Button onClick={() => this.setState({ edit: false })}>
