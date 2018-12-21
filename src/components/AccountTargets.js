@@ -81,7 +81,7 @@ export class AccountTargets extends React.Component {
                 render={arrayHelpers => (
                   <React.Fragment>
                     {props.values.targets.map((t, index) => (
-                      <TargetBar key={t.symbol} symbol={t.displaySymbol.symbol} percentage={t.percent} edit={edit}>
+                      <TargetBar key={t.symbol} symbol={t.displaySymbol.symbol} percentage={t.percent} actualPercentage={25} edit={edit}>
                         <Field name={`targets.${index}.percent`} className="w-1/2" />
                       </TargetBar>
                       ))}
