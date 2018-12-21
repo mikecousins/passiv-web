@@ -3,14 +3,17 @@ import { connect } from 'react-redux';
 import { selectCurrentGroupId, selectAccounts, selectCurrencies } from '../selectors';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { baseUrl } from '../actions';
-import { getData } from '../api';
+import { baseUrl, loadGroup } from '../actions';
+import { getData, postData } from '../api';
+import { Button } from '../styled/Button';
 
 class RebalanceWidget extends Component {
   state = {
     expanded: false,
     validatingOrders: false,
+    placingOrders: false,
     orderSummary: null,
+    orderResults: null,
     error: null,
   }
 
@@ -45,6 +48,22 @@ class RebalanceWidget extends Component {
       .catch(error => {
         console.log('error', error);
         this.setState({validatingOrders: false, orderSummary: null, error: error});
+      });
+  }
+
+  confirmOrders() {
+    this.setState({placingOrders: true});
+    postData(`${baseUrl}/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/placeOrders`)
+      .then(response => {
+        console.log('success', response);
+        this.setState({placingOrders: false, orderResults: response, error: null});
+
+        // reload group data following a successful order
+        this.props.reloadGroup({ids: [this.props.groupId]});
+      })
+      .catch(error => {
+        console.log('error', error);
+        this.setState({placingOrders: false, orderResults: null, error: error});
       });
   }
 
@@ -93,7 +112,7 @@ class RebalanceWidget extends Component {
                     </thead>
                     <tbody>
                       {this.state.orderSummary.map((order) => (
-                        <tr>
+                        <tr key={[order.account, order.currency].join(':')}>
                           <td>
                             {this.props.accounts.find(a => a.id === order.account).name}
                           </td>
@@ -114,6 +133,22 @@ class RebalanceWidget extends Component {
                     </tbody>
                   </table>
                 </div>
+
+                  {
+                    this.state.placingOrders ? (
+                      <div>
+                        <p>Placing orders ... <FontAwesomeIcon icon={faSpinner} spin /></p>
+                      </div>
+                      ) : (
+                        <div>
+                          <Button onClick={() => {this.confirmOrders()}}>
+                            Confirm
+                          </Button>
+                        </div>
+                      )
+                  }
+
+
               </div>
             ) : (
               <div>
@@ -142,6 +177,7 @@ const select = state => ({
   currencies: selectCurrencies(state),
 });
 const actions = {
+  reloadGroup: loadGroup,
 };
 
 export default connect(select, actions)(RebalanceWidget);
