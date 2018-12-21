@@ -57,13 +57,32 @@ export class AccountTargets extends React.Component {
           }}
           render={(props) => (
             <Form>
+              <div className="flex w-full">
+                <div className="w-1/6 text-xl">
+                  Symbol
+                </div>
+                <div className="w-1/2 text-xl">
+                  &nbsp;
+                </div>
+                <div className="flex w-1/3">
+                  <div className="w-1/3 text-xl">
+                    Target
+                  </div>
+                  <div className="w-1/3 text-xl">
+                    Actual
+                  </div>
+                  <div className="w-1/3 text-xl">
+                    Delta
+                  </div>
+                </div>
+              </div>
               <FieldArray
                 name="targets"
                 render={arrayHelpers => (
                   <React.Fragment>
                     {props.values.targets.map((t, index) => (
                       <TargetBar key={t.symbol} symbol={t.displaySymbol.symbol} percentage={t.percent} edit={edit}>
-                        <Field name={`targets.${index}.percent`} />
+                        <Field name={`targets.${index}.percent`} className="w-1/2" />
                       </TargetBar>
                       ))}
                   </React.Fragment>
