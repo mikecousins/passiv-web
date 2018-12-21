@@ -51,10 +51,13 @@ const GroupPage = (props) => {
       </div>
 
       <div className="flex mb-4">
-        <div className="w-1/2 mr-4">
+        <div className="w-full">
           <AccountTargets />
         </div>
-        <div className="w-1/2">
+      </div>
+
+      <div className="flex mb-4">
+        <div className="w-full">
           <AccountBalance balances={props.balances} />
         </div>
       </div>
