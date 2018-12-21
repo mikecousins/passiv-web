@@ -36,10 +36,6 @@ export class AccountTargets extends React.Component {
         </div>
       );
     }
-    const targetSchema = Yup.array().of(Yup.object().shape({
-      percent: Yup.number()
-        .required('Required'),
-    }));
 
     return (
       <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
