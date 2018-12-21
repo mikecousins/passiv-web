@@ -2,8 +2,10 @@ import React from 'react';
 
 export const TargetBar = (props) => {
   let deltaClassName = "w-1/3 text-blue";
+  let progressClassName = "bg-blue text-xs leading-none py-1 text-center text-white";
   if ((props.actualPercentage - props.percentage) < 0) {
     deltaClassName = "w-1/3 text-red";
+    progressClassName = "bg-red text-xs leading-none py-1 text-center text-white";
   }
   return (
     <div className="flex w-full">
@@ -12,7 +14,7 @@ export const TargetBar = (props) => {
       </div>
       <div className="w-1/2">
         <div className="shadow w-full bg-grey-light">
-          <div className="bg-blue text-xs leading-none py-1 text-center text-white" style={{ width: `${props.percentage}%` }}>
+          <div className={progressClassName} style={{ width: `${props.percentage}%` }}>
             {props.percentage}%
           </div>
         </div>
