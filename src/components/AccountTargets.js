@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Formik, Form, FieldArray, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import { baseUrl, importTarget } from '../actions';
 import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
