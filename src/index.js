@@ -8,15 +8,19 @@ import { createBrowserHistory } from 'history';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 import decode from 'jwt-decode';
 import isFuture from 'date-fns/is_future';
+import ReactGA from 'react-ga';
+import * as Sentry from '@sentry/browser';
 import { addReactorsToStore } from './reactors/HumanRedux';
 import createRootReducer from './reducers';
 import { loadData, loadGroupDetails } from './reactors';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import ReactGA from 'react-ga';
+import ErrorBoundary from './components/ErrorBoundary';
 
-
+Sentry.init({
+  dsn: "https://0d88597b9cb6439fa0050392b907ec17@sentry.io/1358976"
+});
 
 const history = createBrowserHistory();
 
@@ -73,11 +77,13 @@ addReactorsToStore({
 });
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <App />
-    </ConnectedRouter>
-  </Provider>,
+  <ErrorBoundary>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
+    </Provider>
+  </ErrorBoundary>,
   document.getElementById('root'));
 
 registerServiceWorker();
