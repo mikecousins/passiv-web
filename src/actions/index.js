@@ -185,16 +185,6 @@ export const loadAccount = payload => {
       getData(baseUrl + `/api/v1/accounts/${id}/`, payload.token)
         .then(response => dispatch(fetchAccountDetailsSuccess(response, id)))
         .catch(error => dispatch(fetchAccountDetailsError(error, id)));
-
-      // dispatch(fetchAccountBalancesStart(id));
-      // getData(baseUrl + `/api/v1/accounts/${id}/balances/`, payload.token)
-      //   .then(response => dispatch(fetchAccountBalancesSuccess(response, id)))
-      //   .catch(error => dispatch(fetchAccountBalancesError(error, id)));
-      //
-      // dispatch(fetchAccountPositionsStart(id));
-      // getData(baseUrl + `/api/v1/accounts/${id}/positions/`, payload.token)
-      //   .then(response => dispatch(fetchAccountPositionsSuccess(response, id)))
-      //   .catch(error => dispatch(fetchAccountPositionsError(error, id)));
     });
   };
 };
@@ -346,40 +336,6 @@ export const fetchAccountDetailsSuccess = (payload, id) => ({
 
 export const fetchAccountDetailsError = (payload, id) => ({
   type: 'FETCH_ACCOUNT_DETAILS_ERROR',
-  payload,
-  id,
-});
-
-export const fetchAccountBalancesStart = id => ({
-  type: 'FETCH_ACCOUNT_BALANCES_START',
-  id,
-});
-
-export const fetchAccountBalancesSuccess = (payload, id) => ({
-  type: 'FETCH_ACCOUNT_BALANCES_SUCCESS',
-  payload,
-  id,
-});
-
-export const fetchAccountBalancesError = (payload, id) => ({
-  type: 'FETCH_ACCOUNT_BALANCES_ERROR',
-  payload,
-  id,
-});
-
-export const fetchAccountPositionsStart = id => ({
-  type: 'FETCH_ACCOUNT_POSITIONS_START',
-  id,
-});
-
-export const fetchAccountPositionsSuccess = (payload, id) => ({
-  type: 'FETCH_ACCOUNT_POSITIONS_SUCCESS',
-  payload,
-  id,
-});
-
-export const fetchAccountPositionsError = (payload, id) => ({
-  type: 'FETCH_ACCOUNT_POSITIONS_ERROR',
   payload,
   id,
 });

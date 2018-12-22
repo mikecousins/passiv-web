@@ -36,15 +36,6 @@ export default (history) => combineReducers({
   accounts: simple({
     baseType: 'FETCH_ACCOUNTS'
   }),
-  accountDetails: simpleList({
-    baseType: 'FETCH_ACCOUNT_DETAILS'
-  }),
-  accountBalances: simpleList({
-    baseType: 'FETCH_ACCOUNT_BALANCES'
-  }),
-  accountPositions: simpleList({
-    baseType: 'FETCH_ACCOUNT_POSITIONS'
-  }),
   groupInfo: simpleList({
     baseType: 'FETCH_GROUP_INFO'
   }),
