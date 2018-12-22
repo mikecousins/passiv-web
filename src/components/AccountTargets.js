@@ -84,25 +84,31 @@ export class AccountTargets extends React.Component {
                       <TargetBar key={t.symbol} symbol={t.displaySymbol.symbol} percentage={t.percent} edit={edit} positions={this.props.positions}>
                         <Field name={`targets.${index}.percent`} className="w-1/2" />
                       </TargetBar>
-                      ))}
+                    ))}
+                    <ErrorMessage name="targets" />
+                    {edit ? (
+                      <React.Fragment>
+                        <Button onClick={() => arrayHelpers.push()}>
+                          Add
+                        </Button>
+                        <Button>
+                          Import
+                        </Button>
+                        <Button type="submit" onClick={props.handleSubmit} disabled={!props.dirty}>
+                          Save
+                        </Button>
+                        <Button onClick={() => this.setState({ edit: false })}>
+                          Cancel
+                        </Button>
+                      </React.Fragment>
+                    ) : (
+                      <Button onClick={() => this.setState({ edit: true })}>
+                        Edit
+                      </Button>
+                      )}
                   </React.Fragment>
                 )}
               />
-              <ErrorMessage name="targets" />
-              {edit ? (
-                <React.Fragment>
-                  <Button type="submit" onClick={props.handleSubmit} disabled={!props.dirty}>
-                    Save
-                  </Button>
-                  <Button onClick={() => this.setState({ edit: false })}>
-                    Cancel
-                  </Button>
-                </React.Fragment>
-              ) : (
-                <Button onClick={() => this.setState({ edit: true })}>
-                  Edit
-                </Button>
-                )}
             </Form>
           )}
         />
