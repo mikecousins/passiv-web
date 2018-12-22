@@ -81,14 +81,14 @@ export class AccountTargets extends React.Component {
                 render={arrayHelpers => (
                   <React.Fragment>
                     {props.values.targets.map((t, index) => (
-                      <TargetBar key={t.symbol} symbol={t.displaySymbol.symbol} percentage={t.percent} edit={edit} positions={this.props.positions}>
+                      <TargetBar key={t.symbol} symbol={t.displaySymbol ? t.displaySymbol.symbol : null} percentage={t.percent} edit={edit} positions={this.props.positions}>
                         <Field name={`targets.${index}.percent`} className="w-1/2" />
                       </TargetBar>
                     ))}
                     <ErrorMessage name="targets" />
                     {edit ? (
                       <React.Fragment>
-                        <Button onClick={() => arrayHelpers.push()}>
+                        <Button onClick={() => arrayHelpers.push({ symbol: null })}>
                           Add
                         </Button>
                         <Button>
@@ -121,8 +121,7 @@ const actions = { startImportTarget: importTarget };
 
 const select = state => ({
   groupId: selectCurrentGroupId(state),
-  target: selectCurrentGroupTarget(state),
-  symbols: select
+  target: selectCurrentGroupTarget(state)
 });
 
 export default connect(select, actions)(AccountTargets);
