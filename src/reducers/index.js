@@ -21,6 +21,9 @@ export default (history) => combineReducers({
   currencies: simple({
     baseType: 'FETCH_CURRENCIES'
   }),
+  symbols: simple({
+    baseType: 'FETCH_SYMBOLS'
+  }),
   groups: simple({
     baseType: 'FETCH_GROUPS'
   }),
