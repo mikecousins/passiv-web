@@ -83,11 +83,6 @@ export const initialLoad = payload => {
       .then(response => dispatch(fetchCurrenciesSuccess(response)))
       .catch(error => dispatch(fetchCurrenciesError(error)));
 
-    dispatch(fetchSymbolsStart());
-    getData(baseUrl + '/api/v1/symbols/', payload)
-      .then(response => dispatch(fetchSymbolsSuccess(response)))
-      .catch(error => dispatch(fetchSymbolsError(error)));
-
     dispatch(fetchGroupsStart());
     getData(baseUrl + '/api/v1/portfolioGroups/', payload)
       .then(response => {
@@ -236,20 +231,6 @@ export const fetchCurrenciesSuccess = payload => ({
 
 export const fetchCurrenciesError = payload => ({
   type: 'FETCH_CURRENCIES_ERROR',
-  payload,
-});
-
-export const fetchSymbolsStart = () => ({
-  type: 'FETCH_SYMBOLS_START',
-});
-
-export const fetchSymbolsSuccess = payload => ({
-  type: 'FETCH_SYMBOLS_SUCCESS',
-  payload,
-});
-
-export const fetchSymbolsError = payload => ({
-  type: 'FETCH_SYMBOLS_ERROR',
   payload,
 });
 
