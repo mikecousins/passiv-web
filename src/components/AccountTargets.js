@@ -6,6 +6,7 @@ import { Formik, Form, FieldArray, Field, ErrorMessage } from 'formik';
 import { baseUrl, importTarget } from '../actions';
 import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
+import CashBar from './CashBar';
 import { Button } from '../styled/Button';
 import { postData } from '../api';
 
@@ -85,6 +86,7 @@ export class AccountTargets extends React.Component {
                         <Field name={`targets.${index}.percent`} className="w-1/2" />
                       </TargetBar>
                     ))}
+                    <CashBar percentage={10} positions={this.props.positions} />
                     <ErrorMessage name="targets" />
                     {edit ? (
                       <React.Fragment>
