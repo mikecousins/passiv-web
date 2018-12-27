@@ -100,20 +100,20 @@ export const selectSymbols = createSelector(
   selectGroups,
   selectGroupInfo,
   (groups, groupInfo) => {
-    const fullSymbols = [];
+    const symbols = [];
     if (!groups) {
-      return fullSymbols;
+      return symbols;
     }
     groups.forEach(group => {
       if (groupInfo && groupInfo[group.id] && groupInfo[group.id].data){
         groupInfo[group.id].data.symbols.forEach(
           symbol => {
-            fullSymbols.push(symbol);
+            symbols.push(symbol);
           }
         )
       }
     });
-    return fullSymbols;
+    return symbols;
   }
 );
 
@@ -309,18 +309,19 @@ export const selectCurrentGroupTotalEquity = createSelector(
 export const selectCurrentGroupTarget = createSelector(
   selectCurrentGroupId,
   selectGroupInfo,
-  selectSymbols,
-  (groupId, groupInfo, symbols) => {
+  (groupId, groupInfo) => {
     if (!groupInfo || !groupInfo[groupId] || !groupInfo[groupId].data || !groupInfo[groupId].data.target_positions) {
       return null;
     }
-    const currentTarget = groupInfo[groupId].data.target_positions;
-    const currentTargetWithSymbols = currentTarget.map(target => {
-      const targetWithSymbol = target;
-      targetWithSymbol.displaySymbol = symbols.find(symbol => symbol.id === target.symbol);
-      return targetWithSymbol;
+    const group = groupInfo[groupId].data;
+    const currentTargetRaw = group.target_positions;
+    const currentTarget = currentTargetRaw.map(targetRaw => {
+      const target = targetRaw;
+      target.fullSymbol = group.symbols.find(symbol => symbol.id === target.symbol);
+      target.actualPercentage = 24;
+      return target;
     })
-    return currentTargetWithSymbols;
+    return currentTarget;
   }
 )
 

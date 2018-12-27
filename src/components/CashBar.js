@@ -1,13 +1,12 @@
 import React from 'react';
 
 export const CashBar = (props) => {
-  if (!props.positions) {
+  if (!props.percentage) {
     return 'Loading';
   }
-  const actualPercentage = 25;
   let deltaClassName = "w-1/3 text-blue";
   let progressClassName = "bg-blue text-xs leading-none py-1 text-center text-white";
-  if ((actualPercentage - props.percentage) < 0) {
+  if ((props.actualPercentage - props.percentage) < 0) {
     deltaClassName = "w-1/3 text-red";
     progressClassName = "bg-red text-xs leading-none py-1 text-center text-white";
   }
@@ -28,10 +27,10 @@ export const CashBar = (props) => {
           {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.percentage)}%
         </div>
         <div className="w-1/3">
-          {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(actualPercentage)}%
+          {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.actualPercentage)}%
         </div>
         <div className={deltaClassName}>
-          {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(actualPercentage - props.percentage)}%
+          {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.actualPercentage - props.percentage)}%
         </div>
       </div>
     </div>

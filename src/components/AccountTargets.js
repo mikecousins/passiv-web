@@ -56,6 +56,9 @@ export class AccountTargets extends React.Component {
               this.setState({loading: false});
             });
           }}
+          onReset={(values, actions) => {
+            this.setState({ edit: false });
+          }}
           render={(props) => (
             <Form>
               <div className="flex w-full">
@@ -79,14 +82,21 @@ export class AccountTargets extends React.Component {
               </div>
               <FieldArray
                 name="targets"
-                render={arrayHelpers => (
+                render={arrayHelpers => {
+                  const cashPercentage = 100 - props.values.targets.reduce((total, target) => {
+                    return total + parseFloat(target.percent);
+                  }, 0);
+                  const cashActualPercentage = 100 - props.values.targets.reduce((total, target) => {
+                    return total + target.actualPercentage;
+                  }, 0);
+                  return (
                   <React.Fragment>
                     {props.values.targets.map((t, index) => (
-                      <TargetBar key={t.symbol} symbol={t.displaySymbol ? t.displaySymbol.symbol : null} percentage={t.percent} edit={edit} positions={this.props.positions}>
-                        <Field name={`targets.${index}.percent`} className="w-1/2" />
+                      <TargetBar key={t.symbol} symbol={t.fullSymbol ? t.fullSymbol.symbol : null} percentage={t.percent} edit={edit} actualPercentage={t.actualPercentage}>
+                        <Field name={`targets.${index}.percent`} className="w-1/2" readOnly={!this.state.edit} />
                       </TargetBar>
                     ))}
-                    <CashBar percentage={10} positions={this.props.positions} />
+                    <CashBar percentage={cashPercentage} actualPercentage={cashActualPercentage} />
                     <ErrorMessage name="targets" />
                     {edit ? (
                       <React.Fragment>
@@ -99,7 +109,7 @@ export class AccountTargets extends React.Component {
                         <Button type="submit" onClick={props.handleSubmit} disabled={!props.dirty}>
                           Save
                         </Button>
-                        <Button onClick={() => this.setState({ edit: false })}>
+                        <Button onClick={props.handleReset}>
                           Cancel
                         </Button>
                       </React.Fragment>
@@ -109,7 +119,7 @@ export class AccountTargets extends React.Component {
                       </Button>
                       )}
                   </React.Fragment>
-                )}
+                )}}
               />
             </Form>
           )}
