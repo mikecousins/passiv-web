@@ -314,13 +314,29 @@ export const selectCurrentGroupTarget = createSelector(
       return null;
     }
     const group = groupInfo[groupId].data;
+
+    // add the target positions
     const currentTargetRaw = group.target_positions;
     const currentTarget = currentTargetRaw.map(targetRaw => {
       const target = targetRaw;
+      // add the symbol to the target
       target.fullSymbol = group.symbols.find(symbol => symbol.id === target.symbol);
+      // add the actual percentage to the target
       target.actualPercentage = 24;
+      target.excluded = false;
       return target;
-    })
+    });
+
+    // add the excluced positions
+    const excludedPositionsRaw = group.excluded_positions;
+    const excludedPositions = excludedPositionsRaw.map(excludedRaw => {
+      const excluded = excludedRaw;
+      // add the symbol to the  excluded position
+      excluded.fullSymbol = group.symbols.find(symbol => symbol.id === excludedRaw.symbol);
+      excluded.excluded = true;
+      return excluded;
+    });
+    Array.prototype.push.apply(currentTarget, excludedPositions);
     return currentTarget;
   }
 )

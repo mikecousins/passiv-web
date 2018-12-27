@@ -1,10 +1,9 @@
 import React from 'react';
 import Downshift from 'downshift';
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const TargetBar = (props) => {
-  if (!props.percentage) {
-    return 'Loading';
-  }
   if (!props.symbol) {
     const items = [
       {value: 'apple'},
@@ -73,24 +72,28 @@ export const TargetBar = (props) => {
       <div className="w-1/6">
         {props.symbol}
       </div>
-      <div className="w-1/2">
-        <div className="shadow w-full bg-grey-light">
-          <div className={progressClassName} style={{ width: `${props.percentage}%` }}>
-            {props.percentage}%
+      {!props.excluded ? (
+        <React.Fragment>
+          <div className="w-1/2">
+            <div className="shadow w-full bg-grey-light">
+                <div className={progressClassName} style={{ width: `${props.percentage}%` }}>
+                  {props.percentage}%
+                </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="flex w-1/3">
-        <div className="w-1/3">
-          {props.children}%
-        </div>
-        <div className="w-1/3">
-          {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.actualPercentage)}%
-        </div>
-        <div className={deltaClassName}>
-          {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1 }).format(props.actualPercentage - props.percentage)}%
-        </div>
-      </div>
+          <div className="flex w-1/3">
+            <div className="w-1/3">
+              {props.children}%
+            </div>
+            <div className="w-1/3">
+              {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.actualPercentage)}%
+            </div>
+            <div className={deltaClassName}>
+              {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1 }).format(props.actualPercentage - props.percentage)}%
+            </div>
+          </div>
+        </React.Fragment>
+      ) : <FontAwesomeIcon icon={faEyeSlash} />}
     </div>
   );
 }

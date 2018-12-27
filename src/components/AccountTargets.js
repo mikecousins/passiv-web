@@ -86,15 +86,21 @@ export class AccountTargets extends React.Component {
                 name="targets"
                 render={arrayHelpers => {
                   const cashPercentage = 100 - props.values.targets.reduce((total, target) => {
-                    return total + parseFloat(target.percent);
+                    if (target.percent) {
+                      return total + parseFloat(target.percent);
+                    }
+                    return total;
                   }, 0);
                   const cashActualPercentage = 100 - props.values.targets.reduce((total, target) => {
-                    return total + target.actualPercentage;
+                    if (target.actualPercentage) {
+                      return total + target.actualPercentage;
+                    }
+                    return total;
                   }, 0);
                   return (
                   <React.Fragment>
                     {props.values.targets.map((t, index) => (
-                      <TargetBar key={t.symbol} symbol={t.fullSymbol ? t.fullSymbol.symbol : null} percentage={t.percent} edit={edit} actualPercentage={t.actualPercentage}>
+                      <TargetBar key={t.symbol} symbol={t.fullSymbol ? t.fullSymbol.symbol : null} percentage={t.percent} edit={edit} actualPercentage={t.actualPercentage} excluded={t.excluded}>
                         <Field name={`targets.${index}.percent`} className="w-1/2" readOnly={!this.state.edit} />
                       </TargetBar>
                     ))}
