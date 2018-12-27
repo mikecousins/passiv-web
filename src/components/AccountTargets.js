@@ -8,7 +8,7 @@ import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../styled/Button';
-import { postData } from '../api';
+import { patchData } from '../api';
 
 export class AccountTargets extends React.Component {
   state = { edit: false }
@@ -45,15 +45,17 @@ export class AccountTargets extends React.Component {
           onSubmit={(values, actions) => {
             console.log('submitting');
             // post the new targets and update our data
-            postData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets`, values)
-            .then(response => {
-              console.log('success', response);
-              this.setState({loading: false});
-              this.props.refreshGroups();
-            })
-            .catch(error => {
-              console.log('error', error);
-              this.setState({loading: false});
+            values.targets.forEach(target => {
+              patchData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}`, target)
+              .then(response => {
+                console.log('success', response);
+                this.setState({loading: false});
+                this.props.refreshGroups();
+              })
+              .catch(error => {
+                console.log('error', error);
+                this.setState({loading: false});
+              });
             });
           }}
           onReset={(values, actions) => {
