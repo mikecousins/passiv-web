@@ -38,8 +38,4 @@ export const CashBar = (props) => {
   );
 }
 
-const select = state => ({
-  symbols: select
-});
-
 export default CashBar;
