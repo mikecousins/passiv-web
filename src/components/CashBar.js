@@ -18,7 +18,7 @@ export const CashBar = (props) => {
       <div className="w-1/2">
         <div className="shadow w-full bg-grey-light">
           <div className={progressClassName} style={{ width: `${props.percentage}%` }}>
-            {props.percentage}%
+            {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.percentage)}%
           </div>
         </div>
       </div>
