@@ -72,6 +72,8 @@ You'll want the following extensions:
 
 ## Infrastructure
 
+At Passiv we stand on the shoulders of giants to provide you with a reliable, world-class product.
+
 We build our app using [Travis](https://travis-ci.org/passiv/passiv-web).
 
 We deploy our app on [Netlify](https://netlify.com).
