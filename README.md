@@ -7,6 +7,7 @@
 - [Introduction](#introduction)
 - [Major Components](#major-components)
 - [Getting Started](#getting-started)
+  - [VS Code Setup](#vs-code-setup)
 - [Infrastructure](#infrastructure)
 - [Available Scripts](#available-scripts)
   - [npm start](#npm-start)
@@ -56,6 +57,18 @@ This will take a bit and will install all of our libraries. When it's done run:
 `yarn start` or `npm start`
 
 This will build and launch the app in your browser.
+
+### VS Code Setup
+
+If you're using Visual Studio Code, here are some tips for getting it setup perfectly for our code.
+
+You'll want the following extensions:
+
+* **EditorConfig for VS Code** - uses our built-in config file to setup VS Code for line endings, tab size, etc.
+* **ESLint** - shows you any problems with your code in real-time
+* **Jest** - runs our unit tests while you code, giving you great feedback
+* **GitLens** - enables nice Git integration
+* **VS Live Share** - so you can pair program with ease
 
 ## Infrastructure
 
