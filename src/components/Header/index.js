@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import LogoutButton from './LogoutButton';
-import RefreshButton from './RefreshButton';
+import LogoutButton from '../LogoutButton';
+import RefreshButton from '../RefreshButton';
 
 
 export const Header = () => (
