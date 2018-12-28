@@ -12,6 +12,9 @@
   - [npm start](#npm-start)
   - [npm test](#npm-test)
   - [npm run build](#npm-run-build)
+- [Tests](#tests)
+  - [Unit](#unit-tests)
+  - [System](#system-tests)
 
 ## Introduction
 
@@ -28,7 +31,12 @@ This app was developed using quite a few libraries which we're incredibly thankf
 * [Formik](https://github.com/jaredpalmer/formik)
 * [Font Awesome](https://fontawesome.com/)
 * [Emotion](https://emotion.sh)
-
+* [Storybook](https://storybook.js.org/)
+* [date-fns](https://date-fns.org/)
+* [Downshift](https://github.com/paypal/downshift)
+* [Cypress](https://cypress.io)
+* [Enzyme](https://airbnb.io/enzyme/)
+* [Jest](https://jestjs.io/)
 
 ## Getting Started
 
@@ -41,11 +49,11 @@ You'll need a bunch of environment setup done before getting started with our ap
 
 You'll want to clone the repo and then in your terminal run:
 
-### `yarn` or `npm install`
+`yarn` or `npm install`
 
 This will take a bit and will install all of our libraries. When it's done run:
 
-### `yarn start` or `npm start`
+`yarn start` or `npm start`
 
 This will build and launch the app in your browser.
 
@@ -83,3 +91,15 @@ The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
 See the section about [deployment](#deployment) for more information.
+
+## Tests
+
+We believe in well tested code and as such have a rigorous suite of both unit and system tests.
+
+### Unit Tests
+
+We use Jest/Enzyme for our unit tests. They are located in a `/tests` folder inside each component folder.
+
+### System Tests
+
+We use Cypress for our system tests. They are located in the `/cypress/fixtures` folder.
