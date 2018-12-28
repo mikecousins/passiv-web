@@ -83,3 +83,7 @@ yarn-error.log*
 
 /src/index.css
 package-lock.json
+
+# Cypress
+/cypress/videos
+/cypress/screenshots
