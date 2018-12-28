@@ -18,5 +18,5 @@ cache:
     - 'node_modules'
 
 script:
-  - yarn run test
+  - yarn run travis
   - yarn run build

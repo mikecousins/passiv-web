@@ -56,7 +56,9 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "cypress": "cypress",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "lint": "eslint src",
+    "travis": "npm run test && npm run lint && npm run cypress"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^4.1.1",
