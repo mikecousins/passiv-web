@@ -2,8 +2,6 @@
 [![dependencies Status](https://david-dm.org/passiv/passiv-web/status.svg)](https://david-dm.org/passiv/passiv-web)
 [![devDependencies Status](https://david-dm.org/passiv/passiv-web/dev-status.svg)](https://david-dm.org/passiv/passiv-web?type=dev)
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
-
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -53,9 +51,11 @@ This will build and launch the app in your browser.
 
 ## Infrastructure
 
-We build our app using [Travis](https://travis-ci.org).
+We build our app using [Travis](https://travis-ci.org/passiv/passiv-web).
 
 We deploy our app on [Netlify](https://netlify.com).
+
+We monitor our dependencies using [David](https://david-dm.org/passiv/passiv-web).
 
 ## Available Scripts
 
