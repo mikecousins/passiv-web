@@ -78,6 +78,14 @@ We deploy our app on [Netlify](https://netlify.com).
 
 We monitor our dependencies using [David](https://david-dm.org/passiv/passiv-web).
 
+We monitor exceptions using [Sentry](https://sentry.io).
+
+We track usage with [Google Analytics](https://analytics.google.com).
+
+We host our code on [GitHub](https://github.com).
+
+We process payments with [Stripe](https://stripe.com).
+
 ## Available Scripts
 
 In the project directory, you can run:
