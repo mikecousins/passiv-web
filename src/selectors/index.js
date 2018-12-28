@@ -306,41 +306,6 @@ export const selectCurrentGroupTotalEquity = createSelector(
   }
 );
 
-export const selectCurrentGroupTarget = createSelector(
-  selectCurrentGroupId,
-  selectGroupInfo,
-  (groupId, groupInfo) => {
-    if (!groupInfo || !groupInfo[groupId] || !groupInfo[groupId].data || !groupInfo[groupId].data.target_positions) {
-      return null;
-    }
-    const group = groupInfo[groupId].data;
-
-    // add the target positions
-    const currentTargetRaw = group.target_positions;
-    const currentTarget = currentTargetRaw.map(targetRaw => {
-      const target = targetRaw;
-      // add the symbol to the target
-      target.fullSymbol = group.symbols.find(symbol => symbol.id === target.symbol);
-      // add the actual percentage to the target
-      target.actualPercentage = 24;
-      target.excluded = false;
-      return target;
-    });
-
-    // add the excluced positions
-    const excludedPositionsRaw = group.excluded_positions;
-    const excludedPositions = excludedPositionsRaw.map(excludedRaw => {
-      const excluded = excludedRaw;
-      // add the symbol to the  excluded position
-      excluded.fullSymbol = group.symbols.find(symbol => symbol.id === excludedRaw.symbol);
-      excluded.excluded = true;
-      return excluded;
-    });
-    Array.prototype.push.apply(currentTarget, excludedPositions);
-    return currentTarget;
-  }
-)
-
 export const selectCurrentGroupTrades = createSelector(
   selectCurrentGroupId,
   selectGroupInfo,
@@ -404,7 +369,50 @@ export const selectTotalGroupHoldings = createSelector(
 
     return total;
   }
-)
+);
+
+export const selectCurrentGroupTarget = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  selectTotalGroupHoldings,
+  (groupId, groupInfo, totalHoldings) => {
+    if (!groupInfo || !groupInfo[groupId] || !groupInfo[groupId].data || !groupInfo[groupId].data.target_positions) {
+      return null;
+    }
+    const group = groupInfo[groupId].data;
+
+    // add the target positions
+    const currentTargetRaw = group.target_positions;
+    const currentTarget = currentTargetRaw.map(targetRaw => {
+      const target = targetRaw;
+      // add the symbol to the target
+      target.fullSymbol = group.symbols.find(symbol => symbol.id === target.symbol);
+      // add the actual percentage to the target
+      const position = group.positions.find(p => p.symbol.id === target.symbol);
+      if (position) {
+        target.actualPercentage = position.price * position.units / totalHoldings * 100;
+      }
+
+      target.excluded = false;
+      return target;
+    });
+
+    // add the excluced positions
+    const excludedPositionsRaw = group.excluded_positions;
+    const excludedPositions = excludedPositionsRaw.map(excludedRaw => {
+      const excluded = excludedRaw;
+      // add the symbol to the  excluded position
+      excluded.fullSymbol = group.symbols.find(symbol => symbol.id === excludedRaw.symbol);
+      excluded.excluded = true;
+      return excluded;
+    });
+    Array.prototype.push.apply(currentTarget, excludedPositions);
+
+    // TODO add the holdings which don't have a target
+
+    return currentTarget;
+  }
+);
 
 export const selectIsAuthorized = createSelector(
   selectAuthorizations,
@@ -417,4 +425,4 @@ export const selectIsAuthorized = createSelector(
     }
     return false;
   }
-)
+);
