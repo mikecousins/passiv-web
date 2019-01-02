@@ -42,6 +42,7 @@ export class AccountTargets extends React.Component {
         <h3>Target Portfolio</h3>
         <Formik
           initialValues={{ targets: target }}
+          enableReinitialize={true}
           onSubmit={(values, actions) => {
             console.log('submitting');
             // post the new targets and update our data
