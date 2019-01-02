@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const CashBar = (props) => {
-  if (!props.percentage) {
+  if (!(typeof(props.percentage) === "number")) {
     return 'Loading';
   }
   let deltaClassName = "w-1/3 text-blue";
