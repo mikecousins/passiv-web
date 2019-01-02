@@ -374,7 +374,7 @@ export const selectTotalGroupHoldings = createSelector(
 export const selectCurrentGroupTarget = createSelector(
   selectCurrentGroupId,
   selectGroupInfo,
-  selectTotalGroupHoldings,
+  selectCurrentGroupTotalEquity,
   (groupId, groupInfo, totalHoldings) => {
     if (!groupInfo || !groupInfo[groupId] || !groupInfo[groupId].data || !groupInfo[groupId].data.target_positions) {
       return null;
@@ -384,7 +384,7 @@ export const selectCurrentGroupTarget = createSelector(
     // add the target positions
     const currentTargetRaw = group.target_positions;
     const currentTarget = currentTargetRaw.map(targetRaw => {
-      const target = targetRaw;
+      const target = {...targetRaw};
       // add the symbol to the target
       target.fullSymbol = group.symbols.find(symbol => symbol.id === target.symbol);
       // add the actual percentage to the target
@@ -409,7 +409,6 @@ export const selectCurrentGroupTarget = createSelector(
     Array.prototype.push.apply(currentTarget, excludedPositions);
 
     // TODO add the holdings which don't have a target
-
     return currentTarget;
   }
 );
