@@ -76,9 +76,23 @@ export const TargetBar = (props) => {
         <React.Fragment>
           <div className="w-1/2">
             <div className="shadow w-full bg-grey-light">
-                <div className={progressClassName} style={{ width: `${props.percentage}%` }}>
-                  {props.percentage}%
-                </div>
+              {
+                props.percentage > 100 ? (
+                  <div className={progressClassName} style={{ width: '100%', backgroundColor: 'red' }}>
+                    Warning: allocation cannot be over 100%
+                  </div>
+                ) :
+                  props.percentage < 0 ? (
+                    <div className={progressClassName} style={{ width: '100%', backgroundColor: 'red' }}>
+                      Warning: allocation cannot be negative!
+                    </div>
+                  ) : (
+                    <div className={progressClassName} style={{ width: `${props.percentage}%` }}>
+                      {props.percentage}%
+                    </div>
+                  )
+              }
+
             </div>
           </div>
           <div className="flex w-1/3">

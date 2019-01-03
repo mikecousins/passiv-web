@@ -115,9 +115,17 @@ export class AccountTargets extends React.Component {
                         <Button>
                           Import
                         </Button>
-                        <Button type="submit" onClick={props.handleSubmit} disabled={!props.dirty}>
-                          Save
-                        </Button>
+                        {
+                          cashPercentage < 0 ? (
+                            <Button type="submit" onClick={props.handleSubmit} disabled={true}>
+                              Save
+                            </Button>
+                          ) : (
+                            <Button type="submit" onClick={props.handleSubmit} disabled={!props.dirty}>
+                              Save
+                            </Button>
+                          )
+                        }
                         <Button onClick={props.handleReset}>
                           Cancel
                         </Button>
