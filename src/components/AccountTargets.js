@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Formik, Form, FieldArray, Field, ErrorMessage } from 'formik';
-import { baseUrl, importTarget } from '../actions';
+import { baseUrl, importTarget, loadGroups } from '../actions';
 import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
@@ -50,12 +50,12 @@ export class AccountTargets extends React.Component {
               patchData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}`, target)
               .then(response => {
                 console.log('success', response);
-                this.setState({loading: false});
+                this.setState({edit: false});
                 this.props.refreshGroups();
               })
               .catch(error => {
                 console.log('error', error);
-                this.setState({loading: false});
+                this.setState({edit: false});
               });
             });
           }}
@@ -138,7 +138,10 @@ export class AccountTargets extends React.Component {
   }
 }
 
-const actions = { startImportTarget: importTarget };
+const actions = {
+  startImportTarget: importTarget,
+  refreshGroups: loadGroups,
+};
 
 const select = state => ({
   groupId: selectCurrentGroupId(state),
