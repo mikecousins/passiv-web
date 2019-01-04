@@ -1,11 +1,9 @@
 import React from 'react';
-import AsyncSelect from 'react-select/lib/Async';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { baseUrl } from '../actions';
-import { postData } from '../api';
-
-
+import { baseUrl } from '../../actions';
+import { postData } from '../../api';
+import SymbolSelector from './SymbolSelector';
 
 export class TargetBar extends React.Component {
   state = {
@@ -50,12 +48,13 @@ export class TargetBar extends React.Component {
           {(!id && !excluded) ? (
             <div className="flex w-full">
               <div className="w-1/6">
-                <AsyncSelect
+                <SymbolSelector
                   value={fullSymbol}
                   onChange={setSymbol}
                   loadOptions={this.loadOptions}
                   getOptionLabel={(option) => option.symbol}
                   getOptionValue={(option) => option.id}
+                  style={{ width: 120 }}
                 />
               </div>
             </div>
