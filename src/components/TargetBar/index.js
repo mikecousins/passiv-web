@@ -6,10 +6,6 @@ import { postData } from '../../api';
 import SymbolSelector from './SymbolSelector';
 
 export class TargetBar extends React.Component {
-  state = {
-    newSymbol: ''
-  }
-
   loadOptions = (substring, callback) => {
     postData(`${baseUrl}/api/v1/symbols`, { substring })
       .then(response => {
