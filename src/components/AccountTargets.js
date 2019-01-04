@@ -13,6 +13,12 @@ import { patchData } from '../api';
 export class AccountTargets extends React.Component {
   state = { edit: false }
 
+  setSymbol(target, symbol) {
+    target.fullSymbol = symbol;
+    target.symbol = symbol.id;
+    this.forceUpdate();
+  }
+
   render() {
     const { target, groupId, startImportTarget } = this.props;
     const { edit } = this.state;
@@ -101,7 +107,12 @@ export class AccountTargets extends React.Component {
                   return (
                   <React.Fragment>
                     {props.values.targets.map((t, index) => (
-                      <TargetBar key={t.symbol} symbol={t.fullSymbol ? t.fullSymbol.symbol : null} percentage={t.percent} edit={edit} actualPercentage={t.actualPercentage} excluded={t.excluded}>
+                      <TargetBar
+                        key={t.symbol}
+                        target={t}
+                        edit={edit}
+                        setSymbol={(symbol) => this.setSymbol(t, symbol)}
+                      >
                         <Field name={`targets.${index}.percent`} className="w-1/2" readOnly={!this.state.edit} />
                       </TargetBar>
                     ))}
@@ -109,7 +120,7 @@ export class AccountTargets extends React.Component {
                     <ErrorMessage name="targets" />
                     {edit ? (
                       <React.Fragment>
-                        <Button onClick={() => arrayHelpers.push({ symbol: null })}>
+                        <Button onClick={() => arrayHelpers.push({ symbol: null, percentage: 0 })}>
                           Add
                         </Button>
                         <Button>
