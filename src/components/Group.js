@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
+import ShadowBox from '../styled/ShadowBox';
+
 const Group = (props) => {
   const { group } = props;
   if (!group) {
@@ -26,7 +28,7 @@ const Group = (props) => {
   }
 
   return (
-    <div className="rounded overflow-hidden shadow-lg px-6 py-4 my-4 bg-white flex">
+    <ShadowBox>
       <div className="w-1/3 bg-white py-1 align-middle text-2xl font-bold">{group.name}</div>
       <div className="w-1/6 bg-white py-1 align-middle">
         <div className="text-xl font-bold">
@@ -49,7 +51,7 @@ const Group = (props) => {
       <div className="w-1/6 bg-white py-1 align-middle">
         <Link to={`/app/group/${group.id}`}>View</Link>
       </div>
-    </div>
+    </ShadowBox>
   );
 }
 

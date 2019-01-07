@@ -6,6 +6,8 @@ import { baseUrl } from '../actions';
 import { Button } from '../styled/Button';
 import { DisabledButton } from '../styled/DisabledButton';
 
+
+
 class AuthorizationPicker extends Component {
   state = {
     allowSelect: this.props.allowSelect === undefined ? true : this.props.allowSelect,

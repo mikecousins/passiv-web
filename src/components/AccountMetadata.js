@@ -7,6 +7,8 @@ import { baseUrl, loadGroups } from '../actions';
 import { patchData } from '../api';
 import { selectCurrentGroup } from '../selectors';
 
+import ShadowBox from '../styled/ShadowBox';
+
 class AccountMetadata extends Component {
   state = {
     name: this.props.name,
@@ -43,7 +45,7 @@ class AccountMetadata extends Component {
 
   render() {
     return (
-      <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
+      <ShadowBox>
         <div className="border-grey-lighter border-b py-2 flex w-full">
           {this.state.editingName ? (
             <div className="w-2/3 text-4xl font-bold">
@@ -79,7 +81,7 @@ class AccountMetadata extends Component {
             <b>{this.props.equity ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(this.props.equity) : <FontAwesomeIcon icon={faSpinner} spin />}</b>
           </div>
         </div>
-      </div>
+      </ShadowBox>
     )
   }
 };

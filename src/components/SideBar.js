@@ -6,6 +6,14 @@ import { selectGroups, selectIsDemoMode } from '../selectors';
 import { toggleDemoMode } from '../actions';
 import SideBarLink from './SideBarLink';
 
+import styled from 'styled-components';
+
+const StyledAside = styled.aside`
+  background-color: var(--brand-grey);
+  color: #fff;
+  padding-top: 30px;
+`;
+
 const SideBar = (props) => {
   let groups = <FontAwesomeIcon icon={faSpinner} spin />;
   if (props.groups) {
@@ -18,7 +26,7 @@ const SideBar = (props) => {
     ));
   }
   return (
-    <div>
+    <StyledAside>
       <SideBarLink
         name="Dashboard"
         linkPath="/app/dashboard"
@@ -37,7 +45,7 @@ const SideBar = (props) => {
         {props.demoMode && <FontAwesomeIcon icon={faToggleOn} />}
         {!props.demoMode && <FontAwesomeIcon icon={faToggleOff} />}
       </button>
-    </div>
+    </StyledAside>
   );
 }
 

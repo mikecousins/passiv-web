@@ -2,8 +2,10 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
+import ShadowBox from '../styled/ShadowBox';
+
 const AccountHoldings = (props) => (
-  <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
+  <ShadowBox>
     <h3>Current Portfolio</h3>
     <br />
     <table className="w-full text-left">
@@ -37,7 +39,7 @@ const AccountHoldings = (props) => (
         }
       </tbody>
     </table>
-  </div>
+  </ShadowBox>
 );
 
 export default AccountHoldings;

@@ -6,6 +6,8 @@ import { selectSettings } from '../selectors';
 import { baseUrl, loadSettings } from '../actions';
 import { putData } from '../api';
 
+import ShadowBox from '../styled/ShadowBox';
+
 export class CredentialsManager extends React.Component {
   state = {
     name: this.props.settings && this.props.settings.name,
@@ -50,18 +52,18 @@ export class CredentialsManager extends React.Component {
 
   render() {
     return (
-      <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
-        <h1>Credentials</h1>
+      <ShadowBox>
+        <h2>Passiv Credentials</h2>
         <div>
           {this.state.editingName ? (
             <div>
               <input value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}/>
-              <button className="text-base" onClick={() => this.finishEditing()}>Done</button>
+              <button onClick={() => this.finishEditing()}>Done</button>
             </div>
           ) : (
             <div>
               Name: {this.state.name}
-              <button className="text-base" onClick={() => this.startEditingName()}><FontAwesomeIcon icon={faPen} />Edit</button>
+              <button onClick={() => this.startEditingName()}><FontAwesomeIcon icon={faPen} />Edit</button>
             </div>
           )}
         </div>
@@ -69,16 +71,16 @@ export class CredentialsManager extends React.Component {
           {this.state.editingEmail ? (
             <div>
               <input value={this.state.email} onChange={(event) => {this.setState({email: event.target.value})}}/>
-              <button className="text-base" onClick={() => this.finishEditing()}>Done</button>
+              <button onClick={() => this.finishEditing()}>Done</button>
             </div>
           ) : (
             <div>
               Email: {this.state.email}
-              <button className="text-base" onClick={() => this.startEditingEmail()}><FontAwesomeIcon icon={faPen} />Edit</button>
+              <button onClick={() => this.startEditingEmail()}><FontAwesomeIcon icon={faPen} />Edit</button>
             </div>
           )}
         </div>
-      </div>
+      </ShadowBox>
     )
   }
 }

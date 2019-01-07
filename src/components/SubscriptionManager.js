@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 
+import ShadowBox from '../styled/ShadowBox';
 
 export class SubscriptionManager extends React.Component {
   state = {
@@ -213,12 +214,12 @@ export class SubscriptionManager extends React.Component {
     }
 
     return (
-      <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
-        <h1>Subscription</h1>
+      <ShadowBox>
+        <h2>Subscription</h2>
         <div>
           { subscriptionBody }
         </div>
-      </div>
+      </ShadowBox>
     )
   }
 }

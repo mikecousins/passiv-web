@@ -1,7 +1,8 @@
 import React from 'react';
+import ShadowBox from '../styled/ShadowBox';
 
 const StockGroup = (props) => (
-  <div className="rounded overflow-hidden px-6 py-4 mb-4 bg-white shadow">
+  <ShadowBox>
     <div className="flex mb-4 h-6">
       <span className="font-bold text-lg mb-2">{props.name}</span>
       <span className="font-semi-bold text-lg px-4">$123,456</span>
@@ -14,7 +15,7 @@ const StockGroup = (props) => (
     <div>
       {props.children}
     </div>
-  </div>
+  </ShadowBox>
 );
 
 export default StockGroup;

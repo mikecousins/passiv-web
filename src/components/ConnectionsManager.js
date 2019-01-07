@@ -6,6 +6,8 @@ import { deleteData } from '../api';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import { Button } from '../styled/Button';
 
+import ShadowBox from '../styled/ShadowBox';
+
 export class ConnectionsManager extends React.Component {
   state = {
     creatingNewConnection: false,
@@ -98,8 +100,8 @@ export class ConnectionsManager extends React.Component {
       )
     }
     return (
-      <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
-        <h1>Connections</h1>
+      <ShadowBox>
+        <h2>Connections</h2>
         {authorizations}
         {
           this.state.creatingNewConnection ?
@@ -118,7 +120,7 @@ export class ConnectionsManager extends React.Component {
               </div>
             )
         }
-      </div>
+      </ShadowBox>
     )
   }
 }

@@ -10,6 +10,8 @@ import CashBar from './CashBar';
 import { Button } from '../styled/Button';
 import { patchData } from '../api';
 
+import ShadowBox from '../styled/ShadowBox';
+
 export class AccountTargets extends React.Component {
   state = { edit: false }
 
@@ -26,25 +28,25 @@ export class AccountTargets extends React.Component {
     // show a spinner if we don't have our data yet
     if (!target) {
       return (
-        <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
+        <ShadowBox>
           <h3>Target Portfolio</h3>
           <span><FontAwesomeIcon icon={faSpinner} spin /></span>
-        </div>
+        </ShadowBox>
       );
     }
 
     // help them set a target if they don't have one yet
     if (target && target.length === 0) {
       return (
-        <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
+        <ShadowBox>
           <h3>Target Portfolio</h3>
           <span>No target set<button onClick={() => startImportTarget(groupId)}>Import</button></span>
-        </div>
+        </ShadowBox>
       );
     }
 
     return (
-      <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
+      <ShadowBox>
         <h3>Target Portfolio</h3>
         <Formik
           initialValues={{ targets: target }}
@@ -152,7 +154,7 @@ export class AccountTargets extends React.Component {
             </Form>
           )}
         />
-      </div>
+      </ShadowBox>
     );
   }
 }

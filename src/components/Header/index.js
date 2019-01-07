@@ -3,24 +3,32 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LogoutButton from '../LogoutButton';
 import RefreshButton from '../RefreshButton';
+import styled from 'styled-components';
+import logo from '../../assets/images/logo-no-name.png';
+import logo2x from '../../assets/images/logo-no-name@2x.png';
 
+
+const StyledHeader = styled.header`
+  grid-area: header;
+  padding: 10px 20px;
+  background: #fff;
+`;
 
 export const Header = () => (
-  <nav className="flex items-center justify-between flex-wrap py-6 bg-white">
-    <div className="flex items-center flex-no-shrink text-black mr-6">
-      <Link to="/" >
-        <span className="font-semibold text-5xl tracking-tight">Passiv</span>
-      </Link>
-    </div>
-    <div className="flex items-center flex-no-shrink text-black mr-6">
-      <RefreshButton />
-    </div>
-    <div className="flex items-center flex-no-shrink text-black mr-6">
-      <LogoutButton />
-    </div>
-  </nav>
+  <StyledHeader>
+    <nav>
+      <div>
+        <Link to="/" >
+          <img src={logo} srcset={`${logo2x} 2x`} alt="Passiv Logo" />
+        </Link>
+      </div>
+      <div>
+        <RefreshButton />
+        <LogoutButton />
+      </div>
+    </nav>
+  </StyledHeader>
 );
 
 const select = state => ({});
-
 export default connect(select)(Header);

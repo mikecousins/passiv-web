@@ -7,6 +7,8 @@ import { baseUrl, loadGroup } from '../actions';
 import { getData, postData } from '../api';
 import { Button } from '../styled/Button';
 
+import ShadowBox from '../styled/ShadowBox';
+
 class RebalanceWidget extends Component {
   state = {
     expanded: false,
@@ -163,10 +165,10 @@ class RebalanceWidget extends Component {
     }
 
     return (
-      <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
+      <ShadowBox>
         <button onClick={() => this.toggleExpand()}>{this.anySells() ? 'Rebalance' : 'Allocate'} {this.state.expanded ? ( <FontAwesomeIcon icon={faChevronUp} /> ) : ( <FontAwesomeIcon icon={faChevronDown} /> )}</button>
         { orderValidation }
-      </div>
+      </ShadowBox>
     )
   }
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ShadowBox from '../styled/ShadowBox';
 
 const AccountBalance = (props) => {
   let content = (
@@ -34,9 +35,9 @@ const AccountBalance = (props) => {
   )
 
   return (
-    <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
+    <ShadowBox>
       {content}
-    </div>
+    </ShadowBox>
   )
 };
 

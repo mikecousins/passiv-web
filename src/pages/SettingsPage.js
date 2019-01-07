@@ -3,28 +3,21 @@ import { connect } from 'react-redux';
 import CredentialsManager from '../components/CredentialsManager';
 import SubscriptionManager from '../components/SubscriptionManager';
 import ConnectionsManager from '../components/ConnectionsManager';
+import styled from 'styled-components';
+
 
 
 class SettingsPage extends Component {
 
-
   render() {
     return (
     <React.Fragment>
-      <div className="flex mb-4">
-        <div className="w-1/2 mr-4">
-          <CredentialsManager />
-        </div>
-        <div className="w-1/2">
-          <SubscriptionManager />
-        </div>
-      </div>
+      <CredentialsManager />
 
-      <div className="flex mb-4">
-        <div className="w-full">
-          <ConnectionsManager />
-        </div>
-      </div>
+      <SubscriptionManager />
+
+      <ConnectionsManager />
+
     </React.Fragment>
     );
   }

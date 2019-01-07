@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { selectCurrentGroupTrades } from '../selectors';
 import RebalanceWidget from './RebalanceWidget';
 
+import ShadowBox from '../styled/ShadowBox';
+
 class AccountTrades extends Component {
   render() {
     let trades = null;
@@ -30,9 +32,9 @@ class AccountTrades extends Component {
 
     return (
       <div>
-        <div className="rounded overflow-hidden shadow-lg px-6 py-4 bg-white">
+        <ShadowBox>
           {trades}
-        </div>
+        </ShadowBox>
         <RebalanceWidget
           trades={this.props.trades}
         />
