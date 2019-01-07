@@ -77,7 +77,9 @@
     "extends": "react-app"
   },
   "babel": {
-    "plugins": ["babel-plugin-styled-components"]
+    "plugins": [
+      "babel-plugin-styled-components"
+    ]
   },
   "browserslist": [
     ">0.2%",

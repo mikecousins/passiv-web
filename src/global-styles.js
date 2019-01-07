@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
-import medFont from './fonts/cooperfont-medium-webfont.woff';
-import medFont2 from './fonts/cooperfont-medium-webfont.woff2';
+import medFont from './assets/fonts/cooperfont-medium-webfont.woff';
+import medFont2 from './assets/fonts/cooperfont-medium-webfont.woff2';
 import semiboldFont from './assets/fonts/cooperfont-semibold-webfont.woff';
 import semiboldFont2 from './assets/fonts/cooperfont-semibold-webfont.woff2';
 
