@@ -6,7 +6,7 @@ import { selectGroups, selectIsDemoMode } from '../selectors';
 import { toggleDemoMode } from '../actions';
 import SideBarLink from './SideBarLink';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const StyledAside = styled.aside`
   background-color: var(--brand-grey);

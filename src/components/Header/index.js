@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LogoutButton from '../LogoutButton';
 import RefreshButton from '../RefreshButton';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import logo from '../../assets/images/logo-no-name.png';
 import logo2x from '../../assets/images/logo-no-name@2x.png';
 

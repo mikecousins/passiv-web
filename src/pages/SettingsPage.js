@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import CredentialsManager from '../components/CredentialsManager';
 import SubscriptionManager from '../components/SubscriptionManager';
 import ConnectionsManager from '../components/ConnectionsManager';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 
 
