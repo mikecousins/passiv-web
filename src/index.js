@@ -13,7 +13,6 @@ import * as Sentry from '@sentry/browser';
 import { addReactorsToStore } from './reactors/HumanRedux';
 import createRootReducer from './reducers';
 import { loadData, loadGroupDetails } from './reactors';
-import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import ErrorBoundary from './components/ErrorBoundary';

@@ -16,8 +16,6 @@ import SettingsPage from './pages/SettingsPage';
 import QuestradeOauthPage from './pages/QuestradeOauthPage';
 import SecureRoute from './routes/SecureRoute';
 import { StripeProvider } from 'react-stripe-elements';
-import './index.css';
-
 
 const questradeOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
