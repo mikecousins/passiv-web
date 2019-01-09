@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Formik, Field } from 'formik';
 import { loginStartedAsync } from '../actions';
 import { selectLoggedIn } from '../selectors';
+import LoginLinks from '../components/LoginLinks';
 
 const LoginPage = (props) => {
   if (props.loggedIn) {
@@ -70,9 +71,7 @@ const LoginPage = (props) => {
                 >
                   Sign In
                 </button>
-                <Link className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" to="#">
-                  Forgot Password?
-                </Link>
+                <LoginLinks page="login" />
               </div>
             </form>
           )}

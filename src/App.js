@@ -4,6 +4,8 @@ import Layout from './layouts/Layout';
 import LandingPage from './pages/LandingPage';
 import PricingPage from './pages/PricingPage';
 import LoginPage from './pages/LoginPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
+import ResetPasswordConfirmPage from './pages/ResetPasswordConfirmPage';
 import RegistrationPage from './pages/RegistrationPage';
 import AboutPage from './pages/AboutPage';
 import BlogPage from './pages/BlogPage';
@@ -33,6 +35,8 @@ const App = () => (
         <Route path="/app" exact render={() => (<Redirect to="/app/login"/>)} />
         <Route path="/app/login" component={LoginPage} />
         <Route path="/app/register" component={RegistrationPage} />
+        <Route path="/app/reset-password" component={ResetPasswordPage} />
+        <Route path="/app/reset-password-confirm/:token" component={ResetPasswordConfirmPage} />
         <Route path="/about" component={AboutPage} />
         <Route path="/blog" component={BlogPage} />
         <Route path="/pricing" component={PricingPage} />

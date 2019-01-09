@@ -132,6 +132,17 @@ export const selectCurrentGroupId = createSelector(
   }
 );
 
+export const selectPasswordResetToken = createSelector(
+  selectRouter,
+  (router) => {
+    let token = null;
+    if (router && router.location && router.location.pathname && router.location.pathname.split('/').length === 4) {
+      token = router.location.pathname.split('/')[3];
+    }
+    return token;
+  }
+);
+
 export const selectCurrentAccountId = createSelector(
   selectCurrentGroupId,
   selectAccounts,
