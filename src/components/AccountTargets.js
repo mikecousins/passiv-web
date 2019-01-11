@@ -8,7 +8,7 @@ import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../styled/Button';
-import { patchData } from '../api';
+import { patchData, postData } from '../api';
 
 import ShadowBox from '../styled/ShadowBox';
 
@@ -52,19 +52,29 @@ export class AccountTargets extends React.Component {
           initialValues={{ targets: target }}
           enableReinitialize={true}
           onSubmit={(values, actions) => {
-            console.log('submitting');
             // post the new targets and update our data
             values.targets.forEach(target => {
-              patchData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}`, target)
-              .then(response => {
-                console.log('success', response);
-                this.setState({edit: false});
-                this.props.refreshGroups();
-              })
-              .catch(error => {
-                console.log('error', error);
-                this.setState({edit: false});
-              });
+              if (target.id) {
+                // update if it's an existing target
+                patchData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}`, target)
+                .then(response => {
+                  this.setState({edit: false});
+                  this.props.refreshGroups();
+                })
+                .catch(error => {
+                  this.setState({edit: false});
+                });
+              } else {
+                // add if it's a new target
+                postData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/`, target)
+                .then(response => {
+                  this.setState({edit: false});
+                  this.props.refreshGroups();
+                })
+                .catch(error => {
+                  this.setState({edit: false});
+                });
+              }
             });
           }}
           onReset={(values, actions) => {
