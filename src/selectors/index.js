@@ -132,6 +132,17 @@ export const selectCurrentGroupId = createSelector(
   }
 );
 
+export const selectPasswordResetToken = createSelector(
+  selectRouter,
+  (router) => {
+    let token = null;
+    if (router && router.location && router.location.pathname && router.location.pathname.split('/').length === 4) {
+      token = router.location.pathname.split('/')[3];
+    }
+    return token;
+  }
+);
+
 export const selectCurrentAccountId = createSelector(
   selectCurrentGroupId,
   selectAccounts,
@@ -396,19 +407,6 @@ export const selectCurrentGroupTarget = createSelector(
       target.excluded = false;
       return target;
     });
-
-    // add the excluced positions
-    const excludedPositionsRaw = group.excluded_positions;
-    const excludedPositions = excludedPositionsRaw.map(excludedRaw => {
-      const excluded = excludedRaw;
-      // add the symbol to the  excluded position
-      excluded.fullSymbol = group.symbols.find(symbol => symbol.id === excludedRaw.symbol);
-      excluded.excluded = true;
-      return excluded;
-    });
-    Array.prototype.push.apply(currentTarget, excludedPositions);
-
-    // TODO add the holdings which don't have a target
     return currentTarget;
   }
 );

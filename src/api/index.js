@@ -33,6 +33,17 @@ export const postData = (url = '', data = {}) => {
   .then(handleResponse);
 };
 
+export const postDataNoAuth = (url = '', data = {}) => {
+  return fetch(url, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+  .then(handleResponse);
+};
+
 export const putData = (url = '', data = {}) => {
   return fetch(url, {
     method: "PUT",
