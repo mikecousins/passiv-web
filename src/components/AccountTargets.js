@@ -132,10 +132,10 @@ export class AccountTargets extends React.Component {
                     <ErrorMessage name="targets" />
                     {edit ? (
                       <React.Fragment>
-                        <Button onClick={() => arrayHelpers.push({ symbol: null, percentage: 0 })}>
+                        <Button type="button" onClick={() => arrayHelpers.push({ symbol: null, percent: 0 })}>
                           Add
                         </Button>
-                        <Button>
+                        <Button type="button">
                           Import
                         </Button>
                         {
@@ -149,12 +149,12 @@ export class AccountTargets extends React.Component {
                             </Button>
                           )
                         }
-                        <Button onClick={props.handleReset}>
+                        <Button type="button" onClick={props.handleReset}>
                           Cancel
                         </Button>
                       </React.Fragment>
                     ) : (
-                      <Button onClick={() => this.setState({ edit: true })}>
+                      <Button type="button" onClick={() => this.setState({ edit: true })}>
                         Edit
                       </Button>
                       )}
