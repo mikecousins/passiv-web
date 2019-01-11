@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import LogoutButton from '../LogoutButton';
 import RefreshButton from '../RefreshButton';
 import styled from '@emotion/styled';
@@ -19,7 +18,7 @@ export const Header = () => (
     <nav>
       <div>
         <Link to="/" >
-          <img src={logo} srcset={`${logo2x} 2x`} alt="Passiv Logo" />
+          <img src={logo} srcSet={`${logo2x} 2x`} alt="Passiv Logo" />
         </Link>
       </div>
       <div>
@@ -30,5 +29,4 @@ export const Header = () => (
   </StyledHeader>
 );
 
-const select = state => ({});
-export default connect(select)(Header);
+export default Header;

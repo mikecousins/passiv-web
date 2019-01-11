@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import CredentialsManager from '../components/CredentialsManager';
 import SubscriptionManager from '../components/SubscriptionManager';
 import ConnectionsManager from '../components/ConnectionsManager';
-import styled from '@emotion/styled';
-
-
 
 class SettingsPage extends Component {
 
@@ -23,7 +19,4 @@ class SettingsPage extends Component {
   }
 };
 
-const select = state => ({});
-const actions = {};
-
-export default connect(select, actions)(SettingsPage);
+export default SettingsPage;
