@@ -41,6 +41,7 @@
     "react-trend": "1.2.4",
     "redux": "4.0.1",
     "redux-devtools-extension": "2.13.7",
+    "redux-persist": "^5.10.0",
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
     "ric-shim": "1.0.0",

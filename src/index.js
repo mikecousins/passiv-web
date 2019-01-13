@@ -10,6 +10,9 @@ import decode from 'jwt-decode';
 import isFuture from 'date-fns/is_future';
 import ReactGA from 'react-ga';
 import * as Sentry from '@sentry/browser';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { PersistGate } from 'redux-persist/integration/react';
 import { addReactorsToStore } from './reactors/HumanRedux';
 import createRootReducer from './reducers';
 import { loadData, loadGroupDetails } from './reactors';
@@ -57,9 +60,16 @@ history.listen(function (location) {
   ReactGA.pageview(location.pathname + location.search);
 });
 
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, createRootReducer(history));
+
 const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 });
 const store = createStore(
-  createRootReducer(history),
+  persistedReducer,
   defaultState,
   composeEnhancers(
     applyMiddleware(
@@ -68,6 +78,8 @@ const store = createStore(
     ),
   )
 );
+
+const persistor = persistStore(store);
 
 addReactorsToStore({
   store: store,
@@ -78,9 +90,11 @@ addReactorsToStore({
 ReactDOM.render(
   <ErrorBoundary>
     <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
+      <PersistGate loading={null} persistor={persistor}>
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
+      </PersistGate>
     </Provider>
   </ErrorBoundary>,
   document.getElementById('root'));
