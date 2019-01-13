@@ -20,10 +20,10 @@
     "@fortawesome/fontawesome-svg-core": "1.2.12",
     "@fortawesome/free-solid-svg-icons": "5.6.3",
     "@fortawesome/react-fontawesome": "0.1.3",
-    "@sentry/browser": "4.4.2",
-    "connected-react-router": "6.1.0",
+    "@sentry/browser": "4.5.0",
+    "connected-react-router": "6.2.0",
     "date-fns": "1.30.1",
-    "emotion-reset": "^1.0.3",
+    "emotion-reset": "1.0.3",
     "formik": "1.4.2",
     "history": "4.7.2",
     "jwt-decode": "2.2.0",
@@ -41,12 +41,12 @@
     "react-trend": "1.2.4",
     "redux": "4.0.1",
     "redux-devtools-extension": "2.13.7",
-    "redux-persist": "^5.10.0",
+    "redux-persist": "5.10.0",
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
     "ric-shim": "1.0.0",
     "safe-memory-cache": "1.5.1",
-    "yup": "0.26.6"
+    "yup": "0.26.7"
   },
   "scripts": {
     "start": "react-scripts start",
