@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import ShadowBox from '../styled/ShadowBox';
+import { Table } from '../styled/GlobalElements';
 
 const Group = (props) => {
   const { group } = props;
@@ -29,28 +30,30 @@ const Group = (props) => {
 
   return (
     <ShadowBox>
-      <div>{group.name}</div>
-      <div>
+      <Table>
+        <div>{group.name}</div>
         <div>
-          Accuracy
+          <div>
+            Accuracy
+          </div>
+          {accuracy}
         </div>
-        {accuracy}
-      </div>
-      <div>
         <div>
-          Cash
+          <div>
+            Cash
+          </div>
+          {cash}
         </div>
-        {cash}
-      </div>
-      <div>
         <div>
-          Total Value
+          <div>
+            Total Value
+          </div>
+          {totalValue}
         </div>
-        {totalValue}
-      </div>
-      <div>
-        <Link to={`/app/group/${group.id}`}>View</Link>
-      </div>
+        <div>
+          <Link to={`/app/group/${group.id}`}>View</Link>
+        </div>
+      </Table>
     </ShadowBox>
   );
 }
