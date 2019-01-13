@@ -1,10 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Formik, Field } from 'formik';
+import { Formik } from 'formik';
 import { loginStartedAsync } from '../actions';
 import { selectLoggedIn } from '../selectors';
 import LoginLinks from '../components/LoginLinks';
+import { Form, Input, Label } from '../styled/Form';
+import { H1 } from '../styled/GlobalElements';
+import { Button } from '../styled/Button';
+
 
 const LoginPage = (props) => {
   if (props.loggedIn) {
@@ -16,18 +20,24 @@ const LoginPage = (props) => {
   } else {
     return (
       <React.Fragment>
-        <h1>Welcome back!</h1>
+        <H1>Welcome back!</H1>
         <Formik
           initialValues={{
             email: '',
             password: ''
           }}
-          validate={(values) => {
-            const errors = {};
-            if (!values.email || values.email.trim() === '') {
+          validate={values => {
+            let errors = {};
+
+            let regex = !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
+            if (!values.email) {
               errors.email = 'Email is required';
+            }else if (regex.test(values.email)) {
+              errors.email = "Invalid email address";
             }
-            if (!values.password || values.password.trim() === '') {
+
+            if (!values.password) {
               errors.password = 'Password is required';
             }
             return errors;
@@ -35,45 +45,59 @@ const LoginPage = (props) => {
           onSubmit={(values, actions) => {
             props.startLogin(values);
           }}
-          render={formikProps => (
-            <form>
-              <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="email">
+          render={({
+            touched,
+            errors,
+            values,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+          }) => (
+            <Form onSubmit={handleSubmit}>
+              <Label htmlFor="email">
                 Email
-              </label>
-              <Field
+              </Label>
+              <Input
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                type="text"
                 name="email"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Email"
               />
-              {formikProps.touched.email && formikProps.errors.email && (
+              {touched.email && errors.email && (
                 <div className="text-red">
-                  {formikProps.errors.email}
+                  {errors.email}
                 </div>
               )}
-              <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="password">
+              <Label>
                 Password
-              </label>
-              <Field
-                name="password"
+              </Label>
+              <Input
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+                border={
+                  errors.password && "1px solid red"
+                }
                 type="password"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                name="password"
+                placeholder="Password"
               />
-              {formikProps.touched.password && formikProps.errors.password && (
+              {touched.password && errors.password && (
                 <div className="text-red">
-                  {formikProps.errors.password}
+                  {errors.password}
                 </div>
               )}
-              <div className="flex items-center justify-between">
-                <button
-                  className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              <div>
+                <Button
                   type="submit"
-                  onClick={formikProps.handleSubmit}
-                  disabled={formikProps.isSubmitting || !formikProps.isValid || !formikProps.dirty}
                 >
                   Sign In
-                </button>
+                </Button>
                 <LoginLinks page="login" />
               </div>
-            </form>
+            </Form>
           )}
         />
       </React.Fragment>

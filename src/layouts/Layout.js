@@ -5,18 +5,19 @@ import MarketingLayout from './MarketingLayout';
 import { selectLoggedIn } from '../selectors';
 
 const Layout = (props) => {
-  if (props.loggedIn) {
+  // if (props.loggedIn) {
     return (
       <AppLayout>
         {props.children}
       </AppLayout>
     );
-  }
-  return (
-    <MarketingLayout>
-      {props.children}
-    </MarketingLayout>
-  );
+
+  // }
+  // return (
+  //   <MarketingLayout>
+  //     {props.children}
+  //   </MarketingLayout>
+  // );
 }
 
 const select = state => ({

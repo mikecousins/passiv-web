@@ -3,7 +3,7 @@ import Header from '../components/MarketingHeader';
 import Footer from '../components/MarketingFooter';
 
 const MarketingLayout = (props) => (
-  <div className="container mx-auto shadow bg-grey-lightest pb-2">
+  <div>
     <Header />
     {props.children}
     <Footer />

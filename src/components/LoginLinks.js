@@ -1,44 +1,52 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styled from '@emotion/styled';
 
+let LoginLinksStyle = styled.div`
+  margin: 15px 0;
+    a {
+      color: var(--brand-blue);
+      margin-left: 10px;
+    }
+`
 
 const LoginLinks = (props) => {
   let links = [];
 
   const resetLink = (
-    <div key="reset">
+    <LoginLinksStyle key="reset">
       Forgot your password?
-      <Link className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" to="/app/reset-password">
+      <Link to="/app/reset-password">
         Reset it!
       </Link>
-    </div>
+    </LoginLinksStyle>
   )
 
   const signUpLink = (
-    <div key="register">
+    <LoginLinksStyle key="register">
       Don't have an account?
-      <Link className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" to="/app/register">
+      <Link to="/app/register">
         Sign up!
       </Link>
-    </div>
+    </LoginLinksStyle>
   )
 
   const loginLink = (
-    <div key="login">
+    <LoginLinksStyle key="login">
       Already have an account?
-      <Link className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" to="/app/login">
+      <Link to="/app/login">
         Login!
       </Link>
-    </div>
+    </LoginLinksStyle>
   )
 
   const loginRememberedLink = (
-    <div key="login-remembered">
+    <LoginLinksStyle key="login-remembered">
       Remembered your password?
-      <Link className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" to="/app/login">
+      <Link to="/app/login">
         Login!
       </Link>
-    </div>
+    </LoginLinksStyle>
   )
 
 

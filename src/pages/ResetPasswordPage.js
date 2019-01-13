@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Formik, Field } from 'formik';
+import { Formik } from 'formik';
 import { postDataNoAuth } from '../api';
 import { baseUrl } from '../actions';
 import { selectLoggedIn } from '../selectors';
 import LoginLinks from '../components/LoginLinks';
+import { Form, Input, Label } from '../styled/Form';
+import { H1 } from '../styled/GlobalElements';
+import { Button } from '../styled/Button';
 
 class ResetPasswordPage extends Component {
   state = {
@@ -21,7 +24,7 @@ class ResetPasswordPage extends Component {
     } else {
       return (
       <React.Fragment>
-        <h1>Password Reset</h1>
+        <H1>Password Reset</H1>
         {
           this.state.submitted ? (
             <div>
@@ -32,9 +35,9 @@ class ResetPasswordPage extends Component {
               initialValues={{
                 email: '',
               }}
-              validate={(values) => {
-                const errors = {};
-                if (!values.email || values.email.trim() === '') {
+              validate={values => {
+                let errors = {};
+                if (!values.email) {
                   errors.email = 'Email is required';
                 }
                 return errors;
@@ -47,32 +50,39 @@ class ResetPasswordPage extends Component {
                   })
                   .catch(error => {console.log('error', error)});
               }}
-              render={formikProps => (
-                <form>
-                  <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="email">
+              render={({
+                touched,
+                errors,
+                values,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+              }) => (
+                <Form onSubmit={handleSubmit}>
+                  <Label htmlFor="email">
                     Email
-                  </label>
-                  <Field
+                  </Label>
+                  <Input
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    type="text"
                     name="email"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="example@example.com"
                   />
-                  {formikProps.touched.email && formikProps.errors.email && (
+                  {touched.email && errors.email && (
                     <div className="text-red">
-                      {formikProps.errors.email}
+                      {errors.email}
                     </div>
                   )}
-                  <div className="flex items-center justify-between">
-                    <button
-                      className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      type="submit"
-                      onClick={formikProps.handleSubmit}
-                      disabled={formikProps.isSubmitting || !formikProps.isValid || !formikProps.dirty}
-                    >
+                  <div>
+                    <Button
+                      type="submit">
                       Reset
-                    </button>
+                    </Button>
                     <LoginLinks page="reset" />
                   </div>
-                </form>
+                </Form>
               )}
             />
           )

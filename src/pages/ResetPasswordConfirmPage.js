@@ -6,6 +6,9 @@ import { postDataNoAuth } from '../api';
 import { baseUrl } from '../actions';
 import { selectLoggedIn, selectPasswordResetToken } from '../selectors';
 import { Link } from 'react-router-dom';
+import { Form, Input, Label } from '../styled/Form';
+import { H1 } from '../styled/GlobalElements';
+import { Button } from '../styled/Button';
 
 class ResetPasswordConfirmPage extends Component {
   state = {
@@ -22,7 +25,7 @@ class ResetPasswordConfirmPage extends Component {
     } else {
       return (
       <React.Fragment>
-        <h1>Confirm Password Reset</h1>
+        <H1>Confirm Password Reset</H1>
         {
           this.state.submitted ? (
             <div>
