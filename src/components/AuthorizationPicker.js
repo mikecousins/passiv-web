@@ -6,7 +6,7 @@ import { baseUrl } from '../actions';
 import { Button } from '../styled/Button';
 import { DisabledButton } from '../styled/DisabledButton';
 
-
+import ShadowBox from '../styled/ShadowBox';
 
 class AuthorizationPicker extends Component {
   state = {
@@ -55,11 +55,10 @@ class AuthorizationPicker extends Component {
     }
 
     return (
-      <div className="my-2">
+      <div>
         {this.state.allowSelect ? (
           <div>
             <select
-              className="px-4 py-2 mx-2 rounded"
               value={this.state.brokerage}
               onChange={(event) => {this.setState({brokerage: event.target.value})}}
             >
@@ -67,7 +66,6 @@ class AuthorizationPicker extends Component {
               {brokerageOptions}
             </select>
             <select
-              className="px-4 py-2 mx-2 rounded"
               value={this.state.type}
               onChange={(event) => {this.setState({type: event.target.value})}}
             >

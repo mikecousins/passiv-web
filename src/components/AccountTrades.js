@@ -10,19 +10,19 @@ class AccountTrades extends Component {
     let trades = null;
     if (this.props.trades && this.props.trades.trades.length > 0) {
       trades = this.props.trades.trades.map(trade => (
-        <div key={trade.id} className="border-grey-lighter py-2 flex w-full">
-          <div className="w-1/6 text-center font-bold">
+        <div key={trade.id}>
+          <div>
             <h3>{trade.action}</h3>
           </div>
-          <div className="w-3/6 text-center">
+          <div>
             <div>{trade.universal_symbol.description}</div>
             <div>{trade.universal_symbol.symbol}</div>
           </div>
-          <div className="w-1/6 text-center">
+          <div>
             <div>Units</div>
             <div>{trade.units}</div>
           </div>
-          <div className="w-1/6 text-center">
+          <div>
             <div>Price</div>
             <div>{trade.price}</div>
           </div>

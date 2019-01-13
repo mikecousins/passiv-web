@@ -14,7 +14,6 @@ const SideBarLink = (props) => {
     <div className={colorClass}>
       <Link
         to={props.linkPath}
-        className="block text-white no-underline text-lg tracking-wide pl-10 py-2"
       >
         {props.name}
       </Link>

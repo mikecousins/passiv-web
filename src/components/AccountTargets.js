@@ -82,21 +82,21 @@ export class AccountTargets extends React.Component {
           }}
           render={(props) => (
             <Form>
-              <div className="flex w-full">
-                <div className="w-1/6 text-xl">
+              <div>
+                <div>
                   Symbol
                 </div>
-                <div className="w-1/2 text-xl">
+                <div>
                   &nbsp;
                 </div>
-                <div className="flex w-1/3">
-                  <div className="w-1/3 text-xl">
+                <div>
+                  <div>
                     Target
                   </div>
-                  <div className="w-1/3 text-xl">
+                  <div>
                     Actual
                   </div>
-                  <div className="w-1/3 text-xl">
+                  <div>
                     Delta
                   </div>
                 </div>
@@ -125,7 +125,7 @@ export class AccountTargets extends React.Component {
                         edit={edit}
                         setSymbol={(symbol) => this.setSymbol(t, symbol)}
                       >
-                        <Field name={`targets.${index}.percent`} className="w-1/2" readOnly={!this.state.edit} />
+                        <Field name={`targets.${index}.percent`} readOnly={!this.state.edit} />
                       </TargetBar>
                     ))}
                     <CashBar percentage={cashPercentage} actualPercentage={cashActualPercentage} />

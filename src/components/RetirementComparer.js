@@ -54,8 +54,8 @@ class RetirementComparer extends React.Component {
     const roboFinal = roboTrend[roboTrend.length -1];
     const mutualFinal = mutualTrend[mutualTrend.length - 1];
     return (
-      <div className="flex mb-4">
-        <div className="w-1/2 bg-grey-lightest h-64">
+      <div>
+        <div>
           <label htmlFor="yearlySavings">Household Savings Rate (${this.state.yearlySavings}/yr)</label>
           <Slider
             name="yearlySavings"
@@ -68,11 +68,11 @@ class RetirementComparer extends React.Component {
           <div>
             Ideal: ${new Intl.NumberFormat().format(ultimateFinal)}<br />
             Passiv: ${new Intl.NumberFormat().format(passivFinal)}<br />
-            Robo: ${new Intl.NumberFormat().format(roboFinal)} <span className="text-red-darker">(${new Intl.NumberFormat().format(roboFinal - passivFinal)})</span><br />
-            Mutual: ${new Intl.NumberFormat().format(mutualFinal)} <span className="text-red-darker">(${new Intl.NumberFormat().format(mutualFinal - passivFinal)})</span><br />
+            Robo: ${new Intl.NumberFormat().format(roboFinal)} <span>(${new Intl.NumberFormat().format(roboFinal - passivFinal)})</span><br />
+            Mutual: ${new Intl.NumberFormat().format(mutualFinal)} <span>(${new Intl.NumberFormat().format(mutualFinal - passivFinal)})</span><br />
           </div>
         </div>
-        <div className="w-1/2 bg-grey-light h-64">
+        <div>
           <Trend data={passivTrend} />
         </div>
       </div>

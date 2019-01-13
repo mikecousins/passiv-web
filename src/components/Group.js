@@ -29,26 +29,26 @@ const Group = (props) => {
 
   return (
     <ShadowBox>
-      <div className="w-1/3 bg-white py-1 align-middle text-2xl font-bold">{group.name}</div>
-      <div className="w-1/6 bg-white py-1 align-middle">
-        <div className="text-xl font-bold">
+      <div>{group.name}</div>
+      <div>
+        <div>
           Accuracy
         </div>
         {accuracy}
       </div>
-      <div className="w-1/6 bg-white py-1 align-middle">
-        <div className="text-xl font-bold">
+      <div>
+        <div>
           Cash
         </div>
         {cash}
       </div>
-      <div className="w-1/6 bg-white py-1 align-middle">
-        <div className="text-xl font-bold">
+      <div>
+        <div>
           Total Value
         </div>
         {totalValue}
       </div>
-      <div className="w-1/6 bg-white py-1 align-middle">
+      <div>
         <Link to={`/app/group/${group.id}`}>View</Link>
       </div>
     </ShadowBox>

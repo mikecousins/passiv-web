@@ -8,7 +8,7 @@ const AccountBalance = (props) => {
     <div>
       <h3>Balances</h3>
       <br />
-      <table className="w-full text-left">
+      <table>
         <thead>
           <tr>
             <th>Currency</th>
@@ -16,14 +16,14 @@ const AccountBalance = (props) => {
           </tr>
         </thead>
         <tbody>
-          {!props.balances && <tr><td colSpan="4" className="text-center py-4"><FontAwesomeIcon icon={faSpinner} spin /></td></tr>}
+          {!props.balances && <tr><td colSpan="4"><FontAwesomeIcon icon={faSpinner} spin /></td></tr>}
           {props.balances
             && props.balances.map(balance => (
               <tr key={balance.currency.id}>
-                <td className="p-2 border-t border-grey-lighter">
+                <td>
                   <span title={balance.currency.name}>{balance.currency.code}</span>
                 </td>
-                <td className="p-2 border-t border-grey-lighter">
+                <td>
                   {new Intl.NumberFormat('en-CA', { style: 'currency', currency: balance.currency.code }).format(balance.cash)}
                 </td>
               </tr>

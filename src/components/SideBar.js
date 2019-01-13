@@ -39,7 +39,6 @@ const SideBar = (props) => {
 
       {/*<button
         onClick={props.toggleDemo}
-        className="block text-white no-underline text-lg tracking-wide pl-10 py-2 focus:outline-none"
       >
         Demo Mode&nbsp;
         {props.demoMode && <FontAwesomeIcon icon={faToggleOn} />}

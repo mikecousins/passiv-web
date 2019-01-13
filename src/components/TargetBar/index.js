@@ -34,18 +34,18 @@ export class TargetBar extends React.Component {
       percent
     } = target;
 
-    let deltaClassName = "w-1/3 text-blue";
-    let progressClassName = "bg-blue text-xs leading-none py-1 text-center text-white";
+    let deltaClassName = "";
+    let progressClassName = "";
     if ((actualPercentage - percent) < 0) {
-      deltaClassName = "w-1/3 text-red";
-      progressClassName = "bg-red text-xs leading-none py-1 text-center text-white";
+      deltaClassName = "";
+      progressClassName = "";
     }
     return (
-      <div className="flex w-full">
-        <div className="w-1/6">
+      <div>
+        <div>
           {(!id && !excluded) ? (
-            <div className="flex w-full">
-              <div className="w-1/6">
+            <div>
+              <div>
                 <SymbolSelector
                   value={fullSymbol}
                   onChange={setSymbol}
@@ -60,8 +60,8 @@ export class TargetBar extends React.Component {
         </div>
         {!excluded ? (
           <React.Fragment>
-            <div className="w-1/2">
-              <div className="shadow w-full bg-grey-light">
+            <div>
+              <div>
                 {
                   percent > 100 ? (
                     <div className={progressClassName} style={{ width: '100%', backgroundColor: 'red' }}>
@@ -81,11 +81,11 @@ export class TargetBar extends React.Component {
 
               </div>
             </div>
-            <div className="flex w-1/3">
-              <div className="w-1/3">
+            <div>
+              <div>
                 {children}%
               </div>
-              <div className="w-1/3">
+              <div>
                 {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(actualPercentage)}%
               </div>
               <div className={deltaClassName}>

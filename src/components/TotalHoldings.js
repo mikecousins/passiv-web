@@ -13,7 +13,7 @@ const TotalHoldings = (props) => {
     displayTotal = <span>{new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(totalHoldings)}</span>;
   }
   return (
-    <div className="mb-4 text-xl font-bold text-right">
+    <div>
       Total Holdings<br/>
       {displayTotal}
     </div>

@@ -29,7 +29,7 @@ class ResetPasswordConfirmPage extends Component {
         {
           this.state.submitted ? (
             <div>
-              Your password has been reset. <Link className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" to="/app/login">
+              Your password has been reset. <Link to="/app/login">
                 Login!
               </Link>
             </div>
@@ -38,7 +38,7 @@ class ResetPasswordConfirmPage extends Component {
               initialValues={{
                 password: '',
               }}
-              validate={(values) => {
+              validate={values => {
                 const errors = {};
                 if (!values.password || values.password.trim() === '') {
                   errors.password = 'You must set a new password.';
@@ -53,32 +53,42 @@ class ResetPasswordConfirmPage extends Component {
                   })
                   .catch(error => {console.log('error', error)});
               }}
-              render={formikProps => (
-                <form>
-                  <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="password">
+              render={({
+                touched,
+                errors,
+                values,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+              }) => (
+                <Form onSubmit={handleSubmit}>
+                  <Label htmlFor="password">
                     Password
-                  </label>
-                  <Field
-                    name="password"
+                  </Label>
+                  <Input
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    border={
+                      errors.password && "1px solid red"
+                    }
                     type="password"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                    name="password"
+                    placeholder="Password"
                   />
-                  {formikProps.touched.password && formikProps.errors.password && (
+                  {touched.password && errors.password && (
                     <div className="text-red">
-                      {formikProps.errors.password}
+                      {errors.password}
                     </div>
                   )}
-                  <div className="flex items-center justify-between">
-                    <button
-                      className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  <div>
+                    <Button
                       type="submit"
-                      onClick={formikProps.handleSubmit}
-                      disabled={formikProps.isSubmitting || !formikProps.isValid || !formikProps.dirty}
                     >
                       Reset
-                    </button>
+                    </Button>
                   </div>
-                </form>
+                </Form>
               )}
             />
           )

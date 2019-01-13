@@ -11,19 +11,19 @@ export const CashBar = (props) => {
     progressClassName = "bg-red text-xs leading-none py-1 text-center text-white";
   }
   return (
-    <div className="flex w-full">
-      <div className="w-1/6">
+    <div>
+      <div>
         Cash
       </div>
-      <div className="w-1/2">
-        <div className="shadow w-full bg-grey-light">
+      <div>
+        <div>
           {
             props.percentage < 0 ? (
-              <div className={progressClassName} style={{ width: '100%', backgroundColor: 'red' }}>
+              <div style={{ width: '100%', backgroundColor: 'red' }}>
                 Warning: cash allocation cannot be negative!
               </div>
             ) : (
-              <div className={progressClassName} style={{ width: `${props.percentage > 100 ? 100 : props.percentage }%` }}>
+              <div style={{ width: `${props.percentage > 100 ? 100 : props.percentage }%` }}>
                 {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.percentage)}%
               </div>
             )
@@ -31,14 +31,14 @@ export const CashBar = (props) => {
 
         </div>
       </div>
-      <div className="flex w-1/3">
-        <div className="w-1/3">
+      <div>
+        <div>
           {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.percentage)}%
         </div>
-        <div className="w-1/3">
+        <div>
           {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.actualPercentage)}%
         </div>
-        <div className={deltaClassName}>
+        <div>
           {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.actualPercentage - props.percentage)}%
         </div>
       </div>

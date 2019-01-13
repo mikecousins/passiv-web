@@ -8,7 +8,7 @@ const AccountHoldings = (props) => (
   <ShadowBox>
     <h3>Current Portfolio</h3>
     <br />
-    <table className="w-full text-left">
+    <table>
       <thead>
         <tr>
           <th>Symbol</th>
@@ -18,20 +18,20 @@ const AccountHoldings = (props) => (
         </tr>
       </thead>
       <tbody>
-        {!props.positions && <tr><td colSpan="4" className="text-center py-4"><FontAwesomeIcon icon={faSpinner} spin /></td></tr>}
+        {!props.positions && <tr><td colSpan="4"><FontAwesomeIcon icon={faSpinner} spin /></td></tr>}
         {props.positions
           && props.positions.map(position => (
             <tr key={position.symbol.id}>
-              <td className="p-2 border-t border-grey-lighter">
+              <td>
                 <span title={position.symbol.description}>{position.symbol.symbol}</span>
               </td>
-              <td className="p-2 border-t border-grey-lighter">
+              <td>
                 {position.units}
               </td>
-              <td className="p-2 border-t border-grey-lighter">
+              <td>
                 {new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(position.price)}
               </td>
-              <td className="p-2 border-t border-grey-lighter">
+              <td>
                 {new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(position.price * position.units)}
               </td>
             </tr>

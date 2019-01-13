@@ -39,7 +39,7 @@ export class CheckoutForm extends React.Component {
   }
   render() {
     return (
-      <div className="checkout">
+      <div>
         <CardElement />
         {
           !this.state.loading && this.state.error && (

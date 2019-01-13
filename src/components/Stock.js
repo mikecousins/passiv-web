@@ -1,10 +1,10 @@
 import React from 'react';
 
 const Stock = (props) => (
-  <div className="flex py-2">
-    <div className="w-1/4 bg-white py-1">{props.name}</div>
-    <div className="w-1/4 bg-white py-1 align-middle">$45,678</div>
-    <div className="w-1/2 bg-white py-1 align-middle">
+  <div>
+    <div>{props.name}</div>
+    <div>$45,678</div>
+    <div>
       <label>
         <span className="px-4">Stock Group: </span>
         <select className="px-2">

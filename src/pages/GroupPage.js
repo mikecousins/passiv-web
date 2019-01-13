@@ -27,8 +27,8 @@ const GroupPage = (props) => {
   let trades = null;
   if (props.trades && props.trades.trades.length) {
     trades = (
-      <div className="flex mb-4">
-        <div className="w-full">
+      <div>
+        <div>
           <AccountTrades />
         </div>
       </div>
@@ -37,8 +37,8 @@ const GroupPage = (props) => {
   return (
     <React.Fragment>
       {trades}
-      <div className="flex mb-4">
-        <div className="w-full">
+      <div>
+        <div>
           <AccountMetadata
             name={name}
             type={type}
@@ -50,20 +50,20 @@ const GroupPage = (props) => {
         </div>
       </div>
 
-      <div className="flex mb-4">
-        <div className="w-full">
+      <div>
+        <div>
           <AccountTargets positions={props.positions} />
         </div>
       </div>
 
-      <div className="flex mb-4">
-        <div className="w-full">
+      <div>
+        <div>
           <AccountBalance balances={props.balances} />
         </div>
       </div>
 
-      <div className="flex mb-4">
-        <div className="w-full">
+      <div>
+        <div>
           <AccountHoldings positions={props.positions} />
         </div>
       </div>
