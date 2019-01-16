@@ -4,12 +4,6 @@ export const CashBar = (props) => {
   if (!(typeof(props.percentage) === "number")) {
     return 'Loading';
   }
-  let deltaClassName = "w-1/3 text-blue";
-  let progressClassName = "bg-blue text-xs leading-none py-1 text-center text-white";
-  if ((props.actualPercentage - props.percentage) < 0) {
-    deltaClassName = "w-1/3 text-red";
-    progressClassName = "bg-red text-xs leading-none py-1 text-center text-white";
-  }
   return (
     <div>
       <div>

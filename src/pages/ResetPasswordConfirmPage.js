@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Formik, Field } from 'formik';
+import { Formik } from 'formik';
 import { postDataNoAuth } from '../api';
 import { baseUrl } from '../actions';
 import { selectLoggedIn, selectPasswordResetToken } from '../selectors';

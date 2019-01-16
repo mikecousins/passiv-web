@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AppLayout from './AppLayout';
-import MarketingLayout from './MarketingLayout';
 import { selectLoggedIn } from '../selectors';
 
 const Layout = (props) => {

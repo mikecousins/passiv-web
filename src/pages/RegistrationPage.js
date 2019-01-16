@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, Formik } from 'formik';
+import { Formik } from 'formik';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { registerStartedAsync } from '../actions';

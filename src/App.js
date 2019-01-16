@@ -1,7 +1,6 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Layout from './layouts/Layout';
-import LandingPage from './pages/LandingPage';
 import PricingPage from './pages/PricingPage';
 import LoginPage from './pages/LoginPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';

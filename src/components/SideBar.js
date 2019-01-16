@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectGroups, selectIsDemoMode } from '../selectors';
 import { toggleDemoMode } from '../actions';
 import SideBarLink from './SideBarLink';
