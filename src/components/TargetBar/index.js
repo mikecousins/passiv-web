@@ -91,7 +91,7 @@ export class TargetBar extends React.Component {
               <div className={deltaClassName}>
                 {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1 }).format(actualPercentage - percent)}%
               </div>
-              {edit && <button onClick={() => onDelete(id)}>X</button>}
+              {edit && <button type="button" onClick={() => onDelete(id)}>X</button>}
             </div>
           </React.Fragment>
         ) : <FontAwesomeIcon icon={faEyeSlash} />}

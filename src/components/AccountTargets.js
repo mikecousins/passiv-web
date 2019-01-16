@@ -8,7 +8,7 @@ import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../styled/Button';
-import { patchData, postData } from '../api';
+import { patchData, postData, deleteData } from '../api';
 
 import ShadowBox from '../styled/ShadowBox';
 
@@ -55,6 +55,17 @@ export class AccountTargets extends React.Component {
             // post the new targets and update our data
             values.targets.forEach(target => {
               if (target.id) {
+                if (target.deleted) {
+                  // delete this target
+                  deleteData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}`)
+                  .then(response => {
+                    this.setState({edit: false});
+                    this.props.refreshGroups();
+                  })
+                  .catch(error => {
+                    this.setState({edit: false});
+                  });
+                } else {
                 // update if it's an existing target
                 patchData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}`, target)
                 .then(response => {
@@ -64,7 +75,8 @@ export class AccountTargets extends React.Component {
                 .catch(error => {
                   this.setState({edit: false});
                 });
-              } else {
+              }
+            } else {
                 // add if it's a new target
                 postData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/`, target)
                 .then(response => {
@@ -118,12 +130,18 @@ export class AccountTargets extends React.Component {
                   }, 0);
                   return (
                   <React.Fragment>
-                    {props.values.targets.map((t, index) => (
+                    {props.values.targets.filter(t => !t.deleted).map((t, index) => (
                       <TargetBar
                         key={t.symbol}
                         target={t}
                         edit={edit}
                         setSymbol={(symbol) => this.setSymbol(t, symbol)}
+                        onDelete={(id) => {
+                          const target = props.values.targets.find(t => t.id === id);
+                          target.deleted = true;
+                          this.forceUpdate();
+                          props.setFieldTouched('targets.0.percent');
+                        }}
                       >
                         <Field name={`targets.${index}.percent`} readOnly={!this.state.edit} />
                       </TargetBar>
@@ -144,7 +162,7 @@ export class AccountTargets extends React.Component {
                               Save
                             </Button>
                           ) : (
-                            <Button type="submit" onClick={props.handleSubmit} disabled={!props.dirty}>
+                            <Button type="submit" onClick={props.handleSubmit} disabled={!props.dirty && !props.values.targets.find(t => t.deleted)}>
                               Save
                             </Button>
                           )
