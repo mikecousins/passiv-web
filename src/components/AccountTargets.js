@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Formik, Form, FieldArray, Field, ErrorMessage } from 'formik';
+import { toast } from "react-toastify";
 import { baseUrl, importTarget, loadGroups } from '../actions';
 import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
@@ -50,7 +51,7 @@ export class AccountTargets extends React.Component {
         <h3>Target Portfolio</h3>
         <Formik
           initialValues={{ targets: target }}
-          enableReinitialize={true}
+          enableReinitialize
           onSubmit={(values, actions) => {
             // post the new targets and update our data
             values.targets.forEach(target => {
@@ -90,6 +91,7 @@ export class AccountTargets extends React.Component {
             });
           }}
           onReset={(values, actions) => {
+            values.targets = target;
             this.setState({ edit: false });
           }}
           render={(props) => (
@@ -141,6 +143,7 @@ export class AccountTargets extends React.Component {
                           target.deleted = true;
                           this.forceUpdate();
                           props.setFieldTouched('targets.0.percent');
+                          toast.success(`${t.fullSymbol.symbol} deleted`);
                         }}
                       >
                         <Field name={`targets.${index}.percent`} readOnly={!this.state.edit} />
@@ -162,7 +165,7 @@ export class AccountTargets extends React.Component {
                               Save
                             </Button>
                           ) : (
-                            <Button type="submit" onClick={props.handleSubmit} disabled={!props.dirty && !props.values.targets.find(t => t.deleted)}>
+                            <Button type="submit" onClick={props.handleSubmit} disabled={(props.isSubmitting || !props.dirty) && !props.values.targets.find(t => t.deleted)}>
                               Save
                             </Button>
                           )
