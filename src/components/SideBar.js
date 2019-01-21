@@ -5,6 +5,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectGroups, selectIsDemoMode } from '../selectors';
 import { toggleDemoMode } from '../actions';
 import SideBarLink from './SideBarLink';
+import { selectLoggedIn } from '../selectors';
 
 import styled from '@emotion/styled';
 
@@ -25,6 +26,7 @@ const SideBar = (props) => {
       />
     ));
   }
+  if (props.loggedIn) {
   return (
     <StyledAside>
       <SideBarLink
@@ -46,9 +48,31 @@ const SideBar = (props) => {
       </button> */}
     </StyledAside>
   );
+  }
+  return (
+    <StyledAside>
+      <SideBarLink
+        name="Sign Up"
+        linkPath="/app/register"
+      />
+      <SideBarLink
+        name="Reset Password"
+        linkPath="/app/reset-password"
+      />
+      <SideBarLink
+        name="FAQ"
+        linkPath="/app/faq"
+      />
+      <SideBarLink
+        name="Contact Us"
+        linkPath="/app/contact"
+      />
+    </StyledAside>
+  );
 }
 
 const select = state => ({
+  loggedIn: selectLoggedIn(state),
   groups: selectGroups(state),
   demoMode:  selectIsDemoMode(state),
 });
