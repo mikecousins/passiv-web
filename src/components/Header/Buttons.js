@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import LogoutButton from '../LogoutButton';
 import RefreshButton from '../RefreshButton';
-import Button from '../LogoutButton';
 
-import styled from '@emotion/styled';
 import { selectLoggedIn } from '../../selectors';
 
 
@@ -29,8 +26,3 @@ const select = state => ({
 });
 
 export default connect(select)(Buttons);
-
-
-
-
-
