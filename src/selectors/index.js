@@ -423,3 +423,5 @@ export const selectIsAuthorized = createSelector(
     return false;
   }
 );
+
+export const selectIsUpdateServiceWorker = state => state.updateServiceWorker;

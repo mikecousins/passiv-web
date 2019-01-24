@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { StripeProvider } from 'react-stripe-elements';
 import Layout from './layouts/Layout';
 import PricingPage from './pages/PricingPage';
 import LoginPage from './pages/LoginPage';
@@ -16,7 +17,7 @@ import GroupPage from './pages/GroupPage';
 import SettingsPage from './pages/SettingsPage';
 import QuestradeOauthPage from './pages/QuestradeOauthPage';
 import SecureRoute from './routes/SecureRoute';
-import { StripeProvider } from 'react-stripe-elements';
+import UpdateNotification from './components/UpdateNotification';
 
 const questradeOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
@@ -46,6 +47,7 @@ const App = () => (
         <SecureRoute path="/app/oauth/questrade" component={QuestradeOauthPage} />
         <Route exact path="/oauth/questrade" render={() => questradeOauthRedirect()} />
         <Route exact path="/oauth/questrade-trade" render={() => questradeOauthRedirect()} />
+        <UpdateNotification />
       </Switch>
     </StripeProvider>
   </Layout>

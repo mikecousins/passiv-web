@@ -6,8 +6,6 @@ if (process.env.REACT_APP_BASE_URL_OVERRIDE) {
 }
 export const baseUrl = 'https://' + baseUrlOverride;
 
-console.log('Base URL:', baseUrl);
-
 export const loginStartedAsync = payload => {
   return dispatch => {
     postData(
@@ -379,3 +377,7 @@ export const importTarget = groupId => {
       .catch(error => dispatch(importTargetError(error)));
   };
 };
+
+export const updateServiceWorker = () => ({
+  type: 'UPDATE_SERVICE_WORKER'
+});
