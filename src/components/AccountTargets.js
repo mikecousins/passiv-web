@@ -53,42 +53,36 @@ export class AccountTargets extends React.Component {
           initialValues={{ targets: target }}
           enableReinitialize
           onSubmit={(values, actions) => {
-            // post the new targets and update our data
+            // set us back to non-editing state
+            this.setState({edit: false});
+
+            // create our list of api requests to make
+            const apiRequests = [];
             values.targets.forEach(target => {
               if (target.id) {
                 if (target.deleted) {
                   // delete this target
-                  deleteData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}`)
-                  .then(response => {
-                    this.setState({edit: false});
-                    this.props.refreshGroups();
-                  })
-                  .catch(error => {
-                    this.setState({edit: false});
-                  });
+                  apiRequests.push(deleteData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}/`));
                 } else {
                 // update if it's an existing target
-                patchData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}`, target)
-                .then(response => {
-                  this.setState({edit: false});
-                  this.props.refreshGroups();
-                })
-                .catch(error => {
-                  this.setState({edit: false});
-                });
+                apiRequests.push(patchData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}/`, target));
               }
             } else {
                 // add if it's a new target
-                postData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/`, target)
-                .then(response => {
-                  this.setState({edit: false});
-                  this.props.refreshGroups();
-                })
-                .catch(error => {
-                  this.setState({edit: false});
-                });
+                apiRequests.push(postData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/`, target));
               }
             });
+
+            // execute our list of api requests
+            Promise.all(apiRequests)
+              .then((responses) => {
+                // once we're done refresh the groups
+                this.props.refreshGroups();
+              })
+              .catch((error) => {
+                toast.error(`Failed to edit target: ${error && error.detail}`);
+                actions.resetForm();
+              })
           }}
           onReset={(values, actions) => {
             values.targets = target;
