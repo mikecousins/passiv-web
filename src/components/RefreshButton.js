@@ -4,7 +4,7 @@ import { initialLoad } from '../actions';
 import styled from '@emotion/styled';
 
 export const Button = styled.button`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   background: #000;
   color: #fff;
