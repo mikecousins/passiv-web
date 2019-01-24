@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Formik } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import { loginStartedAsync } from '../actions';
 import { selectLoggedIn } from '../selectors';
 import LoginLinks from '../components/LoginLinks';
@@ -26,22 +27,13 @@ const LoginPage = (props) => {
             email: '',
             password: ''
           }}
-          validate={values => {
-            let errors = {};
-
-            let regex = !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-
-            if (!values.email) {
-              errors.email = 'Email is required';
-            }else if (regex.test(values.email)) {
-              errors.email = "Invalid email address";
-            }
-
-            if (!values.password) {
-              errors.password = 'Password is required';
-            }
-            return errors;
-          }}
+          validationSchema={Yup.object().shape({
+            email: Yup.string()
+              .email('Must be a valid email')
+              .required('Required'),
+            password: Yup.string()
+              .required('Required')
+          })}
           onSubmit={(values, actions) => {
             props.startLogin(values);
           }}
@@ -52,31 +44,22 @@ const LoginPage = (props) => {
             handleChange,
             handleBlur,
             handleSubmit,
+            isValid,
+            isSubmitting,
           }) => (
             <Form onSubmit={handleSubmit}>
               <Label htmlFor="email">
                 Email
               </Label>
               <Input
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email}
-                type="text"
                 name="email"
                 placeholder="Email"
               />
-              {touched.email && errors.email && (
-                <div className="text-red">
-                  {errors.email}
-                </div>
-              )}
+              <ErrorMessage name="email" />
               <Label>
                 Password
               </Label>
               <Input
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
                 border={
                   errors.password && "1px solid red"
                 }
@@ -84,14 +67,11 @@ const LoginPage = (props) => {
                 name="password"
                 placeholder="Password"
               />
-              {touched.password && errors.password && (
-                <div className="text-red">
-                  {errors.password}
-                </div>
-              )}
+              <ErrorMessage name="password" />
               <div>
                 <Button
                   type="submit"
+                  disabled={!isValid || isSubmitting}
                 >
                   Sign In
                 </Button>
