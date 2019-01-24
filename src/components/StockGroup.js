@@ -1,6 +1,6 @@
 import React from 'react';
 import ShadowBox from '../styled/ShadowBox';
-import { Form, Input, Label } from '../styled/Form';
+import { Input, Label } from '../styled/Form';
 
 const StockGroup = (props) => (
   <ShadowBox>

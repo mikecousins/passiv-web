@@ -12,7 +12,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 
 import styled from '@emotion/styled';
-import { H2, Edit, P } from '../styled/GlobalElements';
+import { H2, P } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
 
 const SubscriptionContainer = styled.div`

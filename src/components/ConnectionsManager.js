@@ -7,14 +7,7 @@ import AuthorizationPicker from '../components/AuthorizationPicker';
 import { Button } from '../styled/Button';
 
 import ShadowBox from '../styled/ShadowBox';
-import styled from '@emotion/styled';
-import { H2, Edit } from '../styled/GlobalElements';
-
-const InputStyle = styled.div`
-  input {
-  }
-`;
-
+import { H2 } from '../styled/GlobalElements';
 
 export class ConnectionsManager extends React.Component {
   state = {
