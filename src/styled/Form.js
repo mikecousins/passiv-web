@@ -7,7 +7,7 @@ export const Form = styled.form`
   max-width: 500px;
 `;
 
-export const Input = styled.input`
+export const Input = styled(Field)`
   border: 1px solid var(--brand-grey);
   box-sizing: border-box;
   font-size: 20px;
