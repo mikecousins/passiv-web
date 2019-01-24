@@ -7,7 +7,7 @@ export const Form = styled.form`
 `;
 
 export const Input = styled.input`
-  border: 2px solid var(--brand-grey);
+  border: 1px solid var(--brand-grey);
   box-sizing: border-box;
   font-size: 20px;
   height: 38px;
@@ -18,7 +18,7 @@ export const Input = styled.input`
   margin-bottom: 20px;
   -webkit-appearance: none;
   &:focus {
-  	border: 2px solid var(--brand-blue-hover);
+  	border: 1px solid var(--brand-blue-hover);
   }
 `;
 
