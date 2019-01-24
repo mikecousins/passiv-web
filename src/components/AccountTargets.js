@@ -52,6 +52,19 @@ export class AccountTargets extends React.Component {
         <Formik
           initialValues={{ targets: target }}
           enableReinitialize
+          validate={(values, actions) => {
+            const errors = {};
+            const cashPercentage = 100 - values.targets.reduce((total, target) => {
+              if (target.percent) {
+                return total + parseFloat(target.percent);
+              }
+              return total;
+            }, 0);
+            if (cashPercentage < 0) {
+              errors.cash = 'Too low';
+            }
+            return errors;
+          }}
           onSubmit={(values, actions) => {
             // set us back to non-editing state
             this.setState({edit: false});
@@ -80,7 +93,10 @@ export class AccountTargets extends React.Component {
                 this.props.refreshGroups();
               })
               .catch((error) => {
+                // display our error
                 toast.error(`Failed to edit target: ${error && error.detail}`);
+
+                // reset the form
                 actions.resetForm();
               })
           }}
@@ -153,17 +169,9 @@ export class AccountTargets extends React.Component {
                         <Button type="button">
                           Import
                         </Button>
-                        {
-                          cashPercentage < 0 ? (
-                            <Button type="submit" onClick={props.handleSubmit} disabled={true}>
-                              Save
-                            </Button>
-                          ) : (
-                            <Button type="submit" onClick={props.handleSubmit} disabled={(props.isSubmitting || !props.dirty) && !props.values.targets.find(t => t.deleted)}>
-                              Save
-                            </Button>
-                          )
-                        }
+                        <Button type="submit" onClick={props.handleSubmit} disabled={(props.isSubmitting || !props.dirty || !props.isValid) && !props.values.targets.find(t => t.deleted)}>
+                          Save
+                        </Button>
                         <Button type="button" onClick={props.handleReset}>
                           Cancel
                         </Button>

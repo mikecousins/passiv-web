@@ -22,7 +22,6 @@ export const CashBar = (props) => {
               </div>
             )
           }
-
         </div>
       </div>
       <div>
