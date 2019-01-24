@@ -37,17 +37,8 @@ const LoginPage = (props) => {
           onSubmit={(values, actions) => {
             props.startLogin(values);
           }}
-          render={({
-            touched,
-            errors,
-            values,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isValid,
-            isSubmitting,
-          }) => (
-            <Form onSubmit={handleSubmit}>
+          render={(props) => (
+            <Form onSubmit={props.handleSubmit}>
               <Label htmlFor="email">
                 Email
               </Label>
@@ -61,7 +52,7 @@ const LoginPage = (props) => {
               </Label>
               <Input
                 border={
-                  errors.password && "1px solid red"
+                  props.errors.password && "1px solid red"
                 }
                 type="password"
                 name="password"
@@ -71,7 +62,7 @@ const LoginPage = (props) => {
               <div>
                 <Button
                   type="submit"
-                  disabled={!isValid || isSubmitting}
+                  disabled={!props.isValid || props.isSubmitting}
                 >
                   Sign In
                 </Button>
