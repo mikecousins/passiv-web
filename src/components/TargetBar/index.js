@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { baseUrl } from '../../actions';
 import { postData } from '../../api';
 import SymbolSelector from './SymbolSelector';
+import Number from '../Number';
 
 export class TargetBar extends React.Component {
   loadOptions = (substring, callback) => {
@@ -86,10 +87,10 @@ export class TargetBar extends React.Component {
                 {children}%
               </div>
               <div>
-                {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(actualPercentage)}%
+                <Number value={actualPercentage} />%
               </div>
               <div className={deltaClassName}>
-                {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1 }).format(actualPercentage - percent)}%
+                <Number value={actualPercentage - percent} />%
               </div>
               {edit && <button type="button" onClick={() => onDelete(id)}>X</button>}
             </div>
