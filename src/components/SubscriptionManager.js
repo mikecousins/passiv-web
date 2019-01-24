@@ -11,7 +11,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 
+import styled from '@emotion/styled';
+import { H2, Edit, P } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
+
+const SubscriptionContainer = styled.div`
+  button {
+    margin-top: 20px;
+  }
+`;
+
 
 export class SubscriptionManager extends React.Component {
   state = {
@@ -122,18 +131,18 @@ export class SubscriptionManager extends React.Component {
       let updateNag = null
       if (this.props.subscriptions.cardState !== 'VALID') {
         updateNag = (
-          <div>
+          <P>
             Your credit card has been declined, please update it.
-          </div>
+          </P>
         )
       }
 
       if (this.props.subscriptions.type === 'free') {
         subscriptionBody = (
-          <div>
+          <P>
             You are using the free Community Edition of Passiv.
             {upgradeForm}
-          </div>
+          </P>
         )
       }
       else if (this.props.subscriptions.type === 'paid') {
@@ -141,9 +150,9 @@ export class SubscriptionManager extends React.Component {
           <div>
             {
               this.state.cancelingSubscription ? (
-                <div>
+                <P>
                   Canceling your subscription... <FontAwesomeIcon icon={faSpinner} spin />
-                </div>
+                </P>
               ) : (
                 this.state.updatingPayment ? (
                   <div>
@@ -166,23 +175,23 @@ export class SubscriptionManager extends React.Component {
                   </div>
                   ) : (
                     <div>
-                      <div>
+                      <P>
                         You are subscribed to the {this.props.subscriptions.details.period} Elite plan.
-                      </div>
+                      </P>
                       { updateNag }
                       {
                         this.props.subscriptions.details.canceled ? (
                           <div>
-                            <div>
+                            <P>
                               Your subscription has been canceled. You will have access to Elite features until this billing period ends on {format(this.props.subscriptions.details.period_end, 'MMMM D, YYYY')}.
-                            </div>
+                            </P>
                             {upgradeForm}
                           </div>
                         ): (
                           <div>
-                            <div>
+                            <P>
                               Your subscription will renew on {format(this.props.subscriptions.details.period_end, 'MMMM D, YYYY')}.
-                            </div>
+                            </P>
                             <Button onClick={() => {this.cancelSubscription()}}>
                               Cancel Subscription
                             </Button>
@@ -206,19 +215,21 @@ export class SubscriptionManager extends React.Component {
       }
       else if (this.props.subscriptions.type === 'trial') {
         subscriptionBody = (
-          <div>
+          <P>
             TRIAL
-          </div>
+          </P>
         )
       }
     }
 
     return (
       <ShadowBox>
-        <h2>Subscription</h2>
-        <div>
-          { subscriptionBody }
-        </div>
+        <SubscriptionContainer>
+          <H2>Subscription</H2>
+          <div>
+            { subscriptionBody }
+          </div>
+        </SubscriptionContainer>
       </ShadowBox>
     )
   }

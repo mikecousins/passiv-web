@@ -6,6 +6,7 @@ import { selectGroups, selectIsDemoMode } from '../selectors';
 import { toggleDemoMode } from '../actions';
 import SideBarLink from './SideBarLink';
 import { selectLoggedIn } from '../selectors';
+import RefreshButton from './RefreshButton';
 
 import styled from '@emotion/styled';
 
@@ -13,6 +14,14 @@ const StyledAside = styled.aside`
   background-color: var(--brand-grey);
   color: #fff;
   padding-top: 30px;
+  a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 0;
+    display: block;
+    font-size: 1.125rem;
+    padding-left: 30px;
+  }
 `;
 
 const SideBar = (props) => {
@@ -46,7 +55,10 @@ const SideBar = (props) => {
         {props.demoMode && <FontAwesomeIcon icon={faToggleOn} />}
         {!props.demoMode && <FontAwesomeIcon icon={faToggleOff} />}
       </button> */}
+      <RefreshButton />
+      {/*<button onClick={this.openModal}>Open Modal</button> ? */}
     </StyledAside>
+
   );
   }
   return (

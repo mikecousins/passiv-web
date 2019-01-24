@@ -15,6 +15,9 @@ export const H2 = styled.h2`
 	font-weight: 600;
 	text-align: left;
 	color: #232225;
+  display: block;
+  font-size: 1.5em;
+	text-transform: uppercase;
 `;
 
 // h3
@@ -42,9 +45,27 @@ export const Table = styled.div`
 
 `;
 
+// p
+export const P = styled.p`
+	font-size: 18px;
+	font-weight: 500;
+	line-height: 1.5;
+	margin: 0 0 12px;
+`;
+
 // a
 export const A = styled.a`
 	font-size: 18px;
 	text-align: left;
 	color: #1250be;
 `;
+
+// edit
+export const Edit = styled.button`
+	color: var(--brand-blue);
+	margin-left: 10px;
+	svg {
+  	padding-right: 3px;
+ 	}
+`;
+

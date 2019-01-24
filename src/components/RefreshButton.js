@@ -1,10 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { initialLoad } from '../actions';
-import { Button } from '../styled/Button';
+import styled from '@emotion/styled';
+
+export const Button = styled.button`
+  position: absolute;
+  bottom: 0;
+  background: #000;
+  color: #fff;
+  font-size: 16px;
+  padding: 10px 16px;
+  display: block;
+  &:hover {
+  	background: var(--brand-blue);
+  }
+`;
 
 const RefreshButton = (props) => (
-  <Button onClick={() => {props.reloadAllState()}}>
+  <Button
+    onClick={() => {props.reloadAllState()}}>
     Refresh
   </Button>
 );

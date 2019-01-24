@@ -10,6 +10,11 @@ const StyledHeader = styled.header`
   padding: 10px 20px;
   background: #fff;
   box-shadow: 2px 2px 8px rgba(190, 190, 190, 0.29);
+  nav {
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 export const Header = () => (

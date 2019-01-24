@@ -6,7 +6,16 @@ import { selectSettings } from '../selectors';
 import { baseUrl, loadSettings } from '../actions';
 import { putData } from '../api';
 
+import styled from '@emotion/styled';
+import { Input} from '../styled/Form';
+import { H2, Edit } from '../styled/GlobalElements';
+import { Button } from '../styled/Button';
 import ShadowBox from '../styled/ShadowBox';
+
+const InputContainer = styled.div`
+  padding-bottom: 20px;
+  font-size: 18px;
+`;
 
 export class CredentialsManager extends React.Component {
   state = {
@@ -53,31 +62,31 @@ export class CredentialsManager extends React.Component {
   render() {
     return (
       <ShadowBox>
-        <h2>Passiv Credentials</h2>
+        <H2>Passiv Credentials</H2>
         <div>
           {this.state.editingName ? (
-            <div>
-              <input value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}/>
-              <button onClick={() => this.finishEditing()}>Done</button>
-            </div>
+            <InputContainer>
+              <Input value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}/>
+              <Button onClick={() => this.finishEditing()}>Done</Button>
+            </InputContainer>
           ) : (
-            <div>
-              Name: {this.state.name}
-              <button onClick={() => this.startEditingName()}><FontAwesomeIcon icon={faPen} />Edit</button>
-            </div>
+            <InputContainer>
+              <strong>Name:</strong> {this.state.name}
+              <Edit onClick={() => this.startEditingName()}><FontAwesomeIcon icon={faPen} />Edit</Edit>
+            </InputContainer>
           )}
         </div>
         <div>
           {this.state.editingEmail ? (
-            <div>
-              <input value={this.state.email} onChange={(event) => {this.setState({email: event.target.value})}}/>
-              <button onClick={() => this.finishEditing()}>Done</button>
-            </div>
+            <InputContainer>
+              <Input value={this.state.email} onChange={(event) => {this.setState({email: event.target.value})}}/>
+              <Button onClick={() => this.finishEditing()}>Done</Button>
+            </InputContainer>
           ) : (
-            <div>
-              Email: {this.state.email}
-              <button onClick={() => this.startEditingEmail()}><FontAwesomeIcon icon={faPen} />Edit</button>
-            </div>
+            <InputContainer>
+              <strong>Email:</strong> {this.state.email}
+              <Edit onClick={() => this.startEditingEmail()}><FontAwesomeIcon icon={faPen} />Edit</Edit>
+            </InputContainer>
           )}
         </div>
       </ShadowBox>

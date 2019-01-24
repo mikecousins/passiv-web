@@ -7,6 +7,12 @@ import { baseUrl, loadSubscriptions } from '../actions';
 import { postData } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import styled from '@emotion/styled';
+
+const InputStyle = styled.div`
+  input {
+  }
+`;
 
 
 export class CheckoutForm extends React.Component {
@@ -39,7 +45,7 @@ export class CheckoutForm extends React.Component {
   }
   render() {
     return (
-      <div>
+      <InputStyle>
         <CardElement />
         {
           !this.state.loading && this.state.error && (
@@ -57,7 +63,7 @@ export class CheckoutForm extends React.Component {
               <Button onClick={this.submit}>Submit</Button>
             )
         }
-      </div>
+      </InputStyle>
     )
   }
 }

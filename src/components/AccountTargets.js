@@ -52,43 +52,53 @@ export class AccountTargets extends React.Component {
         <Formik
           initialValues={{ targets: target }}
           enableReinitialize
+          validate={(values, actions) => {
+            const errors = {};
+            const cashPercentage = 100 - values.targets.reduce((total, target) => {
+              if (target.percent) {
+                return total + parseFloat(target.percent);
+              }
+              return total;
+            }, 0);
+            if (cashPercentage < 0) {
+              errors.cash = 'Too low';
+            }
+            return errors;
+          }}
           onSubmit={(values, actions) => {
-            // post the new targets and update our data
+            // set us back to non-editing state
+            this.setState({edit: false});
+
+            // create our list of api requests to make
+            const apiRequests = [];
             values.targets.forEach(target => {
               if (target.id) {
                 if (target.deleted) {
                   // delete this target
-                  deleteData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}`)
-                  .then(response => {
-                    this.setState({edit: false});
-                    this.props.refreshGroups();
-                  })
-                  .catch(error => {
-                    this.setState({edit: false});
-                  });
+                  apiRequests.push(deleteData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}/`));
                 } else {
                 // update if it's an existing target
-                patchData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}`, target)
-                .then(response => {
-                  this.setState({edit: false});
-                  this.props.refreshGroups();
-                })
-                .catch(error => {
-                  this.setState({edit: false});
-                });
+                apiRequests.push(patchData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}/`, target));
               }
             } else {
                 // add if it's a new target
-                postData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/`, target)
-                .then(response => {
-                  this.setState({edit: false});
-                  this.props.refreshGroups();
-                })
-                .catch(error => {
-                  this.setState({edit: false});
-                });
+                apiRequests.push(postData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/`, target));
               }
             });
+
+            // execute our list of api requests
+            Promise.all(apiRequests)
+              .then((responses) => {
+                // once we're done refresh the groups
+                this.props.refreshGroups();
+              })
+              .catch((error) => {
+                // display our error
+                toast.error(`Failed to edit target: ${error && error.detail}`);
+
+                // reset the form
+                actions.resetForm();
+              })
           }}
           onReset={(values, actions) => {
             values.targets = target;
@@ -159,17 +169,9 @@ export class AccountTargets extends React.Component {
                         <Button type="button">
                           Import
                         </Button>
-                        {
-                          cashPercentage < 0 ? (
-                            <Button type="submit" onClick={props.handleSubmit} disabled={true}>
-                              Save
-                            </Button>
-                          ) : (
-                            <Button type="submit" onClick={props.handleSubmit} disabled={(props.isSubmitting || !props.dirty) && !props.values.targets.find(t => t.deleted)}>
-                              Save
-                            </Button>
-                          )
-                        }
+                        <Button type="submit" onClick={props.handleSubmit} disabled={(props.isSubmitting || !props.dirty || !props.isValid) && !props.values.targets.find(t => t.deleted)}>
+                          Save
+                        </Button>
                         <Button type="button" onClick={props.handleReset}>
                           Cancel
                         </Button>

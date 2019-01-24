@@ -19,6 +19,7 @@ import { loadData, loadGroupDetails } from './reactors';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import ErrorBoundary from './components/ErrorBoundary';
+import { updateServiceWorker } from './actions';
 
 Sentry.init({
   dsn: "https://0d88597b9cb6439fa0050392b907ec17@sentry.io/1358976"
@@ -99,4 +100,8 @@ ReactDOM.render(
   </ErrorBoundary>,
   document.getElementById('root'));
 
-registerServiceWorker();
+const onUpdate = () => {
+  store.dispatch(updateServiceWorker())
+};
+
+registerServiceWorker(onUpdate);

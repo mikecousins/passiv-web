@@ -7,6 +7,14 @@ import AuthorizationPicker from '../components/AuthorizationPicker';
 import { Button } from '../styled/Button';
 
 import ShadowBox from '../styled/ShadowBox';
+import styled from '@emotion/styled';
+import { H2, Edit } from '../styled/GlobalElements';
+
+const InputStyle = styled.div`
+  input {
+  }
+`;
+
 
 export class ConnectionsManager extends React.Component {
   state = {
@@ -151,9 +159,9 @@ export class ConnectionsManager extends React.Component {
                 <Button onClick={() => {this.startUpdatingConnection(a.id)}}>
                   Update
                 </Button>
-                <Button onClick={() => {this.startDeletingConnection(a.id)}}>
+                <button onClick={() => {this.startDeletingConnection(a.id)}}>
                   Delete
-                </Button>
+                </button>
               </div>
             )
           }
@@ -162,7 +170,7 @@ export class ConnectionsManager extends React.Component {
     }
     return (
       <ShadowBox>
-        <h2>Connections</h2>
+        <H2>Connections</H2>
         {authorizations}
         {
           this.state.creatingNewConnection ?

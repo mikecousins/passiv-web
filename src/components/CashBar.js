@@ -1,4 +1,5 @@
 import React from 'react';
+import Number from './Number';
 
 export const CashBar = (props) => {
   if (!(typeof(props.percentage) === "number")) {
@@ -18,22 +19,21 @@ export const CashBar = (props) => {
               </div>
             ) : (
               <div style={{ width: `${props.percentage > 100 ? 100 : props.percentage }%` }}>
-                {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.percentage)}%
+                <Number value={props.percentage} />%
               </div>
             )
           }
-
         </div>
       </div>
       <div>
         <div>
-          {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.percentage)}%
+          <Number value={props.percentage} />%
         </div>
         <div>
-          {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.actualPercentage)}%
+          <Number value={props.actualPercentage} />%
         </div>
         <div>
-          {new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(props.actualPercentage - props.percentage)}%
+          <Number value={props.actualPercentage - props.percentage} />%
         </div>
       </div>
     </div>

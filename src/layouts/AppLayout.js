@@ -8,8 +8,6 @@ import SideBar from '../components/SideBar';
 
 import GlobalStyle from '../styled/global';
 
-
-
 const Container = styled.div`
   display: grid;
   grid-template-columns: 300px 1fr;

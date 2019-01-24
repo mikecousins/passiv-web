@@ -5,6 +5,7 @@ import demo from './demo';
 import language from './language';
 import simple from './simple';
 import simpleList from './simpleList';
+import updateServiceWorker from './updateServiceWorker';
 
 export default (history) => combineReducers({
   router: connectRouter(history),
@@ -12,6 +13,7 @@ export default (history) => combineReducers({
   auth,
   demo,
   language,
+  updateServiceWorker,
   authorizations: simple({
     baseType: 'FETCH_AUTHORIZATIONS'
   }),
