@@ -23,6 +23,22 @@ export const Input = styled(Field)`
   }
 `;
 
+export const InputNonFormik = styled.input`
+  border: 1px solid var(--brand-grey);
+  box-sizing: border-box;
+  font-size: 20px;
+  height: 38px;
+  padding: 25px;
+  border-radius: 0;
+  width: 100%;
+  outline: none;
+  margin-bottom: 20px;
+  -webkit-appearance: none;
+  &:focus {
+  	border: 1px solid var(--brand-blue-hover);
+  }
+`;
+
 export const Label = styled.label`
 	display: block;
 	font-size: 20px;
