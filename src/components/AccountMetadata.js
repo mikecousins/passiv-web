@@ -8,8 +8,14 @@ import { patchData } from '../api';
 import { selectCurrentGroup } from '../selectors';
 import styled from '@emotion/styled';
 import { Table , Edit } from '../styled/GlobalElements';
-import { Input } from '../styled/Form';
+import { InputNonFormik } from '../styled/Form';
 import ShadowBox from '../styled/ShadowBox';
+import { Button } from '../styled/Button';
+
+const InputContainer = styled.div`
+  padding-bottom: 20px;
+  font-size: 18px;
+`;
 
 class AccountMetadata extends Component {
   state = {
@@ -50,16 +56,17 @@ class AccountMetadata extends Component {
       <ShadowBox>
         <Table>
           {this.state.editingName ? (
-            <div>
-              <Input value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}/>
-              <button onClick={() => this.finishEditingName()}>Done</button>
-            </div>
+            <InputContainer>
+              <InputNonFormik value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}/>
+              <Button onClick={() => this.finishEditingName()}>Done</Button>
+            </InputContainer>
           ) : (
-            <div>
+            <InputContainer>
               {this.props.name ? this.props.name : <FontAwesomeIcon icon={faSpinner} spin />}
-              <Edit onClick={() => this.startEditingName()}><FontAwesomeIcon icon={faPen} />Edit Name</Edit>
-            </div>
+              <Edit onClick={() => this.startEditingName()}><FontAwesomeIcon icon={faPen} />Edit</Edit>
+            </InputContainer>
           )}
+
           <div>
             <h3>Type</h3>
             {this.props.type ? this.props.type : <FontAwesomeIcon icon={faSpinner} spin />}
