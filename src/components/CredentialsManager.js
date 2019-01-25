@@ -7,7 +7,7 @@ import { baseUrl, loadSettings } from '../actions';
 import { putData } from '../api';
 
 import styled from '@emotion/styled';
-import { Input} from '../styled/Form';
+import { InputNonFormik } from '../styled/Form';
 import { H2, Edit } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import ShadowBox from '../styled/ShadowBox';
@@ -66,7 +66,7 @@ export class CredentialsManager extends React.Component {
         <div>
           {this.state.editingName ? (
             <InputContainer>
-              <Input value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}/>
+              <InputNonFormik value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}/>
               <Button onClick={() => this.finishEditing()}>Done</Button>
             </InputContainer>
           ) : (
@@ -79,7 +79,7 @@ export class CredentialsManager extends React.Component {
         <div>
           {this.state.editingEmail ? (
             <InputContainer>
-              <Input value={this.state.email} onChange={(event) => {this.setState({email: event.target.value})}}/>
+              <InputNonFormik value={this.state.email} onChange={(event) => {this.setState({email: event.target.value})}}/>
               <Button onClick={() => this.finishEditing()}>Done</Button>
             </InputContainer>
           ) : (
