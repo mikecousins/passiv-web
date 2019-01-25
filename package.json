@@ -48,7 +48,7 @@
     "reselect": "4.0.0",
     "ric-shim": "1.0.0",
     "safe-memory-cache": "1.5.1",
-    "yup": "0.26.7"
+    "yup": "0.26.10"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -62,12 +62,12 @@
     "travis": "npm run test && npm run lint && npm run cypress"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^4.1.7",
-    "@storybook/addon-links": "^4.1.7",
-    "@storybook/react": "^4.1.7",
+    "@storybook/addon-actions": "^4.1.11",
+    "@storybook/addon-links": "^4.1.11",
+    "@storybook/react": "^4.1.11",
     "cypress": "^3.1.4",
     "enzyme": "^3.8.0",
-    "enzyme-adapter-react-16": "^1.7.1"
+    "enzyme-adapter-react-16": "^1.8.0"
   },
   "eslintConfig": {
     "extends": "react-app"
