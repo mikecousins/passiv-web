@@ -139,10 +139,12 @@ export class SubscriptionManager extends React.Component {
 
       if (this.props.subscriptions.type === 'free') {
         subscriptionBody = (
-          <P>
-            You are using the free Community Edition of Passiv.
+          <div>
+            <P>
+              You are using the free Community Edition of Passiv.
+            </P>
             {upgradeForm}
-          </P>
+          </div>
         )
       }
       else if (this.props.subscriptions.type === 'paid') {
