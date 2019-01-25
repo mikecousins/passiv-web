@@ -22,7 +22,6 @@ const SettingContainer = styled.div`
 	}
 `;
 
-
 class SettingsPage extends Component {
 
   render() {

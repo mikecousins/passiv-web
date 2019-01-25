@@ -9,6 +9,7 @@ import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../styled/Button';
+import { Table, H3 } from '../styled/GlobalElements';
 import { patchData, postData, deleteData } from '../api';
 
 import ShadowBox from '../styled/ShadowBox';
@@ -40,15 +41,15 @@ export class AccountTargets extends React.Component {
     if (target && target.length === 0) {
       return (
         <ShadowBox>
-          <h3>Target Portfolio</h3>
-          <span>No target set<button onClick={() => startImportTarget(groupId)}>Import</button></span>
+          <H3>Target Portfolio</H3>
+          <span>No target set<Button onClick={() => startImportTarget(groupId)}>Import</Button></span>
         </ShadowBox>
       );
     }
 
     return (
       <ShadowBox>
-        <h3>Target Portfolio</h3>
+        <H3>Target Portfolio</H3>
         <Formik
           initialValues={{ targets: target }}
           enableReinitialize
@@ -106,14 +107,14 @@ export class AccountTargets extends React.Component {
           }}
           render={(props) => (
             <Form>
-              <div>
+              <Table>
                 <div>
                   Symbol
                 </div>
                 <div>
                   &nbsp;
                 </div>
-                <div>
+                <Table>
                   <div>
                     Target
                   </div>
@@ -123,8 +124,8 @@ export class AccountTargets extends React.Component {
                   <div>
                     Delta
                   </div>
-                </div>
-              </div>
+                </Table>
+              </Table>
               <FieldArray
                 name="targets"
                 render={arrayHelpers => {

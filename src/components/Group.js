@@ -3,9 +3,28 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-
+import styled from '@emotion/styled';
 import ShadowBox from '../styled/ShadowBox';
-import { Table } from '../styled/GlobalElements';
+import { Table,H2,H3 } from '../styled/GlobalElements';
+
+// h1
+export const ViewBtn = styled.div`
+  background-color: #fff;
+  margin: -20px 0;
+  padding: 34px 40px 34px;
+  padding-right: 20px;
+  border-left: 1px solid #eee;
+  display: block;
+  a {
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: 2px;
+    color: #033ebc;
+    display: block;
+    text-decoration: none;
+  }
+`;
 
 const Group = (props) => {
   const { group } = props;
@@ -31,28 +50,28 @@ const Group = (props) => {
   return (
     <ShadowBox>
       <Table>
-        <div>{group.name}</div>
+        <H2>{group.name}</H2>
         <div>
-          <div>
+          <H3>
             Accuracy
-          </div>
+          </H3>
           {accuracy}
         </div>
         <div>
-          <div>
+          <H3>
             Cash
-          </div>
+          </H3>
           {cash}
         </div>
         <div>
-          <div>
+          <H3>
             Total Value
-          </div>
+          </H3>
           {totalValue}
         </div>
-        <div>
+        <ViewBtn>
           <Link to={`/app/group/${group.id}`}>View</Link>
-        </div>
+        </ViewBtn>
       </Table>
     </ShadowBox>
   );

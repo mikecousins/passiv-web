@@ -2,17 +2,23 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { selectCurrentGroupTrades } from '../selectors';
 import RebalanceWidget from './RebalanceWidget';
-
+import { H3, Table } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
+import styled from '@emotion/styled';
+
+
+export const TradesContainer = styled.div`
+  position: relative;
+`;
 
 class AccountTrades extends Component {
   render() {
     let trades = null;
     if (this.props.trades && this.props.trades.trades.length > 0) {
       trades = this.props.trades.trades.map(trade => (
-        <div key={trade.id}>
+        <Table key={trade.id}>
           <div>
-            <h3>{trade.action}</h3>
+            <H3>{trade.action}</H3>
           </div>
           <div>
             <div>{trade.universal_symbol.description}</div>
@@ -26,19 +32,19 @@ class AccountTrades extends Component {
             <div>Price</div>
             <div>{trade.price}</div>
           </div>
-        </div>
+        </Table>
       ))
     }
 
     return (
-      <div>
+      <TradesContainer>
         <ShadowBox>
           {trades}
         </ShadowBox>
         <RebalanceWidget
           trades={this.props.trades}
         />
-      </div>
+      </TradesContainer>
     )
   }
 };

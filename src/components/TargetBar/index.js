@@ -5,6 +5,7 @@ import { baseUrl } from '../../actions';
 import { postData } from '../../api';
 import SymbolSelector from './SymbolSelector';
 import Number from '../Number';
+import { Table , Edit } from '../../styled/GlobalElements';
 
 export class TargetBar extends React.Component {
   loadOptions = (substring, callback) => {
@@ -45,8 +46,6 @@ export class TargetBar extends React.Component {
       <div>
         <div>
           {(!id && !excluded) ? (
-            <div>
-              <div>
                 <SymbolSelector
                   value={fullSymbol}
                   onChange={setSymbol}
@@ -55,8 +54,6 @@ export class TargetBar extends React.Component {
                   getOptionValue={(option) => option.id}
                   style={{ width: 120 }}
                 />
-              </div>
-            </div>
           ) : fullSymbol.symbol}
         </div>
         {!excluded ? (

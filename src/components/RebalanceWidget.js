@@ -6,8 +6,23 @@ import { faSpinner, faChevronUp, faChevronDown } from '@fortawesome/free-solid-s
 import { baseUrl, loadGroup } from '../actions';
 import { getData, postData } from '../api';
 import { Button } from '../styled/Button';
+import styled from '@emotion/styled';
 
-import ShadowBox from '../styled/ShadowBox';
+
+export const AllocateBtn= styled.div`
+  button {
+    position: absolute;
+    top: 100%;
+    margin-top: -20px;
+    left: 0;
+    font-size: 16px;
+    padding: 8px 24px;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.37);
+    background-color: #003ba2;
+    color: #fff;
+  }
+`;
 
 class RebalanceWidget extends Component {
   state = {
@@ -165,10 +180,10 @@ class RebalanceWidget extends Component {
     }
 
     return (
-      <ShadowBox>
+      <AllocateBtn>
         <button onClick={() => this.toggleExpand()}>{this.anySells() ? 'Rebalance' : 'Allocate'} {this.state.expanded ? ( <FontAwesomeIcon icon={faChevronUp} /> ) : ( <FontAwesomeIcon icon={faChevronDown} /> )}</button>
         { orderValidation }
-      </ShadowBox>
+      </AllocateBtn>
     )
   }
 };

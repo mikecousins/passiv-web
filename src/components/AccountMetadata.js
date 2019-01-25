@@ -6,7 +6,9 @@ import { faSpinner, faPen } from '@fortawesome/free-solid-svg-icons';
 import { baseUrl, loadGroups } from '../actions';
 import { patchData } from '../api';
 import { selectCurrentGroup } from '../selectors';
-
+import styled from '@emotion/styled';
+import { Table , Edit } from '../styled/GlobalElements';
+import { Input } from '../styled/Form';
 import ShadowBox from '../styled/ShadowBox';
 
 class AccountMetadata extends Component {
@@ -46,16 +48,16 @@ class AccountMetadata extends Component {
   render() {
     return (
       <ShadowBox>
-        <div>
+        <Table>
           {this.state.editingName ? (
             <div>
-              <input value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}/>
+              <Input value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}/>
               <button onClick={() => this.finishEditingName()}>Done</button>
             </div>
           ) : (
             <div>
               {this.props.name ? this.props.name : <FontAwesomeIcon icon={faSpinner} spin />}
-              <button onClick={() => this.startEditingName()}><FontAwesomeIcon icon={faPen} />Edit Name</button>
+              <Edit onClick={() => this.startEditingName()}><FontAwesomeIcon icon={faPen} />Edit Name</Edit>
             </div>
           )}
           <div>
@@ -66,8 +68,8 @@ class AccountMetadata extends Component {
             <h3>Account #</h3>
             {this.props.number ? this.props.number : <FontAwesomeIcon icon={faSpinner} spin />}
           </div>
-        </div>
-        <div>
+        </Table>
+        <Table>
           <div>
             <h3>Accuracy</h3>
             {this.props.accuracy ? <span>{Intl.NumberFormat('en-CA', { style: 'percent', maximumFractionDigits: 1}).format(this.props.accuracy / 100)}</span> : <FontAwesomeIcon icon={faSpinner} spin />}
@@ -80,7 +82,7 @@ class AccountMetadata extends Component {
             <h3>Total Value</h3>
             <b>{this.props.equity ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(this.props.equity) : <FontAwesomeIcon icon={faSpinner} spin />}</b>
           </div>
-        </div>
+        </Table>
       </ShadowBox>
     )
   }

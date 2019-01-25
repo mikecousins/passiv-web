@@ -26,7 +26,6 @@ export const H3 = styled.h3`
 	font-weight: 900;
 	line-height: 1.78;
 	letter-spacing: 1px;
-	text-align: center;
 	color: #232225;
 `;
 
@@ -42,7 +41,7 @@ export const UL = styled.ul`
 export const Table = styled.div`
   display: flex;
   justify-content: space-between;
-
+	align-items: center;
 `;
 
 // p
