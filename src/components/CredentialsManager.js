@@ -22,7 +22,6 @@ export class CredentialsManager extends React.Component {
     name: this.props.settings && this.props.settings.name,
     email: this.props.settings && this.props.settings.email,
     editingName: false,
-    editingEmail: false,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,10 +36,9 @@ export class CredentialsManager extends React.Component {
   }
 
   finishEditing() {
-    if (this.state.name !== this.props.settings.name || this.state.email !== this.props.settings.email) {
+    if (this.state.name !== this.props.settings.name) {
       let settings = Object.assign({}, this.props.settings);
       settings.name = this.state.name;
-      settings.email = this.state.email;
       putData(`${baseUrl}/api/v1/settings/`, settings)
         .then(response => {
           console.log('success', response);
@@ -51,12 +49,9 @@ export class CredentialsManager extends React.Component {
           this.props.refreshSettings();
         });
     }
-    this.setState({editingName: false, editingEmail: false});
+    this.setState({editingName: false});
   }
 
-  startEditingEmail() {
-    this.setState({editingEmail: true});
-  }
 
 
   render() {
@@ -77,17 +72,7 @@ export class CredentialsManager extends React.Component {
           )}
         </div>
         <div>
-          {this.state.editingEmail ? (
-            <InputContainer>
-              <InputNonFormik value={this.state.email} onChange={(event) => {this.setState({email: event.target.value})}}/>
-              <Button onClick={() => this.finishEditing()}>Done</Button>
-            </InputContainer>
-          ) : (
-            <InputContainer>
-              <strong>Email:</strong> {this.state.email}
-              <Edit onClick={() => this.startEditingEmail()}><FontAwesomeIcon icon={faPen} />Edit</Edit>
-            </InputContainer>
-          )}
+          <strong>Email:</strong> {this.state.email}
         </div>
       </ShadowBox>
     )
