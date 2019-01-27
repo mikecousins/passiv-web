@@ -3,16 +3,19 @@ const auth = (state = {}, action) => {
     localStorage.setItem('jwt', action.payload.token);
     return {
       token: action.payload.token,
+      error: null,
     };
   } else if (action.type === 'LOGIN_FAILED') {
     return {
       token: null,
+      error: action.payload,
     };
   } else if (action.type === 'LOGOUT') {
     localStorage.removeItem('jwt');
     window.location.reload();
     return {
       token: null,
+      error: null,
     };
   }
   return state;
