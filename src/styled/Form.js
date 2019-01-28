@@ -8,7 +8,8 @@ export const Form = styled.form`
 `;
 
 export const Input = styled(Field)`
-  border: 1px solid var(--brand-grey);
+  border: ${props =>
+    props.error ? '1px solid red' : '1px solid var(--brand-grey)'};
   box-sizing: border-box;
   font-size: 20px;
   height: 38px;

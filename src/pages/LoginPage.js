@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { loginStartedAsync } from '../actions';
+import { baseUrl, loginSucceeded } from '../actions';
+import { postData } from '../api';
 import { selectLoggedIn } from '../selectors';
 import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
@@ -35,7 +36,18 @@ const LoginPage = (props) => {
               .required('Required')
           })}
           onSubmit={(values, actions) => {
-            props.startLogin(values);
+            postData(
+              baseUrl + '/api/v1/auth/login/',
+              { email: values.email, password: values.password }
+            )
+              .then(response => {
+                actions.setSubmitting(false);
+                props.loginSucceeded(response);
+              })
+              .catch(error => {
+                actions.setErrors({ password: error.non_field_errors || 'Error logging in' });
+                actions.setSubmitting(false);
+              });
           }}
           render={(props) => (
             <Form onSubmit={props.handleSubmit}>
@@ -51,9 +63,7 @@ const LoginPage = (props) => {
                 Password
               </Label>
               <Input
-                border={
-                  props.errors.password && "1px solid red"
-                }
+                error={props.touched.password && !!props.errors.password}
                 type="password"
                 name="password"
                 placeholder="Password"
@@ -80,6 +90,6 @@ const select = state => ({
   loggedIn: selectLoggedIn(state),
 });
 
-const actions = { startLogin: loginStartedAsync };
+const actions = { loginSucceeded: loginSucceeded };
 
 export default connect(select, actions)(LoginPage);

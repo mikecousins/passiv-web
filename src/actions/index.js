@@ -6,24 +6,8 @@ if (process.env.REACT_APP_BASE_URL_OVERRIDE) {
 }
 export const baseUrl = 'https://' + baseUrlOverride;
 
-export const loginStartedAsync = payload => {
-  return dispatch => {
-    postData(
-      baseUrl + '/api/v1/auth/login/',
-      { email: payload.email, password: payload.password }
-    )
-      .then(response => dispatch(loginSucceeded(response)))
-      .catch(error => dispatch(loginFailed(error)));
-  };
-};
-
 export const loginSucceeded = payload => ({
   type: 'LOGIN_SUCCEEDED',
-  payload,
-});
-
-export const loginFailed = payload => ({
-  type: 'LOGIN_FAILED',
   payload,
 });
 
