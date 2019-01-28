@@ -72,6 +72,10 @@ const SideBar = (props) => {
   return (
     <StyledAside>
       <SideBarLink
+        name="Login"
+        linkPath="/app/login"
+      />
+      <SideBarLink
         name="Sign Up"
         linkPath="/app/register"
       />
