@@ -156,7 +156,7 @@ export class AccountTargets extends React.Component {
                     <React.Fragment>
 
                       {props.values.targets.filter(t => !t.deleted).map((t, index) => (
-                      <TargetRow>
+                      <TargetRow key={t.id}>
                         <TargetBar
                           key={t.symbol}
                           target={t}
