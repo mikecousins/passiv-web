@@ -58,7 +58,9 @@ const LoginPage = (props) => {
                 name="email"
                 placeholder="Email"
               />
-              <ErrorMessage name="email" />
+              <P>
+                <ErrorMessage name="email" />
+              </P>
               <Label>
                 Password
               </Label>
@@ -69,7 +71,7 @@ const LoginPage = (props) => {
                 placeholder="Password"
               />
               <P>
-              <ErrorMessage name="password" />
+                <ErrorMessage name="password" />
               </P>
               <div>
                 <Button
