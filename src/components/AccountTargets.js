@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Formik, FieldArray, Field, ErrorMessage } from 'formik';
 import { toast } from "react-toastify";
-import { baseUrl, importTarget, loadGroups } from '../actions';
+import { baseUrl, importTarget, loadGroup } from '../actions';
 import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
@@ -113,7 +113,7 @@ export class AccountTargets extends React.Component {
             Promise.all(apiRequests)
               .then((responses) => {
                 // once we're done refresh the groups
-                this.props.refreshGroups();
+                this.props.refreshGroup({ids: [this.props.groupId]});
               })
               .catch((error) => {
                 // display our error
@@ -212,7 +212,7 @@ export class AccountTargets extends React.Component {
 
 const actions = {
   startImportTarget: importTarget,
-  refreshGroups: loadGroups,
+  refreshGroup: loadGroup,
 };
 
 const select = state => ({
