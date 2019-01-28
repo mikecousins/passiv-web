@@ -19,7 +19,7 @@ const RegistrationPage = (props) => {
 } else {
   return (
     <React.Fragment>
-      <H1>Register</H1>
+      <H1>Create an Account</H1>
       <Formik
         initialValues={{
           name: '',

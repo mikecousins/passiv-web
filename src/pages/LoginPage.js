@@ -8,7 +8,7 @@ import { postData } from '../api';
 import { selectLoggedIn } from '../selectors';
 import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
-import { H1 } from '../styled/GlobalElements';
+import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 
 
@@ -68,7 +68,9 @@ const LoginPage = (props) => {
                 name="password"
                 placeholder="Password"
               />
+              <P>
               <ErrorMessage name="password" />
+              </P>
               <div>
                 <Button
                   type="submit"

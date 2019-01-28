@@ -7,7 +7,7 @@ import { baseUrl } from '../actions';
 import { selectLoggedIn, selectPasswordResetToken } from '../selectors';
 import { Link } from 'react-router-dom';
 import { Form, Input, Label } from '../styled/Form';
-import { H1 } from '../styled/GlobalElements';
+import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 
 class ResetPasswordConfirmPage extends Component {
@@ -25,14 +25,14 @@ class ResetPasswordConfirmPage extends Component {
     } else {
       return (
       <React.Fragment>
-        <H1>Confirm Password Reset</H1>
+        <H1>Choose a new Password</H1>
         {
           this.state.submitted ? (
-            <div>
+            <P>
               Your password has been reset. <Link to="/app/login">
                 Login!
               </Link>
-            </div>
+            </P>
           ) : (
             <Formik
               initialValues={{

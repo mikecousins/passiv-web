@@ -7,7 +7,7 @@ import { baseUrl } from '../actions';
 import { selectLoggedIn } from '../selectors';
 import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
-import { H1 } from '../styled/GlobalElements';
+import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 
 class ResetPasswordPage extends Component {
@@ -24,67 +24,73 @@ class ResetPasswordPage extends Component {
     } else {
       return (
       <React.Fragment>
-        <H1>Password Reset</H1>
+        <H1>Reset your Password</H1>
         {
           this.state.submitted ? (
-            <div>
+            <P>
               Your password reset request has been sent. Go check your email and follow the instructions.
-            </div>
+            </P>
           ) : (
-            <Formik
-              initialValues={{
-                email: '',
-              }}
-              validate={values => {
-                let errors = {};
-                if (!values.email) {
-                  errors.email = 'Email is required';
-                }
-                return errors;
-              }}
-              onSubmit={(values, actions) => {
-                postDataNoAuth(`${baseUrl}/api/v1/auth/resetPassword/`, values)
-                  .then(response => {
-                    this.setState({submitted: true})
-                    console.log('success', response);
-                  })
-                  .catch(error => {console.log('error', error)});
-              }}
-              render={({
-                touched,
-                errors,
-                values,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-              }) => (
-                <Form onSubmit={handleSubmit}>
-                  <Label htmlFor="email">
-                    Email
-                  </Label>
-                  <Input
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.email}
-                    type="text"
-                    name="email"
-                    placeholder="example@example.com"
-                  />
-                  {touched.email && errors.email && (
-                    <div className="text-red">
-                      {errors.email}
+            <div>
+              <P>
+                Enter the email address used for your Passiv account and we will send a password reset link to your email.
+              </P>
+              <Formik
+                initialValues={{
+                  email: '',
+                }}
+                validate={values => {
+                  let errors = {};
+                  if (!values.email) {
+                    errors.email = 'Email is required';
+                  }
+                  return errors;
+                }}
+                onSubmit={(values, actions) => {
+                  postDataNoAuth(`${baseUrl}/api/v1/auth/resetPassword/`, values)
+                    .then(response => {
+                      this.setState({submitted: true})
+                      console.log('success', response);
+                    })
+                    .catch(error => {console.log('error', error)});
+                }}
+                render={({
+                  touched,
+                  errors,
+                  values,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                }) => (
+                  <Form onSubmit={handleSubmit}>
+                    <Label htmlFor="email">
+                      Email
+                    </Label>
+                    <Input
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                      type="text"
+                      name="email"
+                      placeholder="example@example.com"
+                    />
+                    {touched.email && errors.email && (
+                      <div className="text-red">
+                        {errors.email}
+                      </div>
+                    )}
+                    <div>
+                      <Button
+                        type="submit">
+                        Reset
+                      </Button>
+                      <LoginLinks page="reset" />
                     </div>
-                  )}
-                  <div>
-                    <Button
-                      type="submit">
-                      Reset
-                    </Button>
-                    <LoginLinks page="reset" />
-                  </div>
-                </Form>
-              )}
-            />
+                  </Form>
+                )}
+              />
+            </div>
+
           )
         }
 
