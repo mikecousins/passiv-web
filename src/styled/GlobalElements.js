@@ -41,7 +41,6 @@ export const UL = styled.ul`
 export const Table = styled.div`
   display: flex;
   justify-content: space-between;
-	align-items: center;
 `;
 
 // p
@@ -66,5 +65,21 @@ export const Edit = styled.button`
 	svg {
   	padding-right: 3px;
  	}
+`;
+
+export const Title = styled.div`
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 8px;
+`;
+
+export const Symbol = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  border: 1px solid #fff;
+  padding: 4px 4px 2px;
+  display: inline-block;
+  margin-top: -4px;
 `;
 

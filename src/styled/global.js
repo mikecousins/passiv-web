@@ -47,6 +47,7 @@ export const GlobalStyle = () => (
     }
 		body {
 		  line-height: 1;
+      overflow-y: scroll;
 		}
 		ol, ul {
 		  list-style: none;

@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 const SideBarLink = (props) => {
   let selected = window.location.pathname.startsWith(props.linkPath);
 
   let colorClass = null;
   if (selected) {
-    colorClass = "bg-blue"
+    colorClass = "active"
   }
 
   return (
@@ -16,6 +18,7 @@ const SideBarLink = (props) => {
         to={props.linkPath}
       >
         {props.name}
+        <FontAwesomeIcon icon={faAngleRight} />
       </Link>
     </div>
   )

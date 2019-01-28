@@ -17,10 +17,18 @@ const StyledAside = styled.aside`
   a {
     color: #fff;
     text-decoration: none;
-    padding: 10px 0;
+    padding: 20px 0;
     display: block;
     font-size: 1.125rem;
     padding-left: 30px;
+    padding-right: 15px;
+    widht: 100%;
+    svg {
+      float: right;
+    }
+  }
+  .active {
+    background: var(--brand-green);
   }
 `;
 

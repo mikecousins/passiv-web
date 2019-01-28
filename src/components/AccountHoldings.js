@@ -1,20 +1,39 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import {H2,Title} from '../styled/GlobalElements';
+import styled from '@emotion/styled';
 
 import ShadowBox from '../styled/ShadowBox';
 
+export const HoldingsTable = styled.table`
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+  margin: 20px 0;
+  th {
+    text-align: center;
+  }
+  tr th:first-of-type,
+  tr td:first-of-type {
+    text-align: left;
+  }
+  td {
+    padding: 7px 0;
+  }
+`;
+
 const AccountHoldings = (props) => (
   <ShadowBox>
-    <h3>Current Portfolio</h3>
+    <H2>Current Portfolio</H2>
     <br />
-    <table>
+    <HoldingsTable>
       <thead>
         <tr>
-          <th>Symbol</th>
-          <th>Units</th>
-          <th>Price</th>
-          <th>Value</th>
+          <th><Title>Symbol</Title></th>
+          <th><Title>Units</Title></th>
+          <th><Title>Price</Title></th>
+          <th><Title>Value</Title></th>
         </tr>
       </thead>
       <tbody>
@@ -38,7 +57,7 @@ const AccountHoldings = (props) => (
           ))
         }
       </tbody>
-    </table>
+    </HoldingsTable>
   </ShadowBox>
 );
 

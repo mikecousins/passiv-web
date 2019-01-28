@@ -2,12 +2,16 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import ShadowBox from '../styled/ShadowBox';
 import { Table,H2,H3 } from '../styled/GlobalElements';
 
-// h1
+export const DashboardRow = styled.div`
+  div{
+    align-items: center;
+  }
+`;
 export const ViewBtn = styled.div`
   background-color: #fff;
   margin: -20px 0;
@@ -23,6 +27,9 @@ export const ViewBtn = styled.div`
     color: #033ebc;
     display: block;
     text-decoration: none;
+  }
+  svg {
+    padding-left: 3px;
   }
 `;
 
@@ -49,30 +56,32 @@ const Group = (props) => {
 
   return (
     <ShadowBox>
-      <Table>
-        <H2>{group.name}</H2>
-        <div>
-          <H3>
-            Accuracy
-          </H3>
-          {accuracy}
-        </div>
-        <div>
-          <H3>
-            Cash
-          </H3>
-          {cash}
-        </div>
-        <div>
-          <H3>
-            Total Value
-          </H3>
-          {totalValue}
-        </div>
-        <ViewBtn>
-          <Link to={`/app/group/${group.id}`}>View</Link>
-        </ViewBtn>
-      </Table>
+      <DashboardRow>
+        <Table>
+          <H2>{group.name}</H2>
+          <div>
+            <H3>
+              Accuracy
+            </H3>
+            {accuracy}
+          </div>
+          <div>
+            <H3>
+              Cash
+            </H3>
+            {cash}
+          </div>
+          <div>
+            <H3>
+              Total Value
+            </H3>
+            {totalValue}
+          </div>
+          <ViewBtn>
+            <Link to={`/app/group/${group.id}`}>View<FontAwesomeIcon icon={faAngleRight} /></Link>
+          </ViewBtn>
+        </Table>
+      </DashboardRow>
     </ShadowBox>
   );
 }

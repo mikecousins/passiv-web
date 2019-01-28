@@ -8,6 +8,20 @@ import AccountMetadata from '../components/AccountMetadata';
 import AccountTargets from '../components/AccountTargets';
 import AccountTrades from '../components/AccountTrades';
 import { selectCurrentGroupTotalEquity, selectCurrentGroupCash, selectCurrentGroup, selectCurrentGroupAccuracy, selectCurrentGroupPositions, selectCurrentGroupBalances, selectCurrentGroupTrades } from '../selectors';
+import styled from '@emotion/styled';
+
+export const Container2Column = styled.div`
+  display: flex;
+  justify-content: space-between;
+  > div:first-child {
+    width: 75%;
+    margin-right: 30px;
+  }
+  > div:last-child {
+    width: 25%;
+
+  }
+`;
 
 const GroupPage = (props) => {
   const { group } = props;
@@ -27,46 +41,25 @@ const GroupPage = (props) => {
   let trades = null;
   if (props.trades && props.trades.trades.length) {
     trades = (
-      <div>
-        <div>
-          <AccountTrades />
-        </div>
-      </div>
+      <AccountTrades />
     )
   }
   return (
     <React.Fragment>
       {trades}
-      <div>
-        <div>
-          <AccountMetadata
-            name={name}
-            type={type}
-            number={number}
-            accuracy={props.accuracy}
-            cash={props.cash}
-            equity={props.equity}
-          />
-        </div>
-      </div>
-
-      <div>
-        <div>
-          <AccountTargets positions={props.positions} />
-        </div>
-      </div>
-
-      <div>
-        <div>
-          <AccountBalance balances={props.balances} />
-        </div>
-      </div>
-
-      <div>
-        <div>
-          <AccountHoldings positions={props.positions} />
-        </div>
-      </div>
+      <Container2Column>
+        <AccountMetadata
+          name={name}
+          type={type}
+          number={number}
+          accuracy={props.accuracy}
+          cash={props.cash}
+          equity={props.equity}
+        />
+        <AccountBalance balances={props.balances} />
+      </Container2Column>
+      <AccountTargets positions={props.positions} />
+      <AccountHoldings positions={props.positions} />
     </React.Fragment>
   );
 }

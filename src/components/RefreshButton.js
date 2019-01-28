@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { initialLoad } from '../actions';
 import styled from '@emotion/styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
 export const Button = styled.button`
   position: fixed;
@@ -11,6 +13,9 @@ export const Button = styled.button`
   font-size: 16px;
   padding: 10px 16px;
   display: block;
+  svg {
+    margin-right: 5px;
+  }
   &:hover {
   	background: var(--brand-blue);
   }
@@ -19,6 +24,7 @@ export const Button = styled.button`
 const RefreshButton = (props) => (
   <Button
     onClick={() => {props.reloadAllState()}}>
+    <FontAwesomeIcon icon={faSyncAlt} />
     Refresh
   </Button>
 );

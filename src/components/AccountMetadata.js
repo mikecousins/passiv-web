@@ -7,14 +7,47 @@ import { baseUrl, loadGroups } from '../actions';
 import { patchData } from '../api';
 import { selectCurrentGroup } from '../selectors';
 import styled from '@emotion/styled';
-import { Table , Edit } from '../styled/GlobalElements';
+import { Table , Edit, Title } from '../styled/GlobalElements';
 import { InputNonFormik } from '../styled/Form';
 import ShadowBox from '../styled/ShadowBox';
 import { Button } from '../styled/Button';
 
-const InputContainer = styled.div`
-  padding-bottom: 20px;
-  font-size: 18px;
+const MetaContainer = styled.div`
+  text-align: right;
+`;
+const Accuracy = styled.div`
+  text-align: center;
+`;
+const Total = styled.div`
+  text-align: right;
+  padding: 13px 20px 0 20px;
+  margin: -20px -20px 12px 0px;
+  border-radius: 0 4px;
+  color: #fff;
+  background: #04a287;
+`;
+
+const Cash = styled.div`
+  text-align: right;
+`;
+
+const NameContainer = styled.div`
+  padding-bottom: 15px;
+  font-size: 40px;
+  text-align: left;
+  button {
+    font-size: 18px;
+  }
+`;
+const MetaHorizontal = styled.div`
+  text-align: left;
+  span {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: inline-block;
+    margin-right: 6px;
+    text-align: left;
+  }
 `;
 
 class AccountMetadata extends Component {
@@ -54,42 +87,46 @@ class AccountMetadata extends Component {
   render() {
     return (
       <ShadowBox>
-        <Table>
-          {this.state.editingName ? (
-            <InputContainer>
-              <InputNonFormik value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}/>
-              <Button onClick={() => this.finishEditingName()}>Done</Button>
-            </InputContainer>
-          ) : (
-            <InputContainer>
-              {this.props.name ? this.props.name : <FontAwesomeIcon icon={faSpinner} spin />}
-              <Edit onClick={() => this.startEditingName()}><FontAwesomeIcon icon={faPen} />Edit</Edit>
-            </InputContainer>
-          )}
+        <MetaContainer>
+          <Table>
+            {this.state.editingName ? (
+              <NameContainer>
+                <InputNonFormik value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}/>
+                <Button onClick={() => this.finishEditingName()}>Done</Button>
+              </NameContainer>
+            ) : (
+              <NameContainer>
+                {this.props.name ? this.props.name : <FontAwesomeIcon icon={faSpinner} spin />}
+                <Edit onClick={() => this.startEditingName()}><FontAwesomeIcon icon={faPen} />Edit</Edit>
+              </NameContainer>
+            )}
+            <Total>
+              <Title>Total Value</Title>
+              <b>{this.props.equity ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(this.props.equity) : <FontAwesomeIcon icon={faSpinner} spin />}</b>
+            </Total>
+          </Table>
+          <Table>
+            <MetaHorizontal>
+              <div>
+                <span>Account #: </span>
+                {this.props.number ? this.props.number : <FontAwesomeIcon icon={faSpinner} spin />}
+              </div>
+              <div>
+                <span>Type: </span>
+                {this.props.type ? this.props.type : <FontAwesomeIcon icon={faSpinner} spin />}
+              </div>
+            </MetaHorizontal>
+            <Accuracy>
+              <Title>Accuracy</Title>
+              {this.props.accuracy ? <span>{Intl.NumberFormat('en-CA', { style: 'percent', maximumFractionDigits: 1}).format(this.props.accuracy / 100)}</span> : <FontAwesomeIcon icon={faSpinner} spin />}
+            </Accuracy>
+            <Cash>
+              <Title>Cash</Title>
+              {this.props.cash ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(this.props.cash) : <FontAwesomeIcon icon={faSpinner} spin />}
+            </Cash>
 
-          <div>
-            <h3>Type</h3>
-            {this.props.type ? this.props.type : <FontAwesomeIcon icon={faSpinner} spin />}
-          </div>
-          <div>
-            <h3>Account #</h3>
-            {this.props.number ? this.props.number : <FontAwesomeIcon icon={faSpinner} spin />}
-          </div>
-        </Table>
-        <Table>
-          <div>
-            <h3>Accuracy</h3>
-            {this.props.accuracy ? <span>{Intl.NumberFormat('en-CA', { style: 'percent', maximumFractionDigits: 1}).format(this.props.accuracy / 100)}</span> : <FontAwesomeIcon icon={faSpinner} spin />}
-          </div>
-          <div>
-            <h3>Cash</h3>
-            {this.props.cash ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(this.props.cash) : <FontAwesomeIcon icon={faSpinner} spin />}
-          </div>
-          <div>
-            <h3>Total Value</h3>
-            <b>{this.props.equity ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(this.props.equity) : <FontAwesomeIcon icon={faSpinner} spin />}</b>
-          </div>
-        </Table>
+          </Table>
+        </MetaContainer>
       </ShadowBox>
     )
   }

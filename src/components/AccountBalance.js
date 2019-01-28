@@ -2,36 +2,38 @@ import React from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ShadowBox from '../styled/ShadowBox';
+import { Table, H2} from '../styled/GlobalElements';
+import styled from '@emotion/styled';
+
+export const CashContainer = styled.div`
+  h2 {
+    margin-bottom: 20px;
+  }
+  div {
+    margin-bottom: 8px;
+    justify-content: flex-start;
+    margin-right: 10px;
+  }
+`;
 
 const AccountBalance = (props) => {
   let content = (
-    <div>
-      <h3>Balances</h3>
-      <br />
-      <table>
-        <thead>
-          <tr>
-            <th>Currency</th>
-            <th>Cash</th>
-          </tr>
-        </thead>
-        <tbody>
-          {!props.balances && <tr><td colSpan="4"><FontAwesomeIcon icon={faSpinner} spin /></td></tr>}
-          {props.balances
-            && props.balances.map(balance => (
-              <tr key={balance.currency.id}>
-                <td>
-                  <span title={balance.currency.name}>{balance.currency.code}</span>
-                </td>
-                <td>
-                  {new Intl.NumberFormat('en-CA', { style: 'currency', currency: balance.currency.code }).format(balance.cash)}
-                </td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </div>
+    <CashContainer>
+      <H2>Cash Balances</H2>
+      {!props.balances && <div><FontAwesomeIcon icon={faSpinner} spin /></div>}
+      {props.balances
+        && props.balances.map(balance => (
+        <Table key={balance.currency.id}>
+          <div>
+            <span title={balance.currency.name}>{balance.currency.code}</span>
+          </div>
+          <div>
+            {new Intl.NumberFormat('en-CA', { style: 'currency', currency: balance.currency.code }).format(balance.cash)}
+          </div>
+        </Table>
+      ))
+    }
+    </CashContainer>
   )
 
   return (

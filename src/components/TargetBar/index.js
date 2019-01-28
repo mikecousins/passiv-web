@@ -1,11 +1,12 @@
 import React from 'react';
-import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEyeSlash, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { baseUrl } from '../../actions';
 import { postData } from '../../api';
 import SymbolSelector from './SymbolSelector';
 import Number from '../Number';
-import { Table , Edit } from '../../styled/GlobalElements';
+import { Table } from '../../styled/GlobalElements';
+import { BarContainer,InputContainer,Symbol,Actual,Delta, Bar } from '../../styled/Target';
 
 export class TargetBar extends React.Component {
   loadOptions = (substring, callback) => {
@@ -43,57 +44,48 @@ export class TargetBar extends React.Component {
       progressClassName = "";
     }
     return (
-      <div>
-        <div>
+      <Table>
+        <Symbol>
           {(!id && !excluded) ? (
-                <SymbolSelector
-                  value={fullSymbol}
-                  onChange={setSymbol}
-                  loadOptions={this.loadOptions}
-                  getOptionLabel={(option) => option.symbol}
-                  getOptionValue={(option) => option.id}
-                  style={{ width: 120 }}
-                />
+            <SymbolSelector
+              value={fullSymbol}
+              onChange={setSymbol}
+              loadOptions={this.loadOptions}
+              getOptionLabel={(option) => option.symbol}
+              getOptionValue={(option) => option.id}
+              style={{ width: 120 }}
+            />
           ) : fullSymbol.symbol}
-        </div>
+        </Symbol>
         {!excluded ? (
           <React.Fragment>
-            <div>
-              <div>
+              <BarContainer>
                 {
                   percent > 100 ? (
-                    <div className={progressClassName} style={{ width: '100%', backgroundColor: 'red' }}>
+                    <Bar className={progressClassName} style={{ width: '100%', backgroundColor: 'red' }}>
                       Warning: allocation cannot be over 100%
-                    </div>
+                    </Bar>
                   ) :
-                    percent < 0 ? (
-                      <div className={progressClassName} style={{ width: '100%', backgroundColor: 'red' }}>
-                        Warning: allocation cannot be negative!
-                      </div>
-                    ) : (
-                      <div className={progressClassName} style={{ width: `${percent}%` }}>
-                        {percent}%
-                      </div>
-                    )
+                  percent < 0 ? (
+                    <Bar className={progressClassName} style={{ width: '100%', backgroundColor: 'red' }}>
+                      Warning: allocation cannot be negative!
+                    </Bar>
+                  ) : (
+                    <Bar className={progressClassName} style={{ width: `${percent}%` }}> </Bar>
+                  )
                 }
-
-              </div>
-            </div>
-            <div>
-              <div>
-                {children}%
-              </div>
-              <div>
+               <InputContainer>{children}%</InputContainer>
+              </BarContainer>
+              <Actual>
                 <Number value={actualPercentage} />%
-              </div>
-              <div className={deltaClassName}>
+              </Actual>
+              <Delta className={deltaClassName}>
                 <Number value={actualPercentage - percent} />%
-              </div>
-              {edit && <button type="button" onClick={() => onDelete(id)}>X</button>}
-            </div>
+              </Delta>
+              {edit && <button type="button" onClick={() => onDelete(id)}><FontAwesomeIcon icon={faTimes} /> </button>}
           </React.Fragment>
         ) : <FontAwesomeIcon icon={faEyeSlash} />}
-      </div>
+      </Table>
     );
   }
 }
