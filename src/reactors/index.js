@@ -43,13 +43,14 @@ export const loadData = createSelector(
   [
     state => state.auth.token,
     state => state.currencies,
+    state => state.currencyRates,
     state => state.accounts,
     state => state.groups,
     state => state.brokerages,
     state => state.settings,
     state => state.subscriptions,
   ],
-  (token, currencies, accounts, groups, brokerages, settings, subscriptions) => {
+  (token, currencies, currencyRates, accounts, groups, brokerages, settings, subscriptions) => {
     // ignore if we aren't logged in
     if (!token) {
       return;
@@ -57,6 +58,10 @@ export const loadData = createSelector(
 
     // if we need currencies we need everything, perform a full load
     if (isNeeded(currencies)) {
+      return initialLoad(token);
+    }
+
+    if (isNeeded(currencyRates)) {
       return initialLoad(token);
     }
 
