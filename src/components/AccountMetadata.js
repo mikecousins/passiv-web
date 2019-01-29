@@ -119,7 +119,7 @@ class AccountMetadata extends Component {
             </MetaHorizontal>
             <Accuracy>
               <Title>Accuracy</Title>
-              {this.props.accuracy ? <span>{Intl.NumberFormat('en-CA', { style: 'percent', maximumFractionDigits: 1}).format(this.props.accuracy / 100)}</span> : <FontAwesomeIcon icon={faSpinner} spin />}
+              {this.props.accuracy ? <Number value={this.props.accuracy} percentage decimalPlaces={0} /> : <FontAwesomeIcon icon={faSpinner} spin />}
             </Accuracy>
             <Cash>
               <Title>Cash</Title>

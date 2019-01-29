@@ -1,11 +1,14 @@
 import React from 'react';
 
 const Number = (props) => {
-  let decimalPlaces = props.decimalPlaces || 1;
+  let decimalPlaces = 1;
+  if (props.decimalPlaces !== undefined) {
+    decimalPlaces = props.decimalPlaces;
+  };
   let prefix = null;
   if (props.currency) {
     prefix = '$';
-    if (!props.decimalPlaces) {
+    if (props.decimalPlaces === undefined) {
       decimalPlaces = 2;
     }
   }

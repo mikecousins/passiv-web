@@ -8,12 +8,6 @@ export const CashBar = (props) => {
   if (!(typeof(props.percentage) === "number")) {
     return 'Loading';
   }
-  let deltaClassName = "";
-  let progressClassName = "";
-  if ((props.actualPercentage - props.percentage) < 0) {
-    deltaClassName = "";
-    progressClassName = "";
-  }
   return (
     <Table>
     <Symbol>Cash</Symbol>
@@ -24,7 +18,7 @@ export const CashBar = (props) => {
             Warning: cash allocation cannot be negative!
           </div>
         ) : (
-          <Bar className={progressClassName} style={{ width: `${props.percentage}%` }}> </Bar>
+          <Bar style={{ width: `${props.percentage}%` }}> </Bar>
         )
       }
       <InputContainer>
