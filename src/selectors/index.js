@@ -341,6 +341,30 @@ export const selectCurrentGroupSymbols = createSelector(
   }
 );
 
+export const selectCurrentGroupQuotableSymbols = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    let symbols = null;
+    if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.quotable_symbols) {
+      symbols = groupInfo[groupId].data.quotable_symbols;
+    }
+    return symbols
+  }
+);
+
+export const selectCurrentGroupExcludedAssets = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    let excludedAssets = null;
+    if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.excluded_positions) {
+      excludedAssets = groupInfo[groupId].data.excluded_positions;
+    }
+    return excludedAssets
+  }
+);
+
 export const selectTotalAccountHoldings = createSelector(
   selectAccounts,
   selectPositions,
