@@ -18,6 +18,7 @@ class ExcludedAssetToggle extends Component {
       if (target.symbol === symbolId) {
         symbolFound = true;
       }
+      return null;
     })
     return symbolFound;
   }
@@ -28,6 +29,7 @@ class ExcludedAssetToggle extends Component {
       if (excludedAsset.symbol === symbolId) {
         symbolFound = true;
       }
+      return null;
     })
     return symbolFound;
   }
@@ -38,6 +40,7 @@ class ExcludedAssetToggle extends Component {
       if (quotableSymbol.id === symbolId) {
         symbolFound = true;
       }
+      return null;
     })
     return symbolFound;
   }
