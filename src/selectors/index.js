@@ -132,6 +132,16 @@ export const selectCurrentGroupId = createSelector(
   }
 );
 
+export const selectCurrentGroupInfo = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    if (groupId && groupInfo[groupId] && groupInfo[groupId].data) {
+      return groupInfo[groupId].data;
+    }
+  }
+);
+
 export const selectPasswordResetToken = createSelector(
   selectRouter,
   (router) => {
@@ -325,31 +335,27 @@ export const selectCurrentGroupTrades = createSelector(
     if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.calculated_trades) {
       trades = groupInfo[groupId].data.calculated_trades;
     }
-    return trades
+    return trades;
   }
 );
 
 export const selectCurrentGroupSymbols = createSelector(
-  selectCurrentGroupId,
-  selectGroupInfo,
-  (groupId, groupInfo) => {
-    let symbols = null;
-    if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.symbols) {
-      symbols = groupInfo[groupId].data.symbols;
+  selectCurrentGroupInfo,
+  (groupInfo) => {
+    if (groupInfo && groupInfo.symbols) {
+      return groupInfo.symbols;
     }
-    return symbols
+    return null;
   }
 );
 
 export const selectCurrentGroupQuotableSymbols = createSelector(
-  selectCurrentGroupId,
-  selectGroupInfo,
-  (groupId, groupInfo) => {
-    let symbols = null;
-    if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.quotable_symbols) {
-      symbols = groupInfo[groupId].data.quotable_symbols;
+  selectCurrentGroupInfo,
+  (groupInfo) => {
+    if (groupInfo && groupInfo.quotable_symbols) {
+      return groupInfo.quotable_symbols;
     }
-    return symbols
+    return null;
   }
 );
 
@@ -361,7 +367,7 @@ export const selectCurrentGroupExcludedAssets = createSelector(
     if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.excluded_positions) {
       excludedAssets = groupInfo[groupId].data.excluded_positions;
     }
-    return excludedAssets
+    return excludedAssets;
   }
 );
 
@@ -407,23 +413,21 @@ export const selectTotalGroupHoldings = createSelector(
 );
 
 export const selectCurrentGroupTarget = createSelector(
-  selectCurrentGroupId,
-  selectGroupInfo,
+  selectCurrentGroupInfo,
   selectCurrentGroupTotalEquity,
-  (groupId, groupInfo, totalHoldings) => {
-    if (!groupInfo || !groupInfo[groupId] || !groupInfo[groupId].data || !groupInfo[groupId].data.target_positions) {
+  (groupInfo, totalHoldings) => {
+    if (!groupInfo || !groupInfo.target_positions) {
       return null;
     }
-    const group = groupInfo[groupId].data;
 
     // add the target positions
-    const currentTargetRaw = group.target_positions;
+    const currentTargetRaw = groupInfo.target_positions;
     const currentTarget = currentTargetRaw.map(targetRaw => {
       const target = {...targetRaw};
       // add the symbol to the target
-      target.fullSymbol = group.symbols.find(symbol => symbol.id === target.symbol);
+      target.fullSymbol = groupInfo.symbols.find(symbol => symbol.id === target.symbol);
       // add the actual percentage to the target
-      const position = group.positions.find(p => p.symbol.id === target.symbol);
+      const position = groupInfo.positions.find(p => p.symbol.id === target.symbol);
       if (position) {
         target.actualPercentage = position.price * position.units / totalHoldings * 100;
       }
