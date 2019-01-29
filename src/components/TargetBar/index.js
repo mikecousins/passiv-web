@@ -80,7 +80,7 @@ export class TargetBar extends React.Component {
                 <Number value={actualPercentage} percentage />
               </Actual>
               <Delta className={deltaClassName}>
-                <Number value={actualPercentage - percent} percentage />
+                <Number value={actualPercentage - percent} percentage forcePlusMinus />
               </Delta>
               {edit && <button type="button" onClick={() => onDelete(id)}><FontAwesomeIcon icon={faTimes} /> </button>}
           </React.Fragment>

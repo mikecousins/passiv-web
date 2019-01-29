@@ -17,7 +17,9 @@ const Number = (props) => {
     postfix = '%';
   }
   if (props.forcePlusMinus) {
-
+    if (props.value >= 0) {
+      prefix = '+';
+    }
   }
   return (
     <React.Fragment>
