@@ -5,6 +5,7 @@ import { Button } from '../styled/Button';
 import { DisabledButton } from '../styled/DisabledButton';
 import { LogoutButton } from '../styled/LogoutButton';
 import { AccountTargets } from '../components/AccountTargets';
+import GlobalStyle from '../styled/global';
 
 storiesOf('Button', module)
   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>);
@@ -18,18 +19,21 @@ storiesOf('Button', module)
 storiesOf('AccountTargets', module)
   .add('Loading', () => <AccountTargets />)
   .add('Simple', () => (
-    <AccountTargets
-      groupId={1}
-      target={[{
-        id: 1,
-        actualPercentage: 10,
-        percent: 15,
-        excluded: false,
-        symbol: 1,
-        fullSymbol: {
+    <React.Fragment>
+      <GlobalStyle />
+      <AccountTargets
+        groupId={1}
+        target={[{
           id: 1,
-          symbol: 'PASS'
-        }
-      }]}
-    />
-    ));
+          actualPercentage: 10,
+          percent: 15,
+          excluded: false,
+          symbol: 1,
+          fullSymbol: {
+            id: 1,
+            symbol: 'PASS'
+          }
+        }]}
+      />
+    </React.Fragment>
+  ));
