@@ -2,6 +2,7 @@ import React from 'react';
 import Trend from 'react-trend';
 import Slider from 'rc-slider/lib/Slider';
 import 'rc-slider/assets/index.css';
+import Number from './Number';
 
 class RetirementComparer extends React.Component {
   state = {
@@ -66,10 +67,10 @@ class RetirementComparer extends React.Component {
             max={100000}
           />
           <div>
-            Ideal: ${new Intl.NumberFormat().format(ultimateFinal)}<br />
-            Passiv: ${new Intl.NumberFormat().format(passivFinal)}<br />
-            Robo: ${new Intl.NumberFormat().format(roboFinal)} <span>(${new Intl.NumberFormat().format(roboFinal - passivFinal)})</span><br />
-            Mutual: ${new Intl.NumberFormat().format(mutualFinal)} <span>(${new Intl.NumberFormat().format(mutualFinal - passivFinal)})</span><br />
+            Ideal: <Number value={ultimateFinal} currency/><br />
+            Passiv: <Number value={passivFinal} currency /><br />
+            Robo: <Number value={roboFinal} currency /> <Number value={roboFinal - passivFinal} currency /><br />
+            Mutual: <Number value={mutualFinal} currency /> <Number value={mutualFinal - passivFinal} currency /><br />
           </div>
         </div>
         <div>

@@ -6,6 +6,7 @@ import { faSpinner, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import ShadowBox from '../styled/ShadowBox';
 import { Table,H2,H3 } from '../styled/GlobalElements';
+import Number from './Number';
 
 export const DashboardRow = styled.div`
   div{
@@ -41,17 +42,17 @@ const Group = (props) => {
 
   let accuracy = <FontAwesomeIcon icon={faSpinner} spin />;
   if (group.accuracy) {
-      accuracy = new Intl.NumberFormat('en-CA', { style: 'percent', maximumFractionDigits: 1 }).format(group.accuracy / 100);
+      accuracy = <Number value={group.accuracy} percentage />;
   }
 
   let cash = <FontAwesomeIcon icon={faSpinner} spin />;
   if (group.totalCash) {
-      cash = new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(group.totalCash);
+      cash = <Number value={group.totalCash} currency />;
   }
 
   let totalValue = <FontAwesomeIcon icon={faSpinner} spin />;
   if (group.totalValue) {
-    totalValue = new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(group.totalValue);
+    totalValue = <Number value={group.totalValue} currency />
   }
 
   return (

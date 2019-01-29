@@ -8,6 +8,7 @@ import { getData, postData } from '../api';
 import { Button } from '../styled/Button';
 import styled from '@emotion/styled';
 import { H2, P, A } from '../styled/GlobalElements';
+import Number from './Number';
 
 
 export const AllocateBtn= styled.div`
@@ -145,10 +146,10 @@ class RebalanceWidget extends Component {
                 <H2>Order Summary</H2>
                 <div>
                   <MetaHorizontal>
-                    <span>Estimated commissions:</span> {new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(this.sumEstimatedCommissions())}
+                    <span>Estimated commissions:</span> <Number value={this.sumEstimatedCommissions()} currency />
                   </MetaHorizontal>
                   <MetaHorizontal>
-                    <span>Remaining cash:</span> {new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(this.sumRemainingCash())}
+                    <span>Remaining cash:</span> <Number value={this.sumRemainingCash()} currency />
                   </MetaHorizontal>
                 </div>
                 <P>

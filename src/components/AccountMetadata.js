@@ -103,7 +103,7 @@ class AccountMetadata extends Component {
             )}
             <Total>
               <Title>Total Value</Title>
-              <b>{this.props.equity ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(this.props.equity) : <FontAwesomeIcon icon={faSpinner} spin />}</b>
+              <b>{this.props.equity ? <Number value={this.props.equity} currency /> : <FontAwesomeIcon icon={faSpinner} spin />}</b>
             </Total>
           </Table>
           <Table>

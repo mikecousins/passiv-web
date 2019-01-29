@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectTotalGroupHoldings, selectIsDemoMode } from '../selectors';
 import styled from '@emotion/styled';
+import Number from './Number';
 
 export const TotalContainer = styled.div`
   text-align: right;
@@ -32,7 +33,7 @@ const TotalHoldings = (props) => {
   if (demoMode) {
     displayTotal = <span>$-------.--</span>;
   } else if (totalHoldings) {
-    displayTotal = <span>{new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(totalHoldings)}</span>;
+    displayTotal = <Number value={totalHoldings} currency />;
   }
   return (
     <TotalContainer>

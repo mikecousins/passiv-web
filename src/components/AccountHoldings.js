@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import {H2,Title} from '../styled/GlobalElements';
 import styled from '@emotion/styled';
-
 import ExcludedAssetToggle from './ExcludedAssetToggle';
 import ShadowBox from '../styled/ShadowBox';
+import Number from './Number';
 
 export const HoldingsTable = styled.table`
   width: 100%;
@@ -54,10 +54,10 @@ class AccountHoldings extends Component {
                     {position.units}
                   </td>
                   <td>
-                    {new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(position.price)}
+                    <Number value={position.price} currency />
                   </td>
                   <td>
-                    {new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(position.price * position.units)}
+                    <Number value={position.price * position.units} currency />
                   </td>
                   <td>
                     <ExcludedAssetToggle symbolId={position.symbol.id} />
