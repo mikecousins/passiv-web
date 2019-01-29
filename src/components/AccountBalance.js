@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ShadowBox from '../styled/ShadowBox';
 import { Table, H2} from '../styled/GlobalElements';
 import styled from '@emotion/styled';
+import Number from './Number';
 
 export const CashContainer = styled.div`
   h2 {
@@ -28,7 +29,7 @@ const AccountBalance = (props) => {
             <span title={balance.currency.name}>{balance.currency.code}</span>
           </div>
           <div>
-            {new Intl.NumberFormat('en-CA', { style: 'currency', currency: balance.currency.code }).format(balance.cash)}
+            <Number value={balance.cash} currency />
           </div>
         </Table>
       ))
