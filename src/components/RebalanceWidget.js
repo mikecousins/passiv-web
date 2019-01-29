@@ -7,6 +7,7 @@ import { baseUrl, loadGroup } from '../actions';
 import { getData, postData } from '../api';
 import { Button } from '../styled/Button';
 import styled from '@emotion/styled';
+import { H2, P, A } from '../styled/GlobalElements';
 
 
 export const AllocateBtn= styled.div`
@@ -23,6 +24,33 @@ export const AllocateBtn= styled.div`
     color: #fff;
   }
 `;
+
+export const SummaryContainer = styled.div`
+  position: relative;
+  background-color: #ffffff;
+  color: #000;
+  border-radius: 4px;
+  > div {
+    background: #ffffff;
+    text-align: left;
+  }
+`;
+
+export const ConfirmContainer = styled.div`
+  text-align: right;
+`;
+
+const MetaHorizontal = styled.div`
+  text-align: left;
+  span {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: inline-block;
+    margin-right: 6px;
+    text-align: left;
+  }
+`;
+
 
 class RebalanceWidget extends Component {
   state = {
@@ -93,6 +121,15 @@ class RebalanceWidget extends Component {
     }
   }
 
+  sumEstimatedCommissions() {
+    return this.state.orderSummary.reduce((acc, result) => {return acc + result.estimated_commissions}, 0);
+  }
+
+  sumRemainingCash() {
+    // console.log(this.state.orderSummary)
+    return this.state.orderSummary.reduce((acc, result) => {return acc + result.remaining_cash}, 0);
+  }
+
   render() {
     let orderValidation = null;
     if (this.state.expanded) {
@@ -105,51 +142,18 @@ class RebalanceWidget extends Component {
         orderValidation = (
           this.state.orderSummary ? (
               <div>
-                <h1>Order Summary</h1>
+                <H2>Order Summary</H2>
                 <div>
-                  <table>
-                    <thead>
-                      <tr>
-                        <td>
-                          Account
-                        </td>
-                        <td>
-                          Currency
-                        </td>
-                        <td>
-                          Remaining Cash
-                        </td>
-                        <td>
-                          Estimated Commissions
-                        </td>
-                        <td>
-                          Forex Fees
-                        </td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.state.orderSummary.map((order) => (
-                        <tr key={[order.account, order.currency].join(':')}>
-                          <td>
-                            {this.props.accounts.find(a => a.id === order.account).name}
-                          </td>
-                          <td>
-                            {this.props.currencies.find(c => c.id === order.currency).code}
-                          </td>
-                          <td>
-                            {order.remaining_cash}
-                          </td>
-                          <td>
-                            {order.estimated_commissions}
-                          </td>
-                          <td>
-                            {order.forex_fees}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  <MetaHorizontal>
+                    <span>Estimated commissions:</span> {new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(this.sumEstimatedCommissions())}
+                  </MetaHorizontal>
+                  <MetaHorizontal>
+                    <span>Remaining cash:</span> {new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(this.sumRemainingCash())}
+                  </MetaHorizontal>
                 </div>
+                <P>
+                  <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">Exchange and ECN fees</A>, <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">SEC fees</A> and for ADRs <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">annual custody</A> fees may apply. Commissions may vary if your order is filled over multiple days. Borrow fees may apply if you hold a short investment overnight.
+                </P>
 
                   {
                     this.state.placingOrders ? (
@@ -158,9 +162,12 @@ class RebalanceWidget extends Component {
                       </div>
                       ) : (
                         <div>
-                          <Button onClick={() => {this.confirmOrders()}}>
-                            Confirm
-                          </Button>
+                          <ConfirmContainer>
+                            <Button onClick={() => {this.confirmOrders()}}>
+                              Confirm
+                            </Button>
+                          </ConfirmContainer>
+
                         </div>
                       )
                   }
@@ -180,10 +187,13 @@ class RebalanceWidget extends Component {
     }
 
     return (
-      <AllocateBtn>
-        <button onClick={() => this.toggleExpand()}>{this.anySells() ? 'Rebalance' : 'Allocate'} {this.state.expanded ? ( <FontAwesomeIcon icon={faChevronUp} /> ) : ( <FontAwesomeIcon icon={faChevronDown} /> )}</button>
+      <SummaryContainer>
         { orderValidation }
-      </AllocateBtn>
+        <AllocateBtn>
+          <button onClick={() => this.toggleExpand()}>{this.anySells() ? 'Rebalance' : 'Allocate'} {this.state.expanded ? ( <FontAwesomeIcon icon={faChevronUp} /> ) : ( <FontAwesomeIcon icon={faChevronDown} /> )}</button>
+        </AllocateBtn>
+      </SummaryContainer>
+
     )
   }
 };
