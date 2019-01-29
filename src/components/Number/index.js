@@ -1,10 +1,13 @@
 import React from 'react';
 
 const Number = (props) => {
-  const decimalPlaces = props.decimalPlaces || 1;
+  let decimalPlaces = props.decimalPlaces || 1;
   let prefix = null;
   if (props.currency) {
     prefix = '$';
+    if (!props.decimalPlaces) {
+      decimalPlaces = 2;
+    }
   }
   let postfix = null;
   if (props.percentage) {

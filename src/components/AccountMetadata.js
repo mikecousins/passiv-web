@@ -11,6 +11,7 @@ import { Table , Edit, Title } from '../styled/GlobalElements';
 import { InputNonFormik } from '../styled/Form';
 import ShadowBox from '../styled/ShadowBox';
 import { Button } from '../styled/Button';
+import Number from './Number';
 
 const MetaContainer = styled.div`
   text-align: right;
@@ -122,7 +123,7 @@ class AccountMetadata extends Component {
             </Accuracy>
             <Cash>
               <Title>Cash</Title>
-              {this.props.cash ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(this.props.cash) : <FontAwesomeIcon icon={faSpinner} spin />}
+              {this.props.cash ? <Number value={this.props.cash} currency /> : <FontAwesomeIcon icon={faSpinner} spin />}
             </Cash>
 
           </Table>
