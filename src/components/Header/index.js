@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { format } from 'date-fns';
+import { connect } from 'react-redux';
 import logo from '../../assets/images/logo-no-name.png';
 import logo2x from '../../assets/images/logo-no-name@2x.png';
 import Buttons from './Buttons';
+import { selectName } from '../../selectors';
 
 const StyledHeader = styled.header`
   grid-area: header;
@@ -17,7 +20,7 @@ const StyledHeader = styled.header`
   }
 `;
 
-export const Header = () => (
+export const Header = (props) => (
   <StyledHeader>
     <nav>
       <div>
@@ -25,12 +28,20 @@ export const Header = () => (
           <img src={logo} srcSet={`${logo2x} 2x`} alt="Passiv Logo" />
         </Link>
       </div>
+      <div>
+        <b>Hi {props.name}!</b><br/>
+        {format(new Date(), 'dddd, Do MMMM')}
+      </div>
       <Buttons />
     </nav>
   </StyledHeader>
 );
 
-export default Header;
+const select = state => ({
+  name: selectName(state),
+});
+
+export default connect(select)(Header);
 
 
 
