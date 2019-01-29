@@ -16,4 +16,20 @@ storiesOf('Button', module)
     .add('disabled', () => <DisabledButton onClick={action('clicked')}>Submit</DisabledButton>);
 
 storiesOf('AccountTargets', module)
-  .add('Loading', () => <AccountTargets />);
+  .add('Loading', () => <AccountTargets />)
+  .add('Simple', () => (
+    <AccountTargets
+      groupId={1}
+      target={[{
+        id: 1,
+        actualPercentage: 10,
+        percent: 15,
+        excluded: false,
+        symbol: 1,
+        fullSymbol: {
+          id: 1,
+          symbol: 'PASS'
+        }
+      }]}
+    />
+    ));
