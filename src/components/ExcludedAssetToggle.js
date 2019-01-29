@@ -9,45 +9,21 @@ import { postData, deleteData } from '../api';
 class ExcludedAssetToggle extends Component {
   state = {
     loading: false,
-    toggle: this.symbolExcluded(this.props.symbolId),
+    toggle: false,
   }
 
-  symbolInTargets(symbolId) {
-    let symbolFound = false;
-    this.props.targets.map(target => {
-      if (target.symbol === symbolId) {
-        symbolFound = true;
-      }
-      return null;
-    })
-    return symbolFound;
+  componentDidMount() {
+    this.setState({ toggle: this.symbolExcluded(this.props.symbolId) });
   }
 
-  symbolExcluded(symbolId) {
-    let symbolFound = false;
-    this.props.excludedAssets.map(excludedAsset => {
-      if (excludedAsset.symbol === symbolId) {
-        symbolFound = true;
-      }
-      return null;
-    })
-    return symbolFound;
-  }
+  symbolInTargets = (symbolId) => this.props.targets.some(target => target.symbol === symbolId);
 
-  symbolQuotable(symbolId) {
-    let symbolFound = false;
-    this.props.quotableSymbols.map(quotableSymbol => {
-      if (quotableSymbol.id === symbolId) {
-        symbolFound = true;
-      }
-      return null;
-    })
-    return symbolFound;
-  }
+  symbolExcluded = (symbolId) => { return this.props.excludedAssets.some(excludedAsset => excludedAsset.symbol === symbolId); };
 
-  excludeDisabled(symbolId) {
-    return (this.symbolInTargets(this.props.symbolId) || !this.symbolQuotable(this.props.symbolId))
-  }
+  symbolQuotable = (symbolId) => this.props.quotableSymbols.some(quotableSymbol => quotableSymbol.id === symbolId);
+
+  excludeDisabled = (symbolId) => (this.symbolInTargets(this.props.symbolId) || !this.symbolQuotable(this.props.symbolId));
+
 
   handleClick = () => {
     let newToggleState = !!(this.state.toggle ^ true);
@@ -82,11 +58,10 @@ class ExcludedAssetToggle extends Component {
             <FontAwesomeIcon icon={faSpinner} />
           ) : (
             <button
-              onClick={() => {this.handleClick()}}
+              onClick={this.handleClick}
               disabled={this.excludeDisabled(this.props.symbolId)}
             >
-              {this.state.toggle && <FontAwesomeIcon icon={faToggleOn} />}
-              {!this.state.toggle && <FontAwesomeIcon icon={faToggleOff} />}
+              {this.state.toggle ? <FontAwesomeIcon icon={faToggleOn} /> : <FontAwesomeIcon icon={faToggleOff} />}
             </button>
           )
         }
