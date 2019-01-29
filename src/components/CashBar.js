@@ -1,12 +1,18 @@
 import React from 'react';
 import Number from './Number';
 import { Table } from '../styled/GlobalElements';
-import { BarContainer,InputContainer,Symbol,Actual,Delta } from '../styled/Target';
+import { BarContainer, InputContainer, Symbol, Actual, Delta, Bar } from '../styled/Target';
 
 
 export const CashBar = (props) => {
   if (!(typeof(props.percentage) === "number")) {
     return 'Loading';
+  }
+  let deltaClassName = "";
+  let progressClassName = "";
+  if ((props.actualPercentage - props.percentage) < 0) {
+    deltaClassName = "";
+    progressClassName = "";
   }
   return (
     <Table>
@@ -18,9 +24,7 @@ export const CashBar = (props) => {
             Warning: cash allocation cannot be negative!
           </div>
         ) : (
-          <div style={{ width: `${props.percentage > 100 ? 100 : props.percentage }%` }}>
-
-          </div>
+          <Bar className={progressClassName} style={{ width: `${props.percentage}%` }}> </Bar>
         )
       }
       <InputContainer>
