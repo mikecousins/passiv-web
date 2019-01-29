@@ -66,6 +66,11 @@ export const initialLoad = payload => {
       .then(response => dispatch(fetchCurrenciesSuccess(response)))
       .catch(error => dispatch(fetchCurrenciesError(error)));
 
+    dispatch(fetchCurrencyRatesStart());
+    getData(baseUrl + '/api/v1/currencies/rates/', payload)
+      .then(response => dispatch(fetchCurrencyRatesSuccess(response)))
+      .catch(error => dispatch(fetchCurrencyRatesError(error)));
+
     dispatch(fetchGroupsStart());
     getData(baseUrl + '/api/v1/portfolioGroups/', payload)
       .then(response => {
@@ -214,6 +219,20 @@ export const fetchCurrenciesSuccess = payload => ({
 
 export const fetchCurrenciesError = payload => ({
   type: 'FETCH_CURRENCIES_ERROR',
+  payload,
+});
+
+export const fetchCurrencyRatesStart = () => ({
+  type: 'FETCH_CURRENCY_RATES_START',
+});
+
+export const fetchCurrencyRatesSuccess = payload => ({
+  type: 'FETCH_CURRENCY_RATES_SUCCESS',
+  payload,
+});
+
+export const fetchCurrencyRatesError = payload => ({
+  type: 'FETCH_CURRENCY_RATES_ERROR',
   payload,
 });
 

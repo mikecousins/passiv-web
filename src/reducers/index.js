@@ -23,6 +23,9 @@ export default (history) => combineReducers({
   currencies: simple({
     baseType: 'FETCH_CURRENCIES'
   }),
+  currencyRates: simple({
+    baseType: 'FETCH_CURRENCY_RATES'
+  }),
   groups: simple({
     baseType: 'FETCH_GROUPS'
   }),
