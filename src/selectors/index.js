@@ -452,4 +452,11 @@ export const selectIsAuthorized = createSelector(
   }
 );
 
+export const selectName = createSelector(
+  selectSettings,
+  (settings) => {
+    return settings.name;
+  }
+);
+
 export const selectIsUpdateServiceWorker = state => state.updateServiceWorker;
