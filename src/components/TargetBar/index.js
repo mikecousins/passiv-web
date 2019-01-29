@@ -77,10 +77,10 @@ export class TargetBar extends React.Component {
                <InputContainer>{children}%</InputContainer>
               </BarContainer>
               <Actual>
-                <Number value={actualPercentage} />%
+                <Number value={actualPercentage} percentage />
               </Actual>
               <Delta className={deltaClassName}>
-                <Number value={actualPercentage - percent} />%
+                <Number value={actualPercentage - percent} percentage />
               </Delta>
               {edit && <button type="button" onClick={() => onDelete(id)}><FontAwesomeIcon icon={faTimes} /> </button>}
           </React.Fragment>
