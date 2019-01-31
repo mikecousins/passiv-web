@@ -38,6 +38,10 @@ export const TargetContainer = styled.form`
 export class AccountTargets extends React.Component {
   state = { edit: false }
 
+  getRandomId() {
+    return String(Math.floor(Math.random() * 1e12));
+  }
+
   setSymbol(target, symbol) {
     target.fullSymbol = symbol;
     target.symbol = symbol.id;
@@ -156,7 +160,7 @@ export class AccountTargets extends React.Component {
                     <React.Fragment>
 
                       {props.values.targets.filter(t => !t.deleted).map((t, index) => (
-                      <TargetRow key={t.id}>
+                      <TargetRow key={t.id === undefined ? this.getRandomId() : t.id}>
                         <TargetBar
                           key={t.symbol}
                           target={t}
@@ -174,7 +178,7 @@ export class AccountTargets extends React.Component {
                         </TargetBar>
                       </TargetRow>
                       ))}
-                      <TargetRow>
+                      <TargetRow key="cashBar">
                         <CashBar percentage={cashPercentage} actualPercentage={cashActualPercentage} />
                       </TargetRow>
                       <ErrorMessage name="targets" />
