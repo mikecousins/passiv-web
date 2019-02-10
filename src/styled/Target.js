@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const BarContainer = styled.div`
+export const BarsContainer = styled.div`
   justify-content: flex-start;
   background: #eee;
   position: relative;
@@ -19,14 +19,15 @@ export const BarContainer = styled.div`
   }
 `;
 export const InputContainer = styled.div`
-  position: absolute;
-  right: 6px;
-  top: 6px;
+
 `;
 export const Symbol = styled.div`
   display: block;
 `;
 export const Actual = styled.div`
+  text-align: right;
+`;
+export const Target = styled.div`
   text-align: right;
 `;
 export const Delta = styled.div`
@@ -39,4 +40,11 @@ export const Bar = styled.span`
   height: 32px;
   width: 0%;
   transition: .5s all;
+`;
+
+export const BarTarget = styled.span`
+
+`;
+export const BarActual = styled.span`
+
 `;

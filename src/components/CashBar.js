@@ -1,7 +1,8 @@
 import React from 'react';
 import Number from './Number';
 import { Table } from '../styled/GlobalElements';
-import { BarContainer, InputContainer, Symbol, Actual, Delta, Bar } from '../styled/Target';
+import { BarsContainer, InputContainer, Symbol, Actual, Bar } from '../styled/Target';
+
 
 
 export const CashBar = (props) => {
@@ -11,7 +12,7 @@ export const CashBar = (props) => {
   return (
     <Table>
     <Symbol>Cash</Symbol>
-    <BarContainer>
+    <BarsContainer>
       {
         props.percentage < 0 ? (
           <div style={{ width: '100%', backgroundColor: 'red' }}>
@@ -24,13 +25,10 @@ export const CashBar = (props) => {
       <InputContainer>
         <Number value={props.percentage} />%
       </InputContainer>
-    </BarContainer>
+    </BarsContainer>
     <Actual>
       <Number value={props.actualPercentage} />%
     </Actual>
-    <Delta>
-      <Number value={props.actualPercentage - props.percentage} />%
-    </Delta>
   </Table>
   );
 }

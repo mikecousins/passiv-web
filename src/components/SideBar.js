@@ -5,8 +5,9 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectGroups, selectIsDemoMode } from '../selectors';
 import { toggleDemoMode } from '../actions';
 import SideBarLink from './SideBarLink';
+import SideBarLinkAlt from './SideBarLinkAlt';
+import SideBarFooter from './SideBarFooter';
 import { selectLoggedIn } from '../selectors';
-import RefreshButton from './RefreshButton';
 
 import styled from '@emotion/styled';
 
@@ -14,6 +15,10 @@ const StyledAside = styled.aside`
   background-color: var(--brand-grey);
   color: #fff;
   padding-top: 30px;
+  position: fixed;
+  left: 0;
+  width: 244px;
+  height: 100%;
   a {
     color: #fff;
     text-decoration: none;
@@ -63,10 +68,9 @@ const SideBar = (props) => {
         {props.demoMode && <FontAwesomeIcon icon={faToggleOn} />}
         {!props.demoMode && <FontAwesomeIcon icon={faToggleOff} />}
       </button> */}
-      <RefreshButton />
       {/*<button onClick={this.openModal}>Open Modal</button> ? */}
+      <SideBarFooter/>
     </StyledAside>
-
   );
   }
   return (
@@ -79,18 +83,11 @@ const SideBar = (props) => {
         name="Sign Up"
         linkPath="/app/register"
       />
-      <SideBarLink
+      <SideBarLinkAlt
         name="Reset Password"
         linkPath="/app/reset-password"
       />
-      <SideBarLink
-        name="FAQ"
-        linkPath="/app/faq"
-      />
-      <SideBarLink
-        name="Contact Us"
-        linkPath="/app/contact"
-      />
+      <SideBarFooter/>
     </StyledAside>
   );
 }
