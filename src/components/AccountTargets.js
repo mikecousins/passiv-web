@@ -10,7 +10,7 @@ import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../styled/Button';
 import { Table, H2, Title, Edit } from '../styled/GlobalElements';
-import { patchData, postData, deleteData } from '../api';
+import { postData } from '../api';
 import styled from '@emotion/styled';
 import ShadowBox from '../styled/ShadowBox';
 
