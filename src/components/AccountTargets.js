@@ -95,37 +95,19 @@ export class AccountTargets extends React.Component {
           onSubmit={(values, actions) => {
             // set us back to non-editing state
             this.setState({edit: false});
-
-            // create our list of api requests to make
-            const apiRequests = [];
-            values.targets.forEach(target => {
-              if (target.id) {
-                if (target.deleted) {
-                  // delete this target
-                  apiRequests.push(deleteData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}/`));
-                } else {
-                // update if it's an existing target
-                apiRequests.push(patchData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}/`, target));
-              }
-            } else {
-                // add if it's a new target
-                apiRequests.push(postData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/`, target));
-              }
-            });
-
-            // execute our list of api requests
-            Promise.all(apiRequests)
+            const newTargets = values.targets.filter(t => !t.deleted);
+            postData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/`, newTargets)
               .then((responses) => {
                 // once we're done refresh the groups
                 this.props.refreshGroup({ids: [this.props.groupId]});
               })
               .catch((error) => {
                 // display our error
-                toast.error(`Failed to edit target: ${error && error.detail}`);
+                toast.error(`Failed to edit targets: ${error && error.detail}`);
 
                 // reset the form
                 actions.resetForm();
-              })
+              });
           }}
           onReset={(values, actions) => {
             values.targets = target;
