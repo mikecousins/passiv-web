@@ -130,12 +130,9 @@ export class AccountTargets extends React.Component {
           render={(props) => (
             <div>
               <TargetRow>
-                <Table>
-                  <Title>Symbol</Title>
-                  <Title>Target</Title>
-                  <Title>Actual</Title>
-                  <Title>Delta</Title>
-                </Table>
+                <Title>Symbol</Title>
+                <Title>Target</Title>
+                <Title>Actual</Title>
               </TargetRow>
                 <FieldArray
                   name="targets"

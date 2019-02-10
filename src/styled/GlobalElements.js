@@ -17,7 +17,6 @@ export const H2 = styled.h2`
 	color: #232225;
   display: block;
   font-size: 1.5em;
-	text-transform: uppercase;
 `;
 
 // h3

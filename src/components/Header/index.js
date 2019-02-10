@@ -6,10 +6,12 @@ import logo2x from '../../assets/images/logo-no-name@2x.png';
 import Buttons from './Buttons';
 
 const StyledHeader = styled.header`
-  grid-area: header;
+  position: fixed;
+  width: 100%;
   padding: 10px 20px;
   background: #fff;
   box-shadow: 2px 2px 8px rgba(190, 190, 190, 0.29);
+  z-index: 3;
   nav {
     background: #fff;
     display: flex;
