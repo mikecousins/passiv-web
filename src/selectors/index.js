@@ -455,7 +455,10 @@ export const selectIsAuthorized = createSelector(
 export const selectName = createSelector(
   selectSettings,
   (settings) => {
-    return settings.name;
+    if (settings) {
+      return settings.name;
+    }
+    return null;
   }
 );
 
