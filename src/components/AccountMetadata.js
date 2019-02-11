@@ -16,7 +16,7 @@ import Number from './Number';
 const MetaContainer = styled.div`
   text-align: right;
 `;
-const Accuracy = styled.div`
+const CashBalance = styled.div`
   text-align: center;
 `;
 const Total = styled.div`
@@ -117,10 +117,21 @@ class AccountMetadata extends Component {
                 {this.props.type ? this.props.type : <FontAwesomeIcon icon={faSpinner} spin />}
               </div>
             </MetaHorizontal>
-            <Accuracy>
-              <Title>Accuracy</Title>
-              {this.props.accuracy ? <Number value={this.props.accuracy} percentage decimalPlaces={0} /> : <FontAwesomeIcon icon={faSpinner} spin />}
-            </Accuracy>
+            <CashBalance>
+              {!this.props.balances && <div><FontAwesomeIcon icon={faSpinner} spin /></div>}
+              {this.props.balances
+                && this.props.balances.map(balance => (
+                <Table key={balance.currency.id}>
+                  <div>
+                    <span title={balance.currency.name}>{balance.currency.code}</span>
+                  </div>
+                  <div>
+                    <Number value={balance.cash} currency />
+                  </div>
+                </Table>
+              ))
+            }
+            </CashBalance>
             <Cash>
               <Title>Cash</Title>
               {this.props.cash ? <Number value={this.props.cash} currency /> : <FontAwesomeIcon icon={faSpinner} spin />}

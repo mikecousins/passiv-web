@@ -2,7 +2,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
-import AccountBalance from '../components/AccountBalance';
+import AccountAccuracy from '../components/AccountAccuracy';
 import AccountHoldings from '../components/AccountHoldings';
 import AccountMetadata from '../components/AccountMetadata';
 import AccountTargets from '../components/AccountTargets';
@@ -52,11 +52,11 @@ const GroupPage = (props) => {
           name={name}
           type={type}
           number={number}
-          accuracy={props.accuracy}
+          balances={props.balances}
           cash={props.cash}
           equity={props.equity}
         />
-        <AccountBalance balances={props.balances} />
+        <AccountAccuracy accuracy={props.accuracy} />
       </Container2Column>
       <AccountTargets positions={props.positions} />
       <AccountHoldings positions={props.positions} />

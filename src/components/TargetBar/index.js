@@ -5,7 +5,8 @@ import { baseUrl } from '../../actions';
 import { postData } from '../../api';
 import SymbolSelector from './SymbolSelector';
 import Number from '../Number';
-import { BarsContainer,InputContainer,Symbol,Actual,Target,Bar,BarTarget,BarActual } from '../../styled/Target';
+import { BarsContainer,InputContainer,Symbol,TargetRow,Actual,Target,Bar,BarTarget,BarActual,Container,Close } from '../../styled/Target';
+import styled from '@emotion/styled';
 
 export class TargetBar extends React.Component {
   loadOptions = (substring, callback) => {
@@ -41,26 +42,7 @@ export class TargetBar extends React.Component {
       progressClassName = "";
     }
     return (
-      <div>
-        <Symbol>
-          {(!id && !excluded) ? (
-            <SymbolSelector
-              value={fullSymbol}
-              onChange={setSymbol}
-              loadOptions={this.loadOptions}
-              getOptionLabel={(option) => option.symbol}
-              getOptionValue={(option) => option.id}
-              style={{ width: 120 }}
-            />
-          ) : fullSymbol.symbol}
-        </Symbol>
-        <Target>
-          <InputContainer>{children}%</InputContainer>
-        </Target>
-        <Actual>
-          <Number value={actualPercentage} />%
-        </Actual>
-
+      <Container>
         {!excluded ? (
           <React.Fragment>
             <BarsContainer>
@@ -87,11 +69,31 @@ export class TargetBar extends React.Component {
               </BarActual>
             </BarsContainer>
 
-            {edit && <button type="button" onClick={() => onDelete(id)}><FontAwesomeIcon icon={faTimes} /> </button>}
+            {edit && <Close type="button" onClick={() => onDelete(id)}><FontAwesomeIcon icon={faTimes} /> </Close>}
 
           </React.Fragment>
         ) : <FontAwesomeIcon icon={faEyeSlash} />}
-      </div>
+        <TargetRow>
+          <Symbol>
+            {(!id && !excluded) ? (
+              <SymbolSelector
+                value={fullSymbol}
+                onChange={setSymbol}
+                loadOptions={this.loadOptions}
+                getOptionLabel={(option) => option.symbol}
+                getOptionValue={(option) => option.id}
+                style={{ width: 120 }}
+              />
+            ) : fullSymbol.symbol}
+          </Symbol>
+          <Target>
+            <InputContainer>{children}%</InputContainer>
+          </Target>
+          <Actual>
+            <Number value={actualPercentage} />%
+          </Actual>
+        </TargetRow>
+      </Container>
     );
   }
 }

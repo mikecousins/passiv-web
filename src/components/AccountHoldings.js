@@ -10,7 +10,6 @@ import Number from './Number';
 
 export const HoldingsTable = styled.table`
   width: 100%;
-  max-width: 900px;
   text-align: center;
   margin: 20px 0;
   th {
@@ -19,6 +18,10 @@ export const HoldingsTable = styled.table`
   tr th:first-of-type,
   tr td:first-of-type {
     text-align: left;
+  }
+  tr th:last-of-type,
+  tr td:last-of-type {
+    text-align: right;
   }
   td {
     padding: 7px 0;

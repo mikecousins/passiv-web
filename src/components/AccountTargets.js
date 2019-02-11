@@ -9,25 +9,11 @@ import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../styled/Button';
-import { H2, Title, Edit } from '../styled/GlobalElements';
+import { H2, H3, Title, Edit } from '../styled/GlobalElements';
+import { BarRow,TargetRow } from '../styled/Target';
 import { patchData, postData, deleteData } from '../api';
 import styled from '@emotion/styled';
 import ShadowBox from '../styled/ShadowBox';
-
-export const TargetRow = styled.div`
-  margin-bottom: 10px;
-  justify-content: space-between;
-  > div > div {
-    min-width: 20%;
-    &:nth-child(2) {
-      min-width: 31%;
-    }
-    &:last-child,
-    &:nth-child(3) {
-      text-align: right;
-    }
-  }
-`;
 
 export const TargetContainer = styled.form`
   h2 {
@@ -95,37 +81,19 @@ export class AccountTargets extends React.Component {
           onSubmit={(values, actions) => {
             // set us back to non-editing state
             this.setState({edit: false});
-
-            // create our list of api requests to make
-            const apiRequests = [];
-            values.targets.forEach(target => {
-              if (target.id) {
-                if (target.deleted) {
-                  // delete this target
-                  apiRequests.push(deleteData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}/`));
-                } else {
-                // update if it's an existing target
-                apiRequests.push(patchData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/${target.id}/`, target));
-              }
-            } else {
-                // add if it's a new target
-                apiRequests.push(postData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/`, target));
-              }
-            });
-
-            // execute our list of api requests
-            Promise.all(apiRequests)
+            const newTargets = values.targets.filter(t => !t.deleted);
+            postData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/`, newTargets)
               .then((responses) => {
                 // once we're done refresh the groups
                 this.props.refreshGroup({ids: [this.props.groupId]});
               })
               .catch((error) => {
                 // display our error
-                toast.error(`Failed to edit target: ${error && error.detail}`);
+                toast.error(`Failed to edit targets: ${error && error.detail}`);
 
                 // reset the form
                 actions.resetForm();
-              })
+              });
           }}
           onReset={(values, actions) => {
             values.targets = target;
@@ -134,9 +102,9 @@ export class AccountTargets extends React.Component {
           render={(props) => (
             <div>
               <TargetRow>
-                <Title>Symbol</Title>
-                <Title>Target</Title>
-                <Title>Actual</Title>
+                <H3></H3>
+                <H3>Target</H3>
+                <H3>Actual</H3>
               </TargetRow>
                 <FieldArray
                   name="targets"
@@ -157,7 +125,7 @@ export class AccountTargets extends React.Component {
                     <React.Fragment>
 
                       {props.values.targets.filter(t => !t.deleted).map((t, index) => (
-                      <TargetRow key={t.id === undefined ? this.getRandomId() : t.id}>
+                      <div key={t.id === undefined ? this.getRandomId() : t.id}>
                         <TargetBar
                           key={t.symbol}
                           target={t}
@@ -171,13 +139,13 @@ export class AccountTargets extends React.Component {
                             toast.success(`${t.fullSymbol.symbol} deleted`);
                           }}
                         >
-                          <Field name={`targets.${index}.percent`} readOnly={!this.state.edit} />
+                          <Field type="number" name={`targets.${index}.percent`} readOnly={!this.state.edit} />
                         </TargetBar>
-                      </TargetRow>
+                      </div>
                       ))}
-                      <TargetRow key="cashBar">
+                      <div key="cashBar">
                         <CashBar percentage={cashPercentage} actualPercentage={cashActualPercentage} />
-                      </TargetRow>
+                      </div>
                       <ErrorMessage name="targets" />
                       {edit ? (
                         <React.Fragment>
@@ -196,7 +164,7 @@ export class AccountTargets extends React.Component {
                         </React.Fragment>
                       ) : (
                         <Edit type="button" onClick={() => this.setState({ edit: true })}><FontAwesomeIcon icon={faLock} />Edit Targets</Edit>
-                        )}
+                      )}
 
                     </React.Fragment>
                   )}}

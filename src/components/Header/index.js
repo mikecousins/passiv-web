@@ -45,8 +45,3 @@ const select = state => ({
 });
 
 export default connect(select)(Header);
-
-
-
-
-

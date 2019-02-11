@@ -1,7 +1,7 @@
 import React from 'react';
 import Number from './Number';
 import { Table } from '../styled/GlobalElements';
-import { BarsContainer, InputContainer, Symbol, Actual, Bar } from '../styled/Target';
+import { BarsContainer, InputContainer, Symbol, Target, Actual, Bar, TargetRow, Container } from '../styled/Target';
 
 
 
@@ -10,26 +10,28 @@ export const CashBar = (props) => {
     return 'Loading';
   }
   return (
-    <Table>
-    <Symbol>Cash</Symbol>
-    <BarsContainer>
-      {
-        props.percentage < 0 ? (
-          <div style={{ width: '100%', backgroundColor: 'red' }}>
-            Warning: cash allocation cannot be negative!
-          </div>
-        ) : (
-          <Bar style={{ width: `${props.percentage}%` }}> </Bar>
-        )
-      }
-      <InputContainer>
-        <Number value={props.percentage} />%
-      </InputContainer>
-    </BarsContainer>
-    <Actual>
-      <Number value={props.actualPercentage} />%
-    </Actual>
-  </Table>
+    <Container>
+      <BarsContainer>
+        {
+          props.percentage < 0 ? (
+            <div style={{ width: '100%', backgroundColor: 'red' }}>
+              Warning: cash allocation cannot be negative!
+            </div>
+          ) : (
+            <Bar style={{ width: `${props.percentage}%` }}> </Bar>
+          )
+        }
+      </BarsContainer>
+      <TargetRow>
+        <Symbol>Cash</Symbol>
+        <Target>
+            <Number value={props.percentage} />%
+        </Target>
+        <Actual>
+          <Number value={props.actualPercentage} />%
+        </Actual>
+      </TargetRow>
+    </Container>
   );
 }
 
