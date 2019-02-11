@@ -11,7 +11,7 @@ export const H1 = styled.h1`
 
 // h2
 export const H2 = styled.h2`
-	font-size: 32px;
+	font-size: 30px;
 	font-weight: 600;
 	text-align: left;
 	color: #232225;

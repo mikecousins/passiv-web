@@ -6,11 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
 export const Button = styled.button`
-  background: #000;
   color: #fff;
   font-size: 16px;
   padding: 10px 16px;
   display: block;
+  float: right;
+  background: none;
   svg {
     margin-right: 5px;
   }

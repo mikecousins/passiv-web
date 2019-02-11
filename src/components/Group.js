@@ -11,6 +11,12 @@ import Number from './Number';
 export const DashboardRow = styled.div`
   div{
     align-items: center;
+    text-align: center;
+  }
+  h2 {
+    min-width: 20%;
+    font-size: 22px;
+    letter-spacing: 0.01em;
   }
 `;
 export const ViewBtn = styled.div`

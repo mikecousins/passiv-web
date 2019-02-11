@@ -2,30 +2,30 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { selectGroups, selectIsDemoMode } from '../selectors';
-import { toggleDemoMode } from '../actions';
+import { selectGroups, selectIsDemoMode } from '../../selectors';
+import { toggleDemoMode } from '../../actions';
 import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
-import { selectLoggedIn } from '../selectors';
-
+import { selectLoggedIn } from '../../selectors';
 import styled from '@emotion/styled';
 
 const StyledAside = styled.aside`
   background-color: var(--brand-grey);
   color: #fff;
-  padding-top: 30px;
-  position: fixed;
-  left: 0;
   width: 244px;
   height: 100%;
+  padding-top: 12px;
+  text-transform: uppercase;
+  font-weight: 700;
+
   a {
     color: #fff;
     text-decoration: none;
-    padding: 20px 0;
+    padding: 22px 0;
     display: block;
     font-size: 1.125rem;
-    padding-left: 30px;
+    padding-left: 25px;
     padding-right: 15px;
     widht: 100%;
     svg {
@@ -34,9 +34,19 @@ const StyledAside = styled.aside`
   }
   .active {
     background: var(--brand-green);
+    box-shadow: -1px 2px 3px 0 rgba(0, 0, 0, 0.27);
+    margin-right: -5px;
+    padding-right: 5px;
   }
 `;
-
+const GroupContainer = styled.div`
+  border-top: 1px solid rgba(255,255,255,.23);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,.23);
+  text-transform: none;
+  font-weight: 500;
+`;
 const SideBar = (props) => {
   let groups = <FontAwesomeIcon icon={faSpinner} spin />;
   if (props.groups) {
@@ -55,7 +65,9 @@ const SideBar = (props) => {
         name="Dashboard"
         linkPath="/app/dashboard"
       />
-      {groups}
+      <GroupContainer>
+        {groups}
+      </GroupContainer>
       <SideBarLink
         name="Settings"
         linkPath="/app/settings"

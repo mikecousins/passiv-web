@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from '../components/Header';
-import SideBar from '../components/SideBar';
+import SlideMenu from '../components/SlideMenu';
 import GlobalStyle from '../styled/global';
 
 const Container = styled.div`
@@ -23,7 +23,7 @@ const AppLayout = (props) => (
     <GlobalStyle />
     <Header />
     <Container>
-      <SideBar />
+      <SlideMenu />
       <Main>
         {props.children}
       </Main>

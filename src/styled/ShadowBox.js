@@ -5,5 +5,5 @@ export default styled.div`
   border-radius: 4px;
   box-shadow: var(--box-shadow);
   padding: 20px 20px 20px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;

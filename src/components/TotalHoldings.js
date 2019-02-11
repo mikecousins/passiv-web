@@ -9,12 +9,15 @@ import Number from './Number';
 export const TotalContainer = styled.div`
   text-align: right;
   margin-bottom: 22px;
+  padding: 20px 0;
+
   span {
     font-size: 36px;
     font-weight: 500;
     letter-spacing: 0.8px;
     color: #000a12;
   }
+
   h2 {
     font-size: 18px;
     font-weight: 900;
@@ -38,7 +41,7 @@ const TotalHoldings = (props) => {
   return (
     <TotalContainer>
       <h2>Total Holdings</h2>
-      {displayTotal}
+      <span>{displayTotal}</span>
     </TotalContainer>
   );
 }
