@@ -6,7 +6,6 @@ import { postData } from '../../api';
 import SymbolSelector from './SymbolSelector';
 import Number from '../Number';
 import { BarsContainer,InputContainer,Symbol,TargetRow,Actual,Target,Bar,BarTarget,BarActual,Container,Close } from '../../styled/Target';
-import styled from '@emotion/styled';
 
 export class TargetBar extends React.Component {
   loadOptions = (substring, callback) => {

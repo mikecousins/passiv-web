@@ -1,8 +1,7 @@
 import React from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ShadowBox from '../styled/ShadowBox';
-import { Table, H2} from '../styled/GlobalElements';
+import { H2} from '../styled/GlobalElements';
 import styled from '@emotion/styled';
 import Number from './Number';
 

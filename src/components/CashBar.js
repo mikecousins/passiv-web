@@ -1,7 +1,6 @@
 import React from 'react';
 import Number from './Number';
-import { Table } from '../styled/GlobalElements';
-import { BarsContainer, InputContainer, Symbol, Target, Actual, Bar, TargetRow, Container } from '../styled/Target';
+import { BarsContainer, Symbol, Target, Actual, Bar, TargetRow, Container } from '../styled/Target';
 
 
 

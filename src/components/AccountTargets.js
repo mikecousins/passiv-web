@@ -9,9 +9,9 @@ import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../styled/Button';
-import { H2, H3, Title, Edit } from '../styled/GlobalElements';
-import { BarRow,TargetRow } from '../styled/Target';
-import { patchData, postData, deleteData } from '../api';
+import { H2, H3, Edit } from '../styled/GlobalElements';
+import { TargetRow } from '../styled/Target';
+import { postData} from '../api';
 import styled from '@emotion/styled';
 import ShadowBox from '../styled/ShadowBox';
 
@@ -19,6 +19,7 @@ export const TargetContainer = styled.form`
   h2 {
     margin-bottom: 20px;
   }
+
 `;
 
 export class AccountTargets extends React.Component {

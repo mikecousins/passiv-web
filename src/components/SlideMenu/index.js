@@ -1,7 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import SideBar from './SideBar';
 import MenuButton from "./MenuButton";
 import Menu from "./Menu";
