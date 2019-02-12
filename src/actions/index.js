@@ -1,5 +1,4 @@
 import { getData, postData } from '../api';
-import { toast } from "react-toastify";
 
 let baseUrlOverride = 'dev.getpassiv.com';
 if (process.env.REACT_APP_BASE_URL_OVERRIDE) {
@@ -27,22 +26,6 @@ export const logout = () => ({
 export const registerStartedAsync = payload => {
   return dispatch => {
     dispatch(registerStarted());
-    postData(
-      baseUrl + '/api/v1/auth/register/',
-      { name: payload.name, email: payload.email, password: payload.password }
-    )
-      .then(response => {
-        // login
-        return dispatch(loginSucceeded(response));
-      })
-      .catch(error => {
-        Object.keys(error.errors).map((key, index) => {
-          error.errors[key].map(errorText => {
-            toast.error(errorText);
-          })
-        });
-        dispatch(registerFailed(error))
-      });
   };
 };
 

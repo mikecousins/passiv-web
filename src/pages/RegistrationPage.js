@@ -1,12 +1,15 @@
 import React from 'react';
-import { Formik } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { registerStartedAsync } from '../actions';
+import { baseUrl, loginSucceeded, registerStartedAsync, registerFailed } from '../actions';
+import { postData } from '../api';
+import * as Yup from 'yup';
+import { toast } from "react-toastify";
 import { selectLoggedIn } from '../selectors';
 import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
-import { H1 } from '../styled/GlobalElements';
+import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 
 const RegistrationPage = (props) => {
@@ -26,21 +29,35 @@ const RegistrationPage = (props) => {
           email: '',
           password: ''
         }}
-        validate={values => {
-          const errors = {};
-          if (!values.name || values.name.trim() === '') {
-            errors.name = 'Name is required';
-          }
-          if (!values.email || values.email.trim() === '') {
-            errors.email = 'Email is required';
-          }
-          if (!values.password || values.password.trim() === '') {
-            errors.password = 'Password is required';
-          }
-          return errors;
-        }}
+        validationSchema={Yup.object().shape({
+          name: Yup.string()
+            .required('Required'),
+          email: Yup.string()
+            .email('Must be a valid email')
+            .required('Required'),
+          password: Yup.string()
+            .required('Required'),
+        })}
+
         onSubmit={(values, actions) => {
-          props.startRegister(values);
+          postData(
+            baseUrl + '/api/v1/auth/register/',
+            { name: values.name, email: values.email, password: values.password }
+          )
+            .then(response => {
+              // login
+              actions.setSubmitting(false);
+              props.loginSucceeded(response)
+            })
+            .catch(error => {
+              toast.error(`Failed to create account: Please fix the errors and try again.`);
+              actions.setErrors({
+                password: error.errors.password.join(' '),
+                email: error.errors.email.join(' '),
+              });
+              actions.setSubmitting(false);
+              props.registerFailed(error);
+            });
         }}
         render={({
             touched,
@@ -49,6 +66,7 @@ const RegistrationPage = (props) => {
             handleChange,
             handleBlur,
             handleSubmit,
+            isValid,
           }) => (
           <Form onSubmit={handleSubmit}>
             <Label htmlFor="name">
@@ -61,11 +79,6 @@ const RegistrationPage = (props) => {
               name="name"
               placeholder="Ex: Jane Smith"
             />
-            {touched.name && errors.name && (
-              <div className="f-error-message">
-                {errors.name}
-              </div>
-            )}
             <Label htmlFor="email">
               Email
             </Label>
@@ -76,11 +89,9 @@ const RegistrationPage = (props) => {
               name="email"
               placeholder="Email"
             />
-            {touched.email && errors.email && (
-              <div className="f-error-message">
-                {errors.email}
-              </div>
-            )}
+            <P>
+              <ErrorMessage name="email" />
+            </P>
             <Label htmlFor="password">
               Password
             </Label>
@@ -95,14 +106,13 @@ const RegistrationPage = (props) => {
               name="password"
               placeholder="Password"
             />
-            {touched.password && errors.password && (
-              <div className="f-error-message">
-                {errors.password}
-              </div>
-            )}
+            <P>
+              <ErrorMessage name="password" />
+            </P>
             <div>
               <Button
                 type="submit"
+                disabled={!isValid}
               >
                 Register
               </Button>
@@ -119,6 +129,6 @@ const select = state => ({
   loggedIn: selectLoggedIn(state),
 });
 
-const actions = { startRegister: registerStartedAsync };
+const actions = { startRegister: registerStartedAsync, loginSucceeded: loginSucceeded, registerFailed: registerFailed };
 
 export default connect(select, actions)(RegistrationPage);
