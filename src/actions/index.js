@@ -1,4 +1,5 @@
 import { getData, postData } from '../api';
+import { toast } from "react-toastify";
 
 let baseUrlOverride = 'dev.getpassiv.com';
 if (process.env.REACT_APP_BASE_URL_OVERRIDE) {
@@ -34,7 +35,14 @@ export const registerStartedAsync = payload => {
         // login
         return dispatch(loginSucceeded(response));
       })
-      .catch(error => dispatch(registerFailed(error)));
+      .catch(error => {
+        Object.keys(error.errors).map((key, index) => {
+          error.errors[key].map(errorText => {
+            toast.error(errorText);
+          })
+        });
+        dispatch(registerFailed(error))
+      });
   };
 };
 
