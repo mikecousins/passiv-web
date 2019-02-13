@@ -94,6 +94,8 @@ export const selectGroupSettings = createSelector(
   }
 );
 
+
+
 export const selectGroupInfo = state => state.groupInfo;
 
 export const selectSymbols = createSelector(
@@ -266,6 +268,18 @@ export const selectCurrentGroupAccuracy = createSelector(
       accuracy = groupInfo[groupId].data.accuracy;
     }
     return accuracy
+  }
+)
+
+export const selectCurrentGroupSettings = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    let settings = null;
+    if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.settings) {
+      settings = groupInfo[groupId].data.settings;
+    }
+    return settings
   }
 )
 

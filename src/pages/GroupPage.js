@@ -7,6 +7,7 @@ import AccountHoldings from '../components/AccountHoldings';
 import AccountMetadata from '../components/AccountMetadata';
 import AccountTargets from '../components/AccountTargets';
 import AccountTrades from '../components/AccountTrades';
+import AccountSettings from '../components/AccountSettings';
 import { selectCurrentGroupTotalEquity, selectCurrentGroupCash, selectCurrentGroup, selectCurrentGroupAccuracy, selectCurrentGroupPositions, selectCurrentGroupBalances, selectCurrentGroupTrades } from '../selectors';
 import styled from '@emotion/styled';
 
@@ -59,7 +60,11 @@ const GroupPage = (props) => {
         <AccountAccuracy accuracy={props.accuracy} />
       </Container2Column>
       <AccountTargets positions={props.positions} />
-      <AccountHoldings positions={props.positions} />
+
+      <Container2Column>
+        <AccountHoldings positions={props.positions} />
+        <AccountSettings />
+      </Container2Column>
     </React.Fragment>
   );
 }
