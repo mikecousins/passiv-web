@@ -11,6 +11,7 @@ import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
+import ReactTooltip from 'react-tooltip'
 
 const RegistrationPage = (props) => {
   if (props.loggedIn) {
@@ -105,6 +106,12 @@ const RegistrationPage = (props) => {
               type="password"
               name="password"
               placeholder="Password"
+              data-tip="<ul><li>Your password must contain at least 8 characters.</li><li>Your password can&#39;t be a commonly used password.</li><li>Your password can&#39;t be entirely numeric.</li></ul>"
+            />
+            <ReactTooltip
+              event="focus"
+              place="right"
+              html={true}
             />
             <P>
               <ErrorMessage name="password" />
