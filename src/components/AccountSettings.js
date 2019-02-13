@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import {H2,Title} from '../styled/GlobalElements';
-import styled from '@emotion/styled';
-import ExcludedAssetToggle from './ExcludedAssetToggle';
+import {H2} from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
-import Number from './Number';
 import SettingsToggle from './SettingsToggle';
 
 class AccountSettings extends Component {
