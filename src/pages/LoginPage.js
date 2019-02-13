@@ -65,7 +65,7 @@ const LoginPage = (props) => {
                 Password
               </Label>
               <Input
-                error={props.touched.password && !!props.errors.password}
+                error={props.touched.password && props.errors.password}
                 type="password"
                 name="password"
                 placeholder="Password"
