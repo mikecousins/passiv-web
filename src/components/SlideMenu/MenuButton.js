@@ -47,11 +47,11 @@ export const Hamburger = styled.div`
                 opacity 0.55s ease;
   }
 
-  span:first-child {
+  span:first-of-type {
     transform-origin: 0% 0%;
   }
 
-  span:nth-last-child(2) {
+  span:nth-last-of-type(2) {
     transform-origin: 0% 100%;
     width: 22px;
   }
@@ -62,11 +62,11 @@ export const Hamburger = styled.div`
     background: #232323;
   }
 
-  input:checked ~ span:nth-last-child(3) {
+  input:checked ~ span:nth-last-of-type(3) {
     opacity: 0;
     transform: rotate(0deg) scale(0.2, 0.2);
   }
-  input:checked ~ span:nth-last-child(2) {
+  input:checked ~ span:nth-last-of-type(2) {
     transform: rotate(-45deg) translate(0, -1px);
   }
 `;

@@ -19,7 +19,6 @@ export const TargetContainer = styled.form`
   h2 {
     margin-bottom: 20px;
   }
-
 `;
 
 export class AccountTargets extends React.Component {

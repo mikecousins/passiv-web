@@ -14,13 +14,12 @@ import styled from '@emotion/styled';
 export const Container2Column = styled.div`
   display: flex;
   justify-content: space-between;
-  > div:first-child {
+  > div:first-of-type {
     width: 75%;
     margin-right: 30px;
   }
-  > div:last-child {
+  > div:last-of-type {
     width: 25%;
-
   }
 `;
 

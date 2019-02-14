@@ -85,10 +85,10 @@ export const TargetRow = styled.div`
   h3 {
     text-transform: uppercase;
     width: 100px;
-    &:last-child {
+    &:last-of-type {
       color: var(--brand-blue);
     }
-    &:nth-child(2) {
+    &:nth-of-type(2) {
       margin-left: auto;
       color: var(--brand-green);
     }
