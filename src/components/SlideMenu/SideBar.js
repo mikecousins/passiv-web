@@ -55,6 +55,7 @@ const SideBar = (props) => {
         key={group.id}
         name={group.name}
         linkPath={`/app/group/${group.id}`}
+        rebalance={!!(group.rebalance)}
       />
     ));
   }

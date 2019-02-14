@@ -24,8 +24,10 @@ export const Container2Column = styled.div`
 `;
 
 const GroupPage = (props) => {
-  const { group } = props;
-  if (!props.group) {
+  const { group, trades, balances, accuracy, positions, cash, equity } = props;
+
+  // if we don't have our group yet, show a spinner
+  if (!group) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
   }
 
@@ -33,35 +35,38 @@ const GroupPage = (props) => {
   let type = null;
   let number = null;
 
+  // grab the account type and number from the first account
+  // TODO fix this when we support groups properly
   if (group.accounts && group.accounts[0]) {
     type = group.accounts[0].type;
     number = group.accounts[0].number;
   }
 
-  let trades = null;
-  if (props.trades && props.trades.trades.length) {
-    trades = (
+  // see if we have any suggested trades to display
+  let tradeDisplay = null;
+  if (trades && trades.trades.length) {
+    tradeDisplay = (
       <AccountTrades />
     )
   }
   return (
     <React.Fragment>
-      {trades}
+      {tradeDisplay}
       <Container2Column>
         <AccountMetadata
           name={name}
           type={type}
           number={number}
-          balances={props.balances}
-          cash={props.cash}
-          equity={props.equity}
+          balances={balances}
+          cash={cash}
+          equity={equity}
         />
-        <AccountAccuracy accuracy={props.accuracy} />
+        <AccountAccuracy accuracy={accuracy} />
       </Container2Column>
-      <AccountTargets positions={props.positions} />
+      <AccountTargets positions={positions} />
 
       <Container2Column>
-        <AccountHoldings positions={props.positions} />
+        <AccountHoldings positions={positions} />
         <AccountSettings />
       </Container2Column>
     </React.Fragment>

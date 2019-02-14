@@ -74,14 +74,24 @@ export const selectPositions = state => state.accountPositions;
 
 export const selectGroupsRaw = state => state.groups;
 
+export const selectGroupInfo = state => state.groupInfo;
+
 export const selectGroups = createSelector(
   selectGroupsRaw,
-  (rawGroups) => {
+  selectGroupInfo,
+  (rawGroups, groupInfo) => {
     if (rawGroups.data) {
-      return rawGroups.data;
+      return rawGroups.data.map((group) => {
+        const groupWithRebalance = group;
+        if (groupInfo[group.id] && groupInfo[group.id].data) {
+          groupWithRebalance.rebalance = !!(groupInfo[group.id].data.calculated_trades);
+        }
+        return groupWithRebalance;
+      });
     }
+    return null;
   }
-)
+);
 
 export const selectGroupSettingsRaw = state => state.groupSettings;
 
@@ -96,7 +106,7 @@ export const selectGroupSettings = createSelector(
 
 
 
-export const selectGroupInfo = state => state.groupInfo;
+
 
 export const selectSymbols = createSelector(
   selectGroups,
