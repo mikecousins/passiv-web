@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
-import ShadowBox from '../styled/ShadowBox';
-import { Table,H2,H3 } from '../styled/GlobalElements';
-import Number from './Number';
+import ShadowBox from '../../styled/ShadowBox';
+import { Table,H2,H3 } from '../../styled/GlobalElements';
+import Number from '../Number';
+import RebalanceIndicator from './RebalanceIndicator';
 
 export const DashboardRow = styled.div`
   div{
@@ -87,6 +88,7 @@ const Group = (props) => {
           <ViewBtn>
             <Link to={`/app/group/${group.id}`}>View<FontAwesomeIcon icon={faAngleRight} /></Link>
           </ViewBtn>
+          {group.rebalance && <RebalanceIndicator />}
         </Table>
       </DashboardRow>
     </ShadowBox>

@@ -190,14 +190,16 @@ export const selectDashboardGroups = createSelector(
     }
     groups.forEach(g => {
       const group = { id: g.id, name: g.name, totalCash: null, totalHoldings: null, totalValue: null };
-      if (groupInfo && groupInfo[group.id] && groupInfo[group.id].data) {
+      if (groupInfo[group.id] && groupInfo[group.id].data) {
         groupInfo[group.id].data.balances.forEach(balance => group.totalCash += parseFloat(balance.cash));
         groupInfo[group.id].data.positions.forEach(position => group.totalHoldings += position.units * position.price);
         group.accuracy = groupInfo[group.id].data.accuracy;
+        group.rebalance = !!groupInfo[group.id].data.calculated_trades;
       }
       if (group.totalCash && group.totalHoldings) {
         group.totalValue = group.totalCash + group.totalHoldings;
       }
+
       fullGroups.push(group);
     });
 
