@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { toast } from "react-toastify";
 import { baseUrl, loginSucceeded } from '../actions';
 import { postData } from '../api';
 import { selectLoggedIn } from '../selectors';
@@ -45,7 +46,8 @@ const LoginPage = (props) => {
                 props.loginSucceeded(response);
               })
               .catch(error => {
-                actions.setErrors({ password: error.non_field_errors || 'Error logging in' });
+                toast.error(error.non_field_errors[0] || 'Failed to login.');
+                actions.setErrors({ password: error.non_field_errors || 'Failed to login.' });
                 actions.setSubmitting(false);
               });
           }}
