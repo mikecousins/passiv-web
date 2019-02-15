@@ -467,6 +467,9 @@ export const selectCurrentGroupTarget = createSelector(
       if (position) {
         target.actualPercentage = position.price * position.units / totalHoldings * 100;
       }
+      else {
+        target.actualPercentage = 0;
+      }
 
       target.excluded = false;
       return target;
