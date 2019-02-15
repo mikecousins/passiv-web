@@ -88,7 +88,7 @@ const Group = (props) => {
           <ViewBtn>
             <Link to={`/app/group/${group.id}`}>View<FontAwesomeIcon icon={faAngleRight} /></Link>
           </ViewBtn>
-          {group.rebalance && <RebalanceIndicator />}
+          {group.rebalance && <RebalanceIndicator id={group.id} />}
         </Table>
       </DashboardRow>
     </ShadowBox>
