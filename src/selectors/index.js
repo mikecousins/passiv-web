@@ -104,10 +104,6 @@ export const selectGroupSettings = createSelector(
   }
 );
 
-
-
-
-
 export const selectSymbols = createSelector(
   selectGroups,
   selectGroupInfo,
@@ -132,6 +128,8 @@ export const selectSymbols = createSelector(
 export const selectIsDemoMode =  state => state.demo;
 
 export const selectRouter = state => state.router;
+
+export const selectCurrencyRates = state => state.currencyRates;
 
 export const selectCurrentGroupId = createSelector(
   selectRouter,
@@ -183,15 +181,27 @@ export const selectCurrentAccountId = createSelector(
 export const selectDashboardGroups = createSelector(
   selectGroups,
   selectGroupInfo,
-  (groups, groupInfo) => {
+  selectCurrencyRates,
+  selectCurrencies,
+  (groups, groupInfo, rates, currencies) => {
     const fullGroups = [];
-    if (!groups) {
+    if (!groups || !rates) {
       return fullGroups;
     }
     groups.forEach(g => {
       const group = { id: g.id, name: g.name, totalCash: null, totalHoldings: null, totalValue: null };
       if (groupInfo[group.id] && groupInfo[group.id].data) {
-        groupInfo[group.id].data.balances.forEach(balance => group.totalCash += parseFloat(balance.cash));
+        groupInfo[group.id].data.balances.forEach(balance => {
+          // convert to CAD for now
+          const preferredCurrency = currencies.find(currency => currency.code === 'CAD').id;
+          // const preferredCurrency = groupInfo[group.id].data.preferredCurrency;
+          if (balance.currency.id === preferredCurrency) {
+            group.totalCash += parseFloat(balance.cash);
+          } else {
+            const conversionRate = rates.data.find(rate => rate.src.id === balance.currency.id  && rate.dst.id === preferredCurrency).exchange_rate;
+            group.totalCash += parseFloat(balance.cash * conversionRate);
+          }
+        });
         groupInfo[group.id].data.positions.forEach(position => group.totalHoldings += position.units * position.price);
         group.accuracy = groupInfo[group.id].data.accuracy;
         group.rebalance = !!groupInfo[group.id].data.calculated_trades;
