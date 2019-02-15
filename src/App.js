@@ -35,12 +35,6 @@ const App = () => (
         <Route path="/app/register" component={RegistrationPage} />
         <Route path="/app/reset-password" component={ResetPasswordPage} />
         <Route path="/app/reset-password-confirm/:token" component={ResetPasswordConfirmPage} />
-        <Route path="/about" component={AboutPage} />
-        <Route path="/blog" component={BlogPage} />
-        <Route path="/pricing" component={PricingPage} />
-        <Route path="/privacy" component={PrivacyPage} />
-        <Route path="/security" component={SecurityPage} />
-        <Route path="/termsofservice" component={TermsOfServicePage} />
         <SecureRoute path="/app/dashboard" component={DashboardPage} />
         <SecureRoute path="/app/group/:groupId" component={GroupPage} />
         <SecureRoute path="/app/settings" component={SettingsPage} />
