@@ -136,7 +136,6 @@ export class AccountTargets extends React.Component {
                             target.deleted = true;
                             this.forceUpdate();
                             props.setFieldTouched('targets.0.percent');
-                            toast.success(`${t.fullSymbol.symbol} deleted`);
                           }}
                         >
                           <Field type="number" name={`targets.${index}.percent`} readOnly={!this.state.edit} />
@@ -158,7 +157,14 @@ export class AccountTargets extends React.Component {
                           <Button type="submit" onClick={props.handleSubmit} disabled={(props.isSubmitting || !props.dirty || !props.isValid) && !props.values.targets.find(t => t.deleted)}>
                             Save
                           </Button>
-                          <button type="button" onClick={props.handleReset}>
+                          <button type="button" onClick={() => {
+                            props.values.targets.map((t) => {
+                              if (t.deleted) {
+                                delete t.deleted;
+                              }
+                            })
+                            props.handleReset();
+                          }}>
                             Cancel
                           </button>
                         </React.Fragment>
