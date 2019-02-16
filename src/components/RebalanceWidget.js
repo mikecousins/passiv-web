@@ -53,7 +53,7 @@ const MetaHorizontal = styled.div`
 `;
 
 
-class RebalanceWidget extends Component {
+export class RebalanceWidget extends Component {
   state = {
     expanded: false,
     validatingOrders: false,
@@ -127,7 +127,6 @@ class RebalanceWidget extends Component {
   }
 
   sumRemainingCash() {
-    // console.log(this.state.orderSummary)
     return this.state.orderSummary.reduce((acc, result) => {return acc + result.remaining_cash}, 0);
   }
 
