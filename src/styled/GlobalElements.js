@@ -79,7 +79,6 @@ export const Title = styled.div`
 	font-size: 18px;
 	font-weight: 700;
 	margin-bottom: 8px;
-	${dynamicStyle};
 `;
 
 export const Symbol = styled.div`

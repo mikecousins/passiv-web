@@ -28,6 +28,7 @@ const StyledAside = styled.aside`
     padding-left: 25px;
     padding-right: 15px;
     widht: 100%;
+    position: relative;
     svg {
       float: right;
     }

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { css } from '@emotion/core'
+import { css } from '@emotion/core';
 
 const dynamicStyle = props =>
 css`
@@ -27,7 +27,7 @@ export const StepButton = styled.button`
   text-align: center;
   color: #2a2d34;
   flex: 1;
-  padding: 40px 20px 30px;
+  padding: 40px 20px 40px;
   max-width: 49%;
   justify-content: space-between;
    &:hover {
@@ -35,7 +35,6 @@ export const StepButton = styled.button`
   	color: #fff;
   }
 `;
-
 
 export const Step = styled.p`
   font-size: 18px;

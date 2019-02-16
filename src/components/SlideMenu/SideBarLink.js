@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { RebalanceAlert } from '../../styled/Rebalance';
+
 
 const SideBarLink = ({ name, linkPath, rebalance }) => {
   let selected = window.location.pathname.startsWith(linkPath);
@@ -15,9 +17,8 @@ const SideBarLink = ({ name, linkPath, rebalance }) => {
   return (
     <div className={colorClass}>
       <Link
-        to={linkPath}
-      >
-        {rebalance && <FontAwesomeIcon icon={faCircle} style={{color: 'blue'}} />}
+        to={linkPath}>
+        <RebalanceAlert>{rebalance && <span style={{background: 'blue'}} />}</RebalanceAlert>
         {name}
         <FontAwesomeIcon icon={faAngleRight} />
       </Link>
