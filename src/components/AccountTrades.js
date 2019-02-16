@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { selectCurrentGroupTrades } from '../selectors';
 import RebalanceWidget from './RebalanceWidget';
 import { H3, Table, Title, Symbol } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
