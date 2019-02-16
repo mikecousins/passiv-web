@@ -1,12 +1,5 @@
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 
-/*
-const dynamicStyle = props =>
-css`
-  color: ${props.color};
-`
-*/
 // h1
 export const StepQuestion = styled.p`
   font-size: 27px;
