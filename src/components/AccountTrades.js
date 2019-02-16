@@ -64,10 +64,4 @@ class AccountTrades extends Component {
   }
 };
 
-const select = state => ({
-  trades: selectCurrentGroupTrades(state),
-});
-const actions = {
-};
-
-export default connect(select, actions)(AccountTrades);
+export default AccountTrades;
