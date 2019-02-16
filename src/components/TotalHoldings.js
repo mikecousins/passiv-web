@@ -9,7 +9,7 @@ import Number from './Number';
 export const TotalContainer = styled.div`
   text-align: right;
   margin-bottom: 22px;
-  padding: 20px 0;
+  padding: 10px 0 20px;
 
   span {
     font-size: 36px;

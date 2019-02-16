@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { selectBrokerages } from '../selectors';
 import AuthorizationPicker from '../components/AuthorizationPicker';
+import ShadowBox from '../styled/ShadowBox';
+import { StepQuestion, StepButton, Step } from '../styled/SignupSteps';
+import { Table,H1,P } from '../styled/GlobalElements';
+import { Button } from '../styled/Button';
 
 class QuestradeAuthorizationPicker extends Component {
   state = {
@@ -44,19 +48,23 @@ class QuestradeAuthorizationPicker extends Component {
                 />
               </div>
             ) : (
-              <div>
-                <button onClick={() => {this.resetAnswered()}}>Back</button>
-                Then you'd better make one!
-              </div>
+              <ShadowBox dark>
+                <Button onClick={() => {this.resetAnswered()}}>Back</Button>
+                <P color="white">Then you'd better make one!</P>
+              </ShadowBox>
             )
           }
           </div>
         ) : (
-          <div>
-            Do you have a Questrade account?
-            <button onClick={() => {this.setHaveQuestrade(true)}}>Yes</button>
-            <button onClick={() => {this.setHaveQuestrade(false)}}>No</button>
-          </div>
+          <ShadowBox dark>
+            <H1 color="white">SETUP</H1>
+            <Step>Step 1 - Authorize Questrade</Step>
+            <StepQuestion>Do you have a Questrade account?</StepQuestion>
+            <Table>
+              <StepButton onClick={() => {this.setHaveQuestrade(true)}}>Yes</StepButton>
+              <StepButton onClick={() => {this.setHaveQuestrade(false)}}>No</StepButton>
+            </Table>
+          </ShadowBox>
         )}
       </React.Fragment>
     )

@@ -1,4 +1,10 @@
 import styled from '@emotion/styled';
+import { css } from '@emotion/core'
+
+const dynamicStyle = props =>
+css`
+  color: ${props.color};
+`;
 
 // h1
 export const H1 = styled.h1`
@@ -7,6 +13,7 @@ export const H1 = styled.h1`
 	line-height: 2.17;
 	letter-spacing: -1.5px;
 	color: #2a2d34;
+	${dynamicStyle};
 `;
 
 // h2
@@ -48,6 +55,8 @@ export const P = styled.p`
 	font-weight: 500;
 	line-height: 1.5;
 	margin: 0 0 12px;
+	${dynamicStyle};
+
 `;
 
 // a
@@ -70,6 +79,7 @@ export const Title = styled.div`
 	font-size: 18px;
 	font-weight: 700;
 	margin-bottom: 8px;
+	${dynamicStyle};
 `;
 
 export const Symbol = styled.div`
@@ -81,4 +91,3 @@ export const Symbol = styled.div`
   display: inline-block;
   margin-top: -4px;
 `;
-
