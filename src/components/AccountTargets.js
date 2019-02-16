@@ -158,7 +158,7 @@ export class AccountTargets extends React.Component {
                             Save
                           </Button>
                           <button type="button" onClick={() => {
-                            props.values.targets.map((t) => {
+                            props.values.targets.forEach((t) => {
                               if (t.deleted) {
                                 delete t.deleted;
                               }
