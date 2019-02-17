@@ -1,13 +1,13 @@
-  import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faAngleRight, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import { Table,H2,H3 } from '../../styled/GlobalElements';
 import Number from '../Number';
-import RebalanceIndicator from './RebalanceIndicator';
+import AccountTrades from '../AccountTrades';
 
 export const DashboardRow = styled.div`
   div{
@@ -41,11 +41,28 @@ export const ViewBtn = styled.div`
   }
 `;
 
-const Group = (props) => {
-  const { group } = props;
+export const AllocateBtn= styled.div`
+  button {
+    position: absolute;
+    top: 100%;
+    margin-top: -20px;
+    left: 0;
+    font-size: 16px;
+    padding: 8px 24px;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.37);
+    background-color: #003ba2;
+    color: #fff;
+  }
+`;
+
+export const Group = (props) => {
+  const { group, trades } = props;
   if (!group) {
     return <div>Loading...</div>;
   }
+
+  const [expanded, setExpanded] = useState(false);
 
   let accuracy = <FontAwesomeIcon icon={faSpinner} spin />;
   if (group.accuracy) {
@@ -60,6 +77,15 @@ const Group = (props) => {
   let totalValue = <FontAwesomeIcon icon={faSpinner} spin />;
   if (group.totalValue) {
     totalValue = <Number value={group.totalValue} currency />
+  }
+
+  let sellsFound = false;
+  if (trades) {
+    trades.trades.forEach(trade => {
+      if (trade.action === 'SELL') {
+        sellsFound = true;
+      }
+    });
   }
 
   return (
@@ -88,9 +114,18 @@ const Group = (props) => {
           <ViewBtn>
             <Link to={`/app/group/${group.id}`}>View<FontAwesomeIcon icon={faAngleRight} /></Link>
           </ViewBtn>
-          {group.rebalance && <RebalanceIndicator id={group.id} />}
+          {group.rebalance && (
+            <AllocateBtn>
+              <button onClick={() => setExpanded(!expanded)}>
+                {sellsFound ? 'Rebalance' : 'Allocate'}
+                &nbsp;
+                {expanded ? (<FontAwesomeIcon icon={faChevronUp} />) : (<FontAwesomeIcon icon={faChevronDown} />)}
+              </button>
+            </AllocateBtn>
+          )}
         </Table>
       </DashboardRow>
+      {expanded && <AccountTrades trades={group.trades} />}
     </ShadowBox>
   );
 }

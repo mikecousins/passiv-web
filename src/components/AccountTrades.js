@@ -24,42 +24,41 @@ export const Heading = styled.div`
     line-height: 1;
   }
 `;
-class AccountTrades extends Component {
-  render() {
-    let trades = null;
-    if (this.props.trades && this.props.trades.trades.length > 0) {
-      trades = this.props.trades.trades.map(trade => (
-        <Table key={trade.id}>
-          <Heading>
-            <H3>{trade.action}</H3>
-          </Heading>
-          <div>
-            <Title>{trade.universal_symbol.description}</Title>
-            <Symbol>{trade.universal_symbol.symbol}</Symbol>
-          </div>
-          <div>
-            <Title>Units</Title>
-            <div>{trade.units}</div>
-          </div>
-          <div>
-            <Title>Price</Title>
-            <div>{trade.price}</div>
-          </div>
-        </Table>
-      ))
-    }
 
-    return (
-      <TradesContainer>
-        <ShadowBox>
-          {trades}
-        </ShadowBox>
-        <RebalanceWidget
-          trades={this.props.trades}
-        />
-      </TradesContainer>
-    )
+const AccountTrades = ({ trades }) => {
+  let tradeList = null;
+  if (trades && trades.trades.length > 0) {
+    tradeList = trades.trades.map(trade => (
+      <Table key={trade.id}>
+        <Heading>
+          <H3>{trade.action}</H3>
+        </Heading>
+        <div>
+          <Title>{trade.universal_symbol.description}</Title>
+          <Symbol>{trade.universal_symbol.symbol}</Symbol>
+        </div>
+        <div>
+          <Title>Units</Title>
+          <div>{trade.units}</div>
+        </div>
+        <div>
+          <Title>Price</Title>
+          <div>{trade.price}</div>
+        </div>
+      </Table>
+    ))
   }
+
+  return (
+    <TradesContainer>
+      <ShadowBox>
+        {tradeList}
+      </ShadowBox>
+      <RebalanceWidget
+        trades={trades}
+      />
+    </TradesContainer>
+  )
 };
 
 export default AccountTrades;

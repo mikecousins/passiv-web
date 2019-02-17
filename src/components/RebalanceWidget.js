@@ -2,29 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { selectCurrentGroupId, selectAccounts, selectCurrencies } from '../selectors';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { baseUrl, loadGroup } from '../actions';
 import { getData, postData } from '../api';
 import { Button } from '../styled/Button';
 import styled from '@emotion/styled';
 import { H2, P, A } from '../styled/GlobalElements';
 import Number from './Number';
-
-
-export const AllocateBtn= styled.div`
-  button {
-    position: absolute;
-    top: 100%;
-    margin-top: -20px;
-    left: 0;
-    font-size: 16px;
-    padding: 8px 24px;
-    border-radius: 4px;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.37);
-    background-color: #003ba2;
-    color: #fff;
-  }
-`;
 
 export const SummaryContainer = styled.div`
   position: relative;
@@ -61,17 +45,6 @@ export class RebalanceWidget extends Component {
     orderSummary: null,
     orderResults: null,
     error: null,
-  }
-
-  anySells() {
-    let sellsFound = false;
-    this.props.trades.trades.map(trade => {
-      if (trade.action === 'SELL') {
-        sellsFound = true;
-      }
-      return null;
-    })
-    return sellsFound;
   }
 
   toggleExpand() {
@@ -111,15 +84,6 @@ export class RebalanceWidget extends Component {
         console.log('error', error);
         this.setState({placingOrders: false, orderResults: null, error: error});
       });
-  }
-
-  buttonName() {
-    if (this.anySells() === true) {
-      return 'Rebalance';
-    }
-    else {
-      return 'Allocate';
-    }
   }
 
   sumEstimatedCommissions() {
@@ -171,8 +135,6 @@ export class RebalanceWidget extends Component {
                         </div>
                       )
                   }
-
-
               </div>
             ) : (
               <div>
@@ -181,7 +143,6 @@ export class RebalanceWidget extends Component {
                 </div>
               </div>
             )
-
         )
       }
     }
@@ -189,9 +150,7 @@ export class RebalanceWidget extends Component {
     return (
       <SummaryContainer>
         { orderValidation }
-        <AllocateBtn>
-          <button onClick={() => this.toggleExpand()}>{this.anySells() ? 'Rebalance' : 'Allocate'} {this.state.expanded ? ( <FontAwesomeIcon icon={faChevronUp} /> ) : ( <FontAwesomeIcon icon={faChevronDown} /> )}</button>
-        </AllocateBtn>
+
       </SummaryContainer>
 
     )

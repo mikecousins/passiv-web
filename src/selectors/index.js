@@ -205,6 +205,7 @@ export const selectDashboardGroups = createSelector(
         groupInfo[group.id].data.positions.forEach(position => group.totalHoldings += position.units * position.price);
         group.accuracy = groupInfo[group.id].data.accuracy;
         group.rebalance = !!groupInfo[group.id].data.calculated_trades;
+        group.trades = groupInfo[group.id].data.calculated_trades;
       }
       if (group.totalCash && group.totalHoldings) {
         group.totalValue = group.totalCash + group.totalHoldings;
