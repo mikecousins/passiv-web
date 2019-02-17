@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import RebalanceWidget from './RebalanceWidget';
 import { H3, Table, Title, Symbol } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
