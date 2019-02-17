@@ -4,10 +4,10 @@ export const RebalanceAlert = styled.div`
   position: absolute;
   top: 47%;
   transform: translateY(-50%);
-  left: 3px;
+  left: 5px;
   span {
-  	width: 14px;
-    height: 14px;
+  	width: 12px;
+    height: 12px;
     display: block;
     border-radius: 50%;
   }
