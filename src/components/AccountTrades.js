@@ -4,7 +4,7 @@ import { H3, Table, Title, Symbol } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 
-export const TradesContainer = styled.div`
+const TradesContainer = styled.div`
   position: relative;
   background-color: #001c55;
   color: #fff;
@@ -14,7 +14,7 @@ export const TradesContainer = styled.div`
     text-align: right;
   }
 `;
-export const Heading = styled.div`
+const Heading = styled.div`
   width: 35%;
   h3 {
     color: #fff;
@@ -25,7 +25,7 @@ export const Heading = styled.div`
   }
 `;
 
-const AccountTrades = ({ trades }) => {
+export const AccountTrades = ({ trades }) => {
   let tradeList = null;
   if (trades && trades.trades.length > 0) {
     tradeList = trades.trades.map(trade => (

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectCurrentGroupId, selectAccounts, selectCurrencies } from '../selectors';
+import { selectCurrentGroupId } from '../selectors';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { baseUrl, loadGroup } from '../actions';
@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { H2, P, A } from '../styled/GlobalElements';
 import Number from './Number';
 
-export const SummaryContainer = styled.div`
+const SummaryContainer = styled.div`
   position: relative;
   background-color: #ffffff;
   color: #000;
@@ -21,7 +21,7 @@ export const SummaryContainer = styled.div`
   }
 `;
 
-export const ConfirmContainer = styled.div`
+const ConfirmContainer = styled.div`
   text-align: right;
 `;
 
@@ -35,7 +35,6 @@ const MetaHorizontal = styled.div`
     text-align: left;
   }
 `;
-
 
 export class RebalanceWidget extends Component {
   state = {
@@ -61,11 +60,9 @@ export class RebalanceWidget extends Component {
     this.setState({validatingOrders: true});
     getData(`${baseUrl}/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/impact`)
       .then(response => {
-        console.log('success', response);
         this.setState({validatingOrders: false, orderSummary: response, error: null});
       })
       .catch(error => {
-        console.log('error', error);
         this.setState({validatingOrders: false, orderSummary: null, error: error});
       });
   }
@@ -74,14 +71,12 @@ export class RebalanceWidget extends Component {
     this.setState({placingOrders: true});
     postData(`${baseUrl}/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/placeOrders`)
       .then(response => {
-        console.log('success', response);
         this.setState({placingOrders: false, orderResults: response, error: null});
 
         // reload group data following a successful order
         this.props.reloadGroup({ids: [this.props.groupId]});
       })
       .catch(error => {
-        console.log('error', error);
         this.setState({placingOrders: false, orderResults: null, error: error});
       });
   }
@@ -118,23 +113,19 @@ export class RebalanceWidget extends Component {
                 <P>
                   <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">Exchange and ECN fees</A>, <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">SEC fees</A> and for ADRs <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">annual custody</A> fees may apply. Commissions may vary if your order is filled over multiple days. Borrow fees may apply if you hold a short investment overnight.
                 </P>
-
-                  {
-                    this.state.placingOrders ? (
-                      <div>
-                        <p>Placing orders ... <FontAwesomeIcon icon={faSpinner} spin /></p>
-                      </div>
-                      ) : (
-                        <div>
-                          <ConfirmContainer>
-                            <Button onClick={() => {this.confirmOrders()}}>
-                              Confirm
-                            </Button>
-                          </ConfirmContainer>
-
-                        </div>
-                      )
-                  }
+                  {this.state.placingOrders ? (
+                    <div>
+                      <p>Placing orders ... <FontAwesomeIcon icon={faSpinner} spin /></p>
+                    </div>
+                  ) : (
+                    <div>
+                      <ConfirmContainer>
+                        <Button onClick={() => {this.confirmOrders()}}>
+                          Confirm
+                        </Button>
+                      </ConfirmContainer>
+                    </div>
+                  )}
               </div>
             ) : (
               <div>
@@ -149,8 +140,7 @@ export class RebalanceWidget extends Component {
 
     return (
       <SummaryContainer>
-        { orderValidation }
-
+        {orderValidation}
       </SummaryContainer>
 
     )
@@ -159,9 +149,8 @@ export class RebalanceWidget extends Component {
 
 const select = state => ({
   groupId: selectCurrentGroupId(state),
-  accounts: selectAccounts(state),
-  currencies: selectCurrencies(state),
 });
+
 const actions = {
   reloadGroup: loadGroup,
 };
