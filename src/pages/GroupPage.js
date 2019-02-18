@@ -46,7 +46,7 @@ const GroupPage = (props) => {
   let tradeDisplay = null;
   if (trades && trades.trades.length) {
     tradeDisplay = (
-      <AccountTrades trades={trades} />
+      <AccountTrades trades={trades} groupId={group.id} />
     )
   }
   return (

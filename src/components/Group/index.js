@@ -78,7 +78,7 @@ export const Group = (props) => {
           </Table>
         </DashboardRow>
       </ShadowBox>
-      {expanded && <AccountTrades trades={group.trades} />}
+      {expanded && <AccountTrades trades={group.trades} groupId={group.id} />}
     </Container>
   );
 }

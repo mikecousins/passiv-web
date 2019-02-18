@@ -4,7 +4,7 @@ import { H3, Title } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
 import { TradesContainer, TradeRow, Heading, Symbol, ColumnSymbol, ColumnUnits, ColumnPrice } from '../styled/Group';
 
-export const AccountTrades = ({ trades }) => {
+export const AccountTrades = ({ trades, groupId }) => {
   let tradeList = null;
   if (trades && trades.trades.length > 0) {
     tradeList = trades.trades.map(trade => (
@@ -35,6 +35,7 @@ export const AccountTrades = ({ trades }) => {
       </ShadowBox>
       <RebalanceWidget
         trades={trades}
+        groupId={groupId}
       />
     </TradesContainer>
   )

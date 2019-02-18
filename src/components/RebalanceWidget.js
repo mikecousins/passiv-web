@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectCurrentGroupId } from '../selectors';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { baseUrl, loadGroup } from '../actions';
@@ -38,7 +37,6 @@ const MetaHorizontal = styled.div`
 
 export class RebalanceWidget extends Component {
   state = {
-    expanded: false,
     validatingOrders: false,
     placingOrders: false,
     orderSummary: null,
@@ -46,96 +44,88 @@ export class RebalanceWidget extends Component {
     error: null,
   }
 
-  toggleExpand() {
-    if (this.state.expanded === true) {
-      this.setState({expanded: false, validatingOrders: false,});
-    }
-    else if (this.state.expanded === false) {
-      this.setState({expanded: true});
-      this.validateOrders();
-    }
-  }
-
-  validateOrders() {
-    this.setState({validatingOrders: true});
+  validateOrders = () => {
+    this.setState({ validatingOrders: true });
     getData(`${baseUrl}/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/impact`)
       .then(response => {
-        this.setState({validatingOrders: false, orderSummary: response, error: null});
+        this.setState({ validatingOrders: false, orderSummary: response, error: null });
       })
       .catch(error => {
-        this.setState({validatingOrders: false, orderSummary: null, error: error});
+        this.setState({ validatingOrders: false, orderSummary: null, error: error });
       });
   }
 
-  confirmOrders() {
-    this.setState({placingOrders: true});
+  confirmOrders = () => {
+    this.setState({ placingOrders: true });
     postData(`${baseUrl}/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/placeOrders`)
       .then(response => {
-        this.setState({placingOrders: false, orderResults: response, error: null});
+        this.setState({ placingOrders: false, orderResults: response, error: null });
 
         // reload group data following a successful order
-        this.props.reloadGroup({ids: [this.props.groupId]});
+        this.props.reloadGroup({ ids: [this.props.groupId] });
       })
       .catch(error => {
-        this.setState({placingOrders: false, orderResults: null, error: error});
+        this.setState({ placingOrders: false, orderResults: null, error: error });
       });
   }
 
-  sumEstimatedCommissions() {
+  sumEstimatedCommissions = () => {
     return this.state.orderSummary.reduce((acc, result) => {return acc + result.estimated_commissions}, 0);
   }
 
-  sumRemainingCash() {
+  sumRemainingCash = () => {
     return this.state.orderSummary.reduce((acc, result) => {return acc + result.remaining_cash}, 0);
   }
 
   render() {
-    let orderValidation = null;
-    if (this.state.expanded) {
-      if (this.state.validatingOrders) {
-        orderValidation = (
-          <p>Validating orders ... <FontAwesomeIcon icon={faSpinner} spin /></p>
-        )
-      }
-      else {
-        orderValidation = (
-          this.state.orderSummary ? (
-              <div>
-                <H2>Order Summary</H2>
+    let orderValidation = (
+      <button onClick={this.validateOrders}>Validate</button>
+    );
+    if (this.state.validatingOrders) {
+      orderValidation = (
+        <p>
+          Validating orders ...&nbsp;
+          <FontAwesomeIcon icon={faSpinner} spin />
+        </p>
+      );
+    } else if (this.state.orderSummary || this.state.error) {
+      orderValidation = (
+        this.state.orderSummary ? (
+          <div>
+            <H2>Order Summary</H2>
+            <div>
+              <MetaHorizontal>
+                <span>Estimated commissions:</span> <Number value={this.sumEstimatedCommissions()} currency />
+              </MetaHorizontal>
+              <MetaHorizontal>
+                <span>Remaining cash:</span> <Number value={this.sumRemainingCash()} currency />
+              </MetaHorizontal>
+            </div>
+            <P>
+              <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">Exchange and ECN fees</A>, <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">SEC fees</A> and for ADRs <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">annual custody</A> fees may apply. Commissions may vary if your order is filled over multiple days. Borrow fees may apply if you hold a short investment overnight.
+            </P>
+              {this.state.placingOrders ? (
                 <div>
-                  <MetaHorizontal>
-                    <span>Estimated commissions:</span> <Number value={this.sumEstimatedCommissions()} currency />
-                  </MetaHorizontal>
-                  <MetaHorizontal>
-                    <span>Remaining cash:</span> <Number value={this.sumRemainingCash()} currency />
-                  </MetaHorizontal>
+                  <p>Placing orders ... <FontAwesomeIcon icon={faSpinner} spin /></p>
                 </div>
-                <P>
-                  <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">Exchange and ECN fees</A>, <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">SEC fees</A> and for ADRs <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">annual custody</A> fees may apply. Commissions may vary if your order is filled over multiple days. Borrow fees may apply if you hold a short investment overnight.
-                </P>
-                  {this.state.placingOrders ? (
-                    <div>
-                      <p>Placing orders ... <FontAwesomeIcon icon={faSpinner} spin /></p>
-                    </div>
-                  ) : (
-                    <div>
-                      <ConfirmContainer>
-                        <Button onClick={() => {this.confirmOrders()}}>
-                          Confirm
-                        </Button>
-                      </ConfirmContainer>
-                    </div>
-                  )}
-              </div>
-            ) : (
-              <div>
+              ) : (
                 <div>
-                  There is a problem with your orders: {this.state.error}
+                  <ConfirmContainer>
+                    <Button onClick={() => {this.confirmOrders()}}>
+                      Confirm
+                    </Button>
+                  </ConfirmContainer>
                 </div>
-              </div>
-            )
+              )}
+          </div>
+        ) : (
+          <div>
+            <div>
+              There is a problem with your orders: {this.state.error}
+            </div>
+          </div>
         )
-      }
+      );
     }
 
     return (
@@ -147,12 +137,8 @@ export class RebalanceWidget extends Component {
   }
 };
 
-const select = state => ({
-  groupId: selectCurrentGroupId(state),
-});
-
 const actions = {
   reloadGroup: loadGroup,
 };
 
-export default connect(select, actions)(RebalanceWidget);
+export default connect(null, actions)(RebalanceWidget);
