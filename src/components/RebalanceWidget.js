@@ -79,7 +79,9 @@ export class RebalanceWidget extends Component {
 
   render() {
     let orderValidation = (
-      <button onClick={this.validateOrders}>Validate</button>
+      <Button onClick={this.validateOrders}>
+        Validate
+      </Button>
     );
     if (this.state.validatingOrders) {
       orderValidation = (
