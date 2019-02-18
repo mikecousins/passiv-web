@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 
 export const Container = styled.section`
-
 `;
 
 export const DashboardRow = styled.div`
@@ -60,6 +59,7 @@ export const AllocateBtn= styled.div`
   background-color: #003ba2;
   color: #fff;
   text-transform: uppercase;
+  cursor: pointer;
 `;
 
 export const TradesContainer = styled.div`
