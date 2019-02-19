@@ -69,6 +69,16 @@ export class RebalanceWidget extends Component {
       });
   }
 
+  cancelOrders = () => {
+    this.setState({
+      placingOrders: false,
+      validatingOrders: false,
+      orderSummary: null,
+      orderResults: null,
+      error: null,
+    });
+  }
+
   sumEstimatedCommissions = () => {
     return this.state.orderSummary.reduce((acc, result) => {return acc + result.estimated_commissions}, 0);
   }
@@ -113,6 +123,9 @@ export class RebalanceWidget extends Component {
               ) : (
                 <div>
                   <ConfirmContainer>
+                    <Button onClick={() => {this.cancelOrders()}}>
+                      Cancel
+                    </Button>
                     <Button onClick={() => {this.confirmOrders()}}>
                       Confirm
                     </Button>
