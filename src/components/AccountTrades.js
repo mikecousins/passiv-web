@@ -1,7 +1,6 @@
 import React from 'react';
 import RebalanceWidget from './RebalanceWidget';
 import { H3, Title } from '../styled/GlobalElements';
-import ShadowBox from '../styled/ShadowBox';
 import { TradesContainer, TradeRow, Heading, Symbol, ColumnSymbol, ColumnUnits, ColumnPrice } from '../styled/Group';
 
 export const AccountTrades = ({ trades, groupId }) => {
@@ -30,10 +29,8 @@ export const AccountTrades = ({ trades, groupId }) => {
 
   return (
     <TradesContainer>
-      <ShadowBox>
         {tradeList}
-      </ShadowBox>
-      <RebalanceWidget
+        <RebalanceWidget
         trades={trades}
         groupId={groupId}
       />

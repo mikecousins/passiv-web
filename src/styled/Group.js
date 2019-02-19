@@ -1,6 +1,10 @@
 import styled from '@emotion/styled';
 
 export const Container = styled.section`
+  div:first-child {
+    position: relative;
+    z-index: 3;
+  }
 `;
 
 export const DashboardRow = styled.div`
@@ -66,7 +70,10 @@ export const TradesContainer = styled.div`
   position: relative;
   background-color: #001c55;
   color: #fff;
-  border-radius: 4px;
+  border-radius: 0 0 4px 4px;
+  padding: 42px 20px 2px 20px;
+  margin-bottom: 20px;
+  margin-top: -22px;
   > div {
     margin-bottom: 20px;
     background: none;

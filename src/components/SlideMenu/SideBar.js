@@ -22,7 +22,7 @@ const StyledAside = styled.aside`
   a {
     color: #fff;
     text-decoration: none;
-    padding: 22px 0;
+    padding: 20px 0;
     display: block;
     font-size: 1.125rem;
     padding-left: 25px;
