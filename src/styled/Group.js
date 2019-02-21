@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Container = styled.section`
-  div:first-child {
+  div:first-of-type {
     position: relative;
     z-index: 3;
   }
