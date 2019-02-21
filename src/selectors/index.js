@@ -218,6 +218,9 @@ export const selectCurrentGroup = createSelector(
         return group;
       }
       const selectedGroup = groups.find(g => g.id === groupId);
+      if (!selectedGroup) {
+        return group;
+      }
       group = { id: selectedGroup.id, name: selectedGroup.name };
       if (accounts) {
         const account = accounts.find(a => a.portfolio_group === groupId);
