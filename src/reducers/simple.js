@@ -1,4 +1,4 @@
-export default ({ baseType }) => {
+export default ({ baseType, userData }) => {
   const START = `${baseType}_START`
   const SUCCESS = `${baseType}_SUCCESS`
   const ERROR = `${baseType}_ERROR`
@@ -8,7 +8,7 @@ export default ({ baseType }) => {
     lastError: null,
     error: null,
     lastFetch: null,
-    loading: false
+    loading: false,
   };
 
   // here we're returning our customized reducer
@@ -18,6 +18,7 @@ export default ({ baseType }) => {
         loading: true
       })
     }
+
     if (action.type === SUCCESS) {
       // if successful we store our data
       // store the lastFetch timestamp
@@ -31,6 +32,7 @@ export default ({ baseType }) => {
         loading: false
       })
     }
+
     if (action.type === ERROR) {
       // we still want to leave existing
       // data intact as well as "last fetch"
@@ -41,6 +43,10 @@ export default ({ baseType }) => {
         error: action.error,
         loading: false
       })
+    }
+    // if we're logging out and we're storing user data, clear it all out
+    if (action.type === 'LOGOUT' && userData) {
+      return initialData;
     }
 
     if (!state) {

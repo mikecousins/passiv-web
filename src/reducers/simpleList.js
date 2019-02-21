@@ -1,4 +1,4 @@
-export default ({ baseType }) => {
+export default ({ baseType, userData }) => {
   const START = `${baseType}_START`
   const SUCCESS = `${baseType}_SUCCESS`
   const ERROR = `${baseType}_ERROR`
@@ -42,6 +42,10 @@ export default ({ baseType }) => {
           loading: false
         }
       })
+    }
+
+    if (action.type === 'LOGOUT' && userData) {
+      return initialData;
     }
 
     if (!state) {

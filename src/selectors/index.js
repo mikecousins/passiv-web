@@ -408,29 +408,6 @@ export const selectCurrentGroupExcludedAssets = createSelector(
   }
 );
 
-export const selectTotalAccountHoldings = createSelector(
-  selectAccounts,
-  selectPositions,
-  selectBalances,
-  (accounts, positions, balances) => {
-    let total = null;
-    if (accounts) {
-      accounts.forEach(account => {
-        if (balances && balances[account.id] && balances[account.id].data && balances[account.id].data.length > 0) {
-          const accountBalances = balances[account.id].data;
-          accountBalances.forEach(balance => total += parseFloat(balance.cash));
-        }
-        if (positions && positions[account.id] && positions[account.id].data && positions[account.id].data.length > 0) {
-          const accountPositions = positions[account.id].data;
-          accountPositions.forEach(position => total += position.units * parseFloat(position.price));
-        }
-      });
-    }
-
-    return total;
-  }
-)
-
 export const selectTotalGroupHoldings = createSelector(
   selectGroups,
   selectGroupInfo,

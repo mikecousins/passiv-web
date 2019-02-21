@@ -2,7 +2,9 @@ import { createSelector } from 'reselect';
 import differenceInHours from 'date-fns/difference_in_hours'
 import {
   initialLoad,
+  loadAuthorizations,
   loadAccounts,
+  loadCurrencyRates,
   loadGroups,
   loadBrokerages,
   loadSettings,
@@ -42,6 +44,7 @@ const isNeeded = (entity) => {
 export const loadData = createSelector(
   [
     state => state.auth.token,
+    state => state.authorizations,
     state => state.currencies,
     state => state.currencyRates,
     state => state.accounts,
@@ -50,7 +53,7 @@ export const loadData = createSelector(
     state => state.settings,
     state => state.subscriptions,
   ],
-  (token, currencies, currencyRates, accounts, groups, brokerages, settings, subscriptions) => {
+  (token, authorizations, currencies, currencyRates, accounts, groups, brokerages, settings, subscriptions) => {
     // ignore if we aren't logged in
     if (!token) {
       return;
@@ -61,8 +64,12 @@ export const loadData = createSelector(
       return initialLoad(token);
     }
 
+    if (isNeeded(authorizations)) {
+      return loadAuthorizations(token);
+    }
+
     if (isNeeded(currencyRates)) {
-      return initialLoad(token);
+      return loadCurrencyRates(token);
     }
 
     if (isNeeded(brokerages)) {
@@ -86,21 +93,6 @@ export const loadData = createSelector(
     }
   }
 );
-
-// export const loadAccountDetails = createSelector(
-//   [state => state.accounts,
-//   state => state.accountDetails,
-//   state => state.auth.token],
-//   (accounts, accountDetails, token) => {
-//     if (!!token && accounts && accounts.data && accounts.data.length > 0) {
-//       const allIds = Array.from(accounts.data, account => account.id);
-//       const neededIds = allIds.filter(id => accountDetails && isNeeded(accountDetails[id]));
-//       if (neededIds.length > 0) {
-//         return loadAccount({ ids: neededIds, token });
-//       }
-//     }
-//   }
-// );
 
 export const loadGroupDetails = createSelector(
   [state => state.groups,

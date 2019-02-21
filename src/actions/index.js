@@ -98,6 +98,15 @@ export const initialLoad = payload => {
   };
 };
 
+export const loadAuthorizations = payload => {
+  return dispatch => {
+    dispatch(fetchAuthorizationsStart());
+    getData(baseUrl + '/api/v1/authorizations', payload)
+      .then(response => dispatch(fetchAuthorizationsSuccess(response)))
+      .catch(error => dispatch(fetchAuthorizationsError(error)));
+  };
+};
+
 export const loadCurrencies = payload => {
   return dispatch => {
     dispatch(fetchCurrenciesStart);
@@ -107,11 +116,28 @@ export const loadCurrencies = payload => {
   };
 };
 
+export const loadCurrencyRates = payload => {
+  return dispatch => {
+    dispatch(fetchCurrencyRatesStart());
+    getData(baseUrl + '/api/v1/currencies/rates/', payload)
+      .then(response => dispatch(fetchCurrencyRatesSuccess(response)))
+      .catch(error => dispatch(fetchCurrencyRatesError(error)));
+  };
+};
+
 export const loadGroups = payload => {
   return dispatch => {
-    dispatch(fetchGroupsStart);
+    dispatch(fetchGroupsStart());
     getData(baseUrl + '/api/v1/portfolioGroups/', payload)
-      .then(response => dispatch(fetchGroupsSuccess(response)))
+      .then(response => {
+        response.forEach(group => {
+          dispatch(fetchGroupInfoStart(group.id));
+          getData(baseUrl + '/api/v1/portfolioGroups/' + group.id + '/info/', payload)
+            .then(r => dispatch(fetchGroupInfoSuccess(r, group.id)))
+            .catch(e => dispatch(fetchGroupInfoError(e, group.id)));
+        });
+        return dispatch(fetchGroupsSuccess(response));
+      })
       .catch(error => dispatch(fetchGroupsError(error)));
   };
 };
