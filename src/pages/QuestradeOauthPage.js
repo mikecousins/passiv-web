@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { postData } from '../api';
-import { baseUrl, initialLoad } from '../actions';
+import { initialLoad } from '../actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
@@ -21,7 +21,7 @@ class QuestradeOauthPage extends Component {
 
     if (!this.state.started) {
       this.setState({started: true, loading: true});
-      postData(`${baseUrl}/api/v1/brokerages/authComplete/`, {token: token})
+      postData('/api/v1/brokerages/authComplete/', { token: token })
         .then(response => {
           console.log('success', response);
           this.setState({loading: false, success: true});

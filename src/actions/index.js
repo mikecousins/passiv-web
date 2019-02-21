@@ -1,11 +1,5 @@
 import { getData, postData } from '../api';
 
-let baseUrlOverride = 'dev.getpassiv.com';
-if (process.env.REACT_APP_BASE_URL_OVERRIDE) {
-  baseUrlOverride = process.env.REACT_APP_BASE_URL_OVERRIDE;
-}
-export const baseUrl = 'https://' + baseUrlOverride;
-
 export const loginSucceeded = payload => ({
   type: 'LOGIN_SUCCEEDED',
   payload,
@@ -48,26 +42,26 @@ export const toggleDemoMode = () => {
 export const initialLoad = payload => {
   return dispatch => {
     dispatch(fetchAuthorizationsStart());
-    getData(baseUrl + '/api/v1/authorizations', payload)
+    getData('/api/v1/authorizations', payload)
       .then(response => dispatch(fetchAuthorizationsSuccess(response)))
       .catch(error => dispatch(fetchAuthorizationsError(error)));
 
     dispatch(fetchCurrenciesStart());
-    getData(baseUrl + '/api/v1/currencies/', payload)
+    getData('/api/v1/currencies/', payload)
       .then(response => dispatch(fetchCurrenciesSuccess(response)))
       .catch(error => dispatch(fetchCurrenciesError(error)));
 
     dispatch(fetchCurrencyRatesStart());
-    getData(baseUrl + '/api/v1/currencies/rates/', payload)
+    getData('/api/v1/currencies/rates/', payload)
       .then(response => dispatch(fetchCurrencyRatesSuccess(response)))
       .catch(error => dispatch(fetchCurrencyRatesError(error)));
 
     dispatch(fetchGroupsStart());
-    getData(baseUrl + '/api/v1/portfolioGroups/', payload)
+    getData('/api/v1/portfolioGroups/', payload)
       .then(response => {
         response.forEach(group => {
           dispatch(fetchGroupInfoStart(group.id));
-          getData(baseUrl + '/api/v1/portfolioGroups/' + group.id + '/info/', payload)
+          getData('/api/v1/portfolioGroups/' + group.id + '/info/', payload)
             .then(r => dispatch(fetchGroupInfoSuccess(r, group.id)))
             .catch(e => dispatch(fetchGroupInfoError(e, group.id)));
         });
@@ -76,22 +70,22 @@ export const initialLoad = payload => {
       .catch(error => dispatch(fetchGroupsError(error)));
 
     dispatch(fetchBrokeragesStart());
-      getData(baseUrl + '/api/v1/brokerages/', payload)
+      getData('/api/v1/brokerages/', payload)
         .then(response => dispatch(fetchBrokeragesSuccess(response)))
         .catch(error => dispatch(fetchBrokeragesError(error)));
 
     dispatch(fetchSettingsStart());
-      getData(baseUrl + '/api/v1/settings/', payload)
+      getData('/api/v1/settings/', payload)
         .then(response => dispatch(fetchSettingsSuccess(response)))
         .catch(error => dispatch(fetchSettingsError(error)));
 
     dispatch(fetchSubscriptionsStart());
-      getData(baseUrl + '/api/v1/subscriptions/', payload)
+      getData('/api/v1/subscriptions/', payload)
         .then(response => dispatch(fetchSubscriptionsSuccess(response)))
         .catch(error => dispatch(fetchSubscriptionsError(error)));
 
     dispatch(fetchAccountsStart());
-    getData(baseUrl + '/api/v1/accounts/', payload)
+    getData('/api/v1/accounts/', payload)
       .then(response => dispatch(fetchAccountsSuccess(response)))
       .catch(error => dispatch(fetchAccountsError(error)));
 
@@ -101,7 +95,7 @@ export const initialLoad = payload => {
 export const loadAuthorizations = payload => {
   return dispatch => {
     dispatch(fetchAuthorizationsStart());
-    getData(baseUrl + '/api/v1/authorizations', payload)
+    getData('/api/v1/authorizations', payload)
       .then(response => dispatch(fetchAuthorizationsSuccess(response)))
       .catch(error => dispatch(fetchAuthorizationsError(error)));
   };
@@ -110,7 +104,7 @@ export const loadAuthorizations = payload => {
 export const loadCurrencies = payload => {
   return dispatch => {
     dispatch(fetchCurrenciesStart);
-    getData(baseUrl + '/api/v1/currencies/', payload)
+    getData('/api/v1/currencies/', payload)
       .then(response => dispatch(fetchCurrenciesSuccess(response)))
       .catch(error => dispatch(fetchCurrenciesError(error)));
   };
@@ -119,7 +113,7 @@ export const loadCurrencies = payload => {
 export const loadCurrencyRates = payload => {
   return dispatch => {
     dispatch(fetchCurrencyRatesStart());
-    getData(baseUrl + '/api/v1/currencies/rates/', payload)
+    getData('/api/v1/currencies/rates/', payload)
       .then(response => dispatch(fetchCurrencyRatesSuccess(response)))
       .catch(error => dispatch(fetchCurrencyRatesError(error)));
   };
@@ -128,11 +122,11 @@ export const loadCurrencyRates = payload => {
 export const loadGroups = payload => {
   return dispatch => {
     dispatch(fetchGroupsStart());
-    getData(baseUrl + '/api/v1/portfolioGroups/', payload)
+    getData('/api/v1/portfolioGroups/', payload)
       .then(response => {
         response.forEach(group => {
           dispatch(fetchGroupInfoStart(group.id));
-          getData(baseUrl + '/api/v1/portfolioGroups/' + group.id + '/info/', payload)
+          getData('/api/v1/portfolioGroups/' + group.id + '/info/', payload)
             .then(r => dispatch(fetchGroupInfoSuccess(r, group.id)))
             .catch(e => dispatch(fetchGroupInfoError(e, group.id)));
         });
@@ -145,7 +139,7 @@ export const loadGroups = payload => {
 export const loadBrokerages = payload => {
   return dispatch => {
     dispatch(fetchBrokeragesStart());
-    getData(baseUrl + '/api/v1/brokerages/', payload)
+    getData('/api/v1/brokerages/', payload)
       .then(response => dispatch(fetchBrokeragesSuccess(response)))
       .catch(error => dispatch(fetchBrokeragesError(error)));
   };
@@ -154,7 +148,7 @@ export const loadBrokerages = payload => {
 export const loadSettings = payload => {
   return dispatch => {
     dispatch(fetchSettingsStart());
-    getData(baseUrl + '/api/v1/settings/', payload)
+    getData('/api/v1/settings/', payload)
       .then(response => dispatch(fetchSettingsSuccess(response)))
       .catch(error => dispatch(fetchSettingsError(error)));
   };
@@ -163,7 +157,7 @@ export const loadSettings = payload => {
 export const loadSubscriptions = payload => {
   return dispatch => {
     dispatch(fetchSubscriptionsStart());
-    getData(baseUrl + '/api/v1/subscriptions/', payload)
+    getData('/api/v1/subscriptions/', payload)
       .then(response => dispatch(fetchSubscriptionsSuccess(response)))
       .catch(error => dispatch(fetchSubscriptionsError(error)));
   };
@@ -172,7 +166,7 @@ export const loadSubscriptions = payload => {
 export const loadAccounts = payload => {
   return dispatch => {
     dispatch(fetchAccountsStart());
-    getData(baseUrl + '/api/v1/accounts/', payload)
+    getData('/api/v1/accounts/', payload)
       .then(response => dispatch(fetchAccountsSuccess(response)))
       .catch(error => dispatch(fetchAccountsError(error)));
   };
@@ -182,7 +176,7 @@ export const loadAccount = payload => {
   return dispatch => {
     payload.ids.forEach((id) => {
       dispatch(fetchAccountDetailsStart(id));
-      getData(baseUrl + `/api/v1/accounts/${id}/`, payload.token)
+      getData(`/api/v1/accounts/${id}/`, payload.token)
         .then(response => dispatch(fetchAccountDetailsSuccess(response, id)))
         .catch(error => dispatch(fetchAccountDetailsError(error, id)));
     });
@@ -193,7 +187,7 @@ export const loadGroupDetails = payload => {
   return dispatch => {
     payload.ids.forEach((id) => {
       dispatch(fetchGroupDetailsStart(id));
-      getData(baseUrl + `/api/v1/portfolioGroups/${id}/`, payload.token)
+      getData(`/api/v1/portfolioGroups/${id}/`, payload.token)
         .then(response => dispatch(fetchGroupDetailsSuccess(response, id)))
         .catch(error => dispatch(fetchGroupDetailsError(error, id)));
     });
@@ -204,7 +198,7 @@ export const loadGroup = payload => {
   return dispatch => {
     payload.ids.forEach((id) => {
       dispatch(fetchGroupInfoStart(id));
-      getData(`${baseUrl}/api/v1/portfolioGroups/${id}/info/`, payload.token)
+      getData(`/api/v1/portfolioGroups/${id}/info/`, payload.token)
         .then(response => dispatch(fetchGroupInfoSuccess(response, id)))
         .catch(error => dispatch(fetchGroupInfoError(error, id)));
     });
@@ -393,7 +387,7 @@ export const importTargetError = payload => ({
 export const importTarget = groupId => {
   return dispatch => {
     dispatch(importTargetStart);
-    postData(baseUrl + '/api/v1/portfolioGroups/' + groupId + '/import/')
+    postData('/api/v1/portfolioGroups/' + groupId + '/import/')
       .then(response => dispatch(importTargetSuccess(response)))
       .catch(error => dispatch(importTargetError(error)));
   };

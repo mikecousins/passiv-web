@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { selectBrokerages } from '../selectors';
 import { postData } from '../api';
-import { baseUrl } from '../actions';
 import { Button } from '../styled/Button';
 import { DisabledButton } from '../styled/DisabledButton';
 
@@ -18,7 +17,7 @@ class AuthorizationPicker extends Component {
 
   startAuthorization() {
     if (this.state.updateBrokerageAuthorizationId === null) {
-      postData(`${baseUrl}/api/v1/brokerages/${this.state.brokerage}/authorize/`, {type: this.state.type})
+      postData(`/api/v1/brokerages/${this.state.brokerage}/authorize/`, {type: this.state.type})
         .then(response => {
           console.log('success', response);
           window.location = response.url;
@@ -26,7 +25,7 @@ class AuthorizationPicker extends Component {
         .catch(error => {console.log('error', error)});
     }
     else {
-      postData(`${baseUrl}/api/v1/brokerages/${this.state.brokerage}/authorize/${this.state.updateBrokerageAuthorizationId}`, {type: this.state.type})
+      postData(`/api/v1/brokerages/${this.state.brokerage}/authorize/${this.state.updateBrokerageAuthorizationId}`, {type: this.state.type})
         .then(response => {
           console.log('success', response);
           window.location = response.url;

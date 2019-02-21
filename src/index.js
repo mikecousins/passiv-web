@@ -6,8 +6,6 @@ import reduxThunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
-import decode from 'jwt-decode';
-import isFuture from 'date-fns/is_future';
 import ReactGA from 'react-ga';
 import * as Sentry from '@sentry/browser';
 import { persistStore, persistReducer } from 'redux-persist';
@@ -20,6 +18,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import ErrorBoundary from './components/ErrorBoundary';
 import { updateServiceWorker } from './actions';
+import apiMiddleware from './middleware/api';
 
 Sentry.init({
   dsn: "https://0d88597b9cb6439fa0050392b907ec17@sentry.io/1358976"
@@ -27,21 +26,7 @@ Sentry.init({
 
 const history = createBrowserHistory();
 
-let token = null;
-const localToken = localStorage.getItem('jwt');
-if (localToken) {
-  const decodedToken = decode(localToken);
-  const expiryDate = new Date(decodedToken.exp * 1000);
-  if (isFuture(expiryDate)) {
-    token = localToken;
-  }
-}
-
-const defaultState = {
-  auth: {
-    token,
-  }
-};
+const defaultState = {};
 
 // initialize GA and fire first pageview
 ReactGA.initialize([
@@ -76,6 +61,7 @@ const store = createStore(
     applyMiddleware(
       routerMiddleware(history),
       reduxThunk,
+      apiMiddleware,
     ),
   )
 );

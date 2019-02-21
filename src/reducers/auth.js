@@ -1,6 +1,5 @@
 const auth = (state = {}, action) => {
   if (action.type === 'LOGIN_SUCCEEDED') {
-    localStorage.setItem('jwt', action.payload.token);
     return {
       token: action.payload.token,
       error: null,
@@ -11,7 +10,6 @@ const auth = (state = {}, action) => {
       error: action.payload,
     };
   } else if (action.type === 'LOGOUT') {
-    localStorage.removeItem('jwt');
     return {
       token: null,
       error: null,

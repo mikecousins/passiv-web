@@ -2,6 +2,8 @@ import { createSelector } from 'reselect';
 
 export const selectLoggedIn = state => !!(state.auth.token);
 
+export const selectToken = state => state.auth.token;
+
 export const selectCurrenciesRaw = state => state.currencies;
 
 export const selectBrokeragesRaw = state => state.brokerages;
@@ -163,21 +165,6 @@ export const selectPasswordResetToken = createSelector(
   }
 );
 
-export const selectCurrentAccountId = createSelector(
-  selectCurrentGroupId,
-  selectAccounts,
-  (groupId, accounts) => {
-    if (!accounts) {
-      return null;
-    }
-    const account = accounts.find(a => a.portfolio_group === groupId);
-    if (account) {
-      return account.id;
-    }
-    return null;
-  }
-)
-
 export const selectDashboardGroups = createSelector(
   selectGroups,
   selectGroupInfo,
@@ -243,42 +230,6 @@ export const selectCurrentGroup = createSelector(
       }
     }
     return group;
-  }
-);
-
-export const selectCurrentAccountPositions = createSelector(
-  selectCurrentAccountId,
-  selectPositions,
-  (accountId, positions) => {
-    if (!accountId || !positions || !positions[accountId] || !positions[accountId].data) {
-      return null;
-    }
-
-    return positions[accountId].data;
-  }
-);
-
-export const selectCurrentAccountBalancedEquity = createSelector(
-  selectCurrentAccountPositions,
-  (positions) => {
-    if (!positions) {
-      return null;
-    }
-    let total = 0;
-    positions.forEach(position => total += position.units * parseFloat(position.price));
-    return total;
-  }
-);
-
-export const selectCurrentAccountCash = createSelector(
-  selectCurrentAccountId,
-  selectBalances,
-  (accountId, balances) => {
-    let cash = null;
-    if (balances && balances[accountId] && balances[accountId].data) {
-      balances[accountId].data.forEach(balance => cash += parseFloat(balance.cash));
-    }
-    return cash;
   }
 );
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { baseUrl, loadGroup } from '../actions';
+import { loadGroup } from '../actions';
 import { getData, postData } from '../api';
 import { selectSymbols } from '../selectors';
 import { Button } from '../styled/Button';
@@ -47,7 +47,7 @@ export class RebalanceWidget extends Component {
 
   validateOrders = () => {
     this.setState({ validatingOrders: true });
-    getData(`${baseUrl}/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/impact`)
+    getData(`/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/impact`)
       .then(response => {
         this.setState({ validatingOrders: false, orderSummary: response, error: null });
       })
@@ -58,7 +58,7 @@ export class RebalanceWidget extends Component {
 
   confirmOrders = () => {
     this.setState({ placingOrders: true });
-    postData(`${baseUrl}/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/placeOrders`)
+    postData(`/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/placeOrders`)
       .then(response => {
         this.setState({ placingOrders: false, orderResults: response, error: null });
 

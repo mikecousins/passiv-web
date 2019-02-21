@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Formik, FieldArray, Field, ErrorMessage } from 'formik';
 import { toast } from "react-toastify";
-import { baseUrl, importTarget, loadGroup } from '../actions';
+import { importTarget, loadGroup } from '../actions';
 import { selectCurrentGroupId, selectCurrentGroupTarget } from '../selectors';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
@@ -82,7 +82,7 @@ export class AccountTargets extends React.Component {
             // set us back to non-editing state
             this.setState({edit: false});
             const newTargets = values.targets.filter(t => !t.deleted);
-            postData(`${baseUrl}/api/v1/portfolioGroups/${groupId}/targets/`, newTargets)
+            postData(`/api/v1/portfolioGroups/${groupId}/targets/`, newTargets)
               .then((responses) => {
                 // once we're done refresh the groups
                 this.props.refreshGroup({ids: [this.props.groupId]});

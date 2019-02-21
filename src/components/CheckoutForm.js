@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from '../styled/Button';
 // import { Elements } from 'react-stripe-elements';
 import {CardElement, injectStripe} from 'react-stripe-elements';
-import { baseUrl, loadSubscriptions } from '../actions';
+import { loadSubscriptions } from '../actions';
 import { postData } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -30,7 +30,7 @@ export class CheckoutForm extends React.Component {
     this.setState({loading: true, error: null});
     this.props.startCreateSubscription();
     let {token} = await this.props.stripe.createToken({name: "Name"});
-    postData(`${baseUrl}/api/v1/subscriptions`, {token: token, period: 'annual'})
+    postData(`/api/v1/subscriptions`, {token: token, period: 'annual'})
       .then(response => {
         console.log('success', response);
         this.setState({loading: false});

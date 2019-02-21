@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { baseUrl, loginSucceeded } from '../actions';
+import { loginSucceeded } from '../actions';
 import { postData } from '../api';
 import { selectLoggedIn } from '../selectors';
 import LoginLinks from '../components/LoginLinks';
@@ -36,8 +36,7 @@ const LoginPage = (props) => {
               .required('Required')
           })}
           onSubmit={(values, actions) => {
-            postData(
-              baseUrl + '/api/v1/auth/login/',
+            postData('/api/v1/auth/login/',
               { email: values.email, password: values.password }
             )
               .then(response => {

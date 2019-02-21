@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from '../styled/Button';
-// import { Elements } from 'react-stripe-elements';
-import {CardElement, injectStripe} from 'react-stripe-elements';
-import { baseUrl, loadSubscriptions } from '../actions';
+import { CardElement, injectStripe } from 'react-stripe-elements';
+import { loadSubscriptions } from '../actions';
 import { patchData } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -24,7 +23,7 @@ export class UpdatePaymentCheckoutForm extends React.Component {
     this.setState({loading: true, error: null});
     this.props.startUpdatePayment();
     let {token} = await this.props.stripe.createToken({name: "Name"});
-    patchData(`${baseUrl}/api/v1/subscriptions`, {token: token})
+    patchData('/api/v1/subscriptions', {token: token})
       .then(response => {
         console.log('success', response);
         this.setState({loading: false});

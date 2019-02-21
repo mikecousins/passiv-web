@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
-import { baseUrl, loadGroup } from '../actions';
+import { loadGroup } from '../actions';
 import { selectCurrentGroupId, selectCurrentGroupTarget, selectCurrentGroupExcludedAssets, selectCurrentGroupSymbols, selectCurrentGroupQuotableSymbols } from '../selectors';
 import { postData, deleteData } from '../api';
 
@@ -29,7 +29,7 @@ class ExcludedAssetToggle extends Component {
     let newToggleState = !!(this.state.toggle ^ true);
     this.setState({loading: true});
     if (newToggleState === true) {
-      postData(`${baseUrl}/api/v1/portfolioGroups/${this.props.groupId}/excludedassets/`, {symbol: this.props.symbolId})
+      postData(`/api/v1/portfolioGroups/${this.props.groupId}/excludedassets/`, {symbol: this.props.symbolId})
         .then(response => {
           this.setState({loading: false, toggle: newToggleState});
           this.props.refreshGroup({ids: [this.props.groupId]});
@@ -39,7 +39,7 @@ class ExcludedAssetToggle extends Component {
         })
     }
     else {
-      deleteData(`${baseUrl}/api/v1/portfolioGroups/${this.props.groupId}/excludedassets/${this.props.symbolId}`)
+      deleteData(`/api/v1/portfolioGroups/${this.props.groupId}/excludedassets/${this.props.symbolId}`)
         .then(response => {
           this.setState({loading: false, toggle: newToggleState});
           this.props.refreshGroup({ids: [this.props.groupId]});

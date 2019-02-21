@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings } from '../selectors';
-import { baseUrl, loadSettings } from '../actions';
+import { loadSettings } from '../actions';
 import { putData } from '../api';
 
 import styled from '@emotion/styled';
@@ -39,13 +39,11 @@ export class CredentialsManager extends React.Component {
     if (this.state.name !== this.props.settings.name) {
       let settings = Object.assign({}, this.props.settings);
       settings.name = this.state.name;
-      putData(`${baseUrl}/api/v1/settings/`, settings)
+      putData('/api/v1/settings/', settings)
         .then(response => {
-          console.log('success', response);
           this.props.refreshSettings();
         })
         .catch(error => {
-          console.log('error', error);
           this.props.refreshSettings();
         });
     }

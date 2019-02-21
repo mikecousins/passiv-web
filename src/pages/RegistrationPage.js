@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, ErrorMessage } from 'formik';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { baseUrl, loginSucceeded, registerStartedAsync, registerFailed } from '../actions';
+import { loginSucceeded, registerStartedAsync, registerFailed } from '../actions';
 import { postData } from '../api';
 import * as Yup from 'yup';
 import { toast } from "react-toastify";
@@ -41,8 +41,7 @@ const RegistrationPage = (props) => {
         })}
 
         onSubmit={(values, actions) => {
-          postData(
-            baseUrl + '/api/v1/auth/register/',
+          postData('/api/v1/auth/register/',
             { name: values.name, email: values.email, password: values.password }
           )
             .then(response => {

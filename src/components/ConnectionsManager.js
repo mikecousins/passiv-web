@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectBrokerages, selectAuthorizations, selectAccounts } from '../selectors';
-import { baseUrl, initialLoad, loadBrokerages } from '../actions';
+import { initialLoad, loadBrokerages } from '../actions';
 import { deleteData } from '../api';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import { Button } from '../styled/Button';
@@ -35,7 +35,7 @@ export class ConnectionsManager extends React.Component {
 
   confirmUpdateConnection() {
     alert('connection updated');
-    // deleteData(`${baseUrl}/api/v1/authorizations/${this.state.targetConnectionId}`)
+    // deleteData(`/api/v1/authorizations/${this.state.targetConnectionId}`)
     //   .then(response => {
     //     console.log('success', response);
     //     this.setState({deletingConnection: false, targetConnectionId: null});
@@ -59,7 +59,7 @@ export class ConnectionsManager extends React.Component {
   }
 
   confirmDeleteConnection() {
-    deleteData(`${baseUrl}/api/v1/authorizations/${this.state.targetConnectionId}`)
+    deleteData(`/api/v1/authorizations/${this.state.targetConnectionId}`)
       .then(response => {
         console.log('success', response);
         this.setState({deletingConnection: false, targetConnectionId: null});

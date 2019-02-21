@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faPen } from '@fortawesome/free-solid-svg-icons';
-import { baseUrl, loadGroups } from '../actions';
+import { loadGroups } from '../actions';
 import { patchData } from '../api';
 import { selectCurrentGroup } from '../selectors';
 import styled from '@emotion/styled';
@@ -71,7 +71,7 @@ class AccountMetadata extends Component {
       this.setState({loading: true});
       let group = Object.assign({}, this.props.group);
       group.name = this.state.name;
-      patchData(`${baseUrl}/api/v1/portfolioGroups/${this.props.group.id}/`, group)
+      patchData(`/api/v1/portfolioGroups/${this.props.group.id}/`, group)
         .then(response => {
           console.log('success', response);
           this.setState({loading: false});

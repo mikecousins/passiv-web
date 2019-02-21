@@ -5,7 +5,7 @@ import { Button } from '../styled/Button';
 import { Elements } from 'react-stripe-elements';
 import InjectedCheckoutForm from './CheckoutForm';
 import InjectedUpdatePaymentForm from './UpdatePaymentCheckoutForm';
-import { baseUrl, loadSubscriptions } from '../actions';
+import { loadSubscriptions } from '../actions';
 import { deleteData } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -77,7 +77,7 @@ export class SubscriptionManager extends React.Component {
 
   cancelSubscription() {
     this.setState({cancelingSubscription: true});
-    deleteData(`${baseUrl}/api/v1/subscriptions`)
+    deleteData(`/api/v1/subscriptions`)
       .then(response => {
         console.log('success', response);
         this.props.reloadSubscriptions();

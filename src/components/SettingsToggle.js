@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { selectCurrentGroupSettings, selectCurrentGroupId } from '../selectors';
-import { baseUrl, loadGroup } from '../actions';
+import { loadGroup } from '../actions';
 import { putData } from '../api';
 
 class SettingsToggle extends Component {
@@ -17,7 +17,7 @@ class SettingsToggle extends Component {
     this.setState({loading: true});
     let newSettings = {...this.props.settings};
     newSettings[this.props.settingsId] = newToggleState;
-    putData(`${baseUrl}/api/v1/portfolioGroups/${this.props.groupId}/settings/`, newSettings)
+    putData(`/api/v1/portfolioGroups/${this.props.groupId}/settings/`, newSettings)
       .then(response => {
         this.setState({loading: false});
         this.props.refreshGroup({ids: [this.props.groupId]});

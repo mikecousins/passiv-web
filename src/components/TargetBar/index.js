@@ -1,7 +1,6 @@
 import React from 'react';
 import { faEyeSlash, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { baseUrl } from '../../actions';
 import { postData } from '../../api';
 import SymbolSelector from './SymbolSelector';
 import Number from '../Number';
@@ -9,7 +8,7 @@ import { BarsContainer,InputContainer,Symbol,TargetRow,Actual,Target,Bar,BarTarg
 
 export class TargetBar extends React.Component {
   loadOptions = (substring, callback) => {
-    postData(`${baseUrl}/api/v1/symbols`, { substring })
+    postData(`/api/v1/symbols`, { substring })
       .then(response => {
         console.log('success', response);
         callback(response);
