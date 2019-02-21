@@ -49,7 +49,7 @@ export class RebalanceWidget extends Component {
     this.setState({ validatingOrders: true });
     getData(`/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/impact`)
       .then(response => {
-        this.setState({ validatingOrders: false, orderSummary: response, error: null });
+        this.setState({ validatingOrders: false, orderSummary: response.data, error: null });
       })
       .catch(error => {
         this.setState({ validatingOrders: false, orderSummary: null, error: error });
@@ -60,7 +60,7 @@ export class RebalanceWidget extends Component {
     this.setState({ placingOrders: true });
     postData(`/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/placeOrders`)
       .then(response => {
-        this.setState({ placingOrders: false, orderResults: response, error: null });
+        this.setState({ placingOrders: false, orderResults: response.data, error: null });
 
         // reload group data following a successful order
         // this.props.reloadGroup({ ids: [this.props.groupId] });
