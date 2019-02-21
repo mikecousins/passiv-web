@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Formik } from 'formik';
-import { postDataNoAuth } from '../api';
+import { postData } from '../api';
 import { selectLoggedIn, selectPasswordResetToken } from '../selectors';
 import { Link } from 'react-router-dom';
 import { Form, Input, Label } from '../styled/Form';
@@ -45,7 +45,7 @@ class ResetPasswordConfirmPage extends Component {
                 return errors;
               }}
               onSubmit={(values, actions) => {
-                postDataNoAuth('/api/v1/auth/resetPasswordConfirm/', { password: values.password, token: this.props.token })
+                postData('/api/v1/auth/resetPasswordConfirm/', { password: values.password, token: this.props.token })
                   .then(response => {
                     this.setState({submitted: true})
                   })
