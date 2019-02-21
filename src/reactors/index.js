@@ -11,6 +11,7 @@ import {
   loadSubscriptions,
   loadGroup,
 } from '../actions';
+import { selectLoggedIn } from '../selectors';
 
 const isNeeded = (entity) => {
   // if we don't have the entity at all we need it
@@ -43,7 +44,7 @@ const isNeeded = (entity) => {
 
 export const loadData = createSelector(
   [
-    state => state.auth.token,
+    selectLoggedIn,
     state => state.authorizations,
     state => state.currencies,
     state => state.currencyRates,
@@ -53,43 +54,43 @@ export const loadData = createSelector(
     state => state.settings,
     state => state.subscriptions,
   ],
-  (token, authorizations, currencies, currencyRates, accounts, groups, brokerages, settings, subscriptions) => {
+  (loggedIn, authorizations, currencies, currencyRates, accounts, groups, brokerages, settings, subscriptions) => {
     // ignore if we aren't logged in
-    if (!token) {
+    if (!loggedIn) {
       return;
     }
 
     // if we need currencies we need everything, perform a full load
     if (isNeeded(currencies)) {
-      return initialLoad(token);
+      return initialLoad();
     }
 
     if (isNeeded(authorizations)) {
-      return loadAuthorizations(token);
+      return loadAuthorizations();
     }
 
     if (isNeeded(currencyRates)) {
-      return loadCurrencyRates(token);
+      return loadCurrencyRates();
     }
 
     if (isNeeded(brokerages)) {
-      return loadBrokerages(token);
+      return loadBrokerages();
     }
 
     if (isNeeded(settings)) {
-      return loadSettings(token);
+      return loadSettings();
     }
 
     if (isNeeded(groups)) {
-      return loadGroups(token);
+      return loadGroups();
     }
 
     if (isNeeded(accounts)) {
-      return loadAccounts(token);
+      return loadAccounts();
     }
 
     if (isNeeded(subscriptions)) {
-      return loadSubscriptions(token);
+      return loadSubscriptions();
     }
   }
 );
@@ -97,13 +98,13 @@ export const loadData = createSelector(
 export const loadGroupDetails = createSelector(
   [state => state.groups,
   state => state.groupInfo,
-  state => state.auth.token],
-  (groups, groupInfo, token) => {
-    if (!!token && groups && groups.data && groups.data.length > 0) {
+  selectLoggedIn],
+  (groups, groupInfo, loggedIn) => {
+    if (loggedIn && groups && groups.data && groups.data.length > 0) {
       const allIds = Array.from(groups.data, group => group.id);
       const neededIds = allIds.filter(id => groupInfo && isNeeded(groupInfo[id]));
       if (neededIds.length > 0) {
-        return loadGroup({ ids: neededIds, token });
+        return loadGroup({ ids: neededIds });
       }
     }
   }

@@ -39,29 +39,29 @@ export const toggleDemoMode = () => {
   }
 };
 
-export const initialLoad = payload => {
+export const initialLoad = () => {
   return dispatch => {
     dispatch(fetchAuthorizationsStart());
-    getData('/api/v1/authorizations', payload)
+    getData('/api/v1/authorizations')
       .then(response => dispatch(fetchAuthorizationsSuccess(response)))
       .catch(error => dispatch(fetchAuthorizationsError(error)));
 
     dispatch(fetchCurrenciesStart());
-    getData('/api/v1/currencies/', payload)
+    getData('/api/v1/currencies/')
       .then(response => dispatch(fetchCurrenciesSuccess(response)))
       .catch(error => dispatch(fetchCurrenciesError(error)));
 
     dispatch(fetchCurrencyRatesStart());
-    getData('/api/v1/currencies/rates/', payload)
+    getData('/api/v1/currencies/rates/')
       .then(response => dispatch(fetchCurrencyRatesSuccess(response)))
       .catch(error => dispatch(fetchCurrencyRatesError(error)));
 
     dispatch(fetchGroupsStart());
-    getData('/api/v1/portfolioGroups/', payload)
+    getData('/api/v1/portfolioGroups/')
       .then(response => {
         response.forEach(group => {
           dispatch(fetchGroupInfoStart(group.id));
-          getData('/api/v1/portfolioGroups/' + group.id + '/info/', payload)
+          getData('/api/v1/portfolioGroups/' + group.id + '/info/')
             .then(r => dispatch(fetchGroupInfoSuccess(r, group.id)))
             .catch(e => dispatch(fetchGroupInfoError(e, group.id)));
         });
@@ -70,63 +70,63 @@ export const initialLoad = payload => {
       .catch(error => dispatch(fetchGroupsError(error)));
 
     dispatch(fetchBrokeragesStart());
-      getData('/api/v1/brokerages/', payload)
+      getData('/api/v1/brokerages/')
         .then(response => dispatch(fetchBrokeragesSuccess(response)))
         .catch(error => dispatch(fetchBrokeragesError(error)));
 
     dispatch(fetchSettingsStart());
-      getData('/api/v1/settings/', payload)
+      getData('/api/v1/settings/')
         .then(response => dispatch(fetchSettingsSuccess(response)))
         .catch(error => dispatch(fetchSettingsError(error)));
 
     dispatch(fetchSubscriptionsStart());
-      getData('/api/v1/subscriptions/', payload)
+      getData('/api/v1/subscriptions/')
         .then(response => dispatch(fetchSubscriptionsSuccess(response)))
         .catch(error => dispatch(fetchSubscriptionsError(error)));
 
     dispatch(fetchAccountsStart());
-    getData('/api/v1/accounts/', payload)
+    getData('/api/v1/accounts/')
       .then(response => dispatch(fetchAccountsSuccess(response)))
       .catch(error => dispatch(fetchAccountsError(error)));
 
   };
 };
 
-export const loadAuthorizations = payload => {
+export const loadAuthorizations = () => {
   return dispatch => {
     dispatch(fetchAuthorizationsStart());
-    getData('/api/v1/authorizations', payload)
+    getData('/api/v1/authorizations')
       .then(response => dispatch(fetchAuthorizationsSuccess(response)))
       .catch(error => dispatch(fetchAuthorizationsError(error)));
   };
 };
 
-export const loadCurrencies = payload => {
+export const loadCurrencies = () => {
   return dispatch => {
     dispatch(fetchCurrenciesStart);
-    getData('/api/v1/currencies/', payload)
+    getData('/api/v1/currencies/')
       .then(response => dispatch(fetchCurrenciesSuccess(response)))
       .catch(error => dispatch(fetchCurrenciesError(error)));
   };
 };
 
-export const loadCurrencyRates = payload => {
+export const loadCurrencyRates = () => {
   return dispatch => {
     dispatch(fetchCurrencyRatesStart());
-    getData('/api/v1/currencies/rates/', payload)
+    getData('/api/v1/currencies/rates/')
       .then(response => dispatch(fetchCurrencyRatesSuccess(response)))
       .catch(error => dispatch(fetchCurrencyRatesError(error)));
   };
 };
 
-export const loadGroups = payload => {
+export const loadGroups = () => {
   return dispatch => {
     dispatch(fetchGroupsStart());
-    getData('/api/v1/portfolioGroups/', payload)
+    getData('/api/v1/portfolioGroups/')
       .then(response => {
         response.forEach(group => {
           dispatch(fetchGroupInfoStart(group.id));
-          getData('/api/v1/portfolioGroups/' + group.id + '/info/', payload)
+          getData('/api/v1/portfolioGroups/' + group.id + '/info/')
             .then(r => dispatch(fetchGroupInfoSuccess(r, group.id)))
             .catch(e => dispatch(fetchGroupInfoError(e, group.id)));
         });
@@ -136,37 +136,37 @@ export const loadGroups = payload => {
   };
 };
 
-export const loadBrokerages = payload => {
+export const loadBrokerages = () => {
   return dispatch => {
     dispatch(fetchBrokeragesStart());
-    getData('/api/v1/brokerages/', payload)
+    getData('/api/v1/brokerages/')
       .then(response => dispatch(fetchBrokeragesSuccess(response)))
       .catch(error => dispatch(fetchBrokeragesError(error)));
   };
 };
 
-export const loadSettings = payload => {
+export const loadSettings = () => {
   return dispatch => {
     dispatch(fetchSettingsStart());
-    getData('/api/v1/settings/', payload)
+    getData('/api/v1/settings/')
       .then(response => dispatch(fetchSettingsSuccess(response)))
       .catch(error => dispatch(fetchSettingsError(error)));
   };
 };
 
-export const loadSubscriptions = payload => {
+export const loadSubscriptions = () => {
   return dispatch => {
     dispatch(fetchSubscriptionsStart());
-    getData('/api/v1/subscriptions/', payload)
+    getData('/api/v1/subscriptions/')
       .then(response => dispatch(fetchSubscriptionsSuccess(response)))
       .catch(error => dispatch(fetchSubscriptionsError(error)));
   };
 };
 
-export const loadAccounts = payload => {
+export const loadAccounts = () => {
   return dispatch => {
     dispatch(fetchAccountsStart());
-    getData('/api/v1/accounts/', payload)
+    getData('/api/v1/accounts/')
       .then(response => dispatch(fetchAccountsSuccess(response)))
       .catch(error => dispatch(fetchAccountsError(error)));
   };
@@ -176,7 +176,7 @@ export const loadAccount = payload => {
   return dispatch => {
     payload.ids.forEach((id) => {
       dispatch(fetchAccountDetailsStart(id));
-      getData(`/api/v1/accounts/${id}/`, payload.token)
+      getData(`/api/v1/accounts/${id}/`)
         .then(response => dispatch(fetchAccountDetailsSuccess(response, id)))
         .catch(error => dispatch(fetchAccountDetailsError(error, id)));
     });
@@ -187,7 +187,7 @@ export const loadGroupDetails = payload => {
   return dispatch => {
     payload.ids.forEach((id) => {
       dispatch(fetchGroupDetailsStart(id));
-      getData(`/api/v1/portfolioGroups/${id}/`, payload.token)
+      getData(`/api/v1/portfolioGroups/${id}/`)
         .then(response => dispatch(fetchGroupDetailsSuccess(response, id)))
         .catch(error => dispatch(fetchGroupDetailsError(error, id)));
     });
@@ -198,7 +198,7 @@ export const loadGroup = payload => {
   return dispatch => {
     payload.ids.forEach((id) => {
       dispatch(fetchGroupInfoStart(id));
-      getData(`/api/v1/portfolioGroups/${id}/info/`, payload.token)
+      getData(`/api/v1/portfolioGroups/${id}/info/`)
         .then(response => dispatch(fetchGroupInfoSuccess(response, id)))
         .catch(error => dispatch(fetchGroupInfoError(error, id)));
     });
