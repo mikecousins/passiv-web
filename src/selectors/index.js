@@ -86,7 +86,7 @@ export const selectGroups = createSelector(
       return rawGroups.data.map((group) => {
         const groupWithRebalance = group;
         if (groupInfo[group.id] && groupInfo[group.id].data) {
-          groupWithRebalance.rebalance = !!(groupInfo[group.id].data.calculated_trades);
+          groupWithRebalance.rebalance = !!(groupInfo[group.id].data.calculated_trades && groupInfo[group.id].data.calculated_trades.trades.length > 0);
         }
         return groupWithRebalance;
       });
@@ -191,7 +191,7 @@ export const selectDashboardGroups = createSelector(
         });
         groupInfo[group.id].data.positions.forEach(position => group.totalHoldings += position.units * position.price);
         group.accuracy = groupInfo[group.id].data.accuracy;
-        group.rebalance = !!groupInfo[group.id].data.calculated_trades;
+        group.rebalance = !!(groupInfo[group.id].data.calculated_trades && groupInfo[group.id].data.calculated_trades.trades.length > 0);
         group.trades = groupInfo[group.id].data.calculated_trades;
       }
       if (group.totalCash && group.totalHoldings) {
