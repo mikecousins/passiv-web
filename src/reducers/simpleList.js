@@ -22,7 +22,7 @@ export default ({ baseType, userData }) => {
       // and set loading to false
       return Object.assign({}, state, {
         [action.id]: {
-          data: action.payload,
+          data: action.payload.data,
           lastFetch: Date.now(),
           error: null,
           lastError: null,

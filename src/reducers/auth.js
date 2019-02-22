@@ -1,7 +1,7 @@
 const auth = (state = {}, action) => {
   if (action.type === 'LOGIN_SUCCEEDED') {
     return {
-      token: action.payload.token,
+      token: action.payload.data.token,
       error: null,
     };
   } else if (action.type === 'LOGIN_FAILED') {

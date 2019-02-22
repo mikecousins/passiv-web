@@ -59,7 +59,7 @@ export const initialLoad = () => {
     dispatch(fetchGroupsStart());
     getData('/api/v1/portfolioGroups/')
       .then(response => {
-        response.forEach(group => {
+        response.data.forEach(group => {
           dispatch(fetchGroupInfoStart(group.id));
           getData('/api/v1/portfolioGroups/' + group.id + '/info/')
             .then(r => dispatch(fetchGroupInfoSuccess(r, group.id)))

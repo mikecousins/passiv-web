@@ -25,7 +25,7 @@ export default ({ baseType, userData }) => {
       // clear out any errors
       // and set loading to false
       return Object.assign({}, state, {
-        data: action.payload,
+        data: action.payload.data,
         lastFetch: Date.now(),
         error: null,
         lastError: null,
