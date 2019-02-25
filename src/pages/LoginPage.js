@@ -44,7 +44,7 @@ const LoginPage = (props) => {
                 props.loginSucceeded(response);
               })
               .catch(error => {
-                actions.setErrors({ password: error.non_field_errors || 'Failed to login.' });
+                actions.setErrors({ password: error.response.data.non_field_errors || 'Failed to login.' });
                 actions.setSubmitting(false);
               });
           }}

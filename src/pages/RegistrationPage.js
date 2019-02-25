@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { loginSucceeded, registerStartedAsync, registerFailed } from '../actions';
 import { postData } from '../api';
 import * as Yup from 'yup';
-import { toast } from "react-toastify";
 import { selectLoggedIn } from '../selectors';
 import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
@@ -50,11 +49,14 @@ const RegistrationPage = (props) => {
               props.loginSucceeded(response)
             })
             .catch(error => {
-              toast.error(`Failed to create account: Please fix the errors and try again.`);
-              actions.setErrors({
-                password: error.errors.password.join(' '),
-                email: error.errors.email.join(' '),
-              });
+              let errors = {};
+              if (error.response.data.errors.password) {
+                errors.password = error.response.data.errors.password.join(' ');
+              }
+              if (error.response.data.errors.email) {
+                errors.email = error.response.data.errors.email.join(' ');
+              }
+              actions.setErrors(errors);
               actions.setSubmitting(false);
               props.registerFailed(error);
             });
