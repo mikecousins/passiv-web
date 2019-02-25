@@ -19,18 +19,18 @@ class AuthorizationPicker extends Component {
     if (this.state.updateBrokerageAuthorizationId === null) {
       postData(`/api/v1/brokerages/${this.state.brokerage}/authorize/`, {type: this.state.type})
         .then(response => {
-          console.log('success', response);
-          window.location = response.url;
+          console.log('success', response.data);
+          window.location = response.data.url;
         })
-        .catch(error => {console.log('error', error)});
+        .catch(error => {console.log('error', error.response.data)});
     }
     else {
       postData(`/api/v1/brokerages/${this.state.brokerage}/authorize/${this.state.updateBrokerageAuthorizationId}`, {type: this.state.type})
         .then(response => {
-          console.log('success', response);
-          window.location = response.url;
+          console.log('success', response.data);
+          window.location = response.data.url;
         })
-        .catch(error => {console.log('error', error)});
+        .catch(error => {console.log('error', error.response.data)});
     }
 
   }
