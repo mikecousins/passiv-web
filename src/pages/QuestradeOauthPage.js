@@ -23,13 +23,13 @@ class QuestradeOauthPage extends Component {
       this.setState({started: true, loading: true});
       postData('/api/v1/brokerages/authComplete/', { token: token })
         .then(response => {
-          console.log('success', response);
+          console.log('success', response.data);
           this.setState({loading: false, success: true});
           this.props.reloadAllState();
         })
         .catch(error => {
-          this.setState({loading: false, error: error});
-          console.log('error', error);
+          this.setState({loading: false, error: error.response.data});
+          console.log('error', error.response.data);
         });
     }
   }

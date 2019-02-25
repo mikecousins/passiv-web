@@ -50,7 +50,7 @@ class ResetPasswordPage extends Component {
                     .then(response => {
                       this.setState({submitted: true})
                     })
-                    .catch(error => {console.log('error', error)});
+                    .catch(error => {console.log('error', error.response.data)});
                 }}
                 render={({
                   touched,
