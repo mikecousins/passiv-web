@@ -1,4 +1,8 @@
 import { createSelector } from 'reselect';
+import ms from 'milliseconds';
+import shouldUpdate from '../reactors/should-update';
+
+export const selectAppTime = state => state.appTime;
 
 export const selectLoggedIn = state => !!(state.auth.token);
 
@@ -22,14 +26,15 @@ export const selectCurrencies = createSelector(
 export const selectCurrenciesNeedData = createSelector(
   selectLoggedIn,
   selectCurrenciesRaw,
-  (loggedIn, rawCurrencies) => {
+  selectAppTime,
+  (loggedIn, rawCurrencies, time) => {
     if (!loggedIn) {
       return false;
     }
-    if (rawCurrencies.data) {
-      return false;
-    }
-    return true;
+    return shouldUpdate(rawCurrencies, {
+      staleTime: ms.days(7),
+      now: time,
+    });
   }
 );
 
@@ -43,12 +48,17 @@ export const selectBrokerages = createSelector(
 );
 
 export const selectBrokeragesNeedData = createSelector(
+  selectLoggedIn,
   selectBrokeragesRaw,
-  (rawBrokerages) => {
-    if (rawBrokerages.data) {
+  selectAppTime,
+  (loggedIn, rawBrokerages, time) => {
+    if (!loggedIn) {
       return false;
     }
-    return true;
+    return shouldUpdate(rawBrokerages, {
+      staleTime: ms.days(7),
+      now: time,
+    });
   }
 );
 
@@ -64,14 +74,15 @@ export const selectAuthorizations = createSelector(
 export const selectAuthorizationsNeedData = createSelector(
   selectLoggedIn,
   selectAuthorizationsRaw,
-  (loggedIn, rawAuthorizations) => {
+  selectAppTime,
+  (loggedIn, rawAuthorizations, time) => {
     if (!loggedIn) {
       return false;
     }
-    if (rawAuthorizations.data) {
-      return false;
-    }
-    return true;
+    return shouldUpdate(rawAuthorizations, {
+      staleTime: ms.minutes(10),
+      now: time,
+    });
   }
 )
 
@@ -89,14 +100,15 @@ export const selectSettings = createSelector(
 export const selectSettingsNeedData = createSelector(
   selectLoggedIn,
   selectSettingsRaw,
-  (loggedIn, rawSettings) => {
+  selectAppTime,
+  (loggedIn, rawSettings, time) => {
     if (!loggedIn) {
       return false;
     }
-    if (rawSettings.data) {
-      return false;
-    }
-    return true;
+    return shouldUpdate(rawSettings, {
+      staleTime: ms.minutes(10),
+      now: time,
+    });
   }
 )
 
@@ -114,14 +126,15 @@ export const selectSubscriptions = createSelector(
 export const selectSubscriptionsNeedData = createSelector(
   selectLoggedIn,
   selectSubscriptionsRaw,
-  (loggedIn, rawSubscriptions) => {
+  selectAppTime,
+  (loggedIn, rawSubscriptions, time) => {
     if (!loggedIn) {
       return false;
     }
-    if (rawSubscriptions.data) {
-      return false;
-    }
-    return true;
+    return shouldUpdate(rawSubscriptions, {
+      staleTime: ms.minutes(10),
+      now: time,
+    });
   }
 )
 
@@ -139,14 +152,15 @@ export const selectAccounts = createSelector(
 export const selectAccountsNeedData = createSelector(
   selectLoggedIn,
   selectAccountsRaw,
-  (loggedIn, rawAccounts) => {
+  selectAppTime,
+  (loggedIn, rawAccounts, time) => {
     if (!loggedIn) {
       return false;
     }
-    if (rawAccounts.data) {
-      return false;
-    }
-    return true;
+    return shouldUpdate(rawAccounts, {
+      staleTime: ms.minutes(10),
+      now: time,
+    });
   }
 )
 
@@ -183,17 +197,15 @@ export const selectGroupsNeedData = createSelector(
   selectLoggedIn,
   selectGroupsRaw,
   selectGroupInfo,
-  (loggedIn, rawGroups, groupInfo) => {
+  selectAppTime,
+  (loggedIn, rawGroups, groupInfo, time) => {
     if (!loggedIn) {
       return false;
     }
-    if (rawGroups.data) {
-      return false;
-    }
-    if (rawGroups.lastError) {
-      return false;
-    }
-    return true;
+    return shouldUpdate(rawGroups, {
+      staleTime: ms.minutes(10),
+      now: time,
+    });
   }
 );
 
@@ -236,15 +248,15 @@ export const selectCurrencyRates = createSelector(
 export const selectCurrencyRatesNeedData = createSelector(
   selectLoggedIn,
   selectCurrencyRatesRaw,
-  (loggedIn, rawCurrencyRates) => {
+  selectAppTime,
+  (loggedIn, rawCurrencyRates, time) => {
     if (!loggedIn) {
       return false;
     }
-    if (rawCurrencyRates.data) {
-      return false;
-    }
-
-    return true;
+    return shouldUpdate(rawCurrencyRates, {
+      staleTime: ms.minutes(10),
+      now: time,
+    });
   }
 )
 

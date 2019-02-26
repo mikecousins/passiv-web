@@ -50,7 +50,7 @@ export const loadAuthorizations = () => {
 
 export const loadCurrencies = () => {
   return dispatch => {
-    dispatch(fetchCurrenciesStart);
+    dispatch(fetchCurrenciesStart());
     getData('/api/v1/currencies/')
       .then(response => dispatch(fetchCurrenciesSuccess(response)))
       .catch(error => dispatch(fetchCurrenciesError(error)));

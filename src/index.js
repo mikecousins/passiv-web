@@ -11,23 +11,14 @@ import * as Sentry from '@sentry/browser';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
-import { addReactorsToStore } from './reactors/HumanRedux';
 import createRootReducer from './reducers';
-import {
-  checkCurrencies,
-  checkBrokerages,
-  checkSubscriptions,
-  checkCurrencyRates,
-  checkAccounts,
-  checkGroups,
-  checkSettings,
-  checkAuthorizations,
-} from './reactors';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import ErrorBoundary from './components/ErrorBoundary';
 import { updateServiceWorker } from './actions';
 import apiMiddleware from './middleware/api';
+import createRunLoop from './reactors/init-runloop';
+import { effects } from './reactors/effects';
 
 Sentry.init({
   dsn: "https://0d88597b9cb6439fa0050392b907ec17@sentry.io/1358976"
@@ -77,20 +68,9 @@ const store = createStore(
 
 const persistor = persistStore(store);
 
-addReactorsToStore({
-  store: store,
-  reactors: [
-    checkCurrencies,
-    checkBrokerages,
-    checkSubscriptions,
-    checkCurrencyRates,
-    checkAccounts,
-    checkGroups,
-    checkSettings,
-    checkAuthorizations,
-  ],
-  runIdle: true,
-});
+// create our run loop that loads our data
+const runLoop = createRunLoop();
+runLoop.start(store, effects);
 
 ReactDOM.render(
   <ErrorBoundary>
