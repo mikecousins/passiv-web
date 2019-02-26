@@ -11,14 +11,10 @@ export const selectBrokeragesRaw = state => state.brokerages;
 export const selectAuthorizationsRaw = state => state.authorizations;
 
 export const selectCurrencies = createSelector(
-  selectLoggedIn,
   selectCurrenciesRaw,
-  (loggedIn, rawCurrencies) => {
-    if (!loggedIn) {
-      return false;
-    }
+  (rawCurrencies) => {
     if (rawCurrencies.data) {
-      return false;
+      return rawCurrencies.data;
     }
   }
 );
@@ -300,7 +296,7 @@ export const selectDashboardGroups = createSelector(
           if (balance.currency.id === preferredCurrency) {
             group.totalCash += parseFloat(balance.cash);
           } else {
-            const conversionRate = rates.data.find(rate => rate.src.id === balance.currency.id  && rate.dst.id === preferredCurrency).exchange_rate;
+            const conversionRate = rates.find(rate => rate.src.id === balance.currency.id  && rate.dst.id === preferredCurrency).exchange_rate;
             group.totalCash += parseFloat(balance.cash * conversionRate);
           }
         });
