@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { P } from '../styled/GlobalElements';
 
 let LoginLinksStyle = styled.div`
   margin: 15px 0;
@@ -15,37 +16,45 @@ const LoginLinks = (props) => {
 
   const resetLink = (
     <LoginLinksStyle key="reset">
-      Forgot your password?
-      <Link to="/app/reset-password">
-        Reset it!
-      </Link>
+      <P>
+        Forgot your password?
+        <Link to="/app/reset-password">
+          Reset it!
+        </Link>
+      </P>
     </LoginLinksStyle>
   )
 
   const signUpLink = (
     <LoginLinksStyle key="register">
-      Don't have an account?
-      <Link to="/app/register">
-        Sign up!
-      </Link>
+      <P>
+        Don't have an account?
+        <Link to="/app/register">
+          Sign up!
+        </Link>
+      </P>
     </LoginLinksStyle>
   )
 
   const loginLink = (
     <LoginLinksStyle key="login">
-      Already have an account?
-      <Link to="/app/login">
-        Login!
-      </Link>
+      <P>
+        Already have an account?
+        <Link to="/app/login">
+          Login!
+        </Link>
+      </P>
     </LoginLinksStyle>
   )
 
   const loginRememberedLink = (
     <LoginLinksStyle key="login-remembered">
-      Remembered your password?
-      <Link to="/app/login">
-        Login!
-      </Link>
+      <P>
+        Remembered your password?
+        <Link to="/app/login">
+          Login!
+        </Link>
+      </P>
     </LoginLinksStyle>
   )
 
