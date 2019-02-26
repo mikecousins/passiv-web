@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect';
 import differenceInHours from 'date-fns/difference_in_hours'
 import {
-  initialLoad,
   loadAuthorizations,
   loadAccounts,
+  loadCurrencies,
   loadCurrencyRates,
   loadGroups,
   loadBrokerages,
@@ -11,7 +11,17 @@ import {
   loadSubscriptions,
   loadGroup,
 } from '../actions';
-import { selectLoggedIn } from '../selectors';
+import {
+  selectLoggedIn,
+  selectCurrenciesNeedData,
+  selectBrokeragesNeedData,
+  selectSubscriptionsNeedData,
+  selectAuthorizationsNeedData,
+  selectCurrencyRatesNeedData,
+  selectAccountsNeedData,
+  selectSettingsNeedData,
+  selectGroupsNeedData,
+} from '../selectors';
 
 const isNeeded = (entity) => {
   // if we don't have the entity at all we need it
@@ -42,55 +52,74 @@ const isNeeded = (entity) => {
   return false;
 }
 
-export const loadData = createSelector(
-  [
-    selectLoggedIn,
-    state => state.authorizations,
-    state => state.currencies,
-    state => state.currencyRates,
-    state => state.accounts,
-    state => state.groups,
-    state => state.brokerages,
-    state => state.settings,
-    state => state.subscriptions,
-  ],
-  (loggedIn, authorizations, currencies, currencyRates, accounts, groups, brokerages, settings, subscriptions) => {
-    // ignore if we aren't logged in
-    if (!loggedIn) {
-      return;
+export const checkCurrencies = createSelector(
+  selectCurrenciesNeedData,
+  (needCurrencies) => {
+    if (needCurrencies) {
+      return loadCurrencies();
     }
+  }
+);
 
-    // if we need currencies we need everything, perform a full load
-    if (isNeeded(currencies)) {
-      return initialLoad();
-    }
-
-    if (isNeeded(authorizations)) {
-      return loadAuthorizations();
-    }
-
-    if (isNeeded(currencyRates)) {
-      return loadCurrencyRates();
-    }
-
-    if (isNeeded(brokerages)) {
+export const checkBrokerages = createSelector(
+  selectBrokeragesNeedData,
+  (needBrokerages) => {
+    if (needBrokerages) {
       return loadBrokerages();
     }
+  }
+);
 
-    if (isNeeded(settings)) {
-      return loadSettings();
+export const checkSubscriptions = createSelector(
+  selectSubscriptionsNeedData,
+  (needSubscriptions) => {
+    if (needSubscriptions) {
+      return loadSubscriptions();
     }
+  }
+);
 
-    if (isNeeded(groups)) {
-      return loadGroups();
+export const checkAuthorizations = createSelector(
+  selectAuthorizationsNeedData,
+  (needAuthorizations) => {
+    if (needAuthorizations) {
+      return loadAuthorizations();
     }
+  }
+);
 
-    if (isNeeded(accounts)) {
+export const checkCurrencyRates = createSelector(
+  selectCurrencyRatesNeedData,
+  (needCurrencyRates) => {
+    if (needCurrencyRates) {
+      return loadCurrencyRates();
+    }
+  }
+);
+
+export const checkAccounts = createSelector(
+  selectAccountsNeedData,
+  (needAccounts) => {
+    if (needAccounts) {
       return loadAccounts();
     }
+  }
+);
 
-    if (isNeeded(subscriptions)) {
-      return loadSubscriptions();
+export const checkSettings = createSelector(
+  selectSettingsNeedData,
+  (needSettings) => {
+    if (needSettings) {
+      return loadSettings();
+    }
+  }
+);
+
+export const checkGroups = createSelector(
+  selectGroupsNeedData,
+  (needGroups) => {
+    if (needGroups) {
+      return loadGroups();
     }
   }
 );

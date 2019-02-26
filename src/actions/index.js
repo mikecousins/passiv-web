@@ -39,59 +39,6 @@ export const toggleDemoMode = () => {
   }
 };
 
-export const initialLoad = () => {
-  return dispatch => {
-    dispatch(fetchAuthorizationsStart());
-    getData('/api/v1/authorizations')
-      .then(response => dispatch(fetchAuthorizationsSuccess(response)))
-      .catch(error => dispatch(fetchAuthorizationsError(error)));
-
-    dispatch(fetchCurrenciesStart());
-    getData('/api/v1/currencies/')
-      .then(response => dispatch(fetchCurrenciesSuccess(response)))
-      .catch(error => dispatch(fetchCurrenciesError(error)));
-
-    dispatch(fetchCurrencyRatesStart());
-    getData('/api/v1/currencies/rates/')
-      .then(response => dispatch(fetchCurrencyRatesSuccess(response)))
-      .catch(error => dispatch(fetchCurrencyRatesError(error)));
-
-    dispatch(fetchGroupsStart());
-    getData('/api/v1/portfolioGroups/')
-      .then(response => {
-        response.data.forEach(group => {
-          dispatch(fetchGroupInfoStart(group.id));
-          getData('/api/v1/portfolioGroups/' + group.id + '/info/')
-            .then(r => dispatch(fetchGroupInfoSuccess(r, group.id)))
-            .catch(e => dispatch(fetchGroupInfoError(e, group.id)));
-        });
-        return dispatch(fetchGroupsSuccess(response));
-      })
-      .catch(error => dispatch(fetchGroupsError(error)));
-
-    dispatch(fetchBrokeragesStart());
-      getData('/api/v1/brokerages/')
-        .then(response => dispatch(fetchBrokeragesSuccess(response)))
-        .catch(error => dispatch(fetchBrokeragesError(error)));
-
-    dispatch(fetchSettingsStart());
-      getData('/api/v1/settings/')
-        .then(response => dispatch(fetchSettingsSuccess(response)))
-        .catch(error => dispatch(fetchSettingsError(error)));
-
-    dispatch(fetchSubscriptionsStart());
-      getData('/api/v1/subscriptions/')
-        .then(response => dispatch(fetchSubscriptionsSuccess(response)))
-        .catch(error => dispatch(fetchSubscriptionsError(error)));
-
-    dispatch(fetchAccountsStart());
-    getData('/api/v1/accounts/')
-      .then(response => dispatch(fetchAccountsSuccess(response)))
-      .catch(error => dispatch(fetchAccountsError(error)));
-
-  };
-};
-
 export const loadAuthorizations = () => {
   return dispatch => {
     dispatch(fetchAuthorizationsStart());
@@ -203,7 +150,60 @@ export const loadGroup = payload => {
         .catch(error => dispatch(fetchGroupInfoError(error, id)));
     });
   }
-}
+};
+
+export const initialLoad = () => {
+  return dispatch => {
+    dispatch(fetchAuthorizationsStart());
+    getData('/api/v1/authorizations')
+      .then(response => dispatch(fetchAuthorizationsSuccess(response)))
+      .catch(error => dispatch(fetchAuthorizationsError(error)));
+
+    dispatch(fetchCurrenciesStart());
+    getData('/api/v1/currencies/')
+      .then(response => dispatch(fetchCurrenciesSuccess(response)))
+      .catch(error => dispatch(fetchCurrenciesError(error)));
+
+    dispatch(fetchCurrencyRatesStart());
+    getData('/api/v1/currencies/rates/')
+      .then(response => dispatch(fetchCurrencyRatesSuccess(response)))
+      .catch(error => dispatch(fetchCurrencyRatesError(error)));
+
+    dispatch(fetchGroupsStart());
+    getData('/api/v1/portfolioGroups/')
+      .then(response => {
+        response.data.forEach(group => {
+          dispatch(fetchGroupInfoStart(group.id));
+          getData('/api/v1/portfolioGroups/' + group.id + '/info/')
+            .then(r => dispatch(fetchGroupInfoSuccess(r, group.id)))
+            .catch(e => dispatch(fetchGroupInfoError(e, group.id)));
+        });
+        return dispatch(fetchGroupsSuccess(response));
+      })
+      .catch(error => dispatch(fetchGroupsError(error)));
+
+    dispatch(fetchBrokeragesStart());
+      getData('/api/v1/brokerages/')
+        .then(response => dispatch(fetchBrokeragesSuccess(response)))
+        .catch(error => dispatch(fetchBrokeragesError(error)));
+
+    dispatch(fetchSettingsStart());
+      getData('/api/v1/settings/')
+        .then(response => dispatch(fetchSettingsSuccess(response)))
+        .catch(error => dispatch(fetchSettingsError(error)));
+
+    dispatch(fetchSubscriptionsStart());
+      getData('/api/v1/subscriptions/')
+        .then(response => dispatch(fetchSubscriptionsSuccess(response)))
+        .catch(error => dispatch(fetchSubscriptionsError(error)));
+
+    dispatch(fetchAccountsStart());
+    getData('/api/v1/accounts/')
+      .then(response => dispatch(fetchAccountsSuccess(response)))
+      .catch(error => dispatch(fetchAccountsError(error)));
+
+  };
+};
 
 export const fetchAuthorizationsStart = () => ({
   type: 'FETCH_AUTHORIZATIONS_START',

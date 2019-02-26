@@ -13,7 +13,16 @@ import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
 import { addReactorsToStore } from './reactors/HumanRedux';
 import createRootReducer from './reducers';
-import { loadData, loadGroupDetails } from './reactors';
+import {
+  checkCurrencies,
+  checkBrokerages,
+  checkSubscriptions,
+  checkCurrencyRates,
+  checkAccounts,
+  checkGroups,
+  checkSettings,
+  checkAuthorizations,
+} from './reactors';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -70,7 +79,16 @@ const persistor = persistStore(store);
 
 addReactorsToStore({
   store: store,
-  reactors: [ loadData, loadGroupDetails ],
+  reactors: [
+    checkCurrencies,
+    checkBrokerages,
+    checkSubscriptions,
+    checkCurrencyRates,
+    checkAccounts,
+    checkGroups,
+    checkSettings,
+    checkAuthorizations,
+  ],
   runIdle: true,
 });
 

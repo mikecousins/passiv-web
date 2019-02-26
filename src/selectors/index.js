@@ -11,13 +11,31 @@ export const selectBrokeragesRaw = state => state.brokerages;
 export const selectAuthorizationsRaw = state => state.authorizations;
 
 export const selectCurrencies = createSelector(
+  selectLoggedIn,
   selectCurrenciesRaw,
-  (rawCurrencies) => {
+  (loggedIn, rawCurrencies) => {
+    if (!loggedIn) {
+      return false;
+    }
     if (rawCurrencies.data) {
-      return rawCurrencies.data;
+      return false;
     }
   }
-)
+);
+
+export const selectCurrenciesNeedData = createSelector(
+  selectLoggedIn,
+  selectCurrenciesRaw,
+  (loggedIn, rawCurrencies) => {
+    if (!loggedIn) {
+      return false;
+    }
+    if (rawCurrencies.data) {
+      return false;
+    }
+    return true;
+  }
+);
 
 export const selectBrokerages = createSelector(
   selectBrokeragesRaw,
@@ -26,7 +44,17 @@ export const selectBrokerages = createSelector(
       return rawBrokerages.data;
     }
   }
-)
+);
+
+export const selectBrokeragesNeedData = createSelector(
+  selectBrokeragesRaw,
+  (rawBrokerages) => {
+    if (rawBrokerages.data) {
+      return false;
+    }
+    return true;
+  }
+);
 
 export const selectAuthorizations = createSelector(
   selectAuthorizationsRaw,
@@ -34,6 +62,20 @@ export const selectAuthorizations = createSelector(
     if (rawAuthorizations.data) {
       return rawAuthorizations.data;
     }
+  }
+);
+
+export const selectAuthorizationsNeedData = createSelector(
+  selectLoggedIn,
+  selectAuthorizationsRaw,
+  (loggedIn, rawAuthorizations) => {
+    if (!loggedIn) {
+      return false;
+    }
+    if (rawAuthorizations.data) {
+      return false;
+    }
+    return true;
   }
 )
 
@@ -48,6 +90,20 @@ export const selectSettings = createSelector(
   }
 );
 
+export const selectSettingsNeedData = createSelector(
+  selectLoggedIn,
+  selectSettingsRaw,
+  (loggedIn, rawSettings) => {
+    if (!loggedIn) {
+      return false;
+    }
+    if (rawSettings.data) {
+      return false;
+    }
+    return true;
+  }
+)
+
 export const selectSubscriptionsRaw = state => state.subscriptions;
 
 export const selectSubscriptions = createSelector(
@@ -59,6 +115,20 @@ export const selectSubscriptions = createSelector(
   }
 );
 
+export const selectSubscriptionsNeedData = createSelector(
+  selectLoggedIn,
+  selectSubscriptionsRaw,
+  (loggedIn, rawSubscriptions) => {
+    if (!loggedIn) {
+      return false;
+    }
+    if (rawSubscriptions.data) {
+      return false;
+    }
+    return true;
+  }
+)
+
 export const selectAccountsRaw = state => state.accounts;
 
 export const selectAccounts = createSelector(
@@ -69,6 +139,20 @@ export const selectAccounts = createSelector(
     }
   }
 );
+
+export const selectAccountsNeedData = createSelector(
+  selectLoggedIn,
+  selectAccountsRaw,
+  (loggedIn, rawAccounts) => {
+    if (!loggedIn) {
+      return false;
+    }
+    if (rawAccounts.data) {
+      return false;
+    }
+    return true;
+  }
+)
 
 export const selectBalances = state => state.accountBalances;
 
@@ -95,14 +179,21 @@ export const selectGroups = createSelector(
   }
 );
 
-export const selectGroupSettingsRaw = state => state.groupSettings;
-
-export const selectGroupSettings = createSelector(
-  selectGroupSettingsRaw,
-  (rawGroupSettings) => {
-    if (rawGroupSettings.data) {
-      return rawGroupSettings.data;
+export const selectGroupsNeedData = createSelector(
+  selectLoggedIn,
+  selectGroupsRaw,
+  selectGroupInfo,
+  (loggedIn, rawGroups, groupInfo) => {
+    if (!loggedIn) {
+      return false;
     }
+    if (rawGroups.data) {
+      return false;
+    }
+    if (rawGroups.lastError) {
+      return false;
+    }
+    return true;
   }
 );
 
@@ -131,7 +222,31 @@ export const selectIsDemoMode =  state => state.demo;
 
 export const selectRouter = state => state.router;
 
-export const selectCurrencyRates = state => state.currencyRates;
+export const selectCurrencyRatesRaw = state => state.currencyRates;
+
+export const selectCurrencyRates = createSelector(
+  selectCurrencyRatesRaw,
+  (rawCurrencyRates) => {
+    if (rawCurrencyRates.data) {
+      return rawCurrencyRates.data;
+    }
+  }
+)
+
+export const selectCurrencyRatesNeedData = createSelector(
+  selectLoggedIn,
+  selectCurrencyRatesRaw,
+  (loggedIn, rawCurrencyRates) => {
+    if (!loggedIn) {
+      return false;
+    }
+    if (rawCurrencyRates.data) {
+      return false;
+    }
+
+    return true;
+  }
+)
 
 export const selectCurrentGroupId = createSelector(
   selectRouter,
