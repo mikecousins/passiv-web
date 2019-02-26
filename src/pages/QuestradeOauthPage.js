@@ -6,9 +6,8 @@ import { initialLoad } from '../actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ShadowBox from '../styled/ShadowBox';
-import { Table,H1,P,A,UL } from '../styled/GlobalElements';
-import { Button } from '../styled/Button';
-import { StepQuestion, StepButton, Step } from '../styled/SignupSteps';
+import { H1, P } from '../styled/GlobalElements';
+import { Step } from '../styled/SignupSteps';
 
 class QuestradeOauthPage extends Component {
   state = {
@@ -49,16 +48,18 @@ class QuestradeOauthPage extends Component {
         case '1006':
           error = (
             <P>This connection code is invalid, please try again.</P>
-          )
+          );
+          break;
         case '1007':
           error = (
             <P>This connection code has expired, please try again. </P>
-          )
+          );
+          break;
         default:
           error = (
             <P>We encountered an unexpected error while attempting to establish a connection. Please try again later or <Link to="/app/help">contact support</Link> if this persists.</P>
-          )
-
+          );
+          break;
       }
     }
 
