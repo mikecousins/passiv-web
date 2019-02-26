@@ -529,7 +529,7 @@ export const selectIsAuthorized = createSelector(
   selectAuthorizations,
   (authorizations) => {
     if (authorizations === undefined) {
-      return undefined;
+      return true;
     }
     if (authorizations.length > 0) {
       return true;

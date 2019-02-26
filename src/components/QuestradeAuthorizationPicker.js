@@ -4,7 +4,7 @@ import { selectBrokerages } from '../selectors';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import ShadowBox from '../styled/ShadowBox';
 import { StepQuestion, StepButton, Step } from '../styled/SignupSteps';
-import { Table,H1,P } from '../styled/GlobalElements';
+import { Table,H1,P,A,UL } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 
 class QuestradeAuthorizationPicker extends Component {
@@ -34,38 +34,54 @@ class QuestradeAuthorizationPicker extends Component {
   }
 
   render() {
+    let nextPage = null;
+    if (this.state.haveQuestrade) {
+      nextPage = (
+        <React.Fragment>
+          <Table>
+            <Button onClick={() => {this.resetAnswered()}}>Back</Button>
+            <AuthorizationPicker
+              allowSelect={false}
+              brokerage={this.getQuestradeId()}
+              type={this.getQuestradeDefaultType()}
+            />
+          </Table>
+        </React.Fragment>
+      )
+    }
+    else {
+      nextPage = (
+        <React.Fragment>
+          <P color="white">Not with <A href="https://www.questrade.com" target="_blank">Questrade</A>? Here’s why you should be:</P>
+          <UL>
+            <li>Free purchasing of ETFs</li>
+            <li>Low commissions (just $4.95 - $9.95)</li>
+            <li>They’ll rebate the transfer fee (max. $150) when you make the switch</li>
+          </UL>
+          <Table>
+            <Button onClick={() => {this.resetAnswered()}}>Back</Button>
+            <StepButton onClick={() => {alert('new account!')}}>Open a Questrade Account</StepButton>
+          </Table>
+        </React.Fragment>
+      )
+    }
     return (
       <React.Fragment>
-        {this.state.answered ? (
-          <div>
-          {this.state.haveQuestrade ? (
-              <div>
-                <button onClick={() => {this.resetAnswered()}}>Back</button>
-                <AuthorizationPicker
-                  allowSelect={false}
-                  brokerage={this.getQuestradeId()}
-                  type={this.getQuestradeDefaultType()}
-                />
-              </div>
-            ) : (
-              <ShadowBox dark>
-                <Button onClick={() => {this.resetAnswered()}}>Back</Button>
-                <P color="white">Then you'd better make one!</P>
-              </ShadowBox>
+        <ShadowBox dark>
+          <H1 color="white">SETUP</H1>
+          <Step>Step 1 - Connect Questrade</Step>
+          {
+            this.state.answered ? nextPage : (
+              <React.Fragment>
+                <StepQuestion>Do you have a Questrade account?</StepQuestion>
+                <Table>
+                  <StepButton onClick={() => {this.setHaveQuestrade(true)}}>Yes</StepButton>
+                  <StepButton onClick={() => {this.setHaveQuestrade(false)}}>No</StepButton>
+                </Table>
+              </React.Fragment>
             )
           }
-          </div>
-        ) : (
-          <ShadowBox dark>
-            <H1 color="white">SETUP</H1>
-            <Step>Step 1 - Authorize Questrade</Step>
-            <StepQuestion>Do you have a Questrade account?</StepQuestion>
-            <Table>
-              <StepButton onClick={() => {this.setHaveQuestrade(true)}}>Yes</StepButton>
-              <StepButton onClick={() => {this.setHaveQuestrade(false)}}>No</StepButton>
-            </Table>
-          </ShadowBox>
-        )}
+        </ShadowBox>
       </React.Fragment>
     )
   }
