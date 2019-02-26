@@ -119,17 +119,6 @@ export const loadAccounts = () => {
   };
 };
 
-export const loadAccount = payload => {
-  return dispatch => {
-    payload.ids.forEach((id) => {
-      dispatch(fetchAccountDetailsStart(id));
-      getData(`/api/v1/accounts/${id}/`)
-        .then(response => dispatch(fetchAccountDetailsSuccess(response, id)))
-        .catch(error => dispatch(fetchAccountDetailsError(error, id)));
-    });
-  };
-};
-
 export const loadGroupDetails = payload => {
   return dispatch => {
     payload.ids.forEach((id) => {
