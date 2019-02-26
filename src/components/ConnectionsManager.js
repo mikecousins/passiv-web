@@ -33,23 +33,6 @@ export class ConnectionsManager extends React.Component {
     this.setState({updatingConnection: false, targetConnectionId: null});
   }
 
-  confirmUpdateConnection() {
-    alert('connection updated');
-    // deleteData(`/api/v1/authorizations/${this.state.targetConnectionId}`)
-    //   .then(response => {
-    //     console.log('success', response);
-    //     this.setState({deletingConnection: false, targetConnectionId: null});
-    //     this.props.reloadBrokerages();
-    //     this.props.reloadAllState();
-    //   })
-    //   .catch(error => {
-    //     console.log('error', error);
-    //     this.setState({deletingConnection: false, targetConnectionId: null});
-    //     this.props.reloadBrokerages();
-    //     this.props.reloadAllState();
-    //   });
-  }
-
   startDeletingConnection(connectionId) {
     this.setState({deletingConnection: true, targetConnectionId: connectionId});
   }
