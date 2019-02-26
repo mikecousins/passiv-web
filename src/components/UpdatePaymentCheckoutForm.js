@@ -25,13 +25,13 @@ export class UpdatePaymentCheckoutForm extends React.Component {
     let {token} = await this.props.stripe.createToken({name: "Name"});
     patchData('/api/v1/subscriptions', {token: token})
       .then(response => {
-        console.log('success', response);
+        console.log('success', response.data);
         this.setState({loading: false});
         this.props.reloadSubscriptions();
         this.props.finishUpdatePayment();
       })
       .catch(error => {
-        console.log('error', error);
+        console.log('error', error.response.data);
         this.setState({loading: false, error: error.detail});
         this.props.finishUpdatePaymentFail();
       });

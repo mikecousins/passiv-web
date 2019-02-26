@@ -10,11 +10,11 @@ export class TargetBar extends React.Component {
   loadOptions = (substring, callback) => {
     postData(`/api/v1/symbols`, { substring })
       .then(response => {
-        console.log('success', response);
-        callback(response);
+        console.log('success', response.data);
+        callback(response.data);
       })
       .catch(error => {
-        console.log('error', error);
+        console.log('error', error.response.data);
       });
   }
 

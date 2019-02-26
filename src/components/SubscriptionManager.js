@@ -79,12 +79,12 @@ export class SubscriptionManager extends React.Component {
     this.setState({cancelingSubscription: true});
     deleteData(`/api/v1/subscriptions`)
       .then(response => {
-        console.log('success', response);
+        console.log('success', response.data);
         this.props.reloadSubscriptions();
         this.setState({cancelingSubscription: false});
       })
       .catch(error => {
-        console.log('error', error);
+        console.log('error', error.response.data);
         this.props.reloadSubscriptions();
         this.setState({cancelingSubscription: false});
       });

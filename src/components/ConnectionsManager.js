@@ -61,13 +61,13 @@ export class ConnectionsManager extends React.Component {
   confirmDeleteConnection() {
     deleteData(`/api/v1/authorizations/${this.state.targetConnectionId}`)
       .then(response => {
-        console.log('success', response);
+        console.log('success', response.data);
         this.setState({deletingConnection: false, targetConnectionId: null});
         this.props.reloadBrokerages();
         this.props.reloadAllState();
       })
       .catch(error => {
-        console.log('error', error);
+        console.log('error', error.response.data);
         this.setState({deletingConnection: false, targetConnectionId: null});
         this.props.reloadBrokerages();
         this.props.reloadAllState();

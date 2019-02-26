@@ -73,12 +73,12 @@ class AccountMetadata extends Component {
       group.name = this.state.name;
       patchData(`/api/v1/portfolioGroups/${this.props.group.id}/`, group)
         .then(response => {
-          console.log('success', response);
+          console.log('success', response.data);
           this.setState({loading: false});
           this.props.refreshGroups();
         })
         .catch(error => {
-          console.log('error', error);
+          console.log('error', error.response.data);
           this.setState({loading: false});
         });
     }

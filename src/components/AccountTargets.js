@@ -11,7 +11,7 @@ import CashBar from './CashBar';
 import { Button } from '../styled/Button';
 import { H2, H3, Edit } from '../styled/GlobalElements';
 import { TargetRow } from '../styled/Target';
-import { postData} from '../api';
+import { postData } from '../api';
 import styled from '@emotion/styled';
 import ShadowBox from '../styled/ShadowBox';
 
@@ -83,13 +83,13 @@ export class AccountTargets extends React.Component {
             this.setState({edit: false});
             const newTargets = values.targets.filter(t => !t.deleted);
             postData(`/api/v1/portfolioGroups/${groupId}/targets/`, newTargets)
-              .then((responses) => {
+              .then((response) => {
                 // once we're done refresh the groups
                 this.props.refreshGroup({ids: [this.props.groupId]});
               })
               .catch((error) => {
                 // display our error
-                toast.error(`Failed to edit targets: ${error && error.detail}`);
+                toast.error(`Failed to edit targets: ${error.response && error.response.data.detail}`);
 
                 // reset the form
                 actions.resetForm();

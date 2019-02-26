@@ -52,7 +52,7 @@ export class RebalanceWidget extends Component {
         this.setState({ validatingOrders: false, orderSummary: response.data, error: null });
       })
       .catch(error => {
-        this.setState({ validatingOrders: false, orderSummary: null, error: error });
+        this.setState({ validatingOrders: false, orderSummary: null, error: error.response.data });
       });
   }
 
@@ -66,7 +66,7 @@ export class RebalanceWidget extends Component {
         // this.props.reloadGroup({ ids: [this.props.groupId] });
       })
       .catch(error => {
-        this.setState({ placingOrders: false, orderResults: null, error: error });
+        this.setState({ placingOrders: false, orderResults: null, error: error.response.data });
       });
   }
 
