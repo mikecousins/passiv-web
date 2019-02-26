@@ -78,7 +78,7 @@ export class TargetBar extends React.Component {
                 value={fullSymbol}
                 onChange={setSymbol}
                 loadOptions={this.loadOptions}
-                getOptionLabel={(option) => option.symbol}
+                getOptionLabel={(option) => `${option.symbol} (${option.description})`}
                 getOptionValue={(option) => option.id}
                 style={{ width: 120 }}
               />
