@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { postData } from '../api';
 import { initialLoad } from '../actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import ShadowBox from '../styled/ShadowBox';
+import { Table,H1,P,A,UL } from '../styled/GlobalElements';
+import { Button } from '../styled/Button';
+import { StepQuestion, StepButton, Step } from '../styled/SignupSteps';
 
 class QuestradeOauthPage extends Component {
   state = {
@@ -39,6 +43,25 @@ class QuestradeOauthPage extends Component {
   }
 
   render() {
+    let error = null;
+    if (this.state.error) {
+      switch (this.state.error.code) {
+        case '1006':
+          error = (
+            <P>This connection code is invalid, please try again.</P>
+          )
+        case '1007':
+          error = (
+            <P>This connection code has expired, please try again. </P>
+          )
+        default:
+          error = (
+            <P>We encountered an unexpected error while attempting to establish a connection. Please try again later or <Link to="/app/help">contact support</Link> if this persists.</P>
+          )
+
+      }
+    }
+
     if (this.state.success) {
       return (
         <Redirect to='/app/dashboard' />
@@ -46,19 +69,25 @@ class QuestradeOauthPage extends Component {
     }
     else {
       return (
-        <React.Fragment>
-          <h1>Questrade Connection</h1>
+        <ShadowBox dark>
+          <H1 color="white">SETUP</H1>
+
           {
             this.state.loading ? (
-                <div>
-                  <p>Loading...</p>
-                  <FontAwesomeIcon icon={faSpinner} spin />
-                </div>
+                <React.Fragment>
+                  <Step>Establishing connection to Questrade... <FontAwesomeIcon icon={faSpinner} spin /></Step>
+
+                </React.Fragment>
               ) : (
-                <p>Failure!</p>
+                <React.Fragment>
+                  <Step>Failed to establish connection :(</Step>
+                  <ShadowBox>
+                    { error }
+                  </ShadowBox>
+                </React.Fragment>
               )
           }
-        </React.Fragment>
+        </ShadowBox>
       )
     }
   };

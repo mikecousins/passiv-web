@@ -52,14 +52,16 @@ class QuestradeAuthorizationPicker extends Component {
     else {
       nextPage = (
         <React.Fragment>
-          <P color="white">Not with <A href="https://www.questrade.com" target="_blank">Questrade</A>? Here’s why you should be:</P>
-          <UL>
-            <li>Free purchasing of ETFs</li>
-            <li>Low commissions (just $4.95 - $9.95)</li>
-            <li>They’ll rebate the transfer fee (max. $150) when you make the switch</li>
-          </UL>
+          <ShadowBox>
+            <P>Not with <A href="https://www.questrade.com" target="_blank">Questrade</A>? Here’s why you should be:</P>
+            <UL>
+              <li>Free purchasing of ETFs</li>
+              <li>Low commissions (just $4.95 - $9.95)</li>
+              <li>They’ll rebate the transfer fee (max. $150) when you make the switch</li>
+            </UL>
+          </ShadowBox>
           <Table>
-            <Button onClick={() => {this.resetAnswered()}}>Back</Button>
+            <StepButton onClick={() => {this.resetAnswered()}}>Back</StepButton>
             <StepButton onClick={() => {alert('new account!')}}>Open a Questrade Account</StepButton>
           </Table>
         </React.Fragment>
