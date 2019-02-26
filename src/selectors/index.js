@@ -166,7 +166,11 @@ export const selectGroups = createSelector(
       return rawGroups.data.map((group) => {
         const groupWithRebalance = group;
         if (groupInfo[group.id] && groupInfo[group.id].data) {
+          groupWithRebalance.loading = false;
           groupWithRebalance.rebalance = !!(groupInfo[group.id].data.calculated_trades && groupInfo[group.id].data.calculated_trades.trades.length > 0);
+        }
+        else {
+          groupWithRebalance.loading = true;
         }
         return groupWithRebalance;
       });

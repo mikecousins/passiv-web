@@ -2,11 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { RebalanceAlert } from '../../styled/Rebalance';
 
-
-const SideBarLink = ({ name, linkPath, rebalance }) => {
+const SideBarLink = ({ name, linkPath, rebalance, loading }) => {
   let selected = window.location.pathname.startsWith(linkPath);
 
   let colorClass = null;
@@ -18,9 +17,21 @@ const SideBarLink = ({ name, linkPath, rebalance }) => {
     <div className={colorClass}>
       <Link
         to={linkPath}>
-        <RebalanceAlert>{rebalance && <span style={{background: 'blue'}} />}</RebalanceAlert>
+        {
+          loading ? (
+            <React.Fragment>
+              <RebalanceAlert><FontAwesomeIcon icon={faSpinner} spin /></RebalanceAlert>
+
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <RebalanceAlert>{rebalance && <span style={{background: 'blue'}} />}</RebalanceAlert>
+            </React.Fragment>
+          )
+        }
         {name}
         <FontAwesomeIcon icon={faAngleRight} />
+
       </Link>
     </div>
   )
