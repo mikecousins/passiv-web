@@ -10,6 +10,7 @@ import DashboardPage from './pages/DashboardPage';
 import GroupPage from './pages/GroupPage';
 import SettingsPage from './pages/SettingsPage';
 import QuestradeOauthPage from './pages/QuestradeOauthPage';
+import CouponPage from './pages/CouponPage';
 import SecureRoute from './routes/SecureRoute';
 import UpdateNotification from './components/UpdateNotification';
 
@@ -33,6 +34,7 @@ const App = () => (
         <SecureRoute path="/app/group/:groupId" component={GroupPage} />
         <SecureRoute path="/app/settings" component={SettingsPage} />
         <SecureRoute path="/app/oauth/questrade" component={QuestradeOauthPage} />
+        <SecureRoute path="/app/coupon" component={CouponPage} />
         <Route exact path="/oauth/questrade" render={() => questradeOauthRedirect()} />
         <Route exact path="/oauth/questrade-trade" render={() => questradeOauthRedirect()} />
         <UpdateNotification />
