@@ -25,17 +25,16 @@ export class UpdatePaymentCheckoutForm extends React.Component {
     let {token} = await this.props.stripe.createToken({name: "Name"});
     patchData('/api/v1/subscriptions', {token: token})
       .then(response => {
-        console.log('success', response.data);
         this.setState({loading: false});
         this.props.reloadSubscriptions();
         this.props.finishUpdatePayment();
       })
       .catch(error => {
-        console.log('error', error.response.data);
         this.setState({loading: false, error: error.detail});
         this.props.finishUpdatePaymentFail();
       });
   }
+
   render() {
     return (
       <div>
@@ -60,8 +59,6 @@ export class UpdatePaymentCheckoutForm extends React.Component {
     )
   }
 }
+const actions = { reloadSubscriptions: loadSubscriptions };
 
-const select = state => ({});
-const actions = {reloadSubscriptions: loadSubscriptions};
-
-export default connect(select, actions)(injectStripe(UpdatePaymentCheckoutForm));
+export default injectStripe(connect(null, actions)(UpdatePaymentCheckoutForm));
