@@ -4,9 +4,10 @@ import { H3, Title } from '../styled/GlobalElements';
 import { TradesContainer, TradeRow, Heading, Symbol, ColumnSymbol, ColumnUnits, ColumnPrice } from '../styled/Group';
 
 export const AccountTrades = ({ trades, groupId }) => {
-  let tradeList = null;
+  let buysList = null;
+  let sellsList = null;
   if (trades && trades.trades.length > 0) {
-    tradeList = trades.trades.map(trade => (
+    const tradeRender = trade => (
       <TradeRow key={trade.id}>
         <Heading>
           <H3>{trade.action}</H3>
@@ -24,12 +25,16 @@ export const AccountTrades = ({ trades, groupId }) => {
           <div>${trade.price}</div>
         </ColumnPrice>
       </TradeRow>
-    ))
+    )
+    let sortedTrades = trades.trades.sort((a, b) => a.sequence > b.sequence);
+    buysList = sortedTrades.filter(trade => trade.action === 'BUY').map(tradeRender);
+    sellsList = sortedTrades.filter(trade => trade.action === 'SELL').map(tradeRender);
   }
 
   return (
     <TradesContainer>
-        {tradeList}
+        {sellsList}
+        {buysList}
         <RebalanceWidget
         trades={trades}
         groupId={groupId}
