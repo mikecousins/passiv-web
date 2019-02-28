@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faPen } from '@fortawesome/free-solid-svg-icons';
-import { loadGroups } from '../actions';
+import { loadGroupsList } from '../actions';
 import { patchData } from '../api';
 import { selectCurrentGroup } from '../selectors';
 import styled from '@emotion/styled';
@@ -157,7 +157,7 @@ const select = state => ({
   group: selectCurrentGroup(state),
 });
 const actions = {
-  refreshGroups: loadGroups,
+  refreshGroups: loadGroupsList,
 };
 
 export default connect(select, actions)(AccountMetadata);
