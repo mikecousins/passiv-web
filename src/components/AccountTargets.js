@@ -88,7 +88,7 @@ export class AccountTargets extends React.Component {
               validate={(values, actions) => {
                 const errors = {};
                 const cashPercentage = 100 - values.targets.reduce((total, target) => {
-                  if (target.percent) {
+                  if (!target.deleted && target.percent) {
                     return total + parseFloat(target.percent);
                   }
                   return total;
@@ -130,7 +130,7 @@ export class AccountTargets extends React.Component {
                       name="targets"
                       render={arrayHelpers => {
                         const cashPercentage = 100 - props.values.targets.reduce((total, target) => {
-                          if (target.percent) {
+                          if (!target.deleted && target.percent) {
                             return total + parseFloat(target.percent);
                           }
                           return total;
