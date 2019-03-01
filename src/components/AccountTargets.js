@@ -33,18 +33,18 @@ export class AccountTargets extends React.Component {
     modelChoices: [
       {
         id: 'CHOOSE',
-        name: 'Choose a model portfolio',
+        name: 'Select a model portfolio',
         button: (<Button onClick={() => this.setState({model: 'CHOOSE'})}>Select</Button>)
       },
       {
         id: 'IMPORT',
-        name: 'Import your current holdings',
+        name: 'Import your current holdings as a target',
         button: (<Button onClick={() => this.importTarget()}>Import</Button>)
       },
       {
         id: 'MANUAL',
-        name: 'Set your target portfolio manually',
-        button: (<Button onClick={() => this.setState({model: 'MANUAL'})}>Select</Button>)
+        name: 'Build your target portfolio manually',
+        button: (<Button onClick={() => this.setState({model: 'MANUAL'})}>Build</Button>)
       }
 
     ]
@@ -99,7 +99,7 @@ export class AccountTargets extends React.Component {
       case 'CHOOSE':
         return (<P>LOL0</P>);
       case 'IMPORT':
-        return (<P>LOL1</P>);
+        return (<P>This shouldn't be visible ever.</P>);
       case 'MANUAL':
         return this.generateTargetForm(false);
       default:
@@ -120,8 +120,6 @@ export class AccountTargets extends React.Component {
       );
     }
 
-
-
     // help them set a target if they don't have one yet
     if (!this.props.targetInitialized || (!this.state.loading && target && target.length === 0)) {
       return (
@@ -130,6 +128,7 @@ export class AccountTargets extends React.Component {
           {
             this.state.model === null ? (
               <React.Fragment>
+                <P color="white">A target portfolio is how you tell Passiv what you want. You will need to choose which securities you want to hold and how you want your assets divided across those securities. Passiv will perform calculations to figure out what trades need to be made in order to follow your target portfolio.</P>
                 <P color="white">There is no target portfolio set for this account. Please choose one of the following options:</P>
                 <Container3Column>
                   {
@@ -155,8 +154,6 @@ export class AccountTargets extends React.Component {
         </ShadowBox>
       );
     }
-
-    // <span>No target set<Button onClick={() => this.importTarget()}>Import</Button></span>
 
     return (
       <ShadowBox>
