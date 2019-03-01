@@ -26,7 +26,7 @@ const SideBarLink = ({ name, linkPath, rebalance, loading, setupComplete }) => {
         indicator = (<RebalanceAlert>{rebalance && <span style={{background: 'blue'}} />}</RebalanceAlert>);
       }
       else {
-        indicator = (<RebalanceAlert><FontAwesomeIcon icon={faExclamationTriangle} /></RebalanceAlert>);
+        indicator = (<RebalanceAlert>{ <span style={{background: 'orange'}} /> }</RebalanceAlert>);
       }
     }
 
