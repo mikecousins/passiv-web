@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faAngleRight, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { RebalanceAlert } from '../../styled/Rebalance';
 
 const SideBarLink = ({ name, linkPath, rebalance, loading, setupComplete }) => {
