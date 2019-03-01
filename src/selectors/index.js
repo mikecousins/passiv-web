@@ -604,6 +604,19 @@ export const selectCurrentGroupTarget = createSelector(
   }
 );
 
+
+export const selectCurrentGroupSetupComplete = createSelector(
+  selectCurrentGroupTargetInitialized,
+  selectCurrentGroupTarget,
+  (targetInitialized, groupTarget) => {
+    let setupComplete = false;
+    if (targetInitialized && groupTarget.length > 0) {
+      setupComplete = true;
+    }
+    return setupComplete
+  }
+)
+
 export const selectIsAuthorized = createSelector(
   selectAuthorizations,
   (authorizations) => {
