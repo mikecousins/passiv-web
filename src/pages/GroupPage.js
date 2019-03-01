@@ -8,7 +8,7 @@ import AccountMetadata from '../components/AccountMetadata';
 import AccountTargets from '../components/AccountTargets';
 import AccountTrades from '../components/AccountTrades';
 import AccountSettings from '../components/AccountSettings';
-import { selectCurrentGroupTotalEquity, selectCurrentGroupCash, selectCurrentGroup, selectCurrentGroupAccuracy, selectCurrentGroupPositions, selectCurrentGroupBalances, selectCurrentGroupTrades } from '../selectors';
+import { selectCurrentGroupTotalEquity, selectCurrentGroupCash, selectCurrentGroup, selectCurrentGroupAccuracy, selectCurrentGroupPositions, selectCurrentGroupBalances, selectCurrentGroupTrades, selectCurrentGroupSetupComplete } from '../selectors';
 import styled from '@emotion/styled';
 
 export const Container2Column = styled.div`
@@ -24,7 +24,7 @@ export const Container2Column = styled.div`
 `;
 
 const GroupPage = (props) => {
-  const { group, trades, balances, accuracy, positions, cash, equity } = props;
+  const { group, trades, balances, accuracy, positions, cash, equity, setupComplete } = props;
 
   // if we don't have our group yet, show a spinner
   if (!group) {
@@ -44,7 +44,7 @@ const GroupPage = (props) => {
 
   // see if we have any suggested trades to display
   let tradeDisplay = null;
-  if (trades && trades.trades.length) {
+  if (setupComplete && trades && trades.trades.length) {
     tradeDisplay = (
       <AccountTrades trades={trades} groupId={group.id} />
     )
@@ -81,6 +81,7 @@ const select = state => ({
   equity: selectCurrentGroupTotalEquity(state),
   accuracy: selectCurrentGroupAccuracy(state),
   trades: selectCurrentGroupTrades(state),
+  setupComplete: selectCurrentGroupSetupComplete(state),
 });
 
 export default connect(select)(GroupPage);
