@@ -180,6 +180,12 @@ export const selectGroups = createSelector(
       return rawGroups.data.map((group) => {
         const groupWithRebalance = group;
         if (groupInfo[group.id] && groupInfo[group.id].data) {
+          if (groupInfo[group.id].data.settings.target_initialized && groupInfo[group.id].data.target_positions.length > 0) {
+            groupWithRebalance.setupComplete = true;
+          }
+          else {
+            groupWithRebalance.setupComplete = false;
+          }
           groupWithRebalance.loading = false;
           groupWithRebalance.rebalance = !!(groupInfo[group.id].data.calculated_trades && groupInfo[group.id].data.calculated_trades.trades.length > 0);
         }
@@ -327,6 +333,12 @@ export const selectDashboardGroups = createSelector(
           }
         });
         group.accuracy = groupInfo[group.id].data.accuracy;
+        if (groupInfo[group.id].data.settings.target_initialized && groupInfo[group.id].data.target_positions.length > 0) {
+          group.setupComplete = true;
+        }
+        else {
+          group.setupComplete = false;
+        }
         group.rebalance = !!(groupInfo[group.id].data.calculated_trades && groupInfo[group.id].data.calculated_trades.trades.length > 0);
         group.trades = groupInfo[group.id].data.calculated_trades;
       }

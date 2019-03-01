@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faAngleRight, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { RebalanceAlert } from '../../styled/Rebalance';
 
-const SideBarLink = ({ name, linkPath, rebalance, loading }) => {
+const SideBarLink = ({ name, linkPath, rebalance, loading, setupComplete }) => {
   let selected = window.location.pathname.startsWith(linkPath);
 
   let colorClass = null;
@@ -13,22 +13,31 @@ const SideBarLink = ({ name, linkPath, rebalance, loading }) => {
     colorClass = "active"
   }
 
+  let indicator = null;
+  if (loading) {
+    indicator = (<RebalanceAlert><FontAwesomeIcon icon={faSpinner} spin /></RebalanceAlert>);
+  }
+  else {
+    if (setupComplete === undefined) {
+        indicator = (<RebalanceAlert></RebalanceAlert>);
+    }
+    else {
+      if (setupComplete) {
+        indicator = (<RebalanceAlert>{rebalance && <span style={{background: 'blue'}} />}</RebalanceAlert>);
+      }
+      else {
+        indicator = (<RebalanceAlert><FontAwesomeIcon icon={faExclamationTriangle} /></RebalanceAlert>);
+      }
+    }
+
+  }
+
+
   return (
     <div className={colorClass}>
       <Link
         to={linkPath}>
-        {
-          loading ? (
-            <React.Fragment>
-              <RebalanceAlert><FontAwesomeIcon icon={faSpinner} spin /></RebalanceAlert>
-
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <RebalanceAlert>{rebalance && <span style={{background: 'blue'}} />}</RebalanceAlert>
-            </React.Fragment>
-          )
-        }
+        { indicator }
         {name}
         <FontAwesomeIcon icon={faAngleRight} />
 
