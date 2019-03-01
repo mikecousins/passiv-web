@@ -396,6 +396,17 @@ export const selectCurrentGroupSettings = createSelector(
   }
 )
 
+export const selectCurrentGroupTargetInitialized = createSelector(
+  selectCurrentGroupSettings,
+  (groupSettings) => {
+    let targetInitialized = false;
+    if (groupSettings && groupSettings.target_initialized) {
+      targetInitialized = groupSettings.target_initialized;
+    }
+    return targetInitialized;
+  }
+)
+
 export const selectCurrentGroupBalances = createSelector(
   selectCurrentGroupId,
   selectGroupInfo,
