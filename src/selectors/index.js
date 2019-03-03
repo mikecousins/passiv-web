@@ -180,6 +180,12 @@ export const selectGroups = createSelector(
       return rawGroups.data.map((group) => {
         const groupWithRebalance = group;
         if (groupInfo[group.id] && groupInfo[group.id].data) {
+          if (groupInfo[group.id].data.settings.target_initialized && groupInfo[group.id].data.target_positions.length > 0) {
+            groupWithRebalance.setupComplete = true;
+          }
+          else {
+            groupWithRebalance.setupComplete = false;
+          }
           groupWithRebalance.loading = false;
           groupWithRebalance.rebalance = !!(groupInfo[group.id].data.calculated_trades && groupInfo[group.id].data.calculated_trades.trades.length > 0);
         }
@@ -327,6 +333,12 @@ export const selectDashboardGroups = createSelector(
           }
         });
         group.accuracy = groupInfo[group.id].data.accuracy;
+        if (groupInfo[group.id].data.settings.target_initialized && groupInfo[group.id].data.target_positions.length > 0) {
+          group.setupComplete = true;
+        }
+        else {
+          group.setupComplete = false;
+        }
         group.rebalance = !!(groupInfo[group.id].data.calculated_trades && groupInfo[group.id].data.calculated_trades.trades.length > 0);
         group.trades = groupInfo[group.id].data.calculated_trades;
       }
@@ -393,6 +405,17 @@ export const selectCurrentGroupSettings = createSelector(
       settings = groupInfo[groupId].data.settings;
     }
     return settings
+  }
+)
+
+export const selectCurrentGroupTargetInitialized = createSelector(
+  selectCurrentGroupSettings,
+  (groupSettings) => {
+    let targetInitialized = false;
+    if (groupSettings && groupSettings.target_initialized) {
+      targetInitialized = groupSettings.target_initialized;
+    }
+    return targetInitialized;
   }
 )
 
@@ -592,6 +615,19 @@ export const selectCurrentGroupTarget = createSelector(
     return currentTarget;
   }
 );
+
+
+export const selectCurrentGroupSetupComplete = createSelector(
+  selectCurrentGroupTargetInitialized,
+  selectCurrentGroupTarget,
+  (targetInitialized, groupTarget) => {
+    let setupComplete = false;
+    if (targetInitialized && groupTarget.length > 0) {
+      setupComplete = true;
+    }
+    return setupComplete
+  }
+)
 
 export const selectIsAuthorized = createSelector(
   selectAuthorizations,
