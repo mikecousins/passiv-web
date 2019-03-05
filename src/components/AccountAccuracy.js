@@ -31,14 +31,23 @@ export const Accuracy = styled.div`
 `;
 
 const AccountAccuracy = (props) => {
+  let accuracy = null;
+  if (props.accuracy === undefined) {
+    accuracy = (<div><FontAwesomeIcon icon={faSpinner} spin /></div>);
+  }
+  else {
+    if (props.setupComplete) {
+      accuracy = (<Number value={props.accuracy} percentage decimalPlaces={0} />);
+    }
+    else {
+      accuracy = (<div><FontAwesomeIcon icon={faExclamationTriangle} /></div>);
+    }
+  }
   return (
 
     <Accuracy>
       <H2>Accuracy</H2>
-      {!props.accuracy && <div><FontAwesomeIcon icon={faSpinner} spin /></div>}
-      {props.setupComplete && props.accuracy &&
-      <Number value={props.accuracy} percentage decimalPlaces={0} />}
-      {!props.setupComplete && props.accuracy && <div><FontAwesomeIcon icon={faExclamationTriangle} /></div>}
+      {accuracy}
     </Accuracy>
   )
 
