@@ -309,7 +309,7 @@ export const selectDashboardGroups = createSelector(
       return fullGroups;
     }
     groups.forEach(g => {
-      const group = { id: g.id, name: g.name, totalCash: null, totalHoldings: null, totalValue: null };
+      const group = { id: g.id, name: g.name, totalCash: 0, totalHoldings: 0, totalValue: null };
       if (groupInfo[group.id] && groupInfo[group.id].data) {
         groupInfo[group.id].data.balances.forEach(balance => {
           // convert to CAD for now
