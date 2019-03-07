@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Formik, FieldArray, Field, ErrorMessage } from 'formik';
 import { toast } from "react-toastify";
+import uuid from 'uuid/v4';
 import { loadGroup } from '../actions';
 import { selectCurrentGroupId } from '../selectors';
 import TargetBar from './TargetBar';
@@ -13,7 +14,6 @@ import { H3, Edit } from '../styled/GlobalElements';
 import { TargetRow } from '../styled/Target';
 import { postData } from '../api';
 
-
 export class TargetSelector extends React.Component {
   state = {
     edit: false,
@@ -22,10 +22,6 @@ export class TargetSelector extends React.Component {
 
   canEdit() {
     return this.state.edit || !this.props.lockable;
-  }
-
-  getRandomId() {
-    return String(Math.floor(Math.random() * 1e12));
   }
 
   setSymbol(target, symbol) {
@@ -120,7 +116,7 @@ export class TargetSelector extends React.Component {
                   return (
                   <React.Fragment>
                     {props.values.targets.filter(t => !t.deleted).map((t, index) => (
-                    <div key={t.id === undefined ? this.getRandomId() : t.id}>
+                    <div key={t.id || t.key}>
                       <TargetBar
                         key={t.symbol}
                         target={t}
@@ -143,7 +139,7 @@ export class TargetSelector extends React.Component {
                     <ErrorMessage name="targets" />
                     {this.canEdit() ? (
                       <React.Fragment>
-                        <button type="button" onClick={() => arrayHelpers.push({ symbol: null, percent: 0 })}>
+                        <button type="button" onClick={() => arrayHelpers.push({ symbol: null, percent: 0, key: uuid() })}>
                           Add
                         </button>
                         <button type="button" onClick={() => {
@@ -157,7 +153,7 @@ export class TargetSelector extends React.Component {
                               props.values.targets.pop(0);
                               console.log('run', i, props.values.targets);
                             }
-                            arrayHelpers.push({ symbol: null, percent: 0 })
+                            arrayHelpers.push({ symbol: null, percent: 0, key: uuid() })
                           }
 
                         }}>
@@ -178,16 +174,13 @@ export class TargetSelector extends React.Component {
                             Cancel
                           </button>
                         )}
-
                       </React.Fragment>
                     ) : (
                       <Edit type="button" onClick={() => this.setState({ edit: true })}><FontAwesomeIcon icon={faLock} />Edit Targets</Edit>
                     )}
-
                   </React.Fragment>
                 )}}
               />
-
             </div>
         )}
       />
