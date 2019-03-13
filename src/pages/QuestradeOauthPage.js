@@ -22,18 +22,25 @@ class QuestradeOauthPage extends Component {
     let urlParams = new URLSearchParams(window.location.search);
     let token = urlParams.get('code');
 
-    if (!this.state.started) {
-      this.setState({started: true, loading: true});
-      postData('/api/v1/brokerages/authComplete/', { token: token })
-        .then(response => {
-          console.log('success', response.data);
-          this.setState({loading: false, success: true});
-          this.props.reloadAllState();
-        })
-        .catch(error => {
-          this.setState({loading: false, error: error.response.data});
-          console.log('error', error.response.data);
-        });
+    if (token === null) {
+      this.setState({loading: false, error: {
+        code: '0000',
+      }});
+    }
+    else {
+      if (!this.state.started) {
+        this.setState({started: true, loading: true});
+        postData('/api/v1/brokerages/authComplete/', { token: token })
+          .then(response => {
+            console.log('success', response.data);
+            this.setState({loading: false, success: true});
+            this.props.reloadAllState();
+          })
+          .catch(error => {
+            this.setState({loading: false, error: error.response.data});
+            console.log('error', error.response.data);
+          });
+      }
     }
   }
 
@@ -52,7 +59,12 @@ class QuestradeOauthPage extends Component {
           break;
         case '1007':
           error = (
-            <P>This connection code has expired, please try again. </P>
+            <P>This connection code has expired, please try again.</P>
+          );
+          break;
+        case '0000':
+          error = (
+            <P>No access code was provided by Questrade. Did you approve the connection request?</P>
           );
           break;
         default:
