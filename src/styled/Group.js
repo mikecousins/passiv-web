@@ -28,6 +28,7 @@ export const ViewBtn = styled.div`
   padding-right: 20px;
   border-left: 1px solid #eee;
   display: block;
+  width: 20%;
   a {
     font-size: 20px;
     font-weight: 900;
@@ -43,13 +44,17 @@ export const ViewBtn = styled.div`
 `;
 
 export const WarningViewBtn = styled.div`
-  background-color: orange;
+  background-color: #fff;
   margin: -20px 0;
-  padding: 34px 40px 34px;
-  padding-right: 20px;
+  padding: 24px 30px 24px;
+  padding-right: 10px;
   border-left: 1px solid #eee;
   display: block;
+  width: 20%;
   a {
+    padding: 10px;
+    background-color: orange;
+    border-radius: 5px;
     font-size: 20px;
     font-weight: 900;
     line-height: 0.95;
