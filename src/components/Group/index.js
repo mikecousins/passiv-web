@@ -56,7 +56,7 @@ export const Group = (props) => {
   }
   else {
     viewButton = (<WarningViewBtn>
-      <Link to={`/app/group/${group.id}`}>Fix<FontAwesomeIcon icon={faAngleRight} /></Link>
+      <Link to={`/app/group/${group.id}`}>Setup<FontAwesomeIcon icon={faAngleRight} /></Link>
     </WarningViewBtn>);
   }
 
