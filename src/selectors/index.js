@@ -534,7 +534,7 @@ export const selectCurrentGroupTotalEquityExcludedRemoved = createSelector(
   selectCurrentGroupBalancedEquity,
   selectCurrentGroupExcludedEquity,
   (cash, balancedEquity, excludedEquity) => {
-    if (!cash || !balancedEquity || !excludedEquity) {
+    if (cash === null || balancedEquity === null || excludedEquity === null) {
       return null;
     }
     return cash + balancedEquity - excludedEquity;
@@ -630,7 +630,8 @@ export const selectCurrentGroupTarget = createSelector(
   selectCurrentGroupTotalEquity,
   selectCurrentGroupTotalEquityExcludedRemoved,
   (groupInfo, totalHoldings, totalHoldingsExcludedRemoved) => {
-    if (!groupInfo || !groupInfo.target_positions || !totalHoldingsExcludedRemoved) {
+    console.log('excluded', totalHoldingsExcludedRemoved)
+    if (!groupInfo || !groupInfo.target_positions || totalHoldingsExcludedRemoved === null) {
       return null;
     }
 
