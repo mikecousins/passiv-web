@@ -105,7 +105,7 @@ export class TargetSelector extends React.Component {
                     return total;
                   }, 0);
                   const cashActualPercentage = 100 - props.values.targets.reduce((total, target) => {
-                    if (target.actualPercentage) {
+                    if (!(target.actualPercentage === undefined)) {
                       return total + target.actualPercentage;
                     }
                     return total;
