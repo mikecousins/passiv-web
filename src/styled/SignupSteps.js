@@ -30,6 +30,29 @@ export const StepButton = styled.button`
   }
 `;
 
+export const SmallStepButton = styled.button`
+  opacity: 0.97;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  background-color: #ffffff;
+  font-size: 36px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  letter-spacing: 1.7px;
+  text-align: center;
+  color: #2a2d34;
+  flex: 1;
+  padding: 40px 20px 40px;
+  max-width: 49%;
+  justify-content: space-between;
+   &:hover {
+  	background: var(--brand-blue);
+  	color: #fff;
+  }
+`;
+
 export const Step = styled.p`
   font-size: 18px;
   font-weight: 900;
