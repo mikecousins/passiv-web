@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faAngleRight, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faAngleRight, faChevronUp, faChevronDown, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import ShadowBox from '../../styled/ShadowBox';
-import { Table,H2,H3 } from '../../styled/GlobalElements';
-import { DashboardRow,ViewBtn, AllocateBtn, Container } from '../../styled/Group';
+import { Table, H2, H3 } from '../../styled/GlobalElements';
+import { DashboardRow, ViewBtn, WarningViewBtn, AllocateBtn, Container } from '../../styled/Group';
 import Number from '../Number';
 import AccountTrades from '../AccountTrades';
 
@@ -18,8 +18,15 @@ export const Group = (props) => {
   const [expanded, setExpanded] = useState(false);
 
   let accuracy = <FontAwesomeIcon icon={faSpinner} spin />;
-  if (group.accuracy) {
-      accuracy = <Number value={group.accuracy} percentage />;
+  if (group.setupComplete !== undefined) {
+    if (group.setupComplete === false) {
+      accuracy = <FontAwesomeIcon icon={faExclamationTriangle} />;
+    }
+    else {
+      if (group.accuracy) {
+          accuracy = <Number value={group.accuracy} percentage />;
+      }
+    }
   }
 
   let cash = <FontAwesomeIcon icon={faSpinner} spin />;
@@ -39,6 +46,18 @@ export const Group = (props) => {
         sellsFound = true;
       }
     });
+  }
+
+  let viewButton = null;
+  if (group.setupComplete) {
+    viewButton = (<ViewBtn>
+      <Link to={`/app/group/${group.id}`}>View<FontAwesomeIcon icon={faAngleRight} /></Link>
+    </ViewBtn>);
+  }
+  else {
+    viewButton = (<WarningViewBtn>
+      <Link to={`/app/group/${group.id}`}>Fix<FontAwesomeIcon icon={faAngleRight} /></Link>
+    </WarningViewBtn>);
   }
 
   return (
@@ -65,10 +84,8 @@ export const Group = (props) => {
               </H3>
               {totalValue}
             </div>
-            <ViewBtn>
-              <Link to={`/app/group/${group.id}`}>View<FontAwesomeIcon icon={faAngleRight} /></Link>
-            </ViewBtn>
-            {group.rebalance && (
+            {viewButton}
+            {group.setupComplete && group.rebalance && (
               <AllocateBtn onClick={() => setExpanded(!expanded)}>
                 {sellsFound ? 'Rebalance' : 'Allocate'}
                 &nbsp;

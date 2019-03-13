@@ -180,6 +180,12 @@ export const selectGroups = createSelector(
       return rawGroups.data.map((group) => {
         const groupWithRebalance = group;
         if (groupInfo[group.id] && groupInfo[group.id].data) {
+          if (groupInfo[group.id].data.settings.target_initialized && groupInfo[group.id].data.target_positions.length > 0) {
+            groupWithRebalance.setupComplete = true;
+          }
+          else {
+            groupWithRebalance.setupComplete = false;
+          }
           groupWithRebalance.loading = false;
           groupWithRebalance.rebalance = !!(groupInfo[group.id].data.calculated_trades && groupInfo[group.id].data.calculated_trades.trades.length > 0);
         }
@@ -303,7 +309,7 @@ export const selectDashboardGroups = createSelector(
       return fullGroups;
     }
     groups.forEach(g => {
-      const group = { id: g.id, name: g.name, totalCash: null, totalHoldings: null, totalValue: null };
+      const group = { id: g.id, name: g.name, totalCash: 0, totalHoldings: 0, totalValue: null };
       if (groupInfo[group.id] && groupInfo[group.id].data) {
         groupInfo[group.id].data.balances.forEach(balance => {
           // convert to CAD for now
@@ -316,8 +322,23 @@ export const selectDashboardGroups = createSelector(
             group.totalCash += parseFloat(balance.cash * conversionRate);
           }
         });
-        groupInfo[group.id].data.positions.forEach(position => group.totalHoldings += position.units * position.price);
+        groupInfo[group.id].data.positions.forEach(position => {
+          // convert to CAD for now
+          const preferredCurrency = currencies.find(currency => currency.code === 'CAD').id;
+          if (position.symbol.currency.id === preferredCurrency) {
+            group.totalHoldings += position.units * position.price;
+          } else {
+            const conversionRate = rates.find(rate => rate.src.id === position.symbol.currency.id  && rate.dst.id === preferredCurrency).exchange_rate;
+            group.totalHoldings += parseFloat(position.units * position.price * conversionRate);
+          }
+        });
         group.accuracy = groupInfo[group.id].data.accuracy;
+        if (groupInfo[group.id].data.settings.target_initialized && groupInfo[group.id].data.target_positions.length > 0) {
+          group.setupComplete = true;
+        }
+        else {
+          group.setupComplete = false;
+        }
         group.rebalance = !!(groupInfo[group.id].data.calculated_trades && groupInfo[group.id].data.calculated_trades.trades.length > 0);
         group.trades = groupInfo[group.id].data.calculated_trades;
       }
@@ -387,6 +408,17 @@ export const selectCurrentGroupSettings = createSelector(
   }
 )
 
+export const selectCurrentGroupTargetInitialized = createSelector(
+  selectCurrentGroupSettings,
+  (groupSettings) => {
+    let targetInitialized = false;
+    if (groupSettings && groupSettings.target_initialized) {
+      targetInitialized = groupSettings.target_initialized;
+    }
+    return targetInitialized;
+  }
+)
+
 export const selectCurrentGroupBalances = createSelector(
   selectCurrentGroupId,
   selectGroupInfo,
@@ -401,10 +433,23 @@ export const selectCurrentGroupBalances = createSelector(
 
 export const selectCurrentGroupCash = createSelector(
   selectCurrentGroupBalances,
-  (balances) => {
+  selectCurrencies,
+  selectCurrencyRates,
+  (balances, currencies, rates) => {
     let cash = null;
     if (balances) {
-      balances.forEach(balance => cash += parseFloat(balance.cash))
+      balances.forEach(balance => {
+        // convert to CAD for now
+        const preferredCurrency = currencies.find(currency => currency.code === 'CAD').id;
+        // const preferredCurrency = groupInfo[group.id].data.preferredCurrency;
+        if (balance.currency.id === preferredCurrency) {
+          cash += parseFloat(balance.cash);
+        } else {
+          const conversionRate = rates.find(rate => rate.src.id === balance.currency.id  && rate.dst.id === preferredCurrency).exchange_rate;
+          cash += parseFloat(balance.cash * conversionRate);
+
+        }
+      })
     }
     return cash
   }
@@ -424,12 +469,24 @@ export const selectCurrentGroupPositions = createSelector(
 
 export const selectCurrentGroupBalancedEquity = createSelector(
   selectCurrentGroupPositions,
-  (positions) => {
+  selectCurrencies,
+  selectCurrencyRates,
+  (positions, currencies, rates) => {
     if (!positions) {
       return null;
     }
     let total = 0;
-    positions.forEach(position => total += position.units * parseFloat(position.price));
+    positions.forEach(position => {
+        // convert to CAD for now
+        const preferredCurrency = currencies.find(currency => currency.code === 'CAD').id;
+        // const preferredCurrency = groupInfo[group.id].data.preferredCurrency;
+        if (position.symbol.currency.id === preferredCurrency) {
+          total += position.units * parseFloat(position.price);
+        } else {
+          const conversionRate = rates.find(rate => rate.src.id === position.symbol.currency.id  && rate.dst.id === preferredCurrency).exchange_rate;
+          total += parseFloat(position.units * position.price * conversionRate);
+        }
+    });
     return total;
   }
 );
@@ -492,13 +549,35 @@ export const selectCurrentGroupExcludedAssets = createSelector(
 export const selectTotalGroupHoldings = createSelector(
   selectGroups,
   selectGroupInfo,
-  (groups, groupInfo) => {
+  selectCurrencies,
+  selectCurrencyRates,
+  (groups, groupInfo, currencies, rates) => {
     let total = null;
     if (groups) {
       groups.forEach(group => {
         if (groupInfo && groupInfo[group.id] && groupInfo[group.id].data) {
-          groupInfo[group.id].data.balances.forEach(balance => total += parseFloat(balance.cash));
-          groupInfo[group.id].data.positions.forEach(position => total += position.units * parseFloat(position.price));
+          groupInfo[group.id].data.balances.forEach(balance => {
+            // convert to CAD for now
+            const preferredCurrency = currencies.find(currency => currency.code === 'CAD').id;
+            // const preferredCurrency = groupInfo[group.id].data.preferredCurrency;
+            if (balance.currency.id === preferredCurrency) {
+              total += parseFloat(balance.cash);
+            } else {
+              const conversionRate = rates.find(rate => rate.src.id === balance.currency.id  && rate.dst.id === preferredCurrency).exchange_rate;
+              total += parseFloat(balance.cash * conversionRate);
+            }
+          });
+          groupInfo[group.id].data.positions.forEach(position => {
+            // convert to CAD for now
+            const preferredCurrency = currencies.find(currency => currency.code === 'CAD').id;
+            // const preferredCurrency = groupInfo[group.id].data.preferredCurrency;
+            if (position.symbol.currency.id === preferredCurrency) {
+              total += position.units * parseFloat(position.price);
+            } else {
+              const conversionRate = rates.find(rate => rate.src.id === position.symbol.currency.id  && rate.dst.id === preferredCurrency).exchange_rate;
+              total += parseFloat(position.units * position.price * conversionRate);
+            }
+          });
         }
       });
     }
@@ -536,6 +615,19 @@ export const selectCurrentGroupTarget = createSelector(
     return currentTarget;
   }
 );
+
+
+export const selectCurrentGroupSetupComplete = createSelector(
+  selectCurrentGroupTargetInitialized,
+  selectCurrentGroupTarget,
+  (targetInitialized, groupTarget) => {
+    let setupComplete = false;
+    if (targetInitialized && groupTarget.length > 0) {
+      setupComplete = true;
+    }
+    return setupComplete
+  }
+)
 
 export const selectIsAuthorized = createSelector(
   selectAuthorizations,

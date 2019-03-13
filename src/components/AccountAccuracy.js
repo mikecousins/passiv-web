@@ -1,9 +1,11 @@
 import React from 'react';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
+import { faSpinner, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { H2} from '../styled/GlobalElements';
 import styled from '@emotion/styled';
 import Number from './Number';
+import { selectCurrentGroupSetupComplete } from '../selectors';
 
 export const Accuracy = styled.div`
   text-align: center;
@@ -29,16 +31,30 @@ export const Accuracy = styled.div`
 `;
 
 const AccountAccuracy = (props) => {
+  let accuracy = null;
+  if (props.accuracy === undefined) {
+    accuracy = (<div><FontAwesomeIcon icon={faSpinner} spin /></div>);
+  }
+  else {
+    if (props.setupComplete) {
+      accuracy = (<Number value={props.accuracy} percentage decimalPlaces={0} />);
+    }
+    else {
+      accuracy = (<div><FontAwesomeIcon icon={faExclamationTriangle} /></div>);
+    }
+  }
   return (
 
     <Accuracy>
       <H2>Accuracy</H2>
-      {!props.accuracy && <div><FontAwesomeIcon icon={faSpinner} spin /></div>}
-      {props.accuracy &&
-      <Number value={props.accuracy} percentage decimalPlaces={0} />}
+      {accuracy}
     </Accuracy>
   )
 
 };
 
-export default AccountAccuracy;
+const select = state => ({
+  setupComplete: selectCurrentGroupSetupComplete(state),
+});
+
+export default connect(select)(AccountAccuracy);

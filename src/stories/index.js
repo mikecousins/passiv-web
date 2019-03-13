@@ -6,7 +6,7 @@ import { DisabledButton } from '../styled/DisabledButton';
 import { LogoutButton } from '../styled/LogoutButton';
 import { AccountTargets } from '../components/AccountTargets';
 import GlobalStyle from '../styled/global';
-import { RebalanceWidget } from '../components/RebalanceWidget';
+import { AccountTrades } from '../components/AccountTrades';
 
 storiesOf('Button', module)
   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>);
@@ -39,9 +39,9 @@ storiesOf('AccountTargets', module)
     </React.Fragment>
   ));
 
-storiesOf('RebalanceWidget', module)
+storiesOf('AccountTrades', module)
   .add('1 Trade', () => (
-    <RebalanceWidget
+    <AccountTrades
       trades={{
         trades: [
           {

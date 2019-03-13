@@ -20,8 +20,30 @@ export const DashboardRow = styled.div`
     letter-spacing: 0.01em;
   }
 `;
+
 export const ViewBtn = styled.div`
   background-color: #fff;
+  margin: -20px 0;
+  padding: 34px 40px 34px;
+  padding-right: 20px;
+  border-left: 1px solid #eee;
+  display: block;
+  a {
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: 2px;
+    color: #033ebc;
+    display: block;
+    text-decoration: none;
+  }
+  svg {
+    padding-left: 3px;
+  }
+`;
+
+export const WarningViewBtn = styled.div`
+  background-color: orange;
   margin: -20px 0;
   padding: 34px 40px 34px;
   padding-right: 20px;

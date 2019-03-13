@@ -83,6 +83,17 @@ export const loadGroups = () => {
   };
 };
 
+export const loadGroupsList = () => {
+  return dispatch => {
+    dispatch(fetchGroupsStart());
+    getData('/api/v1/portfolioGroups/')
+      .then(response => {
+        return dispatch(fetchGroupsSuccess(response));
+      })
+      .catch(error => dispatch(fetchGroupsError(error)));
+  };
+};
+
 export const loadBrokerages = () => {
   return dispatch => {
     dispatch(fetchBrokeragesStart());
