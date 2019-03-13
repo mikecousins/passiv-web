@@ -63,7 +63,7 @@ export const BarActual = styled.span`
   top: -8px;
   position: absolute;
   width: 100%;
-  z-index: 0;
+  z-index: 10;
   span {
     height: 34px;
     background: transparent;
