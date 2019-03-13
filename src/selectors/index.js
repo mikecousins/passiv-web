@@ -491,6 +491,33 @@ export const selectCurrentGroupBalancedEquity = createSelector(
   }
 );
 
+export const selectCurrentGroupExcludedEquity = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    let excludedEquity = 0
+    try {
+      const excludedPositionsIds = groupInfo[groupId].data.excluded_positions.map(
+        excluded_position => excluded_position.symbol
+      )
+
+      const allPositions = groupInfo[groupId].data.positions
+
+      allPositions.forEach(position => {
+        if (excludedPositionsIds.includes(position.symbol.id)){
+          excludedEquity += position.price * position.units
+        }
+      })
+    }
+    catch {
+      return 0;
+    }
+
+
+    return excludedEquity;
+  }
+);
+
 export const selectCurrentGroupTotalEquity = createSelector(
   selectCurrentGroupCash,
   selectCurrentGroupBalancedEquity,
@@ -499,6 +526,18 @@ export const selectCurrentGroupTotalEquity = createSelector(
       return null;
     }
     return cash + balancedEquity;
+  }
+);
+
+export const selectCurrentGroupTotalEquityExcludedRemoved = createSelector(
+  selectCurrentGroupCash,
+  selectCurrentGroupBalancedEquity,
+  selectCurrentGroupExcludedEquity,
+  (cash, balancedEquity, excludedEquity) => {
+    if (!cash || !balancedEquity || !excludedEquity) {
+      return null;
+    }
+    return cash + balancedEquity - excludedEquity;
   }
 );
 
@@ -589,8 +628,9 @@ export const selectTotalGroupHoldings = createSelector(
 export const selectCurrentGroupTarget = createSelector(
   selectCurrentGroupInfo,
   selectCurrentGroupTotalEquity,
-  (groupInfo, totalHoldings) => {
-    if (!groupInfo || !groupInfo.target_positions) {
+  selectCurrentGroupTotalEquityExcludedRemoved,
+  (groupInfo, totalHoldings, totalHoldingsExcludedRemoved) => {
+    if (!groupInfo || !groupInfo.target_positions || !totalHoldingsExcludedRemoved) {
       return null;
     }
 
@@ -603,7 +643,7 @@ export const selectCurrentGroupTarget = createSelector(
       // add the actual percentage to the target
       const position = groupInfo.positions.find(p => p.symbol.id === target.symbol);
       if (position) {
-        target.actualPercentage = position.price * position.units / totalHoldings * 100;
+        target.actualPercentage = position.price * position.units / totalHoldingsExcludedRemoved * 100;
       }
       else {
         target.actualPercentage = 0;
