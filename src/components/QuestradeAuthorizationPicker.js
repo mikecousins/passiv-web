@@ -30,7 +30,7 @@ class QuestradeAuthorizationPicker extends Component {
   }
 
   getQuestradeDefaultType() {
-    return this.getQuestradeBrokerage().authorization_types.find(t => t.type === 'trade').type;
+    return this.getQuestradeBrokerage().authorization_types.find(t => t.type === 'read').type;
   }
 
   render() {
