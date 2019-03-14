@@ -494,7 +494,9 @@ export const selectCurrentGroupBalancedEquity = createSelector(
 export const selectCurrentGroupExcludedEquity = createSelector(
   selectCurrentGroupId,
   selectGroupInfo,
-  (groupId, groupInfo) => {
+  selectCurrencies,
+  selectCurrencyRates,
+  (groupId, groupInfo, currencies, rates) => {
     let excludedEquity = 0
     try {
       const excludedPositionsIds = groupInfo[groupId].data.excluded_positions.map(
@@ -504,15 +506,23 @@ export const selectCurrentGroupExcludedEquity = createSelector(
       const allPositions = groupInfo[groupId].data.positions
 
       allPositions.forEach(position => {
+        // Convert to CAD for now
+        const preferredCurrency = currencies.find(currency => currency.code === 'CAD').id;
+
+
         if (excludedPositionsIds.includes(position.symbol.id)){
-          excludedEquity += position.price * position.units
+          if (position.symbol.currency.id === preferredCurrency){
+            excludedEquity +=  position.units * parseFloat(position.price)
+          } else {
+            const conversionRate = rates.find(rate => rate.src.id === position.symbol.currency.id  && rate.dst.id === preferredCurrency).exchange_rate;
+            excludedEquity += parseFloat(position.units * position.price * conversionRate);
+          }
         }
       })
     }
     catch {
       return 0;
     }
-
 
     return excludedEquity;
   }
