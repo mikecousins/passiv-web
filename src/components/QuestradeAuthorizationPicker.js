@@ -5,8 +5,6 @@ import AuthorizationPicker from '../components/AuthorizationPicker';
 import ShadowBox from '../styled/ShadowBox';
 import { StepQuestion, StepButton, SmallStepButton, Step } from '../styled/SignupSteps';
 import { Table,H1,P,A,UL } from '../styled/GlobalElements';
-import { Button } from '../styled/Button';
-import styled from '@emotion/styled';
 
 class QuestradeAuthorizationPicker extends Component {
   state = {

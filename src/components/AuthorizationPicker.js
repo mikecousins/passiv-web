@@ -5,8 +5,6 @@ import { postData } from '../api';
 import { Button } from '../styled/Button';
 import { DisabledButton } from '../styled/DisabledButton';
 import { StepButton } from '../styled/SignupSteps';
-import styled from '@emotion/styled';
-
 
 class AuthorizationPicker extends Component {
   state = {

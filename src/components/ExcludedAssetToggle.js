@@ -16,7 +16,14 @@ class ExcludedAssetToggle extends Component {
     this.setState({ toggle: this.symbolExcluded(this.props.symbolId) });
   }
 
-  symbolInTargets = (symbolId) => this.props.targets.some(target => target.symbol === symbolId);
+  symbolInTargets = (symbolId) => {
+    if (this.props.targets) {
+      return this.props.targets.some(target => target.symbol === symbolId);
+    }
+    else {
+      return false;
+    }
+  };
 
   symbolExcluded = (symbolId) => { return this.props.excludedAssets.some(excludedAsset => excludedAsset.symbol === symbolId); };
 
