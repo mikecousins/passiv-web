@@ -4,6 +4,7 @@ import { selectBrokerages, selectAuthorizations, selectAccounts } from '../selec
 import { initialLoad, loadBrokerages } from '../actions';
 import { deleteData } from '../api';
 import AuthorizationPicker from '../components/AuthorizationPicker';
+import Connections from './Connections'
 import { Button } from '../styled/Button';
 
 import ShadowBox from '../styled/ShadowBox';
@@ -147,7 +148,8 @@ export class ConnectionsManager extends React.Component {
     return (
       <ShadowBox>
         <H2>Connections</H2>
-        {authorizations}
+        <Connections/>
+
         {
           this.state.creatingNewConnection ?
             (
@@ -165,6 +167,7 @@ export class ConnectionsManager extends React.Component {
               </div>
             )
         }
+
       </ShadowBox>
     )
   }
