@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { selectBrokerages, selectAuthorizations, selectAccounts } from '../selectors';
 import { initialLoad, loadBrokerages } from '../actions';
-import { deleteData } from '../api';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import Connections from './Connections'
 import { Button } from '../styled/Button';
@@ -47,7 +46,7 @@ export class ConnectionsManager extends React.Component {
               </div>
             )
         }
-        
+
       </ShadowBox>
     )
   }

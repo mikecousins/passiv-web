@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { selectAuthorizations } from '../selectors';
 
 import { Table, H3 } from '../styled/GlobalElements';
-import { Button } from '../styled/Button';
 
 import ConnectionsAuthorization from './ConnectionsAuthorization';
 

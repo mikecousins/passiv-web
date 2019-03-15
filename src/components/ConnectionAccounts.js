@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import ShadowBox from '../styled/ShadowBox';
-import { selectAuthorizations, selectAccounts } from '../selectors';
+import { selectAccounts } from '../selectors';
 
 
 class ConnectionAccounts extends React.Component{
@@ -13,6 +13,7 @@ class ConnectionAccounts extends React.Component{
       if (account.brokerage_authorization === authorizationId){
         selectedAccounts.push(account)
       }
+      return null;
     })
 
     return selectedAccounts
