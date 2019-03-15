@@ -12,24 +12,28 @@ class Connections extends React.Component {
   render() {
 
     const { authorizations } = this.props
-    if (authorizations){
-      return(
-        <React.Fragment>
-        <Table>
-        <div><H3>Brokerage</H3></div>
-        <div><H3>Name</H3></div>
-        <div><H3>Read</H3></div>
-        <div><H3>Trade</H3></div>
-        <div><H3>Edit</H3></div>
-        </Table>
 
-        {authorizations.map(authorization => (
-          <ConnectionsAuthorization key={authorization.id} authorization={authorization}/>
-        ))}
-        </React.Fragment>
-      )
+    if (authorizations){
+      if (authorizations.length > 0){
+        return(
+          <React.Fragment>
+          <Table>
+          <div><H3>Brokerage</H3></div>
+          <div><H3>Name</H3></div>
+          <div><H3>Read</H3></div>
+          <div><H3>Trade</H3></div>
+          <div><H3>Edit</H3></div>
+          </Table>
+
+          {authorizations.map(authorization => (
+            <ConnectionsAuthorization key={authorization.id} authorization={authorization}/>
+          ))}
+          </React.Fragment>
+        )} else {
+          return(null)
+        }
     }else {
-      return(<div>Loading....</div>)
+      return(null)
     }
   }
 }

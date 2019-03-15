@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { selectAuthorizations } from '../selectors';
 import { Table, H3 } from '../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTimes, faSortDown } from '@fortawesome/free-solid-svg-icons';
 
-
+import ConnectionAccounts from './ConnectionAccounts';
+import ConnectionUpdate from './ConnectionUpdate';
+import ConnectionDelete from './ConnectionDelete';
 
 class ConnectionsAuthorization extends React.Component {
   state = {
@@ -30,12 +32,18 @@ class ConnectionsAuthorization extends React.Component {
                 <FontAwesomeIcon icon={faCheck} />:
                 <FontAwesomeIcon icon={faTimes} />}
             </H3>
-              <FontAwesomeIcon icon={faPencilAlt}
+              <FontAwesomeIcon icon={faSortDown}
               onClick={() => this.setState({isEditting: !this.state.isEditting})}/>
 
         </Table>
 
-        {isEditting ? (<p>Update and Delete goes here?</p>): null}
+        {isEditting ? (
+          <Table>
+            <ConnectionAccounts authorizationId={authorization.id}/>
+            <ConnectionUpdate authorization={authorization}/>
+            <ConnectionDelete authorization={authorization}/>
+          </Table>
+        ): null}
       </React.Fragment>
     )
   }
