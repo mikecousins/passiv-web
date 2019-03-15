@@ -89,6 +89,7 @@ export class TargetBar extends React.Component {
                 getOptionLabel={(option) => `${option.symbol} (${option.description})`}
                 getOptionValue={(option) => option.id}
                 style={{ width: 120 }}
+                placeholder='Search for security...'
               />
             ) : fullSymbol.symbol}
           </Symbol>

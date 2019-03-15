@@ -55,7 +55,7 @@ export const Bar = styled.span`
 `;
 export const BarTarget = styled.span`
   position: relative;
-  z-index: 4;
+  z-index: 0;
   display: block;
 `;
 export const BarActual = styled.span`
@@ -63,7 +63,7 @@ export const BarActual = styled.span`
   top: -8px;
   position: absolute;
   width: 100%;
-  z-index: 10;
+  z-index: 1;
   span {
     height: 34px;
     background: transparent;
