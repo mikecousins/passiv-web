@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import ms from 'milliseconds';
+import jwtDecode from 'jwt-decode';
 import shouldUpdate from '../reactors/should-update';
 
 export const selectAppTime = state => state.appTime;
@@ -7,6 +8,22 @@ export const selectAppTime = state => state.appTime;
 export const selectLoggedIn = state => !!(state.auth.token);
 
 export const selectToken = state => state.auth.token;
+
+export const selectTokenIsExpired = createSelector(
+  selectToken,
+  selectAppTime,
+  (token, now) => {
+    if (!token) {
+      return false;
+    }
+    const decodedToken = jwtDecode(token);
+    const expiry = ms.seconds(decodedToken.exp);
+    if (now < expiry) {
+      return false;
+    }
+    return true;
+  },
+);
 
 export const selectCurrenciesRaw = state => state.currencies;
 

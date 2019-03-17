@@ -17,6 +17,10 @@ export const logout = () => ({
   type: 'LOGOUT',
 });
 
+export const tokenExpired = () => ({
+  type: 'TOKEN_EXPIRED',
+});
+
 export const registerStartedAsync = payload => {
   return dispatch => {
     dispatch(registerStarted());
