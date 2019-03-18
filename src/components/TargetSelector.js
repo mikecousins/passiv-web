@@ -65,6 +65,11 @@ export class TargetSelector extends React.Component {
           if (cashPercentage < 0) {
             errors.cash = 'Too low';
           }
+          values.targets.forEach((target, index) => {
+            if (!target.symbol) {
+              errors.targets = 'Symbol missing on new target';
+            }
+          });
           return errors;
         }}
         onSubmit={(values, actions) => {
@@ -121,7 +126,10 @@ export class TargetSelector extends React.Component {
                         key={t.symbol}
                         target={t}
                         edit={this.canEdit()}
-                        setSymbol={(symbol) => this.setSymbol(t, symbol)}
+                        setSymbol={(symbol) => {
+                          this.setSymbol(t, symbol);
+                          props.setFieldTouched(`targets.${index}.symbol`);
+                        }}
                         onDelete={(id) => {
                           const target = props.values.targets.find(t => t.id === id);
                           target.deleted = true;
@@ -136,7 +144,7 @@ export class TargetSelector extends React.Component {
                     <div key="cashBar">
                       <CashBar percentage={cashPercentage} actualPercentage={cashActualPercentage} />
                     </div>
-                    <ErrorMessage name="targets" />
+                    <ErrorMessage name="targets" component="div" />
                     {this.canEdit() ? (
                       <React.Fragment>
                         <button type="button" onClick={() => arrayHelpers.push({ symbol: null, percent: 0, key: uuid() })}>
@@ -147,11 +155,9 @@ export class TargetSelector extends React.Component {
                             this.resetTargets()
                           }
                           else {
-                            console.log('start', props.values.targets);
                             let len = props.values.targets.length;
                             for (let i=0; i<len; i++) {
                               props.values.targets.pop(0);
-                              console.log('run', i, props.values.targets);
                             }
                             arrayHelpers.push({ symbol: null, percent: 0, key: uuid() })
                           }
