@@ -49,7 +49,7 @@ export const Group = (props) => {
   }
 
   let viewButton = null;
-  if (group.setupComplete) {
+  if (group.setupComplete === undefined || group.setupComplete === true) {
     viewButton = (<ViewBtn>
       <Link to={`/app/group/${group.id}`}>View<FontAwesomeIcon icon={faAngleRight} /></Link>
     </ViewBtn>);
