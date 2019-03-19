@@ -6,7 +6,7 @@ import { putData } from '../api';
 
 import { Table, H3, Edit } from '../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes, faSortDown, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTimes, faSortDown, faSortUp, faPen } from '@fortawesome/free-solid-svg-icons';
 import { InputNonFormik } from '../styled/Form';
 import styled from '@emotion/styled';
 
@@ -79,7 +79,7 @@ class ConnectionsAuthorization extends React.Component {
                 <FontAwesomeIcon icon={faCheck} />:
                 <FontAwesomeIcon icon={faTimes} />}
             </H3>
-              <FontAwesomeIcon icon={faSortDown}
+              <FontAwesomeIcon icon={this.state.showMore ? faSortUp : faSortDown}
               onClick={() => this.setState({showMore: !this.state.showMore})}/>
 
         </Table>
