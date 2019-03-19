@@ -27,12 +27,12 @@ export const Container3Column = styled.div`
 
 const h2DarkStyle = {
   'color': 'white',
-  'padding-bottom': '20px',
+  'paddingBottom': '20px',
 }
 
 const h3DarkStyle = {
   'color': 'white',
-  'padding-bottom': '10px',
+  'paddingBottom': '10px',
 }
 
 const pDarkStyle = {
