@@ -33,8 +33,10 @@ class QuestradeOauthPage extends Component {
         postData('/api/v1/brokerages/authComplete/', { token: token })
           .then(response => {
             console.log('success', response.data);
-            this.setState({loading: false, success: true});
             this.props.reloadAllState();
+            setTimeout(() => {
+              this.setState({loading: false, success: true});
+            }, 1000);
           })
           .catch(error => {
             this.setState({loading: false, error: error.response.data});
