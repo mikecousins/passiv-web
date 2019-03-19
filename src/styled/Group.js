@@ -43,13 +43,12 @@ export const ViewBtn = styled.div`
 `;
 
 export const WarningViewBtn = styled.div`
-  background-color: orange;
-  margin: -20px 0;
-  padding: 34px 40px 34px;
-  padding-right: 20px;
-  border-left: 1px solid #eee;
   display: block;
   a {
+    background-color: orange;
+    margin: -20px -20px -20px 0;
+    border-radius: 0 4px 4px 0;
+    padding: 32px 40px 36px;
     font-size: 20px;
     font-weight: 900;
     line-height: 0.95;
@@ -60,6 +59,15 @@ export const WarningViewBtn = styled.div`
   }
   svg {
     padding-left: 3px;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: #ffa600;
+    left: -20px;
+    bottom: -20px;
   }
 `;
 
