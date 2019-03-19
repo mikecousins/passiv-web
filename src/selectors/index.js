@@ -358,6 +358,7 @@ export const selectDashboardGroups = createSelector(
         }
         group.rebalance = !!(groupInfo[group.id].data.calculated_trades && groupInfo[group.id].data.calculated_trades.trades.length > 0);
         group.trades = groupInfo[group.id].data.calculated_trades;
+        group.brokerage_authorizations = groupInfo[group.id].data.brokerage_authorizations;
       }
       if (group.totalCash && group.totalHoldings) {
         group.totalValue = group.totalCash + group.totalHoldings;
