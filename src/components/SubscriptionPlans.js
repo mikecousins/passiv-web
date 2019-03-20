@@ -11,17 +11,22 @@ class SubscriptionPlans extends React.Component {
 
 
   render() {
-    const { plans } = this.props
+    try{
+      const { plans } = this.props
 
-    const annualPlan = plans.filter(plan => plan.nickname.toLowerCase() === "annual")[0]
+      const annualPlan = plans.filter(plan => plan.nickname.toLowerCase() === "annual")[0]
 
-    return(
-      <React.Fragment>
-        <H3> GetPassiv Elite </H3>
-        <SubscriptionPlan plan={annualPlan}/>
-      </React.Fragment>
+      return(
+        <React.Fragment>
+          <H3> GetPassiv Elite </H3>
+          <SubscriptionPlan plan={annualPlan}/>
+        </React.Fragment>
 
-    )
+      )
+    }catch {
+      return null;
+    }
+
 
   }
 }
