@@ -9,7 +9,6 @@ class SubscriptionCoupon extends React.Component {
   render() {
     const { coupon } = this.props.subscriptions
 
-    console.log(this.props.subscriptions)
     if ( coupon.percent_off ){
       return(
         <React.Fragment>

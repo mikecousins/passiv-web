@@ -121,12 +121,14 @@ export class SubscriptionManager extends React.Component {
             </div>
           ) : (
             <React.Fragment>
-              <SubscriptionPlans />
-              <SubscriptionCoupon />
               <div>
-                <Button onClick={() => {this.createSubscription()}}>
-                  Upgrade to Elite
-                </Button>
+                <SubscriptionPlans />
+                <SubscriptionCoupon />
+                <div>
+                  <Button onClick={() => {this.createSubscription()}}>
+                    Upgrade to Elite
+                  </Button>
+                </div>
               </div>
             </React.Fragment>
           )
