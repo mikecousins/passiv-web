@@ -42,6 +42,10 @@ export default (history) => combineReducers({
     baseType: 'FETCH_SUBSCRIPTIONS',
     userData: true,
   }),
+  plans: simple({
+    baseType: 'FETCH_PLANS',
+    userData: true,
+  }),
   accounts: simple({
     baseType: 'FETCH_ACCOUNTS',
     userData: true,

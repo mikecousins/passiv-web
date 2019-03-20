@@ -7,6 +7,7 @@ import {
   loadAccounts,
   loadGroups,
   loadSettings,
+  loadPlans,
 } from '../actions';
 import {
   selectCurrenciesNeedData,
@@ -17,6 +18,7 @@ import {
   selectAccountsNeedData,
   selectGroupsNeedData,
   selectSettingsNeedData,
+  selectPlansNeedData,
 } from '../selectors';
 
 export { default as reducer } from '../reducers'
@@ -53,5 +55,9 @@ export const effects = [
   {
     selector: selectSettingsNeedData,
     actionCreator: loadSettings,
+  },
+  {
+    selector: selectPlansNeedData,
+    actionCreator: loadPlans,
   },
 ]
