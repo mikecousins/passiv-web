@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { loadGroup } from '../actions';
 import { getData, postData } from '../api';
-import { selectSymbols } from '../selectors';
+import { selectSymbols, selectBrokerages, selectDashboardGroups } from '../selectors';
 import { Button } from '../styled/Button';
 import styled from '@emotion/styled';
 import { H2, P, A, Table } from '../styled/GlobalElements';
 import Number from './Number';
+import ConnectionUpdate from '../components/ConnectionUpdate';
 
 const SummaryContainer = styled.div`
   position: relative;
@@ -100,102 +102,164 @@ export class RebalanceWidget extends Component {
     return this.state.orderSummary.reduce((acc, result) => {return acc + result.remaining_cash}, 0);
   }
 
+  // getQuestradeBrokerage() {
+  //   return this.props.brokerages.find(b => b.name === 'Questrade');
+  // }
+  //
+  // getQuestradeId() {
+  //   return this.getQuestradeBrokerage().id;
+  // }
+  //
+  // getQuestradeTradeType() {
+  //   return this.getQuestradeBrokerage().authorization_types.find(t => t.type === 'trade').type;
+  // }
+
+  getReadBrokerageAuthorization = () => {
+    let group = this.props.groups.find(g => g.id === this.props.groupId);
+    return group.brokerage_authorizations.find(a => a.type === 'read');
+  }
+
+
   render() {
+    let error = null;
+    if (this.state.error) {
+      switch (this.state.error.code) {
+        case '1014':
+          error = (
+            <div>
+              <H2>Order cannot be Processed</H2>
+              <P>This portfolio group does not have trade permissions and therefore can't be used to place orders.</P>
+              <P>Connect with full trade permissions:</P>
+              <ConnectionUpdate
+                authorization={this.getReadBrokerageAuthorization()}
+                type='trade'
+                hideTitle={true}
+              />
+            </div>
+
+          );
+          break;
+        case '0000':
+          error = (
+            <div>
+              <H2>Order cannot be Processed</H2>
+              <P>Oops, you've encountered a bug! Please try again later or <Link to="/app/help">contact support</Link> if this persists.</P>
+            </div>
+
+          );
+          break;
+        default:
+          error = (
+            <div>
+              <H2>Order cannot be Processed</H2>
+              <P>Oops, you've encountered a bug! Please try again later or <Link to="/app/help">contact support</Link> if this persists.</P>
+            </div>
+          );
+          break;
+      }
+    }
+
     let orderValidation = (
       <Button onClick={this.validateOrders}>
         Validate
       </Button>
     );
-    if (this.state.validatingOrders) {
-      orderValidation = (
-        <div>
-        <P>
-          Validating orders ...&nbsp;
-          <FontAwesomeIcon icon={faSpinner} spin />
-        </P>
-        </div>
-      );
-    } else if (this.state.orderSummary || this.state.error) {
-      orderValidation = (
-        this.state.orderResults ? (
+    if (this.state.error) {
+      orderValidation = error;
+    }
+    else {
+      if (this.state.validatingOrders) {
+        orderValidation = (
           <div>
-            <H2>Order Results</H2>
-            <div>
-              <Table>
-                <div>Action</div>
-                <div>Symbol</div>
-                <div>Units</div>
-                <div>Status</div>
-              </Table>
-              {
-                this.state.orderResults.map(results => {
-                  return (
-                    <Table key={results.trade}>
-                      <div>{ results.action }</div>
-                      <div>{ results.universal_symbol.symbol }</div>
-                      <div>{ results.filled_units }</div>
-                      <div>{ results.state }</div>
-                    </Table>
-                  )
-                })
-              }
-            </div>
-            <div>
-              <ConfirmContainer>
-                <Button onClick={() => {this.closeWidget()}}>
-                  Okay!
-                </Button>
-              </ConfirmContainer>
-            </div>
+          <P>
+            Validating orders ...&nbsp;
+            <FontAwesomeIcon icon={faSpinner} spin />
+          </P>
           </div>
-        ) : (
-          this.state.orderSummary ? (
+        );
+      } else if (this.state.orderSummary) {
+        orderValidation = (
+          this.state.orderResults ? (
             <div>
-              <H2>Order Summary</H2>
-              <P>
-                The trades listed above will be placed as market orders on Questrade.
-              </P>
+              <H2>Order Results</H2>
               <div>
-                <MetaHorizontal>
-                  <span>Estimated commissions:</span> <Number value={this.sumEstimatedCommissions()} currency />
-                </MetaHorizontal>
-                <MetaHorizontal>
-                  <span>Remaining cash:</span> <Number value={this.sumRemainingCash()} currency />
-                </MetaHorizontal>
+                <Table>
+                  <div>Action</div>
+                  <div>Symbol</div>
+                  <div>Units</div>
+                  <div>Status</div>
+                </Table>
+                {
+                  this.state.orderResults.map(results => {
+                    return (
+                      <Table key={results.trade}>
+                        <div>{ results.action }</div>
+                        <div>{ results.universal_symbol.symbol }</div>
+                        <div>{ results.filled_units }</div>
+                        <div>{ results.state }</div>
+                      </Table>
+                    )
+                  })
+                }
               </div>
-              <P>
-                Market orders may result in the price paid or received to be different from the last price quoted before the order was placed. <A href="https://questrade-support.secure.force.com/mylearning/view/h/Investing/Market+orders" target="_blank">Learn more</A>
-              </P>
-              <P>
-                <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">Exchange and ECN fees</A>, <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">SEC fees</A> and for ADRs <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">annual custody</A> fees may apply. Commissions may vary if your order is filled over multiple days. Borrow fees may apply if you hold a short investment overnight.
-              </P>
-                {this.state.placingOrders ? (
-                  <div>
-                    <p>Placing orders ... <FontAwesomeIcon icon={faSpinner} spin /></p>
-                  </div>
-                ) : (
-                  <div>
-                    <ConfirmContainer>
-                      <Button onClick={() => {this.cancelOrders()}}>
-                        Cancel
-                      </Button>
-                      <Button onClick={() => {this.confirmOrders()}}>
-                        Confirm
-                      </Button>
-                    </ConfirmContainer>
-                  </div>
-                )}
+              <div>
+                <ConfirmContainer>
+                  <Button onClick={() => {this.closeWidget()}}>
+                    Okay!
+                  </Button>
+                </ConfirmContainer>
+              </div>
             </div>
           ) : (
-            <div>
-              <P>
-                There is a problem with your orders: {this.state.error}
-              </P>
-            </div>
+            this.state.orderSummary ? (
+              <div>
+                <H2>Order Summary</H2>
+                <P>
+                  The trades listed above will be placed as market orders on Questrade.
+                </P>
+                <div>
+                  <MetaHorizontal>
+                    <span>Estimated commissions:</span> <Number value={this.sumEstimatedCommissions()} currency />
+                  </MetaHorizontal>
+                  <MetaHorizontal>
+                    <span>Remaining cash:</span> <Number value={this.sumRemainingCash()} currency />
+                  </MetaHorizontal>
+                </div>
+                <P>
+                  Market orders may result in the price paid or received to be different from the last price quoted before the order was placed. <A href="https://questrade-support.secure.force.com/mylearning/view/h/Investing/Market+orders" target="_blank">Learn more</A>
+                </P>
+                <P>
+                  <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">Exchange and ECN fees</A>, <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">SEC fees</A> and for ADRs <A href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees" target="_blank">annual custody</A> fees may apply. Commissions may vary if your order is filled over multiple days. Borrow fees may apply if you hold a short investment overnight.
+                </P>
+                  {this.state.placingOrders ? (
+                    <div>
+                      <p>Placing orders ... <FontAwesomeIcon icon={faSpinner} spin /></p>
+                    </div>
+                  ) : (
+                    <div>
+                      <ConfirmContainer>
+                        <Button onClick={() => {this.cancelOrders()}}>
+                          Cancel
+                        </Button>
+                        <Button onClick={() => {this.confirmOrders()}}>
+                          Confirm
+                        </Button>
+                      </ConfirmContainer>
+                    </div>
+                  )}
+              </div>
+            ) : (
+              <div>
+                <P>
+                  There is a problem with your orders: {this.state.error}
+                </P>
+              </div>
+            )
           )
-        )
-      );
+        );
+      }
     }
+
 
     return (
       <SummaryContainer>
@@ -212,6 +276,8 @@ const actions = {
 
 const select = state => ({
   symbols: selectSymbols(state),
+  brokerages: selectBrokerages(state),
+  groups: selectDashboardGroups(state),
 });
 
 export default connect(select, actions)(RebalanceWidget);
