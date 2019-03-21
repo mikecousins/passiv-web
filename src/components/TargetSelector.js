@@ -136,7 +136,6 @@ export class TargetSelector extends React.Component {
                           props.setFieldTouched(`targets.${index}.symbol`);
                         }}
                         onDelete={(id) => {
-                          console.log('id:', id, 'targets:', props.values.targets);
                           const target = props.values.targets.find(t => t.id === id);
                           target.deleted = true;
                           this.forceUpdate();
