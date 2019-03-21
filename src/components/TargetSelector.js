@@ -66,7 +66,7 @@ export class TargetSelector extends React.Component {
             errors.cash = 'Too low';
           }
           values.targets.forEach((target, index) => {
-            if (!target.symbol) {
+            if (!target.deleted && !target.symbol) {
               errors.targets = 'Symbol missing on new target';
             }
           });
