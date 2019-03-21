@@ -28,6 +28,13 @@ class ConnectionsAuthorization extends React.Component {
 
   onChange = (e) => this.setState({authorization_name:e.target.value})
 
+  onEnter = (e) => {
+    if (e.key === 'Enter') {
+      this.finishEditing();
+    }
+  }
+
+
   finishEditing() {
     if (this.state.authorization_name !== this.props.authorization.name) {
       let authorization = Object.assign({}, this.props.authorization);
@@ -44,7 +51,7 @@ class ConnectionsAuthorization extends React.Component {
   }
 
   render () {
-
+    this.onEnter({e:{key:'Enter'}})
     const { authorization } = this.props
     const {showMore, nameEditting, authorization_name} = this.state
 
@@ -64,7 +71,9 @@ class ConnectionsAuthorization extends React.Component {
               <InputContainer>
                 <InputNonFormik
                   value={authorization_name}
-                  onChange={this.onChange}/>
+                  onChange={this.onChange}
+                  onKeyPress={this.onEnter}
+                />
                 <Edit onClick={() => this.finishEditing()}>
                 <FontAwesomeIcon icon={faCheck}/>Done
                 </Edit>

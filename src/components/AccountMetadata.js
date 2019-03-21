@@ -58,6 +58,12 @@ class AccountMetadata extends Component {
     loading: false,
   }
 
+  onEnter = (e) => {
+    if (e.key === 'Enter') {
+      this.finishEditingName();
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     this.setState({name: nextProps.name, editingName: false, loading: false});
   }
@@ -92,7 +98,9 @@ class AccountMetadata extends Component {
           <Table>
             {this.state.editingName ? (
               <NameContainer>
-                <InputNonFormik value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}/>
+                <InputNonFormik value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}
+                onKeyPress={this.onEnter}
+                />
                 <Button onClick={() => this.finishEditingName()}>Done</Button>
               </NameContainer>
             ) : (

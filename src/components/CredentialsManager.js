@@ -35,6 +35,12 @@ export class CredentialsManager extends React.Component {
     this.setState({editingName: true});
   }
 
+  onEnter = (e) => {
+    if (e.key === 'Enter') {
+      this.finishEditing();
+    }
+  }
+
   finishEditing() {
     if (this.state.name !== this.props.settings.name) {
       let settings = Object.assign({}, this.props.settings);
@@ -50,8 +56,6 @@ export class CredentialsManager extends React.Component {
     this.setState({editingName: false});
   }
 
-
-
   render() {
     return (
       <ShadowBox>
@@ -59,7 +63,10 @@ export class CredentialsManager extends React.Component {
         <div>
           {this.state.editingName ? (
             <InputContainer>
-              <InputNonFormik value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}/>
+              <InputNonFormik
+                value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}
+                onKeyPress={this.onEnter}
+              />
               <Button onClick={() => this.finishEditing()}>Done</Button>
             </InputContainer>
           ) : (
