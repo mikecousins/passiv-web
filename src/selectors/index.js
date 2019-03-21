@@ -684,7 +684,9 @@ export const selectCurrentGroupTarget = createSelector(
   selectCurrentGroupInfo,
   selectCurrentGroupTotalEquity,
   selectCurrentGroupTotalEquityExcludedRemoved,
-  (groupInfo, totalHoldings, totalHoldingsExcludedRemoved) => {
+  selectCurrencyRates,
+  selectCurrencies,
+  (groupInfo, totalHoldings, totalHoldingsExcludedRemoved, rates, currencies) => {
     if (!groupInfo || !groupInfo.target_positions || totalHoldingsExcludedRemoved === null) {
       return null;
     }
@@ -698,7 +700,13 @@ export const selectCurrentGroupTarget = createSelector(
       // add the actual percentage to the target
       const position = groupInfo.positions.find(p => p.symbol.id === target.symbol);
       if (position) {
-        target.actualPercentage = position.price * position.units / totalHoldingsExcludedRemoved * 100;
+        const preferredCurrency = currencies.find(currency => currency.code === 'CAD').id;
+        if (position.symbol.currency.id === preferredCurrency){
+          target.actualPercentage = position.price * position.units / totalHoldingsExcludedRemoved * 100;
+        } else {
+          const conversionRate = rates.find(rate => rate.src.id === position.symbol.currency.id  && rate.dst.id === preferredCurrency).exchange_rate;
+          target.actualPercentage = parseFloat(position.price * position.units / totalHoldingsExcludedRemoved * 100 * conversionRate);
+        }
       }
       else {
         target.actualPercentage = 0;
