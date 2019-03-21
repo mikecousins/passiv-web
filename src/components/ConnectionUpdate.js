@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 
-import ShadowBox from '../styled/ShadowBox';
 import { H3 } from '../styled/GlobalElements';
 import { Order } from '../styled/Group';
 
