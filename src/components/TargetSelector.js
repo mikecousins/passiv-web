@@ -4,7 +4,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Formik, FieldArray, Field, ErrorMessage } from 'formik';
 import { toast } from "react-toastify";
-import uuid from 'uuid/v4';
 import { loadGroup } from '../actions';
 import { selectCurrentGroupId } from '../selectors';
 import TargetBar from './TargetBar';
