@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { push } from 'connected-react-router';
 import { loadGroup } from '../actions';
 import { getData, postData } from '../api';
-import { selectSymbols, selectBrokerages, selectDashboardGroups } from '../selectors';
+import { selectSymbols, selectBrokerages, selectDashboardGroups, selectIsFree } from '../selectors';
 import { Button } from '../styled/Button';
 import styled from '@emotion/styled';
 import { H2, P, A, Table } from '../styled/GlobalElements';
@@ -44,6 +45,10 @@ const MetaHorizontal = styled.div`
     margin-right: 6px;
     text-align: left;
   }
+`;
+
+const UpgradeText = styled.span`
+  color: white;
 `;
 
 export class RebalanceWidget extends Component {
@@ -129,6 +134,7 @@ export class RebalanceWidget extends Component {
 
 
   render() {
+    const { isFree, push } = this.props;
     let error = null;
     if (this.state.error) {
       switch (this.state.error.code) {
@@ -172,7 +178,13 @@ export class RebalanceWidget extends Component {
         Validate
       </Button>
     );
-    if (this.state.error) {
+    if (isFree) {
+      orderValidation = (
+        <UpgradeText>
+          Upgrade your account to let us execute trades for you! <Button onClick={() => push('/app/settings')}>Upgrade</Button>
+        </UpgradeText>
+      )
+    } else if (this.state.error) {
       orderValidation = error;
     }
     else {
@@ -280,12 +292,14 @@ export class RebalanceWidget extends Component {
 
 const actions = {
   reloadGroup: loadGroup,
+  push: push,
 };
 
 const select = state => ({
   symbols: selectSymbols(state),
   brokerages: selectBrokerages(state),
   groups: selectDashboardGroups(state),
+  isFree: selectIsFree(state),
 });
 
 export default connect(select, actions)(RebalanceWidget);
