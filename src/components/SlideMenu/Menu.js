@@ -61,7 +61,6 @@ class Menu extends React.Component {
 
     return (
       <FlyOut id="flyoutMenu"
-           onMouseDown={this.props.handleMouseDown}
            className={visibility}>
         <ul>
           <li><a href="https://getpassiv.com/">Passiv Home</a></li>

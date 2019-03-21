@@ -43,6 +43,13 @@ export const ViewBtn = styled.div`
   }
 `;
 
+export const tradeHeading = styled.h2`
+  font-size: 40px;
+  font-weight: bold;
+  text-align: left;
+  line-height: 1;
+`;
+
 export const WarningViewBtn = styled.div`
   background-color: #fff;
   margin: -20px -20px -21px 0;
@@ -102,44 +109,61 @@ export const AllocateBtn= styled.div`
 
 export const TradesContainer = styled.div`
   position: relative;
-  background-color: #001c55;
-  color: #fff;
+  color: #003BA2;
+  box-shadow: var(--box-shadow);
   border-radius: 0 0 4px 4px;
-  padding: 42px 20px 2px 20px;
+  padding: 5px 20px 20px 20px;
   margin-bottom: 20px;
-  margin-top: -22px;
-  > div {
-    margin-bottom: 20px;
-    background: none;
-    text-align: right;
+  margin-top: 0;
+  background: #deeaff;
+  h3 {
+    color: #003BA2;
   }
 `;
 
 export const TradeRow = styled.div`
+  text-align: right;
   @media (min-width: 760px) {
     display: flex;
   }
-  margin-bottom: 16px;
 `;
 
 export const Heading = styled.div`
-  width: 25%;
   h3 {
-    color: #fff;
     font-size: 40px;
     font-weight: bold;
-    text-align: left;
+    text-align: right;
     line-height: 1;
   }
 `;
 
 export const ColumnSymbol = styled.div`
-  min-width: 45%;
+  min-width: 60%;
 `;
 
 export const ColumnUnits = styled.div`
-  min-width: 15%;
+  min-width: 20%;
 `;
 export const ColumnPrice = styled.div`
-  min-width: 15%;
+  min-width: 20%;
+`;
+
+export const TradeType = styled.div`
+  h3 {
+    text-align: right;
+    margin-bottom: 20px;
+    padding-top: 18px;
+  }
+  &:not(:first-child)  {
+    border-top: 1px solid #fff;
+    margin-top: 12px;
+    padding-top: 18px;
+    > div:first-of-type{
+      display: none;
+    }
+  }
+`;
+
+export const Order = styled.div`
+
 `;

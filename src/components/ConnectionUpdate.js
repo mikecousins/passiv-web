@@ -4,6 +4,7 @@ import AuthorizationPicker from '../components/AuthorizationPicker';
 
 import ShadowBox from '../styled/ShadowBox';
 import { H3 } from '../styled/GlobalElements';
+import { Order } from '../styled/Group';
 
 class ConnectionUpdate extends React.Component{
   state = {
@@ -14,7 +15,7 @@ class ConnectionUpdate extends React.Component{
   render() {
     const { authorization } = this.props
     return(
-      <ShadowBox>
+      <Order>
         {!(this.props.hideTitle) && (<H3>Update/Refresh Connection</H3>)}
 
         <AuthorizationPicker
@@ -24,7 +25,7 @@ class ConnectionUpdate extends React.Component{
           allowSelectType={this.state.allowSelectType}
           type={this.state.defaultType}
         />
-      </ShadowBox>
+      </Order>
     )
   }
 }

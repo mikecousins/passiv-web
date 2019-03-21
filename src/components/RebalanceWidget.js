@@ -13,14 +13,22 @@ import Number from './Number';
 import ConnectionUpdate from '../components/ConnectionUpdate';
 
 const SummaryContainer = styled.div`
-  position: relative;
-  background-color: #ffffff;
-  color: #000;
-  border-radius: 4px;
-  > div {
-    background: #ffffff;
-    text-align: left;
+  text-align: right;
+  margin-top: 25px;
+  button {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 2px;
   }
+`;
+
+const OrderContainer = styled.div`
+  position: relative;
+  border-radius: 4px;
+  padding: 25px;
+  margin-top: 30px;
+  background: #f5f9ff;
 `;
 
 const ConfirmContainer = styled.div`
@@ -126,7 +134,7 @@ export class RebalanceWidget extends Component {
       switch (this.state.error.code) {
         case '1014':
           error = (
-            <div>
+            <OrderContainer>
               <H2>Order cannot be Processed</H2>
               <P>This portfolio group does not have trade permissions and therefore can't be used to place orders.</P>
               <P>Connect with full trade permissions:</P>
@@ -135,25 +143,25 @@ export class RebalanceWidget extends Component {
                 type='trade'
                 hideTitle={true}
               />
-            </div>
+            </OrderContainer>
 
           );
           break;
         case '0000':
           error = (
-            <div>
+            <OrderContainer>
               <H2>Order cannot be Processed</H2>
               <P>Oops, you've encountered a bug! Please try again later or <Link to="/app/help">contact support</Link> if this persists.</P>
-            </div>
+            </OrderContainer>
 
           );
           break;
         default:
           error = (
-            <div>
+            <OrderContainer>
               <H2>Order cannot be Processed</H2>
               <P>Oops, you've encountered a bug! Please try again later or <Link to="/app/help">contact support</Link> if this persists.</P>
-            </div>
+            </OrderContainer>
           );
           break;
       }
@@ -170,17 +178,17 @@ export class RebalanceWidget extends Component {
     else {
       if (this.state.validatingOrders) {
         orderValidation = (
-          <div>
+          <OrderContainer>
           <P>
             Validating orders ...&nbsp;
             <FontAwesomeIcon icon={faSpinner} spin />
           </P>
-          </div>
+          </OrderContainer>
         );
       } else if (this.state.orderSummary) {
         orderValidation = (
           this.state.orderResults ? (
-            <div>
+            <OrderContainer>
               <H2>Order Results</H2>
               <div>
                 <Table>
@@ -209,10 +217,10 @@ export class RebalanceWidget extends Component {
                   </Button>
                 </ConfirmContainer>
               </div>
-            </div>
+            </OrderContainer>
           ) : (
             this.state.orderSummary ? (
-              <div>
+              <OrderContainer>
                 <H2>Order Summary</H2>
                 <P>
                   The trades listed above will be placed as market orders on Questrade.
@@ -247,7 +255,7 @@ export class RebalanceWidget extends Component {
                       </ConfirmContainer>
                     </div>
                   )}
-              </div>
+              </OrderContainer>
             ) : (
               <div>
                 <P>
