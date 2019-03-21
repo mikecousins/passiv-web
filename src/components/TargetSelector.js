@@ -4,7 +4,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Formik, FieldArray, Field, ErrorMessage } from 'formik';
 import { toast } from "react-toastify";
-import uuid from 'uuid/v4';
 import { loadGroup } from '../actions';
 import { selectCurrentGroupId } from '../selectors';
 import TargetBar from './TargetBar';
@@ -18,6 +17,7 @@ export class TargetSelector extends React.Component {
   state = {
     edit: false,
     loading: false,
+    counter: 0,
   }
 
   canEdit() {
@@ -47,9 +47,13 @@ export class TargetSelector extends React.Component {
       });
   }
 
+  generateNewTarget() {
+    let target = { symbol: null, percent: 0, key: this.state.counter, id: this.state.counter};
+    this.setState({counter: this.state.counter + 1});
+    return target;
+  }
 
   render() {
-
     return (
       <Formik
         initialValues={{ targets: this.props.target }}
@@ -66,7 +70,7 @@ export class TargetSelector extends React.Component {
             errors.cash = 'Too low';
           }
           values.targets.forEach((target, index) => {
-            if (!target.deleted && !target.symbol) {
+            if ((target.deleted !== undefined && !target.deleted) && !target.symbol) {
               errors.targets = 'Symbol missing on new target';
             }
           });
@@ -116,7 +120,7 @@ export class TargetSelector extends React.Component {
                     return total;
                   }, 0);
                   if (props.values.targets.filter(t => !t.deleted).length === 0){
-                    arrayHelpers.push({ symbol: null, percent: 0 });
+                    arrayHelpers.push(this.generateNewTarget());
                   }
                   return (
                   <React.Fragment>
@@ -147,7 +151,7 @@ export class TargetSelector extends React.Component {
                     <ErrorMessage name="targets" component="div" />
                     {this.canEdit() ? (
                       <React.Fragment>
-                        <button type="button" onClick={() => arrayHelpers.push({ symbol: null, percent: 0, key: uuid() })}>
+                        <button type="button" onClick={() => arrayHelpers.push(this.generateNewTarget())}>
                           Add
                         </button>
                         <button type="button" onClick={() => {
@@ -159,7 +163,7 @@ export class TargetSelector extends React.Component {
                             for (let i=0; i<len; i++) {
                               props.values.targets.pop(0);
                             }
-                            arrayHelpers.push({ symbol: null, percent: 0, key: uuid() })
+                            arrayHelpers.push(this.generateNewTarget())
                           }
 
                         }}>
