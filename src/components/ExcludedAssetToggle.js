@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
+import ReactTooltip from 'react-tooltip';
+import { Link } from 'react-router-dom';
 import { loadGroup } from '../actions';
 import { selectCurrentGroupId, selectCurrentGroupTarget, selectCurrentGroupExcludedAssets, selectCurrentGroupSymbols, selectCurrentGroupQuotableSymbols } from '../selectors';
 import { postData, deleteData } from '../api';
@@ -28,9 +30,6 @@ class ExcludedAssetToggle extends Component {
   symbolExcluded = (symbolId) => { return this.props.excludedAssets.some(excludedAsset => excludedAsset.symbol === symbolId); };
 
   symbolQuotable = (symbolId) => this.props.quotableSymbols.some(quotableSymbol => quotableSymbol.id === symbolId);
-
-  excludeDisabled = (symbolId) => (this.symbolInTargets(this.props.symbolId) || !this.symbolQuotable(this.props.symbolId));
-
 
   handleClick = () => {
     let newToggleState = !!(this.state.toggle ^ true);
@@ -59,26 +58,35 @@ class ExcludedAssetToggle extends Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return <FontAwesomeIcon icon={faSpinner} />;
+    }
+
+    const isDisabled = this.symbolInTargets(this.props.symbolId) || !this.symbolQuotable(this.props.symbolId);
+    if (isDisabled) {
+      return (
+        <React.Fragment>
+          <Link
+            to="/app/settings"
+            data-tip="Upgrade to enable exclusion on the settings page"
+          >
+            {this.state.toggle ? <FontAwesomeIcon icon={faToggleOn} /> : <FontAwesomeIcon icon={faToggleOff} />}
+          </Link>
+          <ReactTooltip
+            place="right"
+            html
+            clickable
+            effect="solid"
+          />
+        </React.Fragment>
+      );
+    }
+
     return (
-      <React.Fragment>
-        { this.state.loading ? (
-            <FontAwesomeIcon icon={faSpinner} />
-          ) : (
-            <button
-              onClick={this.handleClick}
-              disabled={this.excludeDisabled(this.props.symbolId)}
-            >
-              {this.state.toggle ? <FontAwesomeIcon icon={faToggleOn} /> : <FontAwesomeIcon icon={faToggleOff} />}
-            </button>
-          )
-        }
-      </React.Fragment>
-    )
-
-
-
-
-
+      <button onClick={this.handleClick}>
+        {this.state.toggle ? <FontAwesomeIcon icon={faToggleOn} /> : <FontAwesomeIcon icon={faToggleOff} />}
+      </button>
+    );
   }
 }
 
