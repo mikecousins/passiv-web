@@ -112,12 +112,16 @@ export const TradesContainer = styled.div`
   color: #003BA2;
   box-shadow: var(--box-shadow);
   border-radius: 0 0 4px 4px;
-  padding: 5px 20px 20px 20px;
+  padding: 20px;
   margin-bottom: 20px;
   margin-top: 0;
   background: #deeaff;
   h3 {
     color: #003BA2;
+    font-size: 45px;
+  }
+  h2 {
+    font-size: 40px;
   }
 `;
 
@@ -154,7 +158,7 @@ export const TradeType = styled.div`
     margin-bottom: 20px;
     padding-top: 18px;
   }
-  &:not(:first-child)  {
+  > div:not(:first-of-type)  {
     border-top: 1px solid #fff;
     margin-top: 12px;
     padding-top: 18px;

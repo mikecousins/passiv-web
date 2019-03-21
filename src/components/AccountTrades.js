@@ -29,9 +29,7 @@ export const AccountTrades = ({ trades, groupId }) => {
       const renderedTradeList = tradeList.map(tradeRender);
       return (
         <TradeType >
-          <Heading>
-            <H3>{type}</H3>
-          </Heading>
+          <H3>{type}</H3>
           {renderedTradeList}
         </TradeType>
       )
