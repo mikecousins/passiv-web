@@ -37,7 +37,7 @@ class QuestradeAuthorizationPicker extends Component {
     if (this.state.haveQuestrade) {
       nextPage = (
         <React.Fragment>
-          <Table>
+          <Table spaceAround>
             <SmallStepButton onClick={() => {this.resetAnswered()}}>Back</SmallStepButton>
             <AuthorizationPicker
               allowSelect={false}

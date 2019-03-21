@@ -1,7 +1,7 @@
 import React from 'react';
 import RebalanceWidget from './RebalanceWidget';
 import { H2, H3, Title } from '../styled/GlobalElements';
-import { TradesContainer, TradeType, TradeRow, Heading, Symbol, ColumnSymbol, ColumnUnits, ColumnPrice } from '../styled/Group';
+import { TradesContainer, TradeType, TradeRow, Symbol, ColumnSymbol, ColumnUnits, ColumnPrice } from '../styled/Group';
 
 export const AccountTrades = ({ trades, groupId }) => {
   let buysListRender = null;
@@ -29,9 +29,7 @@ export const AccountTrades = ({ trades, groupId }) => {
       const renderedTradeList = tradeList.map(tradeRender);
       return (
         <TradeType >
-          <Heading>
-            <H3>{type}</H3>
-          </Heading>
+          <H3>{type}</H3>
           {renderedTradeList}
         </TradeType>
       )
