@@ -4,7 +4,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Formik, FieldArray, Field, ErrorMessage } from 'formik';
 import { toast } from "react-toastify";
-import uuid from 'uuid/v4';
 import { loadGroup } from '../actions';
 import { selectCurrentGroupId } from '../selectors';
 import TargetBar from './TargetBar';
@@ -136,7 +135,6 @@ export class TargetSelector extends React.Component {
                           props.setFieldTouched(`targets.${index}.symbol`);
                         }}
                         onDelete={(id) => {
-                          console.log('id:', id, 'targets:', props.values.targets);
                           const target = props.values.targets.find(t => t.id === id);
                           target.deleted = true;
                           this.forceUpdate();
