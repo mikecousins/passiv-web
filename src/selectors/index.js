@@ -749,3 +749,20 @@ export const selectName = createSelector(
 );
 
 export const selectIsUpdateServiceWorker = state => state.updateServiceWorker;
+
+export const selectIsPaid = createSelector(
+  selectSubscriptions,
+  (subscriptions) => {
+    if (!subscriptions) {
+      return false;
+    }
+    return subscriptions.type !== 'free';
+  }
+);
+
+export const selectIsFree = createSelector(
+  selectIsPaid,
+  (isPaid) => {
+    return !isPaid;
+  }
+);
