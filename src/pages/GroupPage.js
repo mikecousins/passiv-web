@@ -53,7 +53,6 @@ const GroupPage = (props) => {
   }
   return (
     <React.Fragment>
-      {tradeDisplay}
       <Container2Column>
         <AccountMetadata
           name={name}
@@ -65,6 +64,9 @@ const GroupPage = (props) => {
         />
         <AccountAccuracy accuracy={accuracy} />
       </Container2Column>
+
+      {tradeDisplay}
+
       <AccountTargets positions={positions} />
 
       <Container2Column>
