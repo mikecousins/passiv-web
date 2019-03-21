@@ -81,7 +81,7 @@ export class TargetBar extends React.Component {
         ) : <FontAwesomeIcon icon={faEyeSlash} />}
         <TargetRow>
           <Symbol>
-            {(!id && !excluded) ? (
+            {(!(typeof(id) == 'string') && !excluded) ? (
               <SymbolSelector
                 value={fullSymbol}
                 onChange={setSymbol}
