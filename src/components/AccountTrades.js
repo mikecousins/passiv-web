@@ -9,11 +9,11 @@ export const AccountTrades = ({ trades, groupId }) => {
   if (trades && trades.trades.length > 0) {
 
     const tradeRender = trade => (
-      <TradeType>
+      <TradeType key={trade.id}>
         <Heading>
           <H3>{trade.action}</H3>
         </Heading>
-        <TradeRow key={trade.id}>
+        <TradeRow>
           <ColumnSymbol>
             <Title>{trade.universal_symbol.description}</Title>
             <Symbol>{trade.universal_symbol.symbol}</Symbol>
