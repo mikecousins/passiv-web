@@ -705,13 +705,9 @@ export const selectCurrentGroupTarget = createSelector(
         const preferredCurrency = currencies.find(currency => currency.code === 'CAD').id;
         if (position.symbol.currency.id === preferredCurrency){
           target.actualPercentage = position.price * position.units / totalHoldingsExcludedRemoved * 100;
-          console.log(position.price * position.units / totalHoldingsExcludedRemoved * 100)
         } else {
           const conversionRate = rates.find(rate => rate.src.id === position.symbol.currency.id  && rate.dst.id === preferredCurrency).exchange_rate;
           target.actualPercentage = parseFloat(position.price * position.units / totalHoldingsExcludedRemoved * 100 * conversionRate);
-          console.log(parseFloat(position.price * position.units / totalHoldingsExcludedRemoved * 100 * conversionRate))
-          console.log('Hello')
-          console.log(target.actualPercentage)
         }
       }
       else {
