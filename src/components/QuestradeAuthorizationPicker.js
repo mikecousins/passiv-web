@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { selectBrokerages } from '../selectors';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import ShadowBox from '../styled/ShadowBox';
-import { StepQuestion, StepButton, SmallStepButton, Step } from '../styled/SignupSteps';
+import { StepQuestion, StepButton, SmallStepButton, Step, WhyQuestrade } from '../styled/SignupSteps';
 import { Table,H1,P,A,UL } from '../styled/GlobalElements';
 
 class QuestradeAuthorizationPicker extends Component {
@@ -51,17 +51,17 @@ class QuestradeAuthorizationPicker extends Component {
     else {
       nextPage = (
         <React.Fragment>
-          <ShadowBox>
-            <P>Not with <A href="https://www.questrade.com" target="_blank">Questrade</A>? Here’s why you should be:</P>
-            <UL>
+          <WhyQuestrade>
+            <P color="white">Not with <A href="https://www.questrade.com" target="_blank">Questrade</A>? Here’s why you should be:</P>
+            <UL color="white">
               <li>Free purchasing of ETFs</li>
               <li>Low commissions (just $4.95 - $9.95)</li>
               <li>They’ll rebate the transfer fee (max. $150) when you make the switch.</li>
             </UL>
-          </ShadowBox>
-          <Table>
+          </WhyQuestrade>
+          <Table spaceAround>
             <SmallStepButton onClick={() => {this.resetAnswered()}}>Back</SmallStepButton>
-            <StepButton onClick={() => {alert('new account!')}}>Open an Account</StepButton>
+            <StepButton blue onClick={() => {alert('new account!')}}>Open an Account</StepButton>
           </Table>
         </React.Fragment>
       )
@@ -75,7 +75,7 @@ class QuestradeAuthorizationPicker extends Component {
             this.state.answered ? nextPage : (
               <React.Fragment>
                 <StepQuestion>Do you have a Questrade account?</StepQuestion>
-                <Table>
+                <Table spaceAround>
                   <SmallStepButton onClick={() => {this.setHaveQuestrade(false)}}>No</SmallStepButton>
                   <StepButton onClick={() => {this.setHaveQuestrade(true)}}>Yes</StepButton>
                 </Table>

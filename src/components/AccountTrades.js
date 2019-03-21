@@ -33,9 +33,9 @@ export const AccountTrades = ({ trades, groupId }) => {
 
   return (
     <TradesContainer>
-        {sellsList}
-        {buysList}
-        <RebalanceWidget
+      {sellsList}
+      {buysList}
+      <RebalanceWidget
         trades={trades}
         groupId={groupId}
       />

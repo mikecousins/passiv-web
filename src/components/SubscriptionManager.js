@@ -11,6 +11,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 
+import SubscriptionCoupon from './SubscriptionCoupon'
+import SubscriptionPlans from './SubscriptionPlans'
+
 import styled from '@emotion/styled';
 import { H2, P } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
@@ -117,11 +120,17 @@ export class SubscriptionManager extends React.Component {
                 }
             </div>
           ) : (
-            <div>
-              <Button onClick={() => {this.createSubscription()}}>
-                Upgrade to Elite
-              </Button>
-            </div>
+            <React.Fragment>
+              <div>
+                <SubscriptionPlans />
+                <SubscriptionCoupon />
+                <div>
+                  <Button onClick={() => {this.createSubscription()}}>
+                    Upgrade to Elite
+                  </Button>
+                </div>
+              </div>
+            </React.Fragment>
           )
         }
       </div>

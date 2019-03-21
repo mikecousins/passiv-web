@@ -18,10 +18,12 @@ export const TargetContainer = styled.form`
 `;
 
 export const Container3Column = styled.div`
-  display: flex;
-  justify-content: space-between;
-  > div {
-    width: 30%;
+  @media (min-width: 760px) {
+    display: flex;
+    justify-content: space-between;
+    > div {
+      width: 30%;
+    }
   }
 `;
 

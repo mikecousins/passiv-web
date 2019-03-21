@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { putData } from '../api';
-import { loadSettings } from '../actions';
+import { loadSettings, loadSubscriptions } from '../actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ShadowBox from '../styled/ShadowBox';
 import { H1,P } from '../styled/GlobalElements';
 import { Step } from '../styled/SignupSteps';
-import { selectSettings } from '../selectors';
+import { selectSettings, selectSubscriptions } from '../selectors';
 import styled from '@emotion/styled';
 
 const BoldCode = styled.span`
@@ -36,10 +36,12 @@ class CouponPage extends Component {
       .then(response => {
         this.setState({loading: false, success: true});
         this.props.refreshSettings();
+        this.props.refreshSubscriptions();
       })
       .catch(error => {
         this.setState({loading: false, error: error.response.data});
         this.props.refreshSettings();
+        this.props.refreshSubscriptions();
       });
   }
 
@@ -102,9 +104,11 @@ class CouponPage extends Component {
 
 const select = state => ({
   settings: selectSettings(state),
+  subscriptions: selectSubscriptions(state),
 });
 const actions = {
   refreshSettings: loadSettings,
+  refreshSubscriptions: loadSubscriptions,
 };
 
 export default connect(select, actions)(CouponPage);

@@ -23,7 +23,6 @@ export const H2 = styled.h2`
 	text-align: left;
 	color: #232225;
   display: block;
-  font-size: 1.5em;
 `;
 
 // h3
@@ -37,16 +36,21 @@ export const H3 = styled.h3`
 
 // ul
 export const UL = styled.ul`
-
+	color: #2a2d34;
+	${dynamicStyle};
 	li {
-
+		margin-bottom: 10px;
 	}
 `;
 
 // table
 export const Table = styled.div`
-  display: flex;
-  justify-content: space-between;
+	display: block;
+	justify-content: inherit;
+	@media (min-width: 760px) {
+    display: flex;
+  	justify-content: ${props => props.spaceAround ? 'space-around' : 'space-between'};
+  }
 `;
 
 // p
@@ -56,7 +60,6 @@ export const P = styled.p`
 	line-height: 1.5;
 	margin: 0 0 12px;
 	${dynamicStyle};
-
 `;
 
 // a

@@ -125,6 +125,15 @@ export const loadSubscriptions = () => {
   };
 };
 
+export const loadPlans = () => {
+  return dispatch => {
+    dispatch(fetchPlansStart());
+    getData('/api/v1/subscriptions/')
+      .then(response => dispatch(fetchPlansSuccess(response)))
+      .catch(error => dispatch(fetchPlansError(error)));
+  };
+};
+
 export const loadAccounts = () => {
   return dispatch => {
     dispatch(fetchAccountsStart());
@@ -200,6 +209,11 @@ export const initialLoad = () => {
       getData('/api/v1/subscriptions/')
         .then(response => dispatch(fetchSubscriptionsSuccess(response)))
         .catch(error => dispatch(fetchSubscriptionsError(error)));
+
+    dispatch(fetchPlansStart());
+      getData('/api/v1/plans/')
+        .then(response => dispatch(fetchPlansSuccess(response)))
+        .catch(error => dispatch(fetchPlansError(error)));
 
     dispatch(fetchAccountsStart());
     getData('/api/v1/accounts/')
@@ -304,6 +318,18 @@ export const fetchSubscriptionsSuccess = payload => ({
 
 export const fetchSubscriptionsError = payload => ({
   type: 'FETCH_SUBSCRIPTIONS_ERROR',
+  payload,
+});
+
+export const fetchPlansStart = () => ({
+  type: 'FETCH_PLANS_START'
+});
+export const fetchPlansSuccess = payload => ({
+  type: 'FETCH_PLANS_SUCCESS',
+  payload,
+});
+export const fetchPlansError = payload => ({
+  type: 'FETCH_PLANS_ERROR',
   payload,
 });
 

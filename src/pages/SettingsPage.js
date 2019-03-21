@@ -5,9 +5,11 @@ import ConnectionsManager from '../components/ConnectionsManager';
 import styled from '@emotion/styled';
 
 const SettingContainer = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
+	@media (min-width: 760px) {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
 	> div {
 		flex: 1;
 		min-width: 48%;

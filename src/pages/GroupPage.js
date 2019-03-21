@@ -12,14 +12,16 @@ import { selectCurrentGroupTotalEquity, selectCurrentGroupCash, selectCurrentGro
 import styled from '@emotion/styled';
 
 export const Container2Column = styled.div`
-  display: flex;
-  justify-content: space-between;
-  > div:first-of-type {
-    width: 75%;
-    margin-right: 30px;
-  }
-  > div:last-of-type {
-    width: 25%;
+  @media (min-width: 760px) {
+    display: flex;
+    justify-content: space-between;
+    > div:first-of-type {
+      width: 75%;
+      margin-right: 30px;
+    }
+    > div:last-of-type {
+      width: 25%;
+    }
   }
 `;
 

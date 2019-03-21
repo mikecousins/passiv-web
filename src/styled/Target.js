@@ -78,10 +78,12 @@ export const Container = styled.div`
   position: relative;
 `;
 export const TargetRow = styled.div`
-  justify-content: space-between;
-  display: flex;
   margin: 0 10px 0 auto;
   text-align: right;
+  @media (min-width: 760px) {
+    justify-content: space-between;
+    display: flex;
+  }
   h3 {
     text-transform: uppercase;
     width: 100px;

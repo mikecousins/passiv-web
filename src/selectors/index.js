@@ -155,6 +155,33 @@ export const selectSubscriptionsNeedData = createSelector(
   }
 )
 
+export const selectPlansRaw = state => state.plans;
+
+export const selectPlans = createSelector(
+  selectPlansRaw,
+  (rawPlans) => {
+    if (rawPlans.data) {
+      return rawPlans.data;
+    }
+  }
+);
+
+export const selectPlansNeedData = createSelector(
+  selectLoggedIn,
+  selectPlansRaw,
+  selectAppTime,
+  (loggedIn, rawPlans, time) => {
+    if (!loggedIn) {
+      return false;
+    }
+    return shouldUpdate(rawPlans, {
+      staleTime: ms.days(1),
+      now: time,
+    });
+  }
+)
+
+
 export const selectAccountsRaw = state => state.accounts;
 
 export const selectAccounts = createSelector(
@@ -358,6 +385,7 @@ export const selectDashboardGroups = createSelector(
         }
         group.rebalance = !!(groupInfo[group.id].data.calculated_trades && groupInfo[group.id].data.calculated_trades.trades.length > 0);
         group.trades = groupInfo[group.id].data.calculated_trades;
+        group.brokerage_authorizations = groupInfo[group.id].data.brokerage_authorizations;
       }
       if (group.totalCash && group.totalHoldings) {
         group.totalValue = group.totalCash + group.totalHoldings;

@@ -45,15 +45,12 @@ export const ViewBtn = styled.div`
 
 export const WarningViewBtn = styled.div`
   background-color: #fff;
-  margin: -20px 0;
-  padding: 24px 30px 24px;
-  padding-right: 10px;
+  margin: -20px -20px -21px 0;
   border-left: 1px solid #eee;
   display: block;
   width: 20%;
   a {
     background-color: orange;
-    margin: -20px -20px -20px 0;
     border-radius: 0 4px 4px 0;
     padding: 32px 40px 36px;
     font-size: 20px;
@@ -119,7 +116,9 @@ export const TradesContainer = styled.div`
 `;
 
 export const TradeRow = styled.div`
-  display: flex;
+  @media (min-width: 760px) {
+    display: flex;
+  }
   margin-bottom: 16px;
 `;
 
