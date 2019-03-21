@@ -25,6 +25,20 @@ export const Container3Column = styled.div`
   }
 `;
 
+const h2DarkStyle = {
+  'color': 'white',
+  'paddingBottom': '20px',
+}
+
+const h3DarkStyle = {
+  'color': 'white',
+  'paddingBottom': '10px',
+}
+
+const pDarkStyle = {
+  'color': 'white',
+}
+
 export class AccountTargets extends React.Component {
   state = {
     edit: false,
@@ -33,18 +47,18 @@ export class AccountTargets extends React.Component {
     modelChoices: [
       {
         id: 'CHOOSE',
-        name: 'Select a model portfolio',
-        button: (<Button onClick={() => this.setState({model: 'CHOOSE'})}>Select</Button>)
+        name: 'Select a model portfolio (coming soon)',
+        button: (<Button disabled onClick={() => this.setState({model: 'CHOOSE'})}>Select</Button>),
       },
       {
         id: 'IMPORT',
         name: 'Import your current holdings as a target',
-        button: (<Button onClick={() => this.importTarget()}>Import</Button>)
+        button: (<Button onClick={() => this.importTarget()}>Import</Button>),
       },
       {
         id: 'MANUAL',
         name: 'Build your target portfolio manually',
-        button: (<Button onClick={() => this.setState({model: 'MANUAL'})}>Build</Button>)
+        button: (<Button onClick={() => this.setState({model: 'MANUAL'})}>Build</Button>),
       }
 
     ]
@@ -97,7 +111,7 @@ export class AccountTargets extends React.Component {
   renderTargetChooser() {
     switch(this.state.model) {
       case 'CHOOSE':
-        return (<P>LOL0</P>);
+        return (<P>This shouldn't be visible ever.</P>);
       case 'IMPORT':
         return (<P>This shouldn't be visible ever.</P>);
       case 'MANUAL':
@@ -124,12 +138,13 @@ export class AccountTargets extends React.Component {
     if (!this.props.targetInitialized || (!this.state.loading && target && target.length === 0)) {
       return (
         <ShadowBox dark>
-          <H2 color="white">Target Portfolio</H2>
+          <H2 style={h2DarkStyle}>Target Portfolio</H2>
           {
+
             this.state.model === null ? (
               <React.Fragment>
-                <P color="white">A target portfolio is how you tell Passiv what you want. You will need to choose which securities you want to hold and how you want your assets divided across those securities. Passiv will perform calculations to figure out what trades need to be made in order to follow your target portfolio.</P>
-                <P color="white">There is no target portfolio set for this account. Please choose one of the following options:</P>
+                <P style={pDarkStyle}>A target portfolio is how you tell Passiv what you want. You will need to choose which securities you want to hold and how you want your assets divided across those securities. Passiv will perform calculations to figure out what trades need to be made in order to follow your target portfolio.</P>
+                <P style={pDarkStyle}>There is no target portfolio set for this account. Please choose one of the following options:</P>
                 <Container3Column>
                   {
                     this.state.modelChoices.map(m => (
@@ -144,7 +159,7 @@ export class AccountTargets extends React.Component {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                <H3 color="white">{ this.state.modelChoices.find(m => m.id === this.state.model).name }</H3>
+                <H3 style={h3DarkStyle}>{ this.state.modelChoices.find(m => m.id === this.state.model).name }</H3>
                 { this.renderTargetChooser() }
                 <Button onClick={() => this.setState({model: null})}>Back</Button>
               </React.Fragment>

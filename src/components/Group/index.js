@@ -49,14 +49,14 @@ export const Group = (props) => {
   }
 
   let viewButton = null;
-  if (group.setupComplete) {
+  if (group.setupComplete === undefined || group.setupComplete === true) {
     viewButton = (<ViewBtn>
       <Link to={`/app/group/${group.id}`}>View<FontAwesomeIcon icon={faAngleRight} /></Link>
     </ViewBtn>);
   }
   else {
     viewButton = (<WarningViewBtn>
-      <Link to={`/app/group/${group.id}`}>Fix<FontAwesomeIcon icon={faAngleRight} /></Link>
+      <Link to={`/app/group/${group.id}`}>Setup<FontAwesomeIcon icon={faAngleRight} /></Link>
     </WarningViewBtn>);
   }
 

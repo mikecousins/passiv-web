@@ -1,6 +1,6 @@
 import React from 'react';
 import Number from './Number';
-import { BarsContainer, Symbol, Target, Actual, Bar, TargetRow, Container } from '../styled/Target';
+import { BarsContainer, Symbol, Target, Actual, Bar, BarTarget, BarActual, TargetRow, Container } from '../styled/Target';
 
 
 
@@ -11,13 +11,22 @@ export const CashBar = (props) => {
   return (
     <Container>
       <BarsContainer>
+        <BarTarget>
+          {
+            props.percentage < 0 ? (
+              <div style={{ width: '100%', backgroundColor: 'red' }}>
+                Warning: cash allocation cannot be negative!
+              </div>
+            ) : (
+              <Bar style={{ width: `${props.percentage}%` }}> </Bar>
+            )
+          }
+        </BarTarget>
         {
-          props.percentage < 0 ? (
-            <div style={{ width: '100%', backgroundColor: 'red' }}>
-              Warning: cash allocation cannot be negative!
-            </div>
-          ) : (
-            <Bar style={{ width: `${props.percentage}%` }}> </Bar>
+          !(props.actualPercentage === undefined) && (
+            <BarActual>
+              <Bar style={{ width: `${props.actualPercentage}%` }}> </Bar>
+            </BarActual>
           )
         }
       </BarsContainer>

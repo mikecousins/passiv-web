@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { selectToken } from '../selectors';
+import { selectToken, selectTokenIsExpired } from '../selectors';
+import { tokenExpired } from '../actions';
 
 const apiMiddleware = (store) => {
   let baseUrlOverride = 'dev.getpassiv.com';
@@ -12,16 +13,31 @@ const apiMiddleware = (store) => {
   const initialJwt = selectToken(store.getState());
 
   if (initialJwt) {
-    axios.defaults.headers.common.Authorization = `JWT ${initialJwt}`;
+    if (selectTokenIsExpired(store.getState())) {
+      delete axios.defaults.headers.common.Authorization;
+    } else {
+      // set our auth header in axios
+      axios.defaults.headers.common.Authorization = `JWT ${initialJwt}`;
+    }
   }
 
   return next => (action) => {
+    // if the token has changed set it in axios
     const previousJwt = selectToken(store.getState());
     next(action);
     const currentJwt = selectToken(store.getState());
-
     if (previousJwt !== currentJwt) {
       axios.defaults.headers.common.Authorization = `JWT ${currentJwt}`;
+    }
+
+    if (!selectToken(store.getState())) {
+      delete axios.defaults.headers.common.Authorization;
+    }
+
+    // if the token is expired, remove it from axios
+    if (selectTokenIsExpired(store.getState())) {
+      store.dispatch(tokenExpired());
+      delete axios.defaults.headers.common.Authorization;
     }
   };
 };

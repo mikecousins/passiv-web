@@ -4,6 +4,7 @@ import { selectBrokerages } from '../selectors';
 import { postData } from '../api';
 import { Button } from '../styled/Button';
 import { DisabledButton } from '../styled/DisabledButton';
+import { StepButton } from '../styled/SignupSteps';
 
 class AuthorizationPicker extends Component {
   state = {
@@ -58,16 +59,26 @@ class AuthorizationPicker extends Component {
       </DisabledButton>
     )
     if (this.state.brokerage && this.state.type) {
-      submitButton = (
-          <Button onClick={() => {this.startAuthorization()}}>
-            Connect
-          </Button>
-      )
+      if (this.state.allowSelect) {
+        submitButton = (
+            <Button onClick={() => {this.startAuthorization()}}>
+              Connect
+            </Button>
+        )
+      }
+      else {
+        submitButton = (
+            <StepButton onClick={() => {this.startAuthorization()}}>
+              Connect
+            </StepButton>
+        )
+      }
+
     }
 
     return (
-      <div>
-        {this.state.allowSelect ? (
+      <React.Fragment>
+        {this.state.allowSelect && (
           <div>
             {this.state.allowSelectBrokerage && (
               <select
@@ -88,12 +99,10 @@ class AuthorizationPicker extends Component {
               </select>
             )}
           </div>
-        ) : (
-          <div>Connect {this.props.brokerages.find(x => x.id === this.state.brokerage).name} to Passiv</div>
         )}
 
         {submitButton}
-      </div>
+      </React.Fragment>
     )
   }
 }

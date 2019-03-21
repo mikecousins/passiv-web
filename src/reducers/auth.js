@@ -4,15 +4,26 @@ const auth = (state = {}, action) => {
       token: action.payload.data.token,
       error: null,
     };
-  } else if (action.type === 'LOGIN_FAILED') {
+  }
+
+  if (action.type === 'LOGIN_FAILED') {
     return {
       token: null,
       error: action.payload,
     };
-  } else if (action.type === 'LOGOUT') {
+  }
+
+  if (action.type === 'LOGOUT') {
     return {
       token: null,
       error: null,
+    };
+  }
+
+  if (action.type === 'TOKEN_EXPIRED') {
+    return {
+      ...state,
+      token: null,
     };
   }
   return state;

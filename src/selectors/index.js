@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import ms from 'milliseconds';
+import jwtDecode from 'jwt-decode';
 import shouldUpdate from '../reactors/should-update';
 
 export const selectAppTime = state => state.appTime;
@@ -7,6 +8,22 @@ export const selectAppTime = state => state.appTime;
 export const selectLoggedIn = state => !!(state.auth.token);
 
 export const selectToken = state => state.auth.token;
+
+export const selectTokenIsExpired = createSelector(
+  selectToken,
+  selectAppTime,
+  (token, now) => {
+    if (!token) {
+      return false;
+    }
+    const decodedToken = jwtDecode(token);
+    const expiry = ms.seconds(decodedToken.exp);
+    if (now < expiry) {
+      return false;
+    }
+    return true;
+  },
+);
 
 export const selectCurrenciesRaw = state => state.currencies;
 
@@ -491,6 +508,43 @@ export const selectCurrentGroupBalancedEquity = createSelector(
   }
 );
 
+export const selectCurrentGroupExcludedEquity = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  selectCurrencies,
+  selectCurrencyRates,
+  (groupId, groupInfo, currencies, rates) => {
+    let excludedEquity = 0
+    try {
+      const excludedPositionsIds = groupInfo[groupId].data.excluded_positions.map(
+        excluded_position => excluded_position.symbol
+      )
+
+      const allPositions = groupInfo[groupId].data.positions
+
+      allPositions.forEach(position => {
+        // Convert to CAD for now
+        const preferredCurrency = currencies.find(currency => currency.code === 'CAD').id;
+
+
+        if (excludedPositionsIds.includes(position.symbol.id)){
+          if (position.symbol.currency.id === preferredCurrency){
+            excludedEquity +=  position.units * parseFloat(position.price)
+          } else {
+            const conversionRate = rates.find(rate => rate.src.id === position.symbol.currency.id  && rate.dst.id === preferredCurrency).exchange_rate;
+            excludedEquity += parseFloat(position.units * position.price * conversionRate);
+          }
+        }
+      })
+    }
+    catch {
+      return 0;
+    }
+
+    return excludedEquity;
+  }
+);
+
 export const selectCurrentGroupTotalEquity = createSelector(
   selectCurrentGroupCash,
   selectCurrentGroupBalancedEquity,
@@ -499,6 +553,18 @@ export const selectCurrentGroupTotalEquity = createSelector(
       return null;
     }
     return cash + balancedEquity;
+  }
+);
+
+export const selectCurrentGroupTotalEquityExcludedRemoved = createSelector(
+  selectCurrentGroupCash,
+  selectCurrentGroupBalancedEquity,
+  selectCurrentGroupExcludedEquity,
+  (cash, balancedEquity, excludedEquity) => {
+    if (cash === null || balancedEquity === null || excludedEquity === null) {
+      return null;
+    }
+    return cash + balancedEquity - excludedEquity;
   }
 );
 
@@ -589,8 +655,10 @@ export const selectTotalGroupHoldings = createSelector(
 export const selectCurrentGroupTarget = createSelector(
   selectCurrentGroupInfo,
   selectCurrentGroupTotalEquity,
-  (groupInfo, totalHoldings) => {
-    if (!groupInfo || !groupInfo.target_positions) {
+  selectCurrentGroupTotalEquityExcludedRemoved,
+  (groupInfo, totalHoldings, totalHoldingsExcludedRemoved) => {
+    console.log('excluded', totalHoldingsExcludedRemoved)
+    if (!groupInfo || !groupInfo.target_positions || totalHoldingsExcludedRemoved === null) {
       return null;
     }
 
@@ -603,7 +671,7 @@ export const selectCurrentGroupTarget = createSelector(
       // add the actual percentage to the target
       const position = groupInfo.positions.find(p => p.symbol.id === target.symbol);
       if (position) {
-        target.actualPercentage = position.price * position.units / totalHoldings * 100;
+        target.actualPercentage = position.price * position.units / totalHoldingsExcludedRemoved * 100;
       }
       else {
         target.actualPercentage = 0;

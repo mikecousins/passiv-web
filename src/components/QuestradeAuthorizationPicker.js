@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { selectBrokerages } from '../selectors';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import ShadowBox from '../styled/ShadowBox';
-import { StepQuestion, StepButton, Step } from '../styled/SignupSteps';
+import { StepQuestion, StepButton, SmallStepButton, Step } from '../styled/SignupSteps';
 import { Table,H1,P,A,UL } from '../styled/GlobalElements';
-import { Button } from '../styled/Button';
 
 class QuestradeAuthorizationPicker extends Component {
   state = {
@@ -30,7 +29,7 @@ class QuestradeAuthorizationPicker extends Component {
   }
 
   getQuestradeDefaultType() {
-    return this.getQuestradeBrokerage().authorization_types.find(t => t.type === 'trade').type;
+    return this.getQuestradeBrokerage().authorization_types.find(t => t.type === 'read').type;
   }
 
   render() {
@@ -39,7 +38,7 @@ class QuestradeAuthorizationPicker extends Component {
       nextPage = (
         <React.Fragment>
           <Table>
-            <Button onClick={() => {this.resetAnswered()}}>Back</Button>
+            <SmallStepButton onClick={() => {this.resetAnswered()}}>Back</SmallStepButton>
             <AuthorizationPicker
               allowSelect={false}
               brokerage={this.getQuestradeId()}
@@ -57,12 +56,12 @@ class QuestradeAuthorizationPicker extends Component {
             <UL>
               <li>Free purchasing of ETFs</li>
               <li>Low commissions (just $4.95 - $9.95)</li>
-              <li>They’ll rebate the transfer fee (max. $150) when you make the switch</li>
+              <li>They’ll rebate the transfer fee (max. $150) when you make the switch.</li>
             </UL>
           </ShadowBox>
           <Table>
-            <StepButton onClick={() => {this.resetAnswered()}}>Back</StepButton>
-            <StepButton onClick={() => {alert('new account!')}}>Open a Questrade Account</StepButton>
+            <SmallStepButton onClick={() => {this.resetAnswered()}}>Back</SmallStepButton>
+            <StepButton onClick={() => {alert('new account!')}}>Open an Account</StepButton>
           </Table>
         </React.Fragment>
       )
@@ -77,8 +76,8 @@ class QuestradeAuthorizationPicker extends Component {
               <React.Fragment>
                 <StepQuestion>Do you have a Questrade account?</StepQuestion>
                 <Table>
+                  <SmallStepButton onClick={() => {this.setHaveQuestrade(false)}}>No</SmallStepButton>
                   <StepButton onClick={() => {this.setHaveQuestrade(true)}}>Yes</StepButton>
-                  <StepButton onClick={() => {this.setHaveQuestrade(false)}}>No</StepButton>
                 </Table>
               </React.Fragment>
             )

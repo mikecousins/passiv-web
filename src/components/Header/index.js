@@ -14,7 +14,7 @@ const StyledHeader = styled.header`
   padding: 10px 20px 10px 160px;
   background: #fff;
   box-shadow: 2px 2px 8px rgba(190, 190, 190, 0.29);
-  z-index: 3;
+  z-index: 4;
   nav {
     background: #fff;
     display: flex;

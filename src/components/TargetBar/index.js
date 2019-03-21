@@ -35,10 +35,15 @@ export class TargetBar extends React.Component {
       percent
     } = target;
 
-    let progressClassName = "";
-    if ((actualPercentage - percent) < 0) {
-      progressClassName = "";
+
+    let renderActualPercentage = null;
+    if (actualPercentage === undefined) {
+      renderActualPercentage = 0;
     }
+    else {
+      renderActualPercentage = actualPercentage;
+    }
+
     return (
       <Container>
         {!excluded ? (
@@ -47,24 +52,27 @@ export class TargetBar extends React.Component {
               <BarTarget>
               {
                 percent > 100 ? (
-                  <Bar className={progressClassName} style={{ width: '100%', backgroundColor: 'red' }}>
+                  <Bar style={{ width: '100%', backgroundColor: 'red' }}>
                     Warning: allocation cannot be over 100%
                   </Bar>
                 ) :
                 percent < 0 ? (
-                  <Bar className={progressClassName} style={{ width: '100%', backgroundColor: 'red' }}>
+                  <Bar style={{ width: '100%', backgroundColor: 'red' }}>
                     Warning: allocation cannot be negative!
                   </Bar>
                 ) : (
-                  <Bar className={progressClassName} style={{ width: `${percent}%` }}> </Bar>
+                  <Bar style={{ width: `${percent}%` }}> </Bar>
                 )
               }
               </BarTarget>
-              <BarActual>
               {
-                <Bar className={progressClassName} style={{ width: `${actualPercentage}%` }}> </Bar>
+                !(actualPercentage === undefined) && (
+                  <BarActual>
+                    <Bar style={{ width: `${renderActualPercentage}%` }}> </Bar>
+                  </BarActual>
+                )
               }
-              </BarActual>
+
             </BarsContainer>
 
             {edit && <Close type="button" onClick={() => onDelete(id)}><FontAwesomeIcon icon={faTimes} /> </Close>}
@@ -81,6 +89,7 @@ export class TargetBar extends React.Component {
                 getOptionLabel={(option) => `${option.symbol} (${option.description})`}
                 getOptionValue={(option) => option.id}
                 style={{ width: 120 }}
+                placeholder='Search for security...'
               />
             ) : fullSymbol.symbol}
           </Symbol>
@@ -88,7 +97,7 @@ export class TargetBar extends React.Component {
             <InputContainer>{children}%</InputContainer>
           </Target>
           <Actual>
-            <Number value={actualPercentage} />%
+            <Number value={renderActualPercentage} />%
           </Actual>
         </TargetRow>
       </Container>

@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { selectBrokerages, selectAuthorizations, selectAccounts } from '../selectors';
 import { initialLoad, loadBrokerages } from '../actions';
-import { deleteData } from '../api';
 import AuthorizationPicker from '../components/AuthorizationPicker';
+import Connections from './Connections'
 import { Button } from '../styled/Button';
 
 import ShadowBox from '../styled/ShadowBox';
@@ -12,9 +12,6 @@ import { H2 } from '../styled/GlobalElements';
 export class ConnectionsManager extends React.Component {
   state = {
     creatingNewConnection: false,
-    deletingConnection: false,
-    updatingConnection: false,
-    targetConnectionId: null,
   }
 
   startCreatingNewConnection() {
@@ -25,129 +22,13 @@ export class ConnectionsManager extends React.Component {
     this.setState({creatingNewConnection: false});
   }
 
-  startUpdatingConnection(connectionId) {
-    this.setState({updatingConnection: true, targetConnectionId: connectionId});
-  }
-
-  cancelUpdatingConnection() {
-    this.setState({updatingConnection: false, targetConnectionId: null});
-  }
-
-  startDeletingConnection(connectionId) {
-    this.setState({deletingConnection: true, targetConnectionId: connectionId});
-  }
-
-  cancelDeletingConnection() {
-    this.setState({deletingConnection: false, targetConnectionId: null});
-  }
-
-  confirmDeleteConnection() {
-    deleteData(`/api/v1/authorizations/${this.state.targetConnectionId}`)
-      .then(response => {
-        console.log('success', response.data);
-        this.setState({deletingConnection: false, targetConnectionId: null});
-        this.props.reloadBrokerages();
-        this.props.reloadAllState();
-      })
-      .catch(error => {
-        console.log('error', error.response.data);
-        this.setState({deletingConnection: false, targetConnectionId: null});
-        this.props.reloadBrokerages();
-        this.props.reloadAllState();
-      });
-  }
-
-  selectAccountsByAuthorizationId(authorizationId) {
-    let accounts = []
-    this.props.accounts.map(account => {
-      if (account.brokerage_authorization === authorizationId) {
-        accounts.push(account);
-      }
-      return null;
-    })
-    return accounts
-  }
-
   render() {
-    let authorizations = null;
-    if (this.props.authorizations) {
-      authorizations = this.props.authorizations.map(a =>
-        <div key={a.id}>
-          {
-            this.state.deletingConnection && this.state.targetConnectionId === a.id && (
-              <div>
-                <span>{a.brokerage.name}</span>
-                <div>
-                  This connection contains the following accounts:
-                </div>
-                <div>
-                  {this.selectAccountsByAuthorizationId(a.id).map(account => (
-                    <div key={account.id}>
-                      {account.name} ({account.number})
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  Are you sure you want to delete this connection and all of its accounts?
-                  <Button onClick={() => {this.cancelDeletingConnection()}}>
-                    Cancel
-                  </Button>
-                  <Button onClick={() => {this.confirmDeleteConnection()}}>
-                    Delete
-                  </Button>
-                </div>
-              </div>
-            )
-          }
-          {
-            this.state.updatingConnection && this.state.targetConnectionId === a.id && (
-              <div>
-                <span>{a.brokerage.name}</span>
-                <div>
-                  This connection contains the following accounts:
-                </div>
-                <div>
-                  {this.selectAccountsByAuthorizationId(a.id).map(account => (
-                    <div key={account.id}>
-                      {account.name} ({account.number})
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  Are you sure you want to update this connection and all of its accounts?
-                  <Button onClick={() => {this.cancelUpdatingConnection()}}>
-                    Cancel
-                  </Button>
-                  <AuthorizationPicker
-                    allowSelectBrokerage={false}
-                    brokerage={a.brokerage.id}
-                    updateBrokerageAuthorizationId={a.id}
-                    type={a.type}
-                  />
-                </div>
-              </div>
-            )
-          }
-          {
-            !this.state.deletingConnection && !this.state.updatingConnection && (
-              <div>
-                <span>{a.brokerage.name}</span>
-                <Button onClick={() => {this.startUpdatingConnection(a.id)}}>
-                  Update
-                </Button>
-                <button onClick={() => {this.startDeletingConnection(a.id)}}>
-                  Delete
-                </button>
-              </div>
-            )
-          }
-        </div>
-      )
-    }
+
     return (
       <ShadowBox>
         <H2>Connections</H2>
-        {authorizations}
+        <Connections/>
+
         {
           this.state.creatingNewConnection ?
             (
@@ -165,6 +46,7 @@ export class ConnectionsManager extends React.Component {
               </div>
             )
         }
+
       </ShadowBox>
     )
   }
