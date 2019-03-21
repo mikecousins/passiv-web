@@ -48,7 +48,12 @@ const MetaHorizontal = styled.div`
 `;
 
 const UpgradeText = styled.span`
-  color: white;
+    font-weight: 600;
+    color: #2a2e33;
+    font-size: 22px;
+    button {
+      margin-left: 20px;
+    }
 `;
 
 export class RebalanceWidget extends Component {

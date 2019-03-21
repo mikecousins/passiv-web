@@ -49,7 +49,7 @@ export const Table = styled.div`
 	justify-content: inherit;
 	@media (min-width: 760px) {
     display: flex;
-  	justify-content: ${props => props.spaceAround ? 'space-around' : 'space-between'};
+  	justify-content: ${props => props.spaceAround ? 'inherit' : 'space-between'};
   }
 `;
 

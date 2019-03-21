@@ -138,14 +138,14 @@ export const Heading = styled.div`
 `;
 
 export const ColumnSymbol = styled.div`
-  min-width: 60%;
+  min-width: 76%;
 `;
 
 export const ColumnUnits = styled.div`
-  min-width: 20%;
+  min-width: 12%;
 `;
 export const ColumnPrice = styled.div`
-  min-width: 20%;
+  min-width: 12%;
 `;
 
 export const TradeType = styled.div`
@@ -158,9 +158,6 @@ export const TradeType = styled.div`
     border-top: 1px solid #fff;
     margin-top: 12px;
     padding-top: 18px;
-    > div:first-of-type{
-      display: none;
-    }
   }
 `;
 
