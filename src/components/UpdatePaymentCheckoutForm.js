@@ -6,7 +6,13 @@ import { loadSubscriptions } from '../actions';
 import { patchData } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import styled from '@emotion/styled';
+import { H2, P } from '../styled/GlobalElements';
+import { Link } from 'react-router-dom';
 
+const ErrorContainer = styled.div`
+
+`;
 
 export class UpdatePaymentCheckoutForm extends React.Component {
   state = {
@@ -31,18 +37,51 @@ export class UpdatePaymentCheckoutForm extends React.Component {
       })
       .catch(error => {
         this.setState({loading: false, error: error.detail});
+        this.props.reloadSubscriptions();
         this.props.finishUpdatePaymentFail();
       });
   }
 
   render() {
+
+    let error = null;
+    if (this.state.error) {
+      switch (this.state.error.code) {
+        case '1015':
+          error = (
+            <ErrorContainer>
+              <H2>Card update could not be processed</H2>
+              <P>Check that you have entered your payment information correctly or <Link to="/app/help">contact support</Link> if that doesn't help.</P>
+            </ErrorContainer>
+          );
+          break;
+        case '0000':
+          error = (
+            <ErrorContainer>
+              <H2>Card update could not be processed</H2>
+              <P>Oops, you've encountered a bug! Please try again later or <Link to="/app/help">contact support</Link> if this persists.</P>
+            </ErrorContainer>
+
+          );
+          break;
+        default:
+          error = (
+            <ErrorContainer>
+              <H2>Card update could not be processed</H2>
+              <P>Oops, you've encountered a bug! Please try again later or <Link to="/app/help">contact support</Link> if this persists.</P>
+            </ErrorContainer>
+          );
+          break;
+      }
+    }
+
     return (
       <div>
         <CardElement />
         {
           !this.state.loading && this.state.error && (
             <div>
-              {this.state.error}
+              {error}
             </div>
           )
         }
