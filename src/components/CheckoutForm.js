@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from '../styled/Button';
-// import { Elements } from 'react-stripe-elements';
-import {CardElement, injectStripe} from 'react-stripe-elements';
+import { injectStripe } from 'react-stripe-elements';
 import { loadSubscriptions } from '../actions';
 import { postData } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,6 +9,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import { H2, P } from '../styled/GlobalElements';
 import { Link } from 'react-router-dom';
+import Card from '../styled/Card';
 
 const InputStyle = styled.div`
   input {
@@ -17,9 +17,7 @@ const InputStyle = styled.div`
 `;
 
 const ErrorContainer = styled.div`
-
 `;
-
 
 export class CheckoutForm extends React.Component {
   state = {
@@ -85,7 +83,7 @@ export class CheckoutForm extends React.Component {
 
     return (
       <InputStyle>
-        <CardElement />
+        <Card />
         {
           !this.state.loading && this.state.error && (
             <div>
