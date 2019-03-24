@@ -9,6 +9,7 @@ import RegistrationPage from './pages/RegistrationPage';
 import DashboardPage from './pages/DashboardPage';
 import GroupPage from './pages/GroupPage';
 import SettingsPage from './pages/SettingsPage';
+import HelpPage from './pages/HelpPage';
 import QuestradeOauthPage from './pages/QuestradeOauthPage';
 import CouponPage from './pages/CouponPage';
 import SecureRoute from './routes/SecureRoute';
@@ -42,6 +43,7 @@ const App = () => {
           <Route path="/app/register" component={RegistrationPage} />
           <Route path="/app/reset-password" component={ResetPasswordPage} />
           <Route path="/app/reset-password-confirm/:token" component={ResetPasswordConfirmPage} />
+          <Route path="/app/help" component={HelpPage} />
           <SecureRoute path="/app/dashboard" component={DashboardPage} />
           <SecureRoute path="/app/group/:groupId" component={GroupPage} />
           <SecureRoute path="/app/settings" component={SettingsPage} />

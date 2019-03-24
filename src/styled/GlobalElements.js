@@ -5,6 +5,10 @@ const dynamicStyle = props =>
 css`
   color: ${props.color};
 `;
+const dynamicMargin = props =>
+css`
+  margin: ${props.margin};
+`;
 
 // h1
 export const H1 = styled.h1`
@@ -14,6 +18,7 @@ export const H1 = styled.h1`
 	letter-spacing: -1.5px;
 	color: #2a2d34;
 	${dynamicStyle};
+	${dynamicMargin};
 `;
 
 // h2
@@ -23,6 +28,7 @@ export const H2 = styled.h2`
 	text-align: left;
 	color: #232225;
   display: block;
+  ${dynamicMargin};
 `;
 
 // h3
@@ -32,6 +38,7 @@ export const H3 = styled.h3`
 	line-height: 1.78;
 	letter-spacing: 1px;
 	color: #232225;
+	${dynamicMargin};
 `;
 
 // ul
