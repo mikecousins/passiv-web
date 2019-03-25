@@ -7,15 +7,18 @@ import SlideMenu from '../components/SlideMenu';
 import GlobalStyle from '../styled/global';
 
 const Container = styled.div`
-  padding-left: 244px;
-  padding-top: 84px;
+  display: flex;
 `;
 
 const Main = styled.main`
   min-height: 90vh;
   position: relative;
-  padding: 30px;
+  padding: 114px 30px 30px;
   max-width: 1410px;
+  width: 100%;
+  @media (max-width: 760px) {
+    padding: 95px 15px;
+  }
 `;
 
 const AppLayout = (props) => (

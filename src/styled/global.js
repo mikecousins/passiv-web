@@ -151,6 +151,7 @@ export const GlobalStyle = () => (
       font-size: 100%;
       line-height: 1.15;
       margin: 0;
+      background: none;
     }
     strong {
       font-weight: 700;

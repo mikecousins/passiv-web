@@ -13,20 +13,19 @@ import styled from '@emotion/styled';
 const StyledAside = styled.aside`
   background-color: var(--brand-grey);
   color: #fff;
-  width: 244px;
+  width: 212px;
   height: 100%;
   padding-top: 12px;
   text-transform: uppercase;
   font-weight: 700;
-
+  position: fixed;
+  transition: .25s all;
   a {
     color: #fff;
     text-decoration: none;
-    padding: 20px 0;
+    padding: 20px 15px 20px 25px;
     display: block;
     font-size: 1.125rem;
-    padding-left: 25px;
-    padding-right: 15px;
     widht: 100%;
     position: relative;
     svg {
@@ -47,6 +46,10 @@ const GroupContainer = styled.div`
   border-bottom: 1px solid rgba(255,255,255,.23);
   text-transform: none;
   font-weight: 500;
+  a {
+    font-size: 16px;
+    padding: 17px 15px 17px 25px;
+  }
 `;
 const SideBar = (props) => {
   let groups = <FontAwesomeIcon icon={faSpinner} spin />;

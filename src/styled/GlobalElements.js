@@ -17,6 +17,10 @@ export const H1 = styled.h1`
 	line-height: 2.17;
 	letter-spacing: -1.5px;
 	color: #2a2d34;
+	@media (max-width: 760px) {
+		line-height: 1.3;
+		margin-bottom: 20px;
+	}
 	${dynamicStyle};
 	${dynamicMargin};
 `;

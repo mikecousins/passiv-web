@@ -10,18 +10,18 @@ export const AccountTrades = ({ trades, groupId }) => {
 
     const tradeRender = trade => (
       <TradeRow key={trade.id}>
-        <ColumnSymbol>
-          <Title>{trade.universal_symbol.description}</Title>
-          <Symbol>{trade.universal_symbol.symbol}</Symbol>
-        </ColumnSymbol>
-        <ColumnUnits>
-          <Title>Units</Title>
-          <div>{trade.units}</div>
-        </ColumnUnits>
         <ColumnPrice>
           <Title>Price</Title>
           <div>${trade.price}</div>
         </ColumnPrice>
+        <ColumnUnits>
+          <Title>Units</Title>
+          <div>{trade.units}</div>
+        </ColumnUnits>
+        <ColumnSymbol>
+          <Title>{trade.universal_symbol.description}</Title>
+          <Symbol>{trade.universal_symbol.symbol}</Symbol>
+        </ColumnSymbol>
       </TradeRow>
     )
 

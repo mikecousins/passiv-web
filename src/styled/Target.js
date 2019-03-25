@@ -71,9 +71,7 @@ export const BarActual = styled.span`
   }
 `;
 export const Container = styled.div`
-  background: #f5f5f5;
-  padding: 15px 15px 10px;
-  box-shadow: var(--box-shadow);
+  padding: 8px 5px 2px;
   margin-bottom: 15px;
   position: relative;
 `;

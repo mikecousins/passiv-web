@@ -1,25 +1,31 @@
 import React from 'react';
+import SideBar from './SideBar';
 import styled from '@emotion/styled';
 
 const FlyOut = styled.div`
   background-color: var(--brand-grey);
   color: #fff;
-  width: 250px;
+  width: 212px;
   height: 100%;
-  padding-top: 110px;
-  position: fixed;
+  padding-top: 80px;
+  position: relative;
   top: 0;
-  left: 0;
-  transition: transform .3s cubic-bezier(0, .52, 0, 1);
+  left: 0px;
   overflow: scroll;
   z-index: 3;
-
+  transition: all .25s;
   &.hide {
-    transform: translate3d(-100vw, 0, 0);
+    width: 0px;
+    overflow: hidden;
+    left: -250px;
+    aside {
+      overflow: hidden;
+    }
+
+
   }
 
   &.show {
-    transform: translate3d(0vw, 0, 0);
     overflow: hidden;
   }
 
@@ -39,11 +45,11 @@ const FlyOut = styled.div`
     padding: 20px 0;
     display: block;
     font-size: 1.125rem;
+    letter-spacing: 0.015em;
     padding-left: 30px;
     padding-right: 15px;
-    widht: 100%;
     svg {
-      float: right;
+      display: none;
     }
   }
   .active {
@@ -53,22 +59,16 @@ const FlyOut = styled.div`
 
 class Menu extends React.Component {
   render() {
-    var visibility = "hide";
+    var visibility = "show";
 
     if (this.props.menuVisibility) {
-      visibility = "show";
+      visibility = "hide";
     }
 
     return (
       <FlyOut id="flyoutMenu"
            className={visibility}>
-        <ul>
-          <li><a href="https://getpassiv.com/">Passiv Home</a></li>
-          <li><a href="https://getpassiv.com/about">About</a></li>
-          <li><a href="https://getpassiv.com/blog/">Blog</a></li>
-          <li><a href="https://getpassiv.com/security/">Security</a></li>
-          <li><a href="https://getpassiv.com/pricing/">Pricing</a></li>
-        </ul>
+        <SideBar/>
       </FlyOut>
     );
   }

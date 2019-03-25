@@ -1,24 +1,34 @@
 import React from 'react';
-import SideBar from './SideBar';
 import MenuButton from "./MenuButton";
 import Menu from "./Menu";
 import styled from '@emotion/styled';
+import withSizes from 'react-sizes'
 
 const StyledSlideMenu = styled.div`
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   z-index: 5;
-  height: 100%;
+  min-height: 100vh;
 `;
+
+const mapSizesToProps = ({ width }) => ({
+  isMobile: width < 480,
+});
 
 export class SlideMenu extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      visible: false
-    };
+    if (!this.props.isMobile){
+      this.state = {
+        visible: false
+      };
+    } else if(this.props.isMobile){
+      this.state = {
+        visible: true
+      };
+    }
 
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -26,7 +36,6 @@ export class SlideMenu extends React.Component {
 
   handleMouseDown(e) {
     this.toggleMenu();
-
     console.log("clicked");
     e.stopPropagation();
   }
@@ -41,13 +50,12 @@ export class SlideMenu extends React.Component {
   render() {
     return (
       <StyledSlideMenu>
-        <MenuButton handleMouseDown={this.handleMouseDown}/>
+        <MenuButton menuVisibility={this.state.visible} handleMouseDown={this.handleMouseDown}/>
         <Menu handleMouseDown={this.handleMouseDown}
             menuVisibility={this.state.visible}/>
-        <SideBar />
       </StyledSlideMenu>
     );
   }
 }
 
-export default SlideMenu;
+export default withSizes(mapSizesToProps)(SlideMenu);

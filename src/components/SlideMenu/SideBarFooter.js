@@ -7,14 +7,16 @@ import styled from '@emotion/styled';
 
 export const StyledFooter = styled.div`
   position: absolute;
-  bottom: 0;
+  bottom: 80px;
   left: 0;
   z-index: 4;
-  width: 100%;
-  padding: 12px 5px 10px;
+  padding: 12px 2px 8px;
   background: #1b1c23;
   button {
     margin-top: 4px;
+  }
+  a {
+    letter-spacing: 0;
   }
 `
 export const Help = styled.div`

@@ -15,7 +15,7 @@ import SubscriptionCoupon from './SubscriptionCoupon'
 import SubscriptionPlans from './SubscriptionPlans'
 
 import styled from '@emotion/styled';
-import { H2, P } from '../styled/GlobalElements';
+import { H2, P, A } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
 
 const SubscriptionContainer = styled.div`
@@ -24,6 +24,13 @@ const SubscriptionContainer = styled.div`
   }
 `;
 
+const ActionContainer = styled.div`
+  a {
+    font-weight: 700;
+    margin-left: 10px;
+    text-decoration: underline;
+  }
+`;
 
 export class SubscriptionManager extends React.Component {
   state = {
@@ -113,9 +120,9 @@ export class SubscriptionManager extends React.Component {
                 </Elements>
                 {
                   !this.state.loading && (
-                    <Button onClick={() => {this.cancelCreateSubscription()}}>
+                    <A onClick={() => {this.cancelCreateSubscription()}}>
                       Cancel
-                    </Button>
+                    </A>
                   )
                 }
             </div>
@@ -199,17 +206,17 @@ export class SubscriptionManager extends React.Component {
                             {upgradeForm}
                           </div>
                         ): (
-                          <div>
+                          <ActionContainer>
                             <P>
                               Your subscription will renew on {format(this.props.subscriptions.details.period_end, 'MMMM D, YYYY')}.
                             </P>
-                            <Button onClick={() => {this.cancelSubscription()}}>
-                              Cancel Subscription
-                            </Button>
                             <Button onClick={() => {this.updatePayment()}}>
                               Update Payment
                             </Button>
-                          </div>
+                            <A onClick={() => {this.cancelSubscription()}}>
+                              Cancel Subscription
+                            </A>
+                          </ActionContainer>
                         )
                       }
                     </div>

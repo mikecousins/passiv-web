@@ -11,10 +11,13 @@ import Hello from './Hello';
 const StyledHeader = styled.header`
   position: fixed;
   width: 100%;
-  padding: 10px 20px 10px 160px;
+  padding: 10px 20px 10px 222px;
   background: #fff;
   box-shadow: 2px 2px 8px rgba(190, 190, 190, 0.29);
   z-index: 4;
+  @media (max-width: 760px) {
+    padding: 9px 8px 2px 75px;
+  }
   nav {
     background: #fff;
     display: flex;
@@ -23,6 +26,9 @@ const StyledHeader = styled.header`
 `;
 const Logo = styled.header`
   margin-top: 2px;
+   @media (max-width: 760px) {
+    margin-top: 0;
+   }
 `;
 export const Header = ({ name, loggedIn }) => (
   <StyledHeader>

@@ -14,7 +14,7 @@ import Number from './Number';
 import ConnectionUpdate from '../components/ConnectionUpdate';
 
 const SummaryContainer = styled.div`
-  text-align: right;
+  text-align: left;
   margin-top: 25px;
   button {
     margin: 0;
@@ -30,10 +30,19 @@ const OrderContainer = styled.div`
   padding: 25px;
   margin-top: 30px;
   background: #f5f9ff;
+  color: var(--brand-grey);
+  h2 {
+    margin-bottom: 20px;
+  }
 `;
 
 const ConfirmContainer = styled.div`
-  text-align: right;
+  text-align: left;
+  a {
+    margin-left: 20px;
+    font-weight: 700;
+    text-decoration: underline;
+  }
 `;
 
 const MetaHorizontal = styled.div`
@@ -48,12 +57,12 @@ const MetaHorizontal = styled.div`
 `;
 
 const UpgradeText = styled.span`
-    font-weight: 600;
-    color: #2a2e33;
-    font-size: 22px;
-    button {
-      margin-left: 20px;
-    }
+  font-weight: 600;
+  color: #2a2e33;
+  font-size: 22px;
+  button {
+    margin-left: 20px;
+  }
 `;
 
 export class RebalanceWidget extends Component {
@@ -263,12 +272,12 @@ export class RebalanceWidget extends Component {
                   ) : (
                     <div>
                       <ConfirmContainer>
-                        <Button onClick={() => {this.cancelOrders()}}>
-                          Cancel
-                        </Button>
                         <Button onClick={() => {this.confirmOrders()}}>
                           Confirm
                         </Button>
+                        <A onClick={() => {this.cancelOrders()}}>
+                          Cancel
+                        </A>
                       </ConfirmContainer>
                     </div>
                   )}

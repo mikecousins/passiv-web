@@ -12,12 +12,24 @@ export const DashboardRow = styled.div`
   div{
     align-items: center;
     text-align: center;
+    @media (max-width: 760px) {
+      letter-spacing: 0.015em;
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
   }
   h2 {
     min-width: 20%;
     font-size: 22px;
     margin-top: -10px;
     letter-spacing: 0.01em;
+    @media (max-width: 760px) {
+      text-align: center;
+      margin-top: 0;
+      font-size: 26px;
+      color: var(--brand-green);
+      margin-bottom: 10px;
+    }
   }
 `;
 
@@ -40,6 +52,13 @@ export const ViewBtn = styled.div`
   }
   svg {
     padding-left: 3px;
+  }
+  @media (max-width: 760px) {
+    margin: 20px 0 0;
+    padding: 16px 20px 20px;
+    border: 1px solid var(--brand-blue);
+    width: 100%;
+    display: inline-block;
   }
 `;
 
@@ -79,6 +98,15 @@ export const WarningViewBtn = styled.div`
     background: #ffa600;
     left: -20px;
     bottom: -20px;
+    @media (max-width: 760px) {
+      display: none;
+    }
+  }
+  @media (max-width: 760px) {
+    margin: 20px 0 0;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 4px;
   }
 `;
 
@@ -105,6 +133,10 @@ export const AllocateBtn= styled.div`
   color: #fff;
   text-transform: uppercase;
   cursor: pointer;
+  @media (max-width: 760px) {
+    top: 102%;
+    width: 100%;
+  }
 `;
 
 export const TradesContainer = styled.div`
@@ -118,15 +150,13 @@ export const TradesContainer = styled.div`
   background: #deeaff;
   h3 {
     color: #003BA2;
-    font-size: 45px;
-  }
-  h2 {
-    font-size: 40px;
+    font-size: 25px;
+    margin-bottom: 10px;
   }
 `;
 
 export const TradeRow = styled.div`
-  text-align: right;
+  text-align: left;
   @media (min-width: 760px) {
     display: flex;
   }
@@ -136,26 +166,31 @@ export const Heading = styled.div`
   h3 {
     font-size: 40px;
     font-weight: bold;
-    text-align: right;
+    text-align: left;
     line-height: 1;
   }
 `;
 
 export const ColumnSymbol = styled.div`
   min-width: 76%;
+  color: var(--brand-grey);
 `;
 
 export const ColumnUnits = styled.div`
   min-width: 12%;
+  color: var(--brand-grey);
 `;
 export const ColumnPrice = styled.div`
   min-width: 12%;
+  color: var(--brand-grey);
 `;
 
 export const TradeType = styled.div`
   h3 {
-    text-align: right;
-    margin-bottom: 20px;
+    font-size: 32px;
+    font-weight: 900;
+    text-align: left;
+    margin-bottom: 15px;
     padding-top: 18px;
   }
   > div:not(:first-of-type)  {

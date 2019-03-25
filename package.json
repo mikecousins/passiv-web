@@ -55,6 +55,7 @@
     "react-router-dom": "5.0.0",
     "react-scripts": "2.1.8",
     "react-select": "2.4.2",
+    "react-sizes": "^1.0.4",
     "react-stripe-elements": "2.0.3",
     "react-toastify": "4.5.2",
     "react-tooltip": "3.10.0",
@@ -79,9 +80,9 @@
     "travis": "npm run test && npm run lint && npm run cypress"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^5.0.0",
+    "@storybook/addon-actions": "^5.0.5",
     "@storybook/addon-links": "^5.0.0",
-    "@storybook/react": "^5.0.0",
+    "@storybook/react": "^5.0.5",
     "cypress": "^3.1.5",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.10.0"

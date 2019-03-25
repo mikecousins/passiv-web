@@ -2,21 +2,28 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 export const Button = styled.button`
-  background: #f2f2f2;
-  font-size: 18px;
+  background: var(--brand-grey);
+  font-size: 16px;
   font-weight: 800;
   letter-spacing: 0.8px;
-  text-align: right;
-  color: #232225;
+  text-align: left;
+  color: #fff;
   padding: 10px 25px 10px 20px;
   display: block;
   height: 92px;
   text-transform: uppercase;
-  position: relative;
+  position: fixed;
   z-index: 4;
+  @media (max-width: 760px) {
+    padding: 7px 8px 10px 14px;
+    height: 81px;
+  }
   strong {
     display: inline-block;
     margin-top: 2px;
+    @media (max-width: 760px) {
+      display: none;
+    }
   }
   &:hover {
     background: var(--brand-blue);
@@ -28,16 +35,17 @@ export const Button = styled.button`
 `;
 
 export const Hamburger = styled.div`
-  text-align: right;
+  text-align: left;
   float: left;
   margin-right: 14px;
+  margin-top: 9px;
   span {
     display: block;
     width: 33px;
     height: 4px;
-    margin: 0 0 5px auto;
+    margin: 0 0 6px auto;
     position: relative;
-    background: #232225;
+    background: #fff;
     border-radius: 3px;
     z-index: 1;
     text-align: right;
@@ -72,7 +80,13 @@ export const Hamburger = styled.div`
 `;
 
 class MenuButton extends React.Component {
+
   render() {
+    var visibility = "Collapse";
+
+    if (this.props.menuVisibility) {
+      visibility = "Expand";
+    }
     return (
       <Button onMouseDown={this.props.handleMouseDown}>
         <Hamburger>
@@ -80,7 +94,7 @@ class MenuButton extends React.Component {
           <span></span>
           <span></span>
         </Hamburger>
-        <strong>Menu</strong>
+        <strong>{visibility}<br />Menu</strong>
       </Button>
     );
   }

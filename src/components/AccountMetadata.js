@@ -32,12 +32,34 @@ const Cash = styled.div`
   text-align: right;
 `;
 
+const CashType = styled.div`
+  margin-bottom: 8px;
+  span {
+    font-weight: 600;
+  }
+`;
+
 const NameContainer = styled.div`
-  padding-bottom: 15px;
+  padding-bottom: 0px;
   font-size: 40px;
   text-align: left;
+  margin-bottom: 30px;
+  position: relative;
+  input {
+    font-size: 30px;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    padding-left: 0;
+    margin-bottom: 0;
+  }
   button {
     font-size: 18px;
+    position: absolute;
+    top: 0;
+    margin: 0 5px;
+    min-width: 70px;
+    padding-top: 17px;
   }
 `;
 const MetaHorizontal = styled.div`
@@ -130,12 +152,12 @@ class AccountMetadata extends Component {
               {this.props.balances
                 && this.props.balances.map(balance => (
                 <Table key={balance.currency.id}>
-                  <div>
+                  <CashType>
                     <span title={balance.currency.name}>{balance.currency.code}</span>
-                  </div>
-                  <div>
+                  </CashType>
+                  <CashType>
                     <Number value={balance.cash} currency />
-                  </div>
+                  </CashType>
                 </Table>
               ))
             }
