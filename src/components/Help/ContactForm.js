@@ -1,13 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import styled from '@emotion/styled';
-import { jsx } from '@emotion/core';
-import { Form, Input, Label, InputNonFormik, Textarea } from '../../styled/Form';
+import { Form, Input, Label, Textarea } from '../../styled/Form';
 import { H2, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
-import ShadowBox from '../../styled/ShadowBox';
 
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
