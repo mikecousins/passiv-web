@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { Form, Input, Label, Textarea } from '../../styled/Form';
 import { H2, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
+import { postData } from '../../api';
 
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -23,7 +24,6 @@ const GreenBox = styled.div`
 `;
 
 export class ContactForm extends React.Component {
-
   render() {
     return (
       <GreenBox>
@@ -40,7 +40,16 @@ export class ContactForm extends React.Component {
                 .required('Required')
             })}
             onSubmit={(values, actions) => {
-
+              postData('/api/v1/feedback/',
+                { email: values.email, message: values.message }
+              )
+                .then(response => {
+                  actions.setSubmitting(false);
+                })
+                .catch(error => {
+                  actions.setErrors({ errors: error.response.data.errors || 'Failed to login.' });
+                  actions.setSubmitting(false);
+                });
             }}
             render={(props) => (
               <Form onSubmit={props.handleSubmit}>
@@ -62,13 +71,19 @@ export class ContactForm extends React.Component {
                   Message
                 </Label>
                 <Textarea
-                id="message"
-                name="message"
-                placeholder="Start a message ..."
+                  component='textarea'
+                  id="message"
+                  name="message"
+                  placeholder="Start a message ..."
+                  error={props.touched.message && props.errors.message}
                 />
+                <P>
+                  <ErrorMessage name="message" />
+                </P>
                 <div>
                   <Button
                     type="submit"
+                    disabled={!props.isValid || props.isSubmitting}
                   >
                     Submit Message
                   </Button>

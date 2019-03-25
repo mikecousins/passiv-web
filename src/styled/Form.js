@@ -25,7 +25,7 @@ export const Input = styled(Field)`
   }
 `;
 
-export const Textarea = styled.textarea`
+export const Textarea = styled(Field)`
   border: ${props =>
     props.error ? '1px solid red' : '1px solid var(--brand-grey)'};
   box-sizing: border-box;
