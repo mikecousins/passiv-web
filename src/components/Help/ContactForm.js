@@ -31,7 +31,7 @@ export class ContactForm extends React.Component {
       <GreenBox>
           <Formik
             initialValues={{
-              email: this.props.settings.email,
+              email: this.props.settings ? this.props.settings.email : '',
               message: ''
             }}
             validationSchema={Yup.object().shape({
@@ -64,7 +64,7 @@ export class ContactForm extends React.Component {
                 <Input
                   id="email"
                   name="email"
-                  placeholder="email@example.com"
+                  placeholder="john.smith@gmail.com"
                   error={props.touched.email && props.errors.email}
                 />
                 <P>
@@ -77,7 +77,7 @@ export class ContactForm extends React.Component {
                   component='textarea'
                   id="message"
                   name="message"
-                  placeholder="Start a message ..."
+                  placeholder="Tell us what's on your mind."
                   error={props.touched.message && props.errors.message}
                 />
                 <P>
