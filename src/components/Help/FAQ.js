@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { connect } from 'react-redux';
 import ShadowBox from '../../styled/ShadowBox';
 import { H2, H3, P } from '../../styled/GlobalElements';
 
