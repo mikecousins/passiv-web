@@ -1,9 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from '@emotion/styled';
 import { Form, Input, Label, Textarea } from '../../styled/Form';
 import { H2, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import { postData } from '../../api';
+import { selectSettings } from '../../selectors';
 
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -29,7 +31,7 @@ export class ContactForm extends React.Component {
       <GreenBox>
           <Formik
             initialValues={{
-              email: '',
+              email: this.props.settings.email,
               message: ''
             }}
             validationSchema={Yup.object().shape({
@@ -63,6 +65,7 @@ export class ContactForm extends React.Component {
                   id="email"
                   name="email"
                   placeholder="email@example.com"
+                  error={props.touched.email && props.errors.email}
                 />
                 <P>
                   <ErrorMessage name="email" />
@@ -96,4 +99,10 @@ export class ContactForm extends React.Component {
   }
 }
 
-export default ContactForm;
+const select = state => ({
+  settings: selectSettings(state),
+});
+const actions = {};
+
+
+export default connect(select, actions)(ContactForm);
