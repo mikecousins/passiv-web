@@ -5,7 +5,7 @@ import ConnectionsManager from '../components/ConnectionsManager';
 import styled from '@emotion/styled';
 
 const SettingContainer = styled.div`
-	@media (min-width: 760px) {
+	@media (min-width: 900px) {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
@@ -17,6 +17,9 @@ const SettingContainer = styled.div`
 		font-size: 18px;
 		&:first-of-type {
 			margin-right: 3%;
+		}
+		@media (max-width: 900px) {
+			padding: 15px;
 		}
 	}
 	h2 {

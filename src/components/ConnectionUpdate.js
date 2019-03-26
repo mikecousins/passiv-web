@@ -3,7 +3,17 @@ import { connect } from 'react-redux';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 
 import { H3 } from '../styled/GlobalElements';
-import { Order } from '../styled/Group';
+import styled from '@emotion/styled';
+
+
+export const Order = styled.div`
+  text-align: center;
+  select {
+    background: #fff;
+    padding: 10px;
+    margin: 12px 0;
+  }
+`;
 
 class ConnectionUpdate extends React.Component{
   state = {

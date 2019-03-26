@@ -17,7 +17,7 @@ export const H1 = styled.h1`
 	line-height: 2.17;
 	letter-spacing: -1.5px;
 	color: #2a2d34;
-	@media (max-width: 760px) {
+	@media (max-width: 900px) {
 		line-height: 1.3;
 		margin-bottom: 20px;
 	}
@@ -58,7 +58,7 @@ export const UL = styled.ul`
 export const Table = styled.div`
 	display: block;
 	justify-content: inherit;
-	@media (min-width: 760px) {
+	@media (min-width: 900px) {
     display: flex;
   	justify-content: ${props => props.spaceAround ? 'inherit' : 'space-between'};
   }

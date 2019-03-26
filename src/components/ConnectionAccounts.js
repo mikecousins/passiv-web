@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import ShadowBox from '../styled/ShadowBox';
 import { selectAccounts } from '../selectors';
+import { H3 } from '../styled/GlobalElements';
 
 
 class ConnectionAccounts extends React.Component{
@@ -23,8 +23,8 @@ class ConnectionAccounts extends React.Component{
     const {authorizationId} = this.props
 
     return(
-      <ShadowBox>
-        <div> This connection contains the following accounts: </div>
+      <div>
+        <H3> This connection contains the following accounts: </H3>
         <div>
           {this.selectAccountsByAuthorizationId(authorizationId).map(account => (
                 <div key={account.id}>
@@ -34,7 +34,7 @@ class ConnectionAccounts extends React.Component{
             )
           }
         </div>
-      </ShadowBox>
+      </div>
     )
   }
 }

@@ -18,7 +18,7 @@ export const TargetContainer = styled.form`
 `;
 
 export const Container3Column = styled.div`
-  @media (min-width: 760px) {
+  @media (min-width: 900px) {
     display: flex;
     justify-content: space-between;
     > div {

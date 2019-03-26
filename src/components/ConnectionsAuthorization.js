@@ -4,7 +4,7 @@ import { selectAuthorizations } from '../selectors';
 import { loadAuthorizations } from '../actions';
 import { putData } from '../api';
 
-import { Table, H3, Edit } from '../styled/GlobalElements';
+import { Table, H3, P, Edit } from '../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes, faSortDown, faSortUp, faPen } from '@fortawesome/free-solid-svg-icons';
 import { InputNonFormik } from '../styled/Form';
@@ -17,6 +17,54 @@ import ConnectionDelete from './ConnectionDelete';
 const InputContainer = styled.div`
   padding-bottom: 20px;
   font-size: 18px;
+`;
+
+const Brokerage = styled.div`
+  min-width: 22%;
+`;
+
+const Name = styled.div`
+  min-width: 36%;
+`;
+
+const Read = styled.div`
+  min-width: 14%;
+  text-align: center;
+`;
+
+const Trade = styled.div`
+  min-width: 14%;
+  text-align: center;
+`;
+
+const EditToggle = styled.div`
+  min-width: 14%;
+  text-align: center;
+`;
+
+const Connection = styled.div`
+  border-top: 1px solid #eee;
+  margin-top: 10px;
+  padding-top: 10px;
+  &:first-of-type {
+    border: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+`;
+
+const ConnectionActions = styled.div`
+  margin: 20px 0 20px;
+  background: #deeaff;
+  padding: 20px;
+  border-radius: 4px;
+  h3 {
+    line-height: 1.2;
+    margin-bottom: 15px;
+  }
+  div div {
+    min-width: 33%;
+  }
 `;
 
 class ConnectionsAuthorization extends React.Component {
@@ -57,48 +105,66 @@ class ConnectionsAuthorization extends React.Component {
 
     return (
       <React.Fragment>
-        <Table>
-            <H3>{authorization.brokerage.name}</H3>
-            {!nameEditting? (
-                <H3>
-                  {authorization_name}
-                  <Edit onClick={() => this.setState({nameEditting:true})}>
-                    <FontAwesomeIcon icon={faPen}/>Edit
+        <Connection>
+          <Table>
+            <Brokerage>
+              <H3>Brokerage</H3>
+              <P>{authorization.brokerage.name}</P>
+            </Brokerage>
+            <Name>
+              <H3>Name</H3>
+              {!nameEditting? (
+                  <P>
+                    {authorization_name}
+                    <Edit onClick={() => this.setState({nameEditting:true})}>
+                      <FontAwesomeIcon icon={faPen}/>Edit
+                    </Edit>
+                  </P>
+              ):
+              (
+                <InputContainer>
+                  <InputNonFormik
+                    value={authorization_name}
+                    onChange={this.onChange}
+                    onKeyPress={this.onEnter}
+                  />
+                  <Edit onClick={() => this.finishEditing()}>
+                  <FontAwesomeIcon icon={faCheck}/>Done
                   </Edit>
-                </H3>
-            ):
-            (
-              <InputContainer>
-                <InputNonFormik
-                  value={authorization_name}
-                  onChange={this.onChange}
-                  onKeyPress={this.onEnter}
-                />
-                <Edit onClick={() => this.finishEditing()}>
-                <FontAwesomeIcon icon={faCheck}/>Done
-                </Edit>
-              </InputContainer>
-            )
-            }
-            <H3> {authorization.type==="read"||authorization.type==="trade"?
+                </InputContainer>
+              )
+              }
+            </Name>
+            <Read>
+              <H3>Read</H3>
+              <P> {authorization.type==="read"||authorization.type==="trade"?
+                    <FontAwesomeIcon icon={faCheck} />:
+                    <FontAwesomeIcon icon={faTimes} />}
+              </P>
+            </Read>
+            <Trade>
+              <H3>Trade</H3>
+              <P> {authorization.type==="trade"?
                   <FontAwesomeIcon icon={faCheck} />:
                   <FontAwesomeIcon icon={faTimes} />}
-            </H3>
-            <H3> {authorization.type==="trade"?
-                <FontAwesomeIcon icon={faCheck} />:
-                <FontAwesomeIcon icon={faTimes} />}
-            </H3>
+              </P>
+            </Trade>
+            <EditToggle>
+              <H3>Edit</H3>
               <FontAwesomeIcon icon={this.state.showMore ? faSortUp : faSortDown}
               onClick={() => this.setState({showMore: !this.state.showMore})}/>
-
-        </Table>
+            </EditToggle>
+          </Table>
+        </Connection>
 
         {showMore ? (
-          <Table>
-            <ConnectionAccounts authorizationId={authorization.id}/>
-            <ConnectionUpdate authorization={authorization}/>
-            <ConnectionDelete authorization={authorization}/>
-          </Table>
+          <ConnectionActions>
+            <Table>
+              <ConnectionAccounts authorizationId={authorization.id}/>
+              <ConnectionUpdate authorization={authorization}/>
+              <ConnectionDelete authorization={authorization}/>
+            </Table>
+          </ConnectionActions>
         ): null}
       </React.Fragment>
     )

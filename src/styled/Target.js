@@ -36,10 +36,21 @@ export const Target = styled.div`
     border: 2px solid var(--brand-blue);
     transition: all .25s;
     margin-top: -7px;
+    margin-right: 3px;
     padding: 3px 0 3px 3px;
+    position: relative;
     &[readonly]{
       border: 2px solid transparent;
-      margin-right: -15px;
+      padding: 3px 0 3px 3px;
+      margin-right: 0;
+      &::-webkit-inner-spin-button {
+        display: none;
+      }
+    }
+    &::-webkit-inner-spin-button {
+      opacity: 1;
+      font-size:30px;
+      margin-left: 3px;
     }
   }
 `;
@@ -78,10 +89,9 @@ export const Container = styled.div`
 export const TargetRow = styled.div`
   margin: 0 10px 0 auto;
   text-align: right;
-  @media (min-width: 760px) {
-    justify-content: space-between;
-    display: flex;
-  }
+  justify-content: space-between;
+  display: flex;
+  letter-spacing: 0.05em;
   h3 {
     text-transform: uppercase;
     width: 100px;
@@ -95,6 +105,7 @@ export const TargetRow = styled.div`
   }
 `;
 export const Close = styled.button`
+  background: #fff;
   position: absolute;
   top: 0;
   left: -4px;

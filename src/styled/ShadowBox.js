@@ -7,4 +7,7 @@ export default styled.div`
   box-shadow: var(--box-shadow);
   padding: 20px 20px 20px;
   margin-bottom: 20px;
+  @media (max-width: 900px) {
+  	padding: 15px;
+  }
 `;

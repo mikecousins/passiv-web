@@ -15,7 +15,7 @@ const StyledHeader = styled.header`
   background: #fff;
   box-shadow: 2px 2px 8px rgba(190, 190, 190, 0.29);
   z-index: 4;
-  @media (max-width: 760px) {
+  @media (max-width: 900px) {
     padding: 9px 8px 2px 75px;
   }
   nav {
@@ -26,7 +26,7 @@ const StyledHeader = styled.header`
 `;
 const Logo = styled.header`
   margin-top: 2px;
-   @media (max-width: 760px) {
+   @media (max-width: 900px) {
     margin-top: 0;
    }
 `;

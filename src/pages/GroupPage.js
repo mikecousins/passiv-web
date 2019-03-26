@@ -13,7 +13,7 @@ import { selectCurrentGroupTotalEquity, selectCurrentGroupCash, selectCurrentGro
 import styled from '@emotion/styled';
 
 export const Container2Column = styled.div`
-  @media (min-width: 760px) {
+  @media (min-width: 900px) {
     display: flex;
     justify-content: space-between;
     > div:first-of-type {

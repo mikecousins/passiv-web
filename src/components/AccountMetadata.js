@@ -18,6 +18,15 @@ const MetaContainer = styled.div`
 `;
 const CashBalance = styled.div`
   text-align: center;
+  @media (max-width: 900px) {
+    width: 66%;
+    display: inline-block;
+    text-align: left;
+    > div {
+      display: inline-block;
+      width: 50%;
+    }
+  }
 `;
 const Total = styled.div`
   text-align: right;
@@ -26,10 +35,21 @@ const Total = styled.div`
   border-radius: 0 4px;
   color: #fff;
   background: #04a287;
+  @media (max-width: 900px) {
+    border-radius: 4px;
+    margin: 0 0 17px;
+    padding: 15px;
+    text-align: center;
+  }
+
 `;
 
 const Cash = styled.div`
   text-align: right;
+  @media (max-width: 900px) {
+    display: inline-block;
+    width: 33%;
+  }
 `;
 
 const CashType = styled.div`
@@ -45,6 +65,10 @@ const NameContainer = styled.div`
   text-align: left;
   margin-bottom: 30px;
   position: relative;
+  @media (max-width: 900px) {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
   input {
     font-size: 30px;
     border-top: none;
@@ -55,15 +79,18 @@ const NameContainer = styled.div`
   }
   button {
     font-size: 18px;
-    position: absolute;
-    top: 0;
     margin: 0 5px;
     min-width: 70px;
-    padding-top: 17px;
+    @media (min-width: 900px) {
+      top: 0;
+    }
   }
 `;
 const MetaHorizontal = styled.div`
   text-align: left;
+  @media (max-width: 900px) {
+    margin-bottom: 10px;
+  }
   span {
     font-weight: 600;
     margin-bottom: 8px;

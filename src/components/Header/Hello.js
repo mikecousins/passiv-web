@@ -11,7 +11,7 @@ export const HelloStyle = styled.div`
   	font-size: 22px;
   	font-weight: 700;
   }
-  @media (max-width: 760px) {
+  @media (max-width: 900px) {
     display: none;
   }
 `;

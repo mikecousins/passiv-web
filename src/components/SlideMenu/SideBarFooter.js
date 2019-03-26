@@ -10,7 +10,8 @@ export const StyledFooter = styled.div`
   bottom: 80px;
   left: 0;
   z-index: 4;
-  padding: 12px 2px 8px;
+  width: 212px;
+  padding: 12px 0px 8px;
   background: #1b1c23;
   button {
     margin-top: 4px;

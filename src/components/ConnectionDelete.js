@@ -3,10 +3,14 @@ import { connect } from 'react-redux'
 import { initialLoad, loadBrokerages } from '../actions';
 import { deleteData } from '../api';
 
-import ShadowBox from '../styled/ShadowBox';
 import { DeleteButton } from '../styled/DeleteButton';
 import { Button } from '../styled/Button';
 import { H3 } from '../styled/GlobalElements';
+import styled from '@emotion/styled';
+
+const ConnectionsDelete = styled.div`
+  text-align: right;
+`;
 
 class ConnectionDelete extends React.Component{
   state = {
@@ -38,7 +42,7 @@ class ConnectionDelete extends React.Component{
     const { deletingConnection } = this.state
 
     return(
-      <ShadowBox>
+      <ConnectionsDelete>
         <H3>Delete Connection</H3>
 
         {deletingConnection ?
@@ -53,7 +57,7 @@ class ConnectionDelete extends React.Component{
         }
 
 
-      </ShadowBox>
+      </ConnectionsDelete>
     )
   }
 

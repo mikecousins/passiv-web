@@ -14,14 +14,14 @@ export const Button = styled.button`
   text-transform: uppercase;
   position: fixed;
   z-index: 4;
-  @media (max-width: 760px) {
+  @media (max-width: 900px) {
     padding: 7px 8px 10px 14px;
     height: 81px;
   }
   strong {
     display: inline-block;
     margin-top: 2px;
-    @media (max-width: 760px) {
+    @media (max-width: 900px) {
       display: none;
     }
   }

@@ -12,7 +12,7 @@ export const DashboardRow = styled.div`
   div{
     align-items: center;
     text-align: center;
-    @media (max-width: 760px) {
+    @media (max-width: 900px) {
       letter-spacing: 0.015em;
       font-size: 20px;
       margin-bottom: 12px;
@@ -23,7 +23,7 @@ export const DashboardRow = styled.div`
     font-size: 22px;
     margin-top: -10px;
     letter-spacing: 0.01em;
-    @media (max-width: 760px) {
+    @media (max-width: 900px) {
       text-align: center;
       margin-top: 0;
       font-size: 26px;
@@ -53,7 +53,7 @@ export const ViewBtn = styled.div`
   svg {
     padding-left: 3px;
   }
-  @media (max-width: 760px) {
+  @media (max-width: 900px) {
     margin: 20px 0 0;
     padding: 16px 20px 20px;
     border: 1px solid var(--brand-blue);
@@ -98,11 +98,11 @@ export const WarningViewBtn = styled.div`
     background: #ffa600;
     left: -20px;
     bottom: -20px;
-    @media (max-width: 760px) {
+    @media (max-width: 900px) {
       display: none;
     }
   }
-  @media (max-width: 760px) {
+  @media (max-width: 900px) {
     margin: 20px 0 0;
     width: 100%;
     overflow: hidden;
@@ -133,9 +133,11 @@ export const AllocateBtn= styled.div`
   color: #fff;
   text-transform: uppercase;
   cursor: pointer;
-  @media (max-width: 760px) {
-    top: 102%;
+  @media (max-width: 900px) {
     width: 100%;
+    position: relative;
+    padding: 24px;
+    margin-bottom: 0;
   }
 `;
 
@@ -157,7 +159,7 @@ export const TradesContainer = styled.div`
 
 export const TradeRow = styled.div`
   text-align: left;
-  @media (min-width: 760px) {
+  @media (min-width: 900px) {
     display: flex;
   }
 `;
@@ -174,15 +176,24 @@ export const Heading = styled.div`
 export const ColumnSymbol = styled.div`
   min-width: 76%;
   color: var(--brand-grey);
+  @media (max-width: 900px) {
+    line-height: 1.2;
+  }
 `;
 
 export const ColumnUnits = styled.div`
   min-width: 12%;
   color: var(--brand-grey);
+  @media (max-width: 900px) {
+    margin-bottom: 16px;
+  }
 `;
 export const ColumnPrice = styled.div`
   min-width: 12%;
   color: var(--brand-grey);
+  @media (max-width: 900px) {
+    margin-bottom: 16px;
+  }
 `;
 
 export const TradeType = styled.div`
@@ -190,7 +201,7 @@ export const TradeType = styled.div`
     font-size: 32px;
     font-weight: 900;
     text-align: left;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     padding-top: 18px;
   }
   > div:not(:first-of-type)  {

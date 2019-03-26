@@ -16,7 +16,7 @@ const Main = styled.main`
   padding: 114px 30px 30px;
   max-width: 1410px;
   width: 100%;
-  @media (max-width: 760px) {
+  @media (max-width: 900px) {
     padding: 95px 15px;
   }
 `;

@@ -10,7 +10,7 @@ export const TotalContainer = styled.div`
   text-align: right;
   margin-bottom: 22px;
   padding: 10px 0 20px;
-  @media (max-width: 760px) {
+  @media (max-width: 900px) {
     padding: 10px 0;
   }
   span {

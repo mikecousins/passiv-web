@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
-import { H2, H3, P } from '../../styled/GlobalElements';
+import { H2, H3, P, A } from '../../styled/GlobalElements';
 
 const Questions = styled.div`
 	display: flex;
@@ -31,7 +31,7 @@ export class HelpHeader extends React.Component {
 	      <Questions>
 	      	<ShadowBox>
 	        	<H3>What is Passiv?</H3>
-						<P>Passiv is a web app that helps you manage your portfolio and maintain a desired target allocation. It calculates the trades needed based on the target allocation you’ve set and your available cash. <a href="https://getpassiv.com/pricing/" target="_blank" rel="noopener noreferrer">Elite users</a> can save even more time by having Passiv execute trades for you at the click of a button with the One-Click Trades feature.</P>
+						<P>Passiv is a web app that helps you manage your portfolio and maintain a desired target allocation. It calculates the trades needed based on the target allocation you’ve set and your available cash. <A href="https://getpassiv.com/pricing/" target="_blank" rel="noopener noreferrer">Elite users</A> can save even more time by having Passiv execute trades for you at the click of a button with the One-Click Trades feature.</P>
 					</ShadowBox>
 					<ShadowBox>
 						<H3>Who is Passiv for?</H3>
@@ -43,7 +43,7 @@ export class HelpHeader extends React.Component {
 					</ShadowBox>
 					<ShadowBox>
 						<H3>Does Passiv store my Questrade login credentials?</H3>
-						<P>No, Passiv does not ask for or store users’ login credentials. To link your account to Passiv, Passiv sends you over to Questrade’s website, where you log in. That tells Questrade to give Passiv something called a token. Passiv gets the information it needs through this token. To read more about this process, click <a href="https://getpassiv.com/security/" target="_blank" rel="noopener noreferrer">here</a>.</P>
+						<P>No, Passiv does not ask for or store users’ login credentials. To link your account to Passiv, Passiv sends you over to Questrade’s website, where you log in. That tells Questrade to give Passiv something called a token. Passiv gets the information it needs through this token. To read more about this process, click <A href="https://getpassiv.com/security/" target="_blank" rel="noopener noreferrer">here</A>.</P>
 					</ShadowBox>
 					<ShadowBox>
 						<H3>Will using Passiv void Questrade’s terms of service?</H3>
@@ -51,7 +51,7 @@ export class HelpHeader extends React.Component {
 					</ShadowBox>
 					<ShadowBox>
 						<H3>Does Passiv use screen scraping technology?</H3>
-						<P>No, Passiv works using <a href="https://www.questrade.com/api/" target="_blank" rel="noopener noreferrer">Questrade’s official Application Programming Interface</a> (API).</P>
+						<P>No, Passiv works using <A href="https://www.questrade.com/api/" target="_blank" rel="noopener noreferrer">Questrade’s official Application Programming Interface</A> (API).</P>
 					</ShadowBox>
 					<ShadowBox>
 						<H3>What is an API?</H3>
@@ -75,11 +75,11 @@ export class HelpHeader extends React.Component {
 					</ShadowBox>
 					<ShadowBox>
 						<H3>Can I manage more than one account?</H3>
-						<P>You can manage as many accounts as you want for one low price. The more accounts you link, <a href="https://getpassiv.com/blog/3-ways-get-most-out-passiv/" target="_blank" rel="noopener noreferrer">the more value</a> you get out of Passiv.</P>
+						<P>You can manage as many accounts as you want for one low price. The more accounts you link, <A href="https://getpassiv.com/blog/3-ways-get-most-out-passiv/" target="_blank" rel="noopener noreferrer">the more value</A> you get out of Passiv.</P>
 					</ShadowBox>
 					<ShadowBox>
 						<H3>Can I manage someone else’s account(s)?</H3>
-						<P>Yes. You can manage your spouse’s or children’s accounts by following the steps <a href="https://getpassiv.com/blog/seamlessly-manage-your-spouses-account/" target="_blank" rel="noopener noreferrer">here</a>.</P>
+						<P>Yes. You can manage your spouse’s or children’s accounts by following the steps <A href="https://getpassiv.com/blog/seamlessly-manage-your-spouses-account/" target="_blank" rel="noopener noreferrer">here</A>.</P>
 	    		</ShadowBox>
 	    	</Questions>
 	    </Container>
