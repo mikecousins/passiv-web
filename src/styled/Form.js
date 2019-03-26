@@ -19,13 +19,14 @@ export const Input = styled(Field)`
   outline: none;
   margin-bottom: 20px;
   -webkit-appearance: none;
+  background: #fff;
   &:focus {
   	border: 1px solid var(--brand-blue-hover);
     outline: 4px solid rgba(0,59,162,0.44);
   }
 `;
 
-export const Textarea = styled.textarea`
+export const Textarea = styled(Field)`
   border: ${props =>
     props.error ? '1px solid red' : '1px solid var(--brand-grey)'};
   box-sizing: border-box;
@@ -36,6 +37,7 @@ export const Textarea = styled.textarea`
   outline: none;
   margin-bottom: 20px;
   -webkit-appearance: none;
+  background: #fff;
   &:focus {
     outline: 4px solid rgba(0,59,162,0.44);
     border: 1px solid var(--brand-blue-hover);
@@ -53,6 +55,7 @@ export const InputNonFormik = styled.input`
   outline: none;
   margin-bottom: 20px;
   -webkit-appearance: none;
+  background: #fff;
   &:focus {
   	border: 1px solid var(--brand-blue-hover);
   }
