@@ -2,6 +2,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import AccountAccuracy from '../components/AccountAccuracy';
 import AccountHoldings from '../components/AccountHoldings';
 import AccountMetadata from '../components/AccountMetadata';
@@ -29,8 +30,13 @@ const GroupPage = (props) => {
   const { group, trades, balances, accuracy, positions, cash, equity, setupComplete } = props;
 
   // if we don't have our group yet, show a spinner
-  if (!group) {
+  if (group === undefined) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
+  }
+
+  // if the group is null that means it's not found, redirect to the dashboard
+  if (group === null) {
+    return <Redirect to="/" />;
   }
 
   const name = group.name || 'No Name Provided';

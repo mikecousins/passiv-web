@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Formik, FieldArray, Field, ErrorMessage } from 'formik';
 import { toast } from "react-toastify";
 import { loadGroup } from '../actions';
-import { selectCurrentGroupId } from '../selectors';
+import { selectCurrentGroupId, selectCurrentGroupPositions, selectCurrentGroupTotalEquity } from '../selectors';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../styled/Button';
@@ -31,7 +31,7 @@ export class TargetSelector extends React.Component {
   }
 
   resetTargets() {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     postData(`/api/v1/portfolioGroups/${this.props.groupId}/targets/`, [])
       .then((response) => {
         // once we're done refresh the groups
@@ -48,8 +48,8 @@ export class TargetSelector extends React.Component {
   }
 
   generateNewTarget() {
-    let target = { symbol: null, percent: 0, key: this.state.counter, id: this.state.counter};
-    this.setState({counter: this.state.counter + 1});
+    let target = { symbol: null, percent: 0, key: this.state.counter, id: this.state.counter };
+    this.setState({ counter: this.state.counter + 1 });
     return target;
   }
 
@@ -107,12 +107,28 @@ export class TargetSelector extends React.Component {
               <FieldArray
                 name="targets"
                 render={arrayHelpers => {
+                  // calculate any new targets actual percentages
+                  props.values.targets
+                    .filter(target => target.actualPercentage === undefined)
+                    .forEach(target => {
+                      console.log(this.props.positions);
+                      if (this.props.positions && this.props.positions.find(position => position.symbol.id === target.symbol)) {
+                        const position = this.props.positions.find(position => position.symbol.id === target.symbol);
+                        target.actualPercentage = position.price * position.units / this.props.totalEquity * 100;
+                        console.log(this.props.totalEquity);
+                      }
+
+                    })
+
+                  // calculate the desired cash percentage
                   const cashPercentage = 100 - props.values.targets.reduce((total, target) => {
                     if (!target.deleted && target.percent) {
                       return total + parseFloat(target.percent);
                     }
                     return total;
                   }, 0);
+
+                  // calculate the actual cash percentage
                   const cashActualPercentage = 100 - props.values.targets.reduce((total, target) => {
                     if (!(target.actualPercentage === undefined)) {
                       return total + target.actualPercentage;
@@ -204,6 +220,8 @@ const actions = {
 
 const select = state => ({
   groupId: selectCurrentGroupId(state),
+  positions: selectCurrentGroupPositions(state),
+  totalEquity: selectCurrentGroupTotalEquity(state),
 });
 
 export default connect(select, actions)(TargetSelector);

@@ -407,14 +407,14 @@ export const selectCurrentGroup = createSelector(
   selectPositions,
   selectCurrentGroupId,
   (groups, accounts, balances, positions, groupId) => {
-    let group = null;
+    let group = undefined;
     if (groupId) {
       if (!groups) {
         return group;
       }
       const selectedGroup = groups.find(g => g.id === groupId);
       if (!selectedGroup) {
-        return group;
+        return null;
       }
       group = { id: selectedGroup.id, name: selectedGroup.name };
       if (accounts) {
@@ -510,7 +510,7 @@ export const selectCurrentGroupPositions = createSelector(
     if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.positions) {
       positions = groupInfo[groupId].data.positions;
     }
-    return positions
+    return positions;
   }
 );
 
