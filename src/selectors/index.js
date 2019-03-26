@@ -510,7 +510,7 @@ export const selectCurrentGroupPositions = createSelector(
     if (groupInfo && groupInfo[groupId] && groupInfo[groupId].data && groupInfo[groupId].data.positions) {
       positions = groupInfo[groupId].data.positions;
     }
-    return positions
+    return positions;
   }
 );
 
