@@ -14,7 +14,7 @@ import styled from '@emotion/styled';
 const BoldCode = styled.span`
   font-weight: 600;
   font-family: mono;
-  font-display: swap;
+  font-display: block;
 `;
 
 
