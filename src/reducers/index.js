@@ -1,5 +1,6 @@
 import { connectRouter } from 'connected-react-router';
 import { combineReducers } from 'redux';
+import { responsiveStateReducer } from 'redux-responsive';
 import auth from './auth';
 import demo from './demo';
 import language from './language';
@@ -11,9 +12,11 @@ export default (history) => combineReducers({
   router: connectRouter(history),
   appTime: Date.now,
   auth,
+  browser: responsiveStateReducer,
   demo,
   language,
   updateServiceWorker,
+
   authorizations: simple({
     baseType: 'FETCH_AUTHORIZATIONS',
     userData: true,

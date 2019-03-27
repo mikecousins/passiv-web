@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { RebalanceAlert } from '../../styled/Rebalance';
+import { selectPathname } from '../../selectors/router';
 
-const SideBarLink = ({ name, linkPath, rebalance, loading, setupComplete }) => {
-  let selected = window.location.pathname.startsWith(linkPath);
+const SideBarLink = ({ name, linkPath, rebalance, loading, setupComplete, pathname }) => {
+  let selected = pathname.startsWith(linkPath);
 
   let colorClass = null;
   if (selected) {
@@ -29,9 +30,7 @@ const SideBarLink = ({ name, linkPath, rebalance, loading, setupComplete }) => {
         indicator = (<RebalanceAlert>{ <span style={{background: 'orange'}} /> }</RebalanceAlert>);
       }
     }
-
   }
-
 
   return (
     <div className={colorClass}>
@@ -44,11 +43,10 @@ const SideBarLink = ({ name, linkPath, rebalance, loading, setupComplete }) => {
       </Link>
     </div>
   )
+};
 
-}
+const select = state => ({
+  pathname: selectPathname(state),
+});
 
-const select = state => ({});
-
-const actions = {};
-
-export default connect(select, actions)(SideBarLink);
+export default connect(select)(SideBarLink);

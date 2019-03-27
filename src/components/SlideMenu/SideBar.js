@@ -79,15 +79,6 @@ const SideBar = (props) => {
         name="Settings"
         linkPath="/app/settings"
       />
-
-      {/*<button
-        onClick={props.toggleDemo}
-      >
-        Demo Mode&nbsp;
-        {props.demoMode && <FontAwesomeIcon icon={faToggleOn} />}
-        {!props.demoMode && <FontAwesomeIcon icon={faToggleOff} />}
-      </button> */}
-      {/*<button onClick={this.openModal}>Open Modal</button> ? */}
       <SideBarFooter/>
     </StyledAside>
   );

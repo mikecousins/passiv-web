@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
 import Header from '../components/Header';
 import SlideMenu from '../components/SlideMenu';
 import GlobalStyle from '../styled/global';
@@ -31,7 +30,6 @@ const AppLayout = (props) => (
         {props.children}
       </Main>
     </Container>
-    <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
   </div>
 );
 
