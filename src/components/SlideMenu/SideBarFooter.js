@@ -37,20 +37,17 @@ export const Help = styled.div`
   }
 `
 
-const SideBarFooter = (props) => {
-
-  return (
-    <StyledFooter>
-      <Help>
-        <FontAwesomeIcon icon={faQuestionCircle} />
-        <Link
-          to="/app/help">
-          Help
-        </Link>
-      </Help>
-      <RefreshButton />
-    </StyledFooter>
-  )
-};
+const SideBarFooter = () => (
+  <StyledFooter>
+    <Help>
+      <FontAwesomeIcon icon={faQuestionCircle} />
+      <Link
+        to="/app/help">
+        Help
+      </Link>
+    </Help>
+    <RefreshButton />
+  </StyledFooter>
+);
 
 export default SideBarFooter;

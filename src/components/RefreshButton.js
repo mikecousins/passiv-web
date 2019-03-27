@@ -4,6 +4,7 @@ import { initialLoad } from '../actions';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+import { selectLoggedIn } from '../selectors';
 
 export const Button = styled.button`
   color: #fff;
@@ -20,15 +21,23 @@ export const Button = styled.button`
   }
 `;
 
-const RefreshButton = (props) => (
-  <Button
-    onClick={() => {props.reloadAllState()}}>
-    <FontAwesomeIcon icon={faSyncAlt} />
-    Refresh
-  </Button>
+const RefreshButton = ({ loggedIn, reloadAllState }) => (
+  <React.Fragment>
+    {loggedIn && (
+      <Button onClick={() => { reloadAllState(); }}>
+        <FontAwesomeIcon icon={faSyncAlt} />
+        Refresh
+      </Button>
+    )}
+  </React.Fragment>
 );
 
-const select = state => ({});
-const actions = { reloadAllState: initialLoad, };
+const select = state => ({
+  loggedIn: selectLoggedIn(state),
+});
+
+const actions = {
+  reloadAllState: initialLoad,
+};
 
 export default connect(select, actions)(RefreshButton);
