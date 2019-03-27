@@ -136,7 +136,6 @@ export const GlobalStyle = () => (
 
     html {
       font-family: cooper;
-      font-display: block;
       box-sizing: border-box;
       background-color: #f8fafc;
     }
@@ -154,7 +153,6 @@ export const GlobalStyle = () => (
 
     button, input, optgroup, select, textarea {
       font-family: inherit;
-      font-display: block;
       font-size: 100%;
       line-height: 1.15;
       margin: 0;
