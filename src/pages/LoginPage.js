@@ -52,23 +52,24 @@ const LoginPage = (props) => {
             <Form onSubmit={props.handleSubmit}>
               <Label htmlFor="email">
                 Email
+                <Input
+                  name="email"
+                  placeholder="Email"
+                />
               </Label>
-              <Input
-                name="email"
-                placeholder="Email"
-              />
+
               <P>
                 <ErrorMessage name="email" />
               </P>
               <Label>
                 Password
+                <Input
+                  error={props.touched.password && props.errors.password}
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                />
               </Label>
-              <Input
-                error={props.touched.password && props.errors.password}
-                type="password"
-                name="password"
-                placeholder="Password"
-              />
               <P>
                 <ErrorMessage name="password" />
               </P>
