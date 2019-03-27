@@ -17,7 +17,7 @@ const QuestradeOauthPage = ({ router, reloadAllState }) => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    const queryParams = qs.parse(router.search, { ignoreQueryPrefix: true });
+    const queryParams = qs.parse(router.location.search, { ignoreQueryPrefix: true });
     const token = queryParams.code;
 
     if (token === null) {
@@ -40,6 +40,7 @@ const QuestradeOauthPage = ({ router, reloadAllState }) => {
     }
   }, []);
 
+  // if we're done, redirect the user to the dashboard
   if (success) {
     return (
       <Redirect to='/app/dashboard' />
