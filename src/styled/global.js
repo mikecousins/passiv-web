@@ -69,6 +69,7 @@ export const GlobalStyle = () => (
       /* Fonts */
     @font-face {
       font-family: 'cooper';
+      font-display: swap;
       src: url(${regFont2}) format('woff2'),
         url(${regFont}) format('woff');
       font-weight: 500;
@@ -77,6 +78,7 @@ export const GlobalStyle = () => (
 
     @font-face {
       font-family: 'cooper';
+      font-display: swap;
       src: url(${lightFont2}) format('woff2'),
         url(${lightFont}) format('woff');
       font-weight: 300;
@@ -86,6 +88,7 @@ export const GlobalStyle = () => (
 
     @font-face {
       font-family: 'cooper';
+      font-display: swap;
       src: url(${medFont2}) format('woff2'),
         url(${medFont}) format('woff');
       font-weight: 600;
@@ -94,6 +97,7 @@ export const GlobalStyle = () => (
 
     @font-face {
       font-family: 'cooper';
+      font-display: swap;
       src: url(${semiboldFont2}) format('woff2'),
         url(${semiboldFont}) format('woff');
       font-weight: 700;
@@ -132,6 +136,7 @@ export const GlobalStyle = () => (
 
     html {
       font-family: cooper;
+      font-display: swap;
       box-sizing: border-box;
       background-color: #f8fafc;
     }
@@ -149,6 +154,7 @@ export const GlobalStyle = () => (
 
     button, input, optgroup, select, textarea {
       font-family: inherit;
+      font-display: swap;
       font-size: 100%;
       line-height: 1.15;
       margin: 0;
