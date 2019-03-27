@@ -15,7 +15,7 @@ const StyledSlideMenu = styled.div`
 `;
 
 export const SlideMenu = ({ isMobile, pathname }) => {
-  const [visible, setVisible] = useState(isMobile);
+  const [visible, setVisible] = useState(!isMobile);
   const [oldPath, setPath] = useState(pathname);
 
   // check our path to see if it's changed
