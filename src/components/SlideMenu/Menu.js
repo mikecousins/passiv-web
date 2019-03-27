@@ -57,19 +57,11 @@ const FlyOut = styled.div`
   }
 `;
 
-const Menu = ({ menuVisibility }) => {
-  let visibility = "show";
-
-  if (!menuVisibility) {
-    visibility = "hide";
-  }
-
-  return (
-    <FlyOut className={visibility}>
-      <SideBar/>
-    </FlyOut>
-  );
-};
+const Menu = ({ menuVisibility }) => (
+  <FlyOut className={ menuVisibility ? 'show' : 'hide' }>
+    <SideBar/>
+  </FlyOut>
+);
 
 export default Menu;
 
