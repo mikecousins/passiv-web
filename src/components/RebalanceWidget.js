@@ -176,7 +176,7 @@ export class RebalanceWidget extends Component {
 
           );
           break;
-        case '1018':
+        case '1019':
           error = (
             <OrderContainer>
               <H2><FontAwesomeIcon icon={faClock}/> Market is closed</H2>
