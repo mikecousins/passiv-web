@@ -201,9 +201,9 @@ export class SubscriptionManager extends React.Component {
                         this.props.subscriptions.details.canceled ? (
                           <div>
                             <P>
-                              Your subscription has been canceled. You will have access to Elite features until this billing period ends on {format(this.props.subscriptions.details.period_end, 'MMMM D, YYYY')}.
+                              Your subscription has been canceled. You will have access to Elite features until this billing period <strong>ends on {format(this.props.subscriptions.details.period_end, 'MMMM D, YYYY')}.</strong>
                             </P>
-                            {upgradeForm}
+
                           </div>
                         ): (
                           <ActionContainer>
