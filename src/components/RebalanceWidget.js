@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faClock } from '@fortawesome/free-solid-svg-icons';
 import { push } from 'connected-react-router';
 import { loadGroup } from '../actions';
 import { getData, postData } from '../api';
@@ -172,6 +172,18 @@ export class RebalanceWidget extends Component {
             <OrderContainer>
               <H2>Order cannot be Processed</H2>
               <P>Oops, you've encountered a bug! Please try again later or <Link to="/app/help">contact support</Link> if this persists.</P>
+            </OrderContainer>
+
+          );
+          break;
+        case '1018':
+          error = (
+            <OrderContainer>
+              <H2><FontAwesomeIcon icon={faClock}/> Market is closed</H2>
+              <P> Passiv is unable to proceed with the orders because the stock market is currently closed.
+                  If the stock market is open, please <Link to="/app/help">contact support</Link>. You can also
+                  also make trades manually on your brokerage's platform.
+              </P>
             </OrderContainer>
 
           );
