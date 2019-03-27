@@ -62,7 +62,7 @@
     "redux": "4.0.1",
     "redux-devtools-extension": "2.13.8",
     "redux-persist": "5.10.0",
-    "redux-responsive": "^4.3.8",
+    "redux-responsive": "4.3.8",
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
     "ric-shim": "1.0.0",
