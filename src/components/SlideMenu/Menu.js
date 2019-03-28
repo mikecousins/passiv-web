@@ -57,22 +57,11 @@ const FlyOut = styled.div`
   }
 `;
 
-class Menu extends React.Component {
-  render() {
-    var visibility = "show";
-
-    if (this.props.menuVisibility) {
-      visibility = "hide";
-    }
-
-    return (
-      <FlyOut id="flyoutMenu"
-           className={visibility}>
-        <SideBar/>
-      </FlyOut>
-    );
-  }
-}
+const Menu = ({ menuVisibility }) => (
+  <FlyOut className={ menuVisibility ? 'show' : 'hide' }>
+    <SideBar/>
+  </FlyOut>
+);
 
 export default Menu;
 

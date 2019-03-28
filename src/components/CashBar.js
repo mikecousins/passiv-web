@@ -2,8 +2,6 @@ import React from 'react';
 import Number from './Number';
 import { BarsContainer, Symbol, Target, Actual, Bar, BarTarget, BarActual, TargetRow, Container } from '../styled/Target';
 
-
-
 export const CashBar = (props) => {
   if (!(typeof(props.percentage) === "number")) {
     return 'Loading';

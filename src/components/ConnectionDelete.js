@@ -1,70 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import styled from '@emotion/styled';
 import { initialLoad, loadBrokerages } from '../actions';
 import { deleteData } from '../api';
-
 import { DeleteButton } from '../styled/DeleteButton';
 import { Button } from '../styled/Button';
 import { H3 } from '../styled/GlobalElements';
-import styled from '@emotion/styled';
 
 const ConnectionsDelete = styled.div`
   text-align: right;
 `;
 
-class ConnectionDelete extends React.Component{
-  state = {
-    deletingConnection: false,
-  }
+export const ConnectionDelete = ({ authorization, reloadAllState, reloadBrokerages }) => {
+  const [deleting, setDeleting] = useState(false)
 
-  startDeletingConnection = () => this.setState({deletingConnection: true})
-  cancelDeletingConnection = () => this.setState({deletingConnection: false})
-
-  confirmDelete = (authorization) => {
+  const confirmDelete = (authorization) => {
     deleteData(`/api/v1/authorizations/${authorization.id}`)
-      .then(response => {
-        console.log('success', response.data);
-        this.setState({deletingConnection: false});
-        this.props.reloadBrokerages();
-        this.props.reloadAllState();
+      .then((response) => {
+        setDeleting(false);
+        reloadBrokerages();
+        reloadAllState();
       })
-      .catch(error => {
-        console.log('error', error.response.data);
-        this.setState({deletingConnection: false});
-        this.props.reloadBrokerages();
-        this.props.reloadAllState();
+      .catch((error) => {
+        setDeleting(false);
+        reloadBrokerages();
+        reloadAllState();
       });
   }
 
+  return (
+    <ConnectionsDelete>
+      <H3>Delete Connection</H3>
+      {deleting ? (
+        <React.Fragment>
+          <p>Are you sure you want to delete this connection and all its accounts?</p>
+          <DeleteButton onClick={() => { setDeleting(false); }}>Cancel</DeleteButton>
+          <Button onClick={() => { confirmDelete(authorization)}}>Yes</Button>
+        </React.Fragment>
+      ) : (
+        <DeleteButton onClick={() => { setDeleting(true); }}>Delete</DeleteButton>
+      )}
+    </ConnectionsDelete>
+  )
+};
 
-  render() {
-    const { authorization } = this.props
-    const { deletingConnection } = this.state
+const actions = {
+  reloadAllState: initialLoad,
+  reloadBrokerages: loadBrokerages,
+};
 
-    return(
-      <ConnectionsDelete>
-        <H3>Delete Connection</H3>
-
-        {deletingConnection ?
-          (
-            <React.Fragment>
-              <p>Are you sure you want to delete this connection and all its accounts?</p>
-              <DeleteButton onClick={() => {this.cancelDeletingConnection()}}> Cancel </DeleteButton>
-              <Button onClick={() => {this.confirmDelete(authorization)}}> Yes </Button>
-            </React.Fragment>
-          )
-          : (<DeleteButton onClick={() => {this.startDeletingConnection()}}>Delete</DeleteButton>)
-        }
-
-
-      </ConnectionsDelete>
-    )
-  }
-
-}
-
-const select = state => ({});
-
-const actions = {reloadAllState: initialLoad, reloadBrokerages: loadBrokerages};
-
-export default connect(select, actions)(ConnectionDelete)
+export default connect(null, actions)(ConnectionDelete)

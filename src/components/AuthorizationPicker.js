@@ -22,16 +22,13 @@ class AuthorizationPicker extends Component {
         .then(response => {
           console.log('success', response.data);
           window.location = response.data.url;
-        })
-        .catch(error => {console.log('error', error.response.data)});
-    }
-    else {
+        });
+    } else {
       postData(`/api/v1/brokerages/${this.state.brokerage}/authorize/${this.state.updateBrokerageAuthorizationId}`, {type: this.state.type})
         .then(response => {
           console.log('success', response.data);
           window.location = response.data.url;
-        })
-        .catch(error => {console.log('error', error.response.data)});
+        });
     }
 
   }
@@ -107,10 +104,8 @@ class AuthorizationPicker extends Component {
   }
 }
 
-const actions = {};
-
 const select = state => ({
   brokerages: selectBrokerages(state),
 });
 
-export default connect(select, actions)(AuthorizationPicker);
+export default connect(select)(AuthorizationPicker);

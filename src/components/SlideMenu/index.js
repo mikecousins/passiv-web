@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styled from '@emotion/styled';
+import { connect } from 'react-redux';
 import MenuButton from "./MenuButton";
 import Menu from "./Menu";
-import styled from '@emotion/styled';
-import withSizes from 'react-sizes'
+import { selectIsMobile } from '../../selectors/browser';
+import { selectPathname } from '../../selectors/router';
 
 const StyledSlideMenu = styled.div`
   position: relative;
@@ -12,50 +14,28 @@ const StyledSlideMenu = styled.div`
   min-height: 100vh;
 `;
 
-const mapSizesToProps = ({ width }) => ({
-  isMobile: width < 480,
+export const SlideMenu = ({ isMobile, pathname }) => {
+  const [visible, setVisible] = useState(!isMobile);
+  const [oldPath, setPath] = useState(pathname);
+
+  // check our path to see if it's changed
+  // if it has and we're on mobile, close the menu
+  if (isMobile && oldPath !== pathname) {
+    setPath(pathname);
+    setVisible(false);
+  }
+
+  return (
+    <StyledSlideMenu>
+      <MenuButton menuVisibility={visible} handleMouseDown={(e) => setVisible(!visible)}/>
+      <Menu menuVisibility={visible} />
+    </StyledSlideMenu>
+  );
+};
+
+const select = (state) => ({
+  isMobile: selectIsMobile(state),
+  pathname: selectPathname(state),
 });
 
-export class SlideMenu extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    if (!this.props.isMobile){
-      this.state = {
-        visible: false
-      };
-    } else if(this.props.isMobile){
-      this.state = {
-        visible: true
-      };
-    }
-
-    this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.toggleMenu = this.toggleMenu.bind(this);
-  }
-
-  handleMouseDown(e) {
-    this.toggleMenu();
-    console.log("clicked");
-    e.stopPropagation();
-  }
-
-  toggleMenu() {
-    this.setState(
-      {
-        visible: !this.state.visible
-      }
-    );
-  }
-  render() {
-    return (
-      <StyledSlideMenu>
-        <MenuButton menuVisibility={this.state.visible} handleMouseDown={this.handleMouseDown}/>
-        <Menu handleMouseDown={this.handleMouseDown}
-            menuVisibility={this.state.visible}/>
-      </StyledSlideMenu>
-    );
-  }
-}
-
-export default withSizes(mapSizesToProps)(SlideMenu);
+export default connect(select)(SlideMenu);

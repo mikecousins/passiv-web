@@ -11,6 +11,7 @@ import * as Sentry from '@sentry/browser';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
+import { responsiveStoreEnhancer } from 'redux-responsive';
 import createRootReducer from './reducers';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
@@ -58,6 +59,7 @@ const store = createStore(
   persistedReducer,
   defaultState,
   composeEnhancers(
+    responsiveStoreEnhancer,
     applyMiddleware(
       routerMiddleware(history),
       reduxThunk,

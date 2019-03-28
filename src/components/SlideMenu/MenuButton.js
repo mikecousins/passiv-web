@@ -79,25 +79,15 @@ export const Hamburger = styled.div`
   }
 `;
 
-class MenuButton extends React.Component {
-
-  render() {
-    var visibility = "Collapse";
-
-    if (this.props.menuVisibility) {
-      visibility = "Expand";
-    }
-    return (
-      <Button onMouseDown={this.props.handleMouseDown}>
-        <Hamburger>
-          <span></span>
-          <span></span>
-          <span></span>
-        </Hamburger>
-        <strong>{visibility}<br />Menu</strong>
-      </Button>
-    );
-  }
-}
+const MenuButton = ({ menuVisibility, handleMouseDown }) => (
+  <Button onMouseDown={handleMouseDown} type="button" role="button" aria-label={menuVisibility ? 'Collapse Menu' : 'Expand Menu'}>
+    <Hamburger>
+      <span></span>
+      <span></span>
+      <span></span>
+    </Hamburger>
+    <strong>{menuVisibility ? 'Collapse' : 'Expand'}<br />Menu</strong>
+  </Button>
+);
 
 export default MenuButton;
