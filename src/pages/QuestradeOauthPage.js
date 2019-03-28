@@ -60,6 +60,11 @@ const QuestradeOauthPage = ({ router, reloadAllState }) => {
           <P>This connection code has expired, please try again.</P>
         );
         break;
+      case '1017':
+        errorDisplay = (
+          <P>An identical connection already exists, please update or delete the existing connection.</P>
+        );
+        break;
       case '0000':
         errorDisplay = (
           <P>No access code was provided by Questrade. Did you approve the connection request?</P>
