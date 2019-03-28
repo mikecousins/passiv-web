@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { faSpinner, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faExclamationTriangle, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { H2} from '../styled/GlobalElements';
+import ReactTooltip from 'react-tooltip';
 import styled from '@emotion/styled';
+import { H2} from '../styled/GlobalElements';
 import Number from './Number';
 import { selectCurrentGroupSetupComplete } from '../selectors';
 
@@ -30,27 +31,34 @@ export const Accuracy = styled.div`
   }
 `;
 
-const AccountAccuracy = (props) => {
-  let accuracy = null;
-  if (props.accuracy === undefined) {
-    accuracy = (<div><FontAwesomeIcon icon={faSpinner} spin /></div>);
-  }
-  else {
-    if (props.setupComplete) {
-      accuracy = (<Number value={props.accuracy} percentage decimalPlaces={0} />);
-    }
-    else {
-      accuracy = (<div><FontAwesomeIcon icon={faExclamationTriangle} /></div>);
+export const AccountAccuracy = ({ accuracy, setupComplete }) => {
+  let accuracyDisplay = null;
+  if (accuracy === undefined) {
+    accuracy = <div><FontAwesomeIcon icon={faSpinner} spin /></div>;
+  } else {
+    if (setupComplete) {
+      accuracyDisplay = <Number value={accuracy} percentage decimalPlaces={0} />;
+    } else {
+      accuracyDisplay = <div><FontAwesomeIcon icon={faExclamationTriangle} /></div>;
     }
   }
   return (
-
     <Accuracy>
-      <H2>Accuracy</H2>
-      {accuracy}
+      <H2>
+        Accuracy&nbsp;
+        <FontAwesomeIcon
+          icon={faQuestionCircle}
+          style={{ fontSize: 12 }}
+          data-tip="How close your holdings are to your desired target"
+        />
+        <ReactTooltip
+            place="right"
+            effect="solid"
+          />
+      </H2>
+      {accuracyDisplay}
     </Accuracy>
-  )
-
+  );
 };
 
 const select = state => ({
