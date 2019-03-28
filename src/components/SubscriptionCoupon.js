@@ -12,22 +12,13 @@ import { H3, Edit } from '../styled/GlobalElements';
 
 class SubscriptionCoupon extends React.Component {
   removeCoupon() {
-    let urlParams = new URLSearchParams(window.location.search);
-    let coupon = urlParams.get('code');
+    let couponCode = {coupon: null};
 
-    let settings = Object.assign({}, this.props.settings);
-    settings.coupon = null;
-    this.setState({loading: true, code: coupon});
-
-    putData('/api/v1/settings/', settings)
+    putData('/api/v1/coupon/', couponCode)
       .then(response => {
-        this.setState({loading: false, success: true});
-        this.props.refreshSettings();
         this.props.refreshSubscriptions();
       })
       .catch(error => {
-        this.setState({loading: false, error: error.response.data});
-        this.props.refreshSettings();
         this.props.refreshSubscriptions();
       });
   }

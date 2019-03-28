@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { putData } from '../api';
-import { loadSettings, loadSubscriptions } from '../actions';
+import { loadSubscriptions } from '../actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ShadowBox from '../styled/ShadowBox';
 import { H1,P } from '../styled/GlobalElements';
 import { Step } from '../styled/SignupSteps';
-import { selectSettings, selectSubscriptions } from '../selectors';
+import { selectSubscriptions } from '../selectors';
 import styled from '@emotion/styled';
 
 const BoldCode = styled.span`
@@ -28,19 +28,16 @@ class CouponPage extends Component {
     let urlParams = new URLSearchParams(window.location.search);
     let coupon = urlParams.get('code');
 
-    let settings = Object.assign({}, this.props.settings);
-    settings.coupon = coupon;
+    let couponCode = {coupon: coupon};
     this.setState({loading: true, code: coupon});
 
-    putData('/api/v1/settings/', settings)
+    putData('/api/v1/coupon/', couponCode)
       .then(response => {
         this.setState({loading: false, success: true});
-        this.props.refreshSettings();
         this.props.refreshSubscriptions();
       })
       .catch(error => {
         this.setState({loading: false, error: error.response.data});
-        this.props.refreshSettings();
         this.props.refreshSubscriptions();
       });
   }
@@ -103,11 +100,11 @@ class CouponPage extends Component {
 }
 
 const select = state => ({
-  settings: selectSettings(state),
+  // settings: selectSettings(state),
   subscriptions: selectSubscriptions(state),
 });
 const actions = {
-  refreshSettings: loadSettings,
+  // refreshSettings: loadSettings,
   refreshSubscriptions: loadSubscriptions,
 };
 
