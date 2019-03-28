@@ -32,8 +32,7 @@ export const TotalContainer = styled.div`
   }
 `;
 
-const TotalHoldings = (props) => {
-  const { demoMode, totalHoldings } = props;
+export const TotalHoldings = ({ demoMode, totalHoldings }) => {
   let displayTotal = <FontAwesomeIcon icon={faSpinner} spin />;
   if (demoMode) {
     displayTotal = <span>$-------.--</span>;
