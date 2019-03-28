@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faAngleRight, faChevronUp, faChevronDown, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import ReactTooltip from 'react-tooltip';
 import ShadowBox from '../../styled/ShadowBox';
 import { Table, H2, H3 } from '../../styled/GlobalElements';
 import { DashboardRow, ViewBtn, WarningViewBtn, AllocateBtn, Container } from '../../styled/Group';
@@ -20,7 +21,7 @@ export const Group = (props) => {
   let accuracy = <FontAwesomeIcon icon={faSpinner} spin />;
   if (group.setupComplete !== undefined) {
     if (group.setupComplete === false) {
-      accuracy = <FontAwesomeIcon icon={faExclamationTriangle} />;
+      accuracy = <FontAwesomeIcon icon={faExclamationTriangle} data-tip="No target set" />;
     }
     else {
       if (group.accuracy) {
@@ -96,6 +97,10 @@ export const Group = (props) => {
         </DashboardRow>
       </ShadowBox>
       {expanded && <AccountTrades trades={group.trades} groupId={group.id} />}
+      <ReactTooltip
+        place="right"
+        effect="solid"
+      />
     </Container>
   );
 }

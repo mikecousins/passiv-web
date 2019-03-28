@@ -39,7 +39,7 @@ export const AccountAccuracy = ({ accuracy, setupComplete }) => {
     if (setupComplete) {
       accuracyDisplay = <Number value={accuracy} percentage decimalPlaces={0} />;
     } else {
-      accuracyDisplay = <div><FontAwesomeIcon icon={faExclamationTriangle} /></div>;
+      accuracyDisplay = <div><FontAwesomeIcon icon={faExclamationTriangle} data-tip="No target set" /></div>;
     }
   }
   return (
@@ -51,12 +51,13 @@ export const AccountAccuracy = ({ accuracy, setupComplete }) => {
           style={{ fontSize: 12 }}
           data-tip="How close your holdings are to your desired target"
         />
-        <ReactTooltip
-            place="right"
-            effect="solid"
-          />
+
       </H2>
       {accuracyDisplay}
+      <ReactTooltip
+        place="right"
+        effect="solid"
+      />
     </Accuracy>
   );
 };
