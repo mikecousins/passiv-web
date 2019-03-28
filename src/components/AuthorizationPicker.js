@@ -104,10 +104,8 @@ class AuthorizationPicker extends Component {
   }
 }
 
-const actions = {};
-
 const select = state => ({
   brokerages: selectBrokerages(state),
 });
 
-export default connect(select, actions)(AuthorizationPicker);
+export default connect(select)(AuthorizationPicker);
