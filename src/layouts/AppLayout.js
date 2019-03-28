@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from '../components/Header';
 import SlideMenu from '../components/SlideMenu';
 import GlobalStyle from '../styled/global';
+import ScrollHelper from '../components/ScrollHelper';
 
 const Container = styled.div`
   display: flex;
@@ -20,7 +21,7 @@ const Main = styled.main`
   }
 `;
 
-const AppLayout = (props) => (
+export const AppLayout = (props) => (
   <div>
     <GlobalStyle />
     <Header />
@@ -30,6 +31,7 @@ const AppLayout = (props) => (
         {props.children}
       </Main>
     </Container>
+    <ScrollHelper />
   </div>
 );
 
