@@ -1,29 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { selectPathname } from '../../selectors/router';
 
-const SideBarLinkAlt = (props) => {
-  let selected = window.location.pathname.startsWith(props.linkPath);
+export const SideBarLinkAlt = ({ pathname, linkPath, name }) => (
+  <div className={pathname.startsWith(linkPath) && 'active'}>
+    <Link to={linkPath}>
+      {name}
+    </Link>
+  </div>
+);
 
-  let colorClass = null;
-  if (selected) {
-    colorClass = "active"
-  }
+const select = state => ({
+  pathname: selectPathname(state),
+});
 
-  return (
-    <div className={colorClass}>
-      <Link
-        to={props.linkPath}
-      >
-        {props.name}
-      </Link>
-    </div>
-  )
-
-}
-
-const select = state => ({});
-
-const actions = {};
-
-export default connect(select, actions)(SideBarLinkAlt);
+export default connect(select)(SideBarLinkAlt);
