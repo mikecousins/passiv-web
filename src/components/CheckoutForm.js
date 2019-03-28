@@ -48,8 +48,8 @@ export class CheckoutForm extends React.Component {
         this.props.finishCreateSubscriptionFail();
       });
   }
-  render() {
 
+  render() {
     let error = null;
     if (this.state.error) {
       switch (this.state.error.code) {
@@ -105,7 +105,6 @@ export class CheckoutForm extends React.Component {
   }
 }
 
-const select = state => ({});
-const actions = {reloadSubscriptions: loadSubscriptions};
+const actions = { reloadSubscriptions: loadSubscriptions };
 
-export default connect(select, actions)(injectStripe(CheckoutForm));
+export default connect(null, actions)(injectStripe(CheckoutForm));
