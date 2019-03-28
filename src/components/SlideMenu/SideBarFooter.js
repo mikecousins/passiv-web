@@ -37,12 +37,11 @@ export const Help = styled.div`
   }
 `
 
-const SideBarFooter = () => (
+export const SideBarFooter = () => (
   <StyledFooter>
     <Help>
       <FontAwesomeIcon icon={faQuestionCircle} />
-      <Link
-        to="/app/help">
+      <Link to="/app/help">
         Help
       </Link>
     </Help>
