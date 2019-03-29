@@ -14,7 +14,7 @@ export class HelpHeader extends React.Component {
       <HeaderContainer>
         <H1>How can we help you?</H1>
       </HeaderContainer>
-    )
+    );
   }
 }
 export default HelpHeader;

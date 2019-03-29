@@ -21,8 +21,8 @@ export const Input = styled(Field)`
   -webkit-appearance: none;
   background: #fff;
   &:focus {
-  	border: 1px solid var(--brand-blue-hover);
-    outline: 4px solid rgba(0,59,162,0.44);
+    border: 1px solid var(--brand-blue-hover);
+    outline: 4px solid rgba(0, 59, 162, 0.44);
   }
 `;
 
@@ -39,7 +39,7 @@ export const Textarea = styled(Field)`
   -webkit-appearance: none;
   background: #fff;
   &:focus {
-    outline: 4px solid rgba(0,59,162,0.44);
+    outline: 4px solid rgba(0, 59, 162, 0.44);
     border: 1px solid var(--brand-blue-hover);
   }
 `;
@@ -57,21 +57,21 @@ export const InputNonFormik = styled.input`
   -webkit-appearance: none;
   background: #fff;
   &:focus {
-  	border: 1px solid var(--brand-blue-hover);
+    border: 1px solid var(--brand-blue-hover);
   }
 `;
 
 export const Label = styled.label`
-	display: block;
-	font-size: 20px;
-	font-weight: 600;
-	text-align: left;
-	color: #2c2c2c;
-	margin-bottom: 12px;
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: left;
+  color: #2c2c2c;
+  margin-bottom: 12px;
 `;
 
 export const Submit = styled.button`
-  background-color: #003BA2;
+  background-color: #003ba2;
   border: none;
   color: white;
   padding: 15px;

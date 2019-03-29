@@ -45,7 +45,7 @@ export const TotalHoldings = ({ demoMode, totalHoldings }) => {
       <span>{displayTotal}</span>
     </TotalContainer>
   );
-}
+};
 
 const select = state => ({
   totalHoldings: selectTotalGroupHoldings(state),

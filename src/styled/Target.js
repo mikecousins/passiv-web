@@ -5,9 +5,7 @@ export const BarsContainer = styled.div`
   position: relative;
   margin-bottom: 10px;
 `;
-export const InputContainer = styled.div`
-
-`;
+export const InputContainer = styled.div``;
 export const Symbol = styled.div`
   display: block;
   font-weight: 700;
@@ -34,12 +32,12 @@ export const Target = styled.div`
     background: none;
     display: inline-block;
     border: 2px solid var(--brand-blue);
-    transition: all .25s;
+    transition: all 0.25s;
     margin-top: -7px;
     margin-right: 3px;
     padding: 3px 0 3px 3px;
     position: relative;
-    &[readonly]{
+    &[readonly] {
       border: 2px solid transparent;
       padding: 3px 0 3px 3px;
       margin-right: 0;
@@ -49,7 +47,7 @@ export const Target = styled.div`
     }
     &::-webkit-inner-spin-button {
       opacity: 1;
-      font-size:30px;
+      font-size: 30px;
       margin-left: 3px;
     }
   }
@@ -58,11 +56,11 @@ export const Delta = styled.div`
   text-align: right;
 `;
 export const Bar = styled.span`
-  background: rgba(62, 210, 177, .74);
+  background: rgba(62, 210, 177, 0.74);
   display: block;
   height: 25px;
   width: 0%;
-  transition: .5s all;
+  transition: 0.5s all;
 `;
 export const BarTarget = styled.span`
   position: relative;

@@ -21,7 +21,7 @@ import {
   selectPlansNeedData,
 } from '../selectors';
 
-export { default as reducer } from '../reducers'
+export { default as reducer } from '../reducers';
 
 export const effects = [
   {
@@ -60,4 +60,4 @@ export const effects = [
     selector: selectPlansNeedData,
     actionCreator: loadPlans,
   },
-]
+];

@@ -1,10 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { faSpinner, faExclamationTriangle, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSpinner,
+  faExclamationTriangle,
+  faQuestionCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactTooltip from 'react-tooltip';
 import styled from '@emotion/styled';
-import { H2} from '../styled/GlobalElements';
+import { H2 } from '../styled/GlobalElements';
 import Number from './Number';
 import { selectCurrentGroupSetupComplete } from '../selectors';
 
@@ -34,12 +38,25 @@ export const Accuracy = styled.div`
 export const AccountAccuracy = ({ accuracy, setupComplete }) => {
   let accuracyDisplay = null;
   if (accuracy === undefined) {
-    accuracy = <div><FontAwesomeIcon icon={faSpinner} spin /></div>;
+    accuracy = (
+      <div>
+        <FontAwesomeIcon icon={faSpinner} spin />
+      </div>
+    );
   } else {
     if (setupComplete) {
-      accuracyDisplay = <Number value={accuracy} percentage decimalPlaces={0} />;
+      accuracyDisplay = (
+        <Number value={accuracy} percentage decimalPlaces={0} />
+      );
     } else {
-      accuracyDisplay = <div><FontAwesomeIcon icon={faExclamationTriangle} data-tip="No target set" /></div>;
+      accuracyDisplay = (
+        <div>
+          <FontAwesomeIcon
+            icon={faExclamationTriangle}
+            data-tip="No target set"
+          />
+        </div>
+      );
     }
   }
   return (
@@ -51,13 +68,9 @@ export const AccountAccuracy = ({ accuracy, setupComplete }) => {
           style={{ fontSize: 12 }}
           data-tip="How close your holdings are to your desired target"
         />
-
       </H2>
       {accuracyDisplay}
-      <ReactTooltip
-        place="right"
-        effect="solid"
-      />
+      <ReactTooltip place="right" effect="solid" />
     </Accuracy>
   );
 };

@@ -16,14 +16,13 @@ const InputStyle = styled.div`
   }
 `;
 
-const ErrorContainer = styled.div`
-`;
+const ErrorContainer = styled.div``;
 
 export class CheckoutForm extends React.Component {
   state = {
     error: null,
     loading: false,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -31,19 +30,19 @@ export class CheckoutForm extends React.Component {
   }
 
   async submit(event) {
-    this.setState({loading: true, error: null});
+    this.setState({ loading: true, error: null });
     this.props.startCreateSubscription();
-    let {token} = await this.props.stripe.createToken({name: "Name"});
-    postData(`/api/v1/subscriptions`, {token: token, period: 'annual'})
+    let { token } = await this.props.stripe.createToken({ name: 'Name' });
+    postData(`/api/v1/subscriptions`, { token: token, period: 'annual' })
       .then(response => {
         console.log('success', response.data);
-        this.setState({loading: false});
+        this.setState({ loading: false });
         this.props.reloadSubscriptions();
         this.props.finishCreateSubscription();
       })
       .catch(error => {
         console.log('error', error.response.data);
-        this.setState({loading: false, error: error.response.data.detail});
+        this.setState({ loading: false, error: error.response.data.detail });
         // this.props.reloadSubscriptions();
         this.props.finishCreateSubscriptionFail();
       });
@@ -57,7 +56,11 @@ export class CheckoutForm extends React.Component {
           error = (
             <ErrorContainer>
               <H2>Payment could not be processed</H2>
-              <P>Check that you have entered your payment information correctly or <Link to="/app/help">contact support</Link> if that doesn't help.</P>
+              <P>
+                Check that you have entered your payment information correctly
+                or <Link to="/app/help">contact support</Link> if that doesn't
+                help.
+              </P>
             </ErrorContainer>
           );
           break;
@@ -65,16 +68,21 @@ export class CheckoutForm extends React.Component {
           error = (
             <ErrorContainer>
               <H2>Payment could not be processed</H2>
-              <P>Oops, you've encountered a bug! Please try again later or <Link to="/app/help">contact support</Link> if this persists.</P>
+              <P>
+                Oops, you've encountered a bug! Please try again later or{' '}
+                <Link to="/app/help">contact support</Link> if this persists.
+              </P>
             </ErrorContainer>
-
           );
           break;
         default:
           error = (
             <ErrorContainer>
               <H2>Payment could not be processed</H2>
-              <P>Oops, you've encountered a bug! Please try again later or <Link to="/app/help">contact support</Link> if this persists.</P>
+              <P>
+                Oops, you've encountered a bug! Please try again later or{' '}
+                <Link to="/app/help">contact support</Link> if this persists.
+              </P>
             </ErrorContainer>
           );
           break;
@@ -84,27 +92,22 @@ export class CheckoutForm extends React.Component {
     return (
       <InputStyle>
         <Card />
-        {
-          !this.state.loading && this.state.error && (
-            <div>
-              {error}
-            </div>
-          )
-        }
-        {
-          this.props.loading ? (
-              <div>
-                Processing your payment... <FontAwesomeIcon icon={faSpinner} spin />
-              </div>
-            ) : (
-              <Button onClick={this.submit}>Submit</Button>
-            )
-        }
+        {!this.state.loading && this.state.error && <div>{error}</div>}
+        {this.props.loading ? (
+          <div>
+            Processing your payment... <FontAwesomeIcon icon={faSpinner} spin />
+          </div>
+        ) : (
+          <Button onClick={this.submit}>Submit</Button>
+        )}
       </InputStyle>
-    )
+    );
   }
 }
 
 const actions = { reloadSubscriptions: loadSubscriptions };
 
-export default connect(null, actions)(injectStripe(CheckoutForm));
+export default connect(
+  null,
+  actions,
+)(injectStripe(CheckoutForm));

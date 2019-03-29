@@ -22,7 +22,7 @@ import createRunLoop from './reactors/init-runloop';
 import { effects } from './reactors/effects';
 
 Sentry.init({
-  dsn: "https://0d88597b9cb6439fa0050392b907ec17@sentry.io/1358976"
+  dsn: 'https://0d88597b9cb6439fa0050392b907ec17@sentry.io/1358976',
 });
 
 const history = createBrowserHistory();
@@ -30,11 +30,15 @@ const history = createBrowserHistory();
 const defaultState = {};
 
 // initialize GA and fire first pageview
-ReactGA.initialize([
+ReactGA.initialize(
+  [
     {
-      trackingId: process.env.NODE_ENV === 'production' ? 'UA-113321962-1' : 'UA-113321962-2',
+      trackingId:
+        process.env.NODE_ENV === 'production'
+          ? 'UA-113321962-1'
+          : 'UA-113321962-2',
       gaOptions: {},
-    }
+    },
   ],
   {
     debug: process.env.NODE_ENV === 'production' ? false : true,
@@ -43,7 +47,7 @@ ReactGA.initialize([
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 // get GA to listen for path changes
-history.listen(function (location) {
+history.listen(function(location) {
   ReactGA.pageview(location.pathname + location.search);
 });
 
@@ -52,7 +56,10 @@ const persistConfig = {
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, createRootReducer(history));
+const persistedReducer = persistReducer(
+  persistConfig,
+  createRootReducer(history),
+);
 
 const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 });
 const store = createStore(
@@ -60,12 +67,8 @@ const store = createStore(
   defaultState,
   composeEnhancers(
     responsiveStoreEnhancer,
-    applyMiddleware(
-      routerMiddleware(history),
-      reduxThunk,
-      apiMiddleware,
-    ),
-  )
+    applyMiddleware(routerMiddleware(history), reduxThunk, apiMiddleware),
+  ),
 );
 
 const persistor = persistStore(store);
@@ -84,10 +87,11 @@ ReactDOM.render(
       </PersistGate>
     </Provider>
   </ErrorBoundary>,
-  document.getElementById('root'));
+  document.getElementById('root'),
+);
 
 const onUpdate = () => {
-  store.dispatch(updateServiceWorker())
+  store.dispatch(updateServiceWorker());
 };
 
 registerServiceWorker(onUpdate);

@@ -1,19 +1,18 @@
 export default ({ baseType, userData }) => {
-  const START = `${baseType}_START`
-  const SUCCESS = `${baseType}_SUCCESS`
-  const ERROR = `${baseType}_ERROR`
+  const START = `${baseType}_START`;
+  const SUCCESS = `${baseType}_SUCCESS`;
+  const ERROR = `${baseType}_ERROR`;
 
-  const initialData = {
-  };
+  const initialData = {};
 
   // here we're returning our customized reducer
   return (state, action) => {
     if (action.type === START) {
       return Object.assign({}, state, {
         [action.id]: {
-          loading: true
-        }
-      })
+          loading: true,
+        },
+      });
     }
     if (action.type === SUCCESS) {
       // if successful we store our data
@@ -26,9 +25,9 @@ export default ({ baseType, userData }) => {
           lastFetch: Date.now(),
           error: null,
           lastError: null,
-          loading: false
-        }
-      })
+          loading: false,
+        },
+      });
     }
     if (action.type === ERROR) {
       // we still want to leave existing
@@ -39,9 +38,9 @@ export default ({ baseType, userData }) => {
         [action.id]: {
           lastError: Date.now(),
           error: action.error,
-          loading: false
-        }
-      })
+          loading: false,
+        },
+      });
     }
 
     if (action.type === 'LOGOUT' && userData) {
@@ -50,7 +49,7 @@ export default ({ baseType, userData }) => {
 
     if (!state) {
       return initialData;
-    };
+    }
     return state;
-  }
-}
+  };
+};

@@ -7,7 +7,7 @@ import { loadGroupsList } from '../actions';
 import { patchData } from '../api';
 import { selectCurrentGroup } from '../selectors';
 import styled from '@emotion/styled';
-import { Table , Edit, Title } from '../styled/GlobalElements';
+import { Table, Edit, Title } from '../styled/GlobalElements';
 import { InputNonFormik } from '../styled/Form';
 import ShadowBox from '../styled/ShadowBox';
 import { Button } from '../styled/Button';
@@ -41,7 +41,6 @@ const Total = styled.div`
     padding: 15px;
     text-align: center;
   }
-
 `;
 
 const Cash = styled.div`
@@ -105,39 +104,39 @@ class AccountMetadata extends Component {
     name: this.props.name,
     editingName: false,
     loading: false,
-  }
+  };
 
-  onEnter = (e) => {
+  onEnter = e => {
     if (e.key === 'Enter') {
       this.finishEditingName();
     }
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
-    this.setState({name: nextProps.name, editingName: false, loading: false});
+    this.setState({ name: nextProps.name, editingName: false, loading: false });
   }
 
   startEditingName() {
-    this.setState({editingName: true});
+    this.setState({ editingName: true });
   }
 
   finishEditingName() {
     if (this.state.name !== this.props.group.name) {
-      this.setState({loading: true});
+      this.setState({ loading: true });
       let group = Object.assign({}, this.props.group);
       group.name = this.state.name;
       patchData(`/api/v1/portfolioGroups/${this.props.group.id}/`, group)
         .then(response => {
           console.log('success', response.data);
-          this.setState({loading: false});
+          this.setState({ loading: false });
           this.props.refreshGroups();
         })
         .catch(error => {
           console.log('error', error.response.data);
-          this.setState({loading: false});
+          this.setState({ loading: false });
         });
     }
-    this.setState({editingName: false});
+    this.setState({ editingName: false });
   }
 
   render() {
@@ -147,59 +146,92 @@ class AccountMetadata extends Component {
           <Table>
             {this.state.editingName ? (
               <NameContainer>
-                <InputNonFormik value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}
-                onKeyPress={this.onEnter}
+                <InputNonFormik
+                  value={this.state.name}
+                  onChange={event => {
+                    this.setState({ name: event.target.value });
+                  }}
+                  onKeyPress={this.onEnter}
                 />
                 <Button onClick={() => this.finishEditingName()}>Done</Button>
               </NameContainer>
             ) : (
               <NameContainer>
-                {this.props.name ? this.props.name : <FontAwesomeIcon icon={faSpinner} spin />}
-                <Edit onClick={() => this.startEditingName()}><FontAwesomeIcon icon={faPen} />Edit</Edit>
+                {this.props.name ? (
+                  this.props.name
+                ) : (
+                  <FontAwesomeIcon icon={faSpinner} spin />
+                )}
+                <Edit onClick={() => this.startEditingName()}>
+                  <FontAwesomeIcon icon={faPen} />
+                  Edit
+                </Edit>
               </NameContainer>
             )}
             <Total>
               <Title>Total Value</Title>
-              <b>{this.props.equity ? <Number value={this.props.equity} currency /> : <FontAwesomeIcon icon={faSpinner} spin />}</b>
+              <b>
+                {this.props.equity ? (
+                  <Number value={this.props.equity} currency />
+                ) : (
+                  <FontAwesomeIcon icon={faSpinner} spin />
+                )}
+              </b>
             </Total>
           </Table>
           <Table>
             <MetaHorizontal>
               <div>
                 <span>Account #: </span>
-                {this.props.number ? this.props.number : <FontAwesomeIcon icon={faSpinner} spin />}
+                {this.props.number ? (
+                  this.props.number
+                ) : (
+                  <FontAwesomeIcon icon={faSpinner} spin />
+                )}
               </div>
               <div>
                 <span>Type: </span>
-                {this.props.type ? this.props.type : <FontAwesomeIcon icon={faSpinner} spin />}
+                {this.props.type ? (
+                  this.props.type
+                ) : (
+                  <FontAwesomeIcon icon={faSpinner} spin />
+                )}
               </div>
             </MetaHorizontal>
             <CashBalance>
-              {!this.props.balances && <div><FontAwesomeIcon icon={faSpinner} spin /></div>}
-              {this.props.balances
-                && this.props.balances.map(balance => (
-                <Table key={balance.currency.id}>
-                  <CashType>
-                    <span title={balance.currency.name}>{balance.currency.code}</span>
-                  </CashType>
-                  <CashType>
-                    <Number value={balance.cash} currency />
-                  </CashType>
-                </Table>
-              ))
-            }
+              {!this.props.balances && (
+                <div>
+                  <FontAwesomeIcon icon={faSpinner} spin />
+                </div>
+              )}
+              {this.props.balances &&
+                this.props.balances.map(balance => (
+                  <Table key={balance.currency.id}>
+                    <CashType>
+                      <span title={balance.currency.name}>
+                        {balance.currency.code}
+                      </span>
+                    </CashType>
+                    <CashType>
+                      <Number value={balance.cash} currency />
+                    </CashType>
+                  </Table>
+                ))}
             </CashBalance>
             <Cash>
               <Title>Cash</Title>
-              {this.props.cash ? <Number value={this.props.cash} currency /> : <FontAwesomeIcon icon={faSpinner} spin />}
+              {this.props.cash ? (
+                <Number value={this.props.cash} currency />
+              ) : (
+                <FontAwesomeIcon icon={faSpinner} spin />
+              )}
             </Cash>
-
           </Table>
         </MetaContainer>
       </ShadowBox>
-    )
+    );
   }
-};
+}
 
 AccountMetadata.propTypes = {
   name: PropTypes.string,
@@ -217,4 +249,7 @@ const actions = {
   refreshGroups: loadGroupsList,
 };
 
-export default connect(select, actions)(AccountMetadata);
+export default connect(
+  select,
+  actions,
+)(AccountMetadata);

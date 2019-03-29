@@ -11,7 +11,8 @@ export const StepButton = styled.button`
   opacity: 0.97;
   border-radius: 2px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-  background-color: ${props => props.blue ? 'var(--brand-blue)' : 'var(--white)'};
+  background-color: ${props =>
+    props.blue ? 'var(--brand-blue)' : 'var(--white)'};
   font-size: 25px;
   font-weight: 700;
   font-style: normal;
@@ -19,14 +20,14 @@ export const StepButton = styled.button`
   line-height: 1.17;
   letter-spacing: 1px;
   text-align: center;
-  color: ${props => props.blue ? 'var(--white)' : '#2a2d34'};
+  color: ${props => (props.blue ? 'var(--white)' : '#2a2d34')};
   flex: 1;
   padding: 20px;
   max-width: 49%;
   max-width: 260px;
-   &:hover {
-  	background: var(--brand-blue);
-  	color: #fff;
+  &:hover {
+    background: var(--brand-blue);
+    color: #fff;
   }
 `;
 
@@ -34,7 +35,8 @@ export const SmallStepButton = styled.button`
   opacity: 0.97;
   border-radius: 2px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-  background-color: ${props => props.blue ? 'var(--brand-blue)' : 'var(--white)'};
+  background-color: ${props =>
+    props.blue ? 'var(--brand-blue)' : 'var(--white)'};
   font-size: 25px;
   font-weight: 700;
   font-style: normal;
@@ -42,16 +44,16 @@ export const SmallStepButton = styled.button`
   line-height: 1.17;
   letter-spacing: 1px;
   text-align: center;
-  color: ${props => props.blue ? 'var(--white)' : '#2a2d34'};
+  color: ${props => (props.blue ? 'var(--white)' : '#2a2d34')};
   flex: 1;
   padding: 20px;
   max-width: 49%;
   max-width: 260px;
   margin-right: 20px;
 
-   &:hover {
-  	background: var(--brand-blue);
-  	color: #fff;
+  &:hover {
+    background: var(--brand-blue);
+    color: #fff;
   }
 `;
 

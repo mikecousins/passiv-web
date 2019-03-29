@@ -5,9 +5,7 @@ import { selectPathname } from '../../selectors/router';
 
 export const SideBarLinkAlt = ({ pathname, linkPath, name }) => (
   <div className={pathname.startsWith(linkPath) && 'active'}>
-    <Link to={linkPath}>
-      {name}
-    </Link>
+    <Link to={linkPath}>{name}</Link>
   </div>
 );
 

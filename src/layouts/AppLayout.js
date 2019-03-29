@@ -21,15 +21,13 @@ const Main = styled.main`
   }
 `;
 
-export const AppLayout = (props) => (
+export const AppLayout = props => (
   <div>
     <GlobalStyle />
     <Header />
     <Container>
       <SlideMenu />
-      <Main>
-        {props.children}
-      </Main>
+      <Main>{props.children}</Main>
     </Container>
     <ScrollHelper />
   </div>

@@ -6,28 +6,44 @@ import { faSpinner, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { RebalanceAlert } from '../../styled/Rebalance';
 import { selectPathname } from '../../selectors/router';
 
-const SideBarLink = ({ name, linkPath, rebalance, loading, setupComplete, pathname }) => {
+const SideBarLink = ({
+  name,
+  linkPath,
+  rebalance,
+  loading,
+  setupComplete,
+  pathname,
+}) => {
   let selected = pathname.startsWith(linkPath);
 
   let colorClass = null;
   if (selected) {
-    colorClass = "active"
+    colorClass = 'active';
   }
 
   let indicator = null;
   if (loading) {
-    indicator = <RebalanceAlert><FontAwesomeIcon icon={faSpinner} spin /></RebalanceAlert>;
-  }
-  else {
+    indicator = (
+      <RebalanceAlert>
+        <FontAwesomeIcon icon={faSpinner} spin />
+      </RebalanceAlert>
+    );
+  } else {
     if (setupComplete === undefined) {
-        indicator = <RebalanceAlert></RebalanceAlert>;
-    }
-    else {
+      indicator = <RebalanceAlert />;
+    } else {
       if (setupComplete) {
-        indicator = <RebalanceAlert>{rebalance && <span style={{background: 'blue'}} />}</RebalanceAlert>;
-      }
-      else {
-        indicator = <RebalanceAlert>{ <span style={{background: 'orange'}} /> }</RebalanceAlert>;
+        indicator = (
+          <RebalanceAlert>
+            {rebalance && <span style={{ background: 'blue' }} />}
+          </RebalanceAlert>
+        );
+      } else {
+        indicator = (
+          <RebalanceAlert>
+            {<span style={{ background: 'orange' }} />}
+          </RebalanceAlert>
+        );
       }
     }
   }
@@ -40,7 +56,7 @@ const SideBarLink = ({ name, linkPath, rebalance, loading, setupComplete, pathna
         <FontAwesomeIcon icon={faAngleRight} />
       </Link>
     </div>
-  )
+  );
 };
 
 const select = state => ({

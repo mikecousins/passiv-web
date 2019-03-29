@@ -22,7 +22,7 @@ export class CredentialsManager extends React.Component {
     name: this.props.settings && this.props.settings.name,
     email: this.props.settings && this.props.settings.email,
     editingName: false,
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -32,14 +32,14 @@ export class CredentialsManager extends React.Component {
   }
 
   startEditingName() {
-    this.setState({editingName: true});
+    this.setState({ editingName: true });
   }
 
-  onEnter = (e) => {
+  onEnter = e => {
     if (e.key === 'Enter') {
       this.finishEditing();
     }
-  }
+  };
 
   finishEditing() {
     if (this.state.name !== this.props.settings.name) {
@@ -53,7 +53,7 @@ export class CredentialsManager extends React.Component {
           this.props.refreshSettings();
         });
     }
-    this.setState({editingName: false});
+    this.setState({ editingName: false });
   }
 
   render() {
@@ -64,7 +64,10 @@ export class CredentialsManager extends React.Component {
           {this.state.editingName ? (
             <InputContainer>
               <InputNonFormik
-                value={this.state.name} onChange={(event) => {this.setState({name: event.target.value})}}
+                value={this.state.name}
+                onChange={event => {
+                  this.setState({ name: event.target.value });
+                }}
                 onKeyPress={this.onEnter}
               />
               <Button onClick={() => this.finishEditing()}>Done</Button>
@@ -72,7 +75,10 @@ export class CredentialsManager extends React.Component {
           ) : (
             <InputContainer>
               <strong>Name:</strong> {this.state.name}
-              <Edit onClick={() => this.startEditingName()}><FontAwesomeIcon icon={faPen} />Edit</Edit>
+              <Edit onClick={() => this.startEditingName()}>
+                <FontAwesomeIcon icon={faPen} />
+                Edit
+              </Edit>
             </InputContainer>
           )}
         </div>
@@ -80,7 +86,7 @@ export class CredentialsManager extends React.Component {
           <strong>Email:</strong> {this.state.email}
         </div>
       </ShadowBox>
-    )
+    );
   }
 }
 
@@ -91,4 +97,7 @@ const actions = {
   refreshSettings: loadSettings,
 };
 
-export default connect(select, actions)(CredentialsManager);
+export default connect(
+  select,
+  actions,
+)(CredentialsManager);

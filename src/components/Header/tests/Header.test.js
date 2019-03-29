@@ -10,6 +10,7 @@ it('renders without crashing', () => {
     <MemoryRouter>
       <Header />
     </MemoryRouter>,
-    div);
+    div,
+  );
   ReactDOM.unmountComponentAtNode(div);
 });

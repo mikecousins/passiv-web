@@ -26,15 +26,15 @@ const StyledHeader = styled.header`
 `;
 const Logo = styled.header`
   margin-top: 2px;
-   @media (max-width: 900px) {
+  @media (max-width: 900px) {
     margin-top: 0;
-   }
+  }
 `;
 export const Header = ({ name, loggedIn }) => (
   <StyledHeader>
     <nav>
       <Logo>
-        <Link to="/" >
+        <Link to="/">
           <img src={logo} srcSet={`${logo2x} 2x`} alt="Passiv Logo" />
         </Link>
       </Logo>

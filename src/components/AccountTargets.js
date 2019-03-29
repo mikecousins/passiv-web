@@ -3,7 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
 import { loadGroup } from '../actions';
-import { selectCurrentGroupId, selectCurrentGroupTarget, selectCurrentGroupTargetInitialized } from '../selectors';
+import {
+  selectCurrentGroupId,
+  selectCurrentGroupTarget,
+  selectCurrentGroupTargetInitialized,
+} from '../selectors';
 import { Button } from '../styled/Button';
 import { H2, H3, P } from '../styled/GlobalElements';
 import { postData } from '../api';
@@ -28,18 +32,18 @@ export const Container3Column = styled.div`
 `;
 
 const h2DarkStyle = {
-  'color': 'white',
-  'paddingBottom': '20px',
-}
+  color: 'white',
+  paddingBottom: '20px',
+};
 
 const h3DarkStyle = {
-  'color': 'white',
-  'paddingBottom': '10px',
-}
+  color: 'white',
+  paddingBottom: '10px',
+};
 
 const pDarkStyle = {
-  'color': 'white',
-}
+  color: 'white',
+};
 
 export class AccountTargets extends React.Component {
   state = {
@@ -50,24 +54,31 @@ export class AccountTargets extends React.Component {
       {
         id: 'CHOOSE',
         name: 'Select a model portfolio (coming soon)',
-        button: (<Button disabled onClick={() => this.setState({model: 'CHOOSE'})}>Select</Button>),
+        button: (
+          <Button disabled onClick={() => this.setState({ model: 'CHOOSE' })}>
+            Select
+          </Button>
+        ),
       },
       {
         id: 'IMPORT',
         name: 'Import your current holdings as a target',
-        button: (<Button onClick={() => this.importTarget()}>Import</Button>),
+        button: <Button onClick={() => this.importTarget()}>Import</Button>,
       },
       {
         id: 'MANUAL',
         name: 'Build your target portfolio manually',
-        button: (<Button onClick={() => this.setState({model: 'MANUAL'})}>Build</Button>),
-      }
-
-    ]
-  }
+        button: (
+          <Button onClick={() => this.setState({ model: 'MANUAL' })}>
+            Build
+          </Button>
+        ),
+      },
+    ],
+  };
 
   componentWillReceiveProps(nextProps) {
-    this.setState({model: null});
+    this.setState({ model: null });
   }
 
   getRandomId() {
@@ -81,45 +92,43 @@ export class AccountTargets extends React.Component {
   }
 
   importTarget() {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     postData('/api/v1/portfolioGroups/' + this.props.groupId + '/import/')
       .then(response => {
-        this.setState({loading: false, edit: false});
-        this.props.refreshGroup({ids: [this.props.groupId]});
+        this.setState({ loading: false, edit: false });
+        this.props.refreshGroup({ ids: [this.props.groupId] });
       })
       .catch(error => {
-        this.setState({loading: false, edit: false});
-        console.log('errors', error.response.data)
+        this.setState({ loading: false, edit: false });
+        console.log('errors', error.response.data);
       });
   }
 
   generateTargetForm(lockable) {
     let form = (
-      <TargetSelector
-        target={this.props.target}
-        lockable={lockable}
-      />
+      <TargetSelector target={this.props.target} lockable={lockable} />
     );
-    if (!this.props.targetInitialized || (!this.state.loading && this.props.target && this.props.target.length === 0)) {
-      form = (
-        <ShadowBox>
-          { form }
-        </ShadowBox>
-      )
+    if (
+      !this.props.targetInitialized ||
+      (!this.state.loading &&
+        this.props.target &&
+        this.props.target.length === 0)
+    ) {
+      form = <ShadowBox>{form}</ShadowBox>;
     }
     return form;
   }
 
   renderTargetChooser() {
-    switch(this.state.model) {
+    switch (this.state.model) {
       case 'CHOOSE':
-        return (<P>This shouldn't be visible ever.</P>);
+        return <P>This shouldn't be visible ever.</P>;
       case 'IMPORT':
-        return (<P>This shouldn't be visible ever.</P>);
+        return <P>This shouldn't be visible ever.</P>;
       case 'MANUAL':
         return this.generateTargetForm(false);
       default:
-        return (<P>This shouldn't be visible ever.</P>);
+        return <P>This shouldn't be visible ever.</P>;
     }
   }
 
@@ -131,43 +140,57 @@ export class AccountTargets extends React.Component {
       return (
         <ShadowBox>
           <H2>Target Portfolio</H2>
-          <span><FontAwesomeIcon icon={faSpinner} spin /></span>
+          <span>
+            <FontAwesomeIcon icon={faSpinner} spin />
+          </span>
         </ShadowBox>
       );
     }
 
     // help them set a target if they don't have one yet
-    if (!this.props.targetInitialized || (!this.state.loading && target && target.length === 0)) {
+    if (
+      !this.props.targetInitialized ||
+      (!this.state.loading && target && target.length === 0)
+    ) {
       return (
         <ShadowBox dark>
           <H2 style={h2DarkStyle}>Target Portfolio</H2>
-          {
-
-            this.state.model === null ? (
-              <React.Fragment>
-                <P style={pDarkStyle}>A target portfolio is how you tell Passiv what you want. You will need to choose which securities you want to hold and how you want your assets divided across those securities. Passiv will perform calculations to figure out what trades need to be made in order to follow your target portfolio.</P>
-                <P style={pDarkStyle}>There is no target portfolio set for this account. Please choose one of the following options:</P>
-                <Container3Column>
-                  {
-                    this.state.modelChoices.map(m => (
-                      <ShadowBox key={ m.id }>
-                        <H3>{ m.name }</H3>
-                        { m.button }
-                      </ShadowBox>
-                    ))
-                  }
-
-                </Container3Column>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <H3 style={h3DarkStyle}>{ this.state.modelChoices.find(m => m.id === this.state.model).name }</H3>
-                { this.renderTargetChooser() }
-                <Button onClick={() => this.setState({model: null})}>Back</Button>
-              </React.Fragment>
-            )
-          }
-
+          {this.state.model === null ? (
+            <React.Fragment>
+              <P style={pDarkStyle}>
+                A target portfolio is how you tell Passiv what you want. You
+                will need to choose which securities you want to hold and how
+                you want your assets divided across those securities. Passiv
+                will perform calculations to figure out what trades need to be
+                made in order to follow your target portfolio.
+              </P>
+              <P style={pDarkStyle}>
+                There is no target portfolio set for this account. Please choose
+                one of the following options:
+              </P>
+              <Container3Column>
+                {this.state.modelChoices.map(m => (
+                  <ShadowBox key={m.id}>
+                    <H3>{m.name}</H3>
+                    {m.button}
+                  </ShadowBox>
+                ))}
+              </Container3Column>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <H3 style={h3DarkStyle}>
+                {
+                  this.state.modelChoices.find(m => m.id === this.state.model)
+                    .name
+                }
+              </H3>
+              {this.renderTargetChooser()}
+              <Button onClick={() => this.setState({ model: null })}>
+                Back
+              </Button>
+            </React.Fragment>
+          )}
         </ShadowBox>
       );
     }
@@ -175,13 +198,14 @@ export class AccountTargets extends React.Component {
     return (
       <ShadowBox>
         <TargetContainer>
-        <H2>Target Portfolio</H2>
-        {
-          this.state.loading ? (
-            <P>Importing targets... <FontAwesomeIcon icon={faSpinner} spin /></P>
-          ) : this.generateTargetForm(true)
-        }
-
+          <H2>Target Portfolio</H2>
+          {this.state.loading ? (
+            <P>
+              Importing targets... <FontAwesomeIcon icon={faSpinner} spin />
+            </P>
+          ) : (
+            this.generateTargetForm(true)
+          )}
         </TargetContainer>
       </ShadowBox>
     );
@@ -195,7 +219,10 @@ const actions = {
 const select = state => ({
   groupId: selectCurrentGroupId(state),
   target: selectCurrentGroupTarget(state),
-  targetInitialized: selectCurrentGroupTargetInitialized(state)
+  targetInitialized: selectCurrentGroupTargetInitialized(state),
 });
 
-export default connect(select, actions)(AccountTargets);
+export default connect(
+  select,
+  actions,
+)(AccountTargets);

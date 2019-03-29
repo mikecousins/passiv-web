@@ -4,7 +4,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { postData } from '../../api';
 import SymbolSelector from './SymbolSelector';
 import Number from '../Number';
-import { BarsContainer,InputContainer,Symbol,TargetRow,Actual,Target,Bar,BarTarget,BarActual,Container,Close } from '../../styled/Target';
+import {
+  BarsContainer,
+  InputContainer,
+  Symbol,
+  TargetRow,
+  Actual,
+  Target,
+  Bar,
+  BarTarget,
+  BarActual,
+  Container,
+  Close,
+} from '../../styled/Target';
 
 export class TargetBar extends React.Component {
   loadOptions = (substring, callback) => {
@@ -15,31 +27,17 @@ export class TargetBar extends React.Component {
       .catch(error => {
         console.log('error', error.response.data);
       });
-  }
+  };
 
   render() {
-    const {
-      target,
-      children,
-      setSymbol,
-      edit,
-      onDelete
-    } = this.props;
+    const { target, children, setSymbol, edit, onDelete } = this.props;
 
-    const {
-      id,
-      excluded,
-      fullSymbol,
-      actualPercentage,
-      percent
-    } = target;
-
+    const { id, excluded, fullSymbol, actualPercentage, percent } = target;
 
     let renderActualPercentage = null;
     if (actualPercentage === undefined) {
       renderActualPercentage = 0;
-    }
-    else {
+    } else {
       renderActualPercentage = actualPercentage;
     }
 
@@ -49,47 +47,50 @@ export class TargetBar extends React.Component {
           <React.Fragment>
             <BarsContainer>
               <BarTarget>
-              {
-                percent > 100 ? (
+                {percent > 100 ? (
                   <Bar style={{ width: '100%', backgroundColor: 'red' }}>
                     Warning: allocation cannot be over 100%
                   </Bar>
-                ) :
-                percent < 0 ? (
+                ) : percent < 0 ? (
                   <Bar style={{ width: '100%', backgroundColor: 'red' }}>
                     Warning: allocation cannot be negative!
                   </Bar>
                 ) : (
                   <Bar style={{ width: `${percent}%` }}> </Bar>
-                )
-              }
+                )}
               </BarTarget>
-              {
-                !(actualPercentage === undefined) && (
-                  <BarActual>
-                    <Bar style={{ width: `${renderActualPercentage}%` }}> </Bar>
-                  </BarActual>
-                )
-              }
-
+              {!(actualPercentage === undefined) && (
+                <BarActual>
+                  <Bar style={{ width: `${renderActualPercentage}%` }}> </Bar>
+                </BarActual>
+              )}
             </BarsContainer>
 
-            {edit && <Close type="button" onClick={() => onDelete(id)}><FontAwesomeIcon icon={faTimes} /> </Close>}
-
+            {edit && (
+              <Close type="button" onClick={() => onDelete(id)}>
+                <FontAwesomeIcon icon={faTimes} />{' '}
+              </Close>
+            )}
           </React.Fragment>
-        ) : <FontAwesomeIcon icon={faEyeSlash} />}
+        ) : (
+          <FontAwesomeIcon icon={faEyeSlash} />
+        )}
         <TargetRow>
           <Symbol>
-            {(!(typeof(id) == 'string') && !excluded) ? (
+            {!(typeof id == 'string') && !excluded ? (
               <SymbolSelector
                 value={fullSymbol}
                 onChange={setSymbol}
                 loadOptions={this.loadOptions}
-                getOptionLabel={(option) => `${option.symbol} (${option.description})`}
-                getOptionValue={(option) => option.id}
-                placeholder='Search for security...'
+                getOptionLabel={option =>
+                  `${option.symbol} (${option.description})`
+                }
+                getOptionValue={option => option.id}
+                placeholder="Search for security..."
               />
-            ) : fullSymbol.symbol}
+            ) : (
+              fullSymbol.symbol
+            )}
           </Symbol>
           <Target>
             <InputContainer>{children}%</InputContainer>

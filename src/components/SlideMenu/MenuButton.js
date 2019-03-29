@@ -50,9 +50,8 @@ export const Hamburger = styled.div`
     z-index: 1;
     text-align: right;
     transform-origin: 4px 0px;
-    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-                background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-                opacity 0.55s ease;
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+      background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
   }
 
   span:first-of-type {
@@ -80,13 +79,22 @@ export const Hamburger = styled.div`
 `;
 
 const MenuButton = ({ menuVisibility, handleMouseDown }) => (
-  <Button onMouseDown={handleMouseDown} type="button" role="button" aria-label={menuVisibility ? 'Collapse Menu' : 'Expand Menu'}>
+  <Button
+    onMouseDown={handleMouseDown}
+    type="button"
+    role="button"
+    aria-label={menuVisibility ? 'Collapse Menu' : 'Expand Menu'}
+  >
     <Hamburger>
-      <span></span>
-      <span></span>
-      <span></span>
+      <span />
+      <span />
+      <span />
     </Hamburger>
-    <strong>{menuVisibility ? 'Collapse' : 'Expand'}<br />Menu</strong>
+    <strong>
+      {menuVisibility ? 'Collapse' : 'Expand'}
+      <br />
+      Menu
+    </strong>
   </Button>
 );
 

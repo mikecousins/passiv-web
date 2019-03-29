@@ -30,14 +30,14 @@ export default ({ store, actionPairs }) => {
         () => {
           // sychronously make sure this is *still* true
           // right before excecuting
-          const result = item.selector(store.getState())
+          const result = item.selector(store.getState());
           if (result) {
-            store.dispatch(item.actionCreator(result))
+            store.dispatch(item.actionCreator(result));
           }
           // without this timeout we had a case where it just wasn't
           // ever running if you didn't interact with the browser.
         },
-        { timeout: 100 }
-      )
-    })
-}
+        { timeout: 100 },
+      );
+    });
+};

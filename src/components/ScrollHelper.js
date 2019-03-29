@@ -15,6 +15,6 @@ export const ScrollHelper = ({ pathname, isMobile }) => {
 const select = state => ({
   pathname: selectPathname(state),
   isMobile: selectIsMobile(state),
-})
+});
 
 export default connect(select)(ScrollHelper);

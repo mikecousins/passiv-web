@@ -1,68 +1,91 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSpinner,
+  faToggleOn,
+  faToggleOff,
+} from '@fortawesome/free-solid-svg-icons';
 import ReactTooltip from 'react-tooltip';
 import { Link } from 'react-router-dom';
 import { loadGroup } from '../actions';
-import { selectCurrentGroupId, selectCurrentGroupTarget, selectCurrentGroupExcludedAssets, selectCurrentGroupSymbols, selectCurrentGroupQuotableSymbols } from '../selectors';
+import {
+  selectCurrentGroupId,
+  selectCurrentGroupTarget,
+  selectCurrentGroupExcludedAssets,
+  selectCurrentGroupSymbols,
+  selectCurrentGroupQuotableSymbols,
+} from '../selectors';
 import { postData, deleteData } from '../api';
 
 class ExcludedAssetToggle extends Component {
   state = {
     loading: false,
     toggle: false,
-  }
+  };
 
   componentDidMount() {
     this.setState({ toggle: this.symbolExcluded(this.props.symbolId) });
   }
 
-  symbolInTargets = (symbolId) => {
+  symbolInTargets = symbolId => {
     if (this.props.targets) {
       return this.props.targets.some(target => target.symbol === symbolId);
-    }
-    else {
+    } else {
       return false;
     }
   };
 
-  symbolExcluded = (symbolId) => { return this.props.excludedAssets.some(excludedAsset => excludedAsset.symbol === symbolId); };
+  symbolExcluded = symbolId => {
+    return this.props.excludedAssets.some(
+      excludedAsset => excludedAsset.symbol === symbolId,
+    );
+  };
 
-  symbolQuotable = (symbolId) => this.props.quotableSymbols.some(quotableSymbol => quotableSymbol.id === symbolId);
+  symbolQuotable = symbolId =>
+    this.props.quotableSymbols.some(
+      quotableSymbol => quotableSymbol.id === symbolId,
+    );
 
   handleClick = () => {
     let newToggleState = !!(this.state.toggle ^ true);
-    this.setState({loading: true});
+    this.setState({ loading: true });
     if (newToggleState === true) {
-      postData(`/api/v1/portfolioGroups/${this.props.groupId}/excludedassets/`, {symbol: this.props.symbolId})
+      postData(
+        `/api/v1/portfolioGroups/${this.props.groupId}/excludedassets/`,
+        { symbol: this.props.symbolId },
+      )
         .then(response => {
-          this.setState({loading: false, toggle: newToggleState});
-          this.props.refreshGroup({ids: [this.props.groupId]});
+          this.setState({ loading: false, toggle: newToggleState });
+          this.props.refreshGroup({ ids: [this.props.groupId] });
         })
         .catch(error => {
-          this.setState({loading: false});
-        })
-    }
-    else {
-      deleteData(`/api/v1/portfolioGroups/${this.props.groupId}/excludedassets/${this.props.symbolId}`)
+          this.setState({ loading: false });
+        });
+    } else {
+      deleteData(
+        `/api/v1/portfolioGroups/${this.props.groupId}/excludedassets/${
+          this.props.symbolId
+        }`,
+      )
         .then(response => {
-          this.setState({loading: false, toggle: newToggleState});
-          this.props.refreshGroup({ids: [this.props.groupId]});
+          this.setState({ loading: false, toggle: newToggleState });
+          this.props.refreshGroup({ ids: [this.props.groupId] });
         })
         .catch(error => {
-          this.setState({loading: false});
-        })
+          this.setState({ loading: false });
+        });
     }
-
-  }
+  };
 
   render() {
     if (this.state.loading) {
       return <FontAwesomeIcon icon={faSpinner} />;
     }
 
-    const isDisabled = this.symbolInTargets(this.props.symbolId) || !this.symbolQuotable(this.props.symbolId);
+    const isDisabled =
+      this.symbolInTargets(this.props.symbolId) ||
+      !this.symbolQuotable(this.props.symbolId);
     if (isDisabled) {
       return (
         <React.Fragment>
@@ -70,21 +93,24 @@ class ExcludedAssetToggle extends Component {
             to="/app/settings"
             data-tip="Upgrade to enable exclusion on the settings page"
           >
-            {this.state.toggle ? <FontAwesomeIcon icon={faToggleOn} /> : <FontAwesomeIcon icon={faToggleOff} />}
+            {this.state.toggle ? (
+              <FontAwesomeIcon icon={faToggleOn} />
+            ) : (
+              <FontAwesomeIcon icon={faToggleOff} />
+            )}
           </Link>
-          <ReactTooltip
-            place="right"
-            html
-            clickable
-            effect="solid"
-          />
+          <ReactTooltip place="right" html clickable effect="solid" />
         </React.Fragment>
       );
     }
 
     return (
       <button onClick={this.handleClick}>
-        {this.state.toggle ? <FontAwesomeIcon icon={faToggleOn} /> : <FontAwesomeIcon icon={faToggleOff} />}
+        {this.state.toggle ? (
+          <FontAwesomeIcon icon={faToggleOn} />
+        ) : (
+          <FontAwesomeIcon icon={faToggleOff} />
+        )}
       </button>
     );
   }
@@ -102,4 +128,7 @@ const select = state => ({
   quotableSymbols: selectCurrentGroupQuotableSymbols(state),
 });
 
-export default connect(select, actions)(ExcludedAssetToggle);
+export default connect(
+  select,
+  actions,
+)(ExcludedAssetToggle);

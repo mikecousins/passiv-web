@@ -11,11 +11,15 @@ import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 
-
-const LoginPage = (props) => {
+const LoginPage = props => {
   if (props.loggedIn) {
     let nextPath = '/app/dashboard';
-    if (props && props.location && props.location.state && props.location.state.nextPathname) {
+    if (
+      props &&
+      props.location &&
+      props.location.state &&
+      props.location.state.nextPathname
+    ) {
       nextPath = props.location.state.nextPathname;
     }
     return <Redirect to={nextPath} />;
@@ -26,36 +30,36 @@ const LoginPage = (props) => {
         <Formik
           initialValues={{
             email: '',
-            password: ''
+            password: '',
           }}
           validationSchema={Yup.object().shape({
             email: Yup.string()
               .email('Must be a valid email')
               .required('Required'),
-            password: Yup.string()
-              .required('Required')
+            password: Yup.string().required('Required'),
           })}
           onSubmit={(values, actions) => {
-            postData('/api/v1/auth/login/',
-              { email: values.email, password: values.password }
-            )
+            postData('/api/v1/auth/login/', {
+              email: values.email,
+              password: values.password,
+            })
               .then(response => {
                 actions.setSubmitting(false);
                 props.loginSucceeded(response);
               })
               .catch(error => {
-                actions.setErrors({ password: error.response.data.non_field_errors || 'Failed to login.' });
+                actions.setErrors({
+                  password:
+                    error.response.data.non_field_errors || 'Failed to login.',
+                });
                 actions.setSubmitting(false);
               });
           }}
-          render={(props) => (
+          render={props => (
             <Form onSubmit={props.handleSubmit}>
               <Label htmlFor="email">
                 Email
-                <Input
-                  name="email"
-                  placeholder="Email"
-                />
+                <Input name="email" placeholder="Email" />
               </Label>
 
               <P>
@@ -88,7 +92,7 @@ const LoginPage = (props) => {
       </React.Fragment>
     );
   }
-}
+};
 
 const select = state => ({
   loggedIn: selectLoggedIn(state),
@@ -96,4 +100,7 @@ const select = state => ({
 
 const actions = { loginSucceeded: loginSucceeded };
 
-export default connect(select, actions)(LoginPage);
+export default connect(
+  select,
+  actions,
+)(LoginPage);

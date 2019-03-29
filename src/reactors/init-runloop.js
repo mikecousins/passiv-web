@@ -4,34 +4,34 @@ import { appIdle } from './app-lifecycle';
 import runDataChecks from './run-data-checks';
 
 export default function RunLoop() {
-  const actionPairs = []
+  const actionPairs = [];
 
   const start = function(store, pairs) {
     pairs.forEach(effect => {
-      actionPairs.push(effect)
-    })
+      actionPairs.push(effect);
+    });
     const idleDispatcher = debounce(() => {
-      requestAnimationFrame(() => store.dispatch(appIdle()))
-    }, ms.seconds(30))
+      requestAnimationFrame(() => store.dispatch(appIdle()));
+    }, ms.seconds(30));
 
     const callback = () => {
-      runDataChecks({ store, actionPairs })
-      idleDispatcher()
-    }
+      runDataChecks({ store, actionPairs });
+      idleDispatcher();
+    };
 
-    store.subscribe(callback)
+    store.subscribe(callback);
     // kick things off even without events getting fired
-    callback()
-  }
+    callback();
+  };
 
   const addEffects = function(effects) {
     effects.forEach(effect => {
-      actionPairs.push(effect)
-    })
-  }
+      actionPairs.push(effect);
+    });
+  };
 
   return {
     start,
     addEffects,
-  }
+  };
 }

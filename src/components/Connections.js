@@ -11,7 +11,10 @@ export const Connections = ({ authorizations }) => {
   return (
     <React.Fragment>
       {authorizations.map(authorization => (
-        <ConnectionsAuthorization key={authorization.id} authorization={authorization}/>
+        <ConnectionsAuthorization
+          key={authorization.id}
+          authorization={authorization}
+        />
       ))}
     </React.Fragment>
   );

@@ -5,7 +5,6 @@ import AuthorizationPicker from '../components/AuthorizationPicker';
 import { H3 } from '../styled/GlobalElements';
 import styled from '@emotion/styled';
 
-
 export const Order = styled.div`
   text-align: center;
   select {
@@ -15,17 +14,20 @@ export const Order = styled.div`
   }
 `;
 
-class ConnectionUpdate extends React.Component{
+class ConnectionUpdate extends React.Component {
   state = {
     allowSelectType: this.props.type === undefined ? true : false,
-    defaultType: this.props.type === undefined ? this.props.authorization.type : this.props.type,
-  }
+    defaultType:
+      this.props.type === undefined
+        ? this.props.authorization.type
+        : this.props.type,
+  };
 
   render() {
-    const { authorization } = this.props
-    return(
+    const { authorization } = this.props;
+    return (
       <Order>
-        {!(this.props.hideTitle) && (<H3>Update/Refresh Connection</H3>)}
+        {!this.props.hideTitle && <H3>Update/Refresh Connection</H3>}
 
         <AuthorizationPicker
           allowSelectBrokerage={false}
@@ -35,7 +37,7 @@ class ConnectionUpdate extends React.Component{
           type={this.state.defaultType}
         />
       </Order>
-    )
+    );
   }
 }
 
@@ -43,4 +45,7 @@ const select = state => ({});
 
 const actions = {};
 
-export default connect(select, actions)(ConnectionUpdate)
+export default connect(
+  select,
+  actions,
+)(ConnectionUpdate);

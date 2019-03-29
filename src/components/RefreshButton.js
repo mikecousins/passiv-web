@@ -17,14 +17,18 @@ export const Button = styled.button`
     margin-right: 5px;
   }
   &:hover {
-  	background: var(--brand-blue);
+    background: var(--brand-blue);
   }
 `;
 
 const RefreshButton = ({ loggedIn, reloadAllState }) => (
   <React.Fragment>
     {loggedIn && (
-      <Button onClick={() => { reloadAllState(); }}>
+      <Button
+        onClick={() => {
+          reloadAllState();
+        }}
+      >
         <FontAwesomeIcon icon={faSyncAlt} />
         Refresh
       </Button>
@@ -40,4 +44,7 @@ const actions = {
   reloadAllState: initialLoad,
 };
 
-export default connect(select, actions)(RefreshButton);
+export default connect(
+  select,
+  actions,
+)(RefreshButton);

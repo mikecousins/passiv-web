@@ -9,7 +9,7 @@ export const Container = styled.section`
 
 export const DashboardRow = styled.div`
   position: relative;
-  div{
+  div {
     align-items: center;
     text-align: center;
     @media (max-width: 900px) {
@@ -120,7 +120,7 @@ export const Symbol = styled.div`
   padding: 4px 4px 2px;
 `;
 
-export const AllocateBtn= styled.div`
+export const AllocateBtn = styled.div`
   position: absolute;
   top: 100%;
   left: 0;
@@ -143,7 +143,7 @@ export const AllocateBtn= styled.div`
 
 export const TradesContainer = styled.div`
   position: relative;
-  color: #003BA2;
+  color: #003ba2;
   box-shadow: var(--box-shadow);
   border-radius: 0 0 4px 4px;
   padding: 20px;
@@ -151,7 +151,7 @@ export const TradesContainer = styled.div`
   margin-top: 0;
   background: #deeaff;
   h3 {
-    color: #003BA2;
+    color: #003ba2;
     font-size: 25px;
     margin-bottom: 10px;
   }
@@ -204,13 +204,11 @@ export const TradeType = styled.div`
     margin-bottom: 5px;
     padding-top: 18px;
   }
-  > div:not(:first-of-type)  {
+  > div:not(:first-of-type) {
     border-top: 1px solid #fff;
     margin-top: 12px;
     padding-top: 18px;
   }
 `;
 
-export const Order = styled.div`
-
-`;
+export const Order = styled.div``;

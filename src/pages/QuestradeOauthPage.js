@@ -17,7 +17,9 @@ const QuestradeOauthPage = ({ router, reloadAllState }) => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    const queryParams = qs.parse(router.location.search, { ignoreQueryPrefix: true });
+    const queryParams = qs.parse(router.location.search, {
+      ignoreQueryPrefix: true,
+    });
     const token = queryParams.code;
 
     if (token === null) {
@@ -33,7 +35,7 @@ const QuestradeOauthPage = ({ router, reloadAllState }) => {
             setSuccess(true);
           }, 1000);
         })
-        .catch((error) => {
+        .catch(error => {
           setLoading(false);
           setError(error.response.data);
         });
@@ -42,9 +44,7 @@ const QuestradeOauthPage = ({ router, reloadAllState }) => {
 
   // if we're done, redirect the user to the dashboard
   if (success) {
-    return (
-      <Redirect to='/app/dashboard' />
-    );
+    return <Redirect to="/app/dashboard" />;
   }
 
   let errorDisplay = null;
@@ -62,17 +62,27 @@ const QuestradeOauthPage = ({ router, reloadAllState }) => {
         break;
       case '1017':
         errorDisplay = (
-          <P>An identical connection already exists, please update or delete the existing connection.</P>
+          <P>
+            An identical connection already exists, please update or delete the
+            existing connection.
+          </P>
         );
         break;
       case '0000':
         errorDisplay = (
-          <P>No access code was provided by Questrade. Did you approve the connection request?</P>
+          <P>
+            No access code was provided by Questrade. Did you approve the
+            connection request?
+          </P>
         );
         break;
       default:
         errorDisplay = (
-          <P>We encountered an unexpected error while attempting to establish a connection. Please try again later or <Link to="/app/help">contact support</Link> if this persists.</P>
+          <P>
+            We encountered an unexpected error while attempting to establish a
+            connection. Please try again later or{' '}
+            <Link to="/app/help">contact support</Link> if this persists.
+          </P>
         );
         break;
     }
@@ -83,14 +93,15 @@ const QuestradeOauthPage = ({ router, reloadAllState }) => {
       <H1 color="white">SETUP</H1>
       {loading ? (
         <React.Fragment>
-          <Step>Establishing connection to Questrade... <FontAwesomeIcon icon={faSpinner} spin /></Step>
+          <Step>
+            Establishing connection to Questrade...{' '}
+            <FontAwesomeIcon icon={faSpinner} spin />
+          </Step>
         </React.Fragment>
       ) : (
         <React.Fragment>
           <Step>Failed to establish connection :(</Step>
-          <ShadowBox>
-            {errorDisplay}
-          </ShadowBox>
+          <ShadowBox>{errorDisplay}</ShadowBox>
         </React.Fragment>
       )}
     </ShadowBox>
@@ -105,4 +116,7 @@ const actions = {
   reloadAllState: initialLoad,
 };
 
-export default connect(select, actions)(QuestradeOauthPage);
+export default connect(
+  select,
+  actions,
+)(QuestradeOauthPage);

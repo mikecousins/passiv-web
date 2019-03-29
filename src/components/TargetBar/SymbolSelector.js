@@ -4,7 +4,7 @@ import AsyncSelect from 'react-select/lib/Async';
 const SymbolSelector = styled(AsyncSelect)`
   width: 500px;
   @media (max-width: 900px) {
-  	width: 100%;
+    width: 100%;
   }
 `;
 

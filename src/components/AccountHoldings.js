@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import {H2,Title} from '../styled/GlobalElements';
+import { H2, Title } from '../styled/GlobalElements';
 import styled from '@emotion/styled';
 import ExcludedAssetToggle from './ExcludedAssetToggle';
 import ShadowBox from '../styled/ShadowBox';
@@ -34,24 +34,40 @@ export const AccountHoldings = ({ positions }) => (
     <HoldingsTable>
       <thead>
         <tr>
-          <th><Title>Symbol</Title></th>
-          <th><Title>Units</Title></th>
-          <th><Title>Price</Title></th>
-          <th><Title>Value</Title></th>
-          <th><Title>Exclude</Title></th>
+          <th>
+            <Title>Symbol</Title>
+          </th>
+          <th>
+            <Title>Units</Title>
+          </th>
+          <th>
+            <Title>Price</Title>
+          </th>
+          <th>
+            <Title>Value</Title>
+          </th>
+          <th>
+            <Title>Exclude</Title>
+          </th>
         </tr>
       </thead>
       <tbody>
-        {!positions && <tr><td colSpan="4"><FontAwesomeIcon icon={faSpinner} spin /></td></tr>}
-        {positions
-          && positions.map(position => (
+        {!positions && (
+          <tr>
+            <td colSpan="4">
+              <FontAwesomeIcon icon={faSpinner} spin />
+            </td>
+          </tr>
+        )}
+        {positions &&
+          positions.map(position => (
             <tr key={position.symbol.id}>
               <td>
-                <span title={position.symbol.description}>{position.symbol.symbol}</span>
+                <span title={position.symbol.description}>
+                  {position.symbol.symbol}
+                </span>
               </td>
-              <td>
-                {position.units}
-              </td>
+              <td>{position.units}</td>
               <td>
                 <Number value={position.price} currency />
               </td>
@@ -62,8 +78,7 @@ export const AccountHoldings = ({ positions }) => (
                 <ExcludedAssetToggle symbolId={position.symbol.id} />
               </td>
             </tr>
-          ))
-        }
+          ))}
       </tbody>
     </HoldingsTable>
   </ShadowBox>

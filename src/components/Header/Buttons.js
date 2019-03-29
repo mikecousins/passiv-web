@@ -4,20 +4,16 @@ import LogoutButton from '../LogoutButton';
 
 import { selectLoggedIn } from '../../selectors';
 
-
-const Buttons = (props) => {
-
+const Buttons = props => {
   if (props.loggedIn) {
     return (
-    <div>
-      <LogoutButton />
-    </div>
+      <div>
+        <LogoutButton />
+      </div>
     );
   }
-  return (
-    <div></div>
-  );
-}
+  return <div />;
+};
 
 const select = state => ({
   loggedIn: selectLoggedIn(state),

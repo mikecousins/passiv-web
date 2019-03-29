@@ -12,25 +12,27 @@ import { Button } from '../styled/Button';
 class ResetPasswordConfirmPage extends Component {
   state = {
     submitted: false,
-  }
+  };
 
   render() {
     if (this.props.loggedIn) {
       let nextPath = '/app/dashboard';
-      if (this.props && this.props.location && this.props.location.state && this.props.location.state.nextPathname) {
+      if (
+        this.props &&
+        this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.nextPathname
+      ) {
         nextPath = this.props.location.state.nextPathname;
       }
       return <Redirect to={nextPath} />;
     } else {
       return (
-      <React.Fragment>
-        <H1>Choose a new Password</H1>
-        {
-          this.state.submitted ? (
+        <React.Fragment>
+          <H1>Choose a new Password</H1>
+          {this.state.submitted ? (
             <P>
-              Your password has been reset. <Link to="/app/login">
-                Login!
-              </Link>
+              Your password has been reset. <Link to="/app/login">Login!</Link>
             </P>
           ) : (
             <Formik
@@ -45,11 +47,16 @@ class ResetPasswordConfirmPage extends Component {
                 return errors;
               }}
               onSubmit={(values, actions) => {
-                postData('/api/v1/auth/resetPasswordConfirm/', { password: values.password, token: this.props.token })
+                postData('/api/v1/auth/resetPasswordConfirm/', {
+                  password: values.password,
+                  token: this.props.token,
+                })
                   .then(response => {
-                    this.setState({submitted: true})
+                    this.setState({ submitted: true });
                   })
-                  .catch(error => {console.log('error', error.response.data)});
+                  .catch(error => {
+                    console.log('error', error.response.data);
+                  });
               }}
               render={({
                 touched,
@@ -60,40 +67,28 @@ class ResetPasswordConfirmPage extends Component {
                 handleSubmit,
               }) => (
                 <Form onSubmit={handleSubmit}>
-                  <Label htmlFor="password">
-                    Password
-                  </Label>
+                  <Label htmlFor="password">Password</Label>
                   <Input
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.password}
-                    border={
-                      errors.password && "1px solid red"
-                    }
+                    border={errors.password && '1px solid red'}
                     type="password"
                     name="password"
                     placeholder="Password"
                   />
                   {touched.password && errors.password && (
-                    <div className="text-red">
-                      {errors.password}
-                    </div>
+                    <div className="text-red">{errors.password}</div>
                   )}
                   <div>
-                    <Button
-                      type="submit"
-                    >
-                      Reset
-                    </Button>
+                    <Button type="submit">Reset</Button>
                   </div>
                 </Form>
               )}
             />
-          )
-        }
-
-      </React.Fragment>
-    );
+          )}
+        </React.Fragment>
+      );
     }
   }
 }
@@ -105,4 +100,7 @@ const select = state => ({
 
 const actions = {};
 
-export default connect(select, actions)(ResetPasswordConfirmPage);
+export default connect(
+  select,
+  actions,
+)(ResetPasswordConfirmPage);

@@ -10,8 +10,8 @@ export const logoutStartedAsync = () => {
     setTimeout(() => {
       dispatch(logout());
     }, 1000);
-  }
-}
+  };
+};
 
 export const logout = () => ({
   type: 'LOGOUT',
@@ -40,7 +40,7 @@ export const registerFailed = payload => ({
 export const toggleDemoMode = () => {
   return dispatch => {
     dispatch({ type: 'TOGGLE_DEMO_MODE' });
-  }
+  };
 };
 
 export const loadAuthorizations = () => {
@@ -145,7 +145,7 @@ export const loadAccounts = () => {
 
 export const loadGroupDetails = payload => {
   return dispatch => {
-    payload.ids.forEach((id) => {
+    payload.ids.forEach(id => {
       dispatch(fetchGroupDetailsStart(id));
       getData(`/api/v1/portfolioGroups/${id}/`)
         .then(response => dispatch(fetchGroupDetailsSuccess(response, id)))
@@ -156,13 +156,13 @@ export const loadGroupDetails = payload => {
 
 export const loadGroup = payload => {
   return dispatch => {
-    payload.ids.forEach((id) => {
+    payload.ids.forEach(id => {
       dispatch(fetchGroupInfoStart(id));
       getData(`/api/v1/portfolioGroups/${id}/info/`)
         .then(response => dispatch(fetchGroupInfoSuccess(response, id)))
         .catch(error => dispatch(fetchGroupInfoError(error, id)));
     });
-  }
+  };
 };
 
 export const initialLoad = () => {
@@ -196,30 +196,29 @@ export const initialLoad = () => {
       .catch(error => dispatch(fetchGroupsError(error)));
 
     dispatch(fetchBrokeragesStart());
-      getData('/api/v1/brokerages/')
-        .then(response => dispatch(fetchBrokeragesSuccess(response)))
-        .catch(error => dispatch(fetchBrokeragesError(error)));
+    getData('/api/v1/brokerages/')
+      .then(response => dispatch(fetchBrokeragesSuccess(response)))
+      .catch(error => dispatch(fetchBrokeragesError(error)));
 
     dispatch(fetchSettingsStart());
-      getData('/api/v1/settings/')
-        .then(response => dispatch(fetchSettingsSuccess(response)))
-        .catch(error => dispatch(fetchSettingsError(error)));
+    getData('/api/v1/settings/')
+      .then(response => dispatch(fetchSettingsSuccess(response)))
+      .catch(error => dispatch(fetchSettingsError(error)));
 
     dispatch(fetchSubscriptionsStart());
-      getData('/api/v1/subscriptions/')
-        .then(response => dispatch(fetchSubscriptionsSuccess(response)))
-        .catch(error => dispatch(fetchSubscriptionsError(error)));
+    getData('/api/v1/subscriptions/')
+      .then(response => dispatch(fetchSubscriptionsSuccess(response)))
+      .catch(error => dispatch(fetchSubscriptionsError(error)));
 
     dispatch(fetchPlansStart());
-      getData('/api/v1/plans/')
-        .then(response => dispatch(fetchPlansSuccess(response)))
-        .catch(error => dispatch(fetchPlansError(error)));
+    getData('/api/v1/plans/')
+      .then(response => dispatch(fetchPlansSuccess(response)))
+      .catch(error => dispatch(fetchPlansError(error)));
 
     dispatch(fetchAccountsStart());
     getData('/api/v1/accounts/')
       .then(response => dispatch(fetchAccountsSuccess(response)))
       .catch(error => dispatch(fetchAccountsError(error)));
-
   };
 };
 
@@ -322,7 +321,7 @@ export const fetchSubscriptionsError = payload => ({
 });
 
 export const fetchPlansStart = () => ({
-  type: 'FETCH_PLANS_START'
+  type: 'FETCH_PLANS_START',
 });
 export const fetchPlansSuccess = payload => ({
   type: 'FETCH_PLANS_SUCCESS',
@@ -381,7 +380,6 @@ export const fetchGroupDetailsError = (payload, id) => ({
   id,
 });
 
-
 export const fetchGroupInfoStart = id => ({
   type: 'FETCH_GROUP_INFO_START',
   id,
@@ -424,5 +422,5 @@ export const importTarget = groupId => {
 };
 
 export const updateServiceWorker = () => ({
-  type: 'UPDATE_SERVICE_WORKER'
+  type: 'UPDATE_SERVICE_WORKER',
 });

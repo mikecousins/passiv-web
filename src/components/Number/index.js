@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Number = (props) => {
+const Number = props => {
   let decimalPlaces = 1;
   if (props.decimalPlaces !== undefined) {
     decimalPlaces = props.decimalPlaces;
-  };
+  }
   let prefix = null;
   if (props.currency) {
     prefix = '$';
@@ -24,10 +24,13 @@ const Number = (props) => {
   return (
     <React.Fragment>
       {prefix}
-      {new Intl.NumberFormat('en-CA', { maximumFractionDigits: decimalPlaces, minimumFractionDigits: decimalPlaces }).format(props.value)}
+      {new Intl.NumberFormat('en-CA', {
+        maximumFractionDigits: decimalPlaces,
+        minimumFractionDigits: decimalPlaces,
+      }).format(props.value)}
       {postfix}
     </React.Fragment>
   );
-}
+};
 
 export default Number;

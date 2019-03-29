@@ -5,59 +5,50 @@ import { P } from '../styled/GlobalElements';
 
 let LoginLinksStyle = styled.div`
   margin: 15px 0;
-    a {
-      color: var(--brand-blue);
-      margin-left: 10px;
-    }
-`
+  a {
+    color: var(--brand-blue);
+    margin-left: 10px;
+  }
+`;
 
-const LoginLinks = (props) => {
+const LoginLinks = props => {
   let links = [];
 
   const resetLink = (
     <LoginLinksStyle key="reset">
       <P>
         Forgot your password?
-        <Link to="/app/reset-password">
-          Reset it!
-        </Link>
+        <Link to="/app/reset-password">Reset it!</Link>
       </P>
     </LoginLinksStyle>
-  )
+  );
 
   const signUpLink = (
     <LoginLinksStyle key="register">
       <P>
         Don't have an account?
-        <Link to="/app/register">
-          Sign up!
-        </Link>
+        <Link to="/app/register">Sign up!</Link>
       </P>
     </LoginLinksStyle>
-  )
+  );
 
   const loginLink = (
     <LoginLinksStyle key="login">
       <P>
         Already have an account?
-        <Link to="/app/login">
-          Login!
-        </Link>
+        <Link to="/app/login">Login!</Link>
       </P>
     </LoginLinksStyle>
-  )
+  );
 
   const loginRememberedLink = (
     <LoginLinksStyle key="login-remembered">
       <P>
         Remembered your password?
-        <Link to="/app/login">
-          Login!
-        </Link>
+        <Link to="/app/login">Login!</Link>
       </P>
     </LoginLinksStyle>
-  )
-
+  );
 
   switch (props.page) {
     case 'reset':
@@ -75,11 +66,7 @@ const LoginLinks = (props) => {
       break;
   }
 
-  return (
-    <React.Fragment>
-      { links }
-    </React.Fragment>
-  )
+  return <React.Fragment>{links}</React.Fragment>;
 };
 
 export default LoginLinks;

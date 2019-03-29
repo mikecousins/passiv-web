@@ -13,7 +13,7 @@ const FlyOut = styled.div`
   left: 0px;
   overflow: scroll;
   z-index: 3;
-  transition: all .25s;
+  transition: all 0.25s;
   &.hide {
     width: 0px;
     overflow: hidden;
@@ -21,8 +21,6 @@ const FlyOut = styled.div`
     aside {
       overflow: hidden;
     }
-
-
   }
 
   &.show {
@@ -58,10 +56,9 @@ const FlyOut = styled.div`
 `;
 
 const Menu = ({ menuVisibility }) => (
-  <FlyOut className={ menuVisibility ? 'show' : 'hide' }>
-    <SideBar/>
+  <FlyOut className={menuVisibility ? 'show' : 'hide'}>
+    <SideBar />
   </FlyOut>
 );
 
 export default Menu;
-

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSpinner,
+  faToggleOn,
+  faToggleOff,
+} from '@fortawesome/free-solid-svg-icons';
 import { selectCurrentGroupSettings, selectCurrentGroupId } from '../selectors';
 import { loadGroup } from '../actions';
 import { putData } from '../api';
@@ -9,23 +13,25 @@ import { putData } from '../api';
 class SettingsToggle extends Component {
   state = {
     loading: false,
-
-  }
+  };
 
   handleClick = () => {
     let newToggleState = !!(this.getSettingState() ^ true);
-    this.setState({loading: true});
-    let newSettings = {...this.props.settings};
+    this.setState({ loading: true });
+    let newSettings = { ...this.props.settings };
     newSettings[this.props.settingsId] = newToggleState;
-    putData(`/api/v1/portfolioGroups/${this.props.groupId}/settings/`, newSettings)
+    putData(
+      `/api/v1/portfolioGroups/${this.props.groupId}/settings/`,
+      newSettings,
+    )
       .then(response => {
-        this.setState({loading: false});
-        this.props.refreshGroup({ids: [this.props.groupId]});
+        this.setState({ loading: false });
+        this.props.refreshGroup({ ids: [this.props.groupId] });
       })
       .catch(error => {
-        this.setState({loading: false});
-      })
-  }
+        this.setState({ loading: false });
+      });
+  };
 
   getSettingState = () => {
     let state = null;
@@ -33,21 +39,23 @@ class SettingsToggle extends Component {
       state = this.props.settings[this.props.settingsId];
     }
     return state;
-  }
+  };
 
   render() {
     return (
       <React.Fragment>
-        <span>{this.props.name}</span>: { this.state.loading ? (
-            <FontAwesomeIcon icon={faSpinner} />
-          ) : (
-            <button
-              onClick={this.handleClick}
-            >
-              {this.getSettingState() ? <FontAwesomeIcon icon={faToggleOn} /> : <FontAwesomeIcon icon={faToggleOff} />}
-            </button>
-          )
-        }
+        <span>{this.props.name}</span>:{' '}
+        {this.state.loading ? (
+          <FontAwesomeIcon icon={faSpinner} />
+        ) : (
+          <button onClick={this.handleClick}>
+            {this.getSettingState() ? (
+              <FontAwesomeIcon icon={faToggleOn} />
+            ) : (
+              <FontAwesomeIcon icon={faToggleOff} />
+            )}
+          </button>
+        )}
       </React.Fragment>
     );
   }
@@ -61,4 +69,7 @@ const select = state => ({
   settings: selectCurrentGroupSettings(state),
 });
 
-export default connect(select, actions)(SettingsToggle);
+export default connect(
+  select,
+  actions,
+)(SettingsToggle);

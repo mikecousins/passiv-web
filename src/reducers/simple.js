@@ -1,7 +1,7 @@
 export default ({ baseType, userData }) => {
-  const START = `${baseType}_START`
-  const SUCCESS = `${baseType}_SUCCESS`
-  const ERROR = `${baseType}_ERROR`
+  const START = `${baseType}_START`;
+  const SUCCESS = `${baseType}_SUCCESS`;
+  const ERROR = `${baseType}_ERROR`;
 
   const initialData = {
     data: null,
@@ -15,8 +15,8 @@ export default ({ baseType, userData }) => {
   return (state, action) => {
     if (action.type === START) {
       return Object.assign({}, state, {
-        loading: true
-      })
+        loading: true,
+      });
     }
 
     if (action.type === SUCCESS) {
@@ -29,8 +29,8 @@ export default ({ baseType, userData }) => {
         lastFetch: Date.now(),
         error: null,
         lastError: null,
-        loading: false
-      })
+        loading: false,
+      });
     }
 
     if (action.type === ERROR) {
@@ -41,8 +41,8 @@ export default ({ baseType, userData }) => {
       return Object.assign({}, state, {
         lastError: Date.now(),
         error: action.error,
-        loading: false
-      })
+        loading: false,
+      });
     }
     // if we're logging out and we're storing user data, clear it all out
     if (action.type === 'LOGOUT' && userData) {
@@ -51,7 +51,7 @@ export default ({ baseType, userData }) => {
 
     if (!state) {
       return initialData;
-    };
+    }
     return state;
-  }
-}
+  };
+};

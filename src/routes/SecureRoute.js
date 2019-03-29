@@ -4,15 +4,11 @@ import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectLoggedIn } from '../selectors';
 
-const SecureRoute = ({
-  component: Component,
-  loggedIn,
-  ...rest
-}) => {
+const SecureRoute = ({ component: Component, loggedIn, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={routeProps => (
+      render={routeProps =>
         loggedIn ? (
           <Component {...routeProps} />
         ) : (
@@ -23,12 +19,12 @@ const SecureRoute = ({
             }}
           />
         )
-      )}
+      }
     />
-  )
-}
+  );
+};
 
-const select = (state) => ({
+const select = state => ({
   loggedIn: selectLoggedIn(state),
 });
 
@@ -36,7 +32,7 @@ SecureRoute.propTypes = {
   component: PropTypes.func.isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
-  }).isRequired
+  }).isRequired,
 };
 
 export default connect(select)(SecureRoute);

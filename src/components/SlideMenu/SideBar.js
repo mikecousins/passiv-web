@@ -19,7 +19,7 @@ const StyledAside = styled.aside`
   text-transform: uppercase;
   font-weight: 700;
   position: fixed;
-  transition: .25s all;
+  transition: 0.25s all;
   a {
     color: #fff;
     text-decoration: none;
@@ -40,10 +40,10 @@ const StyledAside = styled.aside`
   }
 `;
 const GroupContainer = styled.div`
-  border-top: 1px solid rgba(255,255,255,.23);
+  border-top: 1px solid rgba(255, 255, 255, 0.23);
   padding-top: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255,255,255,.23);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.23);
   text-transform: none;
   font-weight: 500;
   a {
@@ -51,63 +51,49 @@ const GroupContainer = styled.div`
     padding: 17px 15px 17px 25px;
   }
 `;
-const SideBar = (props) => {
+const SideBar = props => {
   let groups = <FontAwesomeIcon icon={faSpinner} spin />;
   if (props.groups) {
-    groups = props.groups.map((group) => (
+    groups = props.groups.map(group => (
       <SideBarLink
         key={group.id}
         name={group.name}
         linkPath={`/app/group/${group.id}`}
-        rebalance={!!(group.rebalance)}
+        rebalance={!!group.rebalance}
         loading={group.loading}
         setupComplete={group.setupComplete}
       />
     ));
   }
   if (props.loggedIn) {
-  return (
-    <StyledAside>
-      <SideBarLink
-        name="Dashboard"
-        linkPath="/app/dashboard"
-      />
-      <GroupContainer>
-        {groups}
-      </GroupContainer>
-      <SideBarLink
-        name="Settings"
-        linkPath="/app/settings"
-      />
-      <SideBarFooter/>
-    </StyledAside>
-  );
+    return (
+      <StyledAside>
+        <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
+        <GroupContainer>{groups}</GroupContainer>
+        <SideBarLink name="Settings" linkPath="/app/settings" />
+        <SideBarFooter />
+      </StyledAside>
+    );
   }
   return (
     <StyledAside>
-      <SideBarLink
-        name="Login"
-        linkPath="/app/login"
-      />
-      <SideBarLink
-        name="Sign Up"
-        linkPath="/app/register"
-      />
-      <SideBarLinkAlt
-        name="Reset Password"
-        linkPath="/app/reset-password"
-      />
-      <SideBarFooter/>
+      <SideBarLink name="Login" linkPath="/app/login" />
+      <SideBarLink name="Sign Up" linkPath="/app/register" />
+      <SideBarLinkAlt name="Reset Password" linkPath="/app/reset-password" />
+      <SideBarFooter />
     </StyledAside>
   );
-}
+};
 
 const select = state => ({
   loggedIn: selectLoggedIn(state),
   groups: selectGroups(state),
-  demoMode:  selectIsDemoMode(state),
+  demoMode: selectIsDemoMode(state),
 });
 
 const actions = { toggleDemo: toggleDemoMode };
 
-export default connect(select, actions)(SideBar);
+export default connect(
+  select,
+  actions,
+)(SideBar);

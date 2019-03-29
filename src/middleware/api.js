@@ -2,7 +2,7 @@ import axios from 'axios';
 import { selectToken, selectTokenIsExpired } from '../selectors';
 import { tokenExpired } from '../actions';
 
-const apiMiddleware = (store) => {
+const apiMiddleware = store => {
   let baseUrlOverride = 'dev.getpassiv.com';
   if (process.env.REACT_APP_BASE_URL_OVERRIDE) {
     baseUrlOverride = process.env.REACT_APP_BASE_URL_OVERRIDE;
@@ -21,7 +21,7 @@ const apiMiddleware = (store) => {
     }
   }
 
-  return next => (action) => {
+  return next => action => {
     // if the token has changed set it in axios
     const previousJwt = selectToken(store.getState());
     next(action);

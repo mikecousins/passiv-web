@@ -8,18 +8,18 @@ export const HelloStyle = styled.div`
   line-height: 1.2;
   text-align: right;
   b {
-  	font-size: 22px;
-  	font-weight: 700;
+    font-size: 22px;
+    font-weight: 700;
   }
   @media (max-width: 900px) {
     display: none;
   }
 `;
 
-
 const Hello = ({ name }) => (
   <HelloStyle>
-    <b>Hi {name}!</b><br/>
+    <b>Hi {name}!</b>
+    <br />
     {format(new Date(), 'dddd, Do MMMM')}
   </HelloStyle>
 );

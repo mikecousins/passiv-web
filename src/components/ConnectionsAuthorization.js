@@ -6,7 +6,13 @@ import { putData } from '../api';
 
 import { Table, H3, P, Edit } from '../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes, faSortDown, faSortUp, faPen } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faTimes,
+  faSortDown,
+  faSortUp,
+  faPen,
+} from '@fortawesome/free-solid-svg-icons';
 import { InputNonFormik } from '../styled/Form';
 import styled from '@emotion/styled';
 
@@ -69,25 +75,24 @@ const ConnectionActions = styled.div`
 
 class ConnectionsAuthorization extends React.Component {
   state = {
-    showMore : false,
+    showMore: false,
     nameEditting: false,
-    authorization_name:this.props.authorization.name
-  }
+    authorization_name: this.props.authorization.name,
+  };
 
-  onChange = (e) => this.setState({authorization_name:e.target.value})
+  onChange = e => this.setState({ authorization_name: e.target.value });
 
-  onEnter = (e) => {
+  onEnter = e => {
     if (e.key === 'Enter') {
       this.finishEditing();
     }
-  }
-
+  };
 
   finishEditing() {
     if (this.state.authorization_name !== this.props.authorization.name) {
       let authorization = Object.assign({}, this.props.authorization);
       authorization.name = this.state.authorization_name;
-      putData(`/api/v1/authorizations/${authorization.id}`,authorization)
+      putData(`/api/v1/authorizations/${authorization.id}`, authorization)
         .then(response => {
           this.props.refreshAuthorizations();
         })
@@ -95,13 +100,13 @@ class ConnectionsAuthorization extends React.Component {
           this.props.refreshAuthorizations();
         });
     }
-    this.setState({nameEditting: false});
+    this.setState({ nameEditting: false });
   }
 
-  render () {
-    this.onEnter({e:{key:'Enter'}})
-    const { authorization } = this.props
-    const {showMore, nameEditting, authorization_name} = this.state
+  render() {
+    this.onEnter({ e: { key: 'Enter' } });
+    const { authorization } = this.props;
+    const { showMore, nameEditting, authorization_name } = this.state;
 
     return (
       <React.Fragment>
@@ -113,15 +118,15 @@ class ConnectionsAuthorization extends React.Component {
             </Brokerage>
             <Name>
               <H3>Name</H3>
-              {!nameEditting? (
-                  <P>
-                    {authorization_name}
-                    <Edit onClick={() => this.setState({nameEditting:true})}>
-                      <FontAwesomeIcon icon={faPen}/>Edit
-                    </Edit>
-                  </P>
-              ):
-              (
+              {!nameEditting ? (
+                <P>
+                  {authorization_name}
+                  <Edit onClick={() => this.setState({ nameEditting: true })}>
+                    <FontAwesomeIcon icon={faPen} />
+                    Edit
+                  </Edit>
+                </P>
+              ) : (
                 <InputContainer>
                   <InputNonFormik
                     value={authorization_name}
@@ -129,30 +134,43 @@ class ConnectionsAuthorization extends React.Component {
                     onKeyPress={this.onEnter}
                   />
                   <Edit onClick={() => this.finishEditing()}>
-                  <FontAwesomeIcon icon={faCheck}/>Done
+                    <FontAwesomeIcon icon={faCheck} />
+                    Done
                   </Edit>
                 </InputContainer>
-              )
-              }
+              )}
             </Name>
             <Read>
               <H3>Read</H3>
-              <P> {authorization.type==="read"||authorization.type==="trade"?
-                    <FontAwesomeIcon icon={faCheck} />:
-                    <FontAwesomeIcon icon={faTimes} />}
+              <P>
+                {' '}
+                {authorization.type === 'read' ||
+                authorization.type === 'trade' ? (
+                  <FontAwesomeIcon icon={faCheck} />
+                ) : (
+                  <FontAwesomeIcon icon={faTimes} />
+                )}
               </P>
             </Read>
             <Trade>
               <H3>Trade</H3>
-              <P> {authorization.type==="trade"?
-                  <FontAwesomeIcon icon={faCheck} />:
-                  <FontAwesomeIcon icon={faTimes} />}
+              <P>
+                {' '}
+                {authorization.type === 'trade' ? (
+                  <FontAwesomeIcon icon={faCheck} />
+                ) : (
+                  <FontAwesomeIcon icon={faTimes} />
+                )}
               </P>
             </Trade>
             <EditToggle>
               <H3>Edit</H3>
-              <FontAwesomeIcon icon={this.state.showMore ? faSortUp : faSortDown}
-              onClick={() => this.setState({showMore: !this.state.showMore})}/>
+              <FontAwesomeIcon
+                icon={this.state.showMore ? faSortUp : faSortDown}
+                onClick={() =>
+                  this.setState({ showMore: !this.state.showMore })
+                }
+              />
             </EditToggle>
           </Table>
         </Connection>
@@ -160,14 +178,14 @@ class ConnectionsAuthorization extends React.Component {
         {showMore ? (
           <ConnectionActions>
             <Table>
-              <ConnectionAccounts authorizationId={authorization.id}/>
-              <ConnectionUpdate authorization={authorization}/>
-              <ConnectionDelete authorization={authorization}/>
+              <ConnectionAccounts authorizationId={authorization.id} />
+              <ConnectionUpdate authorization={authorization} />
+              <ConnectionDelete authorization={authorization} />
             </Table>
           </ConnectionActions>
-        ): null}
+        ) : null}
       </React.Fragment>
-    )
+    );
   }
 }
 
@@ -175,7 +193,10 @@ const select = state => ({
   authorizations: selectAuthorizations(state),
 });
 const actions = {
-  refreshAuthorizations: loadAuthorizations
+  refreshAuthorizations: loadAuthorizations,
 };
 
-export default connect(select, actions)(ConnectionsAuthorization);
+export default connect(
+  select,
+  actions,
+)(ConnectionsAuthorization);

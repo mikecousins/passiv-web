@@ -1,8 +1,8 @@
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import { selectIsUpdateServiceWorker } from '../../selectors';
 
-const UpdateNotification = (props) => {
+const UpdateNotification = props => {
   if (props.update) {
     toast.success('There is an update available. Please refresh the page');
   }

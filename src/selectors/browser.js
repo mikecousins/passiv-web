@@ -4,7 +4,7 @@ export const selectBrowser = state => state.browser;
 
 export const selectIsMobile = createSelector(
   selectBrowser,
-  (browser) => {
+  browser => {
     return browser.is.extraSmall;
-  }
+  },
 );

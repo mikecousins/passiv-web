@@ -4,7 +4,7 @@ export const selectRouter = state => state.router;
 
 export const selectPathname = createSelector(
   selectRouter,
-  (router) => {
+  router => {
     return router.location.pathname;
-  }
+  },
 );

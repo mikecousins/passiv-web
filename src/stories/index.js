@@ -8,14 +8,17 @@ import { AccountTargets } from '../components/AccountTargets';
 import GlobalStyle from '../styled/global';
 import { AccountTrades } from '../components/AccountTrades';
 
-storiesOf('Button', module)
-  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>);
+storiesOf('Button', module).add('with text', () => (
+  <Button onClick={action('clicked')}>Hello Button</Button>
+));
 
-storiesOf('Button', module)
-  .add('log out', () => <LogoutButton onClick={action('clicked')}>Logout</LogoutButton>);
+storiesOf('Button', module).add('log out', () => (
+  <LogoutButton onClick={action('clicked')}>Logout</LogoutButton>
+));
 
-  storiesOf('Button', module)
-    .add('disabled', () => <DisabledButton onClick={action('clicked')}>Submit</DisabledButton>);
+storiesOf('Button', module).add('disabled', () => (
+  <DisabledButton onClick={action('clicked')}>Submit</DisabledButton>
+));
 
 storiesOf('AccountTargets', module)
   .add('Loading', () => <AccountTargets />)
@@ -24,30 +27,31 @@ storiesOf('AccountTargets', module)
       <GlobalStyle />
       <AccountTargets
         groupId={1}
-        target={[{
-          id: 1,
-          actualPercentage: 10,
-          percent: 15,
-          excluded: false,
-          symbol: 1,
-          fullSymbol: {
+        target={[
+          {
             id: 1,
-            symbol: 'PASS'
-          }
-        }]}
+            actualPercentage: 10,
+            percent: 15,
+            excluded: false,
+            symbol: 1,
+            fullSymbol: {
+              id: 1,
+              symbol: 'PASS',
+            },
+          },
+        ]}
       />
     </React.Fragment>
   ));
 
-storiesOf('AccountTrades', module)
-  .add('1 Trade', () => (
-    <AccountTrades
-      trades={{
-        trades: [
-          {
-            action: 'BUY'
-          }
-        ]
-      }}
-    />
-  ));
+storiesOf('AccountTrades', module).add('1 Trade', () => (
+  <AccountTrades
+    trades={{
+      trades: [
+        {
+          action: 'BUY',
+        },
+      ],
+    }}
+  />
+));

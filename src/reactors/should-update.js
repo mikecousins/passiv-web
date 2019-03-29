@@ -1,21 +1,21 @@
-import ms from 'milliseconds'
+import ms from 'milliseconds';
 
 const shouldRetry = (object, opts) => {
-  const timeSinceError = opts.now - object.lastError
-  return timeSinceError > opts.retryAfter && timeSinceError < opts.failAfter
-}
+  const timeSinceError = opts.now - object.lastError;
+  return timeSinceError > opts.retryAfter && timeSinceError < opts.failAfter;
+};
 
 const isStale = (object, opts) => {
-  const timeSinceFetch = opts.now - object.lastFetch
+  const timeSinceFetch = opts.now - object.lastFetch;
   if (timeSinceFetch > opts.staleTime) {
-    return true
+    return true;
   }
   // Forced stale by a `markStaleWhen` action.
   if (object.stale) {
-    return true
+    return true;
   }
-  return false
-}
+  return false;
+};
 
 export default (object, opts) => {
   opts = {
@@ -24,17 +24,17 @@ export default (object, opts) => {
     failAfter: ms.minutes(3),
     now: Date.now(),
     ...opts,
-  }
+  };
 
   // if there's nothing selected or we're currently
   // fetching or we've determined this item is unfetchable
   // do nothing
   if ((object && object.loading) || (object && object.permanentFail)) {
-    return false
+    return false;
   }
 
   if (!object) {
-    return true
+    return true;
   }
 
   // last time we tried it failed, doesn't matter if we have
@@ -43,15 +43,15 @@ export default (object, opts) => {
   if (object.lastError) {
     // we don't have data but we must have had an error if we
     // got this far so we want to try to recover and give up eventually
-    return shouldRetry(object, opts)
+    return shouldRetry(object, opts);
   }
 
   // we've got data, let's fetch if it's stale
   if (object.lastFetch) {
-    return isStale(object, opts)
+    return isStale(object, opts);
   }
 
   // if no lastFetch or lastError, this is the first time
   // so we definitely want to fetch
-  return true
-}
+  return true;
+};

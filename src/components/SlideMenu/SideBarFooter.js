@@ -19,10 +19,10 @@ export const StyledFooter = styled.div`
   a {
     letter-spacing: 0;
   }
-`
+`;
 export const Help = styled.div`
   border-radius: 25px;
-  background:  var(--brand-blue);
+  background: var(--brand-blue);
   display: inline-block;
   margin-bottom: 8px;
   margin-left: 5px;
@@ -35,15 +35,13 @@ export const Help = styled.div`
     display: inline-block;
     padding: 0;
   }
-`
+`;
 
 export const SideBarFooter = () => (
   <StyledFooter>
     <Help>
       <FontAwesomeIcon icon={faQuestionCircle} />
-      <Link to="/app/help">
-        Help
-      </Link>
+      <Link to="/app/help">Help</Link>
     </Help>
     <RefreshButton />
   </StyledFooter>
