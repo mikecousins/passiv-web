@@ -6,6 +6,7 @@ const SymbolSelector = styled(AsyncSelect)`
   @media (max-width: 900px) {
     width: 100%;
   }
+  z-index: 2;
 `;
 
 export default SymbolSelector;
