@@ -228,6 +228,23 @@ export class RebalanceWidget extends Component {
             </OrderContainer>
           );
           break;
+        case '1020':
+          error = (
+            <OrderContainer>
+              <H2> Be A Passiv Supporter? </H2>
+              <P>
+                {' '}
+                Upgrade you account if you'd like to have access to
+                one-click-trades. Please{' '}
+                <Link to="/app/help">contact support</Link> if you're already a
+                supporter.{' '}
+              </P>
+              <P>
+                <Button onClick={() => push('/app/settings')}>Upgrade</Button>
+              </P>
+            </OrderContainer>
+          );
+          break;
         default:
           error = (
             <OrderContainer>
