@@ -13,6 +13,7 @@ export const Button = styled.button`
   display: block;
   float: right;
   background: none;
+  text-transform: none;
   svg {
     margin-right: 5px;
   }
