@@ -32,12 +32,6 @@ const RegistrationPage = props => {
     return (
       <React.Fragment>
         <H1>Create your Account</H1>
-        <H2>Take Passiv out for a spin - your first two months are on us!</H2>
-        <P>
-          Passiv helps investors automate their Questrade portfolios and manage
-          their whole family's portfolio from one dashboard. Say goodbye to
-          manual data entry and spreadsheets.
-        </P>
         <Formik
           initialValues={{
             name: '',
