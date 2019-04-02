@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 import { selectLoggedIn } from '../selectors';
 import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
-import { H1, H2, P } from '../styled/GlobalElements';
+import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import ReactTooltip from 'react-tooltip';
 
