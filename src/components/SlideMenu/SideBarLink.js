@@ -25,7 +25,7 @@ const SideBarLink = ({
   if (loading) {
     indicator = (
       <RebalanceAlert>
-        <FontAwesomeIcon icon={faSpinner} spin />
+        <FontAwesomeIcon icon={faSpinner} spin style={{ color: 'white' }} />
       </RebalanceAlert>
     );
   } else {
@@ -41,7 +41,7 @@ const SideBarLink = ({
       } else {
         indicator = (
           <RebalanceAlert>
-            {<span style={{ background: 'orange' }} />}
+            <span style={{ background: 'orange' }} />
           </RebalanceAlert>
         );
       }
