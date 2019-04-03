@@ -71,6 +71,7 @@ export class TargetSelector extends React.Component {
         initialValues={{ targets: this.props.target }}
         enableReinitialize
         validate={(values, actions) => {
+          console.log('targets', values.targets);
           const errors = {};
           const cashPercentage =
             100 -
@@ -84,14 +85,13 @@ export class TargetSelector extends React.Component {
             errors.cash = 'Too low';
           }
           values.targets.forEach((target, index) => {
-            if (
-              target.deleted !== undefined &&
-              !target.deleted &&
-              !target.symbol
-            ) {
-              errors.targets = 'Symbol missing on new target';
+            if (target.deleted === undefined || target.deleted === false) {
+              if (target.symbol === null) {
+                errors.targets = 'Symbol missing on new target';
+              }
             }
           });
+          console.log('errors', errors);
           return errors;
         }}
         onSubmit={(values, actions) => {
@@ -135,7 +135,6 @@ export class TargetSelector extends React.Component {
                 props.values.targets
                   .filter(target => target.actualPercentage === undefined)
                   .forEach(target => {
-                    console.log(this.props.positions);
                     if (
                       this.props.positions &&
                       this.props.positions.find(
@@ -149,7 +148,6 @@ export class TargetSelector extends React.Component {
                         ((position.price * position.units) /
                           this.props.totalEquity) *
                         100;
-                      console.log(this.props.totalEquity);
                     }
                   });
 
@@ -178,7 +176,11 @@ export class TargetSelector extends React.Component {
                 return (
                   <React.Fragment>
                     {props.values.targets
-                      .filter(t => !t.deleted)
+                      .filter(
+                        t =>
+                          t.deleted === undefined ||
+                          (t.deleted !== undefined && t.deleted === false),
+                      )
                       .map((t, index) => (
                         <div key={t.id || t.key}>
                           <TargetBar
