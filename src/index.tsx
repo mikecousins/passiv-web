@@ -54,6 +54,7 @@ history.listen(function(location) {
 const persistConfig = {
   key: 'root',
   storage,
+  blacklist: ['appTime', 'router', 'browser', 'updateServiceWorker'],
 };
 
 const persistedReducer = persistReducer(
