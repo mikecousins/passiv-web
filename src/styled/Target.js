@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Field } from 'formik';
 
 export const BarsContainer = styled.div`
   background: #b3c1be;
