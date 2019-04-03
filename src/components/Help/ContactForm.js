@@ -34,6 +34,7 @@ export class ContactForm extends React.Component {
             email: this.props.settings ? this.props.settings.email : '',
             message: '',
           }}
+          initialStatus={{ submitted: false }}
           validationSchema={Yup.object().shape({
             email: Yup.string()
               .email('Must be a valid email')
@@ -47,10 +48,11 @@ export class ContactForm extends React.Component {
             })
               .then(response => {
                 actions.setSubmitting(false);
+                actions.setStatus({ submitted: true });
               })
               .catch(error => {
                 actions.setErrors({
-                  errors: error.response.data.errors || 'Failed to login.',
+                  errors: error.response.data.errors || 'Failed to submit.',
                 });
                 actions.setSubmitting(false);
               });
@@ -66,6 +68,7 @@ export class ContactForm extends React.Component {
                 name="email"
                 placeholder="john.smith@gmail.com"
                 error={props.touched.email && props.errors.email}
+                disabled={props.status.submitted}
               />
               <P>
                 <ErrorMessage name="email" />
@@ -77,18 +80,31 @@ export class ContactForm extends React.Component {
                 name="message"
                 placeholder="Tell us what's on your mind."
                 error={props.touched.message && props.errors.message}
+                disabled={props.status.submitted}
               />
               <P>
                 <ErrorMessage name="message" />
               </P>
-              <div>
-                <Button
-                  type="submit"
-                  disabled={!props.isValid || props.isSubmitting}
-                >
-                  Submit Message
-                </Button>
-              </div>
+              {props.status.submitted ? (
+                <div>
+                  <Button onClick={props.handleReset}>Reset</Button>
+                  {props.status.submitted && "Thanks, we'll be in touch soon!"}
+                </div>
+              ) : (
+                <div>
+                  <Button
+                    type="submit"
+                    disabled={
+                      !props.isValid ||
+                      props.isSubmitting ||
+                      props.status.submitted
+                    }
+                  >
+                    Submit Message
+                  </Button>
+                  {props.status.submitted && 'Submitted!'}
+                </div>
+              )}
             </Form>
           )}
         />
