@@ -14,6 +14,7 @@ import {
   selectCurrentGroupExcludedAssets,
   selectCurrentGroupSymbols,
   selectCurrentGroupQuotableSymbols,
+  selectIsFree,
 } from '../selectors';
 import { postData, deleteData } from '../api';
 
@@ -82,15 +83,32 @@ class ExcludedAssetToggle extends Component {
       return <FontAwesomeIcon icon={faSpinner} />;
     }
 
-    const isDisabled =
-      this.symbolInTargets(this.props.symbolId) ||
-      !this.symbolQuotable(this.props.symbolId);
-    if (isDisabled) {
+    if (this.symbolInTargets(this.props.symbolId)) {
+      return (
+        <FontAwesomeIcon
+          icon={faToggleOff}
+          disabled
+          data-tip="You can't exclude assets that are a part of your target portfolio. Remove this security from your target portfolio first."
+        />
+      );
+    }
+
+    if (!this.symbolQuotable(this.props.symbolId)) {
+      return (
+        <FontAwesomeIcon
+          icon={faToggleOn}
+          disabled
+          data-tip="This security is not supported for trading, so it is excluded from your portfolio calculations."
+        />
+      );
+    }
+
+    if (this.props.isFree) {
       return (
         <React.Fragment>
           <Link
             to="/app/settings"
-            data-tip="Upgrade to enable exclusion on the settings page"
+            data-tip="Exclusing assets is not available on the Community Edition. Upgrade your account on the Settings page to use this feature."
           >
             {this.state.toggle ? (
               <FontAwesomeIcon icon={faToggleOn} />
@@ -124,6 +142,7 @@ const select = state => ({
   excludedAssets: selectCurrentGroupExcludedAssets(state),
   symbols: selectCurrentGroupSymbols(state),
   quotableSymbols: selectCurrentGroupQuotableSymbols(state),
+  isFree: selectIsFree(state),
 });
 
 export default connect(

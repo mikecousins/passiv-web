@@ -14,6 +14,7 @@ const dynamicMargin = props =>
 export const StyledTooltip = styled(ReactTooltip)`
   color: red;
   font-size: 18px;
+  line-height: 1.2em;
   ul {
     list-style: disc;
     padding-left: 10px;
