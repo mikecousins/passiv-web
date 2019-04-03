@@ -46,7 +46,7 @@ export class TargetBar extends React.Component {
         {!excluded ? (
           <React.Fragment>
             <BarsContainer>
-              <BarTarget>
+              <BarActual>
                 {percent > 100 ? (
                   <Bar style={{ width: '100%', backgroundColor: 'red' }}>
                     Warning: allocation cannot be over 100%
@@ -56,13 +56,13 @@ export class TargetBar extends React.Component {
                     Warning: allocation cannot be negative!
                   </Bar>
                 ) : (
-                  <Bar style={{ width: `${percent}%` }}> </Bar>
-                )}
-              </BarTarget>
-              {!(actualPercentage === undefined) && (
-                <BarActual>
                   <Bar style={{ width: `${renderActualPercentage}%` }}> </Bar>
-                </BarActual>
+                )}
+              </BarActual>
+              {!(actualPercentage === undefined) && (
+                <BarTarget>
+                  <Bar style={{ width: `${percent}%` }}> </Bar>
+                </BarTarget>
               )}
             </BarsContainer>
 

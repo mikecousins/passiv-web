@@ -14,24 +14,24 @@ export const Symbol = styled.div`
 `;
 export const Actual = styled.div`
   text-align: right;
-  color: var(--brand-blue);
+  color: var(--brand-green);
   font-weight: 700;
   width: 100px;
 `;
 export const Target = styled.div`
-  color: var(--brand-green);
+  color: var(--brand-blue);
   font-weight: 700;
   align-contents: flex-end;
   margin-left: auto;
   width: 100px;
   input {
-    color: var(--brand-green);
+    color: var(--brand-blue);
     width: 52px;
     font-weight: 700;
     text-align: right;
     background: none;
     display: inline-block;
-    border: 2px solid var(--brand-blue);
+    border: 2px solid var(--brand-green);
     transition: all 0.25s;
     margin-top: -7px;
     margin-right: 3px;
@@ -68,12 +68,12 @@ export const Bar = styled.span`
   width: 0%;
   transition: 0.5s all;
 `;
-export const BarTarget = styled.span`
+export const BarActual = styled.span`
   position: relative;
   z-index: 0;
   display: block;
 `;
-export const BarActual = styled.span`
+export const BarTarget = styled.span`
   display: block;
   top: -8px;
   position: absolute;
@@ -100,11 +100,11 @@ export const TargetRow = styled.div`
     text-transform: uppercase;
     width: 100px;
     &:last-of-type {
-      color: var(--brand-blue);
+      color: var(--brand-green);
     }
     &:nth-of-type(2) {
       margin-left: auto;
-      color: var(--brand-green);
+      color: var(--brand-blue);
     }
   }
 `;
