@@ -6,7 +6,6 @@ import {
   faToggleOn,
   faToggleOff,
 } from '@fortawesome/free-solid-svg-icons';
-import ReactTooltip from 'react-tooltip';
 import { Link } from 'react-router-dom';
 import { loadGroup } from '../actions';
 import {
@@ -99,7 +98,6 @@ class ExcludedAssetToggle extends Component {
               <FontAwesomeIcon icon={faToggleOff} />
             )}
           </Link>
-          <ReactTooltip place="right" html clickable effect="solid" />
         </React.Fragment>
       );
     }

@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
+import ReactTooltip from 'react-tooltip';
 
 const dynamicStyle = props =>
   css`
@@ -9,6 +10,15 @@ const dynamicMargin = props =>
   css`
     margin: ${props.margin};
   `;
+
+export const StyledTooltip = styled(ReactTooltip)`
+  color: red;
+  font-size: 18px;
+  ul {
+    list-style: disc;
+    padding-left: 10px;
+  }
+`;
 
 // h1
 export const H1 = styled.h1`

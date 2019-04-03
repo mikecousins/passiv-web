@@ -6,7 +6,6 @@ import {
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ReactTooltip from 'react-tooltip';
 import styled from '@emotion/styled';
 import { H2 } from '../styled/GlobalElements';
 import Number from './Number';
@@ -54,6 +53,7 @@ export const AccountAccuracy = ({ accuracy, setupComplete }) => {
           <FontAwesomeIcon
             icon={faExclamationTriangle}
             data-tip="No target set"
+            data-event="click"
           />
         </div>
       );
@@ -70,7 +70,6 @@ export const AccountAccuracy = ({ accuracy, setupComplete }) => {
         />
       </H2>
       {accuracyDisplay}
-      <ReactTooltip place="right" effect="solid" />
     </Accuracy>
   );
 };
