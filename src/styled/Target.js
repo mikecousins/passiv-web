@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Field } from 'formik';
 
 export const BarsContainer = styled.div`
   background: #b3c1be;
@@ -37,6 +38,12 @@ export const Target = styled.div`
     margin-right: 3px;
     padding: 3px 0 3px 3px;
     position: relative;
+    ::-webkit-outer-spin-button,
+    ::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    -moz-appearance: textfield;
     &[readonly] {
       border: 2px solid transparent;
       padding: 3px 0 3px 3px;
