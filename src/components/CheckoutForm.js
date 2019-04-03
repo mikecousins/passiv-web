@@ -11,10 +11,7 @@ import { H2, P } from '../styled/GlobalElements';
 import { Link } from 'react-router-dom';
 import Card from '../styled/Card';
 
-const InputStyle = styled.div`
-  input {
-  }
-`;
+const InputStyle = styled.div``;
 
 const ErrorContainer = styled.div``;
 
