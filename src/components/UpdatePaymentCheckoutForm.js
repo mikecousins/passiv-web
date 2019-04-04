@@ -11,6 +11,8 @@ import { H2, P } from '../styled/GlobalElements';
 import { Link } from 'react-router-dom';
 import Card from '../styled/Card';
 
+const InputStyle = styled.div``;
+
 const ErrorContainer = styled.div``;
 
 export class UpdatePaymentCheckoutForm extends React.Component {
@@ -83,7 +85,7 @@ export class UpdatePaymentCheckoutForm extends React.Component {
     }
 
     return (
-      <div>
+      <InputStyle>
         <Card />
         {!this.state.loading && this.state.error && <div>{error}</div>}
         {this.props.loading ? (
@@ -93,7 +95,7 @@ export class UpdatePaymentCheckoutForm extends React.Component {
         ) : (
           <Button onClick={this.submit}>Submit</Button>
         )}
-      </div>
+      </InputStyle>
     );
   }
 }
