@@ -32,7 +32,7 @@ export class TargetBar extends React.Component {
   render() {
     const { target, children, setSymbol, edit, onDelete } = this.props;
 
-    const { id, excluded, fullSymbol, actualPercentage, percent } = target;
+    const { id, key, excluded, fullSymbol, actualPercentage, percent } = target;
 
     let renderActualPercentage = null;
     if (actualPercentage === undefined) {
@@ -67,7 +67,7 @@ export class TargetBar extends React.Component {
             </BarsContainer>
 
             {edit && (
-              <Close type="button" onClick={() => onDelete(id)}>
+              <Close type="button" onClick={() => onDelete(key)}>
                 <FontAwesomeIcon icon={faTimes} />{' '}
               </Close>
             )}
