@@ -85,38 +85,40 @@ class ExcludedAssetToggle extends Component {
 
     if (this.symbolInTargets(this.props.symbolId)) {
       return (
-        <FontAwesomeIcon
-          icon={faToggleOff}
-          disabled
-          data-tip="You can't exclude assets that are a part of your target portfolio. Remove this security from your target portfolio first."
-        />
+        <button>
+          <FontAwesomeIcon
+            icon={faToggleOff}
+            disabled
+            data-tip="You can't exclude assets that are a part of your target portfolio. Remove this security from your target portfolio first."
+          />
+        </button>
       );
     }
 
     if (!this.symbolQuotable(this.props.symbolId)) {
       return (
-        <FontAwesomeIcon
-          icon={faToggleOn}
-          disabled
-          data-tip="This security is not supported for trading, so it is excluded from your portfolio calculations."
-        />
+        <button>
+          <FontAwesomeIcon
+            icon={faToggleOn}
+            disabled
+            data-tip="This security is not supported for trading, so it is excluded from your portfolio calculations."
+          />
+        </button>
       );
     }
 
     if (this.props.isFree) {
       return (
-        <React.Fragment>
-          <Link
-            to="/app/settings"
-            data-tip="Exclusing assets is not available on the Community Edition. Upgrade your account on the Settings page to use this feature."
-          >
-            {this.state.toggle ? (
-              <FontAwesomeIcon icon={faToggleOn} />
-            ) : (
-              <FontAwesomeIcon icon={faToggleOff} />
-            )}
-          </Link>
-        </React.Fragment>
+        <Link
+          to="/app/settings"
+          data-tip="Excluding assets is not available on the Community Edition. Upgrade your account on the Settings page to use this feature."
+        >
+          {this.state.toggle ? (
+            <FontAwesomeIcon icon={faToggleOn} />
+          ) : (
+            <FontAwesomeIcon icon={faToggleOff} />
+          )}
+        </Link>
       );
     }
 
