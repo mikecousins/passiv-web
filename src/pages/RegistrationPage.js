@@ -17,6 +17,15 @@ import { Button } from '../styled/Button';
 import { StyledTooltip } from '../styled/GlobalElements';
 
 const RegistrationPage = props => {
+  let formatted_email = '';
+
+  if (JSON.stringify(window.location.search) !== '""') {
+    const searchString = window.location.search;
+    const splitStrings = searchString.split('=');
+    formatted_email = unescape(splitStrings[2]);
+    window.history.replaceState({}, '', '/app/register');
+  }
+
   if (props.loggedIn) {
     let nextPath = '/app/dashboard';
     if (
@@ -35,7 +44,7 @@ const RegistrationPage = props => {
         <Formik
           initialValues={{
             name: '',
-            email: '',
+            email: formatted_email,
             password: '',
           }}
           validationSchema={Yup.object().shape({
