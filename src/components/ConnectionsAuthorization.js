@@ -4,7 +4,7 @@ import { selectAuthorizations } from '../selectors';
 import { loadAuthorizations } from '../actions';
 import { putData } from '../api';
 
-import { Table, H3, P, Edit } from '../styled/GlobalElements';
+import { Table, H3, P, A, Edit } from '../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCheck,
@@ -165,12 +165,14 @@ class ConnectionsAuthorization extends React.Component {
             </Trade>
             <EditToggle>
               <H3>Edit</H3>
-              <FontAwesomeIcon
-                icon={this.state.showMore ? faSortUp : faSortDown}
-                onClick={() =>
-                  this.setState({ showMore: !this.state.showMore })
-                }
-              />
+              <A>
+                <FontAwesomeIcon
+                  icon={this.state.showMore ? faSortUp : faSortDown}
+                  onClick={() =>
+                    this.setState({ showMore: !this.state.showMore })
+                  }
+                />
+              </A>
             </EditToggle>
           </Table>
         </Connection>

@@ -41,20 +41,20 @@ export const ConnectionDelete = ({
             Are you sure you want to delete this connection and all its
             accounts?
           </p>
-          <DeleteButton
+          <Button
             onClick={() => {
               setDeleting(false);
             }}
           >
             Cancel
-          </DeleteButton>
-          <Button
+          </Button>
+          <DeleteButton
             onClick={() => {
               confirmDelete(authorization);
             }}
           >
             Yes
-          </Button>
+          </DeleteButton>
         </React.Fragment>
       ) : (
         <DeleteButton
