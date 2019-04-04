@@ -90,6 +90,7 @@ export const A = styled.a`
   font-size: 18px;
   text-align: left;
   color: #1250be;
+  cursor: pointer;
 `;
 
 // edit
