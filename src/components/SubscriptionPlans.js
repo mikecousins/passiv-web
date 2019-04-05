@@ -3,10 +3,6 @@ import { connect } from 'react-redux';
 import { selectPlans } from '../selectors';
 import { H3, P } from '../styled/GlobalElements';
 
-const SubscriptionPlan = props => {
-  return <p>Support Passiv for ${props.plan.amount}/year!</p>;
-};
-
 class SubscriptionPlans extends React.Component {
   render() {
     try {
