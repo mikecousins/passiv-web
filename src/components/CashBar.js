@@ -19,6 +19,11 @@ export const CashBar = props => {
   return (
     <Container>
       <BarsContainer>
+        {!(props.actualPercentage === undefined) && (
+          <BarActual>
+            <Bar style={{ width: `${props.actualPercentage}%` }}> </Bar>
+          </BarActual>
+        )}
         <BarTarget>
           {props.percentage < 0 ? (
             <div style={{ width: '100%', backgroundColor: 'red' }}>
@@ -28,11 +33,6 @@ export const CashBar = props => {
             <Bar style={{ width: `${props.percentage}%` }}> </Bar>
           )}
         </BarTarget>
-        {!(props.actualPercentage === undefined) && (
-          <BarActual>
-            <Bar style={{ width: `${props.actualPercentage}%` }}> </Bar>
-          </BarActual>
-        )}
       </BarsContainer>
       <TargetRow>
         <Symbol>Cash</Symbol>
