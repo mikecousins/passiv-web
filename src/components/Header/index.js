@@ -43,7 +43,11 @@ export const Header = ({ name, loggedIn }) => (
             alt="Passiv Logo"
             type="image/svg+xml"
           >
-            <img src={logoRaster} srcSet={`${logoRaster2x} 2x`} />
+            <img
+              src={logoRaster}
+              srcSet={`${logoRaster2x} 2x`}
+              alt="Passiv Logo"
+            />
           </object>
         </Link>
       </Logo>
