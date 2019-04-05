@@ -119,13 +119,15 @@ export class SubscriptionManager extends React.Component {
               />
             </Elements>
             {!this.state.loading && (
-              <A
-                onClick={() => {
-                  this.cancelCreateSubscription();
-                }}
-              >
-                Cancel
-              </A>
+              <ActionContainer>
+                <A
+                  onClick={() => {
+                    this.cancelCreateSubscription();
+                  }}
+                >
+                  Cancel
+                </A>
+              </ActionContainer>
             )}
           </div>
         ) : (
@@ -185,13 +187,15 @@ export class SubscriptionManager extends React.Component {
                   />
                 </Elements>
                 {!this.state.loading && (
-                  <Button
-                    onClick={() => {
-                      this.cancelUpdatePayment();
-                    }}
-                  >
-                    Cancel
-                  </Button>
+                  <ActionContainer>
+                    <A
+                      onClick={() => {
+                        this.cancelUpdatePayment();
+                      }}
+                    >
+                      Cancel
+                    </A>
+                  </ActionContainer>
                 )}
               </div>
             ) : (
