@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
-import logo from '../../assets/images/logo-no-name.png';
-import logo2x from '../../assets/images/logo-no-name@2x.png';
+import logo from '../../assets/images/logo-no-name.svg';
+import logoRaster from '../../assets/images/logo-no-name.png';
+import logoRaster2x from '../../assets/images/logo-no-name@2x.png';
 import Buttons from './Buttons';
 import { selectName, selectLoggedIn } from '../../selectors';
 import Hello from './Hello';
@@ -30,12 +31,20 @@ const Logo = styled.header`
     margin-top: 0;
   }
 `;
+
 export const Header = ({ name, loggedIn }) => (
   <StyledHeader>
     <nav>
       <Logo>
         <Link to="/">
-          <img src={logo} srcSet={`${logo2x} 2x`} alt="Passiv Logo" />
+          <object
+            width="50px"
+            data={logo}
+            alt="Passiv Logo"
+            type="image/svg+xml"
+          >
+            <img src={logoRaster} srcSet={`${logoRaster2x} 2x`} />
+          </object>
         </Link>
       </Logo>
       {loggedIn && <Hello name={name} />}
