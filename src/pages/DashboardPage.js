@@ -10,8 +10,9 @@ import {
 } from '../selectors';
 import TotalHoldings from '../components/TotalHoldings';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
+import Tooltip from '../components/Tooltip';
 
-const DashboardPage = ({ authorized, groups, demoMode }) => {
+export const DashboardPage = ({ authorized, groups, demoMode }) => {
   if (authorized === undefined) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
   } else if (authorized === false) {
@@ -28,6 +29,7 @@ const DashboardPage = ({ authorized, groups, demoMode }) => {
     <React.Fragment>
       <TotalHoldings />
       {groupDisplay}
+      <Tooltip />
     </React.Fragment>
   );
 };

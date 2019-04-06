@@ -9,7 +9,6 @@ import {
   faChevronDown,
   faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
-import ReactTooltip from 'react-tooltip';
 import ShadowBox from '../../styled/ShadowBox';
 import { Table, H2, H3 } from '../../styled/GlobalElements';
 import {
@@ -120,7 +119,6 @@ export const Group = props => {
         </DashboardRow>
       </ShadowBox>
       {expanded && <AccountTrades trades={group.trades} groupId={group.id} />}
-      <ReactTooltip place="right" effect="solid" />
     </Container>
   );
 };

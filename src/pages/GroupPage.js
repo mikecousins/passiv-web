@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import styled from '@emotion/styled';
 import AccountAccuracy from '../components/AccountAccuracy';
 import AccountHoldings from '../components/AccountHoldings';
 import AccountMetadata from '../components/AccountMetadata';
@@ -19,7 +20,7 @@ import {
   selectCurrentGroupTrades,
   selectCurrentGroupSetupComplete,
 } from '../selectors';
-import styled from '@emotion/styled';
+import Tooltip from '../components/Tooltip';
 
 export const Container2Column = styled.div`
   @media (min-width: 900px) {
@@ -95,6 +96,7 @@ const GroupPage = props => {
         <AccountHoldings positions={positions} />
         <AccountSettings />
       </Container2Column>
+      <Tooltip />
     </React.Fragment>
   );
 };
