@@ -3,7 +3,7 @@ import { H2 } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
 import SettingsToggle from './SettingsToggle';
 
-export const AccountSettings = () => (
+export const PortfolioGroupSettings = () => (
   <ShadowBox>
     <H2>Settings</H2>
     <br />
@@ -11,4 +11,4 @@ export const AccountSettings = () => (
   </ShadowBox>
 );
 
-export default AccountSettings;
+export default PortfolioGroupSettings;

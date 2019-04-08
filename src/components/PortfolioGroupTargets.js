@@ -45,7 +45,7 @@ const pDarkStyle = {
   color: 'white',
 };
 
-export class AccountTargets extends React.Component {
+export class PortfolioGroupTargets extends React.Component {
   state = {
     edit: false,
     loading: false,
@@ -225,4 +225,4 @@ const select = state => ({
 export default connect(
   select,
   actions,
-)(AccountTargets);
+)(PortfolioGroupTargets);

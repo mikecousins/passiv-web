@@ -27,7 +27,7 @@ export const HoldingsTable = styled.table`
   }
 `;
 
-export const AccountHoldings = ({ positions }) => (
+export const PortfolioGroupHoldings = ({ positions }) => (
   <ShadowBox>
     <H2>Current Portfolio</H2>
     <br />
@@ -84,4 +84,4 @@ export const AccountHoldings = ({ positions }) => (
   </ShadowBox>
 );
 
-export default AccountHoldings;
+export default PortfolioGroupHoldings;

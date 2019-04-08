@@ -4,12 +4,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
-import AccountAccuracy from '../components/AccountAccuracy';
-import AccountHoldings from '../components/AccountHoldings';
+import PortfolioGroupAccuracy from '../components/PortfolioGroupAccuracy';
+import PortfolioGroupHoldings from '../components/PortfolioGroupHoldings';
 import AccountMetadata from '../components/AccountMetadata';
-import AccountTargets from '../components/AccountTargets';
+import PortfolioGroupTargets from '../components/PortfolioGroupTargets';
 import AccountTrades from '../components/AccountTrades';
-import AccountSettings from '../components/AccountSettings';
+import PortfolioGroupSettings from '../components/PortfolioGroupSettings';
 import {
   selectCurrentGroupTotalEquity,
   selectCurrentGroupCash,
@@ -85,16 +85,16 @@ const GroupPage = props => {
           cash={cash}
           equity={equity}
         />
-        <AccountAccuracy accuracy={accuracy} />
+        <PortfolioGroupAccuracy accuracy={accuracy} />
       </Container2Column>
 
       {tradeDisplay}
 
-      <AccountTargets positions={positions} />
+      <PortfolioGroupTargets positions={positions} />
 
       <Container2Column>
-        <AccountHoldings positions={positions} />
-        <AccountSettings />
+        <PortfolioGroupHoldings positions={positions} />
+        <PortfolioGroupSettings />
       </Container2Column>
       <Tooltip />
     </React.Fragment>

@@ -34,7 +34,7 @@ export const Accuracy = styled.div`
   }
 `;
 
-export const AccountAccuracy = ({ accuracy, setupComplete }) => {
+export const PortfolioGroupAccuracy = ({ accuracy, setupComplete }) => {
   let accuracyDisplay = null;
   if (accuracy === undefined) {
     accuracy = (
@@ -78,4 +78,4 @@ const select = state => ({
   setupComplete: selectCurrentGroupSetupComplete(state),
 });
 
-export default connect(select)(AccountAccuracy);
+export default connect(select)(PortfolioGroupAccuracy);
