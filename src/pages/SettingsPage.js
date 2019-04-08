@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CredentialsManager from '../components/CredentialsManager';
 import SubscriptionManager from '../components/SubscriptionManager';
 import ConnectionsManager from '../components/ConnectionsManager';
+import AccountsManager from '../components/AccountsManager';
 import styled from '@emotion/styled';
 
 const SettingContainer = styled.div`
@@ -38,6 +39,8 @@ class SettingsPage extends Component {
 
           <ConnectionsManager />
         </SettingContainer>
+
+        <AccountsManager />
       </React.Fragment>
     );
   }
