@@ -78,6 +78,10 @@ const UpgradeText = styled.span`
   }
 `;
 
+const ModifiedTradeRow = styled(TradeRow)`
+  margin-bottom: 10px;
+`;
+
 export class RebalanceWidget extends Component {
   state = {
     validatingOrders: false,
@@ -300,7 +304,7 @@ export class RebalanceWidget extends Component {
             <div>
               {this.state.orderResults.map(results => {
                 return (
-                  <TradeRow key={results.trade}>
+                  <ModifiedTradeRow key={results.trade}>
                     <ColumnAction>
                       <Title>Action</Title>
                       <div>{results.action}</div>
@@ -317,7 +321,7 @@ export class RebalanceWidget extends Component {
                       <Title>Status</Title>
                       <div>{results.state}</div>
                     </ColumnStatus>
-                  </TradeRow>
+                  </ModifiedTradeRow>
                 );
               })}
             </div>
