@@ -162,18 +162,6 @@ export class RebalanceWidget extends Component {
     }, 0);
   };
 
-  // getQuestradeBrokerage() {
-  //   return this.props.brokerages.find(b => b.name === 'Questrade');
-  // }
-  //
-  // getQuestradeId() {
-  //   return this.getQuestradeBrokerage().id;
-  // }
-  //
-  // getQuestradeTradeType() {
-  //   return this.getQuestradeBrokerage().authorization_types.find(t => t.type === 'trade').type;
-  // }
-
   getReadBrokerageAuthorization = () => {
     let group = this.props.groups.find(g => g.id === this.props.groupId);
     return group.brokerage_authorizations.find(a => a.type === 'read');
@@ -201,29 +189,16 @@ export class RebalanceWidget extends Component {
             </OrderContainer>
           );
           break;
-        case '0000':
-          error = (
-            <OrderContainer>
-              <H2>Order cannot be Processed</H2>
-              <P>
-                Oops, you've encountered a bug! Please try again later or{' '}
-                <Link to="/app/help">contact support</Link> if this persists.
-              </P>
-            </OrderContainer>
-          );
-          break;
         case '1019':
           error = (
             <OrderContainer>
               <H2>
-                <FontAwesomeIcon icon={faClock} /> Market is closed
+                <FontAwesomeIcon icon={faClock} /> Markets are Closed
               </H2>
               <P>
-                {' '}
-                Passiv is unable to proceed with the orders because the stock
-                market is currently closed. If the stock market is open, please{' '}
-                <Link to="/app/help">contact support</Link>. You can also also
-                make trades manually on your brokerage's platform.
+                Passiv is unable to proceed with the orders because markets are
+                currently closed. If the stock market is open, please{' '}
+                <Link to="/app/help">contact support</Link>.
               </P>
             </OrderContainer>
           );
@@ -231,16 +206,24 @@ export class RebalanceWidget extends Component {
         case '1020':
           error = (
             <OrderContainer>
-              <H2> Be A Passiv Supporter? </H2>
+              <H2>Order cannot be Processed</H2>
               <P>
-                {' '}
-                Upgrade you account if you'd like to have access to
-                one-click-trades. Please{' '}
-                <Link to="/app/help">contact support</Link> if you're already a
-                supporter.{' '}
+                One-click Trades are only available to Elite subscribers. You
+                can upgrade your account to use this feature.{' '}
+                <Link to="/app/help">Contact support</Link> if you're already a
+                paid subscriber and you're still receiving this message.
               </P>
+              <Button onClick={() => push('/app/settings')}>Upgrade</Button>
+            </OrderContainer>
+          );
+          break;
+        case '0000':
+          error = (
+            <OrderContainer>
+              <H2>Order cannot be Processed</H2>
               <P>
-                <Button onClick={() => push('/app/settings')}>Upgrade</Button>
+                Oops, you've encountered a bug! Please try again later or{' '}
+                <Link to="/app/help">contact support</Link> if this persists.
               </P>
             </OrderContainer>
           );
