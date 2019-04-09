@@ -187,20 +187,6 @@ export class RebalanceWidget extends Component {
     let error = null;
     if (this.state.error) {
       switch (this.state.error.code) {
-        case '1012':
-          error = (
-            <OrderContainer>
-              <H2>Order cannot be Processed</H2>
-              <P>
-                Our records show that this order has already been placed, so
-                Passiv will not attempt to place it again. Please refresh the
-                orders or <Link to="/app/help">contact support</Link> if this
-                persists.
-              </P>
-              <Button onClick={() => this.reloadGroup()}>Refresh</Button>
-            </OrderContainer>
-          );
-          break;
         case '1014':
           error = (
             <OrderContainer>
@@ -243,6 +229,20 @@ export class RebalanceWidget extends Component {
                 paid subscriber and you're still receiving this message.
               </P>
               <Button onClick={() => push('/app/settings')}>Upgrade</Button>
+            </OrderContainer>
+          );
+          break;
+        case '1022':
+          error = (
+            <OrderContainer>
+              <H2>Order cannot be Processed</H2>
+              <P>
+                Our records show that this order has already been placed, so
+                Passiv will not attempt to place it again. Please refresh the
+                orders or <Link to="/app/help">contact support</Link> if this
+                persists.
+              </P>
+              <Button onClick={() => this.reloadGroup()}>Refresh</Button>
             </OrderContainer>
           );
           break;
