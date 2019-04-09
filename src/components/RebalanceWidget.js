@@ -14,9 +14,17 @@ import {
 } from '../selectors';
 import { Button } from '../styled/Button';
 import styled from '@emotion/styled';
-import { H2, P, A, Table } from '../styled/GlobalElements';
+import { H2, P, A, Title } from '../styled/GlobalElements';
 import Number from './Number';
 import ConnectionUpdate from '../components/ConnectionUpdate';
+import {
+  TradeRow,
+  Symbol,
+  ColumnSymbolSmall,
+  ColumnUnits,
+  ColumnAction,
+  ColumnStatus,
+} from '../styled/Group';
 
 const SummaryContainer = styled.div`
   text-align: left;
@@ -115,9 +123,6 @@ export class RebalanceWidget extends Component {
           orderResults: response.data,
           error: null,
         });
-
-        // reload group data following a successful order
-        // this.props.reloadGroup({ ids: [this.props.groupId] });
       })
       .catch(error => {
         this.setState({
@@ -150,6 +155,14 @@ export class RebalanceWidget extends Component {
     this.props.reloadGroup({ ids: [this.props.groupId] });
   };
 
+  reloadGroup = () => {
+    this.props.reloadGroup({ ids: [this.props.groupId] });
+  };
+
+  componentWillUnmount = () => {
+    this.reloadGroup();
+  };
+
   sumEstimatedCommissions = () => {
     return this.state.orderSummary.reduce((acc, result) => {
       return acc + result.estimated_commissions;
@@ -172,6 +185,20 @@ export class RebalanceWidget extends Component {
     let error = null;
     if (this.state.error) {
       switch (this.state.error.code) {
+        case '1012':
+          error = (
+            <OrderContainer>
+              <H2>Order cannot be Processed</H2>
+              <P>
+                Our records show that this order has already been placed, so
+                Passiv will not attempt to place it again. Please refresh the
+                orders or <Link to="/app/help">contact support</Link> if this
+                persists.
+              </P>
+              <Button onClick={() => this.reloadGroup()}>Refresh</Button>
+            </OrderContainer>
+          );
+          break;
         case '1014':
           error = (
             <OrderContainer>
@@ -269,20 +296,26 @@ export class RebalanceWidget extends Component {
           <OrderContainer>
             <H2>Order Results</H2>
             <div>
-              <Table>
-                <div>Action</div>
-                <div>Symbol</div>
-                <div>Units</div>
-                <div>Status</div>
-              </Table>
               {this.state.orderResults.map(results => {
                 return (
-                  <Table key={results.trade}>
-                    <div>{results.action}</div>
-                    <div>{results.universal_symbol.symbol}</div>
-                    <div>{results.filled_units}</div>
-                    <div>{results.state}</div>
-                  </Table>
+                  <TradeRow key={results.trade}>
+                    <ColumnAction>
+                      <Title>Action</Title>
+                      <div>{results.action}</div>
+                    </ColumnAction>
+                    <ColumnUnits>
+                      <Title>Units</Title>
+                      <div>{results.filled_units}</div>
+                    </ColumnUnits>
+                    <ColumnSymbolSmall>
+                      <Title>Symbol</Title>
+                      <Symbol>{results.universal_symbol.symbol}</Symbol>
+                    </ColumnSymbolSmall>
+                    <ColumnStatus>
+                      <Title>Status</Title>
+                      <div>{results.state}</div>
+                    </ColumnStatus>
+                  </TradeRow>
                 );
               })}
             </div>
