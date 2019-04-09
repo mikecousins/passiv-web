@@ -160,7 +160,9 @@ export class RebalanceWidget extends Component {
   };
 
   componentWillUnmount = () => {
-    this.reloadGroup();
+    if (this.state.orderResults || this.state.error) {
+      this.reloadGroup();
+    }
   };
 
   sumEstimatedCommissions = () => {
