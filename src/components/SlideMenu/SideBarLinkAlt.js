@@ -3,11 +3,17 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectPathname } from '../../selectors/router';
 
-export const SideBarLinkAlt = ({ pathname, linkPath, name }) => (
-  <div className={pathname.startsWith(linkPath) && 'active'}>
-    <Link to={linkPath}>{name}</Link>
-  </div>
-);
+export const SideBarLinkAlt = ({ pathname, linkPath, name }) => {
+  let className = null;
+  if (pathname.startsWith(linkPath)) {
+    className = 'active';
+  }
+  return (
+    <div className={className}>
+      <Link to={linkPath}>{name}</Link>
+    </div>
+  );
+};
 
 const select = state => ({
   pathname: selectPathname(state),
