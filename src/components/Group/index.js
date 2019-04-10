@@ -35,7 +35,7 @@ export const Group = props => {
       accuracy = (
         <FontAwesomeIcon
           icon={faExclamationTriangle}
-          data-tip="No target set"
+          data-tip="There is no target set for this portfolio, click Setup to continue."
         />
       );
     } else {

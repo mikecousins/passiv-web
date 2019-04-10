@@ -52,8 +52,7 @@ export const AccountAccuracy = ({ accuracy, setupComplete }) => {
         <div>
           <FontAwesomeIcon
             icon={faExclamationTriangle}
-            data-tip="No target set"
-            data-event="click"
+            data-tip="There is no target set for this portfolio, follow the instructions under the Target Portfolio."
           />
         </div>
       );
@@ -66,7 +65,7 @@ export const AccountAccuracy = ({ accuracy, setupComplete }) => {
         <FontAwesomeIcon
           icon={faQuestionCircle}
           style={{ fontSize: 12 }}
-          data-tip="How close your holdings are to your desired target"
+          data-tip="How close your holdings are to your desired target, where 100% indicates your holdings are perfectly on target."
         />
       </H2>
       {accuracyDisplay}
