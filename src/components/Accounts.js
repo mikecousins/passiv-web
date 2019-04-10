@@ -1,12 +1,47 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectAccounts } from '../selectors';
-import Account from './Accounts';
+import Account from './Account';
 
-export const Accounts = ({ accounts }) => {
+const Accounts = ({ accounts }) => {
   if (!accounts || accounts.length === 0) {
     return null;
   }
+
+  accounts.sort(function(a, b) {
+    if (a.portfolio_group !== null && b.portfolio_group !== null) {
+      if (a.portfolio_group < b.portfolio_group) {
+        return -1;
+      }
+      if (a.portfolio_group > b.portfolio_group) {
+        return 1;
+      }
+      if (a.number < b.number) {
+        return -1;
+      }
+      if (a.number > b.number) {
+        return 1;
+      }
+      return 0;
+    }
+    if (a.portfolio_group === null && b.portfolio_group === null) {
+      if (a.number < b.number) {
+        return -1;
+      }
+      if (a.number > b.number) {
+        return 1;
+      }
+      return 0;
+    }
+    if (a.portfolio_group !== null || b.portfolio_group !== null) {
+      if (a.portfolio_group !== null && b.portfolio === null) {
+        return -1;
+      }
+      if (a.portfolio_group === null && b.portfolio !== null) {
+        return 1;
+      }
+    }
+  });
 
   return (
     <React.Fragment>
