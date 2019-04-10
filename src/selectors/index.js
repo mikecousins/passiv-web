@@ -640,6 +640,7 @@ export const selectCurrentGroupPositions = createSelector(
             position.units * position.price * conversionRate,
           );
         }
+        return null;
       });
 
       let totalEquity = positions.reduce((total, position) => {
@@ -655,6 +656,7 @@ export const selectCurrentGroupPositions = createSelector(
           position.actualPercentage =
             (position.uniformEquity / totalEquity) * 100;
         }
+        return null;
       });
     }
     return positions;
