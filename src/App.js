@@ -21,6 +21,15 @@ const questradeOauthRedirect = () => {
   return <Redirect to={newPath} />;
 };
 
+// hack to make routing work on both prod and dev
+const prefixPath = path => {
+  if (process.env.PUBLIC_URL) {
+    return `${process.env.PUBLIC_URL}${path}`;
+  } else {
+    return `/app${path}`;
+  }
+};
+
 const App = () => {
   const [stripe, setStripe] = useState(null);
   useEffect(() => {
@@ -38,47 +47,38 @@ const App = () => {
       <StripeProvider stripe={stripe}>
         <Switch>
           <Route
-            path={`${process.env.PUBLIC_URL}/`}
+            path={prefixPath('/')}
             exact
             render={() => <Redirect to="/app/login" />}
           />
+          <Route path={prefixPath('/login')} component={LoginPage} />
+          <Route path={prefixPath('/register')} component={RegistrationPage} />
           <Route
-            path={`${process.env.PUBLIC_URL}/login`}
-            component={LoginPage}
-          />
-          <Route
-            path={`${process.env.PUBLIC_URL}/register`}
-            component={RegistrationPage}
-          />
-          <Route
-            path={`${process.env.PUBLIC_URL}/reset-password`}
+            path={prefixPath('/reset-password')}
             component={ResetPasswordPage}
           />
           <Route
-            path={`${process.env.PUBLIC_URL}/reset-password-confirm/:token`}
+            path={prefixPath('/reset-password-confirm/:token')}
             component={ResetPasswordConfirmPage}
           />
-          <Route path={`${process.env.PUBLIC_URL}/help`} component={HelpPage} />
+          <Route path={prefixPath('/help')} component={HelpPage} />
           <SecureRoute
-            path={`${process.env.PUBLIC_URL}/dashboard`}
+            path={prefixPath('/dashboard')}
             component={DashboardPage}
           />
           <SecureRoute
-            path={`${process.env.PUBLIC_URL}/group/:groupId`}
+            path={prefixPath('/group/:groupId')}
             component={GroupPage}
           />
           <SecureRoute
-            path={`${process.env.PUBLIC_URL}/settings`}
+            path={prefixPath('/settings')}
             component={SettingsPage}
           />
           <SecureRoute
-            path={`${process.env.PUBLIC_URL}/oauth/questrade`}
+            path={prefixPath('/oauth/questrade')}
             component={QuestradeOauthPage}
           />
-          <SecureRoute
-            path={`${process.env.PUBLIC_URL}/coupon`}
-            component={CouponPage}
-          />
+          <SecureRoute path={prefixPath('/coupon')} component={CouponPage} />
           <Route
             exact
             path="/oauth/questrade"
