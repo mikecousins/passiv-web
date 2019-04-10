@@ -43,7 +43,7 @@ class CashNotificationSettings extends React.Component {
         <DividingLine>
           <H3>
             {' '}
-            Receive Cash Notification:
+            Receive Cash Notifications:
             <button onClick={this.updateNotification}>
               {settings.receive_cash_notifications ? (
                 <FontAwesomeIcon icon={faToggleOn} />
