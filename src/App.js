@@ -23,11 +23,7 @@ const questradeOauthRedirect = () => {
 
 // hack to make routing work on both prod and dev
 const prefixPath = path => {
-  if (process.env.PUBLIC_URL) {
-    return `${process.env.PUBLIC_URL}${path}`;
-  } else {
-    return `/app${path}`;
-  }
+  return `/app${path}`;
 };
 
 const App = () => {
