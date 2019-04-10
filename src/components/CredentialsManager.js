@@ -6,6 +6,8 @@ import { selectSettings } from '../selectors';
 import { loadSettings } from '../actions';
 import { putData } from '../api';
 
+import CashNotifcationSettings from './CashNotificationSettings';
+
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../styled/Form';
 import { H2, Edit } from '../styled/GlobalElements';
@@ -85,6 +87,7 @@ export class CredentialsManager extends React.Component {
         <div>
           <strong>Email:</strong> {this.state.email}
         </div>
+        <CashNotifcationSettings />
       </ShadowBox>
     );
   }
