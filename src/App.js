@@ -37,28 +37,48 @@ const App = () => {
     <Layout>
       <StripeProvider stripe={stripe}>
         <Switch>
-          <Route path="/" exact render={() => <Redirect to="/app/login" />} />
           <Route
-            path="/app"
+            path={`${process.env.PUBLIC_URL}/`}
             exact
             render={() => <Redirect to="/app/login" />}
           />
-          <Route path="/app/login" component={LoginPage} />
-          <Route path="/app/register" component={RegistrationPage} />
-          <Route path="/app/reset-password" component={ResetPasswordPage} />
           <Route
-            path="/app/reset-password-confirm/:token"
+            path={`${process.env.PUBLIC_URL}/login`}
+            component={LoginPage}
+          />
+          <Route
+            path={`${process.env.PUBLIC_URL}/register`}
+            component={RegistrationPage}
+          />
+          <Route
+            path={`${process.env.PUBLIC_URL}/reset-password`}
+            component={ResetPasswordPage}
+          />
+          <Route
+            path={`${process.env.PUBLIC_URL}/reset-password-confirm/:token`}
             component={ResetPasswordConfirmPage}
           />
-          <Route path="/app/help" component={HelpPage} />
-          <SecureRoute path="/app/dashboard" component={DashboardPage} />
-          <SecureRoute path="/app/group/:groupId" component={GroupPage} />
-          <SecureRoute path="/app/settings" component={SettingsPage} />
+          <Route path={`${process.env.PUBLIC_URL}/help`} component={HelpPage} />
           <SecureRoute
-            path="/app/oauth/questrade"
+            path={`${process.env.PUBLIC_URL}/dashboard`}
+            component={DashboardPage}
+          />
+          <SecureRoute
+            path={`${process.env.PUBLIC_URL}/group/:groupId`}
+            component={GroupPage}
+          />
+          <SecureRoute
+            path={`${process.env.PUBLIC_URL}/settings`}
+            component={SettingsPage}
+          />
+          <SecureRoute
+            path={`${process.env.PUBLIC_URL}/oauth/questrade`}
             component={QuestradeOauthPage}
           />
-          <SecureRoute path="/app/coupon" component={CouponPage} />
+          <SecureRoute
+            path={`${process.env.PUBLIC_URL}/coupon`}
+            component={CouponPage}
+          />
           <Route
             exact
             path="/oauth/questrade"
