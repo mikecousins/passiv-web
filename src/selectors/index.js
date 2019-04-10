@@ -571,10 +571,41 @@ export const selectCurrentGroupCash = createSelector(
   },
 );
 
-export const selectCurrentGroupPositions = createSelector(
+export const selectCurrentGroupExcludedAssets = createSelector(
   selectCurrentGroupId,
   selectGroupInfo,
   (groupId, groupInfo) => {
+    let excludedAssets = null;
+    if (
+      groupInfo &&
+      groupInfo[groupId] &&
+      groupInfo[groupId].data &&
+      groupInfo[groupId].data.excluded_positions
+    ) {
+      excludedAssets = groupInfo[groupId].data.excluded_positions;
+    }
+    return excludedAssets;
+  },
+);
+
+export const selectCurrentGroupQuotableSymbols = createSelector(
+  selectCurrentGroupInfo,
+  groupInfo => {
+    if (groupInfo && groupInfo.quotable_symbols) {
+      return groupInfo.quotable_symbols;
+    }
+    return null;
+  },
+);
+
+export const selectCurrentGroupPositions = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  selectCurrentGroupExcludedAssets,
+  selectCurrentGroupQuotableSymbols,
+  selectCurrencies,
+  selectCurrencyRates,
+  (groupId, groupInfo, excludedAssets, quotableSymbols, currencies, rates) => {
     let positions = null;
     if (
       groupInfo &&
@@ -583,6 +614,48 @@ export const selectCurrentGroupPositions = createSelector(
       groupInfo[groupId].data.positions
     ) {
       positions = groupInfo[groupId].data.positions;
+
+      // const preferredCurrency = groupInfo[group.id].data.preferredCurrency;
+      const preferredCurrency = currencies.find(
+        currency => currency.code === 'CAD',
+      ).id;
+
+      positions.map(position => {
+        position.excluded = excludedAssets.some(
+          excludedAsset => excludedAsset.symbol === position.symbol.id,
+        );
+        position.quotable = quotableSymbols.some(
+          quotableSymbol => quotableSymbol.id === position.symbol.id,
+        );
+
+        if (position.symbol.currency.id === preferredCurrency) {
+          position.uniformEquity = position.units * parseFloat(position.price);
+        } else {
+          const conversionRate = rates.find(
+            rate =>
+              rate.src.id === position.symbol.currency.id &&
+              rate.dst.id === preferredCurrency,
+          ).exchange_rate;
+          position.uniformEquity = parseFloat(
+            position.units * position.price * conversionRate,
+          );
+        }
+      });
+
+      let totalEquity = positions.reduce((total, position) => {
+        if (!position.excluded && position.quotable) {
+          return total + position.uniformEquity;
+        }
+        return total;
+      }, 0);
+
+      positions.map(position => {
+        if (!position.excluded && position.quotable) {
+          console.log(position.uniformEquity, totalEquity);
+          position.actualPercentage =
+            (position.uniformEquity / totalEquity) * 100;
+        }
+      });
     }
     return positions;
   },
@@ -710,33 +783,6 @@ export const selectCurrentGroupSymbols = createSelector(
       return groupInfo.symbols;
     }
     return null;
-  },
-);
-
-export const selectCurrentGroupQuotableSymbols = createSelector(
-  selectCurrentGroupInfo,
-  groupInfo => {
-    if (groupInfo && groupInfo.quotable_symbols) {
-      return groupInfo.quotable_symbols;
-    }
-    return null;
-  },
-);
-
-export const selectCurrentGroupExcludedAssets = createSelector(
-  selectCurrentGroupId,
-  selectGroupInfo,
-  (groupId, groupInfo) => {
-    let excludedAssets = null;
-    if (
-      groupInfo &&
-      groupInfo[groupId] &&
-      groupInfo[groupId].data &&
-      groupInfo[groupId].data.excluded_positions
-    ) {
-      excludedAssets = groupInfo[groupId].data.excluded_positions;
-    }
-    return excludedAssets;
   },
 );
 

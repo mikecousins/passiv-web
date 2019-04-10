@@ -167,7 +167,7 @@ export const TargetSelector = ({
               // calculate the actual cash percentage
               const cashActualPercentage =
                 100 -
-                props.values.targets.reduce((total, target) => {
+                positions.reduce((total, target) => {
                   if (!(target.actualPercentage === undefined)) {
                     return total + target.actualPercentage;
                   }
