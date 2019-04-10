@@ -52,8 +52,7 @@ export const AccountAccuracy = ({ accuracy, setupComplete }) => {
         <div>
           <FontAwesomeIcon
             icon={faExclamationTriangle}
-            data-tip="No target set"
-            data-event="click"
+            data-tip="There is no target set for this portfolio, follow the instructions under the Target Portfolio."
           />
         </div>
       );
