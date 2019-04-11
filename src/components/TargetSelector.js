@@ -73,7 +73,7 @@ export const TargetSelector = ({
 
   const initialTargets = target.map(target => {
     target.key = target.id;
-    return target;
+    return { ...target };
   });
 
   return (
@@ -81,7 +81,6 @@ export const TargetSelector = ({
       initialValues={{ targets: initialTargets }}
       enableReinitialize
       validate={(values, actions) => {
-        console.log('validating targets', values.targets);
         const errors = {};
         const cashPercentage =
           100 -
@@ -101,7 +100,6 @@ export const TargetSelector = ({
             }
           }
         });
-        console.log('validation errors', errors);
         return errors;
       }}
       onSubmit={(values, actions) => {
@@ -193,10 +191,10 @@ export const TargetSelector = ({
                               t => t.key === key,
                             );
                             target.deleted = true;
-                            props.setFieldTouched('targets.0.percent');
+                            props.setFieldTouched(`targets.${index}.percent`);
                             props.setFieldValue(
-                              'targets.0.percent',
-                              props.values.targets[0].percent,
+                              `targets.${index}.percent`,
+                              -0.1,
                             );
                             forceUpdate();
                           }}
@@ -253,14 +251,7 @@ export const TargetSelector = ({
                       {lockable && (
                         <button
                           type="button"
-                          onClick={() => {
-                            props.values.targets.forEach(t => {
-                              if (t.deleted) {
-                                delete t.deleted;
-                              }
-                            });
-                            props.handleReset();
-                          }}
+                          onClick={() => props.handleReset()}
                         >
                           Cancel
                         </button>
