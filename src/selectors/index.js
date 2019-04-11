@@ -652,7 +652,6 @@ export const selectCurrentGroupPositions = createSelector(
 
       positions.map(position => {
         if (!position.excluded && position.quotable) {
-          console.log(position.uniformEquity, totalEquity);
           position.actualPercentage =
             (position.uniformEquity / totalEquity) * 100;
         }
