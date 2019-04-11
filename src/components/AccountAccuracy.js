@@ -34,10 +34,10 @@ export const Accuracy = styled.div`
   }
 `;
 
-export const AccountAccuracy = ({ accuracy, setupComplete }) => {
+export const AccountAccuracy = ({ accuracy, loading, setupComplete }) => {
   let accuracyDisplay = null;
-  if (accuracy === undefined) {
-    accuracy = (
+  if (loading || accuracy === undefined) {
+    accuracyDisplay = (
       <div>
         <FontAwesomeIcon icon={faSpinner} spin />
       </div>

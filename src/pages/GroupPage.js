@@ -74,6 +74,10 @@ const GroupPage = props => {
   if (setupComplete && trades && trades.trades.length) {
     tradeDisplay = <AccountTrades trades={trades} groupId={group.id} />;
   }
+  let isLoading = false;
+  if (positions === null) {
+    isLoading = true;
+  }
   return (
     <React.Fragment>
       <Container2Column>
@@ -85,7 +89,7 @@ const GroupPage = props => {
           cash={cash}
           equity={equity}
         />
-        <AccountAccuracy accuracy={accuracy} />
+        <AccountAccuracy accuracy={accuracy} loading={isLoading} />
       </Container2Column>
 
       {tradeDisplay}
