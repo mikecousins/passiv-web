@@ -9,7 +9,8 @@ import { loadGroup } from '../actions';
 import {
   selectCurrentGroupId,
   selectCurrentGroupPositions,
-  selectCurrentGroupTotalEquity,
+  selectCurrentGroupTotalEquityExcludedRemoved,
+  selectCurrentGroupCash,
 } from '../selectors';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
@@ -25,6 +26,7 @@ export const TargetSelector = ({
   refreshGroup,
   positions,
   totalEquity,
+  cash,
 }) => {
   const [edit, setEdit] = useState(false);
   const [forceUpdateToggle, setForceUpdateToggle] = useState(false);
@@ -165,14 +167,8 @@ export const TargetSelector = ({
                 }, 0);
 
               // calculate the actual cash percentage
-              const cashActualPercentage =
-                100 -
-                positions.reduce((total, target) => {
-                  if (!(target.actualPercentage === undefined)) {
-                    return total + target.actualPercentage;
-                  }
-                  return total;
-                }, 0);
+              const cashActualPercentage = (cash / totalEquity) * 100;
+
               if (props.values.targets.filter(t => !t.deleted).length === 0) {
                 arrayHelpers.push(generateNewTarget());
               }
@@ -293,7 +289,8 @@ const actions = {
 const select = state => ({
   groupId: selectCurrentGroupId(state),
   positions: selectCurrentGroupPositions(state),
-  totalEquity: selectCurrentGroupTotalEquity(state),
+  totalEquity: selectCurrentGroupTotalEquityExcludedRemoved(state),
+  cash: selectCurrentGroupCash(state),
 });
 
 export default connect(
