@@ -37,6 +37,10 @@ class CashNotificationSettings extends React.Component {
   render() {
     const { settings } = this.props;
 
+    if (!settings) {
+      return null;
+    }
+
     return (
       <React.Fragment>
         <DividingLine>
