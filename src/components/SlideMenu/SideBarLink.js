@@ -14,9 +14,13 @@ const SideBarLink = ({
   setupComplete,
   pathname,
   spinnerLoading,
+  hideArrow,
 }) => {
   if (spinnerLoading === undefined) {
     spinnerLoading = false;
+  }
+  if (hideArrow === undefined) {
+    hideArrow = false;
   }
   let selected = pathname.startsWith(linkPath);
 
@@ -57,7 +61,7 @@ const SideBarLink = ({
       <Link to={linkPath}>
         {indicator}
         {name}
-        <FontAwesomeIcon icon={faAngleRight} />
+        {!hideArrow && <FontAwesomeIcon icon={faAngleRight} />}
       </Link>
     </div>
   );
