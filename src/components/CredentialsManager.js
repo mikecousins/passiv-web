@@ -52,7 +52,12 @@ export class CredentialsManager extends React.Component {
   finishEditing() {
     if (this.state.name !== this.props.settings.name) {
       let settings = Object.assign({}, this.props.settings);
-      settings.name = this.state.name;
+      if (this.state.name === '') {
+        settings.name = null;
+      } else {
+        settings.name = this.state.name;
+      }
+
       putData('/api/v1/settings/', settings)
         .then(response => {
           this.props.refreshSettings();
@@ -72,7 +77,7 @@ export class CredentialsManager extends React.Component {
           {this.state.editingName ? (
             <InputContainer>
               <InputNonFormik
-                value={this.state.name}
+                value={this.state.name === null ? '' : this.state.name}
                 onChange={event => {
                   this.setState({ name: event.target.value });
                 }}
@@ -82,7 +87,8 @@ export class CredentialsManager extends React.Component {
             </InputContainer>
           ) : (
             <InputContainer>
-              <strong>Name:</strong> {this.state.name}
+              <strong>Name:</strong>{' '}
+              {this.state.name === null ? '[no name set]' : this.state.name}
               <Edit onClick={() => this.startEditingName()}>
                 <FontAwesomeIcon icon={faPen} />
                 Edit
