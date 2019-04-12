@@ -19,6 +19,11 @@ const InputContainer = styled.div`
   font-size: 18px;
 `;
 
+const TextContainer = styled.div`
+  text-overflow: ellipsis;
+  overflow: hidden;
+`;
+
 export class CredentialsManager extends React.Component {
   state = {
     name: this.props.settings && this.props.settings.name,
@@ -62,7 +67,7 @@ export class CredentialsManager extends React.Component {
     return (
       <ShadowBox>
         <H2>Passiv Credentials</H2>
-        <div>
+        <TextContainer>
           {this.state.editingName ? (
             <InputContainer>
               <InputNonFormik
@@ -83,10 +88,10 @@ export class CredentialsManager extends React.Component {
               </Edit>
             </InputContainer>
           )}
-        </div>
-        <div>
+        </TextContainer>
+        <TextContainer>
           <strong>Email:</strong> {this.state.email}
-        </div>
+        </TextContainer>
         <CashNotifcationSettings />
       </ShadowBox>
     );
