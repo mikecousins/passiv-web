@@ -15,7 +15,8 @@ import { Button } from '../styled/Button';
 import ShadowBox from '../styled/ShadowBox';
 
 const InputContainer = styled.div`
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 5px;
   font-size: 18px;
 `;
 
@@ -90,7 +91,9 @@ export class CredentialsManager extends React.Component {
           )}
         </TextContainer>
         <TextContainer>
-          <strong>Email:</strong> {this.state.email}
+          <InputContainer>
+            <strong>Email:</strong> {this.state.email}
+          </InputContainer>
         </TextContainer>
         <CashNotifcationSettings />
       </ShadowBox>
