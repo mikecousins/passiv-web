@@ -4,26 +4,17 @@ import SubscriptionManager from '../components/SubscriptionManager';
 import ConnectionsManager from '../components/ConnectionsManager';
 import styled from '@emotion/styled';
 
-const SettingContainer = styled.div`
+export const Container2Column = styled.div`
   @media (min-width: 900px) {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
-  }
-  > div {
-    flex: 1;
-    min-width: 48%;
-    padding: 30px;
-    font-size: 18px;
-    &:first-of-type {
-      margin-right: 3%;
+    > div:first-of-type {
+      width: 50%;
+      margin-right: 30px;
     }
-    @media (max-width: 900px) {
-      padding: 15px;
+    > div:last-of-type {
+      width: 50%;
     }
-  }
-  h2 {
-    margin-bottom: 20px;
   }
 `;
 
@@ -31,13 +22,11 @@ class SettingsPage extends Component {
   render() {
     return (
       <React.Fragment>
-        <SettingContainer>
+        <Container2Column>
           <CredentialsManager />
-
           <SubscriptionManager />
-
-          <ConnectionsManager />
-        </SettingContainer>
+        </Container2Column>
+        <ConnectionsManager />
       </React.Fragment>
     );
   }
