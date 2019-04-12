@@ -18,7 +18,7 @@ export const HelloStyle = styled.div`
 
 const Hello = ({ name }) => (
   <HelloStyle>
-    <b>Hi {name}!</b>
+    <b>Hi {name === null ? 'there' : name}!</b>
     <br />
     {format(new Date(), 'dddd, Do MMMM')}
   </HelloStyle>
