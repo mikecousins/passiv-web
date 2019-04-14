@@ -30,11 +30,11 @@ const App = () => {
   const [stripe, setStripe] = useState(null);
   useEffect(() => {
     if (window.Stripe) {
-      setStripe(window.Stripe('pk_test_UEivjUoJpfSDWq5i4xc64YNK'));
+      setStripe(window.Stripe('pk_live_LTLbjcwtt6gUmBleYqVVhMFX'));
     } else {
       document.querySelector('#stripe-js').addEventListener('load', () => {
         // Create Stripe instance once Stripe.js loads
-        setStripe(window.Stripe('pk_test_UEivjUoJpfSDWq5i4xc64YNK'));
+        setStripe(window.Stripe('pk_live_LTLbjcwtt6gUmBleYqVVhMFX'));
       });
     }
   }, []);
