@@ -70,6 +70,16 @@ const QuestradeOauthPage = ({ router, reloadAllState, push }) => {
           </P>
         );
         break;
+      case '1023':
+        errorDisplay = (
+          <P>
+            The brokerage account linked to this connection is different from
+            the account you're trying to link. This is not allowed because it
+            would leave existing portfolios without a functional connection.
+            Instead, create a new connection and delete this one if desired.
+          </P>
+        );
+        break;
       case '0000':
         errorDisplay = (
           <P>
