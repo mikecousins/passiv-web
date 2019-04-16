@@ -8,3 +8,10 @@ export const selectPathname = createSelector(
     return router.location.pathname;
   },
 );
+
+export const selectIsEditMode = createSelector(
+  selectRouter,
+  router => {
+    return router.location.search === '?edit=true';
+  },
+);

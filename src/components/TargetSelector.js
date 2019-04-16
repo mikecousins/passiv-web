@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Formik, FieldArray, Field, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 import uuid from 'uuid';
+import { replace } from 'connected-react-router';
 import { loadGroup } from '../actions';
 import {
   selectCurrentGroupId,
@@ -12,6 +13,7 @@ import {
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrentGroupCash,
 } from '../selectors';
+import { selectIsEditMode } from '../selectors/router';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../styled/Button';
@@ -27,8 +29,9 @@ export const TargetSelector = ({
   positions,
   totalEquity,
   cash,
+  replace,
+  edit,
 }) => {
-  const [edit, setEdit] = useState(false);
   const [forceUpdateToggle, setForceUpdateToggle] = useState(false);
 
   const canEdit = edit || !lockable;
@@ -43,11 +46,19 @@ export const TargetSelector = ({
     forceUpdate();
   };
 
+  const toggleEditMode = () => {
+    if (edit) {
+      replace(`/app/group/${groupId}`);
+    } else {
+      replace(`/app/group/${groupId}?edit=true`);
+    }
+  };
+
   const resetTargets = () => {
     postData(`/api/v1/portfolioGroups/${groupId}/targets/`, [])
       .then(response => {
         // once we're done refresh the groups
-        setEdit(false);
+        toggleEditMode();
         refreshGroup({ ids: [groupId] });
       })
       .catch(error => {
@@ -56,7 +67,7 @@ export const TargetSelector = ({
           `Failed to reset targets: ${error.response &&
             error.response.data.detail}`,
         );
-        setEdit(false);
+        toggleEditMode();
         // reset the form
         actions.resetForm();
       });
@@ -104,7 +115,7 @@ export const TargetSelector = ({
       }}
       onSubmit={(values, actions) => {
         // set us back to non-editing state
-        setEdit(false);
+        toggleEditMode();
         const newTargets = values.targets.filter(t => !t.deleted);
         postData(`/api/v1/portfolioGroups/${groupId}/targets/`, newTargets)
           .then(response => {
@@ -124,7 +135,7 @@ export const TargetSelector = ({
       }}
       onReset={(values, actions) => {
         values.targets = target;
-        setEdit(false);
+        toggleEditMode();
       }}
       render={props => (
         <div>
@@ -251,14 +262,17 @@ export const TargetSelector = ({
                       {lockable && (
                         <button
                           type="button"
-                          onClick={() => props.handleReset()}
+                          onClick={() => {
+                            props.handleReset();
+                            toggleEditMode();
+                          }}
                         >
                           Cancel
                         </button>
                       )}
                     </React.Fragment>
                   ) : (
-                    <Edit type="button" onClick={() => setEdit(true)}>
+                    <Edit type="button" onClick={() => toggleEditMode()}>
                       <FontAwesomeIcon icon={faLock} />
                       Edit Targets
                     </Edit>
@@ -275,6 +289,7 @@ export const TargetSelector = ({
 
 const actions = {
   refreshGroup: loadGroup,
+  replace,
 };
 
 const select = state => ({
@@ -282,6 +297,7 @@ const select = state => ({
   positions: selectCurrentGroupPositions(state),
   totalEquity: selectCurrentGroupTotalEquityExcludedRemoved(state),
   cash: selectCurrentGroupCash(state),
+  edit: selectIsEditMode(state),
 });
 
 export default connect(
