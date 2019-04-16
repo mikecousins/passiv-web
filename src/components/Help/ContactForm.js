@@ -25,12 +25,19 @@ const GreenBox = styled.div`
   }
 `;
 
+const HiddenInput = styled(Input)`
+  color: red;
+  display: none;
+`;
+
 export class ContactForm extends React.Component {
   render() {
     return (
       <GreenBox>
         <Formik
           initialValues={{
+            name: '',
+            url: '',
             email: this.props.settings ? this.props.settings.email : '',
             message: '',
           }}
@@ -42,26 +49,45 @@ export class ContactForm extends React.Component {
             message: Yup.string().required('Required'),
           })}
           onSubmit={(values, actions) => {
-            postData('/api/v1/feedback/', {
-              email: values.email,
-              message: values.message,
-            })
-              .then(response => {
-                actions.setSubmitting(false);
-                actions.setStatus({ submitted: true });
+            if (values.name !== '' || values.url !== '') {
+              // if either of these fields have data, it was submitted by a bot so we do nothing
+              actions.setSubmitting(false);
+            } else {
+              postData('/api/v1/feedback/', {
+                email: values.email,
+                message: values.message,
               })
-              .catch(error => {
-                actions.setErrors({
-                  errors: error.response.data.errors || 'Failed to submit.',
+                .then(response => {
+                  actions.setSubmitting(false);
+                  actions.setStatus({ submitted: true });
+                })
+                .catch(error => {
+                  actions.setErrors({
+                    errors: error.response.data.errors || 'Failed to submit.',
+                  });
+                  actions.setSubmitting(false);
                 });
-                actions.setSubmitting(false);
-              });
+            }
           }}
           render={props => (
             <Form onSubmit={props.handleSubmit}>
               <legend>
                 <H2>Send us a Message</H2>
               </legend>
+              <HiddenInput
+                id="name"
+                name="name"
+                placeholder="This field is a trap for bots, don't enter anything here."
+                error={props.touched.name && props.errors.name}
+                disabled={props.status.submitted}
+              />
+              <HiddenInput
+                id="url"
+                name="url"
+                placeholder="This field is a trap for bots, don't enter anything here."
+                error={props.touched.url && props.errors.url}
+                disabled={props.status.submitted}
+              />
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
