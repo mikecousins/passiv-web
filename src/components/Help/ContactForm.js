@@ -49,7 +49,7 @@ export class ContactForm extends React.Component {
             message: Yup.string().required('Required'),
           })}
           onSubmit={(values, actions) => {
-            if (values.name != '' || values.url != '') {
+            if (values.name !== '' || values.url !== '') {
               // if either of these fields have data, it was submitted by a bot so we do nothing
               actions.setSubmitting(false);
             } else {
