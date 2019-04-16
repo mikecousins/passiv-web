@@ -46,12 +46,14 @@ export const Group = props => {
   }
 
   let cash = <FontAwesomeIcon icon={faSpinner} spin />;
-  if (group.totalCash) {
+
+  if (group.totalCash >= 0 && group.setupComplete !== undefined) {
     cash = <Number value={group.totalCash} currency />;
   }
 
   let totalValue = <FontAwesomeIcon icon={faSpinner} spin />;
-  if (group.totalValue) {
+
+  if (group.totalValue >= 0 && group.setupComplete !== undefined) {
     totalValue = <Number value={group.totalValue} currency />;
   }
 

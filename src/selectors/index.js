@@ -428,7 +428,7 @@ export const selectDashboardGroups = createSelector(
         group.brokerage_authorizations =
           groupInfo[group.id].data.brokerage_authorizations;
       }
-      if (group.totalCash && group.totalHoldings) {
+      if (group.totalCash !== null && group.totalHoldings !== null) {
         group.totalValue = group.totalCash + group.totalHoldings;
       }
 
@@ -743,10 +743,11 @@ export const selectCurrentGroupTotalEquity = createSelector(
   selectCurrentGroupCash,
   selectCurrentGroupBalancedEquity,
   (cash, balancedEquity) => {
-    if (!cash && !balancedEquity) {
+    if (cash !== null && balancedEquity !== null) {
+      return cash + balancedEquity;
+    } else {
       return null;
     }
-    return cash + balancedEquity;
   },
 );
 

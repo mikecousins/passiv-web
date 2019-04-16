@@ -36,7 +36,7 @@ export const TotalHoldings = ({ demoMode, totalHoldings }) => {
   let displayTotal = <FontAwesomeIcon icon={faSpinner} spin />;
   if (demoMode) {
     displayTotal = <span>$-------.--</span>;
-  } else if (totalHoldings) {
+  } else if (totalHoldings !== null) {
     displayTotal = <Number value={totalHoldings} currency />;
   }
   return (
