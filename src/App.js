@@ -26,15 +26,22 @@ const prefixPath = path => {
   return `/app${path}`;
 };
 
+// use the stripe test key unless we're in prod
+const stripePublicKey =
+  process.env.REACT_APP_BASE_URL_OVERRIDE &&
+  process.env.REACT_APP_BASE_URL_OVERRIDE === 'getpassiv.com'
+    ? 'pk_live_LTLbjcwtt6gUmBleYqVVhMFX'
+    : 'pk_test_UEivjUoJpfSDWq5i4xc64YNK';
+
 const App = () => {
   const [stripe, setStripe] = useState(null);
   useEffect(() => {
     if (window.Stripe) {
-      setStripe(window.Stripe('pk_live_LTLbjcwtt6gUmBleYqVVhMFX'));
+      setStripe(window.Stripe(stripePublicKey));
     } else {
       document.querySelector('#stripe-js').addEventListener('load', () => {
         // Create Stripe instance once Stripe.js loads
-        setStripe(window.Stripe('pk_live_LTLbjcwtt6gUmBleYqVVhMFX'));
+        setStripe(window.Stripe(stripePublicKey));
       });
     }
   }, []);
