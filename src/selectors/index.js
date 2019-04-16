@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import ms from 'milliseconds';
 import jwtDecode from 'jwt-decode';
 import shouldUpdate from '../reactors/should-update';
+import { selectIsEditMode } from './router';
 
 export const selectAppTime = state => state.appTime;
 
@@ -251,8 +252,9 @@ export const selectGroupsNeedData = createSelector(
   selectGroupsRaw,
   selectGroupInfo,
   selectAppTime,
-  (loggedIn, rawGroups, groupInfo, time) => {
-    if (!loggedIn) {
+  selectIsEditMode,
+  (loggedIn, rawGroups, groupInfo, time, edit) => {
+    if (!loggedIn || edit) {
       return false;
     }
     return shouldUpdate(rawGroups, {
