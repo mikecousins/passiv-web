@@ -43,7 +43,9 @@ export class ConnectionsManager extends React.Component {
             >
               Cancel
             </Button>
-            {this.props.isFree && this.props.authorizations.length > 0 ? (
+            {this.props.isFree &&
+            this.props.authorizations &&
+            this.props.authorizations.length > 0 ? (
               <React.Fragment>
                 Upgrade your account to add multiple connections!
               </React.Fragment>
@@ -58,7 +60,7 @@ export class ConnectionsManager extends React.Component {
                 this.startCreatingNewConnection();
               }}
             >
-              {this.props.authorizations.length > 0
+              {this.props.authorizations && this.props.authorizations.length > 0
                 ? 'Add Another Connection'
                 : 'Add a Connection'}
             </Button>
