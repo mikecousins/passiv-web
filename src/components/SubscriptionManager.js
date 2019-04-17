@@ -17,6 +17,7 @@ import SubscriptionPlans from './SubscriptionPlans';
 import styled from '@emotion/styled';
 import { H2, P, A } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
+import CreditCardDetails from './CreditCardDetails';
 
 const SubscriptionContainer = styled.div`
   button {
@@ -30,6 +31,10 @@ const ActionContainer = styled.div`
     margin-left: 10px;
     text-decoration: underline;
   }
+`;
+
+const H2Padded = styled(H2)`
+  padding-bottom: 8px;
 `;
 
 export class SubscriptionManager extends React.Component {
@@ -151,13 +156,6 @@ export class SubscriptionManager extends React.Component {
     );
 
     if (this.props.subscriptions) {
-      let updateNag = null;
-      if (this.props.subscriptions.cardState !== 'VALID') {
-        updateNag = (
-          <P>Your credit card has been declined, please update it.</P>
-        );
-      }
-
       if (this.props.subscriptions.type === 'free') {
         subscriptionBody = (
           <div>
@@ -167,15 +165,15 @@ export class SubscriptionManager extends React.Component {
         );
       } else if (this.props.subscriptions.type === 'paid') {
         subscriptionBody = (
-          <div>
+          <React.Fragment>
             {this.state.cancelingSubscription ? (
               <P>
                 Canceling your subscription...{' '}
                 <FontAwesomeIcon icon={faSpinner} spin />
               </P>
             ) : this.state.updatingPayment ? (
-              <div>
-                Enter your updated payment information
+              <React.Fragment>
+                <P>Enter your updated payment information</P>
                 <Elements>
                   <InjectedUpdatePaymentForm
                     loading={this.state.loading}
@@ -197,16 +195,16 @@ export class SubscriptionManager extends React.Component {
                     </A>
                   </ActionContainer>
                 )}
-              </div>
+              </React.Fragment>
             ) : (
-              <div>
+              <React.Fragment>
                 <P>
                   You are subscribed to the{' '}
                   {this.props.subscriptions.details.period} Elite plan.
                 </P>
-                {updateNag}
+
                 {this.props.subscriptions.details.canceled ? (
-                  <div>
+                  <React.Fragment>
                     <P>
                       Your subscription has been canceled. You will have access
                       to Elite features until this billing period{' '}
@@ -219,7 +217,7 @@ export class SubscriptionManager extends React.Component {
                         .
                       </strong>
                     </P>
-                  </div>
+                  </React.Fragment>
                 ) : (
                   <ActionContainer>
                     <P>
@@ -230,12 +228,16 @@ export class SubscriptionManager extends React.Component {
                       )}
                       .
                     </P>
+                    <CreditCardDetails
+                      cardState={this.props.subscriptions.cardState}
+                      cardDetails={this.props.subscriptions.cardDetails}
+                    />
                     <Button
                       onClick={() => {
                         this.updatePayment();
                       }}
                     >
-                      Update Payment
+                      Update Card
                     </Button>
                     <A
                       onClick={() => {
@@ -246,9 +248,9 @@ export class SubscriptionManager extends React.Component {
                     </A>
                   </ActionContainer>
                 )}
-              </div>
+              </React.Fragment>
             )}
-          </div>
+          </React.Fragment>
         );
       } else if (this.props.subscriptions.type === 'trial') {
         subscriptionBody = <P>TRIAL</P>;
@@ -258,7 +260,7 @@ export class SubscriptionManager extends React.Component {
     return (
       <ShadowBox>
         <SubscriptionContainer>
-          <H2>Subscription</H2>
+          <H2Padded>Subscription</H2Padded>
           <div>{subscriptionBody}</div>
         </SubscriptionContainer>
       </ShadowBox>

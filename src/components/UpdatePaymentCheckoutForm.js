@@ -90,7 +90,9 @@ export class UpdatePaymentCheckoutForm extends React.Component {
         {!this.state.loading && this.state.error && <div>{error}</div>}
         {this.props.loading ? (
           <div>
-            Updating your card... <FontAwesomeIcon icon={faSpinner} spin />
+            <P>
+              Updating your card... <FontAwesomeIcon icon={faSpinner} spin />
+            </P>
           </div>
         ) : (
           <Button onClick={this.submit}>Submit</Button>

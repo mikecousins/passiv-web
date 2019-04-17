@@ -98,3 +98,13 @@ export const Title = styled.div`
   font-weight: 700;
   margin-bottom: 8px;
 `;
+
+export const WarningBox = styled.div`
+  background: #fceeb5;
+  border-radius: 4px;
+  padding: 10px 20px 10px;
+  margin: 10px 0 10px 0;
+  p {
+    margin: 0;
+  }
+`;
