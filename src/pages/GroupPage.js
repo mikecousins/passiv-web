@@ -10,6 +10,7 @@ import AccountMetadata from '../components/AccountMetadata';
 import AccountTargets from '../components/AccountTargets';
 import AccountTrades from '../components/AccountTrades';
 import AccountSettings from '../components/AccountSettings';
+import ErrorQuotes from '../components/ErrorQuotes';
 import {
   selectCurrentGroupTotalEquity,
   selectCurrentGroupCash,
@@ -18,6 +19,7 @@ import {
   selectCurrentGroupPositions,
   selectCurrentGroupBalances,
   selectCurrentGroupTrades,
+  selectCurrentGroupInfoErrors,
   selectCurrentGroupSetupComplete,
 } from '../selectors';
 import Tooltip from '../components/Tooltip';
@@ -45,6 +47,7 @@ const GroupPage = props => {
     positions,
     cash,
     equity,
+    errors,
     setupComplete,
   } = props;
 
@@ -93,6 +96,7 @@ const GroupPage = props => {
       </Container2Column>
 
       {tradeDisplay}
+      <ErrorQuotes error={errors} />
 
       <AccountTargets positions={positions} />
 
@@ -114,6 +118,7 @@ const select = state => ({
   accuracy: selectCurrentGroupAccuracy(state),
   trades: selectCurrentGroupTrades(state),
   setupComplete: selectCurrentGroupSetupComplete(state),
+  errors: selectCurrentGroupInfoErrors(state),
 });
 
 export default connect(select)(GroupPage);
