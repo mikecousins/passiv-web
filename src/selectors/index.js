@@ -344,8 +344,10 @@ export const selectCurrentGroupInfo = createSelector(
 export const selectCurrentGroupInfoErrors = createSelector(
   selectCurrentGroupInfo,
   data => {
-    if (data.error) {
+    try {
       return data.error;
+    } catch {
+      return null;
     }
   },
 );

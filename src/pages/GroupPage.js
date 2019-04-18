@@ -98,7 +98,8 @@ const GroupPage = props => {
       </Container2Column>
 
       {tradeDisplay}
-      <ErrorQuotes error={errors} symbols={symbols} />
+
+      {errors ? <ErrorQuotes error={errors} symbols={symbols} /> : null}
 
       <AccountTargets positions={positions} />
 

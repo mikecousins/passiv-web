@@ -4,14 +4,7 @@ import ErrorQuote from './ErrorQuote';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-import {
-  ErrorsContainer,
-  Symbol,
-  TradeRow,
-  ColumnErrorDescription,
-  ColumnErrorSymbol,
-  ErrorTitle,
-} from '../styled/Group';
+import { ErrorsContainer } from '../styled/Group';
 
 import { H3, P, Title } from '../styled/GlobalElements';
 
