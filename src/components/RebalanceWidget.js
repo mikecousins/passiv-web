@@ -10,7 +10,7 @@ import {
   selectSymbols,
   selectBrokerages,
   selectDashboardGroups,
-  selectIsFree,
+  selectUserPermissions,
 } from '../selectors';
 import { Button } from '../styled/Button';
 import styled from '@emotion/styled';
@@ -186,8 +186,21 @@ export class RebalanceWidget extends Component {
     return group.brokerage_authorizations.find(a => a.type === 'read');
   };
 
+  canPlaceOrders = () => {
+    let permissions = this.props.userPermissions;
+    let filtered_permissions = permissions.filter(
+      permission => permission === 'can_place_orders',
+    );
+
+    if (filtered_permissions.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   render() {
-    const { isFree, push } = this.props;
+    const { push } = this.props;
     let error = null;
     if (this.state.error) {
       switch (this.state.error.code) {
@@ -279,7 +292,7 @@ export class RebalanceWidget extends Component {
     let orderValidation = (
       <Button onClick={this.validateOrders}>Validate</Button>
     );
-    if (isFree) {
+    if (!this.canPlaceOrders()) {
       orderValidation = (
         <UpgradeText>
           Upgrade your account to let us execute trades for you!{' '}
@@ -438,7 +451,7 @@ const select = state => ({
   symbols: selectSymbols(state),
   brokerages: selectBrokerages(state),
   groups: selectDashboardGroups(state),
-  isFree: selectIsFree(state),
+  userPermissions: selectUserPermissions(state),
 });
 
 export default connect(
