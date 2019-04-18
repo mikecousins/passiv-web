@@ -19,6 +19,7 @@ import {
   selectCurrentGroupPositions,
   selectCurrentGroupBalances,
   selectCurrentGroupTrades,
+  selectCurrentGroupSymbols,
   selectCurrentGroupInfoErrors,
   selectCurrentGroupSetupComplete,
 } from '../selectors';
@@ -47,6 +48,7 @@ const GroupPage = props => {
     positions,
     cash,
     equity,
+    symbols,
     errors,
     setupComplete,
   } = props;
@@ -96,7 +98,7 @@ const GroupPage = props => {
       </Container2Column>
 
       {tradeDisplay}
-      <ErrorQuotes error={errors} />
+      <ErrorQuotes error={errors} symbols={symbols} />
 
       <AccountTargets positions={positions} />
 
@@ -118,6 +120,7 @@ const select = state => ({
   accuracy: selectCurrentGroupAccuracy(state),
   trades: selectCurrentGroupTrades(state),
   setupComplete: selectCurrentGroupSetupComplete(state),
+  symbols: selectCurrentGroupSymbols(state),
   errors: selectCurrentGroupInfoErrors(state),
 });
 

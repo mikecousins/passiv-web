@@ -164,7 +164,7 @@ export const ErrorsContainer = styled.div`
   padding: 20px;
   margin-bottom: 20px;
   margin-top: 0;
-  background: #ff908c;
+  background: #ff0000;
   h3 {
     color: #003ba2;
     font-size: 25px;
@@ -249,6 +249,31 @@ export const TradeType = styled.div`
     margin-top: 12px;
     padding-top: 18px;
   }
+`;
+
+export const ColumnErrorSymbol = styled.div`
+  min-width: 50%;
+  color: var(--brand-grey);
+  @media (max-width: 900px) {
+    line-height: 1.2;
+  }
+`;
+
+export const ColumnErrorDescription = styled.div`
+  min-width: 17%;
+  color: var(--brand-grey);
+  @media (max-width: 900px) {
+    margin-bottom: 16px;
+  }
+`;
+
+export const ErrorTitle = styled.div`
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  margin-top: 0px;
+  padding: 4px 4px 2px;
 `;
 
 export const Order = styled.div``;

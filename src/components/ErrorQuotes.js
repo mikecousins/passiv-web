@@ -1,32 +1,41 @@
 import React from 'react';
+import ErrorQuote from './ErrorQuote';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-import { ErrorsContainer, Symbol } from '../styled/Group';
+import {
+  ErrorsContainer,
+  Symbol,
+  TradeRow,
+  ColumnErrorDescription,
+  ColumnErrorSymbol,
+  ErrorTitle,
+} from '../styled/Group';
+
 import { H3, P, Title } from '../styled/GlobalElements';
 
-const ErrorQuotes = error => {
-  const symbolsWithErrors = error.error.symbolsWithErrors;
+const ErrorQuotes = props => {
+  const { error, symbols } = props;
 
-  const ErrorSymbolQuoteRender = symbolWithError => (
-    <React.Fragment>
-      <Title> Hello this is a test </Title>
-      <Symbol> Mhmmm </Symbol>
-    </React.Fragment>
+  const symbolsWithErrors = error.symbolsWithErrors;
+  const symbolsIds = symbolsWithErrors.map(
+    s => s[Object.getOwnPropertyNames(s)],
+  );
+  const symbolDetails = symbolsIds.map(
+    id => symbols.filter(symbol => symbol.id === id)[0],
   );
 
-  const renderedErrors = symbolsWithErrors => {
-    symbolsWithErrors.map(symbol => <ErrorSymbolQuoteRender />);
-  };
-
-  return (
+  return !error ? null : (
     <ErrorsContainer>
       <H3>
         <FontAwesomeIcon icon={faExclamationTriangle} /> Something Went Wrong!{' '}
       </H3>
       <P> We were unable to get market quotes for the following symbols: </P>
-      {renderedErrors}
+
+      {symbolDetails.map(detail => (
+        <ErrorQuote key={detail.id} detail={detail} />
+      ))}
     </ErrorsContainer>
   );
 };
