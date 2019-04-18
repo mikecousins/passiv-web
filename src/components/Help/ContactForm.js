@@ -38,24 +38,31 @@ export class ContactForm extends React.Component {
           initialValues={{
             name: '',
             url: '',
-            email: this.props.settings ? this.props.settings.email : '',
+            email: '',
             message: '',
+            le: this.props.settings ? this.props.settings.email : '',
+            lm: '',
           }}
           initialStatus={{ submitted: false }}
           validationSchema={Yup.object().shape({
-            email: Yup.string()
+            le: Yup.string()
               .email('Must be a valid email')
               .required('Required'),
-            message: Yup.string().required('Required'),
+            lm: Yup.string().required('Required'),
           })}
           onSubmit={(values, actions) => {
-            if (values.name !== '' || values.url !== '') {
+            if (
+              values.name !== '' ||
+              values.url !== '' ||
+              values.message !== '' ||
+              values.email !== ''
+            ) {
               // if either of these fields have data, it was submitted by a bot so we do nothing
               actions.setSubmitting(false);
             } else {
               postData('/api/v1/feedback/', {
-                email: values.email,
-                message: values.message,
+                email: values.le,
+                message: values.lm,
               })
                 .then(response => {
                   actions.setSubmitting(false);
@@ -78,38 +85,48 @@ export class ContactForm extends React.Component {
                 id="name"
                 name="name"
                 placeholder="This field is a trap for bots, don't enter anything here."
-                error={props.touched.name && props.errors.name}
                 disabled={props.status.submitted}
               />
               <HiddenInput
                 id="url"
                 name="url"
                 placeholder="This field is a trap for bots, don't enter anything here."
-                error={props.touched.url && props.errors.url}
                 disabled={props.status.submitted}
               />
-              <Label htmlFor="email">Email</Label>
-              <Input
+              <HiddenInput
                 id="email"
                 name="email"
+                placeholder="This field is a trap for bots, don't enter anything here."
+                disabled={props.status.submitted}
+              />
+              <HiddenInput
+                id="message"
+                name="message"
+                placeholder="This field is a trap for bots, don't enter anything here."
+                disabled={props.status.submitted}
+              />
+              <Label htmlFor="le">Email</Label>
+              <Input
+                id="le"
+                name="le"
                 placeholder="john.smith@gmail.com"
                 error={props.touched.email && props.errors.email}
                 disabled={props.status.submitted}
               />
               <P>
-                <ErrorMessage name="email" />
+                <ErrorMessage name="le" />
               </P>
-              <Label htmlFor="message">Message</Label>
+              <Label htmlFor="lm">Message</Label>
               <Textarea
                 component="textarea"
-                id="message"
-                name="message"
+                id="lm"
+                name="lm"
                 placeholder="Tell us what's on your mind."
                 error={props.touched.message && props.errors.message}
                 disabled={props.status.submitted}
               />
               <P>
-                <ErrorMessage name="message" />
+                <ErrorMessage name="lm" />
               </P>
               {props.status.submitted ? (
                 <div>
