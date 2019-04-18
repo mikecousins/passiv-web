@@ -6,8 +6,9 @@ import { loadSettings, loadSubscriptions } from '../actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { format } from 'date-fns';
 
-import { H3, Edit } from '../styled/GlobalElements';
+import { H3, Edit, P } from '../styled/GlobalElements';
 
 class SubscriptionCoupon extends React.Component {
   removeCoupon() {
@@ -34,11 +35,16 @@ class SubscriptionCoupon extends React.Component {
               <FontAwesomeIcon icon={faTimes} /> Remove
             </Edit>
           </H3>
-          <p>
+          <P>
             Subscribe now and save <strong>{coupon.percent_off}% off</strong>{' '}
             your annual subscription
-          </p>
-          {coupon.redeem_by ? <p>Expires on: {coupon.redeem_by}</p> : null}
+          </P>
+          {coupon.redeem_by ? (
+            <P>
+              Redeem coupon by:{' '}
+              <strong>{format(coupon.redeem_by, 'MMMM D, YYYY')}</strong>
+            </P>
+          ) : null}
         </React.Fragment>
       );
     } else if (coupon.amount_off) {
@@ -50,10 +56,10 @@ class SubscriptionCoupon extends React.Component {
               <FontAwesomeIcon icon={faTimes} /> Remove{' '}
             </Edit>
           </H3>
-          <p>
+          <P>
             Subscribe now and save <strong>${coupon.amount_off} off</strong>{' '}
             your annual subscription
-          </p>
+          </P>
         </React.Fragment>
       );
     } else {
