@@ -14,7 +14,7 @@ import {
   selectCurrentGroupExcludedAssets,
   selectCurrentGroupSymbols,
   selectCurrentGroupQuotableSymbols,
-  selectIsFree,
+  selectUserPermissions,
 } from '../selectors';
 import { postData, deleteData } from '../api';
 
@@ -78,6 +78,19 @@ class ExcludedAssetToggle extends Component {
     }
   };
 
+  canExcludeAssets = () => {
+    let permissions = this.props.userPermissions;
+    let filtered_permissions = permissions.filter(
+      permission => permission === 'can_exclude_assets',
+    );
+
+    if (filtered_permissions.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   render() {
     if (this.state.loading) {
       return <FontAwesomeIcon icon={faSpinner} />;
@@ -107,7 +120,7 @@ class ExcludedAssetToggle extends Component {
       );
     }
 
-    if (this.props.isFree) {
+    if (!this.canExcludeAssets()) {
       return (
         <Link
           to="/app/settings"
@@ -144,7 +157,7 @@ const select = state => ({
   excludedAssets: selectCurrentGroupExcludedAssets(state),
   symbols: selectCurrentGroupSymbols(state),
   quotableSymbols: selectCurrentGroupQuotableSymbols(state),
-  isFree: selectIsFree(state),
+  userPermissions: selectUserPermissions(state),
 });
 
 export default connect(

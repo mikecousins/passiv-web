@@ -83,6 +83,23 @@ export const A = styled.a`
   cursor: pointer;
 `;
 
+// a that looks like button
+export const AButton = styled.a`
+  background-color: ${props => (props.disabled ? '#003aa1' : '#003BA2')};
+  opacity: ${props => (props.disabled ? '.7' : '1')};
+  :hover,
+  :visited,
+  :link,
+  :active {
+    text-decoration: none;
+  }
+
+  border: none;
+  color: white;
+  padding: 13px 18px 15px;
+  margin: 5px;
+`;
+
 // edit
 export const Edit = styled.button`
   color: var(--brand-blue);

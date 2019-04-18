@@ -17,9 +17,16 @@ import { selectIsEditMode } from '../selectors/router';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../styled/Button';
-import { H3, Edit } from '../styled/GlobalElements';
+import { H3, Edit, AButton } from '../styled/GlobalElements';
 import { TargetRow } from '../styled/Target';
 import { postData } from '../api';
+import styled from '@emotion/styled';
+
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0 20px 0;
+`;
 
 export const TargetSelector = ({
   lockable,
@@ -86,6 +93,27 @@ export const TargetSelector = ({
     target.key = target.id;
     return { ...target };
   });
+
+  // portfolio visualizer url construction
+  const portfolioVisualizerBaseURL =
+    'https://www.portfoliovisualizer.com/backtest-portfolio?s=y&timePeriod=4&initialAmount=10000&annualOperation=0&annualAdjustment=0&inflationAdjusted=true&annualPercentage=0.0&frequency=4&rebalanceType=1&showYield=false&reinvestDividends=true';
+
+  const portfolioVisualizerURLParts = [];
+  portfolioVisualizerURLParts.push(portfolioVisualizerBaseURL);
+
+  target.map((target, index) => {
+    let iValue = index + 1;
+    portfolioVisualizerURLParts.push(
+      `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${
+        target.percent
+      }`,
+    );
+    return null;
+  });
+
+  portfolioVisualizerURLParts.push('#analysisResults');
+
+  const portfolioVisualizerURL = portfolioVisualizerURLParts.join('');
 
   return (
     <Formik
@@ -272,10 +300,19 @@ export const TargetSelector = ({
                       )}
                     </React.Fragment>
                   ) : (
-                    <Edit type="button" onClick={() => toggleEditMode()}>
-                      <FontAwesomeIcon icon={faLock} />
-                      Edit Targets
-                    </Edit>
+                    <ButtonBox>
+                      <div>
+                        <Edit type="button" onClick={() => toggleEditMode()}>
+                          <FontAwesomeIcon icon={faLock} />
+                          Edit Targets
+                        </Edit>
+                      </div>
+                      <div>
+                        <AButton href={portfolioVisualizerURL} target="_blank">
+                          Portfolio Visualizer
+                        </AButton>
+                      </div>
+                    </ButtonBox>
                   )}
                 </React.Fragment>
               );

@@ -970,3 +970,13 @@ export const selectIsFree = createSelector(
     return !isPaid;
   },
 );
+
+export const selectUserPermissions = createSelector(
+  selectSubscriptions,
+  subscriptions => {
+    if (!subscriptions) {
+      return null;
+    }
+    return subscriptions.permissions;
+  },
+);
