@@ -4,7 +4,7 @@ import {
   selectBrokerages,
   selectAuthorizations,
   selectAccounts,
-  selectIsFree,
+  selectUserPermissions,
 } from '../selectors';
 import { initialLoad, loadBrokerages } from '../actions';
 import AuthorizationPicker from '../components/AuthorizationPicker';
@@ -28,6 +28,19 @@ export class ConnectionsManager extends React.Component {
     this.setState({ creatingNewConnection: false });
   }
 
+  canAddMultipleConnections = () => {
+    let permissions = this.props.userPermissions;
+    let filtered_permissions = permissions.filter(
+      permission => permission === 'can_add_multiple_connections',
+    );
+
+    if (filtered_permissions.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   render() {
     return (
       <ShadowBox>
@@ -43,7 +56,7 @@ export class ConnectionsManager extends React.Component {
             >
               Cancel
             </Button>
-            {this.props.isFree &&
+            {!this.canAddMultipleConnections() &&
             this.props.authorizations &&
             this.props.authorizations.length > 0 ? (
               <React.Fragment>
@@ -75,7 +88,7 @@ const select = state => ({
   brokerages: selectBrokerages(state),
   authorizations: selectAuthorizations(state),
   accounts: selectAccounts(state),
-  isFree: selectIsFree(state),
+  userPermissions: selectUserPermissions(state),
 });
 const actions = {
   reloadAllState: initialLoad,
