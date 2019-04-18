@@ -50,9 +50,14 @@ const App = () => {
       <StripeProvider stripe={stripe}>
         <Switch>
           <Route
+            path="/"
+            exact
+            render={() => <Redirect to={prefixPath('/dashboard')} />}
+          />
+          <Route
             path={prefixPath('/')}
             exact
-            render={() => <Redirect to="/app/login" />}
+            render={() => <Redirect to={prefixPath('/dashboard')} />}
           />
           <Route path={prefixPath('/login')} component={LoginPage} />
           <Route path={prefixPath('/register')} component={RegistrationPage} />
