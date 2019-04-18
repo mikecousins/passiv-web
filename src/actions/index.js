@@ -128,7 +128,7 @@ export const loadSubscriptions = () => {
 export const loadPlans = () => {
   return dispatch => {
     dispatch(fetchPlansStart());
-    getData('/api/v1/subscriptions/')
+    getData('/api/v1/plans/')
       .then(response => dispatch(fetchPlansSuccess(response)))
       .catch(error => dispatch(fetchPlansError(error)));
   };
