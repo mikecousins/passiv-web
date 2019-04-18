@@ -216,7 +216,8 @@ export class RebalanceWidget extends Component {
               </H2>
               <P>
                 Passiv is unable to proceed with the orders because markets are
-                currently closed. If the stock market is open, please{' '}
+                currently closed. If the markets are actually open and you still
+                see this error, please{' '}
                 <Link to="/app/help">contact support</Link>.
               </P>
             </OrderContainer>
