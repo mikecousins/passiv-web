@@ -55,9 +55,9 @@
     "react-router": "5.0.0",
     "react-router-dom": "5.0.0",
     "react-scripts": "2.1.8",
-    "react-select": "2.4.2",
+    "react-select": "2.4.3",
     "react-stripe-elements": "2.0.3",
-    "react-toastify": "5.0.1",
+    "react-toastify": "5.1.0",
     "react-tooltip": "3.10.0",
     "redux": "4.0.1",
     "redux-devtools-extension": "2.13.8",
@@ -66,7 +66,6 @@
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
     "ric-shim": "1.0.0",
-    "safe-memory-cache": "1.5.1",
     "yup": "0.27.0"
   },
   "scripts": {
