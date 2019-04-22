@@ -18,18 +18,16 @@ export const Container2Column = styled.div`
   }
 `;
 
-class SettingsPage extends Component {
-  render() {
-    return (
-      <React.Fragment>
-        <Container2Column>
-          <CredentialsManager />
-          <SubscriptionManager />
-        </Container2Column>
-        <ConnectionsManager />
-      </React.Fragment>
-    );
-  }
-}
+const SettingsPage = props => {
+  return (
+    <React.Fragment>
+      <Container2Column>
+        <CredentialsManager />
+        <SubscriptionManager />
+      </Container2Column>
+      <ConnectionsManager />
+    </React.Fragment>
+  );
+};
 
 export default SettingsPage;
