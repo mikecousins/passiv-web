@@ -40,7 +40,9 @@ export const Group = props => {
       );
     } else {
       if (group.accuracy) {
-        accuracy = <Number value={group.accuracy} percentage />;
+        accuracy = (
+          <Number value={group.accuracy} percentage decimalPlaces={0} />
+        );
       }
     }
   }
