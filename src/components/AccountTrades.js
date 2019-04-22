@@ -10,6 +10,7 @@ import {
   ColumnUnits,
   ColumnPrice,
 } from '../styled/Group';
+import Number from './Number';
 
 export const AccountTrades = ({ trades, groupId }) => {
   let buysListRender = null;
@@ -19,7 +20,9 @@ export const AccountTrades = ({ trades, groupId }) => {
       <TradeRow key={trade.id}>
         <ColumnPrice>
           <Title>Price</Title>
-          <div>${trade.price}</div>
+          <div>
+            <Number value={trade.price} currency />
+          </div>
         </ColumnPrice>
         <ColumnUnits>
           <Title>Units</Title>
