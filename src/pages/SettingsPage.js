@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import CredentialsManager from '../components/CredentialsManager';
 import SubscriptionManager from '../components/SubscriptionManager';
 import ConnectionsManager from '../components/ConnectionsManager';
