@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { H3 } from '../styled/GlobalElements';
 import { selectSettings } from '../selectors';
 import { loadSettings } from '../actions';
 import { putData } from '../api';
 import styled from '@emotion/styled';
+import { ToggleButton } from '../styled/ToggleButton';
 
 const DividingLine = styled.div`
   border-top: 1px solid #eee;
@@ -44,17 +44,14 @@ class CashNotificationSettings extends React.Component {
     return (
       <React.Fragment>
         <DividingLine>
-          <H3>
-            {' '}
-            Receive Cash Notifications:
-            <button onClick={this.updateNotification}>
-              {settings.receive_cash_notifications ? (
-                <FontAwesomeIcon icon={faToggleOn} />
-              ) : (
-                <FontAwesomeIcon icon={faToggleOff} />
-              )}
-            </button>
-          </H3>
+          <strong>Receive Cash Notifications:</strong>{' '}
+          <ToggleButton onClick={this.updateNotification}>
+            {settings.receive_cash_notifications ? (
+              <FontAwesomeIcon icon={faToggleOn} />
+            ) : (
+              <FontAwesomeIcon icon={faToggleOff} />
+            )}
+          </ToggleButton>
         </DividingLine>
       </React.Fragment>
     );

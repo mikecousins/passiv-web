@@ -9,6 +9,7 @@ import {
 import { selectCurrentGroupSettings, selectCurrentGroupId } from '../selectors';
 import { loadGroup } from '../actions';
 import { putData } from '../api';
+import { ToggleButton } from '../styled/ToggleButton';
 
 class SettingsToggle extends Component {
   state = {
@@ -48,13 +49,13 @@ class SettingsToggle extends Component {
         {this.state.loading ? (
           <FontAwesomeIcon icon={faSpinner} />
         ) : (
-          <button onClick={this.handleClick}>
+          <ToggleButton onClick={this.handleClick}>
             {this.getSettingState() ? (
               <FontAwesomeIcon icon={faToggleOn} />
             ) : (
               <FontAwesomeIcon icon={faToggleOff} />
             )}
-          </button>
+          </ToggleButton>
         )}
       </React.Fragment>
     );

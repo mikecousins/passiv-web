@@ -55,7 +55,8 @@ export class ContactForm extends React.Component {
               values.name !== '' ||
               values.url !== '' ||
               values.message !== '' ||
-              values.email !== ''
+              values.email !== '' ||
+              values.lm.includes('https://vk.cc')
             ) {
               // if either of these fields have data, it was submitted by a bot so we do nothing
               actions.setSubmitting(false);
