@@ -80,6 +80,9 @@ class ExcludedAssetToggle extends Component {
 
   canExcludeAssets = () => {
     let permissions = this.props.userPermissions;
+    if (!permissions) {
+      return false;
+    }
     let filtered_permissions = permissions.filter(
       permission => permission === 'can_exclude_assets',
     );
