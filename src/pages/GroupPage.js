@@ -23,6 +23,7 @@ import {
   selectCurrentGroupInfoErrors,
   selectCurrentGroupSetupComplete,
 } from '../selectors';
+import { selectGroupsLoading } from '../selectors/groups';
 import Tooltip from '../components/Tooltip';
 
 export const Container2Column = styled.div`
@@ -51,6 +52,7 @@ const GroupPage = props => {
     symbols,
     errors,
     setupComplete,
+    loading,
   } = props;
 
   // if we don't have our group yet, show a spinner
@@ -79,10 +81,6 @@ const GroupPage = props => {
   if (setupComplete && trades && trades.trades.length) {
     tradeDisplay = <AccountTrades trades={trades} groupId={group.id} />;
   }
-  let isLoading = false;
-  if (positions === null) {
-    isLoading = true;
-  }
   return (
     <React.Fragment>
       <Container2Column>
@@ -94,7 +92,7 @@ const GroupPage = props => {
           cash={cash}
           equity={equity}
         />
-        <AccountAccuracy accuracy={accuracy} loading={isLoading} />
+        <AccountAccuracy accuracy={accuracy} loading={loading} />
       </Container2Column>
 
       {tradeDisplay}
@@ -104,7 +102,7 @@ const GroupPage = props => {
       <AccountTargets positions={positions} />
 
       <Container2Column>
-        <AccountHoldings positions={positions} />
+        <AccountHoldings positions={positions} loading={loading} />
         <AccountSettings />
       </Container2Column>
       <Tooltip />

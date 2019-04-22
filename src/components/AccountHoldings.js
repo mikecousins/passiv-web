@@ -33,7 +33,7 @@ export const NoHoldingsMessage = styled.table`
   margin: 20px 0;
 `;
 
-export const AccountHoldings = ({ positions }) => (
+export const AccountHoldings = ({ positions, loading }) => (
   <ShadowBox>
     {positions == null ? (
       <React.Fragment>
@@ -42,14 +42,20 @@ export const AccountHoldings = ({ positions }) => (
       </React.Fragment>
     ) : positions.length === 0 ? (
       <React.Fragment>
-        <H2>Current Portfolio</H2>
+        <H2>
+          Current Portfolio{' '}
+          {loading && <FontAwesomeIcon icon={faSpinner} spin />}
+        </H2>
         <NoHoldingsMessage>
-          <H3>You do not have any holdings in this portfolio. </H3>
+          <H3>You do not have any holdings in this portfolio.</H3>
         </NoHoldingsMessage>
       </React.Fragment>
     ) : (
       <React.Fragment>
-        <H2>Current Portfolio</H2>
+        <H2>
+          Current Portfolio{' '}
+          {loading && <FontAwesomeIcon icon={faSpinner} spin />}
+        </H2>
         <br />
         <HoldingsTable>
           <thead>

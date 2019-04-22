@@ -92,7 +92,9 @@ class QuestradeAuthorizationPicker extends Component {
             <StepButton
               blue
               onClick={() => {
-                alert('new account!');
+                window.location =
+                  'https://www.questrade.com/account-selection?oaa_promo=bgudhqhm';
+                return null;
               }}
             >
               Open an Account

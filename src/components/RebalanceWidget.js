@@ -188,6 +188,9 @@ export class RebalanceWidget extends Component {
 
   canPlaceOrders = () => {
     let permissions = this.props.userPermissions;
+    if (!permissions) {
+      return false;
+    }
     let filtered_permissions = permissions.filter(
       permission => permission === 'can_place_orders',
     );
