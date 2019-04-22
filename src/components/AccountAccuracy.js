@@ -9,7 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from '@emotion/styled';
 import { H2 } from '../styled/GlobalElements';
 import Number from './Number';
-import { selectCurrentGroupSetupComplete } from '../selectors';
+import {
+  selectCurrentGroupSetupComplete,
+  selectCurrentGroupInfoErrors,
+} from '../selectors';
 
 export const Accuracy = styled.div`
   text-align: center;
@@ -34,12 +37,26 @@ export const Accuracy = styled.div`
   }
 `;
 
-export const AccountAccuracy = ({ accuracy, loading, setupComplete }) => {
+export const AccountAccuracy = ({
+  accuracy,
+  loading,
+  setupComplete,
+  errors,
+}) => {
   let accuracyDisplay = null;
   if (loading || accuracy === undefined) {
     accuracyDisplay = (
       <div>
         <FontAwesomeIcon icon={faSpinner} spin />
+      </div>
+    );
+  } else if (errors) {
+    accuracyDisplay = (
+      <div>
+        <FontAwesomeIcon
+          icon={faExclamationTriangle}
+          data-tip="Unable to calculate accuracy."
+        />
       </div>
     );
   } else {
@@ -75,6 +92,7 @@ export const AccountAccuracy = ({ accuracy, loading, setupComplete }) => {
 
 const select = state => ({
   setupComplete: selectCurrentGroupSetupComplete(state),
+  errors: selectCurrentGroupInfoErrors(state),
 });
 
 export default connect(select)(AccountAccuracy);

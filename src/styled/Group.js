@@ -164,7 +164,7 @@ export const ErrorsContainer = styled.div`
   padding: 20px;
   margin-bottom: 20px;
   margin-top: 0;
-  background: #ff0000;
+  background: #ffb040;
   h3 {
     color: #003ba2;
     font-size: 25px;

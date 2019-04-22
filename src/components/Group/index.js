@@ -26,7 +26,7 @@ export const Group = props => {
   if (!group) {
     return <div>Loading...</div>;
   }
-
+  console.log(group.accuracy);
   const [expanded, setExpanded] = useState(false);
 
   let accuracy = <FontAwesomeIcon icon={faSpinner} spin />;
@@ -36,6 +36,13 @@ export const Group = props => {
         <FontAwesomeIcon
           icon={faExclamationTriangle}
           data-tip="There is no target set for this portfolio, click Setup to continue."
+        />
+      );
+    } else if (!group.accuracy) {
+      accuracy = (
+        <FontAwesomeIcon
+          icon={faExclamationTriangle}
+          data-tip="Unable to calculate group accuracy."
         />
       );
     } else {

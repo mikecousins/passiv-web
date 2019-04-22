@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import ErrorQuote from './ErrorQuote';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,7 +7,7 @@ import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 import { ErrorsContainer } from '../styled/Group';
 
-import { H3, P, Title } from '../styled/GlobalElements';
+import { H3, P } from '../styled/GlobalElements';
 
 const ErrorQuotes = props => {
   const { error, symbols } = props;
@@ -29,6 +30,14 @@ const ErrorQuotes = props => {
       {symbolDetails.map(detail => (
         <ErrorQuote key={detail.id} detail={detail} />
       ))}
+
+      <P>
+        {' '}
+        This might be due to the market being closed or the symbol being
+        delisted. If the symbol was delisted, you can exclude the asset from the
+        calculations. <Link to="/app/help">Contact support</Link> if this is a
+        bug or if you have any questions.
+      </P>
     </ErrorsContainer>
   );
 };
