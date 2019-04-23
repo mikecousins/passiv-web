@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faCheck } from '@fortawesome/free-solid-svg-icons';
+import styled from '@emotion/styled';
 import {
   selectBrokerages,
   selectAuthorizations,
@@ -7,14 +10,10 @@ import {
 } from '../selectors';
 import { loadAccounts } from '../actions';
 import { putData } from '../api';
-
 import PortfolioGroupPicker from './PortfolioGroupPicker';
 import { InputNonFormik } from '../styled/Form';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { Table, H3, P, Edit } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
-import styled from '@emotion/styled';
 
 const InputContainer = styled.div`
   padding-bottom: 20px;
