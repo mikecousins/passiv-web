@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import {
   selectBrokerages,
   selectAuthorizations,
-  selectGroupsRaw,
+  selectGroups,
 } from '../selectors';
 import { loadAccounts } from '../actions';
 import { putData } from '../api';
@@ -55,22 +55,20 @@ const AccountContainer = styled.div`
   }
 `;
 
-class Account extends React.Component {
-  state = {
-    nameEditting: false,
-    account_name: this.props.account.name,
-    portfolioGroupEdit: false,
-  };
+const Account = ({ account, authorizations, brokerages, groups }) => {
+  const [nameEditing, setNameEditing] = useState(false);
+  const [groupEditing, setGroupEditing] = useState(false);
+  const [name, setName] = useState(account.name);
 
-  onChange = e => this.setState({ account_name: e.target.value });
+  const onChange = e => setName(e.target.value);
 
-  onEnter = e => {
+  const onEnter = e => {
     if (e.key === 'Enter') {
-      this.finishEditing();
+      this.setAccountName();
     }
   };
 
-  finishEditing() {
+  const setAccountName = () => {
     if (this.state.account_name !== this.props.account.name) {
       let account = Object.assign({}, this.props.account);
       account.name = this.state.account_name;
@@ -82,122 +80,113 @@ class Account extends React.Component {
           this.props.refreshAccounts();
         });
     }
-    this.setState({ nameEditting: false });
-  }
+    this.setState({ nameEditing: false });
+  };
 
-  render() {
-    const { account, authorizations, brokerages } = this.props;
-    const groups = this.props.groups.data;
-    const { nameEditting, account_name, portfolioGroupEdit } = this.state;
+  const setPortfolioGroup = () => {
+    // set the account to be in a specified portfolio group
+  };
 
-    const authorization = authorizations.filter(
-      authorization => authorization.id === account.brokerage_authorization,
-    )[0];
-    const brokerage = brokerages.filter(
-      brokerage => brokerage.id === authorization.brokerage.id,
-    )[0];
+  const authorization = authorizations.find(
+    authorization => authorization.id === account.brokerage_authorization,
+  );
+  const brokerage = brokerages.find(
+    brokerage => brokerage.id === authorization.brokerage.id,
+  );
 
-    const formatAccountType = (account, brokerage) => {
-      let accountType = '';
+  const formatAccountType = (account, brokerage) => {
+    let accountType = '';
 
-      if (brokerage.name === 'Questrade') {
-        accountType =
-          account.meta.client_account_type + ' ' + account.meta.type;
-      } else {
-        accountType = account.meta.type;
-      }
-      return accountType;
-    };
-
-    let groupName = '----------------------';
-    if (account.portfolio_group) {
-      const group = groups.find(group => group.id === account.portfolio_group);
-      groupName = group.name;
+    if (brokerage.name === 'Questrade') {
+      accountType = account.meta.client_account_type + ' ' + account.meta.type;
+    } else {
+      accountType = account.meta.type;
     }
+    return accountType;
+  };
 
-    return (
-      <React.Fragment>
-        <AccountContainer>
-          <Table>
-            <Brokerage>
-              <H3>Brokerage</H3>
-              <P>{brokerage.name}</P>
-            </Brokerage>
-            <Name>
-              <H3>Name</H3>
-              {!nameEditting ? (
-                <P>
-                  {' '}
-                  {account.name}
-                  <Edit onClick={() => this.setState({ nameEditting: true })}>
-                    <FontAwesomeIcon icon={faPen} />
-                    Edit
-                  </Edit>
-                </P>
-              ) : (
-                <InputContainer>
-                  <InputNonFormik
-                    value={account_name}
-                    onChange={this.onChange}
-                    onKeyPress={this.onEnter}
-                  />
-                  <Edit onClick={() => this.finishEditing()}>
-                    <FontAwesomeIcon icon={faCheck} />
-                    Done
-                  </Edit>
-                </InputContainer>
-              )}
-            </Name>
-            <Number>
-              <H3>Number</H3>
-              <P> {account.number} </P>
-            </Number>
-            <Type>
-              <H3>Type</H3>
-              <P> {formatAccountType(account, brokerage)} </P>
-            </Type>
-            <PortfolioGroup>
-              <H3>Portfolio Group</H3>
-              {!portfolioGroupEdit ? (
-                <P>
-                  {groupName}
-                  <Edit
-                    onClick={() => this.setState({ portfolioGroupEdit: true })}
-                  >
-                    <FontAwesomeIcon icon={faPen} />
-                    Edit
-                  </Edit>
-                </P>
-              ) : (
-                <PortfolioGroupPicker account={account} />
-              )}
-            </PortfolioGroup>
-          </Table>
-          {portfolioGroupEdit ? (
-            <React.Fragment>
-              <H3>
-                {' '}
-                You're about to change the portfolio group your account is
-                linked to. Do you want to continue?{' '}
-              </H3>
-              <Button>Update</Button>
-              <Button
-                onClick={() => this.setState({ portfolioGroupEdit: false })}
-              >
-                Cancel
-              </Button>
-            </React.Fragment>
-          ) : null}
-        </AccountContainer>
-      </React.Fragment>
-    );
+  let groupName = '----------------------';
+  if (account.portfolio_group) {
+    const group = groups.find(group => group.id === account.portfolio_group);
+    groupName = group.name;
   }
-}
+
+  return (
+    <React.Fragment>
+      <AccountContainer>
+        <Table>
+          <Brokerage>
+            <H3>Brokerage</H3>
+            <P>{brokerage.name}</P>
+          </Brokerage>
+          <Name>
+            <H3>Name</H3>
+            {!nameEditing ? (
+              <P>
+                {' '}
+                {account.name}
+                <Edit onClick={() => setNameEditing(true)}>
+                  <FontAwesomeIcon icon={faPen} />
+                  Edit
+                </Edit>
+              </P>
+            ) : (
+              <InputContainer>
+                <InputNonFormik
+                  value={name}
+                  onChange={onChange}
+                  onKeyPress={onEnter}
+                />
+                <Edit onClick={() => setAccountName()}>
+                  <FontAwesomeIcon icon={faCheck} />
+                  Done
+                </Edit>
+              </InputContainer>
+            )}
+          </Name>
+          <Number>
+            <H3>Number</H3>
+            <P> {account.number} </P>
+          </Number>
+          <Type>
+            <H3>Type</H3>
+            <P> {formatAccountType(account, brokerage)} </P>
+          </Type>
+          <PortfolioGroup>
+            <H3>Portfolio Group</H3>
+            {!groupEditing ? (
+              <P>
+                {groupName}
+                <Edit onClick={() => setGroupEditing(true)}>
+                  <FontAwesomeIcon icon={faPen} />
+                  Edit
+                </Edit>
+              </P>
+            ) : (
+              <PortfolioGroupPicker account={account} />
+            )}
+          </PortfolioGroup>
+        </Table>
+        {groupEditing ? (
+          <React.Fragment>
+            <H3>
+              {' '}
+              You're about to change the portfolio group your account is linked
+              to. Do you want to continue?{' '}
+            </H3>
+            <Button onClick={() => setPortfolioGroup()}>Update</Button>
+            <Button onClick={() => setGroupEditing(false)}>Cancel</Button>
+          </React.Fragment>
+        ) : null}
+      </AccountContainer>
+    </React.Fragment>
+  );
+};
 
 const select = state => ({
   brokerages: selectBrokerages(state),
   authorizations: selectAuthorizations(state),
-  groups: selectGroupsRaw(state),
+  groups: selectGroups(state),
 });
 
 const actions = {
