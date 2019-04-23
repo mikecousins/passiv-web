@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { selectAuthorizations } from '../selectors';
 import ConnectionsAuthorization from './ConnectionsAuthorization';
 
-const Connections = ({ authorizations }) => {
+export const Connections = ({ authorizations }) => {
   if (!authorizations || authorizations.length === 0) {
     return null;
   }
