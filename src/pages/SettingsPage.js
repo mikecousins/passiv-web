@@ -22,11 +22,11 @@ export const Container2Column = styled.div`
 const SettingsPage = props => {
   return (
     <React.Fragment>
-      <SettingContainer>
+      <Container2Column>
         <CredentialsManager />
         <SubscriptionManager />
         <ConnectionsManager />
-      </SettingContainer>
+      </Container2Column>
       <AccountsManager />
     </React.Fragment>
   );
