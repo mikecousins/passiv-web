@@ -1,6 +1,6 @@
-context('Auth', () => {
+describe('Auth', () => {
   it('login page loads', () => {
-    cy.visit('https://beta.getpassiv.com');
+    cy.visit('https://passiv.netlify.com');
     cy.get('[data-cy=login-button]');
   });
 });
