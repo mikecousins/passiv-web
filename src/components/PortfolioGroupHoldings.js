@@ -33,7 +33,7 @@ export const NoHoldingsMessage = styled.table`
   margin: 20px 0;
 `;
 
-export const AccountHoldings = ({ positions, loading }) => (
+export const PortfolioGroupHoldings = ({ positions, loading }) => (
   <ShadowBox>
     {positions == null ? (
       <React.Fragment>
@@ -112,4 +112,4 @@ export const AccountHoldings = ({ positions, loading }) => (
   </ShadowBox>
 );
 
-export default AccountHoldings;
+export default PortfolioGroupHoldings;
