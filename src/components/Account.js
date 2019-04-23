@@ -180,12 +180,11 @@ class Account extends React.Component {
                 You're about to change the portfolio group your account is
                 linked to. Do you want to continue?{' '}
               </H3>
-              <Button> Update </Button>
+              <Button>Update</Button>
               <Button
                 onClick={() => this.setState({ portfolioGroupEdit: false })}
               >
-                {' '}
-                NO!{' '}
+                Cancel
               </Button>
             </React.Fragment>
           ) : null}
