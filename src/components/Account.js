@@ -55,36 +55,43 @@ const AccountContainer = styled.div`
   }
 `;
 
-const Account = ({ account, authorizations, brokerages, groups }) => {
+const Account = ({
+  account,
+  authorizations,
+  brokerages,
+  groups,
+  refreshAccounts,
+}) => {
   const [nameEditing, setNameEditing] = useState(false);
   const [groupEditing, setGroupEditing] = useState(false);
   const [name, setName] = useState(account.name);
 
-  const onChange = e => setName(e.target.value);
-
   const onEnter = e => {
     if (e.key === 'Enter') {
-      this.setAccountName();
+      setAccountName();
     }
   };
 
   const setAccountName = () => {
-    if (this.state.account_name !== this.props.account.name) {
-      let account = Object.assign({}, this.props.account);
-      account.name = this.state.account_name;
-      putData(`/api/v1/accounts/${account.id}`, account)
+    if (name !== account.name) {
+      let newAccount = {
+        ...account,
+        name,
+      };
+      putData(`/api/v1/accounts/${account.id}`, newAccount)
         .then(response => {
-          this.props.refreshAccounts();
+          refreshAccounts();
         })
         .catch(error => {
-          this.props.refreshAccounts();
+          refreshAccounts();
         });
     }
-    this.setState({ nameEditing: false });
+    setNameEditing(false);
   };
 
   const setPortfolioGroup = () => {
     // set the account to be in a specified portfolio group
+    setGroupEditing(false);
   };
 
   const authorization = authorizations.find(
@@ -134,7 +141,7 @@ const Account = ({ account, authorizations, brokerages, groups }) => {
               <InputContainer>
                 <InputNonFormik
                   value={name}
-                  onChange={onChange}
+                  onChange={e => setName(e.target.value)}
                   onKeyPress={onEnter}
                 />
                 <Edit onClick={() => setAccountName()}>
