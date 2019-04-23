@@ -64,9 +64,7 @@ const Account = ({
   const [nameEditing, setNameEditing] = useState(false);
   const [groupEditing, setGroupEditing] = useState(false);
   const [name, setName] = useState(account.name);
-  const [group, setGroup] = useState(
-    groups.find(group => group.id === account.portfolio_group),
-  );
+  const group = groups.find(group => group.id === account.portfolio_group);
   const [newGroupId, setNewGroupId] = useState(group.id);
 
   const onEnter = e => {
@@ -97,7 +95,7 @@ const Account = ({
       ...account,
       portfolio_group: newGroupId,
     };
-    putData(`/api/v1/account/${account.id}`, newAccount)
+    putData(`/api/v1/accounts/${account.id}`, newAccount)
       .then(response => {
         refreshAccounts();
       })
