@@ -64,6 +64,10 @@ const Account = ({
   const [nameEditing, setNameEditing] = useState(false);
   const [groupEditing, setGroupEditing] = useState(false);
   const [name, setName] = useState(account.name);
+  const [group, setGroup] = useState(
+    groups.find(group => group.id === account.portfolio_group),
+  );
+  const [newGroupId, setNewGroupId] = useState(group.id);
 
   const onEnter = e => {
     if (e.key === 'Enter') {
@@ -73,7 +77,7 @@ const Account = ({
 
   const setAccountName = () => {
     if (name !== account.name) {
-      let newAccount = {
+      const newAccount = {
         ...account,
         name,
       };
@@ -89,7 +93,17 @@ const Account = ({
   };
 
   const setPortfolioGroup = () => {
-    // set the account to be in a specified portfolio group
+    const newAccount = {
+      ...account,
+      portfolio_group: newGroupId,
+    };
+    putData(`/api/v1/account/${account.id}`, newAccount)
+      .then(response => {
+        refreshAccounts();
+      })
+      .catch(error => {
+        refreshAccounts();
+      });
     setGroupEditing(false);
   };
 
@@ -110,12 +124,6 @@ const Account = ({
     }
     return accountType;
   };
-
-  let groupName = '----------------------';
-  if (account.portfolio_group) {
-    const group = groups.find(group => group.id === account.portfolio_group);
-    groupName = group.name;
-  }
 
   return (
     <React.Fragment>
@@ -162,14 +170,18 @@ const Account = ({
             <H3>Portfolio Group</H3>
             {!groupEditing ? (
               <P>
-                {groupName}
+                {group.name}
                 <Edit onClick={() => setGroupEditing(true)}>
                   <FontAwesomeIcon icon={faPen} />
                   Edit
                 </Edit>
               </P>
             ) : (
-              <PortfolioGroupPicker account={account} />
+              <PortfolioGroupPicker
+                account={account}
+                group={newGroupId}
+                onChange={e => setNewGroupId(e.target.value)}
+              />
             )}
           </PortfolioGroup>
         </Table>
