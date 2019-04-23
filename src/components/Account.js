@@ -12,17 +12,9 @@ import PortfolioGroupPicker from './PortfolioGroupPicker';
 import { InputNonFormik } from '../styled/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { Table, H3, P, Edit, A } from '../styled/GlobalElements';
+import { Table, H3, P, Edit } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import styled from '@emotion/styled';
-
-const ActionContainer = styled.div`
-  a {
-    font-weight: 700;
-    margin-left: 10px;
-    text-decoration: underline;
-  }
-`;
 
 const InputContainer = styled.div`
   padding-bottom: 20px;

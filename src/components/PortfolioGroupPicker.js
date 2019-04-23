@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectGroupsRaw } from '../selectors';
-import { P, Edit } from '../styled/GlobalElements';
 
 class PortfolioGroupPicker extends React.Component {
   render() {

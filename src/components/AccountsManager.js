@@ -19,8 +19,8 @@ export class AccountsManager extends React.Component {
 
     return (
       <ShadowBox>
-        <H2> Accounts </H2>
-        <Accounts />
+        <H2>Accounts</H2>
+        <Accounts accounts={accounts} />
       </ShadowBox>
     );
   }
@@ -37,4 +37,7 @@ const actions = {
   reloadBrokerages: loadBrokerages,
 };
 
-export default connect()(AccountsManager);
+export default connect(
+  select,
+  actions,
+)(AccountsManager);

@@ -8,7 +8,7 @@ const Accounts = ({ accounts }) => {
     return null;
   }
 
-  accounts.sort(function(a, b) {
+  accounts.sort((a, b) => {
     if (a.portfolio_group !== null && b.portfolio_group !== null) {
       if (a.portfolio_group < b.portfolio_group) {
         return -1;
@@ -41,6 +41,7 @@ const Accounts = ({ accounts }) => {
         return 1;
       }
     }
+    return 0;
   });
 
   return (
