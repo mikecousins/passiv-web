@@ -10,13 +10,21 @@ import {
   selectSymbols,
   selectBrokerages,
   selectDashboardGroups,
-  selectIsFree,
+  selectUserPermissions,
 } from '../selectors';
 import { Button } from '../styled/Button';
 import styled from '@emotion/styled';
-import { H2, P, A, Table } from '../styled/GlobalElements';
+import { H2, P, A, Title } from '../styled/GlobalElements';
 import Number from './Number';
 import ConnectionUpdate from '../components/ConnectionUpdate';
+import {
+  TradeRow,
+  Symbol,
+  ColumnSymbolSmall,
+  ColumnUnits,
+  ColumnAction,
+  ColumnStatus,
+} from '../styled/Group';
 
 const SummaryContainer = styled.div`
   text-align: left;
@@ -70,6 +78,10 @@ const UpgradeText = styled.span`
   }
 `;
 
+const ModifiedTradeRow = styled(TradeRow)`
+  margin-bottom: 10px;
+`;
+
 export class RebalanceWidget extends Component {
   state = {
     validatingOrders: false,
@@ -115,9 +127,6 @@ export class RebalanceWidget extends Component {
           orderResults: response.data,
           error: null,
         });
-
-        // reload group data following a successful order
-        // this.props.reloadGroup({ ids: [this.props.groupId] });
       })
       .catch(error => {
         this.setState({
@@ -150,6 +159,16 @@ export class RebalanceWidget extends Component {
     this.props.reloadGroup({ ids: [this.props.groupId] });
   };
 
+  reloadGroup = () => {
+    this.props.reloadGroup({ ids: [this.props.groupId] });
+  };
+
+  componentWillUnmount = () => {
+    if (this.state.orderResults || this.state.error) {
+      this.reloadGroup();
+    }
+  };
+
   sumEstimatedCommissions = () => {
     return this.state.orderSummary.reduce((acc, result) => {
       return acc + result.estimated_commissions;
@@ -162,25 +181,29 @@ export class RebalanceWidget extends Component {
     }, 0);
   };
 
-  // getQuestradeBrokerage() {
-  //   return this.props.brokerages.find(b => b.name === 'Questrade');
-  // }
-  //
-  // getQuestradeId() {
-  //   return this.getQuestradeBrokerage().id;
-  // }
-  //
-  // getQuestradeTradeType() {
-  //   return this.getQuestradeBrokerage().authorization_types.find(t => t.type === 'trade').type;
-  // }
-
   getReadBrokerageAuthorization = () => {
     let group = this.props.groups.find(g => g.id === this.props.groupId);
     return group.brokerage_authorizations.find(a => a.type === 'read');
   };
 
+  canPlaceOrders = () => {
+    let permissions = this.props.userPermissions;
+    if (!permissions) {
+      return false;
+    }
+    let filtered_permissions = permissions.filter(
+      permission => permission === 'can_place_orders',
+    );
+
+    if (filtered_permissions.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   render() {
-    const { isFree, push } = this.props;
+    const { push } = this.props;
     let error = null;
     if (this.state.error) {
       switch (this.state.error.code) {
@@ -201,29 +224,17 @@ export class RebalanceWidget extends Component {
             </OrderContainer>
           );
           break;
-        case '0000':
-          error = (
-            <OrderContainer>
-              <H2>Order cannot be Processed</H2>
-              <P>
-                Oops, you've encountered a bug! Please try again later or{' '}
-                <Link to="/app/help">contact support</Link> if this persists.
-              </P>
-            </OrderContainer>
-          );
-          break;
         case '1019':
           error = (
             <OrderContainer>
               <H2>
-                <FontAwesomeIcon icon={faClock} /> Market is closed
+                <FontAwesomeIcon icon={faClock} /> Markets are Closed
               </H2>
               <P>
-                {' '}
-                Passiv is unable to proceed with the orders because the stock
-                market is currently closed. If the stock market is open, please{' '}
-                <Link to="/app/help">contact support</Link>. You can also also
-                make trades manually on your brokerage's platform.
+                Passiv is unable to proceed with the orders because markets are
+                currently closed. If the markets are actually open and you still
+                see this error, please{' '}
+                <Link to="/app/help">contact support</Link>.
               </P>
             </OrderContainer>
           );
@@ -231,16 +242,38 @@ export class RebalanceWidget extends Component {
         case '1020':
           error = (
             <OrderContainer>
-              <H2> Be A Passiv Supporter? </H2>
+              <H2>Order cannot be Processed</H2>
               <P>
-                {' '}
-                Upgrade you account if you'd like to have access to
-                one-click-trades. Please{' '}
-                <Link to="/app/help">contact support</Link> if you're already a
-                supporter.{' '}
+                One-click Trades are only available to Elite subscribers. You
+                can upgrade your account to use this feature.{' '}
+                <Link to="/app/help">Contact support</Link> if you're already a
+                paid subscriber and you're still receiving this message.
               </P>
+              <Button onClick={() => push('/app/settings')}>Upgrade</Button>
+            </OrderContainer>
+          );
+          break;
+        case '1022':
+          error = (
+            <OrderContainer>
+              <H2>Order cannot be Processed</H2>
               <P>
-                <Button onClick={() => push('/app/settings')}>Upgrade</Button>
+                Our records show that this order has already been placed, so
+                Passiv will not attempt to place it again. Please refresh the
+                orders or <Link to="/app/help">contact support</Link> if this
+                persists.
+              </P>
+              <Button onClick={() => this.reloadGroup()}>Refresh</Button>
+            </OrderContainer>
+          );
+          break;
+        case '0000':
+          error = (
+            <OrderContainer>
+              <H2>Order cannot be Processed</H2>
+              <P>
+                Oops, you've encountered a bug! Please try again later or{' '}
+                <Link to="/app/help">contact support</Link> if this persists.
               </P>
             </OrderContainer>
           );
@@ -262,7 +295,7 @@ export class RebalanceWidget extends Component {
     let orderValidation = (
       <Button onClick={this.validateOrders}>Validate</Button>
     );
-    if (isFree) {
+    if (!this.canPlaceOrders()) {
       orderValidation = (
         <UpgradeText>
           Upgrade your account to let us execute trades for you!{' '}
@@ -286,20 +319,26 @@ export class RebalanceWidget extends Component {
           <OrderContainer>
             <H2>Order Results</H2>
             <div>
-              <Table>
-                <div>Action</div>
-                <div>Symbol</div>
-                <div>Units</div>
-                <div>Status</div>
-              </Table>
               {this.state.orderResults.map(results => {
                 return (
-                  <Table key={results.trade}>
-                    <div>{results.action}</div>
-                    <div>{results.universal_symbol.symbol}</div>
-                    <div>{results.filled_units}</div>
-                    <div>{results.state}</div>
-                  </Table>
+                  <ModifiedTradeRow key={results.trade}>
+                    <ColumnAction>
+                      <Title>Action</Title>
+                      <div>{results.action}</div>
+                    </ColumnAction>
+                    <ColumnUnits>
+                      <Title>Units</Title>
+                      <div>{results.filled_units}</div>
+                    </ColumnUnits>
+                    <ColumnSymbolSmall>
+                      <Title>Symbol</Title>
+                      <Symbol>{results.universal_symbol.symbol}</Symbol>
+                    </ColumnSymbolSmall>
+                    <ColumnStatus>
+                      <Title>Status</Title>
+                      <div>{results.state}</div>
+                    </ColumnStatus>
+                  </ModifiedTradeRow>
                 );
               })}
             </div>
@@ -415,7 +454,7 @@ const select = state => ({
   symbols: selectSymbols(state),
   brokerages: selectBrokerages(state),
   groups: selectDashboardGroups(state),
-  isFree: selectIsFree(state),
+  userPermissions: selectUserPermissions(state),
 });
 
 export default connect(

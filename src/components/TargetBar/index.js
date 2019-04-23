@@ -96,7 +96,11 @@ export class TargetBar extends React.Component {
             <InputContainer>{children}%</InputContainer>
           </Target>
           <Actual>
-            <Number value={renderActualPercentage} />%
+            <Number
+              value={renderActualPercentage}
+              percentage
+              decimalPlaces={1}
+            />
           </Actual>
         </TargetRow>
       </Container>

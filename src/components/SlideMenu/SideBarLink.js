@@ -13,7 +13,15 @@ const SideBarLink = ({
   loading,
   setupComplete,
   pathname,
+  spinnerLoading,
+  hideArrow,
 }) => {
+  if (spinnerLoading === undefined) {
+    spinnerLoading = false;
+  }
+  if (hideArrow === undefined) {
+    hideArrow = false;
+  }
   let selected = pathname.startsWith(linkPath);
 
   let colorClass = null;
@@ -22,7 +30,7 @@ const SideBarLink = ({
   }
 
   let indicator = null;
-  if (loading) {
+  if (loading && spinnerLoading) {
     indicator = (
       <RebalanceAlert>
         <FontAwesomeIcon icon={faSpinner} spin style={{ color: 'white' }} />
@@ -53,7 +61,7 @@ const SideBarLink = ({
       <Link to={linkPath}>
         {indicator}
         {name}
-        <FontAwesomeIcon icon={faAngleRight} />
+        {!hideArrow && <FontAwesomeIcon icon={faAngleRight} />}
       </Link>
     </div>
   );

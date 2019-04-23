@@ -171,7 +171,7 @@ class AccountMetadata extends Component {
             <Total>
               <Title>Total Value</Title>
               <b>
-                {this.props.equity ? (
+                {this.props.equity !== null ? (
                   <Number value={this.props.equity} currency />
                 ) : (
                   <FontAwesomeIcon icon={faSpinner} spin />
@@ -220,7 +220,7 @@ class AccountMetadata extends Component {
             </CashBalance>
             <Cash>
               <Title>Cash</Title>
-              {this.props.cash ? (
+              {this.props.cash !== null ? (
                 <Number value={this.props.cash} currency />
               ) : (
                 <FontAwesomeIcon icon={faSpinner} spin />

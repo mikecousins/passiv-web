@@ -62,6 +62,8 @@ const SideBar = props => {
         rebalance={!!group.rebalance}
         loading={group.loading}
         setupComplete={group.setupComplete}
+        spinnerLoading={true}
+        hideArrow={true}
       />
     ));
   }

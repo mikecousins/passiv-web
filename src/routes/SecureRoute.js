@@ -31,7 +31,7 @@ const select = state => ({
 });
 
 SecureRoute.propTypes = {
-  component: PropTypes.func.isRequired,
+  component: PropTypes.object.isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,

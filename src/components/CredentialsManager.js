@@ -6,6 +6,8 @@ import { selectSettings } from '../selectors';
 import { loadSettings } from '../actions';
 import { putData } from '../api';
 
+import CashNotifcationSettings from './CashNotificationSettings';
+
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../styled/Form';
 import { H2, Edit } from '../styled/GlobalElements';
@@ -13,8 +15,14 @@ import { Button } from '../styled/Button';
 import ShadowBox from '../styled/ShadowBox';
 
 const InputContainer = styled.div`
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 5px;
   font-size: 18px;
+`;
+
+const TextContainer = styled.div`
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 export class CredentialsManager extends React.Component {
@@ -44,7 +52,12 @@ export class CredentialsManager extends React.Component {
   finishEditing() {
     if (this.state.name !== this.props.settings.name) {
       let settings = Object.assign({}, this.props.settings);
-      settings.name = this.state.name;
+      if (this.state.name === '') {
+        settings.name = null;
+      } else {
+        settings.name = this.state.name;
+      }
+
       putData('/api/v1/settings/', settings)
         .then(response => {
           this.props.refreshSettings();
@@ -60,11 +73,11 @@ export class CredentialsManager extends React.Component {
     return (
       <ShadowBox>
         <H2>Passiv Credentials</H2>
-        <div>
+        <TextContainer>
           {this.state.editingName ? (
             <InputContainer>
               <InputNonFormik
-                value={this.state.name}
+                value={this.state.name === null ? '' : this.state.name}
                 onChange={event => {
                   this.setState({ name: event.target.value });
                 }}
@@ -74,17 +87,21 @@ export class CredentialsManager extends React.Component {
             </InputContainer>
           ) : (
             <InputContainer>
-              <strong>Name:</strong> {this.state.name}
+              <strong>Name:</strong>{' '}
+              {this.state.name === null ? '[no name set]' : this.state.name}
               <Edit onClick={() => this.startEditingName()}>
                 <FontAwesomeIcon icon={faPen} />
                 Edit
               </Edit>
             </InputContainer>
           )}
-        </div>
-        <div>
-          <strong>Email:</strong> {this.state.email}
-        </div>
+        </TextContainer>
+        <TextContainer>
+          <InputContainer>
+            <strong>Email:</strong> {this.state.email}
+          </InputContainer>
+        </TextContainer>
+        <CashNotifcationSettings />
       </ShadowBox>
     );
   }

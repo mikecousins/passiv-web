@@ -1,49 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
 import CredentialsManager from '../components/CredentialsManager';
 import SubscriptionManager from '../components/SubscriptionManager';
 import ConnectionsManager from '../components/ConnectionsManager';
 import AccountsManager from '../components/AccountsManager';
 import styled from '@emotion/styled';
 
-const SettingContainer = styled.div`
+export const Container2Column = styled.div`
   @media (min-width: 900px) {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
-  }
-  > div {
-    flex: 1;
-    min-width: 48%;
-    padding: 30px;
-    font-size: 18px;
-    &:first-of-type {
-      margin-right: 3%;
+    > div:first-of-type {
+      width: 50%;
+      margin-right: 30px;
     }
-    @media (max-width: 900px) {
-      padding: 15px;
+    > div:last-of-type {
+      width: 50%;
     }
-  }
-  h2 {
-    margin-bottom: 20px;
   }
 `;
 
-class SettingsPage extends Component {
-  render() {
-    return (
-      <React.Fragment>
-        <SettingContainer>
-          <CredentialsManager />
-
-          <SubscriptionManager />
-
-          <ConnectionsManager />
-        </SettingContainer>
-
-        <AccountsManager />
-      </React.Fragment>
-    );
-  }
-}
+const SettingsPage = props => {
+  return (
+    <React.Fragment>
+      <SettingContainer>
+        <CredentialsManager />
+        <SubscriptionManager />
+        <ConnectionsManager />
+      </SettingContainer>
+      <AccountsManager />
+    </React.Fragment>
+  );
+};
 
 export default SettingsPage;

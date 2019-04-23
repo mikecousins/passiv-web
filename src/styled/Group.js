@@ -111,7 +111,7 @@ export const WarningViewBtn = styled.div`
 `;
 
 export const Symbol = styled.div`
-  border: 1px solid #fff;
+  border: 1px solid var(--brand-grey);
   display: inline-block;
   font-size: 16px;
   font-weight: 500;
@@ -181,6 +181,15 @@ export const ColumnSymbol = styled.div`
   }
 `;
 
+export const ColumnSymbolSmall = styled.div`
+  min-width: 12%;
+  color: var(--brand-grey);
+  @media (max-width: 900px) {
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+`;
+
 export const ColumnUnits = styled.div`
   min-width: 12%;
   color: var(--brand-grey);
@@ -189,6 +198,22 @@ export const ColumnUnits = styled.div`
   }
 `;
 export const ColumnPrice = styled.div`
+  min-width: 12%;
+  color: var(--brand-grey);
+  @media (max-width: 900px) {
+    margin-bottom: 16px;
+  }
+`;
+
+export const ColumnAction = styled.div`
+  min-width: 12%;
+  color: var(--brand-grey);
+  @media (max-width: 900px) {
+    margin-bottom: 16px;
+  }
+`;
+
+export const ColumnStatus = styled.div`
   min-width: 12%;
   color: var(--brand-grey);
   @media (max-width: 900px) {

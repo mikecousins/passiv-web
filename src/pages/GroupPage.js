@@ -20,6 +20,7 @@ import {
   selectCurrentGroupTrades,
   selectCurrentGroupSetupComplete,
 } from '../selectors';
+import { selectGroupsLoading } from '../selectors/groups';
 import Tooltip from '../components/Tooltip';
 
 export const Container2Column = styled.div`
@@ -46,6 +47,7 @@ const GroupPage = props => {
     cash,
     equity,
     setupComplete,
+    loading,
   } = props;
 
   // if we don't have our group yet, show a spinner
@@ -85,7 +87,7 @@ const GroupPage = props => {
           cash={cash}
           equity={equity}
         />
-        <PortfolioGroupAccuracy accuracy={accuracy} />
+        <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
       </Container2Column>
 
       {tradeDisplay}
@@ -93,7 +95,7 @@ const GroupPage = props => {
       <PortfolioGroupTargets positions={positions} />
 
       <Container2Column>
-        <PortfolioGroupHoldings positions={positions} />
+        <PortfolioGroupHoldings positions={positions} loading={loading} />
         <PortfolioGroupSettings />
       </Container2Column>
       <Tooltip />
@@ -110,6 +112,7 @@ const select = state => ({
   accuracy: selectCurrentGroupAccuracy(state),
   trades: selectCurrentGroupTrades(state),
   setupComplete: selectCurrentGroupSetupComplete(state),
+  loading: selectGroupsLoading(state),
 });
 
 export default connect(select)(GroupPage);

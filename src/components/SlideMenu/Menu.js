@@ -46,9 +46,6 @@ const FlyOut = styled.div`
     letter-spacing: 0.015em;
     padding-left: 30px;
     padding-right: 15px;
-    svg {
-      display: none;
-    }
   }
   .active {
     background: var(--brand-green);

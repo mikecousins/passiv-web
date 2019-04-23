@@ -95,4 +95,5 @@ const onUpdate = () => {
   store.dispatch(updateServiceWorker());
 };
 
-registerServiceWorker(onUpdate);
+// TODO enable when we have our semver updates figured out
+// registerServiceWorker(onUpdate);

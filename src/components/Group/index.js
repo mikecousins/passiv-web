@@ -35,23 +35,27 @@ export const Group = props => {
       accuracy = (
         <FontAwesomeIcon
           icon={faExclamationTriangle}
-          data-tip="No target set"
+          data-tip="There is no target set for this portfolio, click Setup to continue."
         />
       );
     } else {
       if (group.accuracy) {
-        accuracy = <Number value={group.accuracy} percentage />;
+        accuracy = (
+          <Number value={group.accuracy} percentage decimalPlaces={0} />
+        );
       }
     }
   }
 
   let cash = <FontAwesomeIcon icon={faSpinner} spin />;
-  if (group.totalCash) {
+
+  if (group.totalCash >= 0 && group.setupComplete !== undefined) {
     cash = <Number value={group.totalCash} currency />;
   }
 
   let totalValue = <FontAwesomeIcon icon={faSpinner} spin />;
-  if (group.totalValue) {
+
+  if (group.totalValue >= 0 && group.setupComplete !== undefined) {
     totalValue = <Number value={group.totalValue} currency />;
   }
 

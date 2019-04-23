@@ -21,15 +21,27 @@ const questradeOauthRedirect = () => {
   return <Redirect to={newPath} />;
 };
 
+// hack to make routing work on both prod and dev
+const prefixPath = path => {
+  return `/app${path}`;
+};
+
+// use the stripe test key unless we're in prod
+const stripePublicKey =
+  process.env.REACT_APP_BASE_URL_OVERRIDE &&
+  process.env.REACT_APP_BASE_URL_OVERRIDE === 'getpassiv.com'
+    ? 'pk_live_LTLbjcwtt6gUmBleYqVVhMFX'
+    : 'pk_test_UEivjUoJpfSDWq5i4xc64YNK';
+
 const App = () => {
   const [stripe, setStripe] = useState(null);
   useEffect(() => {
     if (window.Stripe) {
-      setStripe(window.Stripe('pk_test_UEivjUoJpfSDWq5i4xc64YNK'));
+      setStripe(window.Stripe(stripePublicKey));
     } else {
       document.querySelector('#stripe-js').addEventListener('load', () => {
         // Create Stripe instance once Stripe.js loads
-        setStripe(window.Stripe('pk_test_UEivjUoJpfSDWq5i4xc64YNK'));
+        setStripe(window.Stripe(stripePublicKey));
       });
     }
   }, []);
@@ -37,28 +49,44 @@ const App = () => {
     <Layout>
       <StripeProvider stripe={stripe}>
         <Switch>
-          <Route path="/" exact render={() => <Redirect to="/app/login" />} />
           <Route
-            path="/app"
+            path="/"
             exact
-            render={() => <Redirect to="/app/login" />}
+            render={() => <Redirect to={prefixPath('/dashboard')} />}
           />
-          <Route path="/app/login" component={LoginPage} />
-          <Route path="/app/register" component={RegistrationPage} />
-          <Route path="/app/reset-password" component={ResetPasswordPage} />
           <Route
-            path="/app/reset-password-confirm/:token"
+            path={prefixPath('/')}
+            exact
+            render={() => <Redirect to={prefixPath('/dashboard')} />}
+          />
+          <Route path={prefixPath('/login')} component={LoginPage} />
+          <Route path={prefixPath('/register')} component={RegistrationPage} />
+          <Route
+            path={prefixPath('/reset-password')}
+            component={ResetPasswordPage}
+          />
+          <Route
+            path={prefixPath('/reset-password-confirm/:token')}
             component={ResetPasswordConfirmPage}
           />
-          <Route path="/app/help" component={HelpPage} />
-          <SecureRoute path="/app/dashboard" component={DashboardPage} />
-          <SecureRoute path="/app/group/:groupId" component={GroupPage} />
-          <SecureRoute path="/app/settings" component={SettingsPage} />
+          <Route path={prefixPath('/help')} component={HelpPage} />
           <SecureRoute
-            path="/app/oauth/questrade"
+            path={prefixPath('/dashboard')}
+            component={DashboardPage}
+          />
+          <SecureRoute
+            path={prefixPath('/group/:groupId')}
+            component={GroupPage}
+          />
+          <SecureRoute
+            path={prefixPath('/settings')}
+            component={SettingsPage}
+          />
+          <SecureRoute
+            path={prefixPath('/oauth/questrade')}
             component={QuestradeOauthPage}
           />
-          <SecureRoute path="/app/coupon" component={CouponPage} />
+          <SecureRoute path={prefixPath('/coupon')} component={CouponPage} />
           <Route
             exact
             path="/oauth/questrade"

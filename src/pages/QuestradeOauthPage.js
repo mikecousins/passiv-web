@@ -8,10 +8,12 @@ import { postData } from '../api';
 import { initialLoad } from '../actions';
 import ShadowBox from '../styled/ShadowBox';
 import { H1, P } from '../styled/GlobalElements';
+import { Button } from '../styled/Button';
 import { Step } from '../styled/SignupSteps';
 import { selectRouter } from '../selectors/router';
+import { push } from 'connected-react-router';
 
-const QuestradeOauthPage = ({ router, reloadAllState }) => {
+const QuestradeOauthPage = ({ router, reloadAllState, push }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
@@ -68,6 +70,16 @@ const QuestradeOauthPage = ({ router, reloadAllState }) => {
           </P>
         );
         break;
+      case '1023':
+        errorDisplay = (
+          <P>
+            The brokerage account linked to this connection is different from
+            the account you're trying to link. This is not allowed because it
+            would leave existing portfolios without a functional connection.
+            Instead, create a new connection and delete this one if desired.
+          </P>
+        );
+        break;
       case '0000':
         errorDisplay = (
           <P>
@@ -101,7 +113,10 @@ const QuestradeOauthPage = ({ router, reloadAllState }) => {
       ) : (
         <React.Fragment>
           <Step>Failed to establish connection :(</Step>
-          <ShadowBox>{errorDisplay}</ShadowBox>
+          <ShadowBox>
+            {errorDisplay}
+            <Button onClick={() => push('/app/settings')}>Settings</Button>
+          </ShadowBox>
         </React.Fragment>
       )}
     </ShadowBox>
@@ -114,6 +129,7 @@ const select = state => ({
 
 const actions = {
   reloadAllState: initialLoad,
+  push: push,
 };
 
 export default connect(

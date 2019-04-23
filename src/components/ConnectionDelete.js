@@ -5,7 +5,7 @@ import { initialLoad, loadBrokerages } from '../actions';
 import { deleteData } from '../api';
 import { DeleteButton } from '../styled/DeleteButton';
 import { Button } from '../styled/Button';
-import { H3 } from '../styled/GlobalElements';
+import { H3, P } from '../styled/GlobalElements';
 
 const ConnectionsDelete = styled.div`
   text-align: right;
@@ -37,10 +37,10 @@ export const ConnectionDelete = ({
       <H3>Delete Connection</H3>
       {deleting ? (
         <React.Fragment>
-          <p>
+          <P>
             Are you sure you want to delete this connection and all its
             accounts?
-          </p>
+          </P>
           <Button
             onClick={() => {
               setDeleting(false);

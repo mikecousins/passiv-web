@@ -5,18 +5,28 @@ import { connect } from 'react-redux';
 import { Formik, FieldArray, Field, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 import uuid from 'uuid';
+import { replace } from 'connected-react-router';
 import { loadGroup } from '../actions';
 import {
   selectCurrentGroupId,
   selectCurrentGroupPositions,
-  selectCurrentGroupTotalEquity,
+  selectCurrentGroupTotalEquityExcludedRemoved,
+  selectCurrentGroupCash,
 } from '../selectors';
+import { selectIsEditMode } from '../selectors/router';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../styled/Button';
-import { H3, Edit } from '../styled/GlobalElements';
+import { H3, Edit, AButton } from '../styled/GlobalElements';
 import { TargetRow } from '../styled/Target';
 import { postData } from '../api';
+import styled from '@emotion/styled';
+
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0 20px 0;
+`;
 
 export const TargetSelector = ({
   lockable,
@@ -25,8 +35,10 @@ export const TargetSelector = ({
   refreshGroup,
   positions,
   totalEquity,
+  cash,
+  replace,
+  edit,
 }) => {
-  const [edit, setEdit] = useState(false);
   const [forceUpdateToggle, setForceUpdateToggle] = useState(false);
 
   const canEdit = edit || !lockable;
@@ -41,11 +53,19 @@ export const TargetSelector = ({
     forceUpdate();
   };
 
+  const toggleEditMode = () => {
+    if (edit) {
+      replace(`/app/group/${groupId}`);
+    } else {
+      replace(`/app/group/${groupId}?edit=true`);
+    }
+  };
+
   const resetTargets = () => {
     postData(`/api/v1/portfolioGroups/${groupId}/targets/`, [])
       .then(response => {
         // once we're done refresh the groups
-        setEdit(false);
+        toggleEditMode();
         refreshGroup({ ids: [groupId] });
       })
       .catch(error => {
@@ -54,7 +74,7 @@ export const TargetSelector = ({
           `Failed to reset targets: ${error.response &&
             error.response.data.detail}`,
         );
-        setEdit(false);
+        toggleEditMode();
         // reset the form
         actions.resetForm();
       });
@@ -71,15 +91,35 @@ export const TargetSelector = ({
 
   const initialTargets = target.map(target => {
     target.key = target.id;
-    return target;
+    return { ...target };
   });
+
+  // portfolio visualizer url construction
+  const portfolioVisualizerBaseURL =
+    'https://www.portfoliovisualizer.com/backtest-portfolio?s=y&timePeriod=4&initialAmount=10000&annualOperation=0&annualAdjustment=0&inflationAdjusted=true&annualPercentage=0.0&frequency=4&rebalanceType=1&showYield=false&reinvestDividends=true';
+
+  const portfolioVisualizerURLParts = [];
+  portfolioVisualizerURLParts.push(portfolioVisualizerBaseURL);
+
+  target.map((target, index) => {
+    let iValue = index + 1;
+    portfolioVisualizerURLParts.push(
+      `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${
+        target.percent
+      }`,
+    );
+    return null;
+  });
+
+  portfolioVisualizerURLParts.push('#analysisResults');
+
+  const portfolioVisualizerURL = portfolioVisualizerURLParts.join('');
 
   return (
     <Formik
       initialValues={{ targets: initialTargets }}
       enableReinitialize
       validate={(values, actions) => {
-        console.log('validating targets', values.targets);
         const errors = {};
         const cashPercentage =
           100 -
@@ -99,12 +139,11 @@ export const TargetSelector = ({
             }
           }
         });
-        console.log('validation errors', errors);
         return errors;
       }}
       onSubmit={(values, actions) => {
         // set us back to non-editing state
-        setEdit(false);
+        toggleEditMode();
         const newTargets = values.targets.filter(t => !t.deleted);
         postData(`/api/v1/portfolioGroups/${groupId}/targets/`, newTargets)
           .then(response => {
@@ -124,7 +163,7 @@ export const TargetSelector = ({
       }}
       onReset={(values, actions) => {
         values.targets = target;
-        setEdit(false);
+        toggleEditMode();
       }}
       render={props => (
         <div>
@@ -165,14 +204,8 @@ export const TargetSelector = ({
                 }, 0);
 
               // calculate the actual cash percentage
-              const cashActualPercentage =
-                100 -
-                props.values.targets.reduce((total, target) => {
-                  if (!(target.actualPercentage === undefined)) {
-                    return total + target.actualPercentage;
-                  }
-                  return total;
-                }, 0);
+              const cashActualPercentage = (cash / totalEquity) * 100;
+
               if (props.values.targets.filter(t => !t.deleted).length === 0) {
                 arrayHelpers.push(generateNewTarget());
               }
@@ -197,10 +230,10 @@ export const TargetSelector = ({
                               t => t.key === key,
                             );
                             target.deleted = true;
-                            props.setFieldTouched('targets.0.percent');
+                            props.setFieldTouched(`targets.${index}.percent`);
                             props.setFieldValue(
-                              'targets.0.percent',
-                              props.values.targets[0].percent,
+                              `targets.${index}.percent`,
+                              -0.1,
                             );
                             forceUpdate();
                           }}
@@ -258,12 +291,8 @@ export const TargetSelector = ({
                         <button
                           type="button"
                           onClick={() => {
-                            props.values.targets.forEach(t => {
-                              if (t.deleted) {
-                                delete t.deleted;
-                              }
-                            });
                             props.handleReset();
+                            toggleEditMode();
                           }}
                         >
                           Cancel
@@ -271,10 +300,19 @@ export const TargetSelector = ({
                       )}
                     </React.Fragment>
                   ) : (
-                    <Edit type="button" onClick={() => setEdit(true)}>
-                      <FontAwesomeIcon icon={faLock} />
-                      Edit Targets
-                    </Edit>
+                    <ButtonBox>
+                      <div>
+                        <Edit type="button" onClick={() => toggleEditMode()}>
+                          <FontAwesomeIcon icon={faLock} />
+                          Edit Targets
+                        </Edit>
+                      </div>
+                      <div>
+                        <AButton href={portfolioVisualizerURL} target="_blank">
+                          Portfolio Visualizer
+                        </AButton>
+                      </div>
+                    </ButtonBox>
                   )}
                 </React.Fragment>
               );
@@ -288,12 +326,15 @@ export const TargetSelector = ({
 
 const actions = {
   refreshGroup: loadGroup,
+  replace,
 };
 
 const select = state => ({
   groupId: selectCurrentGroupId(state),
   positions: selectCurrentGroupPositions(state),
-  totalEquity: selectCurrentGroupTotalEquity(state),
+  totalEquity: selectCurrentGroupTotalEquityExcludedRemoved(state),
+  cash: selectCurrentGroupCash(state),
+  edit: selectIsEditMode(state),
 });
 
 export default connect(

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { selectAccounts } from '../selectors';
-import { H3 } from '../styled/GlobalElements';
+import { H3, P } from '../styled/GlobalElements';
 
 class ConnectionAccounts extends React.Component {
   selectAccountsByAuthorizationId = authorizationId => {
@@ -27,9 +27,9 @@ class ConnectionAccounts extends React.Component {
         <div>
           {this.selectAccountsByAuthorizationId(authorizationId).map(
             account => (
-              <div key={account.id}>
+              <P key={account.id}>
                 {account.name} ({account.number})
-              </div>
+              </P>
             ),
           )}
         </div>

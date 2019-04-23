@@ -6,7 +6,6 @@ import {
   faToggleOn,
   faToggleOff,
 } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
 import { loadGroup } from '../actions';
 import {
   selectCurrentGroupId,
@@ -14,9 +13,11 @@ import {
   selectCurrentGroupExcludedAssets,
   selectCurrentGroupSymbols,
   selectCurrentGroupQuotableSymbols,
-  selectIsFree,
+  selectUserPermissions,
 } from '../selectors';
 import { postData, deleteData } from '../api';
+import { push } from 'connected-react-router';
+import { ToggleButton, DisabledTogglebutton } from '../styled/ToggleButton';
 
 class ExcludedAssetToggle extends Component {
   state = {
@@ -78,64 +79,77 @@ class ExcludedAssetToggle extends Component {
     }
   };
 
+  canExcludeAssets = () => {
+    let permissions = this.props.userPermissions;
+    if (!permissions) {
+      return false;
+    }
+    let filtered_permissions = permissions.filter(
+      permission => permission === 'can_exclude_assets',
+    );
+
+    if (filtered_permissions.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   render() {
+    const { push } = this.props;
+
     if (this.state.loading) {
       return <FontAwesomeIcon icon={faSpinner} />;
     }
 
     if (this.symbolInTargets(this.props.symbolId)) {
       return (
-        <button>
+        <DisabledTogglebutton>
           <FontAwesomeIcon
             icon={faToggleOff}
-            disabled
             data-tip="You can't exclude assets that are a part of your target portfolio. Remove this security from your target portfolio first."
           />
-        </button>
+        </DisabledTogglebutton>
       );
     }
 
     if (!this.symbolQuotable(this.props.symbolId)) {
       return (
-        <button>
+        <DisabledTogglebutton>
           <FontAwesomeIcon
             icon={faToggleOn}
-            disabled
             data-tip="This security is not supported for trading, so it is excluded from your portfolio calculations."
           />
-        </button>
+        </DisabledTogglebutton>
       );
     }
 
-    if (this.props.isFree) {
+    if (!this.canExcludeAssets()) {
       return (
-        <Link
-          to="/app/settings"
-          data-tip="Excluding assets is not available on the Community Edition. Upgrade your account on the Settings page to use this feature."
-        >
-          {this.state.toggle ? (
-            <FontAwesomeIcon icon={faToggleOn} />
-          ) : (
-            <FontAwesomeIcon icon={faToggleOff} />
-          )}
-        </Link>
+        <DisabledTogglebutton onClick={() => push('/app/settings')}>
+          <FontAwesomeIcon
+            icon={this.state.toggle ? faToggleOn : faToggleOff}
+            data-tip="Excluding assets is not available on the Community Edition. Upgrade your account on the Settings page to use this feature."
+          />
+        </DisabledTogglebutton>
       );
     }
 
     return (
-      <button onClick={this.handleClick}>
+      <ToggleButton onClick={this.handleClick}>
         {this.state.toggle ? (
           <FontAwesomeIcon icon={faToggleOn} />
         ) : (
           <FontAwesomeIcon icon={faToggleOff} />
         )}
-      </button>
+      </ToggleButton>
     );
   }
 }
 
 const actions = {
   refreshGroup: loadGroup,
+  push: push,
 };
 
 const select = state => ({
@@ -144,7 +158,7 @@ const select = state => ({
   excludedAssets: selectCurrentGroupExcludedAssets(state),
   symbols: selectCurrentGroupSymbols(state),
   quotableSymbols: selectCurrentGroupQuotableSymbols(state),
-  isFree: selectIsFree(state),
+  userPermissions: selectUserPermissions(state),
 });
 
 export default connect(

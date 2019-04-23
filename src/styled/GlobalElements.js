@@ -83,6 +83,23 @@ export const A = styled.a`
   cursor: pointer;
 `;
 
+// a that looks like button
+export const AButton = styled.a`
+  background-color: ${props => (props.disabled ? '#003aa1' : '#003BA2')};
+  opacity: ${props => (props.disabled ? '.7' : '1')};
+  :hover,
+  :visited,
+  :link,
+  :active {
+    text-decoration: none;
+  }
+
+  border: none;
+  color: white;
+  padding: 13px 18px 15px;
+  margin: 5px;
+`;
+
 // edit
 export const Edit = styled.button`
   color: var(--brand-blue);
@@ -97,4 +114,14 @@ export const Title = styled.div`
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 8px;
+`;
+
+export const WarningBox = styled.div`
+  background: #fceeb5;
+  border-radius: 4px;
+  padding: 10px 20px 10px;
+  margin: 10px 0 10px 0;
+  p {
+    margin: 0;
+  }
 `;

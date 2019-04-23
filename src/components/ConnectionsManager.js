@@ -4,11 +4,13 @@ import {
   selectBrokerages,
   selectAuthorizations,
   selectAccounts,
+  selectUserPermissions,
 } from '../selectors';
 import { initialLoad, loadBrokerages } from '../actions';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import Connections from './Connections';
 import { Button } from '../styled/Button';
+import { push } from 'connected-react-router';
 
 import ShadowBox from '../styled/ShadowBox';
 import { H2 } from '../styled/GlobalElements';
@@ -26,6 +28,19 @@ export class ConnectionsManager extends React.Component {
     this.setState({ creatingNewConnection: false });
   }
 
+  canAddMultipleConnections = () => {
+    let permissions = this.props.userPermissions;
+    let filtered_permissions = permissions.filter(
+      permission => permission === 'can_add_multiple_connections',
+    );
+
+    if (filtered_permissions.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   render() {
     return (
       <ShadowBox>
@@ -41,7 +56,15 @@ export class ConnectionsManager extends React.Component {
             >
               Cancel
             </Button>
-            <AuthorizationPicker />
+            {!this.canAddMultipleConnections() &&
+            this.props.authorizations &&
+            this.props.authorizations.length > 0 ? (
+              <React.Fragment>
+                Upgrade your account to add multiple connections!
+              </React.Fragment>
+            ) : (
+              <AuthorizationPicker />
+            )}
           </div>
         ) : (
           <div>
@@ -50,7 +73,9 @@ export class ConnectionsManager extends React.Component {
                 this.startCreatingNewConnection();
               }}
             >
-              New Connection
+              {this.props.authorizations && this.props.authorizations.length > 0
+                ? 'Add Another Connection'
+                : 'Add a Connection'}
             </Button>
           </div>
         )}
@@ -63,10 +88,12 @@ const select = state => ({
   brokerages: selectBrokerages(state),
   authorizations: selectAuthorizations(state),
   accounts: selectAccounts(state),
+  userPermissions: selectUserPermissions(state),
 });
 const actions = {
   reloadAllState: initialLoad,
   reloadBrokerages: loadBrokerages,
+  push: push,
 };
 
 export default connect(
