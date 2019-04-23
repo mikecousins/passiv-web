@@ -25,8 +25,8 @@ const SettingsPage = props => {
       <Container2Column>
         <CredentialsManager />
         <SubscriptionManager />
-        <ConnectionsManager />
       </Container2Column>
+      <ConnectionsManager />
       <AccountsManager />
     </React.Fragment>
   );
