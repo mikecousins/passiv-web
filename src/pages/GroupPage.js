@@ -7,7 +7,7 @@ import styled from '@emotion/styled';
 import { replace } from 'connected-react-router';
 import PortfolioGroupAccuracy from '../components/PortfolioGroupAccuracy';
 import PortfolioGroupHoldings from '../components/PortfolioGroupHoldings';
-import AccountMetadata from '../components/AccountMetadata';
+import PortfolioGroupMetadata from '../components/PortfolioGroupMetadata';
 import PortfolioGroupTargets from '../components/PortfolioGroupTargets';
 import AccountTrades from '../components/AccountTrades';
 import PortfolioGroupSettings from '../components/PortfolioGroupSettings';
@@ -98,7 +98,7 @@ const GroupPage = props => {
   return (
     <React.Fragment>
       <Container2Column>
-        <AccountMetadata
+        <PortfolioGroupMetadata
           name={name}
           balances={balances}
           cash={cash}

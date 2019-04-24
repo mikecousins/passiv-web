@@ -99,7 +99,7 @@ const MetaHorizontal = styled.div`
   }
 `;
 
-class AccountMetadata extends Component {
+class PortfolioGroupMetadata extends Component {
   state = {
     name: this.props.name,
     editingName: false,
@@ -216,9 +216,7 @@ class AccountMetadata extends Component {
   }
 }
 
-AccountMetadata.propTypes = {
-  name: PropTypes.string,
-  type: PropTypes.string,
+PortfolioGroupMetadata.propTypes = {
   number: PropTypes.string,
   accuracy: PropTypes.number,
   cash: PropTypes.number,
@@ -235,4 +233,4 @@ const actions = {
 export default connect(
   select,
   actions,
-)(AccountMetadata);
+)(PortfolioGroupMetadata);
