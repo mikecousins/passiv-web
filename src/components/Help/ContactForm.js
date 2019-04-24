@@ -31,6 +31,14 @@ const HiddenInput = styled(Input)`
 `;
 
 export class ContactForm extends React.Component {
+  state = {
+    timestamp: null,
+  };
+
+  componentDidMount(nextProps) {
+    this.setState({ timestamp: new Date() });
+  }
+
   render() {
     return (
       <GreenBox>
@@ -51,12 +59,14 @@ export class ContactForm extends React.Component {
             lm: Yup.string().required('Required'),
           })}
           onSubmit={(values, actions) => {
+            let now = new Date();
             if (
               values.name !== '' ||
               values.url !== '' ||
               values.message !== '' ||
               values.email !== '' ||
-              values.lm.includes('https://vk.cc')
+              values.lm.includes('https://vk.cc') ||
+              now - this.state.timestamp < 5000
             ) {
               // if either of these fields have data, it was submitted by a bot so we do nothing
               actions.setSubmitting(false);
