@@ -913,7 +913,7 @@ export const selectCurrentGroupSetupComplete = createSelector(
   selectCurrentGroupTarget,
   (targetInitialized, groupTarget) => {
     let setupComplete = false;
-    if (targetInitialized && groupTarget.length > 0) {
+    if (targetInitialized && groupTarget && groupTarget.length > 0) {
       setupComplete = true;
     }
     return setupComplete;

@@ -114,7 +114,6 @@ const Account = ({
 
   const formatAccountType = (account, brokerage) => {
     let accountType = '';
-
     if (brokerage.name === 'Questrade') {
       accountType = account.meta.client_account_type + ' ' + account.meta.type;
     } else {

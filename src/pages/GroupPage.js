@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { replace } from 'connected-react-router';
 import PortfolioGroupAccuracy from '../components/PortfolioGroupAccuracy';
 import PortfolioGroupHoldings from '../components/PortfolioGroupHoldings';
 import AccountMetadata from '../components/AccountMetadata';
@@ -22,6 +23,8 @@ import {
 } from '../selectors';
 import { selectGroupsLoading } from '../selectors/groups';
 import Tooltip from '../components/Tooltip';
+import { deleteData } from '../api';
+import { initialLoad } from '../actions';
 
 export const Container2Column = styled.div`
   @media (min-width: 900px) {
@@ -48,6 +51,7 @@ const GroupPage = props => {
     equity,
     setupComplete,
     loading,
+    reloadAllState,
   } = props;
 
   // if we don't have our group yet, show a spinner
@@ -58,6 +62,30 @@ const GroupPage = props => {
   // if the group is null that means it's not found, redirect to the dashboard
   if (group === null) {
     return <Redirect to="/" />;
+  }
+
+  // see if we have any accounts in this group
+  if (!group.accounts) {
+    return (
+      <span>
+        There are no accounts in this group! &nbsp;
+        <button
+          onClick={() => {
+            deleteData(`/api/v1/portfolioGroups/${group.id}`)
+              .then(response => {
+                reloadAllState();
+                replace('/');
+              })
+              .catch(error => {
+                reloadAllState();
+                replace('/');
+              });
+          }}
+        >
+          Delete
+        </button>
+      </span>
+    );
   }
 
   const name = group.name || 'No Name Provided';
@@ -115,4 +143,11 @@ const select = state => ({
   loading: selectGroupsLoading(state),
 });
 
-export default connect(select)(GroupPage);
+const actions = {
+  reloadAllState: initialLoad,
+};
+
+export default connect(
+  select,
+  actions,
+)(GroupPage);
