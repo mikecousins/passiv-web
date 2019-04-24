@@ -89,15 +89,6 @@ const GroupPage = props => {
   }
 
   const name = group.name || 'No Name Provided';
-  let type = null;
-  let number = null;
-
-  // grab the account type and number from the first account
-  // TODO fix this when we support groups properly
-  if (group.accounts && group.accounts[0]) {
-    type = group.accounts[0].type;
-    number = group.accounts[0].number;
-  }
 
   // see if we have any suggested trades to display
   let tradeDisplay = null;
@@ -109,8 +100,6 @@ const GroupPage = props => {
       <Container2Column>
         <AccountMetadata
           name={name}
-          type={type}
-          number={number}
           balances={balances}
           cash={cash}
           equity={equity}

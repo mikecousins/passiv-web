@@ -180,24 +180,7 @@ class AccountMetadata extends Component {
             </Total>
           </Table>
           <Table>
-            <MetaHorizontal>
-              <div>
-                <span>Account #: </span>
-                {this.props.number ? (
-                  this.props.number
-                ) : (
-                  <FontAwesomeIcon icon={faSpinner} spin />
-                )}
-              </div>
-              <div>
-                <span>Type: </span>
-                {this.props.type ? (
-                  this.props.type
-                ) : (
-                  <FontAwesomeIcon icon={faSpinner} spin />
-                )}
-              </div>
-            </MetaHorizontal>
+            <MetaHorizontal />
             <CashBalance>
               {!this.props.balances && (
                 <div>
