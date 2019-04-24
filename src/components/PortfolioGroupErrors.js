@@ -70,6 +70,21 @@ const PortfolioGroupErrors = props => {
           </React.Fragment>
         );
         break;
+      case '2002':
+        errorDisplay = (
+          <React.Fragment>
+            <P>
+              We are having trouble communicating with the brokerage linked to
+              this account.
+            </P>
+            <P>
+              This is likely a temporary issue due to technical issues at the
+              brokerage. Please try again later or{' '}
+              <Link to="/app/help">contact support</Link> if this persists.
+            </P>
+          </React.Fragment>
+        );
+        break;
       default:
         errorDisplay = (
           <P>
