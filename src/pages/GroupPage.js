@@ -10,7 +10,7 @@ import AccountMetadata from '../components/AccountMetadata';
 import AccountTargets from '../components/AccountTargets';
 import AccountTrades from '../components/AccountTrades';
 import AccountSettings from '../components/AccountSettings';
-import ErrorQuotes from '../components/ErrorQuotes';
+import PortfolioGroupErrors from '../components/PortfolioGroupErrors';
 import {
   selectCurrentGroupTotalEquity,
   selectCurrentGroupCash,
@@ -19,11 +19,9 @@ import {
   selectCurrentGroupPositions,
   selectCurrentGroupBalances,
   selectCurrentGroupTrades,
-  selectCurrentGroupSymbols,
-  selectCurrentGroupInfoErrors,
+  selectCurrentGroupInfoError,
   selectCurrentGroupSetupComplete,
 } from '../selectors';
-import { selectGroupsLoading } from '../selectors/groups';
 import Tooltip from '../components/Tooltip';
 
 export const Container2Column = styled.div`
@@ -49,8 +47,7 @@ const GroupPage = props => {
     positions,
     cash,
     equity,
-    symbols,
-    errors,
+    error,
     setupComplete,
     loading,
   } = props;
@@ -97,7 +94,7 @@ const GroupPage = props => {
 
       {tradeDisplay}
 
-      {errors ? <ErrorQuotes error={errors} symbols={symbols} /> : null}
+      {error ? <PortfolioGroupErrors error={error} /> : null}
 
       <AccountTargets positions={positions} />
 
@@ -119,8 +116,7 @@ const select = state => ({
   accuracy: selectCurrentGroupAccuracy(state),
   trades: selectCurrentGroupTrades(state),
   setupComplete: selectCurrentGroupSetupComplete(state),
-  symbols: selectCurrentGroupSymbols(state),
-  errors: selectCurrentGroupInfoErrors(state),
+  error: selectCurrentGroupInfoError(state),
 });
 
 export default connect(select)(GroupPage);

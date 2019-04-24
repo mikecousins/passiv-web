@@ -341,7 +341,7 @@ export const selectCurrentGroupInfo = createSelector(
   },
 );
 
-export const selectCurrentGroupInfoErrors = createSelector(
+export const selectCurrentGroupInfoError = createSelector(
   selectCurrentGroupInfo,
   data => {
     try {

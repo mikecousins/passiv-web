@@ -11,7 +11,7 @@ import { H2 } from '../styled/GlobalElements';
 import Number from './Number';
 import {
   selectCurrentGroupSetupComplete,
-  selectCurrentGroupInfoErrors,
+  selectCurrentGroupInfoError,
 } from '../selectors';
 
 export const Accuracy = styled.div`
@@ -41,7 +41,7 @@ export const AccountAccuracy = ({
   accuracy,
   loading,
   setupComplete,
-  errors,
+  error,
 }) => {
   let accuracyDisplay = null;
   if (loading || accuracy === undefined) {
@@ -50,7 +50,7 @@ export const AccountAccuracy = ({
         <FontAwesomeIcon icon={faSpinner} spin />
       </div>
     );
-  } else if (errors) {
+  } else if (error) {
     accuracyDisplay = (
       <div>
         <FontAwesomeIcon
@@ -92,7 +92,7 @@ export const AccountAccuracy = ({
 
 const select = state => ({
   setupComplete: selectCurrentGroupSetupComplete(state),
-  errors: selectCurrentGroupInfoErrors(state),
+  error: selectCurrentGroupInfoError(state),
 });
 
 export default connect(select)(AccountAccuracy);
