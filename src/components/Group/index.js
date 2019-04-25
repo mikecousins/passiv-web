@@ -23,11 +23,10 @@ import AccountTrades from '../AccountTrades';
 
 export const Group = props => {
   const { group, trades } = props;
+  const [expanded, setExpanded] = useState(false);
   if (!group) {
     return <div>Loading...</div>;
   }
-
-  const [expanded, setExpanded] = useState(false);
 
   let accuracy = <FontAwesomeIcon icon={faSpinner} spin />;
   if (group.setupComplete !== undefined) {

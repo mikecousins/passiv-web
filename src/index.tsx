@@ -14,9 +14,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { responsiveStoreEnhancer } from 'redux-responsive';
 import createRootReducer from './reducers';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
 import ErrorBoundary from './components/ErrorBoundary';
-import { updateServiceWorker } from './actions';
+// import registerServiceWorker from './registerServiceWorker';
+// import { updateServiceWorker } from './actions';
 import apiMiddleware from './middleware/api';
 import createRunLoop from './reactors/init-runloop';
 import { effects } from './reactors/effects';
@@ -91,9 +91,11 @@ ReactDOM.render(
   document.getElementById('root'),
 );
 
+// TODO enable when we have our semver updates figured out
+/*
 const onUpdate = () => {
   store.dispatch(updateServiceWorker());
 };
 
-// TODO enable when we have our semver updates figured out
-// registerServiceWorker(onUpdate);
+registerServiceWorker(onUpdate);
+*/
