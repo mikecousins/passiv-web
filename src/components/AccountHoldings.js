@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { H2, H3, Title } from '../styled/GlobalElements';
 import styled from '@emotion/styled';
-import ExcludedAssetToggle from './ExcludedAssetToggle';
 import ShadowBox from '../styled/ShadowBox';
 import Number from './Number';
 
