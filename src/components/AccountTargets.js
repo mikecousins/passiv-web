@@ -137,6 +137,7 @@ export class AccountTargets extends React.Component {
     const { target, error } = this.props;
 
     console.log('target', target);
+    console.log('error', error);
 
     if (error !== null) {
       return (
@@ -234,7 +235,7 @@ const select = state => ({
   groupId: selectCurrentGroupId(state),
   target: selectCurrentGroupTarget(state),
   targetInitialized: selectCurrentGroupTargetInitialized(state),
-  groupError: selectCurrentGroupInfoError(state),
+  error: selectCurrentGroupInfoError(state),
 });
 
 export default connect(
