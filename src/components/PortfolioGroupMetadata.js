@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faPen } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSpinner,
+  faPen,
+  faExclamationTriangle,
+} from '@fortawesome/free-solid-svg-icons';
 import { loadGroupsList } from '../actions';
 import { patchData } from '../api';
 import { selectCurrentGroup } from '../selectors';
@@ -49,6 +53,10 @@ const Cash = styled.div`
     display: inline-block;
     width: 33%;
   }
+`;
+
+const Center = styled.div`
+  text-align: center;
 `;
 
 const CashType = styled.div`
@@ -140,6 +148,29 @@ class PortfolioGroupMetadata extends Component {
   }
 
   render() {
+    let equityValue = null;
+    let cashValue = null;
+    if (this.props.error) {
+      equityValue = (
+        <Center>
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+        </Center>
+      );
+      cashValue = <FontAwesomeIcon icon={faExclamationTriangle} />;
+    } else {
+      equityValue =
+        this.props.equity !== null ? (
+          <Number value={this.props.equity} currency />
+        ) : (
+          <FontAwesomeIcon icon={faSpinner} spin />
+        );
+      cashValue =
+        this.props.cash !== null ? (
+          <Number value={this.props.cash} currency />
+        ) : (
+          <FontAwesomeIcon icon={faSpinner} spin />
+        );
+    }
     return (
       <ShadowBox>
         <MetaContainer>
@@ -170,13 +201,7 @@ class PortfolioGroupMetadata extends Component {
             )}
             <Total>
               <Title>Total Value</Title>
-              <b>
-                {this.props.equity !== null ? (
-                  <Number value={this.props.equity} currency />
-                ) : (
-                  <FontAwesomeIcon icon={faSpinner} spin />
-                )}
-              </b>
+              <b>{equityValue}</b>
             </Total>
           </Table>
           <Table>
@@ -203,11 +228,7 @@ class PortfolioGroupMetadata extends Component {
             </CashBalance>
             <Cash>
               <Title>Cash</Title>
-              {this.props.cash !== null ? (
-                <Number value={this.props.cash} currency />
-              ) : (
-                <FontAwesomeIcon icon={faSpinner} spin />
-              )}
+              {cashValue}
             </Cash>
           </Table>
         </MetaContainer>

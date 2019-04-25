@@ -12,6 +12,7 @@ import PortfolioGroupTargets from '../components/PortfolioGroupTargets';
 import AccountTrades from '../components/AccountTrades';
 import PortfolioGroupSettings from '../components/PortfolioGroupSettings';
 import AccountHoldings from '../components/AccountHoldings';
+import PortfolioGroupErrors from '../components/PortfolioGroupErrors';
 import {
   selectCurrentGroupTotalEquity,
   selectCurrentGroupCash,
@@ -20,6 +21,7 @@ import {
   selectCurrentGroupPositions,
   selectCurrentGroupBalances,
   selectCurrentGroupTrades,
+  selectCurrentGroupInfoError,
   selectCurrentGroupSetupComplete,
 } from '../selectors';
 import {
@@ -53,6 +55,7 @@ const GroupPage = props => {
     positions,
     cash,
     equity,
+    error,
     setupComplete,
     loading,
     reloadAllState,
@@ -108,10 +111,12 @@ const GroupPage = props => {
           balances={balances}
           cash={cash}
           equity={equity}
+          error={error}
         />
         <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
       </Container2Column>
 
+      {error ? <PortfolioGroupErrors error={error} /> : null}
       {tradeDisplay}
 
       <PortfolioGroupTargets positions={positions} />
@@ -122,7 +127,11 @@ const GroupPage = props => {
       </Container2Column>
       {accounts &&
         accounts.map(account => (
-          <AccountHoldings account={account} key={account.number} />
+          <AccountHoldings
+            account={account}
+            key={account.number}
+            error={error}
+          />
         ))}
       <Tooltip />
     </React.Fragment>
@@ -140,6 +149,7 @@ const select = state => ({
   setupComplete: selectCurrentGroupSetupComplete(state),
   loading: selectGroupsLoading(state),
   accounts: selectCurrentGroupAccountHoldings(state),
+  error: selectCurrentGroupInfoError(state),
 });
 
 const actions = {

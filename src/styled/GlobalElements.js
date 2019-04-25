@@ -125,3 +125,9 @@ export const WarningBox = styled.div`
     margin: 0;
   }
 `;
+
+export const ErrorMessage = styled.div`
+  width: 100%;
+  text-align: left;
+  margin: 20px 0;
+`;

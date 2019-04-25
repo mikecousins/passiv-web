@@ -341,6 +341,17 @@ export const selectCurrentGroupInfo = createSelector(
   },
 );
 
+export const selectCurrentGroupInfoError = createSelector(
+  selectCurrentGroupInfo,
+  data => {
+    try {
+      return data.error;
+    } catch {
+      return null;
+    }
+  },
+);
+
 export const selectPasswordResetToken = createSelector(
   selectRouter,
   router => {

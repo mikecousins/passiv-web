@@ -2,6 +2,7 @@ import React from 'react';
 import { faEyeSlash, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { postData } from '../../api';
+import { connect } from 'react-redux';
 import SymbolSelector from './SymbolSelector';
 import Number from '../Number';
 import {
@@ -17,6 +18,8 @@ import {
   Container,
   Close,
 } from '../../styled/Target';
+import { loadGroup } from '../../actions';
+import { selectCurrentGroupId } from '../../selectors';
 
 export class TargetBar extends React.Component {
   loadOptions = (substring, callback) => {
@@ -25,6 +28,7 @@ export class TargetBar extends React.Component {
         callback(response.data);
       })
       .catch(error => {
+        this.props.refreshGroup({ ids: [this.props.groupId] });
         console.log('error', error.response.data);
       });
   };
@@ -108,4 +112,15 @@ export class TargetBar extends React.Component {
   }
 }
 
-export default TargetBar;
+const actions = {
+  refreshGroup: loadGroup,
+};
+
+const select = state => ({
+  groupId: selectCurrentGroupId(state),
+});
+
+export default connect(
+  select,
+  actions,
+)(TargetBar);

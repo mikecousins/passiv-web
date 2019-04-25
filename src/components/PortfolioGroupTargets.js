@@ -7,9 +7,10 @@ import {
   selectCurrentGroupId,
   selectCurrentGroupTarget,
   selectCurrentGroupTargetInitialized,
+  selectCurrentGroupInfoError,
 } from '../selectors';
 import { Button } from '../styled/Button';
-import { H2, H3, P } from '../styled/GlobalElements';
+import { H2, H3, P, ErrorMessage } from '../styled/GlobalElements';
 import { postData } from '../api';
 import styled from '@emotion/styled';
 import ShadowBox from '../styled/ShadowBox';
@@ -133,7 +134,21 @@ export class PortfolioGroupTargets extends React.Component {
   }
 
   render() {
-    const { target } = this.props;
+    const { target, error } = this.props;
+
+    console.log('target', target);
+    console.log('error', error);
+
+    if (error !== null) {
+      return (
+        <ShadowBox>
+          <H2>Target Portfolio</H2>
+          <ErrorMessage>
+            <H3>Could not load target portfolio.</H3>
+          </ErrorMessage>
+        </ShadowBox>
+      );
+    }
 
     // show a spinner if we don't have our data yet
     if (!target) {
@@ -220,6 +235,7 @@ const select = state => ({
   groupId: selectCurrentGroupId(state),
   target: selectCurrentGroupTarget(state),
   targetInitialized: selectCurrentGroupTargetInitialized(state),
+  error: selectCurrentGroupInfoError(state),
 });
 
 export default connect(
