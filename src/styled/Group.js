@@ -145,7 +145,7 @@ export const TradesContainer = styled.div`
   position: relative;
   color: #003ba2;
   box-shadow: var(--box-shadow);
-  border-radius: 0 0 4px 4px;
+  border-radius: 4px;
   padding: 20px;
   margin-bottom: 20px;
   margin-top: 0;
@@ -158,7 +158,6 @@ export const TradesContainer = styled.div`
 `;
 export const ErrorContainer = styled.div`
   position: relative;
-  /* color: #003ba2; */
   box-shadow: var(--box-shadow);
   border-radius: 4px;
   padding: 20px;
@@ -166,7 +165,6 @@ export const ErrorContainer = styled.div`
   margin-top: 0;
   background: #ffb040;
   h3 {
-    /* color: #003ba2; */
     font-size: 25px;
     margin-bottom: 10px;
   }
