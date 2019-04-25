@@ -11,6 +11,7 @@ import PortfolioGroupMetadata from '../components/PortfolioGroupMetadata';
 import PortfolioGroupTargets from '../components/PortfolioGroupTargets';
 import AccountTrades from '../components/AccountTrades';
 import PortfolioGroupSettings from '../components/PortfolioGroupSettings';
+import AccountHoldings from '../components/AccountHoldings';
 import {
   selectCurrentGroupTotalEquity,
   selectCurrentGroupCash,
@@ -21,7 +22,10 @@ import {
   selectCurrentGroupTrades,
   selectCurrentGroupSetupComplete,
 } from '../selectors';
-import { selectGroupsLoading } from '../selectors/groups';
+import {
+  selectGroupsLoading,
+  selectCurrentGroupAccountHoldings,
+} from '../selectors/groups';
 import Tooltip from '../components/Tooltip';
 import { deleteData } from '../api';
 import { initialLoad } from '../actions';
@@ -52,6 +56,7 @@ const GroupPage = props => {
     setupComplete,
     loading,
     reloadAllState,
+    accounts,
   } = props;
 
   // if we don't have our group yet, show a spinner
@@ -115,6 +120,10 @@ const GroupPage = props => {
         <PortfolioGroupHoldings positions={positions} loading={loading} />
         <PortfolioGroupSettings />
       </Container2Column>
+      {accounts &&
+        accounts.map(account => (
+          <AccountHoldings account={account} key={account.number} />
+        ))}
       <Tooltip />
     </React.Fragment>
   );
@@ -130,6 +139,7 @@ const select = state => ({
   trades: selectCurrentGroupTrades(state),
   setupComplete: selectCurrentGroupSetupComplete(state),
   loading: selectGroupsLoading(state),
+  accounts: selectCurrentGroupAccountHoldings(state),
 });
 
 const actions = {

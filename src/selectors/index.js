@@ -208,9 +208,9 @@ export const selectAccountsNeedData = createSelector(
   },
 );
 
-export const selectBalances = state => state.accountBalances;
+export const selectAccountBalances = state => state.accountBalances;
 
-export const selectPositions = state => state.accountPositions;
+export const selectAccountPositions = state => state.accountPositions;
 
 export const selectGroupsRaw = state => state.groups;
 
@@ -442,8 +442,8 @@ export const selectDashboardGroups = createSelector(
 export const selectCurrentGroup = createSelector(
   selectGroups,
   selectAccounts,
-  selectBalances,
-  selectPositions,
+  selectAccountBalances,
+  selectAccountPositions,
   selectCurrentGroupId,
   (groups, accounts, balances, positions, groupId) => {
     let group = undefined;
