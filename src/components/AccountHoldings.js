@@ -27,7 +27,7 @@ export const HoldingsTable = styled.table`
   }
 `;
 
-export const NoHoldingsMessage = styled.table`
+export const NoHoldingsMessage = styled.div`
   width: 100%;
   text-align: left;
   margin: 20px 0;
