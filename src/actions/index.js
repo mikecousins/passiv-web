@@ -138,7 +138,20 @@ export const loadAccounts = () => {
   return dispatch => {
     dispatch(fetchAccountsStart());
     getData('/api/v1/accounts/')
-      .then(response => dispatch(fetchAccountsSuccess(response)))
+      .then(response => {
+        response.data.forEach(account => {
+          dispatch(fetchAccountBalancesStart(account.id));
+          getData('/api/v1/accounts/' + account.id + '/balances/')
+            .then(r => dispatch(fetchAccountBalancesSuccess(r, account.id)))
+            .catch(e => dispatch(fetchAccountBalancesError(e, account.id)));
+
+          dispatch(fetchAccountPositionsStart(account.id));
+          getData('/api/v1/accounts/' + account.id + '/positions/')
+            .then(r => dispatch(fetchAccountPositionsSuccess(r, account.id)))
+            .catch(e => dispatch(fetchAccountPositionsError(e, account.id)));
+        });
+        return dispatch(fetchAccountsSuccess(response));
+      })
       .catch(error => dispatch(fetchAccountsError(error)));
   };
 };
@@ -346,19 +359,36 @@ export const fetchAccountsError = payload => ({
   payload,
 });
 
-export const fetchAccountDetailsStart = id => ({
-  type: 'FETCH_ACCOUNT_DETAILS_START',
+export const fetchAccountBalancesStart = id => ({
+  type: 'FETCH_ACCOUNT_BALANCES_START',
   id,
 });
 
-export const fetchAccountDetailsSuccess = (payload, id) => ({
-  type: 'FETCH_ACCOUNT_DETAILS_SUCCESS',
+export const fetchAccountBalancesSuccess = (payload, id) => ({
+  type: 'FETCH_ACCOUNT_BALANCES_SUCCESS',
   payload,
   id,
 });
 
-export const fetchAccountDetailsError = (payload, id) => ({
-  type: 'FETCH_ACCOUNT_DETAILS_ERROR',
+export const fetchAccountBalancesError = (payload, id) => ({
+  type: 'FETCH_ACCOUNT_BALANCES_ERROR',
+  payload,
+  id,
+});
+
+export const fetchAccountPositionsStart = id => ({
+  type: 'FETCH_ACCOUNT_POSITIONS_START',
+  id,
+});
+
+export const fetchAccountPositionsSuccess = (payload, id) => ({
+  type: 'FETCH_ACCOUNT_POSITIONS_SUCCESS',
+  payload,
+  id,
+});
+
+export const fetchAccountPositionsError = (payload, id) => ({
+  type: 'FETCH_ACCOUNT_POSITIONS_ERROR',
   payload,
   id,
 });

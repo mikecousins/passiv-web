@@ -54,6 +54,14 @@ export default history =>
       baseType: 'FETCH_ACCOUNTS',
       userData: true,
     }),
+    accountBalances: simpleList({
+      baseType: 'FETCH_ACCOUNT_BALANCES',
+      userData: true,
+    }),
+    accountPositions: simpleList({
+      baseType: 'FETCH_ACCOUNT_POSITIONS',
+      userData: true,
+    }),
     groupInfo: simpleList({
       baseType: 'FETCH_GROUP_INFO',
       userData: true,
