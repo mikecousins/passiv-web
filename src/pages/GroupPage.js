@@ -88,6 +88,7 @@ const GroupPage = props => {
           balances={balances}
           cash={cash}
           equity={equity}
+          error={error}
         />
         <AccountAccuracy accuracy={accuracy} loading={loading} />
       </Container2Column>
@@ -99,7 +100,11 @@ const GroupPage = props => {
       <AccountTargets positions={positions} />
 
       <Container2Column>
-        <AccountHoldings positions={positions} loading={loading} />
+        <AccountHoldings
+          positions={positions}
+          loading={loading}
+          error={error}
+        />
         <AccountSettings />
       </Container2Column>
       <Tooltip />
