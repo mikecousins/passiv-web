@@ -8,6 +8,11 @@ export const PortfolioGroupSettings = () => (
     <H2>Settings</H2>
     <br />
     <SettingsToggle name="Buy only" settingsId="buy_only" />
+    <br />
+    <SettingsToggle
+      name="Buy with same currency only"
+      settingsId="separate_currencies_for_rebalancing"
+    />
   </ShadowBox>
 );
 
