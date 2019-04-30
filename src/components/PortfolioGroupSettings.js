@@ -2,6 +2,7 @@ import React from 'react';
 import { H2 } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
 import SettingsToggle from './SettingsToggle';
+import CurrencySeparation from './CurrencySeparation';
 
 export const PortfolioGroupSettings = () => (
   <ShadowBox>
@@ -9,10 +10,7 @@ export const PortfolioGroupSettings = () => (
     <br />
     <SettingsToggle name="Buy only" settingsId="buy_only" />
     <br />
-    <SettingsToggle
-      name="Buy with same currency only"
-      settingsId="separate_currencies_for_rebalancing"
-    />
+    <CurrencySeparation />
   </ShadowBox>
 );
 
