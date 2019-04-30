@@ -147,6 +147,14 @@ class PortfolioGroupMetadata extends Component {
     this.setState({ editingName: false });
   }
 
+  firstAccount() {
+    if (this.props.accounts.length > 0) {
+      return this.props.accounts[0];
+    } else {
+      return null;
+    }
+  }
+
   render() {
     let equityValue = null;
     let cashValue = null;
@@ -205,7 +213,35 @@ class PortfolioGroupMetadata extends Component {
             </Total>
           </Table>
           <Table>
-            <MetaHorizontal />
+            <MetaHorizontal>
+              {this.props.accounts.length > 1 ? (
+                <React.Fragment>
+                  <div>
+                    This portfolio contains{' '}
+                    <a href="#managed-accounts">multiple accounts</a>.
+                  </div>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <div>
+                    <span>Account #: </span>
+                    {this.firstAccount().number ? (
+                      this.firstAccount().number
+                    ) : (
+                      <FontAwesomeIcon icon={faSpinner} spin />
+                    )}
+                  </div>
+                  <div>
+                    <span>Type: </span>
+                    {this.firstAccount().type ? (
+                      this.firstAccount().type
+                    ) : (
+                      <FontAwesomeIcon icon={faSpinner} spin />
+                    )}
+                  </div>
+                </React.Fragment>
+              )}
+            </MetaHorizontal>
             <CashBalance>
               {!this.props.balances && (
                 <div>

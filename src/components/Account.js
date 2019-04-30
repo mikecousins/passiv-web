@@ -8,7 +8,7 @@ import {
   selectAuthorizations,
   selectGroups,
 } from '../selectors';
-import { loadAccounts } from '../actions';
+import { loadAccounts, loadGroups } from '../actions';
 import { putData } from '../api';
 import PortfolioGroupPicker from './PortfolioGroupPicker';
 import { InputNonFormik } from '../styled/Form';
@@ -60,6 +60,7 @@ const Account = ({
   brokerages,
   groups,
   refreshAccounts,
+  refreshGroups,
 }) => {
   const [nameEditing, setNameEditing] = useState(false);
   const [groupEditing, setGroupEditing] = useState(false);
@@ -82,9 +83,11 @@ const Account = ({
       putData(`/api/v1/accounts/${account.id}`, newAccount)
         .then(response => {
           refreshAccounts();
+          refreshGroups();
         })
         .catch(error => {
           refreshAccounts();
+          refreshGroups();
         });
     }
     setNameEditing(false);
@@ -98,9 +101,11 @@ const Account = ({
     putData(`/api/v1/accounts/${account.id}`, newAccount)
       .then(response => {
         refreshAccounts();
+        refreshGroups();
       })
       .catch(error => {
         refreshAccounts();
+        refreshGroups();
       });
     setGroupEditing(false);
   };
@@ -206,6 +211,7 @@ const select = state => ({
 
 const actions = {
   refreshAccounts: loadAccounts,
+  refreshGroups: loadGroups,
 };
 
 export default connect(

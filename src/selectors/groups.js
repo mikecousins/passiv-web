@@ -29,6 +29,7 @@ export const selectCurrentGroupAccountHoldings = createSelector(
           positions = accountPositions[account.id].data;
         }
         accountHoldings.push({
+          id: account.id,
           name: account.name,
           number: account.number,
           type: account.meta.type,

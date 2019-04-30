@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { H2, H3, Title, ErrorMessage } from '../styled/GlobalElements';
+import {
+  faSpinner,
+  faSortUp,
+  faSortDown,
+} from '@fortawesome/free-solid-svg-icons';
+import { Title, Table, A } from '../styled/GlobalElements';
 import styled from '@emotion/styled';
-import ShadowBox from '../styled/ShadowBox';
 import Number from './Number';
 
 export const HoldingsTable = styled.table`
   width: 100%;
   text-align: center;
-  margin: 20px 0;
+  margin: 0 0 20px 0;
   th {
     text-align: center;
   }
@@ -26,58 +29,40 @@ export const HoldingsTable = styled.table`
   }
 `;
 
+const HoldingsBox = styled.div`
+  margin-top: 20px;
+`;
+
+const NameBox = styled.div`
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom: 10px;
+`;
+
+const DetailBox = styled.div``;
+
 export const AccountHoldings = ({ account, error }) => {
-  if (error !== null) {
-    return (
-      <ShadowBox>
-        <H2>Current Portfolio</H2>
-        <ErrorMessage>
-          <H3>Could not load current portfolio.</H3>
-        </ErrorMessage>
-      </ShadowBox>
-    );
-  }
+  const [viewDetail, setViewDetail] = useState(false);
 
   return (
-    <ShadowBox>
-      {account.positions == null ? (
+    <HoldingsBox>
+      <Table>
+        <NameBox>
+          {account.name} ({account.number}){' '}
+          {account.loading && <FontAwesomeIcon icon={faSpinner} spin />}
+        </NameBox>
+        <DetailBox>
+          <A>
+            <FontAwesomeIcon
+              icon={viewDetail ? faSortUp : faSortDown}
+              onClick={() => setViewDetail(!viewDetail)}
+            />
+          </A>
+        </DetailBox>
+      </Table>
+
+      {viewDetail ? (
         <React.Fragment>
-          <H2>
-            {account.name}
-            &nbsp;-&nbsp;
-            {account.number}
-            &nbsp;-&nbsp;
-            {account.type}
-          </H2>
-          <FontAwesomeIcon icon={faSpinner} spin />
-        </React.Fragment>
-      ) : account.positions.length === 0 ? (
-        <React.Fragment>
-          <H2>
-            {account.name}
-            &nbsp;-&nbsp;
-            {account.number}
-            &nbsp;-&nbsp;
-            {account.type}
-            &nbsp;
-            {account.loading && <FontAwesomeIcon icon={faSpinner} spin />}
-          </H2>
-          <ErrorMessage>
-            <H3>You do not have any holdings in this portfolio.</H3>
-          </ErrorMessage>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <H2>
-            {account.name}
-            &nbsp;-&nbsp;
-            {account.number}
-            &nbsp;-&nbsp;
-            {account.type}
-            &nbsp;
-            {account.loading && <FontAwesomeIcon icon={faSpinner} spin />}
-          </H2>
-          <br />
           <HoldingsTable>
             <thead>
               <tr>
@@ -138,8 +123,10 @@ export const AccountHoldings = ({ account, error }) => {
             </tbody>
           </HoldingsTable>
         </React.Fragment>
+      ) : (
+        <React.Fragment />
       )}
-    </ShadowBox>
+    </HoldingsBox>
   );
 };
 

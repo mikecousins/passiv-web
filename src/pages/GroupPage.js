@@ -11,7 +11,7 @@ import PortfolioGroupMetadata from '../components/PortfolioGroupMetadata';
 import PortfolioGroupTargets from '../components/PortfolioGroupTargets';
 import AccountTrades from '../components/AccountTrades';
 import PortfolioGroupSettings from '../components/PortfolioGroupSettings';
-import AccountHoldings from '../components/AccountHoldings';
+import PortfolioGroupAccounts from '../components/PortfolioGroupAccounts';
 import PortfolioGroupErrors from '../components/PortfolioGroupErrors';
 import {
   selectCurrentGroupTotalEquity,
@@ -112,6 +112,7 @@ const GroupPage = props => {
           cash={cash}
           equity={equity}
           error={error}
+          accounts={accounts}
         />
         <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
       </Container2Column>
@@ -125,14 +126,14 @@ const GroupPage = props => {
         <PortfolioGroupHoldings positions={positions} loading={loading} />
         <PortfolioGroupSettings />
       </Container2Column>
-      {accounts &&
-        accounts.map(account => (
-          <AccountHoldings
-            account={account}
-            key={account.number}
-            error={error}
-          />
-        ))}
+
+      <PortfolioGroupAccounts
+        group={group}
+        accounts={accounts}
+        loading={loading}
+        error={error}
+      />
+
       <Tooltip />
     </React.Fragment>
   );
