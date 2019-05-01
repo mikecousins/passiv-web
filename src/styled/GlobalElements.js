@@ -116,6 +116,13 @@ export const Title = styled.div`
   margin-bottom: 8px;
 `;
 
+//subsetting
+export const SubSetting = styled.div`
+  font-size: 16px;
+  font-weight: 10;
+  margin-left: 15px;
+`;
+
 export const WarningBox = styled.div`
   background: #fceeb5;
   border-radius: 4px;
