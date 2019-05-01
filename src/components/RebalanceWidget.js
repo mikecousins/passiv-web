@@ -215,12 +215,19 @@ export class RebalanceWidget extends Component {
                 This portfolio group does not have trade permissions and
                 therefore can't be used to place orders.
               </P>
-              <P>Connect with full trade permissions:</P>
-              <ConnectionUpdate
-                authorization={this.getReadBrokerageAuthorization()}
-                type="trade"
-                hideTitle={true}
-              />
+              <P>
+                Reconnect with full trade permissions to place orders with
+                Passiv:
+              </P>
+              <ConfirmContainer>
+                <ConnectionUpdate
+                  authorization={this.getReadBrokerageAuthorization()}
+                  type="trade"
+                  hideTitle={true}
+                  name="Reconnect"
+                  align="left"
+                />
+              </ConfirmContainer>
             </OrderContainer>
           );
           break;
@@ -238,6 +245,15 @@ export class RebalanceWidget extends Component {
                 <Link to="/app/help">contact support</Link> if this message
                 persists while markets are open.
               </P>
+              <ConfirmContainer>
+                <Button
+                  onClick={() => {
+                    this.closeWidget();
+                  }}
+                >
+                  Okay
+                </Button>
+              </ConfirmContainer>
             </OrderContainer>
           );
           break;
@@ -277,6 +293,15 @@ export class RebalanceWidget extends Component {
                 Oops, you've encountered a bug! Please try again later or{' '}
                 <Link to="/app/help">contact support</Link> if this persists.
               </P>
+              <ConfirmContainer>
+                <Button
+                  onClick={() => {
+                    this.closeWidget();
+                  }}
+                >
+                  Okay
+                </Button>
+              </ConfirmContainer>
             </OrderContainer>
           );
           break;
