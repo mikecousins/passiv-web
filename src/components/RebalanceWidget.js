@@ -4,16 +4,13 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faClock } from '@fortawesome/free-solid-svg-icons';
 import { push } from 'connected-react-router';
+import styled from '@emotion/styled';
 import { loadGroup } from '../actions';
 import { getData, postData } from '../api';
-import {
-  selectSymbols,
-  selectBrokerages,
-  selectDashboardGroups,
-  selectUserPermissions,
-} from '../selectors';
+import { selectBrokerages, selectUserPermissions } from '../selectors';
+import { selectSymbols } from '../selectors/symbols';
+import { selectDashboardGroups } from '../selectors/groups';
 import { Button } from '../styled/Button';
-import styled from '@emotion/styled';
 import { H2, P, A, Title } from '../styled/GlobalElements';
 import Number from './Number';
 import ConnectionUpdate from '../components/ConnectionUpdate';

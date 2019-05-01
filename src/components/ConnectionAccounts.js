@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { selectAccounts } from '../selectors';
+import { selectAccounts } from '../selectors/accounts';
 import { H3, P } from '../styled/GlobalElements';
 
 class ConnectionAccounts extends React.Component {

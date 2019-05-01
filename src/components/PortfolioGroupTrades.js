@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import RebalanceWidget from './RebalanceWidget';
 import { H2, H3, Title } from '../styled/GlobalElements';
 import {
@@ -9,13 +10,15 @@ import {
   ColumnSymbol,
   ColumnUnits,
   ColumnPrice,
+  ColumnAccount,
 } from '../styled/Group';
 import Number from './Number';
+import { selectAccounts } from '../selectors/accounts';
 
-export const AccountTrades = ({ trades, groupId }) => {
+export const PortfolioGroupTrades = ({ trades, groupId, accounts }) => {
   let buysListRender = null;
   let sellsListRender = null;
-  if (trades && trades.trades.length > 0) {
+  if (trades && trades.trades.length > 0 && accounts && accounts.length > 0) {
     const tradeRender = trade => (
       <TradeRow key={trade.id}>
         <ColumnPrice>
@@ -32,6 +35,12 @@ export const AccountTrades = ({ trades, groupId }) => {
           <Title>{trade.universal_symbol.description}</Title>
           <Symbol>{trade.universal_symbol.symbol}</Symbol>
         </ColumnSymbol>
+        <ColumnAccount>
+          <Title>Account</Title>
+          <div>
+            {accounts.find(account => account.id === trade.account).name}
+          </div>
+        </ColumnAccount>
       </TradeRow>
     );
 
@@ -67,4 +76,8 @@ export const AccountTrades = ({ trades, groupId }) => {
   );
 };
 
-export default AccountTrades;
+const select = state => ({
+  accounts: selectAccounts(state),
+});
+
+export default connect(select)(PortfolioGroupTrades);

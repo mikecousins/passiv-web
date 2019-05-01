@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  selectBrokerages,
-  selectAuthorizations,
-  selectAccounts,
-} from '../selectors';
+import { selectBrokerages, selectAuthorizations } from '../selectors';
+import { selectAccounts } from '../selectors/accounts';
 import { initialLoad, loadBrokerages } from '../actions';
 
 import Accounts from './Accounts';

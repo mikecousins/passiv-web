@@ -9,7 +9,7 @@ import ShadowBox from '../styled/ShadowBox';
 import AccountHoldings from '../components/AccountHoldings';
 import AccountPicker from '../components/AccountPicker';
 import { putData } from '../api';
-import { selectAccounts } from '../selectors';
+import { selectAccounts } from '../selectors/accounts';
 import { loadAccounts, loadGroups } from '../actions';
 
 export const HoldingsTable = styled.table`

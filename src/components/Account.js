@@ -3,11 +3,8 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faCheck } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
-import {
-  selectBrokerages,
-  selectAuthorizations,
-  selectGroups,
-} from '../selectors';
+import { selectBrokerages, selectAuthorizations } from '../selectors';
+import { selectGroups } from '../selectors/groups';
 import { loadAccounts, loadGroups } from '../actions';
 import { putData } from '../api';
 import PortfolioGroupPicker from './PortfolioGroupPicker';

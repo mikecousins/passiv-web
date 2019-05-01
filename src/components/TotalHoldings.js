@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { selectTotalGroupHoldings, selectIsDemoMode } from '../selectors';
 import styled from '@emotion/styled';
+import { selectIsDemoMode } from '../selectors';
+import { selectTotalGroupHoldings } from '../selectors/groups';
 import Number from './Number';
 
 export const TotalContainer = styled.div`

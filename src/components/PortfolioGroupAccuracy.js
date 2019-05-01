@@ -12,7 +12,7 @@ import Number from './Number';
 import {
   selectCurrentGroupSetupComplete,
   selectCurrentGroupInfoError,
-} from '../selectors';
+} from '../selectors/groups';
 
 export const Accuracy = styled.div`
   text-align: center;

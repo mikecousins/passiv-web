@@ -19,7 +19,7 @@ import {
   Close,
 } from '../../styled/Target';
 import { loadGroup } from '../../actions';
-import { selectCurrentGroupId } from '../../selectors';
+import { selectCurrentGroupId } from '../../selectors/groups';
 
 export class TargetBar extends React.Component {
   loadOptions = (substring, callback) => {
