@@ -9,7 +9,7 @@ import PortfolioGroupAccuracy from '../components/PortfolioGroupAccuracy';
 import PortfolioGroupHoldings from '../components/PortfolioGroupHoldings';
 import PortfolioGroupMetadata from '../components/PortfolioGroupMetadata';
 import PortfolioGroupTargets from '../components/PortfolioGroupTargets';
-import AccountTrades from '../components/AccountTrades';
+import PortfolioGroupTrades from '../components/PortfolioGroupTrades';
 import PortfolioGroupSettings from '../components/PortfolioGroupSettings';
 import PortfolioGroupAccounts from '../components/PortfolioGroupAccounts';
 import PortfolioGroupErrors from '../components/PortfolioGroupErrors';
@@ -101,7 +101,7 @@ const GroupPage = props => {
   // see if we have any suggested trades to display
   let tradeDisplay = null;
   if (setupComplete && trades && trades.trades.length) {
-    tradeDisplay = <AccountTrades trades={trades} groupId={group.id} />;
+    tradeDisplay = <PortfolioGroupTrades trades={trades} groupId={group.id} />;
   }
   return (
     <React.Fragment>

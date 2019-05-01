@@ -19,7 +19,7 @@ import {
   Container,
 } from '../../styled/Group';
 import Number from '../Number';
-import AccountTrades from '../AccountTrades';
+import PortfolioGroupTrades from '../PortfolioGroupTrades';
 
 export const Group = props => {
   const { group, trades } = props;
@@ -121,7 +121,9 @@ export const Group = props => {
           </Table>
         </DashboardRow>
       </ShadowBox>
-      {expanded && <AccountTrades trades={group.trades} groupId={group.id} />}
+      {expanded && (
+        <PortfolioGroupTrades trades={group.trades} groupId={group.id} />
+      )}
     </Container>
   );
 };
