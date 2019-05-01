@@ -13,8 +13,8 @@ import {
   selectCurrentGroupExcludedAssets,
   selectCurrentGroupSymbols,
   selectCurrentGroupQuotableSymbols,
-  selectUserPermissions,
-} from '../selectors';
+} from '../selectors/groups';
+import { selectUserPermissions } from '../selectors';
 import { postData, deleteData } from '../api';
 import { push } from 'connected-react-router';
 import { ToggleButton, DisabledTogglebutton } from '../styled/ToggleButton';

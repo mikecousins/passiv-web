@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { loadGroupsList } from '../actions';
 import { patchData } from '../api';
-import { selectCurrentGroup } from '../selectors';
+import { selectCurrentGroup } from '../selectors/groups';
 import styled from '@emotion/styled';
 import { Table, Edit, Title } from '../styled/GlobalElements';
 import { InputNonFormik } from '../styled/Form';

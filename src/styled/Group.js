@@ -187,7 +187,7 @@ export const Heading = styled.div`
 `;
 
 export const ColumnSymbol = styled.div`
-  min-width: 76%;
+  min-width: 58%;
   color: var(--brand-grey);
   @media (max-width: 900px) {
     line-height: 1.2;
@@ -231,6 +231,14 @@ export const ColumnStatus = styled.div`
   color: var(--brand-grey);
   @media (max-width: 900px) {
     margin-bottom: 16px;
+  }
+`;
+
+export const ColumnAccount = styled.div`
+  min-width: 20%;
+  color: var(--brand-grey);
+  @media (max-width: 900px) {
+    line-height: 1.2;
   }
 `;
 

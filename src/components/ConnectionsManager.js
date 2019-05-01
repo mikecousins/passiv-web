@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import {
   selectBrokerages,
   selectAuthorizations,
-  selectAccounts,
   selectUserPermissions,
 } from '../selectors';
+import { selectAccounts } from '../selectors/accounts';
 import { initialLoad, loadBrokerages } from '../actions';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import Connections from './Connections';

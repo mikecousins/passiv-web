@@ -6,7 +6,10 @@ import {
   faToggleOn,
   faToggleOff,
 } from '@fortawesome/free-solid-svg-icons';
-import { selectCurrentGroupSettings, selectCurrentGroupId } from '../selectors';
+import {
+  selectCurrentGroupSettings,
+  selectCurrentGroupId,
+} from '../selectors/groups';
 import { loadGroup } from '../actions';
 import { putData } from '../api';
 import { ToggleButton } from '../styled/ToggleButton';

@@ -6,13 +6,14 @@ import { Formik, FieldArray, Field, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 import uuid from 'uuid';
 import { replace } from 'connected-react-router';
+import styled from '@emotion/styled';
 import { loadGroup } from '../actions';
 import {
   selectCurrentGroupId,
   selectCurrentGroupPositions,
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrentGroupCash,
-} from '../selectors';
+} from '../selectors/groups';
 import { selectIsEditMode } from '../selectors/router';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
@@ -20,7 +21,6 @@ import { Button } from '../styled/Button';
 import { H3, Edit, AButton } from '../styled/GlobalElements';
 import { TargetRow } from '../styled/Target';
 import { postData } from '../api';
-import styled from '@emotion/styled';
 
 const ButtonBox = styled.div`
   display: flex;

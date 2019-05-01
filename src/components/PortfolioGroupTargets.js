@@ -8,7 +8,7 @@ import {
   selectCurrentGroupTarget,
   selectCurrentGroupTargetInitialized,
   selectCurrentGroupInfoError,
-} from '../selectors';
+} from '../selectors/groups';
 import { Button } from '../styled/Button';
 import { H2, H3, P, ErrorMessage } from '../styled/GlobalElements';
 import { postData } from '../api';

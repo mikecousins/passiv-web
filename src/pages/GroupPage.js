@@ -23,7 +23,7 @@ import {
   selectCurrentGroupTrades,
   selectCurrentGroupInfoError,
   selectCurrentGroupSetupComplete,
-} from '../selectors';
+} from '../selectors/groups';
 import {
   selectGroupsLoading,
   selectCurrentGroupAccountHoldings,

@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { selectGroups, selectIsDemoMode } from '../../selectors';
+import { selectIsDemoMode, selectLoggedIn } from '../../selectors';
+import { selectGroups } from '../../selectors/groups';
 import { toggleDemoMode } from '../../actions';
 import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
-import { selectLoggedIn } from '../../selectors';
 import styled from '@emotion/styled';
 
 const StyledAside = styled.aside`

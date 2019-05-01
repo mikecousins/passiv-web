@@ -3,11 +3,8 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Group from '../components/Group';
-import {
-  selectIsAuthorized,
-  selectDashboardGroups,
-  selectIsDemoMode,
-} from '../selectors';
+import { selectIsAuthorized, selectIsDemoMode } from '../selectors';
+import { selectDashboardGroups } from '../selectors/groups';
 import TotalHoldings from '../components/TotalHoldings';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
 import Tooltip from '../components/Tooltip';

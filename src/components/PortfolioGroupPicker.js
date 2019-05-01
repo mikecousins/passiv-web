@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectGroups } from '../selectors';
+import { selectGroups } from '../selectors/groups';
 
 const PortfolioGroupPicker = ({ groups, group, onChange }) => (
   <React.Fragment>
