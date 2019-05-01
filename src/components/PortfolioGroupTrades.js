@@ -12,7 +12,7 @@ import {
 } from '../styled/Group';
 import Number from './Number';
 
-export const AccountTrades = ({ trades, groupId }) => {
+export const PortfolioGroupTrades = ({ trades, groupId }) => {
   let buysListRender = null;
   let sellsListRender = null;
   if (trades && trades.trades.length > 0) {
@@ -67,4 +67,4 @@ export const AccountTrades = ({ trades, groupId }) => {
   );
 };
 
-export default AccountTrades;
+export default PortfolioGroupTrades;
