@@ -357,12 +357,24 @@ export const selectPasswordResetToken = createSelector(
   },
 );
 
+export const selectPreferredCurrency = createSelector(
+  selectGroupInfo,
+  selectCurrencies,
+  (groups, currencies) => {
+    const preferredCurrency = currencies.find(
+      currency => currency.code === 'CAD',
+    ).id;
+    return preferredCurrency;
+  },
+);
+
 export const selectDashboardGroups = createSelector(
   selectGroups,
   selectGroupInfo,
   selectCurrencyRates,
   selectCurrencies,
-  (groups, groupInfo, rates, currencies) => {
+  selectPreferredCurrency,
+  (groups, groupInfo, rates, currencies, preferredCurrency) => {
     const fullGroups = [];
     if (!groups || !rates) {
       return fullGroups;
@@ -378,9 +390,9 @@ export const selectDashboardGroups = createSelector(
       if (groupInfo[group.id] && groupInfo[group.id].data) {
         groupInfo[group.id].data.balances.forEach(balance => {
           // convert to CAD for now
-          const preferredCurrency = currencies.find(
-            currency => currency.code === 'CAD',
-          ).id;
+          // const preferredCurrency = currencies.find(
+          //   currency => currency.code === 'CAD',
+          // ).id;
           // const preferredCurrency = groupInfo[group.id].data.preferredCurrency;
           if (balance.currency.id === preferredCurrency) {
             group.totalCash += parseFloat(balance.cash);
@@ -395,9 +407,9 @@ export const selectDashboardGroups = createSelector(
         });
         groupInfo[group.id].data.positions.forEach(position => {
           // convert to CAD for now
-          const preferredCurrency = currencies.find(
-            currency => currency.code === 'CAD',
-          ).id;
+          // const preferredCurrency = currencies.find(
+          //   currency => currency.code === 'CAD',
+          // ).id;
           if (position.symbol.currency.id === preferredCurrency) {
             group.totalHoldings += position.units * position.price;
           } else {
@@ -548,14 +560,15 @@ export const selectCurrentGroupCash = createSelector(
   selectCurrentGroupBalances,
   selectCurrencies,
   selectCurrencyRates,
-  (balances, currencies, rates) => {
+  selectPreferredCurrency,
+  (balances, currencies, rates, preferredCurrency) => {
     let cash = null;
     if (balances) {
       balances.forEach(balance => {
         // convert to CAD for now
-        const preferredCurrency = currencies.find(
-          currency => currency.code === 'CAD',
-        ).id;
+        // const preferredCurrency = currencies.find(
+        //   currency => currency.code === 'CAD',
+        // ).id;
         // const preferredCurrency = groupInfo[group.id].data.preferredCurrency;
         if (balance.currency.id === preferredCurrency) {
           cash += parseFloat(balance.cash);
@@ -607,7 +620,16 @@ export const selectCurrentGroupPositions = createSelector(
   selectCurrentGroupQuotableSymbols,
   selectCurrencies,
   selectCurrencyRates,
-  (groupId, groupInfo, excludedAssets, quotableSymbols, currencies, rates) => {
+  selectPreferredCurrency,
+  (
+    groupId,
+    groupInfo,
+    excludedAssets,
+    quotableSymbols,
+    currencies,
+    rates,
+    preferredCurrency,
+  ) => {
     let positions = null;
     if (
       groupInfo &&
@@ -618,9 +640,9 @@ export const selectCurrentGroupPositions = createSelector(
       positions = groupInfo[groupId].data.positions;
 
       // const preferredCurrency = groupInfo[group.id].data.preferredCurrency;
-      const preferredCurrency = currencies.find(
-        currency => currency.code === 'CAD',
-      ).id;
+      // const preferredCurrency = currencies.find(
+      //   currency => currency.code === 'CAD',
+      // ).id;
 
       positions.map(position => {
         position.excluded = excludedAssets.some(
@@ -668,16 +690,17 @@ export const selectCurrentGroupBalancedEquity = createSelector(
   selectCurrentGroupPositions,
   selectCurrencies,
   selectCurrencyRates,
-  (positions, currencies, rates) => {
+  selectPreferredCurrency,
+  (positions, currencies, rates, preferredCurrency) => {
     if (!positions) {
       return null;
     }
     let total = 0;
     positions.forEach(position => {
       // convert to CAD for now
-      const preferredCurrency = currencies.find(
-        currency => currency.code === 'CAD',
-      ).id;
+      // const preferredCurrency = currencies.find(
+      //   currency => currency.code === 'CAD',
+      // ).id;
       // const preferredCurrency = groupInfo[group.id].data.preferredCurrency;
       if (position.symbol.currency.id === preferredCurrency) {
         total += position.units * parseFloat(position.price);
@@ -699,7 +722,8 @@ export const selectCurrentGroupExcludedEquity = createSelector(
   selectGroupInfo,
   selectCurrencies,
   selectCurrencyRates,
-  (groupId, groupInfo, currencies, rates) => {
+  selectPreferredCurrency,
+  (groupId, groupInfo, currencies, rates, preferredCurrency) => {
     let excludedEquity = 0;
     try {
       const excludedPositionsIds = groupInfo[
@@ -712,9 +736,9 @@ export const selectCurrentGroupExcludedEquity = createSelector(
 
       allPositions.forEach(position => {
         // Convert to CAD for now
-        const preferredCurrency = currencies.find(
-          currency => currency.code === 'CAD',
-        ).id;
+        // const preferredCurrency = currencies.find(
+        //   currency => currency.code === 'CAD',
+        // ).id;
 
         if (excludedPositionsIds.includes(position.symbol.id)) {
           if (position.symbol.currency.id === preferredCurrency) {
@@ -795,16 +819,17 @@ export const selectTotalGroupHoldings = createSelector(
   selectGroupInfo,
   selectCurrencies,
   selectCurrencyRates,
-  (groups, groupInfo, currencies, rates) => {
+  selectPreferredCurrency,
+  (groups, groupInfo, currencies, rates, preferredCurrency) => {
     let total = null;
     if (groups) {
       groups.forEach(group => {
         if (groupInfo && groupInfo[group.id] && groupInfo[group.id].data) {
           groupInfo[group.id].data.balances.forEach(balance => {
             // convert to CAD for now
-            const preferredCurrency = currencies.find(
-              currency => currency.code === 'CAD',
-            ).id;
+            // const preferredCurrency = currencies.find(
+            //   currency => currency.code === 'CAD',
+            // ).id;
             // const preferredCurrency = groupInfo[group.id].data.preferredCurrency;
             if (balance.currency.id === preferredCurrency) {
               total += parseFloat(balance.cash);
@@ -819,9 +844,9 @@ export const selectTotalGroupHoldings = createSelector(
           });
           groupInfo[group.id].data.positions.forEach(position => {
             // convert to CAD for now
-            const preferredCurrency = currencies.find(
-              currency => currency.code === 'CAD',
-            ).id;
+            // const preferredCurrency = currencies.find(
+            //   currency => currency.code === 'CAD',
+            // ).id;
             // const preferredCurrency = groupInfo[group.id].data.preferredCurrency;
             if (position.symbol.currency.id === preferredCurrency) {
               total += position.units * parseFloat(position.price);
@@ -850,12 +875,14 @@ export const selectCurrentGroupTarget = createSelector(
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrencyRates,
   selectCurrencies,
+  selectPreferredCurrency,
   (
     groupInfo,
     totalHoldings,
     totalHoldingsExcludedRemoved,
     rates,
     currencies,
+    preferredCurrency,
   ) => {
     if (
       !groupInfo ||
@@ -878,9 +905,9 @@ export const selectCurrentGroupTarget = createSelector(
         p => p.symbol.id === target.symbol,
       );
       if (position) {
-        const preferredCurrency = currencies.find(
-          currency => currency.code === 'CAD',
-        ).id;
+        // const preferredCurrency = currencies.find(
+        //   currency => currency.code === 'CAD',
+        // ).id;
         if (position.symbol.currency.id === preferredCurrency) {
           target.actualPercentage =
             ((position.price * position.units) / totalHoldingsExcludedRemoved) *

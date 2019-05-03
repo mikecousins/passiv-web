@@ -11,6 +11,9 @@ import {
   selectBrokerages,
   selectDashboardGroups,
   selectUserPermissions,
+  selectCurrencyRates,
+  selectCurrencies,
+  selectPreferredCurrency,
 } from '../selectors';
 import { Button } from '../styled/Button';
 import styled from '@emotion/styled';
@@ -83,13 +86,21 @@ const ModifiedTradeRow = styled(TradeRow)`
 `;
 
 export class RebalanceWidget extends Component {
-  state = {
-    validatingOrders: false,
-    placingOrders: false,
-    orderSummary: null,
-    orderResults: null,
-    error: null,
-  };
+  state = this.initialState();
+
+  initialState() {
+    return {
+      validatingOrders: false,
+      placingOrders: false,
+      orderSummary: null,
+      orderResults: null,
+      error: null,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(this.initialState());
+  }
 
   validateOrders = () => {
     this.setState({ validatingOrders: true });
@@ -169,15 +180,46 @@ export class RebalanceWidget extends Component {
     }
   };
 
+  preferredCurrencyCode = () => {
+    const preferredCurrency = this.props.currencies.find(
+      currency => currency.id === this.props.preferredCurrency,
+    );
+    return preferredCurrency.code;
+  };
+
+  convertCurrency = (src, amount) => {
+    const preferredCurrency = this.props.currencies.find(
+      currency => currency.code === 'CAD',
+    ).id;
+
+    if (src === preferredCurrency) {
+      return amount;
+    } else {
+      const rate = this.props.rates.find(
+        rate => rate.src.id === src && rate.dst.id === preferredCurrency,
+      );
+      return amount * rate.exchange_rate;
+    }
+  };
+
+  sumForexFees = () => {
+    return this.state.orderSummary.reduce((acc, result) => {
+      return acc + this.convertCurrency(result.currency, result.forex_fees);
+    }, 0);
+  };
+
   sumEstimatedCommissions = () => {
     return this.state.orderSummary.reduce((acc, result) => {
-      return acc + result.estimated_commissions;
+      return (
+        acc +
+        this.convertCurrency(result.currency, result.estimated_commissions)
+      );
     }, 0);
   };
 
   sumRemainingCash = () => {
     return this.state.orderSummary.reduce((acc, result) => {
-      return acc + result.remaining_cash;
+      return acc + this.convertCurrency(result.currency, result.remaining_cash);
     }, 0);
   };
 
@@ -389,13 +431,21 @@ export class RebalanceWidget extends Component {
               Questrade.
             </P>
             <div>
+              <Title>Estimated results</Title>
               <MetaHorizontal>
-                <span>Estimated commissions:</span>{' '}
-                <Number value={this.sumEstimatedCommissions()} currency />
+                <span>Trade commissions:</span>{' '}
+                <Number value={this.sumEstimatedCommissions()} currency />{' '}
+                {this.preferredCurrencyCode()}
               </MetaHorizontal>
               <MetaHorizontal>
                 <span>Remaining cash:</span>{' '}
-                <Number value={this.sumRemainingCash()} currency />
+                <Number value={this.sumRemainingCash()} currency />{' '}
+                {this.preferredCurrencyCode()}
+              </MetaHorizontal>
+              <MetaHorizontal>
+                <span>Forex fees:</span>{' '}
+                <Number value={this.sumForexFees()} currency />{' '}
+                {this.preferredCurrencyCode()}
               </MetaHorizontal>
             </div>
             <P>
@@ -482,6 +532,9 @@ const select = state => ({
   brokerages: selectBrokerages(state),
   groups: selectDashboardGroups(state),
   userPermissions: selectUserPermissions(state),
+  rates: selectCurrencyRates(state),
+  currencies: selectCurrencies(state),
+  preferredCurrency: selectPreferredCurrency(state),
 });
 
 export default connect(
