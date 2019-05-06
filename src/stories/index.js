@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import { Button } from '../styled/Button';
 import { DisabledButton } from '../styled/DisabledButton';
 import { LogoutButton } from '../styled/LogoutButton';
-import { AccountTargets } from '../components/AccountTargets';
+import { PortfolioGroupTargets } from '../components/PortfolioGroupTargets';
 import GlobalStyle from '../styled/global';
 import { PortfolioGroupTrades } from '../components/PortfolioGroupTrades';
 
@@ -20,12 +20,12 @@ storiesOf('Button', module).add('disabled', () => (
   <DisabledButton onClick={action('clicked')}>Submit</DisabledButton>
 ));
 
-storiesOf('AccountTargets', module)
-  .add('Loading', () => <AccountTargets />)
+storiesOf('PortfolioGroupTargets', module)
+  .add('Loading', () => <PortfolioGroupTargets />)
   .add('Simple', () => (
     <React.Fragment>
       <GlobalStyle />
-      <AccountTargets
+      <PortfolioGroupTargets
         groupId={1}
         target={[
           {
