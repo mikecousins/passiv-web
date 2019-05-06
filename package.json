@@ -77,7 +77,7 @@
     "cypress": "cypress run",
     "cypress:open": "cypress open",
     "lint": "eslint src",
-    "travis": "npm run test && npm run lint && npm run cypress"
+    "travis": "npm run test -- --coverage && npm run lint && npm run cypress"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^5.0.5",
