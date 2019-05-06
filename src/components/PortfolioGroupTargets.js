@@ -101,7 +101,7 @@ export class PortfolioGroupTargets extends React.Component {
       })
       .catch(error => {
         this.setState({ loading: false, edit: false });
-        console.log('errors', error.response.data);
+        //console.log('errors', error.response.data);
       });
   }
 
@@ -135,7 +135,7 @@ export class PortfolioGroupTargets extends React.Component {
 
   render() {
     const { target, error } = this.props;
-    console.log(error);
+    //console.log(error);
     const excludedErrorCodes = [2001];
     let excludedError = null;
 
