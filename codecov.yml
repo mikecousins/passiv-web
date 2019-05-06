@@ -25,7 +25,7 @@ coverage:
     patch:
       default:
         # basic
-        target: auto
+        target: 0
         threshold: null
         base: auto
         # advanced
