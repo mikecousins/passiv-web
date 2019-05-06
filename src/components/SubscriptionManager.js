@@ -33,6 +33,10 @@ const ActionContainer = styled.div`
   }
 `;
 
+const PaymentContainer = styled.div`
+  padding-top: 15px;
+`;
+
 const H2Padded = styled(H2)`
   padding-bottom: 8px;
 `;
@@ -110,9 +114,25 @@ export class SubscriptionManager extends React.Component {
 
     let upgradeForm = (
       <div>
-        {this.state.creatingSubscription ? (
-          <div>
-            Enter your payment information
+        <div>
+          <SubscriptionPlans />
+          <SubscriptionCoupon />
+          {!this.state.creatingSubscription && (
+            <div>
+              <Button
+                onClick={() => {
+                  this.createSubscription();
+                }}
+              >
+                Upgrade to Elite
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {this.state.creatingSubscription && (
+          <PaymentContainer>
+            <P>Enter your payment information</P>
             <Elements>
               <InjectedCheckoutForm
                 loading={this.state.loading}
@@ -134,23 +154,7 @@ export class SubscriptionManager extends React.Component {
                 </A>
               </ActionContainer>
             )}
-          </div>
-        ) : (
-          <React.Fragment>
-            <div>
-              <SubscriptionPlans />
-              <SubscriptionCoupon />
-              <div>
-                <Button
-                  onClick={() => {
-                    this.createSubscription();
-                  }}
-                >
-                  Upgrade to Elite
-                </Button>
-              </div>
-            </div>
-          </React.Fragment>
+          </PaymentContainer>
         )}
       </div>
     );

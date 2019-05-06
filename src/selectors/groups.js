@@ -700,3 +700,14 @@ export const selectDashboardGroups = createSelector(
     return fullGroups;
   },
 );
+
+export const selectPreferredCurrency = createSelector(
+  selectGroupInfo,
+  selectCurrencies,
+  (groups, currencies) => {
+    const preferredCurrency = currencies.find(
+      currency => currency.code === 'CAD',
+    ).id;
+    return preferredCurrency;
+  },
+);

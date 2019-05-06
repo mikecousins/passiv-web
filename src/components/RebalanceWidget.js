@@ -7,9 +7,17 @@ import { push } from 'connected-react-router';
 import styled from '@emotion/styled';
 import { loadGroup } from '../actions';
 import { getData, postData } from '../api';
-import { selectBrokerages, selectUserPermissions } from '../selectors';
+import {
+  selectBrokerages,
+  selectUserPermissions,
+  selectCurrencyRates,
+  selectCurrencies,
+} from '../selectors';
 import { selectSymbols } from '../selectors/symbols';
-import { selectDashboardGroups } from '../selectors/groups';
+import {
+  selectDashboardGroups,
+  selectPreferredCurrency,
+} from '../selectors/groups';
 import { Button } from '../styled/Button';
 import { H2, P, A, Title } from '../styled/GlobalElements';
 import Number from './Number';
@@ -80,13 +88,21 @@ const ModifiedTradeRow = styled(TradeRow)`
 `;
 
 export class RebalanceWidget extends Component {
-  state = {
-    validatingOrders: false,
-    placingOrders: false,
-    orderSummary: null,
-    orderResults: null,
-    error: null,
-  };
+  state = this.initialState();
+
+  initialState() {
+    return {
+      validatingOrders: false,
+      placingOrders: false,
+      orderSummary: null,
+      orderResults: null,
+      error: null,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(this.initialState());
+  }
 
   validateOrders = () => {
     this.setState({ validatingOrders: true });
@@ -166,15 +182,46 @@ export class RebalanceWidget extends Component {
     }
   };
 
+  preferredCurrencyCode = () => {
+    const preferredCurrency = this.props.currencies.find(
+      currency => currency.id === this.props.preferredCurrency,
+    );
+    return preferredCurrency.code;
+  };
+
+  convertCurrency = (src, amount) => {
+    const preferredCurrency = this.props.currencies.find(
+      currency => currency.code === 'CAD',
+    ).id;
+
+    if (src === preferredCurrency) {
+      return amount;
+    } else {
+      const rate = this.props.rates.find(
+        rate => rate.src.id === src && rate.dst.id === preferredCurrency,
+      );
+      return amount * rate.exchange_rate;
+    }
+  };
+
+  sumForexFees = () => {
+    return this.state.orderSummary.reduce((acc, result) => {
+      return acc + this.convertCurrency(result.currency, result.forex_fees);
+    }, 0);
+  };
+
   sumEstimatedCommissions = () => {
     return this.state.orderSummary.reduce((acc, result) => {
-      return acc + result.estimated_commissions;
+      return (
+        acc +
+        this.convertCurrency(result.currency, result.estimated_commissions)
+      );
     }, 0);
   };
 
   sumRemainingCash = () => {
     return this.state.orderSummary.reduce((acc, result) => {
-      return acc + result.remaining_cash;
+      return acc + this.convertCurrency(result.currency, result.remaining_cash);
     }, 0);
   };
 
@@ -212,12 +259,19 @@ export class RebalanceWidget extends Component {
                 This portfolio group does not have trade permissions and
                 therefore can't be used to place orders.
               </P>
-              <P>Connect with full trade permissions:</P>
-              <ConnectionUpdate
-                authorization={this.getReadBrokerageAuthorization()}
-                type="trade"
-                hideTitle={true}
-              />
+              <P>
+                Reconnect with full trade permissions to place orders with
+                Passiv:
+              </P>
+              <ConfirmContainer>
+                <ConnectionUpdate
+                  authorization={this.getReadBrokerageAuthorization()}
+                  type="trade"
+                  hideTitle={true}
+                  name="Reconnect"
+                  align="left"
+                />
+              </ConfirmContainer>
             </OrderContainer>
           );
           break;
@@ -229,10 +283,21 @@ export class RebalanceWidget extends Component {
               </H2>
               <P>
                 Passiv is unable to proceed with the orders because markets are
-                currently closed. If the markets are actually open and you still
-                see this error, please{' '}
-                <Link to="/app/help">contact support</Link>.
+                currently closed. Note that you may see this message up to 10
+                minutes after markets open at the beginning of a trading day as
+                a precaution against price volatility. Please{' '}
+                <Link to="/app/help">contact support</Link> if this message
+                persists while markets are open.
               </P>
+              <ConfirmContainer>
+                <Button
+                  onClick={() => {
+                    this.closeWidget();
+                  }}
+                >
+                  Okay
+                </Button>
+              </ConfirmContainer>
             </OrderContainer>
           );
           break;
@@ -272,6 +337,15 @@ export class RebalanceWidget extends Component {
                 Oops, you've encountered a bug! Please try again later or{' '}
                 <Link to="/app/help">contact support</Link> if this persists.
               </P>
+              <ConfirmContainer>
+                <Button
+                  onClick={() => {
+                    this.closeWidget();
+                  }}
+                >
+                  Okay
+                </Button>
+              </ConfirmContainer>
             </OrderContainer>
           );
           break;
@@ -359,13 +433,21 @@ export class RebalanceWidget extends Component {
               Questrade.
             </P>
             <div>
+              <Title>Estimated results</Title>
               <MetaHorizontal>
-                <span>Estimated commissions:</span>{' '}
-                <Number value={this.sumEstimatedCommissions()} currency />
+                <span>Trade commissions:</span>{' '}
+                <Number value={this.sumEstimatedCommissions()} currency />{' '}
+                {this.preferredCurrencyCode()}
               </MetaHorizontal>
               <MetaHorizontal>
                 <span>Remaining cash:</span>{' '}
-                <Number value={this.sumRemainingCash()} currency />
+                <Number value={this.sumRemainingCash()} currency />{' '}
+                {this.preferredCurrencyCode()}
+              </MetaHorizontal>
+              <MetaHorizontal>
+                <span>Forex fees:</span>{' '}
+                <Number value={this.sumForexFees()} currency />{' '}
+                {this.preferredCurrencyCode()}
               </MetaHorizontal>
             </div>
             <P>
@@ -452,6 +534,9 @@ const select = state => ({
   brokerages: selectBrokerages(state),
   groups: selectDashboardGroups(state),
   userPermissions: selectUserPermissions(state),
+  rates: selectCurrencyRates(state),
+  currencies: selectCurrencies(state),
+  preferredCurrency: selectPreferredCurrency(state),
 });
 
 export default connect(

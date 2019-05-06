@@ -14,6 +14,10 @@ export const Order = styled.div`
   }
 `;
 
+export const LeftOrder = styled(Order)`
+  text-align: left;
+`;
+
 class ConnectionUpdate extends React.Component {
   state = {
     allowSelectType: this.props.type === undefined ? true : false,
@@ -25,19 +29,24 @@ class ConnectionUpdate extends React.Component {
 
   render() {
     const { authorization } = this.props;
-    return (
-      <Order>
+    const picker = (
+      <React.Fragment>
         {!this.props.hideTitle && <H3>Update/Refresh Connection</H3>}
-
         <AuthorizationPicker
           allowSelectBrokerage={false}
           brokerage={authorization.brokerage.id}
           updateBrokerageAuthorizationId={authorization.id}
           allowSelectType={this.state.allowSelectType}
           type={this.state.defaultType}
+          name={this.props.name}
         />
-      </Order>
+      </React.Fragment>
     );
+    if (this.props.align && this.props.align === 'left') {
+      return <LeftOrder>{picker}</LeftOrder>;
+    } else {
+      return <Order>{picker}</Order>;
+    }
   }
 }
 
