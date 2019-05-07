@@ -20,7 +20,6 @@ import {
 } from '../selectors/groups';
 import { Button } from '../styled/Button';
 import { H2, P, A, Title } from '../styled/GlobalElements';
-import Number from './Number';
 import ConnectionUpdate from '../components/ConnectionUpdate';
 import {
   TradeRow,
@@ -30,6 +29,8 @@ import {
   ColumnAction,
   ColumnStatus,
 } from '../styled/Group';
+
+import OrderImpacts from './OrderImpacts';
 
 const SummaryContainer = styled.div`
   text-align: left;
@@ -60,17 +61,6 @@ const ConfirmContainer = styled.div`
     margin-left: 20px;
     font-weight: 700;
     text-decoration: underline;
-  }
-`;
-
-const MetaHorizontal = styled.div`
-  text-align: left;
-  span {
-    font-weight: 600;
-    margin-bottom: 8px;
-    display: inline-block;
-    margin-right: 6px;
-    text-align: left;
   }
 `;
 
@@ -433,22 +423,7 @@ export class RebalanceWidget extends Component {
               Questrade.
             </P>
             <div>
-              <Title>Estimated results</Title>
-              <MetaHorizontal>
-                <span>Trade commissions:</span>{' '}
-                <Number value={this.sumEstimatedCommissions()} currency />{' '}
-                {this.preferredCurrencyCode()}
-              </MetaHorizontal>
-              <MetaHorizontal>
-                <span>Remaining cash:</span>{' '}
-                <Number value={this.sumRemainingCash()} currency />{' '}
-                {this.preferredCurrencyCode()}
-              </MetaHorizontal>
-              <MetaHorizontal>
-                <span>Forex fees:</span>{' '}
-                <Number value={this.sumForexFees()} currency />{' '}
-                {this.preferredCurrencyCode()}
-              </MetaHorizontal>
+              <OrderImpacts impacts={this.state.orderSummary} />
             </div>
             <P>
               Market orders may result in the price paid or received to be
