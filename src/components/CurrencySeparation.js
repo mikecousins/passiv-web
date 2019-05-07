@@ -6,38 +6,27 @@ import {
 } from '../selectors/groups';
 import { loadGroup } from '../actions';
 
-import ShadowBox from '../styled/ShadowBox';
 import { SubSetting } from '../styled/GlobalElements';
 import SettingsToggle from './SettingsToggle';
-import { DisabledTogglebutton } from '../styled/ToggleButton';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 class CurrencySeparation extends React.Component {
   render() {
     const { settings } = this.props;
 
-    if (!settings) {
-      return null;
-    }
-
     return (
       <React.Fragment>
         <SettingsToggle
-          name="Prevent Currency Conversion"
+          name="Separate by Currency"
           settingsId="prevent_currency_conversion"
         />
         <br />
-        {settings.prevent_currency_conversion ? (
-          <SubSetting>
-            <FontAwesomeIcon icon={faCaretRight} />
-            <SettingsToggle
-              name=" Hard Currency Separation"
-              settingsId="hard_currency_separation"
-            />
-          </SubSetting>
-        ) : null}
+        <SubSetting>
+          <SettingsToggle
+            name="Scale Targets by Currency"
+            settingsId="hard_currency_separation"
+            disabled={settings && !settings.prevent_currency_conversion}
+          />
+        </SubSetting>
       </React.Fragment>
     );
   }

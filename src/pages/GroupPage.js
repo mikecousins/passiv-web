@@ -46,6 +46,20 @@ export const Container2Column = styled.div`
   }
 `;
 
+export const Container6040Column = styled.div`
+  @media (min-width: 900px) {
+    display: flex;
+    justify-content: space-between;
+    > div:first-of-type {
+      width: 60%;
+      margin-right: 30px;
+    }
+    > div:last-of-type {
+      width: 40%;
+    }
+  }
+`;
+
 const GroupPage = props => {
   const {
     group,
@@ -122,10 +136,10 @@ const GroupPage = props => {
 
       <PortfolioGroupTargets positions={positions} />
 
-      <Container2Column>
+      <Container6040Column>
         <PortfolioGroupHoldings positions={positions} loading={loading} />
         <PortfolioGroupSettings />
-      </Container2Column>
+      </Container6040Column>
 
       <PortfolioGroupAccounts
         group={group}
