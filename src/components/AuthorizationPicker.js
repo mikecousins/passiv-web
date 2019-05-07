@@ -24,6 +24,7 @@ class AuthorizationPicker extends Component {
         : this.props.updateBrokerageAuthorizationId,
     brokerage: this.props.brokerage ? this.props.brokerage : '',
     type: this.props.type ? this.props.type : '',
+    name: this.props.name ? this.props.name : 'Connect',
   };
 
   startAuthorization() {
@@ -83,7 +84,7 @@ class AuthorizationPicker extends Component {
               this.startAuthorization();
             }}
           >
-            Connect
+            {this.state.name}
           </Button>
         );
       } else {
@@ -93,7 +94,7 @@ class AuthorizationPicker extends Component {
               this.startAuthorization();
             }}
           >
-            Connect
+            {this.state.name}
           </StepButton>
         );
       }

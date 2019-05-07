@@ -77,12 +77,13 @@
     "cypress": "cypress run",
     "cypress:open": "cypress open",
     "lint": "eslint src",
-    "travis": "npm run test && npm run lint && npm run cypress"
+    "travis": "npm run test -- --coverage && npm run lint && npm run cypress"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^5.0.5",
-    "@storybook/addon-links": "^5.0.5",
-    "@storybook/react": "^5.0.5",
+    "@storybook/addon-actions": "5.1.0-alpha.39",
+    "@storybook/addon-links": "5.1.0-alpha.39",
+    "@storybook/react": "5.1.0-alpha.39",
+    "@storybook/theming": "5.1.0-alpha.39",
     "@types/history": "^4.7.2",
     "@types/jest": "^24.0.11",
     "@types/node": "^11.12.1",

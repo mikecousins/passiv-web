@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/passiv/passiv-web.svg?branch=master)](https://travis-ci.org/passiv/passiv-web)
+[![Build Status](https://travis-ci.com/passiv/passiv-web.svg?branch=master)](https://travis-ci.com/passiv/passiv-web)
 [![dependencies Status](https://david-dm.org/passiv/passiv-web/status.svg)](https://david-dm.org/passiv/passiv-web)
 [![devDependencies Status](https://david-dm.org/passiv/passiv-web/dev-status.svg)](https://david-dm.org/passiv/passiv-web?type=dev)
 
