@@ -17,6 +17,19 @@ const MetaHorizontal = styled.div`
   }
 `;
 
+const AccountDiv = styled.div`
+  min-width: 25%;
+`;
+const CommissionsDiv = styled.div`
+  min-width: 15%;
+`;
+const RemainingCashDiv = styled.div`
+  min-width: 15%;
+`;
+const ForexFeesDiv = styled.div`
+  min-width: 25%;
+`;
+
 const AccountContainer = styled.div`
   border-bottom: 1px solid #eee;
   margin-bottom: 10px;
@@ -48,47 +61,58 @@ export const OrderImpact = ({ impacts, accounts, currencies }) => {
     <React.Fragment>
       <AccountContainer>
         <Table>
-          <MetaHorizontal>
-            <span>
-              {filteredAccount.name} ({filteredAccount.number})
-            </span>
-          </MetaHorizontal>
-          <MetaHorizontal>
-            <p>Trade commissions:</p>
-            <BalanceContainer>
-              {impacts.map(impact => (
-                <p>
-                  {' '}
-                  <Number value={impact.estimated_commissions} currency />{' '}
-                  {'  '} {filteredCurrencyCode(impact)}{' '}
-                </p>
-              ))}
-            </BalanceContainer>
-          </MetaHorizontal>
-          <MetaHorizontal>
-            <p>Remaining cash:</p>
-            <BalanceContainer>
-              {impacts.map(impact => (
-                <p>
-                  {' '}
-                  <Number value={impact.remaining_cash} currency /> {'  '}{' '}
-                  {filteredCurrencyCode(impact)}{' '}
-                </p>
-              ))}
-            </BalanceContainer>
-          </MetaHorizontal>
-          <MetaHorizontal>
-            <p>Forex fees:</p>
-            <BalanceContainer>
-              {impacts.map(impact => (
-                <p>
-                  {' '}
-                  <Number value={impact.forex_fees} currency /> {'  '}{' '}
-                  {filteredCurrencyCode(impact)}{' '}
-                </p>
-              ))}
-            </BalanceContainer>
-          </MetaHorizontal>
+          <AccountDiv>
+            <MetaHorizontal>
+              <span>
+                {filteredAccount.name} ({filteredAccount.number})
+              </span>
+            </MetaHorizontal>
+          </AccountDiv>
+          <CommissionsDiv>
+            <MetaHorizontal>
+              <p>Trade commissions:</p>
+              <BalanceContainer>
+                {impacts.map(impact => (
+                  <p>
+                    {' '}
+                    <Number
+                      value={impact.estimated_commissions}
+                      currency
+                    />{' '}
+                    {'  '} {filteredCurrencyCode(impact)}{' '}
+                  </p>
+                ))}
+              </BalanceContainer>
+            </MetaHorizontal>
+          </CommissionsDiv>
+          <RemainingCashDiv>
+            <MetaHorizontal>
+              <p>Remaining cash:</p>
+              <BalanceContainer>
+                {impacts.map(impact => (
+                  <p>
+                    {' '}
+                    <Number value={impact.remaining_cash} currency /> {'  '}{' '}
+                    {filteredCurrencyCode(impact)}{' '}
+                  </p>
+                ))}
+              </BalanceContainer>
+            </MetaHorizontal>
+          </RemainingCashDiv>
+          <ForexFeesDiv>
+            <MetaHorizontal>
+              <p>Forex fees:</p>
+              <BalanceContainer>
+                {impacts.map(impact => (
+                  <p>
+                    {' '}
+                    <Number value={impact.forex_fees} currency /> {'  '}{' '}
+                    {filteredCurrencyCode(impact)}{' '}
+                  </p>
+                ))}
+              </BalanceContainer>
+            </MetaHorizontal>
+          </ForexFeesDiv>
         </Table>
       </AccountContainer>
     </React.Fragment>
