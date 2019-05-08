@@ -53,12 +53,20 @@ class SettingsToggle extends Component {
     return state;
   };
 
+  getViewState = () => {
+    let state = this.getSettingState();
+    if (this.props.invert === true) {
+      state = !state;
+    }
+    return state;
+  };
+
   render() {
     const disabled = !!this.props.disabled;
 
     let toggleButton = (
       <DisabledTogglebutton>
-        {this.getSettingState() ? (
+        {this.getViewState() ? (
           <React.Fragment>
             <FontAwesomeIcon icon={faToggleOn} />
             <StateText>on</StateText>
@@ -74,7 +82,7 @@ class SettingsToggle extends Component {
     if (!disabled) {
       toggleButton = (
         <ToggleButton onClick={this.handleClick}>
-          {this.getSettingState() ? (
+          {this.getViewState() ? (
             <React.Fragment>
               <FontAwesomeIcon icon={faToggleOn} />
               <StateText>on</StateText>

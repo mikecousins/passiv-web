@@ -55,6 +55,17 @@ export const UL = styled.ul`
   }
 `;
 
+// ul
+export const BulletUL = styled.ul`
+  padding-top: 5px;
+  margin-left: 20px;
+  list-style-type: disc;
+  li {
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+`;
+
 // table
 export const Table = styled.div`
   display: block;
@@ -118,8 +129,6 @@ export const Title = styled.div`
 
 //subsetting
 export const SubSetting = styled.div`
-  font-size: 16px;
-  font-weight: 10;
   margin-left: 15px;
 `;
 

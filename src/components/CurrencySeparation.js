@@ -16,13 +16,13 @@ class CurrencySeparation extends React.Component {
     return (
       <React.Fragment>
         <SettingsToggle
-          name="Separate by Currency"
+          name="Keep currencies separate"
           settingsId="prevent_currency_conversion"
         />
         <br />
         <SubSetting>
           <SettingsToggle
-            name="Scale Targets by Currency"
+            name="Retain cash for manual exchange"
             settingsId="hard_currency_separation"
             disabled={settings && !settings.prevent_currency_conversion}
           />
