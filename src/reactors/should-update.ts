@@ -1,11 +1,26 @@
 import ms from 'milliseconds';
 
-const shouldRetry = (object, opts) => {
-  const timeSinceError = opts.now - object.lastError;
-  return timeSinceError > opts.retryAfter && timeSinceError < opts.failAfter;
+type Object = {
+  lastError: number;
+  lastFetch: number;
+  loading: boolean;
+  permanentFail: boolean;
+  stale: boolean;
 };
 
-const isStale = (object, opts) => {
+type Options = {
+  staleTime: number;
+  retryAfter: number;
+  failAfter: number;
+  now: number;
+};
+
+const shouldRetry = (object: Object, opts: Options) => {
+  const timeSinceError = opts.now - object.lastError;
+  return timeSinceError > opts.retryAfter; // && timeSinceError < opts.failAfter;
+};
+
+const isStale = (object: Object, opts: Options) => {
   const timeSinceFetch = opts.now - object.lastFetch;
   if (timeSinceFetch > opts.staleTime) {
     return true;
@@ -17,7 +32,7 @@ const isStale = (object, opts) => {
   return false;
 };
 
-export default (object, opts) => {
+export default (object: Object, opts: Options) => {
   opts = {
     staleTime: ms.minutes(10),
     retryAfter: ms.minutes(1),
