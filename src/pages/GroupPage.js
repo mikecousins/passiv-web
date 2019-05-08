@@ -31,6 +31,7 @@ import {
 import Tooltip from '../components/Tooltip';
 import { deleteData } from '../api';
 import { initialLoad } from '../actions';
+import { Button } from '../styled/Button';
 
 export const Container2Column = styled.div`
   @media (min-width: 900px) {
@@ -91,7 +92,7 @@ const GroupPage = props => {
     return (
       <span>
         There are no accounts in this group! &nbsp;
-        <button
+        <Button
           onClick={() => {
             deleteData(`/api/v1/portfolioGroups/${group.id}`)
               .then(response => {
@@ -105,7 +106,7 @@ const GroupPage = props => {
           }}
         >
           Delete
-        </button>
+        </Button>
       </span>
     );
   }
