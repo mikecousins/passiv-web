@@ -12,15 +12,11 @@ import {
 } from '../selectors/groups';
 import { loadGroup } from '../actions';
 import { putData } from '../api';
-import { ToggleButton, DisabledTogglebutton } from '../styled/ToggleButton';
-import styled from '@emotion/styled';
-
-const StateText = styled.span`
-  padding: 0 0 5px 5px;
-  font-size: 12pt;
-  font-weight: 800;
-  vertical-align: middle;
-`;
+import {
+  ToggleButton,
+  DisabledTogglebutton,
+  StateText,
+} from '../styled/ToggleButton';
 
 class SettingsToggle extends Component {
   state = {

@@ -7,7 +7,7 @@ import { selectSettings } from '../selectors';
 import { loadSettings } from '../actions';
 import { putData } from '../api';
 import styled from '@emotion/styled';
-import { ToggleButton } from '../styled/ToggleButton';
+import { ToggleButton, StateText } from '../styled/ToggleButton';
 
 const DividingLine = styled.div`
   border-top: 1px solid #eee;
@@ -47,9 +47,15 @@ class CashNotificationSettings extends React.Component {
           <strong>Receive Cash Notifications:</strong>{' '}
           <ToggleButton onClick={this.updateNotification}>
             {settings.receive_cash_notifications ? (
-              <FontAwesomeIcon icon={faToggleOn} />
+              <React.Fragment>
+                <FontAwesomeIcon icon={faToggleOn} />
+                <StateText>on</StateText>
+              </React.Fragment>
             ) : (
-              <FontAwesomeIcon icon={faToggleOff} />
+              <React.Fragment>
+                <FontAwesomeIcon icon={faToggleOff} />
+                <StateText>off</StateText>
+              </React.Fragment>
             )}
           </ToggleButton>
         </DividingLine>

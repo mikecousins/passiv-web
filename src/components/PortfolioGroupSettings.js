@@ -58,10 +58,11 @@ export const PortfolioGroupSettings = ({ settings }) => {
       )}
       {summary.length > 0 && (
         <React.Fragment>
+          <br />
           <H3>Explanation</H3>
           <BulletUL>
-            {summary.map(item => (
-              <li>{item}</li>
+            {summary.map((item, index) => (
+              <li key={index}>{item}</li>
             ))}
           </BulletUL>
         </React.Fragment>

@@ -17,7 +17,11 @@ import {
 import { selectUserPermissions } from '../selectors';
 import { postData, deleteData } from '../api';
 import { push } from 'connected-react-router';
-import { ToggleButton, DisabledTogglebutton } from '../styled/ToggleButton';
+import {
+  ToggleButton,
+  DisabledTogglebutton,
+  StateText,
+} from '../styled/ToggleButton';
 
 class ExcludedAssetToggle extends Component {
   state = {
@@ -109,6 +113,7 @@ class ExcludedAssetToggle extends Component {
             icon={faToggleOff}
             data-tip="You can't exclude assets that are a part of your target portfolio. Remove this security from your target portfolio first."
           />
+          <StateText>off</StateText>
         </DisabledTogglebutton>
       );
     }
@@ -120,6 +125,7 @@ class ExcludedAssetToggle extends Component {
             icon={faToggleOn}
             data-tip="This security is not supported for trading, so it is excluded from your portfolio calculations."
           />
+          <StateText>on</StateText>
         </DisabledTogglebutton>
       );
     }
@@ -127,10 +133,23 @@ class ExcludedAssetToggle extends Component {
     if (!this.canExcludeAssets()) {
       return (
         <DisabledTogglebutton onClick={() => push('/app/settings')}>
-          <FontAwesomeIcon
-            icon={this.state.toggle ? faToggleOn : faToggleOff}
-            data-tip="Excluding assets is not available on the Community Edition. Upgrade your account on the Settings page to use this feature."
-          />
+          {this.state.toggle ? (
+            <React.Fragment>
+              <FontAwesomeIcon
+                icon={faToggleOn}
+                data-tip="Excluding assets is not available on the Community Edition. Upgrade your account on the Settings page to use this feature."
+              />
+              <StateText>on</StateText>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <FontAwesomeIcon
+                icon={faToggleOff}
+                data-tip="Excluding assets is not available on the Community Edition. Upgrade your account on the Settings page to use this feature."
+              />
+              <StateText>off</StateText>
+            </React.Fragment>
+          )}
         </DisabledTogglebutton>
       );
     }
@@ -138,9 +157,15 @@ class ExcludedAssetToggle extends Component {
     return (
       <ToggleButton onClick={this.handleClick}>
         {this.state.toggle ? (
-          <FontAwesomeIcon icon={faToggleOn} />
+          <React.Fragment>
+            <FontAwesomeIcon icon={faToggleOn} />
+            <StateText>on</StateText>
+          </React.Fragment>
         ) : (
-          <FontAwesomeIcon icon={faToggleOff} />
+          <React.Fragment>
+            <FontAwesomeIcon icon={faToggleOff} />
+            <StateText>off</StateText>
+          </React.Fragment>
         )}
       </ToggleButton>
     );
