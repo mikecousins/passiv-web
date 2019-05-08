@@ -10,37 +10,11 @@ const Accounts = ({ accounts }) => {
   }
 
   accounts.sort((a, b) => {
-    if (a.portfolio_group !== null && b.portfolio_group !== null) {
-      if (a.portfolio_group < b.portfolio_group) {
-        return -1;
-      }
-      if (a.portfolio_group > b.portfolio_group) {
-        return 1;
-      }
-      if (a.number < b.number) {
-        return -1;
-      }
-      if (a.number > b.number) {
-        return 1;
-      }
-      return 0;
+    if (a.number < b.number) {
+      return -1;
     }
-    if (a.portfolio_group === null && b.portfolio_group === null) {
-      if (a.number < b.number) {
-        return -1;
-      }
-      if (a.number > b.number) {
-        return 1;
-      }
-      return 0;
-    }
-    if (a.portfolio_group !== null || b.portfolio_group !== null) {
-      if (a.portfolio_group !== null && b.portfolio === null) {
-        return -1;
-      }
-      if (a.portfolio_group === null && b.portfolio !== null) {
-        return 1;
-      }
+    if (a.number > b.number) {
+      return 1;
     }
     return 0;
   });
