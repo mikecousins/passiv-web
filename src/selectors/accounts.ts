@@ -2,8 +2,9 @@ import { createSelector } from 'reselect';
 import ms from 'milliseconds';
 import shouldUpdate from '../reactors/should-update';
 import { selectLoggedIn, selectAppTime } from './index';
+import { AppState } from '../store';
 
-export const selectAccountsRaw = state => state.accounts;
+export const selectAccountsRaw = (state: AppState) => state.accounts;
 
 export const selectAccounts = createSelector(
   selectAccountsRaw,
@@ -29,6 +30,7 @@ export const selectAccountsNeedData = createSelector(
   },
 );
 
-export const selectAccountBalances = state => state.accountBalances;
+export const selectAccountBalances = (state: AppState) => state.accountBalances;
 
-export const selectAccountPositions = state => state.accountPositions;
+export const selectAccountPositions = (state: AppState) =>
+  state.accountPositions;
