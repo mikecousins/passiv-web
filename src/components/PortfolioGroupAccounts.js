@@ -10,6 +10,7 @@ import AccountHoldings from '../components/AccountHoldings';
 import AccountPicker from '../components/AccountPicker';
 import { putData } from '../api';
 import { selectAccounts } from '../selectors/accounts';
+import { selectCanCrossAccountBalance } from '../selectors/subscription';
 import { loadAccounts, loadGroups } from '../actions';
 
 export const HoldingsTable = styled.table`
@@ -42,6 +43,7 @@ export const PortfolioGroupAccounts = ({
   error,
   refreshAccounts,
   refreshGroups,
+  canCrossAccountBalance,
 }) => {
   const [addAccount, setAddAccount] = useState(false);
 
@@ -98,7 +100,7 @@ export const PortfolioGroupAccounts = ({
 
   if (accounts.length === 0) {
     console.log(newAccountId);
-    if (addAccount) {
+    if (addAccount && canCrossAccountBalance) {
       picker = (
         <React.Fragment>
           <P>Select an account to add to this portfolio:</P>
@@ -111,7 +113,7 @@ export const PortfolioGroupAccounts = ({
           <Button onClick={() => setAddAccount(false)}>Cancel</Button>
         </React.Fragment>
       );
-    } else {
+    } else if (canCrossAccountBalance) {
       picker = (
         <React.Fragment>
           <Button onClick={() => setAddAccount(true)}>
@@ -119,6 +121,8 @@ export const PortfolioGroupAccounts = ({
           </Button>
         </React.Fragment>
       );
+    } else {
+      picker = null;
     }
 
     return (
@@ -180,6 +184,7 @@ export const PortfolioGroupAccounts = ({
 
 const select = state => ({
   allAccounts: selectAccounts(state),
+  canCrossAccountBalance: selectCanCrossAccountBalance(state),
 });
 
 const actions = {
