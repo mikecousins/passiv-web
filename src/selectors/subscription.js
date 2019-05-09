@@ -55,3 +55,13 @@ export const selectIsFree = createSelector(
     return !isPaid;
   },
 );
+
+export const selectCanPlaceOrders = createSelector(
+  selectUserPermissions,
+  permissions => {
+    if (!permissions) {
+      return false;
+    }
+    return permissions.some(permission => permission === 'can_place_orders');
+  },
+);

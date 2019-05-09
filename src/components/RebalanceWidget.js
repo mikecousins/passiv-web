@@ -17,7 +17,7 @@ import {
   selectDashboardGroups,
   selectPreferredCurrency,
 } from '../selectors/groups';
-import { selectUserPermissions } from '../selectors/subscription';
+import { selectCanPlaceOrders } from '../selectors/subscription';
 import { Button } from '../styled/Button';
 import { H2, P, A, Title } from '../styled/GlobalElements';
 import ConnectionUpdate from '../components/ConnectionUpdate';
@@ -220,24 +220,8 @@ export class RebalanceWidget extends Component {
     return group.brokerage_authorizations.find(a => a.type === 'read');
   };
 
-  canPlaceOrders = () => {
-    let permissions = this.props.userPermissions;
-    if (!permissions) {
-      return false;
-    }
-    let filtered_permissions = permissions.filter(
-      permission => permission === 'can_place_orders',
-    );
-
-    if (filtered_permissions.length > 0) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   render() {
-    const { push } = this.props;
+    const { push, canPlaceOrders } = this.props;
     let error = null;
     if (this.state.error) {
       switch (this.state.error.code) {
@@ -356,7 +340,7 @@ export class RebalanceWidget extends Component {
     let orderValidation = (
       <Button onClick={this.validateOrders}>Validate</Button>
     );
-    if (!this.canPlaceOrders()) {
+    if (!canPlaceOrders) {
       orderValidation = (
         <UpgradeText>
           Upgrade your account to let us execute trades for you!{' '}
@@ -508,7 +492,7 @@ const select = state => ({
   symbols: selectSymbols(state),
   brokerages: selectBrokerages(state),
   groups: selectDashboardGroups(state),
-  userPermissions: selectUserPermissions(state),
+  canPlaceOrders: selectCanPlaceOrders(state),
   rates: selectCurrencyRates(state),
   currencies: selectCurrencies(state),
   preferredCurrency: selectPreferredCurrency(state),
