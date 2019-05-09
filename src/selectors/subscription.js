@@ -73,7 +73,9 @@ export const selectCanCrossAccountBalance = createSelector(
       return false;
     }
     // TODO fix this flag when it exists in the API
-    return permissions.some(permission => permission === 'can_place_orders');
+    return permissions.some(
+      permission => permission === 'can_change_account_portfolio_group',
+    );
   },
 );
 
@@ -96,5 +98,29 @@ export const selectCanExcludeAssets = createSelector(
       return false;
     }
     return permissions.some(permission => permission === 'can_exclude_assets');
+  },
+);
+
+export const selectCanCreatePortfolioGroup = createSelector(
+  selectUserPermissions,
+  permissions => {
+    if (!permissions) {
+      return false;
+    }
+    return permissions.some(
+      permission => permission === 'can_create_portfolio_group',
+    );
+  },
+);
+
+export const selectCanDeletePortfolioGroup = createSelector(
+  selectUserPermissions,
+  permissions => {
+    if (!permissions) {
+      return false;
+    }
+    return permissions.some(
+      permission => permission === 'can_delete_portfolio_group',
+    );
   },
 );
