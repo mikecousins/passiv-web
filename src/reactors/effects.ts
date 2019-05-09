@@ -9,6 +9,7 @@ import {
   loadSettings,
   loadPlans,
 } from '../actions';
+import { checkIfOnline } from '../actions/online';
 import {
   selectCurrenciesNeedData,
   selectCurrencyRatesNeedData,
@@ -20,6 +21,7 @@ import {
 import { selectAccountsNeedData } from '../selectors/accounts';
 import { selectGroupsNeedData } from '../selectors/groups';
 import { selectSubscriptionNeedData } from '../selectors/subscription';
+import { selectShouldCheckIfOnline } from '../selectors/online';
 
 export { default as reducer } from '../reducers';
 
@@ -59,5 +61,9 @@ export const effects = [
   {
     selector: selectPlansNeedData,
     actionCreator: loadPlans,
+  },
+  {
+    selector: selectShouldCheckIfOnline,
+    actionCreator: checkIfOnline,
   },
 ];

@@ -7,6 +7,7 @@ import language from './language';
 import simple from './simple';
 import simpleList from './simpleList';
 import updateServiceWorker from './updateServiceWorker';
+import online from './online';
 
 export default history =>
   combineReducers({
@@ -17,7 +18,7 @@ export default history =>
     demo,
     language,
     updateServiceWorker,
-
+    online,
     authorizations: simple({
       baseType: 'FETCH_AUTHORIZATIONS',
       userData: true,
