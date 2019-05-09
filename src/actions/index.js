@@ -37,12 +37,6 @@ export const registerFailed = payload => ({
   payload,
 });
 
-export const toggleDemoMode = () => {
-  return dispatch => {
-    dispatch({ type: 'TOGGLE_DEMO_MODE' });
-  };
-};
-
 export const loadAuthorizations = () => {
   return dispatch => {
     dispatch(fetchAuthorizationsStart());

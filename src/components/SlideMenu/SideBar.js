@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectIsDemoMode, selectLoggedIn } from '../../selectors';
 import { selectGroups } from '../../selectors/groups';
-import { toggleDemoMode } from '../../actions';
+import { toggleDemoMode } from '../../actions/demo';
 import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';

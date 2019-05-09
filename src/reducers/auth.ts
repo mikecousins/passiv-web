@@ -1,4 +1,9 @@
-const auth = (state = {}, action) => {
+const initialState = {
+  token: null,
+  error: null,
+};
+
+const auth = (state = initialState, action: any) => {
   if (action.type === 'LOGIN_SUCCEEDED') {
     return {
       token: action.payload.data.token,
