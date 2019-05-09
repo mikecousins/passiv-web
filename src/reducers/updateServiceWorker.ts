@@ -1,4 +1,4 @@
-const updateServiceWorker = (state = false, action) => {
+const updateServiceWorker = (state = false, action: any) => {
   if (action.type === 'UPDATE_SERVICE_WORKER') {
     return true;
   }

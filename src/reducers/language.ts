@@ -1,4 +1,4 @@
-const demo = (state = 'en-CA', action) => {
+const demo = (state = 'en-CA', action: any) => {
   if (action.type === 'CHANGE_LANGUAGE') {
     return action.payload;
   }

@@ -1,4 +1,7 @@
-const initialState = {
+const initialState: {
+  token: string | null;
+  error: object | null;
+} = {
   token: null,
   error: null,
 };
