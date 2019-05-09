@@ -9,6 +9,11 @@ import simpleList from './simpleList';
 import updateServiceWorker from './updateServiceWorker';
 import online from './online';
 import { SubscriptionData } from '../types/subscription';
+import { GroupInfoData } from '../types/groupInfo';
+import { GroupData } from '../types/group';
+import { Currency } from '../types/currency';
+import { CurrencyRate } from '../types/currencyRate';
+import { Account } from '../types/account';
 
 export default (history: any) =>
   combineReducers({
@@ -28,15 +33,15 @@ export default (history: any) =>
       baseType: 'FETCH_BROKERAGES',
       userData: false,
     }),
-    currencies: simple<any>({
+    currencies: simple<Currency[]>({
       baseType: 'FETCH_CURRENCIES',
       userData: false,
     }),
-    currencyRates: simple<any>({
+    currencyRates: simple<CurrencyRate[]>({
       baseType: 'FETCH_CURRENCY_RATES',
       userData: false,
     }),
-    groups: simple<any>({
+    groups: simple<GroupData[]>({
       baseType: 'FETCH_GROUPS',
       userData: true,
     }),
@@ -52,7 +57,7 @@ export default (history: any) =>
       baseType: 'FETCH_PLANS',
       userData: true,
     }),
-    accounts: simple<any>({
+    accounts: simple<Account[]>({
       baseType: 'FETCH_ACCOUNTS',
       userData: true,
     }),
@@ -64,7 +69,7 @@ export default (history: any) =>
       baseType: 'FETCH_ACCOUNT_POSITIONS',
       userData: true,
     }),
-    groupInfo: simpleList<any>({
+    groupInfo: simpleList<GroupInfoData>({
       baseType: 'FETCH_GROUP_INFO',
       userData: true,
     }),

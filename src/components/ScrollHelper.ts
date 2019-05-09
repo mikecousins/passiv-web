@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { selectPathname } from '../selectors/router';
 import { selectIsMobile } from '../selectors/browser';
+import { AppState } from '../store';
 
 type Props = {
   pathname: string;
@@ -17,7 +18,7 @@ export const ScrollHelper = ({ pathname, isMobile }: Props) => {
   return null;
 };
 
-const select = (state: any) => ({
+const select = (state: AppState) => ({
   pathname: selectPathname(state),
   isMobile: selectIsMobile(state),
 });

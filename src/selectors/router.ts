@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
+import { AppState } from '../store';
 
-export const selectRouter = state => state.router;
+export const selectRouter = (state: AppState) => state.router;
 
 export const selectPathname = createSelector(
   selectRouter,

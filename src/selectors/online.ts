@@ -1,12 +1,13 @@
 import { createSelector } from 'reselect';
 import ms from 'milliseconds';
 import { selectAppTime } from './index';
+import { AppState } from '../store';
 
-export const selectIsOnline = (state: any) => state.online.isOnline;
+export const selectIsOnline = (state: AppState) => state.online.isOnline;
 
-export const selectIsOffline = (state: any) => !state.online.isOnline;
+export const selectIsOffline = (state: AppState) => !state.online.isOnline;
 
-export const selectOnlineRaw = (state: any) => state.online;
+export const selectOnlineRaw = (state: AppState) => state.online;
 
 export const selectShouldCheckIfOnline = createSelector(
   selectAppTime,

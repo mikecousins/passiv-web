@@ -5,6 +5,7 @@ import { initialLoad } from '../../actions';
 import { postData } from '../../api';
 import { InputNonFormik } from '../../styled/Form';
 import { selectCanCreatePortfolioGroup } from '../../selectors/subscription';
+import { AppState } from '../../store';
 
 type Props = {
   reloadAllState: any;
@@ -57,7 +58,7 @@ const AddPortfolioGroup = ({
   );
 };
 
-const select = (state: any) => ({
+const select = (state: AppState) => ({
   canCreatePortfolioGroup: selectCanCreatePortfolioGroup(state),
 });
 

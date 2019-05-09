@@ -1,13 +1,17 @@
 import { createSelector } from 'reselect';
 import ms from 'milliseconds';
-import jwtDecode from 'jwt-decode';
 import shouldUpdate from '../reactors/should-update';
+import { AppState } from '../store';
 
-export const selectAppTime = state => state.appTime;
+// have to require this for Typescript to work properly.....
+// hopefully we can import this in the future
+var jwtDecode = require('jwt-decode');
 
-export const selectLoggedIn = state => !!state.auth.token;
+export const selectAppTime = (state: AppState) => state.appTime;
 
-export const selectToken = state => state.auth.token;
+export const selectLoggedIn = (state: AppState) => !!state.auth.token;
+
+export const selectToken = (state: AppState) => state.auth.token;
 
 export const selectTokenIsExpired = createSelector(
   selectToken,
@@ -25,11 +29,12 @@ export const selectTokenIsExpired = createSelector(
   },
 );
 
-export const selectCurrenciesRaw = state => state.currencies;
+export const selectCurrenciesRaw = (state: AppState) => state.currencies;
 
-export const selectBrokeragesRaw = state => state.brokerages;
+export const selectBrokeragesRaw = (state: AppState) => state.brokerages;
 
-export const selectAuthorizationsRaw = state => state.authorizations;
+export const selectAuthorizationsRaw = (state: AppState) =>
+  state.authorizations;
 
 export const selectCurrencies = createSelector(
   selectCurrenciesRaw,
@@ -103,7 +108,7 @@ export const selectAuthorizationsNeedData = createSelector(
   },
 );
 
-export const selectSettingsRaw = state => state.settings;
+export const selectSettingsRaw = (state: AppState) => state.settings;
 
 export const selectSettings = createSelector(
   selectSettingsRaw,
@@ -129,7 +134,7 @@ export const selectSettingsNeedData = createSelector(
   },
 );
 
-export const selectPlansRaw = state => state.plans;
+export const selectPlansRaw = (state: AppState) => state.plans;
 
 export const selectPlans = createSelector(
   selectPlansRaw,
@@ -155,11 +160,11 @@ export const selectPlansNeedData = createSelector(
   },
 );
 
-export const selectIsDemoMode = state => state.demo;
+export const selectIsDemoMode = (state: AppState) => state.demo;
 
-export const selectRouter = state => state.router;
+export const selectRouter = (state: AppState) => state.router;
 
-export const selectCurrencyRatesRaw = state => state.currencyRates;
+export const selectCurrencyRatesRaw = (state: AppState) => state.currencyRates;
 
 export const selectCurrencyRates = createSelector(
   selectCurrencyRatesRaw,
@@ -226,4 +231,5 @@ export const selectName = createSelector(
   },
 );
 
-export const selectIsUpdateServiceWorker = state => state.updateServiceWorker;
+export const selectIsUpdateServiceWorker = (state: AppState) =>
+  state.updateServiceWorker;
