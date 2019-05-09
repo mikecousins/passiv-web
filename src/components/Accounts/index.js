@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectAccounts } from '../../selectors/accounts';
-import Account from '../Account';
+import Account from './Account';
 import AddPortfolioGroup from './AddPortfolioGroup';
 
 const Accounts = ({ accounts }) => {

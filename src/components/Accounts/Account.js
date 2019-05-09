@@ -2,62 +2,33 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faCheck } from '@fortawesome/free-solid-svg-icons';
-import styled from '@emotion/styled';
-import { selectBrokerages, selectAuthorizations } from '../selectors';
-import { selectGroups } from '../selectors/groups';
-import { loadAccounts, loadGroups } from '../actions';
-import { putData } from '../api';
-import PortfolioGroupPicker from './PortfolioGroupPicker';
-import { InputNonFormik } from '../styled/Form';
-import { Table, H3, P, Edit } from '../styled/GlobalElements';
-import { Button } from '../styled/Button';
+import { selectBrokerages, selectAuthorizations } from '../../selectors';
+import { selectGroups } from '../../selectors/groups';
+import { loadAccounts, loadGroups } from '../../actions';
+import { putData } from '../../api';
+import PortfolioGroupPicker from '../PortfolioGroupPicker';
+import { InputNonFormik } from '../../styled/Form';
+import { Table, H3, P, Edit } from '../../styled/GlobalElements';
+import { Button } from '../../styled/Button';
+import { selectCanPlaceOrders } from '../../selectors/subscription';
+import {
+  AccountContainer,
+  Brokerage,
+  Name,
+  InputContainer,
+  Number,
+  Type,
+  PortfolioGroup,
+} from './styles';
 
-const InputContainer = styled.div`
-  padding-bottom: 20px;
-  font-size: 18px;
-`;
-
-const Brokerage = styled.div`
-  min-width: 15%;
-`;
-
-const Name = styled.div`
-  min-width: 20%;
-`;
-
-const Number = styled.div`
-  min-width: 10%;
-  text-align: center;
-`;
-
-const Type = styled.div`
-  min-width: 10%;
-  text-align: center;
-`;
-
-const PortfolioGroup = styled.div`
-  min-width: 30%;
-  text-align: center;
-`;
-
-const AccountContainer = styled.div`
-  border-top: 1px solid #eee;
-  margin-top: 10px;
-  padding-top: 10px;
-  &:first-of-type {
-    border: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-`;
-
-const Account = ({
+export const Account = ({
   account,
   authorizations,
   brokerages,
   groups,
   refreshAccounts,
   refreshGroups,
+  canCrossAccountBalance,
 }) => {
   const [nameEditing, setNameEditing] = useState(false);
   const [groupEditing, setGroupEditing] = useState(false);
@@ -124,6 +95,28 @@ const Account = ({
     return accountType;
   };
 
+  let editingFooter = (
+    <React.Fragment>
+      <H3>
+        &nbsp; You're about to change the portfolio group your account is linked
+        to. Do you want to continue? &nbsp;
+      </H3>
+      <Button onClick={() => setPortfolioGroup()}>Update</Button>
+      <Button onClick={() => setGroupEditing(false)}>Cancel</Button>
+    </React.Fragment>
+  );
+  if (!canCrossAccountBalance) {
+    editingFooter = (
+      <React.Fragment>
+        <H3>
+          You need to upgrade to our Elite subscription to group your accounts
+          together for cross account balancing.
+        </H3>
+        <Button onClick={() => setGroupEditing(false)}>Cancel</Button>
+      </React.Fragment>
+    );
+  }
+
   return (
     <React.Fragment>
       <AccountContainer>
@@ -184,16 +177,7 @@ const Account = ({
             )}
           </PortfolioGroup>
         </Table>
-        {groupEditing ? (
-          <React.Fragment>
-            <H3>
-              &nbsp; You're about to change the portfolio group your account is
-              linked to. Do you want to continue? &nbsp;
-            </H3>
-            <Button onClick={() => setPortfolioGroup()}>Update</Button>
-            <Button onClick={() => setGroupEditing(false)}>Cancel</Button>
-          </React.Fragment>
-        ) : null}
+        {groupEditing && editingFooter}
       </AccountContainer>
     </React.Fragment>
   );
@@ -203,6 +187,7 @@ const select = state => ({
   brokerages: selectBrokerages(state),
   authorizations: selectAuthorizations(state),
   groups: selectGroups(state),
+  canCrossAccountBalance: selectCanPlaceOrders(state),
 });
 
 const actions = {
