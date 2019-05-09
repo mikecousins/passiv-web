@@ -96,8 +96,9 @@ export const PortfolioGroupAccounts = ({
     );
   }
 
+  let picker = null;
+
   if (accounts.length === 0) {
-    console.log(newAccountId);
     if (addAccount) {
       picker = (
         <React.Fragment>
@@ -132,7 +133,6 @@ export const PortfolioGroupAccounts = ({
     );
   }
 
-  let picker = null;
   if (availableAccounts().length === 0) {
     picker = <P>All of your accounts are already managed by this portfolio!</P>;
   } else {
