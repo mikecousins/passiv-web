@@ -47,6 +47,9 @@ interface TargetPosition {
   symbol: string;
   percent: number;
   meta: object;
+  fullSymbol: Symbol | undefined;
+  actualPercentage: number;
+  excluded: boolean;
 }
 
 interface IdealPosition {

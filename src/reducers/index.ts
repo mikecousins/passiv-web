@@ -13,6 +13,7 @@ import { GroupInfoData } from '../types/groupInfo';
 import { GroupData } from '../types/group';
 import { Currency } from '../types/currency';
 import { CurrencyRate } from '../types/currencyRate';
+import { Account } from '../types/Account';
 
 export default (history: any) =>
   combineReducers({
@@ -56,7 +57,7 @@ export default (history: any) =>
       baseType: 'FETCH_PLANS',
       userData: true,
     }),
-    accounts: simple<any>({
+    accounts: simple<Account[]>({
       baseType: 'FETCH_ACCOUNTS',
       userData: true,
     }),
