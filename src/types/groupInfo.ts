@@ -11,7 +11,7 @@ interface Brokerage {
   url: string;
 }
 
-interface BrokerageAuthorization {
+export interface BrokerageAuthorization {
   id: string;
   created_date: string;
   brokerage: Brokerage;
@@ -63,7 +63,7 @@ interface ExcludedPosition {
 
 interface Trade {}
 
-interface CalculatedTrades {
+export interface CalculatedTrades {
   id: string;
   trades: Trade[];
 }

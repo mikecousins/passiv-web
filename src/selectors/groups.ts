@@ -15,6 +15,7 @@ import {
 import { selectIsEditMode } from './router';
 import shouldUpdate from '../reactors/should-update';
 import { AppState } from '../store';
+import { CalculatedTrades, BrokerageAuthorization } from '../types/groupInfo';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 
@@ -646,7 +647,13 @@ export const selectCurrentGroup = createSelector(
   selectAccountPositions,
   selectCurrentGroupId,
   (groups, accounts, balances, positions, groupId) => {
-    let group = undefined;
+    let group:
+      | {
+          id: string;
+          name: string;
+          accounts?: any[];
+        }
+      | undefined = undefined;
     if (groupId) {
       if (!groups) {
         return group;
@@ -682,19 +689,31 @@ export const selectCurrentGroup = createSelector(
   },
 );
 
+interface DashboardGroup {
+  id: string;
+  name: string;
+  totalCash: number;
+  totalHoldings: number;
+  totalValue: number | null;
+  accuracy?: number;
+  setupComplete?: boolean;
+  rebalance?: boolean;
+  trades?: CalculatedTrades;
+  brokerage_authorizations?: BrokerageAuthorization[];
+}
+
 export const selectDashboardGroups = createSelector(
   selectGroups,
   selectGroupInfo,
   selectCurrencyRates,
-  selectCurrencies,
   selectPreferredCurrency,
-  (groups, groupInfo, rates, currencies, preferredCurrency) => {
-    const fullGroups: any[] = [];
+  (groups, groupInfo, rates, preferredCurrency) => {
+    const fullGroups: DashboardGroup[] = [];
     if (!groups || !rates) {
       return fullGroups;
     }
     groups.forEach(g => {
-      const group = {
+      const group: DashboardGroup = {
         id: g.id,
         name: g.name,
         totalCash: 0,
@@ -702,23 +721,23 @@ export const selectDashboardGroups = createSelector(
         totalValue: null,
       };
       if (groupInfo[group.id] && groupInfo[group.id].data) {
-        groupInfo[group.id].data.balances.forEach(balance => {
+        const groupData = groupInfo[group.id].data!;
+        groupData.balances.forEach(balance => {
           if (balance.currency.id === preferredCurrency) {
-            group.totalCash += parseFloat(balance.cash);
+            group.totalCash += balance.cash;
           } else {
             const conversionRate = rates.find(
               rate =>
                 rate.src.id === balance.currency.id &&
                 rate.dst.id === preferredCurrency,
-            ).exchange_rate;
-            group.totalCash += parseFloat(balance.cash * conversionRate);
+            );
+            if (!conversionRate) {
+              return;
+            }
+            group.totalCash += balance.cash * conversionRate.exchange_rate;
           }
         });
-        groupInfo[group.id].data.positions.forEach(position => {
-          // convert to CAD for now
-          const preferredCurrency = currencies.find(
-            currency => currency.code === 'CAD',
-          ).id;
+        groupData.positions.forEach(position => {
           if (position.symbol.currency.id === preferredCurrency) {
             group.totalHoldings += position.units * position.price;
           } else {
@@ -726,28 +745,29 @@ export const selectDashboardGroups = createSelector(
               rate =>
                 rate.src.id === position.symbol.currency.id &&
                 rate.dst.id === preferredCurrency,
-            ).exchange_rate;
-            group.totalHoldings += parseFloat(
-              position.units * position.price * conversionRate,
             );
+            if (!conversionRate) {
+              return;
+            }
+            group.totalHoldings +=
+              position.units * position.price * conversionRate.exchange_rate;
           }
         });
-        group.accuracy = groupInfo[group.id].data.accuracy;
+        group.accuracy = groupData.accuracy;
         if (
-          groupInfo[group.id].data.settings.target_initialized &&
-          groupInfo[group.id].data.target_positions.length > 0
+          groupData.settings.target_initialized &&
+          groupData.target_positions.length > 0
         ) {
           group.setupComplete = true;
         } else {
           group.setupComplete = false;
         }
         group.rebalance = !!(
-          groupInfo[group.id].data.calculated_trades &&
-          groupInfo[group.id].data.calculated_trades.trades.length > 0
+          groupData.calculated_trades &&
+          groupData.calculated_trades.trades.length > 0
         );
-        group.trades = groupInfo[group.id].data.calculated_trades;
-        group.brokerage_authorizations =
-          groupInfo[group.id].data.brokerage_authorizations;
+        group.trades = groupData.calculated_trades;
+        group.brokerage_authorizations = groupData.brokerage_authorizations;
       }
       if (group.totalCash !== null && group.totalHoldings !== null) {
         group.totalValue = group.totalCash + group.totalHoldings;
