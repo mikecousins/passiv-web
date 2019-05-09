@@ -91,7 +91,12 @@ const GroupPage = props => {
   if (!group.accounts) {
     return (
       <span>
-        There are no accounts in this group! &nbsp;
+        <PortfolioGroupAccounts
+          group={group}
+          accounts={accounts}
+          loading={loading}
+          error={error}
+        />
         <Button
           onClick={() => {
             deleteData(`/api/v1/portfolioGroups/${group.id}`)
