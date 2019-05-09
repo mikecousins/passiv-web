@@ -16,7 +16,7 @@ const defaultState = {};
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['appTime', 'router', 'browser', 'updateServiceWorker'],
+  blacklist: ['appTime', 'router', 'browser', 'updateServiceWorker', 'online'],
 };
 
 const persistedReducer = persistReducer(
