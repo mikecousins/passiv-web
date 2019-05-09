@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectCurrencies } from '../selectors';
-import { selectAccounts } from '../selectors/accounts';
 import styled from '@emotion/styled';
-import Number from './Number';
-import { Table } from '../styled/GlobalElements';
+import { selectCurrencies } from '../../selectors';
+import { selectAccounts } from '../../selectors/accounts';
+import Number from '../Number';
+import { Table } from '../../styled/GlobalElements';
 
 const MetaHorizontal = styled.div`
   text-align: left;

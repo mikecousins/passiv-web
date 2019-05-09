@@ -5,22 +5,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faClock } from '@fortawesome/free-solid-svg-icons';
 import { push } from 'connected-react-router';
 import styled from '@emotion/styled';
-import { loadGroup } from '../actions';
-import { getData, postData } from '../api';
+import { loadGroup } from '../../actions';
+import { getData, postData } from '../../api';
 import {
   selectBrokerages,
   selectCurrencyRates,
   selectCurrencies,
-} from '../selectors';
-import { selectSymbols } from '../selectors/symbols';
+} from '../../selectors';
+import { selectSymbols } from '../../selectors/symbols';
 import {
   selectDashboardGroups,
   selectPreferredCurrency,
-} from '../selectors/groups';
-import { selectCanPlaceOrders } from '../selectors/subscription';
-import { Button } from '../styled/Button';
-import { H2, P, A, Title } from '../styled/GlobalElements';
-import ConnectionUpdate from '../components/ConnectionUpdate';
+} from '../../selectors/groups';
+import { selectCanPlaceOrders } from '../../selectors/subscription';
+import { Button } from '../../styled/Button';
+import { H2, P, A, Title } from '../../styled/GlobalElements';
+import ConnectionUpdate from '../ConnectionUpdate';
 import {
   TradeRow,
   Symbol,
@@ -28,7 +28,7 @@ import {
   ColumnUnits,
   ColumnAction,
   ColumnStatus,
-} from '../styled/Group';
+} from '../../styled/Group';
 
 import OrderImpacts from './OrderImpacts';
 
