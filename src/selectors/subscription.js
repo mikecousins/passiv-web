@@ -65,3 +65,36 @@ export const selectCanPlaceOrders = createSelector(
     return permissions.some(permission => permission === 'can_place_orders');
   },
 );
+
+export const selectCanCrossAccountBalance = createSelector(
+  selectUserPermissions,
+  permissions => {
+    if (!permissions) {
+      return false;
+    }
+    // TODO fix this flag when it exists in the API
+    return permissions.some(permission => permission === 'can_place_orders');
+  },
+);
+
+export const selectCanAddMulitpleConnections = createSelector(
+  selectUserPermissions,
+  permissions => {
+    if (!permissions) {
+      return false;
+    }
+    return permissions.some(
+      permission => permission === 'can_add_multiple_connections',
+    );
+  },
+);
+
+export const selectCanExcludeAssets = createSelector(
+  selectUserPermissions,
+  permissions => {
+    if (!permissions) {
+      return false;
+    }
+    return permissions.some(permission => permission === 'can_exclude_assets');
+  },
+);

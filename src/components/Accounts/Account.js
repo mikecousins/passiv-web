@@ -10,7 +10,7 @@ import PortfolioGroupPicker from '../PortfolioGroupPicker';
 import { InputNonFormik } from '../../styled/Form';
 import { Table, H3, P, Edit } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
-import { selectCanPlaceOrders } from '../../selectors/subscription';
+import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 import {
   AccountContainer,
   Brokerage,
@@ -187,7 +187,7 @@ const select = state => ({
   brokerages: selectBrokerages(state),
   authorizations: selectAuthorizations(state),
   groups: selectGroups(state),
-  canCrossAccountBalance: selectCanPlaceOrders(state),
+  canCrossAccountBalance: selectCanCrossAccountBalance(state),
 });
 
 const actions = {

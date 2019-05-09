@@ -32,6 +32,7 @@ import Tooltip from '../components/Tooltip';
 import { deleteData } from '../api';
 import { initialLoad } from '../actions';
 import { Button } from '../styled/Button';
+import { selectCanCrossAccountBalance } from '../selectors/subscription';
 
 export const Container2Column = styled.div`
   @media (min-width: 900px) {
@@ -75,6 +76,7 @@ const GroupPage = props => {
     loading,
     reloadAllState,
     accounts,
+    canCrossAccountBalance,
   } = props;
 
   // if we don't have our group yet, show a spinner
@@ -142,12 +144,14 @@ const GroupPage = props => {
         <PortfolioGroupSettings />
       </Container6040Column>
 
-      <PortfolioGroupAccounts
-        group={group}
-        accounts={accounts}
-        loading={loading}
-        error={error}
-      />
+      {canCrossAccountBalance && (
+        <PortfolioGroupAccounts
+          group={group}
+          accounts={accounts}
+          loading={loading}
+          error={error}
+        />
+      )}
 
       <Tooltip />
     </React.Fragment>
@@ -166,6 +170,7 @@ const select = state => ({
   loading: selectGroupsLoading(state),
   accounts: selectCurrentGroupAccountHoldings(state),
   error: selectCurrentGroupInfoError(state),
+  canCrossAccountBalance: selectCanCrossAccountBalance(state),
 });
 
 const actions = {
