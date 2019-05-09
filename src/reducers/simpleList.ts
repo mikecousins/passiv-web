@@ -1,12 +1,26 @@
-export default ({ baseType, userData }) => {
+import { SimpleState } from '../types/common';
+
+interface SimpleListProps {
+  baseType: string;
+  userData: boolean;
+}
+
+const simpleList = <T extends object>({
+  baseType,
+  userData,
+}: SimpleListProps) => {
   const START = `${baseType}_START`;
   const SUCCESS = `${baseType}_SUCCESS`;
   const ERROR = `${baseType}_ERROR`;
 
-  const initialData = {};
+  interface SimpleListState {
+    [key: string]: SimpleState<T>;
+  }
+
+  const initialData: SimpleListState = {};
 
   // here we're returning our customized reducer
-  return (state, action) => {
+  return (state = initialData, action: any) => {
     if (action.type === START) {
       return Object.assign({}, state, {
         [action.id]: {
@@ -53,3 +67,5 @@ export default ({ baseType, userData }) => {
     return state;
   };
 };
+
+export default simpleList;

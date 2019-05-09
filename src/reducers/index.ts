@@ -56,15 +56,15 @@ export default (history: any) =>
       baseType: 'FETCH_ACCOUNTS',
       userData: true,
     }),
-    accountBalances: simpleList({
+    accountBalances: simpleList<any>({
       baseType: 'FETCH_ACCOUNT_BALANCES',
       userData: true,
     }),
-    accountPositions: simpleList({
+    accountPositions: simpleList<any>({
       baseType: 'FETCH_ACCOUNT_POSITIONS',
       userData: true,
     }),
-    groupInfo: simpleList({
+    groupInfo: simpleList<any>({
       baseType: 'FETCH_GROUP_INFO',
       userData: true,
     }),
