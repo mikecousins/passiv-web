@@ -1,10 +1,10 @@
 import React from 'react';
 import { faEyeSlash, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { postData } from '../../api';
+import { postData } from '../../../api';
 import { connect } from 'react-redux';
 import SymbolSelector from './SymbolSelector';
-import Number from '../Number';
+import Number from '../../Number';
 import {
   BarsContainer,
   InputContainer,
@@ -17,9 +17,9 @@ import {
   BarActual,
   Container,
   Close,
-} from '../../styled/Target';
-import { loadGroup } from '../../actions';
-import { selectCurrentGroupId } from '../../selectors/groups';
+} from '../../../styled/Target';
+import { loadGroup } from '../../../actions';
+import { selectCurrentGroupId } from '../../../selectors/groups';
 
 export class TargetBar extends React.Component {
   loadOptions = (substring, callback) => {

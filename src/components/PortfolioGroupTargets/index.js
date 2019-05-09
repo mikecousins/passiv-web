@@ -2,18 +2,18 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
-import { loadGroup } from '../actions';
+import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
   selectCurrentGroupTarget,
   selectCurrentGroupTargetInitialized,
   selectCurrentGroupInfoError,
-} from '../selectors/groups';
-import { Button } from '../styled/Button';
-import { H2, H3, P, ErrorMessage } from '../styled/GlobalElements';
-import { postData } from '../api';
+} from '../../selectors/groups';
+import { Button } from '../../styled/Button';
+import { H2, H3, P, ErrorMessage } from '../../styled/GlobalElements';
+import { postData } from '../../api';
 import styled from '@emotion/styled';
-import ShadowBox from '../styled/ShadowBox';
+import ShadowBox from '../../styled/ShadowBox';
 import TargetSelector from './TargetSelector';
 
 export const TargetContainer = styled.form`

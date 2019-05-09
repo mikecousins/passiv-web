@@ -1,5 +1,5 @@
 import React from 'react';
-import Number from './Number';
+import Number from '../Number';
 import {
   BarsContainer,
   Symbol,
@@ -10,7 +10,7 @@ import {
   BarActual,
   TargetRow,
   Container,
-} from '../styled/Target';
+} from '../../styled/Target';
 
 export const CashBar = props => {
   if (!(typeof props.percentage === 'number')) {
