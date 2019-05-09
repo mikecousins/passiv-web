@@ -1,33 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import reduxThunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { createBrowserHistory } from 'history';
-import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
-import ReactGA from 'react-ga';
+import { ConnectedRouter } from 'connected-react-router';
 import * as Sentry from '@sentry/browser';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
-import { responsiveStoreEnhancer } from 'redux-responsive';
-import createRootReducer from './reducers';
+import ReactGA from 'react-ga';
 import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
-// import registerServiceWorker from './registerServiceWorker';
-// import { updateServiceWorker } from './actions';
-import apiMiddleware from './middleware/api';
 import createRunLoop from './reactors/init-runloop';
 import { effects } from './reactors/effects';
+// import registerServiceWorker from './registerServiceWorker';
+// import { updateServiceWorker } from './actions';
+
+import store, { history } from './store';
 
 Sentry.init({
   dsn: 'https://0d88597b9cb6439fa0050392b907ec17@sentry.io/1358976',
 });
-
-const history = createBrowserHistory();
-
-const defaultState = {};
 
 // initialize GA and fire first pageview
 ReactGA.initialize(
@@ -50,27 +40,6 @@ ReactGA.pageview(window.location.pathname + window.location.search);
 history.listen(function(location) {
   ReactGA.pageview(location.pathname + location.search);
 });
-
-const persistConfig = {
-  key: 'root',
-  storage,
-  blacklist: ['appTime', 'router', 'browser', 'updateServiceWorker'],
-};
-
-const persistedReducer = persistReducer(
-  persistConfig,
-  createRootReducer(history),
-);
-
-const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 });
-const store = createStore(
-  persistedReducer,
-  defaultState,
-  composeEnhancers(
-    responsiveStoreEnhancer,
-    applyMiddleware(routerMiddleware(history), reduxThunk, apiMiddleware),
-  ),
-);
 
 const persistor = persistStore(store);
 
