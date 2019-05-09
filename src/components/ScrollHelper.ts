@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import { selectPathname } from '../selectors/router';
 import { selectIsMobile } from '../selectors/browser';
 
-export const ScrollHelper = ({ pathname, isMobile }) => {
+type Props = {
+  pathname: string;
+  isMobile: boolean;
+};
+
+export const ScrollHelper = ({ pathname, isMobile }: Props) => {
   useEffect(() => {
     if (isMobile) {
       window.scrollTo(0, 0);
@@ -12,7 +17,7 @@ export const ScrollHelper = ({ pathname, isMobile }) => {
   return null;
 };
 
-const select = state => ({
+const select = (state: any) => ({
   pathname: selectPathname(state),
   isMobile: selectIsMobile(state),
 });
