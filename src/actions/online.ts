@@ -1,12 +1,17 @@
+import { Action } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import { getData } from '../api';
 
-export const checkIfOnline = () => {
-  return (dispatch: any) => {
-    dispatch(checkingIfOnline());
-    getData('/api/v1')
-      .then(() => dispatch(setOnline()))
-      .catch(() => dispatch(setOffline()));
-  };
+export const checkIfOnline = (): ThunkAction<
+  void,
+  object,
+  null,
+  Action
+> => async dispatch => {
+  dispatch(checkingIfOnline());
+  getData('/api/v1')
+    .then(() => dispatch(setOnline()))
+    .catch(() => dispatch(setOffline()));
 };
 
 export const checkingIfOnline = () => ({
