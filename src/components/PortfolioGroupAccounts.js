@@ -56,7 +56,7 @@ export const PortfolioGroupAccounts = ({
     return results;
   };
 
-  const [newAccountId, setNewAccountId] = useState(availableAccounts()[0]);
+  const [newAccountId, setNewAccountId] = useState(availableAccounts()[0].id);
 
   const setPortfolioGroup = () => {
     let account = allAccounts.find(a => a.id === newAccountId);
@@ -76,7 +76,7 @@ export const PortfolioGroupAccounts = ({
     setAddAccount(false);
   };
 
-  if (error !== null) {
+  if (error !== null && accounts.length > 0) {
     return (
       <ShadowBox>
         <H2>{ComponentTitle}</H2>
@@ -97,13 +97,38 @@ export const PortfolioGroupAccounts = ({
   }
 
   if (accounts.length === 0) {
+    console.log(newAccountId);
+    if (addAccount) {
+      picker = (
+        <React.Fragment>
+          <P>Select an account to add to this portfolio:</P>
+          <AccountPicker
+            accounts={availableAccounts()}
+            account={newAccountId}
+            onChange={e => setNewAccountId(e.target.value)}
+          />
+          <Button onClick={() => setPortfolioGroup()}>Confirm</Button>
+          <Button onClick={() => setAddAccount(false)}>Cancel</Button>
+        </React.Fragment>
+      );
+    } else {
+      picker = (
+        <React.Fragment>
+          <Button onClick={() => setAddAccount(true)}>
+            Add Another Account
+          </Button>
+        </React.Fragment>
+      );
+    }
+
     return (
-      <React.Fragment>
+      <ShadowBox>
         <H2>{ComponentTitle}</H2>
         <ErrorMessage>
           <H3>You do not have any accounts in this portfolio.</H3>
         </ErrorMessage>
-      </React.Fragment>
+        {picker}
+      </ShadowBox>
     );
   }
 

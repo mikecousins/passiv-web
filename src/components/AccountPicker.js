@@ -1,7 +1,8 @@
 import React from 'react';
 
-const AccountPicker = ({ accounts, account, onChange }) => (
-  <React.Fragment>
+const AccountPicker = ({ accounts, account, onChange }) => {
+  console.log(account);
+  return (
     <select value={account} onChange={onChange}>
       {accounts.map(account => (
         <option value={account.id} key={account.id}>
@@ -9,7 +10,7 @@ const AccountPicker = ({ accounts, account, onChange }) => (
         </option>
       ))}
     </select>
-  </React.Fragment>
-);
+  );
+};
 
 export default AccountPicker;
