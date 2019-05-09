@@ -575,7 +575,7 @@ export const selectCurrentGroupTarget = createSelector(
               rate.dst.id === preferredCurrency,
           );
           if (!conversionRate) {
-            return;
+            return null;
           }
           target.actualPercentage =
             ((position.price * position.units) / totalHoldingsExcludedRemoved) *

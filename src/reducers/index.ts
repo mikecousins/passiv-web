@@ -13,7 +13,7 @@ import { GroupInfoData } from '../types/groupInfo';
 import { GroupData } from '../types/group';
 import { Currency } from '../types/currency';
 import { CurrencyRate } from '../types/currencyRate';
-import { Account } from '../types/Account';
+import { Account } from '../types/account';
 
 export default (history: any) =>
   combineReducers({
