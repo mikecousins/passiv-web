@@ -187,9 +187,8 @@ const Account = ({
         {groupEditing ? (
           <React.Fragment>
             <H3>
-              {' '}
-              You're about to change the portfolio group your account is linked
-              to. Do you want to continue?{' '}
+              &nbsp; You're about to change the portfolio group your account is
+              linked to. Do you want to continue? &nbsp;
             </H3>
             <Button onClick={() => setPortfolioGroup()}>Update</Button>
             <Button onClick={() => setGroupEditing(false)}>Cancel</Button>

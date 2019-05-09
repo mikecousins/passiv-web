@@ -2,7 +2,7 @@ import {
   loadCurrencies,
   loadCurrencyRates,
   loadBrokerages,
-  loadSubscriptions,
+  loadSubscription,
   loadAuthorizations,
   loadAccounts,
   loadGroups,
@@ -13,13 +13,13 @@ import {
   selectCurrenciesNeedData,
   selectCurrencyRatesNeedData,
   selectBrokeragesNeedData,
-  selectSubscriptionsNeedData,
   selectAuthorizationsNeedData,
   selectSettingsNeedData,
   selectPlansNeedData,
 } from '../selectors';
 import { selectAccountsNeedData } from '../selectors/accounts';
 import { selectGroupsNeedData } from '../selectors/groups';
+import { selectSubscriptionNeedData } from '../selectors/subscription';
 
 export { default as reducer } from '../reducers';
 
@@ -37,8 +37,8 @@ export const effects = [
     actionCreator: loadBrokerages,
   },
   {
-    selector: selectSubscriptionsNeedData,
-    actionCreator: loadSubscriptions,
+    selector: selectSubscriptionNeedData,
+    actionCreator: loadSubscription,
   },
   {
     selector: selectAuthorizationsNeedData,

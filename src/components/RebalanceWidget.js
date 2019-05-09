@@ -9,7 +9,6 @@ import { loadGroup } from '../actions';
 import { getData, postData } from '../api';
 import {
   selectBrokerages,
-  selectUserPermissions,
   selectCurrencyRates,
   selectCurrencies,
 } from '../selectors';
@@ -18,6 +17,7 @@ import {
   selectDashboardGroups,
   selectPreferredCurrency,
 } from '../selectors/groups';
+import { selectUserPermissions } from '../selectors/subscription';
 import { Button } from '../styled/Button';
 import { H2, P, A, Title } from '../styled/GlobalElements';
 import ConnectionUpdate from '../components/ConnectionUpdate';

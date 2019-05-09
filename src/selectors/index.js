@@ -129,32 +129,6 @@ export const selectSettingsNeedData = createSelector(
   },
 );
 
-export const selectSubscriptionsRaw = state => state.subscriptions;
-
-export const selectSubscriptions = createSelector(
-  selectSubscriptionsRaw,
-  rawSubscriptions => {
-    if (rawSubscriptions.data) {
-      return rawSubscriptions.data;
-    }
-  },
-);
-
-export const selectSubscriptionsNeedData = createSelector(
-  selectLoggedIn,
-  selectSubscriptionsRaw,
-  selectAppTime,
-  (loggedIn, rawSubscriptions, time) => {
-    if (!loggedIn) {
-      return false;
-    }
-    return shouldUpdate(rawSubscriptions, {
-      staleTime: ms.minutes(10),
-      now: time,
-    });
-  },
-);
-
 export const selectPlansRaw = state => state.plans;
 
 export const selectPlans = createSelector(
@@ -253,30 +227,3 @@ export const selectName = createSelector(
 );
 
 export const selectIsUpdateServiceWorker = state => state.updateServiceWorker;
-
-export const selectIsPaid = createSelector(
-  selectSubscriptions,
-  subscriptions => {
-    if (!subscriptions) {
-      return false;
-    }
-    return subscriptions.type !== 'free';
-  },
-);
-
-export const selectIsFree = createSelector(
-  selectIsPaid,
-  isPaid => {
-    return !isPaid;
-  },
-);
-
-export const selectUserPermissions = createSelector(
-  selectSubscriptions,
-  subscriptions => {
-    if (!subscriptions) {
-      return null;
-    }
-    return subscriptions.permissions;
-  },
-);

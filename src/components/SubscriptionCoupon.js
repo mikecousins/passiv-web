@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectSubscriptions, selectSettings } from '../selectors';
+import { selectSettings } from '../selectors';
+import { selectSubscription } from '../selectors/subscription';
 import { putData } from '../api';
-import { loadSettings, loadSubscriptions } from '../actions';
+import { loadSettings, loadSubscription } from '../actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -16,15 +17,15 @@ class SubscriptionCoupon extends React.Component {
 
     putData('/api/v1/coupon/', couponCode)
       .then(response => {
-        this.props.refreshSubscriptions();
+        this.props.refreshSubscription();
       })
       .catch(error => {
-        this.props.refreshSubscriptions();
+        this.props.refreshSubscription();
       });
   }
 
   render() {
-    const { coupon } = this.props.subscriptions;
+    const { coupon } = this.props.subscription;
 
     if (coupon.percent_off) {
       return (
@@ -70,11 +71,11 @@ class SubscriptionCoupon extends React.Component {
 
 const select = state => ({
   settings: selectSettings(state),
-  subscriptions: selectSubscriptions(state),
+  subscription: selectSubscription(state),
 });
 const actions = {
   refreshSettings: loadSettings,
-  refreshSubscriptions: loadSubscriptions,
+  refreshSubscription: loadSubscription,
 };
 export default connect(
   select,

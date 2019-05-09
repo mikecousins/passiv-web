@@ -14,7 +14,7 @@ import {
   selectCurrentGroupSymbols,
   selectCurrentGroupQuotableSymbols,
 } from '../selectors/groups';
-import { selectUserPermissions } from '../selectors';
+import { selectUserPermissions } from '../selectors/subscription';
 import { postData, deleteData } from '../api';
 import { push } from 'connected-react-router';
 import {

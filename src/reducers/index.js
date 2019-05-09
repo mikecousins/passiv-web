@@ -42,8 +42,8 @@ export default history =>
       baseType: 'FETCH_SETTINGS',
       userData: true,
     }),
-    subscriptions: simple({
-      baseType: 'FETCH_SUBSCRIPTIONS',
+    subscription: simple({
+      baseType: 'FETCH_SUBSCRIPTION',
       userData: true,
     }),
     plans: simple({

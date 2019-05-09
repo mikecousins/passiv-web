@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from '../styled/Button';
 import { injectStripe } from 'react-stripe-elements';
-import { loadSubscriptions } from '../actions';
+import { loadSubscription } from '../actions';
 import { postData } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -34,13 +34,13 @@ export class CheckoutForm extends React.Component {
       .then(response => {
         console.log('success', response.data);
         this.setState({ loading: false });
-        this.props.reloadSubscriptions();
+        this.props.reloadSubscription();
         this.props.finishCreateSubscription();
       })
       .catch(error => {
         console.log('error', error.response.data);
         this.setState({ loading: false, error: error.response.data.detail });
-        // this.props.reloadSubscriptions();
+        // this.props.reloadSubscription();
         this.props.finishCreateSubscriptionFail();
       });
   }
@@ -102,7 +102,7 @@ export class CheckoutForm extends React.Component {
   }
 }
 
-const actions = { reloadSubscriptions: loadSubscriptions };
+const actions = { reloadSubscription: loadSubscription };
 
 export default connect(
   null,

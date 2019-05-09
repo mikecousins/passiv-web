@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectSubscriptions } from '../selectors';
+import { selectSubscription } from '../selectors/subscription';
 import { Button } from '../styled/Button';
 import { Elements } from 'react-stripe-elements';
 import InjectedCheckoutForm from './CheckoutForm';
 import InjectedUpdatePaymentForm from './UpdatePaymentCheckoutForm';
-import { loadSubscriptions } from '../actions';
+import { loadSubscription } from '../actions';
 import { deleteData } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -99,17 +99,19 @@ export class SubscriptionManager extends React.Component {
     deleteData(`/api/v1/subscriptions`)
       .then(response => {
         console.log('success', response.data);
-        this.props.reloadSubscriptions();
+        this.props.reloadSubscription();
         this.setState({ cancelingSubscription: false });
       })
       .catch(error => {
         console.log('error', error.response.data);
-        this.props.reloadSubscriptions();
+        this.props.reloadSubscription();
         this.setState({ cancelingSubscription: false });
       });
   }
 
   render() {
+    const { creatingSubscription, loading } = this.state;
+    const { subscription } = this.props;
     let subscriptionBody = <FontAwesomeIcon icon={faSpinner} spin />;
 
     let upgradeForm = (
@@ -117,7 +119,7 @@ export class SubscriptionManager extends React.Component {
         <div>
           <SubscriptionPlans />
           <SubscriptionCoupon />
-          {!this.state.creatingSubscription && (
+          {!creatingSubscription && (
             <div>
               <Button
                 onClick={() => {
@@ -130,12 +132,12 @@ export class SubscriptionManager extends React.Component {
           )}
         </div>
 
-        {this.state.creatingSubscription && (
+        {creatingSubscription && (
           <PaymentContainer>
             <P>Enter your payment information</P>
             <Elements>
               <InjectedCheckoutForm
-                loading={this.state.loading}
+                loading={loading}
                 startCreateSubscription={() => this.startCreateSubscription()}
                 finishCreateSubscription={() => this.finishCreateSubscription()}
                 finishCreateSubscriptionFail={() =>
@@ -143,7 +145,7 @@ export class SubscriptionManager extends React.Component {
                 }
               />
             </Elements>
-            {!this.state.loading && (
+            {!loading && (
               <ActionContainer>
                 <A
                   onClick={() => {
@@ -159,15 +161,15 @@ export class SubscriptionManager extends React.Component {
       </div>
     );
 
-    if (this.props.subscriptions) {
-      if (this.props.subscriptions.type === 'free') {
+    if (subscription) {
+      if (subscription.type === 'free') {
         subscriptionBody = (
           <div>
             <P>You are using the free Community Edition of Passiv.</P>
             {upgradeForm}
           </div>
         );
-      } else if (this.props.subscriptions.type === 'paid') {
+      } else if (subscription.type === 'paid') {
         subscriptionBody = (
           <React.Fragment>
             {this.state.cancelingSubscription ? (
@@ -188,7 +190,7 @@ export class SubscriptionManager extends React.Component {
                     }
                   />
                 </Elements>
-                {!this.state.loading && (
+                {!loading && (
                   <ActionContainer>
                     <A
                       onClick={() => {
@@ -203,11 +205,11 @@ export class SubscriptionManager extends React.Component {
             ) : (
               <React.Fragment>
                 <P>
-                  You are subscribed to the{' '}
-                  {this.props.subscriptions.details.period} Elite plan.
+                  You are subscribed to the {subscription.details.period} Elite
+                  plan.
                 </P>
 
-                {this.props.subscriptions.details.canceled ? (
+                {subscription.details.canceled ? (
                   <React.Fragment>
                     <P>
                       Your subscription has been canceled. You will have access
@@ -215,7 +217,7 @@ export class SubscriptionManager extends React.Component {
                       <strong>
                         ends on{' '}
                         {format(
-                          this.props.subscriptions.details.period_end,
+                          subscription.details.period_end,
                           'MMMM D, YYYY',
                         )}
                         .
@@ -226,15 +228,11 @@ export class SubscriptionManager extends React.Component {
                   <ActionContainer>
                     <P>
                       Your subscription will renew on{' '}
-                      {format(
-                        this.props.subscriptions.details.period_end,
-                        'MMMM D, YYYY',
-                      )}
-                      .
+                      {format(subscription.details.period_end, 'MMMM D, YYYY')}.
                     </P>
                     <CreditCardDetails
-                      cardState={this.props.subscriptions.cardState}
-                      cardDetails={this.props.subscriptions.cardDetails}
+                      cardState={subscription.cardState}
+                      cardDetails={subscription.cardDetails}
                     />
                     <Button
                       onClick={() => {
@@ -256,7 +254,7 @@ export class SubscriptionManager extends React.Component {
             )}
           </React.Fragment>
         );
-      } else if (this.props.subscriptions.type === 'trial') {
+      } else if (subscription.type === 'trial') {
         subscriptionBody = <P>TRIAL</P>;
       }
     }
@@ -273,9 +271,9 @@ export class SubscriptionManager extends React.Component {
 }
 
 const select = state => ({
-  subscriptions: selectSubscriptions(state),
+  subscription: selectSubscription(state),
 });
-const actions = { reloadSubscriptions: loadSubscriptions };
+const actions = { reloadSubscription: loadSubscription };
 
 export default connect(
   select,
