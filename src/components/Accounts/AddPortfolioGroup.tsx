@@ -4,12 +4,17 @@ import { Button } from '../../styled/Button';
 import { initialLoad } from '../../actions';
 import { postData } from '../../api';
 import { InputNonFormik } from '../../styled/Form';
+import { selectCanCreatePortfolioGroup } from '../../selectors/subscription';
 
 type Props = {
   reloadAllState: any;
+  canCreatePortfolioGroup: any;
 };
 
-const AddPortfolioGroup = ({ reloadAllState }: Props) => {
+const AddPortfolioGroup = ({
+  reloadAllState,
+  canCreatePortfolioGroup,
+}: Props) => {
   const [adding, setAdding] = useState(false);
   const [groupName, setGroupName] = useState('');
 
@@ -18,11 +23,18 @@ const AddPortfolioGroup = ({ reloadAllState }: Props) => {
       reloadAllState(),
     );
   };
-
+  console.log(canCreatePortfolioGroup);
   return (
     <React.Fragment>
       {!adding ? (
         <Button onClick={() => setAdding(true)}>Add Portfolio Group</Button>
+      ) : !canCreatePortfolioGroup ? (
+        <span>
+          <Button onClick={() => setAdding(false)}>Cancel</Button>
+          <React.Fragment>
+            Upgrade your create a portfolio group!
+          </React.Fragment>
+        </span>
       ) : (
         <React.Fragment>
           <InputNonFormik
@@ -45,11 +57,15 @@ const AddPortfolioGroup = ({ reloadAllState }: Props) => {
   );
 };
 
+const select = (state: any) => ({
+  canCreatePortfolioGroup: selectCanCreatePortfolioGroup(state),
+});
+
 const actions = {
   reloadAllState: initialLoad,
 };
 
 export default connect(
-  null,
+  select,
   actions,
 )(AddPortfolioGroup);
