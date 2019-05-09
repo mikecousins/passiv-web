@@ -1,10 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectLoggedIn } from '../selectors';
+import { AppState } from '../store';
 
-const SecureRoute = ({ component: Component, loggedIn, ...rest }) => {
+interface Props {
+  component: any;
+  loggedIn: boolean;
+}
+
+const SecureRoute = ({ component: Component, loggedIn, ...rest }: Props) => {
   return (
     <Route
       {...rest}
@@ -26,15 +31,8 @@ const SecureRoute = ({ component: Component, loggedIn, ...rest }) => {
   );
 };
 
-const select = state => ({
+const select = (state: AppState) => ({
   loggedIn: selectLoggedIn(state),
 });
-
-SecureRoute.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
-};
 
 export default connect(select)(SecureRoute);
