@@ -8,8 +8,9 @@ import simple from './simple';
 import simpleList from './simpleList';
 import updateServiceWorker from './updateServiceWorker';
 import online from './online';
+import { SubscriptionData } from '../types/subscription';
 
-export default history =>
+export default (history: any) =>
   combineReducers({
     router: connectRouter(history),
     appTime: Date.now,
@@ -19,39 +20,39 @@ export default history =>
     language,
     updateServiceWorker,
     online,
-    authorizations: simple({
+    authorizations: simple<any>({
       baseType: 'FETCH_AUTHORIZATIONS',
       userData: true,
     }),
-    brokerages: simple({
+    brokerages: simple<any>({
       baseType: 'FETCH_BROKERAGES',
       userData: false,
     }),
-    currencies: simple({
+    currencies: simple<any>({
       baseType: 'FETCH_CURRENCIES',
       userData: false,
     }),
-    currencyRates: simple({
+    currencyRates: simple<any>({
       baseType: 'FETCH_CURRENCY_RATES',
       userData: false,
     }),
-    groups: simple({
+    groups: simple<any>({
       baseType: 'FETCH_GROUPS',
       userData: true,
     }),
-    settings: simple({
+    settings: simple<any>({
       baseType: 'FETCH_SETTINGS',
       userData: true,
     }),
-    subscription: simple({
+    subscription: simple<SubscriptionData>({
       baseType: 'FETCH_SUBSCRIPTION',
       userData: true,
     }),
-    plans: simple({
+    plans: simple<any>({
       baseType: 'FETCH_PLANS',
       userData: true,
     }),
-    accounts: simple({
+    accounts: simple<any>({
       baseType: 'FETCH_ACCOUNTS',
       userData: true,
     }),

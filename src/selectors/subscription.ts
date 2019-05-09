@@ -2,8 +2,9 @@ import { createSelector } from 'reselect';
 import ms from 'milliseconds';
 import { selectLoggedIn, selectAppTime } from './index';
 import shouldUpdate from '../reactors/should-update';
+import { AppState } from '../store';
 
-export const selectSubscriptionRaw = state => state.subscription;
+export const selectSubscriptionRaw = (state: AppState) => state.subscription;
 
 export const selectSubscription = createSelector(
   selectSubscriptionRaw,

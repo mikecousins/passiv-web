@@ -1,4 +1,5 @@
 import ms from 'milliseconds';
+import { SimpleState } from '../types/common';
 
 type Object = {
   lastError: number;
@@ -9,19 +10,26 @@ type Object = {
 };
 
 type Options = {
+  staleTime?: number;
+  retryAfter?: number;
+  failAfter?: number;
+  now?: number;
+};
+
+type CleanedOptions = {
   staleTime: number;
   retryAfter: number;
   failAfter: number;
   now: number;
 };
 
-const shouldRetry = (object: Object, opts: Options) => {
-  const timeSinceError = opts.now - object.lastError;
+const shouldRetry = (object: SimpleState<any>, opts: CleanedOptions) => {
+  const timeSinceError = opts.now - (object.lastError || 0);
   return timeSinceError > opts.retryAfter; // && timeSinceError < opts.failAfter;
 };
 
-const isStale = (object: Object, opts: Options) => {
-  const timeSinceFetch = opts.now - object.lastFetch;
+const isStale = (object: SimpleState<any>, opts: CleanedOptions) => {
+  const timeSinceFetch = opts.now - (object.lastFetch || 0);
   if (timeSinceFetch > opts.staleTime) {
     return true;
   }
@@ -32,8 +40,8 @@ const isStale = (object: Object, opts: Options) => {
   return false;
 };
 
-export default (object: Object, opts: Options) => {
-  opts = {
+export default (object: SimpleState<any>, opts: Options) => {
+  const cleanedOpts: CleanedOptions = {
     staleTime: ms.minutes(10),
     retryAfter: ms.minutes(1),
     failAfter: ms.minutes(3),
@@ -58,12 +66,12 @@ export default (object: Object, opts: Options) => {
   if (object.lastError) {
     // we don't have data but we must have had an error if we
     // got this far so we want to try to recover and give up eventually
-    return shouldRetry(object, opts);
+    return shouldRetry(object, cleanedOpts);
   }
 
   // we've got data, let's fetch if it's stale
   if (object.lastFetch) {
-    return isStale(object, opts);
+    return isStale(object, cleanedOpts);
   }
 
   // if no lastFetch or lastError, this is the first time

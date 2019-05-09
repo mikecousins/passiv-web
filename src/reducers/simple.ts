@@ -1,18 +1,27 @@
-export default ({ baseType, userData }) => {
+import { SimpleState } from '../types/common';
+
+interface Props {
+  baseType: string;
+  userData: boolean;
+}
+
+const simple = <T extends object>({ baseType, userData }: Props) => {
   const START = `${baseType}_START`;
   const SUCCESS = `${baseType}_SUCCESS`;
   const ERROR = `${baseType}_ERROR`;
 
-  const initialData = {
+  const initialData: SimpleState<T> = {
     data: null,
     lastError: null,
     error: null,
     lastFetch: null,
     loading: false,
+    stale: false,
+    permanentFail: false,
   };
 
   // here we're returning our customized reducer
-  return (state, action) => {
+  return (state = initialData, action: any) => {
     if (action.type === START) {
       return Object.assign({}, state, {
         loading: true,
@@ -55,3 +64,5 @@ export default ({ baseType, userData }) => {
     return state;
   };
 };
+
+export default simple;

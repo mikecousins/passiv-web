@@ -19,10 +19,13 @@ const persistConfig = {
   blacklist: ['appTime', 'router', 'browser', 'updateServiceWorker', 'online'],
 };
 
-const persistedReducer = persistReducer(
-  persistConfig,
-  createRootReducer(history),
-);
+// create our root reducer
+const rootReducer = createRootReducer(history);
+
+// export the type for usage elsewhere
+export type AppState = ReturnType<typeof rootReducer>;
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 });
 const store = createStore(
