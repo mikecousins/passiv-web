@@ -33,8 +33,11 @@ export const Account = ({
   const [nameEditing, setNameEditing] = useState(false);
   const [groupEditing, setGroupEditing] = useState(false);
   const [name, setName] = useState(account.name);
+  const [newGroupId, setNewGroupId] = useState();
   const group = groups.find(group => group.id === account.portfolio_group);
-  const [newGroupId, setNewGroupId] = useState(group.id);
+  if (group && !newGroupId) {
+    setNewGroupId(group.id);
+  }
 
   const onEnter = e => {
     if (e.key === 'Enter') {
@@ -78,16 +81,23 @@ export const Account = ({
     setGroupEditing(false);
   };
 
-  const authorization = authorizations.find(
-    authorization => authorization.id === account.brokerage_authorization,
-  );
-  const brokerage = brokerages.find(
-    brokerage => brokerage.id === authorization.brokerage.id,
-  );
+  let brokerageName = '';
+  if (authorizations && brokerages) {
+    const authorization = authorizations.find(
+      authorization => authorization.id === account.brokerage_authorization,
+    );
+    const brokerage = brokerages.find(
+      brokerage => brokerage.id === authorization.brokerage.id,
+    );
 
-  const formatAccountType = (account, brokerage) => {
+    if (brokerage) {
+      brokerageName = brokerage.name;
+    }
+  }
+
+  const formatAccountType = (account, brokerageName) => {
     let accountType = '';
-    if (brokerage.name === 'Questrade') {
+    if (brokerageName === 'Questrade') {
       accountType = account.meta.client_account_type + ' ' + account.meta.type;
     } else {
       accountType = account.meta.type;
@@ -123,7 +133,7 @@ export const Account = ({
         <Table>
           <Brokerage>
             <H3>Brokerage</H3>
-            <P>{brokerage.name}</P>
+            <P>{brokerageName}</P>
           </Brokerage>
           <Name>
             <H3>Name</H3>
@@ -156,7 +166,7 @@ export const Account = ({
           </Number>
           <Type>
             <H3>Type</H3>
-            <P> {formatAccountType(account, brokerage)} </P>
+            <P> {formatAccountType(account, brokerageName)} </P>
           </Type>
           <PortfolioGroup>
             <H3>Portfolio Group</H3>
