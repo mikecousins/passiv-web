@@ -24,7 +24,6 @@ const AddPortfolioGroup = ({
       reloadAllState(),
     );
   };
-  console.log(canCreatePortfolioGroup);
   return (
     <React.Fragment>
       {!adding ? (

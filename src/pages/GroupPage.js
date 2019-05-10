@@ -91,26 +91,28 @@ const GroupPage = props => {
   if (!group.accounts) {
     return (
       <span>
-        <PortfolioGroupAccounts
-          group={group}
-          accounts={accounts}
-          loading={loading}
-          error={error}
-        />
+        {canCrossAccountBalance && (
+          <PortfolioGroupAccounts
+            group={group}
+            accounts={accounts}
+            loading={loading}
+            error={error}
+          />
+        )}
         <Button
           onClick={() => {
             deleteData(`/api/v1/portfolioGroups/${group.id}`)
-              .then(response => {
+              .then(() => {
                 reloadAllState();
                 replace('/');
               })
-              .catch(error => {
+              .catch(() => {
                 reloadAllState();
                 replace('/');
               });
           }}
         >
-          Delete
+          Delete Empty Group
         </Button>
       </span>
     );

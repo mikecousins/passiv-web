@@ -95,13 +95,12 @@ export class PortfolioGroupTargets extends React.Component {
   importTarget() {
     this.setState({ loading: true });
     postData('/api/v1/portfolioGroups/' + this.props.groupId + '/import/')
-      .then(response => {
+      .then(() => {
         this.setState({ loading: false, edit: false });
         this.props.refreshGroup({ ids: [this.props.groupId] });
       })
-      .catch(error => {
+      .catch(() => {
         this.setState({ loading: false, edit: false });
-        //console.log('errors', error.response.data);
       });
   }
 
