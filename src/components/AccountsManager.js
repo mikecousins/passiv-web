@@ -12,7 +12,11 @@ import { H2 } from '../styled/GlobalElements';
 
 export class AccountsManager extends React.Component {
   render() {
-    const { accounts } = this.props;
+    const { accounts, authorizations } = this.props;
+
+    if (authorizations.length == 0) {
+      return null;
+    }
 
     return (
       <ShadowBox>

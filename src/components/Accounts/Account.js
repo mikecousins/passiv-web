@@ -83,9 +83,14 @@ export const Account = ({
 
   let brokerageName = '';
   if (authorizations && brokerages) {
+    if (authorizations.length === 0) {
+      return null;
+    }
+
     const authorization = authorizations.find(
       authorization => authorization.id === account.brokerage_authorization,
     );
+
     const brokerage = brokerages.find(
       brokerage => brokerage.id === authorization.brokerage.id,
     );
