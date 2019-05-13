@@ -24,7 +24,8 @@ export const selectGroupInfo = (state: AppState) => state.groupInfo;
 export const selectGroups = createSelector(
   selectGroupsRaw,
   selectGroupInfo,
-  (rawGroups, groupInfo) => {
+  selectAccounts,
+  (rawGroups, groupInfo, accounts) => {
     if (rawGroups.data) {
       return rawGroups.data.map(group => {
         const groupWithRebalance = group;
@@ -45,6 +46,18 @@ export const selectGroups = createSelector(
         } else {
           groupWithRebalance.loading = true;
         }
+
+        groupWithRebalance.hasAccounts = false;
+        if (accounts) {
+          let groupAccounts = accounts.filter(
+            account => account.portfolio_group === group.id,
+          );
+
+          if (groupAccounts.length > 0 && accounts) {
+            groupWithRebalance.hasAccounts = true;
+          }
+        }
+
         return groupWithRebalance;
       });
     }
@@ -698,6 +711,7 @@ interface DashboardGroup {
   accuracy?: number;
   setupComplete?: boolean;
   rebalance?: boolean;
+  hasAccounts?: boolean;
   trades?: CalculatedTrades;
   brokerage_authorizations?: BrokerageAuthorization[];
 }
@@ -771,6 +785,12 @@ export const selectDashboardGroups = createSelector(
       }
       if (group.totalCash !== null && group.totalHoldings !== null) {
         group.totalValue = group.totalCash + group.totalHoldings;
+      }
+
+      if (g.hasAccounts) {
+        group.hasAccounts = true;
+      } else {
+        group.hasAccounts = false;
       }
 
       fullGroups.push(group);

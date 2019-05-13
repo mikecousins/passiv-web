@@ -10,6 +10,7 @@ const SideBarLink = ({
   name,
   linkPath,
   rebalance,
+  hasAccounts,
   loading,
   setupComplete,
   pathname,
@@ -40,16 +41,22 @@ const SideBarLink = ({
     if (setupComplete === undefined) {
       indicator = <RebalanceAlert />;
     } else {
-      if (setupComplete) {
+      if (setupComplete && rebalance) {
         indicator = (
           <RebalanceAlert>
-            {rebalance && <span style={{ background: 'blue' }} />}
+            <span style={{ background: 'blue' }} />
           </RebalanceAlert>
         );
-      } else {
+      } else if (!setupComplete && hasAccounts) {
         indicator = (
           <RebalanceAlert>
             <span style={{ background: 'orange' }} />
+          </RebalanceAlert>
+        );
+      } else if (!hasAccounts) {
+        indicator = (
+          <RebalanceAlert>
+            <span style={{ background: 'red' }} />
           </RebalanceAlert>
         );
       }

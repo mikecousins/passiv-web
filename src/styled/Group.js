@@ -110,6 +110,47 @@ export const WarningViewBtn = styled.div`
   }
 `;
 
+export const NoAccountWarningViewBtn = styled.div`
+  background-color: #fff;
+  margin: -20px -20px -21px 0;
+  border-left: 1px solid #eee;
+  display: block;
+  width: 20%;
+  a {
+    background-color: red;
+    border-radius: 0 4px 4px 0;
+    padding: 32px 40px 36px;
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: 2px;
+    color: #033ebc;
+    display: block;
+    text-decoration: none;
+  }
+  svg {
+    padding-left: 3px;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: red;
+    left: -20px;
+    bottom: -20px;
+    @media (max-width: 900px) {
+      display: none;
+    }
+  }
+  @media (max-width: 900px) {
+    margin: 20px 0 0;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+`;
+
 export const Symbol = styled.div`
   border: 1px solid var(--brand-grey);
   display: inline-block;

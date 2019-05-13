@@ -53,6 +53,7 @@ const GroupContainer = styled.div`
 `;
 const SideBar = props => {
   let groups = <FontAwesomeIcon icon={faSpinner} spin />;
+  console.log(props.groups);
   if (props.groups) {
     groups = props.groups.map(group => (
       <SideBarLink
@@ -60,6 +61,7 @@ const SideBar = props => {
         name={group.name}
         linkPath={`/app/group/${group.id}`}
         rebalance={!!group.rebalance}
+        hasAccounts={group.hasAccounts}
         loading={group.loading}
         setupComplete={group.setupComplete}
         spinnerLoading={true}

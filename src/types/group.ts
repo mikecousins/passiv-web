@@ -4,4 +4,5 @@ export interface GroupData {
   loading: boolean;
   setupComplete: boolean;
   rebalance: boolean;
+  hasAccounts: boolean;
 }
