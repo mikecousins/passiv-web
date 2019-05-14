@@ -14,7 +14,9 @@ export class AccountsManager extends React.Component {
   render() {
     const { accounts, authorizations } = this.props;
 
-    if (authorizations.length == 0) {
+    if (!authorizations) {
+      return null;
+    } else if (authorizations.length === 0) {
       return null;
     }
 

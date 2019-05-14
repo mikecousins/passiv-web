@@ -83,7 +83,9 @@ export const Account = ({
 
   let brokerageName = '';
   if (authorizations && brokerages) {
-    if (authorizations.length === 0) {
+    if (!authorizations) {
+      return null;
+    } else if (!authorizations.length === 0) {
       return null;
     }
 
