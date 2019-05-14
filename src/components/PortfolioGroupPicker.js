@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { selectGroups } from '../selectors/groups';
 
-const PortfolioGroupPicker = ({ groups, group, onChange }) => (
+const PortfolioGroupPicker = ({ groups, group, onChange, disabled }) => (
   <React.Fragment>
-    <select value={group} onChange={onChange}>
+    <select disabled={disabled} value={group} onChange={onChange}>
       {groups.map(group => (
         <option value={group.id} key={group.id}>
           {group.name}

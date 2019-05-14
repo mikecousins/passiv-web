@@ -8,8 +8,9 @@ import { loadAccounts, loadGroups } from '../../actions';
 import { putData } from '../../api';
 import PortfolioGroupPicker from '../PortfolioGroupPicker';
 import { InputNonFormik } from '../../styled/Form';
-import { Table, H3, P, Edit } from '../../styled/GlobalElements';
+import { Table, H3, P, Edit, A } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
+import { push } from 'connected-react-router';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 import {
   AccountContainer,
@@ -29,6 +30,7 @@ export const Account = ({
   refreshAccounts,
   refreshGroups,
   canCrossAccountBalance,
+  push,
 }) => {
   const [nameEditing, setNameEditing] = useState(false);
   const [groupEditing, setGroupEditing] = useState(false);
@@ -119,17 +121,18 @@ export const Account = ({
         to. Do you want to continue? &nbsp;
       </H3>
       <Button onClick={() => setPortfolioGroup()}>Update</Button>
-      <Button onClick={() => setGroupEditing(false)}>Cancel</Button>
+      <A onClick={() => setGroupEditing(false)}>Cancel</A>
     </React.Fragment>
   );
   if (!canCrossAccountBalance) {
     editingFooter = (
       <React.Fragment>
         <H3>
-          You need to upgrade to our Elite subscription to group your accounts
-          together for cross account balancing.
+          Grouping multiple accounts into one portfolio is only available to
+          Elite subscribers. Upgrade your account to access this feature.
         </H3>
-        <Button onClick={() => setGroupEditing(false)}>Cancel</Button>
+        <Button onClick={() => push('/app/settings')}>Upgrade</Button>
+        <A onClick={() => setGroupEditing(false)}>Cancel</A>
       </React.Fragment>
     );
   }
@@ -190,6 +193,7 @@ export const Account = ({
                 account={account}
                 group={newGroupId}
                 onChange={e => setNewGroupId(e.target.value)}
+                disabled={!canCrossAccountBalance}
               />
             )}
           </PortfolioGroup>
@@ -210,6 +214,7 @@ const select = state => ({
 const actions = {
   refreshAccounts: loadAccounts,
   refreshGroups: loadGroups,
+  push: push,
 };
 
 export default connect(
