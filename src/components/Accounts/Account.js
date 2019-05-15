@@ -127,12 +127,11 @@ export const Account = ({
   if (!canCrossAccountBalance) {
     editingFooter = (
       <React.Fragment>
-        <H3>
-          Grouping multiple accounts into one portfolio is only available to
-          Elite subscribers. Upgrade your account to access this feature.
-        </H3>
-        <Button onClick={() => push('/app/settings')}>Upgrade</Button>
-        <A onClick={() => setGroupEditing(false)}>Cancel</A>
+        <Button onClick={() => setGroupEditing(false)}>Cancel</Button>
+        <React.Fragment>
+          Modifying portfolio groups is only available to Elite subscribers.
+          Upgrade your account to access this feature!
+        </React.Fragment>
       </React.Fragment>
     );
   }

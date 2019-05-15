@@ -32,7 +32,8 @@ const AddPortfolioGroup = ({
         <span>
           <Button onClick={() => setAdding(false)}>Cancel</Button>
           <React.Fragment>
-            Upgrade your create a portfolio group!
+            Modifying portfolio groups is only available to Elite subscribers.
+            Upgrade your account to continue!
           </React.Fragment>
         </span>
       ) : (
