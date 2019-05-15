@@ -1486,10 +1486,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@sentry/browser@5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-5.2.0.tgz#400da9ccc3afe0c351e28978de7d6e1b8f8c1612"
-  integrity sha512-RIp+NZAP0CTDZbIsG8k5zGbimlMtTNRagub9dnQm6R0HmSL5+zxNoE7DH4MV3Xv5rFr8P0LCZyMTxwCgU1Y/3Q==
+"@sentry/browser@5.2.1":
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-5.2.1.tgz#a49cf79a2443fa4c857bb310e819003d49f4fa26"
+  integrity sha512-fQTqBD4/WTW+ZnQULxjA5sn2yx3mj9OgXCYjdilISd94uRTlLOCtY+gvTAljuOkM5LlGwnBRAs7/bSI2zSaQEg==
   dependencies:
     "@sentry/core" "5.2.0"
     "@sentry/types" "5.2.0"
@@ -4182,7 +4182,7 @@ cosmiconfig@^4.0.0:
     parse-json "^4.0.0"
     require-from-string "^2.0.1"
 
-cosmiconfig@^5.0.0, cosmiconfig@^5.0.2, cosmiconfig@^5.0.5, cosmiconfig@^5.2.0:
+cosmiconfig@^5.0.0, cosmiconfig@^5.0.5, cosmiconfig@^5.2.0:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-5.2.1.tgz#040f726809c591e77a17c0a3626ca45b4f168b1a"
   integrity sha512-H65gsXo1SKjf8zmrJ67eJk8aIRKV5ff2D4uKZIBZShbhGSpEmsQOPW/SKMKYhSTrqR7ufy6RP69rPogdaPh/kA==
@@ -5062,12 +5062,12 @@ entities@^1.1.1, entities@~1.1.1:
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
   integrity sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
 
-enzyme-adapter-react-16@1.12.1:
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.12.1.tgz#6a2d74c80559d35ac0a91ca162fa45f4186290cf"
-  integrity sha512-GB61gvY97XvrA6qljExGY+lgI6BBwz+ASLaRKct9VQ3ozu0EraqcNn3CcrUckSGIqFGa1+CxO5gj5is5t3lwrw==
+enzyme-adapter-react-16@1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.13.0.tgz#530e4aed3c127d7a7c5c7f4f634ad9ba65f719f6"
+  integrity sha512-ZUVo9XATKrKavfe9v61EiYDu6V1NJCKtJyp1X2ILPgtuGQ58bItUR9uWwH6gzKJNww3sUiXM826jIiwPgO9iVQ==
   dependencies:
-    enzyme-adapter-utils "^1.11.0"
+    enzyme-adapter-utils "^1.12.0"
     object.assign "^4.1.0"
     object.values "^1.1.0"
     prop-types "^15.7.2"
@@ -5075,7 +5075,7 @@ enzyme-adapter-react-16@1.12.1:
     react-test-renderer "^16.0.0-0"
     semver "^5.6.0"
 
-enzyme-adapter-utils@^1.11.0:
+enzyme-adapter-utils@^1.12.0:
   version "1.12.0"
   resolved "https://registry.yarnpkg.com/enzyme-adapter-utils/-/enzyme-adapter-utils-1.12.0.tgz#96e3730d76b872f593e54ce1c51fa3a451422d93"
   integrity sha512-wkZvE0VxcFx/8ZsBw0iAbk3gR1d9hK447ebnSYBf95+r32ezBq+XDSAvRErkc4LZosgH8J7et7H7/7CtUuQfBA==
@@ -6589,10 +6589,10 @@ humps@^2.0.1:
   resolved "https://registry.yarnpkg.com/humps/-/humps-2.0.1.tgz#dd02ea6081bd0568dc5d073184463957ba9ef9aa"
   integrity sha1-3QLqYIG9BWjcXQcxhEY5V7qe+ao=
 
-husky@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-2.2.0.tgz#4dda4370ba0f145b6594be4a4e4e4d4c82a6f2d5"
-  integrity sha512-lG33E7zq6v//H/DQIojPEi1ZL9ebPFt3MxUMD8MR0lrS2ljEPiuUUxlziKIs/o9EafF0chL7bAtLQkcPvXmdnA==
+husky@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-2.3.0.tgz#8b78ed24d763042df7fd899991985d65a976dd13"
+  integrity sha512-A/ZQSEILoq+mQM3yC3RIBSaw1bYXdkKnyyKVSUiJl+iBjVZc5LQEXdGY1ZjrDxC4IzfRPiJ0IqzEQGCN5TQa/A==
   dependencies:
     cosmiconfig "^5.2.0"
     execa "^1.0.0"
@@ -6601,9 +6601,9 @@ husky@2.2.0:
     is-ci "^2.0.0"
     pkg-dir "^4.1.0"
     please-upgrade-node "^3.1.1"
-    read-pkg "^5.0.0"
+    read-pkg "^5.1.1"
     run-node "^1.0.0"
-    slash "^2.0.0"
+    slash "^3.0.0"
 
 iconv-lite@0.4.23:
   version "0.4.23"
@@ -7994,14 +7994,14 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-lint-staged@8.1.6:
-  version "8.1.6"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-8.1.6.tgz#128a9bc5effbf69a359fb8f7eeb2da71a998daf6"
-  integrity sha512-QT13AniHN6swAtTjsrzxOfE4TVCiQ39xESwLmjGVNCMMZ/PK5aopwvbxLrzw+Zf9OxM3cQG6WCx9lceLzETOnQ==
+lint-staged@8.1.7:
+  version "8.1.7"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-8.1.7.tgz#a8988bc83bdffa97d04adb09dbc0b1f3a58fa6fc"
+  integrity sha512-egT0goFhIFoOGk6rasPngTFh2qDqxZddM0PwI58oi66RxCDcn5uDwxmiasWIF0qGnchHSYVJ8HPRD5LrFo7TKA==
   dependencies:
     chalk "^2.3.1"
     commander "^2.14.1"
-    cosmiconfig "^5.0.2"
+    cosmiconfig "^5.2.0"
     debug "^3.1.0"
     dedent "^0.7.0"
     del "^3.0.0"
@@ -10263,10 +10263,10 @@ prelude-ls@~1.1.2:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
 
-prettier@1.17.0:
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.17.0.tgz#53b303676eed22cc14a9f0cec09b477b3026c008"
-  integrity sha512-sXe5lSt2WQlCbydGETgfm1YBShgOX4HxQkFPvbxkcwgDvGDeqVau8h+12+lmSVlP3rHPz0oavfddSZg/q+Szjw==
+prettier@1.17.1:
+  version "1.17.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.17.1.tgz#ed64b4e93e370cb8a25b9ef7fef3e4fd1c0995db"
+  integrity sha512-TzGRNvuUSmPgwivDqkZ9tM/qTGW9hqDKWOE9YHiyQdixlKbv7kvEqsmDPrcHJTKwthU774TQwZXVtaQ/mMsvjg==
 
 pretty-bytes@^5.1.0:
   version "5.2.0"
@@ -11040,7 +11040,7 @@ read-pkg@^3.0.0:
     normalize-package-data "^2.3.2"
     path-type "^3.0.0"
 
-read-pkg@^5.0.0:
+read-pkg@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/read-pkg/-/read-pkg-5.1.1.tgz#5cf234dde7a405c90c88a519ab73c467e9cb83f5"
   integrity sha512-dFcTLQi6BZ+aFUaICg7er+/usEoqFdQxiEBsEMNGoipenihtxxtdrQuBXvyANCEI8VuUIVYFgeHGx9sLLvim4w==
@@ -11896,6 +11896,11 @@ slash@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-2.0.0.tgz#de552851a1759df3a8f206535442f5ec4ddeab44"
   integrity sha512-ZYKh3Wh2z1PpEXWr0MpSBZ0V6mZHAQfYevttO11c51CaWjGTaadiKZ+wVt1PbMlDV5qhMFslpZCemhwOK7C89A==
+
+slash@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
+  integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
 slice-ansi@0.0.4:
   version "0.0.4"
