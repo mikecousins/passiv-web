@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '../../styled/Button';
-import { initialLoad } from '../../actions';
+import { loadGroups } from '../../actions';
 import { postData } from '../../api';
 import { InputNonFormik } from '../../styled/Form';
 import { selectCanCreatePortfolioGroup } from '../../selectors/subscription';
@@ -62,7 +62,7 @@ const select = (state: AppState) => ({
 });
 
 const actions = {
-  reloadAllState: initialLoad,
+  reloadAllState: loadGroups,
 };
 
 export default connect(
