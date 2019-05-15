@@ -361,10 +361,14 @@ export const selectPreferredCurrency = createSelector(
   selectGroupInfo,
   selectCurrencies,
   (groups, currencies) => {
-    const preferredCurrency = currencies.find(
-      currency => currency.code === 'CAD',
-    ).id;
-    return preferredCurrency;
+    if (currencies) {
+      const preferredCurrency = currencies.find(
+        currency => currency.code === 'CAD',
+      ).id;
+      return preferredCurrency;
+    } else {
+      return null;
+    }
   },
 );
 
