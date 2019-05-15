@@ -22,6 +22,7 @@ import {
   DisabledTogglebutton,
   StateText,
 } from '../styled/ToggleButton';
+import { toast } from 'react-toastify';
 
 class ExcludedAssetToggle extends Component {
   state = {
@@ -130,23 +131,20 @@ class ExcludedAssetToggle extends Component {
       );
     }
 
+    const upgradeError =
+      'Excluding assets is only available to Elite subscribers. Upgrade your account on the Settings page to use this feature.';
+
     if (!this.canExcludeAssets()) {
       return (
-        <DisabledTogglebutton onClick={() => push('/app/settings')}>
+        <DisabledTogglebutton onClick={() => toast.error(upgradeError)}>
           {this.state.toggle ? (
             <React.Fragment>
-              <FontAwesomeIcon
-                icon={faToggleOn}
-                data-tip="Excluding assets is not available on the Community Edition. Upgrade your account on the Settings page to use this feature."
-              />
+              <FontAwesomeIcon icon={faToggleOn} data-tip={upgradeError} />
               <StateText>on</StateText>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <FontAwesomeIcon
-                icon={faToggleOff}
-                data-tip="Excluding assets is not available on the Community Edition. Upgrade your account on the Settings page to use this feature."
-              />
+              <FontAwesomeIcon icon={faToggleOff} data-tip={upgradeError} />
               <StateText>off</StateText>
             </React.Fragment>
           )}

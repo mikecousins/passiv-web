@@ -64,12 +64,12 @@ class SettingsToggle extends Component {
       <DisabledTogglebutton>
         {this.getViewState() ? (
           <React.Fragment>
-            <FontAwesomeIcon icon={faToggleOn} />
+            <FontAwesomeIcon icon={faToggleOn} data-tip={this.props.tip} />
             <StateText>on</StateText>
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <FontAwesomeIcon icon={faToggleOff} />
+            <FontAwesomeIcon icon={faToggleOff} data-tip={this.props.tip} />
             <StateText>off</StateText>
           </React.Fragment>
         )}
@@ -80,12 +80,12 @@ class SettingsToggle extends Component {
         <ToggleButton onClick={this.handleClick}>
           {this.getViewState() ? (
             <React.Fragment>
-              <FontAwesomeIcon icon={faToggleOn} />
+              <FontAwesomeIcon icon={faToggleOn} data-tip={this.props.tip} />
               <StateText>on</StateText>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <FontAwesomeIcon icon={faToggleOff} />
+              <FontAwesomeIcon icon={faToggleOff} data-tip={this.props.tip} />
               <StateText>off</StateText>
             </React.Fragment>
           )}

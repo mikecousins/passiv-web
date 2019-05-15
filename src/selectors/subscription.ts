@@ -102,6 +102,18 @@ export const selectCanExcludeAssets = createSelector(
   },
 );
 
+export const selectCanSeparateCurrencies = createSelector(
+  selectUserPermissions,
+  permissions => {
+    if (!permissions) {
+      return false;
+    }
+    return permissions.some(
+      permission => permission === 'can_separate_currencies',
+    );
+  },
+);
+
 export const selectCanCreatePortfolioGroup = createSelector(
   selectUserPermissions,
   permissions => {

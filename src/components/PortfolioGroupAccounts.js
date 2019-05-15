@@ -10,7 +10,9 @@ import AccountHoldings from './AccountHoldings';
 import AccountPicker from './AccountPicker';
 import { putData } from '../api';
 import { selectAccounts } from '../selectors/accounts';
+import { selectCanCrossAccountBalance } from '../selectors/subscription';
 import { loadAccounts, loadGroups } from '../actions';
+import { push } from 'connected-react-router';
 
 export const HoldingsTable = styled.table`
   width: 100%;
@@ -36,10 +38,12 @@ export const PortfolioGroupAccounts = ({
   group,
   accounts,
   allAccounts,
+  canCrossAccountBalance,
   loading,
   error,
   refreshAccounts,
   refreshGroups,
+  push,
 }) => {
   const [addAccount, setAddAccount] = useState(false);
   const [newAccountId, setNewAccountId] = useState();
@@ -112,22 +116,35 @@ export const PortfolioGroupAccounts = ({
     picker = <P>All of your accounts are already managed by this portfolio!</P>;
   } else {
     if (addAccount) {
-      // select the first item if it's unselected currently
-      if (!newAccountId) {
-        setNewAccountId(availableAccounts[0].id);
+      if (canCrossAccountBalance) {
+        // select the first item if it's unselected currently
+        if (!newAccountId) {
+          setNewAccountId(availableAccounts[0].id);
+        }
+        picker = (
+          <React.Fragment>
+            <P>Select an account to add to this portfolio:</P>
+            <AccountPicker
+              accounts={availableAccounts}
+              account={newAccountId}
+              onChange={e => setNewAccountId(e.target.value)}
+            />
+            <Button onClick={() => setPortfolioGroup()}>Confirm</Button>
+            <Button onClick={() => setAddAccount(false)}>Cancel</Button>
+          </React.Fragment>
+        );
+      } else {
+        picker = (
+          <React.Fragment>
+            <Button onClick={() => setAddAccount(false)}>Cancel</Button>
+            <Button onClick={() => push('/app/settings')}>Upgrade</Button>
+            <React.Fragment>
+              Modifying portfolio groups is only available to Elite subscribers.
+              Upgrade your account to continue!
+            </React.Fragment>
+          </React.Fragment>
+        );
       }
-      picker = (
-        <React.Fragment>
-          <P>Select an account to add to this portfolio:</P>
-          <AccountPicker
-            accounts={availableAccounts}
-            account={newAccountId}
-            onChange={e => setNewAccountId(e.target.value)}
-          />
-          <Button onClick={() => setPortfolioGroup()}>Confirm</Button>
-          <Button onClick={() => setAddAccount(false)}>Cancel</Button>
-        </React.Fragment>
-      );
     } else {
       picker = (
         <React.Fragment>
@@ -152,11 +169,13 @@ export const PortfolioGroupAccounts = ({
 
 const select = state => ({
   allAccounts: selectAccounts(state),
+  canCrossAccountBalance: selectCanCrossAccountBalance(state),
 });
 
 const actions = {
   refreshAccounts: loadAccounts,
   refreshGroups: loadGroups,
+  push: push,
 };
 
 export default connect(
