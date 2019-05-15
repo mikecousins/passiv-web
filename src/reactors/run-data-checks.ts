@@ -1,3 +1,6 @@
+import { Store } from 'redux';
+import { ActionPair } from './init-runloop';
+
 // This data watcher exports a function that
 // should be called with a store.
 
@@ -12,9 +15,14 @@
 // We do it using `requestIdleCallback` if available
 // and we do it in a way that avoids duplicate dispatches
 // or nested dispatches in the same call stack.
-import requestIdleCallback from 'ric-shim';
+const requestIdleCallback = require('ric-shim');
 
-export default ({ store, actionPairs }) => {
+interface Props {
+  store: Store;
+  actionPairs: ActionPair[];
+}
+
+export default ({ store, actionPairs }: Props) => {
   // create list of actions that pass the selector test
   actionPairs
     .filter(item => item.selector(store.getState()))
@@ -32,7 +40,7 @@ export default ({ store, actionPairs }) => {
           // right before excecuting
           const result = item.selector(store.getState());
           if (result) {
-            store.dispatch(item.actionCreator(result));
+            store.dispatch<any>(item.actionCreator(result));
           }
           // without this timeout we had a case where it just wasn't
           // ever running if you didn't interact with the browser.

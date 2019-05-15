@@ -1,6 +1,6 @@
 import { createBrowserHistory } from 'history';
-import { createStore, applyMiddleware } from 'redux';
-import reduxThunk from 'redux-thunk';
+import { createStore, applyMiddleware, Action } from 'redux';
+import reduxThunk, { ThunkMiddleware } from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { routerMiddleware } from 'connected-react-router';
 import { persistReducer } from 'redux-persist';
@@ -33,7 +33,11 @@ const store = createStore(
   defaultState,
   composeEnhancers(
     responsiveStoreEnhancer,
-    applyMiddleware(routerMiddleware(history), reduxThunk, apiMiddleware),
+    applyMiddleware(
+      routerMiddleware(history),
+      reduxThunk as ThunkMiddleware<AppState, Action<any>>,
+      apiMiddleware,
+    ),
   ),
 );
 

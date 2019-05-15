@@ -1,13 +1,10 @@
-import { Action } from 'redux';
+import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { getData } from '../api';
 
-export const checkIfOnline = (): ThunkAction<
-  void,
-  object,
-  null,
-  Action
-> => async dispatch => {
+export const checkIfOnline: ActionCreator<
+  ThunkAction<void, void, void, Action>
+> = () => async dispatch => {
   dispatch(checkingIfOnline());
   getData('/api/v1')
     .then(() => dispatch(setOnline()))

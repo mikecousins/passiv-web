@@ -1,11 +1,5 @@
-import { Action } from 'redux';
-import { ThunkAction } from 'redux-thunk';
+import { ActionCreator } from 'redux';
 
-export const toggleDemoMode = (): ThunkAction<
-  void,
-  object,
-  null,
-  Action
-> => async dispatch => {
+export const toggleDemoMode = (): ActionCreator<void> => async dispatch => {
   dispatch({ type: 'TOGGLE_DEMO_MODE' });
 };

@@ -1,7 +1,7 @@
 import ms from 'milliseconds';
 import { OutputSelector } from 'reselect';
 import { ThunkAction } from 'redux-thunk';
-import { Action } from 'redux';
+import { Action, Store, ActionCreator } from 'redux';
 import { appIdle } from './app-lifecycle';
 import runDataChecks from './run-data-checks';
 
@@ -14,15 +14,15 @@ const debounce = (callback: any, wait: number) => {
   };
 };
 
-type ActionPair = {
+export type ActionPair = {
   selector: OutputSelector<any, any, any>;
-  actionCreator: ThunkAction<void, object, null, Action<any>>;
+  actionCreator: ActionCreator<ThunkAction<void, void, void, Action>>;
 };
 
 export default function RunLoop() {
   const actionPairs: ActionPair[] = [];
 
-  const start = (store: any, pairs: ActionPair[]) => {
+  const start = (store: Store, pairs: ActionPair[]) => {
     pairs.forEach(effect => {
       actionPairs.push(effect);
     });
