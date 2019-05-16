@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from '../../styled/Button';
 import { loadGroups } from '../../actions';
 import { postData } from '../../api';
-import { InputNonFormik } from '../../styled/Form';
+import { InputNonFormik, Label } from '../../styled/Form';
 import { selectCanCreatePortfolioGroup } from '../../selectors/subscription';
 import { AppState } from '../../store';
 
@@ -38,6 +38,7 @@ const AddPortfolioGroup = ({
         </span>
       ) : (
         <React.Fragment>
+          <Label>Portfolio Group Name</Label>
           <InputNonFormik
             type="text"
             value={groupName}
@@ -48,6 +49,7 @@ const AddPortfolioGroup = ({
               addGroup();
               setAdding(false);
             }}
+            disabled={groupName === ''}
           >
             Add
           </Button>
