@@ -16,7 +16,6 @@ import {
 } from '../selectors/groups';
 import { selectUserPermissions } from '../selectors/subscription';
 import { postData, deleteData } from '../api';
-import { push } from 'connected-react-router';
 import {
   ToggleButton,
   DisabledTogglebutton,
@@ -101,8 +100,6 @@ class ExcludedAssetToggle extends Component {
   };
 
   render() {
-    const { push } = this.props;
-
     if (this.state.loading) {
       return <FontAwesomeIcon icon={faSpinner} />;
     }
@@ -172,7 +169,6 @@ class ExcludedAssetToggle extends Component {
 
 const actions = {
   refreshGroup: loadGroup,
-  push: push,
 };
 
 const select = state => ({
