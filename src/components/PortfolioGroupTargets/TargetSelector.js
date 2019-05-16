@@ -308,9 +308,25 @@ export const TargetSelector = ({
                         </Edit>
                       </div>
                       <div>
-                        <AButton href={portfolioVisualizerURL} target="_blank">
-                          Portfolio Visualizer
-                        </AButton>
+                        {cashPercentage > 0 ? (
+                          <AButton
+                            href={
+                              cashPercentage > 0 ? null : portfolioVisualizerURL
+                            }
+                            target="_blank"
+                            disabled={true}
+                            data-tip="Portfolio Visualizer is only available when your cash target allocation is 0%."
+                          >
+                            Portfolio Visualizer
+                          </AButton>
+                        ) : (
+                          <AButton
+                            href={portfolioVisualizerURL}
+                            target="_blank"
+                          >
+                            Portfolio Visualizer
+                          </AButton>
+                        )}
                       </div>
                     </ButtonBox>
                   )}
