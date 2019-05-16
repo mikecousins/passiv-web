@@ -1,5 +1,4 @@
 import React from 'react';
-import { format } from 'date-fns';
 import styled from '@emotion/styled';
 
 export const OfflineStyle = styled.div`
