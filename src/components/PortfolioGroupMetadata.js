@@ -156,29 +156,100 @@ class PortfolioGroupMetadata extends Component {
   }
 
   render() {
+    console.log('name', this.props.name);
     let equityValue = null;
     let cashValue = null;
-    if (this.props.error) {
-      equityValue = (
-        <Center>
-          <FontAwesomeIcon icon={faExclamationTriangle} />
-        </Center>
-      );
-      cashValue = <FontAwesomeIcon icon={faExclamationTriangle} />;
+    if (this.props.accounts === null) {
+      equityValue = <Number value={0} currency />;
+      cashValue = <Number value={0} currency />;
     } else {
-      equityValue =
-        this.props.equity !== null ? (
-          <Number value={this.props.equity} currency />
-        ) : (
-          <FontAwesomeIcon icon={faSpinner} spin />
+      if (this.props.error) {
+        equityValue = (
+          <Center>
+            <FontAwesomeIcon icon={faExclamationTriangle} />
+          </Center>
         );
-      cashValue =
-        this.props.cash !== null ? (
-          <Number value={this.props.cash} currency />
-        ) : (
-          <FontAwesomeIcon icon={faSpinner} spin />
-        );
+        cashValue = <FontAwesomeIcon icon={faExclamationTriangle} />;
+      } else {
+        equityValue =
+          this.props.equity !== null ? (
+            <Number value={this.props.equity} currency />
+          ) : (
+            <FontAwesomeIcon icon={faSpinner} spin />
+          );
+        cashValue =
+          this.props.cash !== null ? (
+            <Number value={this.props.cash} currency />
+          ) : (
+            <FontAwesomeIcon icon={faSpinner} spin />
+          );
+      }
     }
+
+    let accountDetails = null;
+    if (this.props.accounts === null) {
+      // empty
+      accountDetails = null;
+    } else if (this.props.accounts.length === 1) {
+      // one account
+      accountDetails = (
+        <React.Fragment>
+          <div>
+            <span>Account #: </span>
+            {this.firstAccount().number ? (
+              this.firstAccount().number
+            ) : (
+              <FontAwesomeIcon icon={faSpinner} spin />
+            )}
+          </div>
+          <div>
+            <span>Type: </span>
+            {this.firstAccount().type ? (
+              this.firstAccount().type
+            ) : (
+              <FontAwesomeIcon icon={faSpinner} spin />
+            )}
+          </div>
+        </React.Fragment>
+      );
+    } else {
+      // multiple accounts
+      accountDetails = (
+        <React.Fragment>
+          <div>
+            This portfolio contains{' '}
+            <a href="#managed-accounts">multiple accounts</a>.
+          </div>
+        </React.Fragment>
+      );
+    }
+
+    let cashBalance = null;
+    if (this.props.accounts !== null) {
+      cashBalance = (
+        <React.Fragment>
+          {!this.props.balances && (
+            <div>
+              <FontAwesomeIcon icon={faSpinner} spin />
+            </div>
+          )}
+          {this.props.balances &&
+            this.props.balances.map(balance => (
+              <Table key={balance.currency.id}>
+                <CashType>
+                  <span title={balance.currency.name}>
+                    {balance.currency.code}
+                  </span>
+                </CashType>
+                <CashType>
+                  <Number value={balance.cash} currency />
+                </CashType>
+              </Table>
+            ))}
+        </React.Fragment>
+      );
+    }
+
     return (
       <ShadowBox>
         <MetaContainer>
@@ -213,55 +284,8 @@ class PortfolioGroupMetadata extends Component {
             </Total>
           </Table>
           <Table>
-            <MetaHorizontal>
-              {this.props.accounts.length > 1 ? (
-                <React.Fragment>
-                  <div>
-                    This portfolio contains{' '}
-                    <a href="#managed-accounts">multiple accounts</a>.
-                  </div>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <div>
-                    <span>Account #: </span>
-                    {this.firstAccount().number ? (
-                      this.firstAccount().number
-                    ) : (
-                      <FontAwesomeIcon icon={faSpinner} spin />
-                    )}
-                  </div>
-                  <div>
-                    <span>Type: </span>
-                    {this.firstAccount().type ? (
-                      this.firstAccount().type
-                    ) : (
-                      <FontAwesomeIcon icon={faSpinner} spin />
-                    )}
-                  </div>
-                </React.Fragment>
-              )}
-            </MetaHorizontal>
-            <CashBalance>
-              {!this.props.balances && (
-                <div>
-                  <FontAwesomeIcon icon={faSpinner} spin />
-                </div>
-              )}
-              {this.props.balances &&
-                this.props.balances.map(balance => (
-                  <Table key={balance.currency.id}>
-                    <CashType>
-                      <span title={balance.currency.name}>
-                        {balance.currency.code}
-                      </span>
-                    </CashType>
-                    <CashType>
-                      <Number value={balance.cash} currency />
-                    </CashType>
-                  </Table>
-                ))}
-            </CashBalance>
+            <MetaHorizontal>{accountDetails}</MetaHorizontal>
+            <CashBalance>{cashBalance}</CashBalance>
             <Cash>
               <Title>Cash</Title>
               {cashValue}

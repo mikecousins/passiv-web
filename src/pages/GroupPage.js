@@ -4,7 +4,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { replace } from 'connected-react-router';
 import PortfolioGroupAccuracy from '../components/PortfolioGroupAccuracy';
 import PortfolioGroupHoldings from '../components/PortfolioGroupHoldings';
 import PortfolioGroupMetadata from '../components/PortfolioGroupMetadata';
@@ -27,9 +26,6 @@ import {
   selectCurrentGroupAccountHoldings,
 } from '../selectors/groups';
 import Tooltip from '../components/Tooltip';
-import { deleteData } from '../api';
-import { initialLoad } from '../actions';
-import { Button } from '../styled/Button';
 
 export const Container2Column = styled.div`
   @media (min-width: 900px) {
@@ -71,7 +67,6 @@ const GroupPage = props => {
     error,
     setupComplete,
     loading,
-    reloadAllState,
     accounts,
   } = props;
 
@@ -85,36 +80,32 @@ const GroupPage = props => {
     return <Redirect to="/" />;
   }
 
+  const name = group.name || 'No Name Provided';
+
   // see if we have any accounts in this group
   if (!group.accounts) {
     return (
-      <span>
+      <React.Fragment>
+        <Container2Column>
+          <PortfolioGroupMetadata
+            name={name}
+            balances={null}
+            cash={null}
+            equity={null}
+            error={null}
+            accounts={null}
+          />
+          <PortfolioGroupAccuracy accuracy={null} loading={loading} />
+        </Container2Column>
         <PortfolioGroupAccounts
           group={group}
           accounts={accounts}
           loading={loading}
           error={error}
         />
-        <Button
-          onClick={() => {
-            deleteData(`/api/v1/portfolioGroups/${group.id}`)
-              .then(() => {
-                reloadAllState();
-                replace('/');
-              })
-              .catch(() => {
-                reloadAllState();
-                replace('/');
-              });
-          }}
-        >
-          Delete Empty Group
-        </Button>
-      </span>
+      </React.Fragment>
     );
   }
-
-  const name = group.name || 'No Name Provided';
 
   // see if we have any suggested trades to display
   let tradeDisplay = null;
@@ -171,9 +162,7 @@ const select = state => ({
   error: selectCurrentGroupInfoError(state),
 });
 
-const actions = {
-  reloadAllState: initialLoad,
-};
+const actions = {};
 
 export default connect(
   select,

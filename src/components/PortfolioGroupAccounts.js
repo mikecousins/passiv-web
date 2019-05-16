@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 import ShadowBox from '../styled/ShadowBox';
 import AccountHoldings from './AccountHoldings';
 import AccountPicker from './AccountPicker';
-import { putData } from '../api';
+import { putData, deleteData } from '../api';
 import { selectAccounts } from '../selectors/accounts';
 import { selectCanCrossAccountBalance } from '../selectors/subscription';
 import { loadAccounts, loadGroups } from '../actions';
@@ -146,18 +146,41 @@ export const PortfolioGroupAccounts = ({
         );
       }
     } else {
-      picker = (
-        <React.Fragment>
-          <Button onClick={() => setAddAccount(true)}>
-            Add Another Account
-          </Button>
-        </React.Fragment>
-      );
+      if (accounts.length > 0) {
+        picker = (
+          <React.Fragment>
+            <Button onClick={() => setAddAccount(true)}>
+              Add Another Account
+            </Button>
+          </React.Fragment>
+        );
+      } else {
+        picker = (
+          <React.Fragment>
+            <Button onClick={() => setAddAccount(true)}>Add an Account</Button>
+            <Button
+              onClick={() => {
+                deleteData(`/api/v1/portfolioGroups/${group.id}`)
+                  .then(() => {
+                    refreshGroups();
+                    push('/app/dashboard');
+                  })
+                  .catch(() => {
+                    refreshGroups();
+                    push('/app/dashboard');
+                  });
+              }}
+            >
+              Delete Empty Group
+            </Button>
+          </React.Fragment>
+        );
+      }
     }
   }
 
   return (
-    <ShadowBox>
+    <ShadowBox id="managed-accounts">
       <H2>
         Managed Accounts {loading && <FontAwesomeIcon icon={faSpinner} spin />}
       </H2>

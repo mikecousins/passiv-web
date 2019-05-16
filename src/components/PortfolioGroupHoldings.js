@@ -43,7 +43,7 @@ export const PortfolioGroupHoldings = ({ positions, loading }) => (
     ) : positions.length === 0 ? (
       <React.Fragment>
         <H2>
-          Current Portfolio{' '}
+          Overall Holdings{' '}
           {loading && <FontAwesomeIcon icon={faSpinner} spin />}
         </H2>
         <NoHoldingsMessage>
@@ -53,7 +53,7 @@ export const PortfolioGroupHoldings = ({ positions, loading }) => (
     ) : (
       <React.Fragment>
         <H2>
-          Current Portfolio{' '}
+          Overall Holdings{' '}
           {loading && <FontAwesomeIcon icon={faSpinner} spin />}
         </H2>
         <br />
