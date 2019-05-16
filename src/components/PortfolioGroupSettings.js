@@ -21,7 +21,7 @@ export const PortfolioGroupSettings = ({ settings }) => {
       );
     }
     if (settings.prevent_currency_conversion) {
-      if (settings.hard_currency_separation) {
+      if (!settings.hard_currency_separation) {
         summary.push(
           'Currency exchange is not allowed and excess currency will be retained as cash so that it can be manually exchanged.',
         );

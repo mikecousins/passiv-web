@@ -26,6 +26,7 @@ class CurrencySeparation extends React.Component {
             <SettingsToggle
               name="Retain cash for manual exchange"
               settingsId="hard_currency_separation"
+              invert={true}
               disabled={settings && !settings.prevent_currency_conversion}
               tip="Separating currencies must be enabled in order to retain cash for manual conversion."
             />
@@ -46,6 +47,7 @@ class CurrencySeparation extends React.Component {
             <SettingsToggle
               name="Retain cash for manual exchange"
               settingsId="hard_currency_separation"
+              invert={true}
               disabled={true}
               tip="Separating currencies is only available to Elite subscribers. Upgrade your account on the Settings page to use this feature."
             />
