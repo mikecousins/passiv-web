@@ -44,7 +44,7 @@ export const PortfolioGroupAccuracy = ({
   error,
 }) => {
   let accuracyDisplay = null;
-  if (loading || accuracy === undefined) {
+  if (loading || accuracy === null) {
     accuracyDisplay = (
       <div>
         <FontAwesomeIcon icon={faSpinner} spin />
