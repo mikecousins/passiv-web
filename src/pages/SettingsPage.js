@@ -2,6 +2,7 @@ import React from 'react';
 import CredentialsManager from '../components/CredentialsManager';
 import SubscriptionManager from '../components/SubscriptionManager';
 import ConnectionsManager from '../components/ConnectionsManager';
+import AccountsManager from '../components/AccountsManager';
 import styled from '@emotion/styled';
 
 export const Container2Column = styled.div`
@@ -26,6 +27,7 @@ const SettingsPage = props => {
         <SubscriptionManager />
       </Container2Column>
       <ConnectionsManager />
+      <AccountsManager />
     </React.Fragment>
   );
 };

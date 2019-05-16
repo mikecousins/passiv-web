@@ -55,6 +55,17 @@ export const UL = styled.ul`
   }
 `;
 
+// ul
+export const BulletUL = styled.ul`
+  padding-top: 5px;
+  margin-left: 20px;
+  list-style-type: disc;
+  li {
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+`;
+
 // table
 export const Table = styled.div`
   display: block;
@@ -116,6 +127,11 @@ export const Title = styled.div`
   margin-bottom: 8px;
 `;
 
+//subsetting
+export const SubSetting = styled.div`
+  margin-left: 15px;
+`;
+
 export const WarningBox = styled.div`
   background: #fceeb5;
   border-radius: 4px;
@@ -124,4 +140,10 @@ export const WarningBox = styled.div`
   p {
     margin: 0;
   }
+`;
+
+export const ErrorMessage = styled.div`
+  width: 100%;
+  text-align: left;
+  margin: 20px 0;
 `;

@@ -77,6 +77,7 @@ const LoginPage = props => {
                 <Button
                   type="submit"
                   disabled={!props.isValid || props.isSubmitting}
+                  data-cy="login-button"
                 >
                   Sign In
                 </Button>

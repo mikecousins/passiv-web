@@ -8,12 +8,13 @@ import logoRaster2x from '../../assets/images/logo-no-name@2x.png';
 import Buttons from './Buttons';
 import { selectName, selectLoggedIn } from '../../selectors';
 import Hello from './Hello';
+import { selectIsOnline } from '../../selectors/online';
 
 const StyledHeader = styled.header`
   position: fixed;
   width: 100%;
   padding: 10px 20px 10px 222px;
-  background: #fff;
+  background: ${props => (props.isOnline ? '#fff' : '#FFCF9E')};
   box-shadow: 2px 2px 8px rgba(190, 190, 190, 0.29);
   z-index: 4;
   @media (max-width: 900px) {
@@ -32,8 +33,8 @@ const Logo = styled.header`
   }
 `;
 
-export const Header = ({ name, loggedIn }) => (
-  <StyledHeader>
+export const Header = ({ name, loggedIn, isOnline }) => (
+  <StyledHeader isOnline={isOnline}>
     <nav>
       <Logo>
         <Link to="/">
@@ -61,6 +62,7 @@ export const Header = ({ name, loggedIn }) => (
 const select = state => ({
   loggedIn: selectLoggedIn(state),
   name: selectName(state),
+  isOnline: selectIsOnline(state),
 });
 
 export default connect(select)(Header);

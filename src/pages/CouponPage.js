@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { putData } from '../api';
-import { loadSubscriptions } from '../actions';
+import { loadSubscription } from '../actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ShadowBox from '../styled/ShadowBox';
 import { H1, P } from '../styled/GlobalElements';
 import { Step } from '../styled/SignupSteps';
-import { selectSubscriptions } from '../selectors';
+import { selectSubscription } from '../selectors/subscription';
 import styled from '@emotion/styled';
 
 const BoldCode = styled.span`
@@ -33,11 +33,11 @@ class CouponPage extends Component {
     putData('/api/v1/coupon/', couponCode)
       .then(response => {
         this.setState({ loading: false, success: true });
-        this.props.refreshSubscriptions();
+        this.props.refreshSubscription();
       })
       .catch(error => {
         this.setState({ loading: false, error: error.response.data });
-        this.props.refreshSubscriptions();
+        this.props.refreshSubscription();
       });
   }
 
@@ -98,12 +98,10 @@ class CouponPage extends Component {
 }
 
 const select = state => ({
-  // settings: selectSettings(state),
-  subscriptions: selectSubscriptions(state),
+  subscription: selectSubscription(state),
 });
 const actions = {
-  // refreshSettings: loadSettings,
-  refreshSubscriptions: loadSubscriptions,
+  refreshSubscription: loadSubscription,
 };
 
 export default connect(

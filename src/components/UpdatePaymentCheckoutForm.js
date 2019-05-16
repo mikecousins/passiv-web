@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from '../styled/Button';
 import { injectStripe } from 'react-stripe-elements';
-import { loadSubscriptions } from '../actions';
+import { loadSubscription } from '../actions';
 import { patchData } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -33,12 +33,12 @@ export class UpdatePaymentCheckoutForm extends React.Component {
     patchData('/api/v1/subscriptions', { token: token })
       .then(response => {
         this.setState({ loading: false });
-        this.props.reloadSubscriptions();
+        this.props.reloadSubscription();
         this.props.finishUpdatePayment();
       })
       .catch(error => {
         this.setState({ loading: false, error: error.detail });
-        this.props.reloadSubscriptions();
+        this.props.reloadSubscription();
         this.props.finishUpdatePaymentFail();
       });
   }
@@ -101,7 +101,7 @@ export class UpdatePaymentCheckoutForm extends React.Component {
     );
   }
 }
-const actions = { reloadSubscriptions: loadSubscriptions };
+const actions = { reloadSubscription: loadSubscription };
 
 export default injectStripe(
   connect(

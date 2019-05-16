@@ -110,6 +110,47 @@ export const WarningViewBtn = styled.div`
   }
 `;
 
+export const NoAccountWarningViewBtn = styled.div`
+  background-color: #fff;
+  margin: -20px -20px -21px 0;
+  border-left: 1px solid #eee;
+  display: block;
+  width: 20%;
+  a {
+    background-color: red;
+    border-radius: 0 4px 4px 0;
+    padding: 32px 40px 36px;
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: 2px;
+    color: #033ebc;
+    display: block;
+    text-decoration: none;
+  }
+  svg {
+    padding-left: 3px;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: red;
+    left: -20px;
+    bottom: -20px;
+    @media (max-width: 900px) {
+      display: none;
+    }
+  }
+  @media (max-width: 900px) {
+    margin: 20px 0 0;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+`;
+
 export const Symbol = styled.div`
   border: 1px solid var(--brand-grey);
   display: inline-block;
@@ -145,13 +186,26 @@ export const TradesContainer = styled.div`
   position: relative;
   color: #003ba2;
   box-shadow: var(--box-shadow);
-  border-radius: 0 0 4px 4px;
+  border-radius: 4px;
   padding: 20px;
   margin-bottom: 20px;
   margin-top: 0;
   background: #deeaff;
   h3 {
     color: #003ba2;
+    font-size: 25px;
+    margin-bottom: 10px;
+  }
+`;
+export const ErrorContainer = styled.div`
+  position: relative;
+  box-shadow: var(--box-shadow);
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 20px;
+  margin-top: 0;
+  background: #ffb040;
+  h3 {
     font-size: 25px;
     margin-bottom: 10px;
   }
@@ -174,7 +228,7 @@ export const Heading = styled.div`
 `;
 
 export const ColumnSymbol = styled.div`
-  min-width: 76%;
+  min-width: 58%;
   color: var(--brand-grey);
   @media (max-width: 900px) {
     line-height: 1.2;
@@ -221,6 +275,14 @@ export const ColumnStatus = styled.div`
   }
 `;
 
+export const ColumnAccount = styled.div`
+  min-width: 20%;
+  color: var(--brand-grey);
+  @media (max-width: 900px) {
+    line-height: 1.2;
+  }
+`;
+
 export const TradeType = styled.div`
   h3 {
     font-size: 32px;
@@ -234,6 +296,31 @@ export const TradeType = styled.div`
     margin-top: 12px;
     padding-top: 18px;
   }
+`;
+
+export const ColumnErrorSymbol = styled.div`
+  min-width: 50%;
+  color: var(--brand-grey);
+  @media (max-width: 900px) {
+    line-height: 1.2;
+  }
+`;
+
+export const ColumnErrorDescription = styled.div`
+  min-width: 17%;
+  color: var(--brand-grey);
+  @media (max-width: 900px) {
+    margin-bottom: 16px;
+  }
+`;
+
+export const ErrorTitle = styled.div`
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  margin-top: 0px;
+  padding: 4px 4px 2px;
 `;
 
 export const Order = styled.div``;

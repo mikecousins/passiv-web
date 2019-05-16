@@ -15,19 +15,19 @@ import {
   DashboardRow,
   ViewBtn,
   WarningViewBtn,
+  NoAccountWarningViewBtn,
   AllocateBtn,
   Container,
 } from '../../styled/Group';
 import Number from '../Number';
-import AccountTrades from '../AccountTrades';
+import PortfolioGroupTrades from '../PortfolioGroupTrades';
 
 export const Group = props => {
   const { group, trades } = props;
+  const [expanded, setExpanded] = useState(false);
   if (!group) {
     return <div>Loading...</div>;
   }
-
-  const [expanded, setExpanded] = useState(false);
 
   let accuracy = <FontAwesomeIcon icon={faSpinner} spin />;
   if (group.setupComplete !== undefined) {
@@ -78,6 +78,15 @@ export const Group = props => {
         </Link>
       </ViewBtn>
     );
+  } else if (!group.hasAccounts) {
+    viewButton = (
+      <NoAccountWarningViewBtn>
+        <Link to={`/app/group/${group.id}`}>
+          Empty Group
+          <FontAwesomeIcon icon={faAngleRight} />
+        </Link>
+      </NoAccountWarningViewBtn>
+    );
   } else {
     viewButton = (
       <WarningViewBtn>
@@ -122,7 +131,9 @@ export const Group = props => {
           </Table>
         </DashboardRow>
       </ShadowBox>
-      {expanded && <AccountTrades trades={group.trades} groupId={group.id} />}
+      {expanded && (
+        <PortfolioGroupTrades trades={group.trades} groupId={group.id} />
+      )}
     </Container>
   );
 };

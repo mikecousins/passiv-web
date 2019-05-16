@@ -4,12 +4,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
-import AccountAccuracy from '../components/AccountAccuracy';
-import AccountHoldings from '../components/AccountHoldings';
-import AccountMetadata from '../components/AccountMetadata';
-import AccountTargets from '../components/AccountTargets';
-import AccountTrades from '../components/AccountTrades';
-import AccountSettings from '../components/AccountSettings';
+import PortfolioGroupAccuracy from '../components/PortfolioGroupAccuracy';
+import PortfolioGroupHoldings from '../components/PortfolioGroupHoldings';
+import PortfolioGroupMetadata from '../components/PortfolioGroupMetadata';
+import PortfolioGroupTargets from '../components/PortfolioGroupTargets';
+import PortfolioGroupTrades from '../components/PortfolioGroupTrades';
+import PortfolioGroupSettings from '../components/PortfolioGroupSettings';
+import PortfolioGroupAccounts from '../components/PortfolioGroupAccounts';
+import PortfolioGroupErrors from '../components/PortfolioGroupErrors';
 import {
   selectCurrentGroupTotalEquity,
   selectCurrentGroupCash,
@@ -18,9 +20,11 @@ import {
   selectCurrentGroupPositions,
   selectCurrentGroupBalances,
   selectCurrentGroupTrades,
+  selectCurrentGroupInfoError,
   selectCurrentGroupSetupComplete,
-} from '../selectors';
-import { selectGroupsLoading } from '../selectors/groups';
+  selectGroupsLoading,
+  selectCurrentGroupAccountHoldings,
+} from '../selectors/groups';
 import Tooltip from '../components/Tooltip';
 
 export const Container2Column = styled.div`
@@ -37,6 +41,20 @@ export const Container2Column = styled.div`
   }
 `;
 
+export const Container6040Column = styled.div`
+  @media (min-width: 900px) {
+    display: flex;
+    justify-content: space-between;
+    > div:first-of-type {
+      width: 60%;
+      margin-right: 30px;
+    }
+    > div:last-of-type {
+      width: 40%;
+    }
+  }
+`;
+
 const GroupPage = props => {
   const {
     group,
@@ -46,8 +64,10 @@ const GroupPage = props => {
     positions,
     cash,
     equity,
+    error,
     setupComplete,
     loading,
+    accounts,
   } = props;
 
   // if we don't have our group yet, show a spinner
@@ -61,43 +81,68 @@ const GroupPage = props => {
   }
 
   const name = group.name || 'No Name Provided';
-  let type = null;
-  let number = null;
 
-  // grab the account type and number from the first account
-  // TODO fix this when we support groups properly
-  if (group.accounts && group.accounts[0]) {
-    type = group.accounts[0].type;
-    number = group.accounts[0].number;
+  // see if we have any accounts in this group
+  if (!group.accounts) {
+    return (
+      <React.Fragment>
+        <Container2Column>
+          <PortfolioGroupMetadata
+            name={name}
+            balances={null}
+            cash={null}
+            equity={null}
+            error={null}
+            accounts={null}
+          />
+          <PortfolioGroupAccuracy accuracy={null} loading={loading} />
+        </Container2Column>
+        <PortfolioGroupAccounts
+          group={group}
+          accounts={accounts}
+          loading={loading}
+          error={error}
+        />
+      </React.Fragment>
+    );
   }
 
   // see if we have any suggested trades to display
   let tradeDisplay = null;
   if (setupComplete && trades && trades.trades.length) {
-    tradeDisplay = <AccountTrades trades={trades} groupId={group.id} />;
+    tradeDisplay = <PortfolioGroupTrades trades={trades} groupId={group.id} />;
   }
   return (
     <React.Fragment>
       <Container2Column>
-        <AccountMetadata
+        <PortfolioGroupMetadata
           name={name}
-          type={type}
-          number={number}
           balances={balances}
           cash={cash}
           equity={equity}
+          error={error}
+          accounts={accounts}
         />
-        <AccountAccuracy accuracy={accuracy} loading={loading} />
+        <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
       </Container2Column>
 
+      {error ? <PortfolioGroupErrors error={error} /> : null}
       {tradeDisplay}
 
-      <AccountTargets positions={positions} />
+      <PortfolioGroupTargets positions={positions} />
 
-      <Container2Column>
-        <AccountHoldings positions={positions} loading={loading} />
-        <AccountSettings />
-      </Container2Column>
+      <Container6040Column>
+        <PortfolioGroupHoldings positions={positions} loading={loading} />
+        <PortfolioGroupSettings />
+      </Container6040Column>
+
+      <PortfolioGroupAccounts
+        group={group}
+        accounts={accounts}
+        loading={loading}
+        error={error}
+      />
+
       <Tooltip />
     </React.Fragment>
   );
@@ -113,6 +158,13 @@ const select = state => ({
   trades: selectCurrentGroupTrades(state),
   setupComplete: selectCurrentGroupSetupComplete(state),
   loading: selectGroupsLoading(state),
+  accounts: selectCurrentGroupAccountHoldings(state),
+  error: selectCurrentGroupInfoError(state),
 });
 
-export default connect(select)(GroupPage);
+const actions = {};
+
+export default connect(
+  select,
+  actions,
+)(GroupPage);

@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  selectBrokerages,
-  selectAuthorizations,
-  selectAccounts,
-  selectUserPermissions,
-} from '../selectors';
+import { selectBrokerages, selectAuthorizations } from '../selectors';
+import { selectUserPermissions } from '../selectors/subscription';
+import { selectAccounts } from '../selectors/accounts';
 import { initialLoad, loadBrokerages } from '../actions';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import Connections from './Connections';
@@ -60,7 +57,8 @@ export class ConnectionsManager extends React.Component {
             this.props.authorizations &&
             this.props.authorizations.length > 0 ? (
               <React.Fragment>
-                Upgrade your account to add multiple connections!
+                Connecting multiple accounts is only available to Elite
+                subscribers. Upgrade your account to continue!
               </React.Fragment>
             ) : (
               <AuthorizationPicker />

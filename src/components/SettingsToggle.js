@@ -6,10 +6,17 @@ import {
   faToggleOn,
   faToggleOff,
 } from '@fortawesome/free-solid-svg-icons';
-import { selectCurrentGroupSettings, selectCurrentGroupId } from '../selectors';
+import {
+  selectCurrentGroupSettings,
+  selectCurrentGroupId,
+} from '../selectors/groups';
 import { loadGroup } from '../actions';
 import { putData } from '../api';
-import { ToggleButton } from '../styled/ToggleButton';
+import {
+  ToggleButton,
+  DisabledTogglebutton,
+  StateText,
+} from '../styled/ToggleButton';
 
 class SettingsToggle extends Component {
   state = {
@@ -42,20 +49,56 @@ class SettingsToggle extends Component {
     return state;
   };
 
+  getViewState = () => {
+    let state = this.getSettingState();
+    if (this.props.invert === true) {
+      state = !state;
+    }
+    return state;
+  };
+
   render() {
+    const disabled = !!this.props.disabled;
+
+    let toggleButton = (
+      <DisabledTogglebutton>
+        {this.getViewState() ? (
+          <React.Fragment>
+            <FontAwesomeIcon icon={faToggleOn} data-tip={this.props.tip} />
+            <StateText>on</StateText>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <FontAwesomeIcon icon={faToggleOff} data-tip={this.props.tip} />
+            <StateText>off</StateText>
+          </React.Fragment>
+        )}
+      </DisabledTogglebutton>
+    );
+    if (!disabled) {
+      toggleButton = (
+        <ToggleButton onClick={this.handleClick}>
+          {this.getViewState() ? (
+            <React.Fragment>
+              <FontAwesomeIcon icon={faToggleOn} data-tip={this.props.tip} />
+              <StateText>on</StateText>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <FontAwesomeIcon icon={faToggleOff} data-tip={this.props.tip} />
+              <StateText>off</StateText>
+            </React.Fragment>
+          )}
+        </ToggleButton>
+      );
+    }
     return (
       <React.Fragment>
         <span>{this.props.name}</span>:{' '}
         {this.state.loading ? (
-          <FontAwesomeIcon icon={faSpinner} />
+          <FontAwesomeIcon icon={faSpinner} spin />
         ) : (
-          <ToggleButton onClick={this.handleClick}>
-            {this.getSettingState() ? (
-              <FontAwesomeIcon icon={faToggleOn} />
-            ) : (
-              <FontAwesomeIcon icon={faToggleOff} />
-            )}
-          </ToggleButton>
+          toggleButton
         )}
       </React.Fragment>
     );

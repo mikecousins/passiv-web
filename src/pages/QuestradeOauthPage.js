@@ -42,7 +42,7 @@ const QuestradeOauthPage = ({ router, reloadAllState, push }) => {
           setError(error.response.data);
         });
     }
-  }, []);
+  }, [reloadAllState, router.location.search]);
 
   // if we're done, redirect the user to the dashboard
   if (success) {

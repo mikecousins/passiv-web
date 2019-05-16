@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { selectGroups, selectIsDemoMode } from '../../selectors';
-import { toggleDemoMode } from '../../actions';
+import { selectIsDemoMode, selectLoggedIn } from '../../selectors';
+import { selectGroups } from '../../selectors/groups';
+import { toggleDemoMode } from '../../actions/demo';
 import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
-import { selectLoggedIn } from '../../selectors';
 import styled from '@emotion/styled';
 
 const StyledAside = styled.aside`
@@ -53,6 +53,7 @@ const GroupContainer = styled.div`
 `;
 const SideBar = props => {
   let groups = <FontAwesomeIcon icon={faSpinner} spin />;
+
   if (props.groups) {
     groups = props.groups.map(group => (
       <SideBarLink
@@ -60,6 +61,7 @@ const SideBar = props => {
         name={group.name}
         linkPath={`/app/group/${group.id}`}
         rebalance={!!group.rebalance}
+        hasAccounts={group.hasAccounts}
         loading={group.loading}
         setupComplete={group.setupComplete}
         spinnerLoading={true}
