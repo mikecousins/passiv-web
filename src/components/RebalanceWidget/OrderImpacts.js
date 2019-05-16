@@ -34,8 +34,8 @@ const OrderImpacts = ({ impacts, accountBalances }) => {
   return (
     <React.Fragment>
       <Title>Estimated results</Title>
-      {impactsByAccount.map(impact => (
-        <OrderImpact impacts={impact} />
+      {impactsByAccount.map((impact, index) => (
+        <OrderImpact key={index} impacts={impact} />
       ))}
     </React.Fragment>
   );

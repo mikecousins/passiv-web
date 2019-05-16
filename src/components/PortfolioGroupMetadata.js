@@ -156,7 +156,6 @@ class PortfolioGroupMetadata extends Component {
   }
 
   render() {
-    console.log('name', this.props.name);
     let equityValue = null;
     let cashValue = null;
     if (this.props.accounts === null) {

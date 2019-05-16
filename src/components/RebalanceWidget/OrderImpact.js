@@ -72,8 +72,8 @@ export const OrderImpact = ({ impacts, accounts, currencies }) => {
             <MetaHorizontal>
               <p>Trade commissions:</p>
               <BalanceContainer>
-                {impacts.map(impact => (
-                  <p>
+                {impacts.map((impact, index) => (
+                  <p key={index}>
                     {' '}
                     <Number
                       value={impact.estimated_commissions}
@@ -89,8 +89,8 @@ export const OrderImpact = ({ impacts, accounts, currencies }) => {
             <MetaHorizontal>
               <p>Remaining cash:</p>
               <BalanceContainer>
-                {impacts.map(impact => (
-                  <p>
+                {impacts.map((impact, index) => (
+                  <p key={index}>
                     {' '}
                     <Number value={impact.remaining_cash} currency /> {'  '}{' '}
                     {filteredCurrencyCode(impact)}{' '}
@@ -103,8 +103,8 @@ export const OrderImpact = ({ impacts, accounts, currencies }) => {
             <MetaHorizontal>
               <p>Forex fees:</p>
               <BalanceContainer>
-                {impacts.map(impact => (
-                  <p>
+                {impacts.map((impact, index) => (
+                  <p key={index}>
                     {' '}
                     <Number value={impact.forex_fees} currency /> {'  '}{' '}
                     {filteredCurrencyCode(impact)}{' '}
