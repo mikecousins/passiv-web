@@ -227,11 +227,6 @@ class PortfolioGroupMetadata extends Component {
     if (this.props.accounts !== null) {
       cashBalance = (
         <React.Fragment>
-          {!this.props.balances && (
-            <div>
-              <FontAwesomeIcon icon={faSpinner} spin />
-            </div>
-          )}
           {this.props.balances &&
             this.props.balances.map(balance => (
               <Table key={balance.currency.id}>

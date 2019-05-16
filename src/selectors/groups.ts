@@ -209,8 +209,8 @@ export const selectCurrentGroupCash = createSelector(
   selectCurrencies,
   selectCurrencyRates,
   (balances, currencies, rates) => {
-    let cash = 0;
     if (balances && currencies) {
+      let cash = 0;
       balances.forEach(balance => {
         // convert to CAD for now
         const preferredCurrency = currencies.find(
@@ -237,8 +237,10 @@ export const selectCurrentGroupCash = createSelector(
           cash += balance.cash * conversionRate.exchange_rate;
         }
       });
+      return cash;
+    } else {
+      return null;
     }
-    return cash;
   },
 );
 
