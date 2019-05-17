@@ -21,13 +21,17 @@ const Main = styled.main`
   }
 `;
 
-export const AppLayout = props => (
+interface Props {
+  children: any;
+}
+
+export const AppLayout = ({ children }: Props) => (
   <div>
     <GlobalStyle />
     <Header />
     <Container>
       <SlideMenu />
-      <Main>{props.children}</Main>
+      <Main>{children}</Main>
     </Container>
     <ScrollHelper />
   </div>
