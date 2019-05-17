@@ -704,7 +704,7 @@ export const selectCurrentGroup = createSelector(
   },
 );
 
-interface DashboardGroup {
+export interface DashboardGroup {
   id: string;
   name: string;
   totalCash: number;

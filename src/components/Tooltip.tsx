@@ -14,7 +14,7 @@ export const StyledTooltip = styled(ReactTooltip)`
 `;
 
 interface Props {
-  html: boolean;
+  html?: boolean;
 }
 
 export const Tooltip = ({ html = false }: Props) => (

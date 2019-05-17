@@ -8,8 +8,16 @@ import { selectDashboardGroups } from '../selectors/groups';
 import TotalHoldings from '../components/TotalHoldings';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
 import Tooltip from '../components/Tooltip';
+import { AppState } from '../store';
+import { DashboardGroup } from '../selectors/groups';
 
-export const DashboardPage = ({ authorized, groups, demoMode }) => {
+interface Props {
+  authorized: boolean;
+  groups: DashboardGroup[];
+  demoMode: boolean;
+}
+
+export const DashboardPage = ({ authorized, groups, demoMode }: Props) => {
   if (authorized === undefined) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
   } else if (authorized === false) {
@@ -17,9 +25,13 @@ export const DashboardPage = ({ authorized, groups, demoMode }) => {
   }
   let groupDisplay = <FontAwesomeIcon icon={faSpinner} spin />;
   if (groups) {
-    groupDisplay = groups.map(group => (
-      <Group group={group} key={group.id} demo={demoMode} />
-    ));
+    groupDisplay = (
+      <React.Fragment>
+        {groups.map(group => (
+          <Group group={group} key={group.id} demo={demoMode} />
+        ))}
+      </React.Fragment>
+    );
   }
 
   return (
@@ -31,7 +43,7 @@ export const DashboardPage = ({ authorized, groups, demoMode }) => {
   );
 };
 
-const select = state => ({
+const select = (state: AppState) => ({
   authorized: selectIsAuthorized(state),
   groups: selectDashboardGroups(state),
   demoMode: selectIsDemoMode(state),
