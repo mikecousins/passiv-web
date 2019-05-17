@@ -2132,6 +2132,14 @@
     "@types/history" "*"
     "@types/react" "*"
 
+"@types/react-stripe-elements@^1.1.10":
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/@types/react-stripe-elements/-/react-stripe-elements-1.1.10.tgz#c224a6bc1b1638ff94b84c881758d534defeff64"
+  integrity sha512-FcGRb2Rwolgx6/epqnZ4ZOMHTx6wUBhkVFWWvob46fBBece3cvxCaP/vPFhf3+dUHfQeITCjMEavdB6rrbZFzg==
+  dependencies:
+    "@types/react" "*"
+    "@types/stripe-v3" "*"
+
 "@types/react-tooltip@^3.9.2":
   version "3.9.2"
   resolved "https://registry.yarnpkg.com/@types/react-tooltip/-/react-tooltip-3.9.2.tgz#c46ee03cc8631ec1b130feef02af119dbe3639d2"
@@ -2151,6 +2159,11 @@
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
+
+"@types/stripe-v3@*":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@types/stripe-v3/-/stripe-v3-3.1.0.tgz#e4337d8dcd57a4289e8ed56096e61d91454b67cf"
+  integrity sha512-cau5Y5xYsn7qOSgpzk67cJ5R7cqI9q7ZsR6NttvkoQqYPhnd4RC2+I5WmY/hEew0EBOrFwyObBLbZHU7CmyVjg==
 
 "@types/unist@*", "@types/unist@^2.0.0", "@types/unist@^2.0.2":
   version "2.0.3"

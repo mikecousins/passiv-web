@@ -15,6 +15,12 @@ import CouponPage from './pages/CouponPage';
 import SecureRoute from './routes/SecureRoute';
 import UpdateNotification from './components/UpdateNotification';
 
+declare global {
+  interface Window {
+    Stripe: any;
+  }
+}
+
 const questradeOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/questrade?' + urlParams;
@@ -22,7 +28,7 @@ const questradeOauthRedirect = () => {
 };
 
 // hack to make routing work on both prod and dev
-const prefixPath = path => {
+const prefixPath = (path: string) => {
   return `/app${path}`;
 };
 
@@ -34,12 +40,12 @@ const stripePublicKey =
     : 'pk_test_UEivjUoJpfSDWq5i4xc64YNK';
 
 const App = () => {
-  const [stripe, setStripe] = useState(null);
+  const [stripe, setStripe] = useState<any>(null);
   useEffect(() => {
     if (window.Stripe) {
       setStripe(window.Stripe(stripePublicKey));
     } else {
-      document.querySelector('#stripe-js').addEventListener('load', () => {
+      document.querySelector('#stripe-js')!.addEventListener('load', () => {
         // Create Stripe instance once Stripe.js loads
         setStripe(window.Stripe(stripePublicKey));
       });

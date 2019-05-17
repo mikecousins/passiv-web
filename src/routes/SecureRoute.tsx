@@ -7,11 +7,18 @@ import { AppState } from '../store';
 interface Props {
   component: any;
   loggedIn: boolean;
+  path: string;
 }
 
-const SecureRoute = ({ component: Component, loggedIn, ...rest }: Props) => {
+const SecureRoute = ({
+  component: Component,
+  loggedIn,
+  path,
+  ...rest
+}: Props) => {
   return (
     <Route
+      path={path}
       {...rest}
       render={routeProps => {
         return loggedIn ? (
