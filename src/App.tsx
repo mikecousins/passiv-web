@@ -10,6 +10,7 @@ import DashboardPage from './pages/DashboardPage';
 import GroupPage from './pages/GroupPage';
 import SettingsPage from './pages/SettingsPage';
 import HelpPage from './pages/HelpPage';
+import HelpArticlePage from './pages/HelpArticlePage';
 import QuestradeOauthPage from './pages/QuestradeOauthPage';
 import CouponPage from './pages/CouponPage';
 import SecureRoute from './routes/SecureRoute';
@@ -74,6 +75,10 @@ const App = () => {
           <Route
             path={prefixPath('/reset-password-confirm/:token')}
             component={ResetPasswordConfirmPage}
+          />
+          <Route
+            path={prefixPath('/help/topic/:slug')}
+            component={HelpArticlePage}
           />
           <Route path={prefixPath('/help')} component={HelpPage} />
           <SecureRoute

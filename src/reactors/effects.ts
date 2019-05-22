@@ -8,6 +8,7 @@ import {
   loadGroups,
   loadSettings,
   loadPlans,
+  loadHelpArticles,
 } from '../actions';
 import { checkIfOnline } from '../actions/online';
 import {
@@ -17,6 +18,7 @@ import {
   selectAuthorizationsNeedData,
   selectSettingsNeedData,
   selectPlansNeedData,
+  selectHelpArticlesNeedData,
 } from '../selectors';
 import { selectAccountsNeedData } from '../selectors/accounts';
 import { selectGroupsNeedData } from '../selectors/groups';
@@ -33,6 +35,10 @@ export const effects = [
   {
     selector: selectCurrencyRatesNeedData,
     actionCreator: loadCurrencyRates,
+  },
+  {
+    selector: selectHelpArticlesNeedData,
+    actionCreator: loadHelpArticles,
   },
   {
     selector: selectBrokeragesNeedData,

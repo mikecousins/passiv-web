@@ -25,6 +25,10 @@ export default (history: any) =>
     language,
     updateServiceWorker,
     online,
+    helpArticles: simple<any>({
+      baseType: 'FETCH_HELP_ARTICLES',
+      userData: false,
+    }),
     authorizations: simple<any>({
       baseType: 'FETCH_AUTHORIZATIONS',
       userData: true,
