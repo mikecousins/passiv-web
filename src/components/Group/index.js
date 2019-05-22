@@ -25,6 +25,7 @@ import PortfolioGroupTrades from '../PortfolioGroupTrades';
 export const Group = props => {
   const { group, trades } = props;
   const [expanded, setExpanded] = useState(false);
+
   if (!group) {
     return <div>Loading...</div>;
   }

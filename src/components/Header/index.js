@@ -8,6 +8,7 @@ import logoRaster2x from '../../assets/images/logo-no-name@2x.png';
 import Buttons from './Buttons';
 import { selectName, selectLoggedIn } from '../../selectors';
 import Hello from './Hello';
+import Offline from './Offline';
 import { selectIsOnline } from '../../selectors/online';
 
 const StyledHeader = styled.header`
@@ -21,7 +22,7 @@ const StyledHeader = styled.header`
     padding: 9px 8px 2px 75px;
   }
   nav {
-    background: #fff;
+    background: inherit;
     display: flex;
     justify-content: space-between;
   }
@@ -52,8 +53,8 @@ export const Header = ({ name, loggedIn, isOnline }) => (
           </object>
         </Link>
       </Logo>
+      {!isOnline && <Offline />}
       {loggedIn && <Hello name={name} />}
-
       <Buttons />
     </nav>
   </StyledHeader>
