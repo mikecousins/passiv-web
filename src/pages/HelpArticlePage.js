@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import FAQ from '../components/Help/FAQ';
-import ContactForm from '../components/Help/ContactForm';
-import HelpHeader from '../components/Help/HelpHeader';
 import { selectHelpArticleSlug, selectHelpArticles } from '../selectors';
-import { H1, P } from '../styled/GlobalElements';
+import { H1 } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import { push } from 'connected-react-router';
 import ReactMarkdown from 'react-markdown';
@@ -23,6 +20,7 @@ class HelpArticlePage extends Component {
             <H1>{selectedArticle.title}</H1>
             {selectedArticle.video_url && (
               <iframe
+                title={selectedArticle.title}
                 src={selectedArticle.video_url}
                 width="640"
                 height="360"
