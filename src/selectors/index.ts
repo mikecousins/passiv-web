@@ -229,7 +229,6 @@ export const selectHelpArticlesRaw = (state: AppState) => state.helpArticles;
 export const selectHelpArticles = createSelector(
   selectHelpArticlesRaw,
   helpArticlesRaw => {
-    console.log('raw articles', helpArticlesRaw);
     if (helpArticlesRaw.data) {
       return helpArticlesRaw.data;
     }
@@ -241,7 +240,7 @@ export const selectHelpArticlesNeedData = createSelector(
   selectAppTime,
   (rawHelpArticles, time) => {
     return shouldUpdate(rawHelpArticles, {
-      staleTime: ms.days(1),
+      staleTime: ms.minutes(10),
       now: time,
     });
   },

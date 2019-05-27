@@ -2,26 +2,11 @@ import React from 'react';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import { H2, H3, P, A } from '../../styled/GlobalElements';
-
-const Questions = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  > div {
-    margin-bottom: 25px;
-    max-width: 49%;
-    min-width: 49%;
-    padding: 20px;
-    flex: 1;
-    h3 {
-      color: var(--brand-green);
-    }
-  }
-`;
+import { Questions } from '../../styled/Help';
 
 const Container = styled.div``;
 
-export class HelpHeader extends React.Component {
+export class FAQ extends React.Component {
   render() {
     return (
       <Container>
@@ -183,4 +168,4 @@ export class HelpHeader extends React.Component {
     );
   }
 }
-export default HelpHeader;
+export default FAQ;
