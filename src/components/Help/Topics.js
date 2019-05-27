@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
-import { H2, H3, P, A } from '../../styled/GlobalElements';
+import { H2, H3, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import { Questions } from '../../styled/Help';
 
