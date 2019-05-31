@@ -714,6 +714,7 @@ export interface DashboardGroup {
   setupComplete?: boolean;
   rebalance?: boolean;
   hasAccounts?: boolean;
+  hasSells?: boolean;
   trades?: CalculatedTrades;
   brokerage_authorizations?: BrokerageAuthorization[];
 }
@@ -735,6 +736,7 @@ export const selectDashboardGroups = createSelector(
         totalCash: 0,
         totalHoldings: 0,
         totalValue: null,
+        hasSells: false,
       };
       if (groupInfo[group.id] && groupInfo[group.id].data) {
         const groupData = groupInfo[group.id].data!;
@@ -783,6 +785,13 @@ export const selectDashboardGroups = createSelector(
           groupData.calculated_trades.trades.length > 0
         );
         group.trades = groupData.calculated_trades;
+
+        group.trades &&
+          group.trades.trades.forEach(trade => {
+            if (trade.action === 'SELL') {
+              group.hasSells = true;
+            }
+          });
         group.brokerage_authorizations = groupData.brokerage_authorizations;
       }
       if (group.totalCash !== null && group.totalHoldings !== null) {
