@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import AsyncSelect from 'react-select/lib/Async';
+import AsyncSelect from 'react-select/async';
 
 const SymbolSelector = styled(AsyncSelect)`
   width: 500px;
