@@ -26,7 +26,6 @@ class DriftNotificationSettings extends React.Component {
     newSettings.receive_drift_notifications = !this.props.settings
       .receive_drift_notifications;
 
-    console.log(newSettings);
     putData('/api/v1/settings/', newSettings)
       .then(response => {
         this.props.refreshSettings();
