@@ -7,6 +7,7 @@ import { loadSettings } from '../actions';
 import { putData } from '../api';
 
 import CashNotifcationSettings from './CashNotificationSettings';
+import DriftNotifcationSettings from './DriftNotificationSettings';
 
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../styled/Form';
@@ -102,6 +103,7 @@ export class CredentialsManager extends React.Component {
           </InputContainer>
         </TextContainer>
         <CashNotifcationSettings />
+        <DriftNotifcationSettings />
       </ShadowBox>
     );
   }
