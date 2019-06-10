@@ -15,7 +15,6 @@ import {
   DashboardRow,
   ViewBtn,
   WarningViewBtn,
-  NoAccountWarningViewBtn,
   AllocateBtn,
   Container,
 } from '../../styled/Group';
@@ -81,12 +80,12 @@ export const Group = props => {
     );
   } else if (!group.hasAccounts) {
     viewButton = (
-      <NoAccountWarningViewBtn>
+      <WarningViewBtn>
         <Link to={`/app/group/${group.id}`}>
           Empty Group
           <FontAwesomeIcon icon={faAngleRight} />
         </Link>
-      </NoAccountWarningViewBtn>
+      </WarningViewBtn>
     );
   } else {
     viewButton = (

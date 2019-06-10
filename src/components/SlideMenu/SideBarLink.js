@@ -56,7 +56,7 @@ const SideBarLink = ({
       } else if (!hasAccounts) {
         indicator = (
           <RebalanceAlert>
-            <span style={{ background: 'red' }} />
+            <span style={{ background: 'orange' }} />
           </RebalanceAlert>
         );
       }
