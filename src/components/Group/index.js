@@ -22,7 +22,7 @@ import Number from '../Number';
 import PortfolioGroupTrades from '../PortfolioGroupTrades';
 
 export const Group = props => {
-  const { group, trades } = props;
+  const { group } = props;
   const [expanded, setExpanded] = useState(false);
 
   if (!group) {
@@ -57,15 +57,6 @@ export const Group = props => {
 
   if (group.totalValue !== null && group.setupComplete !== undefined) {
     totalValue = <Number value={group.totalValue} currency />;
-  }
-
-  let sellsFound = false;
-  if (trades) {
-    trades.trades.forEach(trade => {
-      if (trade.action === 'SELL') {
-        sellsFound = true;
-      }
-    });
   }
 
   let viewButton = null;
@@ -119,7 +110,7 @@ export const Group = props => {
             {viewButton}
             {group.setupComplete && group.rebalance && (
               <AllocateBtn onClick={() => setExpanded(!expanded)}>
-                {sellsFound ? 'Rebalance' : 'Allocate'}
+                {group.hasSells ? 'Rebalance' : 'Allocate'}
                 &nbsp;
                 {expanded ? (
                   <FontAwesomeIcon icon={faChevronUp} />
