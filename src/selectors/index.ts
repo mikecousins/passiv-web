@@ -54,7 +54,7 @@ export const selectCurrenciesNeedData = createSelector(
       return false;
     }
     return shouldUpdate(rawCurrencies, {
-      staleTime: ms.days(7),
+      staleTime: ms.days(1),
       now: time,
     });
   },
@@ -78,7 +78,7 @@ export const selectBrokeragesNeedData = createSelector(
       return false;
     }
     return shouldUpdate(rawBrokerages, {
-      staleTime: ms.days(7),
+      staleTime: ms.days(1),
       now: time,
     });
   },
