@@ -133,7 +133,7 @@ export const selectCurrentGroupAccuracy = createSelector(
       groupInfo &&
       groupInfo[groupId] &&
       groupInfo[groupId].data &&
-      groupInfo[groupId].data!.accuracy
+      groupInfo[groupId].data!.accuracy >= 0
     ) {
       accuracy = groupInfo[groupId].data!.accuracy;
     }
