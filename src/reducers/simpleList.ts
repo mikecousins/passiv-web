@@ -22,18 +22,18 @@ const simpleList = <T extends object>({
   // here we're returning our customized reducer
   return (state = initialData, action: any) => {
     if (action.type === START) {
-      const newState: SimpleListState = JSON.parse(JSON.stringify(state));
-      newState[action.id].loading = true;
-      return newState;
+      return Object.assign({}, state, {
+        [action.id]: {
+          loading: true,
+        },
+      });
     }
-
     if (action.type === SUCCESS) {
       // if successful we store our data
       // store the lastFetch timestamp
       // clear out any errors
       // and set loading to false
-      return {
-        ...state,
+      return Object.assign({}, state, {
         [action.id]: {
           data: action.payload.data,
           lastFetch: Date.now(),
@@ -41,22 +41,20 @@ const simpleList = <T extends object>({
           lastError: null,
           loading: false,
         },
-      };
+      });
     }
-
     if (action.type === ERROR) {
       // we still want to leave existing
       // data intact as well as "last fetch"
       // which would let us determine if the
       // data is stale or not
-      return {
-        ...state,
+      return Object.assign({}, state, {
         [action.id]: {
           lastError: Date.now(),
           error: action.error,
           loading: false,
         },
-      };
+      });
     }
 
     if (action.type === 'LOGOUT' && userData) {
