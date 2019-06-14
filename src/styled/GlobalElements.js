@@ -86,6 +86,14 @@ export const P = styled.p`
   ${dynamicStyle};
 `;
 
+export const Span = styled.span`
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0 0 12px;
+  ${dynamicStyle};
+`;
+
 // a
 export const A = styled.a`
   font-size: 18px;

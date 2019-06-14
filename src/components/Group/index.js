@@ -15,7 +15,6 @@ import {
   DashboardRow,
   ViewBtn,
   WarningViewBtn,
-  NoAccountWarningViewBtn,
   AllocateBtn,
   Container,
 } from '../../styled/Group';
@@ -23,7 +22,7 @@ import Number from '../Number';
 import PortfolioGroupTrades from '../PortfolioGroupTrades';
 
 export const Group = props => {
-  const { group, trades } = props;
+  const { group } = props;
   const [expanded, setExpanded] = useState(false);
 
   if (!group) {
@@ -60,15 +59,6 @@ export const Group = props => {
     totalValue = <Number value={group.totalValue} currency />;
   }
 
-  let sellsFound = false;
-  if (trades) {
-    trades.trades.forEach(trade => {
-      if (trade.action === 'SELL') {
-        sellsFound = true;
-      }
-    });
-  }
-
   let viewButton = null;
   if (group.setupComplete === undefined || group.setupComplete === true) {
     viewButton = (
@@ -81,12 +71,12 @@ export const Group = props => {
     );
   } else if (!group.hasAccounts) {
     viewButton = (
-      <NoAccountWarningViewBtn>
+      <WarningViewBtn>
         <Link to={`/app/group/${group.id}`}>
           Empty Group
           <FontAwesomeIcon icon={faAngleRight} />
         </Link>
-      </NoAccountWarningViewBtn>
+      </WarningViewBtn>
     );
   } else {
     viewButton = (
@@ -120,7 +110,7 @@ export const Group = props => {
             {viewButton}
             {group.setupComplete && group.rebalance && (
               <AllocateBtn onClick={() => setExpanded(!expanded)}>
-                {sellsFound ? 'Rebalance' : 'Allocate'}
+                {group.hasSells ? 'Rebalance' : 'Allocate'}
                 &nbsp;
                 {expanded ? (
                   <FontAwesomeIcon icon={faChevronUp} />

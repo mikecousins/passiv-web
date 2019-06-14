@@ -61,7 +61,9 @@ interface ExcludedPosition {
   symbol: string;
 }
 
-interface Trade {}
+interface Trade {
+  action: string;
+}
 
 export interface CalculatedTrades {
   id: string;

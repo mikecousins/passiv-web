@@ -90,11 +90,20 @@ const QuestradeOauthPage = ({ router, reloadAllState, push }) => {
         break;
       default:
         errorDisplay = (
-          <P>
-            We encountered an unexpected error while attempting to establish a
-            connection. Please try again later or{' '}
-            <Link to="/app/help">contact support</Link> if this persists.
-          </P>
+          <React.Fragment>
+            <P>
+              We encountered an unexpected error while attempting to establish a
+              connection. Please try again later or{' '}
+              <Link to="/app/help">contact support</Link> if this persists.
+            </P>
+            <P>
+              Note that in order for a connection to be established, you must
+              make sure that your brokerage account is fully opened and funded.
+              If your brokerage account is new or the initial funding has not
+              been finalized by the brokerage, then you may not be able to link
+              your account to Passiv until it is fully opened.
+            </P>
+          </React.Fragment>
         );
         break;
     }

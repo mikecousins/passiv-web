@@ -9,7 +9,13 @@ const Number = props => {
   if (props.currency) {
     prefix = '$';
     if (props.decimalPlaces === undefined) {
-      decimalPlaces = 2;
+      if (!props.isTrade) {
+        decimalPlaces = 2;
+      } else {
+        let defaultDecimalPlaces = 2;
+        let actualDecimalPlaces = props.value.toString().split('.')[1].length;
+        decimalPlaces = Math.max(defaultDecimalPlaces, actualDecimalPlaces);
+      }
     }
   }
   let postfix = null;

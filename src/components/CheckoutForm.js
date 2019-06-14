@@ -61,6 +61,18 @@ export class CheckoutForm extends React.Component {
             </ErrorContainer>
           );
           break;
+        case '1008':
+          error = (
+            <ErrorContainer>
+              <H2>Payment could not be processed</H2>
+              <P>
+                Check that you have entered your payment information correctly
+                or <Link to="/app/help">contact support</Link> if that doesn't
+                help.
+              </P>
+            </ErrorContainer>
+          );
+          break;
         case '0000':
           error = (
             <ErrorContainer>

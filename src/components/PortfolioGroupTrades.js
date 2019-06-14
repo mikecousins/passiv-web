@@ -24,7 +24,7 @@ export const PortfolioGroupTrades = ({ trades, groupId, accounts }) => {
         <ColumnPrice>
           <Title>Price</Title>
           <div>
-            <Number value={trade.price} currency />
+            <Number value={trade.price} currency isTrade={true} />
           </div>
         </ColumnPrice>
         <ColumnUnits>

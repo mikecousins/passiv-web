@@ -4,14 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings } from '../selectors';
 import { loadSettings } from '../actions';
-import { putData } from '../api';
+import { postData, putData } from '../api';
 
 import CashNotifcationSettings from './CashNotificationSettings';
 import DriftNotifcationSettings from './DriftNotificationSettings';
 
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../styled/Form';
-import { H2, Edit } from '../styled/GlobalElements';
+import { H2, Edit, Span } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import ShadowBox from '../styled/ShadowBox';
 
@@ -31,6 +31,7 @@ export class CredentialsManager extends React.Component {
     name: this.props.settings && this.props.settings.name,
     email: this.props.settings && this.props.settings.email,
     editingName: false,
+    passwordResetSent: false,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -70,6 +71,21 @@ export class CredentialsManager extends React.Component {
     this.setState({ editingName: false });
   }
 
+  sendPasswordReset() {
+    postData('/api/v1/auth/resetPassword/', { email: this.state.email })
+      .then(response => {
+        this.setState({ passwordResetSent: true });
+      })
+      .catch(error => {
+        this.setState({ passwordResetSent: false });
+        console.log('error', error.response.data);
+      });
+  }
+
+  sendPasswordResetOkay() {
+    this.setState({ passwordResetSent: false });
+  }
+
   render() {
     return (
       <ShadowBox>
@@ -100,6 +116,19 @@ export class CredentialsManager extends React.Component {
         <TextContainer>
           <InputContainer>
             <strong>Email:</strong> {this.state.email}
+          </InputContainer>
+        </TextContainer>
+        <TextContainer>
+          <InputContainer>
+            <strong>Change your Password:</strong>{' '}
+            {this.state.passwordResetSent ? (
+              <React.Fragment>
+                <Span>A password reset email has been sent to you.</Span>
+                <Edit onClick={() => this.sendPasswordResetOkay()}>Okay</Edit>
+              </React.Fragment>
+            ) : (
+              <Edit onClick={() => this.sendPasswordReset()}>Change</Edit>
+            )}
           </InputContainer>
         </TextContainer>
         <CashNotifcationSettings />
