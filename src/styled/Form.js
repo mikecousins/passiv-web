@@ -61,6 +61,24 @@ export const InputNonFormik = styled.input`
   }
 `;
 
+export const InputTarget = styled.input`
+  border: 1px solid var(--brand-grey);
+  box-sizing: border-box;
+  font-size: 12px;
+  text-align: right;
+  height: 16px;
+  padding: 10px;
+  border-radius: 0;
+  width: 10%;
+  outline: none;
+  margin-bottom: 20px;
+  -webkit-appearance: none;
+  background: #fff;
+  &:focus {
+    border: 1px solid var(--brand-blue-hover);
+  }
+`;
+
 export const Label = styled.label`
   display: block;
   font-size: 20px;
