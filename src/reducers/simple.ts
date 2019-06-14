@@ -20,39 +20,37 @@ const simple = <T extends object>({ baseType, userData }: Props) => {
     permanentFail: false,
   };
 
-  // here we're returning our customized reducer
   return (state = initialData, action: any) => {
     if (action.type === START) {
-      return Object.assign({}, state, {
+      const newState: SimpleState<T> = {
+        ...state,
         loading: true,
-      });
+      };
+      return newState;
     }
 
     if (action.type === SUCCESS) {
-      // if successful we store our data
-      // store the lastFetch timestamp
-      // clear out any errors
-      // and set loading to false
-      return Object.assign({}, state, {
+      const newState: SimpleState<T> = {
+        ...state,
         data: action.payload.data,
         lastFetch: Date.now(),
         error: null,
         lastError: null,
         loading: false,
-      });
+      };
+      return newState;
     }
 
     if (action.type === ERROR) {
-      // we still want to leave existing
-      // data intact as well as "last fetch"
-      // which would let us determine if the
-      // data is stale or not
-      return Object.assign({}, state, {
+      const newState: SimpleState<T> = {
+        ...state,
         lastError: Date.now(),
         error: action.error,
         loading: false,
-      });
+      };
+      return newState;
     }
+
     // if we're logging out and we're storing user data, clear it all out
     if (action.type === 'LOGOUT' && userData) {
       return initialData;
