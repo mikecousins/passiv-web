@@ -14,17 +14,6 @@ import { SmallButton } from '../styled/Button';
 
 import { Edit, SubSetting } from '../styled/GlobalElements';
 
-const DividingLine = styled.div`
-  border-top: 1px solid #eee;
-  margin-top: 10px;
-  padding-top: 10px;
-  &:first-of-type {
-    border: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-`;
-
 class DriftNotificationSettings extends React.Component {
   state = {
     editingThreshold: false,
