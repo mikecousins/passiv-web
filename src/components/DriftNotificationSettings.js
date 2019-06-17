@@ -6,7 +6,6 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings } from '../selectors';
 import { loadSettings } from '../actions';
 import { putData } from '../api';
-import styled from '@emotion/styled';
 import { ToggleButton, StateText } from '../styled/ToggleButton';
 import Number from './Number';
 import { InputTarget } from '../styled/Form';
