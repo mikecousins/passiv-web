@@ -23,7 +23,19 @@ const simpleList = <T extends object>({
   return (state = initialData, action: any) => {
     if (action.type === START) {
       const newState: SimpleListState = JSON.parse(JSON.stringify(state));
-      newState[action.id].loading = true;
+      if (!newState[action.id]) {
+        newState[action.id] = {
+          data: null,
+          lastError: null,
+          error: null,
+          lastFetch: null,
+          loading: true,
+          stale: false,
+          permanentFail: false,
+        };
+      } else {
+        newState[action.id].loading = true;
+      }
       return newState;
     }
 
