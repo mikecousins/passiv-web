@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -11,16 +11,17 @@ import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 
-const LoginPage = props => {
-  if (props.loggedIn) {
+type Props = {
+  location: any;
+};
+
+const LoginPage = ({ location }: Props) => {
+  const loggedIn = useSelector(selectLoggedIn);
+  const dispatch = useDispatch();
+  if (loggedIn) {
     let nextPath = '/app/dashboard';
-    if (
-      props &&
-      props.location &&
-      props.location.state &&
-      props.location.state.nextPathname
-    ) {
-      nextPath = props.location.state.nextPathname;
+    if (location && location.state && location.state.nextPathname) {
+      nextPath = location.state.nextPathname;
     }
     return <Redirect to={nextPath} />;
   } else {
@@ -45,7 +46,7 @@ const LoginPage = props => {
             })
               .then(response => {
                 actions.setSubmitting(false);
-                props.loginSucceeded(response);
+                dispatch(loginSucceeded(response));
               })
               .catch(error => {
                 actions.setErrors({
@@ -91,13 +92,4 @@ const LoginPage = props => {
   }
 };
 
-const select = state => ({
-  loggedIn: selectLoggedIn(state),
-});
-
-const actions = { loginSucceeded: loginSucceeded };
-
-export default connect(
-  select,
-  actions,
-)(LoginPage);
+export default LoginPage;

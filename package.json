@@ -98,6 +98,7 @@
     "@types/react-router-dom": "4.3.4",
     "@types/react-stripe-elements": "1.1.10",
     "@types/react-tooltip": "3.9.3",
+    "@types/yup": "^0.26.18",
     "cypress": "3.3.2",
     "husky": "2.7.0",
     "jest-dom": "^3.5.0",
