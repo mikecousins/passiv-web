@@ -85,6 +85,7 @@
     "@storybook/addon-links": "5.1.9",
     "@storybook/react": "5.1.9",
     "@storybook/theming": "5.1.9",
+    "@testing-library/react": "8.0.4",
     "@types/history": "4.7.2",
     "@types/jest": "24.0.15",
     "@types/jwt-decode": "2.2.1",
@@ -98,9 +99,8 @@
     "@types/react-stripe-elements": "1.1.10",
     "@types/react-tooltip": "3.9.3",
     "cypress": "3.3.2",
-    "enzyme": "3.10.0",
-    "enzyme-adapter-react-16": "1.14.0",
     "husky": "2.7.0",
+    "jest-dom": "^3.5.0",
     "lint-staged": "8.2.1",
     "prettier": "1.18.2",
     "typescript": "3.5.2"
