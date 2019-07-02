@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
-import { H2, H3, P } from '../../styled/GlobalElements';
-import { Button } from '../../styled/Button';
+import { H2, H3, P, A } from '../../styled/GlobalElements';
 import { Questions } from '../../styled/Help';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -17,11 +16,9 @@ export class Topics extends React.Component {
         <ShadowBox key={article.slug}>
           <H3>{article.title}</H3>
           <P>{article.description}</P>
-          <Button
-            onClick={() => this.props.push(`/app/help/topic/${article.slug}`)}
-          >
+          <A onClick={() => this.props.push(`/app/help/topic/${article.slug}`)}>
             Read More
-          </Button>
+          </A>
         </ShadowBox>
       ));
     }
