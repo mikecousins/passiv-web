@@ -1,4 +1,4 @@
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faShare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import uuid from 'uuid';
 import { replace } from 'connected-react-router';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
@@ -104,9 +105,7 @@ export const TargetSelector = ({
   target.map((target, index) => {
     let iValue = index + 1;
     portfolioVisualizerURLParts.push(
-      `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${
-        target.percent
-      }`,
+      `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${target.percent}`,
     );
     return null;
   });
@@ -209,6 +208,14 @@ export const TargetSelector = ({
               if (props.values.targets.filter(t => !t.deleted).length === 0) {
                 arrayHelpers.push(generateNewTarget());
               }
+
+              // generate the share url
+              let shareUrl = `/app/share?`;
+              props.values.targets.forEach(
+                target =>
+                  (shareUrl += `symbols[]=${target.fullSymbol.symbol}&percentages[]=${target.percent}`),
+              );
+
               return (
                 <React.Fragment>
                   {props.values.targets.map((t, index) => {
@@ -306,6 +313,10 @@ export const TargetSelector = ({
                           <FontAwesomeIcon icon={faLock} />
                           Edit Targets
                         </Edit>
+                        <Link to={shareUrl}>
+                          <FontAwesomeIcon icon={faShare} />
+                          Share Portfolio
+                        </Link>
                       </div>
                       <div>
                         {cashPercentage > 0 ? (
