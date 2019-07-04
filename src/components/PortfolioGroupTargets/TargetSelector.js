@@ -213,8 +213,9 @@ export const TargetSelector = ({
               let shareUrl = `/app/share?`;
               props.values.targets.forEach(
                 target =>
-                  (shareUrl += `symbols[]=${target.fullSymbol.symbol}&percentages[]=${target.percent}`),
+                  (shareUrl += `symbols[]=${target.fullSymbol.symbol}&percentages[]=${target.percent}&`),
               );
+              shareUrl = shareUrl.substr(0, shareUrl.length - 1);
 
               return (
                 <React.Fragment>
