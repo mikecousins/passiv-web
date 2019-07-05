@@ -85,8 +85,6 @@ export const Account = ({
 
   let brokerageName = '';
   if (authorizations && brokerages) {
-    console.log(authorizations);
-
     if (!authorizations) {
       return null;
     } else if (!authorizations.length === 0) {
