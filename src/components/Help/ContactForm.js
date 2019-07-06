@@ -14,6 +14,7 @@ const GreenBox = styled.div`
   background-color: var(--brand-green);
   border-radius: 4px;
   box-shadow: 1px 1px 20px #949494;
+  flex: 1;
   padding: 30px 30px 30px;
   margin-bottom: 20px;
   max-width: 600px;

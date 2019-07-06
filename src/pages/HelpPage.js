@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
+import { Table } from '../styled/GlobalElements';
+import Tutorial from '../components/Help/Tutorial';
 import FAQ from '../components/Help/FAQ';
-import Topics from '../components/Help/Topics';
 import ContactForm from '../components/Help/ContactForm';
 import HelpHeader from '../components/Help/HelpHeader';
 import { selectLoggedIn, selectHelpArticles } from '../selectors';
@@ -14,10 +15,13 @@ class HelpPage extends Component {
         {this.props.loggedIn && (
           <React.Fragment>
             <HelpHeader />
-            <ContactForm />
+            <Table>
+              <ContactForm />
+              <Tutorial />
+            </Table>
           </React.Fragment>
         )}
-        <Topics articles={this.props.articles} push={this.props.push} />
+
         <FAQ />
       </React.Fragment>
     );
