@@ -7,6 +7,7 @@ export const Button = styled.button`
   color: white;
   padding: 14px 18px 16px;
   margin: 5px;
+  border-radius: 4px;
 `;
 
 export const SmallButton = styled.button`

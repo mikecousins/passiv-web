@@ -44,19 +44,19 @@ export const PortfolioGroupAccuracy = ({
   error,
 }) => {
   let accuracyDisplay = null;
-  if (loading || accuracy === null) {
-    accuracyDisplay = (
-      <div>
-        <FontAwesomeIcon icon={faSpinner} spin />
-      </div>
-    );
-  } else if (error) {
+  if (error) {
     accuracyDisplay = (
       <div>
         <FontAwesomeIcon
           icon={faExclamationTriangle}
           data-tip="Unable to calculate accuracy."
         />
+      </div>
+    );
+  } else if (loading || accuracy === null) {
+    accuracyDisplay = (
+      <div>
+        <FontAwesomeIcon icon={faSpinner} spin />
       </div>
     );
   } else {

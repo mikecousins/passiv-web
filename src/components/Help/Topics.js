@@ -2,11 +2,13 @@ import React from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { push } from 'connected-react-router';
 import ShadowBox from '../../styled/ShadowBox';
-import { H2, H3, P } from '../../styled/GlobalElements';
-import { Button } from '../../styled/Button';
+import { H2, H3, P, A } from '../../styled/GlobalElements';
 import { Questions } from '../../styled/Help';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
+import styled from '@emotion/styled';
+
+const Container = styled.div``;
 
 const Topics = ({ articles }) => {
   const dispatch = useDispatch();
@@ -16,21 +18,19 @@ const Topics = ({ articles }) => {
       <ShadowBox key={article.slug}>
         <H3>{article.title}</H3>
         <P>{article.description}</P>
-        <Button
-          onClick={() => dispatch(push(`/app/help/topic/${article.slug}`))}
-        >
+        <A onClick={() => dispatch(push(`/app/help/topic/${article.slug}`))}>
           Read More
-        </Button>
+        </A>
       </ShadowBox>
     ));
   }
   return (
-    <div>
+    <Container>
       <H2 margin="40px 0 25px">Help Topics</H2>
       <Questions>
         {articles ? questions : <FontAwesomeIcon icon={faSpinner} spin />}
       </Questions>
-    </div>
+    </Container>
   );
 };
 

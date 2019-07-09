@@ -2,21 +2,41 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectHelpArticleSlug, selectHelpArticles } from '../selectors';
 import { H1, P } from '../styled/GlobalElements';
-import { Button } from '../styled/Button';
+import ShadowBox from '../styled/ShadowBox';
 import { push } from 'connected-react-router';
 import ReactMarkdown from 'react-markdown';
 import styled from '@emotion/styled';
 
 // COPY-PASTED FROM GLOBALELEMENTS.JS ...
 // WOULD BE A WHOLE LOT NICER TO JUST USE THOSE COMPONENTS IN THE MARKDOWN RENDER
+const Header = styled.div`
+  text-align: center;
+  max-width: 868px;
+  margin: 0 auto;
+  p {
+    font-size: 22px;
+  }
+`;
+const Back = styled.a`
+  text-align: left;
+  color: rgb(18, 80, 190);
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 20px;
+`;
 const MarkdownContainer = styled.div`
   font-size: 18px;
+  max-width: 868px;
+  margin: 0 auto;
   h1 {
     font-size: 42px;
     font-weight: 500;
     line-height: 2.17;
     letter-spacing: -1.5px;
     color: #2a2d34;
+    text-align: center;
     @media (max-width: 900px) {
       line-height: 1.3;
       margin-bottom: 20px;
@@ -28,6 +48,8 @@ const MarkdownContainer = styled.div`
     text-align: left;
     color: #232225;
     display: block;
+    margin: 45px 0 20px;
+    line-height: 1.2;
   }
   h3 {
     font-size: 18px;
@@ -61,9 +83,13 @@ const MarkdownContainer = styled.div`
 `;
 
 const VideoContainer = styled.div`
-  padding: 20px 0 20px 0;
-  text-align: center;
-  /* margin: auto; */
+  background: #2a2d34;
+  display: inline-block;
+  padding: 12px;
+  left: 50%;
+  position: relative;
+  transform: translate(-50%);
+  margin: 20px 0 40px;
 `;
 
 const HelpArticlePage = () => {
@@ -79,24 +105,28 @@ const HelpArticlePage = () => {
     if (selectedArticle) {
       article = (
         <React.Fragment>
-          <H1>{selectedArticle.title}</H1>
-          <P>{selectedArticle.description}</P>
-          {selectedArticle.video_url && (
-            <VideoContainer>
-              <iframe
-                title={selectedArticle.title}
-                src={selectedArticle.video_url}
-                width="640"
-                height="400"
-                frameBorder="0"
-                allow="autoplay; fullscreen"
-                allowFullScreen
-              />
-            </VideoContainer>
-          )}
-          <MarkdownContainer>
-            <ReactMarkdown source={selectedArticle.content} />
-          </MarkdownContainer>
+          <ShadowBox>
+            <Header>
+              <H1>{selectedArticle.title}</H1>
+              <P>{selectedArticle.description}</P>
+            </Header>
+            {selectedArticle.video_url && (
+              <VideoContainer>
+                <iframe
+                  title={selectedArticle.title}
+                  src={selectedArticle.video_url}
+                  width="640"
+                  height="400"
+                  frameBorder="0"
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                />
+              </VideoContainer>
+            )}
+            <MarkdownContainer>
+              <ReactMarkdown source={selectedArticle.content} />
+            </MarkdownContainer>
+          </ShadowBox>
         </React.Fragment>
       );
     } else {
@@ -108,9 +138,8 @@ const HelpArticlePage = () => {
 
   return (
     <React.Fragment>
-      <Button onClick={() => dispatch(push('/app/help'))}>Back to Help</Button>
+      <Back onClick={() => dispatch(push('/app/help'))}>Back to Help</Back>
       {article}
-      <Button onClick={() => dispatch(push('/app/help'))}>Back to Help</Button>
     </React.Fragment>
   );
 };

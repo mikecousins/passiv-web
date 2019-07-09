@@ -74,6 +74,7 @@ export const PortfolioGroupAccounts = ({
         refreshGroups();
       });
     setAddAccount(false);
+    setNewAccountId(false);
   };
 
   // show an error message if we get an error
