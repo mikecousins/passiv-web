@@ -97,9 +97,7 @@ export class RebalanceWidget extends Component {
   validateOrders = () => {
     this.setState({ validatingOrders: true });
     getData(
-      `/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${
-        this.props.trades.id
-      }/impact`,
+      `/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/impact`,
     )
       .then(response => {
         this.setState({
@@ -120,9 +118,7 @@ export class RebalanceWidget extends Component {
   confirmOrders = () => {
     this.setState({ placingOrders: true });
     postData(
-      `/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${
-        this.props.trades.id
-      }/placeOrders`,
+      `/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/placeOrders`,
     )
       .then(response => {
         this.setState({
@@ -300,6 +296,21 @@ export class RebalanceWidget extends Component {
                 persists.
               </P>
               <Button onClick={() => this.reloadGroup()}>Refresh</Button>
+            </OrderContainer>
+          );
+          break;
+        case '1033':
+          error = (
+            <OrderContainer>
+              <H2>Order cannot be Processed</H2>
+              <P>
+                Passiv is unable to place your orders because one or more of the
+                exchanges don't support market orders. You can still place your
+                trades manually on your brokerage's trading platform. Please{' '}
+                <Link to="/app/help">contact support</Link> if you have any
+                questions.
+              </P>
+              <Button onClick={() => this.closeWidget()}>Okay</Button>
             </OrderContainer>
           );
           break;
