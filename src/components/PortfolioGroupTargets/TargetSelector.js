@@ -211,10 +211,13 @@ export const TargetSelector = ({
 
               // generate the share url
               let shareUrl = `/app/share?`;
-              props.values.targets.forEach(
-                target =>
-                  (shareUrl += `symbols[]=${target.fullSymbol.symbol}&percentages[]=${target.percent}&`),
-              );
+              props.values.targets.forEach(target => {
+                if (target.fullSymbol && target.fullSymbol.symbol) {
+                  return (shareUrl += `symbols[]=${target.fullSymbol.symbol}&percentages[]=${target.percent}&`);
+                } else {
+                  return null;
+                }
+              });
               shareUrl = shareUrl.substr(0, shareUrl.length - 1);
 
               return (
