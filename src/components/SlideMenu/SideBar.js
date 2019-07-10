@@ -20,6 +20,8 @@ const StyledAside = styled.aside`
   font-weight: 700;
   position: fixed;
   transition: 0.25s all;
+  overflow-y: auto;
+  padding-bottom: 136px;
   a {
     color: #fff;
     text-decoration: none;
