@@ -267,7 +267,20 @@ export const initialLoad: ActionCreator<
 
     dispatch(fetchAccountsStart());
     getData('/api/v1/accounts/')
-      .then(response => dispatch(fetchAccountsSuccess(response)))
+      .then(response => {
+        response.data.forEach((account: any) => {
+          dispatch(fetchAccountBalancesStart(account.id));
+          getData('/api/v1/accounts/' + account.id + '/balances/')
+            .then(r => dispatch(fetchAccountBalancesSuccess(r, account.id)))
+            .catch(e => dispatch(fetchAccountBalancesError(e, account.id)));
+
+          dispatch(fetchAccountPositionsStart(account.id));
+          getData('/api/v1/accounts/' + account.id + '/positions/')
+            .then(r => dispatch(fetchAccountPositionsSuccess(r, account.id)))
+            .catch(e => dispatch(fetchAccountPositionsError(e, account.id)));
+        });
+        return dispatch(fetchAccountsSuccess(response));
+      })
       .catch(error => dispatch(fetchAccountsError(error)));
   };
 };
