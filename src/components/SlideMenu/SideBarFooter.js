@@ -6,9 +6,8 @@ import RefreshButton from './../RefreshButton';
 import styled from '@emotion/styled';
 
 export const StyledFooter = styled.div`
-  position: absolute;
-  bottom: 80px;
-  left: 0;
+  position: fixed;
+  bottom: 0;
   z-index: 4;
   width: 212px;
   padding: 12px 0px 8px;
