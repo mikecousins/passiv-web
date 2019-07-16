@@ -2,7 +2,7 @@ import { faLock, faShare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Formik, FieldArray, Field, ErrorMessage } from 'formik';
+import { Formik, FieldArray, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 import uuid from 'uuid';
 import { replace } from 'connected-react-router';
