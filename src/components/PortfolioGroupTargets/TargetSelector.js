@@ -249,9 +249,27 @@ export const TargetSelector = ({
                             forceUpdate();
                           }}
                         >
-                          <Field
+                          <input
                             type="number"
                             name={`targets.${index}.percent`}
+                            value={props.values.targets[index].percent}
+                            onChange={e =>
+                              props.setFieldValue(
+                                `targets.${index}.percent`,
+                                parseFloat(e.target.value),
+                              )
+                            }
+                            onBlur={() => {
+                              console.log(props.values.targets[index].percent);
+                              props.setFieldValue(
+                                `targets.${index}.percent`,
+                                parseFloat(
+                                  props.values.targets[index].percent.toFixed(
+                                    1,
+                                  ),
+                                ),
+                              );
+                            }}
                             readOnly={!canEdit}
                           />
                         </TargetBar>
