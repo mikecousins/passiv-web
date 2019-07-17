@@ -83,7 +83,7 @@ class DriftNotificationSettings extends React.Component {
 
     let contents = (
       <React.Fragment>
-        <strong>Receive Drift Notifications:</strong>{' '}
+        <strong>Drift Notifications:</strong>{' '}
         {settings.receive_drift_notifications && !disabled ? (
           <React.Fragment>
             <ToggleButton onClick={this.updateNotification} disabled={disabled}>

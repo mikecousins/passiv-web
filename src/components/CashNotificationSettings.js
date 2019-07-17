@@ -44,7 +44,7 @@ class CashNotificationSettings extends React.Component {
     return (
       <React.Fragment>
         <DividingLine>
-          <strong>Receive Cash Notifications:</strong>{' '}
+          <strong>Cash Notifications:</strong>{' '}
           <ToggleButton onClick={this.updateNotification}>
             {settings.receive_cash_notifications ? (
               <React.Fragment>
