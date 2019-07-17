@@ -14,7 +14,7 @@ import { loadGroup } from '../actions';
 import { putData } from '../api';
 import {
   ToggleButton,
-  DisabledTogglebutton,
+  DisabledToggleButton,
   StateText,
 } from '../styled/ToggleButton';
 
@@ -61,7 +61,7 @@ class SettingsToggle extends Component {
     const disabled = !!this.props.disabled;
 
     let toggleButton = (
-      <DisabledTogglebutton>
+      <DisabledToggleButton>
         {this.getViewState() ? (
           <React.Fragment>
             <FontAwesomeIcon icon={faToggleOn} data-tip={this.props.tip} />
@@ -73,7 +73,7 @@ class SettingsToggle extends Component {
             <StateText>off</StateText>
           </React.Fragment>
         )}
-      </DisabledTogglebutton>
+      </DisabledToggleButton>
     );
     if (!disabled) {
       toggleButton = (

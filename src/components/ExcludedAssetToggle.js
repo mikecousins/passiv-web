@@ -18,7 +18,7 @@ import { selectCanExcludeAssets } from '../selectors/subscription';
 import { postData, deleteData } from '../api';
 import {
   ToggleButton,
-  DisabledTogglebutton,
+  DisabledToggleButton,
   StateText,
 } from '../styled/ToggleButton';
 import { toast } from 'react-toastify';
@@ -88,25 +88,25 @@ class ExcludedAssetToggle extends Component {
 
     if (this.symbolInTargets(this.props.symbolId)) {
       return (
-        <DisabledTogglebutton>
+        <DisabledToggleButton>
           <FontAwesomeIcon
             icon={faToggleOff}
             data-tip="You can't exclude assets that are a part of your target portfolio. Remove this security from your target portfolio first."
           />
           <StateText>off</StateText>
-        </DisabledTogglebutton>
+        </DisabledToggleButton>
       );
     }
 
     if (!this.symbolQuotable(this.props.symbolId)) {
       return (
-        <DisabledTogglebutton>
+        <DisabledToggleButton>
           <FontAwesomeIcon
             icon={faToggleOn}
             data-tip="This security is not supported for trading, so it is excluded from your portfolio calculations."
           />
           <StateText>on</StateText>
-        </DisabledTogglebutton>
+        </DisabledToggleButton>
       );
     }
 
@@ -115,7 +115,7 @@ class ExcludedAssetToggle extends Component {
 
     if (!this.props.canExcludeAssets) {
       return (
-        <DisabledTogglebutton onClick={() => toast.error(upgradeError)}>
+        <DisabledToggleButton onClick={() => toast.error(upgradeError)}>
           {this.state.toggle ? (
             <React.Fragment>
               <FontAwesomeIcon icon={faToggleOn} data-tip={upgradeError} />
@@ -127,7 +127,7 @@ class ExcludedAssetToggle extends Component {
               <StateText>off</StateText>
             </React.Fragment>
           )}
-        </DisabledTogglebutton>
+        </DisabledToggleButton>
       );
     }
 

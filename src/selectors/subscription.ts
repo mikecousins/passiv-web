@@ -102,6 +102,18 @@ export const selectCanExcludeAssets = createSelector(
   },
 );
 
+export const selectCanReceiveDriftNotifications = createSelector(
+  selectUserPermissions,
+  permissions => {
+    if (!permissions) {
+      return false;
+    }
+    return permissions.some(
+      permission => permission === 'can_receive_drift_notifications',
+    );
+  },
+);
+
 export const selectCanSeparateCurrencies = createSelector(
   selectUserPermissions,
   permissions => {
