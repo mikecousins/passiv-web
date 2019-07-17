@@ -12,6 +12,8 @@ import SettingsPage from './pages/SettingsPage';
 import HelpPage from './pages/HelpPage';
 import HelpArticlePage from './pages/HelpArticlePage';
 import QuestradeOauthPage from './pages/QuestradeOauthPage';
+import TradeItOauthPage from './pages/TradeItOauthPage';
+import GenericOauthPage from './pages/GenericOauthPage';
 import CouponPage from './pages/CouponPage';
 import SecureRoute from './routes/SecureRoute';
 import UpdateNotification from './components/UpdateNotification';
@@ -107,6 +109,10 @@ const App = () => {
             exact
             path="/oauth/questrade-trade"
             render={() => questradeOauthRedirect()}
+          />
+          <Route
+            path={prefixPath('/oauth/tradeit')}
+            render={props => <GenericOauthPage {...props} name={'TradeIt'} />}
           />
           <UpdateNotification />
         </Switch>

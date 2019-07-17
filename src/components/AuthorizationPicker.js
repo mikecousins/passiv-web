@@ -5,6 +5,7 @@ import { postData } from '../api';
 import { Button } from '../styled/Button';
 import { DisabledButton } from '../styled/DisabledButton';
 import { StepButton } from '../styled/SignupSteps';
+import { push } from 'connected-react-router';
 
 class AuthorizationPicker extends Component {
   state = {
@@ -27,23 +28,66 @@ class AuthorizationPicker extends Component {
     name: this.props.name ? this.props.name : 'Connect',
   };
 
+  receiveMessage(e) {
+    var data = JSON.parse(e.data);
+    var oAuthVerifier = data.oAuthVerifier;
+    console.log('data', data);
+    // push(`/app/oauth/tradeit?code=${oAuthVerifier}`);
+
+    window.location = `/app/oauth/tradeit?code=${oAuthVerifier}`;
+    console.log('hello?');
+    // getTradeItTokens(oAuthVerifier)
+  }
+
+  handleRedirect(url) {
+    let selectedBrokerage = this.props.brokerages.find(
+      b => b.id === this.state.brokerage,
+    );
+    console.log('brokerage', selectedBrokerage);
+    switch (selectedBrokerage.name) {
+      case 'TradeItDummy':
+        console.log('new window!');
+        let newWindow = window.open(
+          url,
+          `Passiv: Connect ${selectedBrokerage.name}`,
+          'height=480,width=640',
+        );
+
+        if (window.focus) {
+          newWindow.focus();
+        }
+
+        if (window.addEventListener) {
+          window.addEventListener('message', this.receiveMessage, false);
+        } else {
+          window.attachEvent('onmessage', this.receiveMessage);
+        }
+        break;
+      case 'Questrade':
+        window.location = url;
+        break;
+      default:
+        break;
+    }
+  }
+
   startAuthorization() {
     if (this.state.updateBrokerageAuthorizationId === null) {
       postData(`/api/v1/brokerages/${this.state.brokerage}/authorize/`, {
         type: this.state.type,
       }).then(response => {
         console.log('success', response.data);
-        window.location = response.data.url;
+        this.handleRedirect(response.data.url);
+        // window.location = response.data.url;
       });
     } else {
       postData(
-        `/api/v1/brokerages/${this.state.brokerage}/authorize/${
-          this.state.updateBrokerageAuthorizationId
-        }`,
+        `/api/v1/brokerages/${this.state.brokerage}/authorize/${this.state.updateBrokerageAuthorizationId}`,
         { type: this.state.type },
       ).then(response => {
         console.log('success', response.data);
-        window.location = response.data.url;
+        this.handleRedirect(response.data.url);
+        // window.location = response.data.url;
       });
     }
   }
@@ -142,5 +186,9 @@ class AuthorizationPicker extends Component {
 const select = state => ({
   brokerages: selectBrokerages(state),
 });
+
+const actions = {
+  push: push,
+};
 
 export default connect(select)(AuthorizationPicker);
