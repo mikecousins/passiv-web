@@ -1,7 +1,7 @@
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
 import PortfolioGroupAccuracy from '../components/PortfolioGroupAccuracy';
@@ -55,20 +55,18 @@ export const Container6040Column = styled.div`
   }
 `;
 
-const GroupPage = props => {
-  const {
-    group,
-    trades,
-    balances,
-    accuracy,
-    positions,
-    cash,
-    equity,
-    error,
-    setupComplete,
-    loading,
-    accounts,
-  } = props;
+const GroupPage = () => {
+  const group = useSelector(selectCurrentGroup);
+  const positions = useSelector(selectCurrentGroupPositions);
+  const balances = useSelector(selectCurrentGroupBalances);
+  const cash = useSelector(selectCurrentGroupCash);
+  const equity = useSelector(selectCurrentGroupTotalEquity);
+  const accuracy = useSelector(selectCurrentGroupAccuracy);
+  const trades = useSelector(selectCurrentGroupTrades);
+  const setupComplete = useSelector(selectCurrentGroupSetupComplete);
+  const loading = useSelector(selectGroupsLoading);
+  const accounts = useSelector(selectCurrentGroupAccountHoldings);
+  const error = useSelector(selectCurrentGroupInfoError);
 
   // if we don't have our group yet, show a spinner
   if (group === undefined) {
@@ -148,23 +146,4 @@ const GroupPage = props => {
   );
 };
 
-const select = state => ({
-  group: selectCurrentGroup(state),
-  positions: selectCurrentGroupPositions(state),
-  balances: selectCurrentGroupBalances(state),
-  cash: selectCurrentGroupCash(state),
-  equity: selectCurrentGroupTotalEquity(state),
-  accuracy: selectCurrentGroupAccuracy(state),
-  trades: selectCurrentGroupTrades(state),
-  setupComplete: selectCurrentGroupSetupComplete(state),
-  loading: selectGroupsLoading(state),
-  accounts: selectCurrentGroupAccountHoldings(state),
-  error: selectCurrentGroupInfoError(state),
-});
-
-const actions = {};
-
-export default connect(
-  select,
-  actions,
-)(GroupPage);
+export default GroupPage;

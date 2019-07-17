@@ -150,6 +150,10 @@ export const WarningBox = styled.div`
   }
 `;
 
+export const DisabledBox = styled.div`
+  opacity: 0.6;
+`;
+
 export const ErrorMessage = styled.div`
   width: 100%;
   text-align: left;

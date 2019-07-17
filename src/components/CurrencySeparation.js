@@ -6,7 +6,8 @@ import {
 } from '../selectors/groups';
 import { loadGroup } from '../actions';
 
-import { SubSetting } from '../styled/GlobalElements';
+import { SubSetting, DisabledBox } from '../styled/GlobalElements';
+
 import SettingsToggle from './SettingsToggle';
 import { selectCanSeparateCurrencies } from '../selectors/subscription';
 
@@ -36,22 +37,24 @@ class CurrencySeparation extends React.Component {
     } else {
       return (
         <React.Fragment>
-          <SettingsToggle
-            name="Keep currencies separate"
-            settingsId="prevent_currency_conversion"
-            disabled={true}
-            tip="Separating currencies is only available to Elite subscribers. Upgrade your account on the Settings page to use this feature."
-          />
-          <br />
-          <SubSetting>
+          <DisabledBox>
             <SettingsToggle
-              name="Retain cash for manual exchange"
-              settingsId="hard_currency_separation"
-              invert={true}
+              name="Keep currencies separate"
+              settingsId="prevent_currency_conversion"
               disabled={true}
               tip="Separating currencies is only available to Elite subscribers. Upgrade your account on the Settings page to use this feature."
             />
-          </SubSetting>
+            <br />
+            <SubSetting>
+              <SettingsToggle
+                name="Retain cash for manual exchange"
+                settingsId="hard_currency_separation"
+                invert={true}
+                disabled={true}
+                tip="Separating currencies is only available to Elite subscribers. Upgrade your account on the Settings page to use this feature."
+              />
+            </SubSetting>
+          </DisabledBox>
         </React.Fragment>
       );
     }

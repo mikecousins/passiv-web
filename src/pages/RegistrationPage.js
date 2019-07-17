@@ -19,6 +19,7 @@ import Tooltip from '../components/Tooltip';
 const RegistrationPage = props => {
   let formatted_email = '';
 
+  // TODO rewrite this using qs
   if (JSON.stringify(window.location.search) !== '""') {
     const searchString = window.location.search;
     const splitStrings = searchString.split('=');

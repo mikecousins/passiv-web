@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectHelpArticleSlug, selectHelpArticles } from '../selectors';
 import { H1, P } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
@@ -92,77 +92,56 @@ const VideoContainer = styled.div`
   margin: 20px 0 40px;
 `;
 
-class HelpArticlePage extends Component {
-  render() {
-    let article = null;
-    if (
-      this.props.helpArticles !== undefined &&
-      this.props.helpArticles !== null
-    ) {
-      let selectedArticle = this.props.helpArticles.find(
-        a => a.slug === this.props.helpArticleSlug,
-      );
-      if (selectedArticle) {
-        article = (
-          <React.Fragment>
-            <ShadowBox>
-              <Header>
-                <H1>{selectedArticle.title}</H1>
-                <P>{selectedArticle.description}</P>
-              </Header>
-              {selectedArticle.video_url && (
-                <VideoContainer>
-                  <iframe
-                    title={selectedArticle.title}
-                    src={selectedArticle.video_url}
-                    width="640"
-                    height="400"
-                    frameBorder="0"
-                    allow="autoplay; fullscreen"
-                    allowFullScreen
-                  />
-                </VideoContainer>
-              )}
-              <MarkdownContainer>
-                <ReactMarkdown source={selectedArticle.content} />
-              </MarkdownContainer>
-            </ShadowBox>
-          </React.Fragment>
-        );
-      } else {
-        article = (
-          <React.Fragment>
-            <H1>Not Found</H1>
-          </React.Fragment>
-        );
-      }
-    } else {
+const HelpArticlePage = () => {
+  const helpArticles = useSelector(selectHelpArticles);
+  const helpArticleSlug = useSelector(selectHelpArticleSlug);
+  const dispatch = useDispatch();
+
+  let article = null;
+  if (helpArticles !== undefined && helpArticles !== null) {
+    let selectedArticle = helpArticles.find(
+      (a: any) => a.slug === helpArticleSlug,
+    );
+    if (selectedArticle) {
       article = (
         <React.Fragment>
-          <H1>Loading</H1>
+          <ShadowBox>
+            <Header>
+              <H1>{selectedArticle.title}</H1>
+              <P>{selectedArticle.description}</P>
+            </Header>
+            {selectedArticle.video_url && (
+              <VideoContainer>
+                <iframe
+                  title={selectedArticle.title}
+                  src={selectedArticle.video_url}
+                  width="640"
+                  height="400"
+                  frameBorder="0"
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                />
+              </VideoContainer>
+            )}
+            <MarkdownContainer>
+              <ReactMarkdown source={selectedArticle.content} />
+            </MarkdownContainer>
+          </ShadowBox>
         </React.Fragment>
       );
+    } else {
+      article = <H1>Not Found</H1>;
     }
-
-    return (
-      <React.Fragment>
-        <Back onClick={() => this.props.push('/app/help')}>Back to Help</Back>
-        {article}
-      </React.Fragment>
-    );
+  } else {
+    article = <H1>Loading</H1>;
   }
-}
 
-const actions = {
-  push: push,
+  return (
+    <React.Fragment>
+      <Back onClick={() => dispatch(push('/app/help'))}>Back to Help</Back>
+      {article}
+    </React.Fragment>
+  );
 };
 
-const select = state => ({
-  helpArticles: selectHelpArticles(state),
-  helpArticleSlug: selectHelpArticleSlug(state),
-});
-
-export default connect(
-  select,
-  actions,
-)(HelpArticlePage);
+export default HelpArticlePage;

@@ -15,6 +15,7 @@ import QuestradeOauthPage from './pages/QuestradeOauthPage';
 import CouponPage from './pages/CouponPage';
 import SecureRoute from './routes/SecureRoute';
 import UpdateNotification from './components/UpdateNotification';
+import SharePage from './pages/SharePage';
 
 declare global {
   interface Window {
@@ -108,6 +109,7 @@ const App = () => {
             path="/oauth/questrade-trade"
             render={() => questradeOauthRedirect()}
           />
+          <Route path={prefixPath('/share')} component={SharePage} />
           <UpdateNotification />
         </Switch>
       </StripeProvider>

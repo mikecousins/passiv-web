@@ -1,16 +1,24 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
 import { Header } from '..';
-import { shallow } from 'enzyme';
+import store from '../../../store';
+
+const renderWithRedux = ui => {
+  return {
+    ...render(
+      <Provider store={store}>
+        <MemoryRouter>{ui}</MemoryRouter>
+      </Provider>,
+    ),
+    // adding `store` to the returned utilities to allow us
+    // to reference it in our tests (just try to avoid using
+    // this to test implementation details).
+    store,
+  };
+};
 
 it('renders without crashing', () => {
-  const div = document.createElement('div');
-  shallow(
-    <MemoryRouter>
-      <Header />
-    </MemoryRouter>,
-    div,
-  );
-  ReactDOM.unmountComponentAtNode(div);
+  renderWithRedux(<Header />);
 });

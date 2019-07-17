@@ -95,6 +95,10 @@ export const Account = ({
       authorization => authorization.id === account.brokerage_authorization,
     );
 
+    if (!authorization) {
+      return null;
+    }
+
     const brokerage = brokerages.find(
       brokerage => brokerage.id === authorization.brokerage.id,
     );

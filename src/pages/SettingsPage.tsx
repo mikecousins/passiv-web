@@ -1,9 +1,9 @@
 import React from 'react';
+import styled from '@emotion/styled';
 import CredentialsManager from '../components/CredentialsManager';
 import SubscriptionManager from '../components/SubscriptionManager';
 import ConnectionsManager from '../components/ConnectionsManager';
 import AccountsManager from '../components/AccountsManager';
-import styled from '@emotion/styled';
 
 export const Container2Column = styled.div`
   @media (min-width: 900px) {
@@ -19,7 +19,7 @@ export const Container2Column = styled.div`
   }
 `;
 
-const SettingsPage = props => {
+const SettingsPage = () => {
   return (
     <React.Fragment>
       <Container2Column>

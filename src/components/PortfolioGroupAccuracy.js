@@ -13,6 +13,7 @@ import {
   selectCurrentGroupSetupComplete,
   selectCurrentGroupInfoError,
 } from '../selectors/groups';
+import { selectCanReceiveDriftNotifications } from '../selectors/subscription';
 
 export const Accuracy = styled.div`
   text-align: center;
@@ -42,6 +43,7 @@ export const PortfolioGroupAccuracy = ({
   loading,
   setupComplete,
   error,
+  canReceiveDriftNotifications,
 }) => {
   let accuracyDisplay = null;
   if (error) {
@@ -93,6 +95,7 @@ export const PortfolioGroupAccuracy = ({
 const select = state => ({
   setupComplete: selectCurrentGroupSetupComplete(state),
   error: selectCurrentGroupInfoError(state),
+  canReceiveDriftNotifications: selectCanReceiveDriftNotifications(state),
 });
 
 export default connect(select)(PortfolioGroupAccuracy);
