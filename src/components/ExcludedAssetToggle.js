@@ -14,7 +14,7 @@ import {
   selectCurrentGroupSymbols,
   selectCurrentGroupQuotableSymbols,
 } from '../selectors/groups';
-import { selectUserPermissions } from '../selectors/subscription';
+import { selectCanExcludeAssets } from '../selectors/subscription';
 import { postData, deleteData } from '../api';
 import {
   ToggleButton,
@@ -69,9 +69,7 @@ class ExcludedAssetToggle extends Component {
         });
     } else {
       deleteData(
-        `/api/v1/portfolioGroups/${this.props.groupId}/excludedassets/${
-          this.props.symbolId
-        }`,
+        `/api/v1/portfolioGroups/${this.props.groupId}/excludedassets/${this.props.symbolId}`,
       )
         .then(response => {
           this.setState({ loading: false, toggle: newToggleState });
@@ -80,22 +78,6 @@ class ExcludedAssetToggle extends Component {
         .catch(error => {
           this.setState({ loading: false });
         });
-    }
-  };
-
-  canExcludeAssets = () => {
-    let permissions = this.props.userPermissions;
-    if (!permissions) {
-      return false;
-    }
-    let filtered_permissions = permissions.filter(
-      permission => permission === 'can_exclude_assets',
-    );
-
-    if (filtered_permissions.length > 0) {
-      return true;
-    } else {
-      return false;
     }
   };
 
@@ -131,7 +113,7 @@ class ExcludedAssetToggle extends Component {
     const upgradeError =
       'Excluding assets is only available to Elite subscribers. Upgrade your account on the Settings page to use this feature.';
 
-    if (!this.canExcludeAssets()) {
+    if (!this.props.canExcludeAssets) {
       return (
         <DisabledTogglebutton onClick={() => toast.error(upgradeError)}>
           {this.state.toggle ? (
@@ -177,7 +159,7 @@ const select = state => ({
   excludedAssets: selectCurrentGroupExcludedAssets(state),
   symbols: selectCurrentGroupSymbols(state),
   quotableSymbols: selectCurrentGroupQuotableSymbols(state),
-  userPermissions: selectUserPermissions(state),
+  canExcludeAssets: selectCanExcludeAssets(state),
 });
 
 export default connect(
