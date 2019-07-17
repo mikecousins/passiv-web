@@ -335,10 +335,6 @@ export const TargetSelector = ({
                           <FontAwesomeIcon icon={faLock} />
                           Edit Targets
                         </Edit>
-                        <Link to={shareUrl}>
-                          <FontAwesomeIcon icon={faShare} />
-                          Share Portfolio
-                        </Link>
                       </div>
                       <div>
                         {cashPercentage > 0 ? (
