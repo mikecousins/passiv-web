@@ -12,13 +12,9 @@ import Number from './Number';
 import { InputTarget } from '../styled/Form';
 import { SmallButton } from '../styled/Button';
 import styled from '@emotion/styled';
-import { Edit, SubSetting } from '../styled/GlobalElements';
+import { Edit, SubSetting, DisabledBox } from '../styled/GlobalElements';
 
 export const DriftBox = styled.div``;
-
-export const DisabledDriftBox = styled(DriftBox)`
-  opacity: 0.6;
-`;
 
 class DriftNotificationSettings extends React.Component {
   state = {
@@ -152,7 +148,7 @@ class DriftNotificationSettings extends React.Component {
     );
 
     if (disabled) {
-      return <DisabledDriftBox>{contents}</DisabledDriftBox>;
+      return <DisabledBox>{contents}</DisabledBox>;
     } else {
       return <DriftBox>{contents}</DriftBox>;
     }

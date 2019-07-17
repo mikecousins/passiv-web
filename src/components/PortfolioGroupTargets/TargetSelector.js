@@ -1,4 +1,4 @@
-import { faLock, faShare } from '@fortawesome/free-solid-svg-icons';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import uuid from 'uuid';
 import { replace } from 'connected-react-router';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
