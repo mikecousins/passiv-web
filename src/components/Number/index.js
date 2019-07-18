@@ -13,7 +13,11 @@ const Number = props => {
         decimalPlaces = 2;
       } else {
         let defaultDecimalPlaces = 2;
-        let actualDecimalPlaces = props.value.toString().split('.')[1].length;
+        let pieces = props.value.toString().split('.');
+        let actualDecimalPlaces = 0;
+        if (pieces.length > 1) {
+          actualDecimalPlaces = pieces[1].length;
+        }
         decimalPlaces = Math.max(defaultDecimalPlaces, actualDecimalPlaces);
       }
     }
