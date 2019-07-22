@@ -17,6 +17,7 @@ import GenericOauthPage from './pages/GenericOauthPage';
 import CouponPage from './pages/CouponPage';
 import SecureRoute from './routes/SecureRoute';
 import UpdateNotification from './components/UpdateNotification';
+import SharePage from './pages/SharePage';
 
 declare global {
   interface Window {
@@ -114,6 +115,7 @@ const App = () => {
             path={prefixPath('/oauth/tradeit')}
             render={props => <GenericOauthPage {...props} name={'TradeIt'} />}
           />
+          <Route path={prefixPath('/share')} component={SharePage} />
           <UpdateNotification />
         </Switch>
       </StripeProvider>

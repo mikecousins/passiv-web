@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { P } from '../styled/GlobalElements';
 
-let LoginLinksStyle = styled.div`
+const LoginLinksStyle = styled.div`
   margin: 15px 0;
   a {
     color: var(--brand-blue);
@@ -11,7 +11,11 @@ let LoginLinksStyle = styled.div`
   }
 `;
 
-const LoginLinks = props => {
+type Props = {
+  page: string;
+};
+
+const LoginLinks = ({ page }: Props) => {
   let links = [];
 
   const resetLink = (
@@ -50,7 +54,7 @@ const LoginLinks = props => {
     </LoginLinksStyle>
   );
 
-  switch (props.page) {
+  switch (page) {
     case 'reset':
       links.push(loginRememberedLink);
       links.push(signUpLink);

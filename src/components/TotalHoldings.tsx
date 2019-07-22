@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
@@ -33,7 +33,9 @@ export const TotalContainer = styled.div`
   }
 `;
 
-export const TotalHoldings = ({ demoMode, totalHoldings }) => {
+export const TotalHoldings = () => {
+  const totalHoldings = useSelector(selectTotalGroupHoldings);
+  const demoMode = useSelector(selectIsDemoMode);
   let displayTotal = <FontAwesomeIcon icon={faSpinner} spin />;
   if (demoMode) {
     displayTotal = <span>$-------.--</span>;
@@ -48,9 +50,4 @@ export const TotalHoldings = ({ demoMode, totalHoldings }) => {
   );
 };
 
-const select = state => ({
-  totalHoldings: selectTotalGroupHoldings(state),
-  demoMode: selectIsDemoMode(state),
-});
-
-export default connect(select)(TotalHoldings);
+export default TotalHoldings;

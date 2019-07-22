@@ -14,11 +14,11 @@ import {
   selectCurrentGroupSymbols,
   selectCurrentGroupQuotableSymbols,
 } from '../selectors/groups';
-import { selectUserPermissions } from '../selectors/subscription';
+import { selectCanExcludeAssets } from '../selectors/subscription';
 import { postData, deleteData } from '../api';
 import {
   ToggleButton,
-  DisabledTogglebutton,
+  DisabledToggleButton,
   StateText,
 } from '../styled/ToggleButton';
 import { toast } from 'react-toastify';
@@ -69,9 +69,7 @@ class ExcludedAssetToggle extends Component {
         });
     } else {
       deleteData(
-        `/api/v1/portfolioGroups/${this.props.groupId}/excludedassets/${
-          this.props.symbolId
-        }`,
+        `/api/v1/portfolioGroups/${this.props.groupId}/excludedassets/${this.props.symbolId}`,
       )
         .then(response => {
           this.setState({ loading: false, toggle: newToggleState });
@@ -83,22 +81,6 @@ class ExcludedAssetToggle extends Component {
     }
   };
 
-  canExcludeAssets = () => {
-    let permissions = this.props.userPermissions;
-    if (!permissions) {
-      return false;
-    }
-    let filtered_permissions = permissions.filter(
-      permission => permission === 'can_exclude_assets',
-    );
-
-    if (filtered_permissions.length > 0) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   render() {
     if (this.state.loading) {
       return <FontAwesomeIcon icon={faSpinner} />;
@@ -106,34 +88,34 @@ class ExcludedAssetToggle extends Component {
 
     if (this.symbolInTargets(this.props.symbolId)) {
       return (
-        <DisabledTogglebutton>
+        <DisabledToggleButton>
           <FontAwesomeIcon
             icon={faToggleOff}
             data-tip="You can't exclude assets that are a part of your target portfolio. Remove this security from your target portfolio first."
           />
           <StateText>off</StateText>
-        </DisabledTogglebutton>
+        </DisabledToggleButton>
       );
     }
 
     if (!this.symbolQuotable(this.props.symbolId)) {
       return (
-        <DisabledTogglebutton>
+        <DisabledToggleButton>
           <FontAwesomeIcon
             icon={faToggleOn}
             data-tip="This security is not supported for trading, so it is excluded from your portfolio calculations."
           />
           <StateText>on</StateText>
-        </DisabledTogglebutton>
+        </DisabledToggleButton>
       );
     }
 
     const upgradeError =
       'Excluding assets is only available to Elite subscribers. Upgrade your account on the Settings page to use this feature.';
 
-    if (!this.canExcludeAssets()) {
+    if (!this.props.canExcludeAssets) {
       return (
-        <DisabledTogglebutton onClick={() => toast.error(upgradeError)}>
+        <DisabledToggleButton onClick={() => toast.error(upgradeError)}>
           {this.state.toggle ? (
             <React.Fragment>
               <FontAwesomeIcon icon={faToggleOn} data-tip={upgradeError} />
@@ -145,7 +127,7 @@ class ExcludedAssetToggle extends Component {
               <StateText>off</StateText>
             </React.Fragment>
           )}
-        </DisabledTogglebutton>
+        </DisabledToggleButton>
       );
     }
 
@@ -177,7 +159,7 @@ const select = state => ({
   excludedAssets: selectCurrentGroupExcludedAssets(state),
   symbols: selectCurrentGroupSymbols(state),
   quotableSymbols: selectCurrentGroupQuotableSymbols(state),
-  userPermissions: selectUserPermissions(state),
+  canExcludeAssets: selectCanExcludeAssets(state),
 });
 
 export default connect(

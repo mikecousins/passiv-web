@@ -5,7 +5,7 @@ export const ToggleButton = styled.button`
   vertical-align: middle;
 `;
 
-export const DisabledTogglebutton = styled(ToggleButton)`
+export const DisabledToggleButton = styled(ToggleButton)`
   svg {
     opacity: 0.6;
   }

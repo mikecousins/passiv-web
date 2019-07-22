@@ -2,7 +2,7 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Formik, FieldArray, Field, ErrorMessage } from 'formik';
+import { Formik, FieldArray, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 import uuid from 'uuid';
 import { replace } from 'connected-react-router';
@@ -104,9 +104,7 @@ export const TargetSelector = ({
   target.map((target, index) => {
     let iValue = index + 1;
     portfolioVisualizerURLParts.push(
-      `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${
-        target.percent
-      }`,
+      `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${target.percent}`,
     );
     return null;
   });
@@ -209,6 +207,18 @@ export const TargetSelector = ({
               if (props.values.targets.filter(t => !t.deleted).length === 0) {
                 arrayHelpers.push(generateNewTarget());
               }
+
+              // generate the share url
+              let shareUrl = `/app/share?`;
+              props.values.targets.forEach(target => {
+                if (target.fullSymbol && target.fullSymbol.symbol) {
+                  return (shareUrl += `symbols[]=${target.fullSymbol.symbol}&percentages[]=${target.percent}&`);
+                } else {
+                  return null;
+                }
+              });
+              shareUrl = shareUrl.substr(0, shareUrl.length - 1);
+
               return (
                 <React.Fragment>
                   {props.values.targets.map((t, index) => {
@@ -238,9 +248,27 @@ export const TargetSelector = ({
                             forceUpdate();
                           }}
                         >
-                          <Field
+                          <input
                             type="number"
                             name={`targets.${index}.percent`}
+                            value={props.values.targets[index].percent}
+                            onChange={e =>
+                              props.setFieldValue(
+                                `targets.${index}.percent`,
+                                parseFloat(e.target.value),
+                              )
+                            }
+                            onBlur={() => {
+                              console.log(props.values.targets[index].percent);
+                              props.setFieldValue(
+                                `targets.${index}.percent`,
+                                parseFloat(
+                                  props.values.targets[index].percent.toFixed(
+                                    1,
+                                  ),
+                                ),
+                              );
+                            }}
                             readOnly={!canEdit}
                           />
                         </TargetBar>

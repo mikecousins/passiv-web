@@ -38,13 +38,14 @@ export const selectGroups = createSelector(
           } else {
             groupWithRebalance.setupComplete = false;
           }
-          groupWithRebalance.loading = false;
           groupWithRebalance.rebalance = !!(
             groupInfo[group.id].data!.calculated_trades &&
             groupInfo[group.id].data!.calculated_trades.trades.length > 0
           );
-        } else {
-          groupWithRebalance.loading = true;
+        }
+
+        if (groupInfo[group.id]) {
+          groupWithRebalance.loading = groupInfo[group.id].loading;
         }
 
         groupWithRebalance.hasAccounts = false;
@@ -133,7 +134,7 @@ export const selectCurrentGroupAccuracy = createSelector(
       groupInfo &&
       groupInfo[groupId] &&
       groupInfo[groupId].data &&
-      groupInfo[groupId].data!.accuracy
+      groupInfo[groupId].data!.accuracy >= 0
     ) {
       accuracy = groupInfo[groupId].data!.accuracy;
     }
