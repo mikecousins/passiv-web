@@ -15,7 +15,12 @@ import {
 import Number from './Number';
 import { selectAccounts } from '../selectors/accounts';
 
-export const PortfolioGroupTrades = ({ trades, groupId, accounts }) => {
+export const PortfolioGroupTrades = ({
+  trades,
+  groupId,
+  accounts,
+  onClose,
+}) => {
   let buysListRender = null;
   let sellsListRender = null;
   if (trades && trades.trades.length > 0 && accounts && accounts.length > 0) {
@@ -71,7 +76,7 @@ export const PortfolioGroupTrades = ({ trades, groupId, accounts }) => {
       <H2>Trades</H2>
       {sellsListRender}
       {buysListRender}
-      <RebalanceWidget trades={trades} groupId={groupId} />
+      <RebalanceWidget trades={trades} groupId={groupId} onClose={onClose} />
     </TradesContainer>
   );
 };
