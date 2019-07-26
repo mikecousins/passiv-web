@@ -117,6 +117,8 @@ export class RebalanceWidget extends Component {
           orderResults: response.data,
           error: null,
         });
+        // reload the group
+        this.reloadGroup();
       })
       .catch(error => {
         this.setState({
@@ -146,7 +148,7 @@ export class RebalanceWidget extends Component {
       error: null,
     });
     // reload group data following a successful order
-    this.props.reloadGroup({ ids: [this.props.groupId] });
+    this.reloadGroup();
 
     // execute callback
     if (this.props.onClose) {
