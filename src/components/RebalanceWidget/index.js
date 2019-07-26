@@ -64,15 +64,6 @@ const ConfirmContainer = styled.div`
   }
 `;
 
-const UpgradeText = styled.span`
-  font-weight: 600;
-  color: #2a2e33;
-  font-size: 22px;
-  button {
-    margin-left: 20px;
-  }
-`;
-
 const ModifiedTradeRow = styled(TradeRow)`
   margin-bottom: 10px;
 `;
@@ -97,9 +88,7 @@ export class RebalanceWidget extends Component {
   validateOrders = () => {
     this.setState({ validatingOrders: true });
     getData(
-      `/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${
-        this.props.trades.id
-      }/impact`,
+      `/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/impact`,
     )
       .then(response => {
         this.setState({
@@ -120,9 +109,7 @@ export class RebalanceWidget extends Component {
   confirmOrders = () => {
     this.setState({ placingOrders: true });
     postData(
-      `/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${
-        this.props.trades.id
-      }/placeOrders`,
+      `/api/v1/portfolioGroups/${this.props.groupId}/calculatedtrades/${this.props.trades.id}/placeOrders`,
     )
       .then(response => {
         this.setState({
@@ -160,6 +147,11 @@ export class RebalanceWidget extends Component {
     });
     // reload group data following a successful order
     this.props.reloadGroup({ ids: [this.props.groupId] });
+
+    // execute callback
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
   };
 
   reloadGroup = () => {
@@ -221,7 +213,7 @@ export class RebalanceWidget extends Component {
   };
 
   render() {
-    const { push, canPlaceOrders } = this.props;
+    const { push } = this.props;
     let error = null;
     if (this.state.error) {
       switch (this.state.error.code) {
@@ -338,16 +330,9 @@ export class RebalanceWidget extends Component {
     }
 
     let orderValidation = (
-      <Button onClick={this.validateOrders}>Validate</Button>
+      <Button onClick={this.validateOrders}>Prepare Orders</Button>
     );
-    if (!canPlaceOrders) {
-      orderValidation = (
-        <UpgradeText>
-          Upgrade your account to let us execute trades for you!{' '}
-          <Button onClick={() => push('/app/settings')}>Upgrade</Button>
-        </UpgradeText>
-      );
-    } else if (this.state.error) {
+    if (this.state.error) {
       orderValidation = error;
     } else {
       if (this.state.validatingOrders) {

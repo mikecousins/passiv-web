@@ -4,14 +4,17 @@ import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings } from '../selectors';
+import { selectCanReceiveDriftNotifications } from '../selectors/subscription';
 import { loadSettings } from '../actions';
 import { putData } from '../api';
 import { ToggleButton, StateText } from '../styled/ToggleButton';
 import Number from './Number';
 import { InputTarget } from '../styled/Form';
 import { SmallButton } from '../styled/Button';
+import styled from '@emotion/styled';
+import { Edit, SubSetting, DisabledBox } from '../styled/GlobalElements';
 
-import { Edit, SubSetting } from '../styled/GlobalElements';
+export const DriftBox = styled.div``;
 
 class DriftNotificationSettings extends React.Component {
   state = {
@@ -72,12 +75,14 @@ class DriftNotificationSettings extends React.Component {
       return null;
     }
 
-    return (
+    const disabled = !this.props.canReceiveDriftNotifications;
+
+    let contents = (
       <React.Fragment>
-        <strong>Receive Drift Notifications:</strong>{' '}
-        {settings.receive_drift_notifications ? (
+        <strong>Drift Notifications:</strong>{' '}
+        {settings.receive_drift_notifications && !disabled ? (
           <React.Fragment>
-            <ToggleButton onClick={this.updateNotification}>
+            <ToggleButton onClick={this.updateNotification} disabled={disabled}>
               <React.Fragment>
                 <FontAwesomeIcon icon={faToggleOn} />
                 <StateText>on</StateText>
@@ -93,7 +98,10 @@ class DriftNotificationSettings extends React.Component {
                       percentage
                       decimalPlaces={0}
                     />
-                    <Edit onClick={() => this.startEditingThreshold()}>
+                    <Edit
+                      onClick={() => this.startEditingThreshold()}
+                      disabled={disabled}
+                    >
                       <FontAwesomeIcon icon={faPen} />
                       Edit
                     </Edit>
@@ -106,9 +114,13 @@ class DriftNotificationSettings extends React.Component {
                         this.setState({ driftThreshold: event.target.value });
                       }}
                       onKeyPress={this.onEnter}
+                      disabled={!this.props.canReceiveDriftNotifications}
                     />{' '}
                     %
-                    <SmallButton onClick={() => this.finishEditingThreshold()}>
+                    <SmallButton
+                      onClick={() => this.finishEditingThreshold()}
+                      disabled={disabled}
+                    >
                       Done
                     </SmallButton>
                   </React.Fragment>
@@ -117,20 +129,35 @@ class DriftNotificationSettings extends React.Component {
             </SubSetting>
           </React.Fragment>
         ) : (
-          <ToggleButton onClick={this.updateNotification}>
-            <React.Fragment>
-              <FontAwesomeIcon icon={faToggleOff} />
-              <StateText>off</StateText>
-            </React.Fragment>
-          </ToggleButton>
+          <React.Fragment>
+            <ToggleButton onClick={this.updateNotification} disabled={disabled}>
+              <React.Fragment>
+                <FontAwesomeIcon icon={faToggleOff} />
+                <StateText>off</StateText>
+              </React.Fragment>
+            </ToggleButton>
+            {disabled && (
+              <SubSetting>
+                Drift notifications are an Elite feature. Subscribe to get
+                notifications when your portfolio accuracy falls too low.
+              </SubSetting>
+            )}
+          </React.Fragment>
         )}
       </React.Fragment>
     );
+
+    if (disabled) {
+      return <DisabledBox>{contents}</DisabledBox>;
+    } else {
+      return <DriftBox>{contents}</DriftBox>;
+    }
   }
 }
 
 const select = state => ({
   settings: selectSettings(state),
+  canReceiveDriftNotifications: selectCanReceiveDriftNotifications(state),
 });
 
 const actions = {
