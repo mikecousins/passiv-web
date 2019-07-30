@@ -147,6 +147,11 @@ export class RebalanceWidget extends Component {
     });
     // reload group data following a successful order
     this.props.reloadGroup({ ids: [this.props.groupId] });
+
+    // execute callback
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
   };
 
   reloadGroup = () => {

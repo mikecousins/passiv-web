@@ -123,7 +123,11 @@ export const Group = props => {
         </DashboardRow>
       </ShadowBox>
       {expanded && (
-        <PortfolioGroupTrades trades={group.trades} groupId={group.id} />
+        <PortfolioGroupTrades
+          trades={group.trades}
+          groupId={group.id}
+          onClose={() => setExpanded(false)}
+        />
       )}
     </Container>
   );
