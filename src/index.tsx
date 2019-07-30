@@ -15,9 +15,18 @@ import { effects } from './reactors/effects';
 
 import store, { history } from './store';
 
-Sentry.init({
-  dsn: 'https://0d88597b9cb6439fa0050392b907ec17@sentry.io/1358976',
-});
+if (
+  process.env.REACT_APP_BASE_URL_OVERRIDE &&
+  process.env.REACT_APP_BASE_URL_OVERRIDE === 'getpassiv.com'
+) {
+  Sentry.init({
+    dsn: 'https://196371422ff74ef38c3e0f9632fd1710@sentry.io/1517518',
+  });
+} else {
+  Sentry.init({
+    dsn: 'https://e99a74aaa38a4a9f8a21329d9cb34d76@sentry.io/1517512',
+  });
+}
 
 // initialize GA and fire first pageview
 ReactGA.initialize(
