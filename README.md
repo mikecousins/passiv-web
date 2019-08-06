@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.com/passiv/passiv-web.svg?branch=master)](https://travis-ci.com/passiv/passiv-web)
 [![dependencies Status](https://david-dm.org/passiv/passiv-web/status.svg)](https://david-dm.org/passiv/passiv-web)
 [![devDependencies Status](https://david-dm.org/passiv/passiv-web/dev-status.svg)](https://david-dm.org/passiv/passiv-web?type=dev)
+[![codecov](https://codecov.io/gh/passiv/passiv-web/branch/master/graph/badge.svg)](https://codecov.io/gh/passiv/passiv-web)
 
 ## Table of Contents
 
