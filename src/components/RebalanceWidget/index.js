@@ -69,21 +69,13 @@ const ModifiedTradeRow = styled(TradeRow)`
 `;
 
 export class RebalanceWidget extends Component {
-  state = this.initialState();
-
-  initialState() {
-    return {
-      validatingOrders: false,
-      placingOrders: false,
-      orderSummary: null,
-      orderResults: null,
-      error: null,
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState(this.initialState());
-  }
+  state = {
+    validatingOrders: false,
+    placingOrders: false,
+    orderSummary: null,
+    orderResults: null,
+    error: null,
+  };
 
   validateOrders = () => {
     this.setState({ validatingOrders: true });
@@ -117,6 +109,8 @@ export class RebalanceWidget extends Component {
           orderResults: response.data,
           error: null,
         });
+        // reload the group
+        this.reloadGroup();
       })
       .catch(error => {
         this.setState({
@@ -145,8 +139,6 @@ export class RebalanceWidget extends Component {
       orderResults: null,
       error: null,
     });
-    // reload group data following a successful order
-    this.props.reloadGroup({ ids: [this.props.groupId] });
 
     // execute callback
     if (this.props.onClose) {
@@ -156,12 +148,6 @@ export class RebalanceWidget extends Component {
 
   reloadGroup = () => {
     this.props.reloadGroup({ ids: [this.props.groupId] });
-  };
-
-  componentWillUnmount = () => {
-    if (this.state.orderResults || this.state.error) {
-      this.reloadGroup();
-    }
   };
 
   preferredCurrencyCode = () => {

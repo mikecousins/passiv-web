@@ -1,6 +1,6 @@
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -24,6 +24,7 @@ import {
   selectCurrentGroupSetupComplete,
   selectGroupsLoading,
   selectCurrentGroupAccountHoldings,
+  selectCurrentGroupId,
 } from '../selectors/groups';
 import Tooltip from '../components/Tooltip';
 
@@ -67,6 +68,25 @@ const GroupPage = () => {
   const loading = useSelector(selectGroupsLoading);
   const accounts = useSelector(selectCurrentGroupAccountHoldings);
   const error = useSelector(selectCurrentGroupInfoError);
+  const groupId = useSelector(selectCurrentGroupId);
+  const [tradeInProgress, setTradeInProgress] = useState(false);
+
+  // reset our trade in progress flag when the group changes
+  useEffect(() => {
+    setTradeInProgress(false);
+  }, [groupId]);
+
+  // if we have trades set a trade in progress until it's over
+  useEffect(() => {
+    if (
+      trades &&
+      trades.trades &&
+      trades.trades.length > 0 &&
+      !tradeInProgress
+    ) {
+      setTradeInProgress(true);
+    }
+  }, [trades, tradeInProgress]);
 
   // if we don't have our group yet, show a spinner
   if (group === undefined) {
@@ -107,8 +127,14 @@ const GroupPage = () => {
 
   // see if we have any suggested trades to display
   let tradeDisplay = null;
-  if (setupComplete && trades && trades.trades.length) {
-    tradeDisplay = <PortfolioGroupTrades trades={trades} groupId={group.id} />;
+  if (setupComplete && ((trades && trades.trades.length) || tradeInProgress)) {
+    tradeDisplay = (
+      <PortfolioGroupTrades
+        trades={trades}
+        groupId={group.id}
+        onClose={() => setTradeInProgress(false)}
+      />
+    );
   }
   return (
     <React.Fragment>
