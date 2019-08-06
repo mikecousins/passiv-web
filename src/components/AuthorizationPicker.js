@@ -6,6 +6,8 @@ import { Button } from '../styled/Button';
 import { DisabledButton } from '../styled/DisabledButton';
 import { StepButton } from '../styled/SignupSteps';
 import { push } from 'connected-react-router';
+import { Formik, ErrorMessage, Field } from 'formik';
+import { Form, Input, Label } from '../styled/Form';
 
 class AuthorizationPicker extends Component {
   state = {
@@ -25,7 +27,7 @@ class AuthorizationPicker extends Component {
         : this.props.updateBrokerageAuthorizationId,
     brokerage: this.props.brokerage ? this.props.brokerage : '',
     type: this.props.type ? this.props.type : '',
-    name: this.props.name ? this.props.name : 'Connect',
+    buttonName: this.props.name ? this.props.name : 'Connect',
   };
 
   receiveMessage(e) {
@@ -44,8 +46,8 @@ class AuthorizationPicker extends Component {
       b => b.id === this.state.brokerage,
     );
     console.log('brokerage', selectedBrokerage);
-    switch (selectedBrokerage.name) {
-      case 'TradeItDummy':
+    switch (selectedBrokerage.slug) {
+      case 'TRADEIT':
         console.log('new window!');
         let newWindow = window.open(
           url,
@@ -63,7 +65,7 @@ class AuthorizationPicker extends Component {
           window.attachEvent('onmessage', this.receiveMessage);
         }
         break;
-      case 'Questrade':
+      case 'QUESTRADE':
         window.location = url;
         break;
       default:
@@ -90,6 +92,12 @@ class AuthorizationPicker extends Component {
         // window.location = response.data.url;
       });
     }
+  }
+
+  selectedBrokeragedTypeMetadata() {
+    return this.props.brokerages
+      .find(x => x.id === this.state.brokerage)
+      .authorization_types.find(type => type.type === this.state.type);
   }
 
   render() {
@@ -119,65 +127,135 @@ class AuthorizationPicker extends Component {
         });
     }
 
-    let submitButton = <DisabledButton disabled>Connect</DisabledButton>;
-    if (this.state.brokerage && this.state.type) {
-      if (this.state.allowSelect) {
-        submitButton = (
-          <Button
-            onClick={() => {
-              this.startAuthorization();
-            }}
-          >
-            {this.state.name}
-          </Button>
-        );
-      } else {
-        submitButton = (
-          <StepButton
-            onClick={() => {
-              this.startAuthorization();
-            }}
-          >
-            {this.state.name}
-          </StepButton>
-        );
-      }
-    }
+    // let keyForm = null;
+    // if (this.state.brokerage && this.state.type) {
+    //   let typeMetadata = this.selectedBrokeragedTypeMetadata();
+    //   if (typeMetadata.auth_type == 'KEYS') {
+    //     keyForm = (
+    //       <React.Fragment>
+    //         <Formik
+    //           initialValues={{
+    //             keyId: '',
+    //             secretKey: '',
+    //           }}
+    //           render={props => (
+    //             <Form onSubmit={props.handleSubmit}>
+    //               <Label htmlFor="email">Key ID</Label>
+    //               <Input
+    //                 name="keyId"
+    //                 placeholder="Key ID"
+    //               />
+    //               <Label>Secret Key</Label>
+    //               <Input
+    //                 name="secretKey"
+    //                 placeholder="Secret Key"
+    //               />
+    //             </Form>
+    //           )}
+    //         />
+    //       </React.Fragment>
+    //     )
+    //   }
+    // }
 
     return (
       <React.Fragment>
         {this.state.allowSelect && (
-          <div>
-            {this.state.allowSelectBrokerage && (
-              <select
-                value={this.state.brokerage}
-                onChange={event => {
-                  this.setState({ brokerage: event.target.value });
-                }}
-              >
-                <option disabled value="">
-                  Choose your brokerage
-                </option>
-                {brokerageOptions}
-              </select>
-            )}
-            {this.state.allowSelectType && (
-              <select
-                value={this.state.type}
-                onChange={event => {
-                  this.setState({ type: event.target.value });
-                }}
-              >
-                <option disabled value="">
-                  Select an access level
-                </option>
-                {types}
-              </select>
-            )}
-          </div>
-        )}
+          <React.Fragment>
+            <Formik
+              initialValues={{
+                brokerage: this.state.brokerage,
+                type: this.state.type,
+                keyId: '',
+                secretKey: '',
+              }}
+              render={props => {
+                console.log('brokerages', brokerages);
+                let selectedBrokerage = brokerages.find(
+                  x => x.id === props.values.brokerage,
+                );
+                let selectedType = null;
+                if (selectedBrokerage) {
+                  selectedType = selectedBrokerage.authorization_types.find(
+                    x => x.type === props.values.type,
+                  );
+                }
+                console.log('selected brokerage', selectedBrokerage);
+                let submitButton = (
+                  <DisabledButton disabled>Connect</DisabledButton>
+                );
+                if (props.values.brokerage && props.values.type) {
+                  if (this.state.allowSelect) {
+                    submitButton = (
+                      <Button
+                        onClick={() => {
+                          this.startAuthorization();
+                        }}
+                      >
+                        {this.state.buttonName}
+                      </Button>
+                    );
+                  } else {
+                    submitButton = (
+                      <StepButton
+                        onClick={() => {
+                          this.startAuthorization();
+                        }}
+                      >
+                        {this.state.buttonName}
+                      </StepButton>
+                    );
+                  }
+                }
+                return (
+                  <Form onSubmit={props.handleSubmit}>
+                    {this.state.allowSelectBrokerage && (
+                      <Field component="select" name="brokerage">
+                        <option disabled value="">
+                          Choose your brokerage
+                        </option>
+                        {brokerages.map((brokerage, index) => {
+                          return (
+                            <option key={brokerage.id} value={brokerage.id}>
+                              {brokerage.name}
+                            </option>
+                          );
+                        })}
+                      </Field>
+                    )}
+                    {this.state.allowSelectType && (
+                      <Field component="select" name="type">
+                        <option disabled value="">
+                          Select an access level
+                        </option>
+                        {selectedBrokerage &&
+                          selectedBrokerage.authorization_types.map(
+                            (type, index) => {
+                              return (
+                                <option key={type.type} value={type.type}>
+                                  {type.type}
+                                </option>
+                              );
+                            },
+                          )}
+                      </Field>
+                    )}
+                    {selectedType && selectedType.auth_type === 'KEYS' && (
+                      <React.Fragment>
+                        <Label htmlFor="email">Key ID</Label>
+                        <Input name="keyId" placeholder="Key ID" />
+                        <Label>Secret Key</Label>
+                        <Input name="secretKey" placeholder="Secret Key" />
+                      </React.Fragment>
+                    )}
 
-        {submitButton}
+                    {submitButton}
+                  </Form>
+                );
+              }}
+            />
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }
