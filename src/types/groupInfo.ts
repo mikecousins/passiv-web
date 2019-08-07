@@ -71,6 +71,8 @@ export interface CalculatedTrades {
 }
 
 interface Settings {
+  prevent_currency_conversion: boolean;
+  hard_currency_separation: boolean;
   buy_only: boolean;
   cash_optimizer: boolean;
   notify_frequency: string;

@@ -91,7 +91,7 @@ export const selectCurrentGroupId = createSelector(
       router &&
       router.location &&
       router.location.pathname &&
-      router.location.pathname.split('/').length === 4
+      router.location.pathname.split('/').length >= 4
     ) {
       groupId = router.location.pathname.split('/')[3];
     }
