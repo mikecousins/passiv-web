@@ -46,14 +46,14 @@ const BalanceContainer = styled.div`
 `;
 
 export const OrderImpact = ({ impacts, accounts, currencies }) => {
-  const filteredAccount = accounts.filter(
+  const filteredAccount = accounts.find(
     account => account.id === impacts[0].account,
-  )[0];
+  );
 
   const filteredCurrencyCode = impact => {
-    let currencyCode = currencies.filter(
+    let currencyCode = currencies.find(
       currency => currency.id === impact.currency,
-    )[0].code;
+    ).code;
     return currencyCode;
   };
 

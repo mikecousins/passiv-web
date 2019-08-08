@@ -49,11 +49,13 @@ export const PortfolioGroupAccounts = ({
   const [newAccountId, setNewAccountId] = useState();
 
   const availableAccounts = [];
-  allAccounts.forEach(account => {
-    if (!accounts.some(a => a.id === account.id)) {
-      availableAccounts.push(account);
-    }
-  });
+  if (!!allAccounts) {
+    allAccounts.forEach(account => {
+      if (!accounts.some(a => a.id === account.id)) {
+        availableAccounts.push(account);
+      }
+    });
+  }
 
   const setPortfolioGroup = () => {
     const account = allAccounts.find(a => a.id === newAccountId);

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { selectBrokerages, selectAuthorizations } from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
-import { selectAccounts } from '../selectors/accounts';
 import { initialLoad, loadBrokerages } from '../actions';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import Connections from './Connections';
@@ -85,7 +84,6 @@ export class ConnectionsManager extends React.Component {
 const select = state => ({
   brokerages: selectBrokerages(state),
   authorizations: selectAuthorizations(state),
-  accounts: selectAccounts(state),
   userPermissions: selectUserPermissions(state),
 });
 const actions = {
