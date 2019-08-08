@@ -12,6 +12,7 @@ export const selectAccounts = createSelector(
     if (rawAccounts.data) {
       return rawAccounts.data;
     }
+    return [];
   },
 );
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { selectBrokerages, selectAuthorizations } from '../selectors';
-import { selectAccounts } from '../selectors/accounts';
 import { initialLoad, loadBrokerages } from '../actions';
 
 import Accounts from './Accounts';
@@ -12,7 +11,7 @@ import { H2 } from '../styled/GlobalElements';
 
 export class AccountsManager extends React.Component {
   render() {
-    const { accounts, authorizations } = this.props;
+    const { authorizations } = this.props;
 
     if (!authorizations) {
       return null;
@@ -23,7 +22,7 @@ export class AccountsManager extends React.Component {
     return (
       <ShadowBox>
         <H2>Accounts</H2>
-        <Accounts accounts={accounts} />
+        <Accounts />
       </ShadowBox>
     );
   }
@@ -32,7 +31,6 @@ export class AccountsManager extends React.Component {
 const select = state => ({
   brokerages: selectBrokerages(state),
   authorizations: selectAuthorizations(state),
-  accounts: selectAccounts(state),
 });
 
 const actions = {
