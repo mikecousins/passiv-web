@@ -7,7 +7,6 @@ import { selectIsAuthorized, selectIsDemoMode } from '../selectors';
 import { selectDashboardGroups } from '../selectors/groups';
 import TotalHoldings from '../components/TotalHoldings';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
-import Tooltip from '../components/Tooltip';
 import { AppState } from '../store';
 import { DashboardGroup } from '../selectors/groups';
 
@@ -38,7 +37,6 @@ export const DashboardPage = ({ authorized, groups, demoMode }: Props) => {
     <React.Fragment>
       <TotalHoldings />
       {groupDisplay}
-      <Tooltip />
     </React.Fragment>
   );
 };

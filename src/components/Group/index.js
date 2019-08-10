@@ -9,6 +9,7 @@ import {
   faChevronDown,
   faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
+import Tooltip from '../Tooltip';
 import ShadowBox from '../../styled/ShadowBox';
 import { Table, H2, H3 } from '../../styled/GlobalElements';
 import {
@@ -33,10 +34,9 @@ export const Group = props => {
   if (group.setupComplete !== undefined) {
     if (group.setupComplete === false) {
       accuracy = (
-        <FontAwesomeIcon
-          icon={faExclamationTriangle}
-          data-tip="There is no target set for this portfolio, click Setup to continue."
-        />
+        <Tooltip label="There is no target set for this portfolio, click Setup to continue.">
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+        </Tooltip>
       );
     } else {
       if (group.accuracy) {

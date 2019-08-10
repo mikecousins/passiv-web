@@ -6,6 +6,7 @@ import {
   faToggleOn,
   faToggleOff,
 } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 import { loadGroup } from '../actions';
 import {
   selectCurrentGroupId,
@@ -21,7 +22,7 @@ import {
   DisabledToggleButton,
   StateText,
 } from '../styled/ToggleButton';
-import { toast } from 'react-toastify';
+import Tooltip from './Tooltip';
 
 class ExcludedAssetToggle extends Component {
   state = {
@@ -89,10 +90,9 @@ class ExcludedAssetToggle extends Component {
     if (this.symbolInTargets(this.props.symbolId)) {
       return (
         <DisabledToggleButton>
-          <FontAwesomeIcon
-            icon={faToggleOff}
-            data-tip="You can't exclude assets that are a part of your target portfolio. Remove this security from your target portfolio first."
-          />
+          <Tooltip label="You can't exclude assets that are a part of your target portfolio. Remove this security from your target portfolio first.">
+            <FontAwesomeIcon icon={faToggleOff} />
+          </Tooltip>
           <StateText>off</StateText>
         </DisabledToggleButton>
       );
@@ -101,10 +101,9 @@ class ExcludedAssetToggle extends Component {
     if (!this.symbolQuotable(this.props.symbolId)) {
       return (
         <DisabledToggleButton>
-          <FontAwesomeIcon
-            icon={faToggleOn}
-            data-tip="This security is not supported for trading, so it is excluded from your portfolio calculations."
-          />
+          <Tooltip label="This security is not supported for trading, so it is excluded from your portfolio calculations.">
+            <FontAwesomeIcon icon={faToggleOn} />
+          </Tooltip>
           <StateText>on</StateText>
         </DisabledToggleButton>
       );
@@ -118,12 +117,16 @@ class ExcludedAssetToggle extends Component {
         <DisabledToggleButton onClick={() => toast.error(upgradeError)}>
           {this.state.toggle ? (
             <React.Fragment>
-              <FontAwesomeIcon icon={faToggleOn} data-tip={upgradeError} />
+              <Tooltip label={upgradeError}>
+                <FontAwesomeIcon icon={faToggleOn} />
+              </Tooltip>
               <StateText>on</StateText>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <FontAwesomeIcon icon={faToggleOff} data-tip={upgradeError} />
+              <Tooltip label={upgradeError}>
+                <FontAwesomeIcon icon={faToggleOff} />
+              </Tooltip>
               <StateText>off</StateText>
             </React.Fragment>
           )}

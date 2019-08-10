@@ -6,6 +6,7 @@ import {
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Tooltip from './Tooltip';
 import styled from '@emotion/styled';
 import { H2 } from '../styled/GlobalElements';
 import Number from './Number';
@@ -49,10 +50,9 @@ export const PortfolioGroupAccuracy = ({
   if (error) {
     accuracyDisplay = (
       <div>
-        <FontAwesomeIcon
-          icon={faExclamationTriangle}
-          data-tip="Unable to calculate accuracy."
-        />
+        <Tooltip label="Unable to calculate accuracy.">
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+        </Tooltip>
       </div>
     );
   } else if (loading || accuracy === null) {
@@ -69,10 +69,9 @@ export const PortfolioGroupAccuracy = ({
     } else {
       accuracyDisplay = (
         <div>
-          <FontAwesomeIcon
-            icon={faExclamationTriangle}
-            data-tip="There is no target set for this portfolio, follow the instructions under the Target Portfolio."
-          />
+          <Tooltip label="There is no target set for this portfolio, follow the instructions under the Target Portfolio.">
+            <FontAwesomeIcon icon={faExclamationTriangle} />
+          </Tooltip>
         </div>
       );
     }
@@ -81,11 +80,9 @@ export const PortfolioGroupAccuracy = ({
     <Accuracy>
       <H2>
         Accuracy&nbsp;
-        <FontAwesomeIcon
-          icon={faQuestionCircle}
-          style={{ fontSize: 12 }}
-          data-tip="How close your holdings are to your desired target, where 100% indicates your holdings are perfectly on target."
-        />
+        <Tooltip label="How close your holdings are to your desired target, where 100% indicates your holdings are perfectly on target.">
+          <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 12 }} />
+        </Tooltip>
       </H2>
       {accuracyDisplay}
     </Accuracy>

@@ -112,17 +112,18 @@ const RegistrationPage = props => {
                 <ErrorMessage name="email" />
               </P>
               <Label htmlFor="password">Password</Label>
-              <Input
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
-                border={errors.password && '1px solid red'}
-                type="password"
-                name="password"
-                placeholder="Password"
-                data-tip="<ul><li>Your password must contain at least 8 characters.</li><li>Your password can&#39;t be a commonly used password.</li><li>Your password can&#39;t be entirely numeric.</li></ul>"
-              />
-              <Tooltip html={true} />
+              <Tooltip label="Your password must contain at least 8 characters. Your password can&#39;t be a commonly used password. Your password can&#39;t be entirely numeric.">
+                <Input
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
+                  border={errors.password && '1px solid red'}
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                />
+              </Tooltip>
+
               <P>
                 <ErrorMessage name="password" />
               </P>

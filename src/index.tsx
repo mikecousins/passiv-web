@@ -10,10 +10,9 @@ import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
 import createRunLoop from './reactors/init-runloop';
 import { effects } from './reactors/effects';
+import store, { history } from './store';
 // import registerServiceWorker from './registerServiceWorker';
 // import { updateServiceWorker } from './actions';
-
-import store, { history } from './store';
 
 Sentry.init({
   dsn: 'https://0d88597b9cb6439fa0050392b907ec17@sentry.io/1358976',
@@ -48,15 +47,17 @@ const runLoop = createRunLoop();
 runLoop.start(store, effects);
 
 ReactDOM.render(
-  <ErrorBoundary>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </PersistGate>
-    </Provider>
-  </ErrorBoundary>,
+  <React.StrictMode>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ConnectedRouter history={history}>
+            <App />
+          </ConnectedRouter>
+        </PersistGate>
+      </Provider>
+    </ErrorBoundary>
+  </React.StrictMode>,
   document.getElementById('root'),
 );
 

@@ -25,7 +25,6 @@ import {
   selectCurrentGroupAccountHoldings,
   selectCurrentGroupId,
 } from '../selectors/groups';
-import Tooltip from './Tooltip';
 
 export const Container2Column = styled.div`
   @media (min-width: 900px) {
@@ -164,7 +163,6 @@ const OverviewTab = () => {
         loading={loading}
         error={error}
       />
-      <Tooltip />
     </React.Fragment>
   );
 };
