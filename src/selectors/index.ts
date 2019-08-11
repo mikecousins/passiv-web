@@ -7,6 +7,8 @@ import { AppState } from '../store';
 // hopefully we can import this in the future
 var jwtDecode = require('jwt-decode');
 
+export const selectState = (state: AppState) => state;
+
 export const selectAppTime = (state: AppState) => state.appTime;
 
 export const selectLoggedIn = (state: AppState) => !!state.auth.token;

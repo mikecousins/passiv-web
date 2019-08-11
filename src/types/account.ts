@@ -7,6 +7,7 @@ interface Meta {
 }
 
 export interface Account {
+  loading: JSX.Element;
   id: string;
   brokerage_authorization: string;
   portfolio_group: string;

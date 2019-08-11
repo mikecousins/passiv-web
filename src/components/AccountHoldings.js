@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faSpinner,
-  faSortUp,
-  faSortDown,
-} from '@fortawesome/free-solid-svg-icons';
-import { Title, Table, A } from '../styled/GlobalElements';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
+import { useSelector } from 'react-redux';
+import { Title, Table } from '../styled/GlobalElements';
 import Number from './Number';
+import { selectCurrentAccountHoldings } from '../selectors/groups';
+import ShadowBox from '../styled/ShadowBox';
 
 export const HoldingsTable = styled.table`
   width: 100%;
@@ -39,94 +38,61 @@ const NameBox = styled.div`
   padding-bottom: 10px;
 `;
 
-const DetailBox = styled.div``;
+export const AccountHoldings = () => {
+  const account = useSelector(selectCurrentAccountHoldings);
 
-export const AccountHoldings = ({ account, error }) => {
-  const [viewDetail, setViewDetail] = useState(false);
+  if (!account) {
+    return <FontAwesomeIcon icon={faSpinner} spin />;
+  }
 
   return (
-    <HoldingsBox>
-      <Table>
-        <NameBox>
-          {account.name} ({account.number}){' '}
-          {account.loading && <FontAwesomeIcon icon={faSpinner} spin />}
-        </NameBox>
-        <DetailBox>
-          <A>
-            <FontAwesomeIcon
-              icon={viewDetail ? faSortUp : faSortDown}
-              onClick={() => setViewDetail(!viewDetail)}
-            />
-          </A>
-        </DetailBox>
-      </Table>
-
-      {viewDetail ? (
-        <React.Fragment>
-          <HoldingsTable>
-            <thead>
-              <tr>
-                <th>
-                  <Title>Symbol</Title>
-                </th>
-                <th>
-                  <Title>Units</Title>
-                </th>
-                <th>
-                  <Title>Price</Title>
-                </th>
-                <th>
-                  <Title>Value</Title>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {!account.positions && (
-                <tr>
-                  <th>
-                    <Title>Symbol</Title>
-                  </th>
-                  <th>
-                    <Title>Units</Title>
-                  </th>
-                  <th>
-                    <Title>Price</Title>
-                  </th>
-                  <th>
-                    <Title>Value</Title>
-                  </th>
-                  <th>
-                    <Title>Exclude</Title>
-                  </th>
+    <ShadowBox>
+      <HoldingsBox>
+        <Table>
+          <NameBox>
+            {account.name} ({account.number}){' '}
+            {account.loading && <FontAwesomeIcon icon={faSpinner} spin />}
+          </NameBox>
+        </Table>
+        <HoldingsTable>
+          <thead>
+            <tr>
+              <th>
+                <Title>Symbol</Title>
+              </th>
+              <th>
+                <Title>Units</Title>
+              </th>
+              <th>
+                <Title>Price</Title>
+              </th>
+              <th>
+                <Title>Value</Title>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {account.positions &&
+              account.positions.map(position => (
+                <tr key={position.symbol.id}>
+                  <td>
+                    <span title={position.symbol.description}>
+                      {position.symbol.symbol.symbol}
+                    </span>
+                  </td>
+                  <td>{position.units}</td>
+                  <td>
+                    <Number value={position.price} currency />
+                  </td>
+                  <td>
+                    <Number value={position.price * position.units} currency />
+                  </td>
                 </tr>
-              )}
-              {account.positions &&
-                account.positions.map(position => (
-                  <tr key={position.symbol.id}>
-                    <td>
-                      <span title={position.symbol.description}>
-                        {position.symbol.symbol.symbol}
-                      </span>
-                    </td>
-                    <td>{position.units}</td>
-                    <td>
-                      <Number value={position.price} currency />
-                    </td>
-                    <td>
-                      <Number
-                        value={position.price * position.units}
-                        currency
-                      />
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </HoldingsTable>
-        </React.Fragment>
-      ) : (
-        <React.Fragment />
-      )}
-    </HoldingsBox>
+              ))}
+          </tbody>
+        </HoldingsTable>
+      </HoldingsBox>
+    </ShadowBox>
   );
 };
 

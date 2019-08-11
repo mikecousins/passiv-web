@@ -38,7 +38,7 @@ const GroupPage = () => {
             if (account.portfolio_group === groupId) {
               return (
                 <Link
-                  to={`/app/group/${groupId}/${account.id}`}
+                  to={`/app/group/${groupId}/account/${account.id}`}
                   key={account.id}
                 >
                   {account.name}
@@ -50,7 +50,10 @@ const GroupPage = () => {
         <Link to={`/app/group/${groupId}/settings`}>Settings</Link>
       </SubNav>
       <Route path="/app/group/:groupId" exact component={OverviewTab} />
-      <Route path="/app/group/:groupId/:accountId" component={AccountTab} />
+      <Route
+        path="/app/group/:groupId/account/:accountId"
+        component={AccountTab}
+      />
       <Route path="/app/group/:groupId/settings" component={GroupSettingsTab} />
     </React.Fragment>
   );

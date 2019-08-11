@@ -5,11 +5,9 @@ import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
 import PortfolioGroupAccuracy from './PortfolioGroupAccuracy';
-import PortfolioGroupHoldings from './PortfolioGroupHoldings';
 import PortfolioGroupMetadata from './PortfolioGroupMetadata';
 import PortfolioGroupTargets from './PortfolioGroupTargets';
 import PortfolioGroupTrades from './PortfolioGroupTrades';
-import PortfolioGroupAccounts from './PortfolioGroupAccounts';
 import PortfolioGroupErrors from './PortfolioGroupErrors';
 import {
   selectCurrentGroupTotalEquity,
@@ -22,7 +20,6 @@ import {
   selectCurrentGroupInfoError,
   selectCurrentGroupSetupComplete,
   selectGroupsLoading,
-  selectCurrentGroupAccountHoldings,
   selectCurrentGroupId,
 } from '../selectors/groups';
 
@@ -64,7 +61,6 @@ const OverviewTab = () => {
   const trades = useSelector(selectCurrentGroupTrades);
   const setupComplete = useSelector(selectCurrentGroupSetupComplete);
   const loading = useSelector(selectGroupsLoading);
-  const accounts = useSelector(selectCurrentGroupAccountHoldings);
   const error = useSelector(selectCurrentGroupInfoError);
   const groupId = useSelector(selectCurrentGroupId);
   const [tradeInProgress, setTradeInProgress] = useState(false);
@@ -113,12 +109,6 @@ const OverviewTab = () => {
           />
           <PortfolioGroupAccuracy accuracy={null} loading={loading} />
         </Container2Column>
-        <PortfolioGroupAccounts
-          group={group}
-          accounts={accounts}
-          loading={loading}
-          error={error}
-        />
       </React.Fragment>
     );
   }
@@ -143,7 +133,7 @@ const OverviewTab = () => {
           cash={cash}
           equity={equity}
           error={error}
-          accounts={accounts}
+          accounts={null}
         />
         <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
       </Container2Column>
@@ -152,17 +142,6 @@ const OverviewTab = () => {
       {tradeDisplay}
 
       <PortfolioGroupTargets positions={positions} />
-
-      <Container6040Column>
-        <PortfolioGroupHoldings positions={positions} loading={loading} />
-      </Container6040Column>
-
-      <PortfolioGroupAccounts
-        group={group}
-        accounts={accounts}
-        loading={loading}
-        error={error}
-      />
     </React.Fragment>
   );
 };
