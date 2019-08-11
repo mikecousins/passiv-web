@@ -78,6 +78,7 @@ export class PortfolioGroupTargets extends React.Component {
     ],
   };
 
+  // TODO remove this, it's deprecated
   componentWillReceiveProps(nextProps) {
     this.setState({ model: null });
   }

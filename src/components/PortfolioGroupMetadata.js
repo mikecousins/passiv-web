@@ -120,6 +120,7 @@ class PortfolioGroupMetadata extends Component {
     }
   };
 
+  // TODO remove this, it's deprecated
   componentWillReceiveProps(nextProps) {
     this.setState({ name: nextProps.name, editingName: false, loading: false });
   }
