@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import { Title, Table } from '../styled/GlobalElements';
 import Number from './Number';
-import { selectCurrentAccountHoldings } from '../selectors/groups';
+import { selectCurrentAccountHoldings, selectGroupsLoading } from '../selectors/groups';
 import ShadowBox from '../styled/ShadowBox';
 
 export const HoldingsTable = styled.table`
@@ -40,6 +40,7 @@ const NameBox = styled.div`
 
 export const AccountHoldings = () => {
   const account = useSelector(selectCurrentAccountHoldings);
+  const loading = useSelector(selectGroupsLoading);
 
   if (!account) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
@@ -51,7 +52,7 @@ export const AccountHoldings = () => {
         <Table>
           <NameBox>
             {account.name} ({account.number}){' '}
-            {account.loading && <FontAwesomeIcon icon={faSpinner} spin />}
+            {loading && <FontAwesomeIcon icon={faSpinner} spin />}
           </NameBox>
         </Table>
         <HoldingsTable>
@@ -73,7 +74,7 @@ export const AccountHoldings = () => {
           </thead>
           <tbody>
             {account.positions &&
-              account.positions.map(position => (
+              account.positions.map((position: any) => (
                 <tr key={position.symbol.id}>
                   <td>
                     <span title={position.symbol.description}>
