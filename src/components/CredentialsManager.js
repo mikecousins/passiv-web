@@ -34,6 +34,7 @@ export class CredentialsManager extends React.Component {
     passwordResetSent: false,
   };
 
+  // TODO remove this, it's deprecated
   componentWillReceiveProps(nextProps) {
     this.setState({
       name: nextProps.settings && nextProps.settings.name,

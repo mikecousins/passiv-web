@@ -7,16 +7,6 @@ export const loginSucceeded: ActionCreator<Action> = payload => ({
   payload,
 });
 
-export const logoutStartedAsync: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = () => {
-  return dispatch => {
-    setTimeout(() => {
-      dispatch(logout());
-    }, 1000);
-  };
-};
-
 export const logout: ActionCreator<Action> = () => ({
   type: 'LOGOUT',
 });
