@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector,  useDispatch } from 'react-redux';
 import { initialLoad } from '../actions';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,30 +22,23 @@ export const Button = styled.button`
   }
 `;
 
-const RefreshButton = ({ loggedIn, reloadAllState }) => (
-  <React.Fragment>
-    {loggedIn && (
-      <Button
-        onClick={() => {
-          reloadAllState();
-        }}
-      >
-        <FontAwesomeIcon icon={faSyncAlt} />
-        Refresh
-      </Button>
-    )}
-  </React.Fragment>
-);
-
-const select = state => ({
-  loggedIn: selectLoggedIn(state),
-});
-
-const actions = {
-  reloadAllState: initialLoad,
+const RefreshButton = () => {
+  const loggedIn = useSelector(selectLoggedIn);
+  const dispatch = useDispatch();
+  return (
+    <React.Fragment>
+      {loggedIn && (
+        <Button
+          onClick={() => {
+            dispatch(initialLoad());
+          }}
+        >
+          <FontAwesomeIcon icon={faSyncAlt} />
+          Refresh
+        </Button>
+      )}
+    </React.Fragment>
+  );
 };
 
-export default connect(
-  select,
-  actions,
-)(RefreshButton);
+export default RefreshButton;
