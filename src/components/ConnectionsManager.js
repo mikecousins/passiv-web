@@ -12,6 +12,8 @@ import { push } from 'connected-react-router';
 import ShadowBox from '../styled/ShadowBox';
 import { H2 } from '../styled/GlobalElements';
 
+import PlaidConnection from './PlaidConnection';
+
 export class ConnectionsManager extends React.Component {
   state = {
     creatingNewConnection: false,
@@ -75,6 +77,7 @@ export class ConnectionsManager extends React.Component {
                 ? 'Add Another Connection'
                 : 'Add a Connection'}
             </Button>
+            <PlaidConnection />
           </div>
         )}
       </ShadowBox>
