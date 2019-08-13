@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -22,8 +21,11 @@ import {
 import Number from '../Number';
 import PortfolioGroupTrades from '../PortfolioGroupTrades';
 
-export const Group = props => {
-  const { group } = props;
+type Props = {
+  group: any;
+};
+
+export const Group = ({ group }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
   if (!group) {
@@ -35,7 +37,7 @@ export const Group = props => {
     if (group.setupComplete === false) {
       accuracy = (
         <Tooltip label="There is no target set for this portfolio, click Setup to continue.">
-          <FontAwesomeIcon icon={faExclamationTriangle} />
+            <FontAwesomeIcon icon={faExclamationTriangle} />
         </Tooltip>
       );
     } else {
@@ -131,10 +133,6 @@ export const Group = props => {
       )}
     </Container>
   );
-};
-
-Group.defaultProps = {
-  group: PropTypes.object,
 };
 
 export default Group;

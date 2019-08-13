@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { selectBrokerages, selectAuthorizations } from '../../selectors';
@@ -21,7 +21,6 @@ import {
   PortfolioGroup,
 } from './styles';
 import { Account } from '../../types/account';
-import { Brokerage as BrokerageType } from '../../types/brokerage';
 
 type Props = {
   account: Account;
