@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { selectBrokerages, selectAuthorizations } from '../../selectors';
@@ -10,7 +10,6 @@ import PortfolioGroupPicker from '../PortfolioGroupPicker';
 import { InputNonFormik } from '../../styled/Form';
 import { Table, H3, P, Edit, A } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
-import { push } from 'connected-react-router';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 import {
   AccountContainer,
@@ -21,27 +20,36 @@ import {
   Type,
   PortfolioGroup,
 } from './styles';
+import { Account } from '../../types/account';
+import { Brokerage as BrokerageType } from '../../types/brokerage';
 
-export const Account = ({
-  account,
-  authorizations,
-  brokerages,
-  groups,
-  refreshAccounts,
-  refreshGroups,
-  canCrossAccountBalance,
-  push,
-}) => {
+type Props = {
+  account: Account;
+};
+
+export const AccountRow = ({ account }: Props) => {
   const [nameEditing, setNameEditing] = useState(false);
   const [groupEditing, setGroupEditing] = useState(false);
   const [name, setName] = useState(account.name);
   const [newGroupId, setNewGroupId] = useState();
+
+  const brokerages = useSelector(selectBrokerages);
+  const authorizations = useSelector(selectAuthorizations);
+  const groups = useSelector(selectGroups);
+  const canCrossAccountBalance = useSelector(selectCanCrossAccountBalance);
+
+  const dispatch = useDispatch();
+
+  if (!groups) {
+    return null;
+  }
+
   const group = groups.find(group => group.id === account.portfolio_group);
   if (group && !newGroupId) {
     setNewGroupId(group.id);
   }
 
-  const onEnter = e => {
+  const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       setAccountName();
     }
@@ -54,13 +62,13 @@ export const Account = ({
         name,
       };
       putData(`/api/v1/accounts/${account.id}`, newAccount)
-        .then(response => {
-          refreshAccounts();
-          refreshGroups();
+        .then(() => {
+          dispatch(loadAccounts());
+          dispatch(loadGroups());
         })
-        .catch(error => {
-          refreshAccounts();
-          refreshGroups();
+        .catch(() => {
+          dispatch(loadAccounts());
+          dispatch(loadGroups());
         });
     }
     setNameEditing(false);
@@ -72,22 +80,20 @@ export const Account = ({
       portfolio_group: newGroupId,
     };
     putData(`/api/v1/accounts/${account.id}`, newAccount)
-      .then(response => {
-        refreshAccounts();
-        refreshGroups();
+      .then(() => {
+        dispatch(loadAccounts());
+        dispatch(loadGroups());
       })
-      .catch(error => {
-        refreshAccounts();
-        refreshGroups();
+      .catch(() => {
+        dispatch(loadAccounts());
+        dispatch(loadGroups());
       });
     setGroupEditing(false);
   };
 
   let brokerageName = '';
   if (authorizations && brokerages) {
-    if (!authorizations) {
-      return null;
-    } else if (!authorizations.length === 0) {
+    if (authorizations.length === 0) {
       return null;
     }
 
@@ -108,7 +114,7 @@ export const Account = ({
     }
   }
 
-  const formatAccountType = (account, brokerageName) => {
+  const formatAccountType = (account: any, brokerageName: any) => {
     let accountType = '';
     if (brokerageName === 'Questrade') {
       accountType = account.meta.client_account_type + ' ' + account.meta.type;
@@ -185,7 +191,7 @@ export const Account = ({
             <H3>Portfolio Group</H3>
             {!groupEditing ? (
               <P>
-                {group.name}
+                {group && group.name}
                 <Edit onClick={() => setGroupEditing(true)}>
                   <FontAwesomeIcon icon={faPen} />
                   Edit
@@ -193,9 +199,8 @@ export const Account = ({
               </P>
             ) : (
               <PortfolioGroupPicker
-                account={account}
                 group={newGroupId}
-                onChange={e => setNewGroupId(e.target.value)}
+                onChange={(e: any) => setNewGroupId(e.target.value)}
                 disabled={!canCrossAccountBalance}
               />
             )}
@@ -207,20 +212,4 @@ export const Account = ({
   );
 };
 
-const select = state => ({
-  brokerages: selectBrokerages(state),
-  authorizations: selectAuthorizations(state),
-  groups: selectGroups(state),
-  canCrossAccountBalance: selectCanCrossAccountBalance(state),
-});
-
-const actions = {
-  refreshAccounts: loadAccounts,
-  refreshGroups: loadGroups,
-  push: push,
-};
-
-export default connect(
-  select,
-  actions,
-)(Account);
+export default AccountRow;

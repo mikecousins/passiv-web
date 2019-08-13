@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectAccounts } from '../../selectors/accounts';
-import Account from './Account';
+import AccountRow from './AccountRow';
 import AddPortfolioGroup from './AddPortfolioGroup';
 
 const Accounts = () => {
@@ -23,7 +23,7 @@ const Accounts = () => {
   return (
     <React.Fragment>
       {accounts.map(account => (
-        <Account key={account.id} account={account} />
+        <AccountRow key={account.id} account={account} />
       ))}
       <AddPortfolioGroup />
     </React.Fragment>

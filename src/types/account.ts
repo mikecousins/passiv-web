@@ -1,12 +1,12 @@
-interface Meta {
+type Meta = {
   type: string;
   status: string;
   is_billing: boolean;
   is_primary: boolean;
   client_account_type: string;
-}
+};
 
-export interface Account {
+export type Account = {
   loading: JSX.Element;
   id: string;
   brokerage_authorization: string;
@@ -14,4 +14,4 @@ export interface Account {
   name: string;
   number: string;
   meta: Meta;
-}
+};

@@ -5,11 +5,11 @@ interface Account {
   number: string;
 }
 
-interface Brokerage {
+export type Brokerage = {
   id: string;
   name: string;
   url: string;
-}
+};
 
 export interface BrokerageAuthorization {
   id: string;
