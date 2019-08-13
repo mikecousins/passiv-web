@@ -1,10 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectAccounts } from '../../selectors/accounts';
 import Account from './Account';
 import AddPortfolioGroup from './AddPortfolioGroup';
 
-const Accounts = ({ accounts }) => {
+const Accounts = () => {
+  const accounts = useSelector(selectAccounts);
   if (!accounts || accounts.length === 0) {
     return null;
   }
@@ -29,8 +30,4 @@ const Accounts = ({ accounts }) => {
   );
 };
 
-const select = state => ({
-  accounts: selectAccounts(state),
-});
-
-export default connect(select)(Accounts);
+export default Accounts;
