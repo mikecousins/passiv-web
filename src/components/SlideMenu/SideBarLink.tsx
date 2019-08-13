@@ -1,10 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { RebalanceAlert } from '../../styled/Rebalance';
+import { useSelector } from 'react-redux';
 import { selectPathname } from '../../selectors/router';
+
+type Props = {
+  name: string;
+  linkPath: string;
+  rebalance?: boolean;
+  hasAccounts?: boolean;
+  loading?: boolean;
+  setupComplete?: boolean;
+  spinnerLoading?: boolean;
+  hideArrow?: boolean;
+}
 
 const SideBarLink = ({
   name,
@@ -13,10 +24,11 @@ const SideBarLink = ({
   hasAccounts,
   loading,
   setupComplete,
-  pathname,
   spinnerLoading,
   hideArrow,
-}) => {
+}: Props) => {
+  const pathname = useSelector(selectPathname);
+
   if (spinnerLoading === undefined) {
     spinnerLoading = false;
   }
@@ -25,7 +37,7 @@ const SideBarLink = ({
   }
   let selected = pathname.startsWith(linkPath);
 
-  let colorClass = null;
+  let colorClass = undefined;
   if (selected) {
     colorClass = 'active';
   }
@@ -74,8 +86,4 @@ const SideBarLink = ({
   );
 };
 
-const select = state => ({
-  pathname: selectPathname(state),
-});
-
-export default connect(select)(SideBarLink);
+export default SideBarLink;
