@@ -76,7 +76,7 @@ class CouponPage extends Component {
       return <Redirect to="/app/settings" />;
     } else {
       return (
-        <ShadowBox dark>
+        <ShadowBox background="#2a2d34">
           <H1 color="white">Apply Coupon</H1>
           {this.state.loading ? (
             <React.Fragment>

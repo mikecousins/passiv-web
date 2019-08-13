@@ -6,15 +6,15 @@ import {
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Tooltip from './Tooltip';
+import Tooltip from '../Tooltip';
 import styled from '@emotion/styled';
-import { H2 } from '../styled/GlobalElements';
-import Number from './Number';
+import { H2 } from '../../styled/GlobalElements';
+import Number from '../Number';
 import {
   selectCurrentGroupSetupComplete,
   selectCurrentGroupInfoError,
-} from '../selectors/groups';
-import { selectCanReceiveDriftNotifications } from '../selectors/subscription';
+} from '../../selectors/groups';
+import { selectCanReceiveDriftNotifications } from '../../selectors/subscription';
 
 export const Accuracy = styled.div`
   text-align: center;

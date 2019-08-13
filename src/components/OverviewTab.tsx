@@ -4,8 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
-import PortfolioGroupAccuracy from './PortfolioGroupAccuracy';
-import PortfolioGroupMetadata from './PortfolioGroupMetadata';
+import PortfolioGroupName from './PortfolioGroupDetails/PortfolioGroupName';
+import PortfolioGroupAccuracy from './PortfolioGroupDetails/PortfolioGroupAccuracy';
+import PortfolioGroupTotal from './PortfolioGroupDetails/PortfolioGroupTotal';
+import PortfolioGroupCash from './PortfolioGroupDetails/PortfolioGroupCash';
 import PortfolioGroupTargets from './PortfolioGroupTargets';
 import PortfolioGroupTrades from './PortfolioGroupTrades';
 import PortfolioGroupErrors from './PortfolioGroupErrors';
@@ -23,16 +25,16 @@ import {
   selectCurrentGroupId,
 } from '../selectors/groups';
 
-export const Container2Column = styled.div`
+export const Container3Column = styled.div`
   @media (min-width: 900px) {
     display: flex;
     justify-content: space-between;
-    > div:first-of-type {
-      width: 75%;
+    > div {
+      width: 32%;
       margin-right: 30px;
     }
     > div:last-of-type {
-      width: 25%;
+      margin-right: 0;
     }
   }
 `;
@@ -98,17 +100,17 @@ const OverviewTab = () => {
   if (!group.accounts) {
     return (
       <React.Fragment>
-        <Container2Column>
-          <PortfolioGroupMetadata
-            name={name}
+        <PortfolioGroupName name={name} />
+        <Container3Column>
+          <PortfolioGroupAccuracy accuracy={null} loading={loading} />
+          <PortfolioGroupCash
             balances={null}
             cash={null}
-            equity={null}
             error={null}
             accounts={null}
           />
-          <PortfolioGroupAccuracy accuracy={null} loading={loading} />
-        </Container2Column>
+          <PortfolioGroupTotal equity={null} error={null} accounts={null} />
+        </Container3Column>
       </React.Fragment>
     );
   }
@@ -126,17 +128,17 @@ const OverviewTab = () => {
   }
   return (
     <React.Fragment>
-      <Container2Column>
-        <PortfolioGroupMetadata
-          name={name}
+      <PortfolioGroupName name={name} />
+      <Container3Column>
+        <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
+        <PortfolioGroupCash
           balances={balances}
           cash={cash}
-          equity={equity}
           error={error}
           accounts={null}
         />
-        <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
-      </Container2Column>
+        <PortfolioGroupTotal equity={equity} error={error} accounts={null} />
+      </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
       {tradeDisplay}

@@ -173,7 +173,7 @@ export class PortfolioGroupTargets extends React.Component {
       (!this.state.loading && target && target.length === 0)
     ) {
       return (
-        <ShadowBox dark>
+        <ShadowBox background="#2a2d34">
           <H2 style={h2DarkStyle}>Target Portfolio</H2>
           {this.state.model === null ? (
             <React.Fragment>
