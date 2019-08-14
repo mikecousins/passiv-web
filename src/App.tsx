@@ -13,7 +13,7 @@ import HelpPage from './pages/HelpPage';
 import HelpArticlePage from './pages/HelpArticlePage';
 import QuestradeOauthPage from './pages/QuestradeOauthPage';
 import TradeItOauthPage from './pages/TradeItOauthPage';
-import GenericOauthPage from './pages/GenericOauthPage';
+import AlpacaOauthPage from './pages/AlpacaOauthPage';
 import CouponPage from './pages/CouponPage';
 import SecureRoute from './routes/SecureRoute';
 import UpdateNotification from './components/UpdateNotification';
@@ -28,6 +28,12 @@ declare global {
 const questradeOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/questrade?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
+const alpacaOauthRedirect = () => {
+  let urlParams = new URLSearchParams(window.location.search);
+  let newPath = '/app/oauth/alpaca?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
@@ -96,11 +102,11 @@ const App = () => {
             path={prefixPath('/settings')}
             component={SettingsPage}
           />
+          <SecureRoute path={prefixPath('/coupon')} component={CouponPage} />
           <SecureRoute
             path={prefixPath('/oauth/questrade')}
             component={QuestradeOauthPage}
           />
-          <SecureRoute path={prefixPath('/coupon')} component={CouponPage} />
           <Route
             exact
             path="/oauth/questrade"
@@ -111,9 +117,14 @@ const App = () => {
             path="/oauth/questrade-trade"
             render={() => questradeOauthRedirect()}
           />
+          <SecureRoute
+            path={prefixPath('/oauth/alpaca')}
+            component={AlpacaOauthPage}
+          />
           <Route
-            path={prefixPath('/oauth/tradeit')}
-            render={props => <GenericOauthPage {...props} name={'TradeIt'} />}
+            exact
+            path="/oauth/alpaca"
+            render={() => alpacaOauthRedirect()}
           />
           <Route path={prefixPath('/share')} component={SharePage} />
           <UpdateNotification />
