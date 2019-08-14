@@ -36,7 +36,10 @@ export const Account = ({
   const [groupEditing, setGroupEditing] = useState(false);
   const [name, setName] = useState(account.name);
   const [newGroupId, setNewGroupId] = useState();
-  const group = groups.find(group => group.id === account.portfolio_group);
+  let group = null;
+  if (groups !== undefined && groups !== null) {
+    group = groups.find(group => group.id === account.portfolio_group);
+  }
   if (group && !newGroupId) {
     setNewGroupId(group.id);
   }
