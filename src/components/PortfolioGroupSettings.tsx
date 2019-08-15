@@ -1,14 +1,15 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 import { H2, H3, BulletUL } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
 import SettingsToggle from './SettingsToggle';
 import CurrencySeparation from './CurrencySeparation';
-import { connect } from 'react-redux';
 import { selectCurrentGroupSettings } from '../selectors/groups';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-export const PortfolioGroupSettings = ({ settings }) => {
+export const PortfolioGroupSettings = () => {
+  const settings = useSelector(selectCurrentGroupSettings);
   let summary = [];
   if (settings) {
     if (settings.buy_only) {
@@ -71,12 +72,4 @@ export const PortfolioGroupSettings = ({ settings }) => {
   );
 };
 
-const actions = {};
-const select = state => ({
-  settings: selectCurrentGroupSettings(state),
-});
-
-export default connect(
-  select,
-  actions,
-)(PortfolioGroupSettings);
+export default PortfolioGroupSettings;
