@@ -104,7 +104,7 @@ const OverviewTab = () => {
         <Container3Column>
           <PortfolioGroupAccuracy accuracy={null} loading={loading} />
           <PortfolioGroupCash />
-          <PortfolioGroupTotal equity={null} error={null} accounts={null} />
+          <PortfolioGroupTotal />
         </Container3Column>
       </React.Fragment>
     );
@@ -127,7 +127,7 @@ const OverviewTab = () => {
       <Container3Column>
         <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
         <PortfolioGroupCash balances={balances} cash={cash} error={error} />
-        <PortfolioGroupTotal equity={equity} error={error} accounts={null} />
+        <PortfolioGroupTotal equity={equity} error={error} />
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
