@@ -5,6 +5,7 @@ import { postData } from '../api';
 import { Button } from '../styled/Button';
 import { DisabledButton } from '../styled/DisabledButton';
 import { StepButton } from '../styled/SignupSteps';
+import PlaidLink from 'react-plaid-link';
 
 class AuthorizationPicker extends Component {
   state = {
@@ -37,9 +38,7 @@ class AuthorizationPicker extends Component {
       });
     } else {
       postData(
-        `/api/v1/brokerages/${this.state.brokerage}/authorize/${
-          this.state.updateBrokerageAuthorizationId
-        }`,
+        `/api/v1/brokerages/${this.state.brokerage}/authorize/${this.state.updateBrokerageAuthorizationId}`,
         { type: this.state.type },
       ).then(response => {
         console.log('success', response.data);
@@ -48,8 +47,20 @@ class AuthorizationPicker extends Component {
     }
   }
 
+  handleOnClick() {
+    postData(`/api/v1/brokerages/${this.state.brokerage.id}/authorize/`, {
+      type: 'read',
+    });
+  }
+  handleOnSuccess() {
+    console.log('');
+  }
+  handleOnExit() {
+    console.log('');
+  }
+
   render() {
-    const { brokerages } = this.props;
+    const { brokerages, publicToken } = this.props;
 
     let brokerageOptions = null;
     if (brokerages) {
@@ -77,7 +88,24 @@ class AuthorizationPicker extends Component {
 
     let submitButton = <DisabledButton disabled>Connect</DisabledButton>;
     if (this.state.brokerage && this.state.type) {
-      if (this.state.allowSelect) {
+      if (this.props.publicToken) {
+        alert('Hello');
+        submitButton = (
+          <div onClick={() => this.handleOnClick()}>
+            <PlaidLink
+              clientName="Test App"
+              env="sandbox"
+              product={['investments']}
+              publicKey="db7797dd137d1d2d7b519e5fdc998e"
+              token={this.props.publicToken}
+              onExit={() => this.handleOnExit}
+              onSuccess={() => this.handleOnSuccess}
+            >
+              Connect With Plaid
+            </PlaidLink>
+          </div>
+        );
+      } else if (this.state.allowSelect) {
         submitButton = (
           <Button
             onClick={() => {

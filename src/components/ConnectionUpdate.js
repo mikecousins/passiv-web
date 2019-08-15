@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AuthorizationPicker from '../components/AuthorizationPicker';
+import { postData } from '../api';
 
+import AuthorizationPicker from '../components/AuthorizationPicker';
 import { H3 } from '../styled/GlobalElements';
 import styled from '@emotion/styled';
 
@@ -25,10 +26,28 @@ class ConnectionUpdate extends React.Component {
       this.props.type === undefined
         ? this.props.authorization.type
         : this.props.type,
+    publicToken: undefined,
   };
+
+  getPublicToken() {
+    postData(
+      `/api/v1/brokerages/${this.props.authorization.brokerage.id}/authorize/${this.props.authorization.id}`,
+      { type: 'read' },
+    ).then(response => {
+      console.log('success', response.data);
+      this.setState({ publicToken: response.data.public_token });
+    });
+  }
 
   render() {
     const { authorization } = this.props;
+
+    if (authorization.brokerage.name === 'Plaid') {
+      if (!this.state.publicToken) {
+        this.getPublicToken();
+      }
+    }
+
     const picker = (
       <React.Fragment>
         {!this.props.hideTitle && <H3>Update/Refresh Connection</H3>}
@@ -39,6 +58,7 @@ class ConnectionUpdate extends React.Component {
           allowSelectType={this.state.allowSelectType}
           type={this.state.defaultType}
           name={this.props.name}
+          publicToken={this.state.publicToken}
         />
       </React.Fragment>
     );
