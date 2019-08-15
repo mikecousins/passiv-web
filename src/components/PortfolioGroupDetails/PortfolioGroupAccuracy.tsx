@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   faSpinner,
   faExclamationTriangle,
@@ -14,7 +14,6 @@ import {
   selectCurrentGroupSetupComplete,
   selectCurrentGroupInfoError,
 } from '../../selectors/groups';
-import { selectCanReceiveDriftNotifications } from '../../selectors/subscription';
 
 export const Accuracy = styled.div`
   text-align: center;
@@ -39,13 +38,18 @@ export const Accuracy = styled.div`
   }
 `;
 
+type Props = {
+  accuracy: number | null;
+  loading: boolean;
+}
+
 export const PortfolioGroupAccuracy = ({
   accuracy,
   loading,
-  setupComplete,
-  error,
-  canReceiveDriftNotifications,
-}) => {
+}: Props) => {
+  const setupComplete = useSelector(selectCurrentGroupSetupComplete);
+  const error = useSelector(selectCurrentGroupInfoError);
+
   let accuracyDisplay = null;
   if (error) {
     accuracyDisplay = (
@@ -89,10 +93,4 @@ export const PortfolioGroupAccuracy = ({
   );
 };
 
-const select = state => ({
-  setupComplete: selectCurrentGroupSetupComplete(state),
-  error: selectCurrentGroupInfoError(state),
-  canReceiveDriftNotifications: selectCanReceiveDriftNotifications(state),
-});
-
-export default connect(select)(PortfolioGroupAccuracy);
+export default PortfolioGroupAccuracy;

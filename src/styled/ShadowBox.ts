@@ -1,12 +1,16 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 
-const dynamicColor = props =>
+type Props = {
+  background?: string;
+}
+
+const dynamicColor = ({ background }: Props) =>
   css`
-    background: ${props.background};
+    background: ${background};
   `;
 
-export default styled.div`
+const ShadowBox = styled.div<Props>`
   background: var(--white);
   border-radius: 4px;
   box-shadow: var(--box-shadow);
@@ -17,3 +21,5 @@ export default styled.div`
   }
   ${dynamicColor};
 `;
+
+export default ShadowBox;
