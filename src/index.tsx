@@ -11,8 +11,10 @@ import ErrorBoundary from './components/ErrorBoundary';
 import createRunLoop from './reactors/init-runloop';
 import { effects } from './reactors/effects';
 import store, { history } from './store';
-// import registerServiceWorker from './registerServiceWorker';
-// import { updateServiceWorker } from './actions';
+
+// have to require it because there are no Typescript typings available...
+// TODO fix this
+const ReactPiwik = require('react-piwik');
 
 Sentry.init({
   dsn: 'https://0d88597b9cb6439fa0050392b907ec17@sentry.io/1358976',
@@ -40,6 +42,13 @@ history.listen(function(location) {
   ReactGA.pageview(location.pathname + location.search);
 });
 
+// setup Matomo/piwik
+const piwik = new ReactPiwik({
+  url: 'matomo.getpassiv.com',
+  siteId: process.env.NODE_ENV === 'production' ? 1 : 2,
+  trackErrors: true,
+});
+
 const persistor = persistStore(store);
 
 // create our run loop that loads our data
@@ -51,7 +60,7 @@ ReactDOM.render(
     <ErrorBoundary>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <ConnectedRouter history={history}>
+          <ConnectedRouter history={piwik.connectToHistory(history)}>
             <App />
           </ConnectedRouter>
         </PersistGate>
