@@ -10,10 +10,16 @@ import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
 import createRunLoop from './reactors/init-runloop';
 import { effects } from './reactors/effects';
-// import registerServiceWorker from './registerServiceWorker';
-// import { updateServiceWorker } from './actions';
 
 import store, { history } from './store';
+
+const ReactPiwik = require('react-piwik');
+
+const piwik = new ReactPiwik({
+  url: 'matomo.getpassiv.com',
+  siteId: process.env.NODE_ENV === 'production' ? 1 : 2,
+  trackErrors: true,
+});
 
 if (
   process.env.REACT_APP_BASE_URL_OVERRIDE &&
@@ -60,7 +66,7 @@ ReactDOM.render(
   <ErrorBoundary>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <ConnectedRouter history={history}>
+        <ConnectedRouter history={piwik.connectToHistory(history)}>
           <App />
         </ConnectedRouter>
       </PersistGate>

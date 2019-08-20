@@ -33,14 +33,6 @@ class ExcludedAssetToggle extends Component {
     this.setState({ toggle: this.symbolExcluded(this.props.symbolId) });
   }
 
-  symbolInTargets = symbolId => {
-    if (this.props.targets) {
-      return this.props.targets.some(target => target.symbol === symbolId);
-    } else {
-      return false;
-    }
-  };
-
   symbolExcluded = symbolId => {
     return this.props.excludedAssets.some(
       excludedAsset => excludedAsset.symbol === symbolId,
@@ -84,18 +76,6 @@ class ExcludedAssetToggle extends Component {
   render() {
     if (this.state.loading) {
       return <FontAwesomeIcon icon={faSpinner} />;
-    }
-
-    if (this.symbolInTargets(this.props.symbolId)) {
-      return (
-        <DisabledToggleButton>
-          <FontAwesomeIcon
-            icon={faToggleOff}
-            data-tip="You can't exclude assets that are a part of your target portfolio. Remove this security from your target portfolio first."
-          />
-          <StateText>off</StateText>
-        </DisabledToggleButton>
-      );
     }
 
     if (!this.symbolQuotable(this.props.symbolId)) {
