@@ -89,7 +89,6 @@ class AuthorizationPicker extends Component {
     let submitButton = <DisabledButton disabled>Connect</DisabledButton>;
     if (this.state.brokerage && this.state.type) {
       if (this.props.publicToken) {
-        alert('Hello');
         submitButton = (
           <div onClick={() => this.handleOnClick()}>
             <PlaidLink
@@ -97,7 +96,7 @@ class AuthorizationPicker extends Component {
               env="sandbox"
               product={['investments']}
               publicKey="db7797dd137d1d2d7b519e5fdc998e"
-              token={this.props.publicToken}
+              token={publicToken}
               onExit={() => this.handleOnExit}
               onSuccess={() => this.handleOnSuccess}
             >

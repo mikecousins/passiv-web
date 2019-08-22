@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PlaidLink from 'react-plaid-link';
 import { connect } from 'react-redux';
 
@@ -33,7 +33,7 @@ const PlaidConnection = ({
   };
 
   const plaid = brokerages.filter(function(brokerage) {
-    return brokerage.name == 'Plaid';
+    return brokerage.name === 'Plaid';
   })[0];
 
   return (
