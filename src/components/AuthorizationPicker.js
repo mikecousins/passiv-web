@@ -5,7 +5,6 @@ import { postData } from '../api';
 import { Button } from '../styled/Button';
 import { DisabledButton } from '../styled/DisabledButton';
 import { StepButton } from '../styled/SignupSteps';
-import PlaidLink from 'react-plaid-link';
 
 class AuthorizationPicker extends Component {
   state = {
@@ -47,18 +46,6 @@ class AuthorizationPicker extends Component {
     }
   }
 
-  handleOnClick() {
-    postData(`/api/v1/brokerages/${this.state.brokerage.id}/authorize/`, {
-      type: 'read',
-    });
-  }
-  handleOnSuccess() {
-    console.log('');
-  }
-  handleOnExit() {
-    console.log('');
-  }
-
   render() {
     const { brokerages, publicToken } = this.props;
 
@@ -88,23 +75,7 @@ class AuthorizationPicker extends Component {
 
     let submitButton = <DisabledButton disabled>Connect</DisabledButton>;
     if (this.state.brokerage && this.state.type) {
-      if (this.props.publicToken) {
-        submitButton = (
-          <div onClick={() => this.handleOnClick()}>
-            <PlaidLink
-              clientName="Test App"
-              env="sandbox"
-              product={['investments']}
-              publicKey="db7797dd137d1d2d7b519e5fdc998e"
-              token={publicToken}
-              onExit={() => this.handleOnExit}
-              onSuccess={() => this.handleOnSuccess}
-            >
-              Connect With Plaid
-            </PlaidLink>
-          </div>
-        );
-      } else if (this.state.allowSelect) {
+      if (this.state.allowSelect) {
         submitButton = (
           <Button
             onClick={() => {
@@ -159,7 +130,6 @@ class AuthorizationPicker extends Component {
             )}
           </div>
         )}
-
         {submitButton}
       </React.Fragment>
     );
