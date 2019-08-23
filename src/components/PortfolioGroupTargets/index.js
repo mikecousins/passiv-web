@@ -22,14 +22,24 @@ export const TargetContainer = styled.form`
   }
 `;
 
-export const Container3Column = styled.div`
+export const Container2Column = styled.div`
   @media (min-width: 900px) {
     display: flex;
     justify-content: space-between;
     > div {
-      width: 30%;
+      width: 49%;
     }
   }
+`;
+
+const H3LowProfile = styled(H3)`
+  line-height: 1.3em;
+  height: 3em;
+`;
+
+const CenteredDiv = styled.div`
+  text-align: center;
+  padding-top: 10px;
 `;
 
 const h2DarkStyle = {
@@ -52,15 +62,6 @@ export class PortfolioGroupTargets extends React.Component {
     loading: false,
     model: null,
     modelChoices: [
-      {
-        id: 'CHOOSE',
-        name: 'Select a model portfolio (coming soon)',
-        button: (
-          <Button disabled onClick={() => this.setState({ model: 'CHOOSE' })}>
-            Select
-          </Button>
-        ),
-      },
       {
         id: 'IMPORT',
         name: 'Import your current holdings as a target',
@@ -184,17 +185,21 @@ export class PortfolioGroupTargets extends React.Component {
                 made in order to follow your target portfolio.
               </P>
               <P style={pDarkStyle}>
-                There is no target portfolio set for this account. Please choose
-                one of the following options:
+                <strong>
+                  There is no target portfolio set for this account.
+                </strong>
               </P>
-              <Container3Column>
+              <P style={pDarkStyle}>
+                Please choose one of the following options:
+              </P>
+              <Container2Column>
                 {this.state.modelChoices.map(m => (
                   <ShadowBox key={m.id}>
-                    <H3>{m.name}</H3>
-                    {m.button}
+                    <H3LowProfile>{m.name}</H3LowProfile>
+                    <CenteredDiv>{m.button}</CenteredDiv>
                   </ShadowBox>
                 ))}
-              </Container3Column>
+              </Container2Column>
             </React.Fragment>
           ) : (
             <React.Fragment>
