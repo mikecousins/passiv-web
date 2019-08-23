@@ -15,6 +15,7 @@ import store, { history } from './store';
 
 const ReactPiwik = require('react-piwik');
 
+// setup Matomo
 const piwik = new ReactPiwik({
   url: 'matomo.getpassiv.com',
   siteId: process.env.NODE_ENV === 'production' ? 1 : 2,
@@ -54,13 +55,6 @@ ReactGA.pageview(window.location.pathname + window.location.search);
 // get GA to listen for path changes
 history.listen(function(location) {
   ReactGA.pageview(location.pathname + location.search);
-});
-
-// setup Matomo/piwik
-const piwik = new ReactPiwik({
-  url: 'matomo.getpassiv.com',
-  siteId: process.env.NODE_ENV === 'production' ? 1 : 2,
-  trackErrors: true,
 });
 
 const persistor = persistStore(store);
