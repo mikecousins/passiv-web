@@ -52,7 +52,11 @@ const FlyOut = styled.div`
   }
 `;
 
-const Menu = ({ menuVisibility }) => (
+type Props = {
+  menuVisibility: boolean;
+};
+
+const Menu = ({ menuVisibility }: Props) => (
   <FlyOut className={menuVisibility ? 'show' : 'hide'}>
     <SideBar />
   </FlyOut>

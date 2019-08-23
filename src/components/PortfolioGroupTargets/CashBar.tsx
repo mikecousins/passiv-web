@@ -12,35 +12,40 @@ import {
   Container,
 } from '../../styled/Target';
 
-export const CashBar = props => {
-  if (!(typeof props.percentage === 'number')) {
+type Props = {
+  percentage: number;
+  actualPercentage: number;
+};
+
+export const CashBar = ({ percentage, actualPercentage }: Props) => {
+  if (!(typeof percentage === 'number')) {
     return 'Loading';
   }
   return (
     <Container>
       <BarsContainer>
-        {!(props.actualPercentage === undefined) && (
+        {!(actualPercentage === undefined) && (
           <BarActual>
-            <Bar style={{ width: `${props.actualPercentage}%` }}> </Bar>
+            <Bar style={{ width: `${actualPercentage}%` }}> </Bar>
           </BarActual>
         )}
         <BarTarget>
-          {props.percentage < 0 ? (
+          {percentage < 0 ? (
             <div style={{ width: '100%', backgroundColor: 'red' }}>
               Warning: cash allocation cannot be negative!
             </div>
           ) : (
-            <Bar style={{ width: `${props.percentage}%` }}> </Bar>
+            <Bar style={{ width: `${percentage}%` }}> </Bar>
           )}
         </BarTarget>
       </BarsContainer>
       <TargetRow>
         <Symbol>Cash</Symbol>
         <Target>
-          <Number value={props.percentage} />%
+          <Number value={percentage} />%
         </Target>
         <Actual>
-          <Number value={props.actualPercentage} />%
+          <Number value={actualPercentage} />%
         </Actual>
       </TargetRow>
     </Container>

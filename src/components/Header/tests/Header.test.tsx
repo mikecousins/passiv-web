@@ -5,7 +5,7 @@ import { render } from '@testing-library/react';
 import { Header } from '..';
 import store from '../../../store';
 
-const renderWithRedux = ui => {
+const renderWithRedux = (ui: JSX.Element) => {
   return {
     ...render(
       <Provider store={store}>

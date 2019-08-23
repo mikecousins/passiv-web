@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import MenuButton from './MenuButton';
 import Menu from './Menu';
 import { selectIsMobile } from '../../selectors/browser';
@@ -14,7 +14,9 @@ const StyledSlideMenu = styled.div`
   min-height: 100vh;
 `;
 
-export const SlideMenu = ({ isMobile, pathname }) => {
+export const SlideMenu = () => {
+  const isMobile = useSelector(selectIsMobile);
+  const pathname = useSelector(selectPathname);
   const [visible, setVisible] = useState(!isMobile);
   const [oldPath, setPath] = useState(pathname);
 
@@ -29,16 +31,11 @@ export const SlideMenu = ({ isMobile, pathname }) => {
     <StyledSlideMenu>
       <MenuButton
         menuVisibility={visible}
-        handleMouseDown={e => setVisible(!visible)}
+        handleMouseDown={() => setVisible(!visible)}
       />
       <Menu menuVisibility={visible} />
     </StyledSlideMenu>
   );
 };
 
-const select = state => ({
-  isMobile: selectIsMobile(state),
-  pathname: selectPathname(state),
-});
-
-export default connect(select)(SlideMenu);
+export default SlideMenu;

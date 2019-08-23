@@ -1,6 +1,15 @@
 import React from 'react';
 
-const Number = props => {
+type Props = {
+  decimalPlaces?: number;
+  currency?: boolean;
+  percentage?: boolean;
+  isTrade?: boolean;
+  forcePlusMinus?: boolean;
+  value: number;
+};
+
+const Number = (props: Props) => {
   let decimalPlaces = 1;
   if (props.decimalPlaces !== undefined) {
     decimalPlaces = props.decimalPlaces;

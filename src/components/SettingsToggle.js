@@ -17,6 +17,7 @@ import {
   DisabledToggleButton,
   StateText,
 } from '../styled/ToggleButton';
+import Tooltip from './Tooltip';
 
 class SettingsToggle extends Component {
   state = {
@@ -64,12 +65,16 @@ class SettingsToggle extends Component {
       <DisabledToggleButton>
         {this.getViewState() ? (
           <React.Fragment>
-            <FontAwesomeIcon icon={faToggleOn} data-tip={this.props.tip} />
+            <Tooltip label={this.props.tip}>
+              <FontAwesomeIcon icon={faToggleOn} />
+            </Tooltip>
             <StateText>on</StateText>
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <FontAwesomeIcon icon={faToggleOff} data-tip={this.props.tip} />
+            <Tooltip label={this.props.tip}>
+              <FontAwesomeIcon icon={faToggleOff} />
+            </Tooltip>
             <StateText>off</StateText>
           </React.Fragment>
         )}
@@ -80,12 +85,16 @@ class SettingsToggle extends Component {
         <ToggleButton onClick={this.handleClick}>
           {this.getViewState() ? (
             <React.Fragment>
-              <FontAwesomeIcon icon={faToggleOn} data-tip={this.props.tip} />
+              <Tooltip label={this.props.tip}>
+                <FontAwesomeIcon icon={faToggleOn} />
+              </Tooltip>
               <StateText>on</StateText>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <FontAwesomeIcon icon={faToggleOff} data-tip={this.props.tip} />
+              <Tooltip label={this.props.tip}>
+                <FontAwesomeIcon icon={faToggleOff} />
+              </Tooltip>
               <StateText>off</StateText>
             </React.Fragment>
           )}

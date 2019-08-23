@@ -1,19 +1,19 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   faSpinner,
   faExclamationTriangle,
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Tooltip from '../Tooltip';
 import styled from '@emotion/styled';
-import { H2 } from '../styled/GlobalElements';
-import Number from './Number';
+import { H2 } from '../../styled/GlobalElements';
+import Number from '../Number';
 import {
   selectCurrentGroupSetupComplete,
   selectCurrentGroupInfoError,
-} from '../selectors/groups';
-import { selectCanReceiveDriftNotifications } from '../selectors/subscription';
+} from '../../selectors/groups';
 
 export const Accuracy = styled.div`
   text-align: center;
@@ -38,21 +38,25 @@ export const Accuracy = styled.div`
   }
 `;
 
+type Props = {
+  accuracy: number | null;
+  loading: boolean;
+}
+
 export const PortfolioGroupAccuracy = ({
   accuracy,
   loading,
-  setupComplete,
-  error,
-  canReceiveDriftNotifications,
-}) => {
+}: Props) => {
+  const setupComplete = useSelector(selectCurrentGroupSetupComplete);
+  const error = useSelector(selectCurrentGroupInfoError);
+
   let accuracyDisplay = null;
   if (error) {
     accuracyDisplay = (
       <div>
-        <FontAwesomeIcon
-          icon={faExclamationTriangle}
-          data-tip="Unable to calculate accuracy."
-        />
+        <Tooltip label="Unable to calculate accuracy.">
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+        </Tooltip>
       </div>
     );
   } else if (loading || accuracy === null) {
@@ -69,10 +73,9 @@ export const PortfolioGroupAccuracy = ({
     } else {
       accuracyDisplay = (
         <div>
-          <FontAwesomeIcon
-            icon={faExclamationTriangle}
-            data-tip="There is no target set for this portfolio, follow the instructions under the Target Portfolio."
-          />
+          <Tooltip label="There is no target set for this portfolio, follow the instructions under the Target Portfolio.">
+            <FontAwesomeIcon icon={faExclamationTriangle} />
+          </Tooltip>
         </div>
       );
     }
@@ -81,21 +84,13 @@ export const PortfolioGroupAccuracy = ({
     <Accuracy>
       <H2>
         Accuracy&nbsp;
-        <FontAwesomeIcon
-          icon={faQuestionCircle}
-          style={{ fontSize: 12 }}
-          data-tip="How close your holdings are to your desired target, where 100% indicates your holdings are perfectly on target."
-        />
+        <Tooltip label="How close your holdings are to your desired target, where 100% indicates your holdings are perfectly on target.">
+          <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 12 }} />
+        </Tooltip>
       </H2>
       {accuracyDisplay}
     </Accuracy>
   );
 };
 
-const select = state => ({
-  setupComplete: selectCurrentGroupSetupComplete(state),
-  error: selectCurrentGroupInfoError(state),
-  canReceiveDriftNotifications: selectCanReceiveDriftNotifications(state),
-});
-
-export default connect(select)(PortfolioGroupAccuracy);
+export default PortfolioGroupAccuracy;

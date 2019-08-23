@@ -1,10 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { selectIsDemoMode, selectLoggedIn } from '../../selectors';
+import { selectLoggedIn } from '../../selectors';
 import { selectGroups } from '../../selectors/groups';
-import { toggleDemoMode } from '../../actions/demo';
 import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
@@ -53,11 +52,14 @@ const GroupContainer = styled.div`
     padding: 17px 15px 17px 25px;
   }
 `;
-const SideBar = props => {
-  let groups = <FontAwesomeIcon icon={faSpinner} spin />;
+const SideBar = () => {
+  const loggedIn = useSelector(selectLoggedIn);
+  const groups = useSelector(selectGroups);
 
-  if (props.groups) {
-    groups = props.groups.map(group => (
+  let groupList: JSX.Element | JSX.Element[] = <FontAwesomeIcon icon={faSpinner} spin />;
+
+  if (groups) {
+    groupList = groups.map(group => (
       <SideBarLink
         key={group.id}
         name={group.name}
@@ -71,11 +73,11 @@ const SideBar = props => {
       />
     ));
   }
-  if (props.loggedIn) {
+  if (loggedIn) {
     return (
       <StyledAside>
         <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
-        <GroupContainer>{groups}</GroupContainer>
+        <GroupContainer>{groupList}</GroupContainer>
         <SideBarLink name="Settings" linkPath="/app/settings" />
         <SideBarFooter />
       </StyledAside>
@@ -91,15 +93,4 @@ const SideBar = props => {
   );
 };
 
-const select = state => ({
-  loggedIn: selectLoggedIn(state),
-  groups: selectGroups(state),
-  demoMode: selectIsDemoMode(state),
-});
-
-const actions = { toggleDemo: toggleDemoMode };
-
-export default connect(
-  select,
-  actions,
-)(SideBar);
+export default SideBar;

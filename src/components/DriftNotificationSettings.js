@@ -22,6 +22,7 @@ class DriftNotificationSettings extends React.Component {
     driftThreshold: this.props.settings && this.props.settings.drift_threshold,
   };
 
+  // TODO remove this, it's deprecated
   componentWillReceiveProps(nextProps) {
     this.setState({
       driftThreshold: nextProps.settings && nextProps.settings.drift_threshold,

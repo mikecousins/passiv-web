@@ -105,7 +105,7 @@ class QuestradeAuthorizationPicker extends Component {
     }
     return (
       <React.Fragment>
-        <ShadowBox dark>
+        <ShadowBox background="#2a2d34">
           <H1 color="white">SETUP</H1>
           <Step>Step 1 - Connect Questrade</Step>
           {this.state.answered ? (

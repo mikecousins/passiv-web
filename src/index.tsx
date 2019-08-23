@@ -56,6 +56,13 @@ history.listen(function(location) {
   ReactGA.pageview(location.pathname + location.search);
 });
 
+// setup Matomo/piwik
+const piwik = new ReactPiwik({
+  url: 'matomo.getpassiv.com',
+  siteId: process.env.NODE_ENV === 'production' ? 1 : 2,
+  trackErrors: true,
+});
+
 const persistor = persistStore(store);
 
 // create our run loop that loads our data
@@ -63,15 +70,17 @@ const runLoop = createRunLoop();
 runLoop.start(store, effects);
 
 ReactDOM.render(
-  <ErrorBoundary>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ConnectedRouter history={piwik.connectToHistory(history)}>
-          <App />
-        </ConnectedRouter>
-      </PersistGate>
-    </Provider>
-  </ErrorBoundary>,
+  <React.StrictMode>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ConnectedRouter history={piwik.connectToHistory(history)}>
+            <App />
+          </ConnectedRouter>
+        </PersistGate>
+      </Provider>
+    </ErrorBoundary>
+  </React.StrictMode>,
   document.getElementById('root'),
 );
 
