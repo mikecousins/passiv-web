@@ -1,7 +1,7 @@
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
@@ -47,7 +47,6 @@ const pDarkStyle = {
 };
 
 const PortfolioGroupTargets = () => {
-  const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [model, setModel] = useState<string>();
 
@@ -84,26 +83,15 @@ const PortfolioGroupTargets = () => {
     setModel(undefined);
   }, [groupId, target, targetInitialized, error]);
 
-  const getRandomId = () => {
-    return String(Math.floor(Math.random() * 1e12));
-  };
-
-  const setSymbol = (target: any, symbol: any) => {
-    target.fullSymbol = symbol;
-    target.symbol = symbol.id;
-  };
-
   const importTarget = () => {
     setLoading(true);
     postData('/api/v1/portfolioGroups/' + groupId + '/import/', {})
       .then(() => {
         setLoading(false);
-        setEdit(false);
         dispatch(loadGroup({ ids: [groupId] }));
       })
       .catch(() => {
         setLoading(false);
-        setEdit(false);
       });
   };
 
