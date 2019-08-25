@@ -43,7 +43,7 @@ class SubscriptionCoupon extends React.Component {
           {coupon.redeem_by ? (
             <P>
               Redeem coupon by:{' '}
-              <strong>{format(coupon.redeem_by, 'MMMM D, YYYY')}</strong>
+              <strong>{format(coupon.redeem_by, 'MMMM d, yyyy')}</strong>
             </P>
           ) : null}
         </React.Fragment>

@@ -218,7 +218,7 @@ export class SubscriptionManager extends React.Component {
                         ends on{' '}
                         {format(
                           subscription.details.period_end,
-                          'MMMM D, YYYY',
+                          'MMMM d, yyyy',
                         )}
                         .
                       </strong>
@@ -228,7 +228,7 @@ export class SubscriptionManager extends React.Component {
                   <ActionContainer>
                     <P>
                       Your subscription will renew on{' '}
-                      {format(subscription.details.period_end, 'MMMM D, YYYY')}.
+                      {format(subscription.details.period_end, 'MMMM d, yyyy')}.
                     </P>
                     <CreditCardDetails
                       cardState={subscription.cardState}
