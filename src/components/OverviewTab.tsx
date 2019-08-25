@@ -133,7 +133,7 @@ const OverviewTab = () => {
       {error ? <PortfolioGroupErrors error={error} /> : null}
       {tradeDisplay}
 
-      <PortfolioGroupTargets positions={positions} />
+      <PortfolioGroupTargets />
     </React.Fragment>
   );
 };
