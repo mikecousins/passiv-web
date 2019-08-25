@@ -96,16 +96,20 @@ export class TargetBar extends React.Component {
               fullSymbol.symbol
             )}
           </Symbol>
-          <Target>
-            <InputContainer>{children}%</InputContainer>
-          </Target>
-          <Actual>
-            <Number
-              value={renderActualPercentage}
-              percentage
-              decimalPlaces={1}
-            />
-          </Actual>
+          {edit && (
+            <React.Fragment>
+              <Target>
+                <InputContainer>{children}%</InputContainer>
+              </Target>
+              <Actual>
+                <Number
+                  value={renderActualPercentage}
+                  percentage
+                  decimalPlaces={1}
+                />
+              </Actual>
+            </React.Fragment>
+          )}
         </TargetRow>
       </Container>
     );

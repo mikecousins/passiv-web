@@ -13,11 +13,12 @@ import {
 } from '../../styled/Target';
 
 type Props = {
+  edit: boolean;
   percentage: number;
   actualPercentage: number;
 };
 
-export const CashBar = ({ percentage, actualPercentage }: Props) => {
+export const CashBar = ({ edit, percentage, actualPercentage }: Props) => {
   if (!(typeof percentage === 'number')) {
     return 'Loading';
   }
@@ -41,12 +42,16 @@ export const CashBar = ({ percentage, actualPercentage }: Props) => {
       </BarsContainer>
       <TargetRow>
         <Symbol>Cash</Symbol>
-        <Target>
-          <Number value={percentage} />%
-        </Target>
-        <Actual>
-          <Number value={actualPercentage} />%
-        </Actual>
+        {edit && (
+          <React.Fragment>
+            <Target>
+              <Number value={percentage} />%
+            </Target>
+            <Actual>
+              <Number value={actualPercentage} />%
+            </Actual>
+          </React.Fragment>
+        )}
       </TargetRow>
     </Container>
   );
