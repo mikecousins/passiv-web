@@ -7,6 +7,7 @@ import { initialLoad } from '../actions';
 import { postData } from '../api';
 
 const PlaidConnection = ({
+  updateConnection,
   brokerages,
   reloadAllState,
   handleOnSuccess,
@@ -25,7 +26,11 @@ const PlaidConnection = ({
   };
 
   handleOnClick = brokerage => {
-    postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, { type: 'read' });
+    if (!updateConnection) {
+      postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+        type: 'read',
+      });
+    }
   };
 
   handleOnExit = () => {

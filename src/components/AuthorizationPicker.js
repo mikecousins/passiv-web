@@ -47,7 +47,7 @@ class AuthorizationPicker extends Component {
   }
 
   render() {
-    const { brokerages, publicToken } = this.props;
+    const { brokerages } = this.props;
 
     let brokerageOptions = null;
     if (brokerages) {

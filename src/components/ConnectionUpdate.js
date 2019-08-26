@@ -42,12 +42,6 @@ class ConnectionUpdate extends React.Component {
   render() {
     const { authorization } = this.props;
 
-    if (authorization.brokerage.name === 'Plaid') {
-      if (!this.state.publicToken) {
-        this.getPublicToken();
-      }
-    }
-
     const picker = (
       <React.Fragment>
         {!this.props.hideTitle && <H3>Update/Refresh Connection</H3>}
@@ -58,7 +52,6 @@ class ConnectionUpdate extends React.Component {
           allowSelectType={this.state.allowSelectType}
           type={this.state.defaultType}
           name={this.props.name}
-          publicToken={this.state.publicToken}
         />
       </React.Fragment>
     );
