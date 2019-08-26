@@ -6,6 +6,7 @@ import {
   selectCurrencies,
   selectCurrencyRates,
   selectRouter,
+  selectState,
 } from './index';
 import {
   selectAccounts,
@@ -16,6 +17,7 @@ import { selectIsEditMode } from './router';
 import shouldUpdate from '../reactors/should-update';
 import { AppState } from '../store';
 import { CalculatedTrades, BrokerageAuthorization } from '../types/groupInfo';
+import { createMatchSelector } from 'connected-react-router';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 
@@ -621,38 +623,44 @@ export const selectCurrentGroupSetupComplete = createSelector(
   },
 );
 
-export const selectCurrentGroupAccountHoldings = createSelector(
-  selectCurrentGroupId,
+export const selectCurrentAccountId = createSelector(
+  selectState,
+  state => {
+    const matchSelector = createMatchSelector<
+      any,
+      { groupId?: string; accountId?: string }
+    >('/app/group/:groupId/account/:accountId');
+    const match = matchSelector(state);
+    const id = match && match.params.accountId;
+    return id;
+  },
+);
+
+export const selectCurrentAccountHoldings = createSelector(
+  selectCurrentAccountId,
   selectAccounts,
   selectAccountBalances,
   selectAccountPositions,
-  (groupId, accounts, accountBalances, accountPositions) => {
-    const accountHoldings: {
-      id: string;
-      name: string;
-      number: string;
-      type: string;
-      positions: any[];
-    }[] = [];
-    if (!groupId || !accounts || !accountBalances || !accountPositions) {
-      return accountHoldings;
+  (accountId, accounts, accountBalances, accountPositions) => {
+    if (!accountId || !accounts || !accountBalances || !accountPositions) {
+      return null;
     }
-    accounts.forEach(account => {
-      if (account.portfolio_group === groupId) {
-        let positions = null;
-        if (accountPositions[account.id]) {
-          positions = accountPositions[account.id].data;
-        }
-        accountHoldings.push({
-          id: account.id,
-          name: account.name,
-          number: account.number,
-          type: account.meta.type,
-          positions,
-        });
-      }
-    });
-    return accountHoldings;
+    const account = accounts.find(a => a.id === accountId);
+    if (!account) {
+      return null;
+    }
+
+    let positions = null;
+    if (accountPositions[account.id]) {
+      positions = accountPositions[account.id].data;
+    }
+    return {
+      id: account.id,
+      name: account.name,
+      number: account.number,
+      type: account.meta.type,
+      positions,
+    };
   },
 );
 
@@ -660,9 +668,8 @@ export const selectCurrentGroup = createSelector(
   selectGroups,
   selectAccounts,
   selectAccountBalances,
-  selectAccountPositions,
   selectCurrentGroupId,
-  (groups, accounts, balances, positions, groupId) => {
+  (groups, accounts, balances, groupId) => {
     let group:
       | {
           id: string;

@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import uuid from 'uuid';
 import { replace } from 'connected-react-router';
 import styled from '@emotion/styled';
+import Tooltip from '../Tooltip';
 import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
@@ -337,16 +338,19 @@ export const TargetSelector = ({
                       </div>
                       <div>
                         {cashPercentage > 0 ? (
-                          <AButton
-                            href={
-                              cashPercentage > 0 ? null : portfolioVisualizerURL
-                            }
-                            target="_blank"
-                            disabled={true}
-                            data-tip="Portfolio Visualizer is only available when your cash target allocation is 0%."
-                          >
-                            Portfolio Visualizer
-                          </AButton>
+                          <Tooltip label="Portfolio Visualizer is only available when your cash target allocation is 0%.">
+                            <AButton
+                              href={
+                                cashPercentage > 0
+                                  ? null
+                                  : portfolioVisualizerURL
+                              }
+                              target="_blank"
+                              disabled={true}
+                            >
+                              Portfolio Visualizer
+                            </AButton>
+                          </Tooltip>
                         ) : (
                           <AButton
                             href={portfolioVisualizerURL}

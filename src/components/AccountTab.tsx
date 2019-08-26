@@ -1,5 +1,10 @@
 import React from 'react';
+import { AccountHoldings } from './AccountHoldings';
 
-const AccountTab = () => <span>Account Tab</span>;
+const AccountTab = () => (
+  <React.Fragment>
+    <AccountHoldings />
+  </React.Fragment>
+);
 
 export default AccountTab;

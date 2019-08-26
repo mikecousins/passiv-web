@@ -78,7 +78,12 @@ export const Hamburger = styled.div`
   }
 `;
 
-const MenuButton = ({ menuVisibility, handleMouseDown }) => (
+type Props = {
+  menuVisibility: boolean;
+  handleMouseDown: () => void;
+}
+
+const MenuButton = ({ menuVisibility, handleMouseDown }: Props) => (
   <Button
     onMouseDown={handleMouseDown}
     type="button"

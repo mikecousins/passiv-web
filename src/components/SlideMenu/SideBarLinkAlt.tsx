@@ -1,10 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectPathname } from '../../selectors/router';
 
-export const SideBarLinkAlt = ({ pathname, linkPath, name }) => {
-  let className = null;
+type Props = {
+  linkPath: string;
+  name: string;
+}
+
+export const SideBarLinkAlt = ({ linkPath, name }: Props) => {
+  const pathname = useSelector(selectPathname);
+  let className = undefined;
   if (pathname.startsWith(linkPath)) {
     className = 'active';
   }
@@ -15,8 +21,4 @@ export const SideBarLinkAlt = ({ pathname, linkPath, name }) => {
   );
 };
 
-const select = state => ({
-  pathname: selectPathname(state),
-});
-
-export default connect(select)(SideBarLinkAlt);
+export default SideBarLinkAlt;

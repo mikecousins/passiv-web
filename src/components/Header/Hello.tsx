@@ -16,7 +16,11 @@ export const HelloStyle = styled.div`
   }
 `;
 
-const Hello = ({ name }) => (
+type Props = {
+  name: string;
+};
+
+const Hello = ({ name }: Props) => (
   <HelloStyle>
     <b>Hi {name === null ? 'there' : name}!</b>
     <br />

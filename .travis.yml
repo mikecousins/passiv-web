@@ -3,11 +3,13 @@ language: node_js
 node_js:
   - 12
 
-sudo: false
+addons:
+  apt:
+    packages:
+      # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
+      - libgconf-2-4
 
 before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - export PATH="$HOME/.yarn/bin:$PATH"
   - yarn add codecov.io coveralls
 
 cache:

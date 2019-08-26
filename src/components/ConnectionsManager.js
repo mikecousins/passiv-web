@@ -76,7 +76,6 @@ export class ConnectionsManager extends React.Component {
                 ? 'Add Another Connection'
                 : 'Add a Connection'}
             </Button>
-            <PlaidConnection updateConnection={false} />
           </div>
         )}
       </ShadowBox>

@@ -1,17 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import logo from '../../assets/images/logo-no-name.svg';
 import logoRaster from '../../assets/images/logo-no-name.png';
 import logoRaster2x from '../../assets/images/logo-no-name@2x.png';
-import Buttons from './Buttons';
 import { selectName, selectLoggedIn } from '../../selectors';
 import Hello from './Hello';
 import Offline from './Offline';
 import { selectIsOnline } from '../../selectors/online';
+import { LogoutButton } from '../LogoutButton';
 
-const StyledHeader = styled.header`
+type StyledHeaderProps = {
+  isOnline: boolean;
+};
+
+const StyledHeader = styled.header<StyledHeaderProps>`
   position: fixed;
   width: 100%;
   padding: 10px 20px 10px 222px;
@@ -34,36 +38,30 @@ const Logo = styled.header`
   }
 `;
 
-export const Header = ({ name, loggedIn, isOnline }) => (
-  <StyledHeader isOnline={isOnline}>
-    <nav>
-      <Logo>
-        <Link to="/">
-          <object
-            width="50px"
-            data={logo}
-            alt="Passiv Logo"
-            type="image/svg+xml"
-          >
-            <img
-              src={logoRaster}
-              srcSet={`${logoRaster2x} 2x`}
-              alt="Passiv Logo"
-            />
-          </object>
-        </Link>
-      </Logo>
-      {!isOnline && <Offline />}
-      {loggedIn && <Hello name={name} />}
-      <Buttons />
-    </nav>
-  </StyledHeader>
-);
+export const Header = () => {
+  const loggedIn = useSelector(selectLoggedIn);
+  const name = useSelector(selectName);
+  const isOnline = useSelector(selectIsOnline);
+  return (
+    <StyledHeader isOnline={isOnline}>
+      <nav>
+        <Logo>
+          <Link to="/">
+            <object width="50px" data={logo} type="image/svg+xml">
+              <img
+                src={logoRaster}
+                srcSet={`${logoRaster2x} 2x`}
+                alt="Passiv Logo"
+              />
+            </object>
+          </Link>
+        </Logo>
+        {!isOnline && <Offline />}
+        {loggedIn && <Hello name={name} />}
+        {loggedIn && <LogoutButton />}
+      </nav>
+    </StyledHeader>
+  );
+};
 
-const select = state => ({
-  loggedIn: selectLoggedIn(state),
-  name: selectName(state),
-  isOnline: selectIsOnline(state),
-});
-
-export default connect(select)(Header);
+export default Header;

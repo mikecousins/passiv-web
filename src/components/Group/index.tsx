@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -9,6 +8,7 @@ import {
   faChevronDown,
   faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
+import Tooltip from '../Tooltip';
 import ShadowBox from '../../styled/ShadowBox';
 import { Table, H2, H3 } from '../../styled/GlobalElements';
 import {
@@ -21,8 +21,11 @@ import {
 import Number from '../Number';
 import PortfolioGroupTrades from '../PortfolioGroupTrades';
 
-export const Group = props => {
-  const { group } = props;
+type Props = {
+  group: any;
+};
+
+export const Group = ({ group }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
   if (!group) {
@@ -33,10 +36,9 @@ export const Group = props => {
   if (group.setupComplete !== undefined) {
     if (group.setupComplete === false) {
       accuracy = (
-        <FontAwesomeIcon
-          icon={faExclamationTriangle}
-          data-tip="There is no target set for this portfolio, click Setup to continue."
-        />
+        <Tooltip label="There is no target set for this portfolio, click Setup to continue.">
+            <FontAwesomeIcon icon={faExclamationTriangle} />
+        </Tooltip>
       );
     } else {
       if (group.accuracy) {
@@ -131,10 +133,6 @@ export const Group = props => {
       )}
     </Container>
   );
-};
-
-Group.defaultProps = {
-  group: PropTypes.object,
 };
 
 export default Group;

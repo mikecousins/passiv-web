@@ -4,12 +4,12 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
-import PortfolioGroupAccuracy from './PortfolioGroupAccuracy';
-import PortfolioGroupHoldings from './PortfolioGroupHoldings';
-import PortfolioGroupMetadata from './PortfolioGroupMetadata';
+import PortfolioGroupName from './PortfolioGroupDetails/PortfolioGroupName';
+import PortfolioGroupAccuracy from './PortfolioGroupDetails/PortfolioGroupAccuracy';
+import PortfolioGroupTotal from './PortfolioGroupDetails/PortfolioGroupTotal';
+import PortfolioGroupCash from './PortfolioGroupDetails/PortfolioGroupCash';
 import PortfolioGroupTargets from './PortfolioGroupTargets';
 import PortfolioGroupTrades from './PortfolioGroupTrades';
-import PortfolioGroupAccounts from './PortfolioGroupAccounts';
 import PortfolioGroupErrors from './PortfolioGroupErrors';
 import {
   selectCurrentGroupTotalEquity,
@@ -22,21 +22,19 @@ import {
   selectCurrentGroupInfoError,
   selectCurrentGroupSetupComplete,
   selectGroupsLoading,
-  selectCurrentGroupAccountHoldings,
   selectCurrentGroupId,
 } from '../selectors/groups';
-import Tooltip from './Tooltip';
 
-export const Container2Column = styled.div`
+export const Container3Column = styled.div`
   @media (min-width: 900px) {
     display: flex;
     justify-content: space-between;
-    > div:first-of-type {
-      width: 75%;
+    > div {
+      width: 32%;
       margin-right: 30px;
     }
     > div:last-of-type {
-      width: 25%;
+      margin-right: 0;
     }
   }
 `;
@@ -65,7 +63,6 @@ const OverviewTab = () => {
   const trades = useSelector(selectCurrentGroupTrades);
   const setupComplete = useSelector(selectCurrentGroupSetupComplete);
   const loading = useSelector(selectGroupsLoading);
-  const accounts = useSelector(selectCurrentGroupAccountHoldings);
   const error = useSelector(selectCurrentGroupInfoError);
   const groupId = useSelector(selectCurrentGroupId);
   const [tradeInProgress, setTradeInProgress] = useState(false);
@@ -103,23 +100,12 @@ const OverviewTab = () => {
   if (!group.accounts) {
     return (
       <React.Fragment>
-        <Container2Column>
-          <PortfolioGroupMetadata
-            name={name}
-            balances={null}
-            cash={null}
-            equity={null}
-            error={null}
-            accounts={null}
-          />
+        <PortfolioGroupName name={name} />
+        <Container3Column>
           <PortfolioGroupAccuracy accuracy={null} loading={loading} />
-        </Container2Column>
-        <PortfolioGroupAccounts
-          group={group}
-          accounts={accounts}
-          loading={loading}
-          error={error}
-        />
+          <PortfolioGroupCash />
+          <PortfolioGroupTotal />
+        </Container3Column>
       </React.Fragment>
     );
   }
@@ -137,34 +123,17 @@ const OverviewTab = () => {
   }
   return (
     <React.Fragment>
-      <Container2Column>
-        <PortfolioGroupMetadata
-          name={name}
-          balances={balances}
-          cash={cash}
-          equity={equity}
-          error={error}
-          accounts={accounts}
-        />
+      <PortfolioGroupName name={name} />
+      <Container3Column>
         <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
-      </Container2Column>
+        <PortfolioGroupCash balances={balances} cash={cash} error={error} />
+        <PortfolioGroupTotal equity={equity} error={error} />
+      </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
       {tradeDisplay}
 
       <PortfolioGroupTargets positions={positions} />
-
-      <Container6040Column>
-        <PortfolioGroupHoldings positions={positions} loading={loading} />
-      </Container6040Column>
-
-      <PortfolioGroupAccounts
-        group={group}
-        accounts={accounts}
-        loading={loading}
-        error={error}
-      />
-      <Tooltip />
     </React.Fragment>
   );
 };

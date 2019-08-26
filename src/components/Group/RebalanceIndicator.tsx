@@ -1,6 +1,10 @@
 import React from 'react';
 
-export const RebalanceIndicator = ({ onClick }) => (
+type Props = {
+  onClick: () => void;
+};
+
+export const RebalanceIndicator = ({ onClick }: Props) => (
   <button onClick={onClick}>Rebalance</button>
 );
 

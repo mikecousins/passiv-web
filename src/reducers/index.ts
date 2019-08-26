@@ -14,6 +14,8 @@ import { GroupData } from '../types/group';
 import { Currency } from '../types/currency';
 import { CurrencyRate } from '../types/currencyRate';
 import { Account } from '../types/account';
+import { Authorization } from '../types/authorization';
+import { Brokerage } from '../types/brokerage';
 
 export default (history: any) =>
   combineReducers({
@@ -29,11 +31,11 @@ export default (history: any) =>
       baseType: 'FETCH_HELP_ARTICLES',
       userData: false,
     }),
-    authorizations: simple<any>({
+    authorizations: simple<Authorization[]>({
       baseType: 'FETCH_AUTHORIZATIONS',
       userData: true,
     }),
-    brokerages: simple<any>({
+    brokerages: simple<Brokerage[]>({
       baseType: 'FETCH_BROKERAGES',
       userData: false,
     }),
