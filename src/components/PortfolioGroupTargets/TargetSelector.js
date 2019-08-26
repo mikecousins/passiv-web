@@ -250,6 +250,13 @@ export const TargetSelector = ({
                             );
                             forceUpdate();
                           }}
+                          onExclude={key => {
+                            let target = props.values.targets.find(
+                              t => t.key === key,
+                            );
+                            target.excluded = true;
+                            forceUpdate();
+                          }}
                         >
                           <input
                             type="number"
