@@ -252,6 +252,7 @@ export const TargetSelector = ({
                             type="number"
                             name={`targets.${index}.percent`}
                             value={props.values.targets[index].percent}
+                            tabindex={index + 1}
                             onChange={e =>
                               props.setFieldValue(
                                 `targets.${index}.percent`,
