@@ -166,11 +166,13 @@ export const TargetSelector = ({
       }}
       render={props => (
         <div>
-          <TargetRow>
-            <H3 />
-            <H3>Target</H3>
-            <H3>Actual</H3>
-          </TargetRow>
+          {edit && (
+            <TargetRow>
+              <H3 />
+              <H3>Target</H3>
+              <H3>Actual</H3>
+            </TargetRow>
+          )}
           <FieldArray
             name="targets"
             render={arrayHelpers => {
@@ -248,6 +250,13 @@ export const TargetSelector = ({
                             );
                             forceUpdate();
                           }}
+                          onExclude={key => {
+                            let target = props.values.targets.find(
+                              t => t.key === key,
+                            );
+                            target.excluded = true;
+                            forceUpdate();
+                          }}
                         >
                           <input
                             type="number"
@@ -280,6 +289,7 @@ export const TargetSelector = ({
                     <CashBar
                       percentage={cashPercentage}
                       actualPercentage={cashActualPercentage}
+                      edit={edit}
                     />
                   </div>
                   <ErrorMessage name="targets" component="div" />
