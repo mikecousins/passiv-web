@@ -9,7 +9,7 @@ import { loadSubscription } from '../actions';
 import { deleteData } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 import SubscriptionCoupon from './SubscriptionCoupon';
 import SubscriptionPlans from './SubscriptionPlans';
@@ -217,7 +217,7 @@ export class SubscriptionManager extends React.Component {
                       <strong>
                         ends on{' '}
                         {format(
-                          subscription.details.period_end,
+                          parseISO(subscription.details.period_end),
                           'MMMM d, yyyy',
                         )}
                         .
