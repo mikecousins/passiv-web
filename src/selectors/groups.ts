@@ -16,8 +16,13 @@ import {
 import { selectIsEditMode } from './router';
 import shouldUpdate from '../reactors/should-update';
 import { AppState } from '../store';
-import { CalculatedTrades, BrokerageAuthorization } from '../types/groupInfo';
+import {
+  CalculatedTrades,
+  BrokerageAuthorization,
+  GroupInfoData,
+} from '../types/groupInfo';
 import { createMatchSelector } from 'connected-react-router';
+import { CurrencyRate } from '../types/currencyRate';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 
@@ -108,6 +113,7 @@ export const selectCurrentGroupInfo = createSelector(
     if (groupId && groupInfo[groupId] && groupInfo[groupId].data) {
       return groupInfo[groupId].data;
     }
+    return null;
   },
 );
 
@@ -464,7 +470,7 @@ export const selectCurrentGroupTotalEquityExcludedRemoved = createSelector(
   selectCurrentGroupExcludedEquity,
   (cash, balancedEquity, excludedEquity) => {
     if (cash === null || balancedEquity === null || excludedEquity === null) {
-      return null;
+      return 0;
     }
     return cash + balancedEquity - excludedEquity;
   },
@@ -553,7 +559,20 @@ export const selectTotalGroupHoldings = createSelector(
   },
 );
 
-export const selectCurrentGroupTarget = createSelector(
+export type Target = {
+  fullSymbol: Symbol | undefined;
+  actualPercentage: number;
+  excluded: boolean;
+};
+
+export const selectCurrentGroupTarget = createSelector<
+  AppState,
+  GroupInfoData | null,
+  number,
+  CurrencyRate[] | null,
+  string | null,
+  any
+>(
   selectCurrentGroupInfo,
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrencyRates,
@@ -588,7 +607,7 @@ export const selectCurrentGroupTarget = createSelector(
             100;
         } else {
           const conversionRate = rates.find(
-            rate =>
+            (rate: any) =>
               rate.src.id === position.symbol.currency.id &&
               rate.dst.id === preferredCurrency,
           );

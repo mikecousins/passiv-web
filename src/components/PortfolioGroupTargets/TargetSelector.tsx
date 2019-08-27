@@ -1,7 +1,7 @@
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Formik, FieldArray, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 import uuid from 'uuid';
@@ -14,6 +14,7 @@ import {
   selectCurrentGroupPositions,
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrentGroupCash,
+  Target,
 } from '../../selectors/groups';
 import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
@@ -29,18 +30,24 @@ const ButtonBox = styled.div`
   padding: 20px 0 20px 0;
 `;
 
+type Props = {
+  lockable: boolean;
+  target: Target[];
+}
+
 export const TargetSelector = ({
   lockable,
-  groupId,
   target,
-  refreshGroup,
-  positions,
-  totalEquity,
-  cash,
-  replace,
-  edit,
-}) => {
+}: Props) => {
   const [forceUpdateToggle, setForceUpdateToggle] = useState(false);
+
+  const groupId = useSelector(selectCurrentGroupId);
+  const positions = useSelector(selectCurrentGroupPositions);
+  const totalEquity = useSelector(selectCurrentGroupTotalEquityExcludedRemoved);
+  const cash = useSelector(selectCurrentGroupCash);
+  const edit = useSelector(selectIsEditMode);
+
+  const dispatch = useDispatch();
 
   const canEdit = edit || !lockable;
 
@@ -48,7 +55,7 @@ export const TargetSelector = ({
     setForceUpdateToggle(!forceUpdateToggle);
   };
 
-  const setSymbol = (target, symbol) => {
+  const setSymbol = (target: any, symbol: any) => {
     target.fullSymbol = symbol;
     target.symbol = symbol.id;
     forceUpdate();
@@ -56,18 +63,18 @@ export const TargetSelector = ({
 
   const toggleEditMode = () => {
     if (edit) {
-      replace(`/app/group/${groupId}`);
+      dispatch(replace(`/app/group/${groupId}`));
     } else {
-      replace(`/app/group/${groupId}?edit=true`);
+      dispatch(replace(`/app/group/${groupId}?edit=true`));
     }
   };
 
-  const resetTargets = () => {
+  const resetTargets = (resetForm: () => void) => {
     postData(`/api/v1/portfolioGroups/${groupId}/targets/`, [])
-      .then(response => {
+      .then(() => {
         // once we're done refresh the groups
         toggleEditMode();
-        refreshGroup({ ids: [groupId] });
+        dispatch(loadGroup({ ids: [groupId] }));
       })
       .catch(error => {
         // display our error
@@ -77,7 +84,7 @@ export const TargetSelector = ({
         );
         toggleEditMode();
         // reset the form
-        actions.resetForm();
+        resetForm();
       });
   };
 
@@ -90,7 +97,7 @@ export const TargetSelector = ({
     return target;
   };
 
-  const initialTargets = target.map(target => {
+  const initialTargets = target.map((target: any) => {
     target.key = target.id;
     return { ...target };
   });
@@ -102,7 +109,7 @@ export const TargetSelector = ({
   const portfolioVisualizerURLParts = [];
   portfolioVisualizerURLParts.push(portfolioVisualizerBaseURL);
 
-  target.map((target, index) => {
+  target.map((target: any, index: number) => {
     let iValue = index + 1;
     portfolioVisualizerURLParts.push(
       `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${target.percent}`,
@@ -118,11 +125,11 @@ export const TargetSelector = ({
     <Formik
       initialValues={{ targets: initialTargets }}
       enableReinitialize
-      validate={(values, actions) => {
-        const errors = {};
+      validate={(values) => {
+        const errors: any = {};
         const cashPercentage =
           100 -
-          values.targets.reduce((total, target) => {
+          values.targets.reduce((total: number, target: any) => {
             if (!target.deleted && target.percent) {
               return total + parseFloat(target.percent);
             }
@@ -131,7 +138,7 @@ export const TargetSelector = ({
         if (cashPercentage < 0) {
           errors.cash = 'Too low';
         }
-        values.targets.forEach((target, index) => {
+        values.targets.forEach((target: any) => {
           if (target.deleted === undefined || target.deleted === false) {
             if (target.symbol === null) {
               errors.targets = 'Symbol missing on new target';
@@ -143,11 +150,11 @@ export const TargetSelector = ({
       onSubmit={(values, actions) => {
         // set us back to non-editing state
         toggleEditMode();
-        const newTargets = values.targets.filter(t => !t.deleted);
+        const newTargets = values.targets.filter((t: any) => !t.deleted);
         postData(`/api/v1/portfolioGroups/${groupId}/targets/`, newTargets)
-          .then(response => {
+          .then(() => {
             // once we're done refresh the groups
-            refreshGroup({ ids: [groupId] });
+            dispatch(loadGroup({ ids: [groupId] }));
           })
           .catch(error => {
             // display our error
@@ -160,7 +167,7 @@ export const TargetSelector = ({
             actions.resetForm();
           });
       }}
-      onReset={(values, actions) => {
+      onReset={(values) => {
         values.targets = target;
         toggleEditMode();
       }}
@@ -189,15 +196,17 @@ export const TargetSelector = ({
                     const position = positions.find(
                       position => position.symbol.id === target.symbol,
                     );
-                    target.actualPercentage =
-                      ((position.price * position.units) / totalEquity) * 100;
+                    if (position) {
+                      target.actualPercentage =
+                        ((position.price * position.units) / totalEquity) * 100;
+                    }
                   }
                 });
 
               // calculate the desired cash percentage
               const cashPercentage =
                 100 -
-                props.values.targets.reduce((total, target) => {
+                props.values.targets.reduce((total: number, target: any) => {
                   if (!target.deleted && target.percent) {
                     return total + parseFloat(target.percent);
                   }
@@ -205,7 +214,7 @@ export const TargetSelector = ({
                 }, 0);
 
               // calculate the actual cash percentage
-              const cashActualPercentage = (cash / totalEquity) * 100;
+              const cashActualPercentage = (cash || 0 / totalEquity) * 100;
 
               if (props.values.targets.filter(t => !t.deleted).length === 0) {
                 arrayHelpers.push(generateNewTarget());
@@ -213,7 +222,7 @@ export const TargetSelector = ({
 
               // generate the share url
               let shareUrl = `/app/share?`;
-              props.values.targets.forEach(target => {
+              props.values.targets.forEach((target: any) => {
                 if (target.fullSymbol && target.fullSymbol.symbol) {
                   return (shareUrl += `symbols[]=${target.fullSymbol.symbol}&percentages[]=${target.percent}&`);
                 } else {
@@ -306,11 +315,11 @@ export const TargetSelector = ({
                         type="button"
                         onClick={() => {
                           if (lockable) {
-                            resetTargets();
+                            resetTargets(props.resetForm);
                           } else {
                             let len = props.values.targets.length;
                             for (let i = 0; i < len; i++) {
-                              props.values.targets.pop(0);
+                              props.values.targets.pop();
                             }
                             arrayHelpers.push(generateNewTarget());
                           }
@@ -320,7 +329,7 @@ export const TargetSelector = ({
                       </button>
                       <Button
                         type="submit"
-                        onClick={props.handleSubmit}
+                        onClick={() => props.handleSubmit()}
                         disabled={
                           props.isSubmitting || !props.dirty || !props.isValid
                         }
@@ -350,17 +359,11 @@ export const TargetSelector = ({
                       <div>
                         {cashPercentage > 0 ? (
                           <Tooltip label="Portfolio Visualizer is only available when your cash target allocation is 0%.">
-                            <AButton
-                              href={
-                                cashPercentage > 0
-                                  ? null
-                                  : portfolioVisualizerURL
-                              }
-                              target="_blank"
+                            <Button
                               disabled={true}
                             >
                               Portfolio Visualizer
-                            </AButton>
+                            </Button>
                           </Tooltip>
                         ) : (
                           <AButton
@@ -383,20 +386,4 @@ export const TargetSelector = ({
   );
 };
 
-const actions = {
-  refreshGroup: loadGroup,
-  replace,
-};
-
-const select = state => ({
-  groupId: selectCurrentGroupId(state),
-  positions: selectCurrentGroupPositions(state),
-  totalEquity: selectCurrentGroupTotalEquityExcludedRemoved(state),
-  cash: selectCurrentGroupCash(state),
-  edit: selectIsEditMode(state),
-});
-
-export default connect(
-  select,
-  actions,
-)(TargetSelector);
+export default TargetSelector;

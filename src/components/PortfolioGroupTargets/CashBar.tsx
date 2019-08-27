@@ -20,7 +20,7 @@ type Props = {
 
 export const CashBar = ({ edit, percentage, actualPercentage }: Props) => {
   if (!(typeof percentage === 'number')) {
-    return 'Loading';
+    return <span>Loading</span>;
   }
   return (
     <Container>
