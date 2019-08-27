@@ -31,7 +31,7 @@ import Tooltip from '../../Tooltip';
 type Props = {
   target: any;
   children: JSX.Element;
-  setSymbol: () => void;
+  setSymbol: (symbol: any) => void;
   edit: boolean;
   onDelete: (key: string) => void;
   onExclude: (key: string) => void;
