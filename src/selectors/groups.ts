@@ -23,6 +23,8 @@ import {
   Error,
   Settings,
   Balance,
+  TargetPosition,
+  Position,
 } from '../types/groupInfo';
 import { createMatchSelector, RouterState } from 'connected-react-router';
 import { CurrencyRate } from '../types/currencyRate';
@@ -637,7 +639,7 @@ export const selectCurrentGroupTarget = createSelector<
   number,
   CurrencyRate[] | null,
   string | null,
-  any
+  TargetPosition[] | null
 >(
   selectCurrentGroupInfo,
   selectCurrentGroupTotalEquityExcludedRemoved,
@@ -655,8 +657,8 @@ export const selectCurrentGroupTarget = createSelector<
 
     // add the target positions
     const currentTargetRaw = groupInfo.target_positions;
-    const currentTarget = currentTargetRaw.map(targetRaw => {
-      const target = { ...targetRaw };
+    const currentTarget: TargetPosition[] = currentTargetRaw.map(targetRaw => {
+      const target: TargetPosition = { ...targetRaw };
 
       // add the symbol to the target
       target.fullSymbol = groupInfo.symbols.find(
@@ -696,7 +698,12 @@ export const selectCurrentGroupTarget = createSelector<
   },
 );
 
-export const selectCurrentGroupSetupComplete = createSelector(
+export const selectCurrentGroupSetupComplete = createSelector<
+  AppState,
+  boolean,
+  TargetPosition[] | null,
+  boolean
+>(
   selectCurrentGroupTargetInitialized,
   selectCurrentGroupTarget,
   (targetInitialized, groupTarget) => {
@@ -708,7 +715,11 @@ export const selectCurrentGroupSetupComplete = createSelector(
   },
 );
 
-export const selectCurrentAccountId = createSelector(
+export const selectCurrentAccountId = createSelector<
+  AppState,
+  AppState,
+  string | undefined
+>(
   selectState,
   state => {
     const matchSelector = createMatchSelector<
@@ -716,12 +727,29 @@ export const selectCurrentAccountId = createSelector(
       { groupId?: string; accountId?: string }
     >('/app/group/:groupId/account/:accountId');
     const match = matchSelector(state);
-    const id = match && match.params.accountId;
-    return id;
+    if (!match) {
+      return undefined;
+    }
+    return match.params.accountId;
   },
 );
 
-export const selectCurrentAccountHoldings = createSelector(
+export type AccountHoldings = {
+  id: string;
+  name: string;
+  number: string;
+  type: string;
+  positions: Position[] | null;
+};
+
+export const selectCurrentAccountHoldings = createSelector<
+  AppState,
+  string | undefined,
+  Account[] | undefined,
+  SimpleListState<Balance[]>,
+  SimpleListState<Position[]>,
+  AccountHoldings | null
+>(
   selectCurrentAccountId,
   selectAccounts,
   selectAccountBalances,
@@ -786,9 +814,9 @@ export const selectCurrentGroup = createSelector(
             balances &&
             balances[account.id] &&
             balances[account.id].data &&
-            balances[account.id].data.length > 0
+            balances[account.id].data!.length > 0
           ) {
-            group.accounts[0].balance = balances[account.id].data[0].cash;
+            group.accounts[0].balance = balances[account.id].data![0].cash;
           }
         }
       }

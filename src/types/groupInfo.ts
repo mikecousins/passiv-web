@@ -32,7 +32,7 @@ export interface Balance {
   cash: number;
 }
 
-interface Position {
+export interface Position {
   symbol: Symbol;
   price: number;
   units: number;
@@ -42,7 +42,7 @@ interface Position {
   actualPercentage: number;
 }
 
-interface TargetPosition {
+export interface TargetPosition {
   id: string;
   symbol: string;
   percent: number;
