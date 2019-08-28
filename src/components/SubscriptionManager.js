@@ -228,7 +228,11 @@ export class SubscriptionManager extends React.Component {
                   <ActionContainer>
                     <P>
                       Your subscription will renew on{' '}
-                      {format(subscription.details.period_end, 'MMMM d, yyyy')}.
+                      {format(
+                        parseISO(subscription.details.period_end),
+                        'MMMM d, yyyy',
+                      )}
+                      .
                     </P>
                     <CreditCardDetails
                       cardState={subscription.cardState}
