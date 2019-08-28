@@ -81,7 +81,7 @@ interface Settings {
   target_initialized: boolean;
 }
 
-interface Error {
+export interface Error {
   code: number;
 }
 

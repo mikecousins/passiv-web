@@ -20,6 +20,7 @@ import {
   CalculatedTrades,
   BrokerageAuthorization,
   GroupInfoData,
+  Error,
 } from '../types/groupInfo';
 import { createMatchSelector, RouterState } from 'connected-react-router';
 import { CurrencyRate } from '../types/currencyRate';
@@ -144,7 +145,7 @@ export const selectCurrentGroupInfo = createSelector<
 export const selectCurrentGroupInfoError = createSelector<
   AppState,
   any,
-  string | null
+  Error | null
 >(
   selectCurrentGroupInfo,
   data => {
@@ -155,12 +156,21 @@ export const selectCurrentGroupInfoError = createSelector<
   },
 );
 
-export const selectGroupsLoading = createSelector(
+export const selectGroupsLoading = createSelector<
+  AppState,
+  SimpleState<GroupData[]>,
+  boolean
+>(
   selectGroupsRaw,
   rawGroups => rawGroups.loading,
 );
 
-export const selectCurrentGroupAccuracy = createSelector(
+export const selectCurrentGroupAccuracy = createSelector<
+  AppState,
+  string | null,
+  any,
+  number | null
+>(
   selectCurrentGroupId,
   selectGroupInfo,
   (groupId, groupInfo) => {
