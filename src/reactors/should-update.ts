@@ -1,14 +1,6 @@
 import ms from 'milliseconds';
 import { SimpleState } from '../types/common';
 
-type Object = {
-  lastError: number;
-  lastFetch: number;
-  loading: boolean;
-  permanentFail: boolean;
-  stale: boolean;
-};
-
 type Options = {
   staleTime?: number;
   retryAfter?: number;

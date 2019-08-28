@@ -21,14 +21,23 @@ import {
   BrokerageAuthorization,
   GroupInfoData,
 } from '../types/groupInfo';
-import { createMatchSelector } from 'connected-react-router';
+import { createMatchSelector, RouterState } from 'connected-react-router';
 import { CurrencyRate } from '../types/currencyRate';
+import { SimpleState } from '../types/common';
+import { GroupData } from '../types/group';
+import { Account } from '../types/account';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 
 export const selectGroupInfo = (state: AppState) => state.groupInfo;
 
-export const selectGroups = createSelector(
+export const selectGroups = createSelector<
+  AppState,
+  SimpleState<GroupData[]>,
+  any,
+  Account[] | undefined,
+  GroupData[] | null
+>(
   selectGroupsRaw,
   selectGroupInfo,
   selectAccounts,
@@ -73,13 +82,19 @@ export const selectGroups = createSelector(
   },
 );
 
-export const selectGroupsNeedData = createSelector(
+export const selectGroupsNeedData = createSelector<
+  AppState,
+  boolean,
+  SimpleState<GroupData[]>,
+  number,
+  boolean,
+  boolean
+>(
   selectLoggedIn,
   selectGroupsRaw,
-  selectGroupInfo,
   selectAppTime,
   selectIsEditMode,
-  (loggedIn, rawGroups, groupInfo, time, edit) => {
+  (loggedIn, rawGroups, time, edit) => {
     if (!loggedIn || edit) {
       return false;
     }
@@ -90,7 +105,11 @@ export const selectGroupsNeedData = createSelector(
   },
 );
 
-export const selectCurrentGroupId = createSelector(
+export const selectCurrentGroupId = createSelector<
+  AppState,
+  RouterState,
+  string | null
+>(
   selectRouter,
   router => {
     let groupId = null;
@@ -106,7 +125,12 @@ export const selectCurrentGroupId = createSelector(
   },
 );
 
-export const selectCurrentGroupInfo = createSelector(
+export const selectCurrentGroupInfo = createSelector<
+  AppState,
+  string | null,
+  any,
+  GroupInfoData | null
+>(
   selectCurrentGroupId,
   selectGroupInfo,
   (groupId, groupInfo) => {
@@ -117,7 +141,11 @@ export const selectCurrentGroupInfo = createSelector(
   },
 );
 
-export const selectCurrentGroupInfoError = createSelector(
+export const selectCurrentGroupInfoError = createSelector<
+  AppState,
+  any,
+  string | null
+>(
   selectCurrentGroupInfo,
   data => {
     if (data) {
@@ -611,13 +639,13 @@ export const selectCurrentGroupTarget = createSelector<
               rate.src.id === position.symbol.currency.id &&
               rate.dst.id === preferredCurrency,
           );
-          if (!conversionRate) {
-            return null;
+          if (conversionRate) {
+            target.actualPercentage =
+              ((position.price * position.units) /
+                totalHoldingsExcludedRemoved) *
+              100 *
+              conversionRate.exchange_rate;
           }
-          target.actualPercentage =
-            ((position.price * position.units) / totalHoldingsExcludedRemoved) *
-            100 *
-            conversionRate.exchange_rate;
         }
       } else {
         target.actualPercentage = 0;
