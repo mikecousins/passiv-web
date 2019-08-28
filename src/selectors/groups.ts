@@ -627,12 +627,6 @@ export const selectTotalGroupHoldings = createSelector(
   },
 );
 
-export type Target = {
-  fullSymbol: Symbol | undefined;
-  actualPercentage: number;
-  excluded: boolean;
-};
-
 export const selectCurrentGroupTarget = createSelector<
   AppState,
   GroupInfoData | null,
