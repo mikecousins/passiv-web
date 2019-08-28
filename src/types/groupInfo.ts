@@ -27,7 +27,7 @@ export interface Symbol {
   currency: Currency;
 }
 
-interface Balance {
+export interface Balance {
   currency: Currency;
   cash: number;
 }
@@ -70,7 +70,7 @@ export interface CalculatedTrades {
   trades: Trade[];
 }
 
-interface Settings {
+export interface Settings {
   prevent_currency_conversion: boolean;
   hard_currency_separation: boolean;
   buy_only: boolean;

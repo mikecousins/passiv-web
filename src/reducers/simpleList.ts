@@ -5,6 +5,10 @@ interface SimpleListProps {
   userData: boolean;
 }
 
+export interface SimpleListState<T> {
+  [key: string]: SimpleState<T>;
+}
+
 const simpleList = <T extends object>({
   baseType,
   userData,
@@ -13,16 +17,12 @@ const simpleList = <T extends object>({
   const SUCCESS = `${baseType}_SUCCESS`;
   const ERROR = `${baseType}_ERROR`;
 
-  interface SimpleListState {
-    [key: string]: SimpleState<T>;
-  }
-
-  const initialData: SimpleListState = {};
+  const initialData: SimpleListState<T> = {};
 
   // here we're returning our customized reducer
   return (state = initialData, action: any) => {
     if (action.type === START) {
-      const newState: SimpleListState = JSON.parse(JSON.stringify(state));
+      const newState: SimpleListState<T> = JSON.parse(JSON.stringify(state));
       if (!newState[action.id]) {
         newState[action.id] = {
           data: null,

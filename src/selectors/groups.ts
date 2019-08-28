@@ -21,12 +21,16 @@ import {
   BrokerageAuthorization,
   GroupInfoData,
   Error,
+  Settings,
+  Balance,
 } from '../types/groupInfo';
 import { createMatchSelector, RouterState } from 'connected-react-router';
 import { CurrencyRate } from '../types/currencyRate';
 import { SimpleState } from '../types/common';
 import { GroupData } from '../types/group';
 import { Account } from '../types/account';
+import { SimpleListState } from '../reducers/simpleList';
+import { Currency } from '../types/currency';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 
@@ -35,7 +39,7 @@ export const selectGroupInfo = (state: AppState) => state.groupInfo;
 export const selectGroups = createSelector<
   AppState,
   SimpleState<GroupData[]>,
-  any,
+  SimpleListState<GroupInfoData>,
   Account[] | undefined,
   GroupData[] | null
 >(
@@ -129,7 +133,7 @@ export const selectCurrentGroupId = createSelector<
 export const selectCurrentGroupInfo = createSelector<
   AppState,
   string | null,
-  any,
+  SimpleListState<GroupInfoData>,
   GroupInfoData | null
 >(
   selectCurrentGroupId,
@@ -144,7 +148,7 @@ export const selectCurrentGroupInfo = createSelector<
 
 export const selectCurrentGroupInfoError = createSelector<
   AppState,
-  any,
+  GroupInfoData | null,
   Error | null
 >(
   selectCurrentGroupInfo,
@@ -168,7 +172,7 @@ export const selectGroupsLoading = createSelector<
 export const selectCurrentGroupAccuracy = createSelector<
   AppState,
   string | null,
-  any,
+  SimpleListState<GroupInfoData>,
   number | null
 >(
   selectCurrentGroupId,
@@ -188,7 +192,12 @@ export const selectCurrentGroupAccuracy = createSelector<
   },
 );
 
-export const selectCurrentGroupSettings = createSelector(
+export const selectCurrentGroupSettings = createSelector<
+  AppState,
+  string | null,
+  SimpleListState<GroupInfoData>,
+  Settings | null
+>(
   selectCurrentGroupId,
   selectGroupInfo,
   (groupId, groupInfo) => {
@@ -206,7 +215,11 @@ export const selectCurrentGroupSettings = createSelector(
   },
 );
 
-export const selectCurrentGroupTargetInitialized = createSelector(
+export const selectCurrentGroupTargetInitialized = createSelector<
+  AppState,
+  Settings | null,
+  boolean
+>(
   selectCurrentGroupSettings,
   groupSettings => {
     let targetInitialized = false;
@@ -217,7 +230,12 @@ export const selectCurrentGroupTargetInitialized = createSelector(
   },
 );
 
-export const selectCurrentGroupBalances = createSelector(
+export const selectCurrentGroupBalances = createSelector<
+  AppState,
+  string | null,
+  SimpleListState<GroupInfoData>,
+  Balance[] | null
+>(
   selectCurrentGroupId,
   selectGroupInfo,
   (groupId, groupInfo) => {
@@ -235,7 +253,11 @@ export const selectCurrentGroupBalances = createSelector(
   },
 );
 
-export const selectPreferredCurrency = createSelector(
+export const selectPreferredCurrency = createSelector<
+  AppState,
+  Currency[] | null,
+  string | null
+>(
   selectCurrencies,
   currencies => {
     if (!currencies) {
@@ -251,7 +273,13 @@ export const selectPreferredCurrency = createSelector(
   },
 );
 
-export const selectCurrentGroupCash = createSelector(
+export const selectCurrentGroupCash = createSelector<
+  AppState,
+  Balance[] | null,
+  Currency[] | null,
+  CurrencyRate[] | null,
+  number | null
+>(
   selectCurrentGroupBalances,
   selectCurrencies,
   selectCurrencyRates,

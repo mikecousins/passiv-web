@@ -2,6 +2,8 @@ import { createSelector } from 'reselect';
 import ms from 'milliseconds';
 import shouldUpdate from '../reactors/should-update';
 import { AppState } from '../store';
+import { Currency } from '../types/currency';
+import { SimpleState } from '../types/common';
 
 // have to require this for Typescript to work properly.....
 // hopefully we can import this in the future
@@ -38,16 +40,27 @@ export const selectBrokeragesRaw = (state: AppState) => state.brokerages;
 export const selectAuthorizationsRaw = (state: AppState) =>
   state.authorizations;
 
-export const selectCurrencies = createSelector(
+export const selectCurrencies = createSelector<
+  AppState,
+  SimpleState<Currency[]>,
+  Currency[] | null
+>(
   selectCurrenciesRaw,
   rawCurrencies => {
     if (rawCurrencies.data) {
       return rawCurrencies.data;
     }
+    return null;
   },
 );
 
-export const selectCurrenciesNeedData = createSelector(
+export const selectCurrenciesNeedData = createSelector<
+  AppState,
+  boolean,
+  SimpleState<Currency[]>,
+  number,
+  boolean
+>(
   selectLoggedIn,
   selectCurrenciesRaw,
   selectAppTime,
