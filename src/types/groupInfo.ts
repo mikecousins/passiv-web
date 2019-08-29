@@ -27,12 +27,12 @@ export interface Symbol {
   currency: Currency;
 }
 
-interface Balance {
+export interface Balance {
   currency: Currency;
   cash: number;
 }
 
-interface Position {
+export interface Position {
   symbol: Symbol;
   price: number;
   units: number;
@@ -42,7 +42,7 @@ interface Position {
   actualPercentage: number;
 }
 
-interface TargetPosition {
+export interface TargetPosition {
   id: string;
   symbol: string;
   percent: number;
@@ -70,7 +70,7 @@ export interface CalculatedTrades {
   trades: Trade[];
 }
 
-interface Settings {
+export interface Settings {
   prevent_currency_conversion: boolean;
   hard_currency_separation: boolean;
   buy_only: boolean;
@@ -81,7 +81,7 @@ interface Settings {
   target_initialized: boolean;
 }
 
-interface Error {
+export interface Error {
   code: number;
 }
 

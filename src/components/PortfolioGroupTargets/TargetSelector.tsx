@@ -14,7 +14,6 @@ import {
   selectCurrentGroupPositions,
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrentGroupCash,
-  Target,
 } from '../../selectors/groups';
 import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
@@ -23,6 +22,7 @@ import { Button } from '../../styled/Button';
 import { H3, Edit, AButton } from '../../styled/GlobalElements';
 import { TargetRow } from '../../styled/Target';
 import { postData } from '../../api';
+import { TargetPosition } from '../../types/groupInfo';
 
 const ButtonBox = styled.div`
   display: flex;
@@ -32,13 +32,10 @@ const ButtonBox = styled.div`
 
 type Props = {
   lockable: boolean;
-  target: Target[];
-}
+  target: TargetPosition[] | null;
+};
 
-export const TargetSelector = ({
-  lockable,
-  target,
-}: Props) => {
+export const TargetSelector = ({ lockable, target }: Props) => {
   const [forceUpdateToggle, setForceUpdateToggle] = useState(false);
 
   const groupId = useSelector(selectCurrentGroupId);
@@ -48,6 +45,10 @@ export const TargetSelector = ({
   const edit = useSelector(selectIsEditMode);
 
   const dispatch = useDispatch();
+
+  if (!target) {
+    return null;
+  }
 
   const canEdit = edit || !lockable;
 
@@ -125,7 +126,7 @@ export const TargetSelector = ({
     <Formik
       initialValues={{ targets: initialTargets }}
       enableReinitialize
-      validate={(values) => {
+      validate={values => {
         const errors: any = {};
         const cashPercentage =
           100 -
@@ -167,7 +168,7 @@ export const TargetSelector = ({
             actions.resetForm();
           });
       }}
-      onReset={(values) => {
+      onReset={values => {
         values.targets = target;
         toggleEditMode();
       }}
@@ -359,9 +360,7 @@ export const TargetSelector = ({
                       <div>
                         {cashPercentage > 0 ? (
                           <Tooltip label="Portfolio Visualizer is only available when your cash target allocation is 0%.">
-                            <Button
-                              disabled={true}
-                            >
+                            <Button disabled={true}>
                               Portfolio Visualizer
                             </Button>
                           </Tooltip>
