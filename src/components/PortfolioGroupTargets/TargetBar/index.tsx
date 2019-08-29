@@ -49,7 +49,7 @@ const TargetBar = ({
   const dispatch = useDispatch();
 
   const loadOptions = (substring: string, callback: (data: any) => void) => {
-    postData(`/api/v1/symbols`, { substring })
+    postData(`/api/v1/portfolioGroups/${groupId}/symbols`, { substring })
       .then(response => {
         callback(response.data);
       })
