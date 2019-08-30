@@ -264,7 +264,13 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                             let target = props.values.targets.find(
                               t => t.key === key,
                             );
-                            target.excluded = true;
+                            const newExcluded = !target.excluded;
+                            target.excluded = newExcluded;
+                            props.setFieldTouched(`targets.${index}.percent`);
+                            props.setFieldValue(
+                              `targets.${index}.percent`,
+                              newExcluded ? 0 : 5,
+                            );
                             forceUpdate();
                           }}
                         >
