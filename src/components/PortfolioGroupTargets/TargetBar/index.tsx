@@ -122,7 +122,7 @@ const TargetBar = ({
           <React.Fragment>
             <span>
               Exclude
-              <ToggleButton onClick={() => onExclude(key)}>
+              <ToggleButton type="button" onClick={() => onExclude(key)}>
                 <React.Fragment>
                   <Tooltip label="Exclude this asset from your portfolio calculations">
                     {excluded ? (
