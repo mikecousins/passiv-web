@@ -95,7 +95,7 @@ const OverviewTab = () => {
   const name = group.name || 'No Name Provided';
 
   // see if we have any accounts in this group
-  if (!group.accounts) {
+  if (!group.hasAccounts) {
     return (
       <React.Fragment>
         <PortfolioGroupName name={name} />

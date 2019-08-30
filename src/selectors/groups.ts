@@ -771,51 +771,22 @@ export const selectCurrentAccountHoldings = createSelector<
   },
 );
 
-export const selectCurrentGroup = createSelector(
+export const selectCurrentGroup = createSelector<
+  AppState,
+  GroupData[] | null,
+  string | null,
+  GroupData | undefined | null
+>(
   selectGroups,
-  selectAccounts,
-  selectAccountBalances,
   selectCurrentGroupId,
-  (groups, accounts, balances, groupId) => {
-    let group:
-      | {
-          id: string;
-          name: string;
-          accounts?: any[];
-        }
-      | undefined = undefined;
+  (groups, groupId) => {
     if (groupId) {
       if (!groups) {
-        return group;
+        return undefined;
       }
-      const selectedGroup = groups.find(g => g.id === groupId);
-      if (!selectedGroup) {
-        return null;
-      }
-      group = { id: selectedGroup.id, name: selectedGroup.name };
-      if (accounts) {
-        const account = accounts.find(a => a.portfolio_group === groupId);
-        if (account) {
-          group.accounts = [
-            {
-              id: account.id,
-              name: account.name,
-              number: account.number,
-              type: account.meta.type,
-            },
-          ];
-          if (
-            balances &&
-            balances[account.id] &&
-            balances[account.id].data &&
-            balances[account.id].data!.length > 0
-          ) {
-            group.accounts[0].balance = balances[account.id].data![0].cash;
-          }
-        }
-      }
+      return groups.find(g => g.id === groupId);
     }
-    return group;
+    return null;
   },
 );
 
