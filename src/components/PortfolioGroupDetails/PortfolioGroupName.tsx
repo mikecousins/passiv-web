@@ -10,7 +10,7 @@ import { InputNonFormik } from '../../styled/Form';
 import { Button } from '../../styled/Button';
 import { toast } from 'react-toastify';
 import { GroupData } from '../../types/group';
-import { loadGroup, loadGroupsList } from '../../actions';
+import { loadGroupsList } from '../../actions';
 
 const MetaContainer = styled.div`
   text-align: right;
