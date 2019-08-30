@@ -1,17 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 import { selectBrokerages, selectAuthorizations } from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
 import { initialLoad, loadBrokerages } from '../actions';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import Connections from './Connections';
 import { Button } from '../styled/Button';
-import { push } from 'connected-react-router';
-
 import ShadowBox from '../styled/ShadowBox';
 import { H2 } from '../styled/GlobalElements';
-
-import PlaidConnection from './PlaidConnection';
 
 export class ConnectionsManager extends React.Component {
   state = {
