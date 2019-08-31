@@ -72,12 +72,13 @@ const PortfolioGroupName = ({ name }: Props) => {
     if (group && newName !== name) {
       const newGroup: GroupData = { ...group };
       newGroup.name = newName;
-      patchData(`/api/v1/portfolioGroups/${newGroup.id}/`, newGroup).catch(
-        () => {
+      patchData(`/api/v1/portfolioGroups/${newGroup.id}/`, newGroup)
+        .then(() => {
+          dispatch(loadGroupsList());
+        })
+        .catch(() => {
           toast.error('Failed to edit group name');
-        },
-      );
-      dispatch(loadGroupsList());
+        });
     }
     setEditing(false);
   };
