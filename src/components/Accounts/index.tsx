@@ -42,9 +42,12 @@ const Accounts = () => {
   return (
     <React.Fragment>
       {groupedAccounts.map(group => (
-        <AccountGroup name={group[0].portfolio_group}>
+        <AccountGroup
+          name={group[0].portfolio_group}
+          key={group[0].portfolio_group}
+        >
           {group.map(account => (
-            <AccountRow account={account} />
+            <AccountRow account={account} key={account.id} />
           ))}
         </AccountGroup>
       ))}
