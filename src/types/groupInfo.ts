@@ -82,7 +82,10 @@ export interface Settings {
 }
 
 export interface Error {
-  code: number;
+  code: string;
+  meta: {
+    symbols: any[];
+  };
 }
 
 export interface GroupInfoData {

@@ -1,10 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import styled from '@emotion/styled';
 import { postData } from '../api';
-
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import { H3 } from '../styled/GlobalElements';
-import styled from '@emotion/styled';
 
 export const Order = styled.div`
   text-align: center;
@@ -70,11 +68,4 @@ class ConnectionUpdate extends React.Component {
   }
 }
 
-const select = state => ({});
-
-const actions = {};
-
-export default connect(
-  select,
-  actions,
-)(ConnectionUpdate);
+export default ConnectionUpdate;
