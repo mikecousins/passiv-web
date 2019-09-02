@@ -1,14 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import ErrorQuote from './ErrorQuote';
 import styled from '@emotion/styled';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-
 import { ErrorContainer, Symbol } from '../styled/Group';
-
 import { H3, P, Table } from '../styled/GlobalElements';
+import { Error } from '../types/groupInfo';
 
 const Ticker = styled.div`
   padding-left: 20px;
@@ -23,9 +20,11 @@ const Description = styled.div`
   padding-bottom: 20px;
 `;
 
-const PortfolioGroupErrors = props => {
-  const { error } = props;
+type Props = {
+  error: Error;
+};
 
+const PortfolioGroupErrors = ({ error }: Props) => {
   let errorDisplay = null;
   if (error) {
     switch (error.code) {
@@ -39,7 +38,7 @@ const PortfolioGroupErrors = props => {
         );
         break;
       case '2001':
-        let renderedSymbols = error.meta.symbols.map(symbol => {
+        let renderedSymbols = error.meta.symbols.map((symbol: any) => {
           return (
             <React.Fragment>
               <Table>
@@ -105,36 +104,6 @@ const PortfolioGroupErrors = props => {
       </H3>
     </ErrorContainer>
   );
-
-  // const symbolsWithErrors = error.symbolsWithErrors;
-  // const symbolsIds = symbolsWithErrors.map(
-  //   s => s[Object.getOwnPropertyNames(s)],
-  // );
-  // const symbolDetails = symbolsIds.map(
-  //   id => symbols.filter(symbol => symbol.id === id)[0],
-  // );
-  //
-  //
-  // return !error ? null : (
-  //   <ErrorsContainer>
-  //     <H3>
-  //       <FontAwesomeIcon icon={faExclamationTriangle} /> Something Went Wrong!{' '}
-  //     </H3>
-  //     <P> We were unable to get market quotes for the following symbols: </P>
-  //
-  //     {symbolDetails.map(detail => (
-  //       <ErrorQuote key={detail.id} detail={detail} />
-  //     ))}
-  //
-  //     <P>
-  //       {' '}
-  //       This might be due to the market being closed or the symbol being
-  //       delisted. If the symbol was delisted, you can exclude the asset from the
-  //       calculations. <Link to="/app/help">Contact support</Link> if this is a
-  //       bug or if you have any questions.
-  //     </P>
-  //   </ErrorsContainer>
-  // );
 };
 
 export default PortfolioGroupErrors;
