@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { initialLoad, loadBrokerages } from '../actions';
 import { deleteData } from '../api';
@@ -11,24 +11,25 @@ const ConnectionsDelete = styled.div`
   text-align: right;
 `;
 
-export const ConnectionDelete = ({
-  authorization,
-  reloadAllState,
-  reloadBrokerages,
-}) => {
-  const [deleting, setDeleting] = useState(false);
+type Props = {
+  authorization: any;
+};
 
-  const confirmDelete = authorization => {
+export const ConnectionDelete = ({ authorization }: Props) => {
+  const [deleting, setDeleting] = useState(false);
+  const dispatch = useDispatch();
+
+  const confirmDelete = (authorization: any) => {
     deleteData(`/api/v1/authorizations/${authorization.id}`)
-      .then(response => {
+      .then(() => {
         setDeleting(false);
-        reloadBrokerages();
-        reloadAllState();
+        dispatch(loadBrokerages());
+        dispatch(initialLoad());
       })
-      .catch(error => {
+      .catch(() => {
         setDeleting(false);
-        reloadBrokerages();
-        reloadAllState();
+        dispatch(loadBrokerages());
+        dispatch(initialLoad());
       });
   };
 
@@ -69,12 +70,4 @@ export const ConnectionDelete = ({
   );
 };
 
-const actions = {
-  reloadAllState: initialLoad,
-  reloadBrokerages: loadBrokerages,
-};
-
-export default connect(
-  null,
-  actions,
-)(ConnectionDelete);
+export default ConnectionDelete;
