@@ -1,9 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectAuthorizations } from '../selectors';
 import ConnectionsAuthorization from './ConnectionsAuthorization';
 
-export const Connections = ({ authorizations }) => {
+export const Connections = () => {
+  const authorizations = useSelector(selectAuthorizations);
   if (!authorizations || authorizations.length === 0) {
     return null;
   }
@@ -20,8 +21,4 @@ export const Connections = ({ authorizations }) => {
   );
 };
 
-const select = state => ({
-  authorizations: selectAuthorizations(state),
-});
-
-export default connect(select)(Connections);
+export default Connections;
