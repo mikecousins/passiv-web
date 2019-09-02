@@ -2,7 +2,12 @@ import React from 'react';
 
 import { P, H3, WarningBox } from '../styled/GlobalElements';
 
-export const CreditCardDetails = ({ cardState, cardDetails }) => (
+type Props = {
+  cardState: string;
+  cardDetails: any;
+};
+
+export const CreditCardDetails = ({ cardState, cardDetails }: Props) => (
   <React.Fragment>
     <H3>Payment Card</H3>
     {cardState !== 'VALID' && (
