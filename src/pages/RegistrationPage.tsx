@@ -1,12 +1,8 @@
 import React from 'react';
 import { Formik, ErrorMessage } from 'formik';
 import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import {
-  loginSucceeded,
-  registerStartedAsync,
-  registerFailed,
-} from '../actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { loginSucceeded, registerFailed } from '../actions';
 import { postData } from '../api';
 import * as Yup from 'yup';
 import { selectLoggedIn } from '../selectors';
@@ -16,7 +12,14 @@ import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import Tooltip from '../components/Tooltip';
 
-const RegistrationPage = props => {
+type Props = {
+  location: any;
+};
+
+const RegistrationPage = ({ location }: Props) => {
+  const loggedIn = useSelector(selectLoggedIn);
+  const dispatch = useDispatch();
+
   let formatted_email = '';
 
   // TODO rewrite this using qs
@@ -27,15 +30,10 @@ const RegistrationPage = props => {
     window.history.replaceState({}, '', '/app/register');
   }
 
-  if (props.loggedIn) {
+  if (loggedIn) {
     let nextPath = '/app/dashboard';
-    if (
-      props &&
-      props.location &&
-      props.location.state &&
-      props.location.state.nextPathname
-    ) {
-      nextPath = props.location.state.nextPathname;
+    if (location && location.state && location.state.nextPathname) {
+      nextPath = location.state.nextPathname;
     }
     return <Redirect to={nextPath} />;
   } else {
@@ -64,10 +62,10 @@ const RegistrationPage = props => {
               .then(response => {
                 // login
                 actions.setSubmitting(false);
-                props.loginSucceeded(response);
+                dispatch(loginSucceeded(response));
               })
               .catch(error => {
-                let errors = {};
+                let errors: any = {};
                 if (error.response.data.errors.password) {
                   errors.password = error.response.data.errors.password.join(
                     ' ',
@@ -78,11 +76,10 @@ const RegistrationPage = props => {
                 }
                 actions.setErrors(errors);
                 actions.setSubmitting(false);
-                props.registerFailed(error);
+                dispatch(registerFailed(error));
               });
           }}
           render={({
-            touched,
             errors,
             values,
             handleChange,
@@ -141,17 +138,4 @@ const RegistrationPage = props => {
   }
 };
 
-const select = state => ({
-  loggedIn: selectLoggedIn(state),
-});
-
-const actions = {
-  startRegister: registerStartedAsync,
-  loginSucceeded: loginSucceeded,
-  registerFailed: registerFailed,
-};
-
-export default connect(
-  select,
-  actions,
-)(RegistrationPage);
+export default RegistrationPage;
