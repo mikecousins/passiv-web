@@ -83,7 +83,7 @@ export interface Settings {
 
 export interface Error {
   code: string;
-  meta: {
+  meta?: {
     symbols: any[];
   };
 }

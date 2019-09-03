@@ -26,7 +26,7 @@ type Props = {
 
 const PortfolioGroupErrors = ({ error }: Props) => {
   let errorDisplay = null;
-  if (error) {
+  if (error && error.meta) {
     switch (error.code) {
       case '2000':
         errorDisplay = (

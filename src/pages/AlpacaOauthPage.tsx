@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
-import qs from 'qs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { postData } from '../api';
@@ -10,18 +9,20 @@ import ShadowBox from '../styled/ShadowBox';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import { Step } from '../styled/SignupSteps';
-import { selectRouter } from '../selectors/router';
+import { selectQueryTokens } from '../selectors/router';
 import { push } from 'connected-react-router';
+import { Error } from '../types/groupInfo';
 
-const AlpacaOauthPage = ({ router, reloadAllState, push }) => {
+const AlpacaOauthPage = () => {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<Error>();
   const [success, setSuccess] = useState(false);
 
+  const queryParams = useSelector(selectQueryTokens);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    const queryParams = qs.parse(router.location.search, {
-      ignoreQueryPrefix: true,
-    });
     const token = queryParams.code;
 
     if (token === null) {
@@ -31,7 +32,7 @@ const AlpacaOauthPage = ({ router, reloadAllState, push }) => {
       setLoading(true);
       postData('/api/v1/brokerages/authComplete/', { token: token })
         .then(() => {
-          reloadAllState();
+          dispatch(initialLoad());
           setTimeout(() => {
             setLoading(false);
             setSuccess(true);
@@ -42,7 +43,7 @@ const AlpacaOauthPage = ({ router, reloadAllState, push }) => {
           setError(error.response.data);
         });
     }
-  }, [reloadAllState, router.location.search]);
+  }, [queryParams, dispatch]);
 
   // if we're done, redirect the user to the dashboard
   if (success) {
@@ -110,7 +111,7 @@ const AlpacaOauthPage = ({ router, reloadAllState, push }) => {
   }
 
   return (
-    <ShadowBox dark>
+    <ShadowBox background="#04a287">
       <H1 color="white">SETUP</H1>
       {loading ? (
         <React.Fragment>
@@ -132,16 +133,4 @@ const AlpacaOauthPage = ({ router, reloadAllState, push }) => {
   );
 };
 
-const select = state => ({
-  router: selectRouter(state),
-});
-
-const actions = {
-  reloadAllState: initialLoad,
-  push: push,
-};
-
-export default connect(
-  select,
-  actions,
-)(AlpacaOauthPage);
+export default AlpacaOauthPage;

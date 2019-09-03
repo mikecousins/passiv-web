@@ -110,7 +110,7 @@ const TradeItOauthPage = ({ router, reloadAllState, push }) => {
   }
 
   return (
-    <ShadowBox dark>
+    <ShadowBox background="#04a287">
       <H1 color="white">SETUP</H1>
       {loading ? (
         <React.Fragment>
