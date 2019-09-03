@@ -6,11 +6,16 @@ import ShadowBox from '../../styled/ShadowBox';
 
 const MetaHorizontal = styled.div`
   text-align: left;
+  font-size: 20px;
+  padding-top: 34px;
   @media (max-width: 900px) {
     margin-bottom: 10px;
   }
+  div {
+    margin-bottom: 8px;
+  }
   span {
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 8px;
     display: inline-block;
     margin-right: 6px;
@@ -25,7 +30,7 @@ const PortfolioGroupMetadata = () => {
   };
 
   return (
-    <ShadowBox>
+    <div>
       <MetaHorizontal>
         <div>
           <span>Account #: </span>
@@ -44,7 +49,7 @@ const PortfolioGroupMetadata = () => {
           )}
         </div>
       </MetaHorizontal>
-    </ShadowBox>
+    </div>
   );
 };
 

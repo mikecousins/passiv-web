@@ -129,15 +129,16 @@ export const Edit = styled.button`
 `;
 
 //title
-export const Title = styled.div`
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 8px;
-`;
 
 //subsetting
 export const SubSetting = styled.div`
   margin-left: 15px;
+`;
+
+export const Title = styled.div`
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
 `;
 
 export const WarningBox = styled.div`

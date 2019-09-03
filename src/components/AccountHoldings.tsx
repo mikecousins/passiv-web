@@ -17,28 +17,38 @@ export const HoldingsTable = styled.table`
   margin: 0 0 20px 0;
   th {
     text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 15px 12px 5px;
+  }
+  th:first-of-type {
+    border-bottom: none;
+  }
+  tr th,
+  tr td {
+    width: 14%;
   }
   tr th:first-of-type,
   tr td:first-of-type {
     text-align: left;
+    width: 58%;
+  }
+  tr td:first-of-type {
+    font-weight: 700;
   }
   tr th:last-of-type,
   tr td:last-of-type {
     text-align: right;
   }
   td {
-    padding: 7px 0;
+    padding: 15px 12px;
+  }
+  tbody tr:nth-child(even) {
+    background: #f4f4f4;
   }
 `;
 
 const HoldingsBox = styled.div`
   margin-top: 20px;
-`;
-
-const NameBox = styled.div`
-  font-size: 18px;
-  font-weight: 600;
-  padding-bottom: 10px;
 `;
 
 export const AccountHoldings = () => {
@@ -52,18 +62,10 @@ export const AccountHoldings = () => {
   return (
     <ShadowBox>
       <HoldingsBox>
-        <Table>
-          <NameBox>
-            {account.name} ({account.number}){' '}
-            {loading && <FontAwesomeIcon icon={faSpinner} spin />}
-          </NameBox>
-        </Table>
         <HoldingsTable>
           <thead>
             <tr>
-              <th>
-                <Title>Symbol</Title>
-              </th>
+              <th></th>
               <th>
                 <Title>Units</Title>
               </th>

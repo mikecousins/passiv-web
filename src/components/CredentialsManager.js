@@ -11,7 +11,7 @@ import DriftNotifcationSettings from './DriftNotificationSettings';
 
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../styled/Form';
-import { H2, Edit, Span } from '../styled/GlobalElements';
+import { H2, Edit, Span, A } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import ShadowBox from '../styled/ShadowBox';
 
@@ -89,52 +89,57 @@ export class CredentialsManager extends React.Component {
 
   render() {
     return (
-      <ShadowBox>
-        <H2>Passiv Credentials</H2>
-        <TextContainer>
-          {this.state.editingName ? (
-            <InputContainer>
-              <InputNonFormik
-                value={this.state.name === null ? '' : this.state.name}
-                onChange={event => {
-                  this.setState({ name: event.target.value });
-                }}
-                onKeyPress={this.onEnter}
-              />
-              <Button onClick={() => this.finishEditing()}>Done</Button>
-            </InputContainer>
-          ) : (
-            <InputContainer>
-              <strong>Name:</strong>{' '}
-              {this.state.name === null ? '[no name set]' : this.state.name}
-              <Edit onClick={() => this.startEditingName()}>
-                <FontAwesomeIcon icon={faPen} />
-                Edit
-              </Edit>
-            </InputContainer>
-          )}
-        </TextContainer>
-        <TextContainer>
-          <InputContainer>
-            <strong>Email:</strong> {this.state.email}
-          </InputContainer>
-        </TextContainer>
-        <TextContainer>
-          <InputContainer>
-            <strong>Change your Password:</strong>{' '}
-            {this.state.passwordResetSent ? (
-              <React.Fragment>
-                <Span>A password reset email has been sent to you.</Span>
-                <Edit onClick={() => this.sendPasswordResetOkay()}>Okay</Edit>
-              </React.Fragment>
+      <div>
+        <ShadowBox>
+          <H2>Passiv Credentials</H2>
+          <TextContainer>
+            {this.state.editingName ? (
+              <InputContainer>
+                <InputNonFormik
+                  value={this.state.name === null ? '' : this.state.name}
+                  onChange={event => {
+                    this.setState({ name: event.target.value });
+                  }}
+                  onKeyPress={this.onEnter}
+                />
+                <Button onClick={() => this.finishEditing()}>Done</Button>
+              </InputContainer>
             ) : (
-              <Edit onClick={() => this.sendPasswordReset()}>Change</Edit>
+              <InputContainer>
+                <strong>Name:</strong>{' '}
+                {this.state.name === null ? '[no name set]' : this.state.name}
+                <Edit onClick={() => this.startEditingName()}>
+                  <FontAwesomeIcon icon={faPen} />
+                  Edit
+                </Edit>
+              </InputContainer>
             )}
-          </InputContainer>
-        </TextContainer>
-        <CashNotifcationSettings />
-        <DriftNotifcationSettings />
-      </ShadowBox>
+          </TextContainer>
+          <TextContainer>
+            <InputContainer>
+              <strong>Email:</strong> {this.state.email}
+            </InputContainer>
+          </TextContainer>
+          <TextContainer>
+            <InputContainer>
+              {' '}
+              {this.state.passwordResetSent ? (
+                <React.Fragment>
+                  <Span>A password reset email has been sent to you.</Span>
+                  <Edit onClick={() => this.sendPasswordResetOkay()}>Okay</Edit>
+                </React.Fragment>
+              ) : (
+                <A onClick={() => this.sendPasswordReset()}>Change Password</A>
+              )}
+            </InputContainer>
+          </TextContainer>
+        </ShadowBox>
+        <ShadowBox>
+          <H2>Notifications</H2>
+          <CashNotifcationSettings />
+          <DriftNotifcationSettings />
+        </ShadowBox>
+      </div>
     );
   }
 }
