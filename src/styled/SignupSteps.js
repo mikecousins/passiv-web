@@ -61,7 +61,7 @@ export const Step = styled.p`
   font-size: 18px;
   font-weight: 900;
   letter-spacing: 2px;
-  color: #04a287;
+  color: white;
   margin-bottom: 20px;
 `;
 
