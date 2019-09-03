@@ -10,6 +10,7 @@ import {
   selectGroupsLoading,
 } from '../selectors/groups';
 import ShadowBox from '../styled/ShadowBox';
+import { Symbol } from '../styled/Group';
 
 export const HoldingsTable = styled.table`
   width: 100%;
@@ -39,6 +40,10 @@ const NameBox = styled.div`
   font-size: 18px;
   font-weight: 600;
   padding-bottom: 10px;
+`;
+
+const SymbolNameBox = styled.span`
+  padding-left: 10px;
 `;
 
 export const AccountHoldings = () => {
@@ -80,9 +85,10 @@ export const AccountHoldings = () => {
               account.positions.map((position: any) => (
                 <tr key={position.symbol.id}>
                   <td>
-                    <span title={position.symbol.description}>
-                      {position.symbol.symbol.symbol}
+                    <span>
+                      <Symbol>{position.symbol.symbol.symbol}</Symbol>
                     </span>
+                    <SymbolNameBox>{position.symbol.symbol.name}</SymbolNameBox>
                   </td>
                   <td>{position.units}</td>
                   <td>
