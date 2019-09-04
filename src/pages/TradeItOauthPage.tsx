@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
-import qs from 'qs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { postData } from '../api';
@@ -10,20 +9,20 @@ import ShadowBox from '../styled/ShadowBox';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import { Step } from '../styled/SignupSteps';
-import { selectRouter } from '../selectors/router';
+import { selectQueryTokens } from '../selectors/router';
 import { push } from 'connected-react-router';
+import { Error } from '../types/groupInfo';
 
-const TradeItOauthPage = ({ router, reloadAllState, push }) => {
+const TradeItOauthPage = () => {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<Error>();
   const [success, setSuccess] = useState(false);
 
-  useEffect(() => {
-    const queryParams = qs.parse(router.location.search, {
-      ignoreQueryPrefix: true,
-    });
-    const token = queryParams.code;
+  const queryTokens = useSelector(selectQueryTokens);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    const token = queryTokens.code;
     if (token === null) {
       setLoading(false);
       setError({ code: '0000' });
@@ -31,7 +30,7 @@ const TradeItOauthPage = ({ router, reloadAllState, push }) => {
       setLoading(true);
       postData('/api/v1/brokerages/authComplete/', { token: token })
         .then(() => {
-          reloadAllState();
+          dispatch(initialLoad());
           setTimeout(() => {
             setLoading(false);
             setSuccess(true);
@@ -42,7 +41,7 @@ const TradeItOauthPage = ({ router, reloadAllState, push }) => {
           setError(error.response.data);
         });
     }
-  }, [reloadAllState, router.location.search]);
+  }, []);
 
   // if we're done, redirect the user to the dashboard
   if (success) {
@@ -132,16 +131,4 @@ const TradeItOauthPage = ({ router, reloadAllState, push }) => {
   );
 };
 
-const select = state => ({
-  router: selectRouter(state),
-});
-
-const actions = {
-  reloadAllState: initialLoad,
-  push: push,
-};
-
-export default connect(
-  select,
-  actions,
-)(TradeItOauthPage);
+export default TradeItOauthPage;
