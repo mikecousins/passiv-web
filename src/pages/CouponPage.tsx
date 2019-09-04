@@ -42,7 +42,7 @@ const CouponPage = () => {
         setError(error.response.data);
         dispatch(loadSubscription());
       });
-  }, []);
+  }, [dispatch]);
 
   let errorMessage = null;
 
