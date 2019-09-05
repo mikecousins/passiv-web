@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 
-const dynamicStyle = props =>
+const dynamicStyle = (props: any) =>
   css`
     color: ${props.color};
   `;
 
-const dynamicMargin = props =>
+const dynamicMargin = (props: any) =>
   css`
     margin: ${props.margin};
   `;
@@ -72,7 +72,7 @@ export const Table = styled.div`
   justify-content: inherit;
   @media (min-width: 900px) {
     display: flex;
-    justify-content: ${props =>
+    justify-content: ${(props: any) =>
       props.spaceAround ? 'inherit' : 'space-between'};
   }
 `;
@@ -104,8 +104,8 @@ export const A = styled.a`
 
 // a that looks like button
 export const AButton = styled.a`
-  background-color: ${props => (props.disabled ? '#003aa1' : '#003BA2')};
-  opacity: ${props => (props.disabled ? '.7' : '1')};
+  background-color: ${(props: any) => (props.disabled ? '#003aa1' : '#003BA2')};
+  opacity: ${(props: any) => (props.disabled ? '.7' : '1')};
   :hover,
   :visited,
   :link,
