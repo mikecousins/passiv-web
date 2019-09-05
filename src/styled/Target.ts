@@ -16,7 +16,7 @@ export const Actual = styled.div`
   text-align: right;
   color: var(--brand-green);
   font-weight: 700;
-  width: 100px;
+  width: 80px;
 `;
 export const Target = styled.div`
   color: var(--brand-blue);
@@ -91,7 +91,6 @@ export const Container = styled.div`
   position: relative;
 `;
 export const TargetRow = styled.div`
-  margin: 0 10px 0 auto;
   text-align: right;
   justify-content: space-between;
   display: flex;

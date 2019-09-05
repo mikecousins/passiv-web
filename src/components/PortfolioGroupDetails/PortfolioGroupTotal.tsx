@@ -5,7 +5,6 @@ import {
   faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
-import { Title } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
 import Number from '../Number';
 
@@ -13,10 +12,19 @@ const Total = styled.div`
   text-align: center;
   color: #fff;
   background: #04a287;
+  font-size: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 `;
 
 const Center = styled.div`
   text-align: center;
+`;
+
+const Title = styled.h2`
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 20px;
 `;
 
 type Props = {
@@ -45,7 +53,7 @@ const PortfolioGroupTotal = ({ error, equity }: Props) => {
     <ShadowBox background="#04a287">
       <Total>
         <Title>Total Value</Title>
-        <b>{equityValue}</b>
+        <p>{equityValue}</p>
       </Total>
     </ShadowBox>
   );

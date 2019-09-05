@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 export const ToggleButton = styled.button`
   font-size: 24px;
   vertical-align: middle;
+  padding: 0;
+  margin-left: 8px;
 `;
 
 export const DisabledToggleButton = styled(ToggleButton)`

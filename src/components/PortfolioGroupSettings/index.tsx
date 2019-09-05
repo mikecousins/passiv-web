@@ -34,7 +34,7 @@ export const PortfolioGroupSettings = () => {
 
   return (
     <ShadowBox>
-      <H2>Controls</H2>
+      <H2>Currency</H2>
       {settings ? (
         <React.Fragment>
           <br />

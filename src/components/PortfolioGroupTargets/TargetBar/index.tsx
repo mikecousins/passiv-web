@@ -120,21 +120,6 @@ const TargetBar = ({
         </Symbol>
         {edit && (
           <React.Fragment>
-            <span>
-              Exclude
-              <ToggleButton type="button" onClick={() => onExclude(key)}>
-                <React.Fragment>
-                  <Tooltip label="Exclude this asset from your portfolio calculations">
-                    {excluded ? (
-                      <FontAwesomeIcon icon={faToggleOn} />
-                    ) : (
-                      <FontAwesomeIcon icon={faToggleOff} />
-                    )}
-                  </Tooltip>
-                  <StateText>{excluded ? 'Excluded' : 'Included'}</StateText>
-                </React.Fragment>
-              </ToggleButton>
-            </span>
             <Target>
               <InputContainer>{children}%</InputContainer>
             </Target>
@@ -145,6 +130,17 @@ const TargetBar = ({
                 decimalPlaces={1}
               />
             </Actual>
+            <ToggleButton type="button" onClick={() => onExclude(key)}>
+              <React.Fragment>
+                <Tooltip label="Exclude this asset from your portfolio calculations">
+                  {excluded ? (
+                    <FontAwesomeIcon icon={faToggleOn} />
+                  ) : (
+                    <FontAwesomeIcon icon={faToggleOff} />
+                  )}
+                </Tooltip>
+              </React.Fragment>
+            </ToggleButton>
           </React.Fragment>
         )}
       </TargetRow>

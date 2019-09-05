@@ -31,22 +31,73 @@ export const Accuracy = styled.div`
     margin-bottom: 20px;
     text-align: center;
   }
-  div {
-    margin-bottom: 8px;
-    justify-content: flex-start;
-    margin-right: 10px;
+`;
+
+export const Mask = styled.div`
+  position: relative;
+  overflow: hidden;
+  display: block;
+  width: 200px;
+  height: 100px;
+  margin: 20px auto;
+`;
+export const SemiCircle = styled.div`
+  position: relative;
+  display: block;
+  width: 200px;
+  height: 100px;
+  background: #04a287;
+  border-radius: 50% 50% 50% 50% / 100% 100% 0% 0%;
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 2;
+    display: block;
+    width: 140px;
+    height: 70px;
+    margin-left: -70px;
+    background: #2a2d35;
+    border-radius: 50% 50% 50% 50% / 100% 100% 0% 0%;
+  }
+`;
+
+export const SemiCircleMask = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 202px;
+  background: transparent;
+
+  //This transform deg is what needs to be changed based on percentage
+  transform: rotate(120deg) translate3d(0, 0, 0);
+
+  transform-origin: center center;
+  backface-visibility: hidden;
+  transition: all 0.3s ease-in-out;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0%;
+    z-index: 2;
+    display: block;
+    width: 202px;
+    height: 102px;
+    margin: -1px 0 0 -1px;
+    background: #fff;
+    border-radius: 50% 50% 50% 50% / 100% 100% 0% 0%;
   }
 `;
 
 type Props = {
   accuracy: number | null;
   loading: boolean;
-}
+};
 
-export const PortfolioGroupAccuracy = ({
-  accuracy,
-  loading,
-}: Props) => {
+export const PortfolioGroupAccuracy = ({ accuracy, loading }: Props) => {
   const setupComplete = useSelector(selectCurrentGroupSetupComplete);
   const error = useSelector(selectCurrentGroupInfoError);
 
@@ -88,6 +139,12 @@ export const PortfolioGroupAccuracy = ({
           <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 12 }} />
         </Tooltip>
       </H2>
+
+      <Mask>
+        <SemiCircle></SemiCircle>
+        <SemiCircleMask></SemiCircleMask>
+      </Mask>
+
       {accuracyDisplay}
     </Accuracy>
   );

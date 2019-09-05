@@ -5,23 +5,37 @@ import {
   faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
-import { Table, Title } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
 import Number from '../Number';
 
 const CashBalance = styled.div`
+  font-size: 20px;
   text-align: center;
+`;
+
+const CashGroup = styled.span`
+  margin: 0 5px;
 `;
 
 const Cash = styled.div`
   text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
 `;
 
-const CashType = styled.div`
+const CashType = styled.span`
   margin-bottom: 8px;
+  padding: 0 2px;
+  display: inline-block;
   span {
     font-weight: 600;
   }
+`;
+
+const Title = styled.h2`
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 20px;
 `;
 
 type Props = {
@@ -47,24 +61,23 @@ const PortfolioGroupCash = ({ balances, cash, error }: Props) => {
     <React.Fragment>
       {balances &&
         balances.map(balance => (
-          <Table key={balance.currency.id}>
+          <CashGroup key={balance.currency.id}>
             <CashType>
               <span title={balance.currency.name}>{balance.currency.code}</span>
             </CashType>
             <CashType>
               <Number value={balance.cash} currency />
             </CashType>
-          </Table>
+          </CashGroup>
         ))}
     </React.Fragment>
   );
 
   return (
     <ShadowBox background="#BEE0DB">
-      <CashBalance>{cashBalance}</CashBalance>
       <Cash>
         <Title>Cash</Title>
-        {cashValue}
+        <CashBalance>{cashBalance}</CashBalance>
       </Cash>
     </ShadowBox>
   );
