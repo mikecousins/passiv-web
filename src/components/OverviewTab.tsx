@@ -13,7 +13,6 @@ import PortfolioGroupTrades from './PortfolioGroupTrades';
 import PortfolioGroupErrors from './PortfolioGroupErrors';
 import {
   selectCurrentGroupTotalEquity,
-  selectCurrentGroupCash,
   selectCurrentGroup,
   selectCurrentGroupAccuracy,
   selectCurrentGroupBalances,
@@ -55,7 +54,6 @@ export const Container6040Column = styled.div`
 const OverviewTab = () => {
   const group = useSelector(selectCurrentGroup);
   const balances = useSelector(selectCurrentGroupBalances);
-  const cash = useSelector(selectCurrentGroupCash);
   const equity = useSelector(selectCurrentGroupTotalEquity);
   const accuracy = useSelector(selectCurrentGroupAccuracy);
   const trades = useSelector(selectCurrentGroupTrades);
@@ -124,7 +122,7 @@ const OverviewTab = () => {
       <PortfolioGroupName name={name} />
       <Container3Column>
         <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
-        <PortfolioGroupCash balances={balances} cash={cash} error={error} />
+        <PortfolioGroupCash balances={balances} />
         <PortfolioGroupTotal equity={equity} error={error} />
       </Container3Column>
 

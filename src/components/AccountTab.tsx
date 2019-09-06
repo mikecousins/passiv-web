@@ -10,7 +10,6 @@ import PortfolioGroupCash from './PortfolioGroupDetails/PortfolioGroupCash';
 import {
   selectCurrentAccountHoldings,
   selectGroupsLoading,
-  selectCurrentGroupCash,
 } from '../selectors/groups';
 import { selectCurrentAccountBalances } from '../selectors/accounts';
 
@@ -38,7 +37,6 @@ export const AccountTab = () => {
   const account = useSelector(selectCurrentAccountHoldings);
   const loading = useSelector(selectGroupsLoading);
   const balances = useSelector(selectCurrentAccountBalances);
-  const cash = useSelector(selectCurrentGroupCash);
 
   if (!account) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
@@ -52,7 +50,7 @@ export const AccountTab = () => {
 
       <Container3Column>
         <PortfolioGroupMeta />
-        <PortfolioGroupCash balances={balances} cash={cash} />
+        <PortfolioGroupCash balances={balances} />
         <PortfolioGroupTotal />
       </Container3Column>
       <AccountHoldings />

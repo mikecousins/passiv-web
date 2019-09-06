@@ -1,9 +1,4 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faSpinner,
-  faExclamationTriangle,
-} from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import Number from '../Number';
@@ -40,47 +35,29 @@ const Title = styled.h2`
 
 type Props = {
   balances?: any[] | null;
-  cash?: number | null;
-  error?: any;
 };
 
-const PortfolioGroupCash = ({ balances, cash, error }: Props) => {
-  let cashValue = null;
-
-  if (error) {
-    cashValue = <FontAwesomeIcon icon={faExclamationTriangle} />;
-  } else {
-    cashValue = cash ? (
-      <Number value={cash} currency />
-    ) : (
-      <FontAwesomeIcon icon={faSpinner} spin />
-    );
-  }
-
-  const cashBalance = (
-    <React.Fragment>
-      {balances &&
-        balances.map(balance => (
-          <CashGroup key={balance.currency.id}>
-            <CashType>
-              <span title={balance.currency.name}>{balance.currency.code}</span>
-            </CashType>
-            <CashType>
-              <Number value={balance.cash} currency />
-            </CashType>
-          </CashGroup>
-        ))}
-    </React.Fragment>
-  );
-
-  return (
-    <ShadowBox background="#BEE0DB">
-      <Cash>
-        <Title>Cash</Title>
-        <CashBalance>{cashBalance}</CashBalance>
-      </Cash>
-    </ShadowBox>
-  );
-};
+const PortfolioGroupCash = ({ balances }: Props) => (
+  <ShadowBox background="#BEE0DB">
+    <Cash>
+      <Title>Cash</Title>
+      <CashBalance>
+        {balances &&
+          balances.map(balance => (
+            <CashGroup key={balance.currency.id}>
+              <CashType>
+                <span title={balance.currency.name}>
+                  {balance.currency.code}
+                </span>
+              </CashType>
+              <CashType>
+                <Number value={balance.cash} currency />
+              </CashType>
+            </CashGroup>
+          ))}
+      </CashBalance>
+    </Cash>
+  </ShadowBox>
+);
 
 export default PortfolioGroupCash;
