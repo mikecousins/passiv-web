@@ -3,12 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
-import { Title, Table } from '../styled/GlobalElements';
+import { Title } from '../styled/GlobalElements';
 import Number from './Number';
-import {
-  selectCurrentAccountHoldings,
-  selectGroupsLoading,
-} from '../selectors/groups';
+import { selectCurrentAccountHoldings } from '../selectors/groups';
 import ShadowBox from '../styled/ShadowBox';
 import { Symbol } from '../styled/Group';
 
@@ -52,19 +49,12 @@ const HoldingsBox = styled.div`
   margin-top: 20px;
 `;
 
-const NameBox = styled.div`
-  font-size: 18px;
-  font-weight: 600;
-  padding-bottom: 10px;
-`;
-
 const SymbolNameBox = styled.span`
   padding-left: 10px;
 `;
 
 export const AccountHoldings = () => {
   const account = useSelector(selectCurrentAccountHoldings);
-  const loading = useSelector(selectGroupsLoading);
 
   if (!account) {
     return <FontAwesomeIcon icon={faSpinner} spin />;

@@ -25,7 +25,7 @@ import {
 } from '../../../styled/Target';
 import { loadGroup } from '../../../actions';
 import { selectCurrentGroupId } from '../../../selectors/groups';
-import { ToggleButton, StateText } from '../../../styled/ToggleButton';
+import { ToggleButton } from '../../../styled/ToggleButton';
 import Tooltip from '../../Tooltip';
 
 type Props = {

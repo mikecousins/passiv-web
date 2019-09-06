@@ -19,8 +19,7 @@ import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../../styled/Button';
-import { H3, Edit, AButton, Title } from '../../styled/GlobalElements';
-import { TargetRow } from '../../styled/Target';
+import { Edit, AButton } from '../../styled/GlobalElements';
 import { postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
 
@@ -95,7 +94,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
 
   const dispatch = useDispatch();
 
-  if (!target) {
+  if (!target || !cash) {
     return null;
   }
 
@@ -266,7 +265,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                 }, 0);
 
               // calculate the actual cash percentage
-              const cashActualPercentage = (cash || 0 / totalEquity) * 100;
+              const cashActualPercentage = (cash / totalEquity) * 100;
 
               if (props.values.targets.filter(t => !t.deleted).length === 0) {
                 arrayHelpers.push(generateNewTarget());
