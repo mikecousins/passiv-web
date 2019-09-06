@@ -63,7 +63,11 @@ export const SemiCircle = styled.div`
   }
 `;
 
-export const SemiCircleMask = styled.div`
+type GaugeProps = {
+  accuracy: number | null;
+};
+
+export const SemiCircleMask = styled.div<GaugeProps>`
   position: absolute;
   top: 0;
   left: 0;
@@ -72,7 +76,11 @@ export const SemiCircleMask = styled.div`
   background: transparent;
 
   //This transform deg is what needs to be changed based on percentage
-  transform: rotate(120deg) translate3d(0, 0, 0);
+  transform: rotate(
+      ${(props: GaugeProps) =>
+        String(props.accuracy == null ? 0 : (props.accuracy / 100) * 180)}deg
+    )
+    translate3d(0, 0, 0);
 
   transform-origin: center center;
   backface-visibility: hidden;
@@ -142,7 +150,7 @@ export const PortfolioGroupAccuracy = ({ accuracy, loading }: Props) => {
 
       <Mask>
         <SemiCircle></SemiCircle>
-        <SemiCircleMask></SemiCircleMask>
+        <SemiCircleMask accuracy={accuracy}></SemiCircleMask>
       </Mask>
 
       {accuracyDisplay}
