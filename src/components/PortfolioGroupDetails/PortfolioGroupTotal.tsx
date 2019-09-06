@@ -4,29 +4,10 @@ import {
   faSpinner,
   faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
-import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
+import { Title, Total, Center } from '../../styled/PortfolioGroupDetails';
 import Number from '../Number';
 import { Error } from '../../types/groupInfo';
-
-const Total = styled.div`
-  text-align: center;
-  color: #fff;
-  background: #04a287;
-  font-size: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-`;
-
-const Center = styled.div`
-  text-align: center;
-`;
-
-const Title = styled.h2`
-  font-size: 26px;
-  font-weight: 800;
-  margin-bottom: 20px;
-`;
 
 type Props = {
   error?: Error | null;

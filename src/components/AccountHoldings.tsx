@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { Title } from '../styled/GlobalElements';
 import Number from './Number';
 import { selectCurrentAccountHoldings } from '../selectors/groups';
+import { selectCurrencies } from '../selectors';
 import ShadowBox from '../styled/ShadowBox';
 import { Symbol } from '../styled/Group';
 
@@ -53,12 +54,49 @@ const SymbolNameBox = styled.span`
   padding-left: 10px;
 `;
 
+const CurrencyCodeBox = styled.span``;
+
 export const AccountHoldings = () => {
   const account = useSelector(selectCurrentAccountHoldings);
+  const currencies = useSelector(selectCurrencies);
 
   if (!account) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
   }
+
+  const getCurrencyById = (currencyId: string) => {
+    return (
+      currencies && currencies.find(currency => currencyId === currency.id)
+    );
+  };
+
+  const renderedPositions =
+    account.positions &&
+    account.positions.map((position: any) => {
+      const currency = getCurrencyById(position.symbol.symbol.currency);
+      return (
+        <tr key={position.symbol.id}>
+          <td>
+            <span>
+              <Symbol>{position.symbol.symbol.symbol}</Symbol>
+            </span>
+            <SymbolNameBox>{position.symbol.symbol.name}</SymbolNameBox>
+          </td>
+          <td>{position.units}</td>
+          <td>
+            <Number value={position.price} currency />
+          </td>
+          <td>
+            <Number value={position.price * position.units} currency />
+          </td>
+          <td>
+            <CurrencyCodeBox title={currency ? currency.name : ''}>
+              {currency && currency.code}
+            </CurrencyCodeBox>
+          </td>
+        </tr>
+      );
+    });
 
   return (
     <ShadowBox>
@@ -76,28 +114,12 @@ export const AccountHoldings = () => {
               <th>
                 <Title>Value</Title>
               </th>
+              <th>
+                <Title>Currency</Title>
+              </th>
             </tr>
           </thead>
-          <tbody>
-            {account.positions &&
-              account.positions.map((position: any) => (
-                <tr key={position.symbol.id}>
-                  <td>
-                    <span>
-                      <Symbol>{position.symbol.symbol.symbol}</Symbol>
-                    </span>
-                    <SymbolNameBox>{position.symbol.symbol.name}</SymbolNameBox>
-                  </td>
-                  <td>{position.units}</td>
-                  <td>
-                    <Number value={position.price} currency />
-                  </td>
-                  <td>
-                    <Number value={position.price * position.units} currency />
-                  </td>
-                </tr>
-              ))}
-          </tbody>
+          <tbody>{renderedPositions}</tbody>
         </HoldingsTable>
       </HoldingsBox>
     </ShadowBox>
