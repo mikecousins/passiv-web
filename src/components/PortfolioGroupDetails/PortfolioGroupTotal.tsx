@@ -7,6 +7,7 @@ import {
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import Number from '../Number';
+import { Error } from '../../types/groupInfo';
 
 const Total = styled.div`
   text-align: center;
@@ -28,7 +29,7 @@ const Title = styled.h2`
 `;
 
 type Props = {
-  error?: any | null;
+  error?: Error | null;
   equity?: any;
 };
 

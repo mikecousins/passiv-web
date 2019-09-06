@@ -33,6 +33,7 @@ import { GroupData } from '../types/group';
 import { Account } from '../types/account';
 import { SimpleListState } from '../reducers/simpleList';
 import { Currency } from '../types/currency';
+import { Position as AccountPosition } from '../types/account';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 
@@ -733,7 +734,7 @@ export type AccountHoldings = {
   name: string;
   number: string;
   type: string;
-  positions: Position[] | null;
+  positions: AccountPosition[] | null;
 };
 
 export const selectCurrentAccountHoldings = createSelector<
@@ -741,7 +742,7 @@ export const selectCurrentAccountHoldings = createSelector<
   string | undefined,
   Account[] | undefined,
   SimpleListState<Balance[]>,
-  SimpleListState<Position[]>,
+  SimpleListState<AccountPosition[]>,
   AccountHoldings | null
 >(
   selectCurrentAccountId,
