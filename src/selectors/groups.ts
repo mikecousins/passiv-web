@@ -24,7 +24,6 @@ import {
   Settings,
   Balance,
   TargetPosition,
-  Position,
 } from '../types/groupInfo';
 import { createMatchSelector, RouterState } from 'connected-react-router';
 import { CurrencyRate } from '../types/currencyRate';
@@ -33,7 +32,7 @@ import { GroupData } from '../types/group';
 import { Account } from '../types/account';
 import { SimpleListState } from '../reducers/simpleList';
 import { Currency } from '../types/currency';
-import { Position as AccountPosition } from '../types/account';
+import { Position } from '../types/account';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 
@@ -734,7 +733,7 @@ export type AccountHoldings = {
   name: string;
   number: string;
   type: string;
-  positions: AccountPosition[] | null;
+  positions: Position[] | null;
 };
 
 export const selectCurrentAccountHoldings = createSelector<
@@ -742,7 +741,7 @@ export const selectCurrentAccountHoldings = createSelector<
   string | undefined,
   Account[] | undefined,
   SimpleListState<Balance[]>,
-  SimpleListState<AccountPosition[]>,
+  SimpleListState<Position[]>,
   AccountHoldings | null
 >(
   selectCurrentAccountId,
