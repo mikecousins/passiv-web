@@ -58,7 +58,14 @@ const TargetBar = ({
       });
   };
 
-  const { id, key, excluded, fullSymbol, actualPercentage, percent } = target;
+  const {
+    id,
+    key,
+    is_excluded,
+    fullSymbol,
+    actualPercentage,
+    percent,
+  } = target;
 
   let renderActualPercentage = null;
   if (actualPercentage === undefined) {
@@ -69,7 +76,7 @@ const TargetBar = ({
 
   return (
     <Container>
-      {!excluded ? (
+      {!is_excluded ? (
         <React.Fragment>
           <BarsContainer>
             <BarActual>
@@ -103,7 +110,7 @@ const TargetBar = ({
       )}
       <TargetRow>
         <Symbol>
-          {!(typeof id == 'string') && !excluded ? (
+          {!(typeof id == 'string') && !is_excluded ? (
             <SymbolSelector
               value={fullSymbol}
               onChange={setSymbol}
@@ -133,7 +140,7 @@ const TargetBar = ({
             <ToggleButton type="button" onClick={() => onExclude(key)}>
               <React.Fragment>
                 <Tooltip label="Exclude this asset from your portfolio calculations">
-                  {excluded ? (
+                  {is_excluded ? (
                     <FontAwesomeIcon icon={faToggleOn} />
                   ) : (
                     <FontAwesomeIcon icon={faToggleOff} />
