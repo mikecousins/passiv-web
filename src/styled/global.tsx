@@ -250,6 +250,33 @@ export const GlobalStyle = () => (
       strong {
         font-weight: 700;
       }
+
+      /* remove firefox dotted lines around focused objects */
+      a:hover,
+      a:active,
+      a:focus,
+      a:link,
+      a:visited {
+        outline: 0;
+        outline: 0 !important;
+        outline-style: none;
+      }
+      button,
+      object,
+      embed {
+        outline: 0;
+      }
+
+      /* All Input elements */
+      input::-moz-focus-inner {
+        outline: 0;
+      }
+
+      /* Or more specifically*/
+      input[type='submit']::-moz-focus-inner,
+      input[type='button']::-moz-focus-inner {
+        outline: 0;
+      }
     `}
   />
 );
