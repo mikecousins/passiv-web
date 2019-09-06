@@ -100,6 +100,12 @@ export const SemiCircleMask = styled.div<GaugeProps>`
   }
 `;
 
+export const PercentBox = styled.div`
+  margin-top: -49px;
+  position: relative;
+  z-index: 2;
+`;
+
 type Props = {
   accuracy: number | null;
   loading: boolean;
@@ -153,7 +159,7 @@ export const PortfolioGroupAccuracy = ({ accuracy, loading }: Props) => {
         <SemiCircleMask accuracy={accuracy}></SemiCircleMask>
       </Mask>
 
-      {accuracyDisplay}
+      <PercentBox>{accuracyDisplay}</PercentBox>
     </Accuracy>
   );
 };
