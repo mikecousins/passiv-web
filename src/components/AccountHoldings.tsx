@@ -40,7 +40,7 @@ export const HoldingsTable = styled.table`
   td {
     padding: 15px 12px;
   }
-  tbody tr:nth-child(even) {
+  tbody tr:nth-oftype(even) {
     background: #f4f4f4;
   }
 `;
