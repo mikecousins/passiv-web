@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { H2 } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
 import SettingsToggle from './SettingsToggle';
+import PreferredCurrencySetting from './PreferredCurrencySetting';
 import CurrencySeparation from './CurrencySeparation';
 import {
   selectCurrentGroupSettings,
@@ -38,6 +39,14 @@ export const PortfolioGroupSettings = () => {
       {settings ? (
         <React.Fragment>
           <br />
+          <PreferredCurrencySetting
+            settings={settings}
+            update={(event: any) => {
+              settings.preferred_currency = event.target.value;
+              updateSettings();
+            }}
+          />
+
           <SettingsToggle
             name="Allow selling to rebalance"
             value={settings.buy_only}
