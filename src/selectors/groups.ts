@@ -685,7 +685,7 @@ export const selectCurrentGroupTarget = createSelector<
         target.actualPercentage = 0;
       }
 
-      target.excluded = false;
+      target.is_excluded = false;
       return target;
     });
     return currentTarget;

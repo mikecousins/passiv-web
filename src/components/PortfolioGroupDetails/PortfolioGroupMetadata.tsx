@@ -2,7 +2,6 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
-import ShadowBox from '../../styled/ShadowBox';
 
 const MetaHorizontal = styled.div`
   text-align: left;

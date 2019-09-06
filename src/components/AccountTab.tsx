@@ -7,7 +7,6 @@ import { AccountHoldings } from './AccountHoldings';
 import PortfolioGroupMeta from './PortfolioGroupDetails/PortfolioGroupMetadata';
 import PortfolioGroupTotal from './PortfolioGroupDetails/PortfolioGroupTotal';
 import PortfolioGroupCash from './PortfolioGroupDetails/PortfolioGroupCash';
-import PortfolioGroupErrors from './PortfolioGroupErrors';
 import {
   selectCurrentAccountHoldings,
   selectGroupsLoading,

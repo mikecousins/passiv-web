@@ -1,9 +1,9 @@
 import { Currency } from './currency';
 
-interface Account {
+export type Account = {
   id: string;
   number: string;
-}
+};
 
 export type Brokerage = {
   id: string;
@@ -11,28 +11,28 @@ export type Brokerage = {
   url: string;
 };
 
-export interface BrokerageAuthorization {
+export type BrokerageAuthorization = {
   id: string;
   created_date: string;
   brokerage: Brokerage;
   name: string;
   type: string;
-}
+};
 
-export interface Symbol {
+export type Symbol = {
   id: string;
   symbol: string;
   description: string;
   security_type: string;
   currency: Currency;
-}
+};
 
-export interface Balance {
+export type Balance = {
   currency: Currency;
   cash: number;
-}
+};
 
-export interface Position {
+export type Position = {
   symbol: Symbol;
   price: number;
   units: number;
@@ -40,37 +40,38 @@ export interface Position {
   quotable: boolean;
   uniformEquity: number;
   actualPercentage: number;
-}
+};
 
-export interface TargetPosition {
+export type TargetPosition = {
   id: string;
   symbol: string;
   percent: number;
   meta: object;
   fullSymbol: Symbol | undefined;
   actualPercentage: number;
-  excluded: boolean;
-}
+  is_excluded: boolean;
+  is_supported: boolean;
+};
 
-interface IdealPosition {
+export type IdealPosition = {
   symbol: string;
   units: number;
-}
+};
 
-interface ExcludedPosition {
+export type ExcludedPosition = {
   symbol: string;
-}
+};
 
-interface Trade {
+export type Trade = {
   action: string;
-}
+};
 
-export interface CalculatedTrades {
+export type CalculatedTrades = {
   id: string;
   trades: Trade[];
-}
+};
 
-export interface Settings {
+export type Settings = {
   prevent_currency_conversion: boolean;
   hard_currency_separation: boolean;
   buy_only: boolean;
@@ -79,16 +80,16 @@ export interface Settings {
   drift_threshold: number;
   preferred_currency: string;
   target_initialized: boolean;
-}
+};
 
-export interface Error {
+export type Error = {
   code: string;
   meta?: {
     symbols: any[];
   };
-}
+};
 
-export interface GroupInfoData {
+export type GroupInfoData = {
   accounts: Account[];
   brokerage_authorizations: BrokerageAuthorization[];
   symbols: Symbol[];
@@ -102,4 +103,4 @@ export interface GroupInfoData {
   accuracy: number;
   settings: Settings;
   error: Error;
-}
+};
