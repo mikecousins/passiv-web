@@ -32,7 +32,6 @@ class ConnectionUpdate extends React.Component {
       `/api/v1/brokerages/${this.props.authorization.brokerage.id}/authorize/${this.props.authorization.id}`,
       { type: 'read' },
     ).then(response => {
-      console.log('success', response.data);
       this.setState({ publicToken: response.data.public_token });
     });
   }

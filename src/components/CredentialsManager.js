@@ -79,7 +79,6 @@ export class CredentialsManager extends React.Component {
       })
       .catch(error => {
         this.setState({ passwordResetSent: false });
-        console.log('error', error.response.data);
       });
   }
 

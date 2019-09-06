@@ -33,7 +33,6 @@ class AuthorizationPicker extends Component {
       postData(`/api/v1/brokerages/${this.state.brokerage}/authorize/`, {
         type: this.state.type,
       }).then(response => {
-        console.log('success', response.data);
         window.location = response.data.url;
       });
     } else {
@@ -41,7 +40,6 @@ class AuthorizationPicker extends Component {
         `/api/v1/brokerages/${this.state.brokerage}/authorize/${this.state.updateBrokerageAuthorizationId}`,
         { type: this.state.type },
       ).then(response => {
-        console.log('success', response.data);
         window.location = response.data.url;
       });
     }
@@ -52,12 +50,8 @@ class AuthorizationPicker extends Component {
       type: 'read',
     });
   }
-  handleOnSuccess() {
-    console.log('');
-  }
-  handleOnExit() {
-    console.log('');
-  }
+  handleOnSuccess() {}
+  handleOnExit() {}
 
   render() {
     const { brokerages, publicToken } = this.props;

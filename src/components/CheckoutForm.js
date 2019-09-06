@@ -32,13 +32,11 @@ export class CheckoutForm extends React.Component {
     let { token } = await this.props.stripe.createToken({ name: 'Name' });
     postData(`/api/v1/subscriptions`, { token: token, period: 'annual' })
       .then(response => {
-        console.log('success', response.data);
         this.setState({ loading: false });
         this.props.reloadSubscription();
         this.props.finishCreateSubscription();
       })
       .catch(error => {
-        console.log('error', error.response.data);
         this.setState({ loading: false, error: error.response.data.detail });
         // this.props.reloadSubscription();
         this.props.finishCreateSubscriptionFail();

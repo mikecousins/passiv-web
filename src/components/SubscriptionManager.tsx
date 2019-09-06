@@ -53,13 +53,11 @@ const SubscriptionManager = () => {
   const cancelSubscription = () => {
     setCancellingSubscription(true);
     deleteData(`/api/v1/subscriptions`)
-      .then(response => {
-        console.log('success', response.data);
+      .then(() => {
         dispatch(loadSubscription());
         setCancellingSubscription(false);
       })
-      .catch(error => {
-        console.log('error', error.response.data);
+      .catch(() => {
         dispatch(loadSubscription());
         setCancellingSubscription(false);
       });

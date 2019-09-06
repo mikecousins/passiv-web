@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import uuid from 'uuid';
 import { replace } from 'connected-react-router';
 import styled from '@emotion/styled';
-import Tooltip from '../Tooltip';
 import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
@@ -159,11 +158,8 @@ export const TargetSelector = ({ lockable, target }: Props) => {
   portfolioVisualizerURLParts.push(portfolioVisualizerBaseURL);
 
   let iValue = 0;
-  console.log('target', target);
   target
-    .filter(
-      target => target.is_supported == true && target.is_excluded == false,
-    )
+    .filter(target => target.is_supported && !target.is_excluded)
     .map((target: any, index: number) => {
       iValue = index + 1;
       portfolioVisualizerURLParts.push(
@@ -174,9 +170,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
   let cashPercentage =
     100 -
     target
-      .filter(
-        target => target.is_supported == true && target.is_excluded == false,
-      )
+      .filter(target => target.is_supported && !target.is_excluded)
       .reduce((total: number, target: any) => {
         if (!target.deleted && target.percent && target.is_supported) {
           return total + parseFloat(target.percent);
@@ -357,7 +351,6 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                               )
                             }
                             onBlur={() => {
-                              console.log(props.values.targets[index].percent);
                               props.setFieldValue(
                                 `targets.${index}.percent`,
                                 parseFloat(

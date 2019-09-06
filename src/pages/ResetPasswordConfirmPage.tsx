@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik } from 'formik';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import { postData } from '../api';
 import { selectPasswordResetToken } from '../selectors';
-import { Link } from 'react-router-dom';
 import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
@@ -38,8 +39,8 @@ const ResetPasswordConfirmPage = () => {
               .then(() => {
                 setSubmitted(true);
               })
-              .catch(error => {
-                console.log('error', error.response.data);
+              .catch(() => {
+                toast.error('Failed to reset password');
               });
           }}
           render={({
