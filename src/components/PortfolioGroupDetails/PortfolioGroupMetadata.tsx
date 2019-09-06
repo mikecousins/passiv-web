@@ -22,30 +22,21 @@ const MetaHorizontal = styled.div`
   }
 `;
 
-const PortfolioGroupMetadata = () => {
-  const firstAccount = {
-    number: 1234,
-    type: 'test',
-  };
+type Props = {
+  account: any;
+};
 
+const PortfolioGroupMetadata = ({ account }: Props) => {
   return (
     <div>
       <MetaHorizontal>
         <div>
           <span>Account #: </span>
-          {firstAccount ? (
-            firstAccount.number
-          ) : (
-            <FontAwesomeIcon icon={faSpinner} spin />
-          )}
+          {account ? account.number : <FontAwesomeIcon icon={faSpinner} spin />}
         </div>
         <div>
           <span>Type: </span>
-          {firstAccount ? (
-            firstAccount.type
-          ) : (
-            <FontAwesomeIcon icon={faSpinner} spin />
-          )}
+          {account ? account.type : <FontAwesomeIcon icon={faSpinner} spin />}
         </div>
       </MetaHorizontal>
     </div>
