@@ -101,13 +101,37 @@ export const TargetSelector = ({
   const portfolioVisualizerURLParts = [];
   portfolioVisualizerURLParts.push(portfolioVisualizerBaseURL);
 
-  target.map((target, index) => {
-    let iValue = index + 1;
+  let iValue = 0;
+  console.log('target', target);
+  target
+    .filter(
+      target => target.is_supported == true && target.is_excluded == false,
+    )
+    .map((target: any, index: number) => {
+      iValue = index + 1;
+      portfolioVisualizerURLParts.push(
+        `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${target.percent}`,
+      );
+      return null;
+    });
+  let cashPercentage =
+    100 -
+    target
+      .filter(
+        target => target.is_supported == true && target.is_excluded == false,
+      )
+      .reduce((total: number, target: any) => {
+        if (!target.deleted && target.percent && target.is_supported) {
+          return total + parseFloat(target.percent);
+        }
+        return total;
+      }, 0);
+  if (cashPercentage > 0) {
+    iValue += 1;
     portfolioVisualizerURLParts.push(
-      `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${target.percent}`,
+      `&symbol${iValue}=CASHX&allocation${iValue}_1=${cashPercentage}`,
     );
-    return null;
-  });
+  }
 
   portfolioVisualizerURLParts.push('#analysisResults');
 
