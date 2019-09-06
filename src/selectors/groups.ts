@@ -668,7 +668,7 @@ export const selectCurrentGroupTarget = createSelector<
       const position = groupInfo.positions.find(
         p => p.symbol.id === target.symbol,
       );
-      if (position) {
+      if (position && !position.excluded) {
         if (
           preferredCurrency &&
           position.symbol.currency.id === preferredCurrency.id
