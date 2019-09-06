@@ -341,10 +341,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                             const newExcluded = !target.is_excluded;
                             target.is_excluded = newExcluded;
                             props.setFieldTouched(`targets.${index}.percent`);
-                            props.setFieldValue(
-                              `targets.${index}.percent`,
-                              newExcluded ? 0 : 5,
-                            );
+                            props.setFieldValue(`targets.${index}.percent`, 0);
                             forceUpdate();
                           }}
                         >
