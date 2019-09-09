@@ -27,6 +27,11 @@ import { loadGroup } from '../../../actions';
 import { selectCurrentGroupId } from '../../../selectors/groups';
 import { ToggleButton } from '../../../styled/ToggleButton';
 import Tooltip from '../../Tooltip';
+import styled from '@emotion/styled';
+
+const Disabled = styled.div`
+  opacity: 0.5;
+`;
 
 type Props = {
   target: any;
@@ -62,6 +67,7 @@ const TargetBar = ({
     id,
     key,
     is_excluded,
+    is_supported,
     fullSymbol,
     actualPercentage,
     percent,
@@ -105,8 +111,12 @@ const TargetBar = ({
             </Close>
           )}
         </React.Fragment>
-      ) : (
+      ) : !is_excluded ? (
         <FontAwesomeIcon icon={faEyeSlash} />
+      ) : (
+        <Disabled>
+          <FontAwesomeIcon icon={faEyeSlash} />
+        </Disabled>
       )}
       <TargetRow>
         <Symbol>
@@ -121,25 +131,42 @@ const TargetBar = ({
               getOptionValue={(option: any) => option.id}
               placeholder="Search for security..."
             />
-          ) : (
+          ) : !is_excluded ? (
             fullSymbol.symbol
+          ) : (
+            <Disabled>{fullSymbol.symbol}</Disabled>
           )}
         </Symbol>
         {edit && (
           <React.Fragment>
-            <Target>
-              <InputContainer>{children}%</InputContainer>
-            </Target>
-            <Actual>
-              <Number
-                value={renderActualPercentage}
-                percentage
-                decimalPlaces={1}
-              />
-            </Actual>
-            <ToggleButton type="button" onClick={() => onExclude(key)}>
+            {!is_excluded && (
               <React.Fragment>
-                <Tooltip label="Exclude this asset from your portfolio calculations">
+                <Target>
+                  <InputContainer>{children}%</InputContainer>
+                </Target>
+                <Actual>
+                  <Number
+                    value={renderActualPercentage}
+                    percentage
+                    decimalPlaces={1}
+                  />
+                </Actual>
+              </React.Fragment>
+            )}
+
+            <ToggleButton
+              disabled={!is_supported}
+              type="button"
+              onClick={() => onExclude(key)}
+            >
+              <React.Fragment>
+                <Tooltip
+                  label={
+                    is_supported
+                      ? 'Exclude this asset from your portfolio calculations'
+                      : 'This security is not supported by Passiv'
+                  }
+                >
                   {is_excluded ? (
                     <FontAwesomeIcon icon={faToggleOn} />
                   ) : (
