@@ -5,16 +5,24 @@ import {
   faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
 import ShadowBox from '../../styled/ShadowBox';
-import { Title, Total, Center } from '../../styled/PortfolioGroupDetails';
+import {
+  Title,
+  Total,
+  Center,
+  CashGroup,
+  CashType,
+} from '../../styled/PortfolioGroupDetails';
 import Number from '../Number';
 import { Error } from '../../types/groupInfo';
+import { Currency } from '../../types/currency';
 
 type Props = {
   error?: Error | null;
   equity?: any;
+  currency?: Currency | null;
 };
 
-const PortfolioGroupTotal = ({ error, equity }: Props) => {
+const PortfolioGroupTotal = ({ error, equity, currency }: Props) => {
   let equityValue = null;
   if (error) {
     equityValue = (
@@ -35,7 +43,14 @@ const PortfolioGroupTotal = ({ error, equity }: Props) => {
     <ShadowBox background="#04a287">
       <Total>
         <Title>Total Value</Title>
-        <p>{equityValue}</p>
+        <CashGroup>
+          <CashType>
+            <span title={currency ? currency.name : ''}>
+              {currency && currency.code}
+            </span>
+          </CashType>
+          <CashType>{equityValue}</CashType>
+        </CashGroup>
       </Total>
     </ShadowBox>
   );

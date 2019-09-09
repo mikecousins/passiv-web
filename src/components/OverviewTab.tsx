@@ -21,6 +21,7 @@ import {
   selectCurrentGroupSetupComplete,
   selectGroupsLoading,
   selectCurrentGroupId,
+  selectPreferredCurrency,
 } from '../selectors/groups';
 
 export const Container3Column = styled.div`
@@ -62,6 +63,7 @@ const OverviewTab = () => {
   const error = useSelector(selectCurrentGroupInfoError);
   const groupId = useSelector(selectCurrentGroupId);
   const [tradeInProgress, setTradeInProgress] = useState(false);
+  const preferredCurrency = useSelector(selectPreferredCurrency);
 
   // reset our trade in progress flag when the group changes
   useEffect(() => {
@@ -123,7 +125,11 @@ const OverviewTab = () => {
       <Container3Column>
         <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
         <PortfolioGroupCash balances={balances} />
-        <PortfolioGroupTotal equity={equity} error={error} />
+        <PortfolioGroupTotal
+          equity={equity}
+          error={error}
+          currency={preferredCurrency}
+        />
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
