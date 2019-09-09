@@ -6,6 +6,7 @@ import {
   faToggleOff,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styled from '@emotion/styled';
 import { postData } from '../../../api';
 import { useSelector, useDispatch } from 'react-redux';
 import SymbolSelector from './SymbolSelector';
@@ -108,7 +109,7 @@ const TargetBar = ({
       ) : (
         <FontAwesomeIcon icon={faEyeSlash} />
       )}
-      <TargetRow>
+      <TargetRow style={{ flexWrap: 'wrap' }}>
         <Symbol>
           {!(typeof id == 'string') && !is_excluded ? (
             <SymbolSelector
