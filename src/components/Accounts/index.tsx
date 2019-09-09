@@ -11,6 +11,8 @@ import AccountRow from './AccountRow';
 import AddPortfolioGroup from './AddPortfolioGroup';
 import { Account } from '../../types/account';
 import AccountGroup from './AccountGroup';
+import { putData } from '../../api';
+import { toast } from 'react-toastify';
 
 const grid = 8;
 
@@ -31,23 +33,6 @@ const getListStyle = (isDraggingOver: boolean) => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
   padding: grid,
 });
-
-const reorder = (
-  list: Group[],
-  startGroup: string,
-  startIndex: number,
-  endGroup: string,
-  endIndex: number,
-) => {
-  const result = Array.from(list);
-  const sourceList = result.find(group => group.groupId === startGroup);
-  const destList = result.find(group => group.groupId === endGroup);
-  if (sourceList && destList) {
-    const [removed] = sourceList.accounts.splice(startIndex, 1);
-    destList.accounts.splice(endIndex, 0, removed);
-  }
-  return result;
-};
 
 type Group = {
   groupId: string;
@@ -101,21 +86,40 @@ const Accounts = () => {
       return;
     }
 
-    const newList = reorder(
-      groupedAccounts,
-      result.source.droppableId,
-      result.source.index,
-      result.destination.droppableId,
-      result.destination.index,
+    const newList: Group[] = Array.from(groupedAccounts);
+    const sourceList = newList.find(
+      group => group.groupId === result.source.droppableId,
     );
+    const destList = newList.find(
+      group => group.groupId === result.destination!.droppableId,
+    );
+    if (sourceList && destList) {
+      const [moved] = sourceList.accounts.splice(result.source.index, 1);
+      destList.accounts.splice(result.destination.index, 0, moved);
+
+      const newAccount = {
+        ...moved,
+        portfolio_group: result.destination!.droppableId,
+      };
+      putData(`/api/v1/accounts/${moved.id}`, newAccount)
+        .then(() => {
+          toast.success('Moved the account successfully');
+        })
+        .catch(() => {
+          toast.error('Failed to move the account');
+        });
+    }
 
     setGroupedAccounts(newList);
+
+    const setPortfolioGroup = () => {};
   };
 
   if (!accounts || accounts.length === 0 || !groupedAccounts) {
     return null;
   }
 
+  // TODO disable drag and drop if non-paying or on mobile
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {groupedAccounts.map(group => (
