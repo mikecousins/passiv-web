@@ -119,6 +119,7 @@ const Accounts = () => {
     return null;
   }
 
+  // TODO disable drag and drop if non-paying or on mobile
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {groupedAccounts.map(group => (
