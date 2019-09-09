@@ -32,16 +32,31 @@ const getListStyle = (isDraggingOver: boolean) => ({
   padding: grid,
 });
 
-const reorder = (list: Account[][], startIndex: number, endIndex: number) => {
+const reorder = (
+  list: Group[],
+  startGroup: string,
+  startIndex: number,
+  endGroup: string,
+  endIndex: number,
+) => {
   const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+  const sourceList = result.find(group => group.groupId === startGroup);
+  const destList = result.find(group => group.groupId === endGroup);
+  if (sourceList && destList) {
+    const [removed] = sourceList.accounts.splice(startIndex, 1);
+    destList.accounts.splice(endIndex, 0, removed);
+  }
   return result;
+};
+
+type Group = {
+  groupId: string;
+  accounts: Account[];
 };
 
 const Accounts = () => {
   const accounts = useSelector(selectAccounts);
-  const [groupedAccounts, setGroupedAccounts] = useState<Account[][]>();
+  const [groupedAccounts, setGroupedAccounts] = useState<Group[]>();
 
   // group our accounts
   useEffect(() => {
@@ -57,18 +72,20 @@ const Accounts = () => {
     });
 
     // create nested array by group
-    const groupedAccounts: Account[][] = [];
+    const groupedAccounts: Group[] = [];
     accounts.forEach(account => {
       let lastGroup = '';
       if (groupedAccounts.length > 0) {
-        lastGroup =
-          groupedAccounts[groupedAccounts.length - 1][0].portfolio_group;
+        lastGroup = groupedAccounts[groupedAccounts.length - 1].groupId;
       }
 
       if (account.portfolio_group === lastGroup) {
-        groupedAccounts[groupedAccounts.length - 1].push(account);
+        groupedAccounts[groupedAccounts.length - 1].accounts.push(account);
       } else {
-        groupedAccounts.push([account]);
+        groupedAccounts.push({
+          groupId: account.portfolio_group,
+          accounts: [account],
+        });
       }
     });
     setGroupedAccounts(groupedAccounts);
@@ -86,7 +103,9 @@ const Accounts = () => {
 
     const newList = reorder(
       groupedAccounts,
+      result.source.droppableId,
       result.source.index,
+      result.destination.droppableId,
       result.destination.index,
     );
 
@@ -100,18 +119,15 @@ const Accounts = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {groupedAccounts.map(group => (
-        <Droppable
-          droppableId={group[0].portfolio_group}
-          key={group[0].portfolio_group}
-        >
+        <Droppable droppableId={group.groupId} key={group.groupId}>
           {(provided, snapshot) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
               style={getListStyle(snapshot.isDraggingOver)}
             >
-              <AccountGroup name={group[0].portfolio_group}>
-                {group.map((account, index) => (
+              <AccountGroup name={group.groupId}>
+                {group.accounts.map((account, index) => (
                   <Draggable
                     key={account.id}
                     draggableId={account.id}
