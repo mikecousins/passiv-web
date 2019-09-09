@@ -149,7 +149,13 @@ const PortfolioGroupTargets = () => {
   }
 
   // help them set a target if they don't have one yet
-  if (!targetInitialized || (!loading && target && target.length === 0)) {
+  if (
+    !targetInitialized ||
+    (!loading &&
+      target &&
+      target.filter(t => t.is_supported === true && t.is_excluded === false)
+        .length === 0)
+  ) {
     return (
       <ShadowBox background="#2a2d34">
         <H2 style={h2DarkStyle}>Target Portfolio</H2>
