@@ -5,6 +5,7 @@ export const ToggleButton = styled.button`
   vertical-align: middle;
   padding: 0;
   margin-left: 8px;
+  margin-top: -5px;
 `;
 
 export const DisabledToggleButton = styled(ToggleButton)`

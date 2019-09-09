@@ -15,8 +15,8 @@ export const Button = styled.button`
   position: fixed;
   z-index: 4;
   @media (max-width: 900px) {
-    padding: 7px 8px 10px 14px;
-    height: 81px;
+    padding: 1px 9px 6px 14px;
+    height: 72px;
   }
   strong {
     display: inline-block;
@@ -81,7 +81,7 @@ export const Hamburger = styled.div`
 type Props = {
   menuVisibility: boolean;
   handleMouseDown: () => void;
-}
+};
 
 const MenuButton = ({ menuVisibility, handleMouseDown }: Props) => (
   <Button

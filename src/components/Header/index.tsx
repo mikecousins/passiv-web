@@ -23,7 +23,7 @@ const StyledHeader = styled.header<StyledHeaderProps>`
   box-shadow: 2px 2px 8px rgba(190, 190, 190, 0.29);
   z-index: 4;
   @media (max-width: 900px) {
-    padding: 9px 8px 2px 75px;
+    padding: 9px 8px 4px 75px;
   }
   nav {
     background: inherit;

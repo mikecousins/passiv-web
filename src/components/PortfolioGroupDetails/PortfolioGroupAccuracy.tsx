@@ -25,6 +25,7 @@ export const Accuracy = styled.div`
   padding: 20px 20px 20px;
   margin-bottom: 20px;
   color: var(--brand-green);
+  display: block;
   h2 {
     color: #fff;
     font-size: 22px;
@@ -39,7 +40,7 @@ export const Mask = styled.div`
   display: block;
   width: 200px;
   height: 100px;
-  margin: 20px auto;
+  margin: 20px auto 10px;
 `;
 export const SemiCircle = styled.div`
   position: relative;
