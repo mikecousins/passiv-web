@@ -24,12 +24,16 @@ export const HoldingsTable = styled.table`
   }
   tr th,
   tr td {
-    width: 14%;
+    @media (min-width: 900px) {
+      width: 12%;
+    }
   }
   tr th:first-of-type,
   tr td:first-of-type {
     text-align: left;
-    width: 58%;
+    @media (min-width: 900px) {
+      width: 52%;
+    }
   }
   tr td:first-of-type {
     font-weight: 700;
@@ -40,18 +44,75 @@ export const HoldingsTable = styled.table`
   }
   td {
     padding: 15px 12px;
+    &:first-child {
+      padding: 15px 0;
+    }
   }
   tbody tr:nth-oftype(even) {
     background: #f4f4f4;
   }
+  @media (max-width: 900px) {
+    thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+
+    tr {
+      border-bottom: 3px solid #ddd;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    tr td {
+      display: block;
+      text-align: right;
+      padding: 15px 0px;
+      &:first-child {
+        text-align: center;
+      }
+      span {
+        display: block;
+      }
+    }
+
+    td::before {
+      /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    td:last-child {
+      border-bottom: 0;
+    }
+  }
 `;
 
 const HoldingsBox = styled.div`
-  margin-top: 20px;
+  @media (min-width: 900px) {
+    margin-top: 20px;
+  }
 `;
 
 const SymbolNameBox = styled.span`
-  padding-left: 10px;
+  @media (min-width: 900px) {
+    padding-left: 10px;
+  }
+  @media (max-width: 900px) {
+    margin-top: 12px;
+    line-height: 1.4;
+    font-weight: 600;
+  }
 `;
 
 const CurrencyCodeBox = styled.span``;
@@ -82,14 +143,14 @@ export const AccountHoldings = () => {
             </span>
             <SymbolNameBox>{position.symbol.symbol.name}</SymbolNameBox>
           </td>
-          <td>{position.units}</td>
-          <td>
+          <td data-label="Units">{position.units}</td>
+          <td data-label="Price">
             <Number value={position.price} currency />
           </td>
-          <td>
+          <td data-label="Value">
             <Number value={position.price * position.units} currency />
           </td>
-          <td>
+          <td data-label="Currency">
             <CurrencyCodeBox title={currency ? currency.name : ''}>
               {currency && currency.code}
             </CurrencyCodeBox>

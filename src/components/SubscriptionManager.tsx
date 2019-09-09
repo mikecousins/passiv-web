@@ -20,6 +20,7 @@ import ShadowBox from '../styled/ShadowBox';
 import CreditCardDetails from './CreditCardDetails';
 
 const SubscriptionContainer = styled.div`
+  color: #fff;
   button {
     margin-top: 20px;
   }
@@ -204,7 +205,7 @@ const SubscriptionManager = () => {
   }
 
   return (
-    <ShadowBox>
+    <ShadowBox background="#04a287">
       <SubscriptionContainer>
         <H2Padded>Subscription</H2Padded>
         <div>{subscriptionBody}</div>

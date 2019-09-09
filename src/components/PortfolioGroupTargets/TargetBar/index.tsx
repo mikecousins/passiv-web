@@ -118,7 +118,7 @@ const TargetBar = ({
           <FontAwesomeIcon icon={faEyeSlash} />
         </Disabled>
       )}
-      <TargetRow>
+      <TargetRow style={{ flexWrap: 'wrap' }}>
         <Symbol>
           {!(typeof id == 'string') && !is_excluded ? (
             <SymbolSelector

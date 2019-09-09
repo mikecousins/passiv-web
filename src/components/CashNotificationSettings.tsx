@@ -10,14 +10,9 @@ import styled from '@emotion/styled';
 import { ToggleButton, StateText } from '../styled/ToggleButton';
 
 const DividingLine = styled.div`
-  border-top: 1px solid #eee;
   margin-top: 10px;
   padding-top: 10px;
-  &:first-of-type {
-    border: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
+  margin-bottom: 10px;
 `;
 
 const CashNotificationSettings = () => {

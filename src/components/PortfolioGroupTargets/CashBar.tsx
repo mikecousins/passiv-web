@@ -1,5 +1,7 @@
 import React from 'react';
 import Number from '../Number';
+import styled from '@emotion/styled';
+
 import {
   BarsContainer,
   Symbol,
@@ -17,7 +19,7 @@ type Props = {
   percentage: number;
   actualPercentage: number;
 };
-
+export const CashNums = styled.div``;
 export const CashBar = ({ edit, percentage, actualPercentage }: Props) => {
   if (!(typeof percentage === 'number')) {
     return <span>Loading</span>;
@@ -40,7 +42,7 @@ export const CashBar = ({ edit, percentage, actualPercentage }: Props) => {
           )}
         </BarTarget>
       </BarsContainer>
-      <TargetRow>
+      <TargetRow style={{ paddingRight: '98px' }}>
         <Symbol>Cash</Symbol>
         {edit && (
           <React.Fragment>
