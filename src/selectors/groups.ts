@@ -11,7 +11,9 @@ import {
 import {
   selectAccounts,
   selectAccountBalances,
+  selectCurrentAccountBalances,
   selectAccountPositions,
+  selectCurrentAccountPositions,
 } from './accounts';
 import { selectIsEditMode } from './router';
 import shouldUpdate from '../reactors/should-update';
@@ -910,5 +912,91 @@ export const selectDashboardGroups = createSelector(
     });
 
     return fullGroups;
+  },
+);
+
+export const selectCurrentAccountCash = createSelector<
+  AppState,
+  Balance[] | null,
+  Currency[] | null,
+  CurrencyRate[] | null,
+  Currency | null,
+  number | null
+>(
+  selectCurrentAccountBalances,
+  selectCurrencies,
+  selectCurrencyRates,
+  selectPreferredCurrency,
+  (balances, currencies, rates, preferredCurrency) => {
+    if (balances && currencies) {
+      let cash = 0;
+      balances.forEach(balance => {
+        if (preferredCurrency && balance.currency.id === preferredCurrency.id) {
+          cash += balance.cash;
+        } else {
+          if (!rates) {
+            return;
+          }
+          const conversionRate = rates.find(
+            rate =>
+              preferredCurrency &&
+              rate.src.id === balance.currency.id &&
+              rate.dst.id === preferredCurrency.id,
+          );
+          if (!conversionRate) {
+            return;
+          }
+          cash += balance.cash * conversionRate.exchange_rate;
+        }
+      });
+      return cash;
+    } else {
+      return null;
+    }
+  },
+);
+
+export const selectCurrentAccountBalancedEquity = createSelector(
+  selectCurrentAccountPositions,
+  selectCurrencies,
+  selectCurrencyRates,
+  selectPreferredCurrency,
+  (positions, currencies, rates, preferredCurrency) => {
+    if (!positions || !currencies || !rates || !preferredCurrency) {
+      return null;
+    }
+    let total = 0;
+    positions.forEach(position => {
+      if (
+        preferredCurrency &&
+        position.symbol.symbol.currency === preferredCurrency.id
+      ) {
+        total += position.units * position.price;
+      } else {
+        const conversionRate = rates.find(
+          rate =>
+            preferredCurrency &&
+            rate.src.id === position.symbol.symbol.currency &&
+            rate.dst.id === preferredCurrency.id,
+        );
+        if (!conversionRate) {
+          return;
+        }
+        total += position.units * position.price * conversionRate.exchange_rate;
+      }
+    });
+    return total;
+  },
+);
+
+export const selectCurrentAccountTotalEquity = createSelector(
+  selectCurrentAccountCash,
+  selectCurrentAccountBalancedEquity,
+  (cash, balancedEquity) => {
+    if (cash !== null && balancedEquity !== null) {
+      return cash + balancedEquity;
+    } else {
+      return null;
+    }
   },
 );

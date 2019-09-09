@@ -1,18 +1,11 @@
 import { createSelector } from 'reselect';
 import ms from 'milliseconds';
 import shouldUpdate from '../reactors/should-update';
-import {
-  selectLoggedIn,
-  selectAppTime,
-  selectCurrencies,
-  selectCurrencyRates,
-} from './index';
+import { selectLoggedIn, selectAppTime } from './index';
 import { AppState } from '../store';
 import { Balance } from '../types/groupInfo';
 import { SimpleListState } from '../reducers/simpleList';
 import { selectPathname } from './router';
-import { Currency } from '../types/currency';
-import { CurrencyRate } from '../types/currencyRate';
 import { Position } from '../types/account';
 
 export const selectAccountsRaw = (state: AppState) => state.accounts;
@@ -103,98 +96,5 @@ export const selectCurrentAccountPositions = createSelector<
       positions = allPositions[accountId].data;
     }
     return positions;
-  },
-);
-
-export const selectCurrentAccountBalancedEquity = createSelector(
-  selectCurrentAccountPositions,
-  selectCurrencies,
-  selectCurrencyRates,
-  (positions, currencies, rates) => {
-    if (!positions || !currencies || !rates) {
-      return null;
-    }
-    let total = 0;
-    positions.forEach(position => {
-      // convert to CAD for now
-      const preferredCurrency = currencies.find(
-        currency => currency.code === 'CAD',
-      );
-      if (!preferredCurrency) {
-        return;
-      }
-      if (position.symbol.symbol.currency === preferredCurrency.id) {
-        total += position.units * position.price;
-      } else {
-        const conversionRate = rates.find(
-          rate =>
-            rate.src.id === position.symbol.symbol.currency &&
-            rate.dst.id === preferredCurrency.id,
-        );
-        if (!conversionRate) {
-          return;
-        }
-        total += position.units * position.price * conversionRate.exchange_rate;
-      }
-    });
-    return total;
-  },
-);
-
-export const selectCurrentAccountCash = createSelector<
-  AppState,
-  Balance[] | null,
-  Currency[] | null,
-  CurrencyRate[] | null,
-  number | null
->(
-  selectCurrentAccountBalances,
-  selectCurrencies,
-  selectCurrencyRates,
-  (balances, currencies, rates) => {
-    if (balances && currencies) {
-      let cash = 0;
-      balances.forEach(balance => {
-        // convert to CAD for now
-        const preferredCurrency = currencies.find(
-          currency => currency.code === 'CAD',
-        );
-        if (!preferredCurrency) {
-          return;
-        }
-        // const preferredCurrency = groupInfo[group.id].data.preferredCurrency;
-        if (balance.currency.id === preferredCurrency.id) {
-          cash += balance.cash;
-        } else {
-          if (!rates) {
-            return;
-          }
-          const conversionRate = rates.find(
-            rate =>
-              rate.src.id === balance.currency.id &&
-              rate.dst.id === preferredCurrency.id,
-          );
-          if (!conversionRate) {
-            return;
-          }
-          cash += balance.cash * conversionRate.exchange_rate;
-        }
-      });
-      return cash;
-    } else {
-      return null;
-    }
-  },
-);
-
-export const selectCurrentAccountTotalEquity = createSelector(
-  selectCurrentAccountCash,
-  selectCurrentAccountBalancedEquity,
-  (cash, balancedEquity) => {
-    if (cash !== null && balancedEquity !== null) {
-      return cash + balancedEquity;
-    } else {
-      return null;
-    }
   },
 );
