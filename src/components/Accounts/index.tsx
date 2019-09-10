@@ -111,8 +111,6 @@ const Accounts = () => {
     }
 
     setGroupedAccounts(newList);
-
-    const setPortfolioGroup = () => {};
   };
 
   if (!accounts || accounts.length === 0 || !groupedAccounts) {
