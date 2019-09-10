@@ -39,17 +39,21 @@ const PortfolioGroupTotal = ({ error, equity, currency }: Props) => {
       );
   }
 
+  console.log('equity', equity);
+
   return (
     <ShadowBox background="#04a287">
       <Total>
         <Title>Total Value</Title>
         <CashGroup>
-          <CashType>
-            <span title={currency ? currency.name : ''}>
-              {currency && currency.code}
-            </span>
-          </CashType>
-          <CashType>{equityValue}</CashType>
+          {!error && (
+            <CashType>
+              <span title={currency ? currency.name : ''}>
+                {currency && currency.code}
+              </span>
+            </CashType>
+          )}
+          {equity !== undefined && <CashType>{equityValue}</CashType>}
         </CashGroup>
       </Total>
     </ShadowBox>
