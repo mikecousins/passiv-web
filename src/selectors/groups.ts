@@ -813,14 +813,15 @@ export interface DashboardGroup {
   hasSells?: boolean;
   trades?: CalculatedTrades;
   brokerage_authorizations?: BrokerageAuthorization[];
+  preferredCurrency?: Currency | null;
 }
 
 export const selectDashboardGroups = createSelector(
   selectGroups,
   selectGroupInfo,
+  selectCurrencies,
   selectCurrencyRates,
-  selectPreferredCurrency,
-  (groups, groupInfo, rates, preferredCurrency) => {
+  (groups, groupInfo, currencies, rates) => {
     const fullGroups: DashboardGroup[] = [];
     if (!groups || !rates) {
       return fullGroups;
@@ -833,21 +834,26 @@ export const selectDashboardGroups = createSelector(
         totalHoldings: 0,
         totalValue: null,
         hasSells: false,
+        preferredCurrency: null,
       };
       if (groupInfo[group.id] && groupInfo[group.id].data) {
         const groupData = groupInfo[group.id].data!;
+        group.preferredCurrency =
+          currencies &&
+          currencies.find(c => c.id === groupData.settings.preferred_currency);
+
         groupData.balances.forEach(balance => {
           if (
-            preferredCurrency &&
-            balance.currency.id === preferredCurrency.id
+            group.preferredCurrency &&
+            balance.currency.id === group.preferredCurrency.id
           ) {
             group.totalCash += balance.cash;
           } else {
             const conversionRate = rates.find(
               rate =>
-                preferredCurrency &&
+                group.preferredCurrency &&
                 rate.src.id === balance.currency.id &&
-                rate.dst.id === preferredCurrency.id,
+                rate.dst.id === group.preferredCurrency.id,
             );
             if (!conversionRate) {
               return;
@@ -857,16 +863,16 @@ export const selectDashboardGroups = createSelector(
         });
         groupData.positions.forEach(position => {
           if (
-            preferredCurrency &&
-            position.symbol.currency.id === preferredCurrency.id
+            group.preferredCurrency &&
+            position.symbol.currency.id === group.preferredCurrency.id
           ) {
             group.totalHoldings += position.units * position.price;
           } else {
             const conversionRate = rates.find(
               rate =>
-                preferredCurrency &&
+                group.preferredCurrency &&
                 rate.src.id === position.symbol.currency.id &&
-                rate.dst.id === preferredCurrency.id,
+                rate.dst.id === group.preferredCurrency.id,
             );
             if (!conversionRate) {
               return;
