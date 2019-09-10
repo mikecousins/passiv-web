@@ -8,6 +8,7 @@ import { postData, putData } from '../api';
 
 import CashNotifcationSettings from './CashNotificationSettings';
 import DriftNotifcationSettings from './DriftNotificationSettings';
+import PreferredCurrencySetting from './PortfolioGroupSettings/PreferredCurrencySetting';
 
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../styled/Form';
@@ -137,6 +138,20 @@ export class CredentialsManager extends React.Component {
           <H2>Notifications</H2>
           <CashNotifcationSettings />
           <DriftNotifcationSettings />
+          <PreferredCurrencySetting
+            settings={this.props.settings}
+            update={event => {
+              let settings = Object.assign({}, this.props.settings);
+              settings.preferred_currency = event.target.value;
+              putData('/api/v1/settings/', settings)
+                .then(response => {
+                  this.props.refreshSettings();
+                })
+                .catch(error => {
+                  this.props.refreshSettings();
+                });
+            }}
+          />
         </ShadowBox>
       </div>
     );
