@@ -7,6 +7,7 @@ import {
   selectCurrencyRates,
   selectRouter,
   selectState,
+  selectSettings,
 } from './index';
 import {
   selectAccounts,
@@ -265,6 +266,31 @@ export const selectPreferredCurrency = createSelector<
 >(
   selectCurrencies,
   selectCurrentGroupSettings,
+  (currencies, settings) => {
+    if (!currencies) {
+      return null;
+    }
+    if (!settings) {
+      return null;
+    }
+    const preferredCurrency = currencies.find(
+      currency => currency.id === settings.preferred_currency,
+    );
+    if (!preferredCurrency) {
+      return null;
+    }
+    return preferredCurrency;
+  },
+);
+
+export const selectGlobalPreferredCurrency = createSelector<
+  AppState,
+  Currency[] | null,
+  Settings | null,
+  Currency | null
+>(
+  selectCurrencies,
+  selectSettings,
   (currencies, settings) => {
     if (!currencies) {
       return null;
@@ -577,7 +603,7 @@ export const selectTotalGroupHoldings = createSelector(
   selectGroupInfo,
   selectCurrencies,
   selectCurrencyRates,
-  selectPreferredCurrency,
+  selectGlobalPreferredCurrency,
   (groups, groupInfo, currencies, rates, preferredCurrency) => {
     let total = 0;
     if (groups && rates && currencies) {
