@@ -80,6 +80,30 @@ const TargetBar = ({
     renderActualPercentage = actualPercentage;
   }
 
+  const deleteButton = (
+    <Close type="button" onClick={() => onDelete(key)}>
+      <FontAwesomeIcon icon={faTimes} />{' '}
+    </Close>
+  );
+
+  let excludedBar = null;
+  if (is_supported) {
+    excludedBar = (
+      <React.Fragment>
+        {edit && deleteButton}
+        <FontAwesomeIcon icon={faEyeSlash} />
+      </React.Fragment>
+    );
+  } else {
+    excludedBar = (
+      <React.Fragment>
+        <Disabled>
+          <FontAwesomeIcon icon={faEyeSlash} />
+        </Disabled>
+      </React.Fragment>
+    );
+  }
+
   return (
     <Container>
       {!is_excluded ? (
@@ -105,18 +129,10 @@ const TargetBar = ({
             )}
           </BarsContainer>
 
-          {edit && (
-            <Close type="button" onClick={() => onDelete(key)}>
-              <FontAwesomeIcon icon={faTimes} />{' '}
-            </Close>
-          )}
+          {edit && deleteButton}
         </React.Fragment>
-      ) : !is_excluded ? (
-        <FontAwesomeIcon icon={faEyeSlash} />
       ) : (
-        <Disabled>
-          <FontAwesomeIcon icon={faEyeSlash} />
-        </Disabled>
+        excludedBar
       )}
       <TargetRow style={{ flexWrap: 'wrap' }}>
         <Symbol>
@@ -131,7 +147,7 @@ const TargetBar = ({
               getOptionValue={(option: any) => option.id}
               placeholder="Search for security..."
             />
-          ) : !is_excluded ? (
+          ) : is_supported ? (
             fullSymbol.symbol
           ) : (
             <Disabled>{fullSymbol.symbol}</Disabled>
