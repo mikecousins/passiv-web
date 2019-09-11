@@ -35,12 +35,6 @@ import OrderImpacts from './OrderImpacts';
 const SummaryContainer = styled.div`
   text-align: left;
   margin-top: 25px;
-  button {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 700;
-    border-radius: 2px;
-  }
 `;
 
 const OrderContainer = styled.div`
