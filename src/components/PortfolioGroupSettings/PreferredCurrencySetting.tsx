@@ -15,7 +15,7 @@ const PreferredCurrencySetting = ({ settings, update }: Props) => {
       <select value={settings.preferred_currency} onChange={update}>
         {currencies &&
           currencies.map(currency => (
-            <option value={currency.id}>
+            <option key={currency.id} value={currency.id}>
               {currency.code} - {currency.name}
             </option>
           ))}
