@@ -117,6 +117,7 @@ export const AButton = styled.a`
   color: white;
   padding: 13px 18px 15px;
   margin: 5px;
+  border-radius: 4px;
 `;
 
 // edit

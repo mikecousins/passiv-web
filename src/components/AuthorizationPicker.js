@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { selectBrokerages } from '../selectors';
 import { postData } from '../api';
 import { Button } from '../styled/Button';
-import { DisabledButton } from '../styled/DisabledButton';
 import { StepButton } from '../styled/SignupSteps';
 import PlaidLink from 'react-plaid-link';
 
@@ -80,7 +79,7 @@ class AuthorizationPicker extends Component {
         });
     }
 
-    let submitButton = <DisabledButton disabled>Connect</DisabledButton>;
+    let submitButton = <Button disabled>Connect</Button>;
     if (this.state.brokerage && this.state.type) {
       if (this.props.publicToken) {
         submitButton = (

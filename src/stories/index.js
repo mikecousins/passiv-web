@@ -2,7 +2,6 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { Button } from '../styled/Button';
-import { DisabledButton } from '../styled/DisabledButton';
 import { LogoutButton } from '../styled/LogoutButton';
 import { PortfolioGroupTargets } from '../components/PortfolioGroupTargets';
 import GlobalStyle from '../styled/global';
@@ -14,10 +13,6 @@ storiesOf('Button', module).add('with text', () => (
 
 storiesOf('Button', module).add('log out', () => (
   <LogoutButton onClick={action('clicked')}>Logout</LogoutButton>
-));
-
-storiesOf('Button', module).add('disabled', () => (
-  <DisabledButton onClick={action('clicked')}>Submit</DisabledButton>
 ));
 
 storiesOf('PortfolioGroupTargets', module)

@@ -10,11 +10,6 @@ export const Button = styled.button`
   border-radius: 4px;
 `;
 
-export const SmallButton = styled.button`
-  background-color: ${props => (props.disabled ? '#003aa1' : '#003BA2')};
-  opacity: ${props => (props.disabled ? '.7' : '1')};
-  border: none;
-  color: white;
+export const SmallButton = styled(Button)`
   padding: 5px;
-  margin: 5px;
 `;
