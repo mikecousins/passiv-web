@@ -73,11 +73,7 @@ const SubscriptionManager = () => {
         <SubscriptionCoupon />
         {!creatingSubscription && (
           <div>
-            <Button
-              onClick={() => {
-                setCreatingSubscription(true);
-              }}
-            >
+            <Button onClick={() => setCreatingSubscription(true)}>
               Upgrade to Elite
             </Button>
           </div>
