@@ -103,29 +103,21 @@ export const TargetSelector = ({
 
   let iValue = 0;
   console.log('target', target);
-  target
-    .filter(
-      target => target.is_supported === true && target.is_excluded === false,
-    )
-    .map((target, index) => {
-      iValue = index + 1;
-      portfolioVisualizerURLParts.push(
-        `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${target.percent}`,
-      );
-      return null;
-    });
+  target.map((target, index) => {
+    iValue = index + 1;
+    portfolioVisualizerURLParts.push(
+      `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${target.percent}`,
+    );
+    return null;
+  });
   let cashPercentage =
     100 -
-    target
-      .filter(
-        target => target.is_supported === true && target.is_excluded === false,
-      )
-      .reduce((total, target) => {
-        if (!target.deleted && target.percent && target.is_supported) {
-          return total + parseFloat(target.percent);
-        }
-        return total;
-      }, 0);
+    target.reduce((total, target) => {
+      if (!target.deleted && target.percent) {
+        return total + parseFloat(target.percent);
+      }
+      return total;
+    }, 0);
   if (cashPercentage > 0) {
     iValue += 1;
     portfolioVisualizerURLParts.push(
