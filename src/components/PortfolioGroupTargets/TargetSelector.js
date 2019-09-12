@@ -105,9 +105,9 @@ export const TargetSelector = ({
   console.log('target', target);
   target
     .filter(
-      target => target.is_supported == true && target.is_excluded == false,
+      target => target.is_supported === true && target.is_excluded === false,
     )
-    .map((target: any, index: number) => {
+    .map((target, index) => {
       iValue = index + 1;
       portfolioVisualizerURLParts.push(
         `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${target.percent}`,
@@ -118,9 +118,9 @@ export const TargetSelector = ({
     100 -
     target
       .filter(
-        target => target.is_supported == true && target.is_excluded == false,
+        target => target.is_supported === true && target.is_excluded === false,
       )
-      .reduce((total: number, target: any) => {
+      .reduce((total, target) => {
         if (!target.deleted && target.percent && target.is_supported) {
           return total + parseFloat(target.percent);
         }
@@ -361,25 +361,9 @@ export const TargetSelector = ({
                         </Edit>
                       </div>
                       <div>
-                        {cashPercentage > 0 ? (
-                          <AButton
-                            href={
-                              cashPercentage > 0 ? null : portfolioVisualizerURL
-                            }
-                            target="_blank"
-                            disabled={true}
-                            data-tip="Portfolio Visualizer is only available when your cash target allocation is 0%."
-                          >
-                            Portfolio Visualizer
-                          </AButton>
-                        ) : (
-                          <AButton
-                            href={portfolioVisualizerURL}
-                            target="_blank"
-                          >
-                            Portfolio Visualizer
-                          </AButton>
-                        )}
+                        <AButton href={portfolioVisualizerURL} target="_blank">
+                          Portfolio Visualizer
+                        </AButton>
                       </div>
                     </ButtonBox>
                   )}
