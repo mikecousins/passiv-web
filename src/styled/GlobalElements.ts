@@ -66,13 +66,17 @@ export const BulletUL = styled.ul`
   }
 `;
 
+type SpaceAroundProps = {
+  spaceAround?: boolean;
+};
+
 // table
-export const Table = styled.div`
+export const Table = styled.div<SpaceAroundProps>`
   display: block;
   justify-content: inherit;
   @media (min-width: 900px) {
     display: flex;
-    justify-content: ${(props: any) =>
+    justify-content: ${(props: SpaceAroundProps) =>
       props.spaceAround ? 'inherit' : 'space-between'};
   }
 `;
