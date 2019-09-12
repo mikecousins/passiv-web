@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { selectSettings } from '../selectors';
+import { selectSettings, selectIsDemo } from '../selectors';
 import { loadSettings } from '../actions';
 import { postData, putData } from '../api';
 
@@ -129,7 +129,12 @@ export class CredentialsManager extends React.Component {
                   <Edit onClick={() => this.sendPasswordResetOkay()}>Okay</Edit>
                 </React.Fragment>
               ) : (
-                <A onClick={() => this.sendPasswordReset()}>Change Password</A>
+                <A
+                  onClick={() => !this.props.isDemo && this.sendPasswordReset()}
+                  disabled={this.props.isDemo}
+                >
+                  Change Password
+                </A>
               )}
             </InputContainer>
           </TextContainer>
@@ -160,6 +165,7 @@ export class CredentialsManager extends React.Component {
 
 const select = state => ({
   settings: selectSettings(state),
+  isDemo: selectIsDemo(state),
 });
 const actions = {
   refreshSettings: loadSettings,

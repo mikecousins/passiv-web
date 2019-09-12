@@ -6,7 +6,11 @@ import {
   faCheck,
   faGripVertical,
 } from '@fortawesome/free-solid-svg-icons';
-import { selectBrokerages, selectAuthorizations } from '../../selectors';
+import {
+  selectBrokerages,
+  selectAuthorizations,
+  selectIsDemo,
+} from '../../selectors';
 import { selectGroups } from '../../selectors/groups';
 import { loadAccounts, loadGroups } from '../../actions';
 import { putData } from '../../api';
@@ -40,6 +44,7 @@ export const AccountRow = ({ account }: Props) => {
   const authorizations = useSelector(selectAuthorizations);
   const groups = useSelector(selectGroups);
   const canCrossAccountBalance = useSelector(selectCanCrossAccountBalance);
+  const isDemo = useSelector(selectIsDemo);
 
   const dispatch = useDispatch();
 
@@ -163,7 +168,7 @@ export const AccountRow = ({ account }: Props) => {
             <P>
               {' '}
               {account.name}
-              <Edit onClick={() => setNameEditing(true)}>
+              <Edit onClick={() => setNameEditing(true)} disabled={isDemo}>
                 <FontAwesomeIcon icon={faPen} />
                 Edit
               </Edit>

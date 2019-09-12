@@ -56,6 +56,7 @@ class ConnectionUpdate extends React.Component {
           type={this.state.defaultType}
           name={this.props.name}
           publicToken={this.state.publicToken}
+          isDemo={this.props.isDemo}
         />
       </React.Fragment>
     );

@@ -104,6 +104,7 @@ export const A = styled.a`
   text-align: left;
   color: #1250be;
   cursor: pointer;
+  opacity: ${(props: any) => (props.disabled ? '.7' : '1')};
 `;
 
 // a that looks like button
@@ -128,6 +129,7 @@ export const AButton = styled.a`
 export const Edit = styled.button`
   color: var(--brand-blue);
   margin-left: 10px;
+  opacity: ${props => (props.disabled ? '.7' : '1')};
   svg {
     padding-right: 3px;
   }

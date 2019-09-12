@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
-import { selectBrokerages, selectAuthorizations } from '../selectors';
+import {
+  selectBrokerages,
+  selectAuthorizations,
+  selectIsDemo,
+} from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
 import { initialLoad, loadBrokerages } from '../actions';
 import AuthorizationPicker from '../components/AuthorizationPicker';
@@ -68,6 +72,7 @@ export class ConnectionsManager extends React.Component {
               onClick={() => {
                 this.startCreatingNewConnection();
               }}
+              disabled={this.props.isDemo}
             >
               {this.props.authorizations && this.props.authorizations.length > 0
                 ? 'Add Another Connection'
@@ -84,6 +89,7 @@ const select = state => ({
   brokerages: selectBrokerages(state),
   authorizations: selectAuthorizations(state),
   userPermissions: selectUserPermissions(state),
+  isDemo: selectIsDemo(state),
 });
 const actions = {
   reloadAllState: initialLoad,

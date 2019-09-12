@@ -13,9 +13,10 @@ const ConnectionsDelete = styled.div`
 
 type Props = {
   authorization: any;
+  isDemo: boolean;
 };
 
-export const ConnectionDelete = ({ authorization }: Props) => {
+export const ConnectionDelete = ({ authorization, isDemo }: Props) => {
   const [deleting, setDeleting] = useState(false);
   const dispatch = useDispatch();
 
@@ -53,6 +54,7 @@ export const ConnectionDelete = ({ authorization }: Props) => {
             onClick={() => {
               confirmDelete(authorization);
             }}
+            disabled={isDemo}
           >
             Yes
           </DeleteButton>
@@ -62,6 +64,7 @@ export const ConnectionDelete = ({ authorization }: Props) => {
           onClick={() => {
             setDeleting(true);
           }}
+          disabled={isDemo}
         >
           Delete
         </DeleteButton>

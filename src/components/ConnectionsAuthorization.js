@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectAuthorizations } from '../selectors';
+import { selectAuthorizations, selectIsDemo } from '../selectors';
 import { loadAuthorizations } from '../actions';
 import { putData } from '../api';
 
@@ -121,7 +121,10 @@ class ConnectionsAuthorization extends React.Component {
               {!nameEditting ? (
                 <P>
                   {authorization_name}
-                  <Edit onClick={() => this.setState({ nameEditting: true })}>
+                  <Edit
+                    onClick={() => this.setState({ nameEditting: true })}
+                    disabled={this.props.isDemo}
+                  >
                     <FontAwesomeIcon icon={faPen} />
                     Edit
                   </Edit>
@@ -181,8 +184,14 @@ class ConnectionsAuthorization extends React.Component {
           <ConnectionActions>
             <Table>
               <ConnectionAccounts authorizationId={authorization.id} />
-              <ConnectionUpdate authorization={authorization} />
-              <ConnectionDelete authorization={authorization} />
+              <ConnectionUpdate
+                authorization={authorization}
+                isDemo={this.props.isDemo}
+              />
+              <ConnectionDelete
+                authorization={authorization}
+                isDemo={this.props.isDemo}
+              />
             </Table>
           </ConnectionActions>
         ) : null}
@@ -193,6 +202,7 @@ class ConnectionsAuthorization extends React.Component {
 
 const select = state => ({
   authorizations: selectAuthorizations(state),
+  isDemo: selectIsDemo(state),
 });
 const actions = {
   refreshAuthorizations: loadAuthorizations,

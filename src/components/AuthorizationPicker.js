@@ -103,6 +103,7 @@ class AuthorizationPicker extends Component {
             onClick={() => {
               this.startAuthorization();
             }}
+            disabled={this.props.isDemo}
           >
             {this.state.name}
           </Button>
