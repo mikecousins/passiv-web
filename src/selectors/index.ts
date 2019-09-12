@@ -75,11 +75,36 @@ export const selectCurrenciesNeedData = createSelector<
   },
 );
 
+export const selectSettingsRaw = (state: AppState) => state.settings;
+
+export const selectSettings = createSelector(
+  selectSettingsRaw,
+  rawSettings => {
+    if (rawSettings.data) {
+      return rawSettings.data;
+    }
+  },
+);
+
+export const selectIsDemo = createSelector(
+  selectSettings,
+  settings => {
+    if (settings) {
+      return settings.demo;
+    }
+  },
+);
+
 export const selectBrokerages = createSelector(
   selectBrokeragesRaw,
-  rawBrokerages => {
+  selectIsDemo,
+  (rawBrokerages, isDemo) => {
     if (rawBrokerages.data) {
-      return rawBrokerages.data.filter(b => b.enabled === true);
+      let brokerages = rawBrokerages.data;
+      if (!isDemo) {
+        brokerages = brokerages.filter(b => b.enabled === true);
+      }
+      return brokerages;
     }
   },
 );
@@ -120,17 +145,6 @@ export const selectAuthorizationsNeedData = createSelector(
       staleTime: ms.minutes(10),
       now: time,
     });
-  },
-);
-
-export const selectSettingsRaw = (state: AppState) => state.settings;
-
-export const selectSettings = createSelector(
-  selectSettingsRaw,
-  rawSettings => {
-    if (rawSettings.data) {
-      return rawSettings.data;
-    }
   },
 );
 
