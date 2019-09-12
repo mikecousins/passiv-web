@@ -39,8 +39,6 @@ const PortfolioGroupTotal = ({ error, equity, currency }: Props) => {
       );
   }
 
-  console.log('equity', equity);
-
   return (
     <ShadowBox background="#04a287">
       <Total>
