@@ -28,8 +28,12 @@ const Demo = () => (
   <DemoStyle>
     This demo is powered by{' '}
     <LogoContainer>
-      <a href="https://alpaca.markets/" target="_blank">
-        <img src={AlpacaLogo} />
+      <a
+        href="https://alpaca.markets/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src={AlpacaLogo} alt="Alpaca Logo" />
       </a>
     </LogoContainer>
   </DemoStyle>
