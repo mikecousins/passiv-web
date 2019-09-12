@@ -9,6 +9,9 @@ type Props = {
 
 const PreferredCurrencySetting = ({ settings, update }: Props) => {
   const currencies = useSelector(selectCurrencies);
+  if (!settings) {
+    return null;
+  }
   return (
     <div>
       <span>Preferred Currency: </span>
