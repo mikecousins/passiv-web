@@ -79,7 +79,7 @@ export const selectBrokerages = createSelector(
   selectBrokeragesRaw,
   rawBrokerages => {
     if (rawBrokerages.data) {
-      return rawBrokerages.data;
+      return rawBrokerages.data.filter(b => b.enabled === true);
     }
   },
 );
