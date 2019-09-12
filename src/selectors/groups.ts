@@ -1032,3 +1032,50 @@ export const selectCurrentAccountTotalEquity = createSelector(
     }
   },
 );
+
+export type Group = {
+  groupId: string;
+  name: string;
+  accounts: Account[];
+};
+
+export const selectGroupedAccounts = createSelector(
+  selectAccounts,
+  selectGroups,
+  (accounts, groups) => {
+    if (!accounts || !groups) {
+      return null;
+    }
+
+    // sort by group
+    accounts.sort((a, b) => {
+      if (a.portfolio_group < b.portfolio_group) {
+        return -1;
+      }
+      if (a.portfolio_group > b.portfolio_group) {
+        return 1;
+      }
+      return 0;
+    });
+
+    const groupedAccounts: Group[] = [];
+    groups.forEach(group => {
+      groupedAccounts.push({
+        groupId: group.id,
+        accounts: [],
+        name: group.name,
+      });
+    });
+
+    accounts.forEach(account => {
+      const group = groupedAccounts.find(
+        g => g.groupId === account.portfolio_group,
+      );
+      if (group) {
+        group.accounts.push(account);
+      }
+    });
+
+    return groupedAccounts;
+  },
+);

@@ -6,10 +6,9 @@ import {
   Draggable,
   DropResult,
 } from 'react-beautiful-dnd';
-import { selectAccounts } from '../../selectors/accounts';
+import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
 import AddPortfolioGroup from './AddPortfolioGroup';
-import { Account } from '../../types/account';
 import AccountGroup from './AccountGroup';
 import { putData } from '../../api';
 import { toast } from 'react-toastify';
@@ -34,47 +33,12 @@ const getListStyle = (isDraggingOver: boolean) => ({
   padding: grid,
 });
 
-type Group = {
-  groupId: string;
-  accounts: Account[];
-};
-
 const Accounts = () => {
-  const accounts = useSelector(selectAccounts);
-  const [groupedAccounts, setGroupedAccounts] = useState<Group[]>();
+  const accounts = useSelector(selectGroupedAccounts);
 
-  // group our accounts
-  useEffect(() => {
-    // sort by group
-    accounts.sort((a, b) => {
-      if (a.portfolio_group < b.portfolio_group) {
-        return -1;
-      }
-      if (a.portfolio_group > b.portfolio_group) {
-        return 1;
-      }
-      return 0;
-    });
+  const [localAccounts, setLocalAccounts] = useState(accounts);
 
-    // create nested array by group
-    const groupedAccounts: Group[] = [];
-    accounts.forEach(account => {
-      let lastGroup = '';
-      if (groupedAccounts.length > 0) {
-        lastGroup = groupedAccounts[groupedAccounts.length - 1].groupId;
-      }
-
-      if (account.portfolio_group === lastGroup) {
-        groupedAccounts[groupedAccounts.length - 1].accounts.push(account);
-      } else {
-        groupedAccounts.push({
-          groupId: account.portfolio_group,
-          accounts: [account],
-        });
-      }
-    });
-    setGroupedAccounts(groupedAccounts);
-  }, [accounts]);
+  useEffect(() => setLocalAccounts(accounts), [accounts]);
 
   const onDragEnd = (result: DropResult) => {
     // dropped outside the list
@@ -82,11 +46,11 @@ const Accounts = () => {
       return;
     }
 
-    if (!groupedAccounts) {
+    if (!localAccounts) {
       return;
     }
 
-    const newList: Group[] = Array.from(groupedAccounts);
+    const newList: Group[] = Array.from(localAccounts);
     const sourceList = newList.find(
       group => group.groupId === result.source.droppableId,
     );
@@ -110,17 +74,17 @@ const Accounts = () => {
         });
     }
 
-    setGroupedAccounts(newList);
+    setLocalAccounts(newList);
   };
 
-  if (!accounts || accounts.length === 0 || !groupedAccounts) {
+  if (!accounts || accounts.length === 0 || !localAccounts) {
     return null;
   }
 
-  // TODO disable drag and drop if non-paying or on mobile
+  // TODO disable drag and drop if non-paying
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      {groupedAccounts.map(group => (
+      {localAccounts.map(group => (
         <Droppable droppableId={group.groupId} key={group.groupId}>
           {(provided, snapshot) => (
             <div
@@ -128,7 +92,7 @@ const Accounts = () => {
               ref={provided.innerRef}
               style={getListStyle(snapshot.isDraggingOver)}
             >
-              <AccountGroup name={group.groupId}>
+              <AccountGroup name={group.name}>
                 {group.accounts.map((account, index) => (
                   <Draggable
                     key={account.id}

@@ -6,7 +6,7 @@ import { selectBrokerages, selectAuthorizations } from '../../selectors';
 import { selectGroups } from '../../selectors/groups';
 import { loadAccounts, loadGroups } from '../../actions';
 import { putData } from '../../api';
-import PortfolioGroupPicker from '../PortfolioGroupPicker';
+// import PortfolioGroupPicker from '../PortfolioGroupPicker';
 import { InputNonFormik } from '../../styled/Form';
 import { Table, H3, P, Edit, A } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
@@ -18,7 +18,7 @@ import {
   InputContainer,
   Number,
   Type,
-  PortfolioGroup,
+  // PortfolioGroup,
 } from './styles';
 import { Account } from '../../types/account';
 
@@ -146,68 +146,66 @@ export const AccountRow = ({ account }: Props) => {
   }
 
   return (
-    <React.Fragment>
-      <AccountContainer>
-        <Table>
-          <Brokerage>
-            <H3>Brokerage</H3>
-            <P>{brokerageName}</P>
-          </Brokerage>
-          <Name>
-            <H3>Name</H3>
-            {!nameEditing ? (
-              <P>
-                {' '}
-                {account.name}
-                <Edit onClick={() => setNameEditing(true)}>
-                  <FontAwesomeIcon icon={faPen} />
-                  Edit
-                </Edit>
-              </P>
-            ) : (
-              <InputContainer>
-                <InputNonFormik
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                  onKeyPress={onEnter}
-                />
-                <Edit onClick={() => setAccountName()}>
-                  <FontAwesomeIcon icon={faCheck} />
-                  Done
-                </Edit>
-              </InputContainer>
-            )}
-          </Name>
-          <Number>
-            <H3>Number</H3>
-            <P> {account.number} </P>
-          </Number>
-          <Type>
-            <H3>Type</H3>
-            <P> {formatAccountType(account, brokerageName)} </P>
-          </Type>
-          <PortfolioGroup>
-            <H3>Portfolio Group</H3>
-            {!groupEditing ? (
-              <P>
-                {group && group.name}
-                <Edit onClick={() => setGroupEditing(true)}>
-                  <FontAwesomeIcon icon={faPen} />
-                  Edit
-                </Edit>
-              </P>
-            ) : (
-              <PortfolioGroupPicker
-                group={newGroupId}
-                onChange={(e: any) => setNewGroupId(e.target.value)}
-                disabled={!canCrossAccountBalance}
+    <AccountContainer>
+      <Table>
+        <Brokerage>
+          <H3>Brokerage</H3>
+          <P>{brokerageName}</P>
+        </Brokerage>
+        <Name>
+          <H3>Name</H3>
+          {!nameEditing ? (
+            <P>
+              {' '}
+              {account.name}
+              <Edit onClick={() => setNameEditing(true)}>
+                <FontAwesomeIcon icon={faPen} />
+                Edit
+              </Edit>
+            </P>
+          ) : (
+            <InputContainer>
+              <InputNonFormik
+                value={name}
+                onChange={e => setName(e.target.value)}
+                onKeyPress={onEnter}
               />
-            )}
-          </PortfolioGroup>
-        </Table>
-        {groupEditing && editingFooter}
-      </AccountContainer>
-    </React.Fragment>
+              <Edit onClick={() => setAccountName()}>
+                <FontAwesomeIcon icon={faCheck} />
+                Done
+              </Edit>
+            </InputContainer>
+          )}
+        </Name>
+        <Number>
+          <H3>Number</H3>
+          <P> {account.number} </P>
+        </Number>
+        <Type>
+          <H3>Type</H3>
+          <P> {formatAccountType(account, brokerageName)} </P>
+        </Type>
+        {/* <PortfolioGroup>
+          <H3>Portfolio Group</H3>
+          {!groupEditing ? (
+            <P>
+              {group && group.name}
+              <Edit onClick={() => setGroupEditing(true)}>
+                <FontAwesomeIcon icon={faPen} />
+                Edit
+              </Edit>
+            </P>
+          ) : (
+            <PortfolioGroupPicker
+              group={newGroupId}
+              onChange={(e: any) => setNewGroupId(e.target.value)}
+              disabled={!canCrossAccountBalance}
+            />
+          )}
+          </PortfolioGroup> */}
+      </Table>
+      {groupEditing && editingFooter}
+    </AccountContainer>
   );
 };
 
