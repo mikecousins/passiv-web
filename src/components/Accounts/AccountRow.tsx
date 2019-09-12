@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPen,
+  faCheck,
+  faGripVertical,
+} from '@fortawesome/free-solid-svg-icons';
 import { selectBrokerages, selectAuthorizations } from '../../selectors';
 import { selectGroups } from '../../selectors/groups';
 import { loadAccounts, loadGroups } from '../../actions';
@@ -148,6 +152,7 @@ export const AccountRow = ({ account }: Props) => {
   return (
     <AccountContainer>
       <Table>
+        <FontAwesomeIcon icon={faGripVertical} size="3x" />
         <Brokerage>
           <H3>Brokerage</H3>
           <P>{brokerageName}</P>

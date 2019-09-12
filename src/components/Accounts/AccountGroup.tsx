@@ -1,4 +1,5 @@
 import React from 'react';
+import { H3 } from '../../styled/GlobalElements';
 
 type Props = {
   name: string;
@@ -7,7 +8,7 @@ type Props = {
 
 const AccountGroup = ({ name, children }: Props) => (
   <div>
-    <h3>{name}</h3>
+    <H3>{name}</H3>
     {children}
   </div>
 );
