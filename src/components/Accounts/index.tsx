@@ -6,39 +6,37 @@ import {
   Draggable,
   DropResult,
 } from 'react-beautiful-dnd';
+import { toast } from 'react-toastify';
 import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
 import AddPortfolioGroup from './AddPortfolioGroup';
 import AccountGroup from './AccountGroup';
 import { putData } from '../../api';
-import { toast } from 'react-toastify';
-
-const grid = 8;
-
-const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: 'none',
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'grey',
-
-  // styles we need to apply on draggables
-  ...draggableStyle,
-});
-
-const getListStyle = (isDraggingOver: boolean) => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  padding: grid,
-});
 
 const Accounts = () => {
   const accounts = useSelector(selectGroupedAccounts);
-
   const [localAccounts, setLocalAccounts] = useState(accounts);
 
+  // when we get new accounts back from the server, reset our accounts
   useEffect(() => setLocalAccounts(accounts), [accounts]);
+
+  const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
+    // some basic styles to make the items look a bit nicer
+    userSelect: 'none',
+    padding: 16,
+    margin: `0 0 8px 0`,
+
+    // change background colour if dragging
+    background: isDragging ? 'lightgreen' : 'grey',
+
+    // styles we need to apply on draggables
+    ...draggableStyle,
+  });
+
+  const getListStyle = (isDraggingOver: boolean) => ({
+    background: isDraggingOver ? 'lightblue' : 'lightgrey',
+    padding: 8,
+  });
 
   const onDragEnd = (result: DropResult) => {
     // dropped outside the list
@@ -77,7 +75,7 @@ const Accounts = () => {
     setLocalAccounts(newList);
   };
 
-  if (!accounts || accounts.length === 0 || !localAccounts) {
+  if (!localAccounts) {
     return null;
   }
 
