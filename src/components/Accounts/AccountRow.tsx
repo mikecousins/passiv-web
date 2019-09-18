@@ -1,52 +1,26 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPen,
-  faCheck,
-  faGripVertical,
-} from '@fortawesome/free-solid-svg-icons';
-import {
-  selectBrokerages,
-  selectAuthorizations,
-  selectIsDemo,
-} from '../../selectors';
+import { selectBrokerages, selectAuthorizations } from '../../selectors';
 import { selectGroups } from '../../selectors/groups';
 import { loadAccounts, loadGroups } from '../../actions';
 import { putData } from '../../api';
-// import PortfolioGroupPicker from '../PortfolioGroupPicker';
-import { InputNonFormik } from '../../styled/Form';
-import { Table, H3, P, Edit, A } from '../../styled/GlobalElements';
+import { Table, H3, P, A } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
-import {
-  AccountContainer,
-  Brokerage,
-  Name,
-  InputContainer,
-  Number,
-  Type,
-  // PortfolioGroup,
-} from './styles';
+import { AccountContainer, Brokerage, Name, Number, Type } from './styles';
 import { Account } from '../../types/account';
 
 type Props = {
   account: Account;
-  isDraggable: boolean;
 };
 
-export const AccountRow = ({ account, isDraggable }: Props) => {
-  const [nameEditing, setNameEditing] = useState(false);
+export const AccountRow = ({ account }: Props) => {
   const [groupEditing, setGroupEditing] = useState(false);
-  const [name, setName] = useState(account.name);
   const [newGroupId, setNewGroupId] = useState();
-
   const brokerages = useSelector(selectBrokerages);
   const authorizations = useSelector(selectAuthorizations);
   const groups = useSelector(selectGroups);
   const canCrossAccountBalance = useSelector(selectCanCrossAccountBalance);
-  const isDemo = useSelector(selectIsDemo);
-
   const dispatch = useDispatch();
 
   if (!groups) {
@@ -57,31 +31,6 @@ export const AccountRow = ({ account, isDraggable }: Props) => {
   if (group && !newGroupId) {
     setNewGroupId(group.id);
   }
-
-  const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      setAccountName();
-    }
-  };
-
-  const setAccountName = () => {
-    if (name !== account.name) {
-      const newAccount = {
-        ...account,
-        name,
-      };
-      putData(`/api/v1/accounts/${account.id}`, newAccount)
-        .then(() => {
-          dispatch(loadAccounts());
-          dispatch(loadGroups());
-        })
-        .catch(() => {
-          dispatch(loadAccounts());
-          dispatch(loadGroups());
-        });
-    }
-    setNameEditing(false);
-  };
 
   const setPortfolioGroup = () => {
     const newAccount = {
@@ -158,35 +107,13 @@ export const AccountRow = ({ account, isDraggable }: Props) => {
   return (
     <AccountContainer>
       <Table>
-        {isDraggable && <FontAwesomeIcon icon={faGripVertical} size="3x" />}
         <Brokerage>
           <H3>Brokerage</H3>
           <P>{brokerageName}</P>
         </Brokerage>
         <Name>
           <H3>Name</H3>
-          {!nameEditing ? (
-            <P>
-              {' '}
-              {account.name}
-              <Edit onClick={() => setNameEditing(true)} disabled={isDemo}>
-                <FontAwesomeIcon icon={faPen} />
-                Edit
-              </Edit>
-            </P>
-          ) : (
-            <InputContainer>
-              <InputNonFormik
-                value={name}
-                onChange={e => setName(e.target.value)}
-                onKeyPress={onEnter}
-              />
-              <Edit onClick={() => setAccountName()}>
-                <FontAwesomeIcon icon={faCheck} />
-                Done
-              </Edit>
-            </InputContainer>
-          )}
+          <P>{account.name}</P>
         </Name>
         <Number>
           <H3>Number</H3>
@@ -196,24 +123,6 @@ export const AccountRow = ({ account, isDraggable }: Props) => {
           <H3>Type</H3>
           <P> {formatAccountType(account, brokerageName)} </P>
         </Type>
-        {/* <PortfolioGroup>
-          <H3>Portfolio Group</H3>
-          {!groupEditing ? (
-            <P>
-              {group && group.name}
-              <Edit onClick={() => setGroupEditing(true)}>
-                <FontAwesomeIcon icon={faPen} />
-                Edit
-              </Edit>
-            </P>
-          ) : (
-            <PortfolioGroupPicker
-              group={newGroupId}
-              onChange={(e: any) => setNewGroupId(e.target.value)}
-              disabled={!canCrossAccountBalance}
-            />
-          )}
-          </PortfolioGroup> */}
       </Table>
       {groupEditing && editingFooter}
     </AccountContainer>
