@@ -48,9 +48,6 @@ const stripePublicKey =
     ? 'pk_live_LTLbjcwtt6gUmBleYqVVhMFX'
     : 'pk_test_UEivjUoJpfSDWq5i4xc64YNK';
 
-console.log(process.env.REACT_APP_BASE_URL_OVERRIDE);
-console.log(stripePublicKey);
-
 const App = () => {
   const [stripe, setStripe] = useState<any>(null);
   useEffect(() => {
