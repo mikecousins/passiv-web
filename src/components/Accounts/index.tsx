@@ -152,10 +152,7 @@ const Accounts = () => {
                             provided.draggableProps.style,
                           )}
                         >
-                          <AccountRow
-                            account={account}
-                            isDraggable={isEditing}
-                          />
+                          <AccountRow account={account} />
                         </div>
                       )}
                     </Draggable>
