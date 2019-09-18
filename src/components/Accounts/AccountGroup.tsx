@@ -1,5 +1,4 @@
 import React from 'react';
-import { H3 } from '../../styled/GlobalElements';
 import styled from '@emotion/styled';
 
 export const GroupHeading = styled.h3`

@@ -15,7 +15,6 @@ import AddPortfolioGroup from './AddPortfolioGroup';
 import AccountGroup from './AccountGroup';
 import { putData } from '../../api';
 import { H2, A, Edit } from '../../styled/GlobalElements';
-import { Button } from '../../styled/Button';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 import styled from '@emotion/styled';
 

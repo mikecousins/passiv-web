@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPen,
-  faCheck,
-  faGripVertical,
-} from '@fortawesome/free-solid-svg-icons';
 import {
   selectBrokerages,
   selectAuthorizations,
@@ -15,8 +9,7 @@ import { selectGroups } from '../../selectors/groups';
 import { loadAccounts, loadGroups } from '../../actions';
 import { putData } from '../../api';
 // import PortfolioGroupPicker from '../PortfolioGroupPicker';
-import { InputNonFormik } from '../../styled/Form';
-import { Table, H3, P, Edit, A } from '../../styled/GlobalElements';
+import { Table, H3, P, A } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 import {
