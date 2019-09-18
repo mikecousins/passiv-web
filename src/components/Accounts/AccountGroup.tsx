@@ -3,7 +3,7 @@ import { H3 } from '../../styled/GlobalElements';
 
 type Props = {
   name: string;
-  children: JSX.Element[];
+  children?: JSX.Element[];
 };
 
 const AccountGroup = ({ name, children }: Props) => (

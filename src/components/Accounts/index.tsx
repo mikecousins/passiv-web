@@ -53,6 +53,10 @@ const Accounts = () => {
       return;
     }
 
+    if (result.destination.droppableId === 'new') {
+      // TODO add logic to handle this
+    }
+
     const newList: Group[] = Array.from(localAccounts);
     const sourceList = newList.find(
       group => group.groupId === result.source.droppableId,
@@ -84,7 +88,6 @@ const Accounts = () => {
     return null;
   }
 
-  // TODO disable drag and drop if non-paying
   return (
     <React.Fragment>
       <H2>
@@ -94,7 +97,7 @@ const Accounts = () => {
         ) : (
           <Button
             onClick={() => setIsEditing(true)}
-            disabled={canCrossAccountBalance}
+            disabled={!canCrossAccountBalance}
           >
             Create/Edit Groups
           </Button>
