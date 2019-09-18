@@ -6,15 +6,30 @@ import {
   Draggable,
   DropResult,
 } from 'react-beautiful-dnd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
 import AddPortfolioGroup from './AddPortfolioGroup';
 import AccountGroup from './AccountGroup';
 import { putData } from '../../api';
-import { H2 } from '../../styled/GlobalElements';
+import { H2, A, Edit } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
+import styled from '@emotion/styled';
+
+export const Header = styled.form`
+  h2 {
+    display: inline-block;
+  }
+  a {
+    margin-left: 14px;
+  }
+  svg {
+    margin-right: 3px;
+  }
+`;
 
 const Accounts = () => {
   const accounts = useSelector(selectGroupedAccounts);
@@ -28,19 +43,23 @@ const Accounts = () => {
   const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
-    padding: 16,
+    padding: `1px 20px 7px`,
     margin: `0 0 8px 0`,
 
     // change background colour if dragging
-    background: isDragging ? 'lightgreen' : 'grey',
+    background: isDragging ? '#b5f3e8' : '#F1F1F1',
+
+    borderRight: isEditing ? `18px solid #03a287` : `none`,
 
     // styles we need to apply on draggables
     ...draggableStyle,
   });
 
   const getListStyle = (isDraggingOver: boolean) => ({
-    background: isDraggingOver ? 'lightblue' : 'lightgrey',
     padding: 8,
+    marginBottom: 20,
+    border: `1px solid #2a2d34`,
+    marginTop: 40,
   });
 
   const onDragEnd = (result: DropResult) => {
@@ -90,19 +109,23 @@ const Accounts = () => {
 
   return (
     <React.Fragment>
-      <H2>
-        Accounts&nbsp;
+      <Header>
+        <H2>Accounts&nbsp;</H2>
         {isEditing ? (
-          <Button onClick={() => setIsEditing(false)}>Done</Button>
+          <A onClick={() => setIsEditing(false)}>
+            <FontAwesomeIcon icon={faCheck} />
+            Done
+          </A>
         ) : (
-          <Button
+          <Edit
             onClick={() => setIsEditing(true)}
             disabled={!canCrossAccountBalance}
           >
-            Create/Edit Groups
-          </Button>
+            <FontAwesomeIcon icon={faPen} />
+            Edit Groups
+          </Edit>
         )}
-      </H2>
+      </Header>
       <DragDropContext onDragEnd={onDragEnd}>
         {localAccounts.map(group => (
           <Droppable droppableId={group.groupId} key={group.groupId}>

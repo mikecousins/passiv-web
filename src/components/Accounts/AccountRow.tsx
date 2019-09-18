@@ -158,35 +158,13 @@ export const AccountRow = ({ account, isDraggable }: Props) => {
   return (
     <AccountContainer>
       <Table>
-        {isDraggable && <FontAwesomeIcon icon={faGripVertical} size="3x" />}
         <Brokerage>
           <H3>Brokerage</H3>
           <P>{brokerageName}</P>
         </Brokerage>
         <Name>
           <H3>Name</H3>
-          {!nameEditing ? (
-            <P>
-              {' '}
-              {account.name}
-              <Edit onClick={() => setNameEditing(true)} disabled={isDemo}>
-                <FontAwesomeIcon icon={faPen} />
-                Edit
-              </Edit>
-            </P>
-          ) : (
-            <InputContainer>
-              <InputNonFormik
-                value={name}
-                onChange={e => setName(e.target.value)}
-                onKeyPress={onEnter}
-              />
-              <Edit onClick={() => setAccountName()}>
-                <FontAwesomeIcon icon={faCheck} />
-                Done
-              </Edit>
-            </InputContainer>
-          )}
+          <P>{account.name}</P>
         </Name>
         <Number>
           <H3>Number</H3>
