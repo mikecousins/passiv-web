@@ -13,7 +13,7 @@ export const GroupHeading = styled.h3`
 
 type Props = {
   name: string;
-  children?: JSX.Element[];
+  children?: JSX.Element;
 };
 
 const AccountGroup = ({ name, children }: Props) => (

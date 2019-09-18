@@ -14,7 +14,7 @@ import AccountRow from './AccountRow';
 import AddPortfolioGroup from './AddPortfolioGroup';
 import AccountGroup from './AccountGroup';
 import { putData } from '../../api';
-import { H2, A, Edit } from '../../styled/GlobalElements';
+import { H2, A, Edit, H3 } from '../../styled/GlobalElements';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 import styled from '@emotion/styled';
 
@@ -135,28 +135,32 @@ const Accounts = () => {
                 style={getListStyle(snapshot.isDraggingOver)}
               >
                 <AccountGroup name={group.name}>
-                  {group.accounts.map((account, index) => (
-                    <Draggable
-                      key={account.id}
-                      draggableId={account.id}
-                      index={index}
-                      isDragDisabled={!isEditing}
-                    >
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={getItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style,
-                          )}
-                        >
-                          <AccountRow account={account} />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
+                  <React.Fragment>
+                    {group.accounts.map((account, index) => (
+                      <Draggable
+                        key={account.id}
+                        draggableId={account.id}
+                        index={index}
+                        isDragDisabled={!isEditing}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={getItemStyle(
+                              snapshot.isDragging,
+                              provided.draggableProps.style,
+                            )}
+                          >
+                            <AccountRow account={account} />
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {group.accounts.length === 0 &&
+                      !snapshot.isDraggingOver && <H3>Empty group</H3>}
+                  </React.Fragment>
                 </AccountGroup>
                 {provided.placeholder}
               </div>
