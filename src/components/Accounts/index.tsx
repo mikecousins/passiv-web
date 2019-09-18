@@ -54,10 +54,14 @@ const Accounts = () => {
     ...draggableStyle,
   });
 
-  const getListStyle = (isDraggingOver: boolean) => ({
+  const getListStyle = (isDraggingOver: boolean, fake: boolean = false) => ({
     padding: 8,
     marginBottom: 20,
-    border: `1px solid #2a2d34`,
+    border: fake
+      ? '1px dashed #2a2d34'
+      : isDraggingOver
+      ? '2px solid #2a2d34'
+      : '1px solid #2a2d34',
     marginTop: 40,
   });
 
@@ -173,7 +177,7 @@ const Accounts = () => {
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
+                style={getListStyle(snapshot.isDraggingOver, true)}
               >
                 <AccountGroup name="New Group"></AccountGroup>
                 {provided.placeholder}
