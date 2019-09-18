@@ -16,7 +16,6 @@ const AccountsManager = () => {
 
   return (
     <ShadowBox>
-      <H2>Accounts</H2>
       <Accounts />
     </ShadowBox>
   );

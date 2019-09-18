@@ -32,9 +32,10 @@ import { Account } from '../../types/account';
 
 type Props = {
   account: Account;
+  isDraggable: boolean;
 };
 
-export const AccountRow = ({ account }: Props) => {
+export const AccountRow = ({ account, isDraggable }: Props) => {
   const [nameEditing, setNameEditing] = useState(false);
   const [groupEditing, setGroupEditing] = useState(false);
   const [name, setName] = useState(account.name);
@@ -157,7 +158,7 @@ export const AccountRow = ({ account }: Props) => {
   return (
     <AccountContainer>
       <Table>
-        <FontAwesomeIcon icon={faGripVertical} size="3x" />
+        {isDraggable && <FontAwesomeIcon icon={faGripVertical} size="3x" />}
         <Brokerage>
           <H3>Brokerage</H3>
           <P>{brokerageName}</P>

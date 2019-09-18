@@ -12,10 +12,15 @@ import AccountRow from './AccountRow';
 import AddPortfolioGroup from './AddPortfolioGroup';
 import AccountGroup from './AccountGroup';
 import { putData } from '../../api';
+import { H2 } from '../../styled/GlobalElements';
+import { Button } from '../../styled/Button';
+import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 
 const Accounts = () => {
   const accounts = useSelector(selectGroupedAccounts);
   const [localAccounts, setLocalAccounts] = useState(accounts);
+  const [isEditing, setIsEditing] = useState(false);
+  const canCrossAccountBalance = useSelector(selectCanCrossAccountBalance);
 
   // when we get new accounts back from the server, reset our accounts
   useEffect(() => setLocalAccounts(accounts), [accounts]);
@@ -81,45 +86,78 @@ const Accounts = () => {
 
   // TODO disable drag and drop if non-paying
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      {localAccounts.map(group => (
-        <Droppable droppableId={group.groupId} key={group.groupId}>
-          {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
-            >
-              <AccountGroup name={group.name}>
-                {group.accounts.map((account, index) => (
-                  <Draggable
-                    key={account.id}
-                    draggableId={account.id}
-                    index={index}
-                  >
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style,
-                        )}
-                      >
-                        <AccountRow account={account} />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-              </AccountGroup>
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      ))}
-      <AddPortfolioGroup />
-    </DragDropContext>
+    <React.Fragment>
+      <H2>
+        Accounts&nbsp;
+        {isEditing ? (
+          <Button onClick={() => setIsEditing(false)}>Done</Button>
+        ) : (
+          <Button
+            onClick={() => setIsEditing(true)}
+            disabled={canCrossAccountBalance}
+          >
+            Create/Edit Groups
+          </Button>
+        )}
+      </H2>
+      <DragDropContext onDragEnd={onDragEnd}>
+        {localAccounts.map(group => (
+          <Droppable droppableId={group.groupId} key={group.groupId}>
+            {(provided, snapshot) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={getListStyle(snapshot.isDraggingOver)}
+              >
+                <AccountGroup name={group.name}>
+                  {group.accounts.map((account, index) => (
+                    <Draggable
+                      key={account.id}
+                      draggableId={account.id}
+                      index={index}
+                      isDragDisabled={!isEditing}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style,
+                          )}
+                        >
+                          <AccountRow
+                            account={account}
+                            isDraggable={isEditing}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                </AccountGroup>
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        ))}
+        {isEditing && (
+          <Droppable droppableId="new" key="new">
+            {(provided, snapshot) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={getListStyle(snapshot.isDraggingOver)}
+              >
+                <AccountGroup name="New Group"></AccountGroup>
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        )}
+        <AddPortfolioGroup />
+      </DragDropContext>
+    </React.Fragment>
   );
 };
 
