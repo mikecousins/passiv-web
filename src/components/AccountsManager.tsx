@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { selectAuthorizations } from '../selectors';
 import Accounts from './Accounts';
 import ShadowBox from '../styled/ShadowBox';
-import { H2 } from '../styled/GlobalElements';
 
 const AccountsManager = () => {
   const authorizations = useSelector(selectAuthorizations);
