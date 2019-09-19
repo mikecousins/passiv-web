@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   DragDropContext,
   Droppable,
@@ -16,6 +16,7 @@ import AccountGroup from './AccountGroup';
 import { putData } from '../../api';
 import { H2, A, Edit, H3 } from '../../styled/GlobalElements';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
+import { loadAccounts, loadGroups } from '../../actions';
 import styled from '@emotion/styled';
 
 export const Header = styled.form`
@@ -35,6 +36,7 @@ const Accounts = () => {
   const [localAccounts, setLocalAccounts] = useState(accounts);
   const [isEditing, setIsEditing] = useState(false);
   const canCrossAccountBalance = useSelector(selectCanCrossAccountBalance);
+  const dispatch = useDispatch();
 
   // when we get new accounts back from the server, reset our accounts
   useEffect(() => setLocalAccounts(accounts), [accounts]);
@@ -96,9 +98,13 @@ const Accounts = () => {
       };
       putData(`/api/v1/accounts/${moved.id}`, newAccount)
         .then(() => {
+          dispatch(loadAccounts());
+          dispatch(loadGroups());
           toast.success('Moved the account successfully');
         })
         .catch(() => {
+          dispatch(loadAccounts());
+          dispatch(loadGroups());
           toast.error('Failed to move the account');
         });
     }
