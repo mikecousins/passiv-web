@@ -826,6 +826,25 @@ export const selectCurrentGroup = createSelector<
   },
 );
 
+export const selectCurrentAccount = createSelector<
+  AppState,
+  Account[] | null,
+  string | undefined | null,
+  Account | undefined | null
+>(
+  selectAccounts,
+  selectCurrentAccountId,
+  (accounts, accountId) => {
+    if (accountId) {
+      if (!accounts) {
+        return undefined;
+      }
+      return accounts.find(a => a.id === accountId);
+    }
+    return null;
+  },
+);
+
 export interface DashboardGroup {
   id: string;
   name: string;

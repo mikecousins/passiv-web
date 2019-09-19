@@ -14,7 +14,7 @@ import AccountRow from './AccountRow';
 import AddPortfolioGroup from './AddPortfolioGroup';
 import AccountGroup from './AccountGroup';
 import { putData } from '../../api';
-import { H2, A, Edit, H3 } from '../../styled/GlobalElements';
+import { H2, A, Edit, H3, P } from '../../styled/GlobalElements';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 import { loadAccounts, loadGroups } from '../../actions';
 import styled from '@emotion/styled';
@@ -29,6 +29,10 @@ export const Header = styled.form`
   svg {
     margin-right: 3px;
   }
+`;
+
+export const PaddedP = styled(P)`
+  padding-top: 20px;
 `;
 
 const Accounts = () => {
@@ -135,6 +139,11 @@ const Accounts = () => {
           </Edit>
         )}
       </Header>
+      <PaddedP>
+        Passiv lets you organize your investment accounts into groups, where
+        each group has its own target portfolio. By default, each account gets
+        its own group. Drag and drop to reorganize.
+      </PaddedP>
       <DragDropContext onDragEnd={onDragEnd}>
         {localAccounts.map(group => (
           <Droppable droppableId={group.groupId} key={group.groupId}>

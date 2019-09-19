@@ -7,9 +7,9 @@ import { AccountHoldings } from './AccountHoldings';
 import PortfolioGroupMeta from './PortfolioGroupDetails/PortfolioGroupMetadata';
 import PortfolioGroupTotal from './PortfolioGroupDetails/PortfolioGroupTotal';
 import PortfolioGroupCash from './PortfolioGroupDetails/PortfolioGroupCash';
+import AccountName from './PortfolioGroupDetails/AccountName';
 import {
   selectCurrentAccountHoldings,
-  selectGroupsLoading,
   selectCurrentGroupInfoError,
   selectPreferredCurrency,
   selectCurrentAccountTotalEquity,
@@ -30,15 +30,8 @@ export const Container3Column = styled.div`
   }
 `;
 
-const NameBox = styled.div`
-  font-size: 40px;
-  font-weight: 400;
-  padding-bottom: 30px;
-`;
-
 export const AccountTab = () => {
   const account = useSelector(selectCurrentAccountHoldings);
-  const loading = useSelector(selectGroupsLoading);
   const balances = useSelector(selectCurrentAccountBalances);
   const equity = useSelector(selectCurrentAccountTotalEquity);
   const error = useSelector(selectCurrentGroupInfoError);
@@ -50,9 +43,7 @@ export const AccountTab = () => {
 
   return (
     <div>
-      <NameBox>
-        {account.name} {loading && <FontAwesomeIcon icon={faSpinner} spin />}
-      </NameBox>
+      <AccountName name={account.name} />
 
       <Container3Column>
         <PortfolioGroupMeta account={account} />
