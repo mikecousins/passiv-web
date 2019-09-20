@@ -1,6 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrencies } from '../../selectors';
+import { Select } from '../../styled/Form';
+import styled from '@emotion/styled';
+
+export const SelectCurrency = styled(Select)`
+  margin-left: 6px;
+`;
 
 type Props = {
   settings: any;
@@ -15,14 +21,14 @@ const PreferredCurrencySetting = ({ settings, update }: Props) => {
   return (
     <div>
       <span>Preferred Currency: </span>
-      <select value={settings.preferred_currency} onChange={update}>
+      <SelectCurrency value={settings.preferred_currency} onChange={update}>
         {currencies &&
           currencies.map(currency => (
             <option key={currency.id} value={currency.id}>
               {currency.code} - {currency.name}
             </option>
           ))}
-      </select>
+      </SelectCurrency>
     </div>
   );
 };
