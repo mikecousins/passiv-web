@@ -7,7 +7,6 @@ import { H3 } from '../styled/GlobalElements';
 export const Order = styled.div`
   text-align: center;
   select {
-    background: #fff;
     padding: 10px;
     margin: 12px 0;
   }

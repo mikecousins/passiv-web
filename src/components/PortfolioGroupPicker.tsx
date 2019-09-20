@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectGroups } from '../selectors/groups';
+import { Select } from '../styled/Form';
 
 type Props = {
   group: any;
@@ -17,13 +18,13 @@ const PortfolioGroupPicker = ({ group, onChange, disabled }: Props) => {
 
   return (
     <React.Fragment>
-      <select disabled={disabled} value={group} onChange={onChange}>
+      <Select disabled={disabled} value={group} onChange={onChange}>
         {groups.map(group => (
           <option value={group.id} key={group.id}>
             {group.name}
           </option>
         ))}
-      </select>
+      </Select>
     </React.Fragment>
   );
 };
