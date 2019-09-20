@@ -1,5 +1,5 @@
 import React from 'react';
-
+import styled from '@emotion/styled';
 import { P, H3, WarningBox } from '../styled/GlobalElements';
 
 type Props = {
@@ -7,9 +7,14 @@ type Props = {
   cardDetails: any;
 };
 
+const H3Card = styled(H3)`
+  color: #fff;
+  padding-bottom: 3px;
+`;
+
 export const CreditCardDetails = ({ cardState, cardDetails }: Props) => (
   <React.Fragment>
-    <H3>Payment Card</H3>
+    <H3Card>Payment Card</H3Card>
     {cardState !== 'VALID' && (
       <WarningBox>
         <P>Your credit card has been declined, please update it.</P>

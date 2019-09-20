@@ -95,3 +95,34 @@ export const Submit = styled.button`
   padding: 15px;
   margin: 5px;
 `;
+
+export const Select = styled.select`
+  padding: 11px 52px 10px 14px;
+  display: inline-block;
+  background-color: #fff;
+  border-radius: 0;
+  border: 1px solid #000;
+  margin: 8px 0 26px;
+  -webkit-appearance: none;
+
+  background-image: linear-gradient(45deg, #0000 50%, #fff 50%),
+    linear-gradient(135deg, #fff 50%, #0000 50%),
+    linear-gradient(to right, #2a2d34, #2a2d34);
+
+  background-position: calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px), 100% 0;
+
+  background-size: 8px 5px, 5px 5px, 2.5em 3.5em;
+  background-repeat: no-repeat;
+
+  &:focus {
+    background-image: linear-gradient(45deg, white 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, white 50%),
+      linear-gradient(to right, gray, gray);
+    background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em, 100% 0;
+    background-size: 5px 5px, 5px 5px, 2.5em 3.5em;
+    background-repeat: no-repeat;
+    border-color: grey;
+    outline: 0;
+  }
+`;

@@ -20,14 +20,25 @@ import ShadowBox from '../styled/ShadowBox';
 import CreditCardDetails from './CreditCardDetails';
 
 const SubscriptionContainer = styled.div`
+  transform: translateY(-50%);
+  top: 50%;
+  position: relative;
+  padding-left: 18px;
   color: #fff;
+
+  @media (max-width: 900px) {
+    padding: 12px 0px;
+    transform: none;
+  }
+
   button {
-    margin-top: 20px;
+    margin-top: 8px;
   }
 `;
 
 const ActionContainer = styled.div`
   a {
+    color: #fff;
     font-weight: 700;
     margin-left: 10px;
     text-decoration: underline;
@@ -39,6 +50,7 @@ const PaymentContainer = styled.div`
 `;
 
 const H2Padded = styled(H2)`
+  color: #fff;
   padding-bottom: 8px;
 `;
 

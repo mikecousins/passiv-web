@@ -139,7 +139,8 @@ export const Edit = styled.button`
 
 //subsetting
 export const SubSetting = styled.div`
-  margin-top: 7px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export const Title = styled.div`

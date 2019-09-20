@@ -7,7 +7,14 @@ import { putData } from '../../api';
 import { Table, H3, P, A } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
-import { AccountContainer, Brokerage, Name, Number, Type } from './styles';
+import {
+  AccountContainer,
+  Brokerage,
+  BrokerageTitle,
+  Name,
+  Number,
+  Type,
+} from './styles';
 import { Account } from '../../types/account';
 
 type Props = {
@@ -108,8 +115,7 @@ export const AccountRow = ({ account }: Props) => {
     <AccountContainer>
       <Table>
         <Brokerage>
-          <H3>Brokerage</H3>
-          <P>{brokerageName}</P>
+          <BrokerageTitle>{brokerageName}</BrokerageTitle>
         </Brokerage>
         <Name>
           <H3>Name</H3>

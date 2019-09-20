@@ -10,7 +10,7 @@ export const Button = styled.button`
   color: #fff;
   padding: 10px 25px 10px 20px;
   display: block;
-  height: 92px;
+  height: 81px;
   text-transform: uppercase;
   position: fixed;
   z-index: 4;
