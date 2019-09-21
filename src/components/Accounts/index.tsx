@@ -13,10 +13,11 @@ import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
 import AddPortfolioGroup from './AddPortfolioGroup';
 import AccountGroup from './AccountGroup';
-import { putData } from '../../api';
+import { deleteData, putData } from '../../api';
 import { H2, A, Edit, H3, P } from '../../styled/GlobalElements';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 import { loadAccounts, loadGroups } from '../../actions';
+import { Button } from '../../styled/Button';
 import styled from '@emotion/styled';
 
 export const Header = styled.form`
@@ -154,32 +155,51 @@ const Accounts = () => {
                 style={getListStyle(snapshot.isDraggingOver)}
               >
                 <AccountGroup name={group.name}>
-                  <React.Fragment>
-                    {group.accounts.map((account, index) => (
-                      <Draggable
-                        key={account.id}
-                        draggableId={account.id}
-                        index={index}
-                        isDragDisabled={!isEditing}
+                  {group.accounts.length > 0 ? (
+                    <React.Fragment>
+                      {group.accounts.map((account, index) => (
+                        <Draggable
+                          key={account.id}
+                          draggableId={account.id}
+                          index={index}
+                          isDragDisabled={!isEditing}
+                        >
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style,
+                              )}
+                            >
+                              <AccountRow account={account} />
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {group.accounts.length === 0 &&
+                        !snapshot.isDraggingOver && <H3>Empty group</H3>}
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <span>There are no accounts in this group</span>
+                      <Button
+                        onClick={() => {
+                          deleteData(`/api/v1/portfolioGroups/${group.groupId}`)
+                            .then(() => {
+                              dispatch(loadGroups());
+                            })
+                            .catch(() => {
+                              dispatch(loadGroups());
+                            });
+                        }}
                       >
-                        {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={getItemStyle(
-                              snapshot.isDragging,
-                              provided.draggableProps.style,
-                            )}
-                          >
-                            <AccountRow account={account} />
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {group.accounts.length === 0 &&
-                      !snapshot.isDraggingOver && <H3>Empty group</H3>}
-                  </React.Fragment>
+                        Delete
+                      </Button>
+                    </React.Fragment>
+                  )}
                 </AccountGroup>
                 {provided.placeholder}
               </div>
