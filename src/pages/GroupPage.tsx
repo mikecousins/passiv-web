@@ -93,7 +93,7 @@ const GroupPage = () => {
             className={settingsSelected(pathname, groupId)}
             to={`/app/group/${groupId}/settings`}
           >
-            Settings
+            Group Settings
           </Link>
         </NavContainer>
       </SubNav>
