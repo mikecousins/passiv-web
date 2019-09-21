@@ -2,7 +2,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
 import PortfolioGroupName from './PortfolioGroupDetails/PortfolioGroupName';
 import PortfolioGroupAccuracy from './PortfolioGroupDetails/PortfolioGroupAccuracy';
@@ -23,6 +23,7 @@ import {
   selectCurrentGroupId,
   selectPreferredCurrency,
 } from '../selectors/groups';
+import { P } from '../styled/GlobalElements';
 
 export const Container3Column = styled.div`
   @media (min-width: 900px) {
@@ -99,11 +100,10 @@ const OverviewTab = () => {
     return (
       <React.Fragment>
         <PortfolioGroupName name={name} />
-        <Container3Column>
-          <PortfolioGroupAccuracy accuracy={null} loading={loading} />
-          <PortfolioGroupCash />
-          <PortfolioGroupTotal />
-        </Container3Column>
+        <P>
+          There are no accounts in this group.{' '}
+          <Link to={`/app/settings#accounts`}>Manage Groups</Link>
+        </P>
       </React.Fragment>
     );
   }

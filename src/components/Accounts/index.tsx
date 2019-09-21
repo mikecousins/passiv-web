@@ -124,7 +124,7 @@ const Accounts = () => {
   return (
     <React.Fragment>
       <Header>
-        <H2>Accounts&nbsp;</H2>
+        <H2>Accounts</H2>
         {isEditing ? (
           <A onClick={() => setIsEditing(false)}>
             <FontAwesomeIcon icon={faCheck} />
