@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 import { selectSubscription } from '../selectors/subscription';
 import { Button } from '../styled/Button';
 import { Elements } from 'react-stripe-elements';
@@ -116,12 +117,31 @@ const SubscriptionManager = () => {
     </div>
   );
 
+  let feedbackForm = (
+    <div>
+      <Button onClick={() => dispatch(push('/app/help'))}>Give Feedback</Button>
+    </div>
+  );
+
   if (subscription) {
     if (subscription.type === 'free') {
       subscriptionBody = (
         <div>
-          <P>You are using the free Community Edition of Passiv.</P>
-          {upgradeForm}
+          <P>
+            You are using the free <strong>Community Edition</strong> of Passiv.
+          </P>
+          {subscription.permissions.length > 0 ? (
+            <React.Fragment>
+              <P>
+                Your account has been granted{' '}
+                <strong>Trial Access to Passiv Elite</strong>! We appreciate any
+                feedback you send our way.
+              </P>
+              {feedbackForm}
+            </React.Fragment>
+          ) : (
+            upgradeForm
+          )}
         </div>
       );
     } else if (subscription.type === 'paid') {
