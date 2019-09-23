@@ -42,24 +42,22 @@ class CashNotificationSettings extends React.Component {
     }
 
     return (
-      <React.Fragment>
-        <DividingLine>
-          <strong>Cash Notifications:</strong>{' '}
-          <ToggleButton onClick={this.updateNotification}>
-            {settings.receive_cash_notifications ? (
-              <React.Fragment>
-                <FontAwesomeIcon icon={faToggleOn} />
-                <StateText>on</StateText>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <FontAwesomeIcon icon={faToggleOff} />
-                <StateText>off</StateText>
-              </React.Fragment>
-            )}
-          </ToggleButton>
-        </DividingLine>
-      </React.Fragment>
+      <DividingLine>
+        <strong>Cash Notifications:</strong>{' '}
+        <ToggleButton onClick={this.updateNotification}>
+          {settings.receive_cash_notifications ? (
+            <React.Fragment>
+              <FontAwesomeIcon icon={faToggleOn} />
+              <StateText>on</StateText>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <FontAwesomeIcon icon={faToggleOff} />
+              <StateText>off</StateText>
+            </React.Fragment>
+          )}
+        </ToggleButton>
+      </DividingLine>
     );
   }
 }

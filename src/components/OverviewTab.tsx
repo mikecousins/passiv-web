@@ -16,7 +16,6 @@ import {
   selectCurrentGroupCash,
   selectCurrentGroup,
   selectCurrentGroupAccuracy,
-  selectCurrentGroupPositions,
   selectCurrentGroupBalances,
   selectCurrentGroupTrades,
   selectCurrentGroupInfoError,
@@ -55,7 +54,6 @@ export const Container6040Column = styled.div`
 
 const OverviewTab = () => {
   const group = useSelector(selectCurrentGroup);
-  const positions = useSelector(selectCurrentGroupPositions);
   const balances = useSelector(selectCurrentGroupBalances);
   const cash = useSelector(selectCurrentGroupCash);
   const equity = useSelector(selectCurrentGroupTotalEquity);
@@ -133,7 +131,7 @@ const OverviewTab = () => {
       {error ? <PortfolioGroupErrors error={error} /> : null}
       {tradeDisplay}
 
-      <PortfolioGroupTargets positions={positions} />
+      <PortfolioGroupTargets />
     </React.Fragment>
   );
 };

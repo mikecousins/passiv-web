@@ -9,7 +9,7 @@ import simpleList from './simpleList';
 import updateServiceWorker from './updateServiceWorker';
 import online from './online';
 import { SubscriptionData } from '../types/subscription';
-import { GroupInfoData } from '../types/groupInfo';
+import { GroupInfoData, Balance, Position } from '../types/groupInfo';
 import { GroupData } from '../types/group';
 import { Currency } from '../types/currency';
 import { CurrencyRate } from '../types/currencyRate';
@@ -67,11 +67,11 @@ export default (history: any) =>
       baseType: 'FETCH_ACCOUNTS',
       userData: true,
     }),
-    accountBalances: simpleList<any>({
+    accountBalances: simpleList<Balance[]>({
       baseType: 'FETCH_ACCOUNT_BALANCES',
       userData: true,
     }),
-    accountPositions: simpleList<any>({
+    accountPositions: simpleList<Position[]>({
       baseType: 'FETCH_ACCOUNT_POSITIONS',
       userData: true,
     }),

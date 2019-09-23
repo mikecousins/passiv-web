@@ -1,12 +1,28 @@
-const initialState: {
+import { Reducer } from 'redux';
+
+export type AuthState = {
   token: string | null;
   error: object | null;
-} = {
+};
+
+const initialState: AuthState = {
   token: null,
   error: null,
 };
 
-const auth = (state = initialState, action: any) => {
+type AuthAction = {
+  type: 'LOGIN_SUCCEEDED' | 'LOGIN_FAILED' | 'LOGOUT' | 'TOKEN_EXPIRED';
+  payload: {
+    data: {
+      token: string;
+    };
+  };
+};
+
+const auth: Reducer<AuthState, AuthAction> = (
+  state = initialState,
+  action: AuthAction,
+) => {
   if (action.type === 'LOGIN_SUCCEEDED') {
     return {
       token: action.payload.data.token,

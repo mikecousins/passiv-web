@@ -24,7 +24,7 @@ const Hello = ({ name }: Props) => (
   <HelloStyle>
     <b>Hi {name === null ? 'there' : name}!</b>
     <br />
-    {format(new Date(), 'dddd, Do MMMM')}
+    {format(new Date(), 'EEEE, do MMMM')}
   </HelloStyle>
 );
 

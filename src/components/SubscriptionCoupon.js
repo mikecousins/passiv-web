@@ -7,7 +7,7 @@ import { loadSettings, loadSubscription } from '../actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 import { H3, Edit, P } from '../styled/GlobalElements';
 
@@ -43,7 +43,9 @@ class SubscriptionCoupon extends React.Component {
           {coupon.redeem_by ? (
             <P>
               Redeem coupon by:{' '}
-              <strong>{format(coupon.redeem_by, 'MMMM D, YYYY')}</strong>
+              <strong>
+                {format(parseISO(coupon.redeem_by), 'MMMM d, yyyy')}
+              </strong>
             </P>
           ) : null}
         </React.Fragment>
