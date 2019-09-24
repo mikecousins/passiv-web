@@ -17,6 +17,7 @@ import CouponPage from './pages/CouponPage';
 import SecureRoute from './routes/SecureRoute';
 import UpdateNotification from './components/UpdateNotification';
 import SharePage from './pages/SharePage';
+import DemoLoginPage from './pages/DemoLoginPage';
 
 declare global {
   interface Window {
@@ -76,6 +77,7 @@ const App = () => {
           />
           <Route path={prefixPath('/login')} component={LoginPage} />
           <Route path={prefixPath('/register')} component={RegistrationPage} />
+          <Route path={prefixPath('/demo')} component={DemoLoginPage} />
           <Route
             path={prefixPath('/reset-password')}
             component={ResetPasswordPage}
