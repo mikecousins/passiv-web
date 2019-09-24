@@ -38,7 +38,6 @@ const auth: Reducer<AuthState, AuthAction> = (
   }
 
   if (action.type === 'LOGOUT') {
-    localStorage.clear();
     return {
       token: null,
       error: null,

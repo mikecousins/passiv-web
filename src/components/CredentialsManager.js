@@ -108,7 +108,10 @@ export class CredentialsManager extends React.Component {
               <InputContainer>
                 <strong>Name:</strong>{' '}
                 {this.state.name === null ? '[no name set]' : this.state.name}
-                <Edit onClick={() => this.startEditingName()}>
+                <Edit
+                  onClick={() => !this.props.isDemo && this.startEditingName()}
+                  disabled={this.props.isDemo}
+                >
                   <FontAwesomeIcon icon={faPen} />
                   Edit
                 </Edit>
