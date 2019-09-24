@@ -114,15 +114,4 @@ export const Select = styled.select`
 
   background-size: 8px 5px, 5px 5px, 2.5em 3.5em;
   background-repeat: no-repeat;
-
-  &:focus {
-    background-image: linear-gradient(45deg, white 50%, transparent 50%),
-      linear-gradient(135deg, transparent 50%, white 50%),
-      linear-gradient(to right, gray, gray);
-    background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em, 100% 0;
-    background-size: 5px 5px, 5px 5px, 2.5em 3.5em;
-    background-repeat: no-repeat;
-    border-color: grey;
-    outline: 0;
-  }
 `;
