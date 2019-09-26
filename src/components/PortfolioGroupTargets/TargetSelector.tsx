@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import uuid from 'uuid';
 import { replace } from 'connected-react-router';
 import styled from '@emotion/styled';
-import Tooltip from '../Tooltip';
 import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
@@ -19,8 +18,7 @@ import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../../styled/Button';
-import { H3, Edit, AButton } from '../../styled/GlobalElements';
-import { TargetRow } from '../../styled/Target';
+import { Edit, AButton } from '../../styled/GlobalElements';
 import { postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
 
@@ -28,6 +26,55 @@ const ButtonBox = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 20px 0 20px 0;
+`;
+const Th = styled.div`
+  text-align: right;
+`;
+const Legend = styled.div`
+  display: inline-block;
+  background: #f6f6f6;
+  margin: 0 20px 0 auto;
+  padding: 11px 16px;
+  border-radius: 4px;
+`;
+const ActualTitle = styled.span`
+  font-size: 18px;
+  color: #04a287;
+  position: relative;
+  padding-left: 22px;
+  margin-left: 20px;
+  font-weight: 600;
+  &:before {
+    background: #04a287;
+    border-radius: 50%;
+    content: '';
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    left: 0;
+    top: 2px;
+  }
+`;
+const TargetTitle = styled.span`
+  font-size: 18px;
+  color: #003ba2;
+  position: relative;
+  padding-left: 22px;
+  font-weight: 600;
+  &:before {
+    background: #003ba2;
+    border-radius: 50%;
+    content: '';
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    left: 0;
+    top: 2px;
+  }
+`;
+const ExcludeTitle = styled.span`
+  font-size: 18px;
+  font-weight: 600;
 `;
 
 type Props = {
@@ -46,7 +93,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
 
   const dispatch = useDispatch();
 
-  if (!target) {
+  if (!target || !cash) {
     return null;
   }
 
@@ -110,13 +157,32 @@ export const TargetSelector = ({ lockable, target }: Props) => {
   const portfolioVisualizerURLParts = [];
   portfolioVisualizerURLParts.push(portfolioVisualizerBaseURL);
 
-  target.map((target: any, index: number) => {
-    let iValue = index + 1;
+  let iValue = 0;
+  target
+    .filter(target => target.is_supported && !target.is_excluded)
+    .map((target: any, index: number) => {
+      iValue = index + 1;
+      portfolioVisualizerURLParts.push(
+        `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${target.percent}`,
+      );
+      return null;
+    });
+  let cashPercentage =
+    100 -
+    target
+      .filter(target => target.is_supported && !target.is_excluded)
+      .reduce((total: number, target: any) => {
+        if (!target.deleted && target.percent && target.is_supported) {
+          return total + parseFloat(target.percent);
+        }
+        return total;
+      }, 0);
+  if (cashPercentage > 0) {
+    iValue += 1;
     portfolioVisualizerURLParts.push(
-      `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${target.percent}`,
+      `&symbol${iValue}=CASHX&allocation${iValue}_1=${cashPercentage}`,
     );
-    return null;
-  });
+  }
 
   portfolioVisualizerURLParts.push('#analysisResults');
 
@@ -175,11 +241,13 @@ export const TargetSelector = ({ lockable, target }: Props) => {
       render={props => (
         <div>
           {edit && (
-            <TargetRow>
-              <H3 />
-              <H3>Target</H3>
-              <H3>Actual</H3>
-            </TargetRow>
+            <Th>
+              <Legend>
+                <TargetTitle>Target</TargetTitle>
+                <ActualTitle>Actual</ActualTitle>
+              </Legend>
+              <ExcludeTitle>Exclude</ExcludeTitle>
+            </Th>
           )}
           <FieldArray
             name="targets"
@@ -215,7 +283,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                 }, 0);
 
               // calculate the actual cash percentage
-              const cashActualPercentage = (cash || 0 / totalEquity) * 100;
+              const cashActualPercentage = (cash / totalEquity) * 100;
 
               if (props.values.targets.filter(t => !t.deleted).length === 0) {
                 arrayHelpers.push(generateNewTarget());
@@ -264,7 +332,10 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                             let target = props.values.targets.find(
                               t => t.key === key,
                             );
-                            target.excluded = true;
+                            const newExcluded = !target.is_excluded;
+                            target.is_excluded = newExcluded;
+                            props.setFieldTouched(`targets.${index}.percent`);
+                            props.setFieldValue(`targets.${index}.percent`, 0);
                             forceUpdate();
                           }}
                         >
@@ -280,7 +351,6 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                               )
                             }
                             onBlur={() => {
-                              console.log(props.values.targets[index].percent);
                               props.setFieldValue(
                                 `targets.${index}.percent`,
                                 parseFloat(
@@ -358,20 +428,9 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                         </Edit>
                       </div>
                       <div>
-                        {cashPercentage > 0 ? (
-                          <Tooltip label="Portfolio Visualizer is only available when your cash target allocation is 0%.">
-                            <Button disabled={true}>
-                              Portfolio Visualizer
-                            </Button>
-                          </Tooltip>
-                        ) : (
-                          <AButton
-                            href={portfolioVisualizerURL}
-                            target="_blank"
-                          >
-                            Portfolio Visualizer
-                          </AButton>
-                        )}
+                        <AButton href={portfolioVisualizerURL} target="_blank">
+                          Portfolio Visualizer
+                        </AButton>
                       </div>
                     </ButtonBox>
                   )}

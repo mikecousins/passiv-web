@@ -4,27 +4,25 @@ import {
   faSpinner,
   faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
-import styled from '@emotion/styled';
-import { Title } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
+import {
+  Title,
+  Total,
+  Center,
+  CashGroup,
+  CashType,
+} from '../../styled/PortfolioGroupDetails';
 import Number from '../Number';
-
-const Total = styled.div`
-  text-align: center;
-  color: #fff;
-  background: #04a287;
-`;
-
-const Center = styled.div`
-  text-align: center;
-`;
+import { Error } from '../../types/groupInfo';
+import { Currency } from '../../types/currency';
 
 type Props = {
-  error?: any | null;
+  error?: Error | null;
   equity?: any;
+  currency?: Currency | null;
 };
 
-const PortfolioGroupTotal = ({ error, equity }: Props) => {
+const PortfolioGroupTotal = ({ error, equity, currency }: Props) => {
   let equityValue = null;
   if (error) {
     equityValue = (
@@ -45,7 +43,16 @@ const PortfolioGroupTotal = ({ error, equity }: Props) => {
     <ShadowBox background="#04a287">
       <Total>
         <Title>Total Value</Title>
-        <b>{equityValue}</b>
+        <CashGroup>
+          {!error && (
+            <CashType>
+              <span title={currency ? currency.name : ''}>
+                {currency && currency.code}
+              </span>
+            </CashType>
+          )}
+          {equity !== undefined && <CashType>{equityValue}</CashType>}
+        </CashGroup>
       </Total>
     </ShadowBox>
   );

@@ -1,15 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import styled from '@emotion/styled';
 import { postData } from '../api';
-
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import { H3 } from '../styled/GlobalElements';
-import styled from '@emotion/styled';
 
 export const Order = styled.div`
   text-align: center;
   select {
-    background: #fff;
     padding: 10px;
     margin: 12px 0;
   }
@@ -34,7 +31,6 @@ class ConnectionUpdate extends React.Component {
       `/api/v1/brokerages/${this.props.authorization.brokerage.id}/authorize/${this.props.authorization.id}`,
       { type: 'read' },
     ).then(response => {
-      console.log('success', response.data);
       this.setState({ publicToken: response.data.public_token });
     });
   }
@@ -52,6 +48,8 @@ class ConnectionUpdate extends React.Component {
           allowSelectType={this.state.allowSelectType}
           type={this.state.defaultType}
           name={this.props.name}
+          publicToken={this.state.publicToken}
+          isDemo={this.props.isDemo}
         />
       </React.Fragment>
     );
@@ -63,11 +61,4 @@ class ConnectionUpdate extends React.Component {
   }
 }
 
-const select = state => ({});
-
-const actions = {};
-
-export default connect(
-  select,
-  actions,
-)(ConnectionUpdate);
+export default ConnectionUpdate;

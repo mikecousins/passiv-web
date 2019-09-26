@@ -5,16 +5,19 @@ import { loadGroups } from '../../actions';
 import { postData } from '../../api';
 import { InputNonFormik, Label } from '../../styled/Form';
 import { selectCanCreatePortfolioGroup } from '../../selectors/subscription';
+import { selectIsDemo } from '../../selectors';
 import { AppState } from '../../store';
 
 type Props = {
   reloadAllState: any;
   canCreatePortfolioGroup: any;
+  isDemo: boolean;
 };
 
 const AddPortfolioGroup = ({
   reloadAllState,
   canCreatePortfolioGroup,
+  isDemo,
 }: Props) => {
   const [adding, setAdding] = useState(false);
   const [groupName, setGroupName] = useState('');
@@ -27,7 +30,9 @@ const AddPortfolioGroup = ({
   return (
     <React.Fragment>
       {!adding ? (
-        <Button onClick={() => setAdding(true)}>Add Portfolio Group</Button>
+        <Button onClick={() => setAdding(true)} disabled={isDemo}>
+          Add Portfolio Group
+        </Button>
       ) : !canCreatePortfolioGroup ? (
         <span>
           <Button onClick={() => setAdding(false)}>Cancel</Button>
@@ -62,6 +67,7 @@ const AddPortfolioGroup = ({
 
 const select = (state: AppState) => ({
   canCreatePortfolioGroup: selectCanCreatePortfolioGroup(state),
+  isDemo: selectIsDemo(state),
 });
 
 const actions = {

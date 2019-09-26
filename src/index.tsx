@@ -10,9 +10,9 @@ import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
 import createRunLoop from './reactors/init-runloop';
 import { effects } from './reactors/effects';
-
 import store, { history } from './store';
 
+// TODO change to an import when we have Typescript typings
 const ReactPiwik = require('react-piwik');
 
 // setup Matomo
@@ -53,7 +53,7 @@ ReactGA.initialize(
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 // get GA to listen for path changes
-history.listen(function(location) {
+history.listen(location => {
   ReactGA.pageview(location.pathname + location.search);
 });
 

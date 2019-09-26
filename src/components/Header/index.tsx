@@ -8,7 +8,9 @@ import logoRaster2x from '../../assets/images/logo-no-name@2x.png';
 import { selectName, selectLoggedIn } from '../../selectors';
 import Hello from './Hello';
 import Offline from './Offline';
+import Demo from './Demo';
 import { selectIsOnline } from '../../selectors/online';
+import { selectIsDemo } from '../../selectors';
 import { LogoutButton } from '../LogoutButton';
 
 type StyledHeaderProps = {
@@ -23,7 +25,7 @@ const StyledHeader = styled.header<StyledHeaderProps>`
   box-shadow: 2px 2px 8px rgba(190, 190, 190, 0.29);
   z-index: 4;
   @media (max-width: 900px) {
-    padding: 9px 8px 2px 75px;
+    padding: 9px 8px 4px 75px;
   }
   nav {
     background: inherit;
@@ -42,6 +44,7 @@ export const Header = () => {
   const loggedIn = useSelector(selectLoggedIn);
   const name = useSelector(selectName);
   const isOnline = useSelector(selectIsOnline);
+  const isDemo = useSelector(selectIsDemo);
   return (
     <StyledHeader isOnline={isOnline}>
       <nav>
@@ -56,6 +59,7 @@ export const Header = () => {
             </object>
           </Link>
         </Logo>
+        {isOnline && isDemo && <Demo />}
         {!isOnline && <Offline />}
         {loggedIn && <Hello name={name} />}
         {loggedIn && <LogoutButton />}

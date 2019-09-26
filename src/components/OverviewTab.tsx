@@ -2,7 +2,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
 import PortfolioGroupName from './PortfolioGroupDetails/PortfolioGroupName';
 import PortfolioGroupAccuracy from './PortfolioGroupDetails/PortfolioGroupAccuracy';
@@ -13,7 +13,6 @@ import PortfolioGroupTrades from './PortfolioGroupTrades';
 import PortfolioGroupErrors from './PortfolioGroupErrors';
 import {
   selectCurrentGroupTotalEquity,
-  selectCurrentGroupCash,
   selectCurrentGroup,
   selectCurrentGroupAccuracy,
   selectCurrentGroupBalances,
@@ -22,7 +21,9 @@ import {
   selectCurrentGroupSetupComplete,
   selectGroupsLoading,
   selectCurrentGroupId,
+  selectPreferredCurrency,
 } from '../selectors/groups';
+import { P } from '../styled/GlobalElements';
 
 export const Container3Column = styled.div`
   @media (min-width: 900px) {
@@ -55,7 +56,6 @@ export const Container6040Column = styled.div`
 const OverviewTab = () => {
   const group = useSelector(selectCurrentGroup);
   const balances = useSelector(selectCurrentGroupBalances);
-  const cash = useSelector(selectCurrentGroupCash);
   const equity = useSelector(selectCurrentGroupTotalEquity);
   const accuracy = useSelector(selectCurrentGroupAccuracy);
   const trades = useSelector(selectCurrentGroupTrades);
@@ -64,6 +64,7 @@ const OverviewTab = () => {
   const error = useSelector(selectCurrentGroupInfoError);
   const groupId = useSelector(selectCurrentGroupId);
   const [tradeInProgress, setTradeInProgress] = useState(false);
+  const preferredCurrency = useSelector(selectPreferredCurrency);
 
   // reset our trade in progress flag when the group changes
   useEffect(() => {
@@ -95,15 +96,14 @@ const OverviewTab = () => {
   const name = group.name || 'No Name Provided';
 
   // see if we have any accounts in this group
-  if (!group.accounts) {
+  if (!group.hasAccounts) {
     return (
       <React.Fragment>
         <PortfolioGroupName name={name} />
-        <Container3Column>
-          <PortfolioGroupAccuracy accuracy={null} loading={loading} />
-          <PortfolioGroupCash />
-          <PortfolioGroupTotal />
-        </Container3Column>
+        <P>
+          There are no accounts in this group.{' '}
+          <Link to={`/app/settings#accounts`}>Manage Groups</Link>
+        </P>
       </React.Fragment>
     );
   }
@@ -124,8 +124,12 @@ const OverviewTab = () => {
       <PortfolioGroupName name={name} />
       <Container3Column>
         <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
-        <PortfolioGroupCash balances={balances} cash={cash} error={error} />
-        <PortfolioGroupTotal equity={equity} error={error} />
+        <PortfolioGroupCash balances={balances} />
+        <PortfolioGroupTotal
+          equity={equity}
+          error={error}
+          currency={preferredCurrency}
+        />
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}

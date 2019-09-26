@@ -2,16 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { selectSettings } from '../selectors';
+import { selectSettings, selectIsDemo } from '../selectors';
 import { loadSettings } from '../actions';
 import { postData, putData } from '../api';
 
 import CashNotifcationSettings from './CashNotificationSettings';
 import DriftNotifcationSettings from './DriftNotificationSettings';
+import PreferredCurrencySetting from './PortfolioGroupSettings/PreferredCurrencySetting';
 
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../styled/Form';
-import { H2, Edit, Span } from '../styled/GlobalElements';
+import { H2, Edit, Span, A } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import ShadowBox from '../styled/ShadowBox';
 
@@ -79,7 +80,6 @@ export class CredentialsManager extends React.Component {
       })
       .catch(error => {
         this.setState({ passwordResetSent: false });
-        console.log('error', error.response.data);
       });
   }
 
@@ -89,58 +89,86 @@ export class CredentialsManager extends React.Component {
 
   render() {
     return (
-      <ShadowBox>
-        <H2>Passiv Credentials</H2>
-        <TextContainer>
-          {this.state.editingName ? (
-            <InputContainer>
-              <InputNonFormik
-                value={this.state.name === null ? '' : this.state.name}
-                onChange={event => {
-                  this.setState({ name: event.target.value });
-                }}
-                onKeyPress={this.onEnter}
-              />
-              <Button onClick={() => this.finishEditing()}>Done</Button>
-            </InputContainer>
-          ) : (
-            <InputContainer>
-              <strong>Name:</strong>{' '}
-              {this.state.name === null ? '[no name set]' : this.state.name}
-              <Edit onClick={() => this.startEditingName()}>
-                <FontAwesomeIcon icon={faPen} />
-                Edit
-              </Edit>
-            </InputContainer>
-          )}
-        </TextContainer>
-        <TextContainer>
-          <InputContainer>
-            <strong>Email:</strong> {this.state.email}
-          </InputContainer>
-        </TextContainer>
-        <TextContainer>
-          <InputContainer>
-            <strong>Change your Password:</strong>{' '}
-            {this.state.passwordResetSent ? (
-              <React.Fragment>
-                <Span>A password reset email has been sent to you.</Span>
-                <Edit onClick={() => this.sendPasswordResetOkay()}>Okay</Edit>
-              </React.Fragment>
+      <div>
+        <ShadowBox>
+          <H2>Passiv Credentials</H2>
+          <TextContainer>
+            {this.state.editingName ? (
+              <InputContainer>
+                <InputNonFormik
+                  value={this.state.name === null ? '' : this.state.name}
+                  onChange={event => {
+                    this.setState({ name: event.target.value });
+                  }}
+                  onKeyPress={this.onEnter}
+                />
+                <Button onClick={() => this.finishEditing()}>Done</Button>
+              </InputContainer>
             ) : (
-              <Edit onClick={() => this.sendPasswordReset()}>Change</Edit>
+              <InputContainer>
+                <strong>Name:</strong>{' '}
+                {this.state.name === null ? '[no name set]' : this.state.name}
+                <Edit
+                  onClick={() => !this.props.isDemo && this.startEditingName()}
+                  disabled={this.props.isDemo}
+                >
+                  <FontAwesomeIcon icon={faPen} />
+                  Edit
+                </Edit>
+              </InputContainer>
             )}
-          </InputContainer>
-        </TextContainer>
-        <CashNotifcationSettings />
-        <DriftNotifcationSettings />
-      </ShadowBox>
+          </TextContainer>
+          <TextContainer>
+            <InputContainer>
+              <strong>Email:</strong> {this.state.email}
+            </InputContainer>
+          </TextContainer>
+          <TextContainer>
+            <InputContainer>
+              {' '}
+              {this.state.passwordResetSent ? (
+                <React.Fragment>
+                  <Span>A password reset email has been sent to you.</Span>
+                  <Edit onClick={() => this.sendPasswordResetOkay()}>Okay</Edit>
+                </React.Fragment>
+              ) : (
+                <A
+                  onClick={() => !this.props.isDemo && this.sendPasswordReset()}
+                  disabled={this.props.isDemo}
+                >
+                  Change Password
+                </A>
+              )}
+            </InputContainer>
+          </TextContainer>
+        </ShadowBox>
+        <ShadowBox>
+          <H2>Notifications</H2>
+          <CashNotifcationSettings />
+          <DriftNotifcationSettings />
+          <PreferredCurrencySetting
+            settings={this.props.settings}
+            update={event => {
+              let settings = Object.assign({}, this.props.settings);
+              settings.preferred_currency = event.target.value;
+              putData('/api/v1/settings/', settings)
+                .then(response => {
+                  this.props.refreshSettings();
+                })
+                .catch(error => {
+                  this.props.refreshSettings();
+                });
+            }}
+          />
+        </ShadowBox>
+      </div>
     );
   }
 }
 
 const select = state => ({
   settings: selectSettings(state),
+  isDemo: selectIsDemo(state),
 });
 const actions = {
   refreshSettings: loadSettings,

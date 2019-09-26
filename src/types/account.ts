@@ -15,3 +15,30 @@ export type Account = {
   number: string;
   meta: Meta;
 };
+
+export type NestedSymbol = {
+  id: string;
+  symbol: string;
+  security_type: string | null;
+  name: string;
+  exchange: string;
+  currency: string;
+  type: string;
+};
+
+export type Symbol = {
+  id: string;
+  description: string;
+  symbol: NestedSymbol;
+  local_id: string;
+  security_type: string;
+  listing_exchange: string;
+  is_quotable: boolean;
+  is_tradable: boolean;
+};
+
+export type Position = {
+  symbol: Symbol;
+  price: number;
+  units: number;
+};

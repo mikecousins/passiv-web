@@ -3,8 +3,14 @@ import { connect } from 'react-redux';
 import { selectBrokerages } from '../selectors';
 import { postData } from '../api';
 import { Button } from '../styled/Button';
-import { DisabledButton } from '../styled/DisabledButton';
 import { StepButton } from '../styled/SignupSteps';
+import PlaidLink from 'react-plaid-link';
+import { Select } from '../styled/Form';
+import styled from '@emotion/styled';
+
+export const SelectAuth = styled(Select)`
+  margin-left: 6px;
+`;
 
 class AuthorizationPicker extends Component {
   state = {
@@ -32,7 +38,6 @@ class AuthorizationPicker extends Component {
       postData(`/api/v1/brokerages/${this.state.brokerage}/authorize/`, {
         type: this.state.type,
       }).then(response => {
-        console.log('success', response.data);
         window.location = response.data.url;
       });
     } else {
@@ -40,7 +45,6 @@ class AuthorizationPicker extends Component {
         `/api/v1/brokerages/${this.state.brokerage}/authorize/${this.state.updateBrokerageAuthorizationId}`,
         { type: this.state.type },
       ).then(response => {
-        console.log('success', response.data);
         window.location = response.data.url;
       });
     }
@@ -73,7 +77,7 @@ class AuthorizationPicker extends Component {
         });
     }
 
-    let submitButton = <DisabledButton disabled>Connect</DisabledButton>;
+    let submitButton = <Button disabled>Connect</Button>;
     if (this.state.brokerage && this.state.type) {
       if (this.state.allowSelect) {
         submitButton = (
@@ -81,6 +85,7 @@ class AuthorizationPicker extends Component {
             onClick={() => {
               this.startAuthorization();
             }}
+            disabled={this.props.isDemo}
           >
             {this.state.name}
           </Button>
@@ -103,7 +108,7 @@ class AuthorizationPicker extends Component {
         {this.state.allowSelect && (
           <div>
             {this.state.allowSelectBrokerage && (
-              <select
+              <SelectAuth
                 value={this.state.brokerage}
                 onChange={event => {
                   this.setState({ brokerage: event.target.value });
@@ -113,10 +118,10 @@ class AuthorizationPicker extends Component {
                   Choose your brokerage
                 </option>
                 {brokerageOptions}
-              </select>
+              </SelectAuth>
             )}
             {this.state.allowSelectType && (
-              <select
+              <SelectAuth
                 value={this.state.type}
                 onChange={event => {
                   this.setState({ type: event.target.value });
@@ -126,7 +131,7 @@ class AuthorizationPicker extends Component {
                   Select an access level
                 </option>
                 {types}
-              </select>
+              </SelectAuth>
             )}
           </div>
         )}

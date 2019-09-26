@@ -9,13 +9,14 @@ import simpleList from './simpleList';
 import updateServiceWorker from './updateServiceWorker';
 import online from './online';
 import { SubscriptionData } from '../types/subscription';
-import { GroupInfoData, Balance, Position } from '../types/groupInfo';
+import { GroupInfoData, Balance } from '../types/groupInfo';
 import { GroupData } from '../types/group';
 import { Currency } from '../types/currency';
 import { CurrencyRate } from '../types/currencyRate';
 import { Account } from '../types/account';
 import { Authorization } from '../types/authorization';
 import { Brokerage } from '../types/brokerage';
+import { Position } from '../types/account';
 
 export default (history: any) =>
   combineReducers({

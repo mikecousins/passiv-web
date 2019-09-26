@@ -1,4 +1,4 @@
-export interface SubscriptionData {
+export type SubscriptionData = {
   type: 'paid' | 'free';
   details: {
     period: 'annual' | 'monthly';
@@ -24,4 +24,4 @@ export interface SubscriptionData {
     lastFourDigits: string;
   };
   permissions: string[];
-}
+};

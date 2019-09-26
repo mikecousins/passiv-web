@@ -1,17 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectBrokerages, selectAuthorizations } from '../selectors';
+import { push } from 'connected-react-router';
+import {
+  selectBrokerages,
+  selectAuthorizations,
+  selectIsDemo,
+} from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
 import { initialLoad, loadBrokerages } from '../actions';
 import AuthorizationPicker from '../components/AuthorizationPicker';
 import Connections from './Connections';
 import { Button } from '../styled/Button';
-import { push } from 'connected-react-router';
-
 import ShadowBox from '../styled/ShadowBox';
 import { H2 } from '../styled/GlobalElements';
-
-import PlaidConnection from './PlaidConnection';
 
 export class ConnectionsManager extends React.Component {
   state = {
@@ -71,6 +72,7 @@ export class ConnectionsManager extends React.Component {
               onClick={() => {
                 this.startCreatingNewConnection();
               }}
+              disabled={this.props.isDemo}
             >
               {this.props.authorizations && this.props.authorizations.length > 0
                 ? 'Add Another Connection'
@@ -87,6 +89,7 @@ const select = state => ({
   brokerages: selectBrokerages(state),
   authorizations: selectAuthorizations(state),
   userPermissions: selectUserPermissions(state),
+  isDemo: selectIsDemo(state),
 });
 const actions = {
   reloadAllState: initialLoad,
