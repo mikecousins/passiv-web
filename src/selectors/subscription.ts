@@ -149,3 +149,13 @@ export const selectCanDeletePortfolioGroup = createSelector(
     );
   },
 );
+
+export const selectCanUseAPI = createSelector(
+  selectUserPermissions,
+  permissions => {
+    if (!permissions) {
+      return false;
+    }
+    return permissions.some(permission => permission === 'can_use_api');
+  },
+);

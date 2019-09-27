@@ -9,11 +9,12 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { selectSettings } from '../selectors';
+import { selectCanUseAPI } from '../selectors/subscription';
 import { loadSettings } from '../actions';
 import { postData, deleteData } from '../api';
 import styled from '@emotion/styled';
 import { ToggleButton, StateText } from '../styled/ToggleButton';
-import { OptionsTitle } from '../styled/GlobalElements';
+import { OptionsTitle, DisabledBox } from '../styled/GlobalElements';
 import { InputTarget } from '../styled/Form';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -28,6 +29,7 @@ const WarningBox = styled.div`
   font-size: inherit;
   padding: 15px;
   border-radius: 4px;
+  line-height: 1.3em;
 `;
 
 const ReadOnlyInput = styled(InputTarget)`
@@ -42,6 +44,7 @@ const ReadOnlyInput = styled(InputTarget)`
 
 const APIAccessSettings = () => {
   const settings = useSelector(selectSettings);
+  const canUseAPI = useSelector(selectCanUseAPI);
   const [token, setToken] = useState('');
   const [copied, setCopied] = useState(false);
   const dispatch = useDispatch();
@@ -76,10 +79,16 @@ const APIAccessSettings = () => {
     return null;
   }
 
+  if (canUseAPI === undefined || canUseAPI === null) {
+    return null;
+  }
+
+  const disabled = !(canUseAPI || settings.api_enabled);
+
   return (
     <DividingLine>
       <OptionsTitle>Allow API Access:</OptionsTitle>
-      <ToggleButton onClick={updateAccess}>
+      <ToggleButton onClick={updateAccess} disabled={disabled}>
         {settings.api_enabled ? (
           <React.Fragment>
             <FontAwesomeIcon icon={faToggleOn} />
@@ -92,6 +101,12 @@ const APIAccessSettings = () => {
           </React.Fragment>
         )}
       </ToggleButton>
+      {disabled && (
+        <DisabledBox>
+          Connecting to Passiv's API is an Elite feature. Subscribe to generate
+          an auth token for your own apps.
+        </DisabledBox>
+      )}
       {settings.api_enabled && (
         <React.Fragment>
           {token && token !== '' ? (

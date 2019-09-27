@@ -141,21 +141,21 @@ class DriftNotificationSettings extends React.Component {
               </React.Fragment>
             </ToggleButton>
             {disabled && (
-              <SubSetting>
+              <DisabledBox>
                 Drift notifications are an Elite feature. Subscribe to get
                 notifications when your portfolio accuracy falls too low.
-              </SubSetting>
+              </DisabledBox>
             )}
           </React.Fragment>
         )}
       </React.Fragment>
     );
 
-    if (disabled) {
-      return <DisabledBox>{contents}</DisabledBox>;
-    } else {
-      return <DriftBox>{contents}</DriftBox>;
-    }
+    // if (disabled) {
+    //   return <DisabledBox>{contents}</DisabledBox>;
+    // } else {
+    return <DriftBox>{contents}</DriftBox>;
+    // }
   }
 }
 

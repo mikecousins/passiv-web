@@ -171,7 +171,7 @@ export class CredentialsManager extends React.Component {
             <TextContainer>
               <InputContainer>
                 <PreferredCurrencySetting
-                  name="Dashboard Currency"
+                  name="Total Holdings Currency"
                   settings={this.props.settings}
                   update={event => {
                     let settings = Object.assign({}, this.props.settings);
