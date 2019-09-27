@@ -23,7 +23,7 @@ export type Symbol = {
   id: string;
   symbol: string;
   description: string;
-  security_type: string;
+  security_type?: string;
   currency: Currency;
 };
 

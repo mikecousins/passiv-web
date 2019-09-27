@@ -9,10 +9,11 @@ import { postData, putData } from '../api';
 import CashNotifcationSettings from './CashNotificationSettings';
 import DriftNotifcationSettings from './DriftNotificationSettings';
 import PreferredCurrencySetting from './PortfolioGroupSettings/PreferredCurrencySetting';
+import APIAccessSettings from './APIAccessSettings';
 
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../styled/Form';
-import { H2, Edit, Span, A } from '../styled/GlobalElements';
+import { H2, Edit, Span, A, OptionsTitle } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import ShadowBox from '../styled/ShadowBox';
 
@@ -25,6 +26,10 @@ const InputContainer = styled.div`
 const TextContainer = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
+`;
+
+const SubtleBox = styled.div`
+  padding-top: 10px;
 `;
 
 export class CredentialsManager extends React.Component {
@@ -106,7 +111,7 @@ export class CredentialsManager extends React.Component {
               </InputContainer>
             ) : (
               <InputContainer>
-                <strong>Name:</strong>{' '}
+                <OptionsTitle>Name:</OptionsTitle>{' '}
                 {this.state.name === null ? '[no name set]' : this.state.name}
                 <Edit
                   onClick={() => !this.props.isDemo && this.startEditingName()}
@@ -120,7 +125,7 @@ export class CredentialsManager extends React.Component {
           </TextContainer>
           <TextContainer>
             <InputContainer>
-              <strong>Email:</strong> {this.state.email}
+              <OptionsTitle>Email:</OptionsTitle> {this.state.email}
             </InputContainer>
           </TextContainer>
           <TextContainer>
@@ -141,25 +146,48 @@ export class CredentialsManager extends React.Component {
               )}
             </InputContainer>
           </TextContainer>
+          <TextContainer>
+            <InputContainer>
+              <APIAccessSettings />
+            </InputContainer>
+          </TextContainer>
         </ShadowBox>
         <ShadowBox>
-          <H2>Notifications</H2>
-          <CashNotifcationSettings />
-          <DriftNotifcationSettings />
-          <PreferredCurrencySetting
-            settings={this.props.settings}
-            update={event => {
-              let settings = Object.assign({}, this.props.settings);
-              settings.preferred_currency = event.target.value;
-              putData('/api/v1/settings/', settings)
-                .then(response => {
-                  this.props.refreshSettings();
-                })
-                .catch(error => {
-                  this.props.refreshSettings();
-                });
-            }}
-          />
+          <div>
+            <H2>Notifications</H2>
+            <TextContainer>
+              <InputContainer>
+                <CashNotifcationSettings />
+              </InputContainer>
+            </TextContainer>
+            <TextContainer>
+              <InputContainer>
+                <DriftNotifcationSettings />
+              </InputContainer>
+            </TextContainer>
+          </div>
+          <SubtleBox>
+            <H2>Other</H2>
+            <TextContainer>
+              <InputContainer>
+                <PreferredCurrencySetting
+                  name="Dashboard Currency"
+                  settings={this.props.settings}
+                  update={event => {
+                    let settings = Object.assign({}, this.props.settings);
+                    settings.preferred_currency = event.target.value;
+                    putData('/api/v1/settings/', settings)
+                      .then(response => {
+                        this.props.refreshSettings();
+                      })
+                      .catch(error => {
+                        this.props.refreshSettings();
+                      });
+                  }}
+                />
+              </InputContainer>
+            </TextContainer>
+          </SubtleBox>
         </ShadowBox>
       </div>
     );

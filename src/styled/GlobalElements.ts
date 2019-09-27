@@ -168,3 +168,8 @@ export const ErrorMessage = styled.div`
   text-align: left;
   margin: 20px 0;
 `;
+
+export const OptionsTitle = styled.span`
+  font-weight: 700;
+  margin-right: 10px;
+`;

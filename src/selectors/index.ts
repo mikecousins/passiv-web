@@ -109,6 +109,13 @@ export const selectBrokerages = createSelector(
   },
 );
 
+export const selectAllBrokerages = createSelector(
+  selectBrokeragesRaw,
+  rawBrokerages => {
+    return rawBrokerages.data;
+  },
+);
+
 export const selectBrokeragesNeedData = createSelector(
   selectLoggedIn,
   selectBrokeragesRaw,
