@@ -5,6 +5,7 @@ import {
   faToggleOff,
   faClipboard,
   faClipboardCheck,
+  faRedoAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -32,14 +33,28 @@ const WarningBox = styled.div`
   line-height: 1.3em;
 `;
 
-const ReadOnlyInput = styled(InputTarget)`
-  padding: 12px 20px 12px 18px;
-  width: 200px;
+const SecretBox = styled.div`
+  padding-top: 20px;
+  width: 100%;
+  display: flex;
+`;
 
+const InputBox = styled.div`
+  flex-grow: 1;
+`;
+
+const IconBox = styled.div`
+  width: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 10px;
+`;
+
+const ReadOnlyInput = styled(InputTarget)`
+  padding: 18px 15px 18px 15px;
+  width: 100%;
   text-align: center;
-  margin-left: 20px;
-  margin-right: 10px;
-  font-size: inherit;
+  font-size: 12px;
 `;
 
 const APIAccessSettings = () => {
@@ -49,28 +64,36 @@ const APIAccessSettings = () => {
   const [copied, setCopied] = useState(false);
   const dispatch = useDispatch();
 
+  const deleteToken = () => {
+    deleteData('/api/v1/auth/token')
+      .then(() => {
+        setToken('');
+        dispatch(loadSettings());
+      })
+      .catch(() => {
+        setToken('');
+        dispatch(loadSettings());
+      });
+  };
+
+  const newToken = () => {
+    postData('/api/v1/auth/token', {})
+      .then(response => {
+        setToken(response.data.token);
+        dispatch(loadSettings());
+      })
+      .catch(() => {
+        setToken('');
+        dispatch(loadSettings());
+      });
+  };
+
   const updateAccess = () => {
     if (settings) {
       if (settings.api_enabled === true) {
-        deleteData('/api/v1/auth/token')
-          .then(() => {
-            setToken('');
-            dispatch(loadSettings());
-          })
-          .catch(() => {
-            setToken('');
-            dispatch(loadSettings());
-          });
+        deleteToken();
       } else {
-        postData('/api/v1/auth/token', {})
-          .then(response => {
-            setToken(response.data.token);
-            dispatch(loadSettings());
-          })
-          .catch(() => {
-            setToken('');
-            dispatch(loadSettings());
-          });
+        newToken();
       }
     }
   };
@@ -108,7 +131,7 @@ const APIAccessSettings = () => {
         </DisabledBox>
       )}
       {settings.api_enabled && (
-        <React.Fragment>
+        <SecretBox>
           {token && token !== '' ? (
             <React.Fragment>
               <CopyToClipboard
@@ -119,25 +142,40 @@ const APIAccessSettings = () => {
                 }}
               >
                 <React.Fragment>
-                  <ReadOnlyInput value={token} readOnly={true} />
-                  {copied ? (
-                    <FontAwesomeIcon icon={faClipboardCheck} />
-                  ) : (
-                    <FontAwesomeIcon icon={faClipboard} />
-                  )}
+                  <InputBox>
+                    <ReadOnlyInput value={token} readOnly={true} />
+                  </InputBox>
+                  <IconBox>
+                    {copied ? (
+                      <FontAwesomeIcon icon={faClipboardCheck} />
+                    ) : (
+                      <FontAwesomeIcon icon={faClipboard} />
+                    )}
+                  </IconBox>
                 </React.Fragment>
               </CopyToClipboard>
-              <WarningBox>
-                This token will appear only once. If you lose it, you will need
-                to generate a new one which will invalidate the old token.
-              </WarningBox>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <ReadOnlyInput value="********" readOnly={true} />
+              <InputBox>
+                <ReadOnlyInput
+                  value="api key hidden"
+                  readOnly={true}
+                  disabled={true}
+                />
+              </InputBox>
+              <IconBox onClick={() => newToken()}>
+                <FontAwesomeIcon icon={faRedoAlt} />
+              </IconBox>
             </React.Fragment>
           )}
-        </React.Fragment>
+        </SecretBox>
+      )}
+      {settings.api_enabled && token && token !== '' && (
+        <WarningBox>
+          This token will appear only once. If you lose it, you will need to
+          generate a new one which will invalidate the old token.
+        </WarningBox>
       )}
     </DividingLine>
   );
