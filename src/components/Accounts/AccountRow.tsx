@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectBrokerages, selectAuthorizations } from '../../selectors';
+import { selectAllBrokerages, selectAuthorizations } from '../../selectors';
 import { selectGroups } from '../../selectors/groups';
 import { loadAccounts, loadGroups } from '../../actions';
 import { putData } from '../../api';
@@ -24,7 +24,7 @@ type Props = {
 export const AccountRow = ({ account }: Props) => {
   const [groupEditing, setGroupEditing] = useState(false);
   const [newGroupId, setNewGroupId] = useState();
-  const brokerages = useSelector(selectBrokerages);
+  const brokerages = useSelector(selectAllBrokerages);
   const authorizations = useSelector(selectAuthorizations);
   const groups = useSelector(selectGroups);
   const canCrossAccountBalance = useSelector(selectCanCrossAccountBalance);

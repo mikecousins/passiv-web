@@ -12,7 +12,12 @@ import Number from './Number';
 import { InputTarget } from '../styled/Form';
 import { SmallButton } from '../styled/Button';
 import styled from '@emotion/styled';
-import { Edit, SubSetting, DisabledBox } from '../styled/GlobalElements';
+import {
+  Edit,
+  SubSetting,
+  DisabledBox,
+  OptionsTitle,
+} from '../styled/GlobalElements';
 
 export const DriftBox = styled.div``;
 
@@ -80,7 +85,7 @@ class DriftNotificationSettings extends React.Component {
 
     let contents = (
       <React.Fragment>
-        <strong>Drift Notifications:</strong>{' '}
+        <OptionsTitle>Drift Notifications:</OptionsTitle>
         {settings.receive_drift_notifications && !disabled ? (
           <React.Fragment>
             <ToggleButton onClick={this.updateNotification} disabled={disabled}>
@@ -90,43 +95,41 @@ class DriftNotificationSettings extends React.Component {
               </React.Fragment>
             </ToggleButton>
             <SubSetting>
-              <p>
-                Drift Threshold: &nbsp;
-                {!this.state.editingThreshold ? (
-                  <React.Fragment>
-                    <Number
-                      value={settings.drift_threshold}
-                      percentage
-                      decimalPlaces={0}
-                    />
-                    <Edit
-                      onClick={() => this.startEditingThreshold()}
-                      disabled={disabled}
-                    >
-                      <FontAwesomeIcon icon={faPen} />
-                      Edit
-                    </Edit>
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment>
-                    <InputTarget
-                      value={this.state.driftThreshold}
-                      onChange={event => {
-                        this.setState({ driftThreshold: event.target.value });
-                      }}
-                      onKeyPress={this.onEnter}
-                      disabled={!this.props.canReceiveDriftNotifications}
-                    />{' '}
-                    %
-                    <SmallButton
-                      onClick={() => this.finishEditingThreshold()}
-                      disabled={disabled}
-                    >
-                      Done
-                    </SmallButton>
-                  </React.Fragment>
-                )}
-              </p>
+              <OptionsTitle>Drift Threshold:</OptionsTitle>
+              {!this.state.editingThreshold ? (
+                <React.Fragment>
+                  <Number
+                    value={settings.drift_threshold}
+                    percentage
+                    decimalPlaces={0}
+                  />
+                  <Edit
+                    onClick={() => this.startEditingThreshold()}
+                    disabled={disabled}
+                  >
+                    <FontAwesomeIcon icon={faPen} />
+                    Edit
+                  </Edit>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <InputTarget
+                    value={this.state.driftThreshold}
+                    onChange={event => {
+                      this.setState({ driftThreshold: event.target.value });
+                    }}
+                    onKeyPress={this.onEnter}
+                    disabled={!this.props.canReceiveDriftNotifications}
+                  />{' '}
+                  %
+                  <SmallButton
+                    onClick={() => this.finishEditingThreshold()}
+                    disabled={disabled}
+                  >
+                    Done
+                  </SmallButton>
+                </React.Fragment>
+              )}
             </SubSetting>
           </React.Fragment>
         ) : (

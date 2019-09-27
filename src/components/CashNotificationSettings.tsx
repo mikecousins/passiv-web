@@ -8,6 +8,7 @@ import { loadSettings } from '../actions';
 import { putData } from '../api';
 import styled from '@emotion/styled';
 import { ToggleButton, StateText } from '../styled/ToggleButton';
+import { OptionsTitle } from '../styled/GlobalElements';
 
 const DividingLine = styled.div`
   margin-top: 10px;
@@ -37,7 +38,7 @@ const CashNotificationSettings = () => {
 
   return (
     <DividingLine>
-      <strong>Cash Notifications:</strong>{' '}
+      <OptionsTitle>Cash Notifications:</OptionsTitle>
       <ToggleButton onClick={updateNotification}>
         {settings.receive_cash_notifications ? (
           <React.Fragment>
