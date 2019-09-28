@@ -15,7 +15,7 @@ import { loadSettings } from '../actions';
 import { postData, deleteData } from '../api';
 import styled from '@emotion/styled';
 import { ToggleButton, StateText } from '../styled/ToggleButton';
-import { OptionsTitle, DisabledBox } from '../styled/GlobalElements';
+import { A, OptionsTitle, DisabledBox } from '../styled/GlobalElements';
 import { InputTarget } from '../styled/Form';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -29,6 +29,7 @@ const WarningBox = styled.div`
   background-color: #fafcd5;
   font-size: inherit;
   padding: 15px;
+  margin-top: 20px;
   border-radius: 4px;
   line-height: 1.3em;
 `;
@@ -170,6 +171,17 @@ const APIAccessSettings = () => {
             </React.Fragment>
           )}
         </SecretBox>
+      )}
+      {settings.api_enabled && (
+        <div>
+          <A
+            href="https://app.swaggerhub.com/apis-docs/passiv/PassivAPI/v1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            API Documentation
+          </A>
+        </div>
       )}
       {settings.api_enabled && token && token !== '' && (
         <WarningBox>
