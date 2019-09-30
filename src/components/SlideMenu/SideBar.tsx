@@ -56,7 +56,9 @@ const SideBar = () => {
   const loggedIn = useSelector(selectLoggedIn);
   const groups = useSelector(selectGroups);
 
-  let groupList: JSX.Element | JSX.Element[] = <FontAwesomeIcon icon={faSpinner} spin />;
+  let groupList: JSX.Element | JSX.Element[] = (
+    <FontAwesomeIcon icon={faSpinner} spin />
+  );
 
   if (groups) {
     groupList = groups.map(group => (
@@ -77,7 +79,9 @@ const SideBar = () => {
     return (
       <StyledAside>
         <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
-        <GroupContainer>{groupList}</GroupContainer>
+        {groups && groups.length > 0 && (
+          <GroupContainer>{groupList}</GroupContainer>
+        )}
         <SideBarLink name="Settings" linkPath="/app/settings" />
         <SideBarFooter />
       </StyledAside>
