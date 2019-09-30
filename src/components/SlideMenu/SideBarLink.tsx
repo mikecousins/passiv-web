@@ -5,6 +5,13 @@ import { faSpinner, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { RebalanceAlert } from '../../styled/Rebalance';
 import { useSelector } from 'react-redux';
 import { selectPathname } from '../../selectors/router';
+import styled from '@emotion/styled';
+
+const ColorBox = styled.div``;
+
+const IndentColorBox = styled(ColorBox)`
+  padding-left: 20px;
+`;
 
 type Props = {
   name: string;
@@ -15,7 +22,8 @@ type Props = {
   setupComplete?: boolean;
   spinnerLoading?: boolean;
   hideArrow?: boolean;
-}
+  indent?: boolean;
+};
 
 const SideBarLink = ({
   name,
@@ -26,6 +34,7 @@ const SideBarLink = ({
   setupComplete,
   spinnerLoading,
   hideArrow,
+  indent,
 }: Props) => {
   const pathname = useSelector(selectPathname);
 
@@ -35,11 +44,21 @@ const SideBarLink = ({
   if (hideArrow === undefined) {
     hideArrow = false;
   }
-  let selected = pathname.startsWith(linkPath);
+  // let selected = pathname.startsWith(linkPath);
+  let selected = pathname === linkPath;
+  if (
+    pathname.startsWith(linkPath) &&
+    pathname.split('/').reverse()[0] === 'settings'
+  ) {
+    selected = true;
+  }
 
   let colorClass = undefined;
   if (selected) {
     colorClass = 'active';
+  }
+  if (indent === undefined) {
+    indent = false;
   }
 
   let indicator = null;
@@ -75,15 +94,19 @@ const SideBarLink = ({
     }
   }
 
-  return (
-    <div className={colorClass}>
-      <Link to={linkPath}>
-        {indicator}
-        {name}
-        {!hideArrow && <FontAwesomeIcon icon={faAngleRight} />}
-      </Link>
-    </div>
+  const link = (
+    <Link to={linkPath}>
+      {indicator}
+      {indent ? name : <strong>{name}</strong>}
+      {!hideArrow && <FontAwesomeIcon icon={faAngleRight} />}
+    </Link>
   );
+
+  if (indent) {
+    return <IndentColorBox className={colorClass}>{link}</IndentColorBox>;
+  } else {
+    return <ColorBox className={colorClass}>{link}</ColorBox>;
+  }
 };
 
 export default SideBarLink;

@@ -52,6 +52,7 @@ const GroupContainer = styled.div`
     padding: 17px 15px 17px 25px;
   }
 `;
+
 const SideBar = () => {
   const loggedIn = useSelector(selectLoggedIn);
   const groups = useSelector(selectGroups);
@@ -61,19 +62,33 @@ const SideBar = () => {
   );
 
   if (groups) {
-    groupList = groups.map(group => (
-      <SideBarLink
-        key={group.id}
-        name={group.name}
-        linkPath={`/app/group/${group.id}`}
-        rebalance={!!group.rebalance}
-        hasAccounts={group.hasAccounts}
-        loading={group.loading}
-        setupComplete={group.setupComplete}
-        spinnerLoading={true}
-        hideArrow={true}
-      />
-    ));
+    groupList = groups.map(group => {
+      return (
+        <React.Fragment>
+          <SideBarLink
+            key={group.id}
+            name={group.name}
+            linkPath={`/app/group/${group.id}`}
+            rebalance={!!group.rebalance}
+            hasAccounts={group.hasAccounts}
+            loading={group.loading}
+            setupComplete={group.setupComplete}
+            spinnerLoading={true}
+            hideArrow={true}
+          />
+          {group.hasAccounts &&
+            group.accounts.map(account => (
+              <SideBarLink
+                key={account.id}
+                name={account.name}
+                linkPath={`/app/group/${group.id}/account/${account.id}`}
+                hideArrow={true}
+                indent={true}
+              />
+            ))}
+        </React.Fragment>
+      );
+    });
   }
   if (loggedIn) {
     return (

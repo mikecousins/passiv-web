@@ -75,6 +75,7 @@ export const selectGroups = createSelector<
         }
 
         groupWithRebalance.hasAccounts = false;
+        groupWithRebalance.accounts = [];
         if (accounts) {
           let groupAccounts = accounts.filter(
             account => account.portfolio_group === group.id,
@@ -83,6 +84,8 @@ export const selectGroups = createSelector<
           if (groupAccounts.length > 0 && accounts) {
             groupWithRebalance.hasAccounts = true;
           }
+
+          groupWithRebalance.accounts = groupAccounts;
         }
 
         return groupWithRebalance;

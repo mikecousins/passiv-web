@@ -1,3 +1,5 @@
+import { Account } from './account';
+
 export interface GroupData {
   id: string;
   name: string;
@@ -5,4 +7,5 @@ export interface GroupData {
   setupComplete: boolean;
   rebalance: boolean;
   hasAccounts: boolean;
+  accounts: Account[];
 }
