@@ -1,7 +1,9 @@
 import React from 'react';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { H2 } from '../styled/GlobalElements';
 import styled from '@emotion/styled';
+import { selectTokenMinutesRemaining } from '../selectors';
+import Number from './Number';
 
 const H2Padded = styled(H2)`
   color: #fff;
@@ -20,6 +22,7 @@ const DivPadded = styled.div`
 `;
 
 const DemoNotesContent = () => {
+  const minutesRemaining = useSelector(selectTokenMinutesRemaining);
   return (
     <React.Fragment>
       <H2Padded>Demo Notes</H2Padded>
@@ -34,7 +37,12 @@ const DemoNotesContent = () => {
       <DivPadded>
         <ul>
           <li>
-            This account only lives for 60 minutes (XX minutes remaining).
+            This account only lives for 60 minutes (
+            <strong>
+              <Number value={minutesRemaining} decimalPlaces={0} /> minutes
+              remaining
+            </strong>
+            ).
           </li>
           <li>Only US exchanges are supported in this demo.</li>
           <li>

@@ -27,6 +27,11 @@ export const SlideMenu = () => {
     setVisible(false);
   }
 
+  if (oldPath !== pathname && pathname === '/app/demo') {
+    setPath(pathname);
+    setVisible(false);
+  }
+
   return (
     <StyledSlideMenu>
       <MenuButton
