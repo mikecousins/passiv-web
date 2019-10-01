@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
-import { Title } from '../styled/GlobalElements';
+import { Title, P } from '../styled/GlobalElements';
 import Number from './Number';
 import { selectCurrentAccountHoldings } from '../selectors/groups';
 import { selectCurrencies } from '../selectors';
@@ -115,6 +115,10 @@ const SymbolNameBox = styled.span`
   }
 `;
 
+const NoPositionsBox = styled.div`
+  text-align: center;
+`;
+
 const CurrencyCodeBox = styled.span``;
 
 export const AccountHoldings = () => {
@@ -162,26 +166,32 @@ export const AccountHoldings = () => {
   return (
     <ShadowBox>
       <HoldingsBox>
-        <HoldingsTable>
-          <thead>
-            <tr>
-              <th></th>
-              <th>
-                <Title>Units</Title>
-              </th>
-              <th>
-                <Title>Price</Title>
-              </th>
-              <th>
-                <Title>Value</Title>
-              </th>
-              <th>
-                <Title>Currency</Title>
-              </th>
-            </tr>
-          </thead>
-          <tbody>{renderedPositions}</tbody>
-        </HoldingsTable>
+        {account.positions && account.positions.length > 0 ? (
+          <HoldingsTable>
+            <thead>
+              <tr>
+                <th></th>
+                <th>
+                  <Title>Units</Title>
+                </th>
+                <th>
+                  <Title>Price</Title>
+                </th>
+                <th>
+                  <Title>Value</Title>
+                </th>
+                <th>
+                  <Title>Currency</Title>
+                </th>
+              </tr>
+            </thead>
+            <tbody>{renderedPositions}</tbody>
+          </HoldingsTable>
+        ) : (
+          <NoPositionsBox>
+            <P>There are no open positions in this account.</P>
+          </NoPositionsBox>
+        )}
       </HoldingsBox>
     </ShadowBox>
   );

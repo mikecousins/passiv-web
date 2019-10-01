@@ -42,7 +42,7 @@ export class Tutorial extends React.Component {
           Passiv Tutorials <FontAwesomeIcon icon={faFileVideo} />
         </H2>
         <P>Looking for some how-to videos?</P>
-        <A href="/help/tutorials/" target="_blank">
+        <A href="/help/tutorials/" target="_blank" rel="noopener noreferrer">
           Tutorials
         </A>
       </TutorialContainer>

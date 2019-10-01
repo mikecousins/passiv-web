@@ -160,11 +160,19 @@ export const WarningBox = styled.div`
 `;
 
 export const DisabledBox = styled.div`
-  opacity: 0.6;
+  opacity: 0.7;
+  font-size: 0.9em;
+  padding: 10px 20px 10px;
+  line-height: 1.3em;
 `;
 
 export const ErrorMessage = styled.div`
   width: 100%;
   text-align: left;
   margin: 20px 0;
+`;
+
+export const OptionsTitle = styled.span`
+  font-weight: 700;
+  margin-right: 10px;
 `;

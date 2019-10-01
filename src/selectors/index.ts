@@ -17,6 +17,20 @@ export const selectLoggedIn = (state: AppState) => !!state.auth.token;
 
 export const selectToken = (state: AppState) => state.auth.token;
 
+export const selectTokenMinutesRemaining = createSelector(
+  selectToken,
+  selectAppTime,
+  (token, now) => {
+    if (!token) {
+      return 0;
+    }
+    const decodedToken = jwtDecode(token);
+    const expiry = ms.seconds(decodedToken.exp);
+    console.log('now', now, 'expiry', expiry);
+    return (expiry - now) / (1000 * 60);
+  },
+);
+
 export const selectTokenIsExpired = createSelector(
   selectToken,
   selectAppTime,
@@ -106,6 +120,13 @@ export const selectBrokerages = createSelector(
       }
       return brokerages;
     }
+  },
+);
+
+export const selectAllBrokerages = createSelector(
+  selectBrokeragesRaw,
+  rawBrokerages => {
+    return rawBrokerages.data;
   },
 );
 

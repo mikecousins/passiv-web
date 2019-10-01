@@ -428,7 +428,11 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                         </Edit>
                       </div>
                       <div>
-                        <AButton href={portfolioVisualizerURL} target="_blank">
+                        <AButton
+                          href={portfolioVisualizerURL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           Portfolio Visualizer
                         </AButton>
                       </div>
