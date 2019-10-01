@@ -8,6 +8,7 @@ import {
   selectCurrentGroupTarget,
   selectCurrentGroupTargetInitialized,
   selectCurrentGroupInfoError,
+  selectCurrentGroupPositions,
 } from '../../selectors/groups';
 import { Button } from '../../styled/Button';
 import { H2, H3, P, ErrorMessage } from '../../styled/GlobalElements';
@@ -64,14 +65,25 @@ const PortfolioGroupTargets = () => {
   const target = useSelector(selectCurrentGroupTarget);
   const targetInitialized = useSelector(selectCurrentGroupTargetInitialized);
   const error = useSelector(selectCurrentGroupInfoError);
+  const positions = useSelector(selectCurrentGroupPositions);
 
   const dispatch = useDispatch();
+
+  const importDisabled = () => {
+    return (
+      positions !== null && positions !== undefined && positions.length === 0
+    );
+  };
 
   const modelChoices = [
     {
       id: 'IMPORT',
       name: 'Import your current holdings as a target',
-      button: <Button onClick={() => importTarget()}>Import</Button>,
+      button: (
+        <Button onClick={() => importTarget()} disabled={importDisabled()}>
+          Import
+        </Button>
+      ),
     },
     {
       id: 'MANUAL',

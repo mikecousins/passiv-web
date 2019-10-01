@@ -3,24 +3,29 @@ import { useSelector } from 'react-redux';
 import { selectCurrencies } from '../../selectors';
 import { Select } from '../../styled/Form';
 import styled from '@emotion/styled';
+import { OptionsTitle } from '../../styled/GlobalElements';
 
 export const SelectCurrency = styled(Select)`
   margin-left: 6px;
 `;
 
 type Props = {
+  name?: string;
   settings: any;
   update: (event: any) => void;
 };
 
-const PreferredCurrencySetting = ({ settings, update }: Props) => {
+const PreferredCurrencySetting = ({ name, settings, update }: Props) => {
   const currencies = useSelector(selectCurrencies);
   if (!settings) {
     return null;
   }
+  if (!name) {
+    name = 'Preferred Currency';
+  }
   return (
     <div>
-      <span>Preferred Currency: </span>
+      <OptionsTitle>{name}:</OptionsTitle>
       <SelectCurrency value={settings.preferred_currency} onChange={update}>
         {currencies &&
           currencies.map(currency => (

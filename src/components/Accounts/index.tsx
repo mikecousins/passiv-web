@@ -11,9 +11,8 @@ import { faPen, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
-import AddPortfolioGroup from './AddPortfolioGroup';
 import AccountGroup from './AccountGroup';
-import { deleteData, putData } from '../../api';
+import { deleteData, putData, postData } from '../../api';
 import { H2, A, Edit, H3, P } from '../../styled/GlobalElements';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 import { loadAccounts, loadGroups } from '../../actions';
@@ -82,10 +81,6 @@ const Accounts = () => {
       return;
     }
 
-    if (result.destination.droppableId === 'new') {
-      // TODO add logic to handle this
-    }
-
     const newList: Group[] = Array.from(localAccounts);
     const sourceList = newList.find(
       group => group.groupId === result.source.droppableId,
@@ -93,25 +88,45 @@ const Accounts = () => {
     const destList = newList.find(
       group => group.groupId === result.destination!.droppableId,
     );
-    if (sourceList && destList) {
-      const [moved] = sourceList.accounts.splice(result.source.index, 1);
-      destList.accounts.splice(result.destination.index, 0, moved);
 
+    if (sourceList) {
+      const [moved] = sourceList.accounts.splice(result.source.index, 1);
       const newAccount = {
         ...moved,
         portfolio_group: result.destination!.droppableId,
       };
-      putData(`/api/v1/accounts/${moved.id}`, newAccount)
-        .then(() => {
-          dispatch(loadAccounts());
-          dispatch(loadGroups());
-          toast.success('Moved the account successfully');
-        })
-        .catch(() => {
-          dispatch(loadAccounts());
-          dispatch(loadGroups());
-          toast.error('Failed to move the account');
-        });
+
+      if (destList) {
+        destList.accounts.splice(result.destination.index, 0, moved);
+        putData(`/api/v1/accounts/${moved.id}`, newAccount)
+          .then(() => {
+            dispatch(loadAccounts());
+            dispatch(loadGroups());
+            toast.success('Moved the account successfully');
+          })
+          .catch(() => {
+            dispatch(loadAccounts());
+            dispatch(loadGroups());
+            toast.error('Failed to move the account');
+          });
+      } else if (result.destination.droppableId === 'new') {
+        postData('/api/v1/portfolioGroups', { name: 'New Group' }).then(
+          newGroup => {
+            newAccount.portfolio_group = newGroup.data[0].id;
+            putData(`/api/v1/accounts/${moved.id}`, newAccount)
+              .then(() => {
+                dispatch(loadAccounts());
+                dispatch(loadGroups());
+                toast.success('Moved the account successfully');
+              })
+              .catch(() => {
+                dispatch(loadAccounts());
+                dispatch(loadGroups());
+                toast.error('Failed to move the account');
+              });
+          },
+        );
+      }
     }
 
     setLocalAccounts(newList);
@@ -220,7 +235,6 @@ const Accounts = () => {
             )}
           </Droppable>
         )}
-        <AddPortfolioGroup />
       </DragDropContext>
     </React.Fragment>
   );

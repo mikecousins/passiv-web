@@ -22,7 +22,7 @@ const SubscriptionPlans = () => {
       <H3> Get Passiv Elite </H3>
       <P>
         Unlock{' '}
-        <a href="/pricing" target="_blank">
+        <a href="/pricing" target="_blank" rel="noopener noreferrer">
           all features
         </a>{' '}
         for just{' '}

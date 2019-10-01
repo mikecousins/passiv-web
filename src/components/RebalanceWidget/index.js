@@ -395,6 +395,7 @@ export class RebalanceWidget extends Component {
               <A
                 href="https://questrade-support.secure.force.com/mylearning/view/h/Investing/Market+orders"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Learn more
               </A>
@@ -403,6 +404,7 @@ export class RebalanceWidget extends Component {
               <A
                 href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Exchange and ECN fees
               </A>
@@ -410,6 +412,7 @@ export class RebalanceWidget extends Component {
               <A
                 href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 SEC fees
               </A>{' '}
@@ -417,6 +420,7 @@ export class RebalanceWidget extends Component {
               <A
                 href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 annual custody
               </A>{' '}

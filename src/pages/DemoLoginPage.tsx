@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { loginSucceeded, logout } from '../actions';
 import { postData } from '../api';
 import { selectLoggedIn, selectIsDemo } from '../selectors';
 import { H1 } from '../styled/GlobalElements';
+import DemoNotesContent from '../components/DemoNotesContent';
+import ShadowBox from '../styled/ShadowBox';
+import { Button } from '../styled/Button';
+import { push } from 'connected-react-router';
 
 type Props = {
   location: any;
@@ -34,11 +37,18 @@ const DemoLoginPage = ({ location }: Props) => {
     if (isDemo != null && !isDemo) {
       dispatch(logout());
     } else {
-      let nextPath = '/app/dashboard';
-      if (location && location.state && location.state.nextPathname) {
-        nextPath = location.state.nextPathname;
-      }
-      return <Redirect to={nextPath} />;
+      return (
+        <ShadowBox background="#04a287">
+          <DemoNotesContent />
+          <Button
+            onClick={() => {
+              dispatch(push('/app/dashboard'));
+            }}
+          >
+            Continue
+          </Button>
+        </ShadowBox>
+      );
     }
   }
 

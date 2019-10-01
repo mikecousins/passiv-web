@@ -58,7 +58,11 @@ const QuestradeAuthorizationPicker = () => {
         <WhyQuestrade>
           <P color="white">
             Not with{' '}
-            <A href="https://www.questrade.com" target="_blank">
+            <A
+              href="https://www.questrade.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Questrade
             </A>
             ? Here’s why you should be:
