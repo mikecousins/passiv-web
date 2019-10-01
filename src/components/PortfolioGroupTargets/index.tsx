@@ -69,19 +69,18 @@ const PortfolioGroupTargets = () => {
 
   const dispatch = useDispatch();
 
+  const importDisabled = () => {
+    return (
+      positions !== null && positions !== undefined && positions.length === 0
+    );
+  };
+
   const modelChoices = [
     {
       id: 'IMPORT',
       name: 'Import your current holdings as a target',
       button: (
-        <Button
-          onClick={() => importTarget()}
-          disabled={
-            positions != null &&
-            positions != undefined &&
-            positions.length === 0
-          }
-        >
+        <Button onClick={() => importTarget()} disabled={importDisabled()}>
           Import
         </Button>
       ),
