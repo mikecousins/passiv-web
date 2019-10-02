@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faClock } from '@fortawesome/free-solid-svg-icons';
 import { push } from 'connected-react-router';
 import styled from '@emotion/styled';
-import { loadGroup } from '../../actions';
+import { loadGroupAndAccounts } from '../../actions';
 import { getData, postData } from '../../api';
 import {
   selectBrokerages,
@@ -71,6 +71,11 @@ export class RebalanceWidget extends Component {
     error: null,
   };
 
+  reloadData = () => {
+    // reload the group
+    this.reloadGroup();
+  };
+
   validateOrders = () => {
     this.setState({ validatingOrders: true });
     getData(
@@ -103,8 +108,7 @@ export class RebalanceWidget extends Component {
           orderResults: response.data,
           error: null,
         });
-        // reload the group
-        this.reloadGroup();
+        this.reloadData();
       })
       .catch(error => {
         this.setState({
@@ -112,6 +116,7 @@ export class RebalanceWidget extends Component {
           orderResults: null,
           error: error.response.data,
         });
+        this.reloadData();
       });
   };
 
@@ -468,7 +473,7 @@ export class RebalanceWidget extends Component {
 }
 
 const actions = {
-  reloadGroup: loadGroup,
+  reloadGroup: loadGroupAndAccounts,
   push: push,
 };
 
