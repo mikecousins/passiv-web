@@ -14,9 +14,10 @@ const OrderImpacts = ({ impacts, accountBalances }) => {
     );
 
     if (
-      filteredAccountBalance[0].cash !== impact.remaining_cash ||
-      impact.estimated_commissions > 0 ||
-      impact.forex_fees > 0
+      filteredAccountBalance.length > 0 &&
+      (filteredAccountBalance[0].cash !== impact.remaining_cash ||
+        impact.estimated_commissions > 0 ||
+        impact.forex_fees > 0)
     ) {
       filteredAccountIds.push(impact.account);
     }
