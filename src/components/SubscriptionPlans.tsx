@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectPlans } from '../selectors';
-import { H3, P, UL } from '../styled/GlobalElements';
+import { H3, P, UL, A } from '../styled/GlobalElements';
 import Number from './Number';
 import styled from '@emotion/styled';
 
@@ -10,6 +10,16 @@ const SmallList = styled(UL)`
   width: 80%;
   padding-top: 15px;
   margin: auto;
+  color: #fff;
+  line-height: 1.3em;
+`;
+
+const H3White = styled(H3)`
+  color: #fff;
+`;
+
+const AWhite = styled(A)`
+  color: #fff;
 `;
 
 const SubscriptionPlans = () => {
@@ -19,12 +29,12 @@ const SubscriptionPlans = () => {
   }
   return (
     <React.Fragment>
-      <H3> Get Passiv Elite </H3>
+      <H3White> Get Passiv Elite </H3White>
       <P>
         Unlock{' '}
-        <a href="/pricing" target="_blank" rel="noopener noreferrer">
+        <AWhite href="/pricing" target="_blank" rel="noopener noreferrer">
           all features
-        </a>{' '}
+        </AWhite>{' '}
         for just{' '}
         <strong>
           <Number
