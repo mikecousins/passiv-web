@@ -53,7 +53,7 @@
     "react-beautiful-dnd": "11.0.5",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "16.10.1",
-    "react-ga": "2.6.0",
+    "react-ga": "2.7.0",
     "react-markdown": "4.2.2",
     "react-piwik": "1.6.0",
     "react-plaid-link": "1.5.0",
