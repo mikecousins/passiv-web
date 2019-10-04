@@ -805,6 +805,7 @@ export const selectCurrentAccountHoldings = createSelector<
       name: account.name,
       number: account.number,
       type: account.meta.type,
+      institution_name: account.institution_name,
       positions,
     };
   },

@@ -203,6 +203,32 @@ export const loadGroup: ActionCreator<
   };
 };
 
+export const loadGroupAndAccounts: ActionCreator<
+  ThunkAction<void, any, any, Action<any>>
+> = payload => {
+  return dispatch => {
+    payload.ids.forEach((id: string) => {
+      dispatch(fetchGroupInfoStart(id));
+      getData(`/api/v1/portfolioGroups/${id}/info/`)
+        .then(response => {
+          dispatch(fetchGroupInfoSuccess(response, id));
+          response.data.accounts.forEach((account: any) => {
+            dispatch(fetchAccountBalancesStart(account.id));
+            getData('/api/v1/accounts/' + account.id + '/balances/')
+              .then(r => dispatch(fetchAccountBalancesSuccess(r, account.id)))
+              .catch(e => dispatch(fetchAccountBalancesError(e, account.id)));
+
+            dispatch(fetchAccountPositionsStart(account.id));
+            getData('/api/v1/accounts/' + account.id + '/positions/')
+              .then(r => dispatch(fetchAccountPositionsSuccess(r, account.id)))
+              .catch(e => dispatch(fetchAccountPositionsError(e, account.id)));
+          });
+        })
+        .catch(error => dispatch(fetchGroupInfoError(error, id)));
+    });
+  };
+};
+
 export const initialLoad: ActionCreator<
   ThunkAction<void, any, any, Action<any>>
 > = () => {

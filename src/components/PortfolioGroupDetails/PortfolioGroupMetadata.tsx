@@ -38,6 +38,10 @@ const PortfolioGroupMetadata = ({ account }: Props) => {
           <span>Type: </span>
           {account ? account.type : <FontAwesomeIcon icon={faSpinner} spin />}
         </div>
+        <div>
+          <span>Institution: </span>
+          {account && account.institution_name}
+        </div>
       </MetaHorizontal>
     </div>
   );

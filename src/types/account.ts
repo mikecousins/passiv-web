@@ -4,6 +4,7 @@ type Meta = {
   is_billing: boolean;
   is_primary: boolean;
   client_account_type: string;
+  institution_name: string;
 };
 
 export type Account = {
@@ -12,6 +13,7 @@ export type Account = {
   brokerage_authorization: string;
   portfolio_group: string;
   name: string;
+  institution_name: string;
   number: string;
   meta: Meta;
 };
