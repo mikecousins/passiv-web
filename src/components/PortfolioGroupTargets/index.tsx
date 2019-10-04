@@ -110,7 +110,12 @@ const PortfolioGroupTargets = () => {
 
   const generateTargetForm = (lockable: boolean) => {
     let form = <TargetSelector target={target} lockable={lockable} />;
-    if (!targetInitialized || (!loading && target && target.length === 0)) {
+    if (
+      !targetInitialized ||
+      (!loading &&
+        target &&
+        target.filter(t => t.is_supported === true).length === 0)
+    ) {
       form = <ShadowBox>{form}</ShadowBox>;
     }
     return form;

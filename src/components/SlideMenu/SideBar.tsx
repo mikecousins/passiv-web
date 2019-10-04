@@ -64,7 +64,7 @@ const SideBar = () => {
   if (groups) {
     groupList = groups.map(group => {
       return (
-        <React.Fragment>
+        <React.Fragment key={group.id}>
           <SideBarLink
             key={group.id}
             name={group.name}
