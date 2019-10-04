@@ -26,11 +26,9 @@ const PlaidConnection = ({
   };
 
   handleOnClick = brokerage => {
-    if (!updateConnection) {
-      postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
-        type: 'read',
-      });
-    }
+    postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+      type: 'read',
+    });
   };
 
   handleOnExit = () => {
