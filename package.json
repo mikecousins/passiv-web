@@ -89,7 +89,7 @@
     "@storybook/addon-links": "5.2.3",
     "@storybook/preset-create-react-app": "1.0.0-beta.3",
     "@storybook/react": "5.2.1",
-    "@storybook/theming": "5.2.1",
+    "@storybook/theming": "5.2.3",
     "@testing-library/jest-dom": "4.1.1",
     "@testing-library/react": "9.3.0",
     "@types/history": "4.7.3",
