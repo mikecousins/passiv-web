@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { selectSettings } from '../selectors';
+import { selectSettings, selectIsDemo } from '../selectors';
 import { selectCanUseAPI } from '../selectors/subscription';
 import { loadSettings } from '../actions';
 import { postData, deleteData } from '../api';
@@ -65,6 +65,7 @@ const IconButton = styled.button`
 const APIAccessSettings = () => {
   const settings = useSelector(selectSettings);
   const canUseAPI = useSelector(selectCanUseAPI);
+  const isDemo = useSelector(selectIsDemo);
   const [token, setToken] = useState('');
   const [copied, setCopied] = useState(false);
   const dispatch = useDispatch();
@@ -111,7 +112,7 @@ const APIAccessSettings = () => {
     return null;
   }
 
-  const disabled = !(canUseAPI || settings.api_enabled);
+  const disabled = !(canUseAPI || settings.api_enabled) || isDemo;
 
   return (
     <DividingLine>
