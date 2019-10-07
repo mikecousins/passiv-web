@@ -85,7 +85,7 @@
     "travis": "npm run test -- --coverage && npm run lint && npm run cypress"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "5.2.1",
+    "@storybook/addon-actions": "5.2.3",
     "@storybook/addon-links": "5.2.3",
     "@storybook/preset-create-react-app": "1.0.0-beta.3",
     "@storybook/react": "5.2.1",
