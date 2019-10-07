@@ -135,26 +135,26 @@ const APIAccessSettings = () => {
         <SecretBox>
           {token && token !== '' ? (
             <React.Fragment>
-              <CopyToClipboard
-                text={token}
-                onCopy={() => {
-                  alert('copied');
-                  setCopied(true);
-                }}
-              >
-                <React.Fragment>
-                  <InputBox>
-                    <ReadOnlyInput value={token} readOnly={true} />
-                  </InputBox>
-                  <IconBox>
-                    {copied ? (
-                      <FontAwesomeIcon icon={faClipboardCheck} />
-                    ) : (
+              <InputBox>
+                <ReadOnlyInput value={token} readOnly={true} />
+              </InputBox>
+              <IconBox>
+                <CopyToClipboard
+                  text={token}
+                  onCopy={() => {
+                    alert('copied');
+                    setCopied(true);
+                  }}
+                >
+                  {copied ? (
+                    <FontAwesomeIcon icon={faClipboardCheck} />
+                  ) : (
+                    <button>
                       <FontAwesomeIcon icon={faClipboard} />
-                    )}
-                  </IconBox>
-                </React.Fragment>
-              </CopyToClipboard>
+                    </button>
+                  )}
+                </CopyToClipboard>
+              </IconBox>
             </React.Fragment>
           ) : (
             <React.Fragment>
