@@ -46,9 +46,9 @@ const InputBox = styled.div`
 
 const IconBox = styled.div`
   width: 20px;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-top: 10px;
+  padding-top: 5px;
+  margin-right: 20px;
+  margin-left: 10px;
 `;
 
 const ReadOnlyInput = styled(InputTarget)`
@@ -56,6 +56,10 @@ const ReadOnlyInput = styled(InputTarget)`
   width: 100%;
   text-align: center;
   font-size: 12px;
+`;
+
+const IconButton = styled.button`
+  font-size: 1.3em;
 `;
 
 const APIAccessSettings = () => {
@@ -142,16 +146,17 @@ const APIAccessSettings = () => {
                 <CopyToClipboard
                   text={token}
                   onCopy={() => {
-                    alert('copied');
                     setCopied(true);
                   }}
                 >
                   {copied ? (
-                    <FontAwesomeIcon icon={faClipboardCheck} />
+                    <IconButton>
+                      <FontAwesomeIcon icon={faClipboardCheck} />
+                    </IconButton>
                   ) : (
-                    <button>
+                    <IconButton>
                       <FontAwesomeIcon icon={faClipboard} />
-                    </button>
+                    </IconButton>
                   )}
                 </CopyToClipboard>
               </IconBox>
@@ -165,8 +170,10 @@ const APIAccessSettings = () => {
                   disabled={true}
                 />
               </InputBox>
-              <IconBox onClick={() => newToken()}>
-                <FontAwesomeIcon icon={faRedoAlt} />
+              <IconBox>
+                <IconButton onClick={() => newToken()}>
+                  <FontAwesomeIcon icon={faRedoAlt} />
+                </IconButton>
               </IconBox>
             </React.Fragment>
           )}
