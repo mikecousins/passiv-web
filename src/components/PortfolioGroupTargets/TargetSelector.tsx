@@ -89,7 +89,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
 
   const dispatch = useDispatch();
 
-  if (!target || cash === null) {
+  if (!target || cash === null || cash === undefined) {
     return null;
   }
 
