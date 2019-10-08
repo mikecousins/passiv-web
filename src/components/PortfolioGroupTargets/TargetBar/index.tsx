@@ -33,6 +33,15 @@ const Disabled = styled.div`
   opacity: 0.5;
 `;
 
+const ToggleBox = styled.div`
+  padding-left: 30px;
+  padding-right: 30px;
+`;
+
+const ActualBox = styled.div`
+  padding-right: 30px;
+`;
+
 type Props = {
   target: any;
   children: JSX.Element;
@@ -160,37 +169,41 @@ const TargetBar = ({
                 <Target>
                   <InputContainer>{children}%</InputContainer>
                 </Target>
-                <Actual>
-                  <Number
-                    value={renderActualPercentage}
-                    percentage
-                    decimalPlaces={1}
-                  />
-                </Actual>
+                <ActualBox>
+                  <Actual>
+                    <Number
+                      value={renderActualPercentage}
+                      percentage
+                      decimalPlaces={1}
+                    />
+                  </Actual>
+                </ActualBox>
               </React.Fragment>
             )}
 
-            <ToggleButton
-              disabled={!is_supported}
-              type="button"
-              onClick={() => onExclude(key)}
-            >
-              <React.Fragment>
-                <Tooltip
-                  label={
-                    is_supported
-                      ? 'Exclude this asset from your portfolio calculations'
-                      : 'This security is not supported by Passiv'
-                  }
-                >
-                  {is_excluded ? (
-                    <FontAwesomeIcon icon={faToggleOn} />
-                  ) : (
-                    <FontAwesomeIcon icon={faToggleOff} />
-                  )}
-                </Tooltip>
-              </React.Fragment>
-            </ToggleButton>
+            <ToggleBox>
+              <ToggleButton
+                disabled={!is_supported}
+                type="button"
+                onClick={() => onExclude(key)}
+              >
+                <React.Fragment>
+                  <Tooltip
+                    label={
+                      is_supported
+                        ? 'Exclude this asset from your portfolio calculations'
+                        : 'This security is not supported by Passiv'
+                    }
+                  >
+                    {is_excluded ? (
+                      <FontAwesomeIcon icon={faToggleOn} />
+                    ) : (
+                      <FontAwesomeIcon icon={faToggleOff} />
+                    )}
+                  </Tooltip>
+                </React.Fragment>
+              </ToggleButton>
+            </ToggleBox>
           </React.Fragment>
         )}
       </TargetRow>

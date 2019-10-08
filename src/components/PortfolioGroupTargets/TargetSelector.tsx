@@ -32,7 +32,6 @@ const Th = styled.div`
 `;
 const Legend = styled.div`
   display: inline-block;
-  background: #f6f6f6;
   margin: 0 5px 0 auto;
   padding: 11px 16px;
   border-radius: 4px;
