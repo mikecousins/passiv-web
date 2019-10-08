@@ -306,6 +306,9 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                     if (t.deleted) {
                       return null;
                     }
+                    if (edit == false && t.is_supported == false) {
+                      return null;
+                    }
                     return (
                       <div key={t.key}>
                         <TargetBar
