@@ -48,8 +48,6 @@ export class ConnectionsManager extends React.Component {
         <H2>Connections</H2>
         <Connections />
 
-        <PlaidConnection />
-
         {this.state.creatingNewConnection ? (
           <div>
             <Button
