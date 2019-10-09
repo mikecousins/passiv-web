@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { selectSettings } from '../selectors';
+import { selectSettings, selectIsDemo } from '../selectors';
 import { selectCanUseAPI } from '../selectors/subscription';
 import { loadSettings } from '../actions';
 import { postData, deleteData } from '../api';
@@ -46,9 +46,9 @@ const InputBox = styled.div`
 
 const IconBox = styled.div`
   width: 20px;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-top: 10px;
+  padding-top: 5px;
+  margin-right: 20px;
+  margin-left: 10px;
 `;
 
 const ReadOnlyInput = styled(InputTarget)`
@@ -58,9 +58,14 @@ const ReadOnlyInput = styled(InputTarget)`
   font-size: 12px;
 `;
 
+const IconButton = styled.button`
+  font-size: 1.3em;
+`;
+
 const APIAccessSettings = () => {
   const settings = useSelector(selectSettings);
   const canUseAPI = useSelector(selectCanUseAPI);
+  const isDemo = useSelector(selectIsDemo);
   const [token, setToken] = useState('');
   const [copied, setCopied] = useState(false);
   const dispatch = useDispatch();
@@ -107,7 +112,7 @@ const APIAccessSettings = () => {
     return null;
   }
 
-  const disabled = !(canUseAPI || settings.api_enabled);
+  const disabled = !(canUseAPI || settings.api_enabled) || isDemo;
 
   return (
     <DividingLine>
@@ -135,26 +140,27 @@ const APIAccessSettings = () => {
         <SecretBox>
           {token && token !== '' ? (
             <React.Fragment>
-              <CopyToClipboard
-                text={token}
-                onCopy={() => {
-                  alert('copied');
-                  setCopied(true);
-                }}
-              >
-                <React.Fragment>
-                  <InputBox>
-                    <ReadOnlyInput value={token} readOnly={true} />
-                  </InputBox>
-                  <IconBox>
-                    {copied ? (
+              <InputBox>
+                <ReadOnlyInput value={token} readOnly={true} />
+              </InputBox>
+              <IconBox>
+                <CopyToClipboard
+                  text={token}
+                  onCopy={() => {
+                    setCopied(true);
+                  }}
+                >
+                  {copied ? (
+                    <IconButton>
                       <FontAwesomeIcon icon={faClipboardCheck} />
-                    ) : (
+                    </IconButton>
+                  ) : (
+                    <IconButton>
                       <FontAwesomeIcon icon={faClipboard} />
-                    )}
-                  </IconBox>
-                </React.Fragment>
-              </CopyToClipboard>
+                    </IconButton>
+                  )}
+                </CopyToClipboard>
+              </IconBox>
             </React.Fragment>
           ) : (
             <React.Fragment>
@@ -165,8 +171,10 @@ const APIAccessSettings = () => {
                   disabled={true}
                 />
               </InputBox>
-              <IconBox onClick={() => newToken()}>
-                <FontAwesomeIcon icon={faRedoAlt} />
+              <IconBox>
+                <IconButton onClick={() => newToken()}>
+                  <FontAwesomeIcon icon={faRedoAlt} />
+                </IconButton>
               </IconBox>
             </React.Fragment>
           )}

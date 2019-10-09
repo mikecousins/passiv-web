@@ -32,20 +32,20 @@ const Th = styled.div`
 `;
 const Legend = styled.div`
   display: inline-block;
-  background: #f6f6f6;
-  margin: 0 20px 0 auto;
+  margin: 0 5px 0 auto;
   padding: 11px 16px;
   border-radius: 4px;
 `;
-const ActualTitle = styled.span`
+
+const BaseLegendTitle = styled.span`
   font-size: 18px;
-  color: #04a287;
+  color: #000;
   position: relative;
   padding-left: 22px;
   margin-left: 20px;
   font-weight: 600;
   &:before {
-    background: #04a287;
+    background: #000;
     border-radius: 50%;
     content: '';
     position: absolute;
@@ -55,27 +55,23 @@ const ActualTitle = styled.span`
     top: 2px;
   }
 `;
-const TargetTitle = styled.span`
-  font-size: 18px;
-  color: #003ba2;
-  position: relative;
-  padding-left: 22px;
-  font-weight: 600;
+
+const ActualTitle = styled(BaseLegendTitle)`
+  color: var(--brand-green);
   &:before {
-    background: #003ba2;
-    border-radius: 50%;
-    content: '';
-    position: absolute;
-    width: 17px;
-    height: 17px;
-    left: 0;
-    top: 2px;
+    background: var(--brand-green);
   }
 `;
-const ExcludeTitle = styled.span`
-  font-size: 18px;
-  font-weight: 600;
+
+const TargetTitle = styled(BaseLegendTitle)`
+  margin-left: 5px;
+  color: var(--brand-blue);
+  &:before {
+    background: var(--brand-blue);
+  }
 `;
+
+const ExcludeTitle = styled(BaseLegendTitle)``;
 
 type Props = {
   lockable: boolean;
@@ -93,7 +89,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
 
   const dispatch = useDispatch();
 
-  if (!target || !cash) {
+  if (!target || cash === null || cash === undefined) {
     return null;
   }
 
@@ -245,8 +241,8 @@ export const TargetSelector = ({ lockable, target }: Props) => {
               <Legend>
                 <TargetTitle>Target</TargetTitle>
                 <ActualTitle>Actual</ActualTitle>
+                <ExcludeTitle>Exclude</ExcludeTitle>
               </Legend>
-              <ExcludeTitle>Exclude</ExcludeTitle>
             </Th>
           )}
           <FieldArray
@@ -304,6 +300,9 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                 <React.Fragment>
                   {props.values.targets.map((t, index) => {
                     if (t.deleted) {
+                      return null;
+                    }
+                    if (edit === false && t.is_supported === false) {
                       return null;
                     }
                     return (

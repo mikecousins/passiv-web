@@ -31,7 +31,7 @@ export const Target = styled.div`
     text-align: right;
     background: none;
     display: inline-block;
-    border: 2px solid var(--brand-green);
+    border: 2px solid var(--brand-blue);
     transition: all 0.25s;
     margin-top: -7px;
     margin-right: 3px;
