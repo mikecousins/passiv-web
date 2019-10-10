@@ -8,7 +8,6 @@ import { postData, putData } from '../api';
 
 import CashNotifcationSettings from './CashNotificationSettings';
 import DriftNotifcationSettings from './DriftNotificationSettings';
-import PreferredCurrencySetting from './PortfolioGroupSettings/PreferredCurrencySetting';
 import APIAccessSettings from './APIAccessSettings';
 
 import styled from '@emotion/styled';
@@ -26,10 +25,6 @@ const InputContainer = styled.div`
 const TextContainer = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
-`;
-
-const SubtleBox = styled.div`
-  padding-top: 10px;
 `;
 
 export class CredentialsManager extends React.Component {
@@ -166,28 +161,6 @@ export class CredentialsManager extends React.Component {
               </InputContainer>
             </TextContainer>
           </div>
-          <SubtleBox>
-            <H2>Other</H2>
-            <TextContainer>
-              <InputContainer>
-                <PreferredCurrencySetting
-                  name="Total Holdings Currency"
-                  settings={this.props.settings}
-                  update={event => {
-                    let settings = { ...this.props.settings };
-                    settings.preferred_currency = event.target.value;
-                    putData('/api/v1/settings/', settings)
-                      .then(response => {
-                        this.props.refreshSettings();
-                      })
-                      .catch(error => {
-                        this.props.refreshSettings();
-                      });
-                  }}
-                />
-              </InputContainer>
-            </TextContainer>
-          </SubtleBox>
         </ShadowBox>
       </div>
     );
