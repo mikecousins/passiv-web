@@ -1,11 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
-import { selectIsDemoMode } from '../selectors';
+import { Menu, MenuButton, MenuList, MenuItem } from '@reach/menu-button';
+import { selectSettings } from '../selectors';
 import { selectTotalGroupHoldings } from '../selectors/groups';
 import Number from './Number';
+import { putData } from '../api';
+import { loadSettings } from '../actions';
 
 export const TotalContainer = styled.div`
   text-align: right;
@@ -35,16 +38,34 @@ export const TotalContainer = styled.div`
 
 export const TotalHoldings = () => {
   const totalHoldings = useSelector(selectTotalGroupHoldings);
-  const demoMode = useSelector(selectIsDemoMode);
+  const settings = useSelector(selectSettings);
+  const dispatch = useDispatch();
   let displayTotal = <FontAwesomeIcon icon={faSpinner} spin />;
-  if (demoMode) {
-    displayTotal = <span>$-------.--</span>;
-  } else if (totalHoldings !== null) {
+  if (totalHoldings !== null) {
     displayTotal = <Number value={totalHoldings} currency />;
   }
   return (
     <TotalContainer>
       <h2>Total Holdings</h2>
+      <Menu>
+        <MenuButton>$ CAD</MenuButton>
+        <MenuList>
+          <MenuItem
+            onSelect={() => {
+              settings.preferred_currency = 'USD';
+              putData('/api/v1/settings/', settings)
+                .then(() => {
+                  dispatch(loadSettings());
+                })
+                .catch(() => {
+                  dispatch(loadSettings());
+                });
+            }}
+          >
+            $ USD
+          </MenuItem>
+        </MenuList>
+      </Menu>
       <span>{displayTotal}</span>
     </TotalContainer>
   );

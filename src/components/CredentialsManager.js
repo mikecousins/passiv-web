@@ -174,7 +174,7 @@ export class CredentialsManager extends React.Component {
                   name="Total Holdings Currency"
                   settings={this.props.settings}
                   update={event => {
-                    let settings = Object.assign({}, this.props.settings);
+                    let settings = { ...this.props.settings };
                     settings.preferred_currency = event.target.value;
                     putData('/api/v1/settings/', settings)
                       .then(response => {

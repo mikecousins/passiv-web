@@ -18,6 +18,7 @@ import SecureRoute from './routes/SecureRoute';
 import UpdateNotification from './components/UpdateNotification';
 import SharePage from './pages/SharePage';
 import DemoLoginPage from './pages/DemoLoginPage';
+import '@reach/menu-button/styles.css';
 
 declare global {
   interface Window {
