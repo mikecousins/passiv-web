@@ -3,12 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
-import { Menu, MenuButton, MenuList, MenuItem } from '@reach/menu-button';
-import { selectSettings } from '../selectors';
+import { selectSettings, selectCurrencies } from '../selectors';
 import { selectTotalGroupHoldings } from '../selectors/groups';
 import Number from './Number';
 import { putData } from '../api';
 import { loadSettings } from '../actions';
+import CurrencySelector from './CurrencySelector';
 
 export const TotalContainer = styled.div`
   text-align: right;
@@ -39,6 +39,7 @@ export const TotalContainer = styled.div`
 export const TotalHoldings = () => {
   const totalHoldings = useSelector(selectTotalGroupHoldings);
   const settings = useSelector(selectSettings);
+  const currencies = useSelector(selectCurrencies);
   const dispatch = useDispatch();
   let displayTotal = <FontAwesomeIcon icon={faSpinner} spin />;
   if (totalHoldings !== null) {
@@ -48,25 +49,20 @@ export const TotalHoldings = () => {
     <TotalContainer>
       <h2>Total Holdings</h2>
       <span>{displayTotal}</span>
-      <Menu>
-        <MenuButton>CAD</MenuButton>
-        <MenuList>
-          <MenuItem
-            onSelect={() => {
-              settings.preferred_currency = 'USD';
-              putData('/api/v1/settings/', settings)
-                .then(() => {
-                  dispatch(loadSettings());
-                })
-                .catch(() => {
-                  dispatch(loadSettings());
-                });
-            }}
-          >
-            USD
-          </MenuItem>
-        </MenuList>
-      </Menu>
+      <CurrencySelector
+        value={settings.preferred_currency}
+        options={currencies}
+        onChange={(newCurrency: string) => {
+          settings.preferred_currency = newCurrency;
+          putData('/api/v1/settings/', settings)
+            .then(() => {
+              dispatch(loadSettings());
+            })
+            .catch(() => {
+              dispatch(loadSettings());
+            });
+        }}
+      />
     </TotalContainer>
   );
 };
