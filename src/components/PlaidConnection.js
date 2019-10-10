@@ -6,15 +6,8 @@ import { selectBrokerages } from '../selectors';
 import { initialLoad } from '../actions';
 import { postData } from '../api';
 
-const PlaidConnection = ({
-  updateConnection,
-  brokerages,
-  reloadAllState,
-  handleOnSuccess,
-  handleOnExit,
-  handleOnClick,
-}) => {
-  handleOnSuccess = (token, metadata) => {
+const PlaidConnection = ({ brokerages, reloadAllState }) => {
+  const handleOnSuccess = (token, metadata) => {
     // send token to client server
     postData('/api/v1/brokerages/authComplete/', { token: token }).then(
       response => {
@@ -25,13 +18,13 @@ const PlaidConnection = ({
     );
   };
 
-  handleOnClick = brokerage => {
+  const handleOnClick = brokerage => {
     postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
       type: 'read',
     });
   };
 
-  handleOnExit = () => {
+  const handleOnExit = () => {
     // handle the case when your user exits Link
   };
 

@@ -18,6 +18,7 @@ import SecureRoute from './routes/SecureRoute';
 import UpdateNotification from './components/UpdateNotification';
 import SharePage from './pages/SharePage';
 import DemoLoginPage from './pages/DemoLoginPage';
+import PlaidConnectPage from './pages/PlaidConnectPage';
 
 declare global {
   interface Window {
@@ -121,6 +122,10 @@ const App = () => {
           <SecureRoute
             path={prefixPath('/oauth/alpaca')}
             component={AlpacaOauthPage}
+          />
+          <SecureRoute
+            path={prefixPath('/plaid')}
+            component={PlaidConnectPage}
           />
           <Route
             exact
