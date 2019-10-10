@@ -47,8 +47,9 @@ export const TotalHoldings = () => {
   return (
     <TotalContainer>
       <h2>Total Holdings</h2>
+      <span>{displayTotal}</span>
       <Menu>
-        <MenuButton>$ CAD</MenuButton>
+        <MenuButton>CAD</MenuButton>
         <MenuList>
           <MenuItem
             onSelect={() => {
@@ -62,11 +63,10 @@ export const TotalHoldings = () => {
                 });
             }}
           >
-            $ USD
+            USD
           </MenuItem>
         </MenuList>
       </Menu>
-      <span>{displayTotal}</span>
     </TotalContainer>
   );
 };
