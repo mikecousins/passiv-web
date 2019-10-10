@@ -4,7 +4,6 @@ import { selectBrokerages } from '../selectors';
 import { postData } from '../api';
 import { Button } from '../styled/Button';
 import { StepButton } from '../styled/SignupSteps';
-import PlaidLink from 'react-plaid-link';
 import { Select } from '../styled/Form';
 import styled from '@emotion/styled';
 

@@ -14,8 +14,6 @@ import { Button } from '../styled/Button';
 import ShadowBox from '../styled/ShadowBox';
 import { H2 } from '../styled/GlobalElements';
 
-import PlaidConnection from '../components/PlaidConnection';
-
 export class ConnectionsManager extends React.Component {
   state = {
     creatingNewConnection: false,
