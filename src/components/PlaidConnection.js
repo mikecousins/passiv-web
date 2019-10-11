@@ -35,8 +35,8 @@ const PlaidConnection = ({ brokerages, reloadAllState }) => {
   return (
     <div onClick={() => handleOnClick(plaid)}>
       <PlaidLink
-        clientName="Test App"
-        env="sandbox"
+        clientName="Passiv"
+        env="development"
         product={['investments']}
         publicKey="db7797dd137d1d2d7b519e5fdc998e"
         onExit={handleOnExit.bind()}
