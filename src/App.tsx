@@ -13,6 +13,7 @@ import HelpPage from './pages/HelpPage';
 import HelpArticlePage from './pages/HelpArticlePage';
 import QuestradeOauthPage from './pages/QuestradeOauthPage';
 import AlpacaOauthPage from './pages/AlpacaOauthPage';
+import InteractiveBrokersOauthPage from './pages/InteractiveBrokersOauthPage';
 import CouponPage from './pages/CouponPage';
 import SecureRoute from './routes/SecureRoute';
 import UpdateNotification from './components/UpdateNotification';
@@ -35,6 +36,12 @@ const questradeOauthRedirect = () => {
 const alpacaOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/alpaca?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
+const interactiveBrokersOauthRedirect = () => {
+  let urlParams = new URLSearchParams(window.location.search);
+  let newPath = '/app/oauth/interactivebrokers?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
@@ -127,6 +134,15 @@ const App = () => {
             exact
             path="/oauth/alpaca"
             render={() => alpacaOauthRedirect()}
+          />
+          <SecureRoute
+            path={prefixPath('/oauth/interactivebrokers')}
+            component={InteractiveBrokersOauthPage}
+          />
+          <Route
+            exact
+            path="/oauth/interactivebrokers"
+            render={() => interactiveBrokersOauthRedirect()}
           />
           <Route path={prefixPath('/share')} component={SharePage} />
           <UpdateNotification />
