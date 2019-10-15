@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/browser';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import ReactGA from 'react-ga';
-import App from './App';
+import App from './apps/App';
 import ErrorBoundary from './components/ErrorBoundary';
 import createRunLoop from './reactors/init-runloop';
 import { effects } from './reactors/effects';
