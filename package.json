@@ -90,7 +90,7 @@
     "@storybook/addon-links": "5.2.4",
     "@storybook/preset-create-react-app": "1.0.1",
     "@storybook/react": "5.2.4",
-    "@storybook/theming": "5.2.3",
+    "@storybook/theming": "5.2.4",
     "@testing-library/jest-dom": "4.1.2",
     "@testing-library/react": "9.3.0",
     "@types/history": "4.7.3",
