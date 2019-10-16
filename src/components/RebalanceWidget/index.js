@@ -388,8 +388,8 @@ export class RebalanceWidget extends Component {
           <OrderContainer>
             <H2>Order Summary</H2>
             <P>
-              The trades listed above will be placed as market orders on
-              Questrade.
+              The trades listed above will be placed as market orders on your
+              brokerage account.
             </P>
             <div>
               <OrderImpacts impacts={this.state.orderSummary} />
