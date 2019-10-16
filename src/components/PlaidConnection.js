@@ -2,7 +2,7 @@ import React from 'react';
 import PlaidLink from 'react-plaid-link';
 import { connect } from 'react-redux';
 
-import { selectBrokerages } from '../selectors';
+import { selectAllBrokerages } from '../selectors';
 import { initialLoad } from '../actions';
 import { postData } from '../api';
 
@@ -49,7 +49,7 @@ const PlaidConnection = ({ brokerages, reloadAllState }) => {
 };
 
 const select = state => ({
-  brokerages: selectBrokerages(state),
+  brokerages: selectAllBrokerages(state),
 });
 const actions = {
   reloadAllState: initialLoad,
