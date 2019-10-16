@@ -1678,7 +1678,7 @@
     webpack-dev-middleware "^3.7.0"
     webpack-hot-middleware "^2.25.0"
 
-"@storybook/node-logger@5.2.4", "@storybook/node-logger@^5.2.1":
+"@storybook/node-logger@5.2.4", "@storybook/node-logger@^5.2.4":
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/@storybook/node-logger/-/node-logger-5.2.4.tgz#52dc380c76bdac68de35e7d72efe920c3ba52a23"
   integrity sha512-4OOzce02IAfrRv+Y7h3icyw6WIuDekpWF2eYjgYVVvAJYklCEwgeBTBCY0/2TJjPPTBDPUKHVP1Bdz3Vpci9pA==
@@ -1689,13 +1689,13 @@
     pretty-hrtime "^1.0.3"
     regenerator-runtime "^0.12.1"
 
-"@storybook/preset-create-react-app@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@storybook/preset-create-react-app/-/preset-create-react-app-1.0.1.tgz#6342208ca6c0b3a0cc5c59ed68cc4f9285832036"
-  integrity sha512-ZsZVUbrj3e6mvwqLOVcP9qyI8mWr9IC03vSukrXKBSEx6aJLHB8/7UhJoSK6WUXr3UWMXbDgGRuoiWtU5aliyw==
+"@storybook/preset-create-react-app@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@storybook/preset-create-react-app/-/preset-create-react-app-1.1.0.tgz#ed2141352b7ef5b306254ab7d3d11de0ec332e83"
+  integrity sha512-eOaMzoZHlE86vjXk3EeCPnuN3gowO41EvDzMVAJ0h/LKGJzfm4p7waFO958aPEkb9zqlLn/BIQ2Nj53MXVkQTg==
   dependencies:
-    "@storybook/node-logger" "^5.2.1"
-    react-docgen-typescript-loader "^3.2.1"
+    "@storybook/node-logger" "^5.2.4"
+    react-docgen-typescript-loader "^3.3.0"
 
 "@storybook/react@5.2.4":
   version "5.2.4"
@@ -11073,7 +11073,7 @@ react-dev-utils@^9.0.0, react-dev-utils@^9.1.0:
     strip-ansi "5.2.0"
     text-table "0.2.0"
 
-react-docgen-typescript-loader@^3.2.1:
+react-docgen-typescript-loader@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/react-docgen-typescript-loader/-/react-docgen-typescript-loader-3.3.0.tgz#c1f5c1db9a2b6a6bca220bc50fee0a071bc75499"
   integrity sha512-gC0TeWTz7s7OMyeABppQGbbrtSNi0yl/gBgZJElBtaBFNSJlHH1sfgQybHZmlZqFcn4UBa+8DOGT6wEJKWTV6g==
