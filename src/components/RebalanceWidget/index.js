@@ -398,7 +398,7 @@ export class RebalanceWidget extends Component {
               Market orders may result in the price paid or received to be
               different from the last price quoted before the order was placed.{' '}
               <A
-                href="https://questrade-support.secure.force.com/mylearning/view/h/Investing/Market+orders"
+                href="https://www.investopedia.com/terms/m/marketorder.asp"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -407,7 +407,7 @@ export class RebalanceWidget extends Component {
             </P>
             <P>
               <A
-                href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees"
+                href="https://www.investopedia.com/terms/e/ecn.asp"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -415,23 +415,23 @@ export class RebalanceWidget extends Component {
               </A>
               ,{' '}
               <A
-                href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees"
+                href="https://www.investopedia.com/terms/s/secfee.asp"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 SEC fees
               </A>{' '}
-              and for ADRs{' '}
+              and for{' '}
               <A
-                href="https://www.questrade.com/pricing/self-directed-investing/fees#exchange-ecn-fees"
+                href="https://www.investopedia.com/terms/a/adr.asp"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                annual custody
+                ADRs
               </A>{' '}
-              fees may apply. Commissions may vary if your order is filled over
-              multiple days. Borrow fees may apply if you hold a short
-              investment overnight.
+              annual custody fees may apply. Commissions may vary if your order
+              is filled over multiple days. Borrow fees may apply if you hold a
+              short investment overnight.
             </P>
             {this.state.placingOrders ? (
               <div>
