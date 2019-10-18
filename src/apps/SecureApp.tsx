@@ -5,6 +5,7 @@ import GroupPage from '../pages/GroupPage';
 import SettingsPage from '../pages/SettingsPage';
 import QuestradeOauthPage from '../pages/QuestradeOauthPage';
 import AlpacaOauthPage from '../pages/AlpacaOauthPage';
+import InteractiveBrokersOauthPage from '../pages/InteractiveBrokersOauthPage';
 import CouponPage from '../pages/CouponPage';
 import SharePage from '../pages/SharePage';
 import { StripeProvider } from 'react-stripe-elements';
@@ -36,6 +37,12 @@ const questradeOauthRedirect = () => {
 const alpacaOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/alpaca?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
+const interactiveBrokersOauthRedirect = () => {
+  let urlParams = new URLSearchParams(window.location.search);
+  let newPath = '/app/oauth/interactivebrokers?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
@@ -84,6 +91,15 @@ const SecureApp = () => {
           exact
           path="/oauth/alpaca"
           render={() => alpacaOauthRedirect()}
+        />
+        <SecureRoute
+          path={prefixPath('/oauth/interactivebrokers')}
+          component={InteractiveBrokersOauthPage}
+        />
+        <Route
+          exact
+          path="/oauth/interactivebrokers"
+          render={() => interactiveBrokersOauthRedirect()}
         />
         <Route path={prefixPath('/share')} component={SharePage} />
         <Route path="*">
