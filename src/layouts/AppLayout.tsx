@@ -22,7 +22,7 @@ const Main = styled.main`
 `;
 
 interface Props {
-  children: any;
+  children: JSX.Element;
 }
 
 export const AppLayout = ({ children }: Props) => (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import LoginPage from '../pages/LoginPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
 import ResetPasswordConfirmPage from '../pages/ResetPasswordConfirmPage';
@@ -12,7 +12,7 @@ const prefixPath = (path: string) => {
 };
 
 const InsecureApp = () => (
-  <React.Fragment>
+  <Switch>
     <Route path={prefixPath('/login')} component={LoginPage} />
     <Route path={prefixPath('/register')} component={RegistrationPage} />
     <Route path={prefixPath('/demo')} component={DemoLoginPage} />
@@ -24,7 +24,7 @@ const InsecureApp = () => (
     <Route path="*">
       <Redirect to={prefixPath('/login')} />
     </Route>
-  </React.Fragment>
+  </Switch>
 );
 
 export default InsecureApp;
