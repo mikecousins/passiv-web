@@ -92,7 +92,7 @@ const SecureApp = () => {
           path="/oauth/alpaca"
           render={() => alpacaOauthRedirect()}
         />
-        <SecureRoute
+        <Route
           path={prefixPath('/oauth/interactivebrokers')}
           component={InteractiveBrokersOauthPage}
         />
