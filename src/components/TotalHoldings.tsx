@@ -49,20 +49,22 @@ export const TotalHoldings = () => {
     <TotalContainer>
       <h2>Total Holdings</h2>
       <span>{displayTotal}</span>
-      <CurrencySelector
-        value={settings.preferred_currency}
-        options={currencies}
-        onChange={(newCurrency: string) => {
-          settings.preferred_currency = newCurrency;
-          putData('/api/v1/settings/', settings)
-            .then(() => {
-              dispatch(loadSettings());
-            })
-            .catch(() => {
-              dispatch(loadSettings());
-            });
-        }}
-      />
+      {settings && (
+        <CurrencySelector
+          value={settings.preferred_currency}
+          options={currencies}
+          onChange={(newCurrency: string) => {
+            settings.preferred_currency = newCurrency;
+            putData('/api/v1/settings/', settings)
+              .then(() => {
+                dispatch(loadSettings());
+              })
+              .catch(() => {
+                dispatch(loadSettings());
+              });
+          }}
+        />
+      )}
     </TotalContainer>
   );
 };

@@ -2,11 +2,9 @@ import React from 'react';
 import AppLayout from './AppLayout';
 
 interface Props {
-  children: any;
+  children: JSX.Element;
 }
 
-const Layout = ({ children }: Props) => {
-  return <AppLayout>{children}</AppLayout>;
-};
+const Layout = ({ children }: Props) => <AppLayout>{children}</AppLayout>;
 
 export default Layout;
