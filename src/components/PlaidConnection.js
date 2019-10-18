@@ -2,19 +2,12 @@ import React from 'react';
 import PlaidLink from 'react-plaid-link';
 import { connect } from 'react-redux';
 
-import { selectBrokerages } from '../selectors';
+import { selectAllBrokerages } from '../selectors';
 import { initialLoad } from '../actions';
 import { postData } from '../api';
 
-const PlaidConnection = ({
-  updateConnection,
-  brokerages,
-  reloadAllState,
-  handleOnSuccess,
-  handleOnExit,
-  handleOnClick,
-}) => {
-  handleOnSuccess = (token, metadata) => {
+const PlaidConnection = ({ brokerages, reloadAllState }) => {
+  const handleOnSuccess = (token, metadata) => {
     // send token to client server
     postData('/api/v1/brokerages/authComplete/', { token: token }).then(
       response => {
@@ -25,13 +18,13 @@ const PlaidConnection = ({
     );
   };
 
-  handleOnClick = brokerage => {
+  const handleOnClick = brokerage => {
     postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
       type: 'read',
     });
   };
 
-  handleOnExit = () => {
+  const handleOnExit = () => {
     // handle the case when your user exits Link
   };
 
@@ -42,8 +35,8 @@ const PlaidConnection = ({
   return (
     <div onClick={() => handleOnClick(plaid)}>
       <PlaidLink
-        clientName="Test App"
-        env="sandbox"
+        clientName="Passiv"
+        env="development"
         product={['investments']}
         publicKey="db7797dd137d1d2d7b519e5fdc998e"
         onExit={handleOnExit.bind()}
@@ -56,7 +49,7 @@ const PlaidConnection = ({
 };
 
 const select = state => ({
-  brokerages: selectBrokerages(state),
+  brokerages: selectAllBrokerages(state),
 });
 const actions = {
   reloadAllState: initialLoad,
