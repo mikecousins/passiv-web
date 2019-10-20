@@ -1,6 +1,9 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
-import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
+import { Route, Switch } from 'react-router-dom';
+import AuthorizationPage from '../pages/AuthorizationPage';
+import SetupGroupPage from '../pages/SetupGroupsPage';
+import SetInitialTargetsPage from '../pages/SetInitialTargetsPage';
+import OnboardingSummaryPage from '../pages/OnboardingSummaryPage';
 
 // hack to make routing work on both prod and dev
 const prefixPath = (path: string) => {
@@ -8,11 +11,20 @@ const prefixPath = (path: string) => {
 };
 
 const InsecureApp = () => (
-  <React.Fragment>
-    <Route path={prefixPath('/connect')}>
-      <QuestradeAuthorizationPicker />
+  <Switch>
+    <Route path={prefixPath('/authorization')}>
+      <AuthorizationPage />
     </Route>
-  </React.Fragment>
+    <Route path={prefixPath('/setup-groups')}>
+      <SetupGroupPage />
+    </Route>
+    <Route path={prefixPath('/initial-targets')}>
+      <SetInitialTargetsPage />
+    </Route>
+    <Route path={prefixPath('/summary')}>
+      <OnboardingSummaryPage />
+    </Route>
+  </Switch>
 );
 
 export default InsecureApp;
