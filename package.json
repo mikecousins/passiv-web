@@ -88,7 +88,7 @@
   "devDependencies": {
     "@storybook/addon-actions": "5.2.4",
     "@storybook/addon-links": "5.2.4",
-    "@storybook/preset-create-react-app": "1.1.0",
+    "@storybook/preset-create-react-app": "1.2.0",
     "@storybook/react": "5.2.4",
     "@storybook/theming": "5.2.4",
     "@testing-library/jest-dom": "4.1.2",
