@@ -50,7 +50,7 @@
     "milliseconds": "1.0.3",
     "prop-types": "15.7.2",
     "qs": "6.9.0",
-    "react": "16.10.2",
+    "react": "16.11.0",
     "react-beautiful-dnd": "11.0.5",
     "react-copy-to-clipboard": "5.0.1",
     "react-dom": "16.10.2",
