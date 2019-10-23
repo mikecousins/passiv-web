@@ -1450,17 +1450,17 @@
   resolved "https://registry.yarnpkg.com/@sheerun/mutationobserver-shim/-/mutationobserver-shim-0.3.2.tgz#8013f2af54a2b7d735f71560ff360d3a8176a87b"
   integrity sha512-vTCdPp/T/Q3oSqwHmZ5Kpa9oI7iLtGl3RQaA/NyLHikvcrPxACkkKVr/XzkSPJWXHRhKGzVvb0urJsbMlRxi1Q==
 
-"@storybook/addon-actions@5.2.4":
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-5.2.4.tgz#79d13c1b6e58c75dd548eb162aa6626a93dfd041"
-  integrity sha512-5E8uXopy6Gq5R3MXrPf0VM9QiLaGLxLCXtDYHQ0gku+HhPYR25KQudS/PyuO+OWzuyB0fsvTi240B3zw+zilOg==
+"@storybook/addon-actions@5.2.5":
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-5.2.5.tgz#e8279907367392387d5c3c6af6031f9da2be9816"
+  integrity sha512-81N+M1GX4XB7Mirhhu3kiZJkjspfk2e1ysoJtwULjWeZfo2CLYLUAil4onr08Os2LH4RLJaj2hpS3hLflBio4g==
   dependencies:
-    "@storybook/addons" "5.2.4"
-    "@storybook/api" "5.2.4"
-    "@storybook/client-api" "5.2.4"
-    "@storybook/components" "5.2.4"
-    "@storybook/core-events" "5.2.4"
-    "@storybook/theming" "5.2.4"
+    "@storybook/addons" "5.2.5"
+    "@storybook/api" "5.2.5"
+    "@storybook/client-api" "5.2.5"
+    "@storybook/components" "5.2.5"
+    "@storybook/core-events" "5.2.5"
+    "@storybook/theming" "5.2.5"
     core-js "^3.0.1"
     fast-deep-equal "^2.0.1"
     global "^4.3.2"
@@ -1556,17 +1556,6 @@
     telejson "^3.0.2"
     util-deprecate "^1.0.2"
 
-"@storybook/channel-postmessage@5.2.4":
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/@storybook/channel-postmessage/-/channel-postmessage-5.2.4.tgz#e3735bdce42156e54bf462083aebaf23245ab5c3"
-  integrity sha512-ic7/Ho8z2/aOMjoEbr5p8rijOfO3SZdJnwMvDdUxrqvYq7yACZWidPo3w2+iBwQi9HLqEsWesP1c2doJBxVGRw==
-  dependencies:
-    "@storybook/channels" "5.2.4"
-    "@storybook/client-logger" "5.2.4"
-    core-js "^3.0.1"
-    global "^4.3.2"
-    telejson "^3.0.2"
-
 "@storybook/channel-postmessage@5.2.5":
   version "5.2.5"
   resolved "https://registry.yarnpkg.com/@storybook/channel-postmessage/-/channel-postmessage-5.2.5.tgz#47397e543a87ea525cbe93f7d85bd8533edc9127"
@@ -1591,27 +1580,6 @@
   integrity sha512-I+zB3ym5ozBcNBqyzZbvB6gRIG/ZKKkqy5k6LwKd5NMx7NU7zU74+LQUBBOcSIrigj8kCArZz7rlgb0tlSKXxQ==
   dependencies:
     core-js "^3.0.1"
-
-"@storybook/client-api@5.2.4":
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/@storybook/client-api/-/client-api-5.2.4.tgz#2507a3a739a6f6b13e4afefb938a6f3eab34ed55"
-  integrity sha512-SOwzEFHoNapURhNqdcI7HA76o5tkWvs2+2s++i/S7xsAd3KyefIVDOdqSMlAxJkxZb8Mlrb3UNRxlrpA8SZqNA==
-  dependencies:
-    "@storybook/addons" "5.2.4"
-    "@storybook/channel-postmessage" "5.2.4"
-    "@storybook/channels" "5.2.4"
-    "@storybook/client-logger" "5.2.4"
-    "@storybook/core-events" "5.2.4"
-    "@storybook/router" "5.2.4"
-    common-tags "^1.8.0"
-    core-js "^3.0.1"
-    eventemitter3 "^4.0.0"
-    global "^4.3.2"
-    is-plain-object "^3.0.0"
-    lodash "^4.17.11"
-    memoizerific "^1.11.3"
-    qs "^6.6.0"
-    util-deprecate "^1.0.2"
 
 "@storybook/client-api@5.2.5":
   version "5.2.5"
@@ -1647,30 +1615,6 @@
   integrity sha512-6DyYUrMgAvF+th0foH7UNz+2JJpRdvNbpvYKtvi/+hlvRIaI6AqANgLkPUgMibaif5TLzjCr0bLdAYcjeJz03w==
   dependencies:
     core-js "^3.0.1"
-
-"@storybook/components@5.2.4":
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/@storybook/components/-/components-5.2.4.tgz#9ecd080416eac4e8453030dd601cbeaa32ce4126"
-  integrity sha512-APhw+XGag0RTCRJ8eCWKVr8dLt9SRqnS8LtzcZJbokCYRxRTFzhmX2eVEE1v+d0gHib1/yh2COxOjMzv3m/rQA==
-  dependencies:
-    "@storybook/client-logger" "5.2.4"
-    "@storybook/theming" "5.2.4"
-    "@types/react-syntax-highlighter" "10.1.0"
-    core-js "^3.0.1"
-    global "^4.3.2"
-    markdown-to-jsx "^6.9.1"
-    memoizerific "^1.11.3"
-    polished "^3.3.1"
-    popper.js "^1.14.7"
-    prop-types "^15.7.2"
-    react "^16.8.3"
-    react-dom "^16.8.3"
-    react-focus-lock "^1.18.3"
-    react-helmet-async "^1.0.2"
-    react-popper-tooltip "^2.8.3"
-    react-syntax-highlighter "^8.0.1"
-    react-textarea-autosize "^7.1.0"
-    simplebar-react "^1.0.0-alpha.6"
 
 "@storybook/components@5.2.5":
   version "5.2.5"
