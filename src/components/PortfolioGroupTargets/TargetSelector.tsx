@@ -242,15 +242,13 @@ export const TargetSelector = ({ lockable, target }: Props) => {
       }}
       render={props => (
         <div>
-          {edit && (
-            <Th>
-              <Legend>
-                <TargetTitle>Target</TargetTitle>
-                <ActualTitle>Actual</ActualTitle>
-                <ExcludeTitle>Exclude</ExcludeTitle>
-              </Legend>
-            </Th>
-          )}
+          <Th>
+            <Legend>
+              <TargetTitle>Target</TargetTitle>
+              <ActualTitle>Actual</ActualTitle>
+              {edit && <ExcludeTitle>Exclude</ExcludeTitle>}
+            </Legend>
+          </Th>
           <FieldArray
             name="targets"
             render={arrayHelpers => {

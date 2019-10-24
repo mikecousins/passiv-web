@@ -91,6 +91,13 @@ const TargetBar = ({
     renderActualPercentage = actualPercentage;
   }
 
+  let renderTargetPercentage = null;
+  if (percent === undefined) {
+    renderTargetPercentage = 0;
+  } else {
+    renderTargetPercentage = percent;
+  }
+
   const deleteButton = (
     <Close type="button" onClick={() => onDelete(key)}>
       <FontAwesomeIcon icon={faTimes} />{' '}
@@ -166,25 +173,36 @@ const TargetBar = ({
             <Disabled>{fullSymbol.symbol}</Disabled>
           )}
         </Symbol>
-        {edit && (
-          <React.Fragment>
-            {!is_excluded && (
-              <React.Fragment>
+        <React.Fragment>
+          {!is_excluded && (
+            <React.Fragment>
+              {edit ? (
                 <Target>
                   <InputContainer>{children}%</InputContainer>
                 </Target>
-                <ActualBox>
-                  <Actual>
-                    <Number
-                      value={renderActualPercentage}
-                      percentage
-                      decimalPlaces={1}
-                    />
-                  </Actual>
-                </ActualBox>
-              </React.Fragment>
-            )}
+              ) : (
+                <Target>
+                  <Number
+                    value={renderTargetPercentage}
+                    percentage
+                    decimalPlaces={1}
+                  />
+                </Target>
+              )}
 
+              <ActualBox>
+                <Actual>
+                  <Number
+                    value={renderActualPercentage}
+                    percentage
+                    decimalPlaces={1}
+                  />
+                </Actual>
+              </ActualBox>
+            </React.Fragment>
+          )}
+
+          {edit && (
             <ToggleBox>
               <ToggleButton
                 disabled={!is_supported}
@@ -208,8 +226,8 @@ const TargetBar = ({
                 </React.Fragment>
               </ToggleButton>
             </ToggleBox>
-          </React.Fragment>
-        )}
+          )}
+        </React.Fragment>
       </TargetRow>
     </Container>
   );
