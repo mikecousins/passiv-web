@@ -97,7 +97,7 @@
     "@types/jest": "24.0.19",
     "@types/jwt-decode": "2.2.1",
     "@types/milliseconds": "0.0.29",
-    "@types/node": "12.11.5",
+    "@types/node": "12.11.6",
     "@types/qs": "6.5.3",
     "@types/reach__menu-button": "0.1.0",
     "@types/reach__tooltip": "0.2.0",
