@@ -37,7 +37,7 @@
     "@fortawesome/fontawesome-svg-core": "1.2.25",
     "@fortawesome/free-solid-svg-icons": "5.11.2",
     "@fortawesome/react-fontawesome": "0.1.7",
-    "@reach/menu-button": "0.3.0",
+    "@reach/menu-button": "0.4.0",
     "@reach/tooltip": "0.4.0",
     "@sentry/browser": "5.7.1",
     "axios": "0.19.0",
