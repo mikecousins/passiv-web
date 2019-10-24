@@ -9,6 +9,7 @@ import { selectCurrentAccountHoldings } from '../selectors/groups';
 import { selectCurrencies } from '../selectors';
 import ShadowBox from '../styled/ShadowBox';
 import { Symbol } from '../styled/Group';
+import { SymbolDetail } from './SymbolDetail';
 
 export const HoldingsTable = styled.table`
   width: 100%;
@@ -142,10 +143,7 @@ export const AccountHoldings = () => {
       return (
         <tr key={position.symbol.id}>
           <td>
-            <span>
-              <Symbol>{position.symbol.symbol.symbol}</Symbol>
-            </span>
-            <SymbolNameBox>{position.symbol.symbol.name}</SymbolNameBox>
+            <SymbolDetail symbol={position.symbol.symbol} />
           </td>
           <td data-label="Units">{position.units}</td>
           <td data-label="Price">

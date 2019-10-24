@@ -9,7 +9,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { postData } from '../../../api';
 import { useSelector, useDispatch } from 'react-redux';
 import SymbolSelector from './SymbolSelector';
+import { Symbol as SymbolBox } from '../../../styled/Group';
 import Number from '../../Number';
+import { SymbolDetail } from '../../SymbolDetail';
 import {
   BarsContainer,
   InputContainer,
@@ -157,7 +159,9 @@ const TargetBar = ({
               placeholder="Search for security..."
             />
           ) : is_supported ? (
-            fullSymbol.symbol
+            <React.Fragment>
+              <SymbolDetail symbol={fullSymbol} />
+            </React.Fragment>
           ) : (
             <Disabled>{fullSymbol.symbol}</Disabled>
           )}

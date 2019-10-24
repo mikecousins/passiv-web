@@ -11,6 +11,7 @@ export const Symbol = styled.div`
   font-weight: 700;
   letter-spacing: 0.02em;
   text-align: left;
+  overflow: hidden;
 `;
 export const Actual = styled.div`
   text-align: right;
