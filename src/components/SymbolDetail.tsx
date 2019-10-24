@@ -20,13 +20,14 @@ type Props = {
 };
 
 export const SymbolDetail = ({ symbol }: Props) => {
+  var ticker = symbol.symbol;
+  var name =
+    symbol.description !== undefined ? symbol.description : symbol.name;
   return (
-    <React.Fragment>
-      <Symbol>{symbol.symbol}</Symbol>
-      <SymbolNameBox>
-        {symbol.description !== undefined ? symbol.description : symbol.name}
-      </SymbolNameBox>
-    </React.Fragment>
+    <span title={`${ticker} (${name})`}>
+      <Symbol>{ticker}</Symbol>
+      <SymbolNameBox>{name}</SymbolNameBox>
+    </span>
   );
 };
 
