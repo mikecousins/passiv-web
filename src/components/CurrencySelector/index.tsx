@@ -22,7 +22,7 @@ const CurrencySelector = ({ value, options, onChange }: Props) => {
       <MenuButton>{currentCurrency.code}</MenuButton>
       <MenuList>
         {options.map(currency => (
-          <MenuItem onSelect={() => onChange(currency.id)}>
+          <MenuItem key={currency.id} onSelect={() => onChange(currency.id)}>
             {currency.code}
           </MenuItem>
         ))}
