@@ -71,6 +71,12 @@ const TargetTitle = styled(BaseLegendTitle)`
   }
 `;
 
+const ExcludedNote = styled.div`
+  text-align: center;
+  font-weight: 600;
+  font-size: 1em;
+`;
+
 const ExcludeTitle = styled(BaseLegendTitle)``;
 
 type Props = {
@@ -295,6 +301,9 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                 }
               });
               shareUrl = shareUrl.substr(0, shareUrl.length - 1);
+              var excludedAssetCount = props.values.targets.filter(
+                target => target.is_excluded === true,
+              ).length;
 
               return (
                 <React.Fragment>
@@ -305,6 +314,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                     if (edit === false && t.is_excluded === true) {
                       return null;
                     }
+
                     return (
                       <div key={t.key}>
                         <TargetBar
@@ -372,6 +382,13 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                       edit={edit}
                     />
                   </div>
+                  {!canEdit && excludedAssetCount > 0 && (
+                    <ExcludedNote>
+                      And <strong>{excludedAssetCount}</strong> excluded asset
+                      {excludedAssetCount > 1 && 's'}.
+                    </ExcludedNote>
+                  )}
+
                   <ErrorMessage name="targets" component="div" />
                   {canEdit ? (
                     <React.Fragment>
