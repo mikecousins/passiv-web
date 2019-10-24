@@ -302,7 +302,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                     if (t.deleted) {
                       return null;
                     }
-                    if (edit === false && t.is_supported === false) {
+                    if (edit === false && t.is_excluded === true) {
                       return null;
                     }
                     return (
