@@ -33,7 +33,7 @@ const interactiveBrokersOauthRedirect = () => {
 
 const InsecureApp = () => (
   <Switch>
-    <Route path={prefixPath('/authorization')}>
+    <Route path={prefixPath('/connect/:brokerage?')}>
       <AuthorizationPage />
     </Route>
     <Route
@@ -71,7 +71,7 @@ const InsecureApp = () => (
       <OnboardingSummaryPage />
     </Route>
     <Route path="*">
-      <Redirect to={prefixPath('/authorization')} />
+      <Redirect to={prefixPath('/connect')} />
     </Route>
   </Switch>
 );
