@@ -8,7 +8,6 @@ import Number from './Number';
 import { selectCurrentAccountHoldings } from '../selectors/groups';
 import { selectCurrencies } from '../selectors';
 import ShadowBox from '../styled/ShadowBox';
-import { Symbol } from '../styled/Group';
 import { SymbolDetail } from './SymbolDetail';
 
 export const HoldingsTable = styled.table`
@@ -102,17 +101,6 @@ export const HoldingsTable = styled.table`
 const HoldingsBox = styled.div`
   @media (min-width: 900px) {
     margin-top: 20px;
-  }
-`;
-
-const SymbolNameBox = styled.span`
-  @media (min-width: 900px) {
-    padding-left: 10px;
-  }
-  @media (max-width: 900px) {
-    margin-top: 12px;
-    line-height: 1.4;
-    font-weight: 600;
   }
 `;
 

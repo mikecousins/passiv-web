@@ -1,6 +1,4 @@
 import React from 'react';
-import ShadowBox from '../styled/ShadowBox';
-import DemoNotesContent from './DemoNotesContent';
 import styled from '@emotion/styled';
 import { Symbol } from '../styled/Group';
 

@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { postData } from '../../../api';
 import { useSelector, useDispatch } from 'react-redux';
 import SymbolSelector from './SymbolSelector';
-import { Symbol as SymbolBox } from '../../../styled/Group';
 import Number from '../../Number';
 import { SymbolDetail } from '../../SymbolDetail';
 import {
