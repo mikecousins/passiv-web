@@ -70,6 +70,9 @@ const InsecureApp = () => (
     <Route path={prefixPath('/summary')}>
       <OnboardingSummaryPage />
     </Route>
+    <Route path="*">
+      <Redirect to={prefixPath('/authorization')} />
+    </Route>
   </Switch>
 );
 
