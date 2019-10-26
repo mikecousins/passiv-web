@@ -56,14 +56,14 @@ const AuthorizationPage = () => {
           );
           if (brokerage) {
             postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
-              type: 'read',
+              type: 'trade',
             }).then(response => {
               window.location = response.data.url;
             });
           }
         }}
       >
-        Connect to Questrade
+        Connect to Alpaca
       </Button>
     );
   } else if (brokerage === 'plaid') {
