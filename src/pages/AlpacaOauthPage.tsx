@@ -125,7 +125,9 @@ const AlpacaOauthPage = () => {
           <Step>Failed to establish connection :(</Step>
           <ShadowBox>
             {errorDisplay}
-            <Button onClick={() => push('/app/settings')}>Settings</Button>
+            <Button onClick={() => dispatch(push('/app/settings'))}>
+              Go to Settings
+            </Button>
           </ShadowBox>
         </React.Fragment>
       )}
