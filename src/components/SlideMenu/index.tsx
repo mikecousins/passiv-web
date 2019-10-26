@@ -5,6 +5,7 @@ import MenuButton from './MenuButton';
 import Menu from './Menu';
 import { selectIsMobile } from '../../selectors/browser';
 import { selectPathname } from '../../selectors/router';
+import { selectShowOnboardingApp } from '../../selectors';
 
 const StyledSlideMenu = styled.div`
   position: relative;
@@ -17,7 +18,8 @@ const StyledSlideMenu = styled.div`
 export const SlideMenu = () => {
   const isMobile = useSelector(selectIsMobile);
   const pathname = useSelector(selectPathname);
-  const [visible, setVisible] = useState(!isMobile);
+  const showOnboarding = useSelector(selectShowOnboardingApp);
+  const [visible, setVisible] = useState(!isMobile && !showOnboarding);
   const [oldPath, setPath] = useState(pathname);
 
   // check our path to see if it's changed
