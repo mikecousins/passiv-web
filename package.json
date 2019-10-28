@@ -44,7 +44,7 @@
     "connected-react-router": "6.5.2",
     "date-fns": "2.6.0",
     "emotion-reset": "2.0.3",
-    "formik": "1.5.8",
+    "formik": "2.0.2",
     "history": "4.10.1",
     "jwt-decode": "2.2.0",
     "milliseconds": "1.0.3",
