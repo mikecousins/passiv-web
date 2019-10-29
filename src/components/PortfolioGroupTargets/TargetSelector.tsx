@@ -147,7 +147,12 @@ export const TargetSelector = ({ lockable, target }: Props) => {
     return target;
   };
 
-  const initialTargets = target.map((target: any) => {
+  type UITargetPosition = TargetPosition & {
+    deleted?: boolean;
+    key?: string;
+  };
+
+  const initialTargets: UITargetPosition[] = target.map((target: any) => {
     target.key = target.id;
     return { ...target };
   });
@@ -327,6 +332,9 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                             let target = props.values.targets.find(
                               t => t.key === key,
                             );
+                            if (!target) {
+                              return;
+                            }
                             target.deleted = true;
                             props.setFieldTouched(`targets.${index}.percent`);
                             props.setFieldValue(
@@ -339,6 +347,9 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                             let target = props.values.targets.find(
                               t => t.key === key,
                             );
+                            if (!target) {
+                              return;
+                            }
                             const newExcluded = !target.is_excluded;
                             target.is_excluded = newExcluded;
                             props.setFieldTouched(`targets.${index}.percent`);
