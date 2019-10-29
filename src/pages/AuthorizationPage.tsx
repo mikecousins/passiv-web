@@ -96,14 +96,12 @@ const AuthorizationPage = () => {
       major: true,
       logo: QuestradeLogo,
       description: (
-        <React.Fragment>
-          <P>
-            Rated as Canada's best online brokerage by MoneySense in 2019,
-            Questrade is a great choice for Canadians to manage their wealth.
-            Questrade has low fees, excellent customer support, and will even
-            cover your account transfer costs up to $150.
-          </P>
-        </React.Fragment>
+        <P>
+          Rated as Canada's best online brokerage by MoneySense in 2019,
+          Questrade is a great choice for Canadians to manage their wealth.
+          Questrade has low fees, excellent customer support, and will even
+          cover your account transfer costs up to $150.
+        </P>
       ),
     },
     {
@@ -133,12 +131,10 @@ const AuthorizationPage = () => {
       major: true,
       logo: AlpacaLogo,
       description: (
-        <React.Fragment>
-          <P>
-            Alpaca is a commission-free API-first brokerage servicing the USA
-            and beyond.
-          </P>
-        </React.Fragment>
+        <P>
+          Alpaca is a commission-free API-first brokerage servicing the USA and
+          beyond.
+        </P>
       ),
     },
     // {
@@ -179,7 +175,6 @@ const AuthorizationPage = () => {
     </React.Fragment>
   );
 
-  console.log('brokerage', brokerage);
   var output = null;
   if (brokerage === 'open') {
     output = (
