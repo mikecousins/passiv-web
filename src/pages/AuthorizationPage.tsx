@@ -1,18 +1,22 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
+import React from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { selectIsAuthorized, selectBrokerages } from '../selectors';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { H2, H3, P } from '../styled/GlobalElements';
+import { H2, P } from '../styled/GlobalElements';
 import { postData } from '../api';
 import { Button } from '../styled/Button';
-import PlaidConnectPage from './PlaidConnectPage';
+// import PlaidConnectPage from './PlaidConnectPage';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import QuestradeLogo from '../assets/images/questrade-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
+
+const aDarkStyle = {
+  color: 'white',
+};
 
 const h2DarkStyle = {
   color: 'white',
@@ -34,6 +38,20 @@ const Container2Column = styled.div`
       width: 250px;
     }
   }
+`;
+
+const Container1Column = styled.div`
+  display: flex;
+`;
+
+const LogoBox = styled.div`
+  margin-right: 20px;
+  height: 150px;
+  width: 250px;
+`;
+
+const GrowBox = styled.div`
+  flex-grow: 1;
 `;
 
 const LogoContainer = styled.div`
@@ -74,8 +92,19 @@ const AuthorizationPage = () => {
           </Button>
         );
       },
+      openURL: 'https://www.questrade.com/account-selection?oaa_promo=bgudhqhm',
       major: true,
       logo: QuestradeLogo,
+      description: (
+        <React.Fragment>
+          <P>
+            Rated as Canada's best online brokerage by MoneySense in 2019,
+            Questrade is a great choice for Canadians to manage their wealth.
+            Questrade has low fees, excellent customer support, and will even
+            cover your account transfer costs up to $150.
+          </P>
+        </React.Fragment>
+      ),
     },
     {
       id: 'alpaca',
@@ -100,8 +129,17 @@ const AuthorizationPage = () => {
           </Button>
         );
       },
+      openURL: 'https://app.alpaca.markets/signup',
       major: true,
       logo: AlpacaLogo,
+      description: (
+        <React.Fragment>
+          <P>
+            Alpaca is a commission-free API-first brokerage servicing the USA
+            and beyond.
+          </P>
+        </React.Fragment>
+      ),
     },
     // {
     //   id: 'plaid',
@@ -141,11 +179,62 @@ const AuthorizationPage = () => {
     </React.Fragment>
   );
 
-  if (brokerage) {
-    contents = brokerageOptions.find(b => b.id === brokerage).view();
+  console.log('brokerage', brokerage);
+  var output = null;
+  if (brokerage === 'open') {
+    output = (
+      <React.Fragment>
+        <H2 style={h2DarkStyle}>Open a brokerage account</H2>
+        <P style={pDarkStyle}>
+          Passiv is a service that helps you manage your portfolio in a
+          brokerage account. Since Passiv is not a brokerage firm, you will need
+          your own brokerage account in order to use Passiv. We partner with
+          select brokerage firms in order to provide the best experience.
+        </P>
+        <P style={pDarkStyle}>
+          Follow a link below to create a brokerage account with one of our
+          partners.
+        </P>
+        {brokerageOptions.map((brokerage: any) => {
+          return (
+            <ShadowBox>
+              <Container1Column>
+                <LogoBox>
+                  <LogoContainer>
+                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                  </LogoContainer>
+                  <Button
+                    onClick={() => {
+                      window.location = brokerage.openURL;
+                    }}
+                  >
+                    Open a
+                    {'aeiou'.includes(brokerage.name[0].toLowerCase()) && 'n'}{' '}
+                    {brokerage.name} Account
+                  </Button>
+                </LogoBox>
+                <GrowBox>{brokerage.description}</GrowBox>
+              </Container1Column>
+            </ShadowBox>
+          );
+        })}
+        <Link style={aDarkStyle} to="/app/connect">
+          Back
+        </Link>
+      </React.Fragment>
+    );
+  } else {
+    output = (
+      <React.Fragment>
+        {contents}
+        <Link style={aDarkStyle} to="/app/connect/open">
+          I don't have a brokerage account.
+        </Link>
+      </React.Fragment>
+    );
   }
 
-  return <ShadowBox background="#2a2d34">{contents}</ShadowBox>;
+  return <ShadowBox background="#2a2d34">{output}</ShadowBox>;
 };
 
 export default AuthorizationPage;
