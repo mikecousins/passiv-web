@@ -5,9 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { selectIsAuthorized, selectBrokerages } from '../selectors';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { H2, P } from '../styled/GlobalElements';
+import { H1, H2, P, A } from '../styled/GlobalElements';
 import { postData } from '../api';
-import { Button } from '../styled/Button';
 // import PlaidConnectPage from './PlaidConnectPage';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
@@ -16,16 +15,8 @@ import AlpacaLogo from '../assets/images/alpaca-logo.png';
 
 const aDarkStyle = {
   color: 'white',
-};
-
-const h2DarkStyle = {
-  color: 'white',
-  paddingBottom: '20px',
-};
-
-const pDarkStyle = {
-  color: 'white',
-  paddingBottom: '20px',
+  padding: '30px 0',
+  display: 'block',
 };
 
 const Container2Column = styled.div`
@@ -44,24 +35,58 @@ const Container1Column = styled.div`
   display: flex;
 `;
 
-const LogoBox = styled.div`
-  margin-right: 20px;
-  height: 150px;
-  width: 250px;
-`;
-
 const GrowBox = styled.div`
   flex-grow: 1;
+  color: #fff;
+  padding-left: 30px;
+  display: flex;
+  align-items: center;
 `;
 
 const LogoContainer = styled.div`
-  width: 80%;
+  padding: 6% 8%;
   img {
-    width: 100%;
-    margin-left: 10%;
-    margin-right: 10%;
+    max-width: 100%;
   }
 `;
+
+const AuthBox = styled(ShadowBox)`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 30px;
+`;
+
+const OpenBox = styled(ShadowBox)`
+  min-width: 400px;
+  text-align: center;
+  padding-bottom: 30px;
+`;
+
+const AuthLink = styled(A)`
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 0;
+`;
+
+const AuthP = styled(P)`
+  max-width: 715px;
+  color: #fff;
+  padding-bottom: 20px;
+`;
+
+const H1DarkStyle = styled(H1)`
+  color: #fff;
+`;
+
+const H2DarkStyle = styled(H2)`
+  color: #04a287;
+  font-size: 22px;
+  padding-bottom: 20px;
+`;
+
+const Brokerage = styled.div``;
 
 const AuthorizationPage = () => {
   const authorized = useSelector(selectIsAuthorized);
@@ -74,7 +99,7 @@ const AuthorizationPage = () => {
       name: 'Questrade',
       view: () => {
         return (
-          <Button
+          <AuthLink
             onClick={() => {
               const brokerage =
                 brokerages &&
@@ -88,8 +113,8 @@ const AuthorizationPage = () => {
               }
             }}
           >
-            Connect to Questrade
-          </Button>
+            Connect Questrade
+          </AuthLink>
         );
       },
       openURL: 'https://www.questrade.com/account-selection?oaa_promo=bgudhqhm',
@@ -109,7 +134,7 @@ const AuthorizationPage = () => {
       name: 'Alpaca',
       view: () => {
         return (
-          <Button
+          <AuthLink
             onClick={() => {
               const brokerage =
                 brokerages &&
@@ -123,8 +148,8 @@ const AuthorizationPage = () => {
               }
             }}
           >
-            Connect to Alpaca
-          </Button>
+            Connect Alpaca
+          </AuthLink>
         );
       },
       openURL: 'https://app.alpaca.markets/signup',
@@ -154,21 +179,22 @@ const AuthorizationPage = () => {
 
   let contents = (
     <React.Fragment>
-      <H2 style={h2DarkStyle}>Connect your brokerage:</H2>
-      <P style={pDarkStyle}>
+      <H1DarkStyle>Setup</H1DarkStyle>
+      <H2DarkStyle>Connect Your Brokerage</H2DarkStyle>
+      <AuthP>
         In order to help you manage your portfolio, Passiv needs to connect to
         your brokerage account. Connecting your account does not allow Passiv to
         see your login information.
-      </P>
+      </AuthP>
       <Container2Column>
         {brokerageOptions.map((brokerage: any) => {
           return (
-            <ShadowBox>
+            <AuthBox>
               <LogoContainer>
                 <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
               </LogoContainer>
               {brokerage.view()}
-            </ShadowBox>
+            </AuthBox>
           );
         })}
       </Container2Column>
@@ -179,38 +205,39 @@ const AuthorizationPage = () => {
   if (brokerage === 'open') {
     output = (
       <React.Fragment>
-        <H2 style={h2DarkStyle}>Open a brokerage account</H2>
-        <P style={pDarkStyle}>
+        <H1DarkStyle>Setup</H1DarkStyle>
+        <H2DarkStyle>Open a brokerage account</H2DarkStyle>
+        <AuthP>
           Passiv is a service that helps you manage your portfolio in a
           brokerage account. Since Passiv is not a brokerage firm, you will need
           your own brokerage account in order to use Passiv. We partner with
           select brokerage firms in order to provide the best experience.
-        </P>
-        <P style={pDarkStyle}>
+        </AuthP>
+        <AuthP>
           Follow a link below to create a brokerage account with one of our
           partners.
-        </P>
+        </AuthP>
         {brokerageOptions.map((brokerage: any) => {
           return (
-            <ShadowBox>
+            <Brokerage>
               <Container1Column>
-                <LogoBox>
+                <OpenBox>
                   <LogoContainer>
                     <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
                   </LogoContainer>
-                  <Button
+                  <AuthLink
                     onClick={() => {
                       window.location = brokerage.openURL;
                     }}
                   >
-                    Open a
-                    {'aeiou'.includes(brokerage.name[0].toLowerCase()) && 'n'}{' '}
+                    Open
+                    {'aeiou'.includes(brokerage.name[0].toLowerCase())}{' '}
                     {brokerage.name} Account
-                  </Button>
-                </LogoBox>
+                  </AuthLink>
+                </OpenBox>
                 <GrowBox>{brokerage.description}</GrowBox>
               </Container1Column>
-            </ShadowBox>
+            </Brokerage>
           );
         })}
         <Link style={aDarkStyle} to="/app/connect">
