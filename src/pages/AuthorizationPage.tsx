@@ -5,9 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { selectIsAuthorized, selectBrokerages } from '../selectors';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { H1, H2, H3, P, A } from '../styled/GlobalElements';
+import { H1, H2, P, A } from '../styled/GlobalElements';
 import { postData } from '../api';
-import { Button } from '../styled/Button';
 // import PlaidConnectPage from './PlaidConnectPage';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
@@ -34,12 +33,6 @@ const Container2Column = styled.div`
 
 const Container1Column = styled.div`
   display: flex;
-`;
-
-const LogoBox = styled.div`
-  margin-right: 20px;
-  height: 150px;
-  width: 250px;
 `;
 
 const GrowBox = styled.div`
@@ -93,10 +86,6 @@ const H2DarkStyle = styled(H2)`
   padding-bottom: 20px;
 `;
 
-const PDarkStyle = styled(P)`
-  color: #fff;
-  padding-bottom: 20px;
-`;
 const Brokerage = styled.div``;
 
 const AuthorizationPage = () => {
