@@ -3,7 +3,7 @@ import { selectToken, selectTokenIsExpired } from '../selectors';
 import { tokenExpired } from '../actions';
 
 const apiMiddleware = (store: any) => {
-  let baseUrlOverride = 'getpassiv.com';
+  let baseUrlOverride = 'beta.getpassiv.com';
   if (process.env.REACT_APP_BASE_URL_OVERRIDE) {
     baseUrlOverride = process.env.REACT_APP_BASE_URL_OVERRIDE;
   }
