@@ -39,18 +39,16 @@ const QuestradeAuthorizationPicker = () => {
   let nextPage = null;
   if (haveQuestrade) {
     nextPage = (
-      <React.Fragment>
-        <Table spaceAround>
-          <SmallStepButton onClick={() => setAnswered(false)}>
-            Back
-          </SmallStepButton>
-          <AuthorizationPicker
-            allowSelect={false}
-            brokerage={questradeId}
-            type={questradeDefaultType}
-          />
-        </Table>
-      </React.Fragment>
+      <Table spaceAround>
+        <SmallStepButton onClick={() => setAnswered(false)}>
+          Back
+        </SmallStepButton>
+        <AuthorizationPicker
+          allowSelect={false}
+          brokerage={questradeId}
+          type={questradeDefaultType}
+        />
+      </Table>
     );
   } else {
     nextPage = (

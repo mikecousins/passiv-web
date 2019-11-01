@@ -26,7 +26,6 @@ export const selectTokenMinutesRemaining = createSelector(
     }
     const decodedToken = jwtDecode(token);
     const expiry = ms.seconds(decodedToken.exp);
-    console.log('now', now, 'expiry', expiry);
     return (expiry - now) / (1000 * 60);
   },
 );
@@ -306,6 +305,49 @@ export const selectIsAuthorized = createSelector(
       return true;
     }
     return false;
+  },
+);
+
+export const selectShowInsecureApp = createSelector(
+  selectLoggedIn,
+  loggedIn => {
+    return loggedIn === false;
+  },
+);
+
+export const selectShowOnboardingApp = createSelector(
+  selectShowInsecureApp,
+  selectIsAuthorized,
+  (showInsecureApp, isAuthorized) => {
+    if (showInsecureApp) {
+      return false;
+    }
+    return !isAuthorized;
+  },
+);
+
+export const selectShowSecureApp = createSelector(
+  selectShowInsecureApp,
+  selectShowOnboardingApp,
+  (showInsecureApp, showOnboardingApp) => {
+    if (showInsecureApp || showOnboardingApp) {
+      return false;
+    }
+    return true;
+  },
+);
+
+export const selectOnboardingPage = createSelector(
+  selectShowOnboardingApp,
+  selectIsAuthorized,
+  (showOnboardingApp, isAuthorized) => {
+    if (!showOnboardingApp) {
+      return undefined;
+    }
+    if (!isAuthorized) {
+      return 'authorization';
+    }
+    return 'other';
   },
 );
 

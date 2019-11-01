@@ -21,8 +21,6 @@ const QuestradeOauthPage = () => {
   const queryParams = useSelector(selectQueryTokens);
   const dispatch = useDispatch();
 
-  console.log(queryParams);
-
   useEffect(() => {
     const oauth_token = queryParams.oauth_token;
     const oauth_verifier = queryParams.oauth_verifier;

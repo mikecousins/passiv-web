@@ -1,14 +1,29 @@
 import React from 'react';
 import Layout from '../layouts/Layout';
 import '@reach/menu-button/styles.css';
-import { selectLoggedIn } from '../selectors';
+import {
+  selectShowInsecureApp,
+  selectShowOnboardingApp,
+  selectShowSecureApp,
+} from '../selectors';
 import { useSelector } from 'react-redux';
 import SecureApp from './SecureApp';
 import InsecureApp from './InsecureApp';
+import OnboardingApp from './OnboardingApp';
 
 const App = () => {
-  const loggedIn = useSelector(selectLoggedIn);
-  return <Layout>{loggedIn ? <SecureApp /> : <InsecureApp />}</Layout>;
+  const showInsecureApp = useSelector(selectShowInsecureApp);
+  const showOnboardingApp = useSelector(selectShowOnboardingApp);
+  const showSecureApp = useSelector(selectShowSecureApp);
+  return (
+    <Layout>
+      <React.Fragment>
+        {showInsecureApp && <InsecureApp />}
+        {showOnboardingApp && <OnboardingApp />}
+        {showSecureApp && <SecureApp />}
+      </React.Fragment>
+    </Layout>
+  );
 };
 
 export default App;

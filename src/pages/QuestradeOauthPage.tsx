@@ -125,7 +125,7 @@ const QuestradeOauthPage = () => {
           <ShadowBox>
             {errorDisplay}
             <Button onClick={() => dispatch(push('/app/settings'))}>
-              Settings
+              Go to Settings
             </Button>
           </ShadowBox>
         </React.Fragment>
