@@ -1315,13 +1315,6 @@
   resolved "https://registry.yarnpkg.com/@reach/auto-id/-/auto-id-0.5.0.tgz#16fcc44b807a2fe9c6e730d8693ab87155de4066"
   integrity sha512-d4jHMqvxUDVwgj6mcr46y+B7012Py2A3dGJmQb8ckc3dtvZwh62II6Uku4cwbamkSGvHB7mMj8wuj+uTohiJ9A==
 
-"@reach/component-component@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@reach/component-component/-/component-component-0.4.0.tgz#eef22d4eb704839301ebd35986448709bf92e411"
-  integrity sha512-5ofEOKLjcm7/jSw2wosliOqVOV0LvQEJ/QJoVa/mCQ8ASYdqJz6scYPoU687fiJlfS7WORIAfFX7n8ojzDNwqQ==
-  dependencies:
-    prop-types "^15.7.2"
-
 "@reach/component-component@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@reach/component-component/-/component-component-0.5.0.tgz#db2855a03795566ad301167a33822c7b886cd0fe"
@@ -1329,16 +1322,16 @@
   dependencies:
     prop-types "^15.7.2"
 
-"@reach/menu-button@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@reach/menu-button/-/menu-button-0.4.0.tgz#0894dc296ed10f87a0e8c86cf7e7e2ccf93942df"
-  integrity sha512-qIZ8BLMLl8rxTyBr9YCV2XSBUQxzsQ53M4CYbMFu86fx9F+v1IXvj59sCWQcjvpl/uSPp4qurlESFrhflnotGg==
+"@reach/menu-button@0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@reach/menu-button/-/menu-button-0.5.0.tgz#7a0e1d167a5af58df048917373edacbbd4446e1b"
+  integrity sha512-xGneyGOF2kQ0Ee6AhA21YdKnL9TcFKbHWi8PYcpewpqqPBXzvw8jIahkSW9L6hGk4G0f1uxg/yJTfe+pZij71w==
   dependencies:
-    "@reach/component-component" "^0.4.0"
-    "@reach/portal" "^0.4.0"
-    "@reach/rect" "^0.4.0"
-    "@reach/utils" "^0.4.0"
-    "@reach/window-size" "^0.4.0"
+    "@reach/component-component" "^0.5.0"
+    "@reach/portal" "^0.5.0"
+    "@reach/rect" "^0.5.0"
+    "@reach/utils" "^0.5.0"
+    "@reach/window-size" "^0.5.0"
     prop-types "^15.7.2"
     warning "^4.0.3"
 
@@ -1347,27 +1340,12 @@
   resolved "https://registry.yarnpkg.com/@reach/observe-rect/-/observe-rect-1.0.3.tgz#2ea3dcc369ab22bd9f050a92ea319321356a61e8"
   integrity sha1-LqPcw2mrIr2fBQqS6jGTITVqYeg=
 
-"@reach/portal@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@reach/portal/-/portal-0.4.0.tgz#c11e4714cb51fd4eac8dfdf26e25f5c77318c7ac"
-  integrity sha512-pIleAmXipuH4398Drs0Dr8btv+US8I0kgieXdH3I+XcliFbKtANjxFt8k9xgnNgYBSrp+f6l68fOWlmJ5q2FKg==
-  dependencies:
-    "@reach/component-component" "^0.4.0"
-
 "@reach/portal@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@reach/portal/-/portal-0.5.0.tgz#4ea4d345887f5b05861fec6762e33717775cb5e5"
   integrity sha512-3WB6KLAVegGgWSvCVpXAUuo3tKOQi90l+V2ktzfUOCG5jxFTeEjDAA8MHZ7Zve5h1ZhBscGJKoO9UWxl1UNRhQ==
   dependencies:
     "@reach/component-component" "^0.5.0"
-
-"@reach/rect@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@reach/rect/-/rect-0.4.0.tgz#bd4994866acb2a1512882636041c92d495fb09c1"
-  integrity sha512-tdagmV38JimQZ9lCszV/uFsiYQ8M7s5NHEzVa/Kl1MCH6ESkc1Peyu3ohko51wdgnh6N18KRo85uhDbL1h++2w==
-  dependencies:
-    "@reach/observe-rect" "^1.0.3"
-    prop-types "^15.7.2"
 
 "@reach/rect@^0.5.0":
   version "0.5.0"
@@ -1400,11 +1378,6 @@
     "@reach/visually-hidden" "^0.5.0"
     prop-types "^15.7.2"
 
-"@reach/utils@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@reach/utils/-/utils-0.4.0.tgz#444f3b7384fc0adbe6f3787adb68befd42969b72"
-  integrity sha512-GBvIj0kTQIZpH5YnBmlq80qssJvF7NCf8/GgatNv+dQtBJflbC0qjXmVext9HQN+tajRXxmsGol3LK9SbEAWGw==
-
 "@reach/utils@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@reach/utils/-/utils-0.5.0.tgz#2a64238a5a3ee57ee9742cf2579cacf41ae3a036"
@@ -1415,10 +1388,10 @@
   resolved "https://registry.yarnpkg.com/@reach/visually-hidden/-/visually-hidden-0.5.0.tgz#f09cf164762b53a6c297f48dfdd67f576d9147f8"
   integrity sha512-jL/QuqIcKBXKdtY8l/l+rRZrnrxFTqH6YoIVfBp+OXOned5TwuFdmpPdt7WRw+9c/adeLqIDqvFTWQMVKS/5Bw==
 
-"@reach/window-size@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@reach/window-size/-/window-size-0.4.0.tgz#247cb2306ea456946b1c613c3f95fc14aa7aadac"
-  integrity sha512-gD3SJAUoBTTnbhVIyVPS7VFKsjLS8CY7SOaRYWqB8lIPZt/grDBTyWKT4ouTyu8wjZMQoHwIvZDfl+kExNWPaA==
+"@reach/window-size@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@reach/window-size/-/window-size-0.5.0.tgz#8a8647681a90e97a32021e24e262b319718d1c83"
+  integrity sha512-e1aVuUWTULOspEONP8fROzopvqoJkX0b5Kv+wecnTgBf0kYYJXdbgXyseXNx7CpSrVv+M1JTu5+X7FNGMw1nXQ==
   dependencies:
     prop-types "^15.7.2"
 
