@@ -1310,10 +1310,10 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@reach/auto-id@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@reach/auto-id/-/auto-id-0.5.0.tgz#16fcc44b807a2fe9c6e730d8693ab87155de4066"
-  integrity sha512-d4jHMqvxUDVwgj6mcr46y+B7012Py2A3dGJmQb8ckc3dtvZwh62II6Uku4cwbamkSGvHB7mMj8wuj+uTohiJ9A==
+"@reach/auto-id@^0.5.3":
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/@reach/auto-id/-/auto-id-0.5.3.tgz#f86ed38b04fa464c5d48a8c4ba27f07993e37e6a"
+  integrity sha512-IkWKzMxNUG1xYXYDhkDtwfcslnNAQgUKTch4Vx+whswTGhhoXMjIzIjlxeufIvOvJ3HGWBzaNYdY7OUDTq37AQ==
 
 "@reach/component-component@^0.5.0":
   version "0.5.0"
@@ -1366,12 +1366,12 @@
     react-lifecycles-compat "^3.0.4"
     warning "^3.0.0"
 
-"@reach/tooltip@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@reach/tooltip/-/tooltip-0.5.0.tgz#23573b12ccecb4c3ebe4c739ae0f39d019ee4239"
-  integrity sha512-V+94uDvLywV2KimF/K7GTNqvx+WMwcuNTQ+JZ8BfxmNyyoRgAR5cPwBam8mptkLHdixfiOU1qc8eT2KewA6Uiw==
+"@reach/tooltip@0.5.3":
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/@reach/tooltip/-/tooltip-0.5.3.tgz#184867ac0c69a6d251652ecac92c1edee222555c"
+  integrity sha512-EkNgWhte7ydGNhUfwx7FBrHFLvx49+S8FGzrA1dpmioKJCzKxgi6et36FzPgWSTmlSnWAXh/LbaegpE2DeMuFA==
   dependencies:
-    "@reach/auto-id" "^0.5.0"
+    "@reach/auto-id" "^0.5.3"
     "@reach/portal" "^0.5.0"
     "@reach/rect" "^0.5.0"
     "@reach/utils" "^0.5.0"
