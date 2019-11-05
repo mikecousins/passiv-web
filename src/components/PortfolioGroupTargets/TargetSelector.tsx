@@ -198,7 +198,8 @@ export const TargetSelector = ({ lockable, target }: Props) => {
             }
             return total;
           }, 0);
-        if (cashPercentage < 0) {
+        const roundedCashPercentage = Math.round(cashPercentage * 1000) / 1000;
+        if (roundedCashPercentage < 0) {
           errors.cash = 'Too low';
         }
         values.targets.forEach((target: any) => {
