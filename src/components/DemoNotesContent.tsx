@@ -50,7 +50,7 @@ const DemoNotesContent = () => {
             (Individual 401k) behind it.
           </li>
           <li>
-            Nothing in this demo should be interpreted as finacial advice.
+            Nothing in this demo should be interpreted as financial advice.
           </li>
         </ul>
       </DivPadded>
