@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { Symbol } from '../styled/Group';
 
 const SymbolNameBox = styled.span`
+  line-height: 1.5em;
   @media (min-width: 900px) {
     padding-left: 10px;
   }
