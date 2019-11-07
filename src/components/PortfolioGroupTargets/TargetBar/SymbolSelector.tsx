@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import AsyncSelect from 'react-select/async';
+import { Combobox } from '@reach/combobox';
 
-const SymbolSelector = styled(AsyncSelect)`
+const SymbolSelector = styled(Combobox)`
   width: 500px;
   @media (max-width: 900px) {
     width: 81vw;

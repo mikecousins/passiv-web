@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   faEyeSlash,
   faTimes,
@@ -29,6 +29,12 @@ import { selectCurrentGroupId } from '../../../selectors/groups';
 import { ToggleButton } from '../../../styled/ToggleButton';
 import Tooltip from '../../Tooltip';
 import styled from '@emotion/styled';
+import {
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from '@reach/combobox';
 
 const Disabled = styled.div`
   opacity: 0.5;
@@ -62,11 +68,14 @@ const TargetBar = ({
 }: Props) => {
   const groupId = useSelector(selectCurrentGroupId);
   const dispatch = useDispatch();
+  const [matchingSymbols, setMatchingSymbols] = useState();
 
-  const loadOptions = (substring: string, callback: (data: any) => void) => {
-    postData(`/api/v1/portfolioGroups/${groupId}/symbols`, { substring })
+  const loadOptions = (event: any) => {
+    postData(`/api/v1/portfolioGroups/${groupId}/symbols`, {
+      substring: event.target.value,
+    })
       .then(response => {
-        callback(response.data);
+        setMatchingSymbols(response.data);
       })
       .catch(() => {
         dispatch(loadGroup({ ids: [groupId] }));
@@ -156,18 +165,27 @@ const TargetBar = ({
           {!(typeof id == 'string') && !is_excluded ? (
             <SymbolSelector
               value={fullSymbol}
-              onChange={setSymbol}
-              loadOptions={loadOptions}
-              getOptionLabel={(option: any) =>
-                `${option.symbol} (${option.description})`
-              }
-              getOptionValue={(option: any) => option.id}
+              onSelect={setSymbol}
               placeholder="Search for security..."
-            />
+            >
+              <ComboboxInput
+                className="city-search-input"
+                onChange={loadOptions}
+                aria-label="Cities"
+              />
+              {matchingSymbols && matchingSymbols.length > 0 && (
+                <ComboboxPopover className="shadow-popup">
+                  <ComboboxList>
+                    {matchingSymbols.map((option: any) => {
+                      const str = `${option.symbol} (${option.description})`;
+                      return <ComboboxOption key={str} value={str} />;
+                    })}
+                  </ComboboxList>
+                </ComboboxPopover>
+              )}
+            </SymbolSelector>
           ) : is_supported ? (
-            <React.Fragment>
-              <SymbolDetail symbol={fullSymbol} />
-            </React.Fragment>
+            <SymbolDetail symbol={fullSymbol} />
           ) : (
             <Disabled>{fullSymbol.symbol}</Disabled>
           )}
