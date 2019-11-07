@@ -33,13 +33,13 @@ const StyledInput = styled(ComboboxInput)`
 
 type Props = {
   value: any;
-  onSelect: (e: any) => void;
+  onSelect: (symbol: any) => void;
 };
 
 const SymbolSelector = ({ value, onSelect }: Props) => {
   const groupId = useSelector(selectCurrentGroupId);
   const dispatch = useDispatch();
-  const [matchingSymbols, setMatchingSymbols] = useState();
+  const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
 
   const loadOptions = (event: any) => {
     postData(`/api/v1/portfolioGroups/${groupId}/symbols`, {
@@ -52,23 +52,33 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
         dispatch(loadGroup({ ids: [groupId] }));
       });
   };
+
+  const handleSelect = (id: string) => {
+    if (!matchingSymbols) {
+      return;
+    }
+    const symbol = matchingSymbols.find(symbol => id == symbol.id);
+    if (symbol) {
+      onSelect(symbol);
+    }
+  };
+
   return (
-    <StyledCombobox
-      value={value}
-      onSelect={onSelect}
-      placeholder="Search for security..."
-    >
+    <StyledCombobox value={value} onSelect={handleSelect}>
       <StyledInput
-        className="city-search-input"
         onChange={loadOptions}
-        aria-label="Cities"
+        placeholder="Search for security..."
       />
       {matchingSymbols && matchingSymbols.length > 0 && (
         <ComboboxPopover className="shadow-popup">
           <ComboboxList>
-            {matchingSymbols.map((option: any) => {
+            {matchingSymbols.map((option: any, index) => {
               const str = `${option.symbol} (${option.description})`;
-              return <ComboboxOption key={str} value={str} />;
+              return (
+                <ComboboxOption key={index} value={option.id}>
+                  {str}
+                </ComboboxOption>
+              );
             })}
           </ComboboxList>
         </ComboboxPopover>
