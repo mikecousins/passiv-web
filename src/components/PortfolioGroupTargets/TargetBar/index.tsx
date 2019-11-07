@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   faEyeSlash,
   faTimes,
@@ -6,8 +6,7 @@ import {
   faToggleOff,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { postData } from '../../../api';
-import { useSelector, useDispatch } from 'react-redux';
+import styled from '@emotion/styled';
 import SymbolSelector from './SymbolSelector';
 import Number from '../../Number';
 import { SymbolDetail } from '../../SymbolDetail';
@@ -24,17 +23,8 @@ import {
   Container,
   Close,
 } from '../../../styled/Target';
-import { loadGroup } from '../../../actions';
-import { selectCurrentGroupId } from '../../../selectors/groups';
 import { ToggleButton } from '../../../styled/ToggleButton';
 import Tooltip from '../../Tooltip';
-import styled from '@emotion/styled';
-import {
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-} from '@reach/combobox';
 
 const Disabled = styled.div`
   opacity: 0.5;
