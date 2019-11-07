@@ -1,13 +1,80 @@
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Combobox } from '@reach/combobox';
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from '@reach/combobox';
 import '@reach/combobox/styles.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCurrentGroupId } from '../../../selectors/groups';
+import { postData } from '../../../api';
+import { loadGroup } from '../../../actions';
 
-const SymbolSelector = styled(Combobox)`
+const StyledCombobox = styled(Combobox)`
   width: 500px;
   @media (max-width: 900px) {
     width: 81vw;
     margin-bottom: 20px;
   }
 `;
+
+const StyledInput = styled(ComboboxInput)`
+  width: 500px;
+  border: 1px solid;
+  padding: 5px;
+  @media (max-width: 900px) {
+    width: 81vw;
+    margin-bottom: 20px;
+  }
+`;
+
+type Props = {
+  value: any;
+  onSelect: (e: any) => void;
+};
+
+const SymbolSelector = ({ value, onSelect }: Props) => {
+  const groupId = useSelector(selectCurrentGroupId);
+  const dispatch = useDispatch();
+  const [matchingSymbols, setMatchingSymbols] = useState();
+
+  const loadOptions = (event: any) => {
+    postData(`/api/v1/portfolioGroups/${groupId}/symbols`, {
+      substring: event.target.value,
+    })
+      .then(response => {
+        setMatchingSymbols(response.data);
+      })
+      .catch(() => {
+        dispatch(loadGroup({ ids: [groupId] }));
+      });
+  };
+  return (
+    <StyledCombobox
+      value={value}
+      onSelect={onSelect}
+      placeholder="Search for security..."
+    >
+      <StyledInput
+        className="city-search-input"
+        onChange={loadOptions}
+        aria-label="Cities"
+      />
+      {matchingSymbols && matchingSymbols.length > 0 && (
+        <ComboboxPopover className="shadow-popup">
+          <ComboboxList>
+            {matchingSymbols.map((option: any) => {
+              const str = `${option.symbol} (${option.description})`;
+              return <ComboboxOption key={str} value={str} />;
+            })}
+          </ComboboxList>
+        </ComboboxPopover>
+      )}
+    </StyledCombobox>
+  );
+};
 
 export default SymbolSelector;

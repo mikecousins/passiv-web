@@ -66,22 +66,6 @@ const TargetBar = ({
   onDelete,
   onExclude,
 }: Props) => {
-  const groupId = useSelector(selectCurrentGroupId);
-  const dispatch = useDispatch();
-  const [matchingSymbols, setMatchingSymbols] = useState();
-
-  const loadOptions = (event: any) => {
-    postData(`/api/v1/portfolioGroups/${groupId}/symbols`, {
-      substring: event.target.value,
-    })
-      .then(response => {
-        setMatchingSymbols(response.data);
-      })
-      .catch(() => {
-        dispatch(loadGroup({ ids: [groupId] }));
-      });
-  };
-
   const {
     id,
     key,
@@ -163,27 +147,7 @@ const TargetBar = ({
       <TargetRow style={{ flexWrap: 'wrap' }}>
         <Symbol>
           {!(typeof id == 'string') && !is_excluded ? (
-            <SymbolSelector
-              value={fullSymbol}
-              onSelect={setSymbol}
-              placeholder="Search for security..."
-            >
-              <ComboboxInput
-                className="city-search-input"
-                onChange={loadOptions}
-                aria-label="Cities"
-              />
-              {matchingSymbols && matchingSymbols.length > 0 && (
-                <ComboboxPopover className="shadow-popup">
-                  <ComboboxList>
-                    {matchingSymbols.map((option: any) => {
-                      const str = `${option.symbol} (${option.description})`;
-                      return <ComboboxOption key={str} value={str} />;
-                    })}
-                  </ComboboxList>
-                </ComboboxPopover>
-              )}
-            </SymbolSelector>
+            <SymbolSelector value={fullSymbol} onSelect={setSymbol} />
           ) : is_supported ? (
             <SymbolDetail symbol={fullSymbol} />
           ) : (
