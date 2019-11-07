@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Combobox } from '@reach/combobox';
+import '@reach/combobox/styles.css';
 
 const SymbolSelector = styled(Combobox)`
   width: 500px;
