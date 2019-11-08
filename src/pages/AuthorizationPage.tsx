@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import React from 'react';
+import React, { useState } from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { selectIsAuthorized, selectBrokerages } from '../selectors';
@@ -12,11 +12,10 @@ import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import QuestradeLogo from '../assets/images/questrade-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
+import PlaidConnection from '../components/PlaidConnection';
 
 const aDarkStyle = {
   color: 'white',
-  padding: '30px 0',
-  display: 'block',
 };
 
 const Container2Column = styled.div`
@@ -48,6 +47,11 @@ const LogoContainer = styled.div`
   img {
     max-width: 100%;
   }
+`;
+
+const LinkContainer = styled.div`
+  margin-top: 20px;
+  margin-bottom: 10px;
 `;
 
 const AuthBox = styled(ShadowBox)`
@@ -92,6 +96,7 @@ const AuthorizationPage = () => {
   const authorized = useSelector(selectIsAuthorized);
   const brokerages = useSelector(selectBrokerages);
   const { brokerage } = useParams();
+  const [loading, setLoading] = useState(false);
 
   const brokerageOptions: any[] = [
     {
@@ -186,18 +191,22 @@ const AuthorizationPage = () => {
         your brokerage account. Connecting your account does not allow Passiv to
         see your login information.
       </AuthP>
-      <Container2Column>
-        {brokerageOptions.map((brokerage: any) => {
-          return (
-            <AuthBox>
-              <LogoContainer>
-                <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
-              </LogoContainer>
-              {brokerage.view()}
-            </AuthBox>
-          );
-        })}
-      </Container2Column>
+      {loading ? (
+        <H2DarkStyle>Establishing brokerage connection...</H2DarkStyle>
+      ) : (
+        <Container2Column>
+          {brokerageOptions.map((brokerage: any) => {
+            return (
+              <AuthBox key={brokerage.id}>
+                <LogoContainer>
+                  <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                </LogoContainer>
+                {brokerage.view()}
+              </AuthBox>
+            );
+          })}
+        </Container2Column>
+      )}
     </React.Fragment>
   );
 
@@ -240,18 +249,27 @@ const AuthorizationPage = () => {
             </Brokerage>
           );
         })}
-        <Link style={aDarkStyle} to="/app/connect">
-          Back
-        </Link>
+        <LinkContainer>
+          <Link style={aDarkStyle} to="/app/connect">
+            Back
+          </Link>
+        </LinkContainer>
       </React.Fragment>
     );
   } else {
     output = (
       <React.Fragment>
         {contents}
-        <Link style={aDarkStyle} to="/app/connect/open">
-          I don't have a brokerage account.
-        </Link>
+        {!loading && (
+          <React.Fragment>
+            <PlaidConnection setLoading={setLoading} />
+            <LinkContainer>
+              <Link style={aDarkStyle} to="/app/connect/open">
+                I don't have a brokerage account.
+              </Link>
+            </LinkContainer>
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }

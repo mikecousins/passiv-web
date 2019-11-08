@@ -6,25 +6,32 @@ import { selectAllBrokerages } from '../selectors';
 import { initialLoad } from '../actions';
 import { postData } from '../api';
 
-const PlaidConnection = ({ brokerages, reloadAllState }) => {
+const PlaidConnection = ({ brokerages, reloadAllState, setLoading }) => {
   const handleOnSuccess = (token, metadata) => {
     // send token to client server
     postData('/api/v1/brokerages/authComplete/', { token: token }).then(
       response => {
         if (response.status === 200) {
           reloadAllState();
+          setTimeout(() => {
+            setLoading(false);
+          }, 1000);
         }
       },
     );
   };
 
   const handleOnClick = brokerage => {
+    setTimeout(() => {
+      setLoading(true);
+    }, 500);
     postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
       type: 'read',
     });
   };
 
   const handleOnExit = () => {
+    setLoading(false);
     // handle the case when your user exits Link
   };
 
@@ -42,7 +49,7 @@ const PlaidConnection = ({ brokerages, reloadAllState }) => {
         onExit={handleOnExit.bind()}
         onSuccess={handleOnSuccess.bind()}
       >
-        Connect With Plaid
+        Connect Other ...
       </PlaidLink>
     </div>
   );
