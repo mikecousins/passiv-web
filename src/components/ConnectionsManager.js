@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import {
-  selectBrokerages,
-  selectAuthorizations,
-  selectIsDemo,
-} from '../selectors';
+import { selectAuthorizations, selectIsDemo } from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
 import { initialLoad, loadBrokerages } from '../actions';
 import AuthorizationPicker from '../components/AuthorizationPicker';
