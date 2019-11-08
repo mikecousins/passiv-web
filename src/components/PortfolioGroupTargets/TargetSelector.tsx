@@ -108,6 +108,8 @@ export const TargetSelector = ({ lockable, target }: Props) => {
   const setSymbol = (target: any, symbol: any) => {
     target.fullSymbol = symbol;
     target.symbol = symbol.id;
+    // TODO hack to add is_supported flag
+    target.is_supported = true;
     forceUpdate();
   };
 
