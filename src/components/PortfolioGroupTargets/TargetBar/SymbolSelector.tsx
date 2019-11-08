@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import {
   Combobox,
@@ -9,7 +9,6 @@ import {
 } from '@reach/combobox';
 import '@reach/combobox/styles.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { debounce } from 'throttle-debounce';
 import { selectCurrentGroupId } from '../../../selectors/groups';
 import { postData } from '../../../api';
 import { loadGroup } from '../../../actions';
@@ -37,13 +36,28 @@ type Props = {
   onSelect: (symbol: any) => void;
 };
 
+function useDebouncedEffect(callback: any, delay: number, deps: any[] = []) {
+  const firstUpdate = useRef(true);
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    const handler = setTimeout(() => {
+      callback();
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [delay, ...deps]);
+}
+
 const SymbolSelector = ({ value, onSelect }: Props) => {
   const groupId = useSelector(selectCurrentGroupId);
   const dispatch = useDispatch();
   const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
   const [input, setInput] = useState('');
-
-  const debouncedLoad = debounce(300, () => loadOptions());
 
   const loadOptions = () => {
     postData(`/api/v1/portfolioGroups/${groupId}/symbols`, {
@@ -67,13 +81,17 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
     }
   };
 
+  useDebouncedEffect(
+    () => {
+      loadOptions();
+    },
+    300,
+    [input],
+  );
+
   const onChange = (event: any) => {
     setInput(event.target.value);
   };
-
-  useEffect(() => {
-    debouncedLoad();
-  }, [input, debouncedLoad]);
 
   return (
     <StyledCombobox value={value} onSelect={handleSelect}>
