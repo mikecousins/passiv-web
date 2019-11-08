@@ -71,7 +71,7 @@ const SecureApp = () => {
         </Route>
         <Route path={prefixPath('/dashboard')} component={DashboardPage} />
         <Route path={prefixPath('/group/:groupId')} component={GroupPage} />
-        <Route path={prefixPath('/settings/connect')}>
+        <Route path={prefixPath('/settings/connect/:brokerage?')}>
           <AuthorizationPage onboarding={false} />
         </Route>
         <Route path={prefixPath('/settings')} component={SettingsPage} />
