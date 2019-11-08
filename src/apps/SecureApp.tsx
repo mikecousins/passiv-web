@@ -8,6 +8,7 @@ import AlpacaOauthPage from '../pages/AlpacaOauthPage';
 import InteractiveBrokersOauthPage from '../pages/InteractiveBrokersOauthPage';
 import CouponPage from '../pages/CouponPage';
 import SharePage from '../pages/SharePage';
+import AuthorizationPage from '../pages/AuthorizationPage';
 import { StripeProvider } from 'react-stripe-elements';
 
 declare global {
@@ -70,8 +71,12 @@ const SecureApp = () => {
         </Route>
         <Route path={prefixPath('/dashboard')} component={DashboardPage} />
         <Route path={prefixPath('/group/:groupId')} component={GroupPage} />
+        <Route path={prefixPath('/settings/connect')}>
+          <AuthorizationPage onboarding={false} />
+        </Route>
         <Route path={prefixPath('/settings')} component={SettingsPage} />
         <Route path={prefixPath('/coupon')} component={CouponPage} />
+
         <Route
           path={prefixPath('/oauth/questrade')}
           component={QuestradeOauthPage}

@@ -1,13 +1,18 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import React, { useState } from 'react';
+import { push } from 'connected-react-router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { selectIsAuthorized, selectBrokerages } from '../selectors';
+import {
+  selectIsAuthorized,
+  selectBrokerages,
+  selectAuthorizations,
+} from '../selectors';
+import { selectUserPermissions } from '../selectors/subscription';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { H1, H2, P, A } from '../styled/GlobalElements';
 import { postData } from '../api';
-// import PlaidConnectPage from './PlaidConnectPage';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import QuestradeLogo from '../assets/images/questrade-logo.png';
@@ -92,11 +97,41 @@ const H2DarkStyle = styled(H2)`
 
 const Brokerage = styled.div``;
 
-const AuthorizationPage = () => {
+type Props = {
+  onboarding?: boolean;
+};
+
+const AuthorizationPage = ({ onboarding }: Props) => {
   const authorized = useSelector(selectIsAuthorized);
   const brokerages = useSelector(selectBrokerages);
+  const userPermissions = useSelector(selectUserPermissions);
+  const authorizations = useSelector(selectAuthorizations);
   const { brokerage } = useParams();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const canAddMultipleConnections = () => {
+    if (userPermissions === null) {
+      return false;
+    }
+    let filtered_permissions = userPermissions.filter(
+      permission => permission === 'can_add_multiple_connections',
+    );
+
+    if (filtered_permissions.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  if (
+    authorizations &&
+    authorizations.length > 0 &&
+    !canAddMultipleConnections()
+  ) {
+    dispatch(push('/app/settings'));
+  }
 
   const brokerageOptions: any[] = [
     {
@@ -167,15 +202,6 @@ const AuthorizationPage = () => {
         </P>
       ),
     },
-    // {
-    //   id: 'plaid',
-    //   name: 'Other',
-    //   view: () => {
-    //     return <PlaidConnectPage />;
-    //   },
-    //   major: false,
-    //   logo: null,
-    // },
   ];
 
   if (authorized === undefined || !brokerages) {
@@ -263,11 +289,19 @@ const AuthorizationPage = () => {
         {!loading && (
           <React.Fragment>
             <PlaidConnection setLoading={setLoading} />
-            <LinkContainer>
-              <Link style={aDarkStyle} to="/app/connect/open">
-                I don't have a brokerage account.
-              </Link>
-            </LinkContainer>
+            {onboarding ? (
+              <LinkContainer>
+                <Link style={aDarkStyle} to="/app/connect/open">
+                  I don't have a brokerage account.
+                </Link>
+              </LinkContainer>
+            ) : (
+              <LinkContainer>
+                <Link style={aDarkStyle} to="/app/settings">
+                  Back
+                </Link>
+              </LinkContainer>
+            )}
           </React.Fragment>
         )}
       </React.Fragment>

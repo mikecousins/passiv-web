@@ -33,8 +33,8 @@ const interactiveBrokersOauthRedirect = () => {
 
 const InsecureApp = () => (
   <Switch>
-    <Route path={prefixPath('/connect/:brokerage?')}>
-      <AuthorizationPage />
+    <Route path={prefixPath('/connect')}>
+      <AuthorizationPage onboarding={true} />
     </Route>
     <Route
       path={prefixPath('/oauth/questrade')}
