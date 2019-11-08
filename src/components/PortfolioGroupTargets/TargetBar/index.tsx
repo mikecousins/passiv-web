@@ -57,13 +57,13 @@ const TargetBar = ({
   onExclude,
 }: Props) => {
   const {
-    id,
     key,
     is_excluded,
     is_supported,
     fullSymbol,
     actualPercentage,
     percent,
+    symbol,
   } = target;
 
   let renderActualPercentage = null;
@@ -128,7 +128,6 @@ const TargetBar = ({
               </BarTarget>
             )}
           </BarsContainer>
-
           {edit && deleteButton}
         </React.Fragment>
       ) : (
@@ -136,7 +135,7 @@ const TargetBar = ({
       )}
       <TargetRow style={{ flexWrap: 'wrap' }}>
         <Symbol>
-          {!(typeof id == 'string') && !is_excluded ? (
+          {!(typeof symbol == 'string') && !is_excluded ? (
             <SymbolSelector value={fullSymbol} onSelect={setSymbol} />
           ) : is_supported ? (
             <SymbolDetail symbol={fullSymbol} />
@@ -144,61 +143,57 @@ const TargetBar = ({
             <Disabled>{fullSymbol.symbol}</Disabled>
           )}
         </Symbol>
-        <React.Fragment>
-          {!is_excluded && (
-            <React.Fragment>
-              {edit ? (
-                <Target>
-                  <InputContainer>{children}%</InputContainer>
-                </Target>
-              ) : (
-                <Target>
-                  <Number
-                    value={renderTargetPercentage}
-                    percentage
-                    decimalPlaces={1}
-                  />
-                </Target>
-              )}
+        {!is_excluded && (
+          <React.Fragment>
+            {edit ? (
+              <Target>
+                <InputContainer>{children}%</InputContainer>
+              </Target>
+            ) : (
+              <Target>
+                <Number
+                  value={renderTargetPercentage}
+                  percentage
+                  decimalPlaces={1}
+                />
+              </Target>
+            )}
 
-              <ActualBox>
-                <Actual>
-                  <Number
-                    value={renderActualPercentage}
-                    percentage
-                    decimalPlaces={1}
-                  />
-                </Actual>
-              </ActualBox>
-            </React.Fragment>
-          )}
+            <ActualBox>
+              <Actual>
+                <Number
+                  value={renderActualPercentage}
+                  percentage
+                  decimalPlaces={1}
+                />
+              </Actual>
+            </ActualBox>
+          </React.Fragment>
+        )}
 
-          {edit && (
-            <ToggleBox>
-              <ToggleButton
-                disabled={!is_supported}
-                type="button"
-                onClick={() => onExclude(key)}
+        {edit && (
+          <ToggleBox>
+            <ToggleButton
+              disabled={!is_supported}
+              type="button"
+              onClick={() => onExclude(key)}
+            >
+              <Tooltip
+                label={
+                  is_supported
+                    ? 'Exclude this asset from your portfolio calculations'
+                    : 'This security is not supported by Passiv'
+                }
               >
-                <React.Fragment>
-                  <Tooltip
-                    label={
-                      is_supported
-                        ? 'Exclude this asset from your portfolio calculations'
-                        : 'This security is not supported by Passiv'
-                    }
-                  >
-                    {is_excluded ? (
-                      <FontAwesomeIcon icon={faToggleOn} />
-                    ) : (
-                      <FontAwesomeIcon icon={faToggleOff} />
-                    )}
-                  </Tooltip>
-                </React.Fragment>
-              </ToggleButton>
-            </ToggleBox>
-          )}
-        </React.Fragment>
+                {is_excluded ? (
+                  <FontAwesomeIcon icon={faToggleOn} />
+                ) : (
+                  <FontAwesomeIcon icon={faToggleOff} />
+                )}
+              </Tooltip>
+            </ToggleButton>
+          </ToggleBox>
+        )}
       </TargetRow>
     </Container>
   );

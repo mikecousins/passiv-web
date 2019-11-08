@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import {
   Combobox,
@@ -9,6 +9,7 @@ import {
 } from '@reach/combobox';
 import '@reach/combobox/styles.css';
 import { useSelector, useDispatch } from 'react-redux';
+import { debounce } from 'throttle-debounce';
 import { selectCurrentGroupId } from '../../../selectors/groups';
 import { postData } from '../../../api';
 import { loadGroup } from '../../../actions';
@@ -40,10 +41,13 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
   const groupId = useSelector(selectCurrentGroupId);
   const dispatch = useDispatch();
   const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
+  const [input, setInput] = useState('');
 
-  const loadOptions = (event: any) => {
+  const debouncedLoad = debounce(300, () => loadOptions());
+
+  const loadOptions = () => {
     postData(`/api/v1/portfolioGroups/${groupId}/symbols`, {
-      substring: event.target.value,
+      substring: input,
     })
       .then(response => {
         setMatchingSymbols(response.data);
@@ -57,20 +61,25 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
     if (!matchingSymbols) {
       return;
     }
-    const symbol = matchingSymbols.find(symbol => id == symbol.id);
+    const symbol = matchingSymbols.find(symbol => id === symbol.id);
     if (symbol) {
       onSelect(symbol);
     }
   };
 
+  const onChange = (event: any) => {
+    setInput(event.target.value);
+  };
+
+  useEffect(() => {
+    debouncedLoad();
+  }, [input, debouncedLoad]);
+
   return (
     <StyledCombobox value={value} onSelect={handleSelect}>
-      <StyledInput
-        onChange={loadOptions}
-        placeholder="Search for security..."
-      />
+      <StyledInput onChange={onChange} placeholder="Search for security..." />
       {matchingSymbols && matchingSymbols.length > 0 && (
-        <ComboboxPopover className="shadow-popup">
+        <ComboboxPopover>
           <ComboboxList>
             {matchingSymbols.map((option: any, index) => {
               const str = `${option.symbol} (${option.description})`;
