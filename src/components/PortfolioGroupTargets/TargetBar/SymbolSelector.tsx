@@ -36,7 +36,7 @@ type Props = {
   onSelect: (symbol: any) => void;
 };
 
-const useDebouncedEffect = (callback: any, delay: number, deps: any[] = []) => {
+function useDebouncedEffect(callback: any, delay: number, deps: any[] = []) {
   const firstUpdate = useRef(true);
   useEffect(() => {
     if (firstUpdate.current) {
@@ -50,8 +50,8 @@ const useDebouncedEffect = (callback: any, delay: number, deps: any[] = []) => {
     return () => {
       clearTimeout(handler);
     };
-  }, [delay, callback, deps]);
-};
+  }, [delay, ...deps]);
+}
 
 const SymbolSelector = ({ value, onSelect }: Props) => {
   const groupId = useSelector(selectCurrentGroupId);
