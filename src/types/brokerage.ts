@@ -1,6 +1,6 @@
 export type Brokerage = {
   id: string;
-  name: 'Questrade';
+  name: 'Questrade' | 'Alpaca';
   url: 'https://questrade.com';
   enabled: boolean;
   authorization_types: [

@@ -6,10 +6,10 @@ import {
   faToggleOff,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { postData } from '../../../api';
-import { useSelector, useDispatch } from 'react-redux';
+import styled from '@emotion/styled';
 import SymbolSelector from './SymbolSelector';
 import Number from '../../Number';
+import { SymbolDetail } from '../../SymbolDetail';
 import {
   BarsContainer,
   InputContainer,
@@ -23,11 +23,8 @@ import {
   Container,
   Close,
 } from '../../../styled/Target';
-import { loadGroup } from '../../../actions';
-import { selectCurrentGroupId } from '../../../selectors/groups';
 import { ToggleButton } from '../../../styled/ToggleButton';
 import Tooltip from '../../Tooltip';
-import styled from '@emotion/styled';
 
 const Disabled = styled.div`
   opacity: 0.5;
@@ -59,27 +56,14 @@ const TargetBar = ({
   onDelete,
   onExclude,
 }: Props) => {
-  const groupId = useSelector(selectCurrentGroupId);
-  const dispatch = useDispatch();
-
-  const loadOptions = (substring: string, callback: (data: any) => void) => {
-    postData(`/api/v1/portfolioGroups/${groupId}/symbols`, { substring })
-      .then(response => {
-        callback(response.data);
-      })
-      .catch(() => {
-        dispatch(loadGroup({ ids: [groupId] }));
-      });
-  };
-
   const {
-    id,
     key,
     is_excluded,
     is_supported,
     fullSymbol,
     actualPercentage,
     percent,
+    symbol,
   } = target;
 
   let renderActualPercentage = null;
@@ -87,6 +71,13 @@ const TargetBar = ({
     renderActualPercentage = 0;
   } else {
     renderActualPercentage = actualPercentage;
+  }
+
+  let renderTargetPercentage = null;
+  if (percent === undefined) {
+    renderTargetPercentage = 0;
+  } else {
+    renderTargetPercentage = percent;
   }
 
   const deleteButton = (
@@ -137,7 +128,6 @@ const TargetBar = ({
               </BarTarget>
             )}
           </BarsContainer>
-
           {edit && deleteButton}
         </React.Fragment>
       ) : (
@@ -145,66 +135,64 @@ const TargetBar = ({
       )}
       <TargetRow style={{ flexWrap: 'wrap' }}>
         <Symbol>
-          {!(typeof id == 'string') && !is_excluded ? (
-            <SymbolSelector
-              value={fullSymbol}
-              onChange={setSymbol}
-              loadOptions={loadOptions}
-              getOptionLabel={(option: any) =>
-                `${option.symbol} (${option.description})`
-              }
-              getOptionValue={(option: any) => option.id}
-              placeholder="Search for security..."
-            />
+          {!(typeof symbol == 'string') && !is_excluded ? (
+            <SymbolSelector value={fullSymbol} onSelect={setSymbol} />
           ) : is_supported ? (
-            fullSymbol.symbol
+            <SymbolDetail symbol={fullSymbol} />
           ) : (
             <Disabled>{fullSymbol.symbol}</Disabled>
           )}
         </Symbol>
-        {edit && (
+        {!is_excluded && (
           <React.Fragment>
-            {!is_excluded && (
-              <React.Fragment>
-                <Target>
-                  <InputContainer>{children}%</InputContainer>
-                </Target>
-                <ActualBox>
-                  <Actual>
-                    <Number
-                      value={renderActualPercentage}
-                      percentage
-                      decimalPlaces={1}
-                    />
-                  </Actual>
-                </ActualBox>
-              </React.Fragment>
+            {edit ? (
+              <Target>
+                <InputContainer>{children}%</InputContainer>
+              </Target>
+            ) : (
+              <Target>
+                <Number
+                  value={renderTargetPercentage}
+                  percentage
+                  decimalPlaces={1}
+                />
+              </Target>
             )}
 
-            <ToggleBox>
-              <ToggleButton
-                disabled={!is_supported}
-                type="button"
-                onClick={() => onExclude(key)}
-              >
-                <React.Fragment>
-                  <Tooltip
-                    label={
-                      is_supported
-                        ? 'Exclude this asset from your portfolio calculations'
-                        : 'This security is not supported by Passiv'
-                    }
-                  >
-                    {is_excluded ? (
-                      <FontAwesomeIcon icon={faToggleOn} />
-                    ) : (
-                      <FontAwesomeIcon icon={faToggleOff} />
-                    )}
-                  </Tooltip>
-                </React.Fragment>
-              </ToggleButton>
-            </ToggleBox>
+            <ActualBox>
+              <Actual>
+                <Number
+                  value={renderActualPercentage}
+                  percentage
+                  decimalPlaces={1}
+                />
+              </Actual>
+            </ActualBox>
           </React.Fragment>
+        )}
+
+        {edit && (
+          <ToggleBox>
+            <ToggleButton
+              disabled={!is_supported}
+              type="button"
+              onClick={() => onExclude(key)}
+            >
+              <Tooltip
+                label={
+                  is_supported
+                    ? 'Exclude this asset from your portfolio calculations'
+                    : 'This security is not supported by Passiv'
+                }
+              >
+                {is_excluded ? (
+                  <FontAwesomeIcon icon={faToggleOn} />
+                ) : (
+                  <FontAwesomeIcon icon={faToggleOff} />
+                )}
+              </Tooltip>
+            </ToggleButton>
+          </ToggleBox>
         )}
       </TargetRow>
     </Container>

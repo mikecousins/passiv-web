@@ -22,14 +22,18 @@ const QuestradeOauthPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = queryParams.code;
+    const oauth_token = queryParams.oauth_token;
+    const oauth_verifier = queryParams.oauth_verifier;
 
-    if (token === null) {
+    if (oauth_token === null) {
       setLoading(false);
       setError({ code: '0000' });
     } else {
       setLoading(true);
-      postData('/api/v1/brokerages/authComplete/', { token: token })
+      postData('/api/v1/brokerages/authComplete/', {
+        oauth_token: oauth_token,
+        oauth_verifier: oauth_verifier,
+      })
         .then(() => {
           dispatch(initialLoad());
           setTimeout(() => {
@@ -125,7 +129,7 @@ const QuestradeOauthPage = () => {
           <ShadowBox>
             {errorDisplay}
             <Button onClick={() => dispatch(push('/app/settings'))}>
-              Go to Settings
+              Settings
             </Button>
           </ShadowBox>
         </React.Fragment>

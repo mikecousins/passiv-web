@@ -1,11 +1,7 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import {
-  selectBrokerages,
-  selectAuthorizations,
-  selectIsDemo,
-} from '../selectors';
+import { selectAuthorizations, selectIsDemo } from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
 import { initialLoad, loadBrokerages } from '../actions';
 import AuthorizationPicker from '../components/AuthorizationPicker';
@@ -14,24 +10,24 @@ import { Button } from '../styled/Button';
 import ShadowBox from '../styled/ShadowBox';
 import { H2 } from '../styled/GlobalElements';
 
-import PlaidConnection from '../components/PlaidConnection';
+const ConnectionsManager = ({ reloadAllState, reloadBrokerages }) => {
+  const [creatingNewConnection, setCreatingNewConnection] = useState(false);
 
-export class ConnectionsManager extends React.Component {
-  state = {
-    creatingNewConnection: false,
+  const authorizations = useSelector(selectAuthorizations);
+  const userPermissions = useSelector(selectUserPermissions);
+  const isDemo = useSelector(selectIsDemo);
+  const dispatch = useDispatch();
+
+  const startCreatingNewConnection = () => {
+    setCreatingNewConnection(true);
   };
 
-  startCreatingNewConnection() {
-    this.setState({ creatingNewConnection: true });
-  }
+  const cancelCreatingNewConnection = () => {
+    setCreatingNewConnection(false);
+  };
 
-  cancelCreatingNewConnection() {
-    this.setState({ creatingNewConnection: false });
-  }
-
-  canAddMultipleConnections = () => {
-    let permissions = this.props.userPermissions;
-    let filtered_permissions = permissions.filter(
+  const canAddMultipleConnections = () => {
+    let filtered_permissions = userPermissions.filter(
       permission => permission === 'can_add_multiple_connections',
     );
 
@@ -42,61 +38,57 @@ export class ConnectionsManager extends React.Component {
     }
   };
 
-  render() {
-    return (
-      <ShadowBox>
-        <H2>Connections</H2>
-        <Connections />
+  return (
+    <ShadowBox>
+      <H2>Connections</H2>
+      <Connections />
 
-        {this.state.creatingNewConnection ? (
-          <div>
-            <Button
-              onClick={() => {
-                this.cancelCreatingNewConnection();
-              }}
-            >
-              Cancel
-            </Button>
-            {!this.canAddMultipleConnections() &&
-            this.props.authorizations &&
-            this.props.authorizations.length > 0 ? (
-              <React.Fragment>
-                Connecting multiple accounts is only available to Elite
-                subscribers. Upgrade your account to continue!
-              </React.Fragment>
-            ) : (
-              <AuthorizationPicker />
-            )}
-          </div>
-        ) : (
-          <div>
-            <Button
-              onClick={() => {
-                this.startCreatingNewConnection();
-              }}
-              disabled={this.props.isDemo}
-            >
-              {this.props.authorizations && this.props.authorizations.length > 0
-                ? 'Add Another Connection'
-                : 'Add a Connection'}
-            </Button>
-          </div>
-        )}
-      </ShadowBox>
-    );
-  }
-}
+      {creatingNewConnection ? (
+        <div>
+          <Button
+            onClick={() => {
+              cancelCreatingNewConnection();
+            }}
+          >
+            Cancel
+          </Button>
+          {!canAddMultipleConnections() &&
+          authorizations &&
+          authorizations.length > 0 ? (
+            <React.Fragment>
+              Connecting multiple accounts is only available to Elite
+              subscribers. Upgrade your account to continue!
+            </React.Fragment>
+          ) : (
+            <AuthorizationPicker />
+          )}
+        </div>
+      ) : (
+        <div>
+          <Button
+            onClick={() => {
+              if (canAddMultipleConnections()) {
+                dispatch(push('/app/settings/connect'));
+              } else {
+                startCreatingNewConnection();
+              }
+            }}
+            disabled={isDemo}
+          >
+            {authorizations && authorizations.length > 0
+              ? 'Add Another Connection'
+              : 'Add a Connection'}
+          </Button>
+        </div>
+      )}
+    </ShadowBox>
+  );
+};
 
-const select = state => ({
-  brokerages: selectBrokerages(state),
-  authorizations: selectAuthorizations(state),
-  userPermissions: selectUserPermissions(state),
-  isDemo: selectIsDemo(state),
-});
+const select = state => ({});
 const actions = {
   reloadAllState: initialLoad,
   reloadBrokerages: loadBrokerages,
-  push: push,
 };
 
 export default connect(

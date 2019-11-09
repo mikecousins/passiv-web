@@ -1,11 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
-import { selectIsDemoMode } from '../selectors';
+import { selectSettings, selectCurrencies } from '../selectors';
 import { selectTotalGroupHoldings } from '../selectors/groups';
 import Number from './Number';
+import { putData } from '../api';
+import { loadSettings } from '../actions';
+import CurrencySelector from './CurrencySelector';
 
 export const TotalContainer = styled.div`
   text-align: right;
@@ -35,17 +38,33 @@ export const TotalContainer = styled.div`
 
 export const TotalHoldings = () => {
   const totalHoldings = useSelector(selectTotalGroupHoldings);
-  const demoMode = useSelector(selectIsDemoMode);
+  const settings = useSelector(selectSettings);
+  const currencies = useSelector(selectCurrencies);
+  const dispatch = useDispatch();
   let displayTotal = <FontAwesomeIcon icon={faSpinner} spin />;
-  if (demoMode) {
-    displayTotal = <span>$-------.--</span>;
-  } else if (totalHoldings !== null) {
+  if (totalHoldings !== null) {
     displayTotal = <Number value={totalHoldings} currency />;
   }
   return (
     <TotalContainer>
       <h2>Total Holdings</h2>
       <span>{displayTotal}</span>
+      {settings && (
+        <CurrencySelector
+          value={settings.preferred_currency}
+          options={currencies}
+          onChange={(newCurrency: string) => {
+            settings.preferred_currency = newCurrency;
+            putData('/api/v1/settings/', settings)
+              .then(() => {
+                dispatch(loadSettings());
+              })
+              .catch(() => {
+                dispatch(loadSettings());
+              });
+          }}
+        />
+      )}
     </TotalContainer>
   );
 };
