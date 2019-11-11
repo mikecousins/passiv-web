@@ -3,6 +3,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import DashboardPage from '../pages/DashboardPage';
 import GroupPage from '../pages/GroupPage';
 import SettingsPage from '../pages/SettingsPage';
+import PerformancePage from '../pages/PerformancePage';
 import QuestradeOauthPage from '../pages/QuestradeOauthPage';
 import AlpacaOauthPage from '../pages/AlpacaOauthPage';
 import InteractiveBrokersOauthPage from '../pages/InteractiveBrokersOauthPage';
@@ -75,6 +76,7 @@ const SecureApp = () => {
           <AuthorizationPage onboarding={false} />
         </Route>
         <Route path={prefixPath('/settings')} component={SettingsPage} />
+        <Route path={prefixPath('/performance')} component={PerformancePage} />
         <Route path={prefixPath('/coupon')} component={CouponPage} />
 
         <Route

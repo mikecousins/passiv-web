@@ -97,6 +97,7 @@ const SideBar = () => {
         {groups && groups.length > 0 && (
           <GroupContainer>{groupList}</GroupContainer>
         )}
+        <SideBarLink name="Performance" linkPath="/app/performance" />
         <SideBarLink name="Settings" linkPath="/app/settings" />
         <SideBarFooter />
       </StyledAside>
