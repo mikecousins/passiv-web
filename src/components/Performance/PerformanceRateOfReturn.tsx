@@ -14,6 +14,16 @@ const SubHeader = styled.div`
   font-size: 14pt;
 `;
 
+const TimespanStyle = styled.span`
+  padding: 5px;
+  background-color: #cccccc !important;
+  margin: 5px;
+  color: black;
+  font-weight: bold;
+  font-size: 10pt;
+  text-align: center;
+`;
+
 const GreenPercent = styled.span`
   padding: 10px;
   background-color: #04a287 !important;
@@ -39,9 +49,20 @@ const AlignLeft = styled.div`
   text-align: left !important;
 `;
 
+export const TimespanSelector = (props: any) => {
+  return <TimespanStyle>{props.name}</TimespanStyle>;
+};
+
 export const PerformanceRateOfReturn = () => {
   return (
-    <div>
+    <React.Fragment>
+      <SubHeader>
+        Rate of Return
+        <TimespanSelector name="1Y" />
+        <TimespanSelector name="YTD" />
+        <TimespanSelector name="30D" />
+      </SubHeader>
+      <br /> <br />
       <MarginBottom>
         <GreenPercent>
           6.83% <FontAwesomeIcon icon={faCaretUp} />
@@ -50,16 +71,7 @@ export const PerformanceRateOfReturn = () => {
           $18,745 <FontAwesomeIcon icon={faCaretUp} />
         </WhiteChange>
       </MarginBottom>
-      <SubHeader>Last 30 days</SubHeader> <br />
-      <MarginBottom>
-        <GreenPercent>
-          0.79% <FontAwesomeIcon icon={faCaretUp} />
-        </GreenPercent>
-        <WhiteChange>
-          $2,437 <FontAwesomeIcon icon={faCaretUp} />
-        </WhiteChange>
-      </MarginBottom>
-    </div>
+    </React.Fragment>
   );
 };
 

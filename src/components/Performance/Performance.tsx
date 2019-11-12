@@ -47,14 +47,13 @@ export const Performance = () => {
   //   group.accounts.map(account => totalAssets += account.worth),
   // );
   return (
-    <div>
+    <React.Fragment>
       <Header>Performance:</Header> <br />
       <AlignLeft>
         <TotalHoldings />
       </AlignLeft>
-      <SubHeader>Rate of Return (last year)</SubHeader> <br />
       <PerformanceRateOfReturn />
-    </div>
+    </React.Fragment>
   );
 };
 
