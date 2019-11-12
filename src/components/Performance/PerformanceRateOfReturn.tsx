@@ -5,10 +5,7 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import TotalHoldings from '../TotalHoldings';
-
-const Header = styled.div`
-  font-size: 20pt;
-`;
+import { Timeframe } from './Timeframe';
 
 const SubHeader = styled.div`
   font-size: 14pt;
@@ -44,31 +41,63 @@ const WhiteChange = styled.span`
   font-weight: bold;
 `;
 
-// Below doesn't work right now
-const AlignLeft = styled.div`
-  text-align: left !important;
-`;
-
 export const TimespanSelector = (props: any) => {
-  return <TimespanStyle>{props.name}</TimespanStyle>;
+  let timeframeString: string = '1Y';
+  if (props.timeframe === Timeframe.YearToDate) {
+    timeframeString = 'YTD';
+  } else if (props.timeframe === Timeframe.ThirtyDays) {
+    timeframeString = '30D';
+  }
+
+  return (
+    <TimespanStyle>
+      <button onClick={() => props.switchTimeframe(props.timeframe)}>
+        {timeframeString}
+      </button>
+    </TimespanStyle>
+  );
 };
 
 export const PerformanceRateOfReturn = () => {
+  let currentTimeframe: Timeframe = Timeframe.OneYear as Timeframe;
+
+  function switchTimeframe(timeframe: Timeframe) {
+    currentTimeframe = timeframe;
+  }
+  let percentReturn = '6.83';
+  let cashReturn = '18,745';
+  if (currentTimeframe === Timeframe.ThirtyDays) {
+    percentReturn = '1.43';
+    cashReturn = '3,245';
+  } else if (currentTimeframe === Timeframe.YearToDate) {
+    percentReturn = '7.32';
+    cashReturn = '20,321';
+  }
+
   return (
     <React.Fragment>
       <SubHeader>
         Rate of Return
-        <TimespanSelector name="1Y" />
-        <TimespanSelector name="YTD" />
-        <TimespanSelector name="30D" />
+        <TimespanSelector
+          timeframe={Timeframe.OneYear}
+          switchTimeframe={(t: Timeframe) => switchTimeframe(t)}
+        />
+        <TimespanSelector
+          timeframe={Timeframe.YearToDate}
+          switchTimeframe={(t: Timeframe) => switchTimeframe(t)}
+        />
+        <TimespanSelector
+          timeframe={Timeframe.ThirtyDays}
+          switchTimeframe={(t: Timeframe) => switchTimeframe(t)}
+        />
       </SubHeader>
       <br /> <br />
       <MarginBottom>
         <GreenPercent>
-          6.83% <FontAwesomeIcon icon={faCaretUp} />
+          {percentReturn}% <FontAwesomeIcon icon={faCaretUp} />
         </GreenPercent>
         <WhiteChange>
-          $18,745 <FontAwesomeIcon icon={faCaretUp} />
+          ${cashReturn} <FontAwesomeIcon icon={faCaretUp} />
         </WhiteChange>
       </MarginBottom>
     </React.Fragment>

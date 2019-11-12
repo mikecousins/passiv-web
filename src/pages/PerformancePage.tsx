@@ -10,8 +10,6 @@ const PerformancePage = () => {
   return (
     <React.Fragment>
       <Performance />
-      <br />
-      <PerformanceGroups />
     </React.Fragment>
   );
 };
