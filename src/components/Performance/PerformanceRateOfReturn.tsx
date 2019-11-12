@@ -19,6 +19,9 @@ const TimespanStyle = styled.span`
   font-weight: bold;
   font-size: 10pt;
   text-align: center;
+  &.selected {
+    background-color: #aaaaaa !important;
+  }
 `;
 
 const GreenPercent = styled.span`
@@ -43,6 +46,7 @@ const WhiteChange = styled.span`
 
 type Props = {
   timeframe: Timeframe;
+  selectedTimeframe: Timeframe;
   setTimeframe: (newTimeFrame: Timeframe) => void;
 };
 
@@ -54,8 +58,11 @@ export const TimespanSelector = (props: Props) => {
     timeframeString = '30D';
   }
 
+  let classNames = '';
+  let selected = props.timeframe === props.selectedTimeframe;
+
   return (
-    <TimespanStyle>
+    <TimespanStyle className={selected ? 'selected' : ''}>
       <button onClick={() => props.setTimeframe(props.timeframe)}>
         {timeframeString}
       </button>
@@ -89,14 +96,17 @@ export const PerformanceRateOfReturn = () => {
         Rate of Return
         <TimespanSelector
           timeframe={Timeframe.OneYear}
+          selectedTimeframe={currentTimeframe}
           setTimeframe={(t: Timeframe) => setTimeframe(t)}
         />
         <TimespanSelector
           timeframe={Timeframe.YearToDate}
+          selectedTimeframe={currentTimeframe}
           setTimeframe={(t: Timeframe) => setTimeframe(t)}
         />
         <TimespanSelector
           timeframe={Timeframe.ThirtyDays}
+          selectedTimeframe={currentTimeframe}
           setTimeframe={(t: Timeframe) => setTimeframe(t)}
         />
       </SubHeader>
