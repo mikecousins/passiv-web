@@ -66,14 +66,21 @@ export const TimespanSelector = (props: Props) => {
 export const PerformanceRateOfReturn = () => {
   const [currentTimeframe, setTimeframe] = useState(Timeframe.OneYear);
 
-  let percentReturn = '6.83';
-  let cashReturn = '18,745';
+  let example1Yp = '6.83';
+  let example1Yc = '18,745';
+  let exampleYTDp = '7.32';
+  let exampleYTDc = '20,321';
+  let example30Dp = '1.43';
+  let example30Dc = '3,245';
+
+  let percentReturn = example1Yp;
+  let cashReturn = example1Yc;
   if (currentTimeframe === Timeframe.ThirtyDays) {
-    percentReturn = '1.43';
-    cashReturn = '3,245';
+    percentReturn = exampleYTDp;
+    cashReturn = exampleYTDc;
   } else if (currentTimeframe === Timeframe.YearToDate) {
-    percentReturn = '7.32';
-    cashReturn = '20,321';
+    percentReturn = example30Dp;
+    cashReturn = example30Dc;
   }
 
   return (
