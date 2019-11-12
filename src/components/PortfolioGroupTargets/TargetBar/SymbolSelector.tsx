@@ -15,6 +15,8 @@ import { loadGroup } from '../../../actions';
 
 const StyledCombobox = styled(Combobox)`
   width: 500px;
+  position: relative;
+  z-index: 5;
   @media (max-width: 900px) {
     width: 81vw;
     margin-bottom: 20px;
@@ -29,6 +31,10 @@ const StyledInput = styled(ComboboxInput)`
     width: 81vw;
     margin-bottom: 20px;
   }
+`;
+
+const StyledComboboxPopover = styled(ComboboxPopover)`
+  z-index: 5;
 `;
 
 type Props = {
@@ -97,7 +103,7 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
     <StyledCombobox value={value} onSelect={handleSelect}>
       <StyledInput onChange={onChange} placeholder="Search for security..." />
       {matchingSymbols && matchingSymbols.length > 0 && (
-        <ComboboxPopover>
+        <StyledComboboxPopover>
           <ComboboxList>
             {matchingSymbols.map((option: any, index) => {
               const str = `${option.symbol} (${option.description})`;
@@ -108,7 +114,7 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
               );
             })}
           </ComboboxList>
-        </ComboboxPopover>
+        </StyledComboboxPopover>
       )}
     </StyledCombobox>
   );

@@ -19,6 +19,11 @@ type Props = {
   onChange: (newCurrency: string) => void;
 };
 
+const StyledMenuList = styled(MenuList)`
+  z-index: 3;
+  position: relative;
+`;
+
 const CurrencySelector = ({ value, options, onChange }: Props) => {
   if (!options) {
     return null;
@@ -34,13 +39,13 @@ const CurrencySelector = ({ value, options, onChange }: Props) => {
         {currentCurrency.code}
         <CaretBox icon={faCaretDown} />
       </StyledMenuButton>
-      <MenuList>
+      <StyledMenuList>
         {options.map(currency => (
           <MenuItem key={currency.id} onSelect={() => onChange(currency.id)}>
             {currency.code}
           </MenuItem>
         ))}
-      </MenuList>
+      </StyledMenuList>
     </Menu>
   );
 };
