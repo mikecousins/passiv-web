@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import SecureApp from './SecureApp';
 import InsecureApp from './InsecureApp';
 import OnboardingApp from './OnboardingApp';
+import CommonRoutes from './CommonRoutes';
 
 const App = () => {
   const showInsecureApp = useSelector(selectShowInsecureApp);
@@ -18,6 +19,7 @@ const App = () => {
   return (
     <Layout>
       <React.Fragment>
+        <CommonRoutes />
         {showInsecureApp && <InsecureApp />}
         {showOnboardingApp && <OnboardingApp />}
         {showSecureApp && <SecureApp />}

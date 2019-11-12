@@ -17,9 +17,7 @@ const AlpacaOauthPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error>();
   const [success, setSuccess] = useState(false);
-
   const queryParams = useSelector(selectQueryTokens);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,13 +27,11 @@ const AlpacaOauthPage = () => {
       setLoading(false);
       setError({ code: '0000' });
     } else {
-      setLoading(true);
       postData('/api/v1/brokerages/authComplete/', { token: token })
         .then(() => {
           dispatch(initialLoad());
           setTimeout(() => {
-            setLoading(false);
-            setSuccess(true);
+            dispatch(push('/app/dashboard'));
           }, 1000);
         })
         .catch(error => {
