@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectGroupedAccounts } from '../../selectors/groups';
 import styled from '@emotion/styled';
@@ -41,7 +41,12 @@ const WhiteChange = styled.span`
   font-weight: bold;
 `;
 
-export const TimespanSelector = (props: any) => {
+type Props = {
+  timeframe: Timeframe;
+  setTimeframe: (newTimeFrame: Timeframe) => void;
+};
+
+export const TimespanSelector = (props: Props) => {
   let timeframeString: string = '1Y';
   if (props.timeframe === Timeframe.YearToDate) {
     timeframeString = 'YTD';
@@ -51,7 +56,7 @@ export const TimespanSelector = (props: any) => {
 
   return (
     <TimespanStyle>
-      <button onClick={() => props.switchTimeframe(props.timeframe)}>
+      <button onClick={() => props.setTimeframe(props.timeframe)}>
         {timeframeString}
       </button>
     </TimespanStyle>
@@ -59,11 +64,8 @@ export const TimespanSelector = (props: any) => {
 };
 
 export const PerformanceRateOfReturn = () => {
-  let currentTimeframe: Timeframe = Timeframe.OneYear as Timeframe;
+  const [currentTimeframe, setTimeframe] = useState(Timeframe.OneYear);
 
-  function switchTimeframe(timeframe: Timeframe) {
-    currentTimeframe = timeframe;
-  }
   let percentReturn = '6.83';
   let cashReturn = '18,745';
   if (currentTimeframe === Timeframe.ThirtyDays) {
@@ -80,15 +82,15 @@ export const PerformanceRateOfReturn = () => {
         Rate of Return
         <TimespanSelector
           timeframe={Timeframe.OneYear}
-          switchTimeframe={(t: Timeframe) => switchTimeframe(t)}
+          setTimeframe={(t: Timeframe) => setTimeframe(t)}
         />
         <TimespanSelector
           timeframe={Timeframe.YearToDate}
-          switchTimeframe={(t: Timeframe) => switchTimeframe(t)}
+          setTimeframe={(t: Timeframe) => setTimeframe(t)}
         />
         <TimespanSelector
           timeframe={Timeframe.ThirtyDays}
-          switchTimeframe={(t: Timeframe) => switchTimeframe(t)}
+          setTimeframe={(t: Timeframe) => setTimeframe(t)}
         />
       </SubHeader>
       <br /> <br />
