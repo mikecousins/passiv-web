@@ -17,7 +17,6 @@ const QuestradeOauthPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error>();
   const [success, setSuccess] = useState(false);
-
   const queryParams = useSelector(selectQueryTokens);
   const dispatch = useDispatch();
 
@@ -28,13 +27,11 @@ const QuestradeOauthPage = () => {
       setLoading(false);
       setError({ code: '0000' });
     } else {
-      setLoading(true);
       postData('/api/v1/brokerages/authComplete/', { token: token })
         .then(() => {
           dispatch(initialLoad());
           setTimeout(() => {
-            setLoading(false);
-            setSuccess(true);
+            dispatch(push('/app/dashboard'));
           }, 1000);
         })
         .catch(error => {
@@ -42,7 +39,7 @@ const QuestradeOauthPage = () => {
           setError(error.response.data);
         });
     }
-  }, [dispatch, queryParams]);
+  }, []);
 
   // if we're done, redirect the user to the dashboard
   if (success) {
@@ -110,7 +107,7 @@ const QuestradeOauthPage = () => {
   }
 
   return (
-    <ShadowBox background="#2a2d34">
+    <ShadowBox background="#04a287">
       <H1 color="white">SETUP</H1>
       {loading ? (
         <React.Fragment>

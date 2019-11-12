@@ -288,7 +288,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         {contents}
         {!loading && (
           <React.Fragment>
-            <PlaidConnection setLoading={setLoading} />
             {onboarding ? (
               <LinkContainer>
                 <Link style={aDarkStyle} to="/app/connect/open">

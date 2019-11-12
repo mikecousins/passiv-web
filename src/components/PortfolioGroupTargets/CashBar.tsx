@@ -24,6 +24,11 @@ export const CashBar = ({ edit, percentage, actualPercentage }: Props) => {
   if (!(typeof percentage === 'number')) {
     return <span>Loading</span>;
   }
+
+  if (Math.round(percentage * 1000) / 1000 === -0) {
+    percentage = Math.abs(percentage);
+  }
+
   return (
     <Container>
       <BarsContainer>
