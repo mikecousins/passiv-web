@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import PerformanceAccounts from '../components/Performance/PerformanceAccounts';
+import { PerformanceGroups } from '../components/Performance/PerformanceGroups';
 import Performance from '../components/Performance/Performance';
 import { selectIsDemo } from '../selectors';
 import { useSelector } from 'react-redux';
@@ -10,7 +10,8 @@ const PerformancePage = () => {
   return (
     <React.Fragment>
       <Performance />
-      <PerformanceAccounts />
+      <br />
+      <PerformanceGroups />
     </React.Fragment>
   );
 };

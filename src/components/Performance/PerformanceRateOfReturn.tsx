@@ -5,7 +5,6 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import TotalHoldings from '../TotalHoldings';
-import PerformanceRateOfReturn from './PerformanceRateOfReturn';
 
 const Header = styled.div`
   font-size: 20pt;
@@ -23,6 +22,10 @@ const GreenPercent = styled.span`
   font-weight: bold;
 `;
 
+const MarginBottom = styled.div`
+  margin-bottom: 25px;
+`;
+
 const WhiteChange = styled.span`
   padding: 10px;
   background-color: #ffffff !important;
@@ -36,26 +39,28 @@ const AlignLeft = styled.div`
   text-align: left !important;
 `;
 
-export const Performance = () => {
-  const accounts = useSelector(selectGroupedAccounts);
-  let totalAssets: number = 0;
-
-  if (!accounts) {
-    return null;
-  }
-  // accounts.map(group =>
-  //   group.accounts.map(account => totalAssets += account.worth),
-  // );
+export const PerformanceRateOfReturn = () => {
   return (
     <div>
-      <Header>Performance:</Header> <br />
-      <AlignLeft>
-        <TotalHoldings />
-      </AlignLeft>
-      <SubHeader>Rate of Return (last year)</SubHeader> <br />
-      <PerformanceRateOfReturn />
+      <MarginBottom>
+        <GreenPercent>
+          6.83% <FontAwesomeIcon icon={faCaretUp} />
+        </GreenPercent>
+        <WhiteChange>
+          $18,745 <FontAwesomeIcon icon={faCaretUp} />
+        </WhiteChange>
+      </MarginBottom>
+      <SubHeader>Last 30 days</SubHeader> <br />
+      <MarginBottom>
+        <GreenPercent>
+          0.79% <FontAwesomeIcon icon={faCaretUp} />
+        </GreenPercent>
+        <WhiteChange>
+          $2,437 <FontAwesomeIcon icon={faCaretUp} />
+        </WhiteChange>
+      </MarginBottom>
     </div>
   );
 };
 
-export default Performance;
+export default PerformanceRateOfReturn;
