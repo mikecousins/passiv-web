@@ -33,7 +33,7 @@ const PercentReturn = styled.span`
     background-color: #04a287 !important;
   }
   &.negative {
-    background-color: #a22304 !important;
+    background-color: #ad4629 !important;
   }
 `;
 
@@ -51,7 +51,7 @@ const CashReturn = styled.span`
     color: #04a287;
   }
   &.negative {
-    color: #a22304;
+    color: #ad4629;
   }
 `;
 
