@@ -24,24 +24,35 @@ const TimespanStyle = styled.span`
   }
 `;
 
-const GreenPercent = styled.span`
+const PercentReturn = styled.span`
   padding: 10px;
-  background-color: #04a287 !important;
   margin: 5px;
   color: white;
   font-weight: bold;
+  &.positive {
+    background-color: #04a287 !important;
+  }
+  &.negative {
+    background-color: #a22304 !important;
+  }
 `;
 
 const MarginBottom = styled.div`
   margin-bottom: 25px;
 `;
 
-const WhiteChange = styled.span`
+const CashReturn = styled.span`
   padding: 10px;
   background-color: #ffffff !important;
   margin: 5px;
   color: #04a287;
   font-weight: bold;
+  &.positive {
+    color: #04a287;
+  }
+  &.negative {
+    color: #a22304;
+  }
 `;
 
 type Props = {
@@ -77,18 +88,20 @@ export const PerformanceRateOfReturn = () => {
   let example1Yc = '18,745';
   let exampleYTDp = '7.32';
   let exampleYTDc = '20,321';
-  let example30Dp = '1.43';
-  let example30Dc = '3,245';
+  let example30Dp = '-0.43';
+  let example30Dc = '-1,245';
 
   let percentReturn = example1Yp;
   let cashReturn = example1Yc;
   if (currentTimeframe === Timeframe.ThirtyDays) {
-    percentReturn = exampleYTDp;
-    cashReturn = exampleYTDc;
-  } else if (currentTimeframe === Timeframe.YearToDate) {
     percentReturn = example30Dp;
     cashReturn = example30Dc;
+  } else if (currentTimeframe === Timeframe.YearToDate) {
+    percentReturn = exampleYTDp;
+    cashReturn = exampleYTDc;
   }
+
+  let positive = !(percentReturn[0] === '-');
 
   return (
     <React.Fragment>
@@ -112,12 +125,12 @@ export const PerformanceRateOfReturn = () => {
       </SubHeader>
       <br /> <br />
       <MarginBottom>
-        <GreenPercent>
+        <PercentReturn className={positive ? 'positive' : 'negative'}>
           {percentReturn}% <FontAwesomeIcon icon={faCaretUp} />
-        </GreenPercent>
-        <WhiteChange>
+        </PercentReturn>
+        <CashReturn className={positive ? 'positive' : 'negative'}>
           ${cashReturn} <FontAwesomeIcon icon={faCaretUp} />
-        </WhiteChange>
+        </CashReturn>
       </MarginBottom>
     </React.Fragment>
   );
