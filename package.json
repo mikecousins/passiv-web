@@ -82,8 +82,10 @@
     "test": "react-scripts test --env=jsdom",
     "cypress": "cypress run",
     "cypress:open": "cypress open",
+    "cypress:record": "cypress run --config baseUrl=http://localhost:3000/ --record --key bcea59ba-c8d4-49c6-9e91-a03c702a8b95",
+    "start:cypress:record": "start-server-and-test 3000 cypress:record",
     "lint": "eslint src",
-    "travis": "npm run test -- --coverage && npm run lint && npm run cypress"
+    "ci": "npm run test -- --coverage && npm run lint && npm run start:cypress:record"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "4.2.3",
@@ -108,13 +110,18 @@
     "@types/uuid": "3.4.6",
     "@types/yup": "0.26.24",
     "cypress": "3.6.1",
+    "eslint-plugin-cypress": "2.7.0",
     "husky": "3.0.9",
     "lint-staged": "9.4.2",
     "prettier": "1.19.1",
+    "start-server-and-test": "^1.10.6",
     "typescript": "3.7.2"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "plugin:cypress/recommended"
+    ]
   },
   "browserslist": [
     ">0.2%",
