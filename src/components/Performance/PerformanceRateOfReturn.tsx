@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectGroupedAccounts } from '../../selectors/groups';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import TotalHoldings from '../TotalHoldings';
 import { Timeframe } from './Timeframe';
 
 const SubHeader = styled.div`
@@ -69,7 +66,6 @@ export const TimespanSelector = (props: Props) => {
     timeframeString = '30D';
   }
 
-  let classNames = '';
   let selected = props.timeframe === props.selectedTimeframe;
 
   return (

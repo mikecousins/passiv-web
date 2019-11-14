@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import AccountGroup from '../Accounts/AccountGroup';
 import styled from '@emotion/styled';
 import { selectGroups } from '../../selectors/groups';
