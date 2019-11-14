@@ -329,7 +329,9 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                           edit={canEdit}
                           setSymbol={symbol => {
                             setSymbol(t, symbol);
-                            props.setFieldTouched(`targets.${index}.symbol`);
+                            props.setFieldTouched(
+                              `targets.${index}.symbol` as 'targets',
+                            );
                           }}
                           onDelete={key => {
                             let target = props.values.targets.find(
@@ -339,9 +341,11 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                               return;
                             }
                             target.deleted = true;
-                            props.setFieldTouched(`targets.${index}.percent`);
+                            props.setFieldTouched(
+                              `targets.${index}.percent` as 'targets',
+                            );
                             props.setFieldValue(
-                              `targets.${index}.percent`,
+                              `targets.${index}.percent` as 'targets',
                               -0.1,
                             );
                             forceUpdate();
@@ -355,8 +359,13 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                             }
                             const newExcluded = !target.is_excluded;
                             target.is_excluded = newExcluded;
-                            props.setFieldTouched(`targets.${index}.percent`);
-                            props.setFieldValue(`targets.${index}.percent`, 0);
+                            props.setFieldTouched(
+                              `targets.${index}.percent` as 'targets',
+                            );
+                            props.setFieldValue(
+                              `targets.${index}.percent` as 'targets',
+                              0,
+                            );
                             forceUpdate();
                           }}
                         >
@@ -367,13 +376,13 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                             tabIndex={index + 1}
                             onChange={e =>
                               props.setFieldValue(
-                                `targets.${index}.percent`,
+                                `targets.${index}.percent` as 'targets',
                                 parseFloat(e.target.value),
                               )
                             }
                             onBlur={() => {
                               props.setFieldValue(
-                                `targets.${index}.percent`,
+                                `targets.${index}.percent` as 'targets',
                                 parseFloat(
                                   props.values.targets[index].percent.toFixed(
                                     1,

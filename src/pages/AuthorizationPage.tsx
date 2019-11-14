@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import React, { useState } from 'react';
+import React from 'react';
 import { push } from 'connected-react-router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,7 +17,6 @@ import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import QuestradeLogo from '../assets/images/questrade-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
-import PlaidConnection from '../components/PlaidConnection';
 
 const aDarkStyle = {
   color: 'white',
@@ -107,7 +106,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const userPermissions = useSelector(selectUserPermissions);
   const authorizations = useSelector(selectAuthorizations);
   const { brokerage } = useParams();
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const canAddMultipleConnections = () => {
@@ -217,22 +215,16 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         your brokerage account. Connecting your account does not allow Passiv to
         see your login information.
       </AuthP>
-      {loading ? (
-        <H2DarkStyle>Establishing brokerage connection...</H2DarkStyle>
-      ) : (
-        <Container2Column>
-          {brokerageOptions.map((brokerage: any) => {
-            return (
-              <AuthBox key={brokerage.id}>
-                <LogoContainer>
-                  <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
-                </LogoContainer>
-                {brokerage.view()}
-              </AuthBox>
-            );
-          })}
-        </Container2Column>
-      )}
+      <Container2Column>
+        {brokerageOptions.map((brokerage: any) => (
+          <AuthBox key={brokerage.id}>
+            <LogoContainer>
+              <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+            </LogoContainer>
+            {brokerage.view()}
+          </AuthBox>
+        ))}
+      </Container2Column>
     </React.Fragment>
   );
 
@@ -286,23 +278,21 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     output = (
       <React.Fragment>
         {contents}
-        {!loading && (
-          <React.Fragment>
-            {onboarding ? (
-              <LinkContainer>
-                <Link style={aDarkStyle} to="/app/connect/open">
-                  I don't have a brokerage account.
-                </Link>
-              </LinkContainer>
-            ) : (
-              <LinkContainer>
-                <Link style={aDarkStyle} to="/app/settings">
-                  Back
-                </Link>
-              </LinkContainer>
-            )}
-          </React.Fragment>
-        )}
+        <React.Fragment>
+          {onboarding ? (
+            <LinkContainer>
+              <Link style={aDarkStyle} to="/app/connect/open">
+                I don't have a brokerage account.
+              </Link>
+            </LinkContainer>
+          ) : (
+            <LinkContainer>
+              <Link style={aDarkStyle} to="/app/settings">
+                Back
+              </Link>
+            </LinkContainer>
+          )}
+        </React.Fragment>
       </React.Fragment>
     );
   }

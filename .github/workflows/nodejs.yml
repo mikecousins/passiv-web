@@ -20,7 +20,7 @@ jobs:
     - name: yarn install, build and test
       run: |
         yarn
-        yarn run travis
+        yarn run ci
         yarn run build
       env:
         CI: true

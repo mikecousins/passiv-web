@@ -56,7 +56,7 @@ const useDebouncedEffect = (callback: any, delay: number, deps: any[] = []) => {
     return () => {
       clearTimeout(handler);
     };
-  }, [delay, ...deps]);
+  }, [delay, ...deps]); // eslint-disable-line react-hooks/exhaustive-deps
 };
 
 const SymbolSelector = ({ value, onSelect }: Props) => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { postData } from '../api';
@@ -16,7 +16,6 @@ import { Error } from '../types/groupInfo';
 const QuestradeOauthPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error>();
-  const [success, setSuccess] = useState(false);
   const queryParams = useSelector(selectQueryTokens);
   const dispatch = useDispatch();
 
@@ -39,12 +38,7 @@ const QuestradeOauthPage = () => {
           setError(error.response.data);
         });
     }
-  }, []);
-
-  // if we're done, redirect the user to the dashboard
-  if (success) {
-    return <Redirect to="/app/dashboard" />;
-  }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   let errorDisplay = null;
   if (error) {
