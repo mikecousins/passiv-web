@@ -138,10 +138,10 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       connect: () => {
         const brokerage =
           brokerages &&
-          brokerages.find(brokerage => brokerage.name === 'Alpaca');
+          brokerages.find(brokerage => brokerage.name === 'Questrade');
         if (brokerage) {
           postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
-            type: 'trade',
+            type: 'read',
           }).then(response => {
             window.location = response.data.url;
           });
