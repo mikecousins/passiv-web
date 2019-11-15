@@ -56,6 +56,7 @@ export const Performance = () => {
       <br />
       <PerformanceContributions />
       <br />
+      <br />
       <PerformanceGroups />
     </React.Fragment>
   );
