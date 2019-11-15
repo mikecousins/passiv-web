@@ -3,10 +3,7 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { Timeframe } from './Timeframe';
-
-const SubHeader = styled.div`
-  font-size: 14pt;
-`;
+import { PercentReturn, CashReturn, SubHeader } from './Performance';
 
 const TimespanStyle = styled.span`
   padding: 5px;
@@ -21,35 +18,8 @@ const TimespanStyle = styled.span`
   }
 `;
 
-const PercentReturn = styled.span`
-  padding: 10px;
-  margin: 5px;
-  color: white;
-  font-weight: bold;
-  &.positive {
-    background-color: #04a287 !important;
-  }
-  &.negative {
-    background-color: #ad4629 !important;
-  }
-`;
-
 const MarginBottom = styled.div`
   margin-bottom: 25px;
-`;
-
-const CashReturn = styled.span`
-  padding: 10px;
-  background-color: #ffffff !important;
-  margin: 5px;
-  color: #04a287;
-  font-weight: bold;
-  &.positive {
-    color: #04a287;
-  }
-  &.negative {
-    color: #ad4629;
-  }
 `;
 
 type Props = {
