@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import styled from '@emotion/styled';
+import React from 'react';
 import { CashReturn, SubHeader } from './Performance';
 import { Timeframe } from './Timeframe';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

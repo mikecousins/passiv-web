@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { Timeframe } from './Timeframe';
-import { PercentReturn, CashReturn, SubHeader } from './Performance';
+import { PercentReturn, CashReturn } from './Performance';
 
 const MarginBottom = styled.div`
   margin-bottom: 25px;
