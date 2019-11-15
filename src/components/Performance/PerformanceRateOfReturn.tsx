@@ -15,11 +15,11 @@ type Props = {
 
 export const PerformanceRateOfReturn = (props: Props) => {
   let example1Yp = '6.83';
-  let example1Yc = '18,745';
+  let example1Yc = '4,745';
   let exampleYTDp = '7.32';
-  let exampleYTDc = '20,321';
+  let exampleYTDc = '5,321';
   let example30Dp = '-0.43';
-  let example30Dc = '-1,245';
+  let example30Dc = '-842';
 
   let percentReturn = example1Yp;
   let cashReturn = example1Yc;

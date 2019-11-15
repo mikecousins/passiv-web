@@ -117,7 +117,7 @@ export const Performance = () => {
       <PerformanceContributions selectedTimeframe={currentTimeframe} />
       <br />
       <br />
-      <PerformanceGroups />
+      <PerformanceGroups selectedTimeframe={currentTimeframe} />
     </React.Fragment>
   );
 };

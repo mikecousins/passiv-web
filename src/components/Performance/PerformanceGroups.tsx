@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import AccountGroup from '../Accounts/AccountGroup';
 import styled from '@emotion/styled';
 import { selectGroups } from '../../selectors/groups';
+import PerformanceRateOfReturn from './PerformanceRateOfReturn';
+import { Timeframe } from './Timeframe';
 
 const AccountRow = styled.span`
   padding: 5px;
@@ -14,7 +16,11 @@ const SubHeader = styled.div`
   margin-bottom: 20px;
 `;
 
-export const PerformanceGroups = () => {
+type Props = {
+  selectedTimeframe: Timeframe;
+};
+
+export const PerformanceGroups = (props: Props) => {
   const groups = useSelector(selectGroups);
   if (!groups) {
     return null;
@@ -25,6 +31,9 @@ export const PerformanceGroups = () => {
       {groups.map(group => (
         <AccountRow>
           <AccountGroup name={group.name} />
+          <PerformanceRateOfReturn
+            selectedTimeframe={props.selectedTimeframe}
+          />
         </AccountRow>
       ))}
     </div>
