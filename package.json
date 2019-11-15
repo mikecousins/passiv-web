@@ -54,7 +54,7 @@
     "react": "16.11.0",
     "react-beautiful-dnd": "12.1.0",
     "react-copy-to-clipboard": "5.0.2",
-    "react-dom": "16.11.0",
+    "react-dom": "16.12.0",
     "react-ga": "2.7.0",
     "react-markdown": "4.2.2",
     "react-plaid-link": "1.5.0",
