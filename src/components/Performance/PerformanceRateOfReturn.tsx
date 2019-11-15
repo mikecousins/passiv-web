@@ -5,51 +5,15 @@ import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { Timeframe } from './Timeframe';
 import { PercentReturn, CashReturn, SubHeader } from './Performance';
 
-const TimespanStyle = styled.span`
-  padding: 5px;
-  background-color: #cccccc !important;
-  margin: 5px;
-  color: black;
-  font-weight: bold;
-  font-size: 10pt;
-  text-align: center;
-  &.selected {
-    background-color: #aaaaaa !important;
-  }
-`;
-
 const MarginBottom = styled.div`
   margin-bottom: 25px;
 `;
 
 type Props = {
-  timeframe: Timeframe;
   selectedTimeframe: Timeframe;
-  setTimeframe: (newTimeFrame: Timeframe) => void;
 };
 
-export const TimespanSelector = (props: Props) => {
-  let timeframeString: string = '1Y';
-  if (props.timeframe === Timeframe.YearToDate) {
-    timeframeString = 'YTD';
-  } else if (props.timeframe === Timeframe.ThirtyDays) {
-    timeframeString = '30D';
-  }
-
-  let selected = props.timeframe === props.selectedTimeframe;
-
-  return (
-    <TimespanStyle className={selected ? 'selected' : ''}>
-      <button onClick={() => props.setTimeframe(props.timeframe)}>
-        {timeframeString}
-      </button>
-    </TimespanStyle>
-  );
-};
-
-export const PerformanceRateOfReturn = () => {
-  const [currentTimeframe, setTimeframe] = useState(Timeframe.OneYear);
-
+export const PerformanceRateOfReturn = (props: Props) => {
   let example1Yp = '6.83';
   let example1Yc = '18,745';
   let exampleYTDp = '7.32';
@@ -59,10 +23,10 @@ export const PerformanceRateOfReturn = () => {
 
   let percentReturn = example1Yp;
   let cashReturn = example1Yc;
-  if (currentTimeframe === Timeframe.ThirtyDays) {
+  if (props.selectedTimeframe === Timeframe.ThirtyDays) {
     percentReturn = example30Dp;
     cashReturn = example30Dc;
-  } else if (currentTimeframe === Timeframe.YearToDate) {
+  } else if (props.selectedTimeframe === Timeframe.YearToDate) {
     percentReturn = exampleYTDp;
     cashReturn = exampleYTDc;
   }
@@ -71,25 +35,6 @@ export const PerformanceRateOfReturn = () => {
 
   return (
     <React.Fragment>
-      <SubHeader>
-        Rate of Return
-        <TimespanSelector
-          timeframe={Timeframe.OneYear}
-          selectedTimeframe={currentTimeframe}
-          setTimeframe={(t: Timeframe) => setTimeframe(t)}
-        />
-        <TimespanSelector
-          timeframe={Timeframe.YearToDate}
-          selectedTimeframe={currentTimeframe}
-          setTimeframe={(t: Timeframe) => setTimeframe(t)}
-        />
-        <TimespanSelector
-          timeframe={Timeframe.ThirtyDays}
-          selectedTimeframe={currentTimeframe}
-          setTimeframe={(t: Timeframe) => setTimeframe(t)}
-        />
-      </SubHeader>
-      <br /> <br />
       <MarginBottom>
         <PercentReturn className={positive ? 'positive' : 'negative'}>
           {percentReturn}% <FontAwesomeIcon icon={faCaretUp} />

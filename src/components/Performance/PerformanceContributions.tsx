@@ -5,8 +5,17 @@ import { Timeframe } from './Timeframe';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
-export const PerformanceContributions = () => {
-  const contributions = '2,000';
+type Props = {
+  selectedTimeframe: Timeframe;
+};
+
+export const PerformanceContributions = (props: Props) => {
+  let contributions = '22,500';
+  if (props.selectedTimeframe === Timeframe.ThirtyDays) {
+    contributions = '2,000';
+  } else if (props.selectedTimeframe === Timeframe.YearToDate) {
+    contributions = '19,800';
+  }
   let positive = !(contributions[0] === '-');
 
   return (
