@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { Timeframe } from './Timeframe';
 import { PercentReturn, CashReturn, SubHeader } from './Performance';
 
@@ -37,10 +37,20 @@ export const PerformanceRateOfReturn = (props: Props) => {
     <React.Fragment>
       <MarginBottom>
         <PercentReturn className={positive ? 'positive' : 'negative'}>
-          {percentReturn}% <FontAwesomeIcon icon={faCaretUp} />
+          {percentReturn}%{' '}
+          {positive ? (
+            <FontAwesomeIcon icon={faCaretUp} />
+          ) : (
+            <FontAwesomeIcon icon={faCaretDown} />
+          )}
         </PercentReturn>
         <CashReturn className={positive ? 'positive' : 'negative'}>
-          ${cashReturn} <FontAwesomeIcon icon={faCaretUp} />
+          ${cashReturn}{' '}
+          {positive ? (
+            <FontAwesomeIcon icon={faCaretUp} />
+          ) : (
+            <FontAwesomeIcon icon={faCaretDown} />
+          )}
         </CashReturn>
       </MarginBottom>
     </React.Fragment>

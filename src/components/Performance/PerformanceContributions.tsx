@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { CashReturn, SubHeader } from './Performance';
 import { Timeframe } from './Timeframe';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   selectedTimeframe: Timeframe;
@@ -23,7 +23,12 @@ export const PerformanceContributions = (props: Props) => {
       <SubHeader>Contributions</SubHeader>
       <br />
       <CashReturn className={positive ? 'positive' : 'negative'}>
-        ${contributions} <FontAwesomeIcon icon={faCaretUp} />
+        ${contributions}{' '}
+        {positive ? (
+          <FontAwesomeIcon icon={faCaretUp} />
+        ) : (
+          <FontAwesomeIcon icon={faCaretDown} />
+        )}
       </CashReturn>
     </React.Fragment>
   );
