@@ -135,25 +135,17 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'questrade',
       name: 'Questrade',
-      view: () => {
-        return (
-          <AuthLink
-            onClick={() => {
-              const brokerage =
-                brokerages &&
-                brokerages.find(brokerage => brokerage.name === 'Questrade');
-              if (brokerage) {
-                postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
-                  type: 'read',
-                }).then(response => {
-                  window.location = response.data.url;
-                });
-              }
-            }}
-          >
-            Connect Questrade
-          </AuthLink>
-        );
+      connect: () => {
+        const brokerage =
+          brokerages &&
+          brokerages.find(brokerage => brokerage.name === 'Alpaca');
+        if (brokerage) {
+          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+            type: 'trade',
+          }).then(response => {
+            window.location = response.data.url;
+          });
+        }
       },
       openURL: 'https://www.questrade.com/account-selection?oaa_promo=bgudhqhm',
       major: true,
@@ -170,25 +162,17 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'alpaca',
       name: 'Alpaca',
-      view: () => {
-        return (
-          <AuthLink
-            onClick={() => {
-              const brokerage =
-                brokerages &&
-                brokerages.find(brokerage => brokerage.name === 'Alpaca');
-              if (brokerage) {
-                postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
-                  type: 'trade',
-                }).then(response => {
-                  window.location = response.data.url;
-                });
-              }
-            }}
-          >
-            Connect Alpaca
-          </AuthLink>
-        );
+      connect: () => {
+        const brokerage =
+          brokerages &&
+          brokerages.find(brokerage => brokerage.name === 'Alpaca');
+        if (brokerage) {
+          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+            type: 'trade',
+          }).then(response => {
+            window.location = response.data.url;
+          });
+        }
       },
       openURL: 'https://app.alpaca.markets/signup',
       major: true,
@@ -217,11 +201,11 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       </AuthP>
       <Container2Column>
         {brokerageOptions.map((brokerage: any) => (
-          <AuthBox key={brokerage.id}>
+          <AuthBox key={brokerage.id} onClick={brokerage.connect}>
             <LogoContainer>
               <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
             </LogoContainer>
-            {brokerage.view()}
+            <AuthLink>Connect {brokerage.name}</AuthLink>
           </AuthBox>
         ))}
       </Container2Column>
@@ -248,15 +232,15 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           return (
             <Brokerage>
               <Container1Column>
-                <OpenBox>
+                <OpenBox
+                  onClick={() => {
+                    window.location = brokerage.openURL;
+                  }}
+                >
                   <LogoContainer>
                     <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
                   </LogoContainer>
-                  <AuthLink
-                    onClick={() => {
-                      window.location = brokerage.openURL;
-                    }}
-                  >
+                  <AuthLink>
                     Open
                     {'aeiou'.includes(brokerage.name[0].toLowerCase())}{' '}
                     {brokerage.name} Account
