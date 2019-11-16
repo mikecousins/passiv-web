@@ -8,15 +8,10 @@ const prefixPath = (path: string) => {
 };
 
 const CommonRoutes = () => (
-  <React.Fragment>
-    <Switch>
-      <Route
-        path={prefixPath('/help/topic/:slug')}
-        component={HelpArticlePage}
-      />
-      <Route path={prefixPath('/help')} component={HelpPage} />
-    </Switch>
-  </React.Fragment>
+  <Switch>
+    <Route path={prefixPath('/help/topic/:slug')} component={HelpArticlePage} />
+    <Route path={prefixPath('/help')} component={HelpPage} />
+  </Switch>
 );
 
 export default CommonRoutes;

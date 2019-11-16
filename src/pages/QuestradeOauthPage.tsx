@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { push, replace } from 'connected-react-router';
 import { postData } from '../api';
 import { initialLoad } from '../actions';
 import ShadowBox from '../styled/ShadowBox';
@@ -10,7 +11,6 @@ import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import { Step } from '../styled/SignupSteps';
 import { selectQueryTokens } from '../selectors/router';
-import { push } from 'connected-react-router';
 import { Error } from '../types/groupInfo';
 
 const QuestradeOauthPage = () => {
@@ -30,7 +30,7 @@ const QuestradeOauthPage = () => {
         .then(() => {
           dispatch(initialLoad());
           setTimeout(() => {
-            dispatch(push('/app/dashboard'));
+            dispatch(replace('/app/dashboard'));
           }, 1000);
         })
         .catch(error => {

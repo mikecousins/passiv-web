@@ -12,16 +12,6 @@ import createRunLoop from './reactors/init-runloop';
 import { effects } from './reactors/effects';
 import store, { history } from './store';
 
-// TODO change to an import when we have Typescript typings
-const ReactPiwik = require('react-piwik');
-
-// setup Matomo
-const piwik = new ReactPiwik({
-  url: 'matomo.getpassiv.com',
-  siteId: process.env.NODE_ENV === 'production' ? 1 : 2,
-  trackErrors: true,
-});
-
 if (
   process.env.REACT_APP_BASE_URL_OVERRIDE &&
   process.env.REACT_APP_BASE_URL_OVERRIDE === 'getpassiv.com'
@@ -68,7 +58,7 @@ ReactDOM.render(
     <ErrorBoundary>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <ConnectedRouter history={piwik.connectToHistory(history)}>
+          <ConnectedRouter history={history}>
             <App />
           </ConnectedRouter>
         </PersistGate>

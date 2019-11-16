@@ -3,11 +3,8 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import DashboardPage from '../pages/DashboardPage';
 import GroupPage from '../pages/GroupPage';
 import SettingsPage from '../pages/SettingsPage';
-import PerformancePage from '../pages/PerformancePage';
-import QuestradeOauthPage from '../pages/QuestradeOauthPage';
-import AlpacaOauthPage from '../pages/AlpacaOauthPage';
-import InteractiveBrokersOauthPage from '../pages/InteractiveBrokersOauthPage';
 import CouponPage from '../pages/CouponPage';
+import PerformancePage from '../pages/PerformancePage';
 import SharePage from '../pages/SharePage';
 import AuthorizationPage from '../pages/AuthorizationPage';
 import { StripeProvider } from 'react-stripe-elements';
@@ -29,24 +26,6 @@ const stripePublicKey =
   process.env.REACT_APP_BASE_URL_OVERRIDE === 'getpassiv.com'
     ? 'pk_live_LTLbjcwtt6gUmBleYqVVhMFX'
     : 'pk_test_UEivjUoJpfSDWq5i4xc64YNK';
-
-const questradeOauthRedirect = () => {
-  let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/app/oauth/questrade?' + urlParams;
-  return <Redirect to={newPath} />;
-};
-
-const alpacaOauthRedirect = () => {
-  let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/app/oauth/alpaca?' + urlParams;
-  return <Redirect to={newPath} />;
-};
-
-const interactiveBrokersOauthRedirect = () => {
-  let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/app/oauth/interactivebrokers?' + urlParams;
-  return <Redirect to={newPath} />;
-};
 
 const SecureApp = () => {
   const [stripe, setStripe] = useState<any>(null);
@@ -78,36 +57,6 @@ const SecureApp = () => {
         <Route path={prefixPath('/settings')} component={SettingsPage} />
         <Route path={prefixPath('/performance')} component={PerformancePage} />
         <Route path={prefixPath('/coupon')} component={CouponPage} />
-
-        <Route
-          path={prefixPath('/oauth/questrade')}
-          component={QuestradeOauthPage}
-        />
-        <Route
-          exact
-          path="/oauth/questrade"
-          render={() => questradeOauthRedirect()}
-        />
-        <Route
-          exact
-          path="/oauth/questrade-trade"
-          render={() => questradeOauthRedirect()}
-        />
-        <Route path={prefixPath('/oauth/alpaca')} component={AlpacaOauthPage} />
-        <Route
-          exact
-          path="/oauth/alpaca"
-          render={() => alpacaOauthRedirect()}
-        />
-        <Route
-          path={prefixPath('/oauth/interactivebrokers')}
-          component={InteractiveBrokersOauthPage}
-        />
-        <Route
-          exact
-          path="/oauth/interactivebrokers"
-          render={() => interactiveBrokersOauthRedirect()}
-        />
         <Route path={prefixPath('/share')} component={SharePage} />
       </Switch>
     </StripeProvider>
