@@ -8,7 +8,6 @@ import { Timeframe } from './Timeframe';
 
 const AccountRow = styled.span`
   padding: 5px;
-  cursor: pointer;
 `;
 
 const SubHeader = styled.div`

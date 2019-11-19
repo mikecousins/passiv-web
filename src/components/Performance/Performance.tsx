@@ -112,6 +112,7 @@ export const Performance = () => {
         />
       </SubHeader>
       <br /> <br />
+      {/* Replace linebreaks with margins */}
       <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} />
       <br />
       <PerformanceContributions selectedTimeframe={currentTimeframe} />
