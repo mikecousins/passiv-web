@@ -1,6 +1,6 @@
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik, FieldArray, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
@@ -85,8 +85,6 @@ type Props = {
 };
 
 export const TargetSelector = ({ lockable, target }: Props) => {
-  const [forceUpdateToggle, setForceUpdateToggle] = useState(false);
-
   const groupId = useSelector(selectCurrentGroupId);
   const positions = useSelector(selectCurrentGroupPositions);
   const totalEquity = useSelector(selectCurrentGroupTotalEquityExcludedRemoved);
@@ -101,16 +99,11 @@ export const TargetSelector = ({ lockable, target }: Props) => {
 
   const canEdit = edit || !lockable;
 
-  const forceUpdate = () => {
-    setForceUpdateToggle(!forceUpdateToggle);
-  };
-
   const setSymbol = (target: any, symbol: any) => {
     target.fullSymbol = symbol;
     target.symbol = symbol.id;
     // TODO hack to add is_supported flag
     target.is_supported = true;
-    forceUpdate();
   };
 
   const toggleEditMode = () => {
@@ -348,7 +341,6 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                               `targets.${index}.percent` as 'targets',
                               -0.1,
                             );
-                            forceUpdate();
                           }}
                           onExclude={key => {
                             let target = props.values.targets.find(
@@ -366,7 +358,6 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                               `targets.${index}.percent` as 'targets',
                               0,
                             );
-                            forceUpdate();
                           }}
                         >
                           <input
