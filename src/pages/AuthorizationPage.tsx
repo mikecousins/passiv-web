@@ -11,7 +11,7 @@ import {
 import { selectUserPermissions } from '../selectors/subscription';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { H1, H2, P, A } from '../styled/GlobalElements';
+import { P } from '../styled/GlobalElements';
 import { postData } from '../api';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';

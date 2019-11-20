@@ -1,23 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { push } from 'connected-react-router';
 import ShadowBox from '../styled/ShadowBox';
-import {
-  aDarkStyle,
-  Container2Column,
-  Container1Column,
-  GrowBox,
-  LogoContainer,
-  LinkContainer,
-  AuthBox,
-  OpenBox,
-  AuthLink,
-  AuthP,
-  H1DarkStyle,
-  H2DarkStyle,
-  VerticalPadding,
-} from '../styled/Setup';
+import { H1DarkStyle, H2DarkStyle, VerticalPadding } from '../styled/Setup';
 import { Button } from '../styled/Button';
 
 const WelcomePage = () => {
@@ -28,6 +13,7 @@ const WelcomePage = () => {
       <H2DarkStyle>Here's a 3-minute video to help you get started</H2DarkStyle>
       <VerticalPadding>
         <iframe
+          title="Passiv Basics"
           width="575"
           height="320"
           src="https://player.vimeo.com/video/360152330"

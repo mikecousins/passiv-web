@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import ShadowBox from './ShadowBox';
 import { H1, H2, P, A } from './GlobalElements';
-import { Link } from 'react-router-dom';
 
 export const aDarkStyle = {
   color: 'white',
