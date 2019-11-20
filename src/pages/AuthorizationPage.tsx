@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import React, { useState } from 'react';
+import React from 'react';
 import { push } from 'connected-react-router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,7 +17,6 @@ import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import QuestradeLogo from '../assets/images/questrade-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
-import PlaidConnection from '../components/PlaidConnection';
 
 const aDarkStyle = {
   color: 'white',
@@ -107,7 +106,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const userPermissions = useSelector(selectUserPermissions);
   const authorizations = useSelector(selectAuthorizations);
   const { brokerage } = useParams();
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const canAddMultipleConnections = () => {
@@ -137,25 +135,17 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'questrade',
       name: 'Questrade',
-      view: () => {
-        return (
-          <AuthLink
-            onClick={() => {
-              const brokerage =
-                brokerages &&
-                brokerages.find(brokerage => brokerage.name === 'Questrade');
-              if (brokerage) {
-                postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
-                  type: 'read',
-                }).then(response => {
-                  window.location = response.data.url;
-                });
-              }
-            }}
-          >
-            Connect Questrade
-          </AuthLink>
-        );
+      connect: () => {
+        const brokerage =
+          brokerages &&
+          brokerages.find(brokerage => brokerage.name === 'Questrade');
+        if (brokerage) {
+          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+            type: 'read',
+          }).then(response => {
+            window.location = response.data.url;
+          });
+        }
       },
       openURL: 'https://www.questrade.com/account-selection?oaa_promo=bgudhqhm',
       major: true,
@@ -172,25 +162,17 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'alpaca',
       name: 'Alpaca',
-      view: () => {
-        return (
-          <AuthLink
-            onClick={() => {
-              const brokerage =
-                brokerages &&
-                brokerages.find(brokerage => brokerage.name === 'Alpaca');
-              if (brokerage) {
-                postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
-                  type: 'trade',
-                }).then(response => {
-                  window.location = response.data.url;
-                });
-              }
-            }}
-          >
-            Connect Alpaca
-          </AuthLink>
-        );
+      connect: () => {
+        const brokerage =
+          brokerages &&
+          brokerages.find(brokerage => brokerage.name === 'Alpaca');
+        if (brokerage) {
+          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+            type: 'trade',
+          }).then(response => {
+            window.location = response.data.url;
+          });
+        }
       },
       openURL: 'https://app.alpaca.markets/signup',
       major: true,
@@ -217,22 +199,16 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         your brokerage account. Connecting your account does not allow Passiv to
         see your login information.
       </AuthP>
-      {loading ? (
-        <H2DarkStyle>Establishing brokerage connection...</H2DarkStyle>
-      ) : (
-        <Container2Column>
-          {brokerageOptions.map((brokerage: any) => {
-            return (
-              <AuthBox key={brokerage.id}>
-                <LogoContainer>
-                  <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
-                </LogoContainer>
-                {brokerage.view()}
-              </AuthBox>
-            );
-          })}
-        </Container2Column>
-      )}
+      <Container2Column>
+        {brokerageOptions.map((brokerage: any) => (
+          <AuthBox key={brokerage.id} onClick={brokerage.connect}>
+            <LogoContainer>
+              <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+            </LogoContainer>
+            <AuthLink>Connect {brokerage.name}</AuthLink>
+          </AuthBox>
+        ))}
+      </Container2Column>
     </React.Fragment>
   );
 
@@ -256,15 +232,15 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           return (
             <Brokerage>
               <Container1Column>
-                <OpenBox>
+                <OpenBox
+                  onClick={() => {
+                    window.location = brokerage.openURL;
+                  }}
+                >
                   <LogoContainer>
                     <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
                   </LogoContainer>
-                  <AuthLink
-                    onClick={() => {
-                      window.location = brokerage.openURL;
-                    }}
-                  >
+                  <AuthLink>
                     Open
                     {'aeiou'.includes(brokerage.name[0].toLowerCase())}{' '}
                     {brokerage.name} Account
@@ -286,23 +262,21 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     output = (
       <React.Fragment>
         {contents}
-        {!loading && (
-          <React.Fragment>
-            {onboarding ? (
-              <LinkContainer>
-                <Link style={aDarkStyle} to="/app/connect/open">
-                  I don't have a brokerage account.
-                </Link>
-              </LinkContainer>
-            ) : (
-              <LinkContainer>
-                <Link style={aDarkStyle} to="/app/settings">
-                  Back
-                </Link>
-              </LinkContainer>
-            )}
-          </React.Fragment>
-        )}
+        <React.Fragment>
+          {onboarding ? (
+            <LinkContainer>
+              <Link style={aDarkStyle} to="/app/connect/open">
+                I don't have a brokerage account.
+              </Link>
+            </LinkContainer>
+          ) : (
+            <LinkContainer>
+              <Link style={aDarkStyle} to="/app/settings">
+                Back
+              </Link>
+            </LinkContainer>
+          )}
+        </React.Fragment>
       </React.Fragment>
     );
   }
