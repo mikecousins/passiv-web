@@ -10,7 +10,7 @@ const prefixPath = (path: string) => {
   return `/app${path}`;
 };
 
-const InsecureApp = () => (
+const OnboardingApp = () => (
   <Switch>
     <Route path={prefixPath('/connect/:brokerage?')}>
       <AuthorizationPage onboarding={true} />
@@ -31,4 +31,4 @@ const InsecureApp = () => (
   </Switch>
 );
 
-export default InsecureApp;
+export default OnboardingApp;
