@@ -4,6 +4,7 @@ import AuthorizationPage from '../pages/AuthorizationPage';
 import SetupGroupPage from '../pages/SetupGroupsPage';
 import SetInitialTargetsPage from '../pages/SetInitialTargetsPage';
 import OnboardingSummaryPage from '../pages/OnboardingSummaryPage';
+import WelcomePage from '../pages/WelcomePage';
 
 // hack to make routing work on both prod and dev
 const prefixPath = (path: string) => {
@@ -15,7 +16,9 @@ const OnboardingApp = () => (
     <Route path={prefixPath('/connect/:brokerage?')}>
       <AuthorizationPage onboarding={true} />
     </Route>
-
+    <Route path={prefixPath('/welcome')}>
+      <WelcomePage />
+    </Route>
     <Route path={prefixPath('/setup-groups')}>
       <SetupGroupPage />
     </Route>
@@ -26,7 +29,7 @@ const OnboardingApp = () => (
       <OnboardingSummaryPage />
     </Route>
     <Route path="*">
-      <Redirect to={prefixPath('/connect')} />
+      <Redirect to={prefixPath('/welcome')} />
     </Route>
   </Switch>
 );
