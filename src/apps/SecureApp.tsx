@@ -56,6 +56,9 @@ const SecureApp = () => {
         <Route path={prefixPath('/settings')} component={SettingsPage} />
         <Route path={prefixPath('/coupon')} component={CouponPage} />
         <Route path={prefixPath('/share')} component={SharePage} />
+        <Route path="*">
+          <Redirect to={prefixPath('/')} />
+        </Route>
       </Switch>
     </StripeProvider>
   );
