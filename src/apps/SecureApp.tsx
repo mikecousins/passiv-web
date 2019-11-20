@@ -107,6 +107,9 @@ const SecureApp = () => {
           render={() => interactiveBrokersOauthRedirect()}
         />
         <Route path={prefixPath('/share')} component={SharePage} />
+        <Route path="*">
+          <Redirect to={prefixPath('/')} />
+        </Route>
       </Switch>
     </StripeProvider>
   );
