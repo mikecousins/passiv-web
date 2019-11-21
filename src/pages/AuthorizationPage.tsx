@@ -33,6 +33,7 @@ import {
   H2DarkStyle,
   VerticalPadding,
 } from '../styled/Setup';
+import OnboardingProgress from '../components/OnboardingProgress';
 
 const Brokerage = styled.div``;
 
@@ -228,7 +229,12 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     );
   }
 
-  return <ShadowBox background="#2a2d34">{output}</ShadowBox>;
+  return (
+    <ShadowBox background="#2a2d34">
+      {output}
+      <OnboardingProgress step={2} />
+    </ShadowBox>
+  );
 };
 
 export default AuthorizationPage;
