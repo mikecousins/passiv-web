@@ -9,6 +9,8 @@ import {
   selectAuthorizations,
 } from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
+import { selectConnectPlaidFeature } from '../selectors';
+import PlaidConnection from '../components/PlaidConnection';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { P } from '../styled/GlobalElements';
@@ -45,6 +47,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const brokerages = useSelector(selectBrokerages);
   const userPermissions = useSelector(selectUserPermissions);
   const authorizations = useSelector(selectAuthorizations);
+  const connectPlaidFeature = useSelector(selectConnectPlaidFeature);
   const { brokerage } = useParams();
   const dispatch = useDispatch();
 
@@ -203,6 +206,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       <React.Fragment>
         {contents}
         <React.Fragment>
+          {connectPlaidFeature && <PlaidConnection setLoading={setLoading} />}
           {onboarding ? (
             <LinkContainer>
               <VerticalPadding>
