@@ -15,9 +15,12 @@ export const tokenExpired: ActionCreator<Action> = () => ({
   type: 'TOKEN_EXPIRED',
 });
 
-export const registerStartedAsync: ActionCreator<
-  ThunkAction<void, any, any, any>
-> = payload => {
+export const registerStartedAsync: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  any
+>> = payload => {
   return dispatch => {
     dispatch(registerStarted());
   };
@@ -33,9 +36,12 @@ export const registerFailed: ActionCreator<Action> = payload => ({
   payload,
 });
 
-export const loadAuthorizations: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = () => {
+export const loadAuthorizations: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
   return dispatch => {
     dispatch(fetchAuthorizationsStart());
     getData('/api/v1/authorizations')
@@ -44,9 +50,12 @@ export const loadAuthorizations: ActionCreator<
   };
 };
 
-export const loadCurrencies: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = () => {
+export const loadCurrencies: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
   return dispatch => {
     dispatch(fetchCurrenciesStart());
     getData('/api/v1/currencies/')
@@ -55,9 +64,26 @@ export const loadCurrencies: ActionCreator<
   };
 };
 
-export const loadCurrencyRates: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = () => {
+export const loadFeatures: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
+  return dispatch => {
+    dispatch(fetchFeaturesStart());
+    getData('/api/v1/features/')
+      .then(response => dispatch(fetchFeaturesSuccess(response)))
+      .catch(error => dispatch(fetchFeaturesError(error)));
+  };
+};
+
+export const loadCurrencyRates: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
   return dispatch => {
     dispatch(fetchCurrencyRatesStart());
     getData('/api/v1/currencies/rates/')
@@ -66,9 +92,12 @@ export const loadCurrencyRates: ActionCreator<
   };
 };
 
-export const loadGroups: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = () => {
+export const loadGroups: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
   return dispatch => {
     dispatch(fetchGroupsStart());
     getData('/api/v1/portfolioGroups/')
@@ -85,9 +114,12 @@ export const loadGroups: ActionCreator<
   };
 };
 
-export const loadGroupsList: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = () => {
+export const loadGroupsList: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
   return dispatch => {
     dispatch(fetchGroupsStart());
     getData('/api/v1/portfolioGroups/')
@@ -98,9 +130,12 @@ export const loadGroupsList: ActionCreator<
   };
 };
 
-export const loadBrokerages: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = () => {
+export const loadBrokerages: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
   return dispatch => {
     dispatch(fetchBrokeragesStart());
     getData('/api/v1/brokerages/')
@@ -109,9 +144,12 @@ export const loadBrokerages: ActionCreator<
   };
 };
 
-export const loadHelpArticles: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = () => {
+export const loadHelpArticles: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
   return dispatch => {
     dispatch(fetchHelpArticlesStart());
     getData('/api/v1/help/')
@@ -120,9 +158,12 @@ export const loadHelpArticles: ActionCreator<
   };
 };
 
-export const loadSettings: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = () => {
+export const loadSettings: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
   return dispatch => {
     dispatch(fetchSettingsStart());
     getData('/api/v1/settings/')
@@ -131,9 +172,12 @@ export const loadSettings: ActionCreator<
   };
 };
 
-export const loadSubscription: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = () => {
+export const loadSubscription: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
   return dispatch => {
     dispatch(fetchSubscriptionStart());
     getData('/api/v1/subscriptions/')
@@ -142,9 +186,12 @@ export const loadSubscription: ActionCreator<
   };
 };
 
-export const loadPlans: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = () => {
+export const loadPlans: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
   return dispatch => {
     dispatch(fetchPlansStart());
     getData('/api/v1/plans/')
@@ -153,9 +200,12 @@ export const loadPlans: ActionCreator<
   };
 };
 
-export const loadAccounts: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = () => {
+export const loadAccounts: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
   return dispatch => {
     dispatch(fetchAccountsStart());
     getData('/api/v1/accounts/')
@@ -177,9 +227,12 @@ export const loadAccounts: ActionCreator<
   };
 };
 
-export const loadGroupDetails: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = payload => {
+export const loadGroupDetails: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = payload => {
   return dispatch => {
     payload.ids.forEach((id: string) => {
       dispatch(fetchGroupDetailsStart(id));
@@ -190,9 +243,12 @@ export const loadGroupDetails: ActionCreator<
   };
 };
 
-export const loadGroup: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = payload => {
+export const loadGroup: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = payload => {
   return dispatch => {
     payload.ids.forEach((id: string) => {
       dispatch(fetchGroupInfoStart(id));
@@ -203,9 +259,12 @@ export const loadGroup: ActionCreator<
   };
 };
 
-export const loadGroupAndAccounts: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = payload => {
+export const loadGroupAndAccounts: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = payload => {
   return dispatch => {
     payload.ids.forEach((id: string) => {
       dispatch(fetchGroupInfoStart(id));
@@ -229,14 +288,22 @@ export const loadGroupAndAccounts: ActionCreator<
   };
 };
 
-export const initialLoad: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = () => {
+export const initialLoad: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
   return dispatch => {
     dispatch(fetchAuthorizationsStart());
     getData('/api/v1/authorizations')
       .then(response => dispatch(fetchAuthorizationsSuccess(response)))
       .catch(error => dispatch(fetchAuthorizationsError(error)));
+
+    dispatch(fetchFeaturesStart());
+    getData('/api/v1/features/')
+      .then(response => dispatch(fetchFeaturesSuccess(response)))
+      .catch(error => dispatch(fetchFeaturesError(error)));
 
     dispatch(fetchCurrenciesStart());
     getData('/api/v1/currencies/')
@@ -312,6 +379,20 @@ export const fetchAuthorizationsSuccess: ActionCreator<Action> = payload => ({
 
 export const fetchAuthorizationsError: ActionCreator<Action> = payload => ({
   type: 'FETCH_AUTHORIZATIONS_ERROR',
+  payload,
+});
+
+export const fetchFeaturesStart: ActionCreator<Action> = () => ({
+  type: 'FETCH_FEATURES_START',
+});
+
+export const fetchFeaturesSuccess: ActionCreator<Action> = payload => ({
+  type: 'FETCH_FEATURES_SUCCESS',
+  payload,
+});
+
+export const fetchFeaturesError: ActionCreator<Action> = payload => ({
+  type: 'FETCH_FEATURES_ERROR',
   payload,
 });
 
@@ -537,9 +618,12 @@ export const importTargetError: ActionCreator<Action> = payload => ({
   payload,
 });
 
-export const importTarget: ActionCreator<
-  ThunkAction<void, any, any, Action<any>>
-> = groupId => {
+export const importTarget: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = groupId => {
   return dispatch => {
     dispatch(importTargetStart);
     postData('/api/v1/portfolioGroups/' + groupId + '/import/', {})
