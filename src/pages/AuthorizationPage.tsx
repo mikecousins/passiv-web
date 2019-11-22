@@ -128,6 +128,28 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         </P>
       ),
     },
+    {
+      id: 'interactivebrokers',
+      name: 'Interactive Brokers',
+      connect: () => {
+        const brokerage =
+          brokerages &&
+          brokerages.find(
+            brokerage => brokerage.name === 'Interactive Brokers',
+          );
+        if (brokerage) {
+          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+            type: 'trade',
+          }).then(response => {
+            window.location = response.data.url;
+          });
+        }
+      },
+      openURL: 'https://www.interactivebrokers.com/en/home.php',
+      major: true,
+      logo: null,
+      description: <P>IB is great.</P>,
+    },
   ];
 
   if (authorized === undefined || !brokerages) {
