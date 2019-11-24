@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import AccountsManager from '../components/AccountsManager';
 
 const SetupGroupPage = () => (
   <div>
@@ -13,6 +14,7 @@ const SetupGroupPage = () => (
     <button>Pay Now</button>
     <h3>Setup your groups</h3>
     <p>Here's the account drag and drop thingy.</p>
+    <AccountsManager />
     <Link to="/setup-groups">Back</Link>
     <Link to="/initial-targets">Next</Link>
   </div>
