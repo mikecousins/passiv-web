@@ -40,22 +40,16 @@ export const selectUserPermissions = createSelector(
   },
 );
 
-export const selectIsPaid = createSelector(
-  selectSubscription,
-  subscription => {
-    if (!subscription) {
-      return false;
-    }
-    return subscription.type !== 'free';
-  },
-);
+export const selectIsPaid = createSelector(selectSubscription, subscription => {
+  if (!subscription) {
+    return false;
+  }
+  return subscription.type !== 'free';
+});
 
-export const selectIsFree = createSelector(
-  selectIsPaid,
-  isPaid => {
-    return !isPaid;
-  },
-);
+export const selectIsFree = createSelector(selectIsPaid, isPaid => {
+  return !isPaid;
+});
 
 export const selectCanPlaceOrders = createSelector(
   selectUserPermissions,
@@ -89,16 +83,6 @@ export const selectCanAddMulitpleConnections = createSelector(
     return permissions.some(
       permission => permission === 'can_add_multiple_connections',
     );
-  },
-);
-
-export const selectCanExcludeAssets = createSelector(
-  selectUserPermissions,
-  permissions => {
-    if (!permissions) {
-      return false;
-    }
-    return permissions.some(permission => permission === 'can_exclude_assets');
   },
 );
 

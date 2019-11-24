@@ -11,88 +11,29 @@ import {
 import { selectUserPermissions } from '../selectors/subscription';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { H1, H2, P, A } from '../styled/GlobalElements';
+import { P } from '../styled/GlobalElements';
 import { postData } from '../api';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import QuestradeLogo from '../assets/images/questrade-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
 
-const aDarkStyle = {
-  color: 'white',
-};
-
-const Container2Column = styled.div`
-  @media (min-width: 900px) {
-    display: flex;
-    flex-wrap: wrap;
-    > div {
-      margin-right: 20px;
-      height: 200px;
-      width: 250px;
-    }
-  }
-`;
-
-const Container1Column = styled.div`
-  display: flex;
-`;
-
-const GrowBox = styled.div`
-  flex-grow: 1;
-  color: #fff;
-  padding-left: 30px;
-  display: flex;
-  align-items: center;
-`;
-
-const LogoContainer = styled.div`
-  padding: 6% 8%;
-  img {
-    max-width: 100%;
-  }
-`;
-
-const LinkContainer = styled.div`
-  margin-top: 20px;
-  margin-bottom: 10px;
-`;
-
-const AuthBox = styled(ShadowBox)`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 30px;
-`;
-
-const OpenBox = styled(ShadowBox)`
-  min-width: 400px;
-  text-align: center;
-  padding-bottom: 30px;
-`;
-
-const AuthLink = styled(A)`
-  font-weight: bold;
-  font-size: 18px;
-  letter-spacing: 0;
-`;
-
-const AuthP = styled(P)`
-  max-width: 715px;
-  color: #fff;
-  padding-bottom: 20px;
-`;
-
-const H1DarkStyle = styled(H1)`
-  color: #fff;
-`;
-
-const H2DarkStyle = styled(H2)`
-  color: #04a287;
-  font-size: 22px;
-  padding-bottom: 20px;
-`;
+import {
+  aDarkStyle,
+  Container2Column,
+  Container1Column,
+  GrowBox,
+  LogoContainer,
+  LinkContainer,
+  AuthBox,
+  OpenBox,
+  AuthLink,
+  AuthP,
+  H1DarkStyle,
+  H2DarkStyle,
+  VerticalPadding,
+} from '../styled/Setup';
+import OnboardingProgress from '../components/OnboardingProgress';
 
 const Brokerage = styled.div``;
 
@@ -184,6 +125,28 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         </P>
       ),
     },
+    {
+      id: 'interactivebrokers',
+      name: 'Interactive Brokers',
+      connect: () => {
+        const brokerage =
+          brokerages &&
+          brokerages.find(
+            brokerage => brokerage.name === 'Interactive Brokers',
+          );
+        if (brokerage) {
+          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+            type: 'trade',
+          }).then(response => {
+            window.location = response.data.url;
+          });
+        }
+      },
+      openURL: 'https://www.interactivebrokers.com/en/home.php',
+      major: true,
+      logo: null,
+      description: <P>IB is great.</P>,
+    },
   ];
 
   if (authorized === undefined || !brokerages) {
@@ -265,9 +228,16 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         <React.Fragment>
           {onboarding ? (
             <LinkContainer>
-              <Link style={aDarkStyle} to="/app/connect/open">
-                I don't have a brokerage account.
-              </Link>
+              <VerticalPadding>
+                <Link style={aDarkStyle} to="/app/connect/open">
+                  I don't have a brokerage account.
+                </Link>
+              </VerticalPadding>
+              <VerticalPadding>
+                <Link style={aDarkStyle} to="/app/welcome">
+                  Back
+                </Link>
+              </VerticalPadding>
             </LinkContainer>
           ) : (
             <LinkContainer>
@@ -281,7 +251,12 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     );
   }
 
-  return <ShadowBox background="#2a2d34">{output}</ShadowBox>;
+  return (
+    <ShadowBox background="#2a2d34">
+      {output}
+      <OnboardingProgress step={2} />
+    </ShadowBox>
+  );
 };
 
 export default AuthorizationPage;

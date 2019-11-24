@@ -45,7 +45,7 @@ const TradeItOauthPage = () => {
 
   // if we're done, redirect the user to the dashboard
   if (success) {
-    return <Redirect to="/app/dashboard" />;
+    return <Redirect to="/app/setup-groups" />;
   }
 
   let errorDisplay = null;

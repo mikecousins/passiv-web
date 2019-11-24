@@ -23,10 +23,10 @@ const App = () => {
     <Layout>
       <React.Fragment>
         <CommonRoutes />
-        {loggedIn && <OauthRoutes />}
         {showInsecureApp && <InsecureApp />}
         {showOnboardingApp && <OnboardingApp />}
         {showSecureApp && <SecureApp />}
+        {loggedIn && <OauthRoutes />}
       </React.Fragment>
     </Layout>
   );

@@ -4,18 +4,21 @@ import AuthorizationPage from '../pages/AuthorizationPage';
 import SetupGroupPage from '../pages/SetupGroupsPage';
 import SetInitialTargetsPage from '../pages/SetInitialTargetsPage';
 import OnboardingSummaryPage from '../pages/OnboardingSummaryPage';
+import WelcomePage from '../pages/WelcomePage';
 
 // hack to make routing work on both prod and dev
 const prefixPath = (path: string) => {
   return `/app${path}`;
 };
 
-const InsecureApp = () => (
+const OnboardingApp = () => (
   <Switch>
     <Route path={prefixPath('/connect/:brokerage?')}>
       <AuthorizationPage onboarding={true} />
     </Route>
-
+    <Route path={prefixPath('/welcome')}>
+      <WelcomePage />
+    </Route>
     <Route path={prefixPath('/setup-groups')}>
       <SetupGroupPage />
     </Route>
@@ -26,9 +29,9 @@ const InsecureApp = () => (
       <OnboardingSummaryPage />
     </Route>
     <Route path="*">
-      <Redirect to={prefixPath('/connect')} />
+      <Redirect to={prefixPath('/welcome')} />
     </Route>
   </Switch>
 );
 
-export default InsecureApp;
+export default OnboardingApp;
