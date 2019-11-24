@@ -30,7 +30,7 @@ const AlpacaOauthPage = () => {
         .then(() => {
           dispatch(initialLoad());
           setTimeout(() => {
-            dispatch(replace('/app/dashboard'));
+            dispatch(replace('/app/setup-groups'));
           }, 1000);
         })
         .catch(error => {
