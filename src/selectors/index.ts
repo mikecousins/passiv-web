@@ -4,6 +4,7 @@ import shouldUpdate from '../reactors/should-update';
 import { AppState } from '../store';
 import { Currency } from '../types/currency';
 import { SimpleState } from '../types/common';
+import { selectGroups } from './groups';
 
 // have to require this for Typescript to work properly.....
 // hopefully we can import this in the future
@@ -57,15 +58,12 @@ export const selectCurrencies = createSelector<
   AppState,
   SimpleState<Currency[]>,
   Currency[] | null
->(
-  selectCurrenciesRaw,
-  rawCurrencies => {
-    if (rawCurrencies.data) {
-      return rawCurrencies.data;
-    }
-    return null;
-  },
-);
+>(selectCurrenciesRaw, rawCurrencies => {
+  if (rawCurrencies.data) {
+    return rawCurrencies.data;
+  }
+  return null;
+});
 
 export const selectCurrenciesNeedData = createSelector<
   AppState,
@@ -90,23 +88,17 @@ export const selectCurrenciesNeedData = createSelector<
 
 export const selectSettingsRaw = (state: AppState) => state.settings;
 
-export const selectSettings = createSelector(
-  selectSettingsRaw,
-  rawSettings => {
-    if (rawSettings.data) {
-      return rawSettings.data;
-    }
-  },
-);
+export const selectSettings = createSelector(selectSettingsRaw, rawSettings => {
+  if (rawSettings.data) {
+    return rawSettings.data;
+  }
+});
 
-export const selectIsDemo = createSelector(
-  selectSettings,
-  settings => {
-    if (settings) {
-      return settings.demo;
-    }
-  },
-);
+export const selectIsDemo = createSelector(selectSettings, settings => {
+  if (settings) {
+    return settings.demo;
+  }
+});
 
 export const selectBrokerages = createSelector(
   selectBrokeragesRaw,
@@ -185,14 +177,11 @@ export const selectSettingsNeedData = createSelector(
 
 export const selectPlansRaw = (state: AppState) => state.plans;
 
-export const selectPlans = createSelector(
-  selectPlansRaw,
-  rawPlans => {
-    if (rawPlans.data) {
-      return rawPlans.data;
-    }
-  },
-);
+export const selectPlans = createSelector(selectPlansRaw, rawPlans => {
+  if (rawPlans.data) {
+    return rawPlans.data;
+  }
+});
 
 export const selectPlansNeedData = createSelector(
   selectLoggedIn,
@@ -241,37 +230,31 @@ export const selectCurrencyRatesNeedData = createSelector(
   },
 );
 
-export const selectPasswordResetToken = createSelector(
-  selectRouter,
-  router => {
-    let token = null;
-    if (
-      router &&
-      router.location &&
-      router.location.pathname &&
-      router.location.pathname.split('/').length === 4
-    ) {
-      token = router.location.pathname.split('/')[3];
-    }
-    return token;
-  },
-);
+export const selectPasswordResetToken = createSelector(selectRouter, router => {
+  let token = null;
+  if (
+    router &&
+    router.location &&
+    router.location.pathname &&
+    router.location.pathname.split('/').length === 4
+  ) {
+    token = router.location.pathname.split('/')[3];
+  }
+  return token;
+});
 
-export const selectHelpArticleSlug = createSelector(
-  selectRouter,
-  router => {
-    let slug = null;
-    if (
-      router &&
-      router.location &&
-      router.location.pathname &&
-      router.location.pathname.split('/').length === 5
-    ) {
-      slug = router.location.pathname.split('/')[4];
-    }
-    return slug;
-  },
-);
+export const selectHelpArticleSlug = createSelector(selectRouter, router => {
+  let slug = null;
+  if (
+    router &&
+    router.location &&
+    router.location.pathname &&
+    router.location.pathname.split('/').length === 5
+  ) {
+    slug = router.location.pathname.split('/')[4];
+  }
+  return slug;
+});
 
 export const selectHelpArticlesRaw = (state: AppState) => state.helpArticles;
 
@@ -318,11 +301,18 @@ export const selectShowInsecureApp = createSelector(
 export const selectShowOnboardingApp = createSelector(
   selectShowInsecureApp,
   selectIsAuthorized,
-  (showInsecureApp, isAuthorized) => {
+  selectGroups,
+  (showInsecureApp, isAuthorized, groups) => {
     if (showInsecureApp) {
       return false;
     }
-    return !isAuthorized;
+    if (!isAuthorized) {
+      return true;
+    }
+    if (groups && groups.find(group => !group.setupComplete)) {
+      return true;
+    }
+    return false;
   },
 );
 
@@ -351,15 +341,12 @@ export const selectOnboardingPage = createSelector(
   },
 );
 
-export const selectName = createSelector(
-  selectSettings,
-  settings => {
-    if (settings) {
-      return settings.name;
-    }
-    return null;
-  },
-);
+export const selectName = createSelector(selectSettings, settings => {
+  if (settings) {
+    return settings.name;
+  }
+  return null;
+});
 
 export const selectIsUpdateServiceWorker = (state: AppState) =>
   state.updateServiceWorker;
