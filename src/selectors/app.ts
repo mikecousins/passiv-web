@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { selectLoggedIn, selectIsAuthorized } from '.';
+import { selectGroups } from './groups';
 
 export const selectShowInsecureApp = createSelector(
   selectLoggedIn,
@@ -11,11 +12,21 @@ export const selectShowInsecureApp = createSelector(
 export const selectShowOnboardingApp = createSelector(
   selectShowInsecureApp,
   selectIsAuthorized,
-  (showInsecureApp, isAuthorized) => {
+  selectGroups,
+  (showInsecureApp, isAuthorized, groups) => {
     if (showInsecureApp) {
       return false;
     }
-    return !isAuthorized;
+    if (!isAuthorized) {
+      return true;
+    }
+    if (!groups) {
+      return true;
+    }
+    if (groups && groups.find(group => !group.setupComplete)) {
+      return true;
+    }
+    return false;
   },
 );
 
@@ -26,7 +37,7 @@ export const selectShowSecureApp = createSelector(
     if (showInsecureApp || showOnboardingApp) {
       return false;
     }
-    return false;
+    return true;
   },
 );
 
