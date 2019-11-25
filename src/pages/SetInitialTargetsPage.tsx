@@ -28,9 +28,9 @@ const ImportAccountsPage = () => {
         }
       });
     }
-  }, [groups]);
+  }, [dispatch, groups]);
 
-  if (!groups?.find(group => !group.setupComplete)) {
+  if (!groups || !groups.find(group => !group.setupComplete)) {
     return (
       <div>
         <p>
