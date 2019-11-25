@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AccountsManager from '../components/AccountsManager';
+import OnboardingProgress from '../components/OnboardingProgress';
 
 const SetupGroupPage = () => (
   <div>
@@ -15,6 +16,7 @@ const SetupGroupPage = () => (
     <h3>Setup your groups</h3>
     <p>Here's the account drag and drop thingy.</p>
     <AccountsManager />
+    <OnboardingProgress step={3} />
     <Link to="/setup-groups">Back</Link>
     <Link to="/initial-targets">Next</Link>
   </div>

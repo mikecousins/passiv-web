@@ -7,6 +7,7 @@ import { postData } from '../api';
 import { loadGroup } from '../actions';
 import { selectGroups } from '../selectors/groups';
 import { toast } from 'react-toastify';
+import OnboardingProgress from '../components/OnboardingProgress';
 
 const ImportAccountsPage = () => {
   const groups = useSelector(selectGroups);
@@ -37,6 +38,7 @@ const ImportAccountsPage = () => {
           We are now importing your targets.{' '}
           <FontAwesomeIcon icon={faSpinner} spin />
         </p>
+        <OnboardingProgress step={4} />
       </div>
     );
   }
