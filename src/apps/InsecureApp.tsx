@@ -17,10 +17,6 @@ const InsecureApp = () => (
     <Route path={prefixPath('/register')} component={RegistrationPage} />
     <Route path={prefixPath('/demo')} component={DemoLoginPage} />
     <Route path={prefixPath('/reset-password')} component={ResetPasswordPage} />
-    <Route
-      path={prefixPath('/reset-password-confirm/:token')}
-      component={ResetPasswordConfirmPage}
-    />
     <Route path="*">
       <Redirect to={prefixPath('/login')} />
     </Route>
