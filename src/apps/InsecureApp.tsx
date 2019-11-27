@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import LoginPage from '../pages/LoginPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
-import ResetPasswordConfirmPage from '../pages/ResetPasswordConfirmPage';
 import RegistrationPage from '../pages/RegistrationPage';
 import DemoLoginPage from '../pages/DemoLoginPage';
 
