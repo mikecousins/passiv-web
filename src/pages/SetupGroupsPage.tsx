@@ -17,8 +17,7 @@ const SetupGroupPage = () => (
     <p>Here's the account drag and drop thingy.</p>
     <AccountsManager />
     <OnboardingProgress step={3} />
-    <Link to="/setup-groups">Back</Link>
-    <Link to="/initial-targets">Next</Link>
+    <Link to="/app/initial-targets">Next</Link>
   </div>
 );
 

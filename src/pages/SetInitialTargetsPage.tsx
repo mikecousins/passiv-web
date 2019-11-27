@@ -47,7 +47,7 @@ const ImportAccountsPage = () => {
       <p>
         We have now imported all of your holdings to make your default targets.
       </p>
-      <Link to="/summary">Next</Link>
+      <Link to="/app/summary">Next</Link>
     </div>
   );
 };
