@@ -5,7 +5,7 @@ import MenuButton from './MenuButton';
 import Menu from './Menu';
 import { selectIsMobile } from '../../selectors/browser';
 import { selectPathname } from '../../selectors/router';
-import { selectShowOnboardingApp } from '../../selectors';
+import { selectShowOnboardingApp } from '../../selectors/app';
 
 const StyledSlideMenu = styled.div`
   position: relative;
