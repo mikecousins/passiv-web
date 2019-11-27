@@ -1,35 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 import { postData } from '../api';
 import { loadGroup } from '../actions';
 import { selectGroups } from '../selectors/groups';
-import { toast } from 'react-toastify';
 import OnboardingProgress from '../components/OnboardingProgress';
+import { GroupData } from '../types/group';
 
 const ImportAccountsPage = () => {
   const groups = useSelector(selectGroups);
   const dispatch = useDispatch();
+  const [groupsToImport, setGroupsToImport] = useState();
 
   // import all the new groups
   useEffect(() => {
-    if (groups) {
+    if (groups && !groupsToImport) {
+      const newGroups: GroupData[] = [];
       groups.forEach(group => {
         if (!group.setupComplete) {
-          postData(`/api/v1/portfolioGroups/${group.id}/import/`, {})
-            .then(() => {
-              toast.success(`Imported target for group: ${group.name}`);
-              dispatch(loadGroup({ ids: [group.id] }));
-            })
-            .catch(() => {
-              toast.error('Failed to import target');
-            });
+          newGroups.push(group);
         }
       });
+      newGroups.forEach(group => {
+        postData(`/api/v1/portfolioGroups/${group.id}/import/`, {})
+          .then(() => {
+            toast.success(`Imported target for group: ${group.name}`);
+            dispatch(loadGroup({ ids: [group.id] }));
+          })
+          .catch(() => {
+            toast.error('Failed to import target');
+          });
+      });
+      setGroupsToImport(newGroups);
     }
-  }, [dispatch, groups]);
+  }, [dispatch, groups, groupsToImport]);
 
   if (!groups || !groups.find(group => !group.setupComplete)) {
     return (
