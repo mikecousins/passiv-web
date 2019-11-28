@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import LoginPage from '../pages/LoginPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
-import ResetPasswordConfirmPage from '../pages/ResetPasswordConfirmPage';
 import RegistrationPage from '../pages/RegistrationPage';
 import DemoLoginPage from '../pages/DemoLoginPage';
 
@@ -17,10 +16,6 @@ const InsecureApp = () => (
     <Route path={prefixPath('/register')} component={RegistrationPage} />
     <Route path={prefixPath('/demo')} component={DemoLoginPage} />
     <Route path={prefixPath('/reset-password')} component={ResetPasswordPage} />
-    <Route
-      path={prefixPath('/reset-password-confirm/:token')}
-      component={ResetPasswordConfirmPage}
-    />
     <Route path="*">
       <Redirect to={prefixPath('/login')} />
     </Route>
