@@ -5,6 +5,7 @@ import PerformanceRateOfReturn from './PerformanceRateOfReturn';
 import PerformanceGroups from './PerformanceGroups';
 import PerformanceContributions from './PerformanceContributions';
 import { Timeframe } from './Timeframe';
+import { Chart } from 'react-charts';
 
 const Header = styled.div`
   font-size: 20pt;
@@ -59,8 +60,12 @@ export const SubHeader = styled.div`
   font-size: 14pt;
 `;
 
-export const Chart = styled.div`
-  width: 50%;
+export const ChartBox = styled.div`
+  position: relative;
+  height: 180px;
+  width: 40%;
+  float: right;
+  clear: both;
 `;
 
 type Props = {
@@ -91,6 +96,47 @@ export const TimespanSelector = (props: Props) => {
 export const Performance = () => {
   const [currentTimeframe, setTimeframe] = useState(Timeframe.OneYear);
 
+  const data1 = React.useMemo(
+    () => [
+      {
+        label: 'Series 1',
+        data: [
+          [0, 1],
+          [1, 2],
+          [2, 4],
+          [3, 2],
+          [4, 7],
+        ],
+      },
+    ],
+    [],
+  );
+
+  const data2 = React.useMemo(
+    () => [
+      {
+        label: 'Series 2',
+        data: [
+          [0, 3],
+          [1, 1],
+          [2, 5],
+          [3, 6],
+          [4, 4],
+        ],
+        color: 'red',
+      },
+    ],
+    [],
+  );
+
+  const axes = React.useMemo(
+    () => [
+      { primary: true, type: 'linear', position: 'bottom' },
+      { type: 'linear', position: 'left' },
+    ],
+    [],
+  );
+
   return (
     <React.Fragment>
       <Header>Performance:</Header> <br />
@@ -118,8 +164,13 @@ export const Performance = () => {
       <br /> <br />
       {/* Replace linebreaks with margins */}
       <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} />
-      <Chart></Chart>
+      <ChartBox>
+        <Chart data={data1} axes={axes} />
+      </ChartBox>
       <br />
+      <ChartBox>
+        <Chart data={data2} axes={axes} />
+      </ChartBox>
       <PerformanceContributions selectedTimeframe={currentTimeframe} />
       <br />
       <br />

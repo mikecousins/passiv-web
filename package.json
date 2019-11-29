@@ -53,6 +53,7 @@
     "qs": "6.9.1",
     "react": "16.12.0",
     "react-beautiful-dnd": "12.1.1",
+    "react-charts": "^2.0.0-beta.6",
     "react-copy-to-clipboard": "5.0.2",
     "react-dom": "16.12.0",
     "react-ga": "2.7.0",
