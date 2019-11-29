@@ -6,12 +6,6 @@ import PerformanceGroups from './PerformanceGroups';
 import PerformanceContributions from './PerformanceContributions';
 import { Timeframe } from './Timeframe';
 
-var CanvasJSReact = require('./canvas/canvasjs.react');
-var CanvasJS = CanvasJSReact.CanvasJS;
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-var dataPoints: any[] = [];
-var chart: any;
-
 const Header = styled.div`
   font-size: 20pt;
 `;
@@ -65,6 +59,10 @@ export const SubHeader = styled.div`
   font-size: 14pt;
 `;
 
+export const Chart = styled.div`
+  width: 50%;
+`;
+
 type Props = {
   timeframe: Timeframe;
   selectedTimeframe: Timeframe;
@@ -92,41 +90,6 @@ export const TimespanSelector = (props: Props) => {
 
 export const Performance = () => {
   const [currentTimeframe, setTimeframe] = useState(Timeframe.OneYear);
-  const options = {
-    theme: 'light2',
-    title: {
-      text: 'Stock Price of NIFTY 50',
-    },
-    axisY: {
-      title: 'Price in USD',
-      prefix: '$',
-      includeZero: false,
-    },
-    data: [
-      {
-        type: 'line',
-        xValueFormatString: 'MMM YYYY',
-        yValueFormatString: '$#,##0.00',
-        dataPoints: dataPoints,
-      },
-    ],
-  };
-
-  function componentDidMount() {
-    fetch('https://canvasjs.com/data/gallery/react/nifty-stock-price.json')
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data) {
-        for (var i = 0; i < data.length; i++) {
-          dataPoints.push({
-            x: new Date(data[i].x),
-            y: data[i].y,
-          });
-        }
-        chart.render();
-      });
-  }
 
   return (
     <React.Fragment>
@@ -155,7 +118,7 @@ export const Performance = () => {
       <br /> <br />
       {/* Replace linebreaks with margins */}
       <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} />
-      <CanvasJSChart options={options} onRef={(ref: any) => (chart = ref)} />
+      <Chart></Chart>
       <br />
       <PerformanceContributions selectedTimeframe={currentTimeframe} />
       <br />
