@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { selectLoggedIn, selectIsAuthorized } from '.';
-import { selectGroups } from './groups';
+import { selectGroups, selectGroupsRaw } from './groups';
 
 export const selectShowInsecureApp = createSelector(
   selectLoggedIn,
@@ -9,21 +9,38 @@ export const selectShowInsecureApp = createSelector(
   },
 );
 
+export const selectShowSpinner = createSelector(
+  selectShowInsecureApp,
+  selectGroupsRaw,
+  (showInsecureApp, groupsRaw) => {
+    if (showInsecureApp) {
+      return false;
+    }
+    if (!groupsRaw || groupsRaw.loading) {
+      return true;
+    }
+    return false;
+  },
+);
+
 export const selectShowOnboardingApp = createSelector(
   selectShowInsecureApp,
+  selectShowSpinner,
   selectIsAuthorized,
   selectGroups,
-  (showInsecureApp, isAuthorized, groups) => {
-    if (showInsecureApp) {
+  (showInsecureApp, showSpinner, isAuthorized, groups) => {
+    if (showInsecureApp || showSpinner) {
       return false;
     }
     if (!isAuthorized) {
       return true;
     }
-    if (!groups) {
-      return true;
-    }
-    if (groups && groups.find(group => !group.setupComplete)) {
+    if (
+      groups &&
+      groups.some(
+        group => group.setupComplete === false && group.accounts.length > 0,
+      )
+    ) {
       return true;
     }
     return false;
@@ -32,9 +49,10 @@ export const selectShowOnboardingApp = createSelector(
 
 export const selectShowSecureApp = createSelector(
   selectShowInsecureApp,
+  selectShowSpinner,
   selectShowOnboardingApp,
-  (showInsecureApp, showOnboardingApp) => {
-    if (showInsecureApp || showOnboardingApp) {
+  (showInsecureApp, showSpinner, showOnboardingApp) => {
+    if (showInsecureApp || showSpinner || showOnboardingApp) {
       return false;
     }
     return true;

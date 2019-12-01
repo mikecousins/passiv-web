@@ -12,10 +12,14 @@ import {
   selectShowInsecureApp,
   selectShowOnboardingApp,
   selectShowSecureApp,
+  selectShowSpinner,
 } from '../selectors/app';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const App = () => {
   const showInsecureApp = useSelector(selectShowInsecureApp);
+  const showSpinner = useSelector(selectShowSpinner);
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const showSecureApp = useSelector(selectShowSecureApp);
   const loggedIn = useSelector(selectLoggedIn);
@@ -24,6 +28,7 @@ const App = () => {
       <React.Fragment>
         <CommonRoutes />
         {showInsecureApp && <InsecureApp />}
+        {showSpinner && <FontAwesomeIcon icon={faSpinner} spin />}
         {showOnboardingApp && <OnboardingApp />}
         {showSecureApp && <SecureApp />}
         {loggedIn && <OauthRoutes />}

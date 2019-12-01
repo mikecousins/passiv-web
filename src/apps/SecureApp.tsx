@@ -61,6 +61,9 @@ const SecureApp = () => {
         <Route path={prefixPath('/login')} exact>
           <Redirect to={prefixPath('/')} />
         </Route>
+        <Route path="*">
+          <Redirect to={prefixPath('/dashboard')} />
+        </Route>
       </Switch>
     </StripeProvider>
   );
