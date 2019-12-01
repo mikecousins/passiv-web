@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import AccountsManager from '../components/AccountsManager';
 import OnboardingProgress from '../components/OnboardingProgress';
+import SubscriptionManager from '../components/SubscriptionManager';
 
 const SetupGroupPage = () => (
   <div>
@@ -12,6 +13,7 @@ const SetupGroupPage = () => (
       and TFSAs into one group called retirement with one common target.
     </p>
     <p>This is a paid feature so you'll need to pay for it.</p>
+    <SubscriptionManager />
     <button>Pay Now</button>
     <h3>Setup your groups</h3>
     <p>Here's the account drag and drop thingy.</p>
