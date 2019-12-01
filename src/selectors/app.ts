@@ -36,8 +36,6 @@ export const selectShowOnboardingApp = createSelector(
       return true;
     }
     if (groups && groups.some(group => group.setupComplete === false)) {
-      console.log('groups');
-      console.log(groups);
       return true;
     }
     return false;
