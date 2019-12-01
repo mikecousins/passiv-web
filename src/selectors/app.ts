@@ -35,7 +35,12 @@ export const selectShowOnboardingApp = createSelector(
     if (!isAuthorized) {
       return true;
     }
-    if (groups && groups.some(group => group.setupComplete === false)) {
+    if (
+      groups &&
+      groups.some(
+        group => group.setupComplete === false && group.accounts.length > 0,
+      )
+    ) {
       return true;
     }
     return false;
