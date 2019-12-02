@@ -1,7 +1,7 @@
 export type SubscriptionData = {
   type: 'paid' | 'free';
   details: {
-    period: 'annual' | 'monthly';
+    period: string;
     price: number;
     tax: number;
     period_end: string;
