@@ -182,8 +182,9 @@ const SubscriptionManager = () => {
           ) : (
             <React.Fragment>
               <P>
-                You are subscribed to the {subscription.details.period} Elite
-                plan.
+                You are subscribed to the{' '}
+                {subscription.details.period === 'year' ? 'annual' : 'monthly'}{' '}
+                Elite plan.
               </P>
 
               {subscription.details.canceled ? (

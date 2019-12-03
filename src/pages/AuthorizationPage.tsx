@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import React from 'react';
+import React, { useState } from 'react';
 import { push } from 'connected-react-router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,6 +9,8 @@ import {
   selectAuthorizations,
 } from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
+import { selectConnectPlaidFeature } from '../selectors';
+import PlaidConnection from '../components/PlaidConnection';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { P } from '../styled/GlobalElements';
@@ -46,6 +48,8 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const brokerages = useSelector(selectBrokerages);
   const userPermissions = useSelector(selectUserPermissions);
   const authorizations = useSelector(selectAuthorizations);
+  const connectPlaidFeature = useSelector(selectConnectPlaidFeature);
+  const [loading, setLoading] = useState(false);
   const { brokerage } = useParams();
   const dispatch = useDispatch();
 
@@ -162,16 +166,23 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         your brokerage account. Connecting your account does not allow Passiv to
         see your login information.
       </AuthP>
-      <Container2Column>
-        {brokerageOptions.map((brokerage: any) => (
-          <AuthBox key={brokerage.id} onClick={brokerage.connect}>
-            <LogoContainer>
-              <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
-            </LogoContainer>
-            <AuthLink>Connect {brokerage.name}</AuthLink>
-          </AuthBox>
-        ))}
-      </Container2Column>
+      {loading ? (
+        <H2DarkStyle>Establishing brokerage connection...</H2DarkStyle>
+      ) : (
+        <React.Fragment>
+          <Container2Column>
+            {brokerageOptions.map((brokerage: any) => (
+              <AuthBox key={brokerage.id} onClick={brokerage.connect}>
+                <LogoContainer>
+                  <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                </LogoContainer>
+                <AuthLink>Connect {brokerage.name}</AuthLink>
+              </AuthBox>
+            ))}
+          </Container2Column>
+          {connectPlaidFeature && <PlaidConnection setLoading={setLoading} />}
+        </React.Fragment>
+      )}
     </React.Fragment>
   );
 

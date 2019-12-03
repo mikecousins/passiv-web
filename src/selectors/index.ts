@@ -48,10 +48,35 @@ export const selectTokenIsExpired = createSelector(
 
 export const selectCurrenciesRaw = (state: AppState) => state.currencies;
 
+export const selectFeaturesRaw = (state: AppState) => state.features;
+
 export const selectBrokeragesRaw = (state: AppState) => state.brokerages;
 
 export const selectAuthorizationsRaw = (state: AppState) =>
   state.authorizations;
+
+export const selectFeatures = createSelector(selectFeaturesRaw, rawFeatures => {
+  if (rawFeatures.data) {
+    return rawFeatures.data.map(feature => feature.name);
+  }
+  return null;
+});
+
+export const selectConnectPlaidFeature = createSelector(
+  selectFeatures,
+  features => {
+    let hasFeature = false;
+    if (features != null) {
+      features.map(feature => {
+        if (feature === 'connect_plaid') {
+          hasFeature = true;
+        }
+        return null;
+      });
+    }
+    return hasFeature;
+  },
+);
 
 export const selectCurrencies = createSelector<
   AppState,
@@ -287,6 +312,49 @@ export const selectIsAuthorized = createSelector(
       return true;
     }
     return false;
+  },
+);
+
+export const selectShowInsecureApp = createSelector(
+  selectLoggedIn,
+  loggedIn => {
+    return loggedIn === false;
+  },
+);
+
+export const selectShowOnboardingApp = createSelector(
+  selectShowInsecureApp,
+  selectIsAuthorized,
+  (showInsecureApp, isAuthorized) => {
+    if (showInsecureApp) {
+      return false;
+    }
+    return !isAuthorized;
+  },
+);
+
+export const selectShowSecureApp = createSelector(
+  selectShowInsecureApp,
+  selectShowOnboardingApp,
+  (showInsecureApp, showOnboardingApp) => {
+    if (showInsecureApp || showOnboardingApp) {
+      return false;
+    }
+    return true;
+  },
+);
+
+export const selectOnboardingPage = createSelector(
+  selectShowOnboardingApp,
+  selectIsAuthorized,
+  (showOnboardingApp, isAuthorized) => {
+    if (!showOnboardingApp) {
+      return undefined;
+    }
+    if (!isAuthorized) {
+      return 'authorization';
+    }
+    return 'other';
   },
 );
 
