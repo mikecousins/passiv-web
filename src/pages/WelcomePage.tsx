@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import ShadowBox from '../styled/ShadowBox';
 import { H1DarkStyle, H2DarkStyle, VerticalPadding } from '../styled/Setup';
