@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect';
 import { selectLoggedIn, selectIsAuthorized } from '.';
 import { selectGroups, selectGroupsRaw } from './groups';
-import GroupSettingsTab from '../components/GroupSettingsTab';
 
 export const selectShowInsecureApp = createSelector(
   selectLoggedIn,
