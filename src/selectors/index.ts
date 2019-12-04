@@ -344,20 +344,6 @@ export const selectShowSecureApp = createSelector(
   },
 );
 
-export const selectOnboardingPage = createSelector(
-  selectShowOnboardingApp,
-  selectIsAuthorized,
-  (showOnboardingApp, isAuthorized) => {
-    if (!showOnboardingApp) {
-      return undefined;
-    }
-    if (!isAuthorized) {
-      return 'authorization';
-    }
-    return 'other';
-  },
-);
-
 export const selectName = createSelector(selectSettings, settings => {
   if (settings) {
     return settings.name;

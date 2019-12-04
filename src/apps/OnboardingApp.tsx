@@ -5,6 +5,8 @@ import SetupGroupPage from '../pages/SetupGroupsPage';
 import SetInitialTargetsPage from '../pages/SetInitialTargetsPage';
 import OnboardingSummaryPage from '../pages/OnboardingSummaryPage';
 import WelcomePage from '../pages/WelcomePage';
+import { selectOnboardingPage } from '../selectors/app';
+import { useSelector } from 'react-redux';
 
 // hack to make routing work on both prod and dev
 const prefixPath = (path: string) => {
@@ -13,11 +15,11 @@ const prefixPath = (path: string) => {
 
 const OnboardingApp = () => (
   <Switch>
-    <Route path={prefixPath('/connect/:brokerage?')}>
-      <AuthorizationPage onboarding={true} />
-    </Route>
     <Route path={prefixPath('/welcome')}>
       <WelcomePage />
+    </Route>
+    <Route path={prefixPath('/connect/:brokerage?')}>
+      <AuthorizationPage onboarding={true} />
     </Route>
     <Route path={prefixPath('/setup-groups')}>
       <SetupGroupPage />
@@ -29,7 +31,7 @@ const OnboardingApp = () => (
       <OnboardingSummaryPage />
     </Route>
     <Route path="*">
-      <Redirect to={prefixPath('/welcome')} />
+      <Redirect to={prefixPath(useSelector(selectOnboardingPage))} />
     </Route>
   </Switch>
 );

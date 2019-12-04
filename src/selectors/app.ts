@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { selectLoggedIn, selectIsAuthorized } from '.';
 import { selectGroups, selectGroupsRaw } from './groups';
+import GroupSettingsTab from '../components/GroupSettingsTab';
 
 export const selectShowInsecureApp = createSelector(
   selectLoggedIn,
@@ -60,15 +61,20 @@ export const selectShowSecureApp = createSelector(
 );
 
 export const selectOnboardingPage = createSelector(
-  selectShowOnboardingApp,
   selectIsAuthorized,
-  (showOnboardingApp, isAuthorized) => {
-    if (!showOnboardingApp) {
-      return undefined;
-    }
+  selectGroups,
+  (isAuthorized, groups) => {
     if (!isAuthorized) {
-      return 'authorization';
+      return '/welcome';
     }
-    return 'other';
+    if (
+      groups &&
+      groups.some(
+        group => group.setupComplete === false && group.accounts.length > 0,
+      )
+    ) {
+      return '/initial-targets';
+    }
+    return '/welcome';
   },
 );
