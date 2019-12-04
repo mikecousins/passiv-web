@@ -1,10 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from '../components/Header';
 import SlideMenu from '../components/SlideMenu';
 import GlobalStyle from '../styled/global';
 import ScrollHelper from '../components/ScrollHelper';
+import { selectShowOnboardingApp } from '../selectors/app';
 
 const Container = styled.div`
   display: flex;
@@ -25,16 +27,19 @@ interface Props {
   children: JSX.Element;
 }
 
-export const AppLayout = ({ children }: Props) => (
-  <div>
-    <GlobalStyle />
-    <Header />
-    <Container>
-      <SlideMenu />
-      <Main>{children}</Main>
-    </Container>
-    <ScrollHelper />
-  </div>
-);
+export const AppLayout = ({ children }: Props) => {
+  const showOnboardingApp = useSelector(selectShowOnboardingApp);
+  return (
+    <div>
+      <GlobalStyle />
+      <Header />
+      <Container>
+        {!showOnboardingApp && <SlideMenu />}
+        <Main>{children}</Main>
+      </Container>
+      <ScrollHelper />
+    </div>
+  );
+};
 
 export default AppLayout;
