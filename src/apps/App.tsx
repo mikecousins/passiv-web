@@ -3,12 +3,11 @@ import Layout from '../layouts/Layout';
 import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import '@reach/menu-button/styles.css';
-
+import { selectLoggedIn } from '../selectors';
 import {
   selectShowInsecureApp,
   selectShowOnboardingApp,
   selectShowSecureApp,
-  selectLoggedIn,
 } from '../selectors/app';
 import { selectQueryTokens } from '../selectors/router';
 
@@ -77,7 +76,6 @@ const interactiveBrokersOauthRedirect = () => {
 
 const App = () => {
   const showInsecureApp = useSelector(selectShowInsecureApp);
-  const showSpinner = useSelector(selectShowSpinner);
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const showSecureApp = useSelector(selectShowSecureApp);
   const loggedIn = useSelector(selectLoggedIn);
@@ -90,7 +88,7 @@ const App = () => {
     delete queryParams.next;
   }
   let appendParams = '';
-  if (queryParams.length > 0) {
+  if (Object.keys(queryParams).length > 0) {
     const pieces = Object.entries(queryParams).map(([k, v]) => {
       return `${k}%3D${v}`;
     });
