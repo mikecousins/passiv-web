@@ -14,11 +14,6 @@ import { selectQueryTokens } from '../selectors/router';
 import LoginPage from '../pages/LoginPage';
 import RegistrationPage from '../pages/RegistrationPage';
 import DemoLoginPage from '../pages/DemoLoginPage';
-import SecureApp from './SecureApp';
-// import InsecureApp from './InsecureApp';
-import OnboardingApp from './OnboardingApp';
-// import CommonRoutes from './CommonRoutes';
-// import OauthRoutes from './OauthRoutes';
 import { StripeProvider } from 'react-stripe-elements';
 
 import HelpArticlePage from '../pages/HelpArticlePage';
