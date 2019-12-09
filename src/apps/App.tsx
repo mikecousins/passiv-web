@@ -87,7 +87,7 @@ const App = () => {
     delete queryParams.next;
   }
   let appendParams = '';
-  if (queryParams.length > 0) {
+  if (Object.keys(queryParams).length > 0) {
     const pieces = Object.entries(queryParams).map(([k, v]) => {
       return `${k}%3D${v}`;
     });
