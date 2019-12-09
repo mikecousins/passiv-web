@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
+import qs from 'qs';
 import DashboardPage from '../pages/DashboardPage';
 import GroupPage from '../pages/GroupPage';
 import SettingsPage from '../pages/SettingsPage';
@@ -27,6 +28,7 @@ const stripePublicKey =
     : 'pk_test_UEivjUoJpfSDWq5i4xc64YNK';
 
 const SecureApp = () => {
+  const location = useLocation();
   const [stripe, setStripe] = useState<any>(null);
   useEffect(() => {
     if (window.Stripe) {
@@ -38,6 +40,14 @@ const SecureApp = () => {
       });
     }
   }, []);
+
+  let redirectPath = prefixPath('/dashboard');
+  if (location && location.search) {
+    const params = qs.parse(location.search, {
+      ignoreQueryPrefix: true,
+    });
+    redirectPath = params.next;
+  }
 
   return (
     <StripeProvider stripe={stripe}>
@@ -56,8 +66,8 @@ const SecureApp = () => {
         <Route path={prefixPath('/settings')} component={SettingsPage} />
         <Route path={prefixPath('/coupon')} component={CouponPage} />
         <Route path={prefixPath('/share')} component={SharePage} />
-        <Route path={prefixPath('/login')} exact>
-          <Redirect to={prefixPath('/')} />
+        <Route path="*">
+          <Redirect to={redirectPath} />
         </Route>
       </Switch>
     </StripeProvider>
