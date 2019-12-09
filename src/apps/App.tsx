@@ -23,6 +23,7 @@ import ResetPasswordConfirmPage from '../pages/ResetPasswordConfirmPage';
 import QuestradeOauthPage from '../pages/QuestradeOauthPage';
 import AlpacaOauthPage from '../pages/AlpacaOauthPage';
 import InteractiveBrokersOauthPage from '../pages/InteractiveBrokersOauthPage';
+import UpgradeOfferPage from '../pages/UpgradeOfferPage';
 
 import qs from 'qs';
 import DashboardPage from '../pages/DashboardPage';
@@ -180,6 +181,14 @@ const App = () => {
                 exact
                 path="/oauth/interactivebrokers"
                 render={() => interactiveBrokersOauthRedirect()}
+              />
+            )}
+            //
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/questrade-offer')}
+                component={UpgradeOfferPage}
               />
             )}
             // onboarding app
