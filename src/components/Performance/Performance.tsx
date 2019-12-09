@@ -165,11 +165,11 @@ export const Performance = () => {
       {/* Replace linebreaks with margins */}
       <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} />
       <ChartBox>
-        <Chart data={data1} axes={axes} />
+        <Chart data={data1} axes={axes} tooltip />
       </ChartBox>
       <br />
       <ChartBox>
-        <Chart data={data2} axes={axes} />
+        <Chart data={data2} axes={axes} tooltip />
       </ChartBox>
       <PerformanceContributions selectedTimeframe={currentTimeframe} />
       <br />
