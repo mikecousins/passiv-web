@@ -74,6 +74,29 @@ const UpgradeOfferPage = () => {
       });
   }, [dispatch]);
 
+  const shareBox = (
+    <ShareBox>
+      <ShareItem>
+        <ShareIcon>
+          <FontAwesomeIcon icon={faTwitterSquare} />
+        </ShareIcon>
+        <ShareText>Twitter</ShareText>
+      </ShareItem>
+      <ShareItem>
+        <ShareIcon>
+          <FontAwesomeIcon icon={faFacebookSquare} />
+        </ShareIcon>
+        <ShareText>Facebook</ShareText>
+      </ShareItem>
+      <ShareItem>
+        <ShareIcon>
+          <FontAwesomeIcon icon={faEnvelopeSquare} />
+        </ShareIcon>
+        <ShareText>Email</ShareText>
+      </ShareItem>
+    </ShareBox>
+  );
+
   let errorMessage = null;
 
   if (error) {
@@ -113,12 +136,13 @@ const UpgradeOfferPage = () => {
               not already have a Passiv Elite subscription.
             </P>
             <P>
-              You can still score some Passiv schwag by sharing with your
-              friends though! Enter a list of emails here and we will send them
-              an offer code tied to your account.
+              You can still spread the holiday cheer by telling your friends
+              about this offer. It's only available until December 31, so share
+              now!
             </P>
-            <Button onClick={() => dispatch(push('/app/settings/connect'))}>
-              Connect Questrade
+            {shareBox}
+            <Button onClick={() => dispatch(push('/app/dashboard'))}>
+              Go to Dashboard
             </Button>
           </React.Fragment>
         );
@@ -148,26 +172,7 @@ const UpgradeOfferPage = () => {
             Spread the holiday cheer and tell your friends about this offer.
             It's only available until December 31, so share now!
           </P>
-          <ShareBox>
-            <ShareItem>
-              <ShareIcon>
-                <FontAwesomeIcon icon={faTwitterSquare} />
-              </ShareIcon>
-              <ShareText>Twitter</ShareText>
-            </ShareItem>
-            <ShareItem>
-              <ShareIcon>
-                <FontAwesomeIcon icon={faFacebookSquare} />
-              </ShareIcon>
-              <ShareText>Facebook</ShareText>
-            </ShareItem>
-            <ShareItem>
-              <ShareIcon>
-                <FontAwesomeIcon icon={faEnvelopeSquare} />
-              </ShareIcon>
-              <ShareText>Email</ShareText>
-            </ShareItem>
-          </ShareBox>
+          {shareBox}
           <Button onClick={() => dispatch(push('/app/dashboard'))}>
             Go to Dashboard
           </Button>
