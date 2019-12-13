@@ -25,9 +25,16 @@ const ShareBox = styled.div`
   display: flex;
 `;
 
-const ShareItem = styled.div`
+const ShareItem = styled.a`
   padding: 20px;
   text-align: center;
+  color: #2a2d34;
+  :hover,
+  :visited,
+  :link,
+  :active {
+    text-decoration: none;
+  }
 `;
 
 const ShareIcon = styled.div`
@@ -47,6 +54,15 @@ const AButtonBox = styled.div`
   }
   margin-bottom: 20px;
 `;
+
+const shareURL = 'https://getpassiv.com/questrade/';
+
+const shareTwitterCopy = `Questrade is giving away Passiv Elite subscriptions for FREE! Now it's easier than ever to manage your own investments. Check it out here: ${shareURL}`;
+
+const shareEmailSubjectCopy = 'Questrade is giving away Passiv Elite for free!';
+const shareEmailBodyCopy = `Hey, I just found out that Questrade has a promotion where they're giving away Passiv Elite subscriptions. It's usually $79/year, but it's free until December 31.%0A%0ACheck it out here: ${shareURL}`;
+
+const shareFacebookLink = `${shareURL}`;
 
 const UpgradeOfferPage = () => {
   const [loading, setLoading] = useState(false);
@@ -76,19 +92,31 @@ const UpgradeOfferPage = () => {
 
   const shareBox = (
     <ShareBox>
-      <ShareItem>
+      <ShareItem
+        href={`https://twitter.com/intent/tweet?text=${shareTwitterCopy}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <ShareIcon>
           <FontAwesomeIcon icon={faTwitterSquare} />
         </ShareIcon>
         <ShareText>Twitter</ShareText>
       </ShareItem>
-      <ShareItem>
+      <ShareItem
+        href={`https://www.facebook.com/sharer/sharer.php?u=${shareFacebookLink}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <ShareIcon>
           <FontAwesomeIcon icon={faFacebookSquare} />
         </ShareIcon>
         <ShareText>Facebook</ShareText>
       </ShareItem>
-      <ShareItem>
+      <ShareItem
+        href={`mailto:?subject=${shareEmailSubjectCopy}&body=${shareEmailBodyCopy}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <ShareIcon>
           <FontAwesomeIcon icon={faEnvelopeSquare} />
         </ShareIcon>
