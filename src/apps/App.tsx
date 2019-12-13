@@ -136,6 +136,7 @@ const App = () => {
               path={prefixPath('/reset-password-confirm/:token')}
               component={ResetPasswordConfirmPage}
             />
+            <Route path={prefixPath('/demo')} component={DemoLoginPage} />
             // oauth routes
             {loggedIn && (
               <Route
@@ -268,9 +269,6 @@ const App = () => {
                 path={prefixPath('/register')}
                 component={RegistrationPage}
               />
-            )}
-            {showInsecureApp && (
-              <Route path={prefixPath('/demo')} component={DemoLoginPage} />
             )}
             // catchalls // when logged in, catch unknown URLs and redirect to
             dashboard or 'next' query param if defined
