@@ -7,7 +7,7 @@ export type SubscriptionData = {
     period_end: string;
     canceled: boolean;
   };
-  cardState: 'VALID';
+  cardState: 'VALID' | 'UPDATE' | 'NONE';
   coupon: {
     amount_off: number | null; // maybe
     currency: string;
