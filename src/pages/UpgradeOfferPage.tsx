@@ -5,7 +5,11 @@ import styled from '@emotion/styled';
 import { postData } from '../api';
 import { loadSubscription } from '../actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faEnvelopeSquare } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTwitterSquare,
+  faFacebookSquare,
+} from '@fortawesome/free-brands-svg-icons';
 import ShadowBox from '../styled/ShadowBox';
 import { H1, P, AButton } from '../styled/GlobalElements';
 import { Step } from '../styled/SignupSteps';
@@ -15,6 +19,25 @@ import { push } from 'connected-react-router';
 
 const Bold = styled.span`
   font-weight: 600;
+`;
+
+const ShareBox = styled.div`
+  display: flex;
+`;
+
+const ShareItem = styled.div`
+  padding: 20px;
+  text-align: center;
+`;
+
+const ShareIcon = styled.div`
+  font-size: 4em;
+`;
+
+const ShareText = styled.div`
+  padding-top: 5px;
+  padding-bottom: 20px;
+  font-size: 1.2em;
 `;
 
 const AButtonBox = styled.div`
@@ -122,9 +145,32 @@ const UpgradeOfferPage = () => {
             to Passiv Elite for one year.
           </P>
           <P>
-            Now share this offer with your friends and get some sweet Passiv
-            schwag.
+            Spread the holiday cheer and tell your friends about this offer.
+            It's only available until December 31, so share now!
           </P>
+          <ShareBox>
+            <ShareItem>
+              <ShareIcon>
+                <FontAwesomeIcon icon={faTwitterSquare} />
+              </ShareIcon>
+              <ShareText>Twitter</ShareText>
+            </ShareItem>
+            <ShareItem>
+              <ShareIcon>
+                <FontAwesomeIcon icon={faFacebookSquare} />
+              </ShareIcon>
+              <ShareText>Facebook</ShareText>
+            </ShareItem>
+            <ShareItem>
+              <ShareIcon>
+                <FontAwesomeIcon icon={faEnvelopeSquare} />
+              </ShareIcon>
+              <ShareText>Email</ShareText>
+            </ShareItem>
+          </ShareBox>
+          <Button onClick={() => dispatch(push('/app/dashboard'))}>
+            Go to Dashboard
+          </Button>
         </ShadowBox>
       </ShadowBox>
     );
