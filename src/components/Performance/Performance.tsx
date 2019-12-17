@@ -6,6 +6,7 @@ import PerformanceGroups from './PerformanceGroups';
 import PerformanceContributions from './PerformanceContributions';
 import { Timeframe } from './Timeframe';
 import { Chart } from 'react-charts';
+import PerformanceStat from './PerformanceStat';
 
 const Header = styled.div`
   font-size: 20pt;
@@ -174,6 +175,10 @@ export const Performance = () => {
       <PerformanceContributions selectedTimeframe={currentTimeframe} />
       <br />
       <br />
+      <PerformanceStat title="Dividends" value={34.24} />
+      <PerformanceStat title="Deposits" value={2000} />
+      <PerformanceStat title="Withdrawals" value={0} />
+      <PerformanceStat title="Taxes and Fees" value={-45.24} />
       <PerformanceGroups selectedTimeframe={currentTimeframe} />
     </React.Fragment>
   );
