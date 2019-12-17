@@ -14,7 +14,6 @@ import {
 import LoginPage from '../pages/LoginPage';
 import RegistrationPage from '../pages/RegistrationPage';
 import DemoLoginPage from '../pages/DemoLoginPage';
-import { StripeProvider } from 'react-stripe-elements';
 
 import HelpArticlePage from '../pages/HelpArticlePage';
 import HelpPage from '../pages/HelpPage';
