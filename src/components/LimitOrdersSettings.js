@@ -4,6 +4,7 @@ import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings } from '../selectors';
+import { selectCanPlaceOrders } from '../selectors/subscription';
 import { loadSettings } from '../actions';
 import { putData } from '../api';
 import { ToggleButton, StateText } from '../styled/ToggleButton';
@@ -11,7 +12,12 @@ import Number from './Number';
 import { InputTarget } from '../styled/Form';
 import { SmallButton } from '../styled/Button';
 import styled from '@emotion/styled';
-import { Edit, SubSetting, OptionsTitle } from '../styled/GlobalElements';
+import {
+  Edit,
+  SubSetting,
+  DisabledBox,
+  OptionsTitle,
+} from '../styled/GlobalElements';
 
 export const DriftBox = styled.div``;
 
@@ -76,10 +82,13 @@ class LimitOrdersSettings extends React.Component {
       return null;
     }
 
+    const disabled = !this.props.canPlaceOrders;
+    console.log(this.props.canPlaceOrders);
+    console.log(disabled);
     let contents = (
       <React.Fragment>
-        <OptionsTitle>Trade with Limit Orders:</OptionsTitle>
-        {settings.trade_with_limit_orders ? (
+        <OptionsTitle>Allow Limit Orders with One-click Trades:</OptionsTitle>
+        {settings.trade_with_limit_orders && !disabled ? (
           <React.Fragment>
             <ToggleButton onClick={this.updateLimitOrder}>
               <React.Fragment>
@@ -88,7 +97,7 @@ class LimitOrdersSettings extends React.Component {
               </React.Fragment>
             </ToggleButton>
             <SubSetting>
-              <OptionsTitle>Limit Price Threshold:</OptionsTitle>
+              <OptionsTitle>Set A Limit Price Threshold:</OptionsTitle>
               {!this.state.editingThreshold ? (
                 <React.Fragment>
                   <Number
@@ -100,6 +109,11 @@ class LimitOrdersSettings extends React.Component {
                     <FontAwesomeIcon icon={faPen} />
                     Edit
                   </Edit>
+                  <DisabledBox>
+                    Limit Price Threshold sets the limit price to be a certain
+                    percentage above the ask price when buying, and below the
+                    bid price when selling.
+                  </DisabledBox>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
@@ -121,12 +135,25 @@ class LimitOrdersSettings extends React.Component {
             </SubSetting>
           </React.Fragment>
         ) : (
-          <ToggleButton onClick={this.updateLimitOrder}>
-            <React.Fragment>
-              <FontAwesomeIcon icon={faToggleOff} />
-              <StateText>off</StateText>
-            </React.Fragment>
-          </ToggleButton>
+          <React.Fragment>
+            <ToggleButton onClick={this.updateLimitOrder} disabled={disabled}>
+              <React.Fragment>
+                <FontAwesomeIcon icon={faToggleOff} />
+                <StateText>off</StateText>
+              </React.Fragment>
+            </ToggleButton>
+            {disabled ? (
+              <DisabledBox>
+                Placing orders are an Elite feature. You can upgrade your
+                account to use this feature.
+              </DisabledBox>
+            ) : (
+              <DisabledBox>
+                One-Click Trades places market orders by default. Enable this
+                setting to place limit orders with One-Click Trades.
+              </DisabledBox>
+            )}
+          </React.Fragment>
         )}
       </React.Fragment>
     );
@@ -136,6 +163,7 @@ class LimitOrdersSettings extends React.Component {
 
 const select = state => ({
   settings: selectSettings(state),
+  canPlaceOrders: selectCanPlaceOrders(state),
 });
 
 const actions = {
