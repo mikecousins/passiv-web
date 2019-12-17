@@ -24,7 +24,6 @@ import AlpacaOauthPage from '../pages/AlpacaOauthPage';
 import InteractiveBrokersOauthPage from '../pages/InteractiveBrokersOauthPage';
 import UpgradeOfferPage from '../pages/UpgradeOfferPage';
 
-import qs from 'qs';
 import DashboardPage from '../pages/DashboardPage';
 import GroupPage from '../pages/GroupPage';
 import SettingsPage from '../pages/SettingsPage';
