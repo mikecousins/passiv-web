@@ -11,6 +11,7 @@ import {
   selectShowOnboardingApp,
   selectShowSecureApp,
 } from '../selectors/app';
+import { selectQueryTokens } from '../selectors/router';
 import LoginPage from '../pages/LoginPage';
 import RegistrationPage from '../pages/RegistrationPage';
 import DemoLoginPage from '../pages/DemoLoginPage';
