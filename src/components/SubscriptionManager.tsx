@@ -124,6 +124,40 @@ const SubscriptionManager = () => {
   );
 
   if (subscription) {
+    var cardMessage = null;
+    switch (subscription.cardState) {
+      case 'NONE':
+        cardMessage = (
+          <P>
+            There is no credit card linked to your account. To keep your
+            subscription active past the renewal date, please update your card.
+          </P>
+        );
+        break;
+      case 'VALID':
+        cardMessage = (
+          <CreditCardDetails
+            cardState={subscription.cardState}
+            cardDetails={subscription.cardDetails}
+          />
+        );
+        break;
+      case 'UPDATE':
+        cardMessage = (
+          <React.Fragment>
+            <P>
+              The credit card linked to your account is no longer valid. Please
+              update your card to avoid service interruption.
+            </P>
+            <CreditCardDetails
+              cardState={subscription.cardState}
+              cardDetails={subscription.cardDetails}
+            />
+          </React.Fragment>
+        );
+        break;
+    }
+
     if (subscription.type === 'free') {
       subscriptionBody = (
         <div>
@@ -212,10 +246,7 @@ const SubscriptionManager = () => {
                     )}
                     .
                   </P>
-                  <CreditCardDetails
-                    cardState={subscription.cardState}
-                    cardDetails={subscription.cardDetails}
-                  />
+                  {cardMessage}
                   <Button onClick={() => setUpdatingPayment(true)}>
                     Update Card
                   </Button>

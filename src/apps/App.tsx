@@ -14,6 +14,8 @@ import {
 import LoginPage from '../pages/LoginPage';
 import RegistrationPage from '../pages/RegistrationPage';
 import DemoLoginPage from '../pages/DemoLoginPage';
+import { StripeProvider } from 'react-stripe-elements';
+
 import HelpArticlePage from '../pages/HelpArticlePage';
 import HelpPage from '../pages/HelpPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
@@ -21,6 +23,9 @@ import ResetPasswordConfirmPage from '../pages/ResetPasswordConfirmPage';
 import QuestradeOauthPage from '../pages/QuestradeOauthPage';
 import AlpacaOauthPage from '../pages/AlpacaOauthPage';
 import InteractiveBrokersOauthPage from '../pages/InteractiveBrokersOauthPage';
+import UpgradeOfferPage from '../pages/UpgradeOfferPage';
+
+import qs from 'qs';
 import DashboardPage from '../pages/DashboardPage';
 import GroupPage from '../pages/GroupPage';
 import SettingsPage from '../pages/SettingsPage';
@@ -74,6 +79,19 @@ const App = () => {
   const showSecureApp = useSelector(selectShowSecureApp);
   const loggedIn = useSelector(selectLoggedIn);
   const location = useLocation();
+
+  // include query params in deep link redirect for insecure app
+  const queryParams = useSelector(selectQueryTokens);
+  if (queryParams.next) {
+    delete queryParams.next;
+  }
+  let appendParams = '';
+  if (Object.keys(queryParams).length > 0) {
+    const pieces = Object.entries(queryParams).map(([k, v]) => {
+      return `${k}%3D${v}`;
+    });
+    appendParams = '%3F' + pieces.join('%26');
+  }
 
   // redirect path for secure app
   let redirectPath = prefixPath('/dashboard');
@@ -137,6 +155,28 @@ const App = () => {
               render={() => questradeOauthRedirect()}
             />
           )}
+          <Route path={prefixPath('/demo')} component={DemoLoginPage} />
+          // oauth routes
+          {loggedIn && (
+            <Route
+              path={prefixPath('/oauth/questrade')}
+              component={QuestradeOauthPage}
+            />
+          )}
+          {loggedIn && (
+            <Route
+              exact
+              path="/oauth/questrade"
+              render={() => questradeOauthRedirect()}
+            />
+          )}
+          {loggedIn && (
+            <Route
+              exact
+              path="/oauth/questrade-trade"
+              render={() => questradeOauthRedirect()}
+            />
+          )}
           {loggedIn && (
             <Route
               path={prefixPath('/oauth/alpaca')}
@@ -161,6 +201,14 @@ const App = () => {
               exact
               path="/oauth/interactivebrokers"
               render={() => interactiveBrokersOauthRedirect()}
+            />
+          )}
+          //
+          {loggedIn && (
+            <Route
+              exact
+              path={prefixPath('/questrade-offer')}
+              component={UpgradeOfferPage}
             />
           )}
           // onboarding app
@@ -235,7 +283,7 @@ const App = () => {
               component={RegistrationPage}
             />
           )}
-          // catchalls // when logged in, catch unknown URLs and redirect to //
+          // catchalls // when logged in, catch unknown URLs and redirect to
           dashboard or 'next' query param if defined
           {showSecureApp && (
             <Route path="*">
@@ -243,12 +291,12 @@ const App = () => {
             </Route>
           )}
           // when not logged in, catch unknown URLs (such as secure paths) and
-          // login with redirect
+          login with redirect
           {showInsecureApp && (
             <Route path="*">
               <Redirect
                 to={prefixPath(
-                  `/login?next=${location.pathname}${location.search}`,
+                  `/login?next=${location.pathname}${appendParams}`,
                 )}
               />
             </Route>

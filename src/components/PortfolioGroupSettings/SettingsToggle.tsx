@@ -12,7 +12,7 @@ type Props = {
   name: string;
   value: boolean;
   onChange?: () => void;
-  tip?: string;
+  tip?: string | null;
   disabled?: boolean;
   invert?: boolean;
 };
@@ -21,7 +21,7 @@ const SettingsToggle = ({
   name,
   value,
   onChange = () => {},
-  tip = '',
+  tip = null,
   disabled = false,
   invert = false,
 }: Props) => {
