@@ -24,7 +24,8 @@ export const DriftBox = styled.div``;
 class LimitOrdersSettings extends React.Component {
   state = {
     editingThreshold: false,
-    priceLimitThreshold: this.props.settings.price_limit_threshold,
+    priceLimitThreshold:
+      this.props.settings && this.props.settings.price_limit_threshold,
   };
 
   // TODO remove this, it's deprecated
@@ -61,7 +62,7 @@ class LimitOrdersSettings extends React.Component {
 
   finishEditingThreshold() {
     let newSettings = Object.assign({}, this.props.settings);
-    console.log(newSettings);
+
     newSettings.price_limit_threshold = this.state.priceLimitThreshold;
 
     putData('/api/v1/settings/', newSettings)
@@ -83,8 +84,7 @@ class LimitOrdersSettings extends React.Component {
     }
 
     const disabled = !this.props.canPlaceOrders;
-    console.log(this.props.canPlaceOrders);
-    console.log(disabled);
+
     let contents = (
       <React.Fragment>
         <OptionsTitle>Allow Limit Orders with One-click Trades:</OptionsTitle>
