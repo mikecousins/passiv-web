@@ -8,6 +8,7 @@ import { postData, putData } from '../api';
 
 import CashNotifcationSettings from './CashNotificationSettings';
 import DriftNotifcationSettings from './DriftNotificationSettings';
+import LimitOrdersSettings from './LimitOrdersSettings';
 import APIAccessSettings from './APIAccessSettings';
 
 import styled from '@emotion/styled';
@@ -146,6 +147,11 @@ export class CredentialsManager extends React.Component {
               <APIAccessSettings />
             </InputContainer>
           </TextContainer>
+          <TextContainer>
+            <InputContainer>
+              <LimitOrdersSettings />
+            </InputContainer>
+          </TextContainer>
         </ShadowBox>
         <ShadowBox>
           <div>
@@ -175,7 +181,4 @@ const actions = {
   refreshSettings: loadSettings,
 };
 
-export default connect(
-  select,
-  actions,
-)(CredentialsManager);
+export default connect(select, actions)(CredentialsManager);
