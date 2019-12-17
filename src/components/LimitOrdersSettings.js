@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings } from '../selectors';
 import { selectCanPlaceOrders } from '../selectors/subscription';
-import { loadSettings } from '../actions';
+import { loadSettings, loadGroups } from '../actions';
 import { putData } from '../api';
 import { ToggleButton, StateText } from '../styled/ToggleButton';
 import Number from './Number';
@@ -44,9 +44,11 @@ class LimitOrdersSettings extends React.Component {
     putData('/api/v1/settings/', newSettings)
       .then(response => {
         this.props.refreshSettings();
+        this.props.refreshGroups();
       })
       .catch(error => {
         this.props.refreshSettings();
+        this.props.refreshGroups();
       });
   };
 
@@ -68,9 +70,11 @@ class LimitOrdersSettings extends React.Component {
     putData('/api/v1/settings/', newSettings)
       .then(response => {
         this.props.refreshSettings();
+        this.props.refreshGroups();
       })
       .catch(error => {
         this.props.refreshSettings();
+        this.props.refreshGroups();
       });
 
     this.setState({ editingThreshold: false });
@@ -168,6 +172,7 @@ const select = state => ({
 
 const actions = {
   refreshSettings: loadSettings,
+  refreshGroups: loadGroups,
 };
 
 export default connect(select, actions)(LimitOrdersSettings);
