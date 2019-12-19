@@ -91,7 +91,7 @@ class LimitOrdersSettings extends React.Component {
 
     let contents = (
       <React.Fragment>
-        <OptionsTitle>Allow Limit Orders with One-click Trades:</OptionsTitle>
+        <OptionsTitle>Use Limit Orders:</OptionsTitle>
         {settings.trade_with_limit_orders && !disabled ? (
           <React.Fragment>
             <ToggleButton onClick={this.updateLimitOrder}>
@@ -101,7 +101,7 @@ class LimitOrdersSettings extends React.Component {
               </React.Fragment>
             </ToggleButton>
             <SubSetting>
-              <OptionsTitle>Set A Limit Price Threshold:</OptionsTitle>
+              <OptionsTitle>Limit Order Premium:</OptionsTitle>
               {!this.state.editingThreshold ? (
                 <React.Fragment>
                   <Number
@@ -114,7 +114,7 @@ class LimitOrdersSettings extends React.Component {
                     Edit
                   </Edit>
                   <DisabledBox>
-                    Limit Price Threshold sets the limit price to be a certain
+                    Limit Order Premium sets the limit price to be a certain
                     percentage above the ask price when buying, and below the
                     bid price when selling.
                   </DisabledBox>
@@ -148,13 +148,13 @@ class LimitOrdersSettings extends React.Component {
             </ToggleButton>
             {disabled ? (
               <DisabledBox>
-                Placing orders are an Elite feature. You can upgrade your
-                account to use this feature.
+                Placing orders through Passiv is an Elite feature. You can
+                upgrade your account to use this feature.
               </DisabledBox>
             ) : (
               <DisabledBox>
                 One-Click Trades places market orders by default. Enable this
-                setting to place limit orders with One-Click Trades.
+                setting to use limit orders with a price cap.
               </DisabledBox>
             )}
           </React.Fragment>

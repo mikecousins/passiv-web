@@ -285,15 +285,16 @@ export class RebalanceWidget extends Component {
         case '1033':
           error = (
             <OrderContainer>
-              <H2>Consider turning on limit orders</H2>
+              <H2>Order cannot be Processed</H2>
               <P>
-                Unable to place trades, because some trades are on exchanges
-                that only accept limit orders.
+                We are unable to place your orders because some trades are on
+                exchanges that only accept limit orders. Passiv uses market
+                orders by default.
               </P>
               <P>
-                Consider turning on limit orders on your{' '}
-                <Link to="/app/settings">settings</Link> page or you can place
-                orders manually on your brokerage.
+                Consider using limit orders by enabling them on your{' '}
+                <Link to="/app/settings">settings</Link> page. Alternatively,
+                you can always place orders manually on your brokerage.
               </P>
               <Button onClick={() => this.closeWidget()}>Okay</Button>
             </OrderContainer>
