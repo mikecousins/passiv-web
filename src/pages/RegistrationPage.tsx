@@ -6,6 +6,7 @@ import { loginSucceeded, registerFailed } from '../actions';
 import { postData } from '../api';
 import * as Yup from 'yup';
 import { selectLoggedIn } from '../selectors';
+import { selectQueryTokens } from '../selectors/router';
 import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
@@ -18,7 +19,10 @@ type Props = {
 
 const RegistrationPage = ({ location }: Props) => {
   const loggedIn = useSelector(selectLoggedIn);
+  const queryParams = useSelector(selectQueryTokens);
   const dispatch = useDispatch();
+
+  const referralCode = queryParams.referrer;
 
   let formatted_email = '';
 
@@ -45,6 +49,7 @@ const RegistrationPage = ({ location }: Props) => {
             name: '',
             email: formatted_email,
             password: '',
+            referralCode: referralCode,
           }}
           validationSchema={Yup.object().shape({
             name: Yup.string().required('Required'),
@@ -58,6 +63,7 @@ const RegistrationPage = ({ location }: Props) => {
               name: values.name,
               email: values.email,
               password: values.password,
+              referralCode: values.referralCode,
             })
               .then(response => {
                 // login
@@ -124,6 +130,22 @@ const RegistrationPage = ({ location }: Props) => {
               <P>
                 <ErrorMessage name="password" />
               </P>
+
+              {referralCode && (
+                <React.Fragment>
+                  <Label htmlFor="referrer">Referral Code</Label>
+                  <Input
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.referralCode}
+                    border={errors.referralCode && '1px solid red'}
+                    type="text"
+                    name="referralCode"
+                    placeholder="Referral Code"
+                  />
+                </React.Fragment>
+              )}
+
               <div>
                 <Button type="submit" disabled={!isValid}>
                   Register
