@@ -19,7 +19,6 @@ import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import QuestradeLogo from '../assets/images/questrade-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
-import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 
 import {
   aDarkStyle,
