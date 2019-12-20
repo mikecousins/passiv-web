@@ -64,9 +64,9 @@ export const SmallStepButton = styled.button<BlueProps>`
 export const Step = styled.p`
   font-size: 18px;
   font-weight: 900;
-  letter-spacing: 2px;
   color: white;
   margin-bottom: 20px;
+  color: #292c34;
 `;
 
 export const WhyQuestrade = styled.div`
