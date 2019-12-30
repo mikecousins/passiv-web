@@ -82,8 +82,9 @@ const shareURL = 'https://getpassiv.com/app/questrade-offer';
 
 const shareTwitterCopy = `Questrade is giving away Passiv Elite subscriptions for FREE! Now it's easier than ever to manage your own investments. Go here to open a Passiv account: ${shareURL}`;
 
-const shareEmailSubjectCopy = 'Questrade is giving away Passiv Elite for free!';
-const shareEmailBodyCopy = `Hey, I just found out that Questrade has a promotion where they're giving away Passiv Elite subscriptions. It's usually $79/year, but they're offering it free for now!%0A%0AYou can open an account here: ${shareURL}`;
+const shareEmailSubjectCopy =
+  'Questrade%20is%20giving%20away%20Passiv%20Elite%20for%20free!';
+const shareEmailBodyCopy = `Hey%2C%20I%20just%20found%20out%20that%20Questrade%20has%20a%20promotion%20where%20they%27re%20giving%20away%20Passiv%20Elite%20subscriptions.%20It%27s%20usually%20%2479%2Fyear%2C%20but%20they%27re%20offering%20it%20free%20for%20now!%0A%0AYou%20can%20claim%20the%20offer%20here%3A%20${shareURL}`;
 
 const shareFacebookLink = `${shareURL}`;
 
