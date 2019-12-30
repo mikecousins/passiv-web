@@ -55,12 +55,12 @@ const AButtonBox = styled.div`
   margin-bottom: 20px;
 `;
 
-const shareURL = 'https://getpassiv.com/questrade/';
+const shareURL = 'https://getpassiv.com/app/questrade-offer';
 
-const shareTwitterCopy = `Questrade is giving away Passiv Elite subscriptions for FREE! Now it's easier than ever to manage your own investments. Check it out here: ${shareURL}`;
+const shareTwitterCopy = `Questrade is giving away Passiv Elite subscriptions for FREE! Now it's easier than ever to manage your own investments. Go here to open a Passiv account: ${shareURL}`;
 
 const shareEmailSubjectCopy = 'Questrade is giving away Passiv Elite for free!';
-const shareEmailBodyCopy = `Hey, I just found out that Questrade has a promotion where they're giving away Passiv Elite subscriptions. It's usually $79/year, but it's free until December 31.%0A%0ACheck it out here: ${shareURL}`;
+const shareEmailBodyCopy = `Hey, I just found out that Questrade has a promotion where they're giving away Passiv Elite subscriptions. It's usually $79/year, but they're offering it free for now!%0A%0AYou can open an account here: ${shareURL}`;
 
 const shareFacebookLink = `${shareURL}`;
 
@@ -142,8 +142,8 @@ const UpgradeOfferPage = () => {
             </Button>
             <AButtonBox>
               <P>
-                Don't have a Questrade account yet? Open one by December 31,
-                2019 using this link and you'll be eligible to claim this offer!
+                Don't have a Questrade account yet? Open one using this link and
+                you'll be eligible to claim this offer!
               </P>
               <AButton
                 href="https://www.questrade.com/account-selection?oaa_promo=bgudhqhm"
@@ -165,8 +165,8 @@ const UpgradeOfferPage = () => {
             </P>
             <P>
               You can still spread the holiday cheer by telling your friends
-              about this offer. It's only available until December 31, so share
-              now!
+              about this offer. Share this link using Twitter, Facebook, email,
+              or whatever you prefer!
             </P>
             {shareBox}
             <Button onClick={() => dispatch(push('/app/dashboard'))}>
@@ -198,7 +198,8 @@ const UpgradeOfferPage = () => {
           </P>
           <P>
             Spread the holiday cheer and tell your friends about this offer.
-            It's only available until December 31, so share now!
+            Share this link using Twitter, Facebook, email, or whatever you
+            prefer!
           </P>
           {shareBox}
           <Button onClick={() => dispatch(push('/app/dashboard'))}>
