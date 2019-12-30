@@ -16,6 +16,28 @@ import { Step } from '../styled/SignupSteps';
 import { Error } from '../types/groupInfo';
 import { Button } from '../styled/Button';
 import { push } from 'connected-react-router';
+import bulb from '../assets/images/bulb.png';
+
+const Bulbs = styled.img`
+  position: absolute;
+  right: 8px;
+  top: 0;
+  float: right;
+  max-width: 482px;
+  @media (max-width: 900px) {
+    max-width: 96%;
+  }
+`;
+
+const ModifiedShadowBox = styled(ShadowBox)`
+  margin-bottom: 10px;
+  position: relative;
+  padding-top: 90px;
+  @media (max-width: 900px) {
+    padding-top: 140px;
+    padding-bottom: 40px;
+  }
+`;
 
 const Bold = styled.span`
   font-weight: 600;
@@ -26,9 +48,9 @@ const ShareBox = styled.div`
 `;
 
 const ShareItem = styled.a`
-  padding: 20px;
+  padding: 20px 40px 10px 0;
   text-align: center;
-  color: #2a2d34;
+  color: #fff;
   :hover,
   :visited,
   :link,
@@ -44,7 +66,8 @@ const ShareIcon = styled.div`
 const ShareText = styled.div`
   padding-top: 5px;
   padding-bottom: 20px;
-  font-size: 1.2em;
+  font-weight: 900;
+  font-size: 1em;
 `;
 
 const AButtonBox = styled.div`
@@ -189,29 +212,27 @@ const UpgradeOfferPage = () => {
 
   if (success) {
     return (
-      <ShadowBox background="#2a2d34">
-        <H1 color="white">Questrade Holiday Offer</H1>
-        <ShadowBox>
-          <P>
-            You're good to go! Questrade has given you <Bold>free</Bold> access
-            to Passiv Elite for one year.
-          </P>
-          <P>
-            Spread the holiday cheer and tell your friends about this offer.
-            Share this link using Twitter, Facebook, email, or whatever you
-            prefer!
-          </P>
-          {shareBox}
-          <Button onClick={() => dispatch(push('/app/dashboard'))}>
-            Go to Dashboard
-          </Button>
-        </ShadowBox>
-      </ShadowBox>
+      <ModifiedShadowBox background="#04a287">
+        <H1>Questrade Holiday Offer</H1>
+        <P>
+          You're good to go! Questrade has given you <Bold>free</Bold> access to
+          Passiv Elite for one year.
+        </P>
+        <P>
+          Spread the holiday cheer and tell your friends about this offer. Share
+          this link using Twitter, Facebook, email, or whatever you prefer!
+        </P>
+        {shareBox}
+        <Button onClick={() => dispatch(push('/app/dashboard'))}>
+          Go to Dashboard
+        </Button>
+      </ModifiedShadowBox>
     );
   } else {
     return (
-      <ShadowBox background="#2a2d34">
-        <H1 color="white">Questrade Holiday Offer</H1>
+      <ModifiedShadowBox background="#04a287">
+        <Bulbs src={bulb} alt="null" role="presentation" />
+        <H1>Questrade Holiday Offer</H1>
         {loading ? (
           <React.Fragment>
             <Step>
@@ -222,10 +243,10 @@ const UpgradeOfferPage = () => {
         ) : (
           <React.Fragment>
             <Step>Oops, we couldn't apply the offer to your account!</Step>
-            <ShadowBox>{errorMessage}</ShadowBox>
+            {errorMessage}
           </React.Fragment>
         )}
-      </ShadowBox>
+      </ModifiedShadowBox>
     );
   }
 };

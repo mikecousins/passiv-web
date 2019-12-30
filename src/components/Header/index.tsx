@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
-import logo from '../../assets/images/logo-no-name.svg';
-import logoRaster from '../../assets/images/logo-no-name.png';
-import logoRaster2x from '../../assets/images/logo-no-name@2x.png';
+import logo from '../../assets/images/passiv-logo-xmas.svg';
+import logoRaster from '../../assets/images/passiv-logo-xmas.png';
+import logoRaster2x from '../../assets/images/passiv-logo-xmas@2x.png';
 import { selectName, selectLoggedIn } from '../../selectors';
 import Hello from './Hello';
 import Offline from './Offline';
@@ -33,10 +33,12 @@ const StyledHeader = styled.header<StyledHeaderProps>`
     justify-content: space-between;
   }
 `;
-const Logo = styled.header`
-  margin-top: 2px;
-  @media (max-width: 900px) {
-    margin-top: 0;
+const Logo = styled.div`
+  max-width: 44px;
+  margin-top: -5px;
+  margin-bottom: -5px;
+  object {
+    max-width: 100%;
   }
 `;
 
