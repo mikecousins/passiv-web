@@ -16,25 +16,13 @@ import { Step } from '../styled/SignupSteps';
 import { Error } from '../types/groupInfo';
 import { Button } from '../styled/Button';
 import { push } from 'connected-react-router';
-import bulb from '../assets/images/bulb.png';
-
-const Bulbs = styled.img`
-  position: absolute;
-  right: 8px;
-  top: 0;
-  float: right;
-  max-width: 482px;
-  @media (max-width: 900px) {
-    max-width: 96%;
-  }
-`;
 
 const ModifiedShadowBox = styled(ShadowBox)`
   margin-bottom: 10px;
   position: relative;
-  padding-top: 90px;
+  padding-top: 20px;
   @media (max-width: 900px) {
-    padding-top: 140px;
+    padding-top: 40px;
     padding-bottom: 40px;
   }
 `;
@@ -188,9 +176,9 @@ const UpgradeOfferPage = () => {
               not already have a Passiv Elite subscription.
             </P>
             <P>
-              You can still spread the holiday cheer by telling your friends
-              about this offer. Share this link using Twitter, Facebook, email,
-              or whatever you prefer!
+              You can still spread the good news by telling your friends about
+              this offer. Share this link using Twitter, Facebook, email, or
+              whatever you prefer!
             </P>
             {shareBox}
             <Button onClick={() => dispatch(push('/app/dashboard'))}>
@@ -214,13 +202,13 @@ const UpgradeOfferPage = () => {
   if (success) {
     return (
       <ModifiedShadowBox background="#04a287">
-        <H1>Questrade Holiday Offer</H1>
+        <H1>Questrade Elite Upgrade</H1>
         <P>
           You're good to go! Questrade has given you <Bold>free</Bold> access to
           Passiv Elite for one year.
         </P>
         <P>
-          Spread the holiday cheer and tell your friends about this offer. Share
+          Spread the good news and tell your friends about this offer. Share
           this link using Twitter, Facebook, email, or whatever you prefer!
         </P>
         {shareBox}
@@ -232,8 +220,7 @@ const UpgradeOfferPage = () => {
   } else {
     return (
       <ModifiedShadowBox background="#04a287">
-        <Bulbs src={bulb} alt="null" role="presentation" />
-        <H1>Questrade Holiday Offer</H1>
+        <H1>Questrade Elite Upgrade</H1>
         {loading ? (
           <React.Fragment>
             <Step>
