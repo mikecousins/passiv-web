@@ -158,7 +158,7 @@ const UpgradeOfferPage = () => {
                 you'll be eligible to claim this offer!
               </P>
               <AButton
-                href="https://www.questrade.com/account-selection?oaa_promo=bgudhqhm"
+                href="https://www.questrade.com/account-selection?oaa_promo=passiv"
                 target="_blank"
                 rel="noopener noreferrer"
               >

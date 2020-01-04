@@ -91,7 +91,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           });
         }
       },
-      openURL: 'https://www.questrade.com/account-selection?oaa_promo=bgudhqhm',
+      openURL: 'https://www.questrade.com/account-selection?oaa_promo=passiv',
       major: true,
       logo: QuestradeLogo,
       description: (
