@@ -11,6 +11,7 @@ import {
   selectBrokerages,
   selectCurrencyRates,
   selectCurrencies,
+  selectHasQuestradeConnection,
 } from '../../selectors';
 import { selectSymbols } from '../../selectors/symbols';
 import {
@@ -198,7 +199,7 @@ export class RebalanceWidget extends Component {
   };
 
   render() {
-    const { push } = this.props;
+    const { push, hasQuestradeConnection } = this.props;
     let error = null;
     if (this.state.error) {
       switch (this.state.error.code) {
@@ -256,13 +257,35 @@ export class RebalanceWidget extends Component {
           error = (
             <OrderContainer>
               <H2>Order cannot be Processed</H2>
-              <P>
-                One-click Trades are only available to Elite subscribers. You
-                can upgrade your account to use this feature.{' '}
-                <Link to="/app/help">Contact support</Link> if you're already a
-                paid subscriber and you're still receiving this message.
-              </P>
-              <Button onClick={() => push('/app/settings')}>Upgrade</Button>
+              {hasQuestradeConnection ? (
+                <React.Fragment>
+                  <P>
+                    One-click Trades are only available to Elite subscribers,
+                    but you're eligible to upgrade your account for{' '}
+                    <strong>free</strong>!
+                  </P>
+                  <P>
+                    Questrade has offered to pay for your subscription for one
+                    year, with no commitment on your part. You can claim this
+                    offer now using the button below, or in the future from your
+                    subscription settings.
+                  </P>
+                  <Button onClick={() => push('/app/questrade-offer')}>
+                    Upgrade Now
+                  </Button>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <P>
+                    One-click Trades are only available to Elite subscribers.
+                    You can upgrade your account to use this feature.{' '}
+                    <Link to="/app/help">Contact support</Link> if you're
+                    already a paid subscriber and you're still receiving this
+                    message.
+                  </P>
+                  <Button onClick={() => push('/app/settings')}>Upgrade</Button>
+                </React.Fragment>
+              )}
             </OrderContainer>
           );
           break;
@@ -485,9 +508,7 @@ const select = state => ({
   rates: selectCurrencyRates(state),
   currencies: selectCurrencies(state),
   preferredCurrency: selectPreferredCurrency(state),
+  hasQuestradeConnection: selectHasQuestradeConnection(state),
 });
 
-export default connect(
-  select,
-  actions,
-)(RebalanceWidget);
+export default connect(select, actions)(RebalanceWidget);
