@@ -11,12 +11,15 @@ import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import { Step } from '../styled/SignupSteps';
 import { selectQueryTokens } from '../selectors/router';
+import { selectIsPaid } from '../selectors/subscription';
 import { Error } from '../types/groupInfo';
 
 const QuestradeOauthPage = () => {
   const [loading, setLoading] = useState(true);
+  const [showUpgradeOffer, setShowUpgradeOffer] = useState(false);
   const [error, setError] = useState<Error>();
   const queryParams = useSelector(selectQueryTokens);
+  const isPaid = useSelector(selectIsPaid);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,9 +32,14 @@ const QuestradeOauthPage = () => {
       postData('/api/v1/brokerages/authComplete/', { token: token })
         .then(() => {
           dispatch(initialLoad());
-          setTimeout(() => {
-            dispatch(replace('/app/dashboard'));
-          }, 1000);
+          if (isPaid) {
+            setTimeout(() => {
+              dispatch(replace('/app/dashboard'));
+            }, 1000);
+          } else {
+            setLoading(false);
+            setShowUpgradeOffer(true);
+          }
         })
         .catch(error => {
           setLoading(false);
@@ -109,6 +117,28 @@ const QuestradeOauthPage = () => {
             Establishing connection to Questrade...{' '}
             <FontAwesomeIcon icon={faSpinner} spin />
           </Step>
+        </React.Fragment>
+      ) : showUpgradeOffer ? (
+        <React.Fragment>
+          <Step>Questrade connection established.</Step>
+          <ShadowBox>
+            <P>
+              Congratulations, you're eligible for a <strong>free</strong>{' '}
+              upgrade to Passiv Elite!
+            </P>
+            <P>
+              Questrade has offered to pay for your subscription for one year,
+              with no commitment on your part. You can claim this offer now
+              using the button below, or in the future from your subscription
+              settings.
+            </P>
+            <Button onClick={() => dispatch(push('/app/questrade-offer'))}>
+              Upgrade Now
+            </Button>
+            <Button onClick={() => dispatch(push('/app/dashboard'))}>
+              Go to Dashboard
+            </Button>
+          </ShadowBox>
         </React.Fragment>
       ) : (
         <React.Fragment>
