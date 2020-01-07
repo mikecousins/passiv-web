@@ -125,12 +125,6 @@ const SubscriptionManager = () => {
     </div>
   );
 
-  let feedbackForm = (
-    <div>
-      <Button onClick={() => dispatch(push('/app/help'))}>Give Feedback</Button>
-    </div>
-  );
-
   if (subscription) {
     var cardMessage = null;
     switch (subscription.cardState) {
