@@ -62,6 +62,21 @@ export const selectFeatures = createSelector(selectFeaturesRaw, rawFeatures => {
   return null;
 });
 
+export const selectFeaturesNeedData = createSelector(
+  selectLoggedIn,
+  selectFeaturesRaw,
+  selectAppTime,
+  (loggedIn, rawFeatures, time) => {
+    if (!loggedIn) {
+      return false;
+    }
+    return shouldUpdate(rawFeatures, {
+      staleTime: ms.minutes(30),
+      now: time,
+    });
+  },
+);
+
 export const selectConnectPlaidFeature = createSelector(
   selectFeatures,
   features => {
