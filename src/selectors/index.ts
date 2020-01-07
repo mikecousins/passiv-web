@@ -184,6 +184,17 @@ export const selectAuthorizations = createSelector(
   },
 );
 
+export const selectHasQuestradeConnection = createSelector(
+  selectAuthorizations,
+  authorizations => {
+    if (authorizations) {
+      return authorizations.some(a => a.brokerage.name === 'Questrade');
+    } else {
+      return false;
+    }
+  },
+);
+
 export const selectAuthorizationsNeedData = createSelector(
   selectLoggedIn,
   selectAuthorizationsRaw,
