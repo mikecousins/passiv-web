@@ -11,7 +11,6 @@ import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
-import Tooltip from '../components/Tooltip';
 import PasswordRequirements from '../components/PasswordRequirements';
 
 type Props = {

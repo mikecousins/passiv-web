@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Formik, ErrorMessage } from 'formik';
-import { toast } from 'react-toastify';
 import { postData } from '../api';
 import { selectLoggedIn } from '../selectors';
 import LoginLinks from '../components/LoginLinks';

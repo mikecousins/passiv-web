@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik, ErrorMessage } from 'formik';
-import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { postData } from '../api';
 import { selectPasswordResetToken } from '../selectors';
