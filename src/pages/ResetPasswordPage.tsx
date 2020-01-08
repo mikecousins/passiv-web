@@ -86,6 +86,7 @@ const ResetPasswordPage = ({ location }: Props) => {
                     type="text"
                     name="email"
                     placeholder="example@example.com"
+                    error={touched.email && errors.email}
                   />
                   <P>
                     <ErrorMessage name="email" />

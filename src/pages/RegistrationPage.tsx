@@ -86,6 +86,7 @@ const RegistrationPage = ({ location }: Props) => {
               });
           }}
           render={({
+            touched,
             errors,
             values,
             handleChange,
@@ -101,6 +102,7 @@ const RegistrationPage = ({ location }: Props) => {
                 type="text"
                 name="name"
                 placeholder="Ex: Jane Smith"
+                error={touched.name && errors.name}
               />
               <P>
                 <ErrorMessage name="name" />
@@ -113,6 +115,7 @@ const RegistrationPage = ({ location }: Props) => {
                 type="text"
                 name="email"
                 placeholder="Email"
+                error={touched.email && errors.email}
               />
               <P>
                 <ErrorMessage name="email" />
@@ -126,6 +129,7 @@ const RegistrationPage = ({ location }: Props) => {
                 type="password"
                 name="password"
                 placeholder="Password"
+                error={touched.password && errors.password}
               />
 
               <P>

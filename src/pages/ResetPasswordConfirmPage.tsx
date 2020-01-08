@@ -74,6 +74,7 @@ const ResetPasswordConfirmPage = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
+                error={touched.password && errors.password}
               />
 
               <P>
