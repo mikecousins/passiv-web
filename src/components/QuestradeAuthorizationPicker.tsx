@@ -82,7 +82,7 @@ const QuestradeAuthorizationPicker = () => {
             blue
             onClick={() => {
               window.location.assign(
-                'https://www.questrade.com/account-selection?oaa_promo=bgudhqhm',
+                'https://www.questrade.com/account-selection?oaa_promo=passiv',
               );
               return null;
             }}

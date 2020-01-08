@@ -9,6 +9,7 @@ import {
   loadSettings,
   loadPlans,
   loadHelpArticles,
+  loadFeatures,
 } from '../actions';
 import { checkIfOnline } from '../actions/online';
 import {
@@ -19,6 +20,7 @@ import {
   selectSettingsNeedData,
   selectPlansNeedData,
   selectHelpArticlesNeedData,
+  selectFeaturesNeedData,
 } from '../selectors';
 import { selectAccountsNeedData } from '../selectors/accounts';
 import { selectGroupsNeedData } from '../selectors/groups';
@@ -31,6 +33,10 @@ export const effects = [
   {
     selector: selectCurrenciesNeedData,
     actionCreator: loadCurrencies,
+  },
+  {
+    selector: selectFeaturesNeedData,
+    actionCreator: loadFeatures,
   },
   {
     selector: selectCurrencyRatesNeedData,

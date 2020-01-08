@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import { selectSubscription } from '../selectors/subscription';
+import { selectHasQuestradeConnection } from '../selectors';
 import { Button } from '../styled/Button';
 import { Elements } from 'react-stripe-elements';
 import InjectedCheckoutForm from './CheckoutForm';
@@ -62,6 +63,7 @@ const SubscriptionManager = () => {
   const [cancellingSubscription, setCancellingSubscription] = useState(false);
 
   const subscription = useSelector(selectSubscription);
+  const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
   const dispatch = useDispatch();
 
   const cancelSubscription = () => {
@@ -86,9 +88,15 @@ const SubscriptionManager = () => {
         <SubscriptionCoupon />
         {!creatingSubscription && (
           <div>
-            <Button onClick={() => setCreatingSubscription(true)}>
-              Upgrade to Elite
-            </Button>
+            {hasQuestradeConnection ? (
+              <Button onClick={() => dispatch(push('/app/questrade-offer'))}>
+                Upgrade Now
+              </Button>
+            ) : (
+              <Button onClick={() => setCreatingSubscription(true)}>
+                Upgrade to Elite
+              </Button>
+            )}
           </div>
         )}
       </div>
@@ -114,12 +122,6 @@ const SubscriptionManager = () => {
           )}
         </PaymentContainer>
       )}
-    </div>
-  );
-
-  let feedbackForm = (
-    <div>
-      <Button onClick={() => dispatch(push('/app/help'))}>Give Feedback</Button>
     </div>
   );
 
@@ -164,18 +166,7 @@ const SubscriptionManager = () => {
           <P>
             You are using the free <strong>Community Edition</strong> of Passiv.
           </P>
-          {subscription.permissions.length > 0 ? (
-            <React.Fragment>
-              <P>
-                Your account has been granted{' '}
-                <strong>Trial Access to Passiv Elite</strong>! We appreciate any
-                feedback you send our way.
-              </P>
-              {feedbackForm}
-            </React.Fragment>
-          ) : (
-            upgradeForm
-          )}
+          {upgradeForm}
         </div>
       );
     } else if (subscription.type === 'paid') {

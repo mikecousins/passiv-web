@@ -62,6 +62,21 @@ export const selectFeatures = createSelector(selectFeaturesRaw, rawFeatures => {
   return null;
 });
 
+export const selectFeaturesNeedData = createSelector(
+  selectLoggedIn,
+  selectFeaturesRaw,
+  selectAppTime,
+  (loggedIn, rawFeatures, time) => {
+    if (!loggedIn) {
+      return false;
+    }
+    return shouldUpdate(rawFeatures, {
+      staleTime: ms.minutes(30),
+      now: time,
+    });
+  },
+);
+
 export const selectConnectPlaidFeature = createSelector(
   selectFeatures,
   features => {
@@ -165,6 +180,17 @@ export const selectAuthorizations = createSelector(
   rawAuthorizations => {
     if (rawAuthorizations.data) {
       return rawAuthorizations.data;
+    }
+  },
+);
+
+export const selectHasQuestradeConnection = createSelector(
+  selectAuthorizations,
+  authorizations => {
+    if (authorizations) {
+      return authorizations.some(a => a.brokerage.name === 'Questrade');
+    } else {
+      return false;
     }
   },
 );

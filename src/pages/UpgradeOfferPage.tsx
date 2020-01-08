@@ -17,6 +17,16 @@ import { Error } from '../types/groupInfo';
 import { Button } from '../styled/Button';
 import { push } from 'connected-react-router';
 
+const ModifiedShadowBox = styled(ShadowBox)`
+  margin-bottom: 10px;
+  position: relative;
+  padding-top: 20px;
+  @media (max-width: 900px) {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+`;
+
 const Bold = styled.span`
   font-weight: 600;
 `;
@@ -26,9 +36,9 @@ const ShareBox = styled.div`
 `;
 
 const ShareItem = styled.a`
-  padding: 20px;
+  padding: 20px 40px 10px 0;
   text-align: center;
-  color: #2a2d34;
+  color: #fff;
   :hover,
   :visited,
   :link,
@@ -44,7 +54,8 @@ const ShareIcon = styled.div`
 const ShareText = styled.div`
   padding-top: 5px;
   padding-bottom: 20px;
-  font-size: 1.2em;
+  font-weight: 900;
+  font-size: 1em;
 `;
 
 const AButtonBox = styled.div`
@@ -55,12 +66,13 @@ const AButtonBox = styled.div`
   margin-bottom: 20px;
 `;
 
-const shareURL = 'https://getpassiv.com/questrade/';
+const shareURL = 'https://getpassiv.com/app/questrade-offer';
 
-const shareTwitterCopy = `Questrade is giving away Passiv Elite subscriptions for FREE! Now it's easier than ever to manage your own investments. Check it out here: ${shareURL}`;
+const shareTwitterCopy = `Questrade is giving away Passiv Elite subscriptions for FREE! Now it's easier than ever to manage your own investments. Go here to open a Passiv account: ${shareURL}`;
 
-const shareEmailSubjectCopy = 'Questrade is giving away Passiv Elite for free!';
-const shareEmailBodyCopy = `Hey, I just found out that Questrade has a promotion where they're giving away Passiv Elite subscriptions. It's usually $79/year, but it's free until December 31.%0A%0ACheck it out here: ${shareURL}`;
+const shareEmailSubjectCopy =
+  'Questrade%20is%20giving%20away%20Passiv%20Elite%20for%20free!';
+const shareEmailBodyCopy = `Hey%2C%20I%20just%20found%20out%20that%20Questrade%20has%20a%20promotion%20where%20they%27re%20giving%20away%20Passiv%20Elite%20subscriptions.%20It%27s%20usually%20%2479%2Fyear%2C%20but%20they%27re%20offering%20it%20free%20for%20now!%0A%0AYou%20can%20claim%20the%20offer%20here%3A%20${shareURL}`;
 
 const shareFacebookLink = `${shareURL}`;
 
@@ -142,11 +154,11 @@ const UpgradeOfferPage = () => {
             </Button>
             <AButtonBox>
               <P>
-                Don't have a Questrade account yet? Open one by December 31,
-                2019 using this link and you'll be eligible to claim this offer!
+                Don't have a Questrade account yet? Open one using this link and
+                you'll be eligible to claim this offer!
               </P>
               <AButton
-                href="https://www.questrade.com/account-selection?oaa_promo=bgudhqhm"
+                href="https://www.questrade.com/account-selection?oaa_promo=passiv"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -164,9 +176,9 @@ const UpgradeOfferPage = () => {
               not already have a Passiv Elite subscription.
             </P>
             <P>
-              You can still spread the holiday cheer by telling your friends
-              about this offer. It's only available until December 31, so share
-              now!
+              You can still spread the good news by telling your friends about
+              this offer. Share this link using Twitter, Facebook, email, or
+              whatever you prefer!
             </P>
             {shareBox}
             <Button onClick={() => dispatch(push('/app/dashboard'))}>
@@ -189,28 +201,26 @@ const UpgradeOfferPage = () => {
 
   if (success) {
     return (
-      <ShadowBox background="#2a2d34">
-        <H1 color="white">Questrade Holiday Offer</H1>
-        <ShadowBox>
-          <P>
-            You're good to go! Questrade has given you <Bold>free</Bold> access
-            to Passiv Elite for one year.
-          </P>
-          <P>
-            Spread the holiday cheer and tell your friends about this offer.
-            It's only available until December 31, so share now!
-          </P>
-          {shareBox}
-          <Button onClick={() => dispatch(push('/app/dashboard'))}>
-            Go to Dashboard
-          </Button>
-        </ShadowBox>
-      </ShadowBox>
+      <ModifiedShadowBox background="#04a287">
+        <H1>Questrade Elite Upgrade</H1>
+        <P>
+          You're good to go! Questrade has given you <Bold>free</Bold> access to
+          Passiv Elite for one year.
+        </P>
+        <P>
+          Spread the good news and tell your friends about this offer. Share
+          this link using Twitter, Facebook, email, or whatever you prefer!
+        </P>
+        {shareBox}
+        <Button onClick={() => dispatch(push('/app/dashboard'))}>
+          Go to Dashboard
+        </Button>
+      </ModifiedShadowBox>
     );
   } else {
     return (
-      <ShadowBox background="#2a2d34">
-        <H1 color="white">Questrade Holiday Offer</H1>
+      <ModifiedShadowBox background="#04a287">
+        <H1>Questrade Elite Upgrade</H1>
         {loading ? (
           <React.Fragment>
             <Step>
@@ -221,10 +231,10 @@ const UpgradeOfferPage = () => {
         ) : (
           <React.Fragment>
             <Step>Oops, we couldn't apply the offer to your account!</Step>
-            <ShadowBox>{errorMessage}</ShadowBox>
+            {errorMessage}
           </React.Fragment>
         )}
-      </ShadowBox>
+      </ModifiedShadowBox>
     );
   }
 };
