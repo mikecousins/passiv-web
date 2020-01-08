@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Formik } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 import { postData } from '../api';
 import { selectLoggedIn } from '../selectors';
@@ -56,7 +56,18 @@ const ResetPasswordPage = ({ location }: Props) => {
                     setSubmitted(true);
                   })
                   .catch(error => {
-                    toast.error('Failed to reset password');
+                    let errors: any = {};
+                    if (
+                      error.response.data &&
+                      error.response.data.errors &&
+                      error.response.data.errors.email
+                    ) {
+                      errors.email = error.response.data.errors.email.join(' ');
+                    } else {
+                      errors.email =
+                        "Oops, we've hit an unexpected error. Please try again or contact support for assistance.";
+                    }
+                    actions.setErrors(errors);
                   });
               }}
               render={({
@@ -77,9 +88,9 @@ const ResetPasswordPage = ({ location }: Props) => {
                     name="email"
                     placeholder="example@example.com"
                   />
-                  {touched.email && errors.email && (
-                    <div className="text-red">{errors.email}</div>
-                  )}
+                  <P>
+                    <ErrorMessage name="email" />
+                  </P>
                   <div>
                     <Button type="submit">Reset</Button>
                     <LoginLinks page="reset" />
