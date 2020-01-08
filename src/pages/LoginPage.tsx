@@ -21,9 +21,9 @@ const LoginPage = () => {
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string()
-            .email('Must be a valid email')
-            .required('Required'),
-          password: Yup.string().required('Required'),
+            .email('Must be a valid email.')
+            .required('An email is required.'),
+          password: Yup.string().required('A password is required.'),
         })}
         onSubmit={(values, actions) => {
           postData('/api/v1/auth/login/', {

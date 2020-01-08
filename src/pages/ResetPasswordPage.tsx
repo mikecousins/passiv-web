@@ -8,6 +8,7 @@ import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
+import * as Yup from 'yup';
 
 type Props = {
   location: any;
@@ -45,10 +46,15 @@ const ResetPasswordPage = ({ location }: Props) => {
               validate={values => {
                 let errors: any = {};
                 if (!values.email) {
-                  errors.email = 'Email is required';
+                  errors.email = 'An email is required.';
                 }
                 return errors;
               }}
+              validationSchema={Yup.object().shape({
+                email: Yup.string()
+                  .email('Must be a valid email.')
+                  .required('An email is required.'),
+              })}
               onSubmit={(values, actions) => {
                 postData('/api/v1/auth/resetPassword/', values)
                   .then(() => {
@@ -76,6 +82,7 @@ const ResetPasswordPage = ({ location }: Props) => {
                 handleChange,
                 handleBlur,
                 handleSubmit,
+                isValid,
               }) => (
                 <Form onSubmit={handleSubmit}>
                   <Label htmlFor="email">Email</Label>
@@ -92,7 +99,9 @@ const ResetPasswordPage = ({ location }: Props) => {
                     <ErrorMessage name="email" />
                   </P>
                   <div>
-                    <Button type="submit">Reset</Button>
+                    <Button type="submit" disabled={!isValid}>
+                      Reset
+                    </Button>
                     <LoginLinks page="reset" />
                   </div>
                 </Form>
