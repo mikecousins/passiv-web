@@ -100,8 +100,12 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
   };
 
   return (
-    <StyledCombobox value={value} onSelect={handleSelect}>
-      <StyledInput onChange={onChange} placeholder="Search for security..." />
+    <StyledCombobox onSelect={handleSelect}>
+      <StyledInput
+        value={value}
+        onChange={onChange}
+        placeholder="Search for security..."
+      />
       {matchingSymbols && matchingSymbols.length > 0 && (
         <StyledComboboxPopover>
           <ComboboxList>
