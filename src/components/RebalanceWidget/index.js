@@ -398,7 +398,9 @@ export class RebalanceWidget extends Component {
               </ASmall>{' '}
               just by accepting this offer.
             </PSmall>
-            <Button onClick={() => push('/app/settings')}>Upgrade Now</Button>
+            <Button onClick={() => push('/app/questrade-offer')}>
+              Upgrade Now
+            </Button>
           </DetailRow>
         </IdeaBox>
       );
