@@ -49,6 +49,12 @@ const ResetPasswordConfirmPage = () => {
                   errors.password = error.response.data.errors.password.join(
                     ' ',
                   );
+                } else if (
+                  error.response.data &&
+                  error.response.data.errors &&
+                  error.response.data.errors.token
+                ) {
+                  errors.password = error.response.data.errors.token;
                 } else {
                   errors.password =
                     "Oops, we've hit an unexpected error. Please try again or contact support for assistance.";
