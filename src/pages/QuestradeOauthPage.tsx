@@ -11,6 +11,7 @@ import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import { Step } from '../styled/SignupSteps';
 import { selectQueryTokens } from '../selectors/router';
+import { selectQuestradeOfferFeature } from '../selectors';
 import { selectIsPaid } from '../selectors/subscription';
 import { Error } from '../types/groupInfo';
 
@@ -20,6 +21,7 @@ const QuestradeOauthPage = () => {
   const [error, setError] = useState<Error>();
   const queryParams = useSelector(selectQueryTokens);
   const isPaid = useSelector(selectIsPaid);
+  const questradeOfferFeatureActive = useSelector(selectQuestradeOfferFeature);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const QuestradeOauthPage = () => {
       postData('/api/v1/brokerages/authComplete/', { token: token })
         .then(() => {
           dispatch(initialLoad());
-          if (isPaid) {
+          if (isPaid || !questradeOfferFeatureActive) {
             setTimeout(() => {
               dispatch(replace('/app/dashboard'));
             }, 1000);

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
-import { selectSubscription } from '../selectors/subscription';
-import { selectHasQuestradeConnection } from '../selectors';
+import {
+  selectSubscription,
+  selectShowQuestradeOffer,
+} from '../selectors/subscription';
 import { Button } from '../styled/Button';
 import { Elements } from 'react-stripe-elements';
 import InjectedCheckoutForm from './CheckoutForm';
@@ -63,7 +65,7 @@ const SubscriptionManager = () => {
   const [cancellingSubscription, setCancellingSubscription] = useState(false);
 
   const subscription = useSelector(selectSubscription);
-  const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
+  const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
   const dispatch = useDispatch();
 
   const cancelSubscription = () => {
@@ -88,7 +90,7 @@ const SubscriptionManager = () => {
         <SubscriptionCoupon />
         {!creatingSubscription && (
           <div>
-            {hasQuestradeConnection ? (
+            {showQuestradeOffer ? (
               <Button onClick={() => dispatch(push('/app/questrade-offer'))}>
                 Upgrade Now
               </Button>

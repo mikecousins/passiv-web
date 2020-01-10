@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectPlans } from '../selectors';
-import { selectHasQuestradeConnection } from '../selectors';
+import { selectShowQuestradeOffer } from '../selectors/subscription';
 import { H3, P, UL, A } from '../styled/GlobalElements';
 import Number from './Number';
 import styled from '@emotion/styled';
@@ -25,13 +25,13 @@ const AWhite = styled(A)`
 
 const SubscriptionPlans = () => {
   const plans = useSelector(selectPlans);
-  const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
+  const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
   if (!plans || !plans[0]) {
     return null;
   }
   return (
     <React.Fragment>
-      {hasQuestradeConnection ? (
+      {showQuestradeOffer ? (
         <React.Fragment>
           <H3White>Congratulations!</H3White>
           <P>

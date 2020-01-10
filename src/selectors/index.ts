@@ -77,20 +77,25 @@ export const selectFeaturesNeedData = createSelector(
   },
 );
 
-export const selectConnectPlaidFeature = createSelector(
-  selectFeatures,
-  features => {
+const createFeatureSelector = (flagName: string) => {
+  return createSelector(selectFeatures, features => {
     let hasFeature = false;
     if (features != null) {
       features.map(feature => {
-        if (feature === 'connect_plaid') {
+        if (feature === flagName) {
           hasFeature = true;
         }
         return null;
       });
     }
     return hasFeature;
-  },
+  });
+};
+
+export const selectConnectPlaidFeature = createFeatureSelector('connect_plaid');
+
+export const selectQuestradeOfferFeature = createFeatureSelector(
+  'questrade_offer',
 );
 
 export const selectCurrencies = createSelector<

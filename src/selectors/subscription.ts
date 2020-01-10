@@ -1,6 +1,12 @@
 import { createSelector } from 'reselect';
 import ms from 'milliseconds';
-import { selectLoggedIn, selectAppTime } from './index';
+import {
+  selectLoggedIn,
+  selectAppTime,
+  selectQuestradeOfferFeature,
+  selectHasQuestradeConnection,
+  selectIsDemo,
+} from './index';
 import shouldUpdate from '../reactors/should-update';
 import { AppState } from '../store';
 
@@ -141,5 +147,24 @@ export const selectCanUseAPI = createSelector(
       return false;
     }
     return permissions.some(permission => permission === 'can_use_api');
+  },
+);
+
+export const selectShowQuestradeOffer = createSelector(
+  selectQuestradeOfferFeature,
+  selectHasQuestradeConnection,
+  selectIsDemo,
+  selectIsPaid,
+  (questradeOfferFeatureActive, hasQuestradeConnection, isDemo, isPaid) => {
+    let showOffer = false;
+    if (
+      !isDemo &&
+      !isPaid &&
+      questradeOfferFeatureActive &&
+      hasQuestradeConnection
+    ) {
+      showOffer = true;
+    }
+    return showOffer;
   },
 );
