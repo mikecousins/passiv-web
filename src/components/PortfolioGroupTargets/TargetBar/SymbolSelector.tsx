@@ -9,6 +9,8 @@ import {
 } from '@reach/combobox';
 import '@reach/combobox/styles.css';
 import { useSelector, useDispatch } from 'react-redux';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { selectCurrentGroupId } from '../../../selectors/groups';
 import { postData } from '../../../api';
 import { loadGroup } from '../../../actions';
@@ -64,16 +66,20 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
   const dispatch = useDispatch();
   const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
   const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const loadOptions = () => {
+    setLoading(true);
     postData(`/api/v1/portfolioGroups/${groupId}/symbols`, {
       substring: input,
     })
       .then(response => {
         setMatchingSymbols(response.data);
+        setLoading(false);
       })
       .catch(() => {
         dispatch(loadGroup({ ids: [groupId] }));
+        setLoading(false);
       });
   };
 
@@ -106,19 +112,28 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
         onChange={onChange}
         placeholder="Search for security..."
       />
-      {matchingSymbols && matchingSymbols.length > 0 && (
+      {loading ? (
         <StyledComboboxPopover>
           <ComboboxList>
-            {matchingSymbols.map((option: any, index) => {
-              const str = `${option.symbol} (${option.description})`;
-              return (
-                <ComboboxOption key={index} value={option.id}>
-                  {str}
-                </ComboboxOption>
-              );
-            })}
+            <FontAwesomeIcon icon={faSpinner} spin />
           </ComboboxList>
         </StyledComboboxPopover>
+      ) : (
+        matchingSymbols &&
+        matchingSymbols.length > 0 && (
+          <StyledComboboxPopover>
+            <ComboboxList>
+              {matchingSymbols.map((option: any, index) => {
+                const str = `${option.symbol} (${option.description})`;
+                return (
+                  <ComboboxOption key={index} value={option.id}>
+                    {str}
+                  </ComboboxOption>
+                );
+              })}
+            </ComboboxList>
+          </StyledComboboxPopover>
+        )
       )}
     </StyledCombobox>
   );
