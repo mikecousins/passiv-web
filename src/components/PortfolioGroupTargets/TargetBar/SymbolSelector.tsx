@@ -39,6 +39,10 @@ const StyledComboboxPopover = styled(ComboboxPopover)`
   z-index: 5;
 `;
 
+const StyledComboboxOption = styled(ComboboxOption)`
+  margin: 5px;
+`;
+
 type Props = {
   value: any;
   onSelect: (symbol: any) => void;
@@ -124,11 +128,12 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
           <StyledComboboxPopover>
             <ComboboxList>
               {matchingSymbols.map((option: any, index) => {
-                const str = `${option.symbol} (${option.description})`;
                 return (
-                  <ComboboxOption key={index} value={option.id}>
-                    {str}
-                  </ComboboxOption>
+                  <StyledComboboxOption key={index} value={option.id}>
+                    <span>
+                      {option.symbol} ({option.description})
+                    </span>
+                  </StyledComboboxOption>
                 );
               })}
             </ComboboxList>
