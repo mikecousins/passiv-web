@@ -172,7 +172,7 @@ const QuestradeOauthPage = () => {
                   >
                     Multi-account portfolios
                   </A>{' '}
-                  - combine multiple accounts into a single target portfolio
+                  - combine accounts into a single target portfolio
                 </li>
                 <li>
                   <A
