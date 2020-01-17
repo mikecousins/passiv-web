@@ -138,6 +138,18 @@ export const selectSettings = createSelector(selectSettingsRaw, rawSettings => {
   }
 });
 
+export const select2FAEnabled = createSelector(selectSettings, settings => {
+  if (settings) {
+    return settings.sms_2fa_enabled;
+  }
+});
+
+export const selectPhoneNumber = createSelector(selectSettings, settings => {
+  if (settings) {
+    return settings.phone_number;
+  }
+});
+
 export const selectIsDemo = createSelector(selectSettings, settings => {
   if (settings) {
     return settings.demo;

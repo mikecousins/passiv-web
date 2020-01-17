@@ -24,8 +24,8 @@ import ShadowBox from '../styled/ShadowBox';
 import CreditCardDetails from './CreditCardDetails';
 
 const SubscriptionContainer = styled.div`
-  transform: translateY(-50%);
-  top: 50%;
+  // transform: translateY(-50%);
+  // top: 50%;
   position: relative;
   padding-left: 18px;
   color: #fff;
