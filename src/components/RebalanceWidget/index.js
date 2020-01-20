@@ -333,6 +333,21 @@ export class RebalanceWidget extends Component {
             </OrderContainer>
           );
           break;
+        case '1042':
+          error = (
+            <OrderContainer>
+              <H2>Order cannot be Processed</H2>
+              <P>
+                We're sorry, we can't place your order at the moment. Trading
+                functionality has been temporarily disabled while we address an
+                issue with international holiday handling. If you need to place
+                orders immediately, you can still do so at your brokerage.
+              </P>
+              <P>Thanks for your patience!</P>
+              <Button onClick={() => this.closeWidget()}>Okay</Button>
+            </OrderContainer>
+          );
+          break;
         case '0000':
           error = (
             <OrderContainer>
