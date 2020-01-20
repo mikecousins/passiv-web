@@ -11,8 +11,6 @@ import {
 import { loadSettings } from '../actions';
 import { postData, putData, deleteData } from '../api';
 
-import CashNotifcationSettings from './CashNotificationSettings';
-import DriftNotifcationSettings from './DriftNotificationSettings';
 import APIAccessSettings from './APIAccessSettings';
 
 import styled from '@emotion/styled';
