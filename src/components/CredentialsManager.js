@@ -67,6 +67,8 @@ export class CredentialsManager extends React.Component {
     email: this.props.settings && this.props.settings.email,
     candidatePhoneNumber: '',
     verificationCode: '',
+    state2FA: null,
+    phoneNumber2FA: null,
     editing2FA: false,
     confirming2FA: false,
     error2FA: null,
@@ -92,6 +94,9 @@ export class CredentialsManager extends React.Component {
       editing2FA: true,
       candidatePhoneNumber: '',
       verificationCode: '',
+      error2FA: null,
+      state2FA: null,
+      phoneNumber2FA: null,
     });
   }
 
@@ -103,27 +108,37 @@ export class CredentialsManager extends React.Component {
       verificationCode: '',
       error2FA: null,
       loading2FA: false,
+      state2FA: null,
+      phoneNumber2FA: null,
     });
   }
 
   verifyPhoneNumber() {
-    this.setState({ loading2FA: true });
+    this.setState({ loading2FA: true, error2FA: null });
     postData('/api/v1/auth/sms/', { phone: this.state.phoneNumber })
       .then(response => {
-        this.setState({ confirming2FA: true, loading2FA: false });
+        this.setState({
+          confirming2FA: true,
+          loading2FA: false,
+          state2FA: response.data.mfa_required.state,
+          phoneNumber2FA: response.data.mfa_required.phone_number,
+        });
       })
       .catch(error => {
         console.log('error', error);
         this.setState({
-          error2FA: error.response.data.detail,
+          error2FA: error.response && error.response.data.detail,
           loading2FA: false,
         });
       });
   }
 
   submitCode() {
-    this.setState({ loading2FA: true });
-    postData('/api/v1/auth/smsVerify/', { code: this.state.verificationCode })
+    this.setState({ loading2FA: true, error2FA: null });
+    postData('/api/v1/auth/smsVerify/', {
+      token: this.state.verificationCode,
+      state: this.state.state2FA,
+    })
       .then(response => {
         this.props.refreshSettings();
         this.cancelEditing2FA();
