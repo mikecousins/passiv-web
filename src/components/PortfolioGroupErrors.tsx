@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { ErrorContainer, Symbol } from '../styled/Group';
-import { H3, P, Table } from '../styled/GlobalElements';
+import { H3, P, Table, A } from '../styled/GlobalElements';
 import { Error } from '../types/groupInfo';
 
 const Ticker = styled.div`
@@ -84,6 +84,36 @@ const PortfolioGroupErrors = ({ error }: Props) => {
           </React.Fragment>
         );
         break;
+      case '3001':
+        errorDisplay = (
+          <React.Fragment>
+            <P>
+              Your brokerage's API is currently undergoing maintenance and we
+              cannot pull your account information. Please try again later or{' '}
+              <Link to="/app/help">contact support</Link> if this persists.
+            </P>
+          </React.Fragment>
+        );
+        break;
+      case '3002':
+        errorDisplay = (
+          <React.Fragment>
+            <P>
+              We are having issues connecting to your brokerage account. This is
+              most likely a temporary issue, but if it persists you may need to{' '}
+              <A
+                href="https://getpassiv.com/help/tutorials/brokerage-connections/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                reconnect your brokerage account
+              </A>
+              . Alternatively, you can always{' '}
+              <Link to="/app/help">contact support</Link>.
+            </P>
+          </React.Fragment>
+        );
+        break;
       default:
         errorDisplay = (
           <P>
@@ -99,7 +129,7 @@ const PortfolioGroupErrors = ({ error }: Props) => {
   return (
     <ErrorContainer>
       <H3>
-        <FontAwesomeIcon icon={faExclamationTriangle} /> Something Went Wrong!{' '}
+        <FontAwesomeIcon icon={faExclamationTriangle} /> Something went wrong!{' '}
         {errorDisplay}
       </H3>
     </ErrorContainer>

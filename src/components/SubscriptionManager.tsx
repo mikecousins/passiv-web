@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
-import { selectSubscription } from '../selectors/subscription';
+import {
+  selectSubscription,
+  selectShowQuestradeOffer,
+} from '../selectors/subscription';
 import { Button } from '../styled/Button';
 import { Elements } from 'react-stripe-elements';
 import InjectedCheckoutForm from './CheckoutForm';
@@ -62,6 +65,7 @@ const SubscriptionManager = () => {
   const [cancellingSubscription, setCancellingSubscription] = useState(false);
 
   const subscription = useSelector(selectSubscription);
+  const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
   const dispatch = useDispatch();
 
   const cancelSubscription = () => {
@@ -86,9 +90,15 @@ const SubscriptionManager = () => {
         <SubscriptionCoupon />
         {!creatingSubscription && (
           <div>
-            <Button onClick={() => setCreatingSubscription(true)}>
-              Upgrade to Elite
-            </Button>
+            {showQuestradeOffer ? (
+              <Button onClick={() => dispatch(push('/app/questrade-offer'))}>
+                Upgrade Now
+              </Button>
+            ) : (
+              <Button onClick={() => setCreatingSubscription(true)}>
+                Upgrade to Elite
+              </Button>
+            )}
           </div>
         )}
       </div>
@@ -117,31 +127,48 @@ const SubscriptionManager = () => {
     </div>
   );
 
-  let feedbackForm = (
-    <div>
-      <Button onClick={() => dispatch(push('/app/help'))}>Give Feedback</Button>
-    </div>
-  );
-
   if (subscription) {
+    var cardMessage = null;
+    switch (subscription.cardState) {
+      case 'NONE':
+        cardMessage = (
+          <P>
+            There is no credit card linked to your account. To keep your
+            subscription active past the renewal date, please update your card.
+          </P>
+        );
+        break;
+      case 'VALID':
+        cardMessage = (
+          <CreditCardDetails
+            cardState={subscription.cardState}
+            cardDetails={subscription.cardDetails}
+          />
+        );
+        break;
+      case 'UPDATE':
+        cardMessage = (
+          <React.Fragment>
+            <P>
+              The credit card linked to your account is no longer valid. Please
+              update your card to avoid service interruption.
+            </P>
+            <CreditCardDetails
+              cardState={subscription.cardState}
+              cardDetails={subscription.cardDetails}
+            />
+          </React.Fragment>
+        );
+        break;
+    }
+
     if (subscription.type === 'free') {
       subscriptionBody = (
         <div>
           <P>
             You are using the free <strong>Community Edition</strong> of Passiv.
           </P>
-          {subscription.permissions.length > 0 ? (
-            <React.Fragment>
-              <P>
-                Your account has been granted{' '}
-                <strong>Trial Access to Passiv Elite</strong>! We appreciate any
-                feedback you send our way.
-              </P>
-              {feedbackForm}
-            </React.Fragment>
-          ) : (
-            upgradeForm
-          )}
+          {upgradeForm}
         </div>
       );
     } else if (subscription.type === 'paid') {
@@ -182,8 +209,9 @@ const SubscriptionManager = () => {
           ) : (
             <React.Fragment>
               <P>
-                You are subscribed to the {subscription.details.period} Elite
-                plan.
+                You are subscribed to the{' '}
+                {subscription.details.period === 'year' ? 'annual' : 'monthly'}{' '}
+                Elite plan.
               </P>
 
               {subscription.details.canceled ? (
@@ -211,10 +239,7 @@ const SubscriptionManager = () => {
                     )}
                     .
                   </P>
-                  <CreditCardDetails
-                    cardState={subscription.cardState}
-                    cardDetails={subscription.cardDetails}
-                  />
+                  {cardMessage}
                   <Button onClick={() => setUpdatingPayment(true)}>
                     Update Card
                   </Button>

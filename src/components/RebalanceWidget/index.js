@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faClock } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSpinner,
+  faClock,
+  faLightbulb,
+} from '@fortawesome/free-solid-svg-icons';
 import { push } from 'connected-react-router';
 import styled from '@emotion/styled';
 import { loadGroupAndAccounts } from '../../actions';
@@ -17,9 +21,13 @@ import {
   selectDashboardGroups,
   selectPreferredCurrency,
 } from '../../selectors/groups';
-import { selectCanPlaceOrders } from '../../selectors/subscription';
+import {
+  selectCanPlaceOrders,
+  selectShowQuestradeOffer,
+} from '../../selectors/subscription';
 import { Button } from '../../styled/Button';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
+import ShadowBox from '../../styled/ShadowBox';
 import ConnectionUpdate from '../ConnectionUpdate';
 import {
   TradeRow,
@@ -60,6 +68,45 @@ const ConfirmContainer = styled.div`
 
 const ModifiedTradeRow = styled(TradeRow)`
   margin-bottom: 10px;
+`;
+
+const IdeaBox = styled(ShadowBox)`
+  color: var(--brand-grey);
+  width: 100%;
+`;
+
+const IdeaRow = styled.div`
+  display: flex;
+`;
+
+const DetailRow = styled.div`
+  padding-top: 20px;
+`;
+
+const IconBox = styled.div`
+  font-size: 4em;
+`;
+
+const CopyBox = styled.div`
+  padding-top: 18px;
+  padding-left: 30px;
+`;
+
+const PSmall = styled(P)`
+  font-size: 16px;
+`;
+
+const ASmall = styled(A)`
+  font-size: 16px;
+`;
+
+const ErrorDetail = styled(P)`
+  padding-left: 20px;
+`;
+
+const ErrorAttributeSpan = styled.span`
+  font-weight: 600;
+  padding-right: 10px;
 `;
 
 export class RebalanceWidget extends Component {
@@ -198,7 +245,7 @@ export class RebalanceWidget extends Component {
   };
 
   render() {
-    const { push } = this.props;
+    const { push, showQuestradeOffer } = this.props;
     let error = null;
     if (this.state.error) {
       switch (this.state.error.code) {
@@ -232,14 +279,18 @@ export class RebalanceWidget extends Component {
               <H2>
                 <FontAwesomeIcon icon={faClock} /> Markets are Closed
               </H2>
-              <P>
-                Passiv is unable to proceed with the orders because markets are
-                currently closed. Note that you may see this message up to 10
-                minutes after markets open at the beginning of a trading day as
-                a precaution against price volatility. Please{' '}
-                <Link to="/app/help">contact support</Link> if this message
-                persists while markets are open.
-              </P>
+              <P>{this.state.error.detail}</P>
+              <ErrorDetail>
+                <ErrorAttributeSpan>Exchange:</ErrorAttributeSpan>
+                <span>
+                  {this.state.error.meta.exchange.code} (
+                  {this.state.error.meta.exchange.name})
+                </span>
+              </ErrorDetail>
+              <ErrorDetail>
+                <ErrorAttributeSpan>Reason:</ErrorAttributeSpan>
+                <span>{this.state.error.meta.reason}</span>
+              </ErrorDetail>
               <ConfirmContainer>
                 <Button
                   onClick={() => {
@@ -295,6 +346,21 @@ export class RebalanceWidget extends Component {
             </OrderContainer>
           );
           break;
+        case '1042':
+          error = (
+            <OrderContainer>
+              <H2>Order cannot be Processed</H2>
+              <P>
+                We're sorry, we can't place your order at the moment. Trading
+                functionality has been temporarily disabled while we address an
+                issue with international holiday handling. If you need to place
+                orders immediately, you can still do so at your brokerage.
+              </P>
+              <P>Thanks for your patience!</P>
+              <Button onClick={() => this.closeWidget()}>Okay</Button>
+            </OrderContainer>
+          );
+          break;
         case '0000':
           error = (
             <OrderContainer>
@@ -332,6 +398,41 @@ export class RebalanceWidget extends Component {
     let orderValidation = (
       <Button onClick={this.validateOrders}>Prepare Orders</Button>
     );
+    if (showQuestradeOffer) {
+      orderValidation = (
+        <IdeaBox>
+          <IdeaRow>
+            <IconBox>
+              <FontAwesomeIcon icon={faLightbulb} />
+            </IconBox>
+            <CopyBox>
+              <P>
+                Did you know that your account is eligible for a{' '}
+                <strong>free</strong> upgrade to Passiv Elite?
+              </P>
+            </CopyBox>
+          </IdeaRow>
+
+          <DetailRow>
+            <PSmall>
+              Questrade is offering free subscriptions for one year, with no
+              commitment on your part. We don't even need your credit card!
+            </PSmall>
+            <PSmall>
+              After upgrading, you'll be able to place all your trades through
+              Passiv in a single click. You can access{' '}
+              <ASmall href="/pricing" target="_blank" rel="noopener noreferrer">
+                all features
+              </ASmall>{' '}
+              just by accepting this offer.
+            </PSmall>
+            <Button onClick={() => push('/app/questrade-offer')}>
+              Upgrade Now
+            </Button>
+          </DetailRow>
+        </IdeaBox>
+      );
+    }
     if (this.state.error) {
       orderValidation = error;
     } else {
@@ -485,9 +586,7 @@ const select = state => ({
   rates: selectCurrencyRates(state),
   currencies: selectCurrencies(state),
   preferredCurrency: selectPreferredCurrency(state),
+  showQuestradeOffer: selectShowQuestradeOffer(state),
 });
 
-export default connect(
-  select,
-  actions,
-)(RebalanceWidget);
+export default connect(select, actions)(RebalanceWidget);

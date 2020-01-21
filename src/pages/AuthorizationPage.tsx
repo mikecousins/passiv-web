@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import React from 'react';
+import React, { useState } from 'react';
 import { push } from 'connected-react-router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,6 +9,8 @@ import {
   selectAuthorizations,
 } from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
+import { selectConnectPlaidFeature } from '../selectors';
+import PlaidConnection from '../components/PlaidConnection';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { P } from '../styled/GlobalElements';
@@ -46,6 +48,8 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const brokerages = useSelector(selectBrokerages);
   const userPermissions = useSelector(selectUserPermissions);
   const authorizations = useSelector(selectAuthorizations);
+  const connectPlaidFeature = useSelector(selectConnectPlaidFeature);
+  const [loading, setLoading] = useState(false);
   const { brokerage } = useParams();
   const dispatch = useDispatch();
 
@@ -88,7 +92,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           });
         }
       },
-      openURL: 'https://www.questrade.com/account-selection?oaa_promo=bgudhqhm',
+      openURL: 'https://www.questrade.com/account-selection?oaa_promo=passiv',
       major: true,
       logo: QuestradeLogo,
       description: (
@@ -125,28 +129,28 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         </P>
       ),
     },
-    {
-      id: 'interactivebrokers',
-      name: 'Interactive Brokers',
-      connect: () => {
-        const brokerage =
-          brokerages &&
-          brokerages.find(
-            brokerage => brokerage.name === 'Interactive Brokers',
-          );
-        if (brokerage) {
-          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
-            type: 'trade',
-          }).then(response => {
-            window.location = response.data.url;
-          });
-        }
-      },
-      openURL: 'https://www.interactivebrokers.com/en/home.php',
-      major: true,
-      logo: null,
-      description: <P>IB is great.</P>,
-    },
+    // {
+    //   id: 'interactivebrokers',
+    //   name: 'IBKR',
+    //   connect: () => {
+    //     const brokerage =
+    //       brokerages &&
+    //       brokerages.find(
+    //         brokerage => brokerage.name === 'Interactive Brokers',
+    //       );
+    //     if (brokerage) {
+    //       postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+    //         type: 'trade',
+    //       }).then(response => {
+    //         window.location = response.data.url;
+    //       });
+    //     }
+    //   },
+    //   openURL: 'https://www.interactivebrokers.com/en/home.php',
+    //   major: true,
+    //   logo: InteractiveBrokersLogo,
+    //   description: <P>IB is great.</P>,
+    // },
   ];
 
   if (authorized === undefined || !brokerages) {
@@ -162,16 +166,23 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         your brokerage account. Connecting your account does not allow Passiv to
         see your login information.
       </AuthP>
-      <Container2Column>
-        {brokerageOptions.map((brokerage: any) => (
-          <AuthBox key={brokerage.id} onClick={brokerage.connect}>
-            <LogoContainer>
-              <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
-            </LogoContainer>
-            <AuthLink>Connect {brokerage.name}</AuthLink>
-          </AuthBox>
-        ))}
-      </Container2Column>
+      {loading ? (
+        <H2DarkStyle>Establishing brokerage connection...</H2DarkStyle>
+      ) : (
+        <React.Fragment>
+          <Container2Column>
+            {brokerageOptions.map((brokerage: any) => (
+              <AuthBox key={brokerage.id} onClick={brokerage.connect}>
+                <LogoContainer>
+                  <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                </LogoContainer>
+                <AuthLink>Connect {brokerage.name}</AuthLink>
+              </AuthBox>
+            ))}
+          </Container2Column>
+          {connectPlaidFeature && <PlaidConnection setLoading={setLoading} />}
+        </React.Fragment>
+      )}
     </React.Fragment>
   );
 

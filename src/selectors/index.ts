@@ -48,10 +48,55 @@ export const selectTokenIsExpired = createSelector(
 
 export const selectCurrenciesRaw = (state: AppState) => state.currencies;
 
+export const selectFeaturesRaw = (state: AppState) => state.features;
+
 export const selectBrokeragesRaw = (state: AppState) => state.brokerages;
 
 export const selectAuthorizationsRaw = (state: AppState) =>
   state.authorizations;
+
+export const selectFeatures = createSelector(selectFeaturesRaw, rawFeatures => {
+  if (rawFeatures.data) {
+    return rawFeatures.data.map(feature => feature.name);
+  }
+  return null;
+});
+
+export const selectFeaturesNeedData = createSelector(
+  selectLoggedIn,
+  selectFeaturesRaw,
+  selectAppTime,
+  (loggedIn, rawFeatures, time) => {
+    if (!loggedIn) {
+      return false;
+    }
+    return shouldUpdate(rawFeatures, {
+      staleTime: ms.minutes(30),
+      now: time,
+    });
+  },
+);
+
+const createFeatureSelector = (flagName: string) => {
+  return createSelector(selectFeatures, features => {
+    let hasFeature = false;
+    if (features != null) {
+      features.map(feature => {
+        if (feature === flagName) {
+          hasFeature = true;
+        }
+        return null;
+      });
+    }
+    return hasFeature;
+  });
+};
+
+export const selectConnectPlaidFeature = createFeatureSelector('connect_plaid');
+
+export const selectQuestradeOfferFeature = createFeatureSelector(
+  'questrade_offer',
+);
 
 export const selectCurrencies = createSelector<
   AppState,
@@ -140,6 +185,17 @@ export const selectAuthorizations = createSelector(
   rawAuthorizations => {
     if (rawAuthorizations.data) {
       return rawAuthorizations.data;
+    }
+  },
+);
+
+export const selectHasQuestradeConnection = createSelector(
+  selectAuthorizations,
+  authorizations => {
+    if (authorizations) {
+      return authorizations.some(a => a.brokerage.name === 'Questrade');
+    } else {
+      return false;
     }
   },
 );
@@ -287,6 +343,49 @@ export const selectIsAuthorized = createSelector(
       return true;
     }
     return false;
+  },
+);
+
+export const selectShowInsecureApp = createSelector(
+  selectLoggedIn,
+  loggedIn => {
+    return loggedIn === false;
+  },
+);
+
+export const selectShowOnboardingApp = createSelector(
+  selectShowInsecureApp,
+  selectIsAuthorized,
+  (showInsecureApp, isAuthorized) => {
+    if (showInsecureApp) {
+      return false;
+    }
+    return !isAuthorized;
+  },
+);
+
+export const selectShowSecureApp = createSelector(
+  selectShowInsecureApp,
+  selectShowOnboardingApp,
+  (showInsecureApp, showOnboardingApp) => {
+    if (showInsecureApp || showOnboardingApp) {
+      return false;
+    }
+    return true;
+  },
+);
+
+export const selectOnboardingPage = createSelector(
+  selectShowOnboardingApp,
+  selectIsAuthorized,
+  (showOnboardingApp, isAuthorized) => {
+    if (!showOnboardingApp) {
+      return undefined;
+    }
+    if (!isAuthorized) {
+      return 'authorization';
+    }
+    return 'other';
   },
 );
 
