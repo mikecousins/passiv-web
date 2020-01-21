@@ -100,6 +100,15 @@ const ASmall = styled(A)`
   font-size: 16px;
 `;
 
+const ErrorDetail = styled(P)`
+  padding-left: 20px;
+`;
+
+const ErrorAttributeSpan = styled.span`
+  font-weight: 600;
+  padding-right: 10px;
+`;
+
 export class RebalanceWidget extends Component {
   state = {
     validatingOrders: false,
@@ -270,14 +279,18 @@ export class RebalanceWidget extends Component {
               <H2>
                 <FontAwesomeIcon icon={faClock} /> Markets are Closed
               </H2>
-              <P>
-                Passiv is unable to proceed with the orders because markets are
-                currently closed. Note that you may see this message up to 10
-                minutes after markets open at the beginning of a trading day as
-                a precaution against price volatility. Please{' '}
-                <Link to="/app/help">contact support</Link> if this message
-                persists while markets are open.
-              </P>
+              <P>{this.state.error.detail}</P>
+              <ErrorDetail>
+                <ErrorAttributeSpan>Exchange:</ErrorAttributeSpan>
+                <span>
+                  {this.state.error.meta.exchange.code} (
+                  {this.state.error.meta.exchange.name})
+                </span>
+              </ErrorDetail>
+              <ErrorDetail>
+                <ErrorAttributeSpan>Reason:</ErrorAttributeSpan>
+                <span>{this.state.error.meta.reason}</span>
+              </ErrorDetail>
               <ConfirmContainer>
                 <Button
                   onClick={() => {
@@ -329,6 +342,21 @@ export class RebalanceWidget extends Component {
                 <Link to="/app/help">contact support</Link> if you have any
                 questions.
               </P>
+              <Button onClick={() => this.closeWidget()}>Okay</Button>
+            </OrderContainer>
+          );
+          break;
+        case '1042':
+          error = (
+            <OrderContainer>
+              <H2>Order cannot be Processed</H2>
+              <P>
+                We're sorry, we can't place your order at the moment. Trading
+                functionality has been temporarily disabled while we address an
+                issue with international holiday handling. If you need to place
+                orders immediately, you can still do so at your brokerage.
+              </P>
+              <P>Thanks for your patience!</P>
               <Button onClick={() => this.closeWidget()}>Okay</Button>
             </OrderContainer>
           );
