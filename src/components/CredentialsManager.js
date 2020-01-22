@@ -7,6 +7,7 @@ import {
   selectIsDemo,
   selectPhoneNumber,
   select2FAEnabled,
+  selectSMS2FAFeature,
 } from '../selectors';
 import { loadSettings } from '../actions';
 import { postData, putData, deleteData } from '../api';
@@ -367,11 +368,13 @@ export class CredentialsManager extends React.Component {
               )}
             </InputContainer>
           </TextContainer>
-          <TextContainer>
-            <InputContainer>
-              <OptionsTitle>SMS 2FA:</OptionsTitle> {sms_2fa}
-            </InputContainer>
-          </TextContainer>
+          {this.props.SMS2FAFeatureEnabled && (
+            <TextContainer>
+              <InputContainer>
+                <OptionsTitle>SMS 2FA:</OptionsTitle> {sms_2fa}
+              </InputContainer>
+            </TextContainer>
+          )}
           <TextContainer>
             <InputContainer>
               <APIAccessSettings />
@@ -386,6 +389,7 @@ export class CredentialsManager extends React.Component {
 const select = state => ({
   settings: selectSettings(state),
   isDemo: selectIsDemo(state),
+  SMS2FAFeatureEnabled: selectSMS2FAFeature(state),
   is2FAEnabled: select2FAEnabled(state),
   phoneNumber: selectPhoneNumber(state),
 });

@@ -98,6 +98,8 @@ export const selectQuestradeOfferFeature = createFeatureSelector(
   'questrade_offer',
 );
 
+export const selectSMS2FAFeature = createFeatureSelector('sms_2fa');
+
 export const selectCurrencies = createSelector<
   AppState,
   SimpleState<Currency[]>,

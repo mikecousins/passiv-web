@@ -30,11 +30,9 @@ const SettingsPage = () => {
       <Container2Column>
         <div>
           <CredentialsManager />
-        </div>
-        <div>
-          {isDemo ? <DemoNotes /> : <SubscriptionManager />}
           <NotificationsManager />
         </div>
+        {isDemo ? <DemoNotes /> : <SubscriptionManager />}
       </Container2Column>
       <ConnectionsManager />
       <AccountsManager />
