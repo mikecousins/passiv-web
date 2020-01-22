@@ -13,42 +13,28 @@ type Props = {
   selectedTimeframe: Timeframe;
 };
 
-export const PerformanceRateOfReturn = (props: Props) => {
-  let example1Yp = '6.83';
-  let example1Yc = '4,745';
-  let exampleYTDp = '7.32';
-  let exampleYTDc = '5,321';
-  let example30Dp = '-0.43';
-  let example30Dc = '-842';
+export const PerformanceChange = (props: Props) => {
+  let example1Y = '4,745';
+  let exampleYTD = '5,321';
+  let example30D = '-842';
 
-  let percentReturn = example1Yp;
-  let cashReturn = example1Yc;
+  let change = example1Y;
   if (props.selectedTimeframe === Timeframe.ThirtyDays) {
-    percentReturn = example30Dp;
-    cashReturn = example30Dc;
+    change = example30D;
   } else if (props.selectedTimeframe === Timeframe.YearToDate) {
-    percentReturn = exampleYTDp;
-    cashReturn = exampleYTDc;
+    change = exampleYTD;
   }
 
-  let positive = !(percentReturn[0] === '-');
+  let positive = !(change[0] === '-');
 
   return (
     <React.Fragment>
       <MarginBottom>
-        <SubHeader>Rate of Return</SubHeader>
+        <SubHeader>Change</SubHeader>
       </MarginBottom>
       <MarginBottom>
-        <PercentReturn className={positive ? 'positive' : 'negative'}>
-          {percentReturn}%{' '}
-          {positive ? (
-            <FontAwesomeIcon icon={faCaretUp} />
-          ) : (
-            <FontAwesomeIcon icon={faCaretDown} />
-          )}
-        </PercentReturn>
         <CashReturn className={positive ? 'positive' : 'negative'}>
-          ${cashReturn}{' '}
+          ${change}{' '}
           {positive ? (
             <FontAwesomeIcon icon={faCaretUp} />
           ) : (
@@ -60,4 +46,4 @@ export const PerformanceRateOfReturn = (props: Props) => {
   );
 };
 
-export default PerformanceRateOfReturn;
+export default PerformanceChange;

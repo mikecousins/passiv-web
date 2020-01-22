@@ -7,6 +7,7 @@ import PerformanceContributions from './PerformanceContributions';
 import { Timeframe } from './Timeframe';
 import { Chart } from 'react-charts';
 import PerformanceStat from './PerformanceStat';
+import PerformanceChange from './PerformanceChange';
 
 const Header = styled.div`
   font-size: 20pt;
@@ -102,11 +103,11 @@ export const Performance = () => {
       {
         label: 'Series 1',
         data: [
-          [0, 1],
-          [1, 2],
-          [2, 4],
-          [3, 2],
-          [4, 7],
+          [new Date(2020, 1, 22), 7],
+          [new Date(2019, 12, 22), 2],
+          [new Date(2019, 11, 22), 4],
+          [new Date(2019, 10, 22), 2],
+          [new Date(2019, 9, 22), 3],
         ],
       },
     ],
@@ -118,11 +119,11 @@ export const Performance = () => {
       {
         label: 'Series 2',
         data: [
-          [0, 3],
-          [1, 1],
-          [2, 5],
-          [3, 6],
-          [4, 4],
+          [new Date(2020, 1, 22), 3],
+          [new Date(2020, 1, 23), 1],
+          [new Date(2020, 1, 24), 5],
+          [new Date(2020, 1, 25), 6],
+          [new Date(2020, 1, 26), 4],
         ],
         color: 'red',
       },
@@ -132,7 +133,7 @@ export const Performance = () => {
 
   const axes = React.useMemo(
     () => [
-      { primary: true, type: 'linear', position: 'bottom' },
+      { primary: true, type: 'time', position: 'bottom' },
       { type: 'linear', position: 'left' },
     ],
     [],
@@ -145,7 +146,7 @@ export const Performance = () => {
         <TotalHoldings />
       </AlignLeft>
       <SubHeader>
-        Rate of Return
+        Timeframe
         <TimespanSelector
           timeframe={Timeframe.OneYear}
           selectedTimeframe={currentTimeframe}
@@ -164,7 +165,8 @@ export const Performance = () => {
       </SubHeader>
       <br /> <br />
       {/* Replace linebreaks with margins */}
-      <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} />
+      <PerformanceChange selectedTimeframe={currentTimeframe} />
+      {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
       <ChartBox>
         <Chart data={data1} axes={axes} tooltip />
       </ChartBox>
@@ -175,11 +177,11 @@ export const Performance = () => {
       <PerformanceContributions selectedTimeframe={currentTimeframe} />
       <br />
       <br />
-      <PerformanceStat title="Dividends" value={34.24} />
+      {/* <PerformanceStat title="Dividends" value={34.24} />
       <PerformanceStat title="Deposits" value={2000} />
       <PerformanceStat title="Withdrawals" value={0} />
       <PerformanceStat title="Taxes and Fees" value={-45.24} />
-      <PerformanceGroups selectedTimeframe={currentTimeframe} />
+      <PerformanceGroups selectedTimeframe={currentTimeframe} /> */}
     </React.Fragment>
   );
 };
