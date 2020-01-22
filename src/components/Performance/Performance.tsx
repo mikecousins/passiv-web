@@ -8,6 +8,7 @@ import { Timeframe } from './Timeframe';
 import { Chart } from 'react-charts';
 import PerformanceStat from './PerformanceStat';
 import PerformanceChange from './PerformanceChange';
+import { fetchBalanceTimeframe } from '../../actions';
 import PerformanceChart from './PerformanceChart';
 import PerformanceContributionChart from './PerformanceContributionChart';
 import PerformanceTotalValueChart from './PerformanceTotalValueChart';
@@ -63,14 +64,6 @@ const TimespanStyle = styled.span`
 
 export const SubHeader = styled.div`
   font-size: 14pt;
-`;
-
-export const ChartBox = styled.div`
-  position: relative;
-  height: 180px;
-  width: 40%;
-  float: right;
-  clear: both;
 `;
 
 type Props = {

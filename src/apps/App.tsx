@@ -37,6 +37,7 @@ import SetupGroupPage from '../pages/SetupGroupsPage';
 import SetInitialTargetsPage from '../pages/SetInitialTargetsPage';
 import OnboardingSummaryPage from '../pages/OnboardingSummaryPage';
 import WelcomePage from '../pages/WelcomePage';
+import PerformancePage from '../pages/PerformancePage';
 
 declare global {
   interface Window {
@@ -250,6 +251,12 @@ const App = () => {
               <Route path={prefixPath('/settings/connect/:brokerage?')}>
                 <AuthorizationPage onboarding={false} />
               </Route>
+            )}
+            {showSecureApp && (
+              <Route
+                path={prefixPath('/performance')}
+                component={PerformancePage}
+              />
             )}
             {showSecureApp && (
               <Route path={prefixPath('/settings')} component={SettingsPage} />
