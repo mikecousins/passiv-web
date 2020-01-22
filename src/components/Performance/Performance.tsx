@@ -8,6 +8,9 @@ import { Timeframe } from './Timeframe';
 import { Chart } from 'react-charts';
 import PerformanceStat from './PerformanceStat';
 import PerformanceChange from './PerformanceChange';
+import PerformanceChart from './PerformanceChart';
+import PerformanceContributionChart from './PerformanceContributionChart';
+import PerformanceTotalValueChart from './PerformanceTotalValueChart';
 
 const Header = styled.div`
   font-size: 20pt;
@@ -98,47 +101,6 @@ export const TimespanSelector = (props: Props) => {
 export const Performance = () => {
   const [currentTimeframe, setTimeframe] = useState(Timeframe.OneYear);
 
-  const data1 = React.useMemo(
-    () => [
-      {
-        label: 'Series 1',
-        data: [
-          [new Date(2020, 1, 22), 7],
-          [new Date(2019, 12, 22), 2],
-          [new Date(2019, 11, 22), 4],
-          [new Date(2019, 10, 22), 2],
-          [new Date(2019, 9, 22), 3],
-        ],
-      },
-    ],
-    [],
-  );
-
-  const data2 = React.useMemo(
-    () => [
-      {
-        label: 'Series 2',
-        data: [
-          [new Date(2020, 1, 22), 3],
-          [new Date(2020, 1, 23), 1],
-          [new Date(2020, 1, 24), 5],
-          [new Date(2020, 1, 25), 6],
-          [new Date(2020, 1, 26), 4],
-        ],
-        color: 'red',
-      },
-    ],
-    [],
-  );
-
-  const axes = React.useMemo(
-    () => [
-      { primary: true, type: 'time', position: 'bottom' },
-      { type: 'linear', position: 'left' },
-    ],
-    [],
-  );
-
   return (
     <React.Fragment>
       <Header>Performance:</Header> <br />
@@ -167,13 +129,15 @@ export const Performance = () => {
       {/* Replace linebreaks with margins */}
       <PerformanceChange selectedTimeframe={currentTimeframe} />
       {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
-      <ChartBox>
+      <PerformanceTotalValueChart />
+      <PerformanceContributionChart />
+      {/* <ChartBox>
         <Chart data={data1} axes={axes} tooltip />
       </ChartBox>
       <br />
       <ChartBox>
         <Chart data={data2} axes={axes} tooltip />
-      </ChartBox>
+      </ChartBox> */}
       <PerformanceContributions selectedTimeframe={currentTimeframe} />
       <br />
       <br />
