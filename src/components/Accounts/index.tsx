@@ -7,7 +7,7 @@ import {
   DropResult,
 } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faCheck, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
@@ -16,7 +16,6 @@ import { deleteData, putData, postData } from '../../api';
 import { H2, A, Edit, H3, P, DisabledBox } from '../../styled/GlobalElements';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 import { loadAccounts, loadGroups } from '../../actions';
-import { Button } from '../../styled/Button';
 import styled from '@emotion/styled';
 
 export const Header = styled.form`
@@ -33,6 +32,12 @@ export const Header = styled.form`
 
 export const PaddedP = styled(P)`
   padding-top: 20px;
+`;
+
+export const GroupNote = styled(P)`
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 30px;
 `;
 
 const Accounts = () => {
@@ -207,20 +212,34 @@ const Accounts = () => {
                     </React.Fragment>
                   ) : (
                     <React.Fragment>
-                      <span>There are no accounts in this group</span>
-                      <Button
-                        onClick={() => {
-                          deleteData(`/api/v1/portfolioGroups/${group.groupId}`)
-                            .then(() => {
-                              dispatch(loadGroups());
-                            })
-                            .catch(() => {
-                              dispatch(loadGroups());
-                            });
-                        }}
-                      >
-                        Delete
-                      </Button>
+                      {group.groupId === 'hidden' ? (
+                        <GroupNote>
+                          Drag accounts here to hide them in Passiv.
+                        </GroupNote>
+                      ) : (
+                        <React.Fragment>
+                          <GroupNote>
+                            There are no accounts in this group.
+                            <Edit
+                              onClick={() => {
+                                deleteData(
+                                  `/api/v1/portfolioGroups/${group.groupId}`,
+                                )
+                                  .then(() => {
+                                    dispatch(loadGroups());
+                                  })
+                                  .catch(() => {
+                                    dispatch(loadGroups());
+                                  });
+                              }}
+                              disabled={!canCrossAccountBalance}
+                            >
+                              <FontAwesomeIcon icon={faTrashAlt} />
+                              Delete
+                            </Edit>
+                          </GroupNote>
+                        </React.Fragment>
+                      )}
                     </React.Fragment>
                   )}
                 </AccountGroup>
@@ -237,7 +256,11 @@ const Accounts = () => {
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver, true)}
               >
-                <AccountGroup name="New Group"></AccountGroup>
+                <AccountGroup name="New Group">
+                  <GroupNote>
+                    Drag accounts here to place them in a new group.
+                  </GroupNote>
+                </AccountGroup>
                 {provided.placeholder}
               </div>
             )}
