@@ -15,6 +15,7 @@ const LoginPage = () => {
 
   let form = (
     <Formik
+      key={'login'}
       initialValues={{
         email: '',
         password: '',
@@ -82,6 +83,7 @@ const LoginPage = () => {
   if (stateMFA !== null) {
     form = (
       <Formik
+        key={'2fa'}
         initialValues={{
           token: '',
         }}
