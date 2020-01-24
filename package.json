@@ -81,10 +81,8 @@
     "test": "react-scripts test --env=jsdom",
     "cypress": "cypress run",
     "cypress:open": "cypress open",
-    "cypress:record": "cypress run --config baseUrl=http://localhost:3000/ --record --key bcea59ba-c8d4-49c6-9e91-a03c702a8b95",
-    "start:cypress:record": "start-server-and-test 3000 cypress:record",
     "lint": "eslint src",
-    "ci": "npm run test -- --coverage && npm run lint && npm run start:cypress:record"
+    "ci": "npm run test -- --coverage && npm run lint"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.0.2",
