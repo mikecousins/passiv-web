@@ -11,7 +11,7 @@ import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
-import Tooltip from '../components/Tooltip';
+import PasswordRequirements from '../components/PasswordRequirements';
 
 type Props = {
   location: any;
@@ -52,11 +52,11 @@ const RegistrationPage = ({ location }: Props) => {
             referralCode: referralCode,
           }}
           validationSchema={Yup.object().shape({
-            name: Yup.string().required('Required'),
+            name: Yup.string().required('A name or nickname is required.'),
             email: Yup.string()
-              .email('Must be a valid email')
-              .required('Required'),
-            password: Yup.string().required('Required'),
+              .email('Must be a valid email.')
+              .required('An email is required.'),
+            password: Yup.string().required('A password is required.'),
           })}
           onSubmit={(values, actions) => {
             postData('/api/v1/auth/register/', {
@@ -86,6 +86,7 @@ const RegistrationPage = ({ location }: Props) => {
               });
           }}
           render={({
+            touched,
             errors,
             values,
             handleChange,
@@ -101,7 +102,11 @@ const RegistrationPage = ({ location }: Props) => {
                 type="text"
                 name="name"
                 placeholder="Ex: Jane Smith"
+                error={touched.name && errors.name}
               />
+              <P>
+                <ErrorMessage name="name" />
+              </P>
               <Label htmlFor="email">Email</Label>
               <Input
                 onChange={handleChange}
@@ -110,26 +115,28 @@ const RegistrationPage = ({ location }: Props) => {
                 type="text"
                 name="email"
                 placeholder="Email"
+                error={touched.email && errors.email}
               />
               <P>
                 <ErrorMessage name="email" />
               </P>
               <Label htmlFor="password">Password</Label>
-              <Tooltip label="Your password must contain at least 8 characters. Your password can&#39;t be a commonly used password. Your password can&#39;t be entirely numeric.">
-                <Input
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.password}
-                  border={errors.password && '1px solid red'}
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                />
-              </Tooltip>
+              <Input
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+                border={errors.password && '1px solid red'}
+                type="password"
+                name="password"
+                placeholder="Password"
+                error={touched.password && errors.password}
+              />
 
               <P>
                 <ErrorMessage name="password" />
               </P>
+
+              <PasswordRequirements />
 
               {referralCode && (
                 <React.Fragment>

@@ -77,21 +77,28 @@ export const selectFeaturesNeedData = createSelector(
   },
 );
 
-export const selectConnectPlaidFeature = createSelector(
-  selectFeatures,
-  features => {
+const createFeatureSelector = (flagName: string) => {
+  return createSelector(selectFeatures, features => {
     let hasFeature = false;
     if (features != null) {
       features.map(feature => {
-        if (feature === 'connect_plaid') {
+        if (feature === flagName) {
           hasFeature = true;
         }
         return null;
       });
     }
     return hasFeature;
-  },
+  });
+};
+
+export const selectConnectPlaidFeature = createFeatureSelector('connect_plaid');
+
+export const selectQuestradeOfferFeature = createFeatureSelector(
+  'questrade_offer',
 );
+
+export const selectSMS2FAFeature = createFeatureSelector('sms_2fa');
 
 export const selectCurrencies = createSelector<
   AppState,
@@ -130,6 +137,18 @@ export const selectSettingsRaw = (state: AppState) => state.settings;
 export const selectSettings = createSelector(selectSettingsRaw, rawSettings => {
   if (rawSettings.data) {
     return rawSettings.data;
+  }
+});
+
+export const select2FAEnabled = createSelector(selectSettings, settings => {
+  if (settings) {
+    return settings.sms_2fa_enabled;
+  }
+});
+
+export const selectPhoneNumber = createSelector(selectSettings, settings => {
+  if (settings) {
+    return settings.phone_number;
   }
 });
 

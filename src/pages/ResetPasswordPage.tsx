@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Formik } from 'formik';
-import { toast } from 'react-toastify';
+import { Formik, ErrorMessage } from 'formik';
 import { postData } from '../api';
 import { selectLoggedIn } from '../selectors';
 import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
+import * as Yup from 'yup';
 
 type Props = {
   location: any;
@@ -46,17 +46,33 @@ const ResetPasswordPage = ({ location }: Props) => {
               validate={values => {
                 let errors: any = {};
                 if (!values.email) {
-                  errors.email = 'Email is required';
+                  errors.email = 'An email is required.';
                 }
                 return errors;
               }}
+              validationSchema={Yup.object().shape({
+                email: Yup.string()
+                  .email('Must be a valid email.')
+                  .required('An email is required.'),
+              })}
               onSubmit={(values, actions) => {
                 postData('/api/v1/auth/resetPassword/', values)
                   .then(() => {
                     setSubmitted(true);
                   })
                   .catch(error => {
-                    toast.error('Failed to reset password');
+                    let errors: any = {};
+                    if (
+                      error.response.data &&
+                      error.response.data.errors &&
+                      error.response.data.errors.email
+                    ) {
+                      errors.email = error.response.data.errors.email.join(' ');
+                    } else {
+                      errors.email =
+                        "Oops, we've hit an unexpected error. Please try again or contact support for assistance.";
+                    }
+                    actions.setErrors(errors);
                   });
               }}
               render={({
@@ -66,6 +82,7 @@ const ResetPasswordPage = ({ location }: Props) => {
                 handleChange,
                 handleBlur,
                 handleSubmit,
+                isValid,
               }) => (
                 <Form onSubmit={handleSubmit}>
                   <Label htmlFor="email">Email</Label>
@@ -76,12 +93,15 @@ const ResetPasswordPage = ({ location }: Props) => {
                     type="text"
                     name="email"
                     placeholder="example@example.com"
+                    error={touched.email && errors.email}
                   />
-                  {touched.email && errors.email && (
-                    <div className="text-red">{errors.email}</div>
-                  )}
+                  <P>
+                    <ErrorMessage name="email" />
+                  </P>
                   <div>
-                    <Button type="submit">Reset</Button>
+                    <Button type="submit" disabled={!isValid}>
+                      Reset
+                    </Button>
                     <LoginLinks page="reset" />
                   </div>
                 </Form>
