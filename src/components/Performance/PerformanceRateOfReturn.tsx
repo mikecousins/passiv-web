@@ -2,7 +2,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { Timeframe } from './Timeframe';
 import { PercentReturn, CashReturn, SubHeader } from './Performance';
 
 const MarginBottom = styled.div`
@@ -10,7 +9,7 @@ const MarginBottom = styled.div`
 `;
 
 type Props = {
-  selectedTimeframe: Timeframe;
+  selectedTimeframe: string;
 };
 
 export const PerformanceRateOfReturn = (props: Props) => {
@@ -23,10 +22,10 @@ export const PerformanceRateOfReturn = (props: Props) => {
 
   let percentReturn = example1Yp;
   let cashReturn = example1Yc;
-  if (props.selectedTimeframe === Timeframe.ThirtyDays) {
+  if (props.selectedTimeframe === '30D') {
     percentReturn = example30Dp;
     cashReturn = example30Dc;
-  } else if (props.selectedTimeframe === Timeframe.YearToDate) {
+  } else if (props.selectedTimeframe === 'YTD') {
     percentReturn = exampleYTDp;
     cashReturn = exampleYTDc;
   }

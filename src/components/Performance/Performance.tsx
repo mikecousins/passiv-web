@@ -4,14 +4,20 @@ import TotalHoldings from '../TotalHoldings';
 import PerformanceRateOfReturn from './PerformanceRateOfReturn';
 import PerformanceGroups from './PerformanceGroups';
 import PerformanceContributions from './PerformanceContributions';
-import { Timeframe } from './Timeframe';
 import { Chart } from 'react-charts';
 import PerformanceStat from './PerformanceStat';
 import PerformanceChange from './PerformanceChange';
-import { fetchBalanceTimeframe } from '../../actions';
 import PerformanceChart from './PerformanceChart';
 import PerformanceContributionChart from './PerformanceContributionChart';
 import PerformanceTotalValueChart from './PerformanceTotalValueChart';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  loadContributionTimeframe,
+  loadTotalEquityTimeframe,
+  loadContributions,
+  setSelectedTimeframe,
+} from '../../actions';
+import { selectSelectedTimeframe } from '../../selectors/performance';
 
 const Header = styled.div`
   font-size: 20pt;
@@ -67,16 +73,19 @@ export const SubHeader = styled.div`
 `;
 
 type Props = {
-  timeframe: Timeframe;
-  selectedTimeframe: Timeframe;
-  setTimeframe: (newTimeFrame: Timeframe) => void;
+  timeframe: string;
+  selectedTimeframe: string;
+  setTimeframe: (newTimeFrame: string) => void;
 };
 
 export const TimespanSelector = (props: Props) => {
-  let timeframeString: string = '1Y';
-  if (props.timeframe === Timeframe.YearToDate) {
+  let timeframeString = '1Y';
+  if (props.timeframe === '1Y') {
+    timeframeString = '1Y';
+  }
+  if (props.timeframe === 'YTD') {
     timeframeString = 'YTD';
-  } else if (props.timeframe === Timeframe.ThirtyDays) {
+  } else if (props.timeframe === '30D') {
     timeframeString = '30D';
   }
 
@@ -92,7 +101,9 @@ export const TimespanSelector = (props: Props) => {
 };
 
 export const Performance = () => {
-  const [currentTimeframe, setTimeframe] = useState(Timeframe.OneYear);
+  //const [currentTimeframe, setTimeframe] = useState(Timeframe.OneYear);
+  const dispatch = useDispatch();
+  let currentTimeframe = useSelector(selectSelectedTimeframe);
 
   return (
     <React.Fragment>
@@ -103,34 +114,27 @@ export const Performance = () => {
       <SubHeader>
         Timeframe
         <TimespanSelector
-          timeframe={Timeframe.OneYear}
+          timeframe={'1Y'}
           selectedTimeframe={currentTimeframe}
-          setTimeframe={(t: Timeframe) => setTimeframe(t)}
+          setTimeframe={(t: string) => dispatch(setSelectedTimeframe(t))}
         />
         <TimespanSelector
-          timeframe={Timeframe.YearToDate}
+          timeframe={'YTD'}
           selectedTimeframe={currentTimeframe}
-          setTimeframe={(t: Timeframe) => setTimeframe(t)}
+          setTimeframe={(t: string) => dispatch(setSelectedTimeframe(t))}
         />
         <TimespanSelector
-          timeframe={Timeframe.ThirtyDays}
+          timeframe={'30D'}
           selectedTimeframe={currentTimeframe}
-          setTimeframe={(t: Timeframe) => setTimeframe(t)}
+          setTimeframe={(t: string) => dispatch(setSelectedTimeframe(t))}
         />
       </SubHeader>
       <br /> <br />
       {/* Replace linebreaks with margins */}
       <PerformanceChange selectedTimeframe={currentTimeframe} />
       {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
-      <PerformanceTotalValueChart />
-      <PerformanceContributionChart />
-      {/* <ChartBox>
-        <Chart data={data1} axes={axes} tooltip />
-      </ChartBox>
-      <br />
-      <ChartBox>
-        <Chart data={data2} axes={axes} tooltip />
-      </ChartBox> */}
+      <PerformanceTotalValueChart selectedTimeframe={currentTimeframe} />
+      <PerformanceContributionChart selectedTimeframe={currentTimeframe} />
       <PerformanceContributions selectedTimeframe={currentTimeframe} />
       <br />
       <br />

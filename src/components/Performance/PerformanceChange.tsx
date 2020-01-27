@@ -2,7 +2,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { Timeframe } from './Timeframe';
 import { CashReturn, SubHeader } from './Performance';
 
 const MarginBottom = styled.div`
@@ -10,7 +9,7 @@ const MarginBottom = styled.div`
 `;
 
 type Props = {
-  selectedTimeframe: Timeframe;
+  selectedTimeframe: string;
 };
 
 export const PerformanceChange = (props: Props) => {
@@ -19,9 +18,9 @@ export const PerformanceChange = (props: Props) => {
   let example30D = '-842';
 
   let change = example1Y;
-  if (props.selectedTimeframe === Timeframe.ThirtyDays) {
+  if (props.selectedTimeframe === '30D') {
     change = example30D;
-  } else if (props.selectedTimeframe === Timeframe.YearToDate) {
+  } else if (props.selectedTimeframe === 'YTD') {
     change = exampleYTD;
   }
 

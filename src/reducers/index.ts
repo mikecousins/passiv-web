@@ -8,6 +8,7 @@ import simple from './simple';
 import simpleList from './simpleList';
 import updateServiceWorker from './updateServiceWorker';
 import online from './online';
+import selectedTimeframe from './performance';
 import { SubscriptionData } from '../types/subscription';
 import { GroupInfoData, Balance } from '../types/groupInfo';
 import { GroupData } from '../types/group';
@@ -18,6 +19,7 @@ import { Account } from '../types/account';
 import { Authorization } from '../types/authorization';
 import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
+import { PastValue, Contributions } from '../types/performance';
 
 export default (history: any) =>
   combineReducers({
@@ -29,6 +31,7 @@ export default (history: any) =>
     language,
     updateServiceWorker,
     online,
+    selectedTimeframe,
     helpArticles: simple<any>({
       baseType: 'FETCH_HELP_ARTICLES',
       userData: false,
@@ -83,6 +86,18 @@ export default (history: any) =>
     }),
     groupInfo: simpleList<GroupInfoData>({
       baseType: 'FETCH_GROUP_INFO',
+      userData: true,
+    }),
+    totalEquityTimeframe: simple<PastValue[]>({
+      baseType: 'FETCH_TOTAL_EQUITY_TIMEFRAME',
+      userData: true,
+    }),
+    contributionTimeframe: simple<PastValue[]>({
+      baseType: 'FETCH_CONTRIBUTION_TIMEFRAME',
+      userData: true,
+    }),
+    contributions: simple<Contributions>({
+      baseType: 'FETCH_CONTRIBUTIONS',
       userData: true,
     }),
   });

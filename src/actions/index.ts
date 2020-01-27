@@ -365,6 +365,12 @@ export const initialLoad: ActionCreator<ThunkAction<
         return dispatch(fetchAccountsSuccess(response));
       })
       .catch(error => dispatch(fetchAccountsError(error)));
+
+    dispatch(setSelectedTimeframe('1Y'));
+
+    dispatch(loadContributionTimeframe('1Y'));
+    //dispatch(loadTotalEquityTimeframe("1Y"));
+    dispatch(loadContributions('1Y'));
   };
 };
 
@@ -634,4 +640,112 @@ export const importTarget: ActionCreator<ThunkAction<
 
 export const updateServiceWorker: ActionCreator<Action> = () => ({
   type: 'UPDATE_SERVICE_WORKER',
+});
+
+export const loadTotalEquityTimeframe: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = timeframe => {
+  return dispatch => {
+    getData('/api/v1/performance/balanceTimeframe/' + timeframe + '/')
+      .then(response =>
+        dispatch(fetchTotalEquityTimeframeSuccess(response, timeframe)),
+      )
+      .catch(error =>
+        dispatch(fetchTotalEquityTimeframeError(error, timeframe)),
+      );
+  };
+};
+
+export const fetchTotalEquityTimeframeSuccess: ActionCreator<Action> = (
+  payload,
+  timeframe,
+) => ({
+  type: 'FETCH_TOTAL_EQUITY_TIMEFRAME_SUCCESS',
+  payload,
+  timeframe,
+});
+
+export const fetchTotalEquityTimeframeError: ActionCreator<Action> = (
+  payload,
+  timeframe,
+) => ({
+  type: 'FETCH_TOTAL_EQUITY_TIMEFRAME_ERROR',
+  payload,
+  timeframe,
+});
+
+export const loadContributionTimeframe: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = timeframe => {
+  return dispatch => {
+    getData('/api/v1/performance/contributionTimeframe/' + timeframe + '/')
+      .then(response =>
+        dispatch(fetchContributionTimeframeSuccess(response, timeframe)),
+      )
+      .catch(error =>
+        dispatch(fetchContributionTimeframeError(error, timeframe)),
+      );
+  };
+};
+
+export const fetchContributionTimeframeSuccess: ActionCreator<Action> = (
+  payload,
+  timeframe,
+) => ({
+  type: 'FETCH_CONTRIBUTION_TIMEFRAME_SUCCESS',
+  payload,
+  timeframe,
+});
+
+export const fetchContributionTimeframeError: ActionCreator<Action> = (
+  payload,
+  timeframe,
+) => ({
+  type: 'FETCH_CONTRIBUTION_TIMEFRAME_ERROR',
+  payload,
+  timeframe,
+});
+
+export const loadContributions: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = timeframe => {
+  return dispatch => {
+    getData('/api/v1/performance/contributions/' + timeframe + '/')
+      .then(response =>
+        dispatch(fetchContributionsSuccess(response, timeframe)),
+      )
+      .catch(error => dispatch(fetchContributionsError(error, timeframe)));
+  };
+};
+
+export const fetchContributionsSuccess: ActionCreator<Action> = (
+  payload,
+  timeframe,
+) => ({
+  type: 'FETCH_CONTRIBUTIONS_SUCCESS',
+  payload,
+  timeframe,
+});
+
+export const fetchContributionsError: ActionCreator<Action> = (
+  payload,
+  timeframe,
+) => ({
+  type: 'FETCH_CONTRIBUTIONS_ERROR',
+  payload,
+  timeframe,
+});
+
+export const setSelectedTimeframe: ActionCreator<Action> = timeframe => ({
+  type: 'SET_SELECTED_TIMEFRAME',
+  timeframe,
 });

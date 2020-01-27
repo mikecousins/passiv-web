@@ -4,7 +4,6 @@ import AccountGroup from '../Accounts/AccountGroup';
 import styled from '@emotion/styled';
 import { selectGroups } from '../../selectors/groups';
 import PerformanceRateOfReturn from './PerformanceRateOfReturn';
-import { Timeframe } from './Timeframe';
 
 const AccountRow = styled.span`
   padding: 5px;
@@ -16,7 +15,7 @@ const SubHeader = styled.div`
 `;
 
 type Props = {
-  selectedTimeframe: Timeframe;
+  selectedTimeframe: string;
 };
 
 export const PerformanceGroups = (props: Props) => {
