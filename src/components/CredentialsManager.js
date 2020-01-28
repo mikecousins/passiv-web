@@ -12,6 +12,7 @@ import {
 import { loadSettings } from '../actions';
 import { postData, putData, deleteData } from '../api';
 
+import LimitOrdersSettings from './LimitOrdersSettings';
 import APIAccessSettings from './APIAccessSettings';
 
 import styled from '@emotion/styled';
@@ -378,6 +379,11 @@ export class CredentialsManager extends React.Component {
           <TextContainer>
             <InputContainer>
               <APIAccessSettings />
+            </InputContainer>
+          </TextContainer>
+          <TextContainer>
+            <InputContainer>
+              <LimitOrdersSettings />
             </InputContainer>
           </TextContainer>
         </ShadowBox>
