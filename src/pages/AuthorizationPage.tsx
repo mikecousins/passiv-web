@@ -7,6 +7,7 @@ import {
   selectIsAuthorized,
   selectBrokerages,
   selectAuthorizations,
+  selectConnectInteractiveBrokersFeature,
 } from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
 import { selectConnectPlaidFeature } from '../selectors';
@@ -50,6 +51,9 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const userPermissions = useSelector(selectUserPermissions);
   const authorizations = useSelector(selectAuthorizations);
   const connectPlaidFeature = useSelector(selectConnectPlaidFeature);
+  const connectInteractiveBrokersFeature = useSelector(
+    selectConnectInteractiveBrokersFeature,
+  );
   const [loading, setLoading] = useState(false);
   const { brokerage } = useParams();
   const dispatch = useDispatch();
@@ -150,7 +154,13 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       openURL: 'https://www.interactivebrokers.com/en/home.php',
       major: true,
       logo: InteractiveBrokersLogo,
-      description: <P>IB is great.</P>,
+      description: (
+        <P>
+          Interactive Brokers is a brokerage that operates in 200+ countries.
+          IBKR's low fees and advanced features will delight traders old and
+          new.
+        </P>
+      ),
     },
   ];
 
@@ -172,14 +182,22 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       ) : (
         <React.Fragment>
           <Container2Column>
-            {brokerageOptions.map((brokerage: any) => (
-              <AuthBox key={brokerage.id} onClick={brokerage.connect}>
-                <LogoContainer>
-                  <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
-                </LogoContainer>
-                <AuthLink>Connect {brokerage.name}</AuthLink>
-              </AuthBox>
-            ))}
+            {brokerageOptions.map(
+              (brokerage: any) =>
+                ((brokerage.name === 'IBKR' &&
+                  connectInteractiveBrokersFeature) ||
+                  brokerage.name !== 'IBKR') && (
+                  <AuthBox key={brokerage.id} onClick={brokerage.connect}>
+                    <LogoContainer>
+                      <img
+                        src={brokerage.logo}
+                        alt={`${brokerage.name} Logo`}
+                      />
+                    </LogoContainer>
+                    <AuthLink>Connect {brokerage.name}</AuthLink>
+                  </AuthBox>
+                ),
+            )}
           </Container2Column>
           {connectPlaidFeature && <PlaidConnection setLoading={setLoading} />}
         </React.Fragment>

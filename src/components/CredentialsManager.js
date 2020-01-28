@@ -8,6 +8,7 @@ import {
   selectPhoneNumber,
   select2FAEnabled,
   selectSMS2FAFeature,
+  selectLimitOrdersFeature,
 } from '../selectors';
 import { loadSettings } from '../actions';
 import { postData, putData, deleteData } from '../api';
@@ -381,11 +382,13 @@ export class CredentialsManager extends React.Component {
               <APIAccessSettings />
             </InputContainer>
           </TextContainer>
-          <TextContainer>
-            <InputContainer>
-              <LimitOrdersSettings />
-            </InputContainer>
-          </TextContainer>
+          {this.props.limitOrdersEnabled && (
+            <TextContainer>
+              <InputContainer>
+                <LimitOrdersSettings />
+              </InputContainer>
+            </TextContainer>
+          )}
         </ShadowBox>
       </div>
     );
@@ -398,6 +401,7 @@ const select = state => ({
   SMS2FAFeatureEnabled: selectSMS2FAFeature(state),
   is2FAEnabled: select2FAEnabled(state),
   phoneNumber: selectPhoneNumber(state),
+  limitOrdersEnabled: selectLimitOrdersFeature(state),
 });
 const actions = {
   refreshSettings: loadSettings,
