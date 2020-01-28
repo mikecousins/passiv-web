@@ -100,6 +100,10 @@ export const selectQuestradeOfferFeature = createFeatureSelector(
 
 export const selectSMS2FAFeature = createFeatureSelector('sms_2fa');
 
+export const selectShowProgressFeature = createFeatureSelector(
+  'onboarding_progress',
+);
+
 export const selectCurrencies = createSelector<
   AppState,
   SimpleState<Currency[]>,

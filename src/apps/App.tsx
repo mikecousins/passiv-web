@@ -31,9 +31,9 @@ import SettingsPage from '../pages/SettingsPage';
 import CouponPage from '../pages/CouponPage';
 import SharePage from '../pages/SharePage';
 import AuthorizationPage from '../pages/AuthorizationPage';
-import SetupGroupPage from '../pages/SetupGroupsPage';
-import SetInitialTargetsPage from '../pages/SetInitialTargetsPage';
-import OnboardingSummaryPage from '../pages/OnboardingSummaryPage';
+// import SetupGroupPage from '../pages/SetupGroupsPage';
+// import SetInitialTargetsPage from '../pages/SetInitialTargetsPage';
+// import OnboardingSummaryPage from '../pages/OnboardingSummaryPage';
 import WelcomePage from '../pages/WelcomePage';
 
 declare global {
@@ -221,20 +221,13 @@ const App = () => {
               <WelcomePage />
             </Route>
           )}
-          {showOnboardingApp && (
-            <Route path={prefixPath('/setup-groups')}>
-              <SetupGroupPage />
+          {(showSecureApp || showOnboardingApp) && (
+            <Route path={prefixPath('/settings/connect/:brokerage?')}>
+              <AuthorizationPage onboarding={false} />
             </Route>
           )}
-          {showOnboardingApp && (
-            <Route path={prefixPath('/initial-targets')}>
-              <SetInitialTargetsPage />
-            </Route>
-          )}
-          {showOnboardingApp && (
-            <Route path={prefixPath('/summary')}>
-              <OnboardingSummaryPage />
-            </Route>
+          {(showSecureApp || showOnboardingApp) && (
+            <Route path={prefixPath('/settings')} component={SettingsPage} />
           )}
           {showOnboardingApp && (
             <Route path="*">
@@ -259,14 +252,6 @@ const App = () => {
             <Route path={prefixPath('/group/:groupId')} component={GroupPage} />
           )}
           {showSecureApp && (
-            <Route path={prefixPath('/settings/connect/:brokerage?')}>
-              <AuthorizationPage onboarding={false} />
-            </Route>
-          )}
-          {showSecureApp && (
-            <Route path={prefixPath('/settings')} component={SettingsPage} />
-          )}
-          {showSecureApp && (
             <Route path={prefixPath('/coupon')} component={CouponPage} />
           )}
           {showSecureApp && (
@@ -282,7 +267,7 @@ const App = () => {
               component={RegistrationPage}
             />
           )}
-          // catchalls // when logged in, catch unknown URLs and redirect to
+          // catchalls // when logged in, catch unknown URLs and redirect to //
           dashboard or 'next' query param if defined
           {showSecureApp && (
             <Route path="*">
@@ -290,7 +275,7 @@ const App = () => {
             </Route>
           )}
           // when not logged in, catch unknown URLs (such as secure paths) and
-          login with redirect
+          // login with redirect
           {showInsecureApp && (
             <Route path="*">
               <Redirect

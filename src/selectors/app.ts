@@ -16,9 +16,9 @@ export const selectShowSpinner = createSelector(
     if (showInsecureApp) {
       return false;
     }
-    if (!groupsRaw || groupsRaw.loading) {
-      return true;
-    }
+    // if (!groupsRaw || groupsRaw.loading) {
+    //   return true;
+    // }
     return false;
   },
 );
@@ -35,14 +35,14 @@ export const selectShowOnboardingApp = createSelector(
     if (!isAuthorized) {
       return true;
     }
-    if (
-      groups &&
-      groups.some(
-        group => group.setupComplete === false && group.accounts.length > 0,
-      )
-    ) {
-      return true;
-    }
+    // if (
+    //   groups &&
+    //   groups.some(
+    //     group => group.setupComplete === false && group.accounts.length > 0,
+    //   )
+    // ) {
+    //   return true;
+    // }
     return false;
   },
 );
