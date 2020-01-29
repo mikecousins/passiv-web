@@ -88,16 +88,52 @@ export default (history: any) =>
       baseType: 'FETCH_GROUP_INFO',
       userData: true,
     }),
-    totalEquityTimeframe: simple<PastValue[]>({
-      baseType: 'FETCH_TOTAL_EQUITY_TIMEFRAME',
+    // totalEquityTimeframe: simple<PastValueSeries>({
+    //   baseType: 'FETCH_TOTAL_EQUITY_TIMEFRAME_1Y',
+    //   userData: true,
+    // }),
+    totalEquityTimeframe1Y: simple<PastValue[]>({
+      baseType: 'FETCH_TOTAL_EQUITY_TIMEFRAME_1Y',
       userData: true,
     }),
-    contributionTimeframe: simple<PastValue[]>({
-      baseType: 'FETCH_CONTRIBUTION_TIMEFRAME',
+    totalEquityTimeframeYTD: simple<PastValue[]>({
+      baseType: 'FETCH_TOTAL_EQUITY_TIMEFRAME_YTD',
       userData: true,
     }),
-    contributions: simple<Contributions>({
-      baseType: 'FETCH_CONTRIBUTIONS',
+    totalEquityTimeframe30D: simple<PastValue[]>({
+      baseType: 'FETCH_TOTAL_EQUITY_TIMEFRAME_30D',
+      userData: true,
+    }),
+    // contributionTimeframe: simple<PastValueSeries>({
+    //   baseType: 'FETCH_CONTRIBUTION_TIMEFRAME_1Y',
+    //   userData: true,
+    // }),
+    contributionTimeframe1Y: simple<PastValue[]>({
+      baseType: 'FETCH_CONTRIBUTION_TIMEFRAME_1Y',
+      userData: true,
+    }),
+    contributionTimeframeYTD: simple<PastValue[]>({
+      baseType: 'FETCH_CONTRIBUTION_TIMEFRAME_YTD',
+      userData: true,
+    }),
+    contributionTimeframe30D: simple<PastValue[]>({
+      baseType: 'FETCH_CONTRIBUTION_TIMEFRAME_30D',
+      userData: true,
+    }),
+    // contributions: simple<Contributions>({
+    //   baseType: 'FETCH_CONTRIBUTIONS',
+    //   userData: true,
+    // }),
+    contributions1Y: simple<Contributions>({
+      baseType: 'FETCH_CONTRIBUTIONS_1Y',
+      userData: true,
+    }),
+    contributionsYTD: simple<Contributions>({
+      baseType: 'FETCH_CONTRIBUTIONS_YTD',
+      userData: true,
+    }),
+    contributions30D: simple<Contributions>({
+      baseType: 'FETCH_CONTRIBUTIONS_30D',
       userData: true,
     }),
   });

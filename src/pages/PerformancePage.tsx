@@ -10,9 +10,10 @@ import { selectSelectedTimeframe } from '../selectors/performance';
 
 const PerformancePage = () => {
   const dispatch = useDispatch();
-  dispatch(loadContributionTimeframe(useSelector(selectSelectedTimeframe)));
-  // dispatch(loadTotalEquityTimeframe(useSelector(selectSelectedTimeframe))));
-  dispatch(loadContributions(useSelector(selectSelectedTimeframe)));
+  const selectedTimeframe = useSelector(selectSelectedTimeframe);
+  dispatch(loadContributions(selectedTimeframe));
+  dispatch(loadContributionTimeframe(selectedTimeframe));
+  dispatch(loadTotalEquityTimeframe(selectedTimeframe));
 
   return (
     <React.Fragment>

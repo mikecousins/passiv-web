@@ -4,20 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { selectContributions } from '../../selectors/performance';
+import { Contributions } from '../../types/performance';
 
 type Props = {
   selectedTimeframe: string;
 };
 
 export const PerformanceContributions = (props: Props) => {
-  let contributions = useSelector(selectContributions);
-  let positive = contributions === null || !(contributions.contributions < 0);
-
-  const contributionsData = {
-    contributions: 35000.0,
-    date: '2019-01-23T22:53:28.886309Z',
-    currency: 'CAD',
-  };
+  const contributions: Contributions | null = useSelector(selectContributions);
+  const positive = contributions === null || !(contributions.contributions < 0);
 
   return (
     <React.Fragment>

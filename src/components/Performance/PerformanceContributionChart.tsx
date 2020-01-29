@@ -2,7 +2,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 import PerformanceChart from './PerformanceChart';
 import { useSelector } from 'react-redux';
-import { loadContributionTimeframe } from '../../actions';
 import { selectContributionTimeframe } from '../../selectors/performance';
 import { PastValue } from '../../types/performance';
 
@@ -11,7 +10,9 @@ type Props = {
 };
 
 export const PerformanceContributionChart = (props: Props) => {
-  let contributionData = useSelector(selectContributionTimeframe);
+  let contributionData: PastValue[] | null = useSelector(
+    selectContributionTimeframe,
+  );
 
   const data = React.useMemo(
     () => [
