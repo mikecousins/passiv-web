@@ -16,6 +16,7 @@ import {
   selectCurrencyRates,
   selectCurrencies,
   selectSettings,
+  selectLimitOrdersFeature,
 } from '../../selectors';
 import { selectSymbols } from '../../selectors/symbols';
 import {
@@ -531,10 +532,12 @@ export class RebalanceWidget extends Component {
                     Learn more
                   </A>
                 </P>
-                <P>
-                  You can switch over to limit orders on your{' '}
-                  <Link to="/app/settings">settings</Link> page.
-                </P>
+                {this.props.limitOrdersEnabled && (
+                  <P>
+                    You can switch to using limit orders on your{' '}
+                    <Link to="/app/settings">settings</Link> page.
+                  </P>
+                )}
               </React.Fragment>
             )}
 
@@ -620,6 +623,7 @@ const select = state => ({
   preferredCurrency: selectPreferredCurrency(state),
   showQuestradeOffer: selectShowQuestradeOffer(state),
   settings: selectSettings(state),
+  limitOrdersEnabled: selectLimitOrdersFeature(state),
 });
 
 export default connect(select, actions)(RebalanceWidget);
