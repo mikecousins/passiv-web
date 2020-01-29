@@ -38,7 +38,9 @@ import {
   ColumnUnits,
   ColumnAction,
   ColumnStatus,
+  ColumnPrice,
 } from '../../styled/Group';
+import Number from '../Number';
 
 import OrderImpacts from './OrderImpacts';
 
@@ -467,6 +469,12 @@ export class RebalanceWidget extends Component {
                       <Title>Units</Title>
                       <div>{results.filled_units}</div>
                     </ColumnUnits>
+                    <ColumnPrice>
+                      <Title>Price</Title>
+                      <div>
+                        <Number value={results.price} currency />
+                      </div>
+                    </ColumnPrice>
                     <ColumnSymbolSmall>
                       <Title>Symbol</Title>
                       <Symbol>{results.universal_symbol.symbol}</Symbol>
