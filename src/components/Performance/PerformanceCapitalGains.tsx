@@ -4,7 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { CashReturn, SubHeader, toDollarString } from './Performance';
 import { useSelector } from 'react-redux';
-import { selectTotalEquityTimeframe } from '../../selectors/performance';
+import {
+  selectTotalEquityTimeframe,
+  selectContributions,
+} from '../../selectors/performance';
 
 const MarginBottom = styled.div`
   margin-bottom: 25px;
@@ -14,26 +17,34 @@ type Props = {
   selectedTimeframe: string;
 };
 
-export const PerformanceChange = (props: Props) => {
+export const PerformanceCapitalGain = (props: Props) => {
   const equityData = useSelector(selectTotalEquityTimeframe);
+  const contributions = useSelector(selectContributions);
 
-  let change = 'loading...';
-  if (equityData != null && equityData != undefined) {
-    change = toDollarString(
-      equityData[0].value - equityData[equityData.length - 1].value,
-    );
+  let capitalGainsString = 'loading...';
+  let capitalGains = 0;
+  let change = 0;
+  if (
+    contributions != null &&
+    contributions != undefined &&
+    equityData != null &&
+    equityData != undefined
+  ) {
+    change = equityData[0].value - equityData[equityData.length - 1].value;
+    capitalGains = change - contributions.contributions;
+    capitalGainsString = toDollarString(capitalGains);
   }
 
-  let positive = !(change[0] === '-');
+  let positive = !(capitalGainsString[0] === '-');
 
   return (
     <React.Fragment>
       <MarginBottom>
-        <SubHeader>Change</SubHeader>
+        <SubHeader>Capital Gains</SubHeader>
       </MarginBottom>
       <MarginBottom>
         <CashReturn className={positive ? 'positive' : 'negative'}>
-          ${change}{' '}
+          ${capitalGainsString}{' '}
           {positive ? (
             <FontAwesomeIcon icon={faCaretUp} />
           ) : (
@@ -45,4 +56,4 @@ export const PerformanceChange = (props: Props) => {
   );
 };
 
-export default PerformanceChange;
+export default PerformanceCapitalGain;

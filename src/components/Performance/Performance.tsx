@@ -3,10 +3,11 @@ import styled from '@emotion/styled';
 import TotalHoldings from '../TotalHoldings';
 import PerformanceRateOfReturn from './PerformanceRateOfReturn';
 import PerformanceGroups from './PerformanceGroups';
-import PerformanceContributions from './PerformanceContributions';
 import { Chart } from 'react-charts';
 import PerformanceStat from './PerformanceStat';
 import PerformanceChange from './PerformanceChange';
+import PerformanceCapitalGains from './PerformanceCapitalGains';
+import PerformanceContributions from './PerformanceContributions';
 import PerformanceChart from './PerformanceChart';
 import PerformanceContributionChart from './PerformanceContributionChart';
 import PerformanceTotalValueChart from './PerformanceTotalValueChart';
@@ -125,11 +126,12 @@ export const Performance = () => {
         />
       </SubHeader>
       <br /> <br />
-      {/* Replace linebreaks with margins */}
-      <PerformanceChange selectedTimeframe={currentTimeframe} />
-      {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
       <PerformanceTotalValueChart selectedTimeframe={currentTimeframe} />
       <PerformanceContributionChart selectedTimeframe={currentTimeframe} />
+      {/* Replace linebreaks with margins */}
+      <PerformanceChange selectedTimeframe={currentTimeframe} />
+      <PerformanceCapitalGains selectedTimeframe={currentTimeframe} />
+      {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
       <PerformanceContributions selectedTimeframe={currentTimeframe} />
       <br />
       <br />
@@ -143,3 +145,14 @@ export const Performance = () => {
 };
 
 export default Performance;
+
+export const toDollarString = (dollars: number) => {
+  let dollarString = dollars.toFixed(2);
+  let index = dollarString.indexOf('.') - 3;
+  while (index > 0) {
+    dollarString =
+      dollarString.slice(0, index) + ',' + dollarString.slice(index);
+    index -= 3;
+  }
+  return dollarString;
+};

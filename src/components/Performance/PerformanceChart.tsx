@@ -5,7 +5,7 @@ import { Chart } from 'react-charts';
 export const ChartBox = styled.div`
   position: relative;
   height: 180px;
-  width: 40%;
+  width: 60%;
   float: right;
   clear: both;
   margin-bottom: 10px;
