@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { selectAuthorizations, selectIsDemo } from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
-import { initialLoad, loadBrokerages } from '../actions';
-import AuthorizationPicker from '../components/AuthorizationPicker';
+import AuthorizationPicker from './AuthorizationPicker';
 import Connections from './Connections';
 import { Button } from '../styled/Button';
 import ShadowBox from '../styled/ShadowBox';
 import { H2 } from '../styled/GlobalElements';
 
-const ConnectionsManager = ({ reloadAllState, reloadBrokerages }) => {
+const ConnectionsManager = () => {
   const [creatingNewConnection, setCreatingNewConnection] = useState(false);
 
   const authorizations = useSelector(selectAuthorizations);
@@ -27,15 +26,12 @@ const ConnectionsManager = ({ reloadAllState, reloadBrokerages }) => {
   };
 
   const canAddMultipleConnections = () => {
-    let filtered_permissions = userPermissions.filter(
-      permission => permission === 'can_add_multiple_connections',
-    );
-
-    if (filtered_permissions.length > 0) {
-      return true;
-    } else {
+    if (!userPermissions) {
       return false;
     }
+    return userPermissions.some(
+      permission => permission === 'can_add_multiple_connections',
+    );
   };
 
   return (
@@ -67,7 +63,11 @@ const ConnectionsManager = ({ reloadAllState, reloadBrokerages }) => {
         <div>
           <Button
             onClick={() => {
-              if (authorizations.length === 0 || canAddMultipleConnections()) {
+              if (
+                !authorizations ||
+                authorizations.length === 0 ||
+                canAddMultipleConnections()
+              ) {
                 dispatch(push('/app/settings/connect'));
               } else {
                 startCreatingNewConnection();
@@ -85,10 +85,4 @@ const ConnectionsManager = ({ reloadAllState, reloadBrokerages }) => {
   );
 };
 
-const select = state => ({});
-const actions = {
-  reloadAllState: initialLoad,
-  reloadBrokerages: loadBrokerages,
-};
-
-export default connect(select, actions)(ConnectionsManager);
+export default ConnectionsManager;
