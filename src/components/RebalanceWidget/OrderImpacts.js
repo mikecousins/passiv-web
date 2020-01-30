@@ -1,10 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectAccountBalances } from '../../selectors/accounts';
 import OrderImpact from './OrderImpact';
 import { Title } from '../../styled/GlobalElements';
 
-const OrderImpacts = ({ impacts, accountBalances }) => {
+const OrderImpacts = ({ impacts }) => {
+  const accountBalances = useSelector(selectAccountBalances);
   let filteredAccountIds = [];
 
   impacts.forEach(impact => {
@@ -42,8 +43,4 @@ const OrderImpacts = ({ impacts, accountBalances }) => {
   );
 };
 
-const select = state => ({
-  accountBalances: selectAccountBalances(state),
-});
-
-export default connect(select)(OrderImpacts);
+export default OrderImpacts;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { selectCurrencies } from '../../selectors';
 import { selectAccounts } from '../../selectors/accounts';
@@ -45,7 +45,9 @@ const BalanceContainer = styled.div`
   margin: 5px;
 `;
 
-export const OrderImpact = ({ impacts, accounts, currencies }) => {
+export const OrderImpact = ({ impacts }) => {
+  const accounts = useSelector(selectAccounts);
+  const currencies = useSelector(selectCurrencies);
   const filteredAccount = accounts.find(
     account => account.id === impacts[0].account,
   );
@@ -58,70 +60,60 @@ export const OrderImpact = ({ impacts, accounts, currencies }) => {
   };
 
   return (
-    <React.Fragment>
-      <AccountContainer>
-        <Table>
-          <AccountDiv>
-            <MetaHorizontal>
-              <span>
-                {filteredAccount.name} ({filteredAccount.number})
-              </span>
-            </MetaHorizontal>
-          </AccountDiv>
-          <CommissionsDiv>
-            <MetaHorizontal>
-              <p>Trade commissions:</p>
-              <BalanceContainer>
-                {impacts.map((impact, index) => (
-                  <p key={index}>
-                    {' '}
-                    <Number
-                      value={impact.estimated_commissions}
-                      currency
-                    />{' '}
-                    {'  '} {filteredCurrencyCode(impact)}{' '}
-                  </p>
-                ))}
-              </BalanceContainer>
-            </MetaHorizontal>
-          </CommissionsDiv>
-          <RemainingCashDiv>
-            <MetaHorizontal>
-              <p>Remaining cash:</p>
-              <BalanceContainer>
-                {impacts.map((impact, index) => (
-                  <p key={index}>
-                    {' '}
-                    <Number value={impact.remaining_cash} currency /> {'  '}{' '}
-                    {filteredCurrencyCode(impact)}{' '}
-                  </p>
-                ))}
-              </BalanceContainer>
-            </MetaHorizontal>
-          </RemainingCashDiv>
-          <ForexFeesDiv>
-            <MetaHorizontal>
-              <p>Forex fees:</p>
-              <BalanceContainer>
-                {impacts.map((impact, index) => (
-                  <p key={index}>
-                    {' '}
-                    <Number value={impact.forex_fees} currency /> {'  '}{' '}
-                    {filteredCurrencyCode(impact)}{' '}
-                  </p>
-                ))}
-              </BalanceContainer>
-            </MetaHorizontal>
-          </ForexFeesDiv>
-        </Table>
-      </AccountContainer>
-    </React.Fragment>
+    <AccountContainer>
+      <Table>
+        <AccountDiv>
+          <MetaHorizontal>
+            <span>
+              {filteredAccount.name} ({filteredAccount.number})
+            </span>
+          </MetaHorizontal>
+        </AccountDiv>
+        <CommissionsDiv>
+          <MetaHorizontal>
+            <p>Trade commissions:</p>
+            <BalanceContainer>
+              {impacts.map((impact, index) => (
+                <p key={index}>
+                  {' '}
+                  <Number value={impact.estimated_commissions} currency />{' '}
+                  {'  '} {filteredCurrencyCode(impact)}{' '}
+                </p>
+              ))}
+            </BalanceContainer>
+          </MetaHorizontal>
+        </CommissionsDiv>
+        <RemainingCashDiv>
+          <MetaHorizontal>
+            <p>Remaining cash:</p>
+            <BalanceContainer>
+              {impacts.map((impact, index) => (
+                <p key={index}>
+                  {' '}
+                  <Number value={impact.remaining_cash} currency /> {'  '}{' '}
+                  {filteredCurrencyCode(impact)}{' '}
+                </p>
+              ))}
+            </BalanceContainer>
+          </MetaHorizontal>
+        </RemainingCashDiv>
+        <ForexFeesDiv>
+          <MetaHorizontal>
+            <p>Forex fees:</p>
+            <BalanceContainer>
+              {impacts.map((impact, index) => (
+                <p key={index}>
+                  {' '}
+                  <Number value={impact.forex_fees} currency /> {'  '}{' '}
+                  {filteredCurrencyCode(impact)}{' '}
+                </p>
+              ))}
+            </BalanceContainer>
+          </MetaHorizontal>
+        </ForexFeesDiv>
+      </Table>
+    </AccountContainer>
   );
 };
 
-const select = state => ({
-  accounts: selectAccounts(state),
-  currencies: selectCurrencies(state),
-});
-
-export default connect(select)(OrderImpact);
+export default OrderImpact;
