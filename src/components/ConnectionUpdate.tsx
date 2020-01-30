@@ -16,12 +16,12 @@ export const LeftOrder = styled(Order)`
 `;
 
 type Props = {
-  type: string;
-  authorization: any;
-  align: string;
-  isDemo: boolean;
-  name: string;
-  hideTitle: boolean;
+  type?: string;
+  authorization?: any;
+  align?: string;
+  isDemo?: boolean;
+  name?: string;
+  hideTitle?: boolean;
 };
 
 const ConnectionUpdate = ({
