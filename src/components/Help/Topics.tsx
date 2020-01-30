@@ -1,16 +1,17 @@
 import React from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { push } from 'connected-react-router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDispatch } from 'react-redux';
 import ShadowBox from '../../styled/ShadowBox';
 import { H2, H3, P, A } from '../../styled/GlobalElements';
 import { Questions } from '../../styled/Help';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useDispatch } from 'react-redux';
-import styled from '@emotion/styled';
 
-const Container = styled.div``;
+type Props = {
+  articles: any[];
+};
 
-const Topics = ({ articles }) => {
+const Topics = ({ articles }: Props) => {
   const dispatch = useDispatch();
   let questions = null;
   if (articles) {
@@ -25,12 +26,12 @@ const Topics = ({ articles }) => {
     ));
   }
   return (
-    <Container>
+    <div>
       <H2 margin="40px 0 25px">Help Topics</H2>
       <Questions>
         {articles ? questions : <FontAwesomeIcon icon={faSpinner} spin />}
       </Questions>
-    </Container>
+    </div>
   );
 };
 

@@ -8,13 +8,10 @@ export const HeaderContainer = styled.div`
   }
 `;
 
-export class HelpHeader extends React.Component {
-  render() {
-    return (
-      <HeaderContainer>
-        <H1>How can we help you?</H1>
-      </HeaderContainer>
-    );
-  }
-}
+const HelpHeader = () => (
+  <HeaderContainer>
+    <H1>How can we help you?</H1>
+  </HeaderContainer>
+);
+
 export default HelpHeader;

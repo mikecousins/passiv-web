@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { H2, P, A } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileVideo } from '@fortawesome/free-solid-svg-icons';
+import { H2, P, A } from '../../styled/GlobalElements';
 
 const TutorialContainer = styled.div`
   flex: 1;
@@ -34,19 +34,16 @@ const TutorialContainer = styled.div`
   }
 `;
 
-export class Tutorial extends React.Component {
-  render() {
-    return (
-      <TutorialContainer>
-        <H2>
-          Passiv Tutorials <FontAwesomeIcon icon={faFileVideo} />
-        </H2>
-        <P>Looking for some how-to videos?</P>
-        <A href="/help/tutorials/" target="_blank" rel="noopener noreferrer">
-          Tutorials
-        </A>
-      </TutorialContainer>
-    );
-  }
-}
+const Tutorial = () => (
+  <TutorialContainer>
+    <H2>
+      Passiv Tutorials <FontAwesomeIcon icon={faFileVideo} />
+    </H2>
+    <P>Looking for some how-to videos?</P>
+    <A href="/help/tutorials/" target="_blank" rel="noopener noreferrer">
+      Tutorials
+    </A>
+  </TutorialContainer>
+);
+
 export default Tutorial;

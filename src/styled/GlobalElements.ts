@@ -1,18 +1,23 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 
-const dynamicStyle = (props: any) =>
+type HProps = {
+  color?: string;
+  margin?: string;
+};
+
+const dynamicStyle = (props: HProps) =>
   css`
     color: ${props.color};
   `;
 
-const dynamicMargin = (props: any) =>
+const dynamicMargin = (props: HProps) =>
   css`
     margin: ${props.margin};
   `;
 
 // h1
-export const H1 = styled.h1`
+export const H1 = styled.h1<HProps>`
   font-size: 42px;
   font-weight: 500;
   line-height: 2.17;
@@ -27,7 +32,7 @@ export const H1 = styled.h1`
 `;
 
 // h2
-export const H2 = styled.h2`
+export const H2 = styled.h2<HProps>`
   font-size: 30px;
   font-weight: 600;
   text-align: left;
@@ -37,7 +42,7 @@ export const H2 = styled.h2`
 `;
 
 // h3
-export const H3 = styled.h3`
+export const H3 = styled.h3<HProps>`
   font-size: 18px;
   font-weight: 900;
   line-height: 1.78;
@@ -47,7 +52,7 @@ export const H3 = styled.h3`
 `;
 
 // ul
-export const UL = styled.ul`
+export const UL = styled.ul<HProps>`
   color: #2a2d34;
   ${dynamicStyle};
   li {
