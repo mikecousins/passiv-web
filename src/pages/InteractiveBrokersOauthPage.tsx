@@ -13,7 +13,7 @@ import { selectQueryTokens } from '../selectors/router';
 import { push } from 'connected-react-router';
 import { Error } from '../types/groupInfo';
 
-const QuestradeOauthPage = () => {
+const InteractiveBrokersOauthPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error>();
   const [success, setSuccess] = useState(false);
@@ -146,4 +146,4 @@ const QuestradeOauthPage = () => {
   );
 };
 
-export default QuestradeOauthPage;
+export default InteractiveBrokersOauthPage;
