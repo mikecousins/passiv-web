@@ -45,17 +45,28 @@ const BalanceContainer = styled.div`
   margin: 5px;
 `;
 
-export const OrderImpact = ({ impacts }) => {
+type Props = {
+  impacts: any[];
+};
+
+export const OrderImpact = ({ impacts }: Props) => {
   const accounts = useSelector(selectAccounts);
   const currencies = useSelector(selectCurrencies);
   const filteredAccount = accounts.find(
     account => account.id === impacts[0].account,
   );
 
-  const filteredCurrencyCode = impact => {
+  if (!filteredAccount) {
+    return null;
+  }
+
+  const filteredCurrencyCode = (impact: any) => {
+    if (!currencies) {
+      return null;
+    }
     let currencyCode = currencies.find(
       currency => currency.id === impact.currency,
-    ).code;
+    )!.code;
     return currencyCode;
   };
 
