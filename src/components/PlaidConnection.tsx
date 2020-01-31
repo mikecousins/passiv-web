@@ -1,18 +1,25 @@
 import React from 'react';
 import PlaidLink from 'react-plaid-link';
-import { connect } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
 import { selectAllBrokerages } from '../selectors';
 import { initialLoad } from '../actions';
 import { postData } from '../api';
+import { Brokerage } from '../types/brokerage';
 
-const PlaidConnection = ({ brokerages, reloadAllState, setLoading }) => {
-  const handleOnSuccess = (token, metadata) => {
+type Props = {
+  setLoading: any;
+};
+
+const PlaidConnection = ({ setLoading }: Props) => {
+  const brokerages = useSelector(selectAllBrokerages);
+  const dispatch = useDispatch();
+
+  const handleOnSuccess = (token: string) => {
     // send token to client server
     postData('/api/v1/brokerages/authComplete/', { token: token }).then(
       response => {
         if (response.status === 200) {
-          reloadAllState();
+          dispatch(initialLoad());
           setTimeout(() => {
             setLoading(false);
           }, 1000);
@@ -21,7 +28,7 @@ const PlaidConnection = ({ brokerages, reloadAllState, setLoading }) => {
     );
   };
 
-  const handleOnClick = brokerage => {
+  const handleOnClick = (brokerage: Brokerage) => {
     setTimeout(() => {
       setLoading(true);
     }, 500);
@@ -35,6 +42,10 @@ const PlaidConnection = ({ brokerages, reloadAllState, setLoading }) => {
     // handle the case when your user exits Link
   };
 
+  if (!brokerages) {
+    return null;
+  }
+
   const plaid = brokerages.filter(function(brokerage) {
     return brokerage.name === 'Plaid';
   })[0];
@@ -44,10 +55,10 @@ const PlaidConnection = ({ brokerages, reloadAllState, setLoading }) => {
       <PlaidLink
         clientName="Passiv"
         env="development"
-        product={['investments']}
+        product={['holdings']}
         publicKey="db7797dd137d1d2d7b519e5fdc998e"
-        onExit={handleOnExit.bind()}
-        onSuccess={handleOnSuccess.bind()}
+        onExit={handleOnExit}
+        onSuccess={handleOnSuccess}
       >
         Connect Other ...
       </PlaidLink>
@@ -55,14 +66,4 @@ const PlaidConnection = ({ brokerages, reloadAllState, setLoading }) => {
   );
 };
 
-const select = state => ({
-  brokerages: selectAllBrokerages(state),
-});
-const actions = {
-  reloadAllState: initialLoad,
-};
-
-export default connect(
-  select,
-  actions,
-)(PlaidConnection);
+export default PlaidConnection;
