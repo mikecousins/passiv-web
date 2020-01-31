@@ -84,11 +84,19 @@ const QuestradeOauthPage = () => {
           </P>
         );
         break;
+      case '1046':
+        errorDisplay = (
+          <P>
+            Passiv is not presently available to Canadian accounts at
+            Interactive Brokers.
+          </P>
+        );
+        break;
       case '0000':
         errorDisplay = (
           <P>
-            No access code was provided by Questrade. Did you approve the
-            connection request?
+            No access code was provided by Interactive Brokers. Did you approve
+            the connection request?
           </P>
         );
         break;
@@ -119,7 +127,7 @@ const QuestradeOauthPage = () => {
       {loading ? (
         <React.Fragment>
           <Step>
-            Establishing connection to Questrade...{' '}
+            Establishing connection to Interactive Brokers...{' '}
             <FontAwesomeIcon icon={faSpinner} spin />
           </Step>
         </React.Fragment>
