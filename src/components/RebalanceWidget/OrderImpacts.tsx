@@ -4,13 +4,17 @@ import { selectAccountBalances } from '../../selectors/accounts';
 import OrderImpact from './OrderImpact';
 import { Title } from '../../styled/GlobalElements';
 
-const OrderImpacts = ({ impacts }) => {
+type Props = {
+  impacts: any[];
+};
+
+const OrderImpacts = ({ impacts }: Props) => {
   const accountBalances = useSelector(selectAccountBalances);
-  let filteredAccountIds = [];
+  let filteredAccountIds: string[] = [];
 
   impacts.forEach(impact => {
     let accountBalanceData = accountBalances[impact.account]['data'];
-    let filteredAccountBalance = accountBalanceData.filter(
+    let filteredAccountBalance = accountBalanceData!.filter(
       data => data.currency.id === impact.currency,
     );
 
@@ -20,15 +24,15 @@ const OrderImpacts = ({ impacts }) => {
         impact.estimated_commissions > 0 ||
         impact.forex_fees > 0)
     ) {
-      filteredAccountIds.push(impact.account);
+      if (!filteredAccountIds.includes(impact.account)) {
+        filteredAccountIds.push(impact.account);
+      }
     }
   });
 
-  const uniqueFilteredAccountIds = [...new Set(filteredAccountIds)];
+  let impactsByAccount: any[] = [];
 
-  let impactsByAccount = [];
-
-  uniqueFilteredAccountIds.forEach(accountId => {
+  filteredAccountIds.forEach(accountId => {
     let filteredImpact = impacts.filter(impact => impact.account === accountId);
     impactsByAccount.push(filteredImpact);
   });
