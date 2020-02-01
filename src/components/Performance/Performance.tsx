@@ -12,7 +12,7 @@ import PerformanceChart from './PerformanceChart';
 import PerformanceContributionChart from './PerformanceContributionChart';
 import PerformanceTotalValueChart from './PerformanceTotalValueChart';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedTimeframe } from '../../actions';
+import { setSelectedTimeframe } from '../../actions/performance';
 import { selectSelectedTimeframe } from '../../selectors/performance';
 
 const Header = styled.div`

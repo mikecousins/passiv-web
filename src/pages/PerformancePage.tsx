@@ -5,7 +5,7 @@ import {
   loadContributionTimeframe,
   loadTotalEquityTimeframe,
   loadContributions,
-} from '../actions';
+} from '../actions/performance';
 import { selectSelectedTimeframe } from '../selectors/performance';
 
 const PerformancePage = () => {
