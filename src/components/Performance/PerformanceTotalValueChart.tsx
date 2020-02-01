@@ -18,13 +18,20 @@ export const PerformanceTotalValueChart = (props: Props) => {
     () => [
       {
         label: 'Total Equity',
-        data: totalEquityData?.map(a => {
+        data: [
+          [new Date(2020, 1, 22), 7],
+          [new Date(2019, 12, 22), 2],
+          [new Date(2019, 11, 22), 4],
+          [new Date(2019, 10, 22), 2],
+          [new Date(2019, 9, 22), 3],
+        ],
+        /*data: totalEquityData?.map(a => {
           let date = new Date(Date.parse(a.date));
           return [
             new Date(date.getFullYear(), date.getMonth(), date.getDate()),
             a.value,
           ];
-        }),
+        }),*/
       },
     ],
     [totalEquityData],
