@@ -247,6 +247,12 @@ const App = () => {
             </Route>
           )}
           {showSecureApp && (
+            <Route
+              path={prefixPath('/performance')}
+              component={PerformancePage}
+            />
+          )}
+          {showSecureApp && (
             <Route path={prefixPath('/dashboard')} component={DashboardPage} />
           )}
           {showSecureApp && (
