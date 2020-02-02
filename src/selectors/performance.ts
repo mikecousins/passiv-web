@@ -1,9 +1,5 @@
 import { createSelector } from 'reselect';
-import ms from 'milliseconds';
-import { selectIsEditMode } from './router';
-import shouldUpdate from '../reactors/should-update';
 import { AppState } from '../store';
-import { createMatchSelector, RouterState } from 'connected-react-router';
 import { PastValue, Contributions } from '../types/performance';
 import { selectState } from '.';
 

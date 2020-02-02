@@ -1,4 +1,4 @@
-import { getData, postData } from '../api';
+import { getData } from '../api';
 import { ActionCreator, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 

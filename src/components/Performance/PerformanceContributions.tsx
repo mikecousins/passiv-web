@@ -20,7 +20,7 @@ export const PerformanceContributions = (props: Props) => {
   const positive = contributions === null || !(contributions.contributions < 0);
 
   let contributionsString = 'loading...';
-  if (contributions != null && contributions != undefined) {
+  if (contributions !== null && contributions !== undefined) {
     contributionsString = toDollarString(contributions.contributions);
   }
 

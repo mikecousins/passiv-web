@@ -9,7 +9,7 @@ import {
 import { selectSelectedTimeframe } from '../selectors/performance';
 
 const PerformancePage = () => {
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   //const selectedTimeframe = '1Y';//useSelector(selectSelectedTimeframe);
   // dispatch(loadContributions('1Y'));
   // dispatch(loadContributionTimeframe('1Y'));

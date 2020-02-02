@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import TotalHoldings from '../TotalHoldings';
-import PerformanceRateOfReturn from './PerformanceRateOfReturn';
-import PerformanceGroups from './PerformanceGroups';
-import { Chart } from 'react-charts';
-import PerformanceStat from './PerformanceStat';
+import React, { useState } from 'react';
+//import PerformanceRateOfReturn from './PerformanceRateOfReturn';
 import PerformanceChange from './PerformanceChange';
 import PerformanceCapitalGains from './PerformanceCapitalGains';
 import PerformanceContributions from './PerformanceContributions';
-import PerformanceChart from './PerformanceChart';
 import PerformanceContributionChart from './PerformanceContributionChart';
 import PerformanceTotalValueChart from './PerformanceTotalValueChart';
 import { useSelector, useDispatch } from 'react-redux';
