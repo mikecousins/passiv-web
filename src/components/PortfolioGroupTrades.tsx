@@ -8,12 +8,17 @@ import {
   TradeRow,
   Symbol,
   ColumnSymbol,
+  ColumnSymbolWarning,
   ColumnUnits,
   ColumnPrice,
   ColumnAccount,
+  ColumnWarning,
 } from '../styled/Group';
+import Tooltip from './Tooltip';
 import Number from './Number';
 import { selectAccounts } from '../selectors/accounts';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   trades: any;
@@ -46,10 +51,31 @@ export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
             <Title>Units</Title>
             <div>{trade.units}</div>
           </ColumnUnits>
-          <ColumnSymbol>
-            <Title>{trade.universal_symbol.description}</Title>
-            <Symbol>{trade.universal_symbol.symbol}</Symbol>
-          </ColumnSymbol>
+          {trade.symbol_in_target ? (
+            <ColumnSymbol>
+              <Title>{trade.universal_symbol.description}</Title>
+              <Symbol>{trade.universal_symbol.symbol}</Symbol>
+            </ColumnSymbol>
+          ) : (
+            <React.Fragment>
+              <ColumnSymbolWarning>
+                <Title>{trade.universal_symbol.description}</Title>
+                <Symbol>{trade.universal_symbol.symbol}</Symbol>
+              </ColumnSymbolWarning>
+              <ColumnWarning>
+                <Title>Warning</Title>
+                <div>
+                  <Tooltip
+                    label={
+                      "Passiv is trying to sell all units of a security that is not in the target. If you actually want to keep this security but exclude it from Passiv's calculations, you can edit your target and flag this security as an excluded asset."
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                  </Tooltip>
+                </div>
+              </ColumnWarning>
+            </React.Fragment>
+          )}
           <ColumnAccount>
             <Title>Account</Title>
             <div>{accountName}</div>

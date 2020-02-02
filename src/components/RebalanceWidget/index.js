@@ -15,6 +15,8 @@ import {
   selectBrokerages,
   selectCurrencyRates,
   selectCurrencies,
+  selectSettings,
+  selectLimitOrdersFeature,
 } from '../../selectors';
 import { selectSymbols } from '../../selectors/symbols';
 import {
@@ -36,7 +38,9 @@ import {
   ColumnUnits,
   ColumnAction,
   ColumnStatus,
+  ColumnPrice,
 } from '../../styled/Group';
+import Number from '../Number';
 
 import OrderImpacts from './OrderImpacts';
 
@@ -247,6 +251,7 @@ export class RebalanceWidget extends Component {
   render() {
     const { push, showQuestradeOffer } = this.props;
     let error = null;
+    console.log(this.props.settings);
     if (this.state.error) {
       switch (this.state.error.code) {
         case '1014':
@@ -336,11 +341,14 @@ export class RebalanceWidget extends Component {
             <OrderContainer>
               <H2>Order cannot be Processed</H2>
               <P>
-                Passiv is unable to place your orders because one or more of the
-                exchanges don't support market orders. You can still place your
-                trades manually on your brokerage's trading platform. Please{' '}
-                <Link to="/app/help">contact support</Link> if you have any
-                questions.
+                We are unable to place your orders because some trades are on
+                exchanges that only accept limit orders. Passiv uses market
+                orders by default.
+              </P>
+              <P>
+                Consider using limit orders by enabling them on your{' '}
+                <Link to="/app/settings">settings</Link> page. Alternatively,
+                you can always place orders manually on your brokerage.
               </P>
               <Button onClick={() => this.closeWidget()}>Okay</Button>
             </OrderContainer>
@@ -461,6 +469,12 @@ export class RebalanceWidget extends Component {
                       <Title>Units</Title>
                       <div>{results.filled_units}</div>
                     </ColumnUnits>
+                    <ColumnPrice>
+                      <Title>Price</Title>
+                      <div>
+                        <Number value={results.price} currency />
+                      </div>
+                    </ColumnPrice>
                     <ColumnSymbolSmall>
                       <Title>Symbol</Title>
                       <Symbol>{results.universal_symbol.symbol}</Symbol>
@@ -488,24 +502,53 @@ export class RebalanceWidget extends Component {
         ) : this.state.orderSummary ? (
           <OrderContainer>
             <H2>Order Summary</H2>
-            <P>
-              The trades listed above will be placed as market orders on your
-              brokerage account.
-            </P>
-            <div>
-              <OrderImpacts impacts={this.state.orderSummary} />
-            </div>
-            <P>
-              Market orders may result in the price paid or received to be
-              different from the last price quoted before the order was placed.{' '}
-              <A
-                href="https://www.investopedia.com/terms/m/marketorder.asp"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Learn more
-              </A>
-            </P>
+            {this.props.settings.trade_with_limit_orders ? (
+              <React.Fragment>
+                <P>
+                  The trades listed above will be placed as limit orders on your
+                  brokerage account, with a{' '}
+                  {this.props.settings.price_limit_threshold}% price limit
+                  threshold.
+                </P>
+                <div>
+                  <OrderImpacts impacts={this.state.orderSummary} />
+                </div>
+                <P>
+                  You can change the price limit threshold or switch over to
+                  market orders on your <Link to="/app/settings">settings</Link>{' '}
+                  page.
+                </P>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <P>
+                  The trades listed above will be placed as market orders on
+                  your brokerage account.
+                </P>
+                <div>
+                  <OrderImpacts impacts={this.state.orderSummary} />
+                </div>
+                <P>
+                  Market orders may result in the price paid or received to be
+                  different from the last price quoted before the order was
+                  placed.{' '}
+                  <A
+                    href="https://www.investopedia.com/terms/m/marketorder.asp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Learn more
+                  </A>
+                </P>
+                {this.props.limitOrdersEnabled && (
+                  <P>
+                    You can switch to using limit orders on your{' '}
+                    <Link to="/app/settings">settings</Link> page.
+                  </P>
+                )}
+              </React.Fragment>
+            )}
+
             <P>
               <A
                 href="https://www.investopedia.com/terms/e/ecn.asp"
@@ -587,6 +630,8 @@ const select = state => ({
   currencies: selectCurrencies(state),
   preferredCurrency: selectPreferredCurrency(state),
   showQuestradeOffer: selectShowQuestradeOffer(state),
+  settings: selectSettings(state),
+  limitOrdersEnabled: selectLimitOrdersFeature(state),
 });
 
 export default connect(select, actions)(RebalanceWidget);

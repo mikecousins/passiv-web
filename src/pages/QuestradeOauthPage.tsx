@@ -47,7 +47,7 @@ const QuestradeOauthPage = () => {
           dispatch(initialLoad());
           if (isPaid || !questradeOfferFeatureActive) {
             setTimeout(() => {
-              dispatch(replace('/app/dashboard'));
+              dispatch(replace('/app/setup-groups'));
             }, 1000);
           } else {
             setLoading(false);
@@ -200,8 +200,8 @@ const QuestradeOauthPage = () => {
             <Button onClick={() => dispatch(push('/app/questrade-offer'))}>
               Upgrade Now
             </Button>
-            <Button onClick={() => dispatch(push('/app/dashboard'))}>
-              Go to Dashboard
+            <Button onClick={() => dispatch(push('/app/setup-groups'))}>
+              Setup Groups
             </Button>
           </ShadowBox>
         </React.Fragment>

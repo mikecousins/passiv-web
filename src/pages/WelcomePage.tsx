@@ -1,11 +1,11 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { push } from 'connected-react-router';
 import styled from '@emotion/styled';
+import { useDispatch } from 'react-redux';
 import ShadowBox from '../styled/ShadowBox';
+import { push } from 'connected-react-router';
 import { H1DarkStyle, H2DarkStyle, VerticalPadding } from '../styled/Setup';
-import { Button } from '../styled/Button';
 import OnboardingProgress from '../components/OnboardingProgress';
+import { Button } from '../styled/Button';
 
 const ScalingIFrame = styled.iframe`
   width: 100%;

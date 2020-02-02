@@ -67,7 +67,7 @@ const ConnectionsManager = ({ reloadAllState, reloadBrokerages }) => {
         <div>
           <Button
             onClick={() => {
-              if (canAddMultipleConnections()) {
+              if (authorizations.length === 0 || canAddMultipleConnections()) {
                 dispatch(push('/app/settings/connect'));
               } else {
                 startCreatingNewConnection();
@@ -91,7 +91,4 @@ const actions = {
   reloadBrokerages: loadBrokerages,
 };
 
-export default connect(
-  select,
-  actions,
-)(ConnectionsManager);
+export default connect(select, actions)(ConnectionsManager);

@@ -122,194 +122,158 @@ export const selectCurrentGroupId = createSelector<
   AppState,
   RouterState,
   string | null
->(
-  selectRouter,
-  router => {
-    let groupId = null;
-    if (
-      router &&
-      router.location &&
-      router.location.pathname &&
-      router.location.pathname.split('/').length >= 4
-    ) {
-      groupId = router.location.pathname.split('/')[3];
-    }
-    return groupId;
-  },
-);
+>(selectRouter, router => {
+  let groupId = null;
+  if (
+    router &&
+    router.location &&
+    router.location.pathname &&
+    router.location.pathname.split('/').length >= 4
+  ) {
+    groupId = router.location.pathname.split('/')[3];
+  }
+  return groupId;
+});
 
 export const selectCurrentGroupInfo = createSelector<
   AppState,
   string | null,
   SimpleListState<GroupInfoData>,
   GroupInfoData | null
->(
-  selectCurrentGroupId,
-  selectGroupInfo,
-  (groupId, groupInfo) => {
-    if (groupId && groupInfo[groupId] && groupInfo[groupId].data) {
-      return groupInfo[groupId].data;
-    }
-    return null;
-  },
-);
+>(selectCurrentGroupId, selectGroupInfo, (groupId, groupInfo) => {
+  if (groupId && groupInfo[groupId] && groupInfo[groupId].data) {
+    return groupInfo[groupId].data;
+  }
+  return null;
+});
 
 export const selectCurrentGroupInfoError = createSelector<
   AppState,
   GroupInfoData | null,
   Error | null
->(
-  selectCurrentGroupInfo,
-  data => {
-    if (data) {
-      return data.error;
-    }
-    return null;
-  },
-);
+>(selectCurrentGroupInfo, data => {
+  if (data) {
+    return data.error;
+  }
+  return null;
+});
 
 export const selectGroupsLoading = createSelector<
   AppState,
   SimpleState<GroupData[]>,
   boolean
->(
-  selectGroupsRaw,
-  rawGroups => rawGroups.loading,
-);
+>(selectGroupsRaw, rawGroups => rawGroups.loading);
 
 export const selectCurrentGroupAccuracy = createSelector<
   AppState,
   string | null,
   SimpleListState<GroupInfoData>,
   number | null
->(
-  selectCurrentGroupId,
-  selectGroupInfo,
-  (groupId, groupInfo) => {
-    let accuracy = null;
-    if (
-      groupId &&
-      groupInfo &&
-      groupInfo[groupId] &&
-      groupInfo[groupId].data &&
-      groupInfo[groupId].data!.accuracy >= 0
-    ) {
-      accuracy = groupInfo[groupId].data!.accuracy;
-    }
-    return accuracy;
-  },
-);
+>(selectCurrentGroupId, selectGroupInfo, (groupId, groupInfo) => {
+  let accuracy = null;
+  if (
+    groupId &&
+    groupInfo &&
+    groupInfo[groupId] &&
+    groupInfo[groupId].data &&
+    groupInfo[groupId].data!.accuracy >= 0
+  ) {
+    accuracy = groupInfo[groupId].data!.accuracy;
+  }
+  return accuracy;
+});
 
 export const selectCurrentGroupSettings = createSelector<
   AppState,
   string | null,
   SimpleListState<GroupInfoData>,
   Settings | null
->(
-  selectCurrentGroupId,
-  selectGroupInfo,
-  (groupId, groupInfo) => {
-    let settings = null;
-    if (
-      groupId &&
-      groupInfo &&
-      groupInfo[groupId] &&
-      groupInfo[groupId].data &&
-      groupInfo[groupId].data!.settings
-    ) {
-      settings = groupInfo[groupId].data!.settings;
-    }
-    return settings;
-  },
-);
+>(selectCurrentGroupId, selectGroupInfo, (groupId, groupInfo) => {
+  let settings = null;
+  if (
+    groupId &&
+    groupInfo &&
+    groupInfo[groupId] &&
+    groupInfo[groupId].data &&
+    groupInfo[groupId].data!.settings
+  ) {
+    settings = groupInfo[groupId].data!.settings;
+  }
+  return settings;
+});
 
 export const selectCurrentGroupTargetInitialized = createSelector<
   AppState,
   Settings | null,
   boolean
->(
-  selectCurrentGroupSettings,
-  groupSettings => {
-    let targetInitialized = false;
-    if (groupSettings && groupSettings.target_initialized) {
-      targetInitialized = groupSettings.target_initialized;
-    }
-    return targetInitialized;
-  },
-);
+>(selectCurrentGroupSettings, groupSettings => {
+  let targetInitialized = false;
+  if (groupSettings && groupSettings.target_initialized) {
+    targetInitialized = groupSettings.target_initialized;
+  }
+  return targetInitialized;
+});
 
 export const selectCurrentGroupBalances = createSelector<
   AppState,
   string | null,
   SimpleListState<GroupInfoData>,
   Balance[] | null
->(
-  selectCurrentGroupId,
-  selectGroupInfo,
-  (groupId, groupInfo) => {
-    let balances = null;
-    if (
-      groupId &&
-      groupInfo &&
-      groupInfo[groupId] &&
-      groupInfo[groupId].data &&
-      groupInfo[groupId].data!.balances
-    ) {
-      balances = groupInfo[groupId].data!.balances;
-    }
-    return balances;
-  },
-);
+>(selectCurrentGroupId, selectGroupInfo, (groupId, groupInfo) => {
+  let balances = null;
+  if (
+    groupId &&
+    groupInfo &&
+    groupInfo[groupId] &&
+    groupInfo[groupId].data &&
+    groupInfo[groupId].data!.balances
+  ) {
+    balances = groupInfo[groupId].data!.balances;
+  }
+  return balances;
+});
 
 export const selectPreferredCurrency = createSelector<
   AppState,
   Currency[] | null,
   Settings | null,
   Currency | null
->(
-  selectCurrencies,
-  selectCurrentGroupSettings,
-  (currencies, settings) => {
-    if (!currencies) {
-      return null;
-    }
-    if (!settings) {
-      return null;
-    }
-    const preferredCurrency = currencies.find(
-      currency => currency.id === settings.preferred_currency,
-    );
-    if (!preferredCurrency) {
-      return null;
-    }
-    return preferredCurrency;
-  },
-);
+>(selectCurrencies, selectCurrentGroupSettings, (currencies, settings) => {
+  if (!currencies) {
+    return null;
+  }
+  if (!settings) {
+    return null;
+  }
+  const preferredCurrency = currencies.find(
+    currency => currency.id === settings.preferred_currency,
+  );
+  if (!preferredCurrency) {
+    return null;
+  }
+  return preferredCurrency;
+});
 
 export const selectGlobalPreferredCurrency = createSelector<
   AppState,
   Currency[] | null,
   Settings | null,
   Currency | null
->(
-  selectCurrencies,
-  selectSettings,
-  (currencies, settings) => {
-    if (!currencies) {
-      return null;
-    }
-    if (!settings) {
-      return null;
-    }
-    const preferredCurrency = currencies.find(
-      currency => currency.id === settings.preferred_currency,
-    );
-    if (!preferredCurrency) {
-      return null;
-    }
-    return preferredCurrency;
-  },
-);
+>(selectCurrencies, selectSettings, (currencies, settings) => {
+  if (!currencies) {
+    return null;
+  }
+  if (!settings) {
+    return null;
+  }
+  const preferredCurrency = currencies.find(
+    currency => currency.id === settings.preferred_currency,
+  );
+  if (!preferredCurrency) {
+    return null;
+  }
+  return preferredCurrency;
+});
 
 export const selectCurrentGroupCash = createSelector<
   AppState,
@@ -752,20 +716,17 @@ export const selectCurrentAccountId = createSelector<
   AppState,
   AppState,
   string | undefined
->(
-  selectState,
-  state => {
-    const matchSelector = createMatchSelector<
-      any,
-      { groupId?: string; accountId?: string }
-    >('/app/group/:groupId/account/:accountId');
-    const match = matchSelector(state);
-    if (!match) {
-      return undefined;
-    }
-    return match.params.accountId;
-  },
-);
+>(selectState, state => {
+  const matchSelector = createMatchSelector<
+    any,
+    { groupId?: string; accountId?: string }
+  >('/app/group/:groupId/account/:accountId');
+  const match = matchSelector(state);
+  if (!match) {
+    return undefined;
+  }
+  return match.params.accountId;
+});
 
 export type AccountHoldings = {
   id: string;
@@ -816,38 +777,30 @@ export const selectCurrentGroup = createSelector<
   GroupData[] | null,
   string | null,
   GroupData | undefined | null
->(
-  selectGroups,
-  selectCurrentGroupId,
-  (groups, groupId) => {
-    if (groupId) {
-      if (!groups) {
-        return undefined;
-      }
-      return groups.find(g => g.id === groupId);
+>(selectGroups, selectCurrentGroupId, (groups, groupId) => {
+  if (groupId) {
+    if (!groups) {
+      return undefined;
     }
-    return null;
-  },
-);
+    return groups.find(g => g.id === groupId);
+  }
+  return null;
+});
 
 export const selectCurrentAccount = createSelector<
   AppState,
   Account[] | null,
   string | undefined | null,
   Account | undefined | null
->(
-  selectAccounts,
-  selectCurrentAccountId,
-  (accounts, accountId) => {
-    if (accountId) {
-      if (!accounts) {
-        return undefined;
-      }
-      return accounts.find(a => a.id === accountId);
+>(selectAccounts, selectCurrentAccountId, (accounts, accountId) => {
+  if (accountId) {
+    if (!accounts) {
+      return undefined;
     }
-    return null;
-  },
-);
+    return accounts.find(a => a.id === accountId);
+  }
+  return null;
+});
 
 export interface DashboardGroup {
   id: string;
@@ -1088,6 +1041,12 @@ export const selectGroupedAccounts = createSelector(
         accounts: [],
         name: group.name,
       });
+    });
+
+    groupedAccounts.push({
+      groupId: 'hidden',
+      accounts: accounts.filter(a => a.portfolio_group === null),
+      name: 'Hidden Accounts',
     });
 
     accounts.forEach(account => {

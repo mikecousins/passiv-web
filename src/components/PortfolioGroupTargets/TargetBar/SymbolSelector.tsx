@@ -9,6 +9,8 @@ import {
 } from '@reach/combobox';
 import '@reach/combobox/styles.css';
 import { useSelector, useDispatch } from 'react-redux';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { selectCurrentGroupId } from '../../../selectors/groups';
 import { postData } from '../../../api';
 import { loadGroup } from '../../../actions';
@@ -35,6 +37,10 @@ const StyledInput = styled(ComboboxInput)`
 
 const StyledComboboxPopover = styled(ComboboxPopover)`
   z-index: 5;
+`;
+
+const StyledComboboxOption = styled(ComboboxOption)`
+  margin: 5px;
 `;
 
 type Props = {
@@ -64,16 +70,20 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
   const dispatch = useDispatch();
   const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
   const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const loadOptions = () => {
+    setLoading(true);
     postData(`/api/v1/portfolioGroups/${groupId}/symbols`, {
       substring: input,
     })
       .then(response => {
         setMatchingSymbols(response.data);
+        setLoading(false);
       })
       .catch(() => {
         dispatch(loadGroup({ ids: [groupId] }));
+        setLoading(false);
       });
   };
 
@@ -100,21 +110,35 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
   };
 
   return (
-    <StyledCombobox value={value} onSelect={handleSelect}>
-      <StyledInput onChange={onChange} placeholder="Search for security..." />
-      {matchingSymbols && matchingSymbols.length > 0 && (
+    <StyledCombobox onSelect={handleSelect}>
+      <StyledInput
+        value={value}
+        onChange={onChange}
+        placeholder="Search for security..."
+      />
+      {loading ? (
         <StyledComboboxPopover>
           <ComboboxList>
-            {matchingSymbols.map((option: any, index) => {
-              const str = `${option.symbol} (${option.description})`;
-              return (
-                <ComboboxOption key={index} value={option.id}>
-                  {str}
-                </ComboboxOption>
-              );
-            })}
+            <FontAwesomeIcon icon={faSpinner} spin />
           </ComboboxList>
         </StyledComboboxPopover>
+      ) : (
+        matchingSymbols &&
+        matchingSymbols.length > 0 && (
+          <StyledComboboxPopover>
+            <ComboboxList>
+              {matchingSymbols.map((option: any, index) => {
+                return (
+                  <StyledComboboxOption key={index} value={option.id}>
+                    <span>
+                      {option.symbol} ({option.description})
+                    </span>
+                  </StyledComboboxOption>
+                );
+              })}
+            </ComboboxList>
+          </StyledComboboxPopover>
+        )
       )}
     </StyledCombobox>
   );

@@ -98,6 +98,18 @@ export const selectQuestradeOfferFeature = createFeatureSelector(
   'questrade_offer',
 );
 
+export const selectSMS2FAFeature = createFeatureSelector('sms_2fa');
+
+export const selectShowProgressFeature = createFeatureSelector(
+  'onboarding_progress',
+);
+
+export const selectConnectInteractiveBrokersFeature = createFeatureSelector(
+  'connect_interactive_brokers',
+);
+
+export const selectLimitOrdersFeature = createFeatureSelector('limit_orders');
+
 export const selectCurrencies = createSelector<
   AppState,
   SimpleState<Currency[]>,
@@ -135,6 +147,18 @@ export const selectSettingsRaw = (state: AppState) => state.settings;
 export const selectSettings = createSelector(selectSettingsRaw, rawSettings => {
   if (rawSettings.data) {
     return rawSettings.data;
+  }
+});
+
+export const select2FAEnabled = createSelector(selectSettings, settings => {
+  if (settings) {
+    return settings.sms_2fa_enabled;
+  }
+});
+
+export const selectPhoneNumber = createSelector(selectSettings, settings => {
+  if (settings) {
+    return settings.phone_number;
   }
 });
 
@@ -372,20 +396,6 @@ export const selectShowSecureApp = createSelector(
       return false;
     }
     return true;
-  },
-);
-
-export const selectOnboardingPage = createSelector(
-  selectShowOnboardingApp,
-  selectIsAuthorized,
-  (showOnboardingApp, isAuthorized) => {
-    if (!showOnboardingApp) {
-      return undefined;
-    }
-    if (!isAuthorized) {
-      return 'authorization';
-    }
-    return 'other';
   },
 );
 

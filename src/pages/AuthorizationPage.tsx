@@ -7,6 +7,7 @@ import {
   selectIsAuthorized,
   selectBrokerages,
   selectAuthorizations,
+  selectConnectInteractiveBrokersFeature,
 } from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
 import { selectConnectPlaidFeature } from '../selectors';
@@ -19,6 +20,7 @@ import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import QuestradeLogo from '../assets/images/questrade-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
+import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 
 import {
   aDarkStyle,
@@ -49,6 +51,9 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const userPermissions = useSelector(selectUserPermissions);
   const authorizations = useSelector(selectAuthorizations);
   const connectPlaidFeature = useSelector(selectConnectPlaidFeature);
+  const connectInteractiveBrokersFeature = useSelector(
+    selectConnectInteractiveBrokersFeature,
+  );
   const [loading, setLoading] = useState(false);
   const { brokerage } = useParams();
   const dispatch = useDispatch();
@@ -129,28 +134,34 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         </P>
       ),
     },
-    // {
-    //   id: 'interactivebrokers',
-    //   name: 'IBKR',
-    //   connect: () => {
-    //     const brokerage =
-    //       brokerages &&
-    //       brokerages.find(
-    //         brokerage => brokerage.name === 'Interactive Brokers',
-    //       );
-    //     if (brokerage) {
-    //       postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
-    //         type: 'trade',
-    //       }).then(response => {
-    //         window.location = response.data.url;
-    //       });
-    //     }
-    //   },
-    //   openURL: 'https://www.interactivebrokers.com/en/home.php',
-    //   major: true,
-    //   logo: InteractiveBrokersLogo,
-    //   description: <P>IB is great.</P>,
-    // },
+    {
+      id: 'interactivebrokers',
+      name: 'IBKR',
+      connect: () => {
+        const brokerage =
+          brokerages &&
+          brokerages.find(
+            brokerage => brokerage.name === 'Interactive Brokers',
+          );
+        if (brokerage) {
+          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+            type: 'trade',
+          }).then(response => {
+            window.location = response.data.url;
+          });
+        }
+      },
+      openURL: 'https://www.interactivebrokers.com/en/home.php',
+      major: true,
+      logo: InteractiveBrokersLogo,
+      description: (
+        <P>
+          Interactive Brokers is a brokerage that operates in 200+ countries.
+          IBKR's low fees and advanced features will delight traders old and
+          new.
+        </P>
+      ),
+    },
   ];
 
   if (authorized === undefined || !brokerages) {
@@ -171,14 +182,22 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       ) : (
         <React.Fragment>
           <Container2Column>
-            {brokerageOptions.map((brokerage: any) => (
-              <AuthBox key={brokerage.id} onClick={brokerage.connect}>
-                <LogoContainer>
-                  <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
-                </LogoContainer>
-                <AuthLink>Connect {brokerage.name}</AuthLink>
-              </AuthBox>
-            ))}
+            {brokerageOptions.map(
+              (brokerage: any) =>
+                ((brokerage.name === 'IBKR' &&
+                  connectInteractiveBrokersFeature) ||
+                  brokerage.name !== 'IBKR') && (
+                  <AuthBox key={brokerage.id} onClick={brokerage.connect}>
+                    <LogoContainer>
+                      <img
+                        src={brokerage.logo}
+                        alt={`${brokerage.name} Logo`}
+                      />
+                    </LogoContainer>
+                    <AuthLink>Connect {brokerage.name}</AuthLink>
+                  </AuthBox>
+                ),
+            )}
           </Container2Column>
           {connectPlaidFeature && <PlaidConnection setLoading={setLoading} />}
         </React.Fragment>

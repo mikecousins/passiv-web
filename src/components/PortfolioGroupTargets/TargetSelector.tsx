@@ -239,7 +239,6 @@ export const TargetSelector = ({ lockable, target }: Props) => {
       }}
       onReset={values => {
         values.targets = target;
-        toggleEditMode();
       }}
       render={props => (
         <div>

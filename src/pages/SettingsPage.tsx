@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import CredentialsManager from '../components/CredentialsManager';
 import SubscriptionManager from '../components/SubscriptionManager';
 import ConnectionsManager from '../components/ConnectionsManager';
+import NotificationsManager from '../components/NotificationsManager';
 import AccountsManager from '../components/AccountsManager';
 import DemoNotes from '../components/DemoNotes';
 import { selectIsDemo } from '../selectors';
@@ -27,7 +28,10 @@ const SettingsPage = () => {
   return (
     <React.Fragment>
       <Container2Column>
-        <CredentialsManager />
+        <div>
+          <CredentialsManager />
+          <NotificationsManager />
+        </div>
         {isDemo ? <DemoNotes /> : <SubscriptionManager />}
       </Container2Column>
       <ConnectionsManager />
