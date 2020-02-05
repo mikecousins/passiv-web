@@ -21,19 +21,19 @@ export const PerformanceCapitalGain = (props: Props) => {
   const equityData = useSelector(selectTotalEquityTimeframe);
   const contributions = useSelector(selectContributions);
 
-  let capitalGainsString = '12,432.72'; //'loading...';
+  let capitalGainsString = 'loading...';
   let capitalGains = 0;
   let change = 0;
-  // if (
-  //   contributions != null &&
-  //   contributions != undefined &&
-  //   equityData != null &&
-  //   equityData != undefined
-  // ) {
-  //   change = equityData[0].value - equityData[equityData.length - 1].value;
-  //   capitalGains = change - contributions.contributions;
-  //   capitalGainsString = toDollarString(capitalGains);
-  // }
+  if (
+    contributions != null &&
+    contributions != undefined &&
+    equityData != null &&
+    equityData != undefined
+  ) {
+    change = equityData[0].value - equityData[equityData.length - 1].value;
+    capitalGains = change - contributions.contributions;
+    capitalGainsString = toDollarString(capitalGains);
+  }
 
   let positive = !(capitalGainsString[0] === '-');
 

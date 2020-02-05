@@ -18,20 +18,13 @@ export const PerformanceContributionChart = (props: Props) => {
     () => [
       {
         label: 'Contributions',
-        data: [
-          [new Date(2020, 1, 22), 3],
-          [new Date(2020, 1, 23), 1],
-          [new Date(2020, 1, 24), 5],
-          [new Date(2020, 1, 25), 6],
-          [new Date(2020, 1, 26), 4],
-        ],
-        /*data: contributionData?.map(a => {
+        data: contributionData?.map(a => {
           let date = new Date(Date.parse(a.date));
           return [
             new Date(date.getFullYear(), date.getMonth(), date.getDate()),
             a.value,
           ];
-        }),*/
+        }),
         color: 'red',
       },
     ],

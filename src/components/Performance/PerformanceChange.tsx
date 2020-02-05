@@ -17,12 +17,12 @@ type Props = {
 export const PerformanceChange = (props: Props) => {
   const equityData = useSelector(selectTotalEquityTimeframe);
 
-  let change = '24,423.94'; //'loading...';
-  // if (equityData != null && equityData != undefined) {
-  //   change = toDollarString(
-  //     equityData[0].value - equityData[equityData.length - 1].value,
-  //   );
-  // }
+  let change = 'loading...';
+  if (equityData != null && equityData != undefined) {
+    change = toDollarString(
+      equityData[0].value - equityData[equityData.length - 1].value,
+    );
+  }
 
   let positive = !(change[0] === '-');
 

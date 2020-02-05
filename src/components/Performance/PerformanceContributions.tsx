@@ -11,12 +11,7 @@ type Props = {
 };
 
 export const PerformanceContributions = (props: Props) => {
-  //const contributions: Contributions | null = useSelector(selectContributions);
-  const contributions = {
-    contributions: 7000.0,
-    date: '2020-01-02T07:41:11.075212Z',
-    currency: 'CAD',
-  };
+  const contributions: Contributions | null = useSelector(selectContributions);
   const positive = contributions === null || !(contributions.contributions < 0);
 
   let contributionsString = 'loading...';
