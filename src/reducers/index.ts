@@ -18,6 +18,7 @@ import { Account } from '../types/account';
 import { Authorization } from '../types/authorization';
 import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
+import { Settings } from '../types/settings';
 
 export default (history: any) =>
   combineReducers({
@@ -57,7 +58,7 @@ export default (history: any) =>
       baseType: 'FETCH_GROUPS',
       userData: true,
     }),
-    settings: simple<any>({
+    settings: simple<Settings>({
       baseType: 'FETCH_SETTINGS',
       userData: true,
     }),

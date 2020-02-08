@@ -235,47 +235,45 @@ export const selectCurrentGroupBalances = createSelector<
   return balances;
 });
 
-export const selectPreferredCurrency = createSelector<
-  AppState,
-  Currency[] | null,
-  Settings | null,
-  Currency | null
->(selectCurrencies, selectCurrentGroupSettings, (currencies, settings) => {
-  if (!currencies) {
-    return null;
-  }
-  if (!settings) {
-    return null;
-  }
-  const preferredCurrency = currencies.find(
-    currency => currency.id === settings.preferred_currency,
-  );
-  if (!preferredCurrency) {
-    return null;
-  }
-  return preferredCurrency;
-});
+export const selectPreferredCurrency = createSelector(
+  selectCurrencies,
+  selectCurrentGroupSettings,
+  (currencies, settings) => {
+    if (!currencies) {
+      return null;
+    }
+    if (!settings) {
+      return null;
+    }
+    const preferredCurrency = currencies.find(
+      currency => currency.id === settings.preferred_currency,
+    );
+    if (!preferredCurrency) {
+      return null;
+    }
+    return preferredCurrency;
+  },
+);
 
-export const selectGlobalPreferredCurrency = createSelector<
-  AppState,
-  Currency[] | null,
-  Settings | null,
-  Currency | null
->(selectCurrencies, selectSettings, (currencies, settings) => {
-  if (!currencies) {
-    return null;
-  }
-  if (!settings) {
-    return null;
-  }
-  const preferredCurrency = currencies.find(
-    currency => currency.id === settings.preferred_currency,
-  );
-  if (!preferredCurrency) {
-    return null;
-  }
-  return preferredCurrency;
-});
+export const selectGlobalPreferredCurrency = createSelector(
+  selectCurrencies,
+  selectSettings,
+  (currencies, settings) => {
+    if (!currencies) {
+      return null;
+    }
+    if (!settings) {
+      return null;
+    }
+    const preferredCurrency = currencies.find(
+      currency => currency.id === settings.preferred_currency,
+    );
+    if (!preferredCurrency) {
+      return null;
+    }
+    return preferredCurrency;
+  },
+);
 
 export const selectCurrentGroupCash = createSelector<
   AppState,

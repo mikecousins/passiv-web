@@ -17,6 +17,7 @@ import {
   DisabledBox,
   OptionsTitle,
 } from '../styled/GlobalElements';
+import { Settings } from '../types/settings';
 
 const LimitOrdersSettings = () => {
   const settings = useSelector(selectSettings);
@@ -26,11 +27,17 @@ const LimitOrdersSettings = () => {
   const [priceLimitThreshold, setPriceLimitThreshold] = useState();
 
   useEffect(() => {
-    setPriceLimitThreshold(settings.price_limit_threshold);
+    if (settings) {
+      setPriceLimitThreshold(settings.price_limit_threshold);
+    }
   }, [settings]);
 
   const updateLimitOrder = () => {
-    let newSettings = { ...settings };
+    if (!settings) {
+      return;
+    }
+
+    let newSettings: Settings = { ...settings };
     newSettings.trade_with_limit_orders = !settings.trade_with_limit_orders;
 
     putData('/api/v1/settings/', newSettings)
@@ -45,7 +52,11 @@ const LimitOrdersSettings = () => {
   };
 
   const finishEditingThreshold = () => {
-    let newSettings = { ...settings };
+    if (!settings) {
+      return;
+    }
+
+    let newSettings: Settings = { ...settings };
 
     newSettings.price_limit_threshold = priceLimitThreshold;
 

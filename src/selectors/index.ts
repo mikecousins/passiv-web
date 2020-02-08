@@ -166,6 +166,7 @@ export const selectIsDemo = createSelector(selectSettings, settings => {
   if (settings) {
     return settings.demo;
   }
+  return false;
 });
 
 export const selectBrokerages = createSelector(
@@ -403,7 +404,7 @@ export const selectName = createSelector(selectSettings, settings => {
   if (settings) {
     return settings.name;
   }
-  return null;
+  return '';
 });
 
 export const selectIsUpdateServiceWorker = (state: AppState) =>

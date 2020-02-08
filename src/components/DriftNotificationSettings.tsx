@@ -17,6 +17,7 @@ import {
   DisabledBox,
   OptionsTitle,
 } from '../styled/GlobalElements';
+import { Settings } from '../types/settings';
 
 const DriftNotificationSettings = () => {
   const settings = useSelector(selectSettings);
@@ -32,7 +33,11 @@ const DriftNotificationSettings = () => {
   }, [settings]);
 
   const updateNotification = () => {
-    let newSettings = { ...settings };
+    if (!settings) {
+      return;
+    }
+
+    let newSettings: Settings = { ...settings };
     newSettings.receive_drift_notifications = !settings.receive_drift_notifications;
 
     putData('/api/v1/settings/', newSettings)
@@ -45,7 +50,11 @@ const DriftNotificationSettings = () => {
   };
 
   const finishEditingThreshold = () => {
-    let newSettings = { ...settings };
+    if (!settings) {
+      return;
+    }
+
+    let newSettings: Settings = { ...settings };
 
     newSettings.drift_threshold = driftThreshold;
 
@@ -82,7 +91,7 @@ const DriftNotificationSettings = () => {
             {!editingThreshold ? (
               <React.Fragment>
                 <Number
-                  value={settings.drift_threshold}
+                  value={parseFloat(settings.drift_threshold)}
                   percentage
                   decimalPlaces={0}
                 />
