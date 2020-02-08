@@ -75,10 +75,13 @@ jspm_packages/
 .env.production.local
 
 npm-debug.log*
+
+# yarn
 yarn-debug.log*
 yarn-error.log*
 .yarn/cache
 .yarn/build-state.yml
+.pnp.js
 
 /src/index.css
 package-lock.json
@@ -86,4 +89,3 @@ package-lock.json
 # Cypress
 /cypress/videos
 /cypress/screenshots
-.pnp.js
