@@ -58,6 +58,7 @@ export const selectGroups = createSelector<
         if (groupInfo[group.id] && groupInfo[group.id].data) {
           if (
             groupInfo[group.id].data!.settings.target_initialized &&
+            groupInfo[group.id].data!.target_positions &&
             groupInfo[group.id].data!.target_positions.length > 0
           ) {
             groupWithRebalance.setupComplete = true;
@@ -66,6 +67,7 @@ export const selectGroups = createSelector<
           }
           groupWithRebalance.rebalance = !!(
             groupInfo[group.id].data!.calculated_trades &&
+            groupInfo[group.id].data!.calculated_trades.trades &&
             groupInfo[group.id].data!.calculated_trades.trades.length > 0
           );
         }
@@ -886,6 +888,7 @@ export const selectDashboardGroups = createSelector(
         group.accuracy = groupData.accuracy;
         if (
           groupData.settings.target_initialized &&
+          groupData.target_positions &&
           groupData.target_positions.length > 0
         ) {
           group.setupComplete = true;
