@@ -43,11 +43,12 @@
     "@reach/tooltip": "0.8.2",
     "@sentry/browser": "5.12.1",
     "axios": "0.19.2",
-    "connected-react-router": "6.6.1",
+    "connected-react-router": "6.7.0",
     "date-fns": "2.9.0",
-    "emotion-reset": "2.0.4",
+    "emotion-reset": "2.0.5",
     "formik": "2.1.4",
     "history": "4.10.1",
+    "immutable": "4.0.0-rc.12",
     "jwt-decode": "2.2.0",
     "milliseconds": "1.0.3",
     "prop-types": "15.7.2",
@@ -73,6 +74,7 @@
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
     "ric-shim": "1.0.0",
+    "seamless-immutable": "7.1.4",
     "uuid": "3.4.0",
     "yup": "0.28.1"
   },
@@ -86,6 +88,7 @@
     "ci": "yarn test --coverage && yarn lint"
   },
   "devDependencies": {
+    "@testing-library/dom": "6.12.2",
     "@testing-library/jest-dom": "5.1.1",
     "@testing-library/react": "9.4.0",
     "@testing-library/user-event": "8.1.0",
@@ -110,6 +113,7 @@
     "@types/uuid": "3.4.7",
     "@types/yup": "0.26.30",
     "cypress": "4.0.1",
+    "eslint": "6.8.0",
     "eslint-plugin-cypress": "2.9.0",
     "husky": "4.2.1",
     "jest-mock-axios": "3.2.0",
