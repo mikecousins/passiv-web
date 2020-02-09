@@ -4,11 +4,11 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
+import createRootReducer from '../../../reducers';
 import RebalanceWidget from '../';
 import ErrorMessage from '../ErrorMessage';
 import OrderImpact from '../OrderImpact';
 import OrderImpacts from '../OrderImpacts';
-import createRootReducer from '../../../reducers';
 
 afterEach(cleanup);
 
