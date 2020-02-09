@@ -79,11 +79,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test",
     "cypress": "cypress run",
     "cypress:open": "cypress open",
     "lint": "eslint src/**/*.{ts,tsx}",
-    "ci": "npm run test -- --coverage && npm run lint"
+    "ci": "yarn test --coverage && yarn lint"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.1.1",
