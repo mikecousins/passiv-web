@@ -6,6 +6,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import createRootReducer from '../../../reducers';
 import AccountName from '../AccountName';
+import PortfolioGroupAccuracy from '../PortfolioGroupAccuracy';
 
 afterEach(cleanup);
 
@@ -30,4 +31,13 @@ test('AccountName renders without issue', () => {
   const { getByText } = renderWithRedux(<AccountName name="foobar" />, {});
 
   expect(getByText('foobar')).toBeTruthy();
+});
+
+test('PortfolioGroupAccuracy renders without issue', () => {
+  const { getByText } = renderWithRedux(
+    <PortfolioGroupAccuracy accuracy={3} loading={false} />,
+    {},
+  );
+
+  expect(getByText('Accuracy')).toBeTruthy();
 });
