@@ -82,7 +82,7 @@
     "test": "react-scripts test --env=jsdom",
     "cypress": "cypress run",
     "cypress:open": "cypress open",
-    "lint": "eslint src",
+    "lint": "eslint src/**/*.{ts,tsx}",
     "ci": "npm run test -- --coverage && npm run lint"
   },
   "devDependencies": {
