@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faSpinner,
-  faClock,
-  faLightbulb,
-} from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faClock } from '@fortawesome/free-solid-svg-icons';
 import { push } from 'connected-react-router';
 import styled from '@emotion/styled';
 import { loadGroupAndAccounts } from '../../actions';
@@ -29,7 +25,6 @@ import {
 } from '../../selectors/subscription';
 import { Button } from '../../styled/Button';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
-import ShadowBox from '../../styled/ShadowBox';
 import ConnectionUpdate from '../ConnectionUpdate';
 import {
   TradeRow,
@@ -41,6 +36,7 @@ import {
   ColumnPrice,
 } from '../../styled/Group';
 import Number from '../Number';
+import UpgradeIdea from '../UpgradeIdea';
 
 import OrderImpacts from './OrderImpacts';
 
@@ -72,36 +68,6 @@ const ConfirmContainer = styled.div`
 
 const ModifiedTradeRow = styled(TradeRow)`
   margin-bottom: 10px;
-`;
-
-const IdeaBox = styled(ShadowBox)`
-  color: var(--brand-grey);
-  width: 100%;
-`;
-
-const IdeaRow = styled.div`
-  display: flex;
-`;
-
-const DetailRow = styled.div`
-  padding-top: 20px;
-`;
-
-const IconBox = styled.div`
-  font-size: 4em;
-`;
-
-const CopyBox = styled.div`
-  padding-top: 18px;
-  padding-left: 30px;
-`;
-
-const PSmall = styled(P)`
-  font-size: 16px;
-`;
-
-const ASmall = styled(A)`
-  font-size: 16px;
 `;
 
 const ErrorDetail = styled(P)`
@@ -407,39 +373,7 @@ export class RebalanceWidget extends Component {
       <Button onClick={this.validateOrders}>Prepare Orders</Button>
     );
     if (showQuestradeOffer) {
-      orderValidation = (
-        <IdeaBox>
-          <IdeaRow>
-            <IconBox>
-              <FontAwesomeIcon icon={faLightbulb} />
-            </IconBox>
-            <CopyBox>
-              <P>
-                Did you know that your account is eligible for a{' '}
-                <strong>free</strong> upgrade to Passiv Elite?
-              </P>
-            </CopyBox>
-          </IdeaRow>
-
-          <DetailRow>
-            <PSmall>
-              Questrade is offering free subscriptions for one year, with no
-              commitment on your part. We don't even need your credit card!
-            </PSmall>
-            <PSmall>
-              After upgrading, you'll be able to place all your trades through
-              Passiv in a single click. You can access{' '}
-              <ASmall href="/pricing" target="_blank" rel="noopener noreferrer">
-                all features
-              </ASmall>{' '}
-              just by accepting this offer.
-            </PSmall>
-            <Button onClick={() => push('/app/questrade-offer')}>
-              Upgrade Now
-            </Button>
-          </DetailRow>
-        </IdeaBox>
-      );
+      orderValidation = <UpgradeIdea />;
     }
     if (this.state.error) {
       orderValidation = error;

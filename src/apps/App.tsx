@@ -10,6 +10,7 @@ import {
   selectShowInsecureApp,
   selectShowOnboardingApp,
   selectShowSecureApp,
+  selectShowLoginLoading,
 } from '../selectors/app';
 import { selectQueryTokens } from '../selectors/router';
 import LoginPage from '../pages/LoginPage';
@@ -24,6 +25,7 @@ import QuestradeOauthPage from '../pages/QuestradeOauthPage';
 import AlpacaOauthPage from '../pages/AlpacaOauthPage';
 import InteractiveBrokersOauthPage from '../pages/InteractiveBrokersOauthPage';
 import UpgradeOfferPage from '../pages/UpgradeOfferPage';
+import LoginLoadingPage from '../pages/LoginLoadingPage';
 
 import DashboardPage from '../pages/DashboardPage';
 import GroupPage from '../pages/GroupPage';
@@ -36,16 +38,13 @@ import AuthorizationPage from '../pages/AuthorizationPage';
 // import OnboardingSummaryPage from '../pages/OnboardingSummaryPage';
 import WelcomePage from '../pages/WelcomePage';
 
+import { prefixPath } from '../common';
+
 declare global {
   interface Window {
     Stripe: any;
   }
 }
-
-// hack to make routing work on both prod and dev
-const prefixPath = (path: string) => {
-  return `/app${path}`;
-};
 
 // use the stripe test key unless we're in prod
 const stripePublicKey =
@@ -76,6 +75,7 @@ const App = () => {
   const showInsecureApp = useSelector(selectShowInsecureApp);
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const showSecureApp = useSelector(selectShowSecureApp);
+  const showLoginLoading = useSelector(selectShowLoginLoading);
   const loggedIn = useSelector(selectLoggedIn);
   const location = useLocation();
 
@@ -209,6 +209,24 @@ const App = () => {
               path={prefixPath('/questrade-offer')}
               component={UpgradeOfferPage}
             />
+          )}
+          {loggedIn && (
+            <Route
+              exact
+              path={prefixPath('/loading')}
+              render={props => (
+                <LoginLoadingPage {...props} redirectPath={redirectPath} />
+              )}
+            />
+          )}
+          {showLoginLoading && (
+            <Route path="*">
+              <Redirect
+                to={prefixPath(
+                  `/loading?next=${location.pathname}${appendParams}`,
+                )}
+              />
+            </Route>
           )}
           // onboarding app
           {showOnboardingApp && (
