@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import { P, A } from '../../styled/GlobalElements';
-import ShadowBox from '../../styled/ShadowBox';
+import { P } from '../../styled/GlobalElements';
 import { TradeRow } from '../../styled/Group';
 
 export const SummaryContainer = styled.div`
@@ -31,36 +30,6 @@ export const ConfirmContainer = styled.div`
 
 export const ModifiedTradeRow = styled(TradeRow)`
   margin-bottom: 10px;
-`;
-
-export const IdeaBox = styled(ShadowBox)`
-  color: var(--brand-grey);
-  width: 100%;
-`;
-
-export const IdeaRow = styled.div`
-  display: flex;
-`;
-
-export const DetailRow = styled.div`
-  padding-top: 20px;
-`;
-
-export const IconBox = styled.div`
-  font-size: 4em;
-`;
-
-export const CopyBox = styled.div`
-  padding-top: 18px;
-  padding-left: 30px;
-`;
-
-export const PSmall = styled(P)`
-  font-size: 16px;
-`;
-
-export const ASmall = styled(A)`
-  font-size: 16px;
 `;
 
 export const ErrorDetail = styled(P)`

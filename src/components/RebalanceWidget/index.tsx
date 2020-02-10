@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faLightbulb } from '@fortawesome/free-solid-svg-icons';
-import { push } from 'connected-react-router';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { loadGroupAndAccounts } from '../../actions';
 import { getData, postData } from '../../api';
 import { selectSettings } from '../../selectors';
@@ -22,16 +21,10 @@ import {
   OrderContainer,
   SummaryContainer,
   ModifiedTradeRow,
-  IdeaBox,
-  DetailRow,
-  PSmall,
-  ASmall,
-  IdeaRow,
-  IconBox,
-  CopyBox,
 } from './styles';
 import ErrorMessage from './ErrorMessage';
 import { Button } from '../../styled/Button';
+import UpgradeIdea from '../UpgradeIdea';
 
 type Props = {
   groupId: string;
@@ -117,39 +110,7 @@ const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
     <Button onClick={validateOrders}>Prepare Orders</Button>
   );
   if (showQuestradeOffer) {
-    orderValidation = (
-      <IdeaBox>
-        <IdeaRow>
-          <IconBox>
-            <FontAwesomeIcon icon={faLightbulb} />
-          </IconBox>
-          <CopyBox>
-            <P>
-              Did you know that your account is eligible for a{' '}
-              <strong>free</strong> upgrade to Passiv Elite?
-            </P>
-          </CopyBox>
-        </IdeaRow>
-
-        <DetailRow>
-          <PSmall>
-            Questrade is offering free subscriptions for one year, with no
-            commitment on your part. We don't even need your credit card!
-          </PSmall>
-          <PSmall>
-            After upgrading, you'll be able to place all your trades through
-            Passiv in a single click. You can access{' '}
-            <ASmall href="/pricing" target="_blank" rel="noopener noreferrer">
-              all features
-            </ASmall>{' '}
-            just by accepting this offer.
-          </PSmall>
-          <Button onClick={() => push('/app/questrade-offer')}>
-            Upgrade Now
-          </Button>
-        </DetailRow>
-      </IdeaBox>
-    );
+    orderValidation = <UpgradeIdea />;
   }
   if (error) {
     orderValidation = error;

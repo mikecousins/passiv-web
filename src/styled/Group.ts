@@ -194,6 +194,14 @@ export const ColumnSymbol = styled.div`
   }
 `;
 
+export const ColumnSymbolWarning = styled.div`
+  min-width: 46%;
+  color: var(--brand-grey);
+  @media (max-width: 900px) {
+    line-height: 1.2;
+  }
+`;
+
 export const ColumnSymbolSmall = styled.div`
   min-width: 12%;
   color: var(--brand-grey);
@@ -222,6 +230,25 @@ export const ColumnAction = styled.div`
   min-width: 12%;
   color: var(--brand-grey);
   @media (max-width: 900px) {
+    margin-bottom: 16px;
+  }
+`;
+
+export const ColumnWarning = styled.div`
+  min-width: 12%;
+  background-color: orange;
+  text-align: center;
+  padding: 10px;
+  box-shadow: var(--box-shadow);
+  border-radius: 4px;
+  color: var(--brand-grey);
+  @media (min-width: 900px) {
+    margin-left: -20px;
+    margin-right: 20px;
+    margin-top: -10px;
+  }
+  @media (max-width: 900px) {
+    margin-top: 10px;
     margin-bottom: 16px;
   }
 `;
