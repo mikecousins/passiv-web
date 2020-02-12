@@ -31,9 +31,17 @@ type Props = {
   trades: any;
   onClose?: () => void;
   showQuestradeOffer?: boolean;
+  tradesTrigger: () => void;
+  tradesUntrigger: () => void;
 };
 
-const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
+const RebalanceWidget = ({
+  groupId,
+  trades,
+  onClose,
+  tradesTrigger,
+  tradesUntrigger,
+}: Props) => {
   const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
@@ -67,6 +75,7 @@ const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
 
   const confirmOrders = () => {
     setPlacingOrders(true);
+    tradesTrigger();
     postData(
       `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/placeOrders`,
       {},
@@ -90,6 +99,7 @@ const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
     setValidatingOrders(false);
     setOrderSummary(null);
     setOrderResults(null);
+    tradesUntrigger();
     setError(null);
   };
 
@@ -98,6 +108,7 @@ const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
     setValidatingOrders(false);
     setOrderSummary(null);
     setOrderResults(null);
+    tradesUntrigger();
     setError(null);
 
     // execute callback
