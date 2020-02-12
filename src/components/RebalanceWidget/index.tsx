@@ -113,7 +113,9 @@ const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
     orderValidation = <UpgradeIdea />;
   }
   if (error) {
-    orderValidation = error;
+    orderValidation = (
+      <ErrorMessage error={error} closeWidget={closeWidget} groupId={groupId} />
+    );
   } else {
     if (validatingOrders) {
       orderValidation = (
