@@ -181,3 +181,7 @@ export const OptionsTitle = styled.span`
   font-weight: 700;
   margin-right: 10px;
 `;
+
+export const OverlayContainer = styled.div`
+  position: relative;
+`;
