@@ -117,10 +117,11 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
 
   const resetTargets = (resetForm: () => void) => {
     onReset();
+    toggleEditMode();
     postData(`/api/v1/portfolioGroups/${groupId}/targets/`, [])
       .then(() => {
         // once we're done refresh the groups
-        toggleEditMode();
+
         dispatch(loadGroup({ ids: [groupId] }));
       })
       .catch(error => {
