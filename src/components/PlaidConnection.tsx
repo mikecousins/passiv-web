@@ -55,7 +55,7 @@ const PlaidConnection = ({ setLoading }: Props) => {
       <PlaidLink
         clientName="Passiv"
         env="development"
-        product={['holdings']}
+        product={['investments']}
         publicKey="db7797dd137d1d2d7b519e5fdc998e"
         onExit={handleOnExit}
         onSuccess={handleOnSuccess}
