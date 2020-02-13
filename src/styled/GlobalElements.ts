@@ -185,3 +185,10 @@ export const OptionsTitle = styled.span`
 export const OverlayContainer = styled.div`
   position: relative;
 `;
+
+export const TruncatedText = styled.div`
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
