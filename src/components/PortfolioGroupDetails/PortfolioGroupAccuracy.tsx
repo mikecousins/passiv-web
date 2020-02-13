@@ -116,7 +116,7 @@ export const PortfolioGroupAccuracy = ({ accuracy, loading }: Props) => {
   const error = useSelector(selectCurrentGroupInfoError);
 
   let accuracyDisplay = null;
-  if (error) {
+  if (error || accuracy === null) {
     accuracyDisplay = (
       <div>
         <Tooltip label="Unable to calculate accuracy.">
@@ -124,7 +124,7 @@ export const PortfolioGroupAccuracy = ({ accuracy, loading }: Props) => {
         </Tooltip>
       </div>
     );
-  } else if (loading || accuracy === null) {
+  } else if (loading) {
     accuracyDisplay = (
       <div>
         <FontAwesomeIcon icon={faSpinner} spin />
