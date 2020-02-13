@@ -73,7 +73,7 @@ export const SemiCircleMask = styled.div<GaugeProps>`
   top: 0;
   left: 0;
   width: 200px;
-  height: 202px;
+  height: 201px;
   background: transparent;
 
   //This transform deg is what needs to be changed based on percentage
@@ -93,9 +93,8 @@ export const SemiCircleMask = styled.div<GaugeProps>`
     left: 0%;
     z-index: 2;
     display: block;
-    width: 202px;
-    height: 102px;
-    margin: -1px 0 0 -1px;
+    width: 200px;
+    height: 100px;
     background: #fff;
     border-radius: 50% 50% 50% 50% / 100% 100% 0% 0%;
   }
