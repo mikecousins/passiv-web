@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { CashReturn, SubHeader, toDollarString } from './Performance';
 import { useSelector } from 'react-redux';
@@ -25,6 +26,13 @@ export const PerformanceChange = (props: Props) => {
   }
 
   let positive = !(change[0] === '-');
+  if (change === 'loading...') {
+    return (
+      <MarginBottom>
+        <FontAwesomeIcon icon={faSpinner} spin />
+      </MarginBottom>
+    );
+  }
 
   return (
     <React.Fragment>
