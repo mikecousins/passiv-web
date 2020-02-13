@@ -122,7 +122,7 @@ const InteractiveBrokersOauthPage = () => {
   }
 
   return (
-    <ShadowBox background="#2a2d34">
+    <ShadowBox background="#04a287">
       <H1 color="white">SETUP</H1>
       {loading ? (
         <React.Fragment>
