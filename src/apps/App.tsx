@@ -13,26 +13,71 @@ import {
   selectShowLoginLoading,
 } from '../selectors/app';
 import { selectQueryTokens } from '../selectors/router';
-import LoginPage from '../pages/LoginPage';
-import RegistrationPage from '../pages/RegistrationPage';
-import DemoLoginPage from '../pages/DemoLoginPage';
-import HelpArticlePage from '../pages/HelpArticlePage';
-import HelpPage from '../pages/HelpPage';
-import ResetPasswordPage from '../pages/ResetPasswordPage';
-import ResetPasswordConfirmPage from '../pages/ResetPasswordConfirmPage';
-import QuestradeOauthPage from '../pages/QuestradeOauthPage';
-import AlpacaOauthPage from '../pages/AlpacaOauthPage';
-import InteractiveBrokersOauthPage from '../pages/InteractiveBrokersOauthPage';
-import UpgradeOfferPage from '../pages/UpgradeOfferPage';
-import LoginLoadingPage from '../pages/LoginLoadingPage';
-import DashboardPage from '../pages/DashboardPage';
-import GroupPage from '../pages/GroupPage';
-import CouponPage from '../pages/CouponPage';
-import SharePage from '../pages/SharePage';
-import AuthorizationPage from '../pages/AuthorizationPage';
-import WelcomePage from '../pages/WelcomePage';
 import { prefixPath } from '../common';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+// code splitting to lazy load our pages
+const LoginPage = React.lazy(() =>
+  import(/* webpackChunkName: "login" */ '../pages/LoginPage'),
+);
+const RegistrationPage = React.lazy(() =>
+  import(/* webpackChunkName: "registration" */ '../pages/RegistrationPage'),
+);
+const DemoLoginPage = React.lazy(() =>
+  import(/* webpackChunkName: "demo-login" */ '../pages/DemoLoginPage'),
+);
+const HelpArticlePage = React.lazy(() =>
+  import(/* webpackChunkName: "help-article" */ '../pages/HelpArticlePage'),
+);
+const HelpPage = React.lazy(() =>
+  import(/* webpackChunkName: "help" */ '../pages/HelpPage'),
+);
+const ResetPasswordPage = React.lazy(() =>
+  import(/* webpackChunkName: "reset-password" */ '../pages/ResetPasswordPage'),
+);
+const ResetPasswordConfirmPage = React.lazy(() =>
+  import(
+    /* webpackChunkName: "reset-password-confirm" */ '../pages/ResetPasswordConfirmPage'
+  ),
+);
+const QuestradeOauthPage = React.lazy(() =>
+  import(
+    /* webpackChunkName: "questrade-oauth" */ '../pages/QuestradeOauthPage'
+  ),
+);
+const AlpacaOauthPage = React.lazy(() =>
+  import(/* webpackChunkName: "alpaca-oauth" */ '../pages/AlpacaOauthPage'),
+);
+const InteractiveBrokersOauthPage = React.lazy(() =>
+  import(
+    /* webpackChunkName: "interactive-brokers-oauth" */ '../pages/InteractiveBrokersOauthPage'
+  ),
+);
+const UpgradeOfferPage = React.lazy(() =>
+  import(/* webpackChunkName: "upgrade-offer" */ '../pages/UpgradeOfferPage'),
+);
+const LoginLoadingPage = React.lazy(() =>
+  import(/* webpackChunkName: "login-loading" */ '../pages/LoginLoadingPage'),
+);
+const DashboardPage = React.lazy(() =>
+  import(/* webpackChunkName: "dashboard" */ '../pages/DashboardPage'),
+);
+const GroupPage = React.lazy(() =>
+  import(/* webpackChunkName: "group" */ '../pages/GroupPage'),
+);
+const CouponPage = React.lazy(() =>
+  import(/* webpackChunkName: "coupon" */ '../pages/CouponPage'),
+);
+const SharePage = React.lazy(() =>
+  import(/* webpackChunkName: "share" */ '../pages/SharePage'),
+);
+const AuthorizationPage = React.lazy(() =>
+  import(/* webpackChunkName: "authorization" */ '../pages/AuthorizationPage'),
+);
+const WelcomePage = React.lazy(() =>
+  import(/* webpackChunkName: "welcome" */ '../pages/WelcomePage'),
+);
 const SettingsPage = React.lazy(() =>
   import(/* webpackChunkName: "settings" */ '../pages/SettingsPage'),
 );
@@ -114,7 +159,7 @@ const App = () => {
   return (
     <Layout>
       <StripeProvider stripe={stripe}>
-        <React.Suspense fallback={<span>Loading...</span>}>
+        <React.Suspense fallback={<FontAwesomeIcon icon={faSpinner} spin />}>
           <Switch>
             // common routes
             <Route
