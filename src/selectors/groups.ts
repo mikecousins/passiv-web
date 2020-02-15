@@ -149,6 +149,17 @@ export const selectCurrentGroupInfo = createSelector<
   return null;
 });
 
+export const selectCurrentGroupInfoLoading = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    if (groupId && groupInfo[groupId]) {
+      return groupInfo[groupId].loading;
+    }
+    return true;
+  },
+);
+
 export const selectCurrentGroupInfoError = createSelector<
   AppState,
   GroupInfoData | null,
