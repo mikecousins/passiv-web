@@ -58,8 +58,8 @@ export const selectGroups = createSelector<
         if (groupInfo[group.id] && groupInfo[group.id].data) {
           if (
             groupInfo[group.id].data!.settings.target_initialized &&
-            groupInfo[group.id].data!.target_positions &&
-            groupInfo[group.id].data!.target_positions.length > 0
+            groupInfo[group.id].data!.asset_classes_details &&
+            groupInfo[group.id].data!.asset_classes_details.length > 0
           ) {
             groupWithRebalance.setupComplete = true;
           } else {
@@ -327,24 +327,6 @@ export const selectCurrentGroupCash = createSelector<
   },
 );
 
-export const selectCurrentGroupExcludedAssets = createSelector(
-  selectCurrentGroupId,
-  selectGroupInfo,
-  (groupId, groupInfo) => {
-    let excludedAssets = null;
-    if (
-      groupId &&
-      groupInfo &&
-      groupInfo[groupId] &&
-      groupInfo[groupId].data &&
-      groupInfo[groupId].data!.excluded_positions
-    ) {
-      excludedAssets = groupInfo[groupId].data!.excluded_positions;
-    }
-    return excludedAssets;
-  },
-);
-
 export const selectCurrentGroupQuotableSymbols = createSelector(
   selectCurrentGroupInfo,
   groupInfo => {
@@ -358,7 +340,6 @@ export const selectCurrentGroupQuotableSymbols = createSelector(
 export const selectCurrentGroupPositions = createSelector(
   selectCurrentGroupId,
   selectGroupInfo,
-  selectCurrentGroupExcludedAssets,
   selectCurrentGroupQuotableSymbols,
   selectCurrencies,
   selectCurrencyRates,
@@ -366,7 +347,6 @@ export const selectCurrentGroupPositions = createSelector(
   (
     groupId,
     groupInfo,
-    excludedAssets,
     quotableSymbols,
     currencies,
     rates,
@@ -386,13 +366,8 @@ export const selectCurrentGroupPositions = createSelector(
       positions = groupInfo[groupId].data!.positions;
 
       positions.map(position => {
-        if (excludedAssets) {
-          position.excluded = excludedAssets.some(
-            excludedAsset => excludedAsset.symbol === position.symbol.id,
-          );
-        } else {
-          position.excluded = false;
-        }
+        // TODO set this properly
+        position.excluded = false;
         position.quotable = quotableSymbols.some(
           quotableSymbol => quotableSymbol.id === position.symbol.id,
         );
