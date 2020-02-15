@@ -83,13 +83,9 @@ export const selectShowLoginLoading = createSelector(
   selectShowSecureApp,
   selectAuthorizations,
   selectSubscription,
-  (showSecureApp, authorizations, subscription) => {
-    console.log(showSecureApp, authorizations, subscription);
-    return (
-      showSecureApp &&
-      authorizations === undefined &&
-      subscription === undefined &&
-      true
-    );
-  },
+  (showSecureApp, authorizations, subscription) =>
+    showSecureApp &&
+    authorizations === undefined &&
+    subscription === undefined &&
+    true,
 );
