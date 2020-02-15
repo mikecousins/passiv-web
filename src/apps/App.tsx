@@ -16,7 +16,6 @@ import { selectQueryTokens } from '../selectors/router';
 import LoginPage from '../pages/LoginPage';
 import RegistrationPage from '../pages/RegistrationPage';
 import DemoLoginPage from '../pages/DemoLoginPage';
-
 import HelpArticlePage from '../pages/HelpArticlePage';
 import HelpPage from '../pages/HelpPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
@@ -26,19 +25,17 @@ import AlpacaOauthPage from '../pages/AlpacaOauthPage';
 import InteractiveBrokersOauthPage from '../pages/InteractiveBrokersOauthPage';
 import UpgradeOfferPage from '../pages/UpgradeOfferPage';
 import LoginLoadingPage from '../pages/LoginLoadingPage';
-
 import DashboardPage from '../pages/DashboardPage';
 import GroupPage from '../pages/GroupPage';
-import SettingsPage from '../pages/SettingsPage';
 import CouponPage from '../pages/CouponPage';
 import SharePage from '../pages/SharePage';
 import AuthorizationPage from '../pages/AuthorizationPage';
-// import SetupGroupPage from '../pages/SetupGroupsPage';
-// import SetInitialTargetsPage from '../pages/SetInitialTargetsPage';
-// import OnboardingSummaryPage from '../pages/OnboardingSummaryPage';
 import WelcomePage from '../pages/WelcomePage';
-
 import { prefixPath } from '../common';
+
+const SettingsPage = React.lazy(() =>
+  import(/* webpackChunkName: "settings" */ '../pages/SettingsPage'),
+);
 
 declare global {
   interface Window {
@@ -117,193 +114,201 @@ const App = () => {
   return (
     <Layout>
       <StripeProvider stripe={stripe}>
-        <Switch>
-          // common routes
-          <Route
-            path={prefixPath('/help/topic/:slug')}
-            component={HelpArticlePage}
-          />
-          <Route path={prefixPath('/help')} component={HelpPage} />
-          <Route
-            path={prefixPath('/reset-password')}
-            component={ResetPasswordPage}
-          />
-          <Route
-            path={prefixPath('/reset-password-confirm/:token')}
-            component={ResetPasswordConfirmPage}
-          />
-          <Route path={prefixPath('/demo')} component={DemoLoginPage} />
-          // oauth routes
-          {loggedIn && (
+        <React.Suspense fallback={<span>Loading...</span>}>
+          <Switch>
+            // common routes
             <Route
-              path={prefixPath('/oauth/questrade')}
-              component={QuestradeOauthPage}
+              path={prefixPath('/help/topic/:slug')}
+              component={HelpArticlePage}
             />
-          )}
-          {loggedIn && (
+            <Route path={prefixPath('/help')} component={HelpPage} />
             <Route
-              exact
-              path="/oauth/questrade"
-              render={() => questradeOauthRedirect()}
+              path={prefixPath('/reset-password')}
+              component={ResetPasswordPage}
             />
-          )}
-          {loggedIn && (
             <Route
-              exact
-              path="/oauth/questrade-trade"
-              render={() => questradeOauthRedirect()}
+              path={prefixPath('/reset-password-confirm/:token')}
+              component={ResetPasswordConfirmPage}
             />
-          )}
-          <Route path={prefixPath('/demo')} component={DemoLoginPage} />
-          // oauth routes
-          {loggedIn && (
-            <Route
-              path={prefixPath('/oauth/questrade')}
-              component={QuestradeOauthPage}
-            />
-          )}
-          {loggedIn && (
-            <Route
-              exact
-              path="/oauth/questrade"
-              render={() => questradeOauthRedirect()}
-            />
-          )}
-          {loggedIn && (
-            <Route
-              exact
-              path="/oauth/questrade-trade"
-              render={() => questradeOauthRedirect()}
-            />
-          )}
-          {loggedIn && (
-            <Route
-              path={prefixPath('/oauth/alpaca')}
-              component={AlpacaOauthPage}
-            />
-          )}
-          {loggedIn && (
-            <Route
-              exact
-              path="/oauth/alpaca"
-              render={() => alpacaOauthRedirect()}
-            />
-          )}
-          {loggedIn && (
-            <Route
-              path={prefixPath('/oauth/interactivebrokers')}
-              component={InteractiveBrokersOauthPage}
-            />
-          )}
-          {loggedIn && (
-            <Route
-              exact
-              path="/oauth/interactivebrokers"
-              render={() => interactiveBrokersOauthRedirect()}
-            />
-          )}
-          //
-          {loggedIn && (
-            <Route
-              exact
-              path={prefixPath('/questrade-offer')}
-              component={UpgradeOfferPage}
-            />
-          )}
-          {loggedIn && (
-            <Route
-              exact
-              path={prefixPath('/loading')}
-              render={props => (
-                <LoginLoadingPage {...props} redirectPath={redirectPath} />
-              )}
-            />
-          )}
-          {showLoginLoading && (
-            <Route path="*">
-              <Redirect
-                to={prefixPath(
-                  `/loading?next=${location.pathname}${appendParams}`,
+            <Route path={prefixPath('/demo')} component={DemoLoginPage} />
+            // oauth routes
+            {loggedIn && (
+              <Route
+                path={prefixPath('/oauth/questrade')}
+                component={QuestradeOauthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/questrade"
+                render={() => questradeOauthRedirect()}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/questrade-trade"
+                render={() => questradeOauthRedirect()}
+              />
+            )}
+            <Route path={prefixPath('/demo')} component={DemoLoginPage} />
+            // oauth routes
+            {loggedIn && (
+              <Route
+                path={prefixPath('/oauth/questrade')}
+                component={QuestradeOauthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/questrade"
+                render={() => questradeOauthRedirect()}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/questrade-trade"
+                render={() => questradeOauthRedirect()}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                path={prefixPath('/oauth/alpaca')}
+                component={AlpacaOauthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/alpaca"
+                render={() => alpacaOauthRedirect()}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                path={prefixPath('/oauth/interactivebrokers')}
+                component={InteractiveBrokersOauthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/interactivebrokers"
+                render={() => interactiveBrokersOauthRedirect()}
+              />
+            )}
+            //
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/questrade-offer')}
+                component={UpgradeOfferPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/loading')}
+                render={props => (
+                  <LoginLoadingPage {...props} redirectPath={redirectPath} />
                 )}
               />
-            </Route>
-          )}
-          // onboarding app
-          {showOnboardingApp && (
-            <Route path={prefixPath('/connect/:brokerage?')}>
-              <AuthorizationPage onboarding={true} />
-            </Route>
-          )}
-          {showOnboardingApp && (
-            <Route path={prefixPath('/welcome')}>
-              <WelcomePage />
-            </Route>
-          )}
-          {(showSecureApp || showOnboardingApp) && (
-            <Route path={prefixPath('/settings/connect/:brokerage?')}>
-              <AuthorizationPage onboarding={false} />
-            </Route>
-          )}
-          {(showSecureApp || showOnboardingApp) && (
-            <Route path={prefixPath('/settings')} component={SettingsPage} />
-          )}
-          {showOnboardingApp && (
-            <Route path="*">
-              <Redirect to={prefixPath('/welcome')} />
-            </Route>
-          )}
-          // secure app
-          {showSecureApp && (
-            <Route path="/" exact>
-              <Redirect to={prefixPath('/dashboard')} />
-            </Route>
-          )}
-          {showSecureApp && (
-            <Route path={prefixPath('/')} exact>
-              <Redirect to={prefixPath('/dashboard')} />
-            </Route>
-          )}
-          {showSecureApp && (
-            <Route path={prefixPath('/dashboard')} component={DashboardPage} />
-          )}
-          {showSecureApp && (
-            <Route path={prefixPath('/group/:groupId')} component={GroupPage} />
-          )}
-          {showSecureApp && (
-            <Route path={prefixPath('/coupon')} component={CouponPage} />
-          )}
-          {showSecureApp && (
-            <Route path={prefixPath('/share')} component={SharePage} />
-          )}
-          // insecure app
-          {showInsecureApp && (
-            <Route path={prefixPath('/login')} component={LoginPage} />
-          )}
-          {showInsecureApp && (
-            <Route
-              path={prefixPath('/register')}
-              component={RegistrationPage}
-            />
-          )}
-          // catchalls // when logged in, catch unknown URLs and redirect to //
-          dashboard or 'next' query param if defined
-          {showSecureApp && (
-            <Route path="*">
-              <Redirect to={redirectPath} />
-            </Route>
-          )}
-          // when not logged in, catch unknown URLs (such as secure paths) and
-          // login with redirect
-          {showInsecureApp && (
-            <Route path="*">
-              <Redirect
-                to={prefixPath(
-                  `/login?next=${location.pathname}${appendParams}`,
-                )}
+            )}
+            {showLoginLoading && (
+              <Route path="*">
+                <Redirect
+                  to={prefixPath(
+                    `/loading?next=${location.pathname}${appendParams}`,
+                  )}
+                />
+              </Route>
+            )}
+            // onboarding app
+            {showOnboardingApp && (
+              <Route path={prefixPath('/connect/:brokerage?')}>
+                <AuthorizationPage onboarding={true} />
+              </Route>
+            )}
+            {showOnboardingApp && (
+              <Route path={prefixPath('/welcome')}>
+                <WelcomePage />
+              </Route>
+            )}
+            {(showSecureApp || showOnboardingApp) && (
+              <Route path={prefixPath('/settings/connect/:brokerage?')}>
+                <AuthorizationPage onboarding={false} />
+              </Route>
+            )}
+            {(showSecureApp || showOnboardingApp) && (
+              <Route path={prefixPath('/settings')} component={SettingsPage} />
+            )}
+            {showOnboardingApp && (
+              <Route path="*">
+                <Redirect to={prefixPath('/welcome')} />
+              </Route>
+            )}
+            // secure app
+            {showSecureApp && (
+              <Route path="/" exact>
+                <Redirect to={prefixPath('/dashboard')} />
+              </Route>
+            )}
+            {showSecureApp && (
+              <Route path={prefixPath('/')} exact>
+                <Redirect to={prefixPath('/dashboard')} />
+              </Route>
+            )}
+            {showSecureApp && (
+              <Route
+                path={prefixPath('/dashboard')}
+                component={DashboardPage}
               />
-            </Route>
-          )}
-        </Switch>
+            )}
+            {showSecureApp && (
+              <Route
+                path={prefixPath('/group/:groupId')}
+                component={GroupPage}
+              />
+            )}
+            {showSecureApp && (
+              <Route path={prefixPath('/coupon')} component={CouponPage} />
+            )}
+            {showSecureApp && (
+              <Route path={prefixPath('/share')} component={SharePage} />
+            )}
+            // insecure app
+            {showInsecureApp && (
+              <Route path={prefixPath('/login')} component={LoginPage} />
+            )}
+            {showInsecureApp && (
+              <Route
+                path={prefixPath('/register')}
+                component={RegistrationPage}
+              />
+            )}
+            // catchalls // when logged in, catch unknown URLs and redirect to
+            // dashboard or 'next' query param if defined
+            {showSecureApp && (
+              <Route path="*">
+                <Redirect to={redirectPath} />
+              </Route>
+            )}
+            // when not logged in, catch unknown URLs (such as secure paths) and
+            // login with redirect
+            {showInsecureApp && (
+              <Route path="*">
+                <Redirect
+                  to={prefixPath(
+                    `/login?next=${location.pathname}${appendParams}`,
+                  )}
+                />
+              </Route>
+            )}
+          </Switch>
+        </React.Suspense>
       </StripeProvider>
     </Layout>
   );
