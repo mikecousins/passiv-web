@@ -168,11 +168,8 @@ const PortfolioGroupTargets = () => {
   }
 
   // help them set a target if they don't have one yet
-  console.log(targetInitialized);
-  console.log(loading);
-  console.log(target);
   if (
-    !targetInitialized &&
+    !(targetInitialized && target) &&
     !loading &&
     ((target &&
       target.filter(t => t.is_supported === true && t.is_excluded === false)

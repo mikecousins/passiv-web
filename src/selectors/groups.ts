@@ -379,7 +379,6 @@ export const selectCurrentGroupPositions = createSelector(
       groupInfo[groupId] &&
       groupInfo[groupId].data &&
       groupInfo[groupId].data!.positions &&
-      excludedAssets &&
       quotableSymbols &&
       currencies &&
       rates
@@ -387,9 +386,13 @@ export const selectCurrentGroupPositions = createSelector(
       positions = groupInfo[groupId].data!.positions;
 
       positions.map(position => {
-        position.excluded = excludedAssets.some(
-          excludedAsset => excludedAsset.symbol === position.symbol.id,
-        );
+        if (excludedAssets) {
+          position.excluded = excludedAssets.some(
+            excludedAsset => excludedAsset.symbol === position.symbol.id,
+          );
+        } else {
+          position.excluded = false;
+        }
         position.quotable = quotableSymbols.some(
           quotableSymbol => quotableSymbol.id === position.symbol.id,
         );
@@ -440,6 +443,7 @@ export const selectCurrentGroupBalancedEquity = createSelector(
   selectCurrencyRates,
   selectPreferredCurrency,
   (positions, currencies, rates, preferredCurrency) => {
+    console.log(positions);
     if (!positions || !currencies || !rates || !preferredCurrency) {
       return null;
     }
@@ -528,6 +532,8 @@ export const selectCurrentGroupTotalEquity = createSelector(
   selectCurrentGroupCash,
   selectCurrentGroupBalancedEquity,
   (cash, balancedEquity) => {
+    console.log(cash);
+    console.log(balancedEquity);
     if (cash !== null && balancedEquity !== null) {
       return cash + balancedEquity;
     } else {
