@@ -3,22 +3,22 @@
   "name": "Passiv",
   "icons": [
     {
-      "src": "/favicon-96x96.png",
+      "src": "/app/favicon-96x96.png",
       "sizes": "96x96 64x64 32x32 24x24 16x16",
       "type": "image/png"
     },
     {
-      "src": "/android-icon-192x192.png",
+      "src": "/app/android-icon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/android-icon-192x192.png",
+      "src": "/app/android-icon-192x192.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "./app/index.html",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
