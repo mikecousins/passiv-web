@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
-  selectCurrentGroupTarget,
   selectCurrentGroupTargetInitialized,
   selectCurrentGroupInfoError,
   selectCurrentGroupPositions,
@@ -63,7 +62,7 @@ const PortfolioGroupTargets = () => {
   const [model, setModel] = useState<string>();
 
   const groupId = useSelector(selectCurrentGroupId);
-  const target = useSelector(selectCurrentGroupTarget);
+  const target = null;
   const targetInitialized = useSelector(selectCurrentGroupTargetInitialized);
   const error = useSelector(selectCurrentGroupInfoError);
   const positions = useSelector(selectCurrentGroupPositions);

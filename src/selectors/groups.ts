@@ -26,7 +26,6 @@ import {
   Error,
   Settings,
   Balance,
-  TargetPosition,
 } from '../types/groupInfo';
 import { createMatchSelector, RouterState } from 'connected-react-router';
 import { CurrencyRate } from '../types/currencyRate';
@@ -446,63 +445,6 @@ export const selectCurrentGroupBalancedEquity = createSelector(
   },
 );
 
-export const selectCurrentGroupExcludedEquity = createSelector(
-  selectCurrentGroupId,
-  selectGroupInfo,
-  selectCurrencies,
-  selectCurrencyRates,
-  selectPreferredCurrency,
-  (groupId, groupInfo, currencies, rates, preferredCurrency) => {
-    let excludedEquity = 0;
-
-    if (
-      !groupId ||
-      !groupInfo ||
-      !groupInfo[groupId] ||
-      !groupInfo[groupId].data ||
-      !groupInfo[groupId].data!.excluded_positions ||
-      !currencies ||
-      !rates ||
-      !preferredCurrency
-    ) {
-      return excludedEquity;
-    }
-
-    const excludedPositionsIds = groupInfo[
-      groupId
-    ].data!.excluded_positions.map(
-      excluded_position => excluded_position.symbol,
-    );
-
-    const allPositions = groupInfo[groupId].data!.positions;
-
-    allPositions.forEach(position => {
-      if (excludedPositionsIds.includes(position.symbol.id)) {
-        if (
-          preferredCurrency &&
-          position.symbol.currency.id === preferredCurrency.id
-        ) {
-          excludedEquity += position.units * position.price;
-        } else {
-          const conversionRate = rates.find(
-            rate =>
-              preferredCurrency &&
-              rate.src.id === position.symbol.currency.id &&
-              rate.dst.id === preferredCurrency.id,
-          );
-          if (!conversionRate) {
-            return;
-          }
-          excludedEquity +=
-            position.units * position.price * conversionRate.exchange_rate;
-        }
-      }
-    });
-
-    return excludedEquity;
-  },
-);
-
 export const selectCurrentGroupTotalEquity = createSelector(
   selectCurrentGroupCash,
   selectCurrentGroupBalancedEquity,
@@ -514,18 +456,6 @@ export const selectCurrentGroupTotalEquity = createSelector(
     } else {
       return null;
     }
-  },
-);
-
-export const selectCurrentGroupTotalEquityExcludedRemoved = createSelector(
-  selectCurrentGroupCash,
-  selectCurrentGroupBalancedEquity,
-  selectCurrentGroupExcludedEquity,
-  (cash, balancedEquity, excludedEquity) => {
-    if (cash === null || balancedEquity === null || excludedEquity === null) {
-      return 0;
-    }
-    return cash + balancedEquity - excludedEquity;
   },
 );
 
@@ -620,89 +550,13 @@ export const selectTotalGroupHoldings = createSelector(
   },
 );
 
-export const selectCurrentGroupTarget = createSelector<
-  AppState,
-  GroupInfoData | null,
-  number,
-  CurrencyRate[] | null,
-  Currency | null,
-  TargetPosition[] | null
->(
-  selectCurrentGroupInfo,
-  selectCurrentGroupTotalEquityExcludedRemoved,
-  selectCurrencyRates,
-  selectPreferredCurrency,
-  (groupInfo, totalHoldingsExcludedRemoved, rates, preferredCurrency) => {
-    if (
-      !groupInfo ||
-      !groupInfo.target_positions ||
-      totalHoldingsExcludedRemoved === null ||
-      !rates
-    ) {
-      return null;
-    }
-
-    // add the target positions
-    const currentTargetRaw = groupInfo.target_positions;
-    const currentTarget: TargetPosition[] = currentTargetRaw.map(targetRaw => {
-      const target: TargetPosition = { ...targetRaw };
-
-      // add the symbol to the target
-      target.fullSymbol = groupInfo.symbols.find(
-        symbol => symbol.id === target.symbol,
-      );
-      // add the actual percentage to the target
-      const position = groupInfo.positions.find(
-        p => p.symbol.id === target.symbol,
-      );
-      if (position && !position.excluded) {
-        if (
-          preferredCurrency &&
-          position.symbol.currency.id === preferredCurrency.id
-        ) {
-          target.actualPercentage =
-            ((position.price * position.units) / totalHoldingsExcludedRemoved) *
-            100;
-        } else {
-          const conversionRate = rates.find(
-            (rate: any) =>
-              preferredCurrency &&
-              rate.src.id === position.symbol.currency.id &&
-              rate.dst.id === preferredCurrency.id,
-          );
-          if (conversionRate) {
-            target.actualPercentage =
-              ((position.price * position.units) /
-                totalHoldingsExcludedRemoved) *
-              100 *
-              conversionRate.exchange_rate;
-          }
-        }
-      } else {
-        target.actualPercentage = 0;
-      }
-      return target;
-    });
-    return currentTarget;
-  },
-);
-
 export const selectCurrentGroupSetupComplete = createSelector<
   AppState,
   boolean,
-  TargetPosition[] | null,
   boolean
->(
-  selectCurrentGroupTargetInitialized,
-  selectCurrentGroupTarget,
-  (targetInitialized, groupTarget) => {
-    let setupComplete = false;
-    if (targetInitialized && groupTarget && groupTarget.length > 0) {
-      setupComplete = true;
-    }
-    return setupComplete;
-  },
-);
+>(selectCurrentGroupTargetInitialized, targetInitialized => {
+  return targetInitialized;
+});
 
 export const selectCurrentAccountId = createSelector<
   AppState,
@@ -878,8 +732,8 @@ export const selectDashboardGroups = createSelector(
         group.accuracy = groupData.accuracy;
         if (
           groupData.settings.target_initialized &&
-          groupData.target_positions &&
-          groupData.target_positions.length > 0
+          groupData.asset_classes_details &&
+          groupData.asset_classes_details.length > 0
         ) {
           group.setupComplete = true;
         } else {
