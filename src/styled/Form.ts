@@ -120,5 +120,5 @@ export const NumericTextInput = styled(InputTarget)`
   font-size: 1em;
   height: 38px;
   width: 100px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 `;
