@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { loadGroupAndAccounts } from '../../actions';
 import { getData, postData } from '../../api';
-import { selectSettings } from '../../selectors';
+import { selectSettings, selectLimitOrdersFeature } from '../../selectors';
 import { selectShowQuestradeOffer } from '../../selectors/subscription';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
 import {
@@ -43,6 +43,7 @@ const RebalanceWidget = ({
   tradesUntrigger,
 }: Props) => {
   const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
+  const showLimitOrdersFeature = useSelector(selectLimitOrdersFeature);
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
 
@@ -212,10 +213,12 @@ const RebalanceWidget = ({
                   Learn more
                 </A>
               </P>
-              <P>
-                You can switch over to limit orders on your{' '}
-                <Link to="/app/settings">settings</Link> page.
-              </P>
+              {showLimitOrdersFeature && (
+                <P>
+                  You can switch over to limit orders on your{' '}
+                  <Link to="/app/settings">settings</Link> page.
+                </P>
+              )}
             </React.Fragment>
           )}
 
