@@ -115,11 +115,6 @@ const LimitOrdersSettings = () => {
                   <FontAwesomeIcon icon={faPen} />
                   Edit
                 </Edit>
-                <DisabledBox>
-                  Limit Order Premium sets the limit price to be a certain
-                  percentage above the ask price when buying, and below the bid
-                  price when selling.
-                </DisabledBox>
               </React.Fragment>
             ) : (
               <React.Fragment>
@@ -136,6 +131,11 @@ const LimitOrdersSettings = () => {
                 <SmallButton onClick={finishEditingThreshold}>Done</SmallButton>
               </React.Fragment>
             )}
+            <DisabledBox>
+              Limit Order Premium sets the limit price to be a certain
+              percentage above the ask price when buying, and below the bid
+              price when selling.
+            </DisabledBox>
           </SubSetting>
         </React.Fragment>
       ) : (
