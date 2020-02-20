@@ -117,7 +117,7 @@ const CredentialsManager = () => {
   const verifyPhoneNumber = () => {
     setLoading2FA(true);
     setError2FA(null);
-    postData('/api/v1/auth/sms/', { phone: phoneNumber })
+    postData('/api/v1/auth/sms/', { phone: candidatePhoneNumber })
       .then(response => {
         setConfirming2FA(true);
         setLoading2FA(false);
