@@ -26,6 +26,7 @@ import {
   Error,
   Settings,
   Balance,
+  TargetPosition,
 } from '../types/groupInfo';
 import { createMatchSelector, RouterState } from 'connected-react-router';
 import { CurrencyRate } from '../types/currencyRate';
@@ -647,6 +648,142 @@ export const selectCurrentAccount = createSelector<
   }
   return null;
 });
+
+export const selectCurrentGroupExcludedEquity = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  selectCurrencies,
+  selectCurrencyRates,
+  selectPreferredCurrency,
+  (groupId, groupInfo, currencies, rates, preferredCurrency) => {
+    let excludedEquity = 0;
+
+    if (
+      !groupId ||
+      !groupInfo ||
+      !groupInfo[groupId] ||
+      !groupInfo[groupId].data ||
+      !groupInfo[groupId].data!.excluded_positions ||
+      !currencies ||
+      !rates ||
+      !preferredCurrency
+    ) {
+      return excludedEquity;
+    }
+
+    const excludedPositionsIds = groupInfo[
+      groupId
+    ].data!.excluded_positions.map(
+      excluded_position => excluded_position.symbol,
+    );
+
+    const allPositions = groupInfo[groupId].data!.positions;
+
+    allPositions.forEach(position => {
+      if (excludedPositionsIds.includes(position.symbol.id)) {
+        if (
+          preferredCurrency &&
+          position.symbol.currency.id === preferredCurrency.id
+        ) {
+          excludedEquity += position.units * position.price;
+        } else {
+          const conversionRate = rates.find(
+            rate =>
+              preferredCurrency &&
+              rate.src.id === position.symbol.currency.id &&
+              rate.dst.id === preferredCurrency.id,
+          );
+          if (!conversionRate) {
+            return;
+          }
+          excludedEquity +=
+            position.units * position.price * conversionRate.exchange_rate;
+        }
+      }
+    });
+
+    return excludedEquity;
+  },
+);
+
+export const selectCurrentGroupTotalEquityExcludedRemoved = createSelector(
+  selectCurrentGroupCash,
+  selectCurrentGroupBalancedEquity,
+  selectCurrentGroupExcludedEquity,
+  (cash, balancedEquity, excludedEquity) => {
+    if (cash === null || balancedEquity === null || excludedEquity === null) {
+      return 0;
+    }
+    return cash + balancedEquity - excludedEquity;
+  },
+);
+
+export const selectCurrentGroupTarget = createSelector<
+  AppState,
+  GroupInfoData | null,
+  number,
+  CurrencyRate[] | null,
+  Currency | null,
+  TargetPosition[] | null
+>(
+  selectCurrentGroupInfo,
+  selectCurrentGroupTotalEquityExcludedRemoved,
+  selectCurrencyRates,
+  selectPreferredCurrency,
+  (groupInfo, totalHoldingsExcludedRemoved, rates, preferredCurrency) => {
+    if (
+      !groupInfo ||
+      !groupInfo.target_positions ||
+      totalHoldingsExcludedRemoved === null ||
+      !rates
+    ) {
+      return null;
+    }
+
+    // add the target positions
+    const currentTargetRaw = groupInfo.target_positions;
+    const currentTarget: TargetPosition[] = currentTargetRaw.map(targetRaw => {
+      const target: TargetPosition = { ...targetRaw };
+
+      // add the symbol to the target
+      target.fullSymbol = groupInfo.symbols.find(
+        symbol => symbol.id === target.symbol,
+      );
+      // add the actual percentage to the target
+      const position = groupInfo.positions.find(
+        p => p.symbol.id === target.symbol,
+      );
+      if (position && !position.excluded) {
+        if (
+          preferredCurrency &&
+          position.symbol.currency.id === preferredCurrency.id
+        ) {
+          target.actualPercentage =
+            ((position.price * position.units) / totalHoldingsExcludedRemoved) *
+            100;
+        } else {
+          const conversionRate = rates.find(
+            (rate: any) =>
+              preferredCurrency &&
+              rate.src.id === position.symbol.currency.id &&
+              rate.dst.id === preferredCurrency.id,
+          );
+          if (conversionRate) {
+            target.actualPercentage =
+              ((position.price * position.units) /
+                totalHoldingsExcludedRemoved) *
+              100 *
+              conversionRate.exchange_rate;
+          }
+        }
+      } else {
+        target.actualPercentage = 0;
+      }
+      return target;
+    });
+    return currentTarget;
+  },
+);
 
 export interface DashboardGroup {
   id: string;
