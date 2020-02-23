@@ -26,10 +26,12 @@ const DriftNotificationSettings = () => {
   );
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
-  const [driftThreshold, setDriftThreshold] = useState();
+  const [driftThreshold, setDriftThreshold] = useState('');
 
   useEffect(() => {
-    setDriftThreshold(settings && settings.drift_threshold);
+    if (settings) {
+      setDriftThreshold(settings.drift_threshold);
+    }
   }, [settings]);
 
   const updateNotification = () => {

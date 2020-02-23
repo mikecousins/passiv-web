@@ -24,7 +24,7 @@ const LimitOrdersSettings = () => {
   const canPlaceOrders = useSelector(selectCanPlaceOrders);
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
-  const [priceLimitThreshold, setPriceLimitThreshold] = useState();
+  const [priceLimitThreshold, setPriceLimitThreshold] = useState('');
 
   useEffect(() => {
     if (settings) {
@@ -93,7 +93,7 @@ const LimitOrdersSettings = () => {
             {!editingThreshold ? (
               <React.Fragment>
                 <Number
-                  value={priceLimitThreshold}
+                  value={parseInt(priceLimitThreshold, 10)}
                   percentage
                   decimalPlaces={4}
                 />

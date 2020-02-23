@@ -9,6 +9,7 @@ import {
   selectCurrentGroupInfoError,
   selectCurrentGroupPositions,
   selectCurrentGroupInfoLoading,
+  selectCurrentGroupTarget,
 } from '../../selectors/groups';
 import { Button } from '../../styled/Button';
 import { H2, H3, P, ErrorMessage } from '../../styled/GlobalElements';
@@ -62,7 +63,7 @@ const PortfolioGroupTargets = () => {
   const [model, setModel] = useState<string>();
 
   const groupId = useSelector(selectCurrentGroupId);
-  const target = null;
+  const target = useSelector(selectCurrentGroupTarget);
   const targetInitialized = useSelector(selectCurrentGroupTargetInitialized);
   const error = useSelector(selectCurrentGroupInfoError);
   const positions = useSelector(selectCurrentGroupPositions);

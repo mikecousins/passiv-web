@@ -40,9 +40,9 @@ const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
 
   const [validatingOrders, setValidatingOrders] = useState(false);
   const [placingOrders, setPlacingOrders] = useState(false);
-  const [orderSummary, setOrderSummary] = useState();
-  const [orderResults, setOrderResults] = useState();
-  const [error, setError] = useState();
+  const [orderSummary, setOrderSummary] = useState<any>();
+  const [orderResults, setOrderResults] = useState<any>();
+  const [error, setError] = useState<any>();
 
   const reloadData = () => {
     dispatch(loadGroupAndAccounts());
