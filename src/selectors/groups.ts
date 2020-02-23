@@ -657,7 +657,7 @@ export const selectCurrentGroupExcludedEquity = createSelector(
   selectPreferredCurrency,
   (groupId, groupInfo, currencies, rates, preferredCurrency) => {
     let excludedEquity = 0;
-
+    /*
     if (
       !groupId ||
       !groupInfo ||
@@ -700,7 +700,7 @@ export const selectCurrentGroupExcludedEquity = createSelector(
             position.units * position.price * conversionRate.exchange_rate;
         }
       }
-    });
+    }); */
 
     return excludedEquity;
   },
@@ -718,14 +718,7 @@ export const selectCurrentGroupTotalEquityExcludedRemoved = createSelector(
   },
 );
 
-export const selectCurrentGroupTarget = createSelector<
-  AppState,
-  GroupInfoData | null,
-  number,
-  CurrencyRate[] | null,
-  Currency | null,
-  TargetPosition[] | null
->(
+export const selectCurrentGroupTarget = createSelector(
   selectCurrentGroupInfo,
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrencyRates,
@@ -733,7 +726,7 @@ export const selectCurrentGroupTarget = createSelector<
   (groupInfo, totalHoldingsExcludedRemoved, rates, preferredCurrency) => {
     if (
       !groupInfo ||
-      !groupInfo.target_positions ||
+      !groupInfo.asset_classes_details ||
       totalHoldingsExcludedRemoved === null ||
       !rates
     ) {
@@ -741,17 +734,18 @@ export const selectCurrentGroupTarget = createSelector<
     }
 
     // add the target positions
-    const currentTargetRaw = groupInfo.target_positions;
-    const currentTarget: TargetPosition[] = currentTargetRaw.map(targetRaw => {
-      const target: TargetPosition = { ...targetRaw };
+    const currentTargetRaw = groupInfo.asset_classes_details;
+    const currentTarget = currentTargetRaw.map(targetRaw => {
+      const target = { ...targetRaw };
 
       // add the symbol to the target
-      target.fullSymbol = groupInfo.symbols.find(
+      target.symbols[0].symbol = groupInfo.symbols.find(
         symbol => symbol.id === target.symbol,
       );
       // add the actual percentage to the target
       const position = groupInfo.positions.find(
         p => p.symbol.id === target.symbol,
+        xfctrgcdxfrffe,
       );
       if (position && !position.excluded) {
         if (
