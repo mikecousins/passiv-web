@@ -23,16 +23,12 @@ import {
   CalculatedTrades,
   BrokerageAuthorization,
   GroupInfoData,
-  Error,
   Settings,
   Balance,
-  TargetPosition,
 } from '../types/groupInfo';
-import { createMatchSelector, RouterState } from 'connected-react-router';
+import { createMatchSelector } from 'connected-react-router';
 import { CurrencyRate } from '../types/currencyRate';
-import { SimpleState } from '../types/common';
 import { GroupData } from '../types/group';
-import { Account } from '../types/account';
 import { SimpleListState } from '../reducers/simpleList';
 import { Currency } from '../types/currency';
 import { Position } from '../types/account';
@@ -41,13 +37,7 @@ export const selectGroupsRaw = (state: AppState) => state.groups;
 
 export const selectGroupInfo = (state: AppState) => state.groupInfo;
 
-export const selectGroups = createSelector<
-  AppState,
-  SimpleState<GroupData[]>,
-  SimpleListState<GroupInfoData>,
-  Account[] | undefined,
-  GroupData[] | null
->(
+export const selectGroups = createSelector(
   selectGroupsRaw,
   selectGroupInfo,
   selectAccounts,
@@ -97,14 +87,7 @@ export const selectGroups = createSelector<
   },
 );
 
-export const selectGroupsNeedData = createSelector<
-  AppState,
-  boolean,
-  SimpleState<GroupData[]>,
-  number,
-  boolean,
-  boolean
->(
+export const selectGroupsNeedData = createSelector(
   selectLoggedIn,
   selectGroupsRaw,
   selectAppTime,
@@ -120,11 +103,7 @@ export const selectGroupsNeedData = createSelector<
   },
 );
 
-export const selectCurrentGroupId = createSelector<
-  AppState,
-  RouterState,
-  string | null
->(selectRouter, router => {
+export const selectCurrentGroupId = createSelector(selectRouter, router => {
   let groupId = null;
   if (
     router &&
@@ -137,17 +116,16 @@ export const selectCurrentGroupId = createSelector<
   return groupId;
 });
 
-export const selectCurrentGroupInfo = createSelector<
-  AppState,
-  string | null,
-  SimpleListState<GroupInfoData>,
-  GroupInfoData | null
->(selectCurrentGroupId, selectGroupInfo, (groupId, groupInfo) => {
-  if (groupId && groupInfo[groupId] && groupInfo[groupId].data) {
-    return groupInfo[groupId].data;
-  }
-  return null;
-});
+export const selectCurrentGroupInfo = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    if (groupId && groupInfo[groupId] && groupInfo[groupId].data) {
+      return groupInfo[groupId].data;
+    }
+    return null;
+  },
+);
 
 export const selectCurrentGroupInfoLoading = createSelector(
   selectCurrentGroupId,
@@ -160,22 +138,20 @@ export const selectCurrentGroupInfoLoading = createSelector(
   },
 );
 
-export const selectCurrentGroupInfoError = createSelector<
-  AppState,
-  GroupInfoData | null,
-  Error | null
->(selectCurrentGroupInfo, data => {
-  if (data) {
-    return data.error;
-  }
-  return null;
-});
+export const selectCurrentGroupInfoError = createSelector(
+  selectCurrentGroupInfo,
+  groupInfo => {
+    if (groupInfo) {
+      return groupInfo.error;
+    }
+    return null;
+  },
+);
 
-export const selectGroupsLoading = createSelector<
-  AppState,
-  SimpleState<GroupData[]>,
-  boolean
->(selectGroupsRaw, rawGroups => rawGroups.loading);
+export const selectGroupsLoading = createSelector(
+  selectGroupsRaw,
+  rawGroups => rawGroups.loading,
+);
 
 export const selectCurrentGroupAccuracy = createSelector<
   AppState,
@@ -583,14 +559,7 @@ export type AccountHoldings = {
   positions: Position[] | null;
 };
 
-export const selectCurrentAccountHoldings = createSelector<
-  AppState,
-  string | undefined,
-  Account[] | undefined,
-  SimpleListState<Balance[]>,
-  SimpleListState<Position[]>,
-  AccountHoldings | null
->(
+export const selectCurrentAccountHoldings = createSelector(
   selectCurrentAccountId,
   selectAccounts,
   selectAccountBalances,
@@ -619,35 +588,33 @@ export const selectCurrentAccountHoldings = createSelector<
   },
 );
 
-export const selectCurrentGroup = createSelector<
-  AppState,
-  GroupData[] | null,
-  string | null,
-  GroupData | undefined | null
->(selectGroups, selectCurrentGroupId, (groups, groupId) => {
-  if (groupId) {
-    if (!groups) {
-      return undefined;
+export const selectCurrentGroup = createSelector(
+  selectGroups,
+  selectCurrentGroupId,
+  (groups, groupId) => {
+    if (groupId) {
+      if (!groups) {
+        return undefined;
+      }
+      return groups.find(g => g.id === groupId);
     }
-    return groups.find(g => g.id === groupId);
-  }
-  return null;
-});
+    return null;
+  },
+);
 
-export const selectCurrentAccount = createSelector<
-  AppState,
-  Account[] | null,
-  string | undefined | null,
-  Account | undefined | null
->(selectAccounts, selectCurrentAccountId, (accounts, accountId) => {
-  if (accountId) {
-    if (!accounts) {
-      return undefined;
+export const selectCurrentAccount = createSelector(
+  selectAccounts,
+  selectCurrentAccountId,
+  (accounts, accountId) => {
+    if (accountId) {
+      if (!accounts) {
+        return undefined;
+      }
+      return accounts.find(a => a.id === accountId);
     }
-    return accounts.find(a => a.id === accountId);
-  }
-  return null;
-});
+    return null;
+  },
+);
 
 export const selectCurrentGroupExcludedEquity = createSelector(
   selectCurrentGroupId,
@@ -745,7 +712,6 @@ export const selectCurrentGroupTarget = createSelector(
       // add the actual percentage to the target
       const position = groupInfo.positions.find(
         p => p.symbol.id === target.symbol,
-        xfctrgcdxfrffe,
       );
       if (position && !position.excluded) {
         if (
@@ -779,7 +745,7 @@ export const selectCurrentGroupTarget = createSelector(
   },
 );
 
-export interface DashboardGroup {
+export type DashboardGroup = {
   id: string;
   name: string;
   totalCash: number;
@@ -793,7 +759,7 @@ export interface DashboardGroup {
   trades?: CalculatedTrades;
   brokerage_authorizations?: BrokerageAuthorization[];
   preferredCurrency?: Currency | null;
-}
+};
 
 export const selectDashboardGroups = createSelector(
   selectGroups,
@@ -901,14 +867,7 @@ export const selectDashboardGroups = createSelector(
   },
 );
 
-export const selectCurrentAccountCash = createSelector<
-  AppState,
-  Balance[] | null,
-  Currency[] | null,
-  CurrencyRate[] | null,
-  Currency | null,
-  number | null
->(
+export const selectCurrentAccountCash = createSelector(
   selectCurrentAccountBalances,
   selectCurrencies,
   selectCurrencyRates,
