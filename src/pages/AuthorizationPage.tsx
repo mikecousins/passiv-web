@@ -164,6 +164,32 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         </P>
       ),
     },
+    {
+      id: 'tdameritrade',
+      name: 'TD Ameritrade',
+      connect: () => {
+        const brokerage =
+          brokerages &&
+          brokerages.find(
+            brokerage => brokerage.name === 'TD Ameritrade',
+          );
+        if (brokerage) {
+          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+            type: 'trade',
+          }).then(response => {
+            window.location = response.data.url;
+          });
+        }
+      },
+      openURL: 'https://www.tdameritrade.com/home.page',
+      major: true,
+      logo: 'TD Ameritrade Logo',
+      description: (
+        <P>
+          TD Ameritrade
+        </P>
+      ),
+    },
   ];
 
   if (authorized === undefined || !brokerages) {
