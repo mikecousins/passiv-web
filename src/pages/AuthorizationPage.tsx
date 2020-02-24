@@ -170,9 +170,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       connect: () => {
         const brokerage =
           brokerages &&
-          brokerages.find(
-            brokerage => brokerage.name === 'TD Ameritrade',
-          );
+          brokerages.find(brokerage => brokerage.name === 'TD Ameritrade');
         if (brokerage) {
           postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
             type: 'trade',
@@ -184,11 +182,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       openURL: 'https://www.tdameritrade.com/home.page',
       major: true,
       logo: 'TD Ameritrade Logo',
-      description: (
-        <P>
-          TD Ameritrade
-        </P>
-      ),
+      description: <P>TD Ameritrade</P>,
     },
   ];
 
