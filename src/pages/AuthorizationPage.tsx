@@ -8,6 +8,7 @@ import {
   selectBrokerages,
   selectAuthorizations,
   selectConnectInteractiveBrokersFeature,
+  selectShowProgressFeature,
 } from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
 import { selectConnectPlaidFeature } from '../selectors';
@@ -54,6 +55,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const connectInteractiveBrokersFeature = useSelector(
     selectConnectInteractiveBrokersFeature,
   );
+  const showProgressFeature = useSelector(selectShowProgressFeature);
   const [loading, setLoading] = useState(false);
   const { brokerage } = useParams();
   const dispatch = useDispatch();
@@ -284,7 +286,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   return (
     <ShadowBox background="#2a2d34">
       {output}
-      <OnboardingProgress step={2} />
+      {showProgressFeature && <OnboardingProgress step={2} />}
     </ShadowBox>
   );
 };

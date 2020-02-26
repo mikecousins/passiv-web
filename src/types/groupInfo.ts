@@ -89,7 +89,25 @@ export type Error = {
   };
 };
 
+export type AssetClass = {
+  id: string;
+  name: string;
+  percent: number;
+  exclude_asset_class: boolean;
+};
+
+export type AssetClassSymbol = {
+  symbol: string;
+  accounts: string[];
+};
+
+export type AssetClassesDetails = {
+  asset_class: AssetClass;
+  symbols: AssetClassSymbol[];
+};
+
 export type GroupInfoData = {
+  asset_classes_details: AssetClassesDetails[];
   accounts: Account[];
   brokerage_authorizations: BrokerageAuthorization[];
   symbols: Symbol[];

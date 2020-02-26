@@ -41,7 +41,7 @@ const TradeItOauthPage = () => {
           setError(error.response.data);
         });
     }
-  }, []);
+  }, [dispatch, queryTokens.code]);
 
   // if we're done, redirect the user to the dashboard
   if (success) {

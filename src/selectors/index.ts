@@ -110,16 +110,15 @@ export const selectConnectInteractiveBrokersFeature = createFeatureSelector(
 
 export const selectLimitOrdersFeature = createFeatureSelector('limit_orders');
 
-export const selectCurrencies = createSelector<
-  AppState,
-  SimpleState<Currency[]>,
-  Currency[] | null
->(selectCurrenciesRaw, rawCurrencies => {
-  if (rawCurrencies.data) {
-    return rawCurrencies.data;
-  }
-  return null;
-});
+export const selectCurrencies = createSelector(
+  selectCurrenciesRaw,
+  rawCurrencies => {
+    if (rawCurrencies.data) {
+      return rawCurrencies.data;
+    }
+    return null;
+  },
+);
 
 export const selectCurrenciesNeedData = createSelector<
   AppState,
@@ -166,6 +165,7 @@ export const selectIsDemo = createSelector(selectSettings, settings => {
   if (settings) {
     return settings.demo;
   }
+  return false;
 });
 
 export const selectBrokerages = createSelector(
@@ -403,7 +403,7 @@ export const selectName = createSelector(selectSettings, settings => {
   if (settings) {
     return settings.name;
   }
-  return null;
+  return '';
 });
 
 export const selectIsUpdateServiceWorker = (state: AppState) =>

@@ -8,9 +8,10 @@ import {
   CashType,
   Title,
 } from '../../styled/PortfolioGroupDetails';
+import { Balance } from '../../types/groupInfo';
 
 type Props = {
-  balances?: any[] | null;
+  balances: Balance[] | null;
 };
 
 const PortfolioGroupCash = ({ balances }: Props) => (

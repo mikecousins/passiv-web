@@ -21,7 +21,11 @@ const CashNotificationSettings = () => {
   const dispatch = useDispatch();
 
   const updateNotification = () => {
-    let newSettings = Object.assign({}, settings);
+    if (!settings) {
+      return;
+    }
+
+    let newSettings = { ...settings };
     newSettings.receive_cash_notifications = !settings.receive_cash_notifications;
     putData('/api/v1/settings/', newSettings)
       .then(() => {

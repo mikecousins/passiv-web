@@ -217,28 +217,26 @@ const Accounts = () => {
                           Drag accounts here to hide them in Passiv.
                         </GroupNote>
                       ) : (
-                        <React.Fragment>
-                          <GroupNote>
-                            There are no accounts in this group.
-                            <Edit
-                              onClick={() => {
-                                deleteData(
-                                  `/api/v1/portfolioGroups/${group.groupId}`,
-                                )
-                                  .then(() => {
-                                    dispatch(loadGroups());
-                                  })
-                                  .catch(() => {
-                                    dispatch(loadGroups());
-                                  });
-                              }}
-                              disabled={!canCrossAccountBalance}
-                            >
-                              <FontAwesomeIcon icon={faTrashAlt} />
-                              Delete
-                            </Edit>
-                          </GroupNote>
-                        </React.Fragment>
+                        <GroupNote>
+                          There are no accounts in this group.
+                          <Edit
+                            onClick={() => {
+                              deleteData(
+                                `/api/v1/portfolioGroups/${group.groupId}`,
+                              )
+                                .then(() => {
+                                  dispatch(loadGroups());
+                                })
+                                .catch(() => {
+                                  dispatch(loadGroups());
+                                });
+                            }}
+                            disabled={!canCrossAccountBalance}
+                          >
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                            Delete
+                          </Edit>
+                        </GroupNote>
                       )}
                     </React.Fragment>
                   )}

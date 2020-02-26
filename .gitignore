@@ -75,9 +75,13 @@ jspm_packages/
 .env.production.local
 
 npm-debug.log*
+
+# yarn
 yarn-debug.log*
 yarn-error.log*
-.yarn
+.yarn/cache
+.yarn/build-state.yml
+.pnp.js
 
 /src/index.css
 package-lock.json

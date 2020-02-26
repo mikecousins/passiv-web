@@ -58,6 +58,7 @@ export const selectGroups = createSelector<
         if (groupInfo[group.id] && groupInfo[group.id].data) {
           if (
             groupInfo[group.id].data!.settings.target_initialized &&
+            groupInfo[group.id].data!.target_positions &&
             groupInfo[group.id].data!.target_positions.length > 0
           ) {
             groupWithRebalance.setupComplete = true;
@@ -66,6 +67,7 @@ export const selectGroups = createSelector<
           }
           groupWithRebalance.rebalance = !!(
             groupInfo[group.id].data!.calculated_trades &&
+            groupInfo[group.id].data!.calculated_trades.trades &&
             groupInfo[group.id].data!.calculated_trades.trades.length > 0
           );
         }
@@ -146,6 +148,17 @@ export const selectCurrentGroupInfo = createSelector<
   }
   return null;
 });
+
+export const selectCurrentGroupInfoLoading = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    if (groupId && groupInfo[groupId]) {
+      return groupInfo[groupId].loading;
+    }
+    return true;
+  },
+);
 
 export const selectCurrentGroupInfoError = createSelector<
   AppState,
@@ -233,47 +246,45 @@ export const selectCurrentGroupBalances = createSelector<
   return balances;
 });
 
-export const selectPreferredCurrency = createSelector<
-  AppState,
-  Currency[] | null,
-  Settings | null,
-  Currency | null
->(selectCurrencies, selectCurrentGroupSettings, (currencies, settings) => {
-  if (!currencies) {
-    return null;
-  }
-  if (!settings) {
-    return null;
-  }
-  const preferredCurrency = currencies.find(
-    currency => currency.id === settings.preferred_currency,
-  );
-  if (!preferredCurrency) {
-    return null;
-  }
-  return preferredCurrency;
-});
+export const selectPreferredCurrency = createSelector(
+  selectCurrencies,
+  selectCurrentGroupSettings,
+  (currencies, settings) => {
+    if (!currencies) {
+      return null;
+    }
+    if (!settings) {
+      return null;
+    }
+    const preferredCurrency = currencies.find(
+      currency => currency.id === settings.preferred_currency,
+    );
+    if (!preferredCurrency) {
+      return null;
+    }
+    return preferredCurrency;
+  },
+);
 
-export const selectGlobalPreferredCurrency = createSelector<
-  AppState,
-  Currency[] | null,
-  Settings | null,
-  Currency | null
->(selectCurrencies, selectSettings, (currencies, settings) => {
-  if (!currencies) {
-    return null;
-  }
-  if (!settings) {
-    return null;
-  }
-  const preferredCurrency = currencies.find(
-    currency => currency.id === settings.preferred_currency,
-  );
-  if (!preferredCurrency) {
-    return null;
-  }
-  return preferredCurrency;
-});
+export const selectGlobalPreferredCurrency = createSelector(
+  selectCurrencies,
+  selectSettings,
+  (currencies, settings) => {
+    if (!currencies) {
+      return null;
+    }
+    if (!settings) {
+      return null;
+    }
+    const preferredCurrency = currencies.find(
+      currency => currency.id === settings.preferred_currency,
+    );
+    if (!preferredCurrency) {
+      return null;
+    }
+    return preferredCurrency;
+  },
+);
 
 export const selectCurrentGroupCash = createSelector<
   AppState,
@@ -368,7 +379,6 @@ export const selectCurrentGroupPositions = createSelector(
       groupInfo[groupId] &&
       groupInfo[groupId].data &&
       groupInfo[groupId].data!.positions &&
-      excludedAssets &&
       quotableSymbols &&
       currencies &&
       rates
@@ -376,9 +386,13 @@ export const selectCurrentGroupPositions = createSelector(
       positions = groupInfo[groupId].data!.positions;
 
       positions.map(position => {
-        position.excluded = excludedAssets.some(
-          excludedAsset => excludedAsset.symbol === position.symbol.id,
-        );
+        if (excludedAssets) {
+          position.excluded = excludedAssets.some(
+            excludedAsset => excludedAsset.symbol === position.symbol.id,
+          );
+        } else {
+          position.excluded = false;
+        }
         position.quotable = quotableSymbols.some(
           quotableSymbol => quotableSymbol.id === position.symbol.id,
         );
@@ -429,6 +443,7 @@ export const selectCurrentGroupBalancedEquity = createSelector(
   selectCurrencyRates,
   selectPreferredCurrency,
   (positions, currencies, rates, preferredCurrency) => {
+    console.log(positions);
     if (!positions || !currencies || !rates || !preferredCurrency) {
       return null;
     }
@@ -517,6 +532,8 @@ export const selectCurrentGroupTotalEquity = createSelector(
   selectCurrentGroupCash,
   selectCurrentGroupBalancedEquity,
   (cash, balancedEquity) => {
+    console.log(cash);
+    console.log(balancedEquity);
     if (cash !== null && balancedEquity !== null) {
       return cash + balancedEquity;
     } else {
@@ -886,6 +903,7 @@ export const selectDashboardGroups = createSelector(
         group.accuracy = groupData.accuracy;
         if (
           groupData.settings.target_initialized &&
+          groupData.target_positions &&
           groupData.target_positions.length > 0
         ) {
           group.setupComplete = true;

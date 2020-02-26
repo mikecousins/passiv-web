@@ -22,7 +22,7 @@ type Props = {
 
 const Hello = ({ name }: Props) => (
   <HelloStyle>
-    <b>Hi {name === null ? 'there' : name}!</b>
+    <b>Hi {!name ? 'there' : name}!</b>
     <br />
     {format(new Date(), 'EEEE, do MMMM')}
   </HelloStyle>

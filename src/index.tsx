@@ -11,6 +11,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import createRunLoop from './reactors/init-runloop';
 import { effects } from './reactors/effects';
 import store, { history } from './store';
+import * as serviceWorker from './serviceWorker';
 
 if (
   process.env.REACT_APP_BASE_URL_OVERRIDE &&
@@ -76,3 +77,8 @@ const onUpdate = () => {
 
 registerServiceWorker(onUpdate);
 */
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();

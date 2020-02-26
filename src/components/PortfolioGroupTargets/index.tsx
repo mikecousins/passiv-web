@@ -9,6 +9,7 @@ import {
   selectCurrentGroupTargetInitialized,
   selectCurrentGroupInfoError,
   selectCurrentGroupPositions,
+  selectCurrentGroupInfoLoading,
 } from '../../selectors/groups';
 import { Button } from '../../styled/Button';
 import { H2, H3, P, ErrorMessage } from '../../styled/GlobalElements';
@@ -66,6 +67,7 @@ const PortfolioGroupTargets = () => {
   const targetInitialized = useSelector(selectCurrentGroupTargetInitialized);
   const error = useSelector(selectCurrentGroupInfoError);
   const positions = useSelector(selectCurrentGroupPositions);
+  const loadingGroupInfo = useSelector(selectCurrentGroupInfoLoading);
 
   const dispatch = useDispatch();
 
@@ -154,7 +156,7 @@ const PortfolioGroupTargets = () => {
   }
 
   // show a spinner if we don't have our data yet
-  if (!target) {
+  if (loadingGroupInfo) {
     return (
       <ShadowBox>
         <H2>Target Portfolio</H2>
@@ -167,11 +169,12 @@ const PortfolioGroupTargets = () => {
 
   // help them set a target if they don't have one yet
   if (
-    !targetInitialized ||
-    (!loading &&
-      target &&
+    !(targetInitialized && target) &&
+    !loading &&
+    ((target &&
       target.filter(t => t.is_supported === true && t.is_excluded === false)
-        .length === 0)
+        .length === 0) ||
+      !target)
   ) {
     return (
       <ShadowBox background="#2a2d34">

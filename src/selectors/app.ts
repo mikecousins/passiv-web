@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
-import { selectLoggedIn, selectIsAuthorized } from '.';
+import { selectLoggedIn, selectIsAuthorized, selectAuthorizations } from '.';
 import { selectGroups, selectGroupsRaw } from './groups';
+import { selectSubscription } from './subscription';
 
 export const selectShowInsecureApp = createSelector(
   selectLoggedIn,
@@ -76,4 +77,15 @@ export const selectOnboardingPage = createSelector(
     }
     return '/welcome';
   },
+);
+
+export const selectShowLoginLoading = createSelector(
+  selectShowSecureApp,
+  selectAuthorizations,
+  selectSubscription,
+  (showSecureApp, authorizations, subscription) =>
+    showSecureApp &&
+    authorizations === undefined &&
+    subscription === undefined &&
+    true,
 );
