@@ -9,6 +9,7 @@ import {
   selectTotalEquityTimeframe,
   selectContributions,
 } from '../../selectors/performance';
+import { PastValue } from '../../types/performance';
 
 const MarginBottom = styled.div`
   margin-bottom: 25px;
@@ -19,17 +20,19 @@ type Props = {
 };
 
 export const PerformanceCapitalGain = (props: Props) => {
-  const equityData = useSelector(selectTotalEquityTimeframe);
+  const equityData: PastValue[] | undefined = useSelector(
+    selectTotalEquityTimeframe,
+  );
   const contributions = useSelector(selectContributions);
 
   let capitalGainsString = 'loading...';
   let capitalGains = 0;
   let change = 0;
   if (
-    contributions != null &&
-    contributions != undefined &&
-    equityData != null &&
-    equityData != undefined
+    contributions !== null &&
+    contributions !== undefined &&
+    equityData !== null &&
+    equityData !== undefined
   ) {
     change = equityData[0].value - equityData[equityData.length - 1].value;
     capitalGains = change - contributions.contributions;
@@ -53,11 +56,16 @@ export const PerformanceCapitalGain = (props: Props) => {
       </MarginBottom>
       <MarginBottom>
         <CashReturn className={positive ? 'positive' : 'negative'}>
-          ${capitalGainsString}{' '}
           {positive ? (
-            <FontAwesomeIcon icon={faCaretUp} />
+            <span>
+              {'$'}
+              {capitalGainsString} <FontAwesomeIcon icon={faCaretUp} />
+            </span>
           ) : (
-            <FontAwesomeIcon icon={faCaretDown} />
+            <span>
+              {'-'}${capitalGainsString.substr(1)}{' '}
+              <FontAwesomeIcon icon={faCaretDown} />
+            </span>
           )}
         </CashReturn>
       </MarginBottom>

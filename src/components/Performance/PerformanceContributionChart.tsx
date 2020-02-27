@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const PerformanceContributionChart = (props: Props) => {
-  let contributionData: PastValue[] | null = useSelector(
+  let contributionData: PastValue[] | undefined = useSelector(
     selectContributionTimeframe,
   );
 

@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const PerformanceTotalValueChart = (props: Props) => {
-  let totalEquityData: PastValue[] | null = useSelector(
+  let totalEquityData: PastValue[] | undefined = useSelector(
     selectTotalEquityTimeframe,
   );
 

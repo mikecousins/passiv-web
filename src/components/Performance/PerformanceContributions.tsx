@@ -12,8 +12,11 @@ type Props = {
 };
 
 export const PerformanceContributions = (props: Props) => {
-  const contributions: Contributions | null = useSelector(selectContributions);
-  const positive = contributions === null || !(contributions.contributions < 0);
+  const contributions: Contributions | undefined = useSelector(
+    selectContributions,
+  );
+  const positive =
+    contributions === undefined || !(contributions.contributions < 0);
 
   let contributionsString = 'loading...';
   if (contributions !== null && contributions !== undefined) {

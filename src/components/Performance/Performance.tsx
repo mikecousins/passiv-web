@@ -145,7 +145,7 @@ export default Performance;
 export const toDollarString = (dollars: number) => {
   let dollarString = dollars.toFixed(2);
   let index = dollarString.indexOf('.') - 3;
-  while (index > 0) {
+  while ((index > 0 && dollarString[0] !== '-') || index > 1) {
     dollarString =
       dollarString.slice(0, index) + ',' + dollarString.slice(index);
     index -= 3;

@@ -6,6 +6,7 @@ import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { CashReturn, SubHeader, toDollarString } from './Performance';
 import { useSelector } from 'react-redux';
 import { selectTotalEquityTimeframe } from '../../selectors/performance';
+import { PastValue } from '../../types/performance';
 
 const MarginBottom = styled.div`
   margin-bottom: 25px;
@@ -16,10 +17,12 @@ type Props = {
 };
 
 export const PerformanceChange = (props: Props) => {
-  const equityData = useSelector(selectTotalEquityTimeframe);
+  const equityData: PastValue[] | undefined = useSelector(
+    selectTotalEquityTimeframe,
+  );
 
   let change = 'loading...';
-  if (equityData != null && equityData != undefined) {
+  if (equityData !== null && equityData !== undefined) {
     change = toDollarString(
       equityData[0].value - equityData[equityData.length - 1].value,
     );
