@@ -1,12 +1,7 @@
 import React from 'react';
 import Performance from '../components/Performance/Performance';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  loadContributionTimeframe,
-  loadTotalEquityTimeframe,
-  loadContributions,
-  loadPerformanceAll,
-} from '../actions/performance';
+import { loadPerformanceAll } from '../actions/performance';
 import { selectSelectedTimeframe } from '../selectors/performance';
 
 const PerformancePage = () => {

@@ -1,12 +1,7 @@
 import { getData, postData } from '../api';
 import { ActionCreator, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import {
-  setSelectedTimeframe,
-  loadContributionTimeframe,
-  loadContributions,
-  loadTotalEquityTimeframe,
-} from './performance';
+import { setSelectedTimeframe } from './performance';
 
 export const loginSucceeded: ActionCreator<Action> = payload => ({
   type: 'LOGIN_SUCCEEDED',
@@ -373,16 +368,6 @@ export const initialLoad: ActionCreator<ThunkAction<
       .catch(error => dispatch(fetchAccountsError(error)));
 
     dispatch(setSelectedTimeframe('1Y'));
-
-    // dispatch(loadContributions('1Y'));
-    // dispatch(loadContributionTimeframe('1Y'));
-    // dispatch(loadTotalEquityTimeframe('1Y'));
-    // dispatch(loadContributions('YTD'));
-    // dispatch(loadContributionTimeframe('YTD'));
-    // dispatch(loadTotalEquityTimeframe('YTD'));
-    // dispatch(loadContributions('30D'));
-    // dispatch(loadContributionTimeframe('30D'));
-    // dispatch(loadTotalEquityTimeframe('30D'));
   };
 };
 
