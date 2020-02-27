@@ -22,6 +22,7 @@ import styled from '@emotion/styled';
 import QuestradeLogo from '../assets/images/questrade-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
 import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
+import TDAmeritradeLogo from '../assets/images/tda-logo.png';
 
 import {
   aDarkStyle,
@@ -181,7 +182,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       },
       openURL: 'https://www.tdameritrade.com/home.page',
       major: true,
-      logo: 'TD Ameritrade Logo',
+      logo: TDAmeritradeLogo,
       description: <P>TD Ameritrade</P>,
     },
   ];

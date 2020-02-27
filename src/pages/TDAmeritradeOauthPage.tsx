@@ -106,7 +106,7 @@ const TDAmeritradeOauthPage = () => {
       {loading ? (
         <React.Fragment>
           <Step>
-            Establishing connection to Alpaca...{' '}
+            Establishing connection to TD Ameritrade...{' '}
             <FontAwesomeIcon icon={faSpinner} spin />
           </Step>
         </React.Fragment>
