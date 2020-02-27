@@ -24,6 +24,7 @@ import ResetPasswordConfirmPage from '../pages/ResetPasswordConfirmPage';
 import QuestradeOauthPage from '../pages/QuestradeOauthPage';
 import AlpacaOauthPage from '../pages/AlpacaOauthPage';
 import InteractiveBrokersOauthPage from '../pages/InteractiveBrokersOauthPage';
+import TDAmeritradeOauthPage from '../pages/TDAmeritradeOauthPage';
 import UpgradeOfferPage from '../pages/UpgradeOfferPage';
 import LoginLoadingPage from '../pages/LoginLoadingPage';
 
@@ -68,6 +69,12 @@ const alpacaOauthRedirect = () => {
 const interactiveBrokersOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/interactivebrokers?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
+const tdAmeritradeOauthRedirect = () => {
+  let urlParams = new URLSearchParams(window.location.search);
+  let newPath = '/app/oauth/td?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
@@ -200,6 +207,19 @@ const App = () => {
               exact
               path="/oauth/interactivebrokers"
               render={() => interactiveBrokersOauthRedirect()}
+            />
+          )}
+          {loggedIn && (
+            <Route
+              path={prefixPath('/oauth/td')}
+              component={TDAmeritradeOauthPage}
+            />
+          )}
+          {loggedIn && (
+            <Route
+              exact
+              path="/oauth/td"
+              render={() => tdAmeritradeOauthRedirect()}
             />
           )}
           //
