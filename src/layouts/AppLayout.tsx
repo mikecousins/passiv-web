@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Header from '../components/Header';
 import SlideMenu from '../components/SlideMenu';
@@ -35,7 +35,7 @@ export const AppLayout = ({ children }: Props) => (
       <Main>{children}</Main>
     </Container>
     <ScrollHelper />
-    <ToastContainer />
+    <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
   </div>
 );
 
