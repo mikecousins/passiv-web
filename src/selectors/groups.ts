@@ -394,7 +394,6 @@ export const selectCurrentGroupBalancedEquity = createSelector(
   selectCurrencyRates,
   selectPreferredCurrency,
   (positions, currencies, rates, preferredCurrency) => {
-    console.log(positions);
     if (!positions || !currencies || !rates || !preferredCurrency) {
       return null;
     }
@@ -426,8 +425,6 @@ export const selectCurrentGroupTotalEquity = createSelector(
   selectCurrentGroupCash,
   selectCurrentGroupBalancedEquity,
   (cash, balancedEquity) => {
-    console.log(cash);
-    console.log(balancedEquity);
     if (cash !== null && balancedEquity !== null) {
       return cash + balancedEquity;
     } else {

@@ -140,7 +140,9 @@ const App = () => {
     const params = qs.parse(location.search, {
       ignoreQueryPrefix: true,
     });
-    redirectPath = params.next;
+    if (params.next) {
+      redirectPath = params.next;
+    }
   }
 
   // stripe provider
