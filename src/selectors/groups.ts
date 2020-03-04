@@ -703,12 +703,12 @@ export const selectCurrentGroupTarget = createSelector(
       const target = { ...targetRaw };
 
       // add the symbol to the target
-      target.symbols[0].symbol = groupInfo.symbols.find(
-        symbol => symbol.id === target.symbol,
-      );
+      target.symbols[0].symbol =
+        groupInfo.symbols.find(symbol => symbol.id === target.symbols[0].symbol)
+          ?.symbol ?? '';
       // add the actual percentage to the target
       const position = groupInfo.positions.find(
-        p => p.symbol.id === target.symbol,
+        p => p.symbol.id === target.symbols[0].symbol,
       );
       if (position && !position.excluded) {
         if (
