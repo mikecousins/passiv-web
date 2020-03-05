@@ -74,7 +74,7 @@
     "reselect": "4.0.0",
     "ric-shim": "1.0.0",
     "seamless-immutable": "7.1.4",
-    "uuid": "7.0.1",
+    "uuid": "7.0.2",
     "yup": "0.28.1"
   },
   "scripts": {
@@ -87,9 +87,9 @@
     "ci": "yarn test --coverage && yarn lint"
   },
   "devDependencies": {
-    "@testing-library/dom": "6.13.0",
+    "@testing-library/dom": "6.15.0",
     "@testing-library/jest-dom": "5.1.1",
-    "@testing-library/react": "9.4.1",
+    "@testing-library/react": "9.5.0",
     "@testing-library/user-event": "10.0.0",
     "@types/history": "4.7.5",
     "@types/jest": "25.1.3",
