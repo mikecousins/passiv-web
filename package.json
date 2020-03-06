@@ -37,11 +37,11 @@
     "@fortawesome/fontawesome-svg-core": "1.2.27",
     "@fortawesome/free-brands-svg-icons": "5.12.1",
     "@fortawesome/free-solid-svg-icons": "5.12.1",
-    "@fortawesome/react-fontawesome": "0.1.8",
+    "@fortawesome/react-fontawesome": "0.1.9",
     "@reach/combobox": "0.8.5",
     "@reach/menu-button": "0.8.5",
     "@reach/tooltip": "0.8.5",
-    "@sentry/browser": "5.13.0",
+    "@sentry/browser": "5.13.2",
     "axios": "0.19.2",
     "connected-react-router": "6.7.0",
     "date-fns": "2.10.0",
@@ -75,7 +75,7 @@
     "ric-shim": "1.0.0",
     "seamless-immutable": "7.1.4",
     "uuid": "7.0.2",
-    "yup": "0.28.1"
+    "yup": "0.28.2"
   },
   "scripts": {
     "start": "react-scripts start",
