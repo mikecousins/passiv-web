@@ -25,13 +25,13 @@ import {
   GroupInfoData,
   Settings,
   Balance,
+  TargetPosition,
 } from '../types/groupInfo';
 import { createMatchSelector } from 'connected-react-router';
 import { CurrencyRate } from '../types/currencyRate';
-import { GroupData } from '../types/group';
 import { SimpleListState } from '../reducers/simpleList';
 import { Currency } from '../types/currency';
-import { Position } from '../types/account';
+import { Position, Account } from '../types/account';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 
@@ -700,15 +700,24 @@ export const selectCurrentGroupTarget = createSelector(
     // add the target positions
     const currentTargetRaw = groupInfo.asset_classes_details;
     const currentTarget = currentTargetRaw.map(targetRaw => {
-      const target = { ...targetRaw };
+      const target: TargetPosition = {
+        id: targetRaw.asset_class.id,
+        symbol: targetRaw.symbols[0].symbol,
+        percent: targetRaw.asset_class.percent,
+        meta: {},
+        fullSymbol: undefined,
+        actualPercentage: 0,
+        is_excluded: targetRaw.asset_class.exclude_asset_class,
+        is_supported: true,
+      };
 
       // add the symbol to the target
-      target.symbols[0].symbol =
-        groupInfo.symbols.find(symbol => symbol.id === target.symbols[0].symbol)
-          ?.symbol ?? '';
+      target.symbol =
+        groupInfo.symbols.find(symbol => symbol.id === target.symbol)?.symbol ??
+        '';
       // add the actual percentage to the target
       const position = groupInfo.positions.find(
-        p => p.symbol.id === target.symbols[0].symbol,
+        p => p.symbol.id === target.symbol,
       );
       if (position && !position.excluded) {
         if (
