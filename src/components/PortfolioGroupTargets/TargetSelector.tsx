@@ -240,7 +240,8 @@ export const TargetSelector = ({ lockable, target }: Props) => {
       onReset={values => {
         values.targets = target;
       }}
-      render={props => (
+    >
+      {props => (
         <div>
           <Th>
             <Legend>
@@ -471,7 +472,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
           />
         </div>
       )}
-    />
+    </Formik>
   );
 };
 
