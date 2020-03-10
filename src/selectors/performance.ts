@@ -59,31 +59,3 @@ export const selectContributions = createSelector<
     return state.performanceAll?.data?.contributions1Y;
   }
 });
-
-// Was used before did one api call for all data
-// export const selectTotalEquityTimeframe1Y = (state: AppState) =>
-//   state.totalEquityTimeframe1Y.data;
-//
-// export const selectTotalEquityTimeframeYTD = (state: AppState) =>
-//   state.totalEquityTimeframeYTD.data;
-//
-// export const selectTotalEquityTimeframe30D = (state: AppState) =>
-//   state.totalEquityTimeframe30D.data;
-//
-// export const selectContributionTimeframe1Y = (state: AppState) =>
-//   state.contributionTimeframe1Y.data;
-//
-// export const selectContributionTimeframeYTD = (state: AppState) =>
-//   state.contributionTimeframeYTD.data;
-//
-// export const selectContributionTimeframe30D = (state: AppState) =>
-//   state.contributionTimeframe30D.data;
-//
-// export const selectContributions1Y = (state: AppState) =>
-//   state.contributions1Y.data;
-//
-// export const selectContributionsYTD = (state: AppState) =>
-//   state.contributionsYTD.data;
-//
-// export const selectContributions30D = (state: AppState) =>
-//   state.contributions30D.data;

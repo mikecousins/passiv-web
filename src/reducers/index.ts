@@ -19,11 +19,7 @@ import { Account } from '../types/account';
 import { Authorization } from '../types/authorization';
 import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
-import {
-  PastValue,
-  Contributions,
-  PerformanceData,
-} from '../types/performance';
+import { PerformanceData } from '../types/performance';
 import { Settings } from '../types/settings';
 
 export default (history: any) =>
@@ -91,54 +87,6 @@ export default (history: any) =>
     }),
     groupInfo: simpleList<GroupInfoData>({
       baseType: 'FETCH_GROUP_INFO',
-      userData: true,
-    }),
-    // totalEquityTimeframe: simple<PastValueSeries>({
-    //   baseType: 'FETCH_TOTAL_EQUITY_TIMEFRAME_1Y',
-    //   userData: true,
-    // }),
-    totalEquityTimeframe1Y: simple<PastValue[]>({
-      baseType: 'FETCH_TOTAL_EQUITY_TIMEFRAME_1Y',
-      userData: true,
-    }),
-    totalEquityTimeframeYTD: simple<PastValue[]>({
-      baseType: 'FETCH_TOTAL_EQUITY_TIMEFRAME_YTD',
-      userData: true,
-    }),
-    totalEquityTimeframe30D: simple<PastValue[]>({
-      baseType: 'FETCH_TOTAL_EQUITY_TIMEFRAME_30D',
-      userData: true,
-    }),
-    // contributionTimeframe: simple<PastValueSeries>({
-    //   baseType: 'FETCH_CONTRIBUTION_TIMEFRAME_1Y',
-    //   userData: true,
-    // }),
-    contributionTimeframe1Y: simple<PastValue[]>({
-      baseType: 'FETCH_CONTRIBUTION_TIMEFRAME_1Y',
-      userData: true,
-    }),
-    contributionTimeframeYTD: simple<PastValue[]>({
-      baseType: 'FETCH_CONTRIBUTION_TIMEFRAME_YTD',
-      userData: true,
-    }),
-    contributionTimeframe30D: simple<PastValue[]>({
-      baseType: 'FETCH_CONTRIBUTION_TIMEFRAME_30D',
-      userData: true,
-    }),
-    // contributions: simple<Contributions>({
-    //   baseType: 'FETCH_CONTRIBUTIONS',
-    //   userData: true,
-    // }),
-    contributions1Y: simple<Contributions>({
-      baseType: 'FETCH_CONTRIBUTIONS_1Y',
-      userData: true,
-    }),
-    contributionsYTD: simple<Contributions>({
-      baseType: 'FETCH_CONTRIBUTIONS_YTD',
-      userData: true,
-    }),
-    contributions30D: simple<Contributions>({
-      baseType: 'FETCH_CONTRIBUTIONS_30D',
       userData: true,
     }),
     performanceAll: simple<PerformanceData>({
