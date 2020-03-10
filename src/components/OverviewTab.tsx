@@ -1,6 +1,6 @@
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -20,7 +20,6 @@ import {
   selectCurrentGroupInfoError,
   selectCurrentGroupSetupComplete,
   selectGroupsLoading,
-  selectCurrentGroupId,
   selectPreferredCurrency,
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
@@ -62,26 +61,7 @@ const OverviewTab = () => {
   const setupComplete = useSelector(selectCurrentGroupSetupComplete);
   const loading = useSelector(selectGroupsLoading);
   const error = useSelector(selectCurrentGroupInfoError);
-  const groupId = useSelector(selectCurrentGroupId);
-  const [tradeInProgress, setTradeInProgress] = useState(false);
   const preferredCurrency = useSelector(selectPreferredCurrency);
-
-  // reset our trade in progress flag when the group changes
-  useEffect(() => {
-    setTradeInProgress(false);
-  }, [groupId]);
-
-  // if we have trades set a trade in progress until it's over
-  useEffect(() => {
-    if (
-      trades &&
-      trades.trades &&
-      trades.trades.length > 0 &&
-      !tradeInProgress
-    ) {
-      setTradeInProgress(true);
-    }
-  }, [trades, tradeInProgress]);
 
   // if we don't have our group yet, show a spinner
   if (group === undefined) {
@@ -110,14 +90,8 @@ const OverviewTab = () => {
 
   // see if we have any suggested trades to display
   let tradeDisplay = null;
-  if (setupComplete && ((trades && trades.trades.length) || tradeInProgress)) {
-    tradeDisplay = (
-      <PortfolioGroupTrades
-        trades={trades}
-        groupId={group.id}
-        onClose={() => setTradeInProgress(false)}
-      />
-    );
+  if (setupComplete === true) {
+    tradeDisplay = <PortfolioGroupTrades trades={trades} groupId={group.id} />;
   }
   return (
     <React.Fragment>
