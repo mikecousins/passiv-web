@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import TotalHoldings from '../TotalHoldings';
-import React, { useState } from 'react';
+import React from 'react';
 //import PerformanceRateOfReturn from './PerformanceRateOfReturn';
 import PerformanceChange from './PerformanceChange';
 import PerformanceCapitalGains from './PerformanceCapitalGains';

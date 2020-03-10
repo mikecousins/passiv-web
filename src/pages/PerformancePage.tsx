@@ -1,8 +1,7 @@
 import React from 'react';
 import Performance from '../components/Performance/Performance';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loadPerformanceAll } from '../actions/performance';
-import { selectSelectedTimeframe } from '../selectors/performance';
 
 const PerformancePage = () => {
   const dispatch = useDispatch();

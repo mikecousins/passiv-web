@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
+// import styled from '@emotion/styled';
 import PerformanceChart from './PerformanceChart';
 import { useSelector } from 'react-redux';
 import { selectContributionTimeframe } from '../../selectors/performance';
