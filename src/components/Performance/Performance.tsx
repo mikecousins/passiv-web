@@ -59,10 +59,9 @@ export const PercentReturn = styled.span`
 
 export const CashReturn = styled.span`
   padding: 10px;
-  background-color: #ffffff !important;
+  background-color: #ffffff;
   margin: 5px;
   color: #04a287;
-  font-weight: bold;
   &.positive {
     color: #04a287;
   }
