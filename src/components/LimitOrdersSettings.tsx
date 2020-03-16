@@ -9,7 +9,7 @@ import { loadSettings, loadGroups } from '../actions';
 import { putData } from '../api';
 import { ToggleButton, StateText } from '../styled/ToggleButton';
 import Number from './Number';
-import { InputTarget } from '../styled/Form';
+import { NumericTextInput } from '../styled/Form';
 import { SmallButton } from '../styled/Button';
 import {
   Edit,
@@ -26,9 +26,23 @@ const LimitOrdersSettings = () => {
   const [editingThreshold, setEditingThreshold] = useState(false);
   const [priceLimitThreshold, setPriceLimitThreshold] = useState('');
 
+  const calcDecimalPlaces = (number: number) => {
+    let decimalPlaces = 4;
+    const asString = String(number);
+    if (asString.indexOf('.') >= 0) {
+      const pieces = asString.split('.');
+      if (pieces.length === 2) {
+        decimalPlaces = pieces[1].length;
+      }
+    }
+    return decimalPlaces;
+  };
+
   useEffect(() => {
     if (settings) {
-      setPriceLimitThreshold(settings.price_limit_threshold);
+      setPriceLimitThreshold(
+        settings && parseFloat(settings.price_limit_threshold),
+      );
     }
   }, [settings]);
 
@@ -95,21 +109,16 @@ const LimitOrdersSettings = () => {
                 <Number
                   value={parseInt(priceLimitThreshold, 10)}
                   percentage
-                  decimalPlaces={4}
+                  decimalPlaces={calcDecimalPlaces(priceLimitThreshold)}
                 />
                 <Edit onClick={() => setEditingThreshold(true)}>
                   <FontAwesomeIcon icon={faPen} />
                   Edit
                 </Edit>
-                <DisabledBox>
-                  Limit Order Premium sets the limit price to be a certain
-                  percentage above the ask price when buying, and below the bid
-                  price when selling.
-                </DisabledBox>
               </React.Fragment>
             ) : (
               <React.Fragment>
-                <InputTarget
+                <NumericTextInput
                   value={priceLimitThreshold}
                   onChange={e => setPriceLimitThreshold(e.target.value)}
                   onKeyPress={e => {
@@ -122,6 +131,11 @@ const LimitOrdersSettings = () => {
                 <SmallButton onClick={finishEditingThreshold}>Done</SmallButton>
               </React.Fragment>
             )}
+            <DisabledBox>
+              Limit Order Premium sets the limit price to be a certain
+              percentage above the ask price when buying, and below the bid
+              price when selling.
+            </DisabledBox>
           </SubSetting>
         </React.Fragment>
       ) : (

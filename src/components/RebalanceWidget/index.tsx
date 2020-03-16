@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { loadGroupAndAccounts } from '../../actions';
 import { getData, postData } from '../../api';
-import { selectSettings } from '../../selectors';
+import { selectSettings, selectLimitOrdersFeature } from '../../selectors';
 import { selectShowQuestradeOffer } from '../../selectors/subscription';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
 import {
@@ -31,10 +31,19 @@ type Props = {
   trades: any;
   onClose?: () => void;
   showQuestradeOffer?: boolean;
+  tradesTrigger: () => void;
+  tradesUntrigger: () => void;
 };
 
-const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
+const RebalanceWidget = ({
+  groupId,
+  trades,
+  onClose,
+  tradesTrigger,
+  tradesUntrigger,
+}: Props) => {
   const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
+  const showLimitOrdersFeature = useSelector(selectLimitOrdersFeature);
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
 
@@ -45,7 +54,7 @@ const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
   const [error, setError] = useState<any>();
 
   const reloadData = () => {
-    dispatch(loadGroupAndAccounts());
+    dispatch(loadGroupAndAccounts({ ids: [groupId] }));
   };
 
   const validateOrders = () => {
@@ -67,6 +76,7 @@ const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
 
   const confirmOrders = () => {
     setPlacingOrders(true);
+    tradesTrigger();
     postData(
       `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/placeOrders`,
       {},
@@ -90,6 +100,7 @@ const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
     setValidatingOrders(false);
     setOrderSummary(null);
     setOrderResults(null);
+    tradesUntrigger();
     setError(null);
   };
 
@@ -98,6 +109,7 @@ const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
     setValidatingOrders(false);
     setOrderSummary(null);
     setOrderResults(null);
+    tradesUntrigger();
     setError(null);
 
     // execute callback
@@ -113,7 +125,9 @@ const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
     orderValidation = <UpgradeIdea />;
   }
   if (error) {
-    orderValidation = error;
+    orderValidation = (
+      <ErrorMessage error={error} closeWidget={closeWidget} groupId={groupId} />
+    );
   } else {
     if (validatingOrders) {
       orderValidation = (
@@ -199,10 +213,12 @@ const RebalanceWidget = ({ groupId, trades, onClose }: Props) => {
                   Learn more
                 </A>
               </P>
-              <P>
-                You can switch over to limit orders on your{' '}
-                <Link to="/app/settings">settings</Link> page.
-              </P>
+              {showLimitOrdersFeature && (
+                <P>
+                  You can switch over to limit orders on your{' '}
+                  <Link to="/app/settings">settings</Link> page.
+                </P>
+              )}
             </React.Fragment>
           )}
 

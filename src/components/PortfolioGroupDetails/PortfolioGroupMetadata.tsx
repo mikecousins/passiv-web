@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { TruncatedText } from '../../styled/GlobalElements';
 import styled from '@emotion/styled';
 
 const MetaHorizontal = styled.div`
@@ -30,18 +31,18 @@ const PortfolioGroupMetadata = ({ account }: Props) => {
   return (
     <div>
       <MetaHorizontal>
-        <div>
+        <TruncatedText>
           <span>Account #: </span>
           {account ? account.number : <FontAwesomeIcon icon={faSpinner} spin />}
-        </div>
-        <div>
+        </TruncatedText>
+        <TruncatedText>
           <span>Type: </span>
           {account ? account.type : <FontAwesomeIcon icon={faSpinner} spin />}
-        </div>
-        <div>
+        </TruncatedText>
+        <TruncatedText>
           <span>Institution: </span>
           {account && account.institution_name}
-        </div>
+        </TruncatedText>
       </MetaHorizontal>
     </div>
   );
