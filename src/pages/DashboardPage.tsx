@@ -7,6 +7,7 @@ import { selectIsAuthorized } from '../selectors';
 import { selectDashboardGroups } from '../selectors/groups';
 import TotalHoldings from '../components/TotalHoldings';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
+import WelcomeVideo from '../components/WelcomeVideo/WelcomeVideo';
 
 export const DashboardPage = () => {
   const authorized = useSelector(selectIsAuthorized);
@@ -30,8 +31,18 @@ export const DashboardPage = () => {
     );
   }
 
+  let allGroupSetupCompleted = null;
+
+  if (groups) {
+    let groupsSetupStatus = groups.map(group => group.setupComplete);
+    const verifyAllTrue = (currentValue: any) => currentValue === true;
+
+    allGroupSetupCompleted = groupsSetupStatus.every(verifyAllTrue);
+  }
+
   return (
     <React.Fragment>
+      {allGroupSetupCompleted ? null : <WelcomeVideo />}
       <TotalHoldings />
       {groupDisplay}
     </React.Fragment>
