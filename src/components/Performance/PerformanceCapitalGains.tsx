@@ -51,7 +51,7 @@ export const PerformanceCapitalGain = (props: Props) => {
 
   return (
     <React.Fragment>
-      <SubHeader>Capital Gains</SubHeader>
+      <SubHeader>Investment Growth</SubHeader>
       <CashReturn className={positive ? 'positive' : 'negative'}>
         {positive ? (
           <span>
