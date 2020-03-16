@@ -51,24 +51,20 @@ export const PerformanceCapitalGain = (props: Props) => {
 
   return (
     <React.Fragment>
-      <MarginBottom>
-        <SubHeader>Capital Gains</SubHeader>
-      </MarginBottom>
-      <MarginBottom>
-        <CashReturn className={positive ? 'positive' : 'negative'}>
-          {positive ? (
-            <span>
-              {'$'}
-              {capitalGainsString} <FontAwesomeIcon icon={faCaretUp} />
-            </span>
-          ) : (
-            <span>
-              {'-'}${capitalGainsString.substr(1)}{' '}
-              <FontAwesomeIcon icon={faCaretDown} />
-            </span>
-          )}
-        </CashReturn>
-      </MarginBottom>
+      <SubHeader>Capital Gains</SubHeader>
+      <CashReturn className={positive ? 'positive' : 'negative'}>
+        {positive ? (
+          <span>
+            {'$'}
+            {capitalGainsString} <FontAwesomeIcon icon={faCaretUp} />
+          </span>
+        ) : (
+          <span>
+            {'-'}${capitalGainsString.substr(1)}{' '}
+            <FontAwesomeIcon icon={faCaretDown} />
+          </span>
+        )}
+      </CashReturn>
     </React.Fragment>
   );
 };

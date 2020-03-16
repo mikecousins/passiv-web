@@ -15,7 +15,6 @@ const StyledAside = styled.aside`
   width: 212px;
   height: 100%;
   padding-top: 12px;
-  text-transform: uppercase;
   font-weight: 700;
   position: fixed;
   transition: 0.25s all;
@@ -27,8 +26,10 @@ const StyledAside = styled.aside`
     padding: 20px 15px 20px 25px;
     display: block;
     font-size: 1.125rem;
-    widht: 100%;
     position: relative;
+    strong {
+      font-weight: 600;
+    }
     svg {
       float: right;
     }

@@ -39,19 +39,15 @@ export const PerformanceChange = (props: Props) => {
 
   return (
     <React.Fragment>
-      <MarginBottom>
-        <SubHeader>Change</SubHeader>
-      </MarginBottom>
-      <MarginBottom>
-        <CashReturn className={positive ? 'positive' : 'negative'}>
-          ${change}{' '}
-          {positive ? (
-            <FontAwesomeIcon icon={faCaretUp} />
-          ) : (
-            <FontAwesomeIcon icon={faCaretDown} />
-          )}
-        </CashReturn>
-      </MarginBottom>
+      <SubHeader>Change</SubHeader>
+      <CashReturn className={positive ? 'positive' : 'negative'}>
+        ${change}{' '}
+        {positive ? (
+          <FontAwesomeIcon icon={faCaretUp} />
+        ) : (
+          <FontAwesomeIcon icon={faCaretDown} />
+        )}
+      </CashReturn>
     </React.Fragment>
   );
 };

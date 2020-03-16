@@ -11,20 +11,44 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSelectedTimeframe } from '../../actions/performance';
 import { selectSelectedTimeframe } from '../../selectors/performance';
 
-const Header = styled.div`
-  font-size: 20pt;
-`;
+import { H1, P } from '../../styled/GlobalElements';
+import ShadowBox from '../../styled/ShadowBox';
+
+const Flex = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: auto 250px;
+  grid-column-gap: 20px;
+`
+
+export const H1alt = styled(H1)`
+  line-height: 1.5;
+`
 
 // Below doesn't work right now
 const AlignLeft = styled.div`
+  margin-top: 5px;
   text-align: left !important;
+`;
+
+const Tiles = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  > div {
+    flex: 1;
+    text-align: center;
+    font-size: 25px;
+  }
 `;
 
 export const PercentReturn = styled.span`
   padding: 10px;
   margin: 5px;
   color: white;
-  font-weight: bold;
   &.positive {
     background-color: #04a287 !important;
   }
@@ -47,21 +71,40 @@ export const CashReturn = styled.span`
   }
 `;
 
+const TimeContainer = styled.div`
+  border-radius: 6px;
+  background: var(--brand-grey);
+  border: 1px solid #04a185;
+  width: 400px;
+  margin: 0 auto 20px;
+  display: flex;
+  box-shadow: 0 4px 12px 2px rgba(2, 2, 2, .26);
+`;
+
 const TimespanStyle = styled.span`
-  padding: 5px;
-  background-color: #cccccc !important;
-  margin: 5px;
-  color: black;
   font-weight: bold;
-  font-size: 10pt;
+  font-size: 18px;
   text-align: center;
+  display: inline-block;
+  flex: 1;
+  border-right: 1px solid #04a185;
+  button {
+    color: #fff;
+    padding: 12px 5px;
+  }
+  &:last-of-type {
+    border-right: none;
+  }
   &.selected {
-    background-color: #aaaaaa !important;
+    background-color: #04a286;
   }
 `;
 
 export const SubHeader = styled.div`
-  font-size: 14pt;
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-align: center;
+  padding-top: 10px;
 `;
 
 type Props = {
@@ -73,12 +116,12 @@ type Props = {
 export const TimespanSelector = (props: Props) => {
   let timeframeString = '1Y';
   if (props.timeframe === '1Y') {
-    timeframeString = '1Y';
+    timeframeString = '1 Year';
   }
   if (props.timeframe === 'YTD') {
-    timeframeString = 'YTD';
+    timeframeString = 'Year to Date';
   } else if (props.timeframe === '30D') {
-    timeframeString = '30D';
+    timeframeString = '30 Days';
   }
 
   let selected = props.timeframe === props.selectedTimeframe;
@@ -99,12 +142,16 @@ export const Performance = () => {
 
   return (
     <React.Fragment>
-      <Header>Performance:</Header> <br />
-      <AlignLeft>
-        <TotalHoldings />
-      </AlignLeft>
-      <SubHeader>
-        Timeframe
+      <Flex>
+        <div>
+          <H1alt>Performance</H1alt>
+          <P>How are your portfolio's doing?</P>
+        </div>
+        <AlignLeft>
+          <TotalHoldings />
+        </AlignLeft>
+      </Flex>
+      <TimeContainer>
         <TimespanSelector
           timeframe={'1Y'}
           selectedTimeframe={currentTimeframe}
@@ -120,17 +167,30 @@ export const Performance = () => {
           selectedTimeframe={currentTimeframe}
           setTimeframe={(t: string) => dispatch(setSelectedTimeframe(t))}
         />
-      </SubHeader>
-      <br /> <br />
-      <PerformanceTotalValueChart selectedTimeframe={currentTimeframe} />
-      <PerformanceContributionChart selectedTimeframe={currentTimeframe} />
-      {/* Replace linebreaks with margins */}
-      <PerformanceChange selectedTimeframe={currentTimeframe} />
-      <PerformanceCapitalGains selectedTimeframe={currentTimeframe} />
-      {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
-      <PerformanceContributions selectedTimeframe={currentTimeframe} />
-      <br />
-      <br />
+      </TimeContainer>
+      <Grid>
+        {/* Replace linebreaks with margins */}
+        <div>
+          <ShadowBox>
+            <PerformanceTotalValueChart selectedTimeframe={currentTimeframe} />
+          </ShadowBox>
+          <ShadowBox>
+            <PerformanceContributionChart selectedTimeframe={currentTimeframe} />
+          </ShadowBox>
+        </div>
+        <Tiles>
+          <ShadowBox>
+            <PerformanceChange selectedTimeframe={currentTimeframe} />
+          </ShadowBox>
+          <ShadowBox>
+            <PerformanceCapitalGains selectedTimeframe={currentTimeframe} />
+          </ShadowBox>
+          <ShadowBox>
+          {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
+            <PerformanceContributions selectedTimeframe={currentTimeframe} />
+          </ShadowBox>
+        </Tiles>
+      </Grid>
       {/* <PerformanceStat title="Dividends" value={34.24} />
       <PerformanceStat title="Deposits" value={2000} />
       <PerformanceStat title="Withdrawals" value={0} />

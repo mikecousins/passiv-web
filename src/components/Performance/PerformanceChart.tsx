@@ -7,9 +7,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 export const ChartBox = styled.div`
   position: relative;
   height: 180px;
-  width: 60%;
-  float: right;
-  clear: both;
+  width: 100%;
   margin-bottom: 10px;
 `;
 
