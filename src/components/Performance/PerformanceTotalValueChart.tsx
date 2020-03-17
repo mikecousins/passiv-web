@@ -30,6 +30,8 @@ export const PerformanceTotalValueChart = (props: Props) => {
     [totalEquityData],
   );
 
+  const series = React.useMemo(() => ({ type: 'line' }), []);
+
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'time', position: 'bottom' },
@@ -38,7 +40,7 @@ export const PerformanceTotalValueChart = (props: Props) => {
     [],
   );
 
-  return <PerformanceChart data={data} axes={axes} />;
+  return <PerformanceChart data={data} axes={axes} series={series} />;
 };
 
 export default PerformanceTotalValueChart;

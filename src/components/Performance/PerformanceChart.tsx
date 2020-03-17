@@ -14,6 +14,7 @@ export const ChartBox = styled.div`
 type Props = {
   data: any;
   axes: any;
+  series: any;
 };
 
 export const PerformanceChart = (props: Props) => {
@@ -21,7 +22,12 @@ export const PerformanceChart = (props: Props) => {
     console.log(props.data[0].data);
     return (
       <ChartBox>
-        <Chart data={props.data} axes={props.axes} tooltip />
+        <Chart
+          data={props.data}
+          axes={props.axes}
+          series={props.series}
+          tooltip
+        />
       </ChartBox>
     );
   } else {
