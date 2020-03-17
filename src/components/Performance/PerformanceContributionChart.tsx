@@ -13,7 +13,7 @@ export const PerformanceContributionChart = (props: Props) => {
   let contributionData: PastValue[] | undefined = useSelector(
     selectContributionTimeframe,
   );
-  //addBuffer(contributionData);
+  addBuffer(contributionData);
 
   const data = React.useMemo(
     () => [
@@ -26,7 +26,7 @@ export const PerformanceContributionChart = (props: Props) => {
             a.value,
           ];
         }),
-        color: 'red',
+        color: '#04a286',
       },
     ],
     [contributionData],
@@ -56,6 +56,7 @@ const addBuffer = (data: PastValue[] | undefined) => {
     });
     if (value !== 0) {
       const dateToAdd = new Date(Date.parse(earliestDate));
+      dateToAdd.setDate(15);
       dateToAdd.setMonth(dateToAdd.getMonth() - 1);
       // var today = new Date();
       // var earliestValue = new Date();
