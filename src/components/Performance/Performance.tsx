@@ -17,17 +17,17 @@ import ShadowBox from '../../styled/ShadowBox';
 const Flex = styled.div`
   display: flex;
   justify-content: space-between;
-`
+`;
 
 const Grid = styled.div`
   display: grid;
   grid-template-columns: auto 250px;
   grid-column-gap: 20px;
-`
+`;
 
 export const H1alt = styled(H1)`
   line-height: 1.5;
-`
+`;
 
 // Below doesn't work right now
 const AlignLeft = styled.div`
@@ -77,7 +77,7 @@ const TimeContainer = styled.div`
   width: 400px;
   margin: 0 auto 20px;
   display: flex;
-  box-shadow: 0 4px 12px 2px rgba(2, 2, 2, .26);
+  box-shadow: 0 4px 12px 2px rgba(2, 2, 2, 0.26);
 `;
 
 const TimespanStyle = styled.span`
@@ -174,7 +174,9 @@ export const Performance = () => {
             <PerformanceTotalValueChart selectedTimeframe={currentTimeframe} />
           </ShadowBox>
           <ShadowBox>
-            <PerformanceContributionChart selectedTimeframe={currentTimeframe} />
+            <PerformanceContributionChart
+              selectedTimeframe={currentTimeframe}
+            />
           </ShadowBox>
         </div>
         <Tiles>
@@ -185,7 +187,7 @@ export const Performance = () => {
             <PerformanceCapitalGains selectedTimeframe={currentTimeframe} />
           </ShadowBox>
           <ShadowBox>
-          {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
+            {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
             <PerformanceContributions selectedTimeframe={currentTimeframe} />
           </ShadowBox>
         </Tiles>
@@ -202,8 +204,8 @@ export const Performance = () => {
 export default Performance;
 
 export const toDollarString = (dollars: number) => {
-  let dollarString = dollars.toFixed(2);
-  let index = dollarString.indexOf('.') - 3;
+  let dollarString = dollars.toFixed(0);
+  let index = dollarString.length - 3;
   while ((index > 0 && dollarString[0] !== '-') || index > 1) {
     dollarString =
       dollarString.slice(0, index) + ',' + dollarString.slice(index);
