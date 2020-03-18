@@ -7,6 +7,7 @@ import PerformanceCapitalGains from './PerformanceCapitalGains';
 import PerformanceContributions from './PerformanceContributions';
 import PerformanceContributionChart from './PerformanceContributionChart';
 import PerformanceTotalValueChart from './PerformanceTotalValueChart';
+import PerformanceContributionStreak from './PerformanceContributionStreak';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSelectedTimeframe } from '../../actions/performance';
 import { selectSelectedTimeframe } from '../../selectors/performance';
@@ -171,24 +172,30 @@ export const Performance = () => {
         {/* Replace linebreaks with margins */}
         <div>
           <ShadowBox>
-            <PerformanceTotalValueChart selectedTimeframe={currentTimeframe} />
-          </ShadowBox>
-          <ShadowBox>
             <PerformanceContributionChart
               selectedTimeframe={currentTimeframe}
             />
           </ShadowBox>
+          <ShadowBox>
+            <PerformanceTotalValueChart selectedTimeframe={currentTimeframe} />
+          </ShadowBox>
         </div>
         <Tiles>
+          <ShadowBox>
+            {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
+            <PerformanceContributionStreak
+              selectedTimeframe={currentTimeframe}
+            />
+          </ShadowBox>
+          <ShadowBox>
+            {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
+            <PerformanceContributions selectedTimeframe={currentTimeframe} />
+          </ShadowBox>
           <ShadowBox>
             <PerformanceChange selectedTimeframe={currentTimeframe} />
           </ShadowBox>
           <ShadowBox>
             <PerformanceCapitalGains selectedTimeframe={currentTimeframe} />
-          </ShadowBox>
-          <ShadowBox>
-            {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
-            <PerformanceContributions selectedTimeframe={currentTimeframe} />
           </ShadowBox>
         </Tiles>
       </Grid>

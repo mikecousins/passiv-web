@@ -59,3 +59,48 @@ export const selectContributions = createSelector<
     return state.performanceAll?.data?.contributions1Y;
   }
 });
+
+export const selectContributionStreak = createSelector<
+  AppState,
+  AppState,
+  string,
+  number | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.contribution_streak1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.contribution_streakYTD;
+  } else {
+    return state.performanceAll?.data?.contribution_streak1Y;
+  }
+});
+
+export const selectContributionMonthsContributed = createSelector<
+  AppState,
+  AppState,
+  string,
+  number | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.contribution_months_contributed1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.contribution_months_contributedYTD;
+  } else {
+    return state.performanceAll?.data?.contribution_months_contributed1Y;
+  }
+});
+
+export const selectContributionMonthsTotal = createSelector<
+  AppState,
+  AppState,
+  string,
+  number | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.contribution_total_months1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.contribution_total_monthsYTD;
+  } else {
+    return state.performanceAll?.data?.contribution_total_months1Y;
+  }
+});
