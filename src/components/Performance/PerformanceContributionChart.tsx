@@ -42,7 +42,7 @@ export const PerformanceContributionChart = (props: Props) => {
   return <PerformanceChart data={data} axes={axes} series={series} />;
 };
 
-const dtf = new Intl.DateTimeFormat('en', { month: 'long' });
+const dtf = new Intl.DateTimeFormat('en', { month: 'short' });
 
 const parseDate = (dateString: string): number => {
   return Date.parse(dateString);
