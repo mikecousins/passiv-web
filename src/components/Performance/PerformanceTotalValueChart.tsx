@@ -35,7 +35,7 @@ export const PerformanceTotalValueChart = (props: Props) => {
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'time', position: 'bottom' },
-      { type: 'linear', position: 'left' },
+      { type: 'linear', position: 'left', hardMin: 0 },
     ],
     [],
   );

@@ -19,7 +19,6 @@ type Props = {
 
 export const PerformanceChart = (props: Props) => {
   if (props.data[0].data !== undefined) {
-    console.log(props.data[0].data);
     return (
       <ChartBox>
         <Chart
