@@ -9,18 +9,22 @@ export const ChartBox = styled.div`
   height: 180px;
   width: 100%;
   margin-bottom: 10px;
+  &.equity {
+    height: 300px;
+  }
 `;
 
 type Props = {
   data: any;
   axes: any;
   series: any;
+  className: string;
 };
 
 export const PerformanceChart = (props: Props) => {
   if (props.data[0].data !== undefined) {
     return (
-      <ChartBox>
+      <ChartBox className={props.className}>
         <Chart
           data={props.data}
           axes={props.axes}
@@ -31,7 +35,7 @@ export const PerformanceChart = (props: Props) => {
     );
   } else {
     return (
-      <ChartBox>
+      <ChartBox className={props.className}>
         <FontAwesomeIcon icon={faSpinner} spin />
       </ChartBox>
     );

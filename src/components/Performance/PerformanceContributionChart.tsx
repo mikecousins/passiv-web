@@ -39,7 +39,14 @@ export const PerformanceContributionChart = (props: Props) => {
     [],
   );
 
-  return <PerformanceChart data={data} axes={axes} series={series} />;
+  return (
+    <PerformanceChart
+      className="contributions"
+      data={data}
+      axes={axes}
+      series={series}
+    />
+  );
 };
 
 const dtf = new Intl.DateTimeFormat('en', { month: 'short' });

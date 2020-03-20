@@ -55,7 +55,12 @@ export const PerformanceTotalValueChart = (props: Props) => {
       >
         Toggle Chart Range
       </button>
-      <PerformanceChart data={data} axes={axes} series={series} />
+      <PerformanceChart
+        className="equity"
+        data={data}
+        axes={axes}
+        series={series}
+      />
     </div>
   );
 };
