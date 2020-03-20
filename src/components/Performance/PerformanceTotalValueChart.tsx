@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import styled from '@emotion/styled';
 import PerformanceChart from './PerformanceChart';
 import { useSelector } from 'react-redux';
@@ -13,6 +13,12 @@ export const PerformanceTotalValueChart = (props: Props) => {
   let totalEquityData: PastValue[] | undefined = useSelector(
     selectTotalEquityTimeframe,
   );
+
+  const [chartStartsAt0, setChartMin] = useState(true);
+  let chartMin: number | undefined = 0;
+  if (!chartStartsAt0) {
+    chartMin = undefined;
+  }
 
   const data = React.useMemo(
     () => [
@@ -35,12 +41,23 @@ export const PerformanceTotalValueChart = (props: Props) => {
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'time', position: 'bottom' },
-      { type: 'linear', position: 'left', hardMin: 0 },
+      { type: 'linear', position: 'left', hardMin: chartMin },
     ],
-    [],
+    [chartMin],
   );
 
-  return <PerformanceChart data={data} axes={axes} series={series} />;
+  return (
+    <div>
+      <button
+        onClick={() => {
+          setChartMin(!chartStartsAt0);
+        }}
+      >
+        Toggle Chart Range
+      </button>
+      <PerformanceChart data={data} axes={axes} series={series} />
+    </div>
+  );
 };
 
 export default PerformanceTotalValueChart;
