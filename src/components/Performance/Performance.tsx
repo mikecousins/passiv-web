@@ -186,7 +186,7 @@ export const Performance = () => {
             <PerformanceContributions selectedTimeframe={currentTimeframe} />
           </ShadowBox>
           <ShadowBox>
-            <PerformanceChange selectedTimeframe={currentTimeframe} />
+            <PerformanceChange />
           </ShadowBox>
           <ShadowBox>
             <PerformanceCapitalGains />

@@ -6,36 +6,27 @@ import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { CashReturn, SubHeader, toDollarString } from './Performance';
 import { useSelector } from 'react-redux';
 import { selectTotalEquityTimeframe } from '../../selectors/performance';
-import { PastValue } from '../../types/performance';
 
 const MarginBottom = styled.div`
   margin-bottom: 25px;
 `;
 
-type Props = {
-  selectedTimeframe: string;
-};
+export const PerformanceChange = () => {
+  const equityData = useSelector(selectTotalEquityTimeframe);
 
-export const PerformanceChange = (props: Props) => {
-  const equityData: PastValue[] | undefined = useSelector(
-    selectTotalEquityTimeframe,
-  );
-
-  let change = 'loading...';
-  if (equityData !== null && equityData !== undefined) {
-    change = toDollarString(
-      equityData[0].value - equityData[equityData.length - 1].value,
-    );
-  }
-
-  let positive = !(change[0] === '-');
-  if (change === 'loading...') {
+  if (!equityData) {
     return (
       <MarginBottom>
         <FontAwesomeIcon icon={faSpinner} spin />
       </MarginBottom>
     );
   }
+
+  const change = toDollarString(
+    equityData[0].value - equityData[equityData.length - 1].value,
+  );
+
+  const positive = !(change[0] === '-');
 
   return (
     <React.Fragment>
