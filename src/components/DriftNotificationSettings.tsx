@@ -107,7 +107,7 @@ const DriftNotificationSettings = () => {
                 <Number
                   value={parseFloat(settings.drift_threshold)}
                   percentage
-                  decimalPlaces={calcDecimalPlaces(driftThreshold)}
+                  decimalPlaces={calcDecimalPlaces(parseFloat(driftThreshold))}
                 />
                 <Edit
                   onClick={() => setEditingThreshold(true)}

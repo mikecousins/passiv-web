@@ -1,5 +1,5 @@
 import React from 'react';
-import PlaidLink from 'react-plaid-link';
+import { usePlaidLink } from 'react-plaid-link';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAllBrokerages } from '../selectors';
 import { initialLoad } from '../actions';
@@ -28,6 +28,17 @@ const PlaidConnection = ({ setLoading }: Props) => {
     );
   };
 
+  const config = {
+    clientName: 'Passiv',
+    env: 'development',
+    product: ['investments'],
+    publicKey: 'db7797dd137d1d2d7b519e5fdc998e',
+    onExit: () => setLoading(false),
+    onSuccess: handleOnSuccess,
+  };
+
+  const { open, ready } = usePlaidLink(config);
+
   const handleOnClick = (brokerage: Brokerage) => {
     setTimeout(() => {
       setLoading(true);
@@ -35,11 +46,6 @@ const PlaidConnection = ({ setLoading }: Props) => {
     postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
       type: 'read',
     });
-  };
-
-  const handleOnExit = () => {
-    setLoading(false);
-    // handle the case when your user exits Link
   };
 
   if (!brokerages) {
@@ -51,18 +57,16 @@ const PlaidConnection = ({ setLoading }: Props) => {
   })[0];
 
   return (
-    <div onClick={() => handleOnClick(plaid)}>
-      <PlaidLink
-        clientName="Passiv"
-        env="development"
-        // @ts-ignore
-        product={['investments']}
-        publicKey="db7797dd137d1d2d7b519e5fdc998e"
-        onExit={handleOnExit}
-        onSuccess={handleOnSuccess}
+    <div>
+      <button
+        onClick={() => {
+          handleOnClick(plaid);
+          open();
+        }}
+        disabled={!ready}
       >
         Connect Other ...
-      </PlaidLink>
+      </button>
     </div>
   );
 };
