@@ -15,7 +15,6 @@ const StyledAside = styled.aside`
   width: 212px;
   height: calc(100% - 150px);
   padding-top: 12px;
-  text-transform: uppercase;
   font-weight: 700;
   position: fixed;
   transition: 0.25s all;
@@ -29,6 +28,9 @@ const StyledAside = styled.aside`
     display: block;
     font-size: 1.125rem;
     position: relative;
+    strong {
+      font-weight: 600;
+    }
     svg {
       float: right;
     }
@@ -94,6 +96,7 @@ const SideBar = () => {
     return (
       <StyledAside>
         <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
+        <SideBarLink name="Performance" linkPath="/app/performance" />
         {groups && groups.length > 0 && (
           <GroupContainer>{groupList}</GroupContainer>
         )}

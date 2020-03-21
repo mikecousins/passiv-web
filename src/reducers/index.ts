@@ -8,6 +8,7 @@ import simple from './simple';
 import simpleList from './simpleList';
 import updateServiceWorker from './updateServiceWorker';
 import online from './online';
+import selectedTimeframe from './performance';
 import { SubscriptionData } from '../types/subscription';
 import { GroupInfoData, Balance } from '../types/groupInfo';
 import { GroupData } from '../types/group';
@@ -18,6 +19,7 @@ import { Account } from '../types/account';
 import { Authorization } from '../types/authorization';
 import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
+import { PerformanceData } from '../types/performance';
 import { Settings } from '../types/settings';
 
 export default (history: any) =>
@@ -30,6 +32,7 @@ export default (history: any) =>
     language,
     updateServiceWorker,
     online,
+    selectedTimeframe,
     helpArticles: simple<any>({
       baseType: 'FETCH_HELP_ARTICLES',
       userData: false,
@@ -84,6 +87,10 @@ export default (history: any) =>
     }),
     groupInfo: simpleList<GroupInfoData>({
       baseType: 'FETCH_GROUP_INFO',
+      userData: true,
+    }),
+    performanceAll: simple<PerformanceData>({
+      baseType: 'FETCH_PERFORMANCE_ALL',
       userData: true,
     }),
   });
