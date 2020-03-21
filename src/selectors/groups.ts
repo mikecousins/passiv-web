@@ -712,9 +712,10 @@ export const selectCurrentGroupTarget = createSelector(
       };
 
       // add the symbol to the target
-      target.symbol =
-        groupInfo.symbols.find(symbol => symbol.id === target.symbol)?.symbol ??
-        '';
+      target.fullSymbol = groupInfo.symbols.find(
+        symbol => symbol.id === target.symbol,
+      );
+
       // add the actual percentage to the target
       const position = groupInfo.positions.find(
         p => p.symbol.id === target.symbol,

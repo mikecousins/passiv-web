@@ -168,7 +168,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
     .map((target: any, index: number) => {
       iValue = index + 1;
       portfolioVisualizerURLParts.push(
-        `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${target.percent}`,
+        `&symbol${iValue}=${target.symbol}&allocation${iValue}_1=${target.percent}`,
       );
       return null;
     });
