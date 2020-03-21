@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from '@emotion/styled';
 
 type Props = {
@@ -10,17 +10,13 @@ const Stat = styled.span`
   font-weight: bold;
 `;
 
-export const PerformanceStat = (props: Props) => {
-  let positive = props.value >= 0;
-
-  return (
-    <Stat>
-      {props.title}
-      <br />${props.value}
-      <br />
-      <br />
-    </Stat>
-  );
-};
+export const PerformanceStat: FunctionComponent<Props> = ({ title, value }) => (
+  <Stat>
+    {title}
+    <br />${value}
+    <br />
+    <br />
+  </Stat>
+);
 
 export default PerformanceStat;
