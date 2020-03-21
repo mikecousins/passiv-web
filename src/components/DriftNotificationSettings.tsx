@@ -26,7 +26,7 @@ const DriftNotificationSettings = () => {
   );
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
-  const [driftThreshold, setDriftThreshold] = useState();
+  const [driftThreshold, setDriftThreshold] = useState('');
 
   const calcDecimalPlaces = (number: number) => {
     let decimalPlaces = 4;
@@ -41,7 +41,9 @@ const DriftNotificationSettings = () => {
   };
 
   useEffect(() => {
-    setDriftThreshold(settings && parseFloat(settings.drift_threshold));
+    if (settings) {
+      setDriftThreshold(settings.drift_threshold);
+    }
   }, [settings]);
 
   const updateNotification = () => {
@@ -105,7 +107,7 @@ const DriftNotificationSettings = () => {
                 <Number
                   value={parseFloat(settings.drift_threshold)}
                   percentage
-                  decimalPlaces={calcDecimalPlaces(driftThreshold)}
+                  decimalPlaces={calcDecimalPlaces(parseFloat(driftThreshold))}
                 />
                 <Edit
                   onClick={() => setEditingThreshold(true)}

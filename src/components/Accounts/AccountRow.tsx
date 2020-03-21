@@ -23,7 +23,7 @@ type Props = {
 
 export const AccountRow = ({ account }: Props) => {
   const [groupEditing, setGroupEditing] = useState(false);
-  const [newGroupId, setNewGroupId] = useState();
+  const [newGroupId, setNewGroupId] = useState('');
   const brokerages = useSelector(selectAllBrokerages);
   const authorizations = useSelector(selectAuthorizations);
   const groups = useSelector(selectGroups);

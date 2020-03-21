@@ -114,9 +114,6 @@ export type GroupInfoData = {
   quotable_symbols: Symbol[];
   balances: Balance[];
   positions: Position[];
-  target_positions: TargetPosition[];
-  ideal_positions: IdealPosition[];
-  excluded_positions: ExcludedPosition[];
   calculated_trades: CalculatedTrades;
   accuracy: number;
   settings: Settings;

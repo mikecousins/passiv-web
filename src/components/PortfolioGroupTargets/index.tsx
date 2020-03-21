@@ -5,11 +5,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
-  selectCurrentGroupTarget,
   selectCurrentGroupTargetInitialized,
   selectCurrentGroupInfoError,
   selectCurrentGroupPositions,
   selectCurrentGroupInfoLoading,
+  selectCurrentGroupTarget,
 } from '../../selectors/groups';
 import { Button } from '../../styled/Button';
 import {

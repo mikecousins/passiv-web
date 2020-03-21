@@ -23,31 +23,21 @@ import {
   CalculatedTrades,
   BrokerageAuthorization,
   GroupInfoData,
-  Error,
   Settings,
   Balance,
   TargetPosition,
 } from '../types/groupInfo';
-import { createMatchSelector, RouterState } from 'connected-react-router';
+import { createMatchSelector } from 'connected-react-router';
 import { CurrencyRate } from '../types/currencyRate';
-import { SimpleState } from '../types/common';
-import { GroupData } from '../types/group';
-import { Account } from '../types/account';
 import { SimpleListState } from '../reducers/simpleList';
 import { Currency } from '../types/currency';
-import { Position } from '../types/account';
+import { Position, Account } from '../types/account';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 
 export const selectGroupInfo = (state: AppState) => state.groupInfo;
 
-export const selectGroups = createSelector<
-  AppState,
-  SimpleState<GroupData[]>,
-  SimpleListState<GroupInfoData>,
-  Account[] | undefined,
-  GroupData[] | null
->(
+export const selectGroups = createSelector(
   selectGroupsRaw,
   selectGroupInfo,
   selectAccounts,
@@ -58,8 +48,8 @@ export const selectGroups = createSelector<
         if (groupInfo[group.id] && groupInfo[group.id].data) {
           if (
             groupInfo[group.id].data!.settings.target_initialized &&
-            groupInfo[group.id].data!.target_positions &&
-            groupInfo[group.id].data!.target_positions.length > 0
+            groupInfo[group.id].data!.asset_classes_details &&
+            groupInfo[group.id].data!.asset_classes_details.length > 0
           ) {
             groupWithRebalance.setupComplete = true;
           } else {
@@ -97,14 +87,7 @@ export const selectGroups = createSelector<
   },
 );
 
-export const selectGroupsNeedData = createSelector<
-  AppState,
-  boolean,
-  SimpleState<GroupData[]>,
-  number,
-  boolean,
-  boolean
->(
+export const selectGroupsNeedData = createSelector(
   selectLoggedIn,
   selectGroupsRaw,
   selectAppTime,
@@ -120,11 +103,7 @@ export const selectGroupsNeedData = createSelector<
   },
 );
 
-export const selectCurrentGroupId = createSelector<
-  AppState,
-  RouterState,
-  string | null
->(selectRouter, router => {
+export const selectCurrentGroupId = createSelector(selectRouter, router => {
   let groupId = null;
   if (
     router &&
@@ -137,17 +116,16 @@ export const selectCurrentGroupId = createSelector<
   return groupId;
 });
 
-export const selectCurrentGroupInfo = createSelector<
-  AppState,
-  string | null,
-  SimpleListState<GroupInfoData>,
-  GroupInfoData | null
->(selectCurrentGroupId, selectGroupInfo, (groupId, groupInfo) => {
-  if (groupId && groupInfo[groupId] && groupInfo[groupId].data) {
-    return groupInfo[groupId].data;
-  }
-  return null;
-});
+export const selectCurrentGroupInfo = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    if (groupId && groupInfo[groupId] && groupInfo[groupId].data) {
+      return groupInfo[groupId].data;
+    }
+    return null;
+  },
+);
 
 export const selectCurrentGroupInfoLoading = createSelector(
   selectCurrentGroupId,
@@ -160,22 +138,20 @@ export const selectCurrentGroupInfoLoading = createSelector(
   },
 );
 
-export const selectCurrentGroupInfoError = createSelector<
-  AppState,
-  GroupInfoData | null,
-  Error | null
->(selectCurrentGroupInfo, data => {
-  if (data) {
-    return data.error;
-  }
-  return null;
-});
+export const selectCurrentGroupInfoError = createSelector(
+  selectCurrentGroupInfo,
+  groupInfo => {
+    if (groupInfo) {
+      return groupInfo.error;
+    }
+    return null;
+  },
+);
 
-export const selectGroupsLoading = createSelector<
-  AppState,
-  SimpleState<GroupData[]>,
-  boolean
->(selectGroupsRaw, rawGroups => rawGroups.loading);
+export const selectGroupsLoading = createSelector(
+  selectGroupsRaw,
+  rawGroups => rawGroups.loading,
+);
 
 export const selectCurrentGroupAccuracy = createSelector<
   AppState,
@@ -327,24 +303,6 @@ export const selectCurrentGroupCash = createSelector<
   },
 );
 
-export const selectCurrentGroupExcludedAssets = createSelector(
-  selectCurrentGroupId,
-  selectGroupInfo,
-  (groupId, groupInfo) => {
-    let excludedAssets = null;
-    if (
-      groupId &&
-      groupInfo &&
-      groupInfo[groupId] &&
-      groupInfo[groupId].data &&
-      groupInfo[groupId].data!.excluded_positions
-    ) {
-      excludedAssets = groupInfo[groupId].data!.excluded_positions;
-    }
-    return excludedAssets;
-  },
-);
-
 export const selectCurrentGroupQuotableSymbols = createSelector(
   selectCurrentGroupInfo,
   groupInfo => {
@@ -358,7 +316,6 @@ export const selectCurrentGroupQuotableSymbols = createSelector(
 export const selectCurrentGroupPositions = createSelector(
   selectCurrentGroupId,
   selectGroupInfo,
-  selectCurrentGroupExcludedAssets,
   selectCurrentGroupQuotableSymbols,
   selectCurrencies,
   selectCurrencyRates,
@@ -366,7 +323,6 @@ export const selectCurrentGroupPositions = createSelector(
   (
     groupId,
     groupInfo,
-    excludedAssets,
     quotableSymbols,
     currencies,
     rates,
@@ -386,13 +342,8 @@ export const selectCurrentGroupPositions = createSelector(
       positions = groupInfo[groupId].data!.positions;
 
       positions.map(position => {
-        if (excludedAssets) {
-          position.excluded = excludedAssets.some(
-            excludedAsset => excludedAsset.symbol === position.symbol.id,
-          );
-        } else {
-          position.excluded = false;
-        }
+        // TODO set this properly
+        position.excluded = false;
         position.quotable = quotableSymbols.some(
           quotableSymbol => quotableSymbol.id === position.symbol.id,
         );
@@ -470,63 +421,6 @@ export const selectCurrentGroupBalancedEquity = createSelector(
   },
 );
 
-export const selectCurrentGroupExcludedEquity = createSelector(
-  selectCurrentGroupId,
-  selectGroupInfo,
-  selectCurrencies,
-  selectCurrencyRates,
-  selectPreferredCurrency,
-  (groupId, groupInfo, currencies, rates, preferredCurrency) => {
-    let excludedEquity = 0;
-
-    if (
-      !groupId ||
-      !groupInfo ||
-      !groupInfo[groupId] ||
-      !groupInfo[groupId].data ||
-      !groupInfo[groupId].data!.excluded_positions ||
-      !currencies ||
-      !rates ||
-      !preferredCurrency
-    ) {
-      return excludedEquity;
-    }
-
-    const excludedPositionsIds = groupInfo[
-      groupId
-    ].data!.excluded_positions.map(
-      excluded_position => excluded_position.symbol,
-    );
-
-    const allPositions = groupInfo[groupId].data!.positions;
-
-    allPositions.forEach(position => {
-      if (excludedPositionsIds.includes(position.symbol.id)) {
-        if (
-          preferredCurrency &&
-          position.symbol.currency.id === preferredCurrency.id
-        ) {
-          excludedEquity += position.units * position.price;
-        } else {
-          const conversionRate = rates.find(
-            rate =>
-              preferredCurrency &&
-              rate.src.id === position.symbol.currency.id &&
-              rate.dst.id === preferredCurrency.id,
-          );
-          if (!conversionRate) {
-            return;
-          }
-          excludedEquity +=
-            position.units * position.price * conversionRate.exchange_rate;
-        }
-      }
-    });
-
-    return excludedEquity;
-  },
-);
-
 export const selectCurrentGroupTotalEquity = createSelector(
   selectCurrentGroupCash,
   selectCurrentGroupBalancedEquity,
@@ -536,18 +430,6 @@ export const selectCurrentGroupTotalEquity = createSelector(
     } else {
       return null;
     }
-  },
-);
-
-export const selectCurrentGroupTotalEquityExcludedRemoved = createSelector(
-  selectCurrentGroupCash,
-  selectCurrentGroupBalancedEquity,
-  selectCurrentGroupExcludedEquity,
-  (cash, balancedEquity, excludedEquity) => {
-    if (cash === null || balancedEquity === null || excludedEquity === null) {
-      return 0;
-    }
-    return cash + balancedEquity - excludedEquity;
   },
 );
 
@@ -642,14 +524,165 @@ export const selectTotalGroupHoldings = createSelector(
   },
 );
 
-export const selectCurrentGroupTarget = createSelector<
+export const selectCurrentGroupSetupComplete = createSelector<
   AppState,
-  GroupInfoData | null,
-  number,
-  CurrencyRate[] | null,
-  Currency | null,
-  TargetPosition[] | null
->(
+  boolean,
+  boolean
+>(selectCurrentGroupTargetInitialized, targetInitialized => {
+  return targetInitialized;
+});
+
+export const selectCurrentAccountId = createSelector<
+  AppState,
+  AppState,
+  string | undefined
+>(selectState, state => {
+  const matchSelector = createMatchSelector<
+    any,
+    { groupId?: string; accountId?: string }
+  >('/app/group/:groupId/account/:accountId');
+  const match = matchSelector(state);
+  if (!match) {
+    return undefined;
+  }
+  return match.params.accountId;
+});
+
+export type AccountHoldings = {
+  id: string;
+  name: string;
+  number: string;
+  type: string;
+  positions: Position[] | null;
+};
+
+export const selectCurrentAccountHoldings = createSelector(
+  selectCurrentAccountId,
+  selectAccounts,
+  selectAccountBalances,
+  selectAccountPositions,
+  (accountId, accounts, accountBalances, accountPositions) => {
+    if (!accountId || !accounts || !accountBalances || !accountPositions) {
+      return null;
+    }
+    const account = accounts.find(a => a.id === accountId);
+    if (!account) {
+      return null;
+    }
+
+    let positions = null;
+    if (accountPositions[account.id]) {
+      positions = accountPositions[account.id].data;
+    }
+    return {
+      id: account.id,
+      name: account.name,
+      number: account.number,
+      type: account.meta.type,
+      institution_name: account.institution_name,
+      positions,
+    };
+  },
+);
+
+export const selectCurrentGroup = createSelector(
+  selectGroups,
+  selectCurrentGroupId,
+  (groups, groupId) => {
+    if (groupId) {
+      if (!groups) {
+        return undefined;
+      }
+      return groups.find(g => g.id === groupId);
+    }
+    return null;
+  },
+);
+
+export const selectCurrentAccount = createSelector(
+  selectAccounts,
+  selectCurrentAccountId,
+  (accounts, accountId) => {
+    if (accountId) {
+      if (!accounts) {
+        return undefined;
+      }
+      return accounts.find(a => a.id === accountId);
+    }
+    return null;
+  },
+);
+
+export const selectCurrentGroupExcludedEquity = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  selectCurrencies,
+  selectCurrencyRates,
+  selectPreferredCurrency,
+  (groupId, groupInfo, currencies, rates, preferredCurrency) => {
+    let excludedEquity = 0;
+    /*
+    if (
+      !groupId ||
+      !groupInfo ||
+      !groupInfo[groupId] ||
+      !groupInfo[groupId].data ||
+      !groupInfo[groupId].data!.excluded_positions ||
+      !currencies ||
+      !rates ||
+      !preferredCurrency
+    ) {
+      return excludedEquity;
+    }
+
+    const excludedPositionsIds = groupInfo[
+      groupId
+    ].data!.excluded_positions.map(
+      excluded_position => excluded_position.symbol,
+    );
+
+    const allPositions = groupInfo[groupId].data!.positions;
+
+    allPositions.forEach(position => {
+      if (excludedPositionsIds.includes(position.symbol.id)) {
+        if (
+          preferredCurrency &&
+          position.symbol.currency.id === preferredCurrency.id
+        ) {
+          excludedEquity += position.units * position.price;
+        } else {
+          const conversionRate = rates.find(
+            rate =>
+              preferredCurrency &&
+              rate.src.id === position.symbol.currency.id &&
+              rate.dst.id === preferredCurrency.id,
+          );
+          if (!conversionRate) {
+            return;
+          }
+          excludedEquity +=
+            position.units * position.price * conversionRate.exchange_rate;
+        }
+      }
+    }); */
+
+    return excludedEquity;
+  },
+);
+
+export const selectCurrentGroupTotalEquityExcludedRemoved = createSelector(
+  selectCurrentGroupCash,
+  selectCurrentGroupBalancedEquity,
+  selectCurrentGroupExcludedEquity,
+  (cash, balancedEquity, excludedEquity) => {
+    if (cash === null || balancedEquity === null || excludedEquity === null) {
+      return 0;
+    }
+    return cash + balancedEquity - excludedEquity;
+  },
+);
+
+export const selectCurrentGroupTarget = createSelector(
   selectCurrentGroupInfo,
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrencyRates,
@@ -657,7 +690,7 @@ export const selectCurrentGroupTarget = createSelector<
   (groupInfo, totalHoldingsExcludedRemoved, rates, preferredCurrency) => {
     if (
       !groupInfo ||
-      !groupInfo.target_positions ||
+      !groupInfo.asset_classes_details ||
       totalHoldingsExcludedRemoved === null ||
       !rates
     ) {
@@ -665,14 +698,23 @@ export const selectCurrentGroupTarget = createSelector<
     }
 
     // add the target positions
-    const currentTargetRaw = groupInfo.target_positions;
-    const currentTarget: TargetPosition[] = currentTargetRaw.map(targetRaw => {
-      const target: TargetPosition = { ...targetRaw };
+    const currentTargetRaw = groupInfo.asset_classes_details;
+    const currentTarget = currentTargetRaw.map(targetRaw => {
+      const target: TargetPosition = {
+        id: targetRaw.asset_class.id,
+        symbol: targetRaw.symbols[0].symbol,
+        percent: targetRaw.asset_class.percent,
+        meta: {},
+        fullSymbol: undefined,
+        actualPercentage: 0,
+        is_excluded: targetRaw.asset_class.exclude_asset_class,
+        is_supported: true,
+      };
 
       // add the symbol to the target
-      target.fullSymbol = groupInfo.symbols.find(
-        symbol => symbol.id === target.symbol,
-      );
+      target.symbol =
+        groupInfo.symbols.find(symbol => symbol.id === target.symbol)?.symbol ??
+        '';
       // add the actual percentage to the target
       const position = groupInfo.positions.find(
         p => p.symbol.id === target.symbol,
@@ -709,114 +751,7 @@ export const selectCurrentGroupTarget = createSelector<
   },
 );
 
-export const selectCurrentGroupSetupComplete = createSelector<
-  AppState,
-  boolean,
-  TargetPosition[] | null,
-  boolean
->(
-  selectCurrentGroupTargetInitialized,
-  selectCurrentGroupTarget,
-  (targetInitialized, groupTarget) => {
-    let setupComplete = false;
-    if (targetInitialized && groupTarget && groupTarget.length > 0) {
-      setupComplete = true;
-    }
-    return setupComplete;
-  },
-);
-
-export const selectCurrentAccountId = createSelector<
-  AppState,
-  AppState,
-  string | undefined
->(selectState, state => {
-  const matchSelector = createMatchSelector<
-    any,
-    { groupId?: string; accountId?: string }
-  >('/app/group/:groupId/account/:accountId');
-  const match = matchSelector(state);
-  if (!match) {
-    return undefined;
-  }
-  return match.params.accountId;
-});
-
-export type AccountHoldings = {
-  id: string;
-  name: string;
-  number: string;
-  type: string;
-  positions: Position[] | null;
-};
-
-export const selectCurrentAccountHoldings = createSelector<
-  AppState,
-  string | undefined,
-  Account[] | undefined,
-  SimpleListState<Balance[]>,
-  SimpleListState<Position[]>,
-  AccountHoldings | null
->(
-  selectCurrentAccountId,
-  selectAccounts,
-  selectAccountBalances,
-  selectAccountPositions,
-  (accountId, accounts, accountBalances, accountPositions) => {
-    if (!accountId || !accounts || !accountBalances || !accountPositions) {
-      return null;
-    }
-    const account = accounts.find(a => a.id === accountId);
-    if (!account) {
-      return null;
-    }
-
-    let positions = null;
-    if (accountPositions[account.id]) {
-      positions = accountPositions[account.id].data;
-    }
-    return {
-      id: account.id,
-      name: account.name,
-      number: account.number,
-      type: account.meta.type,
-      institution_name: account.institution_name,
-      positions,
-    };
-  },
-);
-
-export const selectCurrentGroup = createSelector<
-  AppState,
-  GroupData[] | null,
-  string | null,
-  GroupData | undefined | null
->(selectGroups, selectCurrentGroupId, (groups, groupId) => {
-  if (groupId) {
-    if (!groups) {
-      return undefined;
-    }
-    return groups.find(g => g.id === groupId);
-  }
-  return null;
-});
-
-export const selectCurrentAccount = createSelector<
-  AppState,
-  Account[] | null,
-  string | undefined | null,
-  Account | undefined | null
->(selectAccounts, selectCurrentAccountId, (accounts, accountId) => {
-  if (accountId) {
-    if (!accounts) {
-      return undefined;
-    }
-    return accounts.find(a => a.id === accountId);
-  }
-  return null;
-});
-
-export interface DashboardGroup {
+export type DashboardGroup = {
   id: string;
   name: string;
   totalCash: number;
@@ -830,7 +765,7 @@ export interface DashboardGroup {
   trades?: CalculatedTrades;
   brokerage_authorizations?: BrokerageAuthorization[];
   preferredCurrency?: Currency | null;
-}
+};
 
 export const selectDashboardGroups = createSelector(
   selectGroups,
@@ -900,8 +835,8 @@ export const selectDashboardGroups = createSelector(
         group.accuracy = groupData.accuracy;
         if (
           groupData.settings.target_initialized &&
-          groupData.target_positions &&
-          groupData.target_positions.length > 0
+          groupData.asset_classes_details &&
+          groupData.asset_classes_details.length > 0
         ) {
           group.setupComplete = true;
         } else {
@@ -938,14 +873,7 @@ export const selectDashboardGroups = createSelector(
   },
 );
 
-export const selectCurrentAccountCash = createSelector<
-  AppState,
-  Balance[] | null,
-  Currency[] | null,
-  CurrencyRate[] | null,
-  Currency | null,
-  number | null
->(
+export const selectCurrentAccountCash = createSelector(
   selectCurrentAccountBalances,
   selectCurrencies,
   selectCurrencyRates,

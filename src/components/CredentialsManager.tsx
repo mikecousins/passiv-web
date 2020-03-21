@@ -77,10 +77,10 @@ const CredentialsManager = () => {
   const [editingName, setEditingName] = useState(false);
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
-  const [state2FA, setState2FA] = useState();
+  const [state2FA, setState2FA] = useState<any>();
   const [editing2FA, setEditing2FA] = useState(false);
   const [confirming2FA, setConfirming2FA] = useState(false);
-  const [error2FA, setError2FA] = useState();
+  const [error2FA, setError2FA] = useState<any>();
   const [loading2FA, setLoading2FA] = useState(false);
   const [candidatePhoneNumber, setCandidatePhoneNumber] = useState('');
   const [passwordResetSent, setPasswordResetSent] = useState(false);
