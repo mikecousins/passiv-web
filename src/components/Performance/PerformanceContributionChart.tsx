@@ -1,18 +1,10 @@
 import React from 'react';
-// import styled from '@emotion/styled';
-import PerformanceChart from './PerformanceChart';
 import { useSelector } from 'react-redux';
+import PerformanceChart from './PerformanceChart';
 import { selectContributionTimeframe } from '../../selectors/performance';
-import { PastValue } from '../../types/performance';
 
-type Props = {
-  selectedTimeframe: string;
-};
-
-export const PerformanceContributionChart = (props: Props) => {
-  let contributionData: PastValue[] | undefined = useSelector(
-    selectContributionTimeframe,
-  );
+export const PerformanceContributionChart = () => {
+  const contributionData = useSelector(selectContributionTimeframe);
 
   const data = React.useMemo(
     () => [
@@ -20,7 +12,7 @@ export const PerformanceContributionChart = (props: Props) => {
         label: 'Contributions',
         data: contributionData
           ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
-          .map(a => {
+          .map((a) => {
             let dateFormatted = formatDate(a.date);
             return [dateFormatted, a.value];
           }),

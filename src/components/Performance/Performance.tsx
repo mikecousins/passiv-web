@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useSelector, useDispatch } from 'react-redux';
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import TotalHoldings from '../TotalHoldings';
 import PerformanceChange from './PerformanceChange';
 import PerformanceCapitalGains from './PerformanceCapitalGains';
@@ -111,24 +111,26 @@ type Props = {
   setTimeframe: (newTimeFrame: string) => void;
 };
 
-export const TimespanSelector = (props: Props) => {
+export const TimespanSelector: FunctionComponent<Props> = ({
+  timeframe,
+  selectedTimeframe,
+  setTimeframe,
+}) => {
   let timeframeString = '1Y';
-  if (props.timeframe === '1Y') {
+  if (timeframe === '1Y') {
     timeframeString = '1 Year';
   }
-  if (props.timeframe === 'YTD') {
+  if (timeframe === 'YTD') {
     timeframeString = 'Year to Date';
-  } else if (props.timeframe === '30D') {
+  } else if (timeframe === '30D') {
     timeframeString = '30 Days';
   }
 
-  let selected = props.timeframe === props.selectedTimeframe;
+  let selected = timeframe === selectedTimeframe;
 
   return (
     <TimespanStyle className={selected ? 'selected' : ''}>
-      <button onClick={() => props.setTimeframe(props.timeframe)}>
-        {timeframeString}
-      </button>
+      <button onClick={() => setTimeframe(timeframe)}>{timeframeString}</button>
     </TimespanStyle>
   );
 };
@@ -152,35 +154,31 @@ export const Performance = () => {
         <TimespanSelector
           timeframe={'1Y'}
           selectedTimeframe={currentTimeframe}
-          setTimeframe={(t: string) => dispatch(setSelectedTimeframe(t))}
+          setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
         />
         <TimespanSelector
           timeframe={'YTD'}
           selectedTimeframe={currentTimeframe}
-          setTimeframe={(t: string) => dispatch(setSelectedTimeframe(t))}
+          setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
         />
         <TimespanSelector
           timeframe={'30D'}
           selectedTimeframe={currentTimeframe}
-          setTimeframe={(t: string) => dispatch(setSelectedTimeframe(t))}
+          setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
         />
       </TimeContainer>
       <Grid>
         <div>
           <ShadowBox>
-            <PerformanceContributionChart
-              selectedTimeframe={currentTimeframe}
-            />
+            <PerformanceContributionChart />
           </ShadowBox>
           <ShadowBox>
-            <PerformanceTotalValueChart selectedTimeframe={currentTimeframe} />
+            <PerformanceTotalValueChart />
           </ShadowBox>
         </div>
         <Tiles>
           <ShadowBox>
-            <PerformanceContributionStreak
-              selectedTimeframe={currentTimeframe}
-            />
+            <PerformanceContributionStreak />
           </ShadowBox>
           <ShadowBox>
             <PerformanceContributions selectedTimeframe={currentTimeframe} />

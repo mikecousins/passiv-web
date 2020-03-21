@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
-import AccountGroup from '../Accounts/AccountGroup';
 import styled from '@emotion/styled';
+import AccountGroup from '../Accounts/AccountGroup';
 import { selectGroups } from '../../selectors/groups';
 import PerformanceRateOfReturn from './PerformanceRateOfReturn';
 
@@ -18,20 +18,22 @@ type Props = {
   selectedTimeframe: string;
 };
 
-export const PerformanceGroups = (props: Props) => {
+export const PerformanceGroups: FunctionComponent<Props> = ({
+  selectedTimeframe,
+}) => {
   const groups = useSelector(selectGroups);
+
   if (!groups) {
     return null;
   }
+
   return (
     <div>
       <SubHeader>Check specific group:</SubHeader>
-      {groups.map(group => (
+      {groups.map((group) => (
         <AccountRow>
           <AccountGroup name={group.name} />
-          <PerformanceRateOfReturn
-            selectedTimeframe={props.selectedTimeframe}
-          />
+          <PerformanceRateOfReturn selectedTimeframe={selectedTimeframe} />
         </AccountRow>
       ))}
     </div>
