@@ -4,7 +4,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik, FieldArray, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { replace } from 'connected-react-router';
 import styled from '@emotion/styled';
 import { loadGroup } from '../../actions';
@@ -82,9 +82,10 @@ const ExcludeTitle = styled(BaseLegendTitle)``;
 type Props = {
   lockable: boolean;
   target: TargetPosition[] | null;
+  onReset: () => void;
 };
 
-export const TargetSelector = ({ lockable, target }: Props) => {
+export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const groupId = useSelector(selectCurrentGroupId);
   const positions = useSelector(selectCurrentGroupPositions);
   const totalEquity = useSelector(selectCurrentGroupTotalEquityExcludedRemoved);
@@ -115,10 +116,12 @@ export const TargetSelector = ({ lockable, target }: Props) => {
   };
 
   const resetTargets = (resetForm: () => void) => {
+    onReset();
+    toggleEditMode();
     postData(`/api/v1/portfolioGroups/${groupId}/targets/`, [])
       .then(() => {
         // once we're done refresh the groups
-        toggleEditMode();
+
         dispatch(loadGroup({ ids: [groupId] }));
       })
       .catch(error => {
@@ -137,7 +140,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
     let target = {
       symbol: null,
       percent: 0,
-      key: uuid.v4(),
+      key: uuidv4(),
     };
     return target;
   };

@@ -77,10 +77,10 @@ const CredentialsManager = () => {
   const [editingName, setEditingName] = useState(false);
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
-  const [state2FA, setState2FA] = useState();
+  const [state2FA, setState2FA] = useState<any>();
   const [editing2FA, setEditing2FA] = useState(false);
   const [confirming2FA, setConfirming2FA] = useState(false);
-  const [error2FA, setError2FA] = useState();
+  const [error2FA, setError2FA] = useState<any>();
   const [loading2FA, setLoading2FA] = useState(false);
   const [candidatePhoneNumber, setCandidatePhoneNumber] = useState('');
   const [passwordResetSent, setPasswordResetSent] = useState(false);
@@ -117,7 +117,7 @@ const CredentialsManager = () => {
   const verifyPhoneNumber = () => {
     setLoading2FA(true);
     setError2FA(null);
-    postData('/api/v1/auth/sms/', { phone: phoneNumber })
+    postData('/api/v1/auth/sms/', { phone: candidatePhoneNumber })
       .then(response => {
         setConfirming2FA(true);
         setLoading2FA(false);

@@ -13,12 +13,13 @@ const StyledAside = styled.aside`
   background-color: var(--brand-grey);
   color: #fff;
   width: 212px;
-  height: 100%;
+  height: calc(100% - 150px);
   padding-top: 12px;
   font-weight: 700;
   position: fixed;
   transition: 0.25s all;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-bottom: 136px;
   a {
     color: #fff;

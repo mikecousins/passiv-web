@@ -54,6 +54,11 @@ const InteractiveBrokersOauthPage = React.lazy(() =>
     /* webpackChunkName: "interactive-brokers-oauth" */ '../pages/InteractiveBrokersOauthPage'
   ),
 );
+const TDAmeritradeOauthPage = React.lazy(() =>
+  import(
+    /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/TDAmeritradeOauthPage'
+  ),
+);
 const UpgradeOfferPage = React.lazy(() =>
   import(/* webpackChunkName: "upgrade-offer" */ '../pages/UpgradeOfferPage'),
 );
@@ -113,6 +118,12 @@ const alpacaOauthRedirect = () => {
 const interactiveBrokersOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/interactivebrokers?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
+const tdAmeritradeOauthRedirect = () => {
+  let urlParams = new URLSearchParams(window.location.search);
+  let newPath = '/app/oauth/td?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
@@ -180,12 +191,23 @@ const App = () => {
               path={prefixPath('/reset-password-confirm/:token')}
               component={ResetPasswordConfirmPage}
             />
-            <Route path={prefixPath('/demo')} component={DemoLoginPage} />
-            // oauth routes
             {loggedIn && (
               <Route
-                path={prefixPath('/oauth/questrade')}
-                component={QuestradeOauthPage}
+                path={prefixPath('/oauth/interactivebrokers')}
+                component={InteractiveBrokersOauthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/interactivebrokers"
+                render={() => interactiveBrokersOauthRedirect()}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                path={prefixPath('/oauth/td')}
+                component={TDAmeritradeOauthPage}
               />
             )}
             {showSecureApp && (
@@ -193,6 +215,39 @@ const App = () => {
                 path={prefixPath('/performance')}
                 component={PerformancePage}
               />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/td"
+                render={() => tdAmeritradeOauthRedirect()}
+              />
+            )}
+            //
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/questrade-offer')}
+                component={UpgradeOfferPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/loading')}
+                render={props => (
+                  <LoginLoadingPage {...props} redirectPath={redirectPath} />
+                )}
+              />
+            )}
+            {showLoginLoading && (
+              <Route path="*">
+                <Redirect
+                  to={prefixPath(
+                    `/loading?next=${location.pathname}${appendParams}`,
+                  )}
+                />
+              </Route>
             )}
             {loggedIn && (
               <Route
