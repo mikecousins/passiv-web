@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +12,9 @@ type Props = {
   selectedTimeframe: string;
 };
 
-export const PerformanceRateOfReturn = (props: Props) => {
+export const PerformanceRateOfReturn: FunctionComponent<Props> = ({
+  selectedTimeframe,
+}) => {
   let example1Yp = '6.83';
   let example1Yc = '4,745';
   let exampleYTDp = '7.32';
@@ -22,10 +24,10 @@ export const PerformanceRateOfReturn = (props: Props) => {
 
   let percentReturn = example1Yp;
   let cashReturn = example1Yc;
-  if (props.selectedTimeframe === '30D') {
+  if (selectedTimeframe === '30D') {
     percentReturn = example30Dp;
     cashReturn = example30Dc;
-  } else if (props.selectedTimeframe === 'YTD') {
+  } else if (selectedTimeframe === 'YTD') {
     percentReturn = exampleYTDp;
     cashReturn = exampleYTDc;
   }

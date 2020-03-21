@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { CashReturn, SubHeader, toDollarString } from './Performance';
 import { useSelector } from 'react-redux';
+import { CashReturn, SubHeader, toDollarString } from './Performance';
 import {
   selectTotalEquityTimeframe,
   selectContributions,
@@ -15,11 +15,7 @@ const MarginBottom = styled.div`
   margin-bottom: 25px;
 `;
 
-type Props = {
-  selectedTimeframe: string;
-};
-
-export const PerformanceCapitalGain = (props: Props) => {
+export const PerformanceCapitalGain = () => {
   const equityData: PastValue[] | undefined = useSelector(
     selectTotalEquityTimeframe,
   );

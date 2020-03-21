@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from '@emotion/styled';
 import { Chart } from 'react-charts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,21 +21,21 @@ type Props = {
   className: string;
 };
 
-export const PerformanceChart = (props: Props) => {
-  if (props.data[0].data !== undefined) {
+export const PerformanceChart: FunctionComponent<Props> = ({
+  data,
+  axes,
+  series,
+  className,
+}) => {
+  if (data[0].data !== undefined) {
     return (
-      <ChartBox className={props.className}>
-        <Chart
-          data={props.data}
-          axes={props.axes}
-          series={props.series}
-          tooltip
-        />
+      <ChartBox className={className}>
+        <Chart data={data} axes={axes} series={series} tooltip />
       </ChartBox>
     );
   } else {
     return (
-      <ChartBox className={props.className}>
+      <ChartBox className={className}>
         <FontAwesomeIcon icon={faSpinner} spin />
       </ChartBox>
     );
