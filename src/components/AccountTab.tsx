@@ -15,6 +15,7 @@ import {
   selectCurrentAccountTotalEquity,
 } from '../selectors/groups';
 import { selectCurrentAccountBalances } from '../selectors/accounts';
+import PortfolioGroupErrors from './PortfolioGroupErrors';
 
 export const Container3Column = styled.div`
   @media (min-width: 900px) {
@@ -54,7 +55,11 @@ export const AccountTab = () => {
           currency={preferredCurrency}
         />
       </Container3Column>
-      <AccountHoldings />
+      {error ? (
+        <PortfolioGroupErrors error={error} />
+      ) : (
+        <AccountHoldings holdings={account} />
+      )}
     </div>
   );
 };

@@ -15,6 +15,7 @@ import {
   selectCurrentAccountBalances,
   selectAccountPositions,
   selectCurrentAccountPositions,
+  selectCurrentAccountPositionsError,
 } from './accounts';
 import { selectIsEditMode } from './router';
 import shouldUpdate from '../reactors/should-update';
@@ -756,13 +757,15 @@ export const selectCurrentAccountHoldings = createSelector<
   Account[] | undefined,
   SimpleListState<Balance[]>,
   SimpleListState<Position[]>,
+  boolean,
   AccountHoldings | null
 >(
   selectCurrentAccountId,
   selectAccounts,
   selectAccountBalances,
   selectAccountPositions,
-  (accountId, accounts, accountBalances, accountPositions) => {
+  selectCurrentAccountPositionsError,
+  (accountId, accounts, accountBalances, accountPositions, accountError) => {
     if (!accountId || !accounts || !accountBalances || !accountPositions) {
       return null;
     }
@@ -782,6 +785,7 @@ export const selectCurrentAccountHoldings = createSelector<
       type: account.meta.type,
       institution_name: account.institution_name,
       positions,
+      error: accountError,
     };
   },
 );
