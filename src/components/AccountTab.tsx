@@ -48,7 +48,7 @@ export const AccountTab = () => {
 
       <Container3Column>
         <PortfolioGroupMeta account={account} />
-        <PortfolioGroupCash balances={balances} />
+        <PortfolioGroupCash balances={balances} error={error} />
         <PortfolioGroupTotal
           equity={equity}
           error={error}

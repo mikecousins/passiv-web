@@ -98,7 +98,7 @@ const OverviewTab = () => {
       <PortfolioGroupName name={name} />
       <Container3Column>
         <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
-        <PortfolioGroupCash balances={balances} />
+        <PortfolioGroupCash balances={balances} error={error} />
         <PortfolioGroupTotal
           equity={equity}
           error={error}
