@@ -19,8 +19,6 @@ export const selectTotalEquityTimeframe = createSelector<
     return state.performanceAll?.data?.totalEquityTimeframe1Y;
   } else if (timeframe === 'YTD') {
     return state.performanceAll?.data?.totalEquityTimeframeYTD;
-  } else if (timeframe === '30D') {
-    return state.performanceAll?.data?.totalEquityTimeframe30D;
   } else {
     return state.performanceAll?.data?.totalEquityTimeframe1Y;
   }
@@ -36,8 +34,6 @@ export const selectContributionTimeframe = createSelector<
     return state.performanceAll?.data?.contributionTimeframe1Y;
   } else if (timeframe === 'YTD') {
     return state.performanceAll?.data?.contributionTimeframeYTD;
-  } else if (timeframe === '30D') {
-    return state.performanceAll?.data?.contributionTimeframe30D;
   } else {
     return state.performanceAll?.data?.contributionTimeframe1Y;
   }
@@ -53,8 +49,6 @@ export const selectContributions = createSelector<
     return state.performanceAll?.data?.contributions1Y;
   } else if (timeframe === 'YTD') {
     return state.performanceAll?.data?.contributionsYTD;
-  } else if (timeframe === '30D') {
-    return state.performanceAll?.data?.contributions30D;
   } else {
     return state.performanceAll?.data?.contributions1Y;
   }

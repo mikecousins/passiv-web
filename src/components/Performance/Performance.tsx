@@ -120,8 +120,6 @@ export const TimespanSelector = (props: Props) => {
   }
   if (props.timeframe === 'YTD') {
     timeframeString = 'Year to Date';
-  } else if (props.timeframe === '30D') {
-    timeframeString = '30 Days';
   }
 
   let selected = props.timeframe === props.selectedTimeframe;
@@ -159,11 +157,6 @@ export const Performance = () => {
         />
         <TimespanSelector
           timeframe={'YTD'}
-          selectedTimeframe={currentTimeframe}
-          setTimeframe={(t: string) => dispatch(setSelectedTimeframe(t))}
-        />
-        <TimespanSelector
-          timeframe={'30D'}
           selectedTimeframe={currentTimeframe}
           setTimeframe={(t: string) => dispatch(setSelectedTimeframe(t))}
         />
