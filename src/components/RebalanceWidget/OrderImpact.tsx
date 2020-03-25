@@ -4,8 +4,7 @@ import styled from '@emotion/styled';
 import { selectCurrencies } from '../../selectors';
 import { selectAccounts } from '../../selectors/accounts';
 import Number from '../Number';
-import { Table, P } from '../../styled/GlobalElements';
-import { ColumnWarning } from '../../styled/Group';
+import { Table } from '../../styled/GlobalElements';
 
 const MetaHorizontal = styled.div`
   text-align: left;
@@ -32,29 +31,17 @@ const ForexFeesDiv = styled.div`
 `;
 
 const Warning = styled.div`
-  display: flex;
-  flex-wrap: wrap;
   min-width: 12%;
   background-color: orange;
   padding: 10px;
   box-shadow: var(--box-shadow);
   border-radius: 4px;
   color: var(--brand-grey);
-  @media (min-width: 900px) {
-    margin-top: 10px;
-    margin-left: 0px;
-    margin-right: 0px;
-    margin-bottom: 10px;
-  }
-  @media (max-width: 900px) {
-    margin-top: 10px;
-    margin-bottom: 16px;
-  }
 `;
 
 const WarningTitle = styled.div`
-  flex-grow: 0;
-  width: 250px;
+  display: inline-block;
+  width: 100px;
   font-weight: 700;
   text-align: center;
   font-size: 18px;
@@ -62,17 +49,12 @@ const WarningTitle = styled.div`
 `;
 
 const WarningTitleBox = styled.div`
-  position: absolute;
-
-  top: 50%;
-  left: 50%;
-  height: 30%;
-  width: 50%;
-  margin: -8% 0 0 -30%;
+  margin: auto;
 `;
 
 const WarningContent = styled.div`
-  flex-grow: 1;
+  display: inline-block;
+  width: calc(100% - 100px);
   padding: 10px;
   font-size: 1em;
 `;
@@ -122,6 +104,7 @@ export const OrderImpact = ({ impacts }: Props) => {
     if (impact.remaining_cash < 0) {
       showNegativeCashWarning = true;
     }
+    return null;
   });
 
   return (
