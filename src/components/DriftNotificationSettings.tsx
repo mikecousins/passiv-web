@@ -9,7 +9,7 @@ import { loadSettings } from '../actions';
 import { putData } from '../api';
 import { ToggleButton, StateText } from '../styled/ToggleButton';
 import Number from './Number';
-import { InputTarget } from '../styled/Form';
+import { NumericTextInput } from '../styled/Form';
 import { SmallButton } from '../styled/Button';
 import {
   Edit,
@@ -26,10 +26,24 @@ const DriftNotificationSettings = () => {
   );
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
-  const [driftThreshold, setDriftThreshold] = useState();
+  const [driftThreshold, setDriftThreshold] = useState('');
+
+  const calcDecimalPlaces = (number: number) => {
+    let decimalPlaces = 4;
+    const asString = String(number);
+    if (asString.indexOf('.') >= 0) {
+      const pieces = asString.split('.');
+      if (pieces.length === 2) {
+        decimalPlaces = pieces[1].length;
+      }
+    }
+    return decimalPlaces;
+  };
 
   useEffect(() => {
-    setDriftThreshold(settings && settings.drift_threshold);
+    if (settings) {
+      setDriftThreshold(settings.drift_threshold);
+    }
   }, [settings]);
 
   const updateNotification = () => {
@@ -93,7 +107,7 @@ const DriftNotificationSettings = () => {
                 <Number
                   value={parseFloat(settings.drift_threshold)}
                   percentage
-                  decimalPlaces={0}
+                  decimalPlaces={calcDecimalPlaces(parseFloat(driftThreshold))}
                 />
                 <Edit
                   onClick={() => setEditingThreshold(true)}
@@ -105,10 +119,10 @@ const DriftNotificationSettings = () => {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                <InputTarget
+                <NumericTextInput
                   value={driftThreshold}
-                  onChange={e => setDriftThreshold(e.target.value)}
-                  onKeyPress={e => {
+                  onChange={(e) => setDriftThreshold(e.target.value)}
+                  onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                       finishEditingThreshold();
                     }

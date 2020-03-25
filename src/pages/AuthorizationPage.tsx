@@ -22,6 +22,7 @@ import styled from '@emotion/styled';
 import QuestradeLogo from '../assets/images/questrade-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
 import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
+import TDAmeritradeLogo from '../assets/images/tda-logo.png';
 
 import {
   aDarkStyle,
@@ -65,7 +66,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       return false;
     }
     let filtered_permissions = userPermissions.filter(
-      permission => permission === 'can_add_multiple_connections',
+      (permission) => permission === 'can_add_multiple_connections',
     );
 
     if (filtered_permissions.length > 0) {
@@ -90,11 +91,11 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       connect: () => {
         const brokerage =
           brokerages &&
-          brokerages.find(brokerage => brokerage.name === 'Questrade');
+          brokerages.find((brokerage) => brokerage.name === 'Questrade');
         if (brokerage) {
           postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
             type: 'read',
-          }).then(response => {
+          }).then((response) => {
             window.location = response.data.url;
           });
         }
@@ -117,11 +118,11 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       connect: () => {
         const brokerage =
           brokerages &&
-          brokerages.find(brokerage => brokerage.name === 'Alpaca');
+          brokerages.find((brokerage) => brokerage.name === 'Alpaca');
         if (brokerage) {
           postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
             type: 'trade',
-          }).then(response => {
+          }).then((response) => {
             window.location = response.data.url;
           });
         }
@@ -143,12 +144,12 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         const brokerage =
           brokerages &&
           brokerages.find(
-            brokerage => brokerage.name === 'Interactive Brokers',
+            (brokerage) => brokerage.name === 'Interactive Brokers',
           );
         if (brokerage) {
           postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
             type: 'trade',
-          }).then(response => {
+          }).then((response) => {
             window.location = response.data.url;
           });
         }
@@ -163,6 +164,26 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           new.
         </P>
       ),
+    },
+    {
+      id: 'tdameritrade',
+      name: 'TD Ameritrade',
+      connect: () => {
+        const brokerage =
+          brokerages &&
+          brokerages.find((brokerage) => brokerage.name === 'TD Ameritrade');
+        if (brokerage) {
+          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+            type: 'trade',
+          }).then((response) => {
+            window.location = response.data.url;
+          });
+        }
+      },
+      openURL: 'https://www.tdameritrade.com/home.page',
+      major: true,
+      logo: TDAmeritradeLogo,
+      description: <P>TD Ameritrade</P>,
     },
   ];
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import RebalanceWidget from './RebalanceWidget';
 import { H2, H3, Title } from '../styled/GlobalElements';
@@ -28,13 +28,40 @@ type Props = {
 
 export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
   const accounts = useSelector(selectAccounts);
+  const [tradesSubmitted, setTradesSubmitted] = useState(false);
+  const [tradesCache, setTradesCache] = useState(null);
+
+  const triggerTradesSubmitted = () => {
+    setTradesSubmitted(true);
+  };
+
+  const untriggerTradesSubmitted = () => {
+    setTradesSubmitted(false);
+  };
+
+  useEffect(() => {
+    if (tradesSubmitted === false) {
+      setTradesCache(trades);
+    }
+  }, [tradesSubmitted, trades]);
+
   let buysListRender = null;
   let sellsListRender = null;
-  if (trades && trades.trades.length > 0 && accounts && accounts.length > 0) {
+
+  let tradesToRender = trades;
+  if (tradesSubmitted === true) {
+    tradesToRender = tradesCache;
+  }
+  if (
+    tradesToRender &&
+    tradesToRender.trades.length > 0 &&
+    accounts &&
+    accounts.length > 0
+  ) {
     const tradeRender = (trade: any) => {
       let accountName = '';
       if (accounts) {
-        const account = accounts.find(a => a.id === trade.account);
+        const account = accounts.find((a) => a.id === trade.account);
         if (account) {
           accountName = account.name;
         }
@@ -93,7 +120,7 @@ export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
         </TradeType>
       );
     };
-    let sortedTrades = trades.trades.sort(
+    let sortedTrades = tradesToRender.trades.sort(
       (a: any, b: any) => a.sequence > b.sequence,
     );
     const buysList = sortedTrades.filter(
@@ -112,14 +139,24 @@ export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
     }
   }
 
-  return (
-    <TradesContainer>
-      <H2>Trades</H2>
-      {sellsListRender}
-      {buysListRender}
-      <RebalanceWidget trades={trades} groupId={groupId} onClose={onClose} />
-    </TradesContainer>
-  );
+  if (tradesSubmitted || (tradesToRender && tradesToRender.trades.length)) {
+    return (
+      <TradesContainer>
+        <H2>Trades</H2>
+        {sellsListRender}
+        {buysListRender}
+        <RebalanceWidget
+          trades={trades}
+          groupId={groupId}
+          onClose={onClose}
+          tradesTrigger={() => triggerTradesSubmitted()}
+          tradesUntrigger={() => untriggerTradesSubmitted()}
+        />
+      </TradesContainer>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default PortfolioGroupTrades;

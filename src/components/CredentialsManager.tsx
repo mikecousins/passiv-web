@@ -77,10 +77,10 @@ const CredentialsManager = () => {
   const [editingName, setEditingName] = useState(false);
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
-  const [state2FA, setState2FA] = useState();
+  const [state2FA, setState2FA] = useState<any>();
   const [editing2FA, setEditing2FA] = useState(false);
   const [confirming2FA, setConfirming2FA] = useState(false);
-  const [error2FA, setError2FA] = useState();
+  const [error2FA, setError2FA] = useState<any>();
   const [loading2FA, setLoading2FA] = useState(false);
   const [candidatePhoneNumber, setCandidatePhoneNumber] = useState('');
   const [passwordResetSent, setPasswordResetSent] = useState(false);
@@ -117,13 +117,13 @@ const CredentialsManager = () => {
   const verifyPhoneNumber = () => {
     setLoading2FA(true);
     setError2FA(null);
-    postData('/api/v1/auth/sms/', { phone: phoneNumber })
-      .then(response => {
+    postData('/api/v1/auth/sms/', { phone: candidatePhoneNumber })
+      .then((response) => {
         setConfirming2FA(true);
         setLoading2FA(false);
         setState2FA(response.data.mfa_required.state);
       })
-      .catch(error => {
+      .catch((error) => {
         setError2FA(error.response && error.response.data.detail);
         setLoading2FA(false);
       });
@@ -140,7 +140,7 @@ const CredentialsManager = () => {
         dispatch(loadSettings());
         cancelEditing2FA();
       })
-      .catch(error => {
+      .catch((error) => {
         setError2FA(error.response.data.detail);
         setLoading2FA(false);
       });
@@ -153,7 +153,7 @@ const CredentialsManager = () => {
         setLoading2FA(false);
         dispatch(loadSettings());
       })
-      .catch(error => {
+      .catch((error) => {
         setError2FA(error.response.data.detail);
         setLoading2FA(false);
       });
@@ -242,7 +242,7 @@ const CredentialsManager = () => {
             <MiniInputNonFormik
               value={candidatePhoneNumber}
               placeholder={'Your phone number'}
-              onChange={e => setCandidatePhoneNumber(e.target.value)}
+              onChange={(e) => setCandidatePhoneNumber(e.target.value)}
             />
             {error2FA}
             <Edit
@@ -266,7 +266,7 @@ const CredentialsManager = () => {
             <MiniInputNonFormik
               value={verificationCode}
               placeholder={'Your verification code'}
-              onChange={e => setVerificationCode(e.target.value)}
+              onChange={(e) => setVerificationCode(e.target.value)}
             />
             {error2FA}
             <Edit
@@ -297,8 +297,8 @@ const CredentialsManager = () => {
             <InputContainer>
               <MiniInputNonFormik
                 value={name === null ? '' : name}
-                onChange={e => setName(e.target.value)}
-                onKeyPress={e => {
+                onChange={(e) => setName(e.target.value)}
+                onKeyPress={(e) => {
                   if (e.key === 'Enter') {
                     finishEditing();
                   }

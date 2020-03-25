@@ -13,12 +13,13 @@ const StyledAside = styled.aside`
   background-color: var(--brand-grey);
   color: #fff;
   width: 212px;
-  height: 100%;
+  height: calc(100% - 150px);
   padding-top: 12px;
   font-weight: 700;
   position: fixed;
   transition: 0.25s all;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-bottom: 136px;
   a {
     color: #fff;
@@ -63,7 +64,7 @@ const SideBar = () => {
   );
 
   if (groups) {
-    groupList = groups.map(group => {
+    groupList = groups.map((group) => {
       return (
         <React.Fragment key={group.id}>
           <SideBarLink
@@ -78,7 +79,7 @@ const SideBar = () => {
             hideArrow={true}
           />
           {group.hasAccounts &&
-            group.accounts.map(account => (
+            group.accounts.map((account) => (
               <SideBarLink
                 key={account.id}
                 name={account.name}

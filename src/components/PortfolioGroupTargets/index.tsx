@@ -5,17 +5,24 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
-  selectCurrentGroupTarget,
   selectCurrentGroupTargetInitialized,
   selectCurrentGroupInfoError,
   selectCurrentGroupPositions,
   selectCurrentGroupInfoLoading,
+  selectCurrentGroupTarget,
 } from '../../selectors/groups';
 import { Button } from '../../styled/Button';
-import { H2, H3, P, ErrorMessage } from '../../styled/GlobalElements';
+import {
+  H2,
+  H3,
+  P,
+  ErrorMessage,
+  OverlayContainer,
+} from '../../styled/GlobalElements';
 import { postData } from '../../api';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
+import LoadingOverlay from '../LoadingOverlay';
 import TargetSelector from './TargetSelector';
 
 export const TargetContainer = styled.form`
@@ -60,6 +67,8 @@ const pDarkStyle = {
 
 const PortfolioGroupTargets = () => {
   const [loading, setLoading] = useState(false);
+  const [showImportOverlay, setShowImportOverlay] = useState(false);
+  const [showResetOverlay, setShowResetOverlay] = useState(false);
   const [model, setModel] = useState<string>();
 
   const groupId = useSelector(selectCurrentGroupId);
@@ -98,8 +107,14 @@ const PortfolioGroupTargets = () => {
     setModel(undefined);
   }, [groupId, target, targetInitialized, error]);
 
+  useEffect(() => {
+    setShowImportOverlay(false);
+    setShowResetOverlay(false);
+  }, [targetInitialized]);
+
   const importTarget = () => {
     setLoading(true);
+    setShowImportOverlay(true);
     postData('/api/v1/portfolioGroups/' + groupId + '/import/', {})
       .then(() => {
         setLoading(false);
@@ -107,16 +122,23 @@ const PortfolioGroupTargets = () => {
       })
       .catch(() => {
         setLoading(false);
+        setShowImportOverlay(false);
       });
   };
 
   const generateTargetForm = (lockable: boolean) => {
-    let form = <TargetSelector target={target} lockable={lockable} />;
+    let form = (
+      <TargetSelector
+        target={target}
+        lockable={lockable}
+        onReset={() => setShowResetOverlay(true)}
+      />
+    );
     if (
       !targetInitialized ||
       (!loading &&
         target &&
-        target.filter(t => t.is_supported === true).length === 0)
+        target.filter((t) => t.is_supported === true).length === 0)
     ) {
       form = <ShadowBox>{form}</ShadowBox>;
     }
@@ -172,61 +194,67 @@ const PortfolioGroupTargets = () => {
     !(targetInitialized && target) &&
     !loading &&
     ((target &&
-      target.filter(t => t.is_supported === true && t.is_excluded === false)
+      target.filter((t) => t.is_supported === true && t.is_excluded === false)
         .length === 0) ||
       !target)
   ) {
     return (
-      <ShadowBox background="#2a2d34">
-        <H2 style={h2DarkStyle}>Target Portfolio</H2>
-        {!model ? (
-          <React.Fragment>
-            <P style={pDarkStyle}>
-              A target portfolio is how you tell Passiv what you want. You will
-              need to choose which securities you want to hold and how you want
-              your assets divided across those securities. Passiv will perform
-              calculations to figure out what trades need to be made in order to
-              follow your target portfolio.
-            </P>
-            <P style={pDarkStyle}>
-              There is no target portfolio set for this account. Please choose
-              one of the following options:
-            </P>
-            <Container2Column>
-              {modelChoices.map(m => (
-                <ShadowBox key={m.id}>
-                  <H3LowProfile>{m.name}</H3LowProfile>
-                  <CenteredDiv>{m.button}</CenteredDiv>
-                </ShadowBox>
-              ))}
-            </Container2Column>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <H3 style={h3DarkStyle}>
-              {modelChoices.find((m: any) => m.id === model)!.name}
-            </H3>
-            {renderTargetChooser()}
-            <Button onClick={() => setModel(undefined)}>Back</Button>
-          </React.Fragment>
-        )}
-      </ShadowBox>
+      <OverlayContainer>
+        <ShadowBox background="#2a2d34">
+          <H2 style={h2DarkStyle}>Target Portfolio</H2>
+          {!model ? (
+            <React.Fragment>
+              <P style={pDarkStyle}>
+                A target portfolio is how you tell Passiv what you want. You
+                will need to choose which securities you want to hold and how
+                you want your assets divided across those securities. Passiv
+                will perform calculations to figure out what trades need to be
+                made in order to follow your target portfolio.
+              </P>
+              <P style={pDarkStyle}>
+                There is no target portfolio set for this account. Please choose
+                one of the following options:
+              </P>
+              <Container2Column>
+                {modelChoices.map((m) => (
+                  <ShadowBox key={m.id}>
+                    <H3LowProfile>{m.name}</H3LowProfile>
+                    <CenteredDiv>{m.button}</CenteredDiv>
+                  </ShadowBox>
+                ))}
+              </Container2Column>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <H3 style={h3DarkStyle}>
+                {modelChoices.find((m: any) => m.id === model)!.name}
+              </H3>
+              {renderTargetChooser()}
+              <Button onClick={() => setModel(undefined)}>Back</Button>
+            </React.Fragment>
+          )}
+        </ShadowBox>
+        {(showImportOverlay || showResetOverlay) && <LoadingOverlay />}
+      </OverlayContainer>
     );
   }
 
   return (
-    <ShadowBox>
-      <TargetContainer>
-        <H2>Target Portfolio</H2>
-        {loading ? (
-          <P>
-            Importing targets... <FontAwesomeIcon icon={faSpinner} spin />
-          </P>
-        ) : (
-          generateTargetForm(true)
-        )}
-      </TargetContainer>
-    </ShadowBox>
+    <OverlayContainer>
+      <ShadowBox>
+        <TargetContainer>
+          <H2>Target Portfolio</H2>
+          {loading ? (
+            <P>
+              Importing targets... <FontAwesomeIcon icon={faSpinner} spin />
+            </P>
+          ) : (
+            generateTargetForm(true)
+          )}
+        </TargetContainer>
+      </ShadowBox>
+      {(showImportOverlay || showResetOverlay) && <LoadingOverlay />}
+    </OverlayContainer>
   );
 };
 

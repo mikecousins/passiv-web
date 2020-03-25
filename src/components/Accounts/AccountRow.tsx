@@ -23,7 +23,7 @@ type Props = {
 
 export const AccountRow = ({ account }: Props) => {
   const [groupEditing, setGroupEditing] = useState(false);
-  const [newGroupId, setNewGroupId] = useState();
+  const [newGroupId, setNewGroupId] = useState('');
   const brokerages = useSelector(selectAllBrokerages);
   const authorizations = useSelector(selectAuthorizations);
   const groups = useSelector(selectGroups);
@@ -34,7 +34,7 @@ export const AccountRow = ({ account }: Props) => {
     return null;
   }
 
-  const group = groups.find(group => group.id === account.portfolio_group);
+  const group = groups.find((group) => group.id === account.portfolio_group);
   if (group && !newGroupId) {
     setNewGroupId(group.id);
   }
@@ -63,7 +63,7 @@ export const AccountRow = ({ account }: Props) => {
     }
 
     const authorization = authorizations.find(
-      authorization => authorization.id === account.brokerage_authorization,
+      (authorization) => authorization.id === account.brokerage_authorization,
     );
 
     if (!authorization) {
@@ -71,7 +71,7 @@ export const AccountRow = ({ account }: Props) => {
     }
 
     const brokerage = brokerages.find(
-      brokerage => brokerage.id === authorization.brokerage.id,
+      (brokerage) => brokerage.id === authorization.brokerage.id,
     );
 
     if (brokerage) {

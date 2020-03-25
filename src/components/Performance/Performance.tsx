@@ -1,17 +1,15 @@
 import styled from '@emotion/styled';
+import { useSelector, useDispatch } from 'react-redux';
+import React, { FunctionComponent } from 'react';
 import TotalHoldings from '../TotalHoldings';
-import React from 'react';
-//import PerformanceRateOfReturn from './PerformanceRateOfReturn';
 import PerformanceChange from './PerformanceChange';
 import PerformanceCapitalGains from './PerformanceCapitalGains';
 import PerformanceContributions from './PerformanceContributions';
 import PerformanceContributionChart from './PerformanceContributionChart';
 import PerformanceTotalValueChart from './PerformanceTotalValueChart';
 import PerformanceContributionStreak from './PerformanceContributionStreak';
-import { useSelector, useDispatch } from 'react-redux';
 import { setSelectedTimeframe } from '../../actions/performance';
 import { selectSelectedTimeframe } from '../../selectors/performance';
-
 import { H1, P } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
 
@@ -113,28 +111,31 @@ type Props = {
   setTimeframe: (newTimeFrame: string) => void;
 };
 
-export const TimespanSelector = (props: Props) => {
+export const TimespanSelector: FunctionComponent<Props> = ({
+  timeframe,
+  selectedTimeframe,
+  setTimeframe,
+}) => {
   let timeframeString = '1Y';
-  if (props.timeframe === '1Y') {
+  if (timeframe === '1Y') {
     timeframeString = '1 Year';
   }
-  if (props.timeframe === 'YTD') {
+  if (timeframe === 'YTD') {
     timeframeString = 'Year to Date';
+  } else if (timeframe === '30D') {
+    timeframeString = '30 Days';
   }
 
-  let selected = props.timeframe === props.selectedTimeframe;
+  let selected = timeframe === selectedTimeframe;
 
   return (
     <TimespanStyle className={selected ? 'selected' : ''}>
-      <button onClick={() => props.setTimeframe(props.timeframe)}>
-        {timeframeString}
-      </button>
+      <button onClick={() => setTimeframe(timeframe)}>{timeframeString}</button>
     </TimespanStyle>
   );
 };
 
 export const Performance = () => {
-  //const [currentTimeframe, setTimeframe] = useState(Timeframe.OneYear);
   const dispatch = useDispatch();
   let currentTimeframe = useSelector(selectSelectedTimeframe);
 
@@ -153,50 +154,43 @@ export const Performance = () => {
         <TimespanSelector
           timeframe={'1Y'}
           selectedTimeframe={currentTimeframe}
-          setTimeframe={(t: string) => dispatch(setSelectedTimeframe(t))}
+          setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
         />
         <TimespanSelector
           timeframe={'YTD'}
           selectedTimeframe={currentTimeframe}
-          setTimeframe={(t: string) => dispatch(setSelectedTimeframe(t))}
+          setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
+        />
+        <TimespanSelector
+          timeframe={'30D'}
+          selectedTimeframe={currentTimeframe}
+          setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
         />
       </TimeContainer>
       <Grid>
-        {/* Replace linebreaks with margins */}
         <div>
           <ShadowBox>
-            <PerformanceContributionChart
-              selectedTimeframe={currentTimeframe}
-            />
+            <PerformanceContributionChart />
           </ShadowBox>
           <ShadowBox>
-            <PerformanceTotalValueChart selectedTimeframe={currentTimeframe} />
+            <PerformanceTotalValueChart />
           </ShadowBox>
         </div>
         <Tiles>
           <ShadowBox>
-            {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
-            <PerformanceContributionStreak
-              selectedTimeframe={currentTimeframe}
-            />
+            <PerformanceContributionStreak />
           </ShadowBox>
           <ShadowBox>
-            {/* <PerformanceRateOfReturn selectedTimeframe={currentTimeframe} /> */}
             <PerformanceContributions selectedTimeframe={currentTimeframe} />
           </ShadowBox>
           <ShadowBox>
-            <PerformanceChange selectedTimeframe={currentTimeframe} />
+            <PerformanceChange />
           </ShadowBox>
           <ShadowBox>
-            <PerformanceCapitalGains selectedTimeframe={currentTimeframe} />
+            <PerformanceCapitalGains />
           </ShadowBox>
         </Tiles>
       </Grid>
-      {/* <PerformanceStat title="Dividends" value={34.24} />
-      <PerformanceStat title="Deposits" value={2000} />
-      <PerformanceStat title="Withdrawals" value={0} />
-      <PerformanceStat title="Taxes and Fees" value={-45.24} />
-      <PerformanceGroups selectedTimeframe={currentTimeframe} /> */}
     </React.Fragment>
   );
 };

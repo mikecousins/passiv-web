@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { push, replace } from 'connected-react-router';
 import { postData } from '../api';
 import { initialLoad } from '../actions';
 import ShadowBox from '../styled/ShadowBox';
@@ -10,35 +11,26 @@ import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import { Step } from '../styled/SignupSteps';
 import { selectQueryTokens } from '../selectors/router';
-import { push } from 'connected-react-router';
 import { Error } from '../types/groupInfo';
 
-const InteractiveBrokersOauthPage = () => {
+const TDAmeritradeOauthPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error>();
-  const [success, setSuccess] = useState(false);
-
   const queryParams = useSelector(selectQueryTokens);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const oauth_token = queryParams.oauth_token;
-    const oauth_verifier = queryParams.oauth_verifier;
+    const token = queryParams.code;
 
-    if (oauth_token === null) {
+    if (token === null) {
       setLoading(false);
       setError({ code: '0000' });
     } else {
-      setLoading(true);
-      postData('/api/v1/brokerages/authComplete/', {
-        oauth_token: oauth_token,
-        oauth_verifier: oauth_verifier,
-      })
+      postData('/api/v1/brokerages/authComplete/', { token: token })
         .then(() => {
           dispatch(initialLoad());
           setTimeout(() => {
-            setLoading(false);
-            setSuccess(true);
+            dispatch(replace('/app/setup-groups'));
           }, 1000);
         })
         .catch((error) => {
@@ -46,12 +38,7 @@ const InteractiveBrokersOauthPage = () => {
           setError(error.response.data);
         });
     }
-  }, [dispatch, queryParams]);
-
-  // if we're done, redirect the user to the dashboard
-  if (success) {
-    return <Redirect to="/app/setup-groups" />;
-  }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   let errorDisplay = null;
   if (error) {
@@ -84,19 +71,11 @@ const InteractiveBrokersOauthPage = () => {
           </P>
         );
         break;
-      case '1046':
-        errorDisplay = (
-          <P>
-            Passiv is not presently available to Canadian accounts at
-            Interactive Brokers.
-          </P>
-        );
-        break;
       case '0000':
         errorDisplay = (
           <P>
-            No access code was provided by Interactive Brokers. Did you approve
-            the connection request?
+            No access code was provided by TDAmeritrade. Did you approve the
+            connection request?
           </P>
         );
         break;
@@ -127,7 +106,7 @@ const InteractiveBrokersOauthPage = () => {
       {loading ? (
         <React.Fragment>
           <Step>
-            Establishing connection to Interactive Brokers...{' '}
+            Establishing connection to TD Ameritrade...{' '}
             <FontAwesomeIcon icon={faSpinner} spin />
           </Step>
         </React.Fragment>
@@ -137,7 +116,7 @@ const InteractiveBrokersOauthPage = () => {
           <ShadowBox>
             {errorDisplay}
             <Button onClick={() => dispatch(push('/app/settings'))}>
-              Settings
+              Go to Settings
             </Button>
           </ShadowBox>
         </React.Fragment>
@@ -146,4 +125,4 @@ const InteractiveBrokersOauthPage = () => {
   );
 };
 
-export default InteractiveBrokersOauthPage;
+export default TDAmeritradeOauthPage;

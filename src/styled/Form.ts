@@ -8,7 +8,7 @@ export const Form = styled.form`
 `;
 
 export const Input = styled(Field)`
-  border: ${props =>
+  border: ${(props) =>
     props.error ? '1px solid red' : '1px solid var(--brand-grey)'};
   box-sizing: border-box;
   font-size: 20px;
@@ -27,7 +27,7 @@ export const Input = styled(Field)`
 `;
 
 export const Textarea = styled(Field)`
-  border: ${props =>
+  border: ${(props) =>
     props.error ? '1px solid red' : '1px solid var(--brand-grey)'};
   box-sizing: border-box;
   font-size: 20px;
@@ -114,4 +114,11 @@ export const Select = styled.select`
 
   background-size: 8px 5px, 5px 5px, 2.5em 3.5em;
   background-repeat: no-repeat;
+`;
+
+export const NumericTextInput = styled(InputTarget)`
+  font-size: 1em;
+  height: 38px;
+  width: 100px;
+  margin-bottom: 0px;
 `;

@@ -4,7 +4,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik, FieldArray, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { replace } from 'connected-react-router';
 import styled from '@emotion/styled';
 import { loadGroup } from '../../actions';
@@ -82,9 +82,10 @@ const ExcludeTitle = styled(BaseLegendTitle)``;
 type Props = {
   lockable: boolean;
   target: TargetPosition[] | null;
+  onReset: () => void;
 };
 
-export const TargetSelector = ({ lockable, target }: Props) => {
+export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const groupId = useSelector(selectCurrentGroupId);
   const positions = useSelector(selectCurrentGroupPositions);
   const totalEquity = useSelector(selectCurrentGroupTotalEquityExcludedRemoved);
@@ -115,17 +116,20 @@ export const TargetSelector = ({ lockable, target }: Props) => {
   };
 
   const resetTargets = (resetForm: () => void) => {
+    onReset();
+    toggleEditMode();
     postData(`/api/v1/portfolioGroups/${groupId}/targets/`, [])
       .then(() => {
         // once we're done refresh the groups
-        toggleEditMode();
+
         dispatch(loadGroup({ ids: [groupId] }));
       })
-      .catch(error => {
+      .catch((error) => {
         // display our error
         toast.error(
-          `Failed to reset targets: ${error.response &&
-            error.response.data.detail}`,
+          `Failed to reset targets: ${
+            error.response && error.response.data.detail
+          }`,
         );
         toggleEditMode();
         // reset the form
@@ -137,7 +141,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
     let target = {
       symbol: null,
       percent: 0,
-      key: uuid.v4(),
+      key: uuidv4(),
     };
     return target;
   };
@@ -161,7 +165,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
 
   let iValue = 0;
   target
-    .filter(target => target.is_supported && !target.is_excluded)
+    .filter((target) => target.is_supported && !target.is_excluded)
     .map((target: any, index: number) => {
       iValue = index + 1;
       portfolioVisualizerURLParts.push(
@@ -172,7 +176,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
   let cashPercentage =
     100 -
     target
-      .filter(target => target.is_supported && !target.is_excluded)
+      .filter((target) => target.is_supported && !target.is_excluded)
       .reduce((total: number, target: any) => {
         if (!target.deleted && target.percent && target.is_supported) {
           return total + parseFloat(target.percent);
@@ -194,7 +198,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
     <Formik
       initialValues={{ targets: initialTargets }}
       enableReinitialize
-      validate={values => {
+      validate={(values) => {
         const errors: any = {};
         const cashPercentage =
           100 -
@@ -226,22 +230,23 @@ export const TargetSelector = ({ lockable, target }: Props) => {
             // once we're done refresh the groups
             dispatch(loadGroup({ ids: [groupId] }));
           })
-          .catch(error => {
+          .catch((error) => {
             // display our error
             toast.error(
-              `Failed to edit targets: ${error.response &&
-                error.response.data.detail}`,
+              `Failed to edit targets: ${
+                error.response && error.response.data.detail
+              }`,
             );
 
             // reset the form
             actions.resetForm();
           });
       }}
-      onReset={values => {
+      onReset={(values) => {
         values.targets = target;
       }}
     >
-      {props => (
+      {(props) => (
         <div>
           <Th>
             <Legend>
@@ -252,19 +257,19 @@ export const TargetSelector = ({ lockable, target }: Props) => {
           </Th>
           <FieldArray
             name="targets"
-            render={arrayHelpers => {
+            render={(arrayHelpers) => {
               // calculate any new targets actual percentages
               props.values.targets
-                .filter(target => target.actualPercentage === undefined)
-                .forEach(target => {
+                .filter((target) => target.actualPercentage === undefined)
+                .forEach((target) => {
                   if (
                     positions &&
                     positions.find(
-                      position => position.symbol.id === target.symbol,
+                      (position) => position.symbol.id === target.symbol,
                     )
                   ) {
                     const position = positions.find(
-                      position => position.symbol.id === target.symbol,
+                      (position) => position.symbol.id === target.symbol,
                     );
                     if (position) {
                       target.actualPercentage =
@@ -286,7 +291,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
               // calculate the actual cash percentage
               const cashActualPercentage = (cash / totalEquity) * 100;
 
-              if (props.values.targets.filter(t => !t.deleted).length === 0) {
+              if (props.values.targets.filter((t) => !t.deleted).length === 0) {
                 arrayHelpers.push(generateNewTarget());
               }
 
@@ -301,7 +306,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
               });
               shareUrl = shareUrl.substr(0, shareUrl.length - 1);
               var excludedAssetCount = props.values.targets.filter(
-                target => target.is_excluded === true,
+                (target) => target.is_excluded === true,
               ).length;
 
               return (
@@ -320,15 +325,15 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                           key={t.symbol}
                           target={t}
                           edit={canEdit}
-                          setSymbol={symbol => {
+                          setSymbol={(symbol) => {
                             setSymbol(t, symbol);
                             props.setFieldTouched(
                               `targets.${index}.symbol` as 'targets',
                             );
                           }}
-                          onDelete={key => {
+                          onDelete={(key) => {
                             let target = props.values.targets.find(
-                              t => t.key === key,
+                              (t) => t.key === key,
                             );
                             if (!target) {
                               return;
@@ -342,9 +347,9 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                               -0.1,
                             );
                           }}
-                          onExclude={key => {
+                          onExclude={(key) => {
                             let target = props.values.targets.find(
-                              t => t.key === key,
+                              (t) => t.key === key,
                             );
                             if (!target) {
                               return;
@@ -365,7 +370,7 @@ export const TargetSelector = ({ lockable, target }: Props) => {
                             name={`targets.${index}.percent`}
                             value={props.values.targets[index].percent}
                             tabIndex={index + 1}
-                            onChange={e =>
+                            onChange={(e) =>
                               props.setFieldValue(
                                 `targets.${index}.percent` as 'targets',
                                 parseFloat(e.target.value),

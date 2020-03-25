@@ -1,18 +1,10 @@
 import React, { useState } from 'react';
-// import styled from '@emotion/styled';
 import PerformanceChart from './PerformanceChart';
 import { useSelector } from 'react-redux';
 import { selectTotalEquityTimeframe } from '../../selectors/performance';
-import { PastValue } from '../../types/performance';
 
-type Props = {
-  selectedTimeframe: string;
-};
-
-export const PerformanceTotalValueChart = (props: Props) => {
-  let totalEquityData: PastValue[] | undefined = useSelector(
-    selectTotalEquityTimeframe,
-  );
+export const PerformanceTotalValueChart = () => {
+  let totalEquityData = useSelector(selectTotalEquityTimeframe);
 
   const [chartStartsAt0, setChartMin] = useState(true);
   let chartMin: number | undefined = 0;
@@ -24,7 +16,7 @@ export const PerformanceTotalValueChart = (props: Props) => {
     () => [
       {
         label: 'Total Equity',
-        data: totalEquityData?.map(a => {
+        data: totalEquityData?.map((a) => {
           let date = new Date(Date.parse(a.date));
           return [
             new Date(date.getFullYear(), date.getMonth(), date.getDate()),

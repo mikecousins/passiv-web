@@ -1,20 +1,15 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SubHeader } from './Performance';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-
 import { useSelector } from 'react-redux';
+import { SubHeader } from './Performance';
 import {
   selectContributionStreak,
   selectContributionMonthsContributed,
   selectContributionMonthsTotal,
 } from '../../selectors/performance';
 
-type Props = {
-  selectedTimeframe: string;
-};
-
-export const PerformanceContributionStreak = (props: Props) => {
+export const PerformanceContributionStreak = () => {
   const contributionStreak: number | undefined = useSelector(
     selectContributionStreak,
   );

@@ -1,25 +1,14 @@
 import React from 'react';
-// import styled from '@emotion/styled';
-import PerformanceChart from './PerformanceChart';
 import { useSelector } from 'react-redux';
+import PerformanceChart from './PerformanceChart';
 import {
   selectContributionTimeframe,
   selectWithdrawalTimeframe,
 } from '../../selectors/performance';
-import { PastValue } from '../../types/performance';
 
-type Props = {
-  selectedTimeframe: string;
-};
-
-export const PerformanceContributionChart = (props: Props) => {
-  let contributionData: PastValue[] | undefined = useSelector(
-    selectContributionTimeframe,
-  );
-
-  let withdrawalData: PastValue[] | undefined = useSelector(
-    selectWithdrawalTimeframe,
-  );
+export const PerformanceContributionChart = () => {
+  const contributionData = useSelector(selectContributionTimeframe);
+  const withdrawalData = useSelector(selectWithdrawalTimeframe);
 
   const data = React.useMemo(
     () => [
@@ -27,7 +16,7 @@ export const PerformanceContributionChart = (props: Props) => {
         label: 'Contributions',
         data: contributionData
           ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
-          .map(a => {
+          .map((a) => {
             let dateFormatted = formatDate(a.date);
             return [dateFormatted, a.value];
           }),
@@ -37,7 +26,7 @@ export const PerformanceContributionChart = (props: Props) => {
         label: 'Withdrawals',
         data: withdrawalData
           ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
-          .map(a => {
+          .map((a) => {
             let dateFormatted = formatDate(a.date);
             return [dateFormatted, a.value];
           }),
