@@ -161,11 +161,6 @@ export const Performance = () => {
           selectedTimeframe={currentTimeframe}
           setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
         />
-        <TimespanSelector
-          timeframe={'30D'}
-          selectedTimeframe={currentTimeframe}
-          setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
-        />
       </TimeContainer>
       <Grid>
         <div>
