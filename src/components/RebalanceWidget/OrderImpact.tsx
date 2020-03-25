@@ -33,6 +33,7 @@ const ForexFeesDiv = styled.div`
 const Warning = styled.div`
   min-width: 12%;
   background-color: orange;
+  margin-top: 10px;
   padding: 10px;
   box-shadow: var(--box-shadow);
   border-radius: 4px;
