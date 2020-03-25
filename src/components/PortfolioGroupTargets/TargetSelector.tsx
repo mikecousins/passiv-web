@@ -243,7 +243,8 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
       onReset={values => {
         values.targets = target;
       }}
-      render={props => (
+    >
+      {props => (
         <div>
           <Th>
             <Legend>
@@ -378,7 +379,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                                 `targets.${index}.percent` as 'targets',
                                 parseFloat(
                                   props.values.targets[index].percent.toFixed(
-                                    1,
+                                    4,
                                   ),
                                 ),
                               );
@@ -474,7 +475,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
           />
         </div>
       )}
-    />
+    </Formik>
   );
 };
 

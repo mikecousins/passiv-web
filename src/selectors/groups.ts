@@ -15,6 +15,7 @@ import {
   selectCurrentAccountBalances,
   selectAccountPositions,
   selectCurrentAccountPositions,
+  selectCurrentAccountPositionsError,
 } from './accounts';
 import { selectIsEditMode } from './router';
 import shouldUpdate from '../reactors/should-update';
@@ -148,6 +149,17 @@ export const selectCurrentGroupInfo = createSelector<
   }
   return null;
 });
+
+export const selectCurrentGroupInfoLoading = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    if (groupId && groupInfo[groupId]) {
+      return groupInfo[groupId].loading;
+    }
+    return true;
+  },
+);
 
 export const selectCurrentGroupInfoError = createSelector<
   AppState,
@@ -368,7 +380,6 @@ export const selectCurrentGroupPositions = createSelector(
       groupInfo[groupId] &&
       groupInfo[groupId].data &&
       groupInfo[groupId].data!.positions &&
-      excludedAssets &&
       quotableSymbols &&
       currencies &&
       rates
@@ -376,9 +387,13 @@ export const selectCurrentGroupPositions = createSelector(
       positions = groupInfo[groupId].data!.positions;
 
       positions.map(position => {
-        position.excluded = excludedAssets.some(
-          excludedAsset => excludedAsset.symbol === position.symbol.id,
-        );
+        if (excludedAssets) {
+          position.excluded = excludedAssets.some(
+            excludedAsset => excludedAsset.symbol === position.symbol.id,
+          );
+        } else {
+          position.excluded = false;
+        }
         position.quotable = quotableSymbols.some(
           quotableSymbol => quotableSymbol.id === position.symbol.id,
         );
@@ -742,13 +757,15 @@ export const selectCurrentAccountHoldings = createSelector<
   Account[] | undefined,
   SimpleListState<Balance[]>,
   SimpleListState<Position[]>,
+  boolean,
   AccountHoldings | null
 >(
   selectCurrentAccountId,
   selectAccounts,
   selectAccountBalances,
   selectAccountPositions,
-  (accountId, accounts, accountBalances, accountPositions) => {
+  selectCurrentAccountPositionsError,
+  (accountId, accounts, accountBalances, accountPositions, accountError) => {
     if (!accountId || !accounts || !accountBalances || !accountPositions) {
       return null;
     }
@@ -768,6 +785,7 @@ export const selectCurrentAccountHoldings = createSelector<
       type: account.meta.type,
       institution_name: account.institution_name,
       positions,
+      error: accountError,
     };
   },
 );

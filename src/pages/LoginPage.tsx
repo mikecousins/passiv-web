@@ -50,7 +50,7 @@ const LoginPage = () => {
       render={props => (
         <Form onSubmit={props.handleSubmit}>
           <Label htmlFor="email">Email</Label>
-          <Input name="email" placeholder="Email" />
+          <Input name="email" placeholder="Email" autoFocus />
 
           <P>
             <ErrorMessage name="email" />
@@ -109,7 +109,7 @@ const LoginPage = () => {
         render={props => (
           <Form onSubmit={props.handleSubmit}>
             <Label htmlFor="token">Verification Code</Label>
-            <Input name="token" placeholder="Code" />
+            <Input name="token" placeholder="Code" autoFocus />
 
             <P>
               <ErrorMessage name="token" />

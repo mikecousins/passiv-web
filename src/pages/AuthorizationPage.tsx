@@ -22,6 +22,7 @@ import styled from '@emotion/styled';
 import QuestradeLogo from '../assets/images/questrade-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
 import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
+import TDAmeritradeLogo from '../assets/images/tda-logo.png';
 
 import {
   aDarkStyle,
@@ -163,6 +164,26 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           new.
         </P>
       ),
+    },
+    {
+      id: 'tdameritrade',
+      name: 'TD Ameritrade',
+      connect: () => {
+        const brokerage =
+          brokerages &&
+          brokerages.find(brokerage => brokerage.name === 'TD Ameritrade');
+        if (brokerage) {
+          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+            type: 'trade',
+          }).then(response => {
+            window.location = response.data.url;
+          });
+        }
+      },
+      openURL: 'https://www.tdameritrade.com/home.page',
+      major: true,
+      logo: TDAmeritradeLogo,
+      description: <P>TD Ameritrade</P>,
     },
   ];
 
