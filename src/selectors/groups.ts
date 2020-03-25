@@ -634,15 +634,12 @@ export const selectCurrentGroupExcludedEquity = createSelector(
     ) {
       return excludedEquity;
     }
-
     const excludedPositionsIds = groupInfo[
       groupId
     ].data!.excluded_positions.map(
       excluded_position => excluded_position.symbol,
     );
-
     const allPositions = groupInfo[groupId].data!.positions;
-
     allPositions.forEach(position => {
       if (excludedPositionsIds.includes(position.symbol.id)) {
         if (
