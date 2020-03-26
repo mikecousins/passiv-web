@@ -122,6 +122,8 @@ export const TimespanSelector: FunctionComponent<Props> = ({
   }
   if (timeframe === 'YTD') {
     timeframeString = 'Year to Date';
+  } else if (timeframe === 'ALL') {
+    timeframeString = 'All Time';
   } else if (timeframe === '30D') {
     timeframeString = '30 Days';
   }
@@ -158,6 +160,11 @@ export const Performance = () => {
         />
         <TimespanSelector
           timeframe={'YTD'}
+          selectedTimeframe={currentTimeframe}
+          setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
+        />
+        <TimespanSelector
+          timeframe={'ALL'}
           selectedTimeframe={currentTimeframe}
           setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
         />

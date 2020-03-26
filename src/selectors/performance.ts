@@ -19,6 +19,8 @@ export const selectTotalEquityTimeframe = createSelector<
     return state.performanceAll?.data?.totalEquityTimeframe1Y;
   } else if (timeframe === 'YTD') {
     return state.performanceAll?.data?.totalEquityTimeframeYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.totalEquityTimeframeALL;
   } else {
     return state.performanceAll?.data?.totalEquityTimeframe1Y;
   }
@@ -34,6 +36,8 @@ export const selectContributionTimeframe = createSelector<
     return state.performanceAll?.data?.contributionTimeframe1Y;
   } else if (timeframe === 'YTD') {
     return state.performanceAll?.data?.contributionTimeframeYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.contributionTimeframeALL;
   } else {
     return state.performanceAll?.data?.contributionTimeframe1Y;
   }
@@ -49,6 +53,8 @@ export const selectWithdrawalTimeframe = createSelector<
     return state.performanceAll?.data?.withdrawalTimeframe1Y;
   } else if (timeframe === 'YTD') {
     return state.performanceAll?.data?.withdrawalTimeframeYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.withdrawalTimeframeALL;
   } else {
     return state.performanceAll?.data?.withdrawalTimeframe1Y;
   }
@@ -64,6 +70,8 @@ export const selectContributions = createSelector<
     return state.performanceAll?.data?.contributions1Y;
   } else if (timeframe === 'YTD') {
     return state.performanceAll?.data?.contributionsYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.contributionsALL;
   } else {
     return state.performanceAll?.data?.contributions1Y;
   }
@@ -79,6 +87,8 @@ export const selectContributionStreak = createSelector<
     return state.performanceAll?.data?.contributionStreak1Y;
   } else if (timeframe === 'YTD') {
     return state.performanceAll?.data?.contributionStreakYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.contributionStreakALL;
   } else {
     return state.performanceAll?.data?.contributionStreak1Y;
   }
@@ -94,6 +104,8 @@ export const selectContributionMonthsContributed = createSelector<
     return state.performanceAll?.data?.contributionMonthsContributed1Y;
   } else if (timeframe === 'YTD') {
     return state.performanceAll?.data?.contributionMonthsContributedYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.contributionMonthsContributedALL;
   } else {
     return state.performanceAll?.data?.contributionMonthsContributed1Y;
   }
@@ -109,6 +121,8 @@ export const selectContributionMonthsTotal = createSelector<
     return state.performanceAll?.data?.contributionTotalMonths1Y;
   } else if (timeframe === 'YTD') {
     return state.performanceAll?.data?.contributionTotalMonthsYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.contributionTotalMonthsALL;
   } else {
     return state.performanceAll?.data?.contributionTotalMonths1Y;
   }
