@@ -6,7 +6,7 @@ import { AppState } from '../store';
 import { Balance } from '../types/groupInfo';
 import { SimpleListState } from '../reducers/simpleList';
 import { selectPathname } from './router';
-import { Position } from '../types/account';
+import { Account, Position, CashRestriction } from '../types/account';
 
 export const selectAccountsRaw = (state: AppState) => state.accounts;
 
@@ -31,6 +31,25 @@ export const selectAccountsNeedData = createSelector(
     });
   },
 );
+
+export const selectCashRestrictions = createSelector<
+  AppState,
+  any[],
+  CashRestriction[]
+>(selectAccounts, accounts => {
+  let restrictions: CashRestriction[] = [];
+  accounts.map((account: Account) => {
+    account.cash_restrictions.map((cashRestriction: CashRestriction) => {
+      restrictions.push(cashRestriction);
+      return null;
+    });
+    return null;
+  });
+  restrictions = restrictions.sort((a: CashRestriction, b: CashRestriction) =>
+    a.account > b.account ? 1 : 0,
+  );
+  return restrictions;
+});
 
 export const selectAccountBalances = (state: AppState) => state.accountBalances;
 
