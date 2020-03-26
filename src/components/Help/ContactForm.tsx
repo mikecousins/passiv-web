@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from '@emotion/styled';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useSelector } from 'react-redux';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { Form, Input, Label, Textarea } from '../../styled/Form';
 import { H2, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
@@ -32,6 +33,8 @@ const HiddenInput = styled(Input)`
 
 const ContactForm = () => {
   const settings = useSelector(selectSettings);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+
   return (
     <GreenBox>
       <Formik
@@ -45,36 +48,29 @@ const ContactForm = () => {
         }}
         initialStatus={{ submitted: false }}
         validationSchema={Yup.object().shape({
-          le: Yup.string()
-            .email('Must be a valid email')
-            .required('Required'),
+          le: Yup.string().email('Must be a valid email').required('Required'),
           lm: Yup.string().required('Required'),
         })}
         onSubmit={(values, actions) => {
-          if (
-            values.name !== '' ||
-            values.url !== '' ||
-            values.message !== '' ||
-            values.email !== '' ||
-            values.lm.includes('https://vk.cc')
-          ) {
-            // if either of these fields have data, it was submitted by a bot so we do nothing
-            actions.setSubmitting(false);
-          } else {
-            postData('/api/v1/feedback/', {
-              email: values.le,
-              message: values.lm,
-            })
-              .then(() => {
-                actions.setSubmitting(false);
-                actions.setStatus({ submitted: true });
-              })
-              .catch(() => {
-                actions.setSubmitting(false);
-              });
+          // execute our recaptcha check
+          if (recaptchaRef && recaptchaRef.current) {
+            recaptchaRef.current.execute();
           }
+
+          // submit our values
+          postData('/api/v1/feedback/', {
+            email: values.le,
+            message: values.lm,
+          })
+            .then(() => {
+              actions.setSubmitting(false);
+              actions.setStatus({ submitted: true });
+            })
+            .catch(() => {
+              actions.setSubmitting(false);
+            });
         }}
-        render={props => (
+        render={(props) => (
           <Form onSubmit={props.handleSubmit}>
             <legend>
               <H2>Send us a Message</H2>
@@ -126,6 +122,11 @@ const ContactForm = () => {
             <P>
               <ErrorMessage name="lm" />
             </P>
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey="6Lf5SeQUAAAAACWa2toI5bh8zdeKlI82fe_9r6P0"
+              size="invisible"
+            />
             {props.status.submitted ? (
               <div>
                 <Button onClick={props.handleReset}>Reset</Button>
