@@ -4,11 +4,13 @@ import PerformanceChart from './PerformanceChart';
 import {
   selectContributionTimeframe,
   selectWithdrawalTimeframe,
+  selectSelectedTimeframe,
 } from '../../selectors/performance';
 
 export const PerformanceContributionChart = () => {
   const contributionData = useSelector(selectContributionTimeframe);
   const withdrawalData = useSelector(selectWithdrawalTimeframe);
+  const timeframe = useSelector(selectSelectedTimeframe);
 
   const data = React.useMemo(
     () => [
@@ -17,7 +19,7 @@ export const PerformanceContributionChart = () => {
         data: contributionData
           ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
           .map((a) => {
-            let dateFormatted = formatDate(a.date);
+            let dateFormatted = formatDate(a.date, timeframe);
             return [dateFormatted, a.value];
           }),
         color: '#04a286',
@@ -27,7 +29,7 @@ export const PerformanceContributionChart = () => {
         data: withdrawalData
           ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
           .map((a) => {
-            let dateFormatted = formatDate(a.date);
+            let dateFormatted = formatDate(a.date, timeframe);
             return [dateFormatted, a.value];
           }),
         color: '#ab442d',
@@ -55,15 +57,19 @@ export const PerformanceContributionChart = () => {
   );
 };
 
-const dtf = new Intl.DateTimeFormat('en', { month: 'short' });
+const dtfMonth = new Intl.DateTimeFormat('en', { month: 'short' });
 
 const parseDate = (dateString: string): number => {
   return Date.parse(dateString);
 };
 
-const formatDate = (dateString: string): string => {
+const formatDate = (dateString: string, timeframe: string): string => {
   const date = new Date(parseDate(dateString));
-  return dtf.format(date);
+  if (timeframe == 'ALL') {
+    return date.getFullYear().toString();
+  } else {
+    return dtfMonth.format(date);
+  }
 };
 
 export default PerformanceContributionChart;
