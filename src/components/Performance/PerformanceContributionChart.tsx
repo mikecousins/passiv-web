@@ -35,7 +35,7 @@ export const PerformanceContributionChart = () => {
         color: '#ab442d',
       },
     ],
-    [contributionData, withdrawalData],
+    [contributionData, withdrawalData, timeframe],
   );
   const series = React.useMemo(() => ({ type: 'bar' }), []);
 
@@ -65,7 +65,7 @@ const parseDate = (dateString: string): number => {
 
 const formatDate = (dateString: string, timeframe: string): string => {
   const date = new Date(parseDate(dateString));
-  if (timeframe == 'ALL') {
+  if (timeframe === 'ALL') {
     return date.getFullYear().toString();
   } else {
     return dtfMonth.format(date);
