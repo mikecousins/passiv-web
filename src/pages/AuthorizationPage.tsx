@@ -7,11 +7,8 @@ import {
   selectIsAuthorized,
   selectBrokerages,
   selectAuthorizations,
-  selectConnectInteractiveBrokersFeature,
-  selectShowProgressFeature,
 } from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
-import { selectConnectPlaidFeature } from '../selectors';
 import PlaidConnection from '../components/PlaidConnection';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -40,6 +37,11 @@ import {
   VerticalPadding,
 } from '../styled/Setup';
 import OnboardingProgress from '../components/OnboardingProgress';
+import {
+  selectConnectPlaidFeature,
+  selectConnectInteractiveBrokersFeature,
+  selectShowProgressFeature,
+} from '../selectors/features';
 
 const Brokerage = styled.div``;
 

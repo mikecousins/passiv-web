@@ -7,8 +7,6 @@ import {
   selectIsDemo,
   selectPhoneNumber,
   select2FAEnabled,
-  selectSMS2FAFeature,
-  selectLimitOrdersFeature,
 } from '../selectors';
 import { loadSettings } from '../actions';
 import { postData, putData, deleteData } from '../api';
@@ -21,6 +19,10 @@ import { InputNonFormik } from '../styled/Form';
 import { H2, Edit, Span, A, OptionsTitle, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import ShadowBox from '../styled/ShadowBox';
+import {
+  selectSMS2FAFeature,
+  selectLimitOrdersFeature,
+} from '../selectors/features';
 
 const InputContainer = styled.div`
   padding-top: 10px;

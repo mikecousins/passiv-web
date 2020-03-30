@@ -20,13 +20,12 @@ import {
   selectSettingsNeedData,
   selectPlansNeedData,
   selectHelpArticlesNeedData,
-  selectFeaturesNeedData,
 } from '../selectors';
 import { selectAccountsNeedData } from '../selectors/accounts';
 import { selectGroupsNeedData } from '../selectors/groups';
 import { selectSubscriptionNeedData } from '../selectors/subscription';
 import { selectShouldCheckIfOnline } from '../selectors/online';
-
+import { selectFeaturesNeedData } from '../selectors/features';
 export { default as reducer } from '../reducers';
 
 export const effects = [

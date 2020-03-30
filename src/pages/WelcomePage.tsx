@@ -6,7 +6,7 @@ import { push } from 'connected-react-router';
 import { H1DarkStyle, H2DarkStyle, VerticalPadding } from '../styled/Setup';
 import OnboardingProgress from '../components/OnboardingProgress';
 import { Button } from '../styled/Button';
-import { selectShowProgressFeature } from '../selectors';
+import { selectShowProgressFeature } from '../selectors/features';
 
 const ScalingIFrame = styled.iframe`
   width: 100%;
