@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Title, P } from '../styled/GlobalElements';
 import Number from './Number';
 import { selectCurrentAccountHoldings } from '../selectors/groups';
-import { selectCurrencies } from '../selectors';
+import { selectCurrencies } from '../selectors/currencies';
 import ShadowBox from '../styled/ShadowBox';
 import { SymbolDetail } from './SymbolDetail';
 
@@ -120,7 +120,7 @@ export const AccountHoldings = () => {
 
   const getCurrencyById = (currencyId: string) => {
     return (
-      currencies && currencies.find(currency => currencyId === currency.id)
+      currencies && currencies.find((currency) => currencyId === currency.id)
     );
   };
 

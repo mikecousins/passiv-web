@@ -3,7 +3,6 @@ import ms from 'milliseconds';
 import {
   selectLoggedIn,
   selectAppTime,
-  selectCurrencies,
   selectCurrencyRates,
   selectRouter,
   selectState,
@@ -32,6 +31,7 @@ import { CurrencyRate } from '../types/currencyRate';
 import { SimpleListState } from '../reducers/simpleList';
 import { Currency } from '../types/currency';
 import { Position, Account } from '../types/account';
+import { selectCurrencies } from './currencies';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 

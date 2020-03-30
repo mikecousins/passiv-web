@@ -13,7 +13,6 @@ import {
 } from '../actions';
 import { checkIfOnline } from '../actions/online';
 import {
-  selectCurrenciesNeedData,
   selectCurrencyRatesNeedData,
   selectBrokeragesNeedData,
   selectAuthorizationsNeedData,
@@ -26,6 +25,7 @@ import { selectGroupsNeedData } from '../selectors/groups';
 import { selectSubscriptionNeedData } from '../selectors/subscription';
 import { selectShouldCheckIfOnline } from '../selectors/online';
 import { selectFeaturesNeedData } from '../selectors/features';
+import { selectCurrenciesNeedData } from '../selectors/currencies';
 export { default as reducer } from '../reducers';
 
 export const effects = [

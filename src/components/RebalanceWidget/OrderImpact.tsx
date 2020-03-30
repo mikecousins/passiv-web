@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { selectCurrencies } from '../../selectors';
+import { selectCurrencies } from '../../selectors/currencies';
 import { selectAccounts } from '../../selectors/accounts';
 import Number from '../Number';
 import { Table } from '../../styled/GlobalElements';
@@ -53,7 +53,7 @@ export const OrderImpact = ({ impacts }: Props) => {
   const accounts = useSelector(selectAccounts);
   const currencies = useSelector(selectCurrencies);
   const filteredAccount = accounts.find(
-    account => account.id === impacts[0].account,
+    (account) => account.id === impacts[0].account,
   );
 
   if (!filteredAccount) {
@@ -65,7 +65,7 @@ export const OrderImpact = ({ impacts }: Props) => {
       return null;
     }
     let currencyCode = currencies.find(
-      currency => currency.id === impact.currency,
+      (currency) => currency.id === impact.currency,
     )!.code;
     return currencyCode;
   };
