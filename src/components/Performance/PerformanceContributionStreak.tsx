@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
@@ -8,6 +9,11 @@ import {
   selectContributionMonthsContributed,
   selectContributionMonthsTotal,
 } from '../../selectors/performance';
+
+const ContributionStreak = styled.div`
+  font-size: 17px;
+  color: #504d4dd9;
+`
 
 export const PerformanceContributionStreak = () => {
   const contributionStreak: number | undefined = useSelector(
@@ -57,10 +63,14 @@ export const PerformanceContributionStreak = () => {
 
   return (
     <React.Fragment>
-      <SubHeader>Streak</SubHeader>
-      {contributionStreakString}
-      <br />
-      {contributionMonthsString}
+      <div>
+        <SubHeader>Streak</SubHeader>
+        <ContributionStreak>
+          {contributionStreakString}
+          <br />
+          {contributionMonthsString}
+        </ContributionStreak>
+      </div>
     </React.Fragment>
   );
 };

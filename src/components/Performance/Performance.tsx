@@ -38,6 +38,9 @@ const Tiles = styled.div`
   display: flex;
   flex-wrap: wrap;
   > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex: 1;
     text-align: center;
     font-size: 25px;
@@ -52,7 +55,7 @@ export const PercentReturn = styled.span`
     background-color: #04a287 !important;
   }
   &.negative {
-    background-color: #ad4629 !important;
+    background-color: #003ba2 !important;
   }
 `;
 
@@ -65,7 +68,7 @@ export const CashReturn = styled.span`
     color: #04a287;
   }
   &.negative {
-    color: #ad4629;
+    color: #003ba2;
   }
 `;
 
@@ -100,9 +103,8 @@ const TimespanStyle = styled.span`
 
 export const SubHeader = styled.div`
   font-size: 18px;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   text-align: center;
-  padding-top: 10px;
 `;
 
 type Props = {
@@ -170,14 +172,9 @@ export const Performance = () => {
         />
       </TimeContainer>
       <Grid>
-        <div>
-          <ShadowBox>
-            <PerformanceContributionChart />
-          </ShadowBox>
-          <ShadowBox>
-            <PerformanceTotalValueChart />
-          </ShadowBox>
-        </div>
+        <ShadowBox>
+          <PerformanceContributionChart />
+        </ShadowBox>
         <Tiles>
           <ShadowBox>
             <PerformanceContributionStreak />
@@ -185,6 +182,13 @@ export const Performance = () => {
           <ShadowBox>
             <PerformanceContributions selectedTimeframe={currentTimeframe} />
           </ShadowBox>
+        </Tiles>
+      </Grid>
+      <Grid>
+        <ShadowBox>
+          <PerformanceTotalValueChart />
+        </ShadowBox>
+        <Tiles>
           <ShadowBox>
             <PerformanceChange />
           </ShadowBox>

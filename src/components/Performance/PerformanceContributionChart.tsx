@@ -32,7 +32,7 @@ export const PerformanceContributionChart = () => {
             let dateFormatted = formatDate(a.date, timeframe);
             return [dateFormatted, a.value];
           }),
-        color: '#ab442d',
+        color: '#003ba2',
       },
     ],
     [contributionData, withdrawalData, timeframe],

@@ -11,6 +11,11 @@ const MarginBottom = styled.div`
   margin-bottom: 25px;
 `;
 
+const Flex = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 export const PerformanceChange = () => {
   const equityData = useSelector(selectTotalEquityTimeframe);
 
@@ -30,15 +35,17 @@ export const PerformanceChange = () => {
 
   return (
     <React.Fragment>
-      <SubHeader>Change</SubHeader>
-      <CashReturn className={positive ? 'positive' : 'negative'}>
-        ${change}{' '}
-        {positive ? (
-          <FontAwesomeIcon icon={faCaretUp} />
-        ) : (
-          <FontAwesomeIcon icon={faCaretDown} />
-        )}
-      </CashReturn>
+      <div>
+        <SubHeader>Change</SubHeader>
+        <CashReturn className={positive ? 'positive' : 'negative'}>
+          ${change}{' '}
+          {positive ? (
+            <FontAwesomeIcon icon={faCaretUp} />
+          ) : (
+            <FontAwesomeIcon icon={faCaretDown} />
+          )}
+        </CashReturn>
+      </div>
     </React.Fragment>
   );
 };

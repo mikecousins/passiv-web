@@ -34,15 +34,17 @@ export const PerformanceContributions = (props: Props) => {
 
   return (
     <React.Fragment>
-      <SubHeader>Contributions</SubHeader>
-      <CashReturn className={positive ? 'positive' : 'negative'}>
-        ${contributionsString}{' '}
-        {positive ? (
-          <FontAwesomeIcon icon={faCaretUp} />
-        ) : (
-          <FontAwesomeIcon icon={faCaretDown} />
-        )}
-      </CashReturn>
+      <div>
+        <SubHeader>Contributions</SubHeader>
+        <CashReturn className={positive ? 'positive' : 'negative'}>
+          ${contributionsString}{' '}
+          {positive ? (
+            <FontAwesomeIcon icon={faCaretUp} />
+          ) : (
+            <FontAwesomeIcon icon={faCaretDown} />
+          )}
+        </CashReturn>
+      </div>
     </React.Fragment>
   );
 };
