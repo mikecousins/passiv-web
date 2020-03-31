@@ -23,6 +23,7 @@ export const PerformanceTotalValueChart = () => {
             a.value,
           ];
         }),
+        color: '#04A286',
       },
     ],
     [totalEquityData],
