@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import PerformanceChart from './PerformanceChart';
 import { useSelector } from 'react-redux';
 import { selectTotalEquityTimeframe } from '../../selectors/performance';
+import { ToggleButton, StateText } from '../../styled/ToggleButton';
+import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const PerformanceTotalValueChart = () => {
   let totalEquityData = useSelector(selectTotalEquityTimeframe);
@@ -41,13 +44,24 @@ export const PerformanceTotalValueChart = () => {
 
   return (
     <div>
-      <button
+      <ToggleButton
         onClick={() => {
           setChartMin(!chartStartsAt0);
         }}
       >
-        Toggle Chart Range
-      </button>
+        Zoom Scale &nbsp;
+        {!chartStartsAt0 ? (
+          <React.Fragment>
+            <FontAwesomeIcon icon={faToggleOn} />
+            <StateText>on</StateText>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <FontAwesomeIcon icon={faToggleOff} />
+            <StateText>off</StateText>
+          </React.Fragment>
+        )}
+      </ToggleButton>
       <PerformanceChart
         className="equity"
         data={data}
