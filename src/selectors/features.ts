@@ -1,0 +1,66 @@
+import { createSelector } from 'reselect';
+import ms from 'milliseconds';
+import { AppState } from '../store';
+import shouldUpdate from '../reactors/should-update';
+import { selectLoggedIn, selectAppTime } from '.';
+
+export const selectFeaturesRaw = (state: AppState) => state.features;
+
+export const selectFeatures = createSelector(selectFeaturesRaw, rawFeatures => {
+  if (rawFeatures.data) {
+    return rawFeatures.data.map(feature => feature.name);
+  }
+  return null;
+});
+
+export const selectFeaturesNeedData = createSelector(
+  selectLoggedIn,
+  selectFeaturesRaw,
+  selectAppTime,
+  (loggedIn, rawFeatures, time) => {
+    if (!loggedIn) {
+      return false;
+    }
+    return shouldUpdate(rawFeatures, {
+      staleTime: ms.minutes(30),
+      now: time,
+    });
+  },
+);
+
+const createFeatureSelector = (flagName: string) => {
+  return createSelector(selectFeatures, features => {
+    let hasFeature = false;
+    if (features != null) {
+      features.map(feature => {
+        if (feature === flagName) {
+          hasFeature = true;
+        }
+        return null;
+      });
+    }
+    return hasFeature;
+  });
+};
+
+export const selectConnectPlaidFeature = createFeatureSelector('connect_plaid');
+
+export const selectQuestradeOfferFeature = createFeatureSelector(
+  'questrade_offer',
+);
+
+export const selectSMS2FAFeature = createFeatureSelector('sms_2fa');
+
+export const selectShowProgressFeature = createFeatureSelector(
+  'onboarding_progress',
+);
+
+export const selectConnectInteractiveBrokersFeature = createFeatureSelector(
+  'connect_interactive_brokers',
+);
+
+export const selectLimitOrdersFeature = createFeatureSelector('limit_orders');
+
+export const selectPerformancePageFeature = createFeatureSelector(
+  'performance_page',
+);
