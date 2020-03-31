@@ -11,11 +11,6 @@ const MarginBottom = styled.div`
   margin-bottom: 25px;
 `;
 
-const Flex = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 export const PerformanceChange = () => {
   const equityData = useSelector(selectTotalEquityTimeframe);
 
