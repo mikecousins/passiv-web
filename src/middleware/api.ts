@@ -3,11 +3,11 @@ import { selectToken, selectTokenIsExpired } from '../selectors';
 import { tokenExpired } from '../actions';
 
 const apiMiddleware = (store: any) => {
-  let baseUrlOverride = 'beta.getpassiv.com';
+  let baseUrlOverride = 'localhost:9000'; //'beta.internal.getpassiv.com';
   if (process.env.REACT_APP_BASE_URL_OVERRIDE) {
     baseUrlOverride = process.env.REACT_APP_BASE_URL_OVERRIDE;
   }
-  const baseUrl = 'https://' + baseUrlOverride;
+  const baseUrl = 'http://' + baseUrlOverride;
   axios.defaults.baseURL = baseUrl;
   axios.defaults.headers.common['Content-Type'] = 'application/json';
   const initialJwt = selectToken(store.getState());
