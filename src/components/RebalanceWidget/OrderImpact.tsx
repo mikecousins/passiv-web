@@ -30,6 +30,36 @@ const ForexFeesDiv = styled.div`
   min-width: 25%;
 `;
 
+const Warning = styled.div`
+  min-width: 12%;
+  background-color: orange;
+  margin-top: 10px;
+  padding: 10px;
+  box-shadow: var(--box-shadow);
+  border-radius: 4px;
+  color: var(--brand-grey);
+`;
+
+const WarningTitle = styled.div`
+  display: inline-block;
+  width: 100px;
+  font-weight: 700;
+  text-align: center;
+  font-size: 18px;
+  position: relative;
+`;
+
+const WarningTitleBox = styled.div`
+  margin: auto;
+`;
+
+const WarningContent = styled.div`
+  display: inline-block;
+  width: calc(100% - 100px);
+  padding: 10px;
+  font-size: 1em;
+`;
+
 const AccountContainer = styled.div`
   border-bottom: 1px solid #eee;
   margin-bottom: 10px;
@@ -70,60 +100,84 @@ export const OrderImpact = ({ impacts }: Props) => {
     return currencyCode;
   };
 
+  let showNegativeCashWarning = false;
+  impacts.map((impact, index) => {
+    if (impact.remaining_cash < 0) {
+      showNegativeCashWarning = true;
+    }
+    return null;
+  });
+
   return (
-    <AccountContainer>
-      <Table>
-        <AccountDiv>
-          <MetaHorizontal>
-            <span>
-              {filteredAccount.name} ({filteredAccount.number})
-            </span>
-          </MetaHorizontal>
-        </AccountDiv>
-        <CommissionsDiv>
-          <MetaHorizontal>
-            <p>Trade commissions:</p>
-            <BalanceContainer>
-              {impacts.map((impact, index) => (
-                <p key={index}>
-                  {' '}
-                  <Number value={impact.estimated_commissions} currency />{' '}
-                  {'  '} {filteredCurrencyCode(impact)}{' '}
-                </p>
-              ))}
-            </BalanceContainer>
-          </MetaHorizontal>
-        </CommissionsDiv>
-        <RemainingCashDiv>
-          <MetaHorizontal>
-            <p>Remaining cash:</p>
-            <BalanceContainer>
-              {impacts.map((impact, index) => (
-                <p key={index}>
-                  {' '}
-                  <Number value={impact.remaining_cash} currency /> {'  '}{' '}
-                  {filteredCurrencyCode(impact)}{' '}
-                </p>
-              ))}
-            </BalanceContainer>
-          </MetaHorizontal>
-        </RemainingCashDiv>
-        <ForexFeesDiv>
-          <MetaHorizontal>
-            <p>Forex fees:</p>
-            <BalanceContainer>
-              {impacts.map((impact, index) => (
-                <p key={index}>
-                  {' '}
-                  <Number value={impact.forex_fees} currency /> {'  '}{' '}
-                  {filteredCurrencyCode(impact)}{' '}
-                </p>
-              ))}
-            </BalanceContainer>
-          </MetaHorizontal>
-        </ForexFeesDiv>
-      </Table>
-    </AccountContainer>
+    <React.Fragment>
+      <AccountContainer>
+        <Table>
+          <AccountDiv>
+            <MetaHorizontal>
+              <span>
+                {filteredAccount.name} ({filteredAccount.number})
+              </span>
+            </MetaHorizontal>
+          </AccountDiv>
+          <CommissionsDiv>
+            <MetaHorizontal>
+              <p>Trade commissions:</p>
+              <BalanceContainer>
+                {impacts.map((impact, index) => (
+                  <p key={index}>
+                    {' '}
+                    <Number
+                      value={impact.estimated_commissions}
+                      currency
+                    />{' '}
+                    {'  '} {filteredCurrencyCode(impact)}{' '}
+                  </p>
+                ))}
+              </BalanceContainer>
+            </MetaHorizontal>
+          </CommissionsDiv>
+          <RemainingCashDiv>
+            <MetaHorizontal>
+              <p>Remaining cash:</p>
+              <BalanceContainer>
+                {impacts.map((impact, index) => (
+                  <p key={index}>
+                    {' '}
+                    <Number value={impact.remaining_cash} currency /> {'  '}{' '}
+                    {filteredCurrencyCode(impact)}{' '}
+                  </p>
+                ))}
+              </BalanceContainer>
+            </MetaHorizontal>
+          </RemainingCashDiv>
+          <ForexFeesDiv>
+            <MetaHorizontal>
+              <p>Forex fees:</p>
+              <BalanceContainer>
+                {impacts.map((impact, index) => (
+                  <p key={index}>
+                    {' '}
+                    <Number value={impact.forex_fees} currency /> {'  '}{' '}
+                    {filteredCurrencyCode(impact)}{' '}
+                  </p>
+                ))}
+              </BalanceContainer>
+            </MetaHorizontal>
+          </ForexFeesDiv>
+        </Table>
+        {showNegativeCashWarning && (
+          <Warning>
+            <WarningTitle>
+              <WarningTitleBox>Warning:</WarningTitleBox>
+            </WarningTitle>
+            <WarningContent>
+              This set of trades may result in a negative cash balance in one or
+              more of your accounts.
+            </WarningContent>
+          </Warning>
+        )}
+      </AccountContainer>
+    </React.Fragment>
   );
 };
 
