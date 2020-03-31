@@ -94,6 +94,7 @@ const SideBar = () => {
     return (
       <StyledAside>
         <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
+        <SideBarLink name="Performance" linkPath="/app/performance" />
         {groups && groups.length > 0 && (
           <GroupContainer>{groupList}</GroupContainer>
         )}
