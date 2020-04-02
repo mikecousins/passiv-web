@@ -58,6 +58,7 @@ export const ColumnBase = styled.div`
   @media (max-width: 900px) {
     line-height: 1.2;
   }
+  text-align: center;
 `;
 
 export const ColumnAccount = styled(ColumnBase)``;
@@ -69,7 +70,7 @@ export const ColumnCurrency = styled(ColumnBase)`
 `;
 
 export const ColumnAmount = styled(ColumnBase)`
-  text-align: right;
+  text-align: center;
 `;
 
 export const ColumnDelete = styled(ColumnBase)`
@@ -111,17 +112,28 @@ const StyledNumeric = styled(StyledFieldBase)`
   width: 100px;
   margin-bottom: 0px;
   text-align: right;
+  width: calc(100% - 20px);
 `;
 
-const NumericPrefix = styled.div`
+const NumericPrefixBox = styled.div`
   border: 1px solid black;
   font-size: 18px;
   padding: 0 5px 0 5px;
   height: 100%;
 `;
 
+const NumericPrefix = styled.div`
+  display: inline-block;
+  width: 20px;
+`;
+
 const CancelButton = styled(A)`
   margin-left: 10px;
+`;
+
+const Title = styled.div`
+  text-align: center;
+  font-weight: 600;
 `;
 
 const restrictionTypes = [
@@ -246,10 +258,10 @@ const CashManagement = () => {
               </StyledSelect>
             </ColumnCurrency>
             <ColumnAmount>
-              <NumericPrefix>
-                $
+              <NumericPrefixBox>
+                <NumericPrefix>$</NumericPrefix>
                 <StyledNumeric type="number" name="amount" />
-              </NumericPrefix>
+              </NumericPrefixBox>
             </ColumnAmount>
             <ColumnDelete>
               <SmallButton type="submit">Submit</SmallButton>
@@ -299,6 +311,23 @@ const CashManagement = () => {
 
   let cashRestrictionsRendered = (
     <CashRestrictionBox>
+      {(editing || cashRestrictions.length > 0) && (
+        <CashRow>
+          <ColumnAccount>
+            <Title>Account</Title>
+          </ColumnAccount>
+          <ColumnType>
+            <Title>Rule</Title>
+          </ColumnType>
+          <ColumnCurrency>
+            <Title>Currency</Title>
+          </ColumnCurrency>
+          <ColumnAmount>
+            <Title>Amount</Title>
+          </ColumnAmount>
+          <ColumnDelete></ColumnDelete>
+        </CashRow>
+      )}
       {cashRestrictionsContent}
       {editing ? form : null}
     </CashRestrictionBox>
