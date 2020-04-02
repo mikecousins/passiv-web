@@ -19,6 +19,8 @@ import { Authorization } from '../types/authorization';
 import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
 import { Settings } from '../types/settings';
+import { PerformanceData } from '../types/performance';
+import selectedTimeframe from './performance';
 
 export default (history: any) =>
   combineReducers({
@@ -30,6 +32,7 @@ export default (history: any) =>
     language,
     updateServiceWorker,
     online,
+    selectedTimeframe,
     helpArticles: simple<any>({
       baseType: 'FETCH_HELP_ARTICLES',
       userData: false,
@@ -84,6 +87,10 @@ export default (history: any) =>
     }),
     groupInfo: simpleList<GroupInfoData>({
       baseType: 'FETCH_GROUP_INFO',
+      userData: true,
+    }),
+    performanceAll: simple<PerformanceData>({
+      baseType: 'FETCH_PERFORMANCE_ALL',
       userData: true,
     }),
   });

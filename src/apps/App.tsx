@@ -86,6 +86,9 @@ const WelcomePage = React.lazy(() =>
 const SettingsPage = React.lazy(() =>
   import(/* webpackChunkName: "settings" */ '../pages/SettingsPage'),
 );
+const PerformancePage = React.lazy(() =>
+  import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
+);
 
 declare global {
   interface Window {
@@ -205,6 +208,12 @@ const App = () => {
               <Route
                 path={prefixPath('/oauth/td')}
                 component={TDAmeritradeOauthPage}
+              />
+            )}
+            {showSecureApp && (
+              <Route
+                path={prefixPath('/performance')}
+                component={PerformancePage}
               />
             )}
             {loggedIn && (
