@@ -11,6 +11,7 @@ export type CashRestriction = {
   id: string;
   account: string;
   currency: string;
+  type: string;
   amount: number;
 };
 
