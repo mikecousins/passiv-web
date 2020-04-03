@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { selectCurrencies } from '../../selectors';
-import { selectAccounts } from '../../selectors/accounts';
+import {
+  selectAccounts,
+  selectAccountBalances,
+} from '../../selectors/accounts';
 import Number from '../Number';
 import { Table, A, P, Title } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -105,6 +108,28 @@ export const OrderImpact = ({ impacts }: Props) => {
 
   const accounts = useSelector(selectAccounts);
   const currencies = useSelector(selectCurrencies);
+  const balances = useSelector(selectAccountBalances);
+
+  const getAccountBalances = (accountId: string) => {
+    return balances[accountId].data;
+  };
+
+  const getBalanceByAccountCurrency = (
+    accountId: string,
+    currencyId: string,
+  ) => {
+    if (accountId != null && currencyId != null) {
+      if (balances !== null) {
+        let accountBalances = getAccountBalances(accountId);
+        let balance =
+          accountBalances &&
+          accountBalances.find(b => b.currency.id === currencyId);
+        return balance && balance.cash;
+      }
+    }
+    return null;
+  };
+
   const filteredAccount = accounts.find(
     account => account.id === impacts[0].account,
   );
@@ -130,7 +155,13 @@ export const OrderImpact = ({ impacts }: Props) => {
   let showNegativeCashWarning = false;
   impacts.map((impact, index) => {
     if (impact.remaining_cash < 0) {
-      showNegativeCashWarning = true;
+      let originalBalance = getBalanceByAccountCurrency(
+        impact.account,
+        impact.currency,
+      );
+      if (originalBalance != null && impact.remaining_cash < originalBalance) {
+        showNegativeCashWarning = true;
+      }
     }
     return null;
   });
