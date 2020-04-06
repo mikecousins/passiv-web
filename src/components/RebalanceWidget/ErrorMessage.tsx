@@ -141,6 +141,24 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <Button onClick={closeWidget}>Okay</Button>
         </OrderContainer>
       );
+    case '1047':
+      return (
+        <OrderContainer>
+          <H2>Can't place orders due to existing open orders</H2>
+          <P>
+            It looks like you have some open orders on one or more of your
+            brokerage accounts. Open orders can cause unexpected behavior while
+            Passiv attempts to place a batch of orders, so we didn't try to
+            place the orders on your account.
+          </P>
+          <P>
+            You can fix this by logging into your brokerage account and closing
+            any open orders that you may have. If that's not the case, please{' '}
+            <Link to="/app/help">contact support</Link> and let us know!
+          </P>
+          <Button onClick={closeWidget}>Okay</Button>
+        </OrderContainer>
+      );
     case '0000':
       return (
         <OrderContainer>
