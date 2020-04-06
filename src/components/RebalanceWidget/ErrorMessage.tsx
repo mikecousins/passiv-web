@@ -37,7 +37,6 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
     }
     return group.brokerage_authorizations.find(a => a.type === 'read');
   };
-
   switch (error.code) {
     case '1014':
       return (
@@ -151,6 +150,19 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
             Passiv attempts to place a batch of orders, so we didn't try to
             place the orders on your account.
           </P>
+          <P>
+            You can fix this by logging into your brokerage account and closing
+            any open orders that you may have. If that's not the case, please{' '}
+            <Link to="/app/help">contact support</Link> and let us know!
+          </P>
+          <Button onClick={closeWidget}>Okay</Button>
+        </OrderContainer>
+      );
+    case '1048':
+      return (
+        <OrderContainer>
+          <H2>Canceled due to possible negative cash balance</H2>
+          <P>Your account's net cash</P>
           <P>
             You can fix this by logging into your brokerage account and closing
             any open orders that you may have. If that's not the case, please{' '}
