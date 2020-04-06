@@ -42,7 +42,7 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
     case '1014':
       return (
         <OrderContainer>
-          <H2>Order cannot be Processed</H2>
+          <H2>Passiv needs trading permissions to place orders</H2>
           <P>
             This portfolio group does not have trade permissions and therefore
             can't be used to place orders.
@@ -86,7 +86,7 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
     case '1020':
       return (
         <OrderContainer>
-          <H2>Order cannot be Processed</H2>
+          <H2>Upgrade to access one-click trades</H2>
           <P>
             One-click Trades are only available to Elite subscribers. You can
             upgrade your account to use this feature.{' '}
@@ -101,7 +101,7 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
     case '1022':
       return (
         <OrderContainer>
-          <H2>Order cannot be Processed</H2>
+          <H2>Order has already been placed, can't place again</H2>
           <P>
             Our records show that this order has already been placed, so Passiv
             will not attempt to place it again. Please refresh the orders or{' '}
@@ -113,7 +113,7 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
     case '1033':
       return (
         <OrderContainer>
-          <H2>Order cannot be Processed</H2>
+          <H2>Order type unsupported on one or more exchanges</H2>
           <P>
             We are unable to place your orders because some trades are on
             exchanges that only accept limit orders. Passiv uses market orders
@@ -130,7 +130,7 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
     case '1042':
       return (
         <OrderContainer>
-          <H2>Order cannot be Processed</H2>
+          <H2>Trading functionality is temporarily disabled</H2>
           <P>
             We're sorry, we can't place your order at the moment. Trading
             functionality has been temporarily disabled while we address an
