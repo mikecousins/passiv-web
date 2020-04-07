@@ -15,6 +15,7 @@ import {
   selectAccountPositions,
   selectCurrentAccountPositions,
   selectCurrentAccountPositionsError,
+  selectCashRestrictions,
 } from './accounts';
 import { selectIsEditMode } from './router';
 import shouldUpdate from '../reactors/should-update';
@@ -1013,5 +1014,28 @@ export const selectGroupedAccounts = createSelector(
     });
 
     return groupedAccounts;
+  },
+);
+
+export const selectCurrentGroupAccounts = createSelector(
+  selectCurrentGroupInfo,
+  selectAccounts,
+  (currentGroupInfo, accounts) => {
+    return accounts.filter(
+      a =>
+        currentGroupInfo &&
+        currentGroupInfo.accounts.find(account => account.id === a.id),
+    );
+    // return currentGroupInfo && currentGroupInfo.accounts;
+  },
+);
+
+export const selectCurrentGroupCashRestrictions = createSelector(
+  selectCurrentGroupAccounts,
+  selectCashRestrictions,
+  (accounts, cashRestrictions) => {
+    return cashRestrictions.filter(
+      c => accounts && accounts.find(a => a.id === c.account),
+    );
   },
 );

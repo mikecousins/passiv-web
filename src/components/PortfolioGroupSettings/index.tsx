@@ -6,6 +6,7 @@ import { H2 } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
 import SettingsToggle from './SettingsToggle';
 import CurrencySeparation from './CurrencySeparation';
+import CashManagement from '../CashManagement';
 import {
   selectCurrentGroupSettings,
   selectCurrentGroupId,
@@ -34,7 +35,7 @@ export const PortfolioGroupSettings = () => {
 
   return (
     <ShadowBox>
-      <H2>Currency</H2>
+      <H2>General</H2>
       {settings ? (
         <React.Fragment>
           <br />
@@ -74,6 +75,7 @@ export const PortfolioGroupSettings = () => {
           <FontAwesomeIcon icon={faSpinner} spin />
         </React.Fragment>
       )}
+      <CashManagement />
     </ShadowBox>
   );
 };

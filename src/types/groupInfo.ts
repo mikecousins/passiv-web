@@ -1,9 +1,10 @@
 import { Currency } from './currency';
+import { Account } from './account';
 
-export type Account = {
-  id: string;
-  number: string;
-};
+// export type Account = {
+//   id: string;
+//   number: string;
+// };
 
 export type Brokerage = {
   id: string;
