@@ -43,7 +43,9 @@ export const PerformanceTotalValueChart = () => {
   );
 
   return (
-    <div>
+    <React.Fragment>
+      Total Value
+      <br />
       <ToggleButton
         onClick={() => {
           setChartMin(!chartStartsAt0);
@@ -68,7 +70,7 @@ export const PerformanceTotalValueChart = () => {
         axes={axes}
         series={series}
       />
-    </div>
+    </React.Fragment>
   );
 };
 

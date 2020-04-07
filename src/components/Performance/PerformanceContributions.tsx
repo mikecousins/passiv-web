@@ -35,7 +35,7 @@ export const PerformanceContributions = (props: Props) => {
   return (
     <React.Fragment>
       <div>
-        <SubHeader>Contributions</SubHeader>
+        <SubHeader>Net Contributions</SubHeader>
         <CashReturn className={positive ? 'positive' : 'negative'}>
           ${contributionsString}{' '}
           {positive ? (

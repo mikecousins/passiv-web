@@ -64,7 +64,7 @@ export const PerformanceContributionStreak = () => {
   return (
     <React.Fragment>
       <div>
-        <SubHeader>Streak</SubHeader>
+        <SubHeader>Contribution Streak</SubHeader>
         <ContributionStreak>
           {contributionStreakString}
           {contributionStreak !== undefined && contributionStreak > 1 ? (

@@ -31,7 +31,7 @@ export const PerformanceChange = () => {
   return (
     <React.Fragment>
       <div>
-        <SubHeader>Change</SubHeader>
+        <SubHeader>Net Change</SubHeader>
         <CashReturn className={positive ? 'positive' : 'negative'}>
           ${change}{' '}
           {positive ? (

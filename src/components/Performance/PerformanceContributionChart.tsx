@@ -48,12 +48,15 @@ export const PerformanceContributionChart = () => {
   );
 
   return (
-    <PerformanceChart
-      className="contributions"
-      data={data}
-      axes={axes}
-      series={series}
-    />
+    <React.Fragment>
+      Contributions and Withdrawals
+      <PerformanceChart
+        className="contributions"
+        data={data}
+        axes={axes}
+        series={series}
+      />
+    </React.Fragment>
   );
 };
 
