@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, SmallButton } from '../styled/Button';
 import { H2, A } from '../styled/GlobalElements';
-import { selectCurrencies } from '../selectors';
+import { selectCurrencies } from '../selectors/currencies';
 import {
   selectPreferredCurrency,
   selectCurrentGroupAccounts,
@@ -179,11 +179,11 @@ const CashManagement = () => {
   };
 
   const getCurrency = (currencyId: string) =>
-    currencies && currencies.find(c => c.id === currencyId);
+    currencies && currencies.find((c) => c.id === currencyId);
   const getAccount = (accountId: string) =>
-    accounts && accounts.find(a => a.id === accountId);
+    accounts && accounts.find((a) => a.id === accountId);
   const getType = (typeId: string) =>
-    restrictionTypes.find(r => r.id === typeId);
+    restrictionTypes.find((r) => r.id === typeId);
 
   const dispatch = useDispatch();
 
@@ -216,22 +216,22 @@ const CashManagement = () => {
           currency: values.currency,
           amount: values.amount,
         })
-          .then(response => {
+          .then((response) => {
             actions.setSubmitting(false);
             setEditing(false);
             reloadGroupAndAccounts();
           })
-          .catch(error => {
+          .catch((error) => {
             actions.setSubmitting(false);
           });
       }}
-      render={props => (
+      render={(props) => (
         <CashForm onSubmit={props.handleSubmit}>
           <CashRow>
             <ColumnAccount>
               <StyledSelect as="select" name="account">
                 {accounts &&
-                  accounts.map(account => (
+                  accounts.map((account) => (
                     <option value={account.id} key={account.id}>
                       {account.name}
                     </option>
@@ -240,7 +240,7 @@ const CashManagement = () => {
             </ColumnAccount>
             <ColumnType>
               <StyledSelect as="select" name="type">
-                {restrictionTypes.map(restrictionType => (
+                {restrictionTypes.map((restrictionType) => (
                   <option value={restrictionType.id} key={restrictionType.id}>
                     {restrictionType.name}
                   </option>
@@ -250,7 +250,7 @@ const CashManagement = () => {
             <ColumnCurrency>
               <StyledSelect as="select" name="currency">
                 {currencies &&
-                  currencies.map(currency => (
+                  currencies.map((currency) => (
                     <option value={currency.id} key={currency.id}>
                       {currency.code}
                     </option>
