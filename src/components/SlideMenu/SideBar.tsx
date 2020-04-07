@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectLoggedIn } from '../../selectors';
+import { selectPerformancePageFeature } from '../../selectors/features';
 import { selectGroups } from '../../selectors/groups';
 import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
@@ -58,6 +59,9 @@ const GroupContainer = styled.div`
 const SideBar = () => {
   const loggedIn = useSelector(selectLoggedIn);
   const groups = useSelector(selectGroups);
+  const performancePageFeatureActive = useSelector(
+    selectPerformancePageFeature,
+  );
 
   let groupList: JSX.Element | JSX.Element[] = (
     <FontAwesomeIcon icon={faSpinner} spin />
@@ -96,7 +100,9 @@ const SideBar = () => {
     return (
       <StyledAside>
         <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
-        <SideBarLink name="Performance" linkPath="/app/performance" />
+        {performancePageFeatureActive && (
+          <SideBarLink name="Performance" linkPath="/app/performance" />
+        )}
         {groups && groups.length > 0 && (
           <GroupContainer>{groupList}</GroupContainer>
         )}

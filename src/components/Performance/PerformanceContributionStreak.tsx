@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faFireAlt } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { SubHeader } from './Performance';
 import {
@@ -13,7 +13,7 @@ import {
 const ContributionStreak = styled.div`
   font-size: 17px;
   color: #504d4dd9;
-`
+`;
 
 export const PerformanceContributionStreak = () => {
   const contributionStreak: number | undefined = useSelector(
@@ -29,11 +29,11 @@ export const PerformanceContributionStreak = () => {
   let contributionStreakString = 'loading...';
   if (contributionStreak !== null && contributionStreak !== undefined) {
     if (contributionStreak > 1) {
-      contributionStreakString = contributionStreak + ' Months!';
+      contributionStreakString = contributionStreak + ' Months ';
     } else if (contributionStreak > 1) {
-      contributionStreakString = contributionStreak + ' Month';
+      contributionStreakString = contributionStreak + ' Month ';
     } else {
-      contributionStreakString = '0 Months';
+      contributionStreakString = '0 Months ';
     }
   }
 
@@ -67,6 +67,11 @@ export const PerformanceContributionStreak = () => {
         <SubHeader>Streak</SubHeader>
         <ContributionStreak>
           {contributionStreakString}
+          {contributionStreak !== undefined && contributionStreak > 1 ? (
+            <FontAwesomeIcon icon={faFireAlt} />
+          ) : (
+            <span></span>
+          )}
           <br />
           {contributionMonthsString}
         </ContributionStreak>

@@ -89,6 +89,13 @@ const PerformancePage = React.lazy(() =>
   import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
 );
 
+// use the stripe test key unless we're in prod
+const stripePublicKey =
+  process.env.REACT_APP_BASE_URL_OVERRIDE &&
+  process.env.REACT_APP_BASE_URL_OVERRIDE === 'getpassiv.com'
+    ? 'pk_live_LTLbjcwtt6gUmBleYqVVhMFX'
+    : 'pk_test_UEivjUoJpfSDWq5i4xc64YNK';
+
 const questradeOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/questrade?' + urlParams;

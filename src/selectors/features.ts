@@ -63,3 +63,7 @@ export const selectConnectInteractiveBrokersFeature = createFeatureSelector(
 );
 
 export const selectLimitOrdersFeature = createFeatureSelector('limit_orders');
+
+export const selectPerformancePageFeature = createFeatureSelector(
+  'performance_page',
+);
