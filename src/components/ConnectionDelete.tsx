@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
-import { initialLoad, loadBrokerages } from '../actions';
+import { reloadEverything, loadBrokerages } from '../actions';
 import { deleteData } from '../api';
 import { DeleteButton } from '../styled/DeleteButton';
 import { Button } from '../styled/Button';
@@ -25,12 +25,12 @@ export const ConnectionDelete = ({ authorization, isDemo }: Props) => {
       .then(() => {
         setDeleting(false);
         dispatch(loadBrokerages());
-        dispatch(initialLoad());
+        dispatch(reloadEverything());
       })
       .catch(() => {
         setDeleting(false);
         dispatch(loadBrokerages());
-        dispatch(initialLoad());
+        dispatch(reloadEverything());
       });
   };
 
