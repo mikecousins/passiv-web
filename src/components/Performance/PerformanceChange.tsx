@@ -6,6 +6,7 @@ import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { CashReturn, SubHeader, toDollarString } from './Performance';
 import { useSelector } from 'react-redux';
 import { selectTotalEquityTimeframe } from '../../selectors/performance';
+import Tooltip from '../Tooltip';
 
 const MarginBottom = styled.div`
   margin-bottom: 25px;
@@ -30,17 +31,19 @@ export const PerformanceChange = () => {
 
   return (
     <React.Fragment>
-      <div>
-        <SubHeader>Net Change</SubHeader>
-        <CashReturn className={positive ? 'positive' : 'negative'}>
-          ${change}{' '}
-          {positive ? (
-            <FontAwesomeIcon icon={faCaretUp} />
-          ) : (
-            <FontAwesomeIcon icon={faCaretDown} />
-          )}
-        </CashReturn>
-      </div>
+      <Tooltip label="Change in portfolio value between the start of the selected timeframe and now">
+        <div>
+          <SubHeader>Net Change</SubHeader>
+          <CashReturn className={positive ? 'positive' : 'negative'}>
+            ${change}{' '}
+            {positive ? (
+              <FontAwesomeIcon icon={faCaretUp} />
+            ) : (
+              <FontAwesomeIcon icon={faCaretDown} />
+            )}
+          </CashReturn>
+        </div>
+      </Tooltip>
     </React.Fragment>
   );
 };

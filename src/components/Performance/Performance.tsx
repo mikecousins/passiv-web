@@ -148,7 +148,7 @@ export const Performance = () => {
       <Flex>
         <div>
           <H1alt>Performance</H1alt>
-          <P>How are your portfolio's doing?</P>
+          <P>How's your portfolio doing?</P>
         </div>
         <AlignLeft>
           <TotalHoldings />

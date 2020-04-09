@@ -6,6 +6,7 @@ import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { selectContributions } from '../../selectors/performance';
 import { Contributions } from '../../types/performance';
+import Tooltip from '../Tooltip';
 
 type Props = {
   selectedTimeframe: string;
@@ -34,17 +35,20 @@ export const PerformanceContributions = (props: Props) => {
 
   return (
     <React.Fragment>
-      <div>
-        <SubHeader>Net Contributions</SubHeader>
-        <CashReturn className={positive ? 'positive' : 'negative'}>
-          ${contributionsString}{' '}
-          {positive ? (
-            <FontAwesomeIcon icon={faCaretUp} />
-          ) : (
-            <FontAwesomeIcon icon={faCaretDown} />
-          )}
-        </CashReturn>
-      </div>
+      <Tooltip label="Contributions made during selected timeframe">
+        <div>
+          <SubHeader>Net Contributions</SubHeader>
+
+          <CashReturn className={positive ? 'positive' : 'negative'}>
+            ${contributionsString}{' '}
+            {positive ? (
+              <FontAwesomeIcon icon={faCaretUp} />
+            ) : (
+              <FontAwesomeIcon icon={faCaretDown} />
+            )}
+          </CashReturn>
+        </div>
+      </Tooltip>
     </React.Fragment>
   );
 };

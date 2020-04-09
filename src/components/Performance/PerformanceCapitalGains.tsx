@@ -10,6 +10,7 @@ import {
   selectContributions,
 } from '../../selectors/performance';
 import { PastValue } from '../../types/performance';
+import Tooltip from '../Tooltip';
 
 const MarginBottom = styled.div`
   margin-bottom: 25px;
@@ -47,22 +48,24 @@ export const PerformanceCapitalGain = () => {
 
   return (
     <React.Fragment>
-      <div>
-        <SubHeader>Investment Growth</SubHeader>
-        <CashReturn className={positive ? 'positive' : 'negative'}>
-          {positive ? (
-            <span>
-              {'$'}
-              {capitalGainsString} <FontAwesomeIcon icon={faCaretUp} />
-            </span>
-          ) : (
-            <span>
-              {'-'}${capitalGainsString.substr(1)}{' '}
-              <FontAwesomeIcon icon={faCaretDown} />
-            </span>
-          )}
-        </CashReturn>
-      </div>
+      <Tooltip label="How the market has affected your portfolio between now and the start of the selected timeframe">
+        <div>
+          <SubHeader>Investment Growth</SubHeader>
+          <CashReturn className={positive ? 'positive' : 'negative'}>
+            {positive ? (
+              <span>
+                {'$'}
+                {capitalGainsString} <FontAwesomeIcon icon={faCaretUp} />
+              </span>
+            ) : (
+              <span>
+                {'-'}${capitalGainsString.substr(1)}{' '}
+                <FontAwesomeIcon icon={faCaretDown} />
+              </span>
+            )}
+          </CashReturn>
+        </div>
+      </Tooltip>
     </React.Fragment>
   );
 };
