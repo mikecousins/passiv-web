@@ -9,6 +9,7 @@ import {
   selectContributionMonthsContributed,
   selectContributionMonthsTotal,
 } from '../../selectors/performance';
+import Tooltip from '../Tooltip';
 
 const ContributionStreak = styled.div`
   font-size: 17px;
@@ -64,16 +65,25 @@ export const PerformanceContributionStreak = () => {
   return (
     <React.Fragment>
       <div>
-        <SubHeader>Streak</SubHeader>
+        <Tooltip label="Stats on how often you've been contributing">
+          <SubHeader>Contribution Streak</SubHeader>
+        </Tooltip>
+
         <ContributionStreak>
-          {contributionStreakString}
-          {contributionStreak !== undefined && contributionStreak > 1 ? (
-            <FontAwesomeIcon icon={faFireAlt} />
-          ) : (
-            <span></span>
-          )}
+          <Tooltip label="Number of months you've consecutively contributed to your accounts">
+            <span>
+              {contributionStreakString}
+              {contributionStreak !== undefined && contributionStreak > 1 ? (
+                <FontAwesomeIcon icon={faFireAlt} />
+              ) : (
+                <span></span>
+              )}
+            </span>
+          </Tooltip>
           <br />
-          {contributionMonthsString}
+          <Tooltip label="Number of months you've made contributions in the selected timeframe">
+            <span>{contributionMonthsString}</span>
+          </Tooltip>
         </ContributionStreak>
       </div>
     </React.Fragment>

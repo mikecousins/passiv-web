@@ -5,6 +5,7 @@ import { selectTotalEquityTimeframe } from '../../selectors/performance';
 import { ToggleButton, StateText } from '../../styled/ToggleButton';
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Tooltip from '../Tooltip';
 
 export const PerformanceTotalValueChart = () => {
   let totalEquityData = useSelector(selectTotalEquityTimeframe);
@@ -43,32 +44,36 @@ export const PerformanceTotalValueChart = () => {
   );
 
   return (
-    <div>
-      <ToggleButton
-        onClick={() => {
-          setChartMin(!chartStartsAt0);
-        }}
-      >
-        Zoom Scale &nbsp;
-        {!chartStartsAt0 ? (
-          <React.Fragment>
-            <FontAwesomeIcon icon={faToggleOn} />
-            <StateText>on</StateText>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <FontAwesomeIcon icon={faToggleOff} />
-            <StateText>off</StateText>
-          </React.Fragment>
-        )}
-      </ToggleButton>
+    <React.Fragment>
+      Total Value
+      <br />
+      <Tooltip label="Toggle zoom of y-axis (0 based or min based)">
+        <ToggleButton
+          onClick={() => {
+            setChartMin(!chartStartsAt0);
+          }}
+        >
+          Zoom Scale &nbsp;
+          {!chartStartsAt0 ? (
+            <React.Fragment>
+              <FontAwesomeIcon icon={faToggleOn} />
+              <StateText>on</StateText>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <FontAwesomeIcon icon={faToggleOff} />
+              <StateText>off</StateText>
+            </React.Fragment>
+          )}
+        </ToggleButton>
+      </Tooltip>
       <PerformanceChart
         className="equity"
         data={data}
         axes={axes}
         series={series}
       />
-    </div>
+    </React.Fragment>
   );
 };
 

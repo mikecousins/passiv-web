@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSelector,  useDispatch } from 'react-redux';
-import { initialLoad } from '../actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { reloadEverything } from '../actions';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
@@ -30,7 +30,7 @@ const RefreshButton = () => {
       {loggedIn && (
         <Button
           onClick={() => {
-            dispatch(initialLoad());
+            dispatch(reloadEverything());
           }}
         >
           <FontAwesomeIcon icon={faSyncAlt} />
