@@ -13,7 +13,7 @@ import {
 import { putData } from '../../api';
 import { loadGroup } from '../../actions';
 import { toast } from 'react-toastify';
-import SettingsSummary from './SettingsSummary';
+import TradesExplanation from '../TradesExplanation';
 
 export const PortfolioGroupSettings = () => {
   const settings = useSelector(selectCurrentGroupSettings);
@@ -66,7 +66,7 @@ export const PortfolioGroupSettings = () => {
               }
             }}
           />
-          <SettingsSummary settings={settings} />
+          <TradesExplanation settings={settings} />
         </React.Fragment>
       ) : (
         <React.Fragment>

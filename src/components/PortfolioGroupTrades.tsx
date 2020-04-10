@@ -14,9 +14,11 @@ import {
   ColumnAccount,
   ColumnWarning,
 } from '../styled/Group';
+import { selectCurrentGroupSettings } from '../selectors/groups';
 import Tooltip from './Tooltip';
 import Number from './Number';
 import { selectAccounts } from '../selectors/accounts';
+import TradesExplanation from './TradesExplanation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
@@ -28,6 +30,7 @@ type Props = {
 
 export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
   const accounts = useSelector(selectAccounts);
+  const settings = useSelector(selectCurrentGroupSettings);
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
   const [tradesCache, setTradesCache] = useState(null);
 
@@ -152,6 +155,7 @@ export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
           tradesTrigger={() => triggerTradesSubmitted()}
           tradesUntrigger={() => untriggerTradesSubmitted()}
         />
+        <TradesExplanation settings={settings} container={true} />
       </TradesContainer>
     );
   } else {
