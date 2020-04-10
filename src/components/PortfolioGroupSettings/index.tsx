@@ -11,6 +11,7 @@ import {
   selectCurrentGroupSettings,
   selectCurrentGroupId,
 } from '../../selectors/groups';
+import { selectCashManagementFeature } from '../../selectors/features';
 import { putData } from '../../api';
 import { loadGroup } from '../../actions';
 import { toast } from 'react-toastify';
@@ -19,6 +20,7 @@ import TradesExplanation from '../TradesExplanation';
 export const PortfolioGroupSettings = () => {
   const settings = useSelector(selectCurrentGroupSettings);
   const groupId = useSelector(selectCurrentGroupId);
+  const featureCashManagement = useSelector(selectCashManagementFeature);
   const dispatch = useDispatch();
 
   const updateSettings = () => {
@@ -51,6 +53,7 @@ export const PortfolioGroupSettings = () => {
             invert={true}
           />
           <br />
+          <br />
           <CurrencySeparation
             preventConversion={settings.prevent_currency_conversion}
             onChangePreventConversion={() => {
@@ -67,7 +70,6 @@ export const PortfolioGroupSettings = () => {
               }
             }}
           />
-          <TradesExplanation settings={settings} />
         </React.Fragment>
       ) : (
         <React.Fragment>
@@ -75,7 +77,9 @@ export const PortfolioGroupSettings = () => {
           <FontAwesomeIcon icon={faSpinner} spin />
         </React.Fragment>
       )}
-      <CashManagement />
+      {featureCashManagement && <CashManagement />}
+      <br />
+      <TradesExplanation settings={settings} />
     </ShadowBox>
   );
 };

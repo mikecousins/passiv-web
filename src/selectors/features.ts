@@ -64,3 +64,7 @@ export const selectLimitOrdersFeature = createFeatureSelector('limit_orders');
 export const selectPerformancePageFeature = createFeatureSelector(
   'performance_page',
 );
+
+export const selectCashManagementFeature = createFeatureSelector(
+  'cash_management',
+);
