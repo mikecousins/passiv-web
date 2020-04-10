@@ -98,11 +98,11 @@ const SideBar = () => {
     return (
       <StyledAside>
         <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
-        {performancePageFeatureActive && (
-          <SideBarLink name="Performance" linkPath="/app/performance" />
-        )}
         {groups && groups.length > 0 && (
           <GroupContainer>{groupList}</GroupContainer>
+        )}
+        {performancePageFeatureActive && (
+          <SideBarLink name="Performance" linkPath="/app/performance" />
         )}
         <SideBarLink name="Settings" linkPath="/app/settings" />
         <SideBarFooter />
