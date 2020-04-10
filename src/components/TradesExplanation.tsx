@@ -45,6 +45,7 @@ const TradesExplanation = ({ settings, container = false }: Props) => {
     summary.push(
       'Passiv will use available cash to purchase the most underweight assets in your portfolio.',
     );
+    summary.push('Sell orders are not permitted.');
   } else {
     summary.push(
       'Passiv will buy and sell assets to get as close to 100% accuracy as possible.',
