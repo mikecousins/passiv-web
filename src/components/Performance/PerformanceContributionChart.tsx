@@ -6,6 +6,7 @@ import {
   selectWithdrawalTimeframe,
   selectSelectedTimeframe,
 } from '../../selectors/performance';
+import { H3 } from '../../styled/GlobalElements';
 
 export const PerformanceContributionChart = () => {
   const contributionData = useSelector(selectContributionTimeframe);
@@ -49,7 +50,7 @@ export const PerformanceContributionChart = () => {
 
   return (
     <React.Fragment>
-      Contributions and Withdrawals
+      <H3>Contributions and Withdrawals</H3>
       <PerformanceChart
         className="contributions"
         data={data}
