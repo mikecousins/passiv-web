@@ -43,7 +43,7 @@ export const PerformanceContributionChart = () => {
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'ordinal', position: 'bottom' },
-      { type: 'linear', position: 'left' }, //, stacked: 'true' }, // hardMin: 0 },
+      { type: 'linear', position: 'left', stacked: true }, // hardMin: 0 },
     ],
     [],
   );
