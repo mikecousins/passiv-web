@@ -9,6 +9,7 @@ export const loadPerformanceAll: ActionCreator<ThunkAction<
   Action<any>
 >> = () => {
   return dispatch => {
+    dispatch(fetchPerformanceAllStart());
     getData('/api/v1/performance/all/')
       .then(response => {
         dispatch(fetchPerformanceAllSuccess(response));
@@ -16,6 +17,10 @@ export const loadPerformanceAll: ActionCreator<ThunkAction<
       .catch(error => dispatch(fetchPerformanceAllError(error)));
   };
 };
+
+export const fetchPerformanceAllStart: ActionCreator<Action> = () => ({
+  type: 'FETCH_PERFORMANCE_ALL_START',
+});
 
 export const fetchPerformanceAllSuccess: ActionCreator<Action> = payload => ({
   type: 'FETCH_PERFORMANCE_ALL_SUCCESS',

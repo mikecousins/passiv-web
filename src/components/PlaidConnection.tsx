@@ -2,7 +2,7 @@ import React from 'react';
 import PlaidLink from 'react-plaid-link';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAllBrokerages } from '../selectors';
-import { initialLoad } from '../actions';
+import { reloadEverything } from '../actions';
 import { postData } from '../api';
 import { Brokerage } from '../types/brokerage';
 
@@ -19,7 +19,7 @@ const PlaidConnection = ({ setLoading }: Props) => {
     postData('/api/v1/brokerages/authComplete/', { token: token }).then(
       response => {
         if (response.status === 200) {
-          dispatch(initialLoad());
+          dispatch(reloadEverything());
           setTimeout(() => {
             setLoading(false);
           }, 1000);

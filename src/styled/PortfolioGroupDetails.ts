@@ -5,7 +5,7 @@ export const CashBalance = styled.div`
   text-align: center;
 `;
 
-export const CashGroup = styled.span`
+export const CashGroup = styled.div`
   margin: 0 5px;
 `;
 

@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { useSelector, useDispatch } from 'react-redux';
 import React, { FunctionComponent } from 'react';
-import TotalHoldings from '../TotalHoldings';
 import PerformanceChange from './PerformanceChange';
 import PerformanceCapitalGains from './PerformanceCapitalGains';
 import PerformanceContributions from './PerformanceContributions';
@@ -10,28 +9,12 @@ import PerformanceTotalValueChart from './PerformanceTotalValueChart';
 import PerformanceContributionStreak from './PerformanceContributionStreak';
 import { setSelectedTimeframe } from '../../actions/performance';
 import { selectSelectedTimeframe } from '../../selectors/performance';
-import { H1, P } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
-
-const Flex = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
 
 const Grid = styled.div`
   display: grid;
   grid-template-columns: auto 250px;
   grid-column-gap: 20px;
-`;
-
-export const H1alt = styled(H1)`
-  line-height: 1.5;
-`;
-
-// Below doesn't work right now
-const AlignLeft = styled.div`
-  margin-top: 5px;
-  text-align: left !important;
 `;
 
 const Tiles = styled.div`
@@ -145,15 +128,6 @@ export const Performance = () => {
 
   return (
     <React.Fragment>
-      <Flex>
-        <div>
-          <H1alt>Performance</H1alt>
-          <P>How are your portfolio's doing?</P>
-        </div>
-        <AlignLeft>
-          <TotalHoldings />
-        </AlignLeft>
-      </Flex>
       <TimeContainer>
         <TimespanSelector
           timeframe={'1Y'}

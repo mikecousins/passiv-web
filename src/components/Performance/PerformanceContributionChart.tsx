@@ -6,6 +6,7 @@ import {
   selectWithdrawalTimeframe,
   selectSelectedTimeframe,
 } from '../../selectors/performance';
+import { H3 } from '../../styled/GlobalElements';
 
 export const PerformanceContributionChart = () => {
   const contributionData = useSelector(selectContributionTimeframe);
@@ -15,16 +16,6 @@ export const PerformanceContributionChart = () => {
   const data = React.useMemo(
     () => [
       {
-        label: 'Contributions',
-        data: contributionData
-          ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
-          .map(a => {
-            let dateFormatted = formatDate(a.date, timeframe);
-            return [dateFormatted, a.value];
-          }),
-        color: '#04a286',
-      },
-      {
         label: 'Withdrawals',
         data: withdrawalData
           ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
@@ -33,6 +24,16 @@ export const PerformanceContributionChart = () => {
             return [dateFormatted, a.value];
           }),
         color: '#003ba2',
+      },
+      {
+        label: 'Contributions',
+        data: contributionData
+          ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
+          .map(a => {
+            let dateFormatted = formatDate(a.date, timeframe);
+            return [dateFormatted, a.value];
+          }),
+        color: '#04a286',
       },
     ],
     [contributionData, withdrawalData, timeframe],
@@ -48,12 +49,15 @@ export const PerformanceContributionChart = () => {
   );
 
   return (
-    <PerformanceChart
-      className="contributions"
-      data={data}
-      axes={axes}
-      series={series}
-    />
+    <React.Fragment>
+      <H3>Contributions and Withdrawals</H3>
+      <PerformanceChart
+        className="contributions"
+        data={data}
+        axes={axes}
+        series={series}
+      />
+    </React.Fragment>
   );
 };
 

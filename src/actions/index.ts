@@ -289,7 +289,7 @@ export const loadGroupAndAccounts: ActionCreator<ThunkAction<
   };
 };
 
-export const initialLoad: ActionCreator<ThunkAction<
+export const reloadEverything: ActionCreator<ThunkAction<
   void,
   any,
   any,

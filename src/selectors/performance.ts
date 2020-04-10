@@ -1,13 +1,44 @@
 import { createSelector } from 'reselect';
 import { AppState } from '../store';
-import { PastValue, Contributions } from '../types/performance';
+import {
+  PastValue,
+  Contributions,
+  PerformanceData,
+} from '../types/performance';
 import { selectState } from '.';
+import { selectPerformancePageFeature } from './features';
+import { selectLoggedIn, selectAppTime } from './index';
+import { SimpleState } from '../types/common';
+import shouldUpdate from '../reactors/should-update';
+import ms from 'milliseconds';
 
 export const selectSelectedTimeframe = (state: AppState) =>
   state.selectedTimeframe;
 
-export const selectPerformanceAll = (state: AppState) =>
-  state.performanceAll.data;
+export const selectPerformanceAll = (state: AppState) => state.performanceAll;
+
+export const selectPerformanceNeedData = createSelector<
+  AppState,
+  boolean,
+  SimpleState<PerformanceData>,
+  boolean,
+  number,
+  boolean
+>(
+  selectLoggedIn,
+  selectPerformanceAll,
+  selectPerformancePageFeature,
+  selectAppTime,
+  (loggedIn, performanceAll, performanceFeature, time) => {
+    if (!loggedIn || !performanceFeature) {
+      return false;
+    }
+    return shouldUpdate(performanceAll, {
+      staleTime: ms.days(1),
+      now: time,
+    });
+  },
+);
 
 export const selectTotalEquityTimeframe = createSelector<
   AppState,
