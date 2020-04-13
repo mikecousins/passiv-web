@@ -8,6 +8,7 @@ import ShadowBox from '../../styled/ShadowBox';
 import { Link, Route } from 'react-router-dom';
 import { SubNav, NavContainer } from '../../pages/GroupPage';
 import { selectPathname } from '../../selectors/router';
+import { selectAdjustedCostBasisFeature } from '../../selectors/features';
 
 const performanceSelected = (pathname: string) => {
   if (pathname === `/app/performance`) {
@@ -23,6 +24,7 @@ const acbSelected = (pathname: string) => {
 
 export const Analytics = () => {
   const pathname = useSelector(selectPathname);
+  const acbFeature = useSelector(selectAdjustedCostBasisFeature);
 
   return (
     <React.Fragment>
@@ -34,9 +36,11 @@ export const Analytics = () => {
           >
             Performance
           </Link>
-          <Link className={acbSelected(pathname)} to={`/app/performance/acb`}>
-            Adjusted Cost Basis
-          </Link>
+          {acbFeature && (
+            <Link className={acbSelected(pathname)} to={`/app/performance/acb`}>
+              Adjusted Cost Basis
+            </Link>
+          )}
         </NavContainer>
       </SubNav>
       <Route path="/app/performance" exact component={Performance} />

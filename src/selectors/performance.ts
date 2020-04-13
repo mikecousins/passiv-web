@@ -7,7 +7,10 @@ import {
   AdjustedCostBasis,
 } from '../types/performance';
 import { selectState } from '.';
-import { selectPerformancePageFeature } from './features';
+import {
+  selectPerformancePageFeature,
+  selectAdjustedCostBasisFeature,
+} from './features';
 import { selectLoggedIn, selectAppTime } from './index';
 import { SimpleState } from '../types/common';
 import shouldUpdate from '../reactors/should-update';
@@ -54,10 +57,10 @@ export const selectACBNeedData = createSelector<
 >(
   selectLoggedIn,
   selectAdjustedCostBasis,
-  selectPerformancePageFeature,
+  selectAdjustedCostBasisFeature,
   selectAppTime,
-  (loggedIn, performanceAcb, performanceFeature, time) => {
-    if (!loggedIn || !performanceFeature) {
+  (loggedIn, performanceAcb, adjustedCostBasisFeature, time) => {
+    if (!loggedIn || !adjustedCostBasisFeature) {
       return false;
     }
     return shouldUpdate(performanceAcb, {
