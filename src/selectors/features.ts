@@ -69,6 +69,8 @@ export const selectAdjustedCostBasisFeature = createFeatureSelector(
   'adjusted_cost_basis_tab',
 );
 
+export const selectGoalsFeature = createFeatureSelector('goals_tab');
+
 export const selectCashManagementFeature = createFeatureSelector(
   'cash_management',
 );
