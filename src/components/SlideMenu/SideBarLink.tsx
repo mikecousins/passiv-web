@@ -52,7 +52,8 @@ const SideBarLink = ({
   let selected = pathname === linkPath;
   if (
     pathname.startsWith(linkPath) &&
-    pathname.split('/').reverse()[0] === 'settings'
+    (pathname.split('/').reverse()[0] === 'settings' ||
+      pathname.includes('performance'))
   ) {
     selected = true;
   }
