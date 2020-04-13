@@ -36,3 +36,33 @@ export const setSelectedTimeframe: ActionCreator<Action> = timeframe => ({
   type: 'SET_SELECTED_TIMEFRAME',
   timeframe,
 });
+
+export const loadAdjustedCostBasis: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
+  return dispatch => {
+    dispatch(fetchACBStart());
+    getData('/api/v1/performance/adjustedCostBasis/')
+      .then(response => {
+        dispatch(fetchACBSuccess(response));
+      })
+      .catch(error => dispatch(fetchACBError(error)));
+  };
+};
+
+export const fetchACBStart: ActionCreator<Action> = () => ({
+  type: 'FETCH_ACB_START',
+});
+
+export const fetchACBSuccess: ActionCreator<Action> = payload => ({
+  type: 'FETCH_ACB_SUCCESS',
+  payload,
+});
+
+export const fetchACBError: ActionCreator<Action> = payload => ({
+  type: 'FETCH_ACB_ERROR',
+  payload,
+});

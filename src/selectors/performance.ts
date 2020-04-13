@@ -4,6 +4,7 @@ import {
   PastValue,
   Contributions,
   PerformanceData,
+  AdjustedCostBasis,
 } from '../types/performance';
 import { selectState } from '.';
 import { selectPerformancePageFeature } from './features';
@@ -16,6 +17,9 @@ export const selectSelectedTimeframe = (state: AppState) =>
   state.selectedTimeframe;
 
 export const selectPerformanceAll = (state: AppState) => state.performanceAll;
+
+export const selectAdjustedCostBasis = (state: AppState) =>
+  state.performanceACB;
 
 export const selectPerformanceNeedData = createSelector<
   AppState,
@@ -34,6 +38,29 @@ export const selectPerformanceNeedData = createSelector<
       return false;
     }
     return shouldUpdate(performanceAll, {
+      staleTime: ms.days(1),
+      now: time,
+    });
+  },
+);
+
+export const selectACBNeedData = createSelector<
+  AppState,
+  boolean,
+  SimpleState<AdjustedCostBasis[]>,
+  boolean,
+  number,
+  boolean
+>(
+  selectLoggedIn,
+  selectAdjustedCostBasis,
+  selectPerformancePageFeature,
+  selectAppTime,
+  (loggedIn, performanceAcb, performanceFeature, time) => {
+    if (!loggedIn || !performanceFeature) {
+      return false;
+    }
+    return shouldUpdate(performanceAcb, {
       staleTime: ms.days(1),
       now: time,
     });

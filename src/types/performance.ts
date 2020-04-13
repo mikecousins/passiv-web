@@ -1,3 +1,5 @@
+import { Currency } from './currency';
+
 export type PastValue = {
   value: number;
   date: string;
@@ -32,4 +34,17 @@ export type PerformanceData = {
   contributionStreakALL: number;
   contributionMonthsContributedALL: number;
   contributionTotalMonthsALL: number;
+};
+
+export type AdjustedCostBasis = {
+  symbol: ACBSymbol;
+  units_owned: number;
+  adjusted_cost: number;
+};
+
+export type ACBSymbol = {
+  id: string;
+  symbol: string;
+  description: string;
+  currency: Currency;
 };
