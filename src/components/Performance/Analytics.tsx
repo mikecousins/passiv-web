@@ -1,11 +1,9 @@
 import styled from '@emotion/styled';
-import { useSelector, useDispatch } from 'react-redux';
-import React, { FunctionComponent } from 'react';
+import { useSelector } from 'react-redux';
+import React from 'react';
 import Performance from './Performance';
 import AdjustedCostBasisTab from './AdjustedCostBasisTab';
 import GoalsTab from './GoalsTab';
-import { H1, P } from '../../styled/GlobalElements';
-import ShadowBox from '../../styled/ShadowBox';
 import { Link, Route } from 'react-router-dom';
 import { SubNav, NavContainer } from '../../pages/GroupPage';
 import { selectPathname } from '../../selectors/router';
