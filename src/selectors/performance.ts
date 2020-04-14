@@ -104,6 +104,23 @@ export const selectContributionTimeframe = createSelector<
   }
 });
 
+export const selectContributionTimeframeCumulative = createSelector<
+  AppState,
+  AppState,
+  string,
+  PastValue[] | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.contributionTimeframeCumulative1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.contributionTimeframeCumulativeYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.contributionTimeframeCumulativeALL;
+  } else {
+    return state.performanceAll?.data?.contributionTimeframeCumulative1Y;
+  }
+});
+
 export const selectWithdrawalTimeframe = createSelector<
   AppState,
   AppState,

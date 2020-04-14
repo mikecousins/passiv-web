@@ -19,6 +19,9 @@ export type PerformanceData = {
   contributionTimeframe1Y: PastValue[];
   contributionTimeframeYTD: PastValue[];
   contributionTimeframeALL: PastValue[];
+  contributionTimeframeCumulative1Y: PastValue[];
+  contributionTimeframeCumulativeYTD: PastValue[];
+  contributionTimeframeCumulativeALL: PastValue[];
   withdrawalTimeframe1Y: PastValue[];
   withdrawalTimeframeYTD: PastValue[];
   withdrawalTimeframeALL: PastValue[];
