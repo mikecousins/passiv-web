@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const BarsContainer = styled.div`
-  background: #b3c1be;
+  background: #eee;
   position: relative;
   margin-bottom: 10px;
 `;
@@ -63,7 +63,7 @@ export const Delta = styled.div`
   text-align: right;
 `;
 export const Bar = styled.span`
-  background: rgba(62, 210, 177, 0.74);
+  background: #05a286;
   display: block;
   height: 25px;
   width: 0%;
