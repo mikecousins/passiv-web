@@ -4,9 +4,13 @@ import {
   PastValue,
   Contributions,
   PerformanceData,
+  AdjustedCostBasis,
 } from '../types/performance';
 import { selectState } from '.';
-import { selectPerformancePageFeature } from './features';
+import {
+  selectPerformancePageFeature,
+  selectAdjustedCostBasisFeature,
+} from './features';
 import { selectLoggedIn, selectAppTime } from './index';
 import { SimpleState } from '../types/common';
 import shouldUpdate from '../reactors/should-update';
@@ -16,6 +20,9 @@ export const selectSelectedTimeframe = (state: AppState) =>
   state.selectedTimeframe;
 
 export const selectPerformanceAll = (state: AppState) => state.performanceAll;
+
+export const selectAdjustedCostBasis = (state: AppState) =>
+  state.performanceACB;
 
 export const selectPerformanceNeedData = createSelector<
   AppState,
@@ -34,6 +41,29 @@ export const selectPerformanceNeedData = createSelector<
       return false;
     }
     return shouldUpdate(performanceAll, {
+      staleTime: ms.days(1),
+      now: time,
+    });
+  },
+);
+
+export const selectACBNeedData = createSelector<
+  AppState,
+  boolean,
+  SimpleState<AdjustedCostBasis[]>,
+  boolean,
+  number,
+  boolean
+>(
+  selectLoggedIn,
+  selectAdjustedCostBasis,
+  selectAdjustedCostBasisFeature,
+  selectAppTime,
+  (loggedIn, performanceAcb, adjustedCostBasisFeature, time) => {
+    if (!loggedIn || !adjustedCostBasisFeature) {
+      return false;
+    }
+    return shouldUpdate(performanceAcb, {
       staleTime: ms.days(1),
       now: time,
     });
@@ -71,6 +101,23 @@ export const selectContributionTimeframe = createSelector<
     return state.performanceAll?.data?.contributionTimeframeALL;
   } else {
     return state.performanceAll?.data?.contributionTimeframe1Y;
+  }
+});
+
+export const selectContributionTimeframeCumulative = createSelector<
+  AppState,
+  AppState,
+  string,
+  PastValue[] | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.contributionTimeframeCumulative1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.contributionTimeframeCumulativeYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.contributionTimeframeCumulativeALL;
+  } else {
+    return state.performanceAll?.data?.contributionTimeframeCumulative1Y;
   }
 });
 

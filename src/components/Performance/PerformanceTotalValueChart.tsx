@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import PerformanceChart from './PerformanceChart';
 import { useSelector } from 'react-redux';
-import { selectTotalEquityTimeframe } from '../../selectors/performance';
+import {
+  selectTotalEquityTimeframe,
+  selectContributionTimeframeCumulative,
+} from '../../selectors/performance';
 import { ToggleButton, StateText } from '../../styled/ToggleButton';
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,6 +25,9 @@ const ZoomToggle = styled.span`
 
 export const PerformanceTotalValueChart = () => {
   let totalEquityData = useSelector(selectTotalEquityTimeframe);
+  let contributionCumulativeData = useSelector(
+    selectContributionTimeframeCumulative,
+  );
 
   const [chartStartsAt0, setChartMin] = useState(true);
   let chartMin: number | undefined = 0;
@@ -42,8 +48,19 @@ export const PerformanceTotalValueChart = () => {
         }),
         color: '#04A286',
       },
+      {
+        label: 'Contributions',
+        data: contributionCumulativeData?.map(a => {
+          let date = new Date(Date.parse(a.date));
+          return [
+            new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+            a.value,
+          ];
+        }),
+        color: '#4ac0ff',
+      },
     ],
-    [totalEquityData],
+    [totalEquityData, contributionCumulativeData],
   );
 
   const series = React.useMemo(() => ({ type: 'line' }), []);

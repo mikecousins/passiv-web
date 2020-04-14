@@ -19,7 +19,7 @@ import { Authorization } from '../types/authorization';
 import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
 import { Settings } from '../types/settings';
-import { PerformanceData } from '../types/performance';
+import { PerformanceData, AdjustedCostBasis } from '../types/performance';
 import selectedTimeframe from './performance';
 
 export default (history: any) =>
@@ -91,6 +91,10 @@ export default (history: any) =>
     }),
     performanceAll: simple<PerformanceData>({
       baseType: 'FETCH_PERFORMANCE_ALL',
+      userData: true,
+    }),
+    performanceACB: simple<AdjustedCostBasis[]>({
+      baseType: 'FETCH_ACB',
       userData: true,
     }),
   });

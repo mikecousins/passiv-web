@@ -102,7 +102,7 @@ const SideBar = () => {
           <GroupContainer>{groupList}</GroupContainer>
         )}
         {performancePageFeatureActive && (
-          <SideBarLink name="Performance" linkPath="/app/performance" />
+          <SideBarLink name="Reporting" linkPath="/app/performance" />
         )}
         <SideBarLink name="Settings" linkPath="/app/settings" />
         <SideBarFooter />

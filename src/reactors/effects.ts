@@ -11,7 +11,10 @@ import {
   loadHelpArticles,
   loadFeatures,
 } from '../actions';
-import { loadPerformanceAll } from '../actions/performance';
+import {
+  loadPerformanceAll,
+  loadAdjustedCostBasis,
+} from '../actions/performance';
 import { checkIfOnline } from '../actions/online';
 import {
   selectCurrenciesNeedData,
@@ -27,7 +30,10 @@ import { selectAccountsNeedData } from '../selectors/accounts';
 import { selectGroupsNeedData } from '../selectors/groups';
 import { selectSubscriptionNeedData } from '../selectors/subscription';
 import { selectShouldCheckIfOnline } from '../selectors/online';
-import { selectPerformanceNeedData } from '../selectors/performance';
+import {
+  selectPerformanceNeedData,
+  selectACBNeedData,
+} from '../selectors/performance';
 
 export { default as reducer } from '../reducers';
 
@@ -79,6 +85,10 @@ export const effects = [
   {
     selector: selectPerformanceNeedData,
     actionCreator: loadPerformanceAll,
+  },
+  {
+    selector: selectACBNeedData,
+    actionCreator: loadAdjustedCostBasis,
   },
   {
     selector: selectShouldCheckIfOnline,
