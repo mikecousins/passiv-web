@@ -17,6 +17,13 @@ const IndentColorBox = styled(ColorBox)`
   }
 `;
 
+const BetaTag = styled.span`
+  border: 1px solid white;
+  border-radius: 3px;
+  padding: 0 3px 0 3px;
+  margin-left: 5px;
+`;
+
 type Props = {
   name: string;
   linkPath: string;
@@ -27,6 +34,7 @@ type Props = {
   spinnerLoading?: boolean;
   hideArrow?: boolean;
   indent?: boolean;
+  beta?: boolean;
 };
 
 const SideBarLink = ({
@@ -39,6 +47,7 @@ const SideBarLink = ({
   spinnerLoading,
   hideArrow,
   indent,
+  beta = false,
 }: Props) => {
   const pathname = useSelector(selectPathname);
 
@@ -104,6 +113,7 @@ const SideBarLink = ({
       {indicator}
       {indent ? name : <strong>{name}</strong>}
       {!hideArrow && <FontAwesomeIcon icon={faAngleRight} />}
+      {beta && <BetaTag>BETA</BetaTag>}
     </Link>
   );
 
