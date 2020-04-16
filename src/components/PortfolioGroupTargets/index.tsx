@@ -181,12 +181,17 @@ const PortfolioGroupTargets = () => {
   // show a spinner if we don't have our data yet
   if (loadingGroupInfo) {
     return (
-      <ShadowBox>
-        <H2>Target Portfolio</H2>
-        <span>
-          <FontAwesomeIcon icon={faSpinner} spin />
-        </span>
-      </ShadowBox>
+      <OverlayContainer>
+        <ShadowBox>
+          <TargetContainer>
+            <H2>Target Portfolio</H2>
+            <span>
+              <FontAwesomeIcon icon={faSpinner} spin />
+            </span>
+          </TargetContainer>
+        </ShadowBox>
+        <LoadingOverlay />
+      </OverlayContainer>
     );
   }
 
