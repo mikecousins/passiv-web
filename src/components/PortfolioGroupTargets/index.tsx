@@ -29,6 +29,7 @@ export const TargetContainer = styled.form`
   h2 {
     margin-bottom: 20px;
   }
+  min-height: 200px;
 `;
 
 export const Container2Column = styled.div`
