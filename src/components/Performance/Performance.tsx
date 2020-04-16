@@ -151,10 +151,10 @@ export const Performance = () => {
         </ShadowBox>
         <Tiles>
           <ShadowBox>
-            <PerformanceContributionStreak />
+            <PerformanceContributions selectedTimeframe={currentTimeframe} />
           </ShadowBox>
           <ShadowBox>
-            <PerformanceContributions selectedTimeframe={currentTimeframe} />
+            <PerformanceContributionStreak />
           </ShadowBox>
         </Tiles>
       </Grid>
