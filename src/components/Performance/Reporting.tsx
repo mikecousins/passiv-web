@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import React from 'react';
 import Performance from './Performance';

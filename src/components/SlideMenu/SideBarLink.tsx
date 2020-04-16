@@ -20,7 +20,7 @@ const IndentColorBox = styled(ColorBox)`
 const BetaTag = styled.span`
   border: 1px solid white;
   border-radius: 3px;
-  padding: 0 3px 0 3px;
+  padding: 1px 3px 0 3px;
   margin-left: 5px;
 `;
 
