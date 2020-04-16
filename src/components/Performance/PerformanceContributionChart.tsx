@@ -13,7 +13,16 @@ export const PerformanceContributionChart = () => {
   const withdrawalData = useSelector(selectWithdrawalTimeframe);
   const timeframe = useSelector(selectSelectedTimeframe);
 
-  const data = React.useMemo(
+  let showWithdrawals = false;
+  if (withdrawalData !== undefined && withdrawalData !== null) {
+    withdrawalData.forEach(pastValue => {
+      if (pastValue.value > 0) {
+        showWithdrawals = true;
+      }
+    });
+  }
+
+  let data = React.useMemo(
     () => [
       {
         label: 'Withdrawals',
@@ -43,7 +52,15 @@ export const PerformanceContributionChart = () => {
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'ordinal', position: 'bottom' },
-      { type: 'linear', position: 'left', stacked: true }, // hardMin: 0 },
+      { type: 'linear', position: 'left' }, //, stacked: true },
+    ],
+    [],
+  );
+
+  const axesWithoutWithdrawals = React.useMemo(
+    () => [
+      { primary: true, type: 'ordinal', position: 'bottom' },
+      { type: 'linear', position: 'left', stacked: true },
     ],
     [],
   );
@@ -51,10 +68,11 @@ export const PerformanceContributionChart = () => {
   return (
     <React.Fragment>
       <H3>Contributions and Withdrawals</H3>
+      {}
       <PerformanceChart
         className="contributions"
         data={data}
-        axes={axes}
+        axes={showWithdrawals ? axes : axesWithoutWithdrawals}
         series={series}
       />
     </React.Fragment>
