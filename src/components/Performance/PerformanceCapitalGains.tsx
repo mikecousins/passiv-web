@@ -1,8 +1,13 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSpinner,
+  faCaretUp,
+  faCaretDown,
+  faQuestionCircle,
+} from '@fortawesome/free-solid-svg-icons';
+import {} from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { CashReturn, SubHeader, toDollarString } from './Performance';
 import {
@@ -50,7 +55,10 @@ export const PerformanceCapitalGain = () => {
     <React.Fragment>
       <Tooltip label="How the market has affected your portfolio between now and the start of the selected timeframe">
         <div>
-          <SubHeader>Investment Growth</SubHeader>
+          <SubHeader>
+            Investment Growth{' '}
+            <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 12 }} />
+          </SubHeader>
           <CashReturn className={positive ? 'positive' : 'negative'}>
             {positive ? (
               <span>
