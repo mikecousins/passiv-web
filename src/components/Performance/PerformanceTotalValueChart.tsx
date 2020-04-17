@@ -38,7 +38,7 @@ export const PerformanceTotalValueChart = () => {
   const data = React.useMemo(
     () => [
       {
-        label: 'Total Equity',
+        label: 'Total Value',
         data: totalEquityData?.map(a => {
           let date = new Date(Date.parse(a.date));
           return [

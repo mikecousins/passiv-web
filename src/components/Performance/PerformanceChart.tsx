@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { Chart } from 'react-charts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { toDollarString } from './Performance';
 
 export const ChartBox = styled.div`
   position: relative;
@@ -12,6 +13,11 @@ export const ChartBox = styled.div`
   &.equity {
     height: 300px;
   }
+`;
+
+export const DateString = styled.span`
+  font-weight: bold;
+  text-align: center; //not working for some reason
 `;
 
 type Props = {
@@ -27,10 +33,19 @@ export const PerformanceChart: FunctionComponent<Props> = ({
   series,
   className,
 }) => {
+  const tooltip = React.useMemo(
+    () => ({
+      render: ({ datum, primaryAxis, getStyle }: Props2) => {
+        return <CustomTooltip {...{ getStyle, primaryAxis, datum }} />;
+      },
+    }),
+    [],
+  );
+
   if (data[0].data !== undefined) {
     return (
       <ChartBox className={className}>
-        <Chart data={data} axes={axes} series={series} tooltip />
+        <Chart data={data} axes={axes} series={series} tooltip={tooltip} />
       </ChartBox>
     );
   } else {
@@ -40,6 +55,59 @@ export const PerformanceChart: FunctionComponent<Props> = ({
       </ChartBox>
     );
   }
+};
+
+type Props2 = {
+  getStyle: any;
+  primaryAxis: any;
+  datum: any;
+};
+
+export const CustomTooltip: FunctionComponent<Props2> = ({
+  getStyle,
+  primaryAxis,
+  datum,
+}) => {
+  if (datum === undefined) {
+    return null;
+  } else {
+    return (
+      <div>
+        <DateString>{formatDate(datum?.primary).toString()}</DateString>
+        <br />
+        <div>
+          <svg height="20" width="20">
+            <circle
+              cx="8"
+              cy="8"
+              r="7"
+              stroke="white"
+              strokeWidth="1"
+              fill={getStyle(datum).fill}
+            />
+          </svg>
+          {datum?.seriesLabel}
+        </div>
+        $
+        {toDollarString(
+          datum?.secondary < 0 ? datum?.secondary * -1 : datum?.secondary,
+        )}
+      </div>
+    );
+  }
+};
+
+const dtfMonth = new Intl.DateTimeFormat('en', { month: 'short' });
+
+const formatDate = (date: Date) => {
+  if (typeof date !== 'object') {
+    return date;
+  } else {
+    return (
+      dtfMonth.format(date) + ' ' + date.getDate() + ', ' + date.getFullYear()
+    );
+  }
+  return date;
 };
 
 export default PerformanceChart;

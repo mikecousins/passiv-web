@@ -47,17 +47,24 @@ export const PerformanceContributionChart = () => {
     ],
     [contributionData, withdrawalData, timeframe],
   );
+  let dataWithoutWithdrawals = React.useMemo(
+    () => [
+      {
+        label: 'Contributions',
+        data: contributionData
+          ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
+          .map(a => {
+            let dateFormatted = formatDate(a.date, timeframe);
+            return [dateFormatted, a.value];
+          }),
+        color: '#04a286',
+      },
+    ],
+    [contributionData, withdrawalData, timeframe],
+  );
   const series = React.useMemo(() => ({ type: 'bar' }), []);
 
   const axes = React.useMemo(
-    () => [
-      { primary: true, type: 'ordinal', position: 'bottom' },
-      { type: 'linear', position: 'left' }, //, stacked: true },
-    ],
-    [],
-  );
-
-  const axesWithoutWithdrawals = React.useMemo(
     () => [
       { primary: true, type: 'ordinal', position: 'bottom' },
       { type: 'linear', position: 'left', stacked: true },
@@ -71,8 +78,8 @@ export const PerformanceContributionChart = () => {
       {}
       <PerformanceChart
         className="contributions"
-        data={data}
-        axes={showWithdrawals ? axes : axesWithoutWithdrawals}
+        data={showWithdrawals ? data : dataWithoutWithdrawals}
+        axes={axes}
         series={series}
       />
     </React.Fragment>
