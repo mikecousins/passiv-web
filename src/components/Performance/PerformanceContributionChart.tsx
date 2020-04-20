@@ -6,6 +6,13 @@ import {
   selectWithdrawalTimeframe,
   selectSelectedTimeframe,
 } from '../../selectors/performance';
+import {
+  faToggleOn,
+  faToggleOff,
+  faQuestionCircle,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Tooltip from '../Tooltip';
 import { H3 } from '../../styled/GlobalElements';
 
 export const PerformanceContributionChart = () => {
@@ -74,7 +81,12 @@ export const PerformanceContributionChart = () => {
 
   return (
     <React.Fragment>
-      <H3>Contributions and Withdrawals</H3>
+      <Tooltip label="The contributions and withdrawals you have made during the selected timeframe">
+        <H3>
+          Contributions and Withdrawals{' '}
+          <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 13 }} />
+        </H3>
+      </Tooltip>
       {}
       <PerformanceChart
         className="contributions"
