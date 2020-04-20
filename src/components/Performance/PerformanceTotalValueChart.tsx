@@ -6,7 +6,11 @@ import {
   selectContributionTimeframeCumulative,
 } from '../../selectors/performance';
 import { ToggleButton, StateText } from '../../styled/ToggleButton';
-import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
+import {
+  faToggleOn,
+  faToggleOff,
+  faQuestionCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tooltip from '../Tooltip';
 import { H3 } from '../../styled/GlobalElements';
@@ -38,7 +42,7 @@ export const PerformanceTotalValueChart = () => {
   const data = React.useMemo(
     () => [
       {
-        label: 'Total Equity',
+        label: 'Total Value',
         data: totalEquityData?.map(a => {
           let date = new Date(Date.parse(a.date));
           return [
@@ -104,7 +108,12 @@ export const PerformanceTotalValueChart = () => {
 
   return (
     <React.Fragment>
-      <H3>Total Value</H3>
+      <Tooltip label="The total value of your accounts (may exclude mutual funds, options, and investements from unsupported exchanges)">
+        <H3>
+          Total Value{' '}
+          <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 13 }} />
+        </H3>
+      </Tooltip>
       <PerformanceChart
         className="equity"
         data={data}
