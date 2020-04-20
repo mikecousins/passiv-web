@@ -15,9 +15,18 @@ export const ChartBox = styled.div`
   }
 `;
 
+export const Label = styled.div`
+  padding-top: 4px;
+  padding-bottom: 4px;
+`;
+
 export const DateString = styled.span`
   font-weight: bold;
   text-align: center; //not working for some reason
+`;
+
+export const DollarString = styled.span`
+  font-weight: bold;
 `;
 
 type Props = {
@@ -75,8 +84,8 @@ export const CustomTooltip: FunctionComponent<Props2> = ({
       <div>
         <DateString>{formatDate(datum?.primary).toString()}</DateString>
         <br />
-        <div>
-          <svg height="20" width="20">
+        <Label>
+          <svg height="16" width="20">
             <circle
               cx="8"
               cy="8"
@@ -87,11 +96,13 @@ export const CustomTooltip: FunctionComponent<Props2> = ({
             />
           </svg>
           {datum?.seriesLabel}
-        </div>
-        $
-        {toDollarString(
-          datum?.secondary < 0 ? datum?.secondary * -1 : datum?.secondary,
-        )}
+        </Label>
+        <DollarString>
+          $
+          {toDollarString(
+            datum?.secondary < 0 ? datum?.secondary * -1 : datum?.secondary,
+          )}
+        </DollarString>
       </div>
     );
   }
