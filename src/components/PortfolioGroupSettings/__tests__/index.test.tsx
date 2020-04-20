@@ -29,5 +29,5 @@ const renderWithRedux = (ui: JSX.Element, initialState: object) => {
 test('PortfolioGroupSettings renders without issue', () => {
   const { getByText } = renderWithRedux(<PortfolioGroupSettings />, {});
 
-  expect(getByText('Currency')).toBeTruthy();
+  expect(getByText('General')).toBeTruthy();
 });
