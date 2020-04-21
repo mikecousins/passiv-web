@@ -33,10 +33,22 @@ const Disabled = styled.div`
 const ToggleBox = styled.div`
   padding-left: 30px;
   padding-right: 30px;
+  @media (max-width: 900px) {
+    width: 100%;
+    margin-top: 10px;
+    padding: 0;
+    text-align: left;
+    button {
+      margin-left: 0;
+    }
+  }
 `;
 
 const ActualBox = styled.div`
   padding-right: 30px;
+  @media (max-width: 900px) {
+    padding-right: 0;
+  }
 `;
 
 type Props = {

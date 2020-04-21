@@ -12,14 +12,18 @@ import { selectSelectedTimeframe } from '../../selectors/performance';
 import ShadowBox from '../../styled/ShadowBox';
 
 const Grid = styled.div`
-  display: grid;
-  grid-template-columns: auto 250px;
-  grid-column-gap: 20px;
+  @media (min-width: 900px) {
+    display: grid;
+    grid-template-columns: auto 250px;
+    grid-column-gap: 20px;
+  }
 `;
 
 const Tiles = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  @media (min-width: 900px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
   > div {
     display: flex;
     align-items: center;
@@ -63,6 +67,9 @@ const TimeContainer = styled.div`
   margin: 0 auto 20px;
   display: flex;
   box-shadow: 0 4px 12px 2px rgba(2, 2, 2, 0.26);
+  @media (max-width: 440px) {
+    width: 100%;
+  }
 `;
 
 const TimespanStyle = styled.span`

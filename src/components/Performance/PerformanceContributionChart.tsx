@@ -77,7 +77,8 @@ export const PerformanceContributionChart = () => {
 
   return (
     <React.Fragment>
-      <Tooltip label="The contributions and withdrawals you have made during the selected timeframe">
+      <Tooltip
+      label="The contributions and withdrawals you have made during the selected timeframe">
         <H3>
           Contributions and Withdrawals{' '}
           <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 13 }} />

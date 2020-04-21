@@ -264,6 +264,7 @@ export const ColumnStatus = styled.div`
 export const ColumnAccount = styled.div`
   min-width: 20%;
   color: var(--brand-grey);
+  margin-top: 16px;
   @media (max-width: 900px) {
     line-height: 1.2;
   }

@@ -341,6 +341,9 @@ const CredentialsManager = () => {
             )}
           </InputContainer>
         </TextContainer>
+      </ShadowBox>
+      <ShadowBox>
+        <H2>General</H2>
         {SMS2FAFeatureEnabled && (
           <TextContainer>
             <InputContainer>

@@ -9,7 +9,7 @@ import { selectLoggedIn } from '../selectors';
 export const Button = styled.button`
   color: #fff;
   font-size: 16px;
-  padding: 10px 16px;
+  padding: 10px 28px 10px 10px;
   display: block;
   float: right;
   background: none;
@@ -18,7 +18,9 @@ export const Button = styled.button`
     margin-right: 5px;
   }
   &:hover {
-    background: var(--brand-blue);
+    svg {
+      color: var(--brand-blue);
+    }
   }
 `;
 

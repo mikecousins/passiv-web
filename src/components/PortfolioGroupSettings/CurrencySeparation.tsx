@@ -35,7 +35,6 @@ const CurrencySeparation = ({
           value={preventConversion}
           onChange={onChangePreventConversion}
         />
-        <br />
         <SubSetting>
           <SettingsToggle
             name="Retain cash for manual exchange"

@@ -9,7 +9,7 @@ export const ChartBox = styled.div`
   position: relative;
   height: 180px;
   width: 100%;
-  margin-bottom: 10px;
+  margin: 15px 0 10px;
   &.equity {
     height: 300px;
   }

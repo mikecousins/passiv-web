@@ -6,8 +6,8 @@ export const RebalanceAlert = styled.div`
   transform: translateY(-50%);
   left: 5px;
   span {
-    width: 12px;
-    height: 12px;
+    width: 8px;
+    height: 8px;
     display: block;
     border-radius: 50%;
   }

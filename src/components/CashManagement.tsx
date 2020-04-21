@@ -23,7 +23,8 @@ import styled from '@emotion/styled';
 import { Form } from '../styled/Form';
 
 const CashManagementBox = styled.div`
-  padding-top: 20px;
+  margin-top: 30px;
+  margin-bottom: 35px;
 `;
 
 const CashForm = styled(Form)`
@@ -31,7 +32,7 @@ const CashForm = styled(Form)`
 `;
 
 export const CashRestrictionBox = styled.div`
-  padding: 10px 20px 0 20px;
+  padding: 12px 0 5px;
 `;
 
 export const CashRow = styled.div`

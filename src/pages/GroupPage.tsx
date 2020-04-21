@@ -13,7 +13,7 @@ export const SubNav = styled.div`
   border-bottom: 1px solid #e5e5e5;
   margin: 0px 0 30px;
   overflow-x: auto;
-
+  margin-right: -15px;
   a {
     color: #2a2d34;
     display: inline-block;
@@ -34,7 +34,8 @@ export const SubNav = styled.div`
   }
 `;
 export const NavContainer = styled.div`
-  min-width: 552px;
+  min-width: 752px;
+  display: flex;
 `;
 
 const overviewSelected = (pathname: string, groupId: string | null) => {

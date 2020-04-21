@@ -46,7 +46,6 @@ export const H3 = styled.h3<HProps>`
   font-size: 18px;
   font-weight: 900;
   line-height: 1.78;
-  letter-spacing: 1px;
   color: #232225;
   ${dynamicMargin};
 `;
@@ -122,7 +121,6 @@ export const AButton = styled.a`
   :active {
     text-decoration: none;
   }
-
   border: none;
   color: white;
   padding: 13px 18px 15px;
@@ -167,7 +165,7 @@ export const WarningBox = styled.div`
 export const DisabledBox = styled.div`
   opacity: 0.7;
   font-size: 0.9em;
-  padding: 10px 20px 10px;
+  padding: 10px 0px 10px;
   line-height: 1.3em;
 `;
 

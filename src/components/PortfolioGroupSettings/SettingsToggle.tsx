@@ -5,6 +5,7 @@ import {
   ToggleButton,
   DisabledToggleButton,
   StateText,
+  Row
 } from '../../styled/ToggleButton';
 import Tooltip from '../Tooltip';
 
@@ -48,8 +49,10 @@ const SettingsToggle = ({
   }
   return (
     <React.Fragment>
-      <span>{name}: </span>
-      {toggleButton}
+      <Row>
+        <span>{name}: </span>
+        {toggleButton}
+      </Row>
     </React.Fragment>
   );
 };

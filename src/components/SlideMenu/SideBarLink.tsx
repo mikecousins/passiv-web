@@ -10,18 +10,19 @@ import styled from '@emotion/styled';
 const ColorBox = styled.div``;
 
 const IndentColorBox = styled(ColorBox)`
-  padding-left: 5px;
   a {
-    margin-top: -10px;
-    padding-top: 15px;
+    margin-top: -8px;
+    padding: 10px 15px 10px 20px;
   }
 `;
 
 const BetaTag = styled.span`
   border: 1px solid white;
-  border-radius: 3px;
-  padding: 1px 3px 0 3px;
+  border-radius: 25px;
+  padding: 1px 4px;
   margin-left: 5px;
+  font-weight: 500;
+  font-size: 12px;
 `;
 
 type Props = {
