@@ -16,17 +16,16 @@ const StyledAside = styled.aside`
   width: 212px;
   height: calc(100% - 150px);
   padding-top: 12px;
-  text-transform: uppercase;
   font-weight: 700;
   position: fixed;
   transition: 0.25s all;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 136px;
+  padding-bottom: 26px;
   a {
     color: #fff;
     text-decoration: none;
-    padding: 20px 15px 20px 25px;
+    padding: 20px 15px 20px 20px;
     display: block;
     font-size: 1.125rem;
     position: relative;
@@ -39,18 +38,23 @@ const StyledAside = styled.aside`
     box-shadow: -1px 2px 3px 0 rgba(0, 0, 0, 0.27);
     margin-right: -5px;
     padding-right: 5px;
+    margin-bottom: 12px;
+    strong {
+      font-weight: 600;
+    }
   }
 `;
 const GroupContainer = styled.div`
   border-top: 1px solid rgba(255, 255, 255, 0.23);
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 18px;
+  padding-bottom: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.23);
   text-transform: none;
   font-weight: 500;
   a {
     font-size: 16px;
-    padding: 17px 15px 17px 25px;
+    padding: 13px 15px 13px 20px;
+    font-weight: 300;
   }
 `;
 

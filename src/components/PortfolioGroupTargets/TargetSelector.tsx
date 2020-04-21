@@ -34,7 +34,9 @@ const Legend = styled.div`
   display: inline-block;
   margin: 0 5px 0 auto;
   padding: 11px 16px;
-  border-radius: 4px;
+  @media (max-width: 900px) {
+    padding-right: 0;
+  }
 `;
 
 const BaseLegendTitle = styled.span`
@@ -77,7 +79,20 @@ const ExcludedNote = styled.div`
   font-size: 1em;
 `;
 
-const ExcludeTitle = styled(BaseLegendTitle)``;
+const ExcludeTitle = styled(BaseLegendTitle)`
+  @media (max-width: 900px) {
+    display: none;
+  }
+`;
+
+const ActionsContainer = styled.div`
+  @media (max-width: 900px) {
+    display: flex;
+    justify-content: space-between;
+    margin: 35px 0 10px;
+    max-width: 500px;
+  }
+`
 
 type Props = {
   lockable: boolean;
@@ -407,48 +422,50 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                   <ErrorMessage name="targets" component="div" />
                   {canEdit ? (
                     <React.Fragment>
-                      <button
-                        type="button"
-                        onClick={() => arrayHelpers.push(generateNewTarget())}
-                      >
-                        Add
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (lockable) {
-                            resetTargets(props.resetForm);
-                          } else {
-                            let len = props.values.targets.length;
-                            for (let i = 0; i < len; i++) {
-                              props.values.targets.pop();
-                            }
-                            arrayHelpers.push(generateNewTarget());
-                          }
-                        }}
-                      >
-                        Reset
-                      </button>
-                      <Button
-                        type="submit"
-                        onClick={() => props.handleSubmit()}
-                        disabled={
-                          props.isSubmitting || !props.dirty || !props.isValid
-                        }
-                      >
-                        Save
-                      </Button>
-                      {lockable && (
+                      <ActionsContainer>
+                        <button
+                          type="button"
+                          onClick={() => arrayHelpers.push(generateNewTarget())}
+                        >
+                          Add
+                        </button>
                         <button
                           type="button"
                           onClick={() => {
-                            props.handleReset();
-                            toggleEditMode();
+                            if (lockable) {
+                              resetTargets(props.resetForm);
+                            } else {
+                              let len = props.values.targets.length;
+                              for (let i = 0; i < len; i++) {
+                                props.values.targets.pop();
+                              }
+                              arrayHelpers.push(generateNewTarget());
+                            }
                           }}
                         >
-                          Cancel
+                          Reset
                         </button>
-                      )}
+                        <Button
+                          type="submit"
+                          onClick={() => props.handleSubmit()}
+                          disabled={
+                            props.isSubmitting || !props.dirty || !props.isValid
+                          }
+                        >
+                          Save
+                        </Button>
+                        {lockable && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              props.handleReset();
+                              toggleEditMode();
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        )}
+                      </ActionsContainer>
                     </React.Fragment>
                   ) : (
                     <ButtonBox>

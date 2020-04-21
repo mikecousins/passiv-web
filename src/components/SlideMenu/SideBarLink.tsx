@@ -10,10 +10,9 @@ import styled from '@emotion/styled';
 const ColorBox = styled.div``;
 
 const IndentColorBox = styled(ColorBox)`
-  padding-left: 5px;
   a {
-    margin-top: -10px;
-    padding-top: 15px;
+    margin-top: -8px;
+    padding: 10px 15px 10px 20px;
   }
 `;
 

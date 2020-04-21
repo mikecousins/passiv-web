@@ -40,7 +40,6 @@ export const PortfolioGroupSettings = () => {
       <H2>General</H2>
       {settings ? (
         <React.Fragment>
-          <br />
           <SettingsToggle
             name="Allow selling to rebalance"
             value={settings.buy_only}
@@ -52,8 +51,6 @@ export const PortfolioGroupSettings = () => {
             }}
             invert={true}
           />
-          <br />
-          <br />
           <CurrencySeparation
             preventConversion={settings.prevent_currency_conversion}
             onChangePreventConversion={() => {
@@ -78,7 +75,6 @@ export const PortfolioGroupSettings = () => {
         </React.Fragment>
       )}
       {featureCashManagement && <CashManagement />}
-      <br />
       <TradesExplanation settings={settings} />
     </ShadowBox>
   );

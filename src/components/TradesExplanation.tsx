@@ -9,11 +9,14 @@ import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 const ToggleBox = styled.div`
   padding-top: 20px;
-  padding-left: 10px;
 `;
 
 const ExplanationBox = styled.div`
   padding-top: 20px;
+`;
+
+const BulletULm = styled(BulletUL)`
+  margin-top: 12px;
 `;
 
 const TopStyle = styled.div`
@@ -70,11 +73,11 @@ const TradesExplanation = ({ settings, container = false }: Props) => {
   const content = (
     <React.Fragment>
       {!container && <H2>Explanation</H2>}
-      <BulletUL>
+      <BulletULm>
         {summary.map((item, index) => (
           <li key={index}>{item}</li>
         ))}
-      </BulletUL>
+      </BulletULm>
     </React.Fragment>
   );
 
@@ -102,7 +105,7 @@ const TradesExplanation = ({ settings, container = false }: Props) => {
         {toggle}
         {showExplanation && (
           <ExplanationBox>
-            <ShadowBox>{content}</ShadowBox>
+            {content}
           </ExplanationBox>
         )}
       </TopStyle>

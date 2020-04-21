@@ -10,8 +10,8 @@ import {
   Bar,
   BarTarget,
   BarActual,
-  TargetRow,
   Container,
+  CashTargetRow
 } from '../../styled/Target';
 
 type Props = {
@@ -47,7 +47,7 @@ export const CashBar = ({ edit, percentage, actualPercentage }: Props) => {
           )}
         </BarTarget>
       </BarsContainer>
-      <TargetRow style={{ paddingRight: '98px' }}>
+      <CashTargetRow>
         <Symbol>Cash</Symbol>
         {edit && (
           <React.Fragment>
@@ -59,7 +59,7 @@ export const CashBar = ({ edit, percentage, actualPercentage }: Props) => {
             </Actual>
           </React.Fragment>
         )}
-      </TargetRow>
+      </CashTargetRow>
     </Container>
   );
 };
