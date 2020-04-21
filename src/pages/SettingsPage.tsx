@@ -28,11 +28,11 @@ const SettingsPage = () => {
   return (
     <React.Fragment>
       <Container2Column>
+        <CredentialsManager />
         <div>
-          <CredentialsManager />
           <NotificationsManager />
+          {isDemo ? <DemoNotes /> : <SubscriptionManager />}
         </div>
-        {isDemo ? <DemoNotes /> : <SubscriptionManager />}
       </Container2Column>
       <ConnectionsManager />
       <AccountsManager />
