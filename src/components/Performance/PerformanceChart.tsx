@@ -118,7 +118,6 @@ const formatDate = (date: Date) => {
       dtfMonth.format(date) + ' ' + date.getDate() + ', ' + date.getFullYear()
     );
   }
-  return date;
 };
 
 export default PerformanceChart;

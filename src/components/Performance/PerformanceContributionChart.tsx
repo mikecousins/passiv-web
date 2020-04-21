@@ -6,11 +6,7 @@ import {
   selectWithdrawalTimeframe,
   selectSelectedTimeframe,
 } from '../../selectors/performance';
-import {
-  faToggleOn,
-  faToggleOff,
-  faQuestionCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tooltip from '../Tooltip';
 import { H3 } from '../../styled/GlobalElements';
@@ -67,7 +63,7 @@ export const PerformanceContributionChart = () => {
         color: '#04a286',
       },
     ],
-    [contributionData, withdrawalData, timeframe],
+    [contributionData, timeframe],
   );
   const series = React.useMemo(() => ({ type: 'bar' }), []);
 
