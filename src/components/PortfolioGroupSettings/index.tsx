@@ -12,6 +12,7 @@ import {
   selectCurrentGroupId,
 } from '../../selectors/groups';
 import { selectCashManagementFeature } from '../../selectors/features';
+import { selectAccounts } from '../../selectors/accounts';
 import { putData } from '../../api';
 import { loadGroup } from '../../actions';
 import { toast } from 'react-toastify';
@@ -19,6 +20,7 @@ import TradesExplanation from '../TradesExplanation';
 
 export const PortfolioGroupSettings = () => {
   const settings = useSelector(selectCurrentGroupSettings);
+  const accounts = useSelector(selectAccounts);
   const groupId = useSelector(selectCurrentGroupId);
   const featureCashManagement = useSelector(selectCashManagementFeature);
   const dispatch = useDispatch();
@@ -75,7 +77,7 @@ export const PortfolioGroupSettings = () => {
         </React.Fragment>
       )}
       {featureCashManagement && <CashManagement />}
-      <TradesExplanation settings={settings} />
+      <TradesExplanation settings={settings} accounts={accounts} />
     </ShadowBox>
   );
 };

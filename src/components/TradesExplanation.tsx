@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { BulletUL, H2, A } from '../styled/GlobalElements';
 import { Settings } from '../types/groupInfo';
+import { Account } from '../types/account';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { selectCurrencies } from '../selectors';
+import { restrictionTypes } from '../common';
+import Number from './Number';
 
 const ToggleBox = styled.div`
   padding-top: 20px;
@@ -28,10 +33,25 @@ const TopStyle = styled.div`
 type Props = {
   container?: boolean;
   settings: Settings | null;
+  accounts: Account[];
 };
 
-const TradesExplanation = ({ settings, container = false }: Props) => {
+const TradesExplanation = ({
+  settings,
+  accounts,
+  container = false,
+}: Props) => {
   const [showExplanation, setShowExplanation] = useState(false);
+
+  const currencies = useSelector(selectCurrencies);
+
+  const getCurrency = (currencyId: string) =>
+    currencies && currencies.find(c => c.id === currencyId);
+  const getType = (typeId: string) =>
+    restrictionTypes.find(r => r.id === typeId);
+
+  console.log('settings', settings);
+  console.log('accounts', accounts);
 
   const toggleShowExplanation = () => {
     setShowExplanation(!showExplanation);
@@ -68,6 +88,35 @@ const TradesExplanation = ({ settings, container = false }: Props) => {
     );
   }
 
+  accounts.map(a =>
+    a.cash_restrictions.map(cr => {
+      const cashRestrictionType = getType(cr.type);
+      const currency = getCurrency(cr.currency);
+
+      let explainText = (
+        <React.Fragment>
+          {a.name} must keep at least <Number value={cr.amount} currency />{' '}
+          {currency != null && currency.code} as cash.
+        </React.Fragment>
+      );
+
+      if (
+        cashRestrictionType !== undefined &&
+        cashRestrictionType.id === 'ALLOCATE_MAX'
+      ) {
+        explainText = (
+          <React.Fragment>
+            {a.name} will use a max of <Number value={cr.amount} currency />{' '}
+            {currency != null && currency.code} to purchase new assets.
+          </React.Fragment>
+        );
+      }
+
+      summary.push(explainText);
+      return null;
+    }),
+  );
+
   const content = (
     <React.Fragment>
       {!container && <H2>Explanation</H2>}
@@ -101,11 +150,7 @@ const TradesExplanation = ({ settings, container = false }: Props) => {
     return (
       <TopStyle>
         {toggle}
-        {showExplanation && (
-          <ExplanationBox>
-            {content}
-          </ExplanationBox>
-        )}
+        {showExplanation && <ExplanationBox>{content}</ExplanationBox>}
       </TopStyle>
     );
   }

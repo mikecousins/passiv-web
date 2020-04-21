@@ -155,7 +155,11 @@ export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
           tradesTrigger={() => triggerTradesSubmitted()}
           tradesUntrigger={() => untriggerTradesSubmitted()}
         />
-        <TradesExplanation settings={settings} container={true} />
+        <TradesExplanation
+          settings={settings}
+          accounts={accounts}
+          container={true}
+        />
       </TradesContainer>
     );
   } else {
