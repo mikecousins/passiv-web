@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { BulletUL, H2, A } from '../styled/GlobalElements';
-import ShadowBox from '../styled/ShadowBox';
 import { Settings } from '../types/groupInfo';
 import styled from '@emotion/styled';
-// import { Table, A, P, Title } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 

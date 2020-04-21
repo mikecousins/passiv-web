@@ -6,6 +6,9 @@ import {
   selectWithdrawalTimeframe,
   selectSelectedTimeframe,
 } from '../../selectors/performance';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Tooltip from '../Tooltip';
 import { H3 } from '../../styled/GlobalElements';
 
 export const PerformanceContributionChart = () => {
@@ -13,7 +16,16 @@ export const PerformanceContributionChart = () => {
   const withdrawalData = useSelector(selectWithdrawalTimeframe);
   const timeframe = useSelector(selectSelectedTimeframe);
 
-  const data = React.useMemo(
+  let showWithdrawals = false;
+  if (withdrawalData !== undefined && withdrawalData !== null) {
+    withdrawalData.forEach(pastValue => {
+      if (pastValue.value > 0) {
+        showWithdrawals = true;
+      }
+    });
+  }
+
+  let data = React.useMemo(
     () => [
       {
         label: 'Withdrawals',
@@ -38,22 +50,43 @@ export const PerformanceContributionChart = () => {
     ],
     [contributionData, withdrawalData, timeframe],
   );
+  let dataWithoutWithdrawals = React.useMemo(
+    () => [
+      {
+        label: 'Contributions',
+        data: contributionData
+          ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
+          .map(a => {
+            let dateFormatted = formatDate(a.date, timeframe);
+            return [dateFormatted, a.value];
+          }),
+        color: '#04a286',
+      },
+    ],
+    [contributionData, timeframe],
+  );
   const series = React.useMemo(() => ({ type: 'bar' }), []);
 
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'ordinal', position: 'bottom' },
-      { type: 'linear', position: 'left', stacked: true }, // hardMin: 0 },
+      { type: 'linear', position: 'left', stacked: true },
     ],
     [],
   );
 
   return (
     <React.Fragment>
-      <H3>Contributions and Withdrawals</H3>
+      <Tooltip label="The contributions and withdrawals you have made during the selected timeframe">
+        <H3>
+          Contributions and Withdrawals{' '}
+          <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 13 }} />
+        </H3>
+      </Tooltip>
+      {}
       <PerformanceChart
         className="contributions"
-        data={data}
+        data={showWithdrawals ? data : dataWithoutWithdrawals}
         axes={axes}
         series={series}
       />

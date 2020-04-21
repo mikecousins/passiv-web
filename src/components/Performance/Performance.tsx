@@ -78,6 +78,7 @@ const TimespanStyle = styled.span`
   text-align: center;
   display: inline-block;
   flex: 1;
+  cursor: pointer;
   border-right: 1px solid #04a185;
   button {
     color: #fff;
@@ -123,8 +124,11 @@ export const TimespanSelector: FunctionComponent<Props> = ({
   let selected = timeframe === selectedTimeframe;
 
   return (
-    <TimespanStyle className={selected ? 'selected' : ''}>
-      <button onClick={() => setTimeframe(timeframe)}>{timeframeString}</button>
+    <TimespanStyle
+      className={selected ? 'selected' : ''}
+      onClick={() => setTimeframe(timeframe)}
+    >
+      <button>{timeframeString}</button>
     </TimespanStyle>
   );
 };
@@ -158,10 +162,10 @@ export const Performance = () => {
         </ShadowBox>
         <Tiles>
           <ShadowBox>
-            <PerformanceContributionStreak />
+            <PerformanceContributions selectedTimeframe={currentTimeframe} />
           </ShadowBox>
           <ShadowBox>
-            <PerformanceContributions selectedTimeframe={currentTimeframe} />
+            <PerformanceContributionStreak />
           </ShadowBox>
         </Tiles>
       </Grid>

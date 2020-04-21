@@ -1,8 +1,12 @@
 import React from 'react';
 import { CashReturn, SubHeader, toDollarString } from './Performance';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSpinner,
+  faCaretUp,
+  faCaretDown,
+  faQuestionCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { selectContributions } from '../../selectors/performance';
 import { Contributions } from '../../types/performance';
@@ -37,7 +41,10 @@ export const PerformanceContributions = (props: Props) => {
     <React.Fragment>
       <Tooltip label="Contributions made during selected timeframe">
         <div>
-          <SubHeader>Net Contributions</SubHeader>
+          <SubHeader>
+            Net Contributions{' '}
+            <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 12 }} />
+          </SubHeader>
 
           <CashReturn className={positive ? 'positive' : 'negative'}>
             ${contributionsString}{' '}

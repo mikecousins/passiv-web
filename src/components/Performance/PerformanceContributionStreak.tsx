@@ -1,7 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faFireAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSpinner,
+  faFireAlt,
+  faQuestionCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { SubHeader } from './Performance';
 import {
@@ -66,7 +70,10 @@ export const PerformanceContributionStreak = () => {
     <React.Fragment>
       <div>
         <Tooltip label="Stats on how often you've been contributing">
-          <SubHeader>Contribution Streak</SubHeader>
+          <SubHeader>
+            Contribution Streak{' '}
+            <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 12 }} />
+          </SubHeader>
         </Tooltip>
 
         <ContributionStreak>

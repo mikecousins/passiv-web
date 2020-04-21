@@ -10,6 +10,13 @@ import {
   selectAdjustedCostBasisFeature,
   selectGoalsFeature,
 } from '../../selectors/features';
+import styled from '@emotion/styled';
+
+const BetaBanner = styled.p`
+  text-align: center;
+  margin-top: -20px;
+  color: #555555;
+`;
 
 const performanceSelected = (pathname: string) => {
   if (pathname === `/app/performance`) {
@@ -36,6 +43,10 @@ export const Analytics = () => {
 
   return (
     <React.Fragment>
+      <BetaBanner>
+        Open Beta: Help us improve our tools by{' '}
+        <a href="mailto:reporting@getpassiv.com">sharing feedback</a>
+      </BetaBanner>
       <SubNav>
         <NavContainer>
           <Link
