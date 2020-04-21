@@ -16,14 +16,14 @@ export const PerformanceContributionChart = () => {
   const withdrawalData = useSelector(selectWithdrawalTimeframe);
   const timeframe = useSelector(selectSelectedTimeframe);
 
-  let showWithdrawals = false;
-  if (withdrawalData !== undefined && withdrawalData !== null) {
-    withdrawalData.forEach(pastValue => {
-      if (pastValue.value > 0) {
-        showWithdrawals = true;
-      }
-    });
-  }
+  // let showWithdrawals = false;
+  // if (withdrawalData !== undefined && withdrawalData !== null) {
+  //   withdrawalData.forEach(pastValue => {
+  //     if (pastValue.value > 0) {
+  //       showWithdrawals = true;
+  //     }
+  //   });
+  // }
 
   let data = React.useMemo(
     () => [
@@ -50,21 +50,21 @@ export const PerformanceContributionChart = () => {
     ],
     [contributionData, withdrawalData, timeframe],
   );
-  let dataWithoutWithdrawals = React.useMemo(
-    () => [
-      {
-        label: 'Contributions',
-        data: contributionData
-          ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
-          .map(a => {
-            let dateFormatted = formatDate(a.date, timeframe);
-            return [dateFormatted, a.value];
-          }),
-        color: '#04a286',
-      },
-    ],
-    [contributionData, timeframe],
-  );
+  // let dataWithoutWithdrawals = React.useMemo(
+  //   () => [
+  //     {
+  //       label: 'Contributions',
+  //       data: contributionData
+  //         ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
+  //         .map(a => {
+  //           let dateFormatted = formatDate(a.date, timeframe);
+  //           return [dateFormatted, a.value];
+  //         }),
+  //       color: '#04a286',
+  //     },
+  //   ],
+  //   [contributionData, timeframe],
+  // );
   const series = React.useMemo(() => ({ type: 'bar' }), []);
 
   const axes = React.useMemo(
@@ -77,8 +77,7 @@ export const PerformanceContributionChart = () => {
 
   return (
     <React.Fragment>
-      <Tooltip
-      label="The contributions and withdrawals you have made during the selected timeframe">
+      <Tooltip label="The contributions and withdrawals you have made during the selected timeframe">
         <H3>
           Contributions and Withdrawals{' '}
           <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 13 }} />
@@ -87,7 +86,7 @@ export const PerformanceContributionChart = () => {
       {}
       <PerformanceChart
         className="contributions"
-        data={showWithdrawals ? data : dataWithoutWithdrawals}
+        data={data} //{showWithdrawals ? data : dataWithoutWithdrawals}
         axes={axes}
         series={series}
       />
