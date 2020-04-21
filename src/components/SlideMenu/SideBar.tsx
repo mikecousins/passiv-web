@@ -38,10 +38,12 @@ const StyledAside = styled.aside`
     box-shadow: -1px 2px 3px 0 rgba(0, 0, 0, 0.27);
     margin-right: -5px;
     padding-right: 5px;
-    margin-bottom: 12px;
     strong {
       font-weight: 600;
     }
+  }
+  div {
+    margin-bottom: 12px;
   }
 `;
 const GroupContainer = styled.div`
