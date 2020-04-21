@@ -18,9 +18,11 @@ const IndentColorBox = styled(ColorBox)`
 
 const BetaTag = styled.span`
   border: 1px solid white;
-  border-radius: 3px;
-  padding: 1px 3px 0 3px;
+  border-radius: 25px;
+  padding: 1px 4px;
   margin-left: 5px;
+  font-weight: 500;
+  font-size: 12px;
 `;
 
 type Props = {

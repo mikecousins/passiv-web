@@ -9,13 +9,20 @@ interface Props {
 }
 
 const StyledTooltip = styled(ReachTooltip)`
-  max-width: 300px;
   white-space: normal;
 `;
 
 export const Tooltip = ({ children, label }: Props) => {
   return label ? (
-    <StyledTooltip label={label}>
+    <StyledTooltip
+      label={label}
+      style={{
+        background: "hsla(232, 13%, 12%, 0.75)",
+        color: "white",
+        border: "none",
+        borderRadius: "4px",
+        padding: "0.5em 1em",
+      }}>
       <span>{children}</span>
     </StyledTooltip>
   ) : (
