@@ -9,7 +9,7 @@ import ScrollHelper from '../components/ScrollHelper';
 import ShadowBox from '../styled/ShadowBox';
 import { H2, P, BulletUL } from '../styled/GlobalElements';
 import { selectQuestradeDowntimeFeature } from '../selectors/features';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
   display: flex;
