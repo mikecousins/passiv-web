@@ -74,3 +74,7 @@ export const selectGoalsFeature = createFeatureSelector('goals_tab');
 export const selectCashManagementFeature = createFeatureSelector(
   'cash_management',
 );
+
+export const selectQuestradeDowntimeFeature = createFeatureSelector(
+  'questrade_downtime',
+);
