@@ -7,7 +7,7 @@ import SlideMenu from '../components/SlideMenu';
 import GlobalStyle from '../styled/global';
 import ScrollHelper from '../components/ScrollHelper';
 import ShadowBox from '../styled/ShadowBox';
-import { H2, P, BulletUL } from '../styled/GlobalElements';
+import { H2, P, BulletUL, A } from '../styled/GlobalElements';
 import { selectQuestradeDowntimeFeature } from '../selectors/features';
 import { useSelector } from 'react-redux';
 
@@ -58,6 +58,17 @@ export const AppLayout = ({ children }: Props) => {
                 again later.
               </P>
               <P>Thank you for your patience!</P>
+              <P>
+                In the meantime, reconnecting your account should also fix the
+                issue.{' '}
+                <A
+                  href="https://getpassiv.com/help/tutorials/how-to-manage-your-brokerage-connections/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Learn how to reconnect your brokerage account
+                </A>
+              </P>
             </GlobalMessage>
           )}
           {children}
