@@ -6,10 +6,7 @@ import Header from '../components/Header';
 import SlideMenu from '../components/SlideMenu';
 import GlobalStyle from '../styled/global';
 import ScrollHelper from '../components/ScrollHelper';
-import ShadowBox from '../styled/ShadowBox';
-import { H2, P, BulletUL, A } from '../styled/GlobalElements';
-import { selectQuestradeDowntimeFeature } from '../selectors/features';
-import { useSelector } from 'react-redux';
+import ReconnectMessage from '../components/ReconnectMessage';
 
 const Container = styled.div`
   display: flex;
@@ -26,14 +23,11 @@ const Main = styled.main`
   }
 `;
 
-const GlobalMessage = styled(ShadowBox)``;
-
 interface Props {
   children: JSX.Element;
 }
 
 export const AppLayout = ({ children }: Props) => {
-  const showDowntime = useSelector(selectQuestradeDowntimeFeature);
   return (
     <div>
       <GlobalStyle />
@@ -41,36 +35,7 @@ export const AppLayout = ({ children }: Props) => {
       <Container>
         <SlideMenu />
         <Main>
-          {showDowntime && (
-            <GlobalMessage>
-              <H2>Notice</H2>
-              <P>
-                We are currently experiencing an issue connecting to the
-                following brokerages:
-              </P>
-              <BulletUL>
-                <li>Questrade</li>
-              </BulletUL>
-              <P>
-                Your dashboard may show missing or incorrect data for these
-                brokerages, and you may not be able to make new connections
-                until the issue is fixed. We apologize for the issue, please try
-                again later.
-              </P>
-              <P>Thank you for your patience!</P>
-              <P>
-                In the meantime, reconnecting your account should also fix the
-                issue.{' '}
-                <A
-                  href="https://getpassiv.com/help/tutorials/how-to-manage-your-brokerage-connections/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Learn how to reconnect your brokerage account
-                </A>
-              </P>
-            </GlobalMessage>
-          )}
+          <ReconnectMessage />
           {children}
         </Main>
       </Container>
