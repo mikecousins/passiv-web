@@ -166,7 +166,7 @@ const QuestradeOauthPage = () => {
                 </li>
                 <li>
                   <A
-                    href="https://getpassiv.com/help/tutorials/multi-account-portfolios/"
+                    href="https://getpassiv.com/help/tutorials/how-to-set-up-multi-account-portfolios"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -176,7 +176,7 @@ const QuestradeOauthPage = () => {
                 </li>
                 <li>
                   <A
-                    href="https://getpassiv.com/help/tutorials/brokerage-connections/"
+                    href="https://getpassiv.com/help/tutorials/how-to-manage-your-brokerage-connections"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -186,7 +186,7 @@ const QuestradeOauthPage = () => {
                 </li>
                 <li>
                   <A
-                    href="https://getpassiv.com/help/tutorials/drift-notifications/"
+                    href="https://getpassiv.com/help/tutorials/how-to-manage-your-drift-notifications"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
