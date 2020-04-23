@@ -108,7 +108,7 @@ export const PerformanceTotalValueChart = () => {
 
   return (
     <React.Fragment>
-      <Tooltip label="The total value of your accounts (may exclude mutual funds, options, and investements from unsupported exchanges)">
+      <Tooltip label="The total estimated value of your accounts (may exclude mutual funds, options, and investements from unsupported exchanges)">
         <H3>
           Total Value{' '}
           <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 13 }} />
