@@ -102,7 +102,7 @@ const PortfolioGroupErrors = ({ error }: Props) => {
               We are having issues connecting to your brokerage account. This is
               most likely a temporary issue, but if it persists you may need to{' '}
               <A
-                href="https://getpassiv.com/help/tutorials/brokerage-connections/"
+                href="https://getpassiv.com/help/tutorials/how-to-manage-your-brokerage-connections"
                 target="_blank"
                 rel="noopener noreferrer"
               >
