@@ -35,7 +35,7 @@ export const PerformanceContributionStreak = () => {
   if (contributionStreak !== null && contributionStreak !== undefined) {
     if (contributionStreak > 1) {
       contributionStreakString = contributionStreak + ' Months ';
-    } else if (contributionStreak > 1) {
+    } else if (contributionStreak > 0) {
       contributionStreakString = contributionStreak + ' Month ';
     } else {
       contributionStreakString = '0 Months ';
