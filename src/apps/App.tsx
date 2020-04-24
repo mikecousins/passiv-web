@@ -212,9 +212,14 @@ const App = () => {
             )}
             {showSecureApp && (
               <Route
-                path={prefixPath('/performance')}
+                path={prefixPath('/reporting')}
                 component={PerformancePage}
               />
+            )}
+            {showSecureApp && (
+              <Route path={prefixPath('/performance')}>
+                <Redirect to={prefixPath(`/reporting`)} />
+              </Route>
             )}
             {loggedIn && (
               <Route
