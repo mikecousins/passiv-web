@@ -102,6 +102,15 @@ const parseDate = (dateString: string): number => {
 
 const formatDate = (dateString: string, timeframe: string): string => {
   const date = new Date(parseDate(dateString));
+  if (date.getDate() > 20) {
+    date.setDate(1);
+    if (date.getMonth() < 12) {
+      date.setMonth(date.getMonth() + 1);
+    } else {
+      date.setMonth(1);
+      date.setFullYear(date.getFullYear() + 1);
+    }
+  }
   if (timeframe === 'ALL') {
     return date.getFullYear().toString();
   } else {
