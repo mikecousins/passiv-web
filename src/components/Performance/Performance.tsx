@@ -7,6 +7,8 @@ import PerformanceContributions from './PerformanceContributions';
 import PerformanceContributionChart from './PerformanceContributionChart';
 import PerformanceTotalValueChart from './PerformanceTotalValueChart';
 import PerformanceContributionStreak from './PerformanceContributionStreak';
+import PerformanceDividendChart from './PerformanceDividendChart';
+import PerformanceDividendIncome from './PerformanceDividendIncome';
 import { setSelectedTimeframe } from '../../actions/performance';
 import { selectSelectedTimeframe } from '../../selectors/performance';
 import ShadowBox from '../../styled/ShadowBox';
@@ -190,6 +192,16 @@ export const Performance = () => {
           </ShadowBox>
           <ShadowBox>
             <PerformanceCapitalGains />
+          </ShadowBox>
+        </Tiles>
+      </Grid>
+      <Grid>
+        <ShadowBox>
+          <PerformanceDividendChart />
+        </ShadowBox>
+        <Tiles>
+          <ShadowBox>
+            <PerformanceDividendIncome />
           </ShadowBox>
         </Tiles>
       </Grid>

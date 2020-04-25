@@ -37,15 +37,27 @@ export type PerformanceData = {
   contributionStreakALL: number;
   contributionMonthsContributedALL: number;
   contributionTotalMonthsALL: number;
+  dividends1Y: Dividends[];
+  dividendsALL: Dividends[];
+  dividendsYTD: Dividends[];
+  dividendIncome1Y: number;
+  dividendIncomeALL: number;
+  dividendIncomeYTD: number;
+};
+
+export type Dividends = {
+  symbol: ReportingSymbol;
+  amount: number;
+  currency: string;
 };
 
 export type AdjustedCostBasis = {
-  symbol: ACBSymbol;
+  symbol: ReportingSymbol;
   units_owned: number;
   adjusted_cost: number;
 };
 
-export type ACBSymbol = {
+export type ReportingSymbol = {
   id: string;
   symbol: string;
   description: string;
