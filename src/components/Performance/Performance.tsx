@@ -10,6 +10,7 @@ import PerformanceContributionStreak from './PerformanceContributionStreak';
 import { setSelectedTimeframe } from '../../actions/performance';
 import { selectSelectedTimeframe } from '../../selectors/performance';
 import ShadowBox from '../../styled/ShadowBox';
+import { P, A } from '../../styled/GlobalElements';
 
 const Grid = styled.div`
   @media (min-width: 900px) {
@@ -98,6 +99,12 @@ export const SubHeader = styled.div`
   text-align: center;
 `;
 
+const BetaBanner = styled(P)`
+  text-align: center;
+  padding-bottom: 20px;
+  color: #555555;
+`;
+
 type Props = {
   timeframe: string;
   selectedTimeframe: string;
@@ -139,6 +146,10 @@ export const Performance = () => {
 
   return (
     <React.Fragment>
+      <BetaBanner>
+        Open Beta: Help us improve our tools by{' '}
+        <A href="mailto:reporting@getpassiv.com">sharing feedback</A>
+      </BetaBanner>
       <TimeContainer>
         <TimespanSelector
           timeframe={'1Y'}
