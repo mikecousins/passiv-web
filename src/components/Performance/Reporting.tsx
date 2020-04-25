@@ -12,19 +12,19 @@ import {
 } from '../../selectors/features';
 
 const performanceSelected = (pathname: string) => {
-  if (pathname === `/app/performance`) {
+  if (pathname === `/app/reporting`) {
     return 'active';
   }
 };
 
 const acbSelected = (pathname: string) => {
-  if (pathname === `/app/performance/acb`) {
+  if (pathname === `/app/reporting/acb`) {
     return 'active';
   }
 };
 
 const goalsSelected = (pathname: string) => {
-  if (pathname === `/app/performance/goals`) {
+  if (pathname === `/app/reporting/goals`) {
     return 'active';
   }
 };
@@ -38,34 +38,27 @@ export const Analytics = () => {
     <React.Fragment>
       <SubNav>
         <NavContainer>
-          <Link
-            className={performanceSelected(pathname)}
-            to={`/app/performance`}
-          >
+          <Link className={performanceSelected(pathname)} to={`/app/reporting`}>
             Performance
           </Link>
           {acbFeature && (
-            <Link className={acbSelected(pathname)} to={`/app/performance/acb`}>
+            <Link className={acbSelected(pathname)} to={`/app/reporting/acb`}>
               Adjusted Cost Basis
             </Link>
           )}
           {goalsFeature && (
             <Link
               className={goalsSelected(pathname)}
-              to={`/app/performance/goals`}
+              to={`/app/reporting/goals`}
             >
               Goals
             </Link>
           )}
         </NavContainer>
       </SubNav>
-      <Route path="/app/performance" exact component={Performance} />
-      <Route
-        path="/app/performance/acb"
-        exact
-        component={AdjustedCostBasisTab}
-      />
-      <Route path="/app/performance/goals" exact component={GoalsTab} />
+      <Route path="/app/reporting" exact component={Performance} />
+      <Route path="/app/reporting/acb" exact component={AdjustedCostBasisTab} />
+      <Route path="/app/reporting/goals" exact component={GoalsTab} />
     </React.Fragment>
   );
 };
