@@ -43,6 +43,7 @@ export type PerformanceData = {
   dividendIncome1Y: number;
   dividendIncomeALL: number;
   dividendIncomeYTD: number;
+  badTickers: string[];
 };
 
 export type Dividends = {

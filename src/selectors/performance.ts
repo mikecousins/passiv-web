@@ -25,6 +25,9 @@ export const selectPerformanceAll = (state: AppState) => state.performanceAll;
 export const selectAdjustedCostBasis = (state: AppState) =>
   state.performanceACB;
 
+export const selectBadTickers = (state: AppState) =>
+  state.performanceAll?.data?.badTickers;
+
 export const selectPerformanceNeedData = createSelector<
   AppState,
   boolean,
