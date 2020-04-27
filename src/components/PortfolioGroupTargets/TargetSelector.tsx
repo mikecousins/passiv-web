@@ -92,7 +92,7 @@ const ActionsContainer = styled.div`
     margin: 35px 0 10px;
     max-width: 500px;
   }
-`
+`;
 
 type Props = {
   lockable: boolean;
@@ -120,6 +120,10 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
     target.symbol = symbol.id;
     // TODO hack to add is_supported flag
     target.is_supported = true;
+  };
+
+  const formatTicker = (ticker: string) => {
+    return ticker.replace('.UN.', '-U.');
   };
 
   const toggleEditMode = () => {
@@ -182,8 +186,9 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
     .filter(target => target.is_supported && !target.is_excluded)
     .map((target: any, index: number) => {
       iValue = index + 1;
+      let ticker = formatTicker(target.fullSymbol.symbol);
       portfolioVisualizerURLParts.push(
-        `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${target.percent}`,
+        `&symbol${iValue}=${ticker}&allocation${iValue}_1=${target.percent}`,
       );
       return null;
     });
