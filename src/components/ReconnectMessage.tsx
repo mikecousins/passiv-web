@@ -8,7 +8,6 @@ import { selectLoggedIn, selectAuthorizations } from '../selectors';
 import { selectAccounts } from '../selectors/accounts';
 import { selectPathname } from '../selectors/router';
 import styled from '@emotion/styled';
-import ShadowBox from '../styled/ShadowBox';
 import ConnectionUpdate from './ConnectionUpdate';
 
 import { H2, P } from '../styled/GlobalElements';
@@ -31,11 +30,6 @@ const Title = styled.span`
   font-weight: 600;
 `;
 
-const InnerShadowBox = styled(ShadowBox)`
-  margin-top: 20px;
-  margin-bottom: 0;
-`;
-
 const ReconnectMessage = () => {
   const loggedIn = useSelector(selectLoggedIn);
   const authorizations = useSelector(selectAuthorizations);
@@ -50,52 +44,50 @@ const ReconnectMessage = () => {
       return (
         <ErrorContainer>
           <H2>Action required: Reconnect</H2>
-          <InnerShadowBox>
-            <P>
-              Passiv has lost its connection to your brokerage account. We
-              apologize for the inconvenience, but it's a simple fix! Just click
-              the button below to reconnect.
-            </P>
-            {disabledAuthorizations.map(authorization => {
-              console.log('auth', authorization);
-              let selectedAccounts = accounts.filter(
-                account => account.brokerage_authorization === authorization.id,
-              );
+          <P>
+            Passiv has lost its connection to your brokerage account. We
+            apologize for the inconvenience, but it's a simple fix! Just click
+            the button below to reconnect.
+          </P>
+          {disabledAuthorizations.map(authorization => {
+            console.log('auth', authorization);
+            let selectedAccounts = accounts.filter(
+              account => account.brokerage_authorization === authorization.id,
+            );
 
-              let accountString = `${
-                selectedAccounts.length
-              } Accounts: ${selectedAccounts
-                .map(account => account.name)
-                .join(', ')}`;
-              return (
-                <ReconnectContainer>
-                  <ReconnectPanel>
-                    <ConnectionUpdate
-                      authorization={authorization}
-                      type={authorization.type}
-                      hideTitle={true}
-                      name="Reconnect"
-                      align="left"
-                    />
-                  </ReconnectPanel>
-                  <ReconnectPanel>
-                    <Tooltip label={accountString}>
-                      <span>
-                        <Title>Name:</Title>&nbsp;{authorization.name}&nbsp;
-                        <FontAwesomeIcon icon={faQuestionCircle} />
-                      </span>
-                    </Tooltip>
-                  </ReconnectPanel>
-                  <ReconnectPanel>
+            let accountString = `${
+              selectedAccounts.length
+            } Accounts: ${selectedAccounts
+              .map(account => account.name)
+              .join(', ')}`;
+            return (
+              <ReconnectContainer>
+                <ReconnectPanel>
+                  <ConnectionUpdate
+                    authorization={authorization}
+                    type={authorization.type}
+                    hideTitle={true}
+                    name="Reconnect"
+                    align="left"
+                  />
+                </ReconnectPanel>
+                <ReconnectPanel>
+                  <Tooltip label={accountString}>
                     <span>
-                      <Title>Brokerage:</Title>&nbsp;
-                      {authorization.brokerage.name}
+                      <Title>Name:</Title>&nbsp;{authorization.name}&nbsp;
+                      <FontAwesomeIcon icon={faQuestionCircle} />
                     </span>
-                  </ReconnectPanel>
-                </ReconnectContainer>
-              );
-            })}
-          </InnerShadowBox>
+                  </Tooltip>
+                </ReconnectPanel>
+                <ReconnectPanel>
+                  <span>
+                    <Title>Brokerage:</Title>&nbsp;
+                    {authorization.brokerage.name}
+                  </span>
+                </ReconnectPanel>
+              </ReconnectContainer>
+            );
+          })}
         </ErrorContainer>
       );
     }

@@ -142,7 +142,7 @@ export const Edit = styled.button`
 
 //subsetting
 export const SubSetting = styled.div`
-  margin-top: 10px;
+  margin-top: 14px;
   margin-bottom: 10px;
 `;
 
@@ -165,7 +165,7 @@ export const WarningBox = styled.div`
 export const DisabledBox = styled.div`
   opacity: 0.7;
   font-size: 0.9em;
-  padding: 10px 0px 10px;
+  padding: 5px 0px 10px;
   line-height: 1.3em;
 `;
 
@@ -176,7 +176,7 @@ export const ErrorMessage = styled.div`
 `;
 
 export const OptionsTitle = styled.span`
-  font-weight: 700;
+  font-weight: 600;
   margin-right: 10px;
 `;
 

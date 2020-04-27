@@ -42,9 +42,6 @@ const StyledAside = styled.aside`
       font-weight: 600;
     }
   }
-  div {
-    margin-bottom: 12px;
-  }
 `;
 const GroupContainer = styled.div`
   border-top: 1px solid rgba(255, 255, 255, 0.23);
@@ -55,7 +52,8 @@ const GroupContainer = styled.div`
   font-weight: 500;
   a {
     font-size: 16px;
-    padding: 13px 15px 13px 20px;
+    padding: 10px 15px 10px 20px;
+    margin: 3px 0 3px;
     font-weight: 300;
   }
 `;
