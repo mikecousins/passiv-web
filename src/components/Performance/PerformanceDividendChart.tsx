@@ -1,10 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PerformanceChart from './PerformanceChart';
-import {
-  selectDividends,
-  selectSelectedTimeframe,
-} from '../../selectors/performance';
+import { selectDividends } from '../../selectors/performance';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tooltip from '../Tooltip';
@@ -12,7 +9,6 @@ import { H3 } from '../../styled/GlobalElements';
 
 export const PerformanceDividendChart = () => {
   const dividendData = useSelector(selectDividends);
-  const timeframe = useSelector(selectSelectedTimeframe);
 
   let data = React.useMemo(
     () => [
@@ -26,7 +22,7 @@ export const PerformanceDividendChart = () => {
         color: '#04a286',
       },
     ],
-    [dividendData, timeframe],
+    [dividendData],
   );
   const series = React.useMemo(() => ({ type: 'bar' }), []);
 
