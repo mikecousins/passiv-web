@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import {
   selectTotalEquityTimeframe,
   selectContributionTimeframeCumulative,
+  selectBadTickers,
 } from '../../selectors/performance';
 import { ToggleButton, StateText } from '../../styled/ToggleButton';
 import {
@@ -27,11 +28,26 @@ const ZoomToggle = styled.span`
   padding-left: 10px;
 `;
 
+const BadTickers = styled.span`
+  float: right;
+  font-weight: normal;
+  font-size: 14px;
+`;
+
 export const PerformanceTotalValueChart = () => {
   let totalEquityData = useSelector(selectTotalEquityTimeframe);
   let contributionCumulativeData = useSelector(
     selectContributionTimeframeCumulative,
   );
+  const badTickers = useSelector(selectBadTickers);
+  const showBadTickers =
+    badTickers !== undefined && badTickers !== null && badTickers.length > 0;
+  let badTickerString = '';
+  if (showBadTickers) {
+    badTickerString =
+      'The following assets may have been exlcuded due to difficulties retrieving accurate price history: ' +
+      badTickers?.join(', ');
+  }
 
   const [chartStartsAt0, setChartMin] = useState(true);
   let chartMin: number | undefined = 0;
@@ -108,12 +124,26 @@ export const PerformanceTotalValueChart = () => {
 
   return (
     <React.Fragment>
-      <Tooltip label="The total estimated value of your accounts (may exclude mutual funds, options, and investements from unsupported exchanges)">
-        <H3>
-          Total Value{' '}
-          <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 13 }} />
-        </H3>
-      </Tooltip>
+      <H3>
+        <Tooltip label="The total estimated value of your accounts (may exclude mutual funds, options, and investements from unsupported exchanges)">
+          <>
+            Total Value{' '}
+            <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 13 }} />
+          </>
+        </Tooltip>
+        {showBadTickers && (
+          <Tooltip label={badTickerString}>
+            <BadTickers>
+              Some assets have been excluded{' '}
+              <FontAwesomeIcon
+                icon={faQuestionCircle}
+                style={{ fontSize: 11 }}
+              />
+            </BadTickers>
+          </Tooltip>
+        )}
+      </H3>
+
       <PerformanceChart
         className="equity"
         data={data}
