@@ -70,6 +70,9 @@ const TimeContainer = styled.div`
   margin: 0 auto 20px;
   display: flex;
   box-shadow: 0 4px 12px 2px rgba(2, 2, 2, 0.26);
+  position: sticky;
+  top: 88px;
+  z-index: 100;
   @media (max-width: 440px) {
     width: 100%;
   }
