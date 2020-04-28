@@ -11,8 +11,8 @@ const ColorBox = styled.div``;
 
 const IndentColorBox = styled(ColorBox)`
   a {
-    margin-top: -8px;
-    padding: 10px 15px 10px 20px;
+    padding: 8px 15px 6px 20px;
+    margin: -4px 0 6px;
   }
 `;
 

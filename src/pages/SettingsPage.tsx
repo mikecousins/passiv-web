@@ -1,24 +1,26 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import CredentialsManager from '../components/CredentialsManager';
-import SubscriptionManager from '../components/SubscriptionManager';
-import ConnectionsManager from '../components/ConnectionsManager';
-import NotificationsManager from '../components/NotificationsManager';
-import AccountsManager from '../components/AccountsManager';
+import CredentialsManager from '../components/SettingsManager/CredentialsManager';
+import GeneralManager from '../components/SettingsManager/GeneralManager';
+import SubscriptionManager from '../components/SettingsManager/SubscriptionManager';
+import ConnectionsManager from '../components/SettingsManager/ConnectionsManager';
+import NotificationsManager from '../components/SettingsManager/NotificationsManager';
+import AccountsManager from '../components/SettingsManager/AccountsManager';
 import DemoNotes from '../components/DemoNotes';
 import { selectIsDemo } from '../selectors';
 import { useSelector } from 'react-redux';
 
-export const Container2Column = styled.div`
+export const Flex = styled.div`
   @media (min-width: 900px) {
     display: flex;
     justify-content: space-between;
-    > div:first-of-type {
-      width: 50%;
-      margin-right: 30px;
+    flex-wrap: wrap;
+    > div {
+      width: 49%;
+      margin-bottom: 2%;
     }
-    > div:last-of-type {
-      width: 50%;
+    h2 {
+      margin-bottom: 15px;
     }
   }
 `;
@@ -27,13 +29,12 @@ const SettingsPage = () => {
   const isDemo = useSelector(selectIsDemo);
   return (
     <React.Fragment>
-      <Container2Column>
+      <Flex>
         <CredentialsManager />
-        <div>
-          <NotificationsManager />
-          {isDemo ? <DemoNotes /> : <SubscriptionManager />}
-        </div>
-      </Container2Column>
+        <NotificationsManager />
+        {isDemo ? <DemoNotes /> : <SubscriptionManager />}
+        <GeneralManager />
+      </Flex>
       <ConnectionsManager />
       <AccountsManager />
     </React.Fragment>

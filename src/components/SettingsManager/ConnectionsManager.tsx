@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { selectAuthorizations, selectIsDemo } from '../selectors';
-import { selectUserPermissions } from '../selectors/subscription';
-import AuthorizationPicker from './AuthorizationPicker';
-import Connections from './Connections';
-import { Button } from '../styled/Button';
-import ShadowBox from '../styled/ShadowBox';
-import { H2 } from '../styled/GlobalElements';
+import { selectAuthorizations, selectIsDemo } from '../../selectors';
+import { selectUserPermissions } from '../../selectors/subscription';
+import AuthorizationPicker from './../AuthorizationPicker';
+import Connections from './../Connections';
+import { Button } from '../../styled/Button';
+import ShadowBox from '../../styled/ShadowBox';
+import { H2 } from '../../styled/GlobalElements';
 
 const ConnectionsManager = () => {
   const [creatingNewConnection, setCreatingNewConnection] = useState(false);

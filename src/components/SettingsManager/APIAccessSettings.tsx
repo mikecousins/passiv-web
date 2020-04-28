@@ -9,21 +9,15 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { selectSettings, selectIsDemo } from '../selectors';
-import { selectCanUseAPI } from '../selectors/subscription';
-import { loadSettings } from '../actions';
-import { postData, deleteData } from '../api';
+import { selectSettings, selectIsDemo } from '../../selectors';
+import { selectCanUseAPI } from '../../selectors/subscription';
+import { loadSettings } from '../../actions';
+import { postData, deleteData } from '../../api';
 import styled from '@emotion/styled';
-import { ToggleButton, StateText } from '../styled/ToggleButton';
-import { A, OptionsTitle, DisabledBox } from '../styled/GlobalElements';
-import { InputTarget } from '../styled/Form';
+import { ToggleButton, StateText } from '../../styled/ToggleButton';
+import { A, OptionsTitle, DisabledBox } from '../../styled/GlobalElements';
+import { InputTarget } from '../../styled/Form';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-
-const DividingLine = styled.div`
-  margin-top: 10px;
-  padding-top: 10px;
-  margin-bottom: 10px;
-`;
 
 const WarningBox = styled.div`
   background-color: #fafcd5;
@@ -115,7 +109,7 @@ const APIAccessSettings = () => {
   const disabled = !(canUseAPI || settings.api_enabled) || isDemo;
 
   return (
-    <DividingLine>
+    <>
       <OptionsTitle>Allow API Access:</OptionsTitle>
       <ToggleButton onClick={updateAccess} disabled={disabled}>
         {settings.api_enabled ? (
@@ -197,7 +191,7 @@ const APIAccessSettings = () => {
           generate a new one which will invalidate the old token.
         </WarningBox>
       )}
-    </DividingLine>
+    </>
   );
 };
 

@@ -3,21 +3,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { selectSettings } from '../selectors';
-import { selectCanReceiveDriftNotifications } from '../selectors/subscription';
-import { loadSettings } from '../actions';
-import { putData } from '../api';
-import { ToggleButton, StateText } from '../styled/ToggleButton';
-import Number from './Number';
-import { NumericTextInput } from '../styled/Form';
-import { SmallButton } from '../styled/Button';
+import { selectSettings } from '../../selectors';
+import { selectCanReceiveDriftNotifications } from '../../selectors/subscription';
+import { loadSettings } from '../../actions';
+import { putData } from '../../api';
+import { ToggleButton, StateText } from '../../styled/ToggleButton';
+import Number from './../Number';
+import { NumericTextInput } from '../../styled/Form';
+import { SmallButton } from '../../styled/Button';
 import {
   Edit,
   SubSetting,
   DisabledBox,
   OptionsTitle,
-} from '../styled/GlobalElements';
-import { Settings } from '../types/settings';
+} from '../../styled/GlobalElements';
+import { Settings } from '../../types/settings';
 
 const DriftNotificationSettings = () => {
   const settings = useSelector(selectSettings);

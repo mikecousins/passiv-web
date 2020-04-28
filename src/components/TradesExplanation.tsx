@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { BulletUL, H2, A } from '../styled/GlobalElements';
+import { BulletUL, H3, A } from '../styled/GlobalElements';
 import { Settings } from '../types/groupInfo';
 import { Account } from '../types/account';
 import styled from '@emotion/styled';
@@ -27,6 +27,9 @@ const TopStyle = styled.div`
   h3,
   ul {
     color: #232225;
+  }
+  h3 {
+    margin-top: 20px;
   }
 `;
 
@@ -119,7 +122,7 @@ const TradesExplanation = ({
 
   const content = (
     <React.Fragment>
-      {!container && <H2>Explanation</H2>}
+      {!container && <H3>Explanation</H3>}
       <BulletULm>
         {summary.map((item, index) => (
           <li key={index}>{item}</li>
