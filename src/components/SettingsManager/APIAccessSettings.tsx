@@ -124,6 +124,12 @@ const APIAccessSettings = () => {
           </React.Fragment>
         )}
       </ToggleButton>
+      {!settings.api_enabled && (
+        <DisabledBox>
+          You can use Passiv's API to write your own applications. Activate here
+          to get started and access documentation.
+        </DisabledBox>
+      )}
       {disabled && (
         <DisabledBox>
           Connecting to Passiv's API is an Elite feature. Subscribe to generate
