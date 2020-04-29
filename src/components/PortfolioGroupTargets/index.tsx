@@ -18,6 +18,7 @@ import {
   P,
   ErrorMessage,
   OverlayContainer,
+  DisabledBox,
 } from '../../styled/GlobalElements';
 import { postData } from '../../api';
 import styled from '@emotion/styled';
@@ -92,9 +93,17 @@ const PortfolioGroupTargets = () => {
       id: 'IMPORT',
       name: 'Import your current holdings as a target',
       button: (
-        <Button onClick={() => importTarget()} disabled={importDisabled()}>
-          Import
-        </Button>
+        <React.Fragment>
+          <Button onClick={() => importTarget()} disabled={importDisabled()}>
+            Import
+          </Button>
+          {importDisabled() && (
+            <DisabledBox>
+              Importing a target is not available because there are no open
+              positions in your account.
+            </DisabledBox>
+          )}
+        </React.Fragment>
       ),
     },
     {
