@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import RebalanceWidget from './RebalanceWidget';
-import { H2, H3, Title } from '../styled/GlobalElements';
+import { H2, H3, Title, P, BulletUL, A } from '../styled/GlobalElements';
 import {
   TradesContainer,
   TradeType,
@@ -21,12 +21,27 @@ import { selectAccounts } from '../selectors/accounts';
 import TradesExplanation from './TradesExplanation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import styled from '@emotion/styled';
 
 type Props = {
   trades: any;
   groupId: string;
   onClose?: () => void;
 };
+
+const NoTradesNotice = styled.div`
+  color: #232225;
+  padding-top: 20px;
+`;
+
+const SectionHeader = styled(H2)`
+  font-size: 20px;
+`;
+
+const AccuracyBullets = styled(BulletUL)`
+  font-size: 18px;
+  padding-top: 10px;
+`;
 
 export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
   const accounts = useSelector(selectAccounts);
@@ -163,7 +178,37 @@ export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
       </TradesContainer>
     );
   } else {
-    return null;
+    return (
+      <TradesContainer>
+        <H2>Trades</H2>
+        <NoTradesNotice>
+          <P>
+            There are currently no trades available on your account. This means
+            that this group is as close as possible to your target, taking into
+            account the rebalancing rules set for this group.
+          </P>
+          <SectionHeader>Other ways to increase accuracy</SectionHeader>
+          <AccuracyBullets>
+            <li>Deposit cash into your account.</li>
+            <li>
+              Perform a full rebalance by selling overweight assets.{' '}
+              <A
+                href="https://getpassiv.com/help/tutorials/how-to-allow-selling-to-rebalance"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Learn How
+              </A>
+            </li>
+          </AccuracyBullets>
+        </NoTradesNotice>
+        <TradesExplanation
+          settings={settings}
+          accounts={accounts}
+          container={true}
+        />
+      </TradesContainer>
+    );
   }
 };
 
