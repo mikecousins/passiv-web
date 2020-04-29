@@ -7,7 +7,7 @@ import { selectSettings } from '../../selectors';
 import { loadSettings } from '../../actions';
 import { putData } from '../../api';
 import { ToggleButton, StateText } from '../../styled/ToggleButton';
-import { OptionsTitle } from '../../styled/GlobalElements';
+import { OptionsTitle, DisabledBox } from '../../styled/GlobalElements';
 
 const CashNotificationSettings = () => {
   const settings = useSelector(selectSettings);
@@ -34,22 +34,26 @@ const CashNotificationSettings = () => {
   }
 
   return (
-    <>
-    <OptionsTitle>Cash Notifications:</OptionsTitle>
-    <ToggleButton onClick={updateNotification}>
-      {settings.receive_cash_notifications ? (
-        <React.Fragment>
-          <FontAwesomeIcon icon={faToggleOn} />
-          <StateText>on</StateText>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <FontAwesomeIcon icon={faToggleOff} />
-          <StateText>off</StateText>
-        </React.Fragment>
-      )}
-    </ToggleButton>
-    </>
+    <React.Fragment>
+      <OptionsTitle>Cash Notifications:</OptionsTitle>
+      <ToggleButton onClick={updateNotification}>
+        {settings.receive_cash_notifications ? (
+          <React.Fragment>
+            <FontAwesomeIcon icon={faToggleOn} />
+            <StateText>on</StateText>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <FontAwesomeIcon icon={faToggleOff} />
+            <StateText>off</StateText>
+          </React.Fragment>
+        )}
+      </ToggleButton>
+      <DisabledBox>
+        Receive an email notification when new cash or dividends arrive in your
+        account.
+      </DisabledBox>
+    </React.Fragment>
   );
 };
 

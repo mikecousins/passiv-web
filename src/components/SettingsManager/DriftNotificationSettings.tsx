@@ -152,14 +152,16 @@ const DriftNotificationSettings = () => {
           )}
         </React.Fragment>
       )}
+      {!disabled && (
+        <DisabledBox>
+          Receive an email notification when your portfolio accuracy falls too
+          low.
+        </DisabledBox>
+      )}
     </React.Fragment>
   );
 
-  // if (disabled) {
-  //   return <DisabledBox>{contents}</DisabledBox>;
-  // } else {
-  return <div>{contents}</div>;
-  // }
+  return contents;
 };
 
 export default DriftNotificationSettings;
