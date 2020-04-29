@@ -46,6 +46,7 @@ const AccuracyBullets = styled(BulletUL)`
 export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
   const accounts = useSelector(selectAccounts);
   const settings = useSelector(selectCurrentGroupSettings);
+  console.log('settings', settings);
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
   const [tradesCache, setTradesCache] = useState(null);
 
@@ -189,17 +190,19 @@ export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
           </P>
           <SectionHeader>Other ways to increase accuracy</SectionHeader>
           <AccuracyBullets>
-            <li>Deposit cash into your account.</li>
-            <li>
-              Perform a full rebalance by selling overweight assets.{' '}
-              <A
-                href="https://getpassiv.com/help/tutorials/how-to-allow-selling-to-rebalance"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Learn How
-              </A>
-            </li>
+            <li>Deposit cash into your brokerage account.</li>
+            {settings != null && settings.buy_only && (
+              <li>
+                Perform a full rebalance by selling overweight assets.{' '}
+                <A
+                  href="https://getpassiv.com/help/tutorials/how-to-allow-selling-to-rebalance"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Learn How
+                </A>
+              </li>
+            )}
           </AccuracyBullets>
         </NoTradesNotice>
         <TradesExplanation
