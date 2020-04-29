@@ -17,7 +17,14 @@ import APIAccessSettings from './APIAccessSettings';
 
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../../styled/Form';
-import { H2, Edit, Span, OptionsTitle, P } from '../../styled/GlobalElements';
+import {
+  H2,
+  Edit,
+  Span,
+  OptionsTitle,
+  P,
+  DisabledBox,
+} from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 
@@ -146,7 +153,6 @@ const GeneralManager = () => {
       });
   };
 
-
   let error2FAMessage = null;
   if (error2FA != null) {
     error2FAMessage = <ErrorMessage>{error2FA}</ErrorMessage>;
@@ -178,6 +184,10 @@ const GeneralManager = () => {
           >
             Enable
           </Edit>
+          <DisabledBox>
+            Protect your account by enabling 2-factor authentication with your
+            phone.
+          </DisabledBox>
         </React.Fragment>
       );
     } else {
@@ -247,9 +257,9 @@ const GeneralManager = () => {
           <OptionsTitle>SMS 2FA:</OptionsTitle> {sms_2fa}
         </InputContainer>
       )}
-        <BorderContainer>
-          <APIAccessSettings />
-        </BorderContainer>
+      <BorderContainer>
+        <APIAccessSettings />
+      </BorderContainer>
       {limitOrdersEnabled && (
         <BorderContainer>
           <LimitOrdersSettings />
