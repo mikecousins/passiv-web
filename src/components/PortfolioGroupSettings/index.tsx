@@ -25,6 +25,8 @@ export const PortfolioGroupSettings = () => {
   const featureCashManagement = useSelector(selectCashManagementFeature);
   const dispatch = useDispatch();
 
+  const groupAccounts = accounts.filter(a => a.portfolio_group === groupId);
+
   const updateSettings = () => {
     if (settings) {
       putData(`/api/v1/portfolioGroups/${groupId}/settings/`, settings)
@@ -77,7 +79,7 @@ export const PortfolioGroupSettings = () => {
         </React.Fragment>
       )}
       {featureCashManagement && <CashManagement />}
-      <TradesExplanation settings={settings} accounts={accounts} />
+      <TradesExplanation settings={settings} accounts={groupAccounts} />
     </ShadowBox>
   );
 };

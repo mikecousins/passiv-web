@@ -46,9 +46,10 @@ const AccuracyBullets = styled(BulletUL)`
 export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
   const accounts = useSelector(selectAccounts);
   const settings = useSelector(selectCurrentGroupSettings);
-  console.log('settings', settings);
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
   const [tradesCache, setTradesCache] = useState(null);
+
+  const groupAccounts = accounts.filter(a => a.portfolio_group === groupId);
 
   const triggerTradesSubmitted = () => {
     setTradesSubmitted(true);
@@ -173,7 +174,7 @@ export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
         />
         <TradesExplanation
           settings={settings}
-          accounts={accounts}
+          accounts={groupAccounts}
           container={true}
         />
       </TradesContainer>
@@ -207,7 +208,7 @@ export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
         </NoTradesNotice>
         <TradesExplanation
           settings={settings}
-          accounts={accounts}
+          accounts={groupAccounts}
           container={true}
         />
       </TradesContainer>
