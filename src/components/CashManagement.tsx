@@ -170,7 +170,6 @@ const CashManagement = () => {
   const dispatch = useDispatch();
 
   const deleteRestriction = (restriction: CashRestrictionType) => {
-    console.log('deleted restriction', restriction.id);
     deleteData(
       `/api/v1/accounts/${restriction.account}/cashRestrictions/${restriction.id}/`,
     )

@@ -53,9 +53,6 @@ const TradesExplanation = ({
   const getType = (typeId: string) =>
     restrictionTypes.find(r => r.id === typeId);
 
-  console.log('settings', settings);
-  console.log('accounts', accounts);
-
   const toggleShowExplanation = () => {
     setShowExplanation(!showExplanation);
   };

@@ -50,7 +50,6 @@ const ReconnectMessage = () => {
             the button below to reconnect.
           </P>
           {disabledAuthorizations.map(authorization => {
-            console.log('auth', authorization);
             let selectedAccounts = accounts.filter(
               account => account.brokerage_authorization === authorization.id,
             );
