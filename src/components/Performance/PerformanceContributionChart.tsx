@@ -94,13 +94,13 @@ export const PerformanceContributionChart = () => {
   );
 };
 
-const dtfMonth = new Intl.DateTimeFormat('en', { month: 'short' });
+export const dtfMonth = new Intl.DateTimeFormat('en', { month: 'short' });
 
-const parseDate = (dateString: string): number => {
+export const parseDate = (dateString: string): number => {
   return Date.parse(dateString);
 };
 
-const formatDate = (dateString: string, timeframe: string): string => {
+export const formatDate = (dateString: string, timeframe: string): string => {
   const date = new Date(parseDate(dateString));
   if (date.getDate() > 20) {
     date.setDate(1);

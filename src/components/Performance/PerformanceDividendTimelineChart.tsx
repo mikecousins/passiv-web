@@ -1,6 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PerformanceChart from './PerformanceChart';
+import {
+  dtfMonth,
+  parseDate,
+  formatDate,
+} from './PerformanceContributionChart';
 import { DividendsAtDate } from '../../types/performance';
 import {
   selectDividendTimeline,
@@ -130,30 +135,6 @@ const getData = (
       });
   });
   return data;
-};
-
-const dtfMonth = new Intl.DateTimeFormat('en', { month: 'short' });
-
-const parseDate = (dateString: string): number => {
-  return Date.parse(dateString);
-};
-
-const formatDate = (dateString: string, timeframe: string): string => {
-  const date = new Date(parseDate(dateString));
-  if (date.getDate() > 20) {
-    date.setDate(1);
-    if (date.getMonth() < 12) {
-      date.setMonth(date.getMonth() + 1);
-    } else {
-      date.setMonth(1);
-      date.setFullYear(date.getFullYear() + 1);
-    }
-  }
-  if (timeframe === 'ALL') {
-    return date.getFullYear().toString();
-  } else {
-    return dtfMonth.format(date);
-  }
 };
 
 const getRandomColour = () => {
