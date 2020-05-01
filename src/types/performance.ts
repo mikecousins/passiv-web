@@ -43,7 +43,24 @@ export type PerformanceData = {
   dividendIncome1Y: number;
   dividendIncomeALL: number;
   dividendIncomeYTD: number;
+  dividendTimeline1Y: DividendsAtDate[];
+  dividendTimelineYTD: DividendsAtDate[];
+  dividendTimelineALL: DividendsAtDate[];
+  monthlyDividends1Y: number;
+  monthlyDividendsYTD: number;
+  monthlyDividendsALL: number;
   badTickers: string[];
+};
+
+export type DividendsAtDate = {
+  date: string;
+  dividends: TickerOnlyDividend[];
+};
+
+export type TickerOnlyDividend = {
+  symbol: string;
+  amount: number;
+  currency: string;
 };
 
 export type Dividends = {

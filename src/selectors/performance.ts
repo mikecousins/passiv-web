@@ -6,6 +6,7 @@ import {
   PerformanceData,
   AdjustedCostBasis,
   Dividends,
+  DividendsAtDate,
 } from '../types/performance';
 import { selectState } from '.';
 import {
@@ -73,6 +74,40 @@ export const selectACBNeedData = createSelector<
     });
   },
 );
+
+export const selectDividendTimeline = createSelector<
+  AppState,
+  AppState,
+  string,
+  DividendsAtDate[] | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.dividendTimeline1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.dividendTimelineYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.dividendTimelineALL;
+  } else {
+    return state.performanceAll?.data?.dividendTimeline1Y;
+  }
+});
+
+export const selectMonthlyDividends = createSelector<
+  AppState,
+  AppState,
+  string,
+  number | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.monthlyDividends1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.monthlyDividendsYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.monthlyDividendsALL;
+  } else {
+    return state.performanceAll?.data?.monthlyDividends1Y;
+  }
+});
 
 export const selectDividends = createSelector<
   AppState,
