@@ -1,11 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PerformanceChart from './PerformanceChart';
-import {
-  dtfMonth,
-  parseDate,
-  formatDate,
-} from './PerformanceContributionChart';
+import { parseDate, formatDate } from './PerformanceContributionChart';
 import { DividendsAtDate } from '../../types/performance';
 import {
   selectDividendTimeline,
@@ -13,14 +9,12 @@ import {
 } from '../../selectors/performance';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { toDollarString } from './Performance';
 import Tooltip from '../Tooltip';
 import { H3 } from '../../styled/GlobalElements';
 
 export const PerformanceContributionChart = () => {
   const dividendTimeline = useSelector(selectDividendTimeline);
   const timeframe = useSelector(selectSelectedTimeframe);
-  const dividendTimelineData = getData(dividendTimeline, timeframe);
 
   let data = React.useMemo(
     () =>
@@ -58,17 +52,6 @@ export const PerformanceContributionChart = () => {
     </React.Fragment>
   );
 };
-
-class DividendAtDate {
-  symbol: string;
-  amount: number;
-  date: string;
-  constructor(symbol: string, amount: number, date: string) {
-    this.symbol = symbol;
-    this.amount = amount;
-    this.date = date;
-  }
-}
 
 const getData = (
   dividendTimeline: DividendsAtDate[] | undefined,
