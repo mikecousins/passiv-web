@@ -19,7 +19,7 @@ const MarginBottom = styled.div`
 export const PerformanceMonthlyDividends = () => {
   const monthlyDividends = useSelector(selectMonthlyDividends);
 
-  if (!monthlyDividends) {
+  if (!monthlyDividends && monthlyDividends !== 0) {
     return (
       <MarginBottom>
         <FontAwesomeIcon icon={faSpinner} spin />

@@ -91,7 +91,7 @@ const getData = (
   // Add actual data to lists
   dividendTimeline.forEach(divsAtDate => {
     if (divsAtDate.dividends.length === 0) {
-      data.push({ label: '', data: [[divsAtDate.date, 0]] });
+      data.push({ label: ' ', data: [[divsAtDate.date, 0]] });
     }
     divsAtDate.dividends.forEach(divAtDate => {
       const filteredData = data.filter(
