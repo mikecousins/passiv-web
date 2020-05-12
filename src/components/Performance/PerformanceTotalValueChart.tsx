@@ -45,7 +45,7 @@ export const PerformanceTotalValueChart = () => {
   let badTickerString = '';
   if (showBadTickers) {
     badTickerString =
-      'The following assets may have been exlcuded due to difficulties retrieving accurate price history: ' +
+      'The following assets may have been excluded due to difficulties retrieving accurate price history: ' +
       badTickers?.join(', ');
   }
 
