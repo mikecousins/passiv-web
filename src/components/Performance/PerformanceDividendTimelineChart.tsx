@@ -38,7 +38,7 @@ export const PerformanceContributionChart = () => {
     <React.Fragment>
       <Tooltip label="The dividends you have received during the selected timeframe">
         <H3>
-          Dividends{' '}
+          Dividend History{' '}
           <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 13 }} />
         </H3>
       </Tooltip>
