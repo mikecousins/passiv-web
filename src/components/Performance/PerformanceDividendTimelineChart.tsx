@@ -126,7 +126,6 @@ const getRandomColour = () => {
   const b = parseInt((Math.random() * 100 + 40).toString()).toString(16);
 
   const hexColour = '#' + r + g + b;
-  console.log(hexColour);
 
   return hexColour;
 };
