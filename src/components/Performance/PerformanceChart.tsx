@@ -18,6 +18,9 @@ export const ChartBox = styled.div`
 export const Label = styled.div`
   padding-top: 4px;
   padding-bottom: 4px;
+  &.selected {
+    font-weight: bold;
+  }
 `;
 
 export const DateString = styled.span`
@@ -26,7 +29,9 @@ export const DateString = styled.span`
 `;
 
 export const DollarString = styled.span`
-  font-weight: bold;
+  &.selected {
+    font-weight: bold;
+  }
 `;
 
 type Props = {
@@ -80,29 +85,45 @@ export const CustomTooltip: FunctionComponent<Props2> = ({
   if (datum === undefined) {
     return null;
   } else {
+    const showAll = datum.group.length < 3;
+    let allDatums = datum.group;
+    if (!showAll) {
+      allDatums = allDatums.filter((x: any) => x.secondary !== 0);
+    }
+
     return (
       <div>
         <DateString>{formatDate(datum?.primary).toString()}</DateString>
         <br />
-        <Label>
-          <svg height="16" width="20">
-            <circle
-              cx="8"
-              cy="8"
-              r="7"
-              stroke="white"
-              strokeWidth="1"
-              fill={getStyle(datum).fill}
-            />
-          </svg>
-          {datum?.seriesLabel}
-        </Label>
-        <DollarString>
-          $
-          {toDollarString(
-            datum?.secondary < 0 ? datum?.secondary * -1 : datum?.secondary,
-          )}
-        </DollarString>
+
+        {allDatums.map((element: any) => {
+          const selected = datum.seriesID === element.seriesID;
+          return (
+            <React.Fragment>
+              <Label className={selected ? 'selected' : 'unselected'}>
+                <svg height="16" width="20">
+                  <circle
+                    cx="8"
+                    cy="8"
+                    r="7"
+                    stroke="white"
+                    strokeWidth={selected ? '2' : '1'}
+                    fill={getStyle(element).fill}
+                  />
+                </svg>
+                {element?.seriesLabel}
+              </Label>
+              <DollarString className={selected ? 'selected' : 'unselected'}>
+                $
+                {toDollarString(
+                  element?.secondary < 0
+                    ? element?.secondary * -1
+                    : element?.secondary,
+                )}
+              </DollarString>
+            </React.Fragment>
+          );
+        })}
       </div>
     );
   }
