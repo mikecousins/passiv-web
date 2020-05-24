@@ -361,6 +361,9 @@ const App = () => {
             {(showSecureApp || showOnboardingApp) && (
               <Route path={prefixPath('/settings')} component={SettingsPage} />
             )}
+            {(showSecureApp || showOnboardingApp) && (
+              <Route path={prefixPath('/coupon')} component={CouponPage} />
+            )}
             {showOnboardingApp && (
               <Route path="*">
                 <Redirect to={prefixPath('/welcome')} />
@@ -388,9 +391,6 @@ const App = () => {
                 path={prefixPath('/group/:groupId')}
                 component={GroupPage}
               />
-            )}
-            {showSecureApp && (
-              <Route path={prefixPath('/coupon')} component={CouponPage} />
             )}
             {showSecureApp && (
               <Route path={prefixPath('/share')} component={SharePage} />
