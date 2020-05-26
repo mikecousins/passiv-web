@@ -89,6 +89,7 @@ export const PerformanceContributionChart = () => {
         data={data} //{showWithdrawals ? data : dataWithoutWithdrawals}
         axes={axes}
         series={series}
+        displayTotal={true}
       />
     </React.Fragment>
   );

@@ -149,6 +149,7 @@ export const PerformanceTotalValueChart = () => {
         data={data}
         axes={axes}
         series={series}
+        displayTotal={false}
       />
       {zoomScale}
     </React.Fragment>

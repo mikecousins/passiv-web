@@ -48,6 +48,7 @@ export const PerformanceDividendChart = () => {
         data={data}
         axes={axes}
         series={series}
+        displayTotal={false}
       />
     </React.Fragment>
   );

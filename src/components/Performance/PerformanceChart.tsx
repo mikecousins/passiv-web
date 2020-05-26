@@ -23,6 +23,13 @@ export const Label = styled.div`
   }
 `;
 
+export const Total = styled.div`
+  padding-top: 6px;
+  font-size: 11pt;
+  font-weight: bold;
+  color: white;
+`;
+
 export const DateString = styled.span`
   font-weight: bold;
   text-align: center; //not working for some reason
@@ -39,6 +46,7 @@ type Props = {
   axes: any;
   series: any;
   className: string;
+  displayTotal: boolean;
 };
 
 export const PerformanceChart: FunctionComponent<Props> = ({
@@ -46,11 +54,14 @@ export const PerformanceChart: FunctionComponent<Props> = ({
   axes,
   series,
   className,
+  displayTotal,
 }) => {
   const tooltip = React.useMemo(
     () => ({
       render: ({ datum, primaryAxis, getStyle }: Props2) => {
-        return <CustomTooltip {...{ getStyle, primaryAxis, datum }} />;
+        return (
+          <CustomTooltip {...{ getStyle, primaryAxis, datum, displayTotal }} />
+        );
       },
     }),
     [],
@@ -75,21 +86,28 @@ type Props2 = {
   getStyle: any;
   primaryAxis: any;
   datum: any;
+  displayTotal: boolean;
 };
 
 export const CustomTooltip: FunctionComponent<Props2> = ({
   getStyle,
   primaryAxis,
   datum,
+  displayTotal,
 }) => {
   if (datum === undefined) {
     return null;
   } else {
     const showAll = datum.group.length < 3;
     let allDatums = datum.group;
+
     if (!showAll) {
       allDatums = allDatums.filter((x: any) => x.secondary !== 0);
     }
+    let total = 0;
+    datum.group.forEach((element: any) => {
+      total += element.secondary;
+    });
 
     return (
       <div>
@@ -124,6 +142,7 @@ export const CustomTooltip: FunctionComponent<Props2> = ({
             </React.Fragment>
           );
         })}
+        {displayTotal && <Total>Total: {toDollarStringWithSigns(total)}</Total>}
       </div>
     );
   }
@@ -139,6 +158,13 @@ const formatDate = (date: Date) => {
       dtfMonth.format(date) + ' ' + date.getDate() + ', ' + date.getFullYear()
     );
   }
+};
+
+const toDollarStringWithSigns = (total: any) => {
+  const dollarString = toDollarString(total);
+  return dollarString[0] !== '-'
+    ? '$' + dollarString
+    : '-$' + dollarString.slice(1);
 };
 
 export default PerformanceChart;

@@ -48,6 +48,7 @@ export const PerformanceContributionChart = () => {
         data={data}
         axes={axes}
         series={series}
+        displayTotal={true}
       />
     </React.Fragment>
   );
