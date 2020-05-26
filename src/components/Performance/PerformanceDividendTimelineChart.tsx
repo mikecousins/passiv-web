@@ -79,6 +79,9 @@ const getData = (
     if (!formattedTimes.includes(formatted)) {
       formattedTimes.push(formatted);
       timeStrings.push(divsAtDate.date);
+    } else {
+      formattedTimes.push(formatted + ' ');
+      timeStrings.push(divsAtDate.date);
     }
   });
   tickers.forEach(ticker => {
@@ -114,8 +117,14 @@ const getData = (
     d.data = d.data
       .sort((a: any, b: any) => parseDate(a[0]) - parseDate(b[0]))
       .map((a: any) => {
+        let wrongYear =
+          new Date(a[0]).getFullYear() !== new Date().getFullYear();
         let dateFormatted = formatDate(a[0], timeframe);
-        return [dateFormatted, a[1]];
+        // Dividend chart has 13 months, to ensure first and last month get
+        // treated as seperate in stack chart, add a space to the earlier month's string
+        return timeframe === '1Y' && wrongYear
+          ? [dateFormatted + ' ', a[1]]
+          : [dateFormatted, a[1]];
       });
   });
   return data;
