@@ -132,12 +132,7 @@ export const CustomTooltip: FunctionComponent<Props2> = ({
                 {element?.seriesLabel}
               </Label>
               <DollarString className={selected ? 'selected' : 'unselected'}>
-                $
-                {toDollarString(
-                  element?.secondary < 0
-                    ? element?.secondary * -1
-                    : element?.secondary,
-                )}
+                {toDollarStringWithSigns(element?.secondary)}
               </DollarString>
             </React.Fragment>
           );
