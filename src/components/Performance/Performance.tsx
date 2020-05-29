@@ -11,6 +11,7 @@ import PerformanceDividendChart from './PerformanceDividendChart';
 import PerformanceMonthlyDividends from './PerformanceMonthlyDividends';
 import PerformanceDividendTimelineChart from './PerformanceDividendTimelineChart';
 import PerformanceDividendIncome from './PerformanceDividendIncome';
+import AccountsSelect from './AccountsSelect';
 import { setSelectedTimeframe } from '../../actions/performance';
 import { selectSelectedTimeframe } from '../../selectors/performance';
 import ShadowBox from '../../styled/ShadowBox';
@@ -157,6 +158,7 @@ export const Performance = () => {
         Open Beta: Help us improve our tools by{' '}
         <A href="mailto:reporting@getpassiv.com">sharing feedback</A>
       </BetaBanner>
+      <AccountsSelect />
       <TimeContainer>
         <TimespanSelector
           timeframe={'1Y'}
