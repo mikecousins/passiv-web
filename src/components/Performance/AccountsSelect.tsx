@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -8,7 +8,8 @@ import {
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
-import MultiSelect from "react-multi-select-component";
+import { selectAccounts } from '../../selectors/accounts';
+import MultiSelect from 'react-multi-select-component';
 
 const SelectContainer = styled.div`
   position: absolute;
@@ -33,12 +34,12 @@ const SelectContainer = styled.div`
 `;
 
 export const AccountsSelect = () => {
+  const accounts = useSelector(selectAccounts);
 
-const options = [
-    { label: "Grapes", value: "grapes" },
-    { label: "Mango", value: "mango" },
-    { label: "Strawberry", value: "strawberry", disabled: true },
-  ];
+  const options = accounts.map(a => {
+    const l = a.institution_name + ' ' + a.meta.type + ': ' + a.number;
+    return { label: l, value: a.number };
+  });
 
   const [selected, setSelected] = useState([]);
 
@@ -49,7 +50,7 @@ const options = [
           options={options}
           value={selected}
           onChange={setSelected}
-          labelledBy={"Select Account"}
+          labelledBy={'Select Account'}
         />
       </SelectContainer>
     </React.Fragment>
