@@ -20,7 +20,7 @@ import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
 import { Settings } from '../types/settings';
 import { PerformanceData, AdjustedCostBasis } from '../types/performance';
-import selectedTimeframe from './performance';
+import { selectedTimeframe, selectedAccounts } from './performance';
 
 export default (history: any) =>
   combineReducers({
@@ -33,6 +33,7 @@ export default (history: any) =>
     updateServiceWorker,
     online,
     selectedTimeframe,
+    selectedAccounts,
     helpArticles: simple<any>({
       baseType: 'FETCH_HELP_ARTICLES',
       userData: false,

@@ -37,6 +37,11 @@ export const setSelectedTimeframe: ActionCreator<Action> = timeframe => ({
   timeframe,
 });
 
+export const setSelectedAccounts: ActionCreator<Action> = accounts => ({
+  type: 'SET_SELECTED_ACCOUNTS',
+  accounts,
+});
+
 export const loadAdjustedCostBasis: ActionCreator<ThunkAction<
   void,
   any,

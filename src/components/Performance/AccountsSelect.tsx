@@ -7,8 +7,9 @@ import {
   faCaretDown,
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectAccounts } from '../../selectors/accounts';
+import { setSelectedAccounts } from '../../actions/performance';
 import MultiSelect from 'react-multi-select-component';
 
 const SelectContainer = styled.div`
@@ -34,6 +35,7 @@ const SelectContainer = styled.div`
 `;
 
 export const AccountsSelect = () => {
+  const dispatch = useDispatch();
   const accounts = useSelector(selectAccounts);
 
   const options = accounts.map(a => {
@@ -42,6 +44,7 @@ export const AccountsSelect = () => {
   });
 
   const [selected, setSelected] = useState([]);
+  dispatch(setSelectedAccounts(selected));
 
   return (
     <React.Fragment>
