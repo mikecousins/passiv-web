@@ -70,13 +70,14 @@ const TimeContainer = styled.div`
   background: var(--brand-grey);
   border: 1px solid #04a185;
   width: 400px;
-  margin: 0 auto 20px;
   display: flex;
   box-shadow: 0 4px 12px 2px rgba(2, 2, 2, 0.26);
   position: sticky;
   top: 88px;
   z-index: 100;
-  @media (max-width: 440px) {
+  margin-right: 20px;
+  margin-bottom: 20px;
+  @media (max-width: 900px) {
     width: 100%;
   }
 `;
@@ -111,6 +112,13 @@ const BetaBanner = styled(P)`
   text-align: center;
   padding-bottom: 20px;
   color: #555555;
+`;
+
+const Flex = styled.div`
+  @media (min-width: 900px) {
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 type Props = {
@@ -158,24 +166,26 @@ export const Performance = () => {
         Open Beta: Help us improve our tools by{' '}
         <A href="mailto:reporting@getpassiv.com">sharing feedback</A>
       </BetaBanner>
-      <AccountsSelect />
-      <TimeContainer>
-        <TimespanSelector
-          timeframe={'1Y'}
-          selectedTimeframe={currentTimeframe}
-          setTimeframe={t => dispatch(setSelectedTimeframe(t))}
-        />
-        <TimespanSelector
-          timeframe={'YTD'}
-          selectedTimeframe={currentTimeframe}
-          setTimeframe={t => dispatch(setSelectedTimeframe(t))}
-        />
-        <TimespanSelector
-          timeframe={'ALL'}
-          selectedTimeframe={currentTimeframe}
-          setTimeframe={t => dispatch(setSelectedTimeframe(t))}
-        />
-      </TimeContainer>
+      <Flex>
+        <TimeContainer>
+          <TimespanSelector
+            timeframe={'1Y'}
+            selectedTimeframe={currentTimeframe}
+            setTimeframe={t => dispatch(setSelectedTimeframe(t))}
+          />
+          <TimespanSelector
+            timeframe={'YTD'}
+            selectedTimeframe={currentTimeframe}
+            setTimeframe={t => dispatch(setSelectedTimeframe(t))}
+          />
+          <TimespanSelector
+            timeframe={'ALL'}
+            selectedTimeframe={currentTimeframe}
+            setTimeframe={t => dispatch(setSelectedTimeframe(t))}
+          />
+        </TimeContainer>
+        <AccountsSelect />
+      </Flex>
       <Grid>
         <ShadowBox>
           <PerformanceContributionChart />
