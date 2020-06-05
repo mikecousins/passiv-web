@@ -72,8 +72,6 @@ const TimeContainer = styled.div`
   width: 400px;
   display: flex;
   box-shadow: 0 4px 12px 2px rgba(2, 2, 2, 0.26);
-  position: sticky;
-  top: 88px;
   z-index: 100;
   margin-right: 20px;
   margin-bottom: 20px;
@@ -115,6 +113,9 @@ const BetaBanner = styled(P)`
 `;
 
 const Flex = styled.div`
+  position: sticky;
+  top: 92px;
+  z-index: 10;
   @media (min-width: 900px) {
     display: flex;
     justify-content: space-between;
