@@ -64,7 +64,7 @@ export const PerformanceChart: FunctionComponent<Props> = ({
         );
       },
     }),
-    [],
+    [displayTotal],
   );
 
   if (data[0].data !== undefined) {
