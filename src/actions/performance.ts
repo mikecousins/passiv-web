@@ -1,4 +1,4 @@
-import { getData } from '../api';
+import { getData, postData } from '../api';
 import { ActionCreator, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
@@ -7,10 +7,10 @@ export const loadPerformanceAll: ActionCreator<ThunkAction<
   any,
   any,
   Action<any>
->> = () => {
+>> = accountNumbers => {
   return dispatch => {
     dispatch(fetchPerformanceAllStart());
-    getData('/api/v1/performance/all/')
+    postData('/api/v1/performance/all/', accountNumbers)
       .then(response => {
         dispatch(fetchPerformanceAllSuccess(response));
       })
