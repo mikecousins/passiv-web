@@ -15,7 +15,7 @@ const StyledAside = styled.aside`
   background-color: var(--brand-grey);
   color: #fff;
   width: 212px;
-  height: calc(100% - 150px);
+  height: 100%;
   padding-top: 12px;
   font-weight: 700;
   position: fixed;
