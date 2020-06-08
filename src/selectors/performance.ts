@@ -21,6 +21,9 @@ import ms from 'milliseconds';
 export const selectSelectedTimeframe = (state: AppState) =>
   state.selectedTimeframe;
 
+export const selectSelectedAccounts = (state: AppState) =>
+  state.selectedAccounts;
+
 export const selectPerformanceAll = (state: AppState) => state.performanceAll;
 
 export const selectAdjustedCostBasis = (state: AppState) =>

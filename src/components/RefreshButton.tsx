@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { selectLoggedIn } from '../selectors';
+import { selectSelectedAccounts } from '../selectors/performance';
 
 export const Button = styled.button`
   color: #fff;
@@ -27,12 +28,15 @@ export const Button = styled.button`
 const RefreshButton = () => {
   const loggedIn = useSelector(selectLoggedIn);
   const dispatch = useDispatch();
+  const selectedAccounts = useSelector(selectSelectedAccounts);
   return (
     <React.Fragment>
       {loggedIn && (
         <Button
           onClick={() => {
-            dispatch(reloadEverything());
+            dispatch(
+              reloadEverything(selectedAccounts.map((a: any) => a?.value)),
+            );
           }}
         >
           <FontAwesomeIcon icon={faSyncAlt} />

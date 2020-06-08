@@ -294,7 +294,7 @@ export const reloadEverything: ActionCreator<ThunkAction<
   any,
   any,
   Action<any>
->> = () => {
+>> = selectedAccounts => {
   return dispatch => {
     dispatch(fetchAuthorizationsStart());
     getData('/api/v1/authorizations')
@@ -368,7 +368,7 @@ export const reloadEverything: ActionCreator<ThunkAction<
       .catch(error => dispatch(fetchAccountsError(error)));
 
     dispatch(setSelectedTimeframe('1Y'));
-    dispatch(loadPerformanceAll());
+    dispatch(loadPerformanceAll(selectedAccounts));
   };
 };
 
