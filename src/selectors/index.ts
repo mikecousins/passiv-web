@@ -198,7 +198,7 @@ export const selectBrokeragesNeedData = createSelector(
       return false;
     }
     return shouldUpdate(rawBrokerages, {
-      staleTime: ms.days(1),
+      staleTime: ms.minutes(5),
       now: time,
     });
   },
