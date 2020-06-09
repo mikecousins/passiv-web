@@ -43,7 +43,7 @@ export const AccountsSelect = () => {
   const selectedAccounts = useSelector(selectSelectedAccounts);
 
   const options = accounts.map(a => {
-    const l = a.institution_name + ' ' + a.meta.type + ': ' + a.number;
+    const l = a.name;
     return { label: l, value: a.number };
   });
 
