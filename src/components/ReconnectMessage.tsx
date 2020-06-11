@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from './Tooltip';
 import { useSelector } from 'react-redux';
-import { selectLoggedIn, selectAuthorizations } from '../selectors';
+import { selectLoggedIn, selectDisabledAuthorizations } from '../selectors';
 import { selectAccounts } from '../selectors/accounts';
 import { selectPathname } from '../selectors/router';
 import styled from '@emotion/styled';
@@ -32,14 +32,11 @@ const Title = styled.span`
 
 const ReconnectMessage = () => {
   const loggedIn = useSelector(selectLoggedIn);
-  const authorizations = useSelector(selectAuthorizations);
+  const disabledAuthorizations = useSelector(selectDisabledAuthorizations);
   const accounts = useSelector(selectAccounts);
   const pathname = useSelector(selectPathname);
 
   if (loggedIn && !pathname.startsWith('/app/oauth')) {
-    const disabledAuthorizations =
-      authorizations !== undefined &&
-      authorizations.filter(a => a.disabled === true);
     if (disabledAuthorizations !== false && disabledAuthorizations.length > 0) {
       return (
         <ErrorContainer>

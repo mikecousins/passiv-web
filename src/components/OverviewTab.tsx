@@ -91,7 +91,9 @@ const OverviewTab = () => {
   // see if we have any suggested trades to display
   let tradeDisplay = null;
   if (setupComplete === true) {
-    tradeDisplay = <PortfolioGroupTrades trades={trades} groupId={group.id} />;
+    tradeDisplay = (
+      <PortfolioGroupTrades trades={trades} groupId={group.id} error={error} />
+    );
   }
   return (
     <React.Fragment>
@@ -109,7 +111,7 @@ const OverviewTab = () => {
       {error ? <PortfolioGroupErrors error={error} /> : null}
       {tradeDisplay}
 
-      <PortfolioGroupTargets />
+      <PortfolioGroupTargets error={error} />
     </React.Fragment>
   );
 };

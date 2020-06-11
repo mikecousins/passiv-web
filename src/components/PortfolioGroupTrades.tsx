@@ -26,6 +26,7 @@ import styled from '@emotion/styled';
 type Props = {
   trades: any;
   groupId: string;
+  error: any | null;
   onClose?: () => void;
 };
 
@@ -43,7 +44,12 @@ const AccuracyBullets = styled(BulletUL)`
   padding-top: 10px;
 `;
 
-export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
+export const PortfolioGroupTrades = ({
+  trades,
+  groupId,
+  error,
+  onClose,
+}: Props) => {
   const accounts = useSelector(selectAccounts);
   const settings = useSelector(selectCurrentGroupSettings);
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
@@ -180,40 +186,43 @@ export const PortfolioGroupTrades = ({ trades, groupId, onClose }: Props) => {
       </TradesContainer>
     );
   } else {
-    return (
-      <TradesContainer>
-        <H2>Trades</H2>
-        <NoTradesNotice>
-          <P>
-            There are currently no trades available on your account. This means
-            that this group is as close as possible to your target, taking into
-            account the rebalancing rules set for this group.
-          </P>
-          <SectionHeader>Other ways to increase accuracy</SectionHeader>
-          <AccuracyBullets>
-            <li>Deposit cash into your brokerage account.</li>
-            {settings != null && settings.buy_only && (
-              <li>
-                Perform a full rebalance by selling overweight assets.{' '}
-                <A
-                  href="https://getpassiv.com/help/tutorials/how-to-allow-selling-to-rebalance"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Learn How
-                </A>
-              </li>
-            )}
-          </AccuracyBullets>
-        </NoTradesNotice>
-        <TradesExplanation
-          settings={settings}
-          accounts={groupAccounts}
-          container={true}
-        />
-      </TradesContainer>
-    );
+    if (!error) {
+      return (
+        <TradesContainer>
+          <H2>Trades</H2>
+          <NoTradesNotice>
+            <P>
+              There are currently no trades available on your account. This
+              means that this group is as close as possible to your target,
+              taking into account the rebalancing rules set for this group.
+            </P>
+            <SectionHeader>Other ways to increase accuracy</SectionHeader>
+            <AccuracyBullets>
+              <li>Deposit cash into your brokerage account.</li>
+              {settings != null && settings.buy_only && (
+                <li>
+                  Perform a full rebalance by selling overweight assets.{' '}
+                  <A
+                    href="https://getpassiv.com/help/tutorials/how-to-allow-selling-to-rebalance"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Learn How
+                  </A>
+                </li>
+              )}
+            </AccuracyBullets>
+          </NoTradesNotice>
+          <TradesExplanation
+            settings={settings}
+            accounts={groupAccounts}
+            container={true}
+          />
+        </TradesContainer>
+      );
+    }
   }
+  return null;
 };
 
 export default PortfolioGroupTrades;

@@ -213,6 +213,16 @@ export const selectAuthorizations = createSelector(
   },
 );
 
+export const selectDisabledAuthorizations = createSelector(
+  selectAuthorizations,
+  authorizations => {
+    const disabledAuthorizations =
+      authorizations !== undefined &&
+      authorizations.filter(a => a.disabled === true);
+    return disabledAuthorizations;
+  },
+);
+
 export const selectHasQuestradeConnection = createSelector(
   selectAuthorizations,
   authorizations => {
