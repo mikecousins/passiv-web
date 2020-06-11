@@ -223,6 +223,56 @@ export const selectDisabledAuthorizations = createSelector(
   },
 );
 
+export const selectAuthorizationBrokerages = createSelector(
+  selectBrokerages,
+  selectAuthorizations,
+  (brokerages, authorizations) => {
+    if (authorizations) {
+      const authorizedBrokerageIds = authorizations.map(a => a.brokerage.id);
+      if (brokerages) {
+        return brokerages.filter(
+          b => authorizedBrokerageIds.indexOf(b.id) >= 0,
+        );
+      }
+    }
+    return null;
+  },
+);
+
+export const selectMaintenanceBrokerages = createSelector(
+  selectAuthorizationBrokerages,
+  brokerages => {
+    if (brokerages !== null) {
+      const maintenanceBrokerages: any = [];
+      brokerages.map((b: any) => {
+        let maintenance = b.maintenance_mode;
+        if (maintenance === false) {
+          const now = new Date();
+          const weekDay = now.getDay();
+
+          b.maintenance_windows.map((w: any) => {
+            let start = new Date(w.start);
+            let end = new Date(w.end);
+            let weekdays = w.weekdays.split(',').map((d: string) => Number(d));
+            if (weekdays.indexOf(weekDay) >= 0) {
+              if (now >= start && now < end) {
+                maintenance = true;
+              }
+            }
+            return null;
+          });
+        }
+        if (maintenance === true) {
+          maintenanceBrokerages.push(b);
+        }
+        return null;
+      });
+      return maintenanceBrokerages;
+    }
+    return null;
+  },
+);
+
 export const selectHasQuestradeConnection = createSelector(
   selectAuthorizations,
   authorizations => {

@@ -7,6 +7,7 @@ import SlideMenu from '../components/SlideMenu';
 import GlobalStyle from '../styled/global';
 import ScrollHelper from '../components/ScrollHelper';
 import ReconnectMessage from '../components/ReconnectMessage';
+import MaintenanceMessage from '../components/MaintenanceMessage';
 
 const Container = styled.div`
   display: flex;
@@ -35,6 +36,7 @@ export const AppLayout = ({ children }: Props) => {
       <Container>
         <SlideMenu />
         <Main>
+          <MaintenanceMessage />
           <ReconnectMessage />
           {children}
         </Main>
