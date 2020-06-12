@@ -39,7 +39,9 @@ const Submit = styled.input`
 `;
 export const AccountsSelect = () => {
   const dispatch = useDispatch();
-  const accounts = useSelector(selectAccounts);
+  const accounts = useSelector(selectAccounts).filter(
+    a => a.institution_name === 'Questrade',
+  );
   const selectedAccounts = useSelector(selectSelectedAccounts);
 
   const options = accounts.map(a => {
