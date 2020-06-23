@@ -37,6 +37,11 @@ export const registerFailed: ActionCreator<Action> = payload => ({
   payload,
 });
 
+export const setReferralCode: ActionCreator<Action> = payload => ({
+  type: 'SET_REFERRAL_CODE',
+  payload,
+});
+
 export const loadAuthorizations: ActionCreator<ThunkAction<
   void,
   any,

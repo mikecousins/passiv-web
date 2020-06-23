@@ -5,8 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loginSucceeded, registerFailed } from '../actions';
 import { postData } from '../api';
 import * as Yup from 'yup';
-import { selectLoggedIn } from '../selectors';
-import { selectQueryTokens } from '../selectors/router';
+import { selectLoggedIn, selectReferralCode } from '../selectors';
 import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
@@ -19,10 +18,8 @@ type Props = {
 
 const RegistrationPage = ({ location }: Props) => {
   const loggedIn = useSelector(selectLoggedIn);
-  const queryParams = useSelector(selectQueryTokens);
+  const referralCode = useSelector(selectReferralCode);
   const dispatch = useDispatch();
-
-  const referralCode = queryParams.referrer;
 
   let formatted_email = '';
 

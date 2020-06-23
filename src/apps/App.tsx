@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../layouts/Layout';
 import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { StripeProvider } from 'react-stripe-elements';
 import '@reach/menu-button/styles.css';
-import { selectLoggedIn } from '../selectors';
+import { selectLoggedIn, selectReferralCode } from '../selectors';
 import {
   selectShowInsecureApp,
   selectShowOnboardingApp,
   selectShowSecureApp,
   selectShowLoginLoading,
 } from '../selectors/app';
+import { setReferralCode } from '../actions';
 import { selectQueryTokens } from '../selectors/router';
 import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -132,11 +133,20 @@ const App = () => {
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const showSecureApp = useSelector(selectShowSecureApp);
   const showLoginLoading = useSelector(selectShowLoginLoading);
+  const referralCode = useSelector(selectReferralCode);
   const loggedIn = useSelector(selectLoggedIn);
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  const queryParams = useSelector(selectQueryTokens);
+
+  // extract referral code (if any) and make available on registration page
+  if (queryParams.ref && queryParams.ref !== referralCode) {
+    dispatch(setReferralCode({ referralCode: queryParams.ref }));
+    delete queryParams.ref;
+  }
 
   // include query params in deep link redirect for insecure app
-  const queryParams = useSelector(selectQueryTokens);
   if (queryParams.next) {
     delete queryParams.next;
   }

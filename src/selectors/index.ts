@@ -17,6 +17,15 @@ export const selectLoggedIn = (state: AppState) => !!state.auth.token;
 
 export const selectToken = (state: AppState) => state.auth.token;
 
+export const selectReferral = (state: AppState) => state.referral;
+
+export const selectReferralCode = createSelector(selectReferral, referral => {
+  if (referral !== null) {
+    return referral.referralCode;
+  }
+  return null;
+});
+
 export const selectTokenMinutesRemaining = createSelector(
   selectToken,
   selectAppTime,
