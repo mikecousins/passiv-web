@@ -5,6 +5,7 @@ import {
   selectTotalEquityTimeframe,
   selectContributionTimeframeCumulative,
   selectBadTickers,
+  selectSelectedTimeframe,
 } from '../../selectors/performance';
 import { ToggleButton, StateText } from '../../styled/ToggleButton';
 import {
@@ -42,6 +43,7 @@ export const PerformanceTotalValueChart = () => {
   const badTickers = useSelector(selectBadTickers);
   const showBadTickers =
     badTickers !== undefined && badTickers !== null && badTickers.length > 0;
+  const timeframe = useSelector(selectSelectedTimeframe);
   let badTickerString = '';
   if (showBadTickers) {
     badTickerString =
@@ -151,7 +153,7 @@ export const PerformanceTotalValueChart = () => {
         series={series}
         displayTotal={false}
       />
-      {zoomScale}
+      {timeframe !== 'ALL' && zoomScale}
     </React.Fragment>
   );
 };
