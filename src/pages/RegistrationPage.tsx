@@ -6,6 +6,7 @@ import { loginSucceeded, registerFailed } from '../actions';
 import { postData } from '../api';
 import * as Yup from 'yup';
 import { selectLoggedIn, selectReferralCode } from '../selectors';
+import { selectQueryTokens } from '../selectors/router';
 import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
@@ -19,16 +20,14 @@ type Props = {
 const RegistrationPage = ({ location }: Props) => {
   const loggedIn = useSelector(selectLoggedIn);
   const referralCode = useSelector(selectReferralCode);
+  const queryParams = useSelector(selectQueryTokens);
   const dispatch = useDispatch();
 
   let formatted_email = '';
 
-  // TODO rewrite this using qs
-  if (JSON.stringify(window.location.search) !== '""') {
-    const searchString = window.location.search;
-    const splitStrings = searchString.split('=');
-    formatted_email = unescape(splitStrings[2]);
-    window.history.replaceState({}, '', '/app/register');
+  if (queryParams.email !== undefined) {
+    formatted_email = queryParams.email;
+    window.history.replaceState({}, '', '/app/register/');
   }
 
   if (loggedIn) {
