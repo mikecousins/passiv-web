@@ -249,8 +249,9 @@ export const selectAuthorizationBrokerages = createSelector(
 );
 
 export const selectMaintenanceBrokerages = createSelector(
+  selectAppTime,
   selectAuthorizationBrokerages,
-  brokerages => {
+  (appTime, brokerages) => {
     if (brokerages !== null) {
       const maintenanceBrokerages: any = [];
       brokerages.map((b: any) => {
