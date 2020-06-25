@@ -51,6 +51,14 @@ export const PerformanceTotalValueChart = () => {
       badTickers?.join(', ');
   }
 
+  let showZoomToggle = true;
+  if (totalEquityData !== undefined && totalEquityData !== null) {
+    showZoomToggle =
+      totalEquityData?.sort(
+        (a, b) => Date.parse(a.date) - Date.parse(b.date),
+      )[0].value !== 0;
+  }
+
   const [chartStartsAt0, setChartMin] = useState(true);
   let chartMin: number | undefined = 0;
   if (!chartStartsAt0) {
@@ -153,7 +161,7 @@ export const PerformanceTotalValueChart = () => {
         series={series}
         displayTotal={false}
       />
-      {timeframe !== 'ALL' && zoomScale}
+      {showZoomToggle && zoomScale}
     </React.Fragment>
   );
 };
