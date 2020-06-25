@@ -18,6 +18,7 @@ const MarginBottom = styled.div`
 
 export const PerformanceChange = () => {
   const equityData = useSelector(selectTotalEquityTimeframe);
+  equityData?.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
 
   if (!equityData) {
     return (
@@ -28,7 +29,7 @@ export const PerformanceChange = () => {
   }
 
   const change = toDollarString(
-    equityData[0].value - equityData[equityData.length - 1].value,
+    equityData[equityData.length - 1].value - equityData[0].value,
   );
 
   const positive = !(change[0] === '-');

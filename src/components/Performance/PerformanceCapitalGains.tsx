@@ -25,6 +25,7 @@ export const PerformanceCapitalGain = () => {
   const equityData: PastValue[] | undefined = useSelector(
     selectTotalEquityTimeframe,
   );
+  equityData?.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
   const contributions = useSelector(selectContributions);
 
   let capitalGainsString = 'loading...';
@@ -36,7 +37,7 @@ export const PerformanceCapitalGain = () => {
     equityData !== null &&
     equityData !== undefined
   ) {
-    change = equityData[0].value - equityData[equityData.length - 1].value;
+    change = equityData[equityData.length - 1].value - equityData[0].value;
     capitalGains = change - contributions.contributions;
     capitalGainsString = toDollarString(capitalGains);
   }
