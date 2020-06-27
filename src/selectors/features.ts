@@ -55,10 +55,6 @@ export const selectShowProgressFeature = createFeatureSelector(
   'onboarding_progress',
 );
 
-export const selectConnectInteractiveBrokersFeature = createFeatureSelector(
-  'connect_interactive_brokers',
-);
-
 export const selectLimitOrdersFeature = createFeatureSelector('limit_orders');
 
 export const selectPerformancePageFeature = createFeatureSelector(

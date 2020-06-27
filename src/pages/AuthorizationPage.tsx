@@ -7,11 +7,13 @@ import {
   selectIsAuthorized,
   selectBrokerages,
   selectAuthorizations,
-  selectConnectInteractiveBrokersFeature,
   selectShowProgressFeature,
 } from '../selectors';
 import { selectUserPermissions } from '../selectors/subscription';
-import { selectConnectPlaidFeature } from '../selectors';
+import {
+  selectConnectPlaidFeature,
+  selectMaintenanceBrokerages,
+} from '../selectors';
 import PlaidConnection from '../components/PlaidConnection';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -23,6 +25,8 @@ import QuestradeLogo from '../assets/images/questrade-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
 import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 import TDAmeritradeLogo from '../assets/images/tda-logo.png';
+import { Brokerage as BrokerageType } from '../types/brokerage';
+import { toast } from 'react-toastify';
 
 import {
   aDarkStyle,
@@ -53,9 +57,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const userPermissions = useSelector(selectUserPermissions);
   const authorizations = useSelector(selectAuthorizations);
   const connectPlaidFeature = useSelector(selectConnectPlaidFeature);
-  const connectInteractiveBrokersFeature = useSelector(
-    selectConnectInteractiveBrokersFeature,
-  );
+  const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const showProgressFeature = useSelector(selectShowProgressFeature);
   const [loading, setLoading] = useState(false);
   const { brokerage } = useParams();
@@ -84,21 +86,41 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     dispatch(push('/app/settings'));
   }
 
+  const checkBrokerageMaintenance = (brokerage: BrokerageType) => {
+    if (
+      maintenanceBrokerages.find((b: BrokerageType) => b.id === brokerage.id)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const startConnection = (brokerageName: string, connectionType: string) => {
+    const brokerage =
+      brokerages &&
+      brokerages.find(brokerage => brokerage.name === brokerageName);
+    if (brokerage) {
+      if (checkBrokerageMaintenance(brokerage) === true) {
+        toast.error(
+          `${brokerage.name} is currently undergoing maintenance and cannot establish new connections at this time. Please try again later.`,
+        );
+      } else {
+        postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+          type: connectionType,
+        }).then(response => {
+          window.location = response.data.url;
+        });
+      }
+    }
+  };
+
   const brokerageOptions: any[] = [
     {
       id: 'questrade',
       name: 'Questrade',
       connect: () => {
-        const brokerage =
-          brokerages &&
-          brokerages.find(brokerage => brokerage.name === 'Questrade');
-        if (brokerage) {
-          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
-            type: 'read',
-          }).then(response => {
-            window.location = response.data.url;
-          });
-        }
+        startConnection('Questrade', 'read');
       },
       openURL: 'https://www.questrade.com/account-selection?oaa_promo=passiv',
       major: true,
@@ -116,16 +138,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       id: 'alpaca',
       name: 'Alpaca',
       connect: () => {
-        const brokerage =
-          brokerages &&
-          brokerages.find(brokerage => brokerage.name === 'Alpaca');
-        if (brokerage) {
-          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
-            type: 'trade',
-          }).then(response => {
-            window.location = response.data.url;
-          });
-        }
+        startConnection('Alpaca', 'trade');
       },
       openURL: 'https://app.alpaca.markets/signup',
       major: true,
@@ -141,18 +154,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       id: 'interactivebrokers',
       name: 'IBKR',
       connect: () => {
-        const brokerage =
-          brokerages &&
-          brokerages.find(
-            brokerage => brokerage.name === 'Interactive Brokers',
-          );
-        if (brokerage) {
-          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
-            type: 'trade',
-          }).then(response => {
-            window.location = response.data.url;
-          });
-        }
+        startConnection('Interactive Brokers', 'trade');
       },
       openURL: 'https://www.interactivebrokers.com/en/home.php',
       major: true,
@@ -169,16 +171,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       id: 'tdameritrade',
       name: 'TD Ameritrade',
       connect: () => {
-        const brokerage =
-          brokerages &&
-          brokerages.find(brokerage => brokerage.name === 'TD Ameritrade');
-        if (brokerage) {
-          postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
-            type: 'trade',
-          }).then(response => {
-            window.location = response.data.url;
-          });
-        }
+        startConnection('TD Ameritrade', 'trade');
       },
       openURL: 'https://www.tdameritrade.com/home.page',
       major: true,
@@ -205,22 +198,17 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       ) : (
         <React.Fragment>
           <Container2Column>
-            {brokerageOptions.map(
-              (brokerage: any) =>
-                ((brokerage.name === 'IBKR' &&
-                  connectInteractiveBrokersFeature) ||
-                  brokerage.name !== 'IBKR') && (
-                  <AuthBox key={brokerage.id} onClick={brokerage.connect}>
-                    <LogoContainer>
-                      <img
-                        src={brokerage.logo}
-                        alt={`${brokerage.name} Logo`}
-                      />
-                    </LogoContainer>
-                    <AuthLink>Connect {brokerage.name}</AuthLink>
-                  </AuthBox>
-                ),
-            )}
+            {brokerageOptions.map((brokerage: any) => {
+              let contents = (
+                <AuthBox key={brokerage.id} onClick={brokerage.connect}>
+                  <LogoContainer>
+                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                  </LogoContainer>
+                  <AuthLink>Connect {brokerage.name}</AuthLink>
+                </AuthBox>
+              );
+              return contents;
+            })}
           </Container2Column>
           {connectPlaidFeature && <PlaidConnection setLoading={setLoading} />}
         </React.Fragment>
