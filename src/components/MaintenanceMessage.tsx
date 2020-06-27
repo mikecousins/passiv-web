@@ -38,6 +38,9 @@ const MaintenanceMessage = () => {
             Account information linked to these brokerages may be incomplete or
             unavailable until the maintenance is finished.
           </P>
+          <P>
+            This may also prevent you from creating new brokerage connections.
+          </P>
           {maintenanceBrokerages.map((brokerage: any) => {
             return (
               <ReconnectContainer key={brokerage.id}>
