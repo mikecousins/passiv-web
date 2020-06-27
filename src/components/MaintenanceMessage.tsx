@@ -40,7 +40,7 @@ const MaintenanceMessage = () => {
           </P>
           {maintenanceBrokerages.map((brokerage: any) => {
             return (
-              <ReconnectContainer>
+              <ReconnectContainer key={brokerage.id}>
                 <ReconnectPanel></ReconnectPanel>
                 <ReconnectPanel>
                   <span>
