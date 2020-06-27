@@ -251,10 +251,15 @@ export const selectAuthorizationBrokerages = createSelector(
 export const selectMaintenanceBrokerages = createSelector(
   selectAppTime,
   selectAuthorizationBrokerages,
-  (appTime, brokerages) => {
+  selectBrokerages,
+  (appTime, brokerages, allBrokerages) => {
     if (brokerages !== null) {
       const maintenanceBrokerages: any = [];
-      brokerages.map((b: any) => {
+      let testBrokerages = brokerages;
+      if (allBrokerages !== undefined && brokerages.length === 0) {
+        testBrokerages = allBrokerages;
+      }
+      testBrokerages.map((b: any) => {
         let maintenance = b.maintenance_mode;
         if (maintenance === false) {
           const now = new Date();
