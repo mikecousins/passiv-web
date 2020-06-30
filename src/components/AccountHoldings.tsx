@@ -44,7 +44,7 @@ export const HoldingsTable = styled.table`
   }
   td {
     padding: 15px 12px;
-    &:first-child {
+    &:first-of-type {
       padding: 15px 0;
     }
   }
@@ -73,7 +73,7 @@ export const HoldingsTable = styled.table`
       display: block;
       text-align: right;
       padding: 15px 0px;
-      &:first-child {
+      &:first-of-type {
         text-align: center;
       }
       span {
@@ -92,7 +92,7 @@ export const HoldingsTable = styled.table`
       text-transform: uppercase;
     }
 
-    td:last-child {
+    td:last-of-type {
       border-bottom: 0;
     }
   }
