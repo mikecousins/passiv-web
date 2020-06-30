@@ -8,6 +8,7 @@ import simple from './simple';
 import simpleList from './simpleList';
 import updateServiceWorker from './updateServiceWorker';
 import online from './online';
+import version from './version';
 import referral from './referral';
 import { SubscriptionData } from '../types/subscription';
 import { GroupInfoData, Balance } from '../types/groupInfo';
@@ -33,6 +34,7 @@ export default (history: any) =>
     language,
     updateServiceWorker,
     online,
+    version,
     selectedTimeframe,
     selectedAccounts,
     referral,
