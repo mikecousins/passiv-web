@@ -22,8 +22,7 @@ const StyledAside = styled.aside`
   transition: 0.25s all;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 136px;
-  position: relative;
+  padding-bottom: 36px;
 
   a {
     color: #fff;
@@ -101,26 +100,34 @@ const SideBar = () => {
   }
   if (loggedIn) {
     return (
-      <StyledAside>
-        <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
-        {groups && groups.length > 0 && (
-          <GroupContainer>{groupList}</GroupContainer>
-        )}
-        {performancePageFeatureActive && showPerformance(authorizations) && (
-          <SideBarLink name="Reporting" linkPath="/app/reporting" beta={true} />
-        )}
-        <SideBarLink name="Settings" linkPath="/app/settings" />
+      <>
+        <StyledAside>
+          <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
+          {groups && groups.length > 0 && (
+            <GroupContainer>{groupList}</GroupContainer>
+          )}
+          {performancePageFeatureActive && showPerformance(authorizations) && (
+            <SideBarLink
+              name="Reporting"
+              linkPath="/app/reporting"
+              beta={true}
+            />
+          )}
+          <SideBarLink name="Settings" linkPath="/app/settings" />
+        </StyledAside>
         <SideBarFooter />
-      </StyledAside>
+      </>
     );
   }
   return (
-    <StyledAside>
-      <SideBarLink name="Login" linkPath="/app/login" />
-      <SideBarLink name="Sign Up" linkPath="/app/register" />
-      <SideBarLinkAlt name="Reset Password" linkPath="/app/reset-password" />
+    <>
+      <StyledAside>
+        <SideBarLink name="Login" linkPath="/app/login" />
+        <SideBarLink name="Sign Up" linkPath="/app/register" />
+        <SideBarLinkAlt name="Reset Password" linkPath="/app/reset-password" />
+      </StyledAside>
       <SideBarFooter />
-    </StyledAside>
+    </>
   );
 };
 
