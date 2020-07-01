@@ -22,6 +22,7 @@ const StyledAside = styled.aside`
   overflow-y: auto;
   overflow-x: hidden;
   padding-bottom: 136px;
+  position: relative;
   a {
     color: #fff;
     text-decoration: none;
