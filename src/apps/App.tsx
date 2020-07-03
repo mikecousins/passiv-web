@@ -42,6 +42,11 @@ const ResetPasswordConfirmPage = React.lazy(() =>
     /* webpackChunkName: "reset-password-confirm" */ '../pages/ResetPasswordConfirmPage'
   ),
 );
+const SetNewPasswordPage = React.lazy(() =>
+  import(
+    /* webpackChunkName: "set-new-password" */ '../pages/SetNewPasswordPage'
+  ),
+);
 const QuestradeOauthPage = React.lazy(() =>
   import(
     /* webpackChunkName: "questrade-oauth" */ '../pages/QuestradeOauthPage'
@@ -200,6 +205,10 @@ const App = () => {
             <Route
               path={prefixPath('/reset-password-confirm/:token')}
               component={ResetPasswordConfirmPage}
+            />
+            <Route
+              path={prefixPath('/set-new-password/:token')}
+              component={SetNewPasswordPage}
             />
             {loggedIn && (
               <Route
