@@ -102,7 +102,7 @@ export const CustomTooltip: FunctionComponent<Props2> = ({
     let allDatums = datum.group;
 
     if (!showAll) {
-      allDatums = allDatums.filter((x: any) => x.secondary !== 0);
+      allDatums = allDatums.filter((x: any) => x.secondary !== 0).reverse();
     }
     let total = 0;
     datum.group.forEach((element: any) => {
