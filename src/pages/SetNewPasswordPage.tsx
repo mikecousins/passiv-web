@@ -8,7 +8,6 @@ import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import PasswordRequirements from '../components/PasswordRequirements';
-import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { loginSucceeded } from '../actions';
 
@@ -27,7 +26,6 @@ const SetNewPasswordPage = () => {
       {
         <Formik
           initialValues={{
-            email: '',
             password: '',
           }}
           validate={values => {
@@ -37,14 +35,8 @@ const SetNewPasswordPage = () => {
             }
             return errors;
           }}
-          validationSchema={Yup.object().shape({
-            email: Yup.string()
-              .email('Must be a valid email.')
-              .required('An email is required.'),
-          })}
           onSubmit={(values, actions) => {
             postData('/api/v1/auth/setNewPassword/', {
-              email: values.email,
               password: values.password,
               token,
             })
@@ -86,13 +78,6 @@ const SetNewPasswordPage = () => {
             handleSubmit,
           }) => (
             <Form onSubmit={handleSubmit}>
-              <Label htmlFor="email">Email</Label>
-              <Input name="email" placeholder="Email" autoFocus />
-
-              <P>
-                <ErrorMessage name="email" />
-              </P>
-
               <Label htmlFor="password">Password</Label>
               <Input
                 onChange={handleChange}
