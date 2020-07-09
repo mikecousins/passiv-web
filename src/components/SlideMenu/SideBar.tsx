@@ -15,14 +15,15 @@ const StyledAside = styled.aside`
   background-color: var(--brand-grey);
   color: #fff;
   width: 212px;
-  height: 100%;
+  height: calc(100% - 150px);
   padding-top: 12px;
   font-weight: 700;
   position: fixed;
   transition: 0.25s all;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 26px;
+  padding-bottom: 36px;
+
   a {
     color: #fff;
     text-decoration: none;
@@ -99,26 +100,34 @@ const SideBar = () => {
   }
   if (loggedIn) {
     return (
-      <StyledAside>
-        <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
-        {groups && groups.length > 0 && (
-          <GroupContainer>{groupList}</GroupContainer>
-        )}
-        {performancePageFeatureActive && showPerformance(authorizations) && (
-          <SideBarLink name="Reporting" linkPath="/app/reporting" beta={true} />
-        )}
-        <SideBarLink name="Settings" linkPath="/app/settings" />
+      <>
+        <StyledAside>
+          <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
+          {groups && groups.length > 0 && (
+            <GroupContainer>{groupList}</GroupContainer>
+          )}
+          {performancePageFeatureActive && showPerformance(authorizations) && (
+            <SideBarLink
+              name="Reporting"
+              linkPath="/app/reporting"
+              beta={true}
+            />
+          )}
+          <SideBarLink name="Settings" linkPath="/app/settings" />
+        </StyledAside>
         <SideBarFooter />
-      </StyledAside>
+      </>
     );
   }
   return (
-    <StyledAside>
-      <SideBarLink name="Login" linkPath="/app/login" />
-      <SideBarLink name="Sign Up" linkPath="/app/register" />
-      <SideBarLinkAlt name="Reset Password" linkPath="/app/reset-password" />
+    <>
+      <StyledAside>
+        <SideBarLink name="Login" linkPath="/app/login" />
+        <SideBarLink name="Sign Up" linkPath="/app/register" />
+        <SideBarLinkAlt name="Reset Password" linkPath="/app/reset-password" />
+      </StyledAside>
       <SideBarFooter />
-    </StyledAside>
+    </>
   );
 };
 
