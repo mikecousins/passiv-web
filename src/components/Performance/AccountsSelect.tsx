@@ -43,9 +43,23 @@ export const AccountsSelect = () => {
     a => a.institution_name === 'Questrade',
   );
   const selectedAccounts = useSelector(selectSelectedAccounts);
+  let hasDuplicates = false;
+  for (let i = 0; i < accounts.length - 1; i++) {
+    if (
+      accounts
+        .slice(i + 1)
+        .map(a => a.name)
+        .includes(accounts[i].name)
+    ) {
+      hasDuplicates = true;
+    }
+  }
 
   const options = accounts.map(a => {
-    const l = a.name;
+    let l = a.name;
+    if (hasDuplicates) {
+      l = a.name + ': ' + a.number;
+    }
     return { label: l, value: a.number };
   });
 
