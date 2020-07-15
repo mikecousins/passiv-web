@@ -3,6 +3,7 @@ export type Settings = {
   name: string;
   receive_cash_notifications: boolean;
   receive_drift_notifications: boolean;
+  receive_new_symbol_notifications: boolean;
   user_trial_activated: boolean;
   activated_trial_date: number | null;
   drift_threshold: string;
