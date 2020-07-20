@@ -35,7 +35,7 @@ test('RebalanceWidget renders without issue', () => {
     {},
   );
 
-  expect(getByText('Prepare Orders')).toBeTruthy();
+  expect(getByText('Preview Orders')).toBeTruthy();
 });
 
 test('ErrorMessage renders without issue', () => {

@@ -119,7 +119,7 @@ const RebalanceWidget = ({
   };
 
   let orderValidation = (
-    <Button onClick={validateOrders}>Prepare Orders</Button>
+    <Button onClick={validateOrders}>Preview Orders</Button>
   );
   if (showQuestradeOffer) {
     orderValidation = <UpgradeIdea />;
