@@ -34,7 +34,7 @@ const NewSymbolNotificationSettings = () => {
 
   return (
     <React.Fragment>
-      <OptionsTitle>New Symbol Notifications:</OptionsTitle>
+      <OptionsTitle>Detect New Securities:</OptionsTitle>
       <ToggleButton onClick={updateNotification}>
         {settings.receive_new_symbol_notifications ? (
           <React.Fragment>
@@ -49,8 +49,9 @@ const NewSymbolNotificationSettings = () => {
         )}
       </ToggleButton>
       <DisabledBox>
-        Receive an email notification when a new security was added outside of
-        Passiv
+        Passiv will detect when new securities are added to your account outside
+        of Passiv and send an email prompt asking how you want to include it in
+        your portfolio.
       </DisabledBox>
     </React.Fragment>
   );
