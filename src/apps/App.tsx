@@ -10,7 +10,6 @@ import {
   selectShowInsecureApp,
   selectShowOnboardingApp,
   selectShowSecureApp,
-  selectShowLoginLoading,
 } from '../selectors/app';
 import { setReferralCode } from '../actions';
 import { selectQueryTokens } from '../selectors/router';
@@ -137,7 +136,6 @@ const App = () => {
   const showInsecureApp = useSelector(selectShowInsecureApp);
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const showSecureApp = useSelector(selectShowSecureApp);
-  const showLoginLoading = useSelector(selectShowLoginLoading);
   const referralCode = useSelector(selectReferralCode);
   const loggedIn = useSelector(selectLoggedIn);
   const location = useLocation();
@@ -187,6 +185,10 @@ const App = () => {
     }
   }, []);
 
+  console.log('current path:', window.location.pathname);
+  console.log('next path:', redirectPath);
+  console.log('---');
+
   return (
     <Layout>
       <StripeProvider stripe={stripe}>
@@ -210,93 +212,10 @@ const App = () => {
               path={prefixPath('/set-new-password/:token')}
               component={SetNewPasswordPage}
             />
-            {loggedIn && (
-              <Route
-                path={prefixPath('/oauth/interactivebrokers')}
-                component={InteractiveBrokersOauthPage}
-              />
-            )}
-            {loggedIn && (
-              <Route
-                exact
-                path="/oauth/interactivebrokers"
-                render={() => interactiveBrokersOauthRedirect()}
-              />
-            )}
-            {loggedIn && (
-              <Route
-                path={prefixPath('/oauth/td')}
-                component={TDAmeritradeOauthPage}
-              />
-            )}
-            {showSecureApp && (
-              <Route
-                path={prefixPath('/reporting')}
-                component={PerformancePage}
-              />
-            )}
-            {showSecureApp && (
-              <Route path={prefixPath('/performance')}>
-                <Redirect to={prefixPath(`/reporting`)} />
-              </Route>
-            )}
-            {loggedIn && (
-              <Route
-                exact
-                path="/oauth/td"
-                render={() => tdAmeritradeOauthRedirect()}
-              />
-            )}
-            //
-            {loggedIn && (
-              <Route
-                exact
-                path={prefixPath('/questrade-offer')}
-                component={UpgradeOfferPage}
-              />
-            )}
-            {loggedIn && (
-              <Route
-                exact
-                path={prefixPath('/loading')}
-                render={props => (
-                  <LoginLoadingPage {...props} redirectPath={redirectPath} />
-                )}
-              />
-            )}
-            {showLoginLoading && (
-              <Route path="*">
-                <Redirect
-                  to={prefixPath(
-                    `/loading?next=${location.pathname}${appendParams}`,
-                  )}
-                />
-              </Route>
-            )}
-            {loggedIn && (
-              <Route
-                exact
-                path="/oauth/questrade"
-                render={() => questradeOauthRedirect()}
-              />
-            )}
-            {loggedIn && (
-              <Route
-                exact
-                path="/oauth/questrade-trade"
-                render={() => questradeOauthRedirect()}
-              />
-            )}
             <Route path={prefixPath('/demo')} component={DemoLoginPage} />
             // oauth routes
             {loggedIn && (
               <Route
-                path={prefixPath('/oauth/questrade')}
-                component={QuestradeOauthPage}
-              />
-            )}
-            {loggedIn && (
-              <Route
                 exact
                 path="/oauth/questrade"
                 render={() => questradeOauthRedirect()}
@@ -307,6 +226,12 @@ const App = () => {
                 exact
                 path="/oauth/questrade-trade"
                 render={() => questradeOauthRedirect()}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                path={prefixPath('/oauth/questrade')}
+                component={QuestradeOauthPage}
               />
             )}
             {loggedIn && (
@@ -335,31 +260,18 @@ const App = () => {
                 render={() => interactiveBrokersOauthRedirect()}
               />
             )}
-            //
             {loggedIn && (
               <Route
-                exact
-                path={prefixPath('/questrade-offer')}
-                component={UpgradeOfferPage}
+                path={prefixPath('/oauth/td')}
+                component={TDAmeritradeOauthPage}
               />
             )}
             {loggedIn && (
               <Route
                 exact
-                path={prefixPath('/loading')}
-                render={props => (
-                  <LoginLoadingPage {...props} redirectPath={redirectPath} />
-                )}
+                path="/oauth/td"
+                render={() => tdAmeritradeOauthRedirect()}
               />
-            )}
-            {showLoginLoading && (
-              <Route path="*">
-                <Redirect
-                  to={prefixPath(
-                    `/loading?next=${location.pathname}${appendParams}`,
-                  )}
-                />
-              </Route>
             )}
             // onboarding app
             {showOnboardingApp && (
@@ -389,6 +301,33 @@ const App = () => {
               </Route>
             )}
             // secure app
+            {showSecureApp && (
+              <Route
+                path={prefixPath('/reporting')}
+                component={PerformancePage}
+              />
+            )}
+            {showSecureApp && (
+              <Route path={prefixPath('/performance')}>
+                <Redirect to={prefixPath(`/reporting`)} />
+              </Route>
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/questrade-offer')}
+                component={UpgradeOfferPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/loading')}
+                render={props => (
+                  <LoginLoadingPage {...props} redirectPath={redirectPath} />
+                )}
+              />
+            )}
             {showSecureApp && (
               <Route path="/" exact>
                 <Redirect to={prefixPath('/dashboard')} />
