@@ -185,10 +185,6 @@ const App = () => {
     }
   }, []);
 
-  console.log('current path:', window.location.pathname);
-  console.log('next path:', redirectPath);
-  console.log('---');
-
   return (
     <Layout>
       <StripeProvider stripe={stripe}>
