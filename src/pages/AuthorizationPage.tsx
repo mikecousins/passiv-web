@@ -176,7 +176,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       openURL: 'https://www.tdameritrade.com/home.page',
       major: true,
       logo: TDAmeritradeLogo,
-      description: <P>TD Ameritrade</P>,
+      description: <P>TD Ameritrade is one of the largest discount brokerages in the U.S. with over $1.3 trillion in client assets.</P>,
     },
   ];
 
