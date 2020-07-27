@@ -91,6 +91,9 @@ const WelcomePage = React.lazy(() =>
 const SettingsPage = React.lazy(() =>
   import(/* webpackChunkName: "settings" */ '../pages/SettingsPage'),
 );
+const UpgradePage = React.lazy(() =>
+  import(/* webpackChunkName: "upgrade" */ '../pages/UpgradePage'),
+);
 const PerformancePage = React.lazy(() =>
   import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
 );
@@ -287,6 +290,9 @@ const App = () => {
             )}
             {(showSecureApp || showOnboardingApp) && (
               <Route path={prefixPath('/settings')} component={SettingsPage} />
+            )}
+            {(showSecureApp || showOnboardingApp) && (
+              <Route path={prefixPath('/upgrade')} component={UpgradePage} />
             )}
             {(showSecureApp || showOnboardingApp) && (
               <Route path={prefixPath('/coupon')} component={CouponPage} />
