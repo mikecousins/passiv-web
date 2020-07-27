@@ -71,7 +71,7 @@ export const DashboardReporting = () => {
             a.value,
           ];
         }),
-        color: '#04A286',
+        color: '#194EC1',
       },
     ],
     [totalEquityData],
@@ -89,6 +89,7 @@ export const DashboardReporting = () => {
 
   return (
     <React.Fragment>
+      Total Value
       <DashboardChart
         className="dashboard"
         data={totalValueData}
@@ -96,6 +97,7 @@ export const DashboardReporting = () => {
         series={totalValueSeries}
         displayTotal={true}
       />
+      Contributions
       <DashboardChart
         className="dashboard"
         data={contributionWithdrawalData}

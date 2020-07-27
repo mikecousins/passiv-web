@@ -6,6 +6,7 @@ import Group from '../components/Group';
 import { selectIsAuthorized } from '../selectors';
 import { selectDashboardGroups } from '../selectors/groups';
 import TotalHoldings from '../components/TotalHoldings';
+import Contributions1Y from '../components/Contributions1Y';
 import DashboardReporting from '../components/Performance/Dashboard/DashboardReporting';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
 
@@ -33,6 +34,7 @@ export const DashboardPage = () => {
 
   return (
     <React.Fragment>
+      <Contributions1Y />
       <TotalHoldings />
       <DashboardReporting />
       {groupDisplay}
