@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import CashNotifcationSettings from './CashNotificationSettings';
 import DriftNotifcationSettings from './DriftNotificationSettings';
+import NewSymbolNotificationSettings from './NewSymbolNotificationSettings';
 import { H2 } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
 
@@ -23,6 +24,9 @@ const NotificationsManager = () => (
     <H2>Notifications</H2>
     <InputContainer>
       <CashNotifcationSettings />
+    </InputContainer>
+    <InputContainer>
+      <NewSymbolNotificationSettings />
     </InputContainer>
     <DriftGroup>
       <DriftNotifcationSettings />
