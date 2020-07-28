@@ -1,7 +1,7 @@
 import React from 'react';
 import DashboardTotalValueChart from './DashboardTotalValueChart';
 import DashboardContributionChart from './DashboardContributionChart';
-import Contributions1Y from '../../Contributions1Y';
+import Contributions1Y from './Contributions1Y';
 import { useSelector } from 'react-redux';
 import { selectSettings } from '../../../selectors';
 

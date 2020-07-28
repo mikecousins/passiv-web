@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
-import { selectContributions1Y } from '../selectors/performance';
-import Number from './Number';
+import { selectContributions1Y } from '../../../selectors/performance';
+import Number from '../../Number';
 
 export const ContributionsContainer = styled.div`
   text-align: left;
