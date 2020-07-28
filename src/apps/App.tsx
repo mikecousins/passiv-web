@@ -97,6 +97,11 @@ const UpgradePage = React.lazy(() =>
 const PerformancePage = React.lazy(() =>
   import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
 );
+const DashboardConfigPage = React.lazy(() =>
+  import(
+    /* webpackChunkName: "dashboardConfig" */ '../pages/DashboardConfigPage'
+  ),
+);
 
 declare global {
   interface Window {
@@ -313,6 +318,12 @@ const App = () => {
               <Route path={prefixPath('/performance')}>
                 <Redirect to={prefixPath(`/reporting`)} />
               </Route>
+            )}
+            {showSecureApp && (
+              <Route
+                path={prefixPath('/dashboard-config')}
+                component={DashboardConfigPage}
+              />
             )}
             {loggedIn && (
               <Route

@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { Chart } from 'react-charts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { toDollarString } from '../Performance';
 import { CustomTooltip } from '../PerformanceChart';
 
 export const ChartBox = styled.div`
@@ -58,25 +57,6 @@ type Props2 = {
   primaryAxis: any;
   datum: any;
   displayTotal: boolean;
-};
-
-const dtfMonth = new Intl.DateTimeFormat('en', { month: 'short' });
-
-const formatDate = (date: Date) => {
-  if (typeof date !== 'object') {
-    return date;
-  } else {
-    return (
-      dtfMonth.format(date) + ' ' + date.getDate() + ', ' + date.getFullYear()
-    );
-  }
-};
-
-const toDollarStringWithSigns = (total: any) => {
-  const dollarString = toDollarString(total);
-  return dollarString[0] !== '-'
-    ? '$' + dollarString
-    : '-$' + dollarString.slice(1);
 };
 
 export default DashboardChart;

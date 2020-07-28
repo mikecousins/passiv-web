@@ -1,13 +1,10 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import { selectContributions1Y } from '../selectors/performance';
 import Number from './Number';
-import { putData } from '../api';
-import { loadSettings } from '../actions';
-import CurrencySelector from './CurrencySelector';
 
 export const ContributionsContainer = styled.div`
   text-align: left;
@@ -37,7 +34,6 @@ export const ContributionsContainer = styled.div`
 
 export const Contributions1Y = () => {
   const contributions1Y = useSelector(selectContributions1Y);
-  const dispatch = useDispatch();
   let displayContributions = <FontAwesomeIcon icon={faSpinner} spin />;
   if (contributions1Y !== null && contributions1Y !== undefined) {
     displayContributions = (

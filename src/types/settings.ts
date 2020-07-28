@@ -14,4 +14,7 @@ export type Settings = {
   referral_code: string;
   sms_2fa_enabled: boolean;
   phone_number: string | null;
+  show_total_value_chart: boolean;
+  show_contribution_chart: boolean;
+  show_contributions1Y: boolean;
 };

@@ -1,12 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faCogs } from '@fortawesome/free-solid-svg-icons';
 import Group from '../components/Group';
 import { selectIsAuthorized } from '../selectors';
 import { selectDashboardGroups } from '../selectors/groups';
 import TotalHoldings from '../components/TotalHoldings';
-import Contributions1Y from '../components/Contributions1Y';
 import DashboardReporting from '../components/Performance/Dashboard/DashboardReporting';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
 
@@ -34,7 +34,9 @@ export const DashboardPage = () => {
 
   return (
     <React.Fragment>
-      <Contributions1Y />
+      <Link to={'/app/dashboard-config'}>
+        <FontAwesomeIcon icon={faCogs} />
+      </Link>
       <TotalHoldings />
       <DashboardReporting />
       {groupDisplay}
