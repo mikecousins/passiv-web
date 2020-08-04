@@ -8,6 +8,9 @@ import { selectDashboardGroups } from '../selectors/groups';
 import TotalHoldings from '../components/TotalHoldings';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
 
+import { TradesContainer } from '../styled/Group';
+import { SharingWidget } from '../components/SharingWidget';
+
 export const DashboardPage = () => {
   const authorized = useSelector(selectIsAuthorized);
   const groups = useSelector(selectDashboardGroups);
@@ -33,6 +36,11 @@ export const DashboardPage = () => {
   return (
     <React.Fragment>
       <TotalHoldings />
+
+      <TradesContainer>
+        <SharingWidget />
+      </TradesContainer>
+
       {groupDisplay}
     </React.Fragment>
   );
