@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { H2, P } from '../styled/GlobalElements';
 
-import { selectAuthorizationBrokerages } from '../selectors';
+import { selectAuthorizationBrokerages, selectSettings } from '../selectors';
 
 import {
   FacebookShareButton,
@@ -26,12 +26,13 @@ const ShareButton = styled.div`
 
 export const SharingWidget = () => {
   const authorizations = useSelector(selectAuthorizationBrokerages);
+  const settings = useSelector(selectSettings);
 
   const brokerageNames = authorizations.map(authorization =>
     authorization.slug.toLowerCase(),
   );
 
-  const shareUrl = 'https://getpassiv.com';
+  const shareUrl = 'https://getpassiv.com/?ref='.concat(settings.referral_code);
 
   const facebookHashtag = ['#GetPassiv'];
   const twitterHashtag = ['DIYinvesting', 'personalfinance'].concat(
