@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
-import { H1DarkStyle, H2DarkStyle, VerticalPadding } from '../../styled/Setup';
+import {
+  H1DarkStyle,
+  H2DarkStyle,
+  PDarkStyle,
+  ADarkStyle,
+} from '../../styled/Setup';
 import { Button } from '../../styled/Button';
-
-const ScalingIFrame = styled.iframe`
-  width: 100%;
-`;
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const WelcomeVideo = () => {
   const [displayBox, setDisplayBox] = useState(true);
@@ -15,21 +17,20 @@ const WelcomeVideo = () => {
     <React.Fragment>
       {!displayBox ? null : (
         <ShadowBox background="#2a2d34">
-          <H1DarkStyle>Welcome to Passiv!</H1DarkStyle>
+          <H1DarkStyle>Setup Portfolios</H1DarkStyle>
           <H2DarkStyle>
-            Here's a 3-minute video to help you get started
+            Now it's time to set targets for your portfolios. Here's how:
           </H2DarkStyle>
-          <VerticalPadding>
-            <ScalingIFrame
-              title="Passiv Basics"
-              width="575"
-              height="320"
-              src="https://player.vimeo.com/video/365762313"
-              frameBorder="0"
-              allow="autoplay; fullscreen"
-              allowFullScreen
-            ></ScalingIFrame>
-          </VerticalPadding>
+          <PDarkStyle>
+            <ADarkStyle
+              href="https://getpassiv.com/help/tutorials/how-to-set-up-a-target-portfolio/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Guide to set up a target portfolio{' '}
+              <FontAwesomeIcon icon={faExternalLinkAlt} />
+            </ADarkStyle>
+          </PDarkStyle>
           <Button onClick={() => setDisplayBox(false)}>Close</Button>
         </ShadowBox>
       )}

@@ -82,3 +82,13 @@ export const H2DarkStyle = styled(H2)`
   font-size: 22px;
   padding-bottom: 20px;
 `;
+
+export const PDarkStyle = styled(P)`
+  color: #04a287;
+  font-size: 18px;
+  padding-bottom: 10px;
+`;
+
+export const ADarkStyle = styled(A)`
+  color: #04a287;
+`;
