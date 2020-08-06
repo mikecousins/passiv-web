@@ -169,8 +169,7 @@ export const PortfolioGroupTrades = ({
     }
   }
 
-  // if (tradesSubmitted || (tradesToRender && tradesToRender.trades.length)) {
-  if (tradesSubmitted) {
+  if (tradesSubmitted || (tradesToRender && tradesToRender.trades.length)) {
     return (
       <TradesContainer>
         <H2>Trades</H2>
