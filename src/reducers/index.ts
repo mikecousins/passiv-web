@@ -8,6 +8,8 @@ import simple from './simple';
 import simpleList from './simpleList';
 import updateServiceWorker from './updateServiceWorker';
 import online from './online';
+import version from './version';
+import referral from './referral';
 import { SubscriptionData } from '../types/subscription';
 import { GroupInfoData, Balance } from '../types/groupInfo';
 import { GroupData } from '../types/group';
@@ -19,6 +21,8 @@ import { Authorization } from '../types/authorization';
 import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
 import { Settings } from '../types/settings';
+import { PerformanceData, AdjustedCostBasis } from '../types/performance';
+import { selectedTimeframe, selectedAccounts } from './performance';
 
 export default (history: any) =>
   combineReducers({
@@ -30,6 +34,10 @@ export default (history: any) =>
     language,
     updateServiceWorker,
     online,
+    version,
+    selectedTimeframe,
+    selectedAccounts,
+    referral,
     helpArticles: simple<any>({
       baseType: 'FETCH_HELP_ARTICLES',
       userData: false,
@@ -84,6 +92,14 @@ export default (history: any) =>
     }),
     groupInfo: simpleList<GroupInfoData>({
       baseType: 'FETCH_GROUP_INFO',
+      userData: true,
+    }),
+    performanceAll: simple<PerformanceData>({
+      baseType: 'FETCH_PERFORMANCE_ALL',
+      userData: true,
+    }),
+    performanceACB: simple<AdjustedCostBasis[]>({
+      baseType: 'FETCH_ACB',
       userData: true,
     }),
   });

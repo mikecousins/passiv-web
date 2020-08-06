@@ -6,8 +6,11 @@ export const Button = styled.button`
   border: none;
   color: white;
   padding: 14px 18px 16px;
-  margin: 5px;
   border-radius: 4px;
+  margin-right: 10px;
+  &:last-of-type {
+    margin-right: 0;
+  }
 `;
 
 export const SmallButton = styled(Button)`

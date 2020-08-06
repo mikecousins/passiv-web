@@ -4,7 +4,7 @@ import { Redirect, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { postData } from '../api';
-import { initialLoad } from '../actions';
+import { reloadEverything } from '../actions';
 import ShadowBox from '../styled/ShadowBox';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
@@ -35,7 +35,7 @@ const InteractiveBrokersOauthPage = () => {
         oauth_verifier: oauth_verifier,
       })
         .then(() => {
-          dispatch(initialLoad());
+          dispatch(reloadEverything());
           setTimeout(() => {
             setLoading(false);
             setSuccess(true);
@@ -52,6 +52,8 @@ const InteractiveBrokersOauthPage = () => {
   if (success) {
     return <Redirect to="/app/setup-groups" />;
   }
+
+  let overrideError = false;
 
   let errorDisplay = null;
   if (error) {
@@ -88,8 +90,27 @@ const InteractiveBrokersOauthPage = () => {
         errorDisplay = (
           <P>
             Passiv is not presently available to Canadian accounts at
-            Interactive Brokers.
+            Interactive Brokers. We apologize for the inconvenience, but this is
+            a business decision by Interactive Brokers Canada and not something
+            we can resolve without their approval.
           </P>
+        );
+        break;
+      case '1049':
+        overrideError = true;
+        errorDisplay = (
+          <React.Fragment>
+            <P>
+              We have successfully connected your Interactive Brokers account,
+              but there is a 24-hour delay before your account information will
+              be available. You will receive an email letting you know when your
+              account data has been successfully synced.
+            </P>
+            <P>
+              If you don't receive an email within 2 days, please try again or{' '}
+              <Link to="/app/help">contact support</Link>.
+            </P>
+          </React.Fragment>
         );
         break;
       case '0000':
@@ -121,27 +142,39 @@ const InteractiveBrokersOauthPage = () => {
     }
   }
 
+  let result = null;
+  if (loading === true) {
+    result = (
+      <React.Fragment>
+        <Step>
+          Establishing connection to Interactive Brokers...{' '}
+          <FontAwesomeIcon icon={faSpinner} spin />
+        </Step>
+      </React.Fragment>
+    );
+  } else {
+    result = (
+      <React.Fragment>
+        {overrideError ? (
+          <Step>Connection successful</Step>
+        ) : (
+          <Step>Failed to establish connection :(</Step>
+        )}
+
+        <ShadowBox>
+          {errorDisplay}
+          <Button onClick={() => dispatch(push('/app/settings'))}>
+            Settings
+          </Button>
+        </ShadowBox>
+      </React.Fragment>
+    );
+  }
+
   return (
     <ShadowBox background="#04a287">
       <H1 color="white">SETUP</H1>
-      {loading ? (
-        <React.Fragment>
-          <Step>
-            Establishing connection to Interactive Brokers...{' '}
-            <FontAwesomeIcon icon={faSpinner} spin />
-          </Step>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <Step>Failed to establish connection :(</Step>
-          <ShadowBox>
-            {errorDisplay}
-            <Button onClick={() => dispatch(push('/app/settings'))}>
-              Settings
-            </Button>
-          </ShadowBox>
-        </React.Fragment>
-      )}
+      {result}
     </ShadowBox>
   );
 };

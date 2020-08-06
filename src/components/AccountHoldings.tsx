@@ -5,10 +5,10 @@ import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import { Title, P } from '../styled/GlobalElements';
 import Number from './Number';
-import { selectCurrentAccountHoldings } from '../selectors/groups';
 import { selectCurrencies } from '../selectors';
 import ShadowBox from '../styled/ShadowBox';
 import { SymbolDetail } from './SymbolDetail';
+import { AccountHoldings as AccountHoldingsType } from '../selectors/groups';
 
 export const HoldingsTable = styled.table`
   width: 100%;
@@ -44,7 +44,7 @@ export const HoldingsTable = styled.table`
   }
   td {
     padding: 15px 12px;
-    &:first-child {
+    &:first-of-type {
       padding: 15px 0;
     }
   }
@@ -73,7 +73,7 @@ export const HoldingsTable = styled.table`
       display: block;
       text-align: right;
       padding: 15px 0px;
-      &:first-child {
+      &:first-of-type {
         text-align: center;
       }
       span {
@@ -92,7 +92,7 @@ export const HoldingsTable = styled.table`
       text-transform: uppercase;
     }
 
-    td:last-child {
+    td:last-of-type {
       border-bottom: 0;
     }
   }
@@ -110,11 +110,14 @@ const NoPositionsBox = styled.div`
 
 const CurrencyCodeBox = styled.span``;
 
-export const AccountHoldings = () => {
-  const account = useSelector(selectCurrentAccountHoldings);
+type Props = {
+  holdings: AccountHoldingsType | null;
+};
+
+export const AccountHoldings = ({ holdings }: Props) => {
   const currencies = useSelector(selectCurrencies);
 
-  if (!account) {
+  if (!holdings) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
   }
 
@@ -125,8 +128,8 @@ export const AccountHoldings = () => {
   };
 
   const renderedPositions =
-    account.positions &&
-    account.positions.map((position: any) => {
+    holdings.positions &&
+    holdings.positions.map((position: any) => {
       const currency = getCurrencyById(position.symbol.symbol.currency);
       return (
         <tr key={position.symbol.id}>
@@ -152,7 +155,7 @@ export const AccountHoldings = () => {
   return (
     <ShadowBox>
       <HoldingsBox>
-        {account.positions && account.positions.length > 0 ? (
+        {holdings.positions && holdings.positions.length > 0 ? (
           <HoldingsTable>
             <thead>
               <tr>

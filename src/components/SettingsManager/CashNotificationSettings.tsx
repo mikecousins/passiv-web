@@ -3,18 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { selectSettings } from '../selectors';
-import { loadSettings } from '../actions';
-import { putData } from '../api';
-import styled from '@emotion/styled';
-import { ToggleButton, StateText } from '../styled/ToggleButton';
-import { OptionsTitle } from '../styled/GlobalElements';
-
-const DividingLine = styled.div`
-  margin-top: 10px;
-  padding-top: 10px;
-  margin-bottom: 10px;
-`;
+import { selectSettings } from '../../selectors';
+import { loadSettings } from '../../actions';
+import { putData } from '../../api';
+import { ToggleButton, StateText } from '../../styled/ToggleButton';
+import { OptionsTitle, DisabledBox } from '../../styled/GlobalElements';
 
 const CashNotificationSettings = () => {
   const settings = useSelector(selectSettings);
@@ -41,7 +34,7 @@ const CashNotificationSettings = () => {
   }
 
   return (
-    <DividingLine>
+    <React.Fragment>
       <OptionsTitle>Cash Notifications:</OptionsTitle>
       <ToggleButton onClick={updateNotification}>
         {settings.receive_cash_notifications ? (
@@ -56,7 +49,11 @@ const CashNotificationSettings = () => {
           </React.Fragment>
         )}
       </ToggleButton>
-    </DividingLine>
+      <DisabledBox>
+        Receive an email notification when new cash or dividends arrive in your
+        account.
+      </DisabledBox>
+    </React.Fragment>
   );
 };
 

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { push, replace } from 'connected-react-router';
 import { postData } from '../api';
-import { initialLoad } from '../actions';
+import { reloadEverything } from '../actions';
 import ShadowBox from '../styled/ShadowBox';
 import { H1, H2, P, BulletUL, A } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
@@ -44,7 +44,7 @@ const QuestradeOauthPage = () => {
     } else {
       postData('/api/v1/brokerages/authComplete/', { token: token })
         .then(() => {
-          dispatch(initialLoad());
+          dispatch(reloadEverything());
           if (isPaid || !questradeOfferFeatureActive) {
             setTimeout(() => {
               dispatch(replace('/app/setup-groups'));
@@ -166,7 +166,7 @@ const QuestradeOauthPage = () => {
                 </li>
                 <li>
                   <A
-                    href="https://getpassiv.com/help/tutorials/multi-account-portfolios/"
+                    href="https://getpassiv.com/help/tutorials/how-to-set-up-multi-account-portfolios"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -176,7 +176,7 @@ const QuestradeOauthPage = () => {
                 </li>
                 <li>
                   <A
-                    href="https://getpassiv.com/help/tutorials/brokerage-connections/"
+                    href="https://getpassiv.com/help/tutorials/how-to-manage-your-brokerage-connections"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -186,7 +186,7 @@ const QuestradeOauthPage = () => {
                 </li>
                 <li>
                   <A
-                    href="https://getpassiv.com/help/tutorials/drift-notifications/"
+                    href="https://getpassiv.com/help/tutorials/how-to-manage-your-drift-notifications"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

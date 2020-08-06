@@ -17,6 +17,15 @@ export const selectLoggedIn = (state: AppState) => !!state.auth.token;
 
 export const selectToken = (state: AppState) => state.auth.token;
 
+export const selectReferral = (state: AppState) => state.referral;
+
+export const selectReferralCode = createSelector(selectReferral, referral => {
+  if (referral !== null) {
+    return referral.referralCode;
+  }
+  return null;
+});
+
 export const selectTokenMinutesRemaining = createSelector(
   selectToken,
   selectAppTime,
@@ -198,7 +207,7 @@ export const selectBrokeragesNeedData = createSelector(
       return false;
     }
     return shouldUpdate(rawBrokerages, {
-      staleTime: ms.days(1),
+      staleTime: ms.minutes(5),
       now: time,
     });
   },
@@ -210,6 +219,72 @@ export const selectAuthorizations = createSelector(
     if (rawAuthorizations.data) {
       return rawAuthorizations.data;
     }
+  },
+);
+
+export const selectDisabledAuthorizations = createSelector(
+  selectAuthorizations,
+  authorizations => {
+    const disabledAuthorizations =
+      authorizations !== undefined &&
+      authorizations.filter(a => a.disabled === true);
+    return disabledAuthorizations;
+  },
+);
+
+export const selectAuthorizationBrokerages = createSelector(
+  selectBrokerages,
+  selectAuthorizations,
+  (brokerages, authorizations) => {
+    if (authorizations) {
+      const authorizedBrokerageIds = authorizations.map(a => a.brokerage.id);
+      if (brokerages) {
+        return brokerages.filter(
+          b => authorizedBrokerageIds.indexOf(b.id) >= 0,
+        );
+      }
+    }
+    return null;
+  },
+);
+
+export const selectMaintenanceBrokerages = createSelector(
+  selectAppTime,
+  selectAuthorizationBrokerages,
+  selectBrokerages,
+  (appTime, brokerages, allBrokerages) => {
+    if (brokerages !== null) {
+      const maintenanceBrokerages: any = [];
+      let testBrokerages = brokerages;
+      if (allBrokerages !== undefined && brokerages.length === 0) {
+        testBrokerages = allBrokerages;
+      }
+      testBrokerages.map((b: any) => {
+        let maintenance = b.maintenance_mode;
+        if (maintenance === false) {
+          const now = new Date();
+          const weekDay = now.getDay();
+
+          b.maintenance_windows.map((w: any) => {
+            let start = new Date(w.start);
+            let end = new Date(w.end);
+            let weekdays = w.weekdays.split(',').map((d: string) => Number(d));
+            if (weekdays.indexOf(weekDay) >= 0) {
+              if (now >= start && now < end) {
+                maintenance = true;
+              }
+            }
+            return null;
+          });
+        }
+        if (maintenance === true) {
+          maintenanceBrokerages.push(b);
+        }
+        return null;
+      });
+      return maintenanceBrokerages;
+    }
+    return null;
   },
 );
 

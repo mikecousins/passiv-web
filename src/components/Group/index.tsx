@@ -37,7 +37,7 @@ export const Group = ({ group }: Props) => {
     if (group.setupComplete === false) {
       accuracy = (
         <Tooltip label="There is no target set for this portfolio, click Setup to continue.">
-            <FontAwesomeIcon icon={faExclamationTriangle} />
+          <FontAwesomeIcon icon={faExclamationTriangle} />
         </Tooltip>
       );
     } else {
@@ -129,6 +129,7 @@ export const Group = ({ group }: Props) => {
           trades={group.trades}
           groupId={group.id}
           onClose={() => setExpanded(false)}
+          error={null}
         />
       )}
     </Container>

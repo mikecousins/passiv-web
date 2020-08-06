@@ -4,7 +4,7 @@ import { Redirect, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { postData } from '../api';
-import { initialLoad } from '../actions';
+import { reloadEverything } from '../actions';
 import ShadowBox from '../styled/ShadowBox';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
@@ -30,7 +30,7 @@ const TradeItOauthPage = () => {
       setLoading(true);
       postData('/api/v1/brokerages/authComplete/', { token: token })
         .then(() => {
-          dispatch(initialLoad());
+          dispatch(reloadEverything());
           setTimeout(() => {
             setLoading(false);
             setSuccess(true);

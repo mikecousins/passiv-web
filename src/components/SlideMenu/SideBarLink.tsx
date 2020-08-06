@@ -10,11 +10,19 @@ import styled from '@emotion/styled';
 const ColorBox = styled.div``;
 
 const IndentColorBox = styled(ColorBox)`
-  padding-left: 5px;
   a {
-    margin-top: -10px;
-    padding-top: 15px;
+    padding: 8px 15px 6px 20px;
+    margin: -4px 0 6px;
   }
+`;
+
+const BetaTag = styled.span`
+  border: 1px solid white;
+  border-radius: 25px;
+  padding: 1px 4px;
+  margin-left: 5px;
+  font-weight: 500;
+  font-size: 12px;
 `;
 
 type Props = {
@@ -27,6 +35,7 @@ type Props = {
   spinnerLoading?: boolean;
   hideArrow?: boolean;
   indent?: boolean;
+  beta?: boolean;
 };
 
 const SideBarLink = ({
@@ -39,6 +48,7 @@ const SideBarLink = ({
   spinnerLoading,
   hideArrow,
   indent,
+  beta = false,
 }: Props) => {
   const pathname = useSelector(selectPathname);
 
@@ -52,7 +62,8 @@ const SideBarLink = ({
   let selected = pathname === linkPath;
   if (
     pathname.startsWith(linkPath) &&
-    pathname.split('/').reverse()[0] === 'settings'
+    (pathname.split('/').reverse()[0] === 'settings' ||
+      pathname.includes('performance'))
   ) {
     selected = true;
   }
@@ -103,6 +114,7 @@ const SideBarLink = ({
       {indicator}
       {indent ? name : <strong>{name}</strong>}
       {!hideArrow && <FontAwesomeIcon icon={faAngleRight} />}
+      {beta && <BetaTag>BETA</BetaTag>}
     </Link>
   );
 

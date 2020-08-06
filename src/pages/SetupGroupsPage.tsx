@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AccountsManager from '../components/AccountsManager';
+import AccountsManager from '../components/SettingsManager/AccountsManager';
 import OnboardingProgress from '../components/OnboardingProgress';
-import SubscriptionManager from '../components/SubscriptionManager';
+import SubscriptionManager from '../components/SettingsManager/SubscriptionManager';
 
 const SetupGroupPage = () => (
   <div>

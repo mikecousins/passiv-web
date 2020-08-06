@@ -34,7 +34,9 @@ const Legend = styled.div`
   display: inline-block;
   margin: 0 5px 0 auto;
   padding: 11px 16px;
-  border-radius: 4px;
+  @media (max-width: 900px) {
+    padding-right: 0;
+  }
 `;
 
 const BaseLegendTitle = styled.span`
@@ -77,7 +79,20 @@ const ExcludedNote = styled.div`
   font-size: 1em;
 `;
 
-const ExcludeTitle = styled(BaseLegendTitle)``;
+const ExcludeTitle = styled(BaseLegendTitle)`
+  @media (max-width: 900px) {
+    display: none;
+  }
+`;
+
+const ActionsContainer = styled.div`
+  @media (max-width: 900px) {
+    display: flex;
+    justify-content: space-between;
+    margin: 35px 0 10px;
+    max-width: 500px;
+  }
+`;
 
 type Props = {
   lockable: boolean;
@@ -105,6 +120,10 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
     target.symbol = symbol.id;
     // TODO hack to add is_supported flag
     target.is_supported = true;
+  };
+
+  const formatTicker = (ticker: string) => {
+    return ticker.replace('.UN.', '-U.');
   };
 
   const toggleEditMode = () => {
@@ -167,8 +186,9 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
     .filter(target => target.is_supported && !target.is_excluded)
     .map((target: any, index: number) => {
       iValue = index + 1;
+      let ticker = formatTicker(target.fullSymbol.symbol);
       portfolioVisualizerURLParts.push(
-        `&symbol${iValue}=${target.fullSymbol.symbol}&allocation${iValue}_1=${target.percent}`,
+        `&symbol${iValue}=${ticker}&allocation${iValue}_1=${target.percent}`,
       );
       return null;
     });
@@ -379,7 +399,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                                 `targets.${index}.percent` as 'targets',
                                 parseFloat(
                                   props.values.targets[index].percent.toFixed(
-                                    1,
+                                    4,
                                   ),
                                 ),
                               );
@@ -407,48 +427,50 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                   <ErrorMessage name="targets" component="div" />
                   {canEdit ? (
                     <React.Fragment>
-                      <button
-                        type="button"
-                        onClick={() => arrayHelpers.push(generateNewTarget())}
-                      >
-                        Add
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (lockable) {
-                            resetTargets(props.resetForm);
-                          } else {
-                            let len = props.values.targets.length;
-                            for (let i = 0; i < len; i++) {
-                              props.values.targets.pop();
-                            }
-                            arrayHelpers.push(generateNewTarget());
-                          }
-                        }}
-                      >
-                        Reset
-                      </button>
-                      <Button
-                        type="submit"
-                        onClick={() => props.handleSubmit()}
-                        disabled={
-                          props.isSubmitting || !props.dirty || !props.isValid
-                        }
-                      >
-                        Save
-                      </Button>
-                      {lockable && (
+                      <ActionsContainer>
+                        <button
+                          type="button"
+                          onClick={() => arrayHelpers.push(generateNewTarget())}
+                        >
+                          Add
+                        </button>
                         <button
                           type="button"
                           onClick={() => {
-                            props.handleReset();
-                            toggleEditMode();
+                            if (lockable) {
+                              resetTargets(props.resetForm);
+                            } else {
+                              let len = props.values.targets.length;
+                              for (let i = 0; i < len; i++) {
+                                props.values.targets.pop();
+                              }
+                              arrayHelpers.push(generateNewTarget());
+                            }
                           }}
                         >
-                          Cancel
+                          Reset
                         </button>
-                      )}
+                        <Button
+                          type="submit"
+                          onClick={() => props.handleSubmit()}
+                          disabled={
+                            props.isSubmitting || !props.dirty || !props.isValid
+                          }
+                        >
+                          Save
+                        </Button>
+                        {lockable && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              props.handleReset();
+                              toggleEditMode();
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        )}
+                      </ActionsContainer>
                     </React.Fragment>
                   ) : (
                     <ButtonBox>

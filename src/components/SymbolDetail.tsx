@@ -8,6 +8,7 @@ const SymbolNameBox = styled.span`
     padding-left: 10px;
   }
   @media (max-width: 900px) {
+    display: none;
     margin-top: 12px;
     line-height: 1.4;
     font-weight: 600;

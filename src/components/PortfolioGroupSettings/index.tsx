@@ -6,19 +6,26 @@ import { H2 } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
 import SettingsToggle from './SettingsToggle';
 import CurrencySeparation from './CurrencySeparation';
+import CashManagement from '../CashManagement';
 import {
   selectCurrentGroupSettings,
   selectCurrentGroupId,
 } from '../../selectors/groups';
+import { selectCashManagementFeature } from '../../selectors/features';
+import { selectAccounts } from '../../selectors/accounts';
 import { putData } from '../../api';
 import { loadGroup } from '../../actions';
 import { toast } from 'react-toastify';
-import SettingsSummary from './SettingsSummary';
+import TradesExplanation from '../TradesExplanation';
 
 export const PortfolioGroupSettings = () => {
   const settings = useSelector(selectCurrentGroupSettings);
+  const accounts = useSelector(selectAccounts);
   const groupId = useSelector(selectCurrentGroupId);
+  const featureCashManagement = useSelector(selectCashManagementFeature);
   const dispatch = useDispatch();
+
+  const groupAccounts = accounts.filter(a => a.portfolio_group === groupId);
 
   const updateSettings = () => {
     if (settings) {
@@ -34,10 +41,9 @@ export const PortfolioGroupSettings = () => {
 
   return (
     <ShadowBox>
-      <H2>Currency</H2>
+      <H2>General</H2>
       {settings ? (
         <React.Fragment>
-          <br />
           <SettingsToggle
             name="Allow selling to rebalance"
             value={settings.buy_only}
@@ -49,7 +55,6 @@ export const PortfolioGroupSettings = () => {
             }}
             invert={true}
           />
-          <br />
           <CurrencySeparation
             preventConversion={settings.prevent_currency_conversion}
             onChangePreventConversion={() => {
@@ -66,7 +71,6 @@ export const PortfolioGroupSettings = () => {
               }
             }}
           />
-          <SettingsSummary settings={settings} />
         </React.Fragment>
       ) : (
         <React.Fragment>
@@ -74,6 +78,8 @@ export const PortfolioGroupSettings = () => {
           <FontAwesomeIcon icon={faSpinner} spin />
         </React.Fragment>
       )}
+      {featureCashManagement && <CashManagement />}
+      <TradesExplanation settings={settings} accounts={groupAccounts} />
     </ShadowBox>
   );
 };

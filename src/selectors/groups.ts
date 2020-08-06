@@ -15,6 +15,8 @@ import {
   selectCurrentAccountBalances,
   selectAccountPositions,
   selectCurrentAccountPositions,
+  selectCurrentAccountPositionsError,
+  selectCashRestrictions,
 } from './accounts';
 import { selectIsEditMode } from './router';
 import shouldUpdate from '../reactors/should-update';
@@ -756,13 +758,15 @@ export const selectCurrentAccountHoldings = createSelector<
   Account[] | undefined,
   SimpleListState<Balance[]>,
   SimpleListState<Position[]>,
+  boolean,
   AccountHoldings | null
 >(
   selectCurrentAccountId,
   selectAccounts,
   selectAccountBalances,
   selectAccountPositions,
-  (accountId, accounts, accountBalances, accountPositions) => {
+  selectCurrentAccountPositionsError,
+  (accountId, accounts, accountBalances, accountPositions, accountError) => {
     if (!accountId || !accounts || !accountBalances || !accountPositions) {
       return null;
     }
@@ -782,6 +786,7 @@ export const selectCurrentAccountHoldings = createSelector<
       type: account.meta.type,
       institution_name: account.institution_name,
       positions,
+      error: accountError,
     };
   },
 );
@@ -1074,5 +1079,28 @@ export const selectGroupedAccounts = createSelector(
     });
 
     return groupedAccounts;
+  },
+);
+
+export const selectCurrentGroupAccounts = createSelector(
+  selectCurrentGroupInfo,
+  selectAccounts,
+  (currentGroupInfo, accounts) => {
+    return accounts.filter(
+      a =>
+        currentGroupInfo &&
+        currentGroupInfo.accounts.find(account => account.id === a.id),
+    );
+    // return currentGroupInfo && currentGroupInfo.accounts;
+  },
+);
+
+export const selectCurrentGroupCashRestrictions = createSelector(
+  selectCurrentGroupAccounts,
+  selectCashRestrictions,
+  (accounts, cashRestrictions) => {
+    return cashRestrictions.filter(
+      c => accounts && accounts.find(a => a.id === c.account),
+    );
   },
 );

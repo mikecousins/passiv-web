@@ -8,7 +8,7 @@ const Heading = styled.h1`
   font-weight: 400;
   padding-bottom: 10px;
   + p {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
   }
 `;
 

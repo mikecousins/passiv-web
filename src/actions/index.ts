@@ -1,6 +1,7 @@
 import { getData, postData } from '../api';
 import { ActionCreator, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import { setSelectedTimeframe, loadPerformanceAll } from './performance';
 
 export const loginSucceeded: ActionCreator<Action> = payload => ({
   type: 'LOGIN_SUCCEEDED',
@@ -33,6 +34,11 @@ export const registerStarted: ActionCreator<Action> = payload => ({
 
 export const registerFailed: ActionCreator<Action> = payload => ({
   type: 'REGISTER_FAILED',
+  payload,
+});
+
+export const setReferralCode: ActionCreator<Action> = payload => ({
+  type: 'SET_REFERRAL_CODE',
   payload,
 });
 
@@ -288,12 +294,12 @@ export const loadGroupAndAccounts: ActionCreator<ThunkAction<
   };
 };
 
-export const initialLoad: ActionCreator<ThunkAction<
+export const reloadEverything: ActionCreator<ThunkAction<
   void,
   any,
   any,
   Action<any>
->> = () => {
+>> = selectedAccounts => {
   return dispatch => {
     dispatch(fetchAuthorizationsStart());
     getData('/api/v1/authorizations')
@@ -365,6 +371,9 @@ export const initialLoad: ActionCreator<ThunkAction<
         return dispatch(fetchAccountsSuccess(response));
       })
       .catch(error => dispatch(fetchAccountsError(error)));
+
+    dispatch(setSelectedTimeframe('1Y'));
+    dispatch(loadPerformanceAll(selectedAccounts));
   };
 };
 

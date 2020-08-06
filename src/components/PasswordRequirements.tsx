@@ -15,14 +15,18 @@ const H1 = styled.h1`
 export const PasswordRequirements = () => {
   return (
     <ShadowBox>
-      <P>
-        <H1>Password requirements</H1>
-        <PaddedUL>
-          <li>must contain at least 8 characters</li>
-          <li>can't be a commonly used password</li>
-          <li>can't be entirely numeric</li>
-        </PaddedUL>
-      </P>
+      <H1>Password requirements</H1>
+      <PaddedUL>
+        <li>
+          <P>must contain at least 8 characters</P>
+        </li>
+        <li>
+          <P>can't be a commonly used password</P>
+        </li>
+        <li>
+          <P>can't be entirely numeric</P>
+        </li>
+      </PaddedUL>
     </ShadowBox>
   );
 };

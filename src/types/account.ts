@@ -7,6 +7,14 @@ type Meta = {
   institution_name: string;
 };
 
+export type CashRestriction = {
+  id: string;
+  account: string;
+  currency: string;
+  type: string;
+  amount: number;
+};
+
 export type Account = {
   loading: JSX.Element;
   id: string;
@@ -16,6 +24,7 @@ export type Account = {
   institution_name: string;
   number: string;
   meta: Meta;
+  cash_restrictions: CashRestriction[];
 };
 
 export type NestedSymbol = {

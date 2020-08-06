@@ -2,8 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { selectLoggedIn } from '../../selectors';
+import { selectLoggedIn, selectAuthorizations } from '../../selectors';
+import { selectPerformancePageFeature } from '../../selectors/features';
 import { selectGroups } from '../../selectors/groups';
+import { Authorization } from '../../types/authorization';
 import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
@@ -15,17 +17,17 @@ const StyledAside = styled.aside`
   width: 212px;
   height: calc(100% - 150px);
   padding-top: 12px;
-  text-transform: uppercase;
   font-weight: 700;
   position: fixed;
   transition: 0.25s all;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 136px;
+  padding-bottom: 36px;
+
   a {
     color: #fff;
     text-decoration: none;
-    padding: 20px 15px 20px 25px;
+    padding: 20px 15px 20px 20px;
     display: block;
     font-size: 1.125rem;
     position: relative;
@@ -42,20 +44,26 @@ const StyledAside = styled.aside`
 `;
 const GroupContainer = styled.div`
   border-top: 1px solid rgba(255, 255, 255, 0.23);
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 18px;
+  padding-bottom: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.23);
   text-transform: none;
   font-weight: 500;
   a {
     font-size: 16px;
-    padding: 17px 15px 17px 25px;
+    padding: 10px 15px 10px 20px;
+    margin: 3px 0 3px;
+    font-weight: 300;
   }
 `;
 
 const SideBar = () => {
   const loggedIn = useSelector(selectLoggedIn);
   const groups = useSelector(selectGroups);
+  const performancePageFeatureActive = useSelector(
+    selectPerformancePageFeature,
+  );
+  const authorizations = useSelector(selectAuthorizations);
 
   let groupList: JSX.Element | JSX.Element[] = (
     <FontAwesomeIcon icon={faSpinner} spin />
@@ -92,24 +100,45 @@ const SideBar = () => {
   }
   if (loggedIn) {
     return (
-      <StyledAside>
-        <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
-        {groups && groups.length > 0 && (
-          <GroupContainer>{groupList}</GroupContainer>
-        )}
-        <SideBarLink name="Settings" linkPath="/app/settings" />
+      <>
+        <StyledAside>
+          <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
+          {groups && groups.length > 0 && (
+            <GroupContainer>{groupList}</GroupContainer>
+          )}
+          {performancePageFeatureActive && showPerformance(authorizations) && (
+            <SideBarLink
+              name="Reporting"
+              linkPath="/app/reporting"
+              beta={true}
+            />
+          )}
+          <SideBarLink name="Settings" linkPath="/app/settings" />
+        </StyledAside>
         <SideBarFooter />
-      </StyledAside>
+      </>
     );
   }
   return (
-    <StyledAside>
-      <SideBarLink name="Login" linkPath="/app/login" />
-      <SideBarLink name="Sign Up" linkPath="/app/register" />
-      <SideBarLinkAlt name="Reset Password" linkPath="/app/reset-password" />
+    <>
+      <StyledAside>
+        <SideBarLink name="Login" linkPath="/app/login" />
+        <SideBarLink name="Sign Up" linkPath="/app/register" />
+        <SideBarLinkAlt name="Reset Password" linkPath="/app/reset-password" />
+      </StyledAside>
       <SideBarFooter />
-    </StyledAside>
+    </>
   );
+};
+
+const showPerformance = (authorizations: Authorization[] | undefined) => {
+  let showPerformanceBoolean = false;
+  authorizations?.forEach(auth => {
+    if (auth.brokerage.name === 'Questrade') {
+      showPerformanceBoolean = true;
+    }
+  });
+  return showPerformanceBoolean;
 };
 
 export default SideBar;

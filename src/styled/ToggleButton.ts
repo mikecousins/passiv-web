@@ -4,7 +4,7 @@ export const ToggleButton = styled.button`
   font-size: 24px;
   vertical-align: middle;
   padding: 0;
-  margin-left: 8px;
+  margin-left: 3px;
   margin-top: -5px;
 `;
 
@@ -20,4 +20,8 @@ export const StateText = styled.span`
   font-size: 12pt;
   font-weight: 800;
   vertical-align: middle;
+`;
+
+export const Row = styled.div`
+  margin-top: 12px;
 `;

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const BarsContainer = styled.div`
-  background: #b3c1be;
+  background: #eee;
   position: relative;
   margin-bottom: 10px;
 `;
@@ -63,7 +63,7 @@ export const Delta = styled.div`
   text-align: right;
 `;
 export const Bar = styled.span`
-  background: rgba(62, 210, 177, 0.74);
+  background: #05a286;
   display: block;
   height: 25px;
   width: 0%;
@@ -90,6 +90,9 @@ export const Container = styled.div`
   padding: 8px 5px 2px;
   margin-bottom: 15px;
   position: relative;
+  @media (max-width: 900px) {
+    padding: 8px 0 2px;
+  }
 `;
 export const TargetRow = styled.div`
   text-align: right;
@@ -106,6 +109,12 @@ export const TargetRow = styled.div`
       margin-left: auto;
       color: var(--brand-blue);
     }
+  }
+`;
+export const CashTargetRow = styled(TargetRow)`
+  padding-right: 98px;
+  @media (max-width: 900px) {
+    padding-right: 0;
   }
 `;
 export const Close = styled.button`

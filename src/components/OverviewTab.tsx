@@ -91,14 +91,16 @@ const OverviewTab = () => {
   // see if we have any suggested trades to display
   let tradeDisplay = null;
   if (setupComplete === true) {
-    tradeDisplay = <PortfolioGroupTrades trades={trades} groupId={group.id} />;
+    tradeDisplay = (
+      <PortfolioGroupTrades trades={trades} groupId={group.id} error={error} />
+    );
   }
   return (
     <React.Fragment>
       <PortfolioGroupName name={name} />
       <Container3Column>
         <PortfolioGroupAccuracy accuracy={accuracy} loading={loading} />
-        <PortfolioGroupCash balances={balances} />
+        <PortfolioGroupCash balances={balances} error={error} />
         <PortfolioGroupTotal
           equity={equity}
           error={error}
@@ -109,7 +111,7 @@ const OverviewTab = () => {
       {error ? <PortfolioGroupErrors error={error} /> : null}
       {tradeDisplay}
 
-      <PortfolioGroupTargets />
+      <PortfolioGroupTargets error={error} />
     </React.Fragment>
   );
 };

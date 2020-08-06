@@ -37,12 +37,11 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
     }
     return group.brokerage_authorizations.find(a => a.type === 'read');
   };
-
   switch (error.code) {
     case '1014':
       return (
         <OrderContainer>
-          <H2>Order cannot be Processed</H2>
+          <H2>Passiv needs trading permissions to place orders</H2>
           <P>
             This portfolio group does not have trade permissions and therefore
             can't be used to place orders.
@@ -86,7 +85,7 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
     case '1020':
       return (
         <OrderContainer>
-          <H2>Order cannot be Processed</H2>
+          <H2>Upgrade to access one-click trades</H2>
           <P>
             One-click Trades are only available to Elite subscribers. You can
             upgrade your account to use this feature.{' '}
@@ -101,7 +100,7 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
     case '1022':
       return (
         <OrderContainer>
-          <H2>Order cannot be Processed</H2>
+          <H2>Order has already been placed, can't place again</H2>
           <P>
             Our records show that this order has already been placed, so Passiv
             will not attempt to place it again. Please refresh the orders or{' '}
@@ -113,7 +112,7 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
     case '1033':
       return (
         <OrderContainer>
-          <H2>Order cannot be Processed</H2>
+          <H2>Order type unsupported on one or more exchanges</H2>
           <P>
             We are unable to place your orders because some trades are on
             exchanges that only accept limit orders. Passiv uses market orders
@@ -130,7 +129,7 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
     case '1042':
       return (
         <OrderContainer>
-          <H2>Order cannot be Processed</H2>
+          <H2>Trading functionality is temporarily disabled</H2>
           <P>
             We're sorry, we can't place your order at the moment. Trading
             functionality has been temporarily disabled while we address an
@@ -138,6 +137,37 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
             orders immediately, you can still do so at your brokerage.
           </P>
           <P>Thanks for your patience!</P>
+          <Button onClick={closeWidget}>Okay</Button>
+        </OrderContainer>
+      );
+    case '1047':
+      return (
+        <OrderContainer>
+          <H2>Can't place orders due to existing open orders</H2>
+          <P>
+            It looks like you have some open orders on one or more of your
+            brokerage accounts. Open orders can cause unexpected behavior while
+            Passiv attempts to place a batch of orders, so we didn't try to
+            place the orders on your account.
+          </P>
+          <P>
+            You can fix this by logging into your brokerage account and closing
+            any open orders that you may have. If that's not the case, please{' '}
+            <Link to="/app/help">contact support</Link> and let us know!
+          </P>
+          <Button onClick={closeWidget}>Okay</Button>
+        </OrderContainer>
+      );
+    case '1048':
+      return (
+        <OrderContainer>
+          <H2>Canceled due to possible negative cash balance</H2>
+          <P>Your account's net cash</P>
+          <P>
+            You can fix this by logging into your brokerage account and closing
+            any open orders that you may have. If that's not the case, please{' '}
+            <Link to="/app/help">contact support</Link> and let us know!
+          </P>
           <Button onClick={closeWidget}>Okay</Button>
         </OrderContainer>
       );

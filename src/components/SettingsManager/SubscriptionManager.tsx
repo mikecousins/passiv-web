@@ -4,30 +4,27 @@ import { push } from 'connected-react-router';
 import {
   selectSubscription,
   selectShowQuestradeOffer,
-} from '../selectors/subscription';
-import { Button } from '../styled/Button';
+} from '../../selectors/subscription';
+import { Button } from '../../styled/Button';
 import { Elements } from 'react-stripe-elements';
-import InjectedCheckoutForm from './CheckoutForm';
-import InjectedUpdatePaymentForm from './UpdatePaymentCheckoutForm';
-import { loadSubscription } from '../actions';
-import { deleteData } from '../api';
+import InjectedCheckoutForm from './../CheckoutForm';
+import InjectedUpdatePaymentForm from './../UpdatePaymentCheckoutForm';
+import { loadSubscription } from '../../actions';
+import { deleteData } from '../../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { format, parseISO } from 'date-fns';
 
-import SubscriptionCoupon from './SubscriptionCoupon';
-import SubscriptionPlans from './SubscriptionPlans';
+import SubscriptionCoupon from './../SubscriptionCoupon';
+import SubscriptionPlans from './../SubscriptionPlans';
 
 import styled from '@emotion/styled';
-import { H2, P, A } from '../styled/GlobalElements';
-import ShadowBox from '../styled/ShadowBox';
-import CreditCardDetails from './CreditCardDetails';
+import { H2, P, A } from '../../styled/GlobalElements';
+import ShadowBox from '../../styled/ShadowBox';
+import CreditCardDetails from './../CreditCardDetails';
 
 const SubscriptionContainer = styled.div`
-  transform: translateY(-50%);
-  top: 50%;
   position: relative;
-  padding-left: 18px;
   color: #fff;
 
   @media (max-width: 900px) {
@@ -43,8 +40,8 @@ const SubscriptionContainer = styled.div`
 const ActionContainer = styled.div`
   a {
     color: #fff;
-    font-weight: 700;
-    margin-left: 10px;
+    font-weight: 600;
+    margin-left: 14px;
     text-decoration: underline;
   }
 `;
@@ -55,7 +52,7 @@ const PaymentContainer = styled.div`
 
 const H2Padded = styled(H2)`
   color: #fff;
-  padding-bottom: 8px;
+  padding-bottom: 7px;
 `;
 
 const SubscriptionManager = () => {

@@ -10,6 +10,16 @@ import { format, parseISO } from 'date-fns';
 
 import { H3, Edit, P } from '../styled/GlobalElements';
 
+import styled from '@emotion/styled';
+
+const H3White = styled(H3)`
+  color: #fff;
+`;
+
+const PWhite = styled(P)`
+  color: #fff;
+`;
+
 const SubscriptionCoupon = () => {
   const subscription = useSelector(selectSubscription);
   const dispatch = useDispatch();
@@ -33,39 +43,39 @@ const SubscriptionCoupon = () => {
   if (coupon.percent_off) {
     return (
       <React.Fragment>
-        <H3>
+        <H3White>
           Active Coupon: {coupon.code}
           <Edit onClick={() => removeCoupon()}>
             <FontAwesomeIcon icon={faTimes} /> Remove
           </Edit>
-        </H3>
-        <P>
+        </H3White>
+        <PWhite>
           Subscribe now and save <strong>{coupon.percent_off}% off</strong>
           &nbsp; your annual subscription
-        </P>
+        </PWhite>
         {coupon.redeem_by && (
-          <P>
+          <PWhite>
             Redeem coupon by:&nbsp;
             <strong>
               {format(parseISO(coupon.redeem_by), 'MMMM d, yyyy')}
             </strong>
-          </P>
+          </PWhite>
         )}
       </React.Fragment>
     );
   } else if (coupon.amount_off) {
     return (
       <React.Fragment>
-        <H3>
+        <H3White>
           Active Coupon: {coupon.code}
           <Edit onClick={() => removeCoupon()}>
             <FontAwesomeIcon icon={faTimes} /> Remove{' '}
           </Edit>
-        </H3>
-        <P>
+        </H3White>
+        <PWhite>
           Subscribe now and save <strong>${coupon.amount_off} off</strong> your
           annual subscription
-        </P>
+        </PWhite>
       </React.Fragment>
     );
   } else {

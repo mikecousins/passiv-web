@@ -163,7 +163,20 @@ export const ErrorContainer = styled.div`
   padding: 20px;
   margin-bottom: 20px;
   margin-top: 0;
-  background: #ffb040;
+  background: #fff;
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 80px solid #ffb040;
+    border-left: 80px solid transparent;
+  }
+  h2 {
+    margin-bottom: 20px;
+  }
   h3 {
     font-size: 25px;
     margin-bottom: 10px;
@@ -264,6 +277,7 @@ export const ColumnStatus = styled.div`
 export const ColumnAccount = styled.div`
   min-width: 20%;
   color: var(--brand-grey);
+  margin-top: 16px;
   @media (max-width: 900px) {
     line-height: 1.2;
   }

@@ -10,29 +10,33 @@ export const StyledFooter = styled.div`
   bottom: 0;
   z-index: 4;
   width: 212px;
-  padding: 12px 0px 8px;
+  padding: 10px 0px 6px;
   background: #1b1c23;
   button {
-    margin-top: 4px;
+    margin-top: 2px;
   }
   a {
     letter-spacing: 0;
   }
 `;
 export const Help = styled.div`
-  border-radius: 25px;
-  background: var(--brand-blue);
   display: inline-block;
   margin-bottom: 8px;
-  margin-left: 5px;
-  padding: 12px 20px 12px 18px;
+  padding: 12px 20px 12px 20px;
   text-transform: none;
+  &:hover {
+    svg {
+      color: var(--brand-blue);
+    }
+  }
   svg {
     margin-right: 5px;
   }
   a {
     display: inline-block;
     padding: 0;
+    font-size: 16px;
+    font-weight: 500;
   }
 `;
 

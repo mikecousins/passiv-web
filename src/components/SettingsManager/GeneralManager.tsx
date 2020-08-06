@@ -1,26 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import {
-  selectSettings,
   selectIsDemo,
   selectPhoneNumber,
   select2FAEnabled,
   selectSMS2FAFeature,
   selectLimitOrdersFeature,
-} from '../selectors';
-import { loadSettings } from '../actions';
-import { postData, putData, deleteData } from '../api';
+} from '../../selectors';
+import { loadSettings } from '../../actions';
+import { postData, deleteData } from '../../api';
 
 import LimitOrdersSettings from './LimitOrdersSettings';
 import APIAccessSettings from './APIAccessSettings';
 
 import styled from '@emotion/styled';
-import { InputNonFormik } from '../styled/Form';
-import { H2, Edit, Span, A, OptionsTitle, P } from '../styled/GlobalElements';
-import { Button } from '../styled/Button';
-import ShadowBox from '../styled/ShadowBox';
+import { InputNonFormik } from '../../styled/Form';
+import {
+  H2,
+  Edit,
+  Span,
+  OptionsTitle,
+  P,
+  DisabledBox,
+} from '../../styled/GlobalElements';
+import { Button } from '../../styled/Button';
+import ShadowBox from '../../styled/ShadowBox';
 
 const InputContainer = styled.div`
   padding-top: 10px;
@@ -28,16 +34,19 @@ const InputContainer = styled.div`
   font-size: 18px;
 `;
 
+const BorderContainer = styled.div`
+  padding-top: 15px;
+  margin-top: 6px;
+  padding-bottom: 5px;
+  font-size: 18px;
+  border-top: 1px solid #e8e8e8;
+`;
+
 const MiniInputNonFormik = styled(InputNonFormik)`
   margin-top: 10px;
   margin-bottom: 10px;
   font-size: 1em;
   padding: 15px 12px;
-`;
-
-const TextContainer = styled.div`
-  text-overflow: ellipsis;
-  overflow: hidden;
 `;
 
 const Badge2FA = styled.div`
@@ -50,6 +59,7 @@ const Badge2FA = styled.div`
   padding: 4px 6px 4px;
   margin: none;
   border-radius: 4px;
+  margin-top: -2px;
 `;
 
 const Active2FABadge = styled(Badge2FA)`
@@ -64,8 +74,7 @@ const ErrorMessage = styled(ShadowBox)`
   background-color: orange;
 `;
 
-const CredentialsManager = () => {
-  const settings = useSelector(selectSettings);
+const GeneralManager = () => {
   const isDemo = useSelector(selectIsDemo);
   const SMS2FAFeatureEnabled = useSelector(selectSMS2FAFeature);
   const is2FAEnabled = useSelector(select2FAEnabled);
@@ -73,9 +82,6 @@ const CredentialsManager = () => {
   const limitOrdersEnabled = useSelector(selectLimitOrdersFeature);
   const dispatch = useDispatch();
 
-  const [name, setName] = useState('');
-  const [editingName, setEditingName] = useState(false);
-  const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [state2FA, setState2FA] = useState();
   const [editing2FA, setEditing2FA] = useState(false);
@@ -83,18 +89,6 @@ const CredentialsManager = () => {
   const [error2FA, setError2FA] = useState();
   const [loading2FA, setLoading2FA] = useState(false);
   const [candidatePhoneNumber, setCandidatePhoneNumber] = useState('');
-  const [passwordResetSent, setPasswordResetSent] = useState(false);
-
-  useEffect(() => {
-    if (settings) {
-      setName(settings.name);
-      setEmail(settings.email);
-    }
-  }, [settings]);
-
-  const startEditingName = () => {
-    setEditingName(true);
-  };
 
   const startEditing2FA = () => {
     setEditing2FA(true);
@@ -159,43 +153,6 @@ const CredentialsManager = () => {
       });
   };
 
-  const finishEditing = () => {
-    if (!settings) {
-      return;
-    }
-    if (name !== settings.name) {
-      let newSettings = { ...settings };
-      if (name === '') {
-        newSettings.name = '';
-      } else {
-        newSettings.name = name;
-      }
-
-      putData('/api/v1/settings/', newSettings)
-        .then(() => {
-          dispatch(loadSettings());
-        })
-        .catch(() => {
-          dispatch(loadSettings());
-        });
-    }
-    setEditingName(false);
-  };
-
-  const sendPasswordReset = () => {
-    postData('/api/v1/auth/resetPassword/', { email })
-      .then(() => {
-        setPasswordResetSent(true);
-      })
-      .catch(() => {
-        setPasswordResetSent(false);
-      });
-  };
-
-  const sendPasswordResetOkay = () => {
-    setPasswordResetSent(false);
-  };
-
   let error2FAMessage = null;
   if (error2FA != null) {
     error2FAMessage = <ErrorMessage>{error2FA}</ErrorMessage>;
@@ -227,6 +184,10 @@ const CredentialsManager = () => {
           >
             Enable
           </Edit>
+          <DisabledBox>
+            Protect your account by enabling 2-factor authentication with your
+            phone.
+          </DisabledBox>
         </React.Fragment>
       );
     } else {
@@ -289,80 +250,23 @@ const CredentialsManager = () => {
   }
 
   return (
-    <div>
-      <ShadowBox>
-        <H2>Passiv Credentials</H2>
-        <TextContainer>
-          {editingName ? (
-            <InputContainer>
-              <MiniInputNonFormik
-                value={name === null ? '' : name}
-                onChange={e => setName(e.target.value)}
-                onKeyPress={e => {
-                  if (e.key === 'Enter') {
-                    finishEditing();
-                  }
-                }}
-                placeholder={'Your name'}
-              />
-              <Button onClick={finishEditing}>Done</Button>
-            </InputContainer>
-          ) : (
-            <InputContainer>
-              <OptionsTitle>Name:</OptionsTitle>{' '}
-              {name === null ? '[no name set]' : name}
-              <Edit
-                onClick={() => !isDemo && startEditingName()}
-                disabled={isDemo}
-              >
-                <FontAwesomeIcon icon={faPen} />
-                Edit
-              </Edit>
-            </InputContainer>
-          )}
-        </TextContainer>
-        <TextContainer>
-          <InputContainer>
-            <OptionsTitle>Email:</OptionsTitle> {email}
-          </InputContainer>
-        </TextContainer>
-        <TextContainer>
-          <InputContainer>
-            {' '}
-            {passwordResetSent ? (
-              <React.Fragment>
-                <Span>A password reset email has been sent to you.</Span>
-                <Edit onClick={sendPasswordResetOkay}>Okay</Edit>
-              </React.Fragment>
-            ) : (
-              <A onClick={() => !isDemo && sendPasswordReset()}>
-                Change Password
-              </A>
-            )}
-          </InputContainer>
-        </TextContainer>
-        {SMS2FAFeatureEnabled && (
-          <TextContainer>
-            <InputContainer>
-              <OptionsTitle>SMS 2FA:</OptionsTitle> {sms_2fa}
-            </InputContainer>
-          </TextContainer>
-        )}
-        <TextContainer>
-          <InputContainer>
-            <APIAccessSettings />
-          </InputContainer>
-        </TextContainer>
-        {limitOrdersEnabled && (
-          <TextContainer>
-            <InputContainer>
-              <LimitOrdersSettings />
-            </InputContainer>
-          </TextContainer>
-        )}
-      </ShadowBox>
-    </div>
+    <ShadowBox>
+      <H2>General</H2>
+      {SMS2FAFeatureEnabled && (
+        <InputContainer>
+          <OptionsTitle>SMS 2FA:</OptionsTitle> {sms_2fa}
+        </InputContainer>
+      )}
+      <BorderContainer>
+        <APIAccessSettings />
+      </BorderContainer>
+      {limitOrdersEnabled && (
+        <BorderContainer>
+          <LimitOrdersSettings />
+        </BorderContainer>
+      )}
+    </ShadowBox>
   );
 };
 
-export default CredentialsManager;
+export default GeneralManager;

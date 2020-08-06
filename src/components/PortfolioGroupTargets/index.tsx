@@ -7,7 +7,6 @@ import {
   selectCurrentGroupId,
   selectCurrentGroupTarget,
   selectCurrentGroupTargetInitialized,
-  selectCurrentGroupInfoError,
   selectCurrentGroupPositions,
   selectCurrentGroupInfoLoading,
 } from '../../selectors/groups';
@@ -16,8 +15,8 @@ import {
   H2,
   H3,
   P,
-  ErrorMessage,
   OverlayContainer,
+  DisabledBox,
 } from '../../styled/GlobalElements';
 import { postData } from '../../api';
 import styled from '@emotion/styled';
@@ -29,6 +28,7 @@ export const TargetContainer = styled.form`
   h2 {
     margin-bottom: 20px;
   }
+  min-height: 200px;
 `;
 
 export const Container2Column = styled.div`
@@ -65,7 +65,11 @@ const pDarkStyle = {
   color: 'white',
 };
 
-const PortfolioGroupTargets = () => {
+type Props = {
+  error: any | null;
+};
+
+const PortfolioGroupTargets = ({ error }: Props) => {
   const [loading, setLoading] = useState(false);
   const [showImportOverlay, setShowImportOverlay] = useState(false);
   const [showResetOverlay, setShowResetOverlay] = useState(false);
@@ -74,7 +78,6 @@ const PortfolioGroupTargets = () => {
   const groupId = useSelector(selectCurrentGroupId);
   const target = useSelector(selectCurrentGroupTarget);
   const targetInitialized = useSelector(selectCurrentGroupTargetInitialized);
-  const error = useSelector(selectCurrentGroupInfoError);
   const positions = useSelector(selectCurrentGroupPositions);
   const loadingGroupInfo = useSelector(selectCurrentGroupInfoLoading);
 
@@ -91,9 +94,17 @@ const PortfolioGroupTargets = () => {
       id: 'IMPORT',
       name: 'Import your current holdings as a target',
       button: (
-        <Button onClick={() => importTarget()} disabled={importDisabled()}>
-          Import
-        </Button>
+        <React.Fragment>
+          <Button onClick={() => importTarget()} disabled={importDisabled()}>
+            Import
+          </Button>
+          {importDisabled() && (
+            <DisabledBox>
+              Importing a target is not available because there are no open
+              positions in your account.
+            </DisabledBox>
+          )}
+        </React.Fragment>
       ),
     },
     {
@@ -167,25 +178,23 @@ const PortfolioGroupTargets = () => {
   }
 
   if (error !== null && !excludedError) {
-    return (
-      <ShadowBox>
-        <H2>Target Portfolio</H2>
-        <ErrorMessage>
-          <H3>Could not load target portfolio.</H3>
-        </ErrorMessage>
-      </ShadowBox>
-    );
+    return null;
   }
 
   // show a spinner if we don't have our data yet
   if (loadingGroupInfo) {
     return (
-      <ShadowBox>
-        <H2>Target Portfolio</H2>
-        <span>
-          <FontAwesomeIcon icon={faSpinner} spin />
-        </span>
-      </ShadowBox>
+      <OverlayContainer>
+        <ShadowBox>
+          <TargetContainer>
+            <H2>Target Portfolio</H2>
+            <span>
+              <FontAwesomeIcon icon={faSpinner} spin />
+            </span>
+          </TargetContainer>
+        </ShadowBox>
+        <LoadingOverlay />
+      </OverlayContainer>
     );
   }
 

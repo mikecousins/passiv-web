@@ -6,6 +6,8 @@ import Header from '../components/Header';
 import SlideMenu from '../components/SlideMenu';
 import GlobalStyle from '../styled/global';
 import ScrollHelper from '../components/ScrollHelper';
+import ReconnectMessage from '../components/ReconnectMessage';
+import MaintenanceMessage from '../components/MaintenanceMessage';
 
 const Container = styled.div`
   display: flex;
@@ -26,17 +28,23 @@ interface Props {
   children: JSX.Element;
 }
 
-export const AppLayout = ({ children }: Props) => (
-  <div>
-    <GlobalStyle />
-    <Header />
-    <Container>
-      <SlideMenu />
-      <Main>{children}</Main>
-    </Container>
-    <ScrollHelper />
-    <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
-  </div>
-);
+export const AppLayout = ({ children }: Props) => {
+  return (
+    <div>
+      <GlobalStyle />
+      <Header />
+      <Container>
+        <SlideMenu />
+        <Main>
+          <MaintenanceMessage />
+          <ReconnectMessage />
+          {children}
+        </Main>
+      </Container>
+      <ScrollHelper />
+      <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
+    </div>
+  );
+};
 
 export default AppLayout;
