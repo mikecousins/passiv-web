@@ -24,12 +24,12 @@ jobs:
         yarn build
       env:
         CI: true
-    - name: Upload coverage to Codecov  
-      uses: codecov/codecov-action@v1.0.6
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
       with:
         token: ${{secrets.CODECOV_TOKEN}}
     - name: Cypress.io
-      uses: cypress-io/github-action@v1.16.1
+      uses: cypress-io/github-action@v2
       with:
         start: yarn start
         wait-on: 'http://localhost:3000'
