@@ -47,8 +47,9 @@ const LoginPage = () => {
             actions.setSubmitting(false);
           });
       }}
-      render={props => (
-        <Form onSubmit={props.handleSubmit}>
+    >
+      {props => (
+        <Form>
           <Label htmlFor="email">Email</Label>
           <Input name="email" placeholder="Email" autoFocus />
 
@@ -77,7 +78,7 @@ const LoginPage = () => {
           </div>
         </Form>
       )}
-    />
+    </Formik>
   );
 
   if (stateMFA !== null) {

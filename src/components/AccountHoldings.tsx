@@ -5,7 +5,6 @@ import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import { Title, P } from '../styled/GlobalElements';
 import Number from './Number';
-import { selectCurrentAccountHoldings } from '../selectors/groups';
 import { selectCurrencies } from '../selectors/currencies';
 import ShadowBox from '../styled/ShadowBox';
 import { SymbolDetail } from './SymbolDetail';

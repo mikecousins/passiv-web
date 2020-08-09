@@ -20,7 +20,7 @@ import { Formik, Field } from 'formik';
 
 import styled from '@emotion/styled';
 
-import { Form, Input, Label, Select } from '../styled/Form';
+import { Form } from '../styled/Form';
 
 const CashManagementBox = styled.div`
   padding-top: 20px;
@@ -81,8 +81,6 @@ const StyledFieldBase = styled(Field)`
   width: 100%;
 `;
 
-const StyledField = styled(StyledFieldBase)``;
-
 const StyledSelect = styled(StyledFieldBase)`
   padding: 11px 52px 10px 14px;
   display: inline-block;
@@ -100,10 +98,6 @@ const StyledSelect = styled(StyledFieldBase)`
 
   background-size: 8px 5px, 5px 5px, 2.5em 3.5em;
   background-repeat: no-repeat;
-`;
-
-const StyledSelectCurrency = styled(StyledSelect)`
-  max-width: 110px;
 `;
 
 const StyledNumeric = styled(StyledFieldBase)`
@@ -225,8 +219,9 @@ const CashManagement = () => {
             actions.setSubmitting(false);
           });
       }}
-      render={(props) => (
-        <CashForm onSubmit={props.handleSubmit}>
+    >
+      {(props) => (
+        <CashForm>
           <CashRow>
             <ColumnAccount>
               <StyledSelect as="select" name="account">
@@ -269,7 +264,7 @@ const CashManagement = () => {
           </CashRow>
         </CashForm>
       )}
-    />
+    </Formik>
   );
 
   let cashRestrictionsContent = null;

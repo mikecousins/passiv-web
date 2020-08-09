@@ -42,7 +42,7 @@ const RegistrationPage = ({ location }: Props) => {
     return <Redirect to={nextPath} />;
   } else {
     return (
-      <React.Fragment>
+      <>
         <H1>Create your Account</H1>
         <Formik
           initialValues={{
@@ -85,16 +85,16 @@ const RegistrationPage = ({ location }: Props) => {
                 dispatch(registerFailed(error));
               });
           }}
-          render={({
+        >
+          {({
             touched,
             errors,
             values,
             handleChange,
             handleBlur,
-            handleSubmit,
             isValid,
           }) => (
-            <Form onSubmit={handleSubmit}>
+            <Form>
               <Label htmlFor="name">Name</Label>
               <Input
                 onChange={handleChange}
@@ -139,7 +139,7 @@ const RegistrationPage = ({ location }: Props) => {
               <PasswordRequirements />
 
               {referralCode && (
-                <React.Fragment>
+                <>
                   <Label htmlFor="referrer">Referral Code</Label>
                   <Input
                     onChange={handleChange}
@@ -150,7 +150,7 @@ const RegistrationPage = ({ location }: Props) => {
                     name="referralCode"
                     placeholder="Referral Code"
                   />
-                </React.Fragment>
+                </>
               )}
 
               <div>
@@ -161,8 +161,8 @@ const RegistrationPage = ({ location }: Props) => {
               </div>
             </Form>
           )}
-        />
-      </React.Fragment>
+        </Formik>
+      </>
     );
   }
 };
