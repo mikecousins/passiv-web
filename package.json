@@ -121,7 +121,6 @@
     "lint-staged": "10.2.11",
     "prettier": "2.0.5",
     "redux-mock-store": "1.5.4",
-    "start-server-and-test": "1.11.3",
     "typescript": "3.9.7"
   },
   "eslintConfig": {
