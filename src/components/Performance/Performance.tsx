@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useSelector, useDispatch } from 'react-redux';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import PerformanceChange from './PerformanceChange';
 import PerformanceCapitalGains from './PerformanceCapitalGains';
 import PerformanceContributions from './PerformanceContributions';
@@ -69,7 +69,7 @@ const TimeContainer = styled.div`
   border-radius: 6px;
   background: var(--brand-grey);
   border: 1px solid #04a185;
-  width: 400px;
+  width: 450px;
   display: flex;
   box-shadow: 0 4px 12px 2px rgba(2, 2, 2, 0.26);
   z-index: 100;
@@ -127,13 +127,13 @@ type Props = {
   selectedTimeframe: string;
   setTimeframe: (newTimeFrame: string) => void;
 };
-
 export const TimespanSelector: FunctionComponent<Props> = ({
   timeframe,
   selectedTimeframe,
   setTimeframe,
 }) => {
   let timeframeString = '1Y';
+
   if (timeframe === '1Y') {
     timeframeString = '1 Year';
   }
@@ -143,6 +143,8 @@ export const TimespanSelector: FunctionComponent<Props> = ({
     timeframeString = 'All Time';
   } else if (timeframe === '30D') {
     timeframeString = '30 Days';
+  } else if (timeframe === 'CST') {
+    timeframeString = 'Custom';
   }
 
   let selected = timeframe === selectedTimeframe;
@@ -160,6 +162,16 @@ export const TimespanSelector: FunctionComponent<Props> = ({
 export const Performance = () => {
   const dispatch = useDispatch();
   let currentTimeframe = useSelector(selectSelectedTimeframe);
+  let showDatePickers = false;
+  if (currentTimeframe === 'CST') {
+    showDatePickers = true;
+  }
+
+  const [startDate, setStartDate] = useState(formattedYearAgo());
+  const [endDate, setEndDate] = useState(formattedToday());
+  const handleStartDateChange = (ev: any) => setStartDate(ev.target.value);
+  const handleEndDateChange = (ev: any) => setEndDate(ev.target.value);
+  const today = formattedToday();
 
   return (
     <React.Fragment>
@@ -184,9 +196,34 @@ export const Performance = () => {
             selectedTimeframe={currentTimeframe}
             setTimeframe={t => dispatch(setSelectedTimeframe(t))}
           />
+          <TimespanSelector
+            timeframe={'CST'}
+            selectedTimeframe={currentTimeframe}
+            setTimeframe={t => dispatch(setSelectedTimeframe(t))}
+          />
         </TimeContainer>
-        <AccountsSelect />
+        <AccountsSelect startDate={startDate} endDate={endDate} />
       </Flex>
+
+      {showDatePickers && (
+        <React.Fragment>
+          Start Date:
+          <input
+            type="date"
+            value={startDate}
+            onChange={handleStartDateChange}
+            max={endDate}
+          />
+          End Date:
+          <input
+            type="date"
+            value={endDate}
+            onChange={handleEndDateChange}
+            min={startDate}
+            max={today}
+          />
+        </React.Fragment>
+      )}
       <Grid>
         <ShadowBox>
           <PerformanceContributionChart />
@@ -248,4 +285,23 @@ export const toDollarString = (dollars: number) => {
     index -= 3;
   }
   return dollarString;
+};
+
+export const formattedToday = () => {
+  let d = new Date();
+  let month = '' + (d.getMonth() + 1);
+  let day = '' + d.getDate();
+  let year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+};
+
+export const formattedYearAgo = () => {
+  const today = formattedToday();
+  const lastYear = parseInt(today.substr(0, 4)) - 1;
+
+  return lastYear.toString() + today.substr(4);
 };

@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import styled from '@emotion/styled';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAccounts } from '../../selectors/accounts';
-import { selectSelectedAccounts } from '../../selectors/performance';
+import {
+  selectSelectedAccounts,
+  selectSelectedTimeframe,
+} from '../../selectors/performance';
 import { setSelectedAccounts } from '../../actions/performance';
 import MultiSelect from 'react-multi-select-component';
-import { loadPerformanceAll } from '../../actions/performance';
+import {
+  loadPerformanceAll,
+  loadPerformanceCustom,
+} from '../../actions/performance';
 
 const SelectContainer = styled.div`
   margin: 0 0 20px auto;
@@ -37,13 +43,24 @@ const Submit = styled.input`
   z-index: 2;
   border-radius: 0 4px 4px 0;
 `;
-export const AccountsSelect = () => {
+
+type Props = {
+  startDate: any;
+  endDate: any;
+};
+
+export const AccountsSelect: FunctionComponent<Props> = ({
+  startDate,
+  endDate,
+}) => {
   const dispatch = useDispatch();
   const accounts = useSelector(selectAccounts).filter(
     a => a.institution_name === 'Questrade',
   );
+  const timeframe = useSelector(selectSelectedTimeframe);
   const selectedAccounts = useSelector(selectSelectedAccounts);
   let hasDuplicates = false;
+  const [showInvalidDateMessage, setshowInvalidDateMessage] = useState(false);
   for (let i = 0; i < accounts.length - 1; i++) {
     if (
       accounts
@@ -84,14 +101,41 @@ export const AccountsSelect = () => {
         />
         <Submit
           type="submit"
-          value="Choose Account"
-          onClick={() =>
-            dispatch(loadPerformanceAll(selected.map(a => a?.value)))
-          }
+          value="Apply"
+          onClick={() => {
+            {
+              if (timeframe === 'CST') {
+                if (validDates(startDate, endDate)) {
+                  setshowInvalidDateMessage(false);
+                  dispatch(
+                    loadPerformanceCustom(
+                      selected.map(a => a?.value),
+                      startDate,
+                      endDate,
+                    ),
+                  );
+                } else {
+                  setshowInvalidDateMessage(true);
+                }
+              } else {
+                dispatch(loadPerformanceAll(selected.map(a => a?.value)));
+              }
+            }
+          }}
         />
       </SelectContainer>
+      {showInvalidDateMessage && <div>Invalid Dates</div>}
     </React.Fragment>
   );
 };
 
 export default AccountsSelect;
+
+const validDates = (startDate: any, endDate: any) => {
+  if (startDate !== undefined && endDate !== undefined) {
+    if (startDate < endDate) {
+      return true;
+    }
+  }
+  return false;
+};

@@ -1,7 +1,15 @@
 import { getData, postData } from '../api';
 import { ActionCreator, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { setSelectedTimeframe, loadPerformanceAll } from './performance';
+import {
+  setSelectedTimeframe,
+  loadPerformanceAll,
+  loadPerformanceCustom,
+} from './performance';
+import {
+  formattedToday,
+  formattedYearAgo,
+} from '../components/Performance/Performance';
 
 export const loginSucceeded: ActionCreator<Action> = payload => ({
   type: 'LOGIN_SUCCEEDED',
@@ -374,6 +382,13 @@ export const reloadEverything: ActionCreator<ThunkAction<
 
     dispatch(setSelectedTimeframe('1Y'));
     dispatch(loadPerformanceAll(selectedAccounts));
+    dispatch(
+      loadPerformanceCustom(
+        selectedAccounts,
+        formattedYearAgo(),
+        formattedToday(),
+      ),
+    );
   };
 };
 
