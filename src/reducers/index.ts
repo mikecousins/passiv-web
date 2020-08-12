@@ -26,7 +26,12 @@ import {
   PerformanceCustomData,
   AdjustedCostBasis,
 } from '../types/performance';
-import { selectedTimeframe, selectedAccounts } from './performance';
+import {
+  selectedTimeframe,
+  selectedAccounts,
+  reportingStartDate,
+  reportingEndDate,
+} from './performance';
 
 export default (history: any) =>
   combineReducers({
@@ -41,6 +46,8 @@ export default (history: any) =>
     version,
     selectedTimeframe,
     selectedAccounts,
+    reportingStartDate,
+    reportingEndDate,
     referral,
     helpArticles: simple<any>({
       baseType: 'FETCH_HELP_ARTICLES',

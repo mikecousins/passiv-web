@@ -76,6 +76,16 @@ export const setSelectedAccounts: ActionCreator<Action> = accounts => ({
   accounts,
 });
 
+export const setStartDate: ActionCreator<Action> = startDate => ({
+  type: 'SET_REPORTING_START_DATE',
+  startDate,
+});
+
+export const setEndDate: ActionCreator<Action> = endDate => ({
+  type: 'SET_REPORTING_END_DATE',
+  endDate,
+});
+
 export const loadAdjustedCostBasis: ActionCreator<ThunkAction<
   void,
   any,

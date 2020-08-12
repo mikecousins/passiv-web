@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useSelector, useDispatch } from 'react-redux';
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import PerformanceChange from './PerformanceChange';
 import PerformanceCapitalGains from './PerformanceCapitalGains';
 import PerformanceContributions from './PerformanceContributions';
@@ -11,6 +11,7 @@ import PerformanceDividendChart from './PerformanceDividendChart';
 import PerformanceMonthlyDividends from './PerformanceMonthlyDividends';
 import PerformanceDividendTimelineChart from './PerformanceDividendTimelineChart';
 import PerformanceDividendIncome from './PerformanceDividendIncome';
+import DatePickers from './DatePickers';
 import AccountsSelect from './AccountsSelect';
 import { setSelectedTimeframe } from '../../actions/performance';
 import { selectSelectedTimeframe } from '../../selectors/performance';
@@ -136,8 +137,7 @@ export const TimespanSelector: FunctionComponent<Props> = ({
 
   if (timeframe === '1Y') {
     timeframeString = '1 Year';
-  }
-  if (timeframe === 'YTD') {
+  } else if (timeframe === 'YTD') {
     timeframeString = 'Year to Date';
   } else if (timeframe === 'ALL') {
     timeframeString = 'All Time';
@@ -166,12 +166,6 @@ export const Performance = () => {
   if (currentTimeframe === 'CST') {
     showDatePickers = true;
   }
-
-  const [startDate, setStartDate] = useState(formattedYearAgo());
-  const [endDate, setEndDate] = useState(formattedToday());
-  const handleStartDateChange = (ev: any) => setStartDate(ev.target.value);
-  const handleEndDateChange = (ev: any) => setEndDate(ev.target.value);
-  const today = formattedToday();
 
   return (
     <React.Fragment>
@@ -202,28 +196,10 @@ export const Performance = () => {
             setTimeframe={t => dispatch(setSelectedTimeframe(t))}
           />
         </TimeContainer>
-        <AccountsSelect startDate={startDate} endDate={endDate} />
+        <AccountsSelect />
       </Flex>
 
-      {showDatePickers && (
-        <React.Fragment>
-          Start Date:
-          <input
-            type="date"
-            value={startDate}
-            onChange={handleStartDateChange}
-            max={endDate}
-          />
-          End Date:
-          <input
-            type="date"
-            value={endDate}
-            onChange={handleEndDateChange}
-            min={startDate}
-            max={today}
-          />
-        </React.Fragment>
-      )}
+      {showDatePickers && <DatePickers />}
       <Grid>
         <ShadowBox>
           <PerformanceContributionChart />
@@ -285,23 +261,4 @@ export const toDollarString = (dollars: number) => {
     index -= 3;
   }
   return dollarString;
-};
-
-export const formattedToday = () => {
-  let d = new Date();
-  let month = '' + (d.getMonth() + 1);
-  let day = '' + d.getDate();
-  let year = d.getFullYear();
-
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
-};
-
-export const formattedYearAgo = () => {
-  const today = formattedToday();
-  const lastYear = parseInt(today.substr(0, 4)) - 1;
-
-  return lastYear.toString() + today.substr(4);
 };

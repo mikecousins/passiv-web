@@ -21,6 +21,10 @@ import ms from 'milliseconds';
 export const selectSelectedTimeframe = (state: AppState) =>
   state.selectedTimeframe;
 
+export const selectStartDate = (state: AppState) => state.reportingStartDate;
+
+export const selectEndDate = (state: AppState) => state.reportingEndDate;
+
 export const selectSelectedAccounts = (state: AppState) =>
   state.selectedAccounts;
 
@@ -128,6 +132,8 @@ export const selectDividends = createSelector<
     return state.performanceAll?.data?.dividendsYTD;
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.dividendsALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.dividends;
   } else {
     return state.performanceAll?.data?.dividends1Y;
   }

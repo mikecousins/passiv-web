@@ -1,10 +1,12 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAccounts } from '../../selectors/accounts';
 import {
   selectSelectedAccounts,
   selectSelectedTimeframe,
+  selectStartDate,
+  selectEndDate,
 } from '../../selectors/performance';
 import { setSelectedAccounts } from '../../actions/performance';
 import MultiSelect from 'react-multi-select-component';
@@ -44,20 +46,14 @@ const Submit = styled.input`
   border-radius: 0 4px 4px 0;
 `;
 
-type Props = {
-  startDate: any;
-  endDate: any;
-};
-
-export const AccountsSelect: FunctionComponent<Props> = ({
-  startDate,
-  endDate,
-}) => {
+export const AccountsSelect = () => {
   const dispatch = useDispatch();
   const accounts = useSelector(selectAccounts).filter(
     a => a.institution_name === 'Questrade',
   );
   const timeframe = useSelector(selectSelectedTimeframe);
+  const startDate = useSelector(selectStartDate);
+  const endDate = useSelector(selectEndDate);
   const selectedAccounts = useSelector(selectSelectedAccounts);
   let hasDuplicates = false;
   const [showInvalidDateMessage, setshowInvalidDateMessage] = useState(false);
@@ -103,23 +99,21 @@ export const AccountsSelect: FunctionComponent<Props> = ({
           type="submit"
           value="Apply"
           onClick={() => {
-            {
-              if (timeframe === 'CST') {
-                if (validDates(startDate, endDate)) {
-                  setshowInvalidDateMessage(false);
-                  dispatch(
-                    loadPerformanceCustom(
-                      selected.map(a => a?.value),
-                      startDate,
-                      endDate,
-                    ),
-                  );
-                } else {
-                  setshowInvalidDateMessage(true);
-                }
+            if (timeframe === 'CST') {
+              if (validDates(startDate, endDate)) {
+                setshowInvalidDateMessage(false);
+                dispatch(
+                  loadPerformanceCustom(
+                    selected.map(a => a?.value),
+                    startDate,
+                    endDate,
+                  ),
+                );
               } else {
-                dispatch(loadPerformanceAll(selected.map(a => a?.value)));
+                setshowInvalidDateMessage(true);
               }
+            } else {
+              dispatch(loadPerformanceAll(selected.map(a => a?.value)));
             }
           }}
         />

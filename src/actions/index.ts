@@ -5,11 +5,13 @@ import {
   setSelectedTimeframe,
   loadPerformanceAll,
   loadPerformanceCustom,
+  setStartDate,
+  setEndDate,
 } from './performance';
 import {
   formattedToday,
   formattedYearAgo,
-} from '../components/Performance/Performance';
+} from '../components/Performance/DatePickers';
 
 export const loginSucceeded: ActionCreator<Action> = payload => ({
   type: 'LOGIN_SUCCEEDED',
@@ -382,13 +384,11 @@ export const reloadEverything: ActionCreator<ThunkAction<
 
     dispatch(setSelectedTimeframe('1Y'));
     dispatch(loadPerformanceAll(selectedAccounts));
-    dispatch(
-      loadPerformanceCustom(
-        selectedAccounts,
-        formattedYearAgo(),
-        formattedToday(),
-      ),
-    );
+    const startDate = formattedYearAgo();
+    const endDate = formattedToday();
+    dispatch(setStartDate(startDate));
+    dispatch(setEndDate(endDate));
+    dispatch(loadPerformanceCustom(selectedAccounts, startDate, endDate));
   };
 };
 

@@ -49,7 +49,7 @@ export const PerformanceContributionChart = () => {
         color: '#04a286',
       },
     ],
-    [contributionData, withdrawalData, timeframe],
+    [contributionData, withdrawalData, timeframe, customYearBased],
   );
   // let dataWithoutWithdrawals = React.useMemo(
   //   () => [

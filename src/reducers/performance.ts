@@ -1,3 +1,8 @@
+import {
+  formattedToday,
+  formattedYearAgo,
+} from '../components/Performance/DatePickers';
+
 export const selectedTimeframe = (state = '1Y', action: any) => {
   if (action.type === 'SET_SELECTED_TIMEFRAME') {
     return action.timeframe;
@@ -9,6 +14,22 @@ export const selectedTimeframe = (state = '1Y', action: any) => {
 export const selectedAccounts = (state = [], action: any) => {
   if (action.type === 'SET_SELECTED_ACCOUNTS') {
     return action.accounts;
+  } else {
+    return state;
+  }
+};
+
+export const reportingStartDate = (state = formattedYearAgo(), action: any) => {
+  if (action.type === 'SET_REPORTING_START_DATE') {
+    return action.startDate;
+  } else {
+    return state;
+  }
+};
+
+export const reportingEndDate = (state = formattedToday(), action: any) => {
+  if (action.type === 'SET_REPORTING_END_DATE') {
+    return action.endDate;
   } else {
     return state;
   }
