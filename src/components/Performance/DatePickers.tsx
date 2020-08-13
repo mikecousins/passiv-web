@@ -1,8 +1,17 @@
 import styled from '@emotion/styled';
 import { useSelector, useDispatch } from 'react-redux';
-import React from 'react';
-import { setStartDate, setEndDate } from '../../actions/performance';
-import { selectStartDate, selectEndDate } from '../../selectors/performance';
+import React, { useState } from 'react';
+import {
+  setStartDate,
+  setEndDate,
+  loadPerformanceCustom,
+} from '../../actions/performance';
+import {
+  selectStartDate,
+  selectEndDate,
+  selectSelectedAccounts,
+} from '../../selectors/performance';
+import { validDates } from './AccountsSelect';
 
 const Range = styled.div`
   background: #04a286;
@@ -35,10 +44,19 @@ const End = styled.div`
   align-items: center;
   padding: 0 6px;
 `;
+const Submit = styled.input`
+  background: #03846d;
+  color: #fff;
+  z-index: 2;
+  border-radius: 4px 4px 4px 4px;
+`;
+
 export const DatePickers = () => {
   const dispatch = useDispatch();
   const startDate: string = useSelector(selectStartDate);
   const endDate: string = useSelector(selectEndDate);
+  const accounts: any[] = useSelector(selectSelectedAccounts);
+  const [showInvalidDateMessage, setshowInvalidDateMessage] = useState(false);
   const handleStartDateChange = (ev: any) =>
     dispatch(setStartDate(ev.target.value));
   const handleEndDateChange = (ev: any) =>
@@ -71,6 +89,24 @@ export const DatePickers = () => {
             max={today}
           />
         </End>
+        <Submit
+          type="submit"
+          value="Apply"
+          onClick={() => {
+            if (validDates(startDate, endDate)) {
+              setshowInvalidDateMessage(false);
+              dispatch(
+                loadPerformanceCustom(
+                  accounts.map(a => a?.value),
+                  startDate,
+                  endDate,
+                ),
+              );
+            } else {
+              setshowInvalidDateMessage(true);
+            }
+          }}
+        />
       </Range>
     </React.Fragment>
   );
