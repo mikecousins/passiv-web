@@ -4,9 +4,6 @@ import React from 'react';
 import { setStartDate, setEndDate } from '../../actions/performance';
 import { selectStartDate, selectEndDate } from '../../selectors/performance';
 
-const Label = styled.label`
-  color: #fff;
-`;
 const Range = styled.div`
   background: #04a286;
   display: flex;
