@@ -18,6 +18,7 @@ import {
 const SelectContainer = styled.div`
   margin: 0 0 20px auto;
   display: flex;
+  height: 100%;
   .multi-select {
     --rmsc-primary: #05a185;
     --rmsc-hover: #05a185;
@@ -29,6 +30,7 @@ const SelectContainer = styled.div`
     --rmsc-border-radius: 4px;
     --rmsc-height: 44px;
     width: 400px;
+    height: 100%;
   }
   .multi-select span {
     vertical-align: middle;

@@ -70,12 +70,15 @@ const TimeContainer = styled.div`
   border-radius: 6px;
   background: var(--brand-grey);
   border: 1px solid #04a185;
-  width: 450px;
   display: flex;
   box-shadow: 0 4px 12px 2px rgba(2, 2, 2, 0.26);
   z-index: 100;
   margin-right: 20px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
+  @media (min-width: 900px) {
+    min-width: 458px;
+  }
   @media (max-width: 900px) {
     width: 100%;
   }
@@ -89,6 +92,8 @@ const TimespanStyle = styled.span`
   flex: 1;
   cursor: pointer;
   border-right: 1px solid #04a185;
+  display: flex;
+  justify-content: center;
   button {
     color: #fff;
     padding: 12px 5px;
@@ -169,10 +174,6 @@ export const Performance = () => {
 
   return (
     <React.Fragment>
-      <BetaBanner>
-        Open Beta: Help us improve our tools by{' '}
-        <A href="mailto:reporting@getpassiv.com">sharing feedback</A>
-      </BetaBanner>
       <Flex>
         <TimeContainer>
           <TimespanSelector
@@ -195,11 +196,11 @@ export const Performance = () => {
             selectedTimeframe={currentTimeframe}
             setTimeframe={t => dispatch(setSelectedTimeframe(t))}
           />
+          {showDatePickers && <DatePickers />}
         </TimeContainer>
         <AccountsSelect />
       </Flex>
 
-      {showDatePickers && <DatePickers />}
       <Grid>
         <ShadowBox>
           <PerformanceContributionChart />
@@ -246,6 +247,10 @@ export const Performance = () => {
           </ShadowBox>
         </Tiles>
       </Grid>
+      <BetaBanner>
+        Open Beta: Help us improve our tools by{' '}
+        <A href="mailto:reporting@getpassiv.com">sharing feedback</A>
+      </BetaBanner>
     </React.Fragment>
   );
 };

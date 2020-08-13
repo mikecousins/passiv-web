@@ -4,6 +4,40 @@ import React from 'react';
 import { setStartDate, setEndDate } from '../../actions/performance';
 import { selectStartDate, selectEndDate } from '../../selectors/performance';
 
+const Label = styled.label`
+  color: #fff;
+`;
+const Range = styled.div`
+  background: #04a286;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  padding: 8px 0;
+  input {
+    color: #fff;
+    position: relative;
+    width: 130px;
+    &::-webkit-calendar-picker-indicator {
+      font-size: 14px;
+      position: absolute;
+      right: 3px;
+    }
+  }
+  label {
+    margin-right: 2px;
+  }
+`;
+const Start = styled.div`
+  display: flex;
+  margin-right: 4px;
+  padding: 0 6px;
+  align-items: center;
+`;
+const End = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+`;
 export const DatePickers = () => {
   const dispatch = useDispatch();
   const startDate: string = useSelector(selectStartDate);
@@ -20,21 +54,27 @@ export const DatePickers = () => {
 
   return (
     <React.Fragment>
-      Start Date:
-      <input
-        type="date"
-        value={startDate}
-        onChange={handleStartDateChange}
-        max={endDate}
-      />
-      End Date:
-      <input
-        type="date"
-        value={endDate}
-        onChange={handleEndDateChange}
-        min={startDate}
-        max={today}
-      />
+      <Range>
+        <Start>
+          <label>Start:</label>
+          <input
+            type="date"
+            value={startDate}
+            onChange={handleStartDateChange}
+            max={endDate}
+          />
+        </Start>
+        <End>
+          <label>End:</label>
+          <input
+            type="date"
+            value={endDate}
+            onChange={handleEndDateChange}
+            min={startDate}
+            max={today}
+          />
+        </End>
+      </Range>
     </React.Fragment>
   );
 };
@@ -50,7 +90,7 @@ export const formattedToday = () => {
   if (month.length < 2) month = '0' + month;
   if (day.length < 2) day = '0' + day;
 
-  return [year, month, day].join('-');
+  return [year, month, day].join('/');
 };
 
 export const formattedYearAgo = () => {
