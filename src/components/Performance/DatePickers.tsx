@@ -19,6 +19,7 @@ const Range = styled.div`
   width: 100%;
   flex-wrap: wrap;
   padding: 8px 0;
+  justify-content: flex-end;
   input {
     color: #fff;
     position: relative;
@@ -49,6 +50,7 @@ const Submit = styled.input`
   color: #fff;
   z-index: 2;
   border-radius: 4px 4px 4px 4px;
+  margin-right: 6px;
 `;
 
 export const DatePickers = () => {
