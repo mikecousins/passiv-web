@@ -107,6 +107,7 @@ export const DatePickers = () => {
             }
           }}
         />
+        {showInvalidDateMessage && <div>&nbsp;Invalid Dates</div>}
       </Range>
     </React.Fragment>
   );
