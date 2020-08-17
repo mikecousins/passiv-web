@@ -10,7 +10,7 @@ export const loadPerformanceAll: ActionCreator<ThunkAction<
 >> = accountNumbers => {
   return dispatch => {
     dispatch(fetchPerformanceAllStart());
-    postData('/api/v1/performance/all/', accountNumbers)
+    postData('/api/v1/performance/all/', { accountNumbers })
       .then(response => {
         dispatch(fetchPerformanceAllSuccess(response));
       })
