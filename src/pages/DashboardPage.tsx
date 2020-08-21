@@ -31,18 +31,18 @@ export const DashboardPage = () => {
     );
   }
 
-  let allGroupSetupCompleted = null;
+  let anySetupRemaining = false;
 
   if (groups) {
     let groupsSetupStatus = groups.map(group => group.setupComplete);
-    const verifyAllTrue = (currentValue: any) => currentValue === true;
+    const verifyAnyFalse = (currentValue: any) => currentValue === false;
 
-    allGroupSetupCompleted = groupsSetupStatus.every(verifyAllTrue);
+    anySetupRemaining = groupsSetupStatus.some(verifyAnyFalse);
   }
 
   return (
     <React.Fragment>
-      {allGroupSetupCompleted ? null : <WelcomeVideo />}
+      {anySetupRemaining && <WelcomeVideo />}
       <TotalHoldings />
       {groupDisplay}
     </React.Fragment>
