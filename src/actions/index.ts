@@ -84,6 +84,20 @@ export const loadFeatures: ActionCreator<ThunkAction<
   };
 };
 
+export const loadIncentives: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
+  return dispatch => {
+    dispatch(fetchIncentivesStart());
+    getData('/api/v1/incentives/')
+      .then(response => dispatch(fetchIncentivesSuccess(response)))
+      .catch(error => dispatch(fetchIncentivesError(error)));
+  };
+};
+
 export const loadCurrencyRates: ActionCreator<ThunkAction<
   void,
   any,
@@ -311,6 +325,11 @@ export const reloadEverything: ActionCreator<ThunkAction<
       .then(response => dispatch(fetchFeaturesSuccess(response)))
       .catch(error => dispatch(fetchFeaturesError(error)));
 
+    dispatch(fetchIncentivesStart());
+    getData('/api/v1/incentives/')
+      .then(response => dispatch(fetchIncentivesSuccess(response)))
+      .catch(error => dispatch(fetchIncentivesError(error)));
+
     dispatch(fetchCurrenciesStart());
     getData('/api/v1/currencies/')
       .then(response => dispatch(fetchCurrenciesSuccess(response)))
@@ -402,6 +421,20 @@ export const fetchFeaturesSuccess: ActionCreator<Action> = payload => ({
 
 export const fetchFeaturesError: ActionCreator<Action> = payload => ({
   type: 'FETCH_FEATURES_ERROR',
+  payload,
+});
+
+export const fetchIncentivesStart: ActionCreator<Action> = () => ({
+  type: 'FETCH_INCENTIVES_START',
+});
+
+export const fetchIncentivesSuccess: ActionCreator<Action> = payload => ({
+  type: 'FETCH_INCENTIVES_SUCCESS',
+  payload,
+});
+
+export const fetchIncentivesError: ActionCreator<Action> = payload => ({
+  type: 'FETCH_INCENTIVES_ERROR',
   payload,
 });
 

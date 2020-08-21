@@ -59,6 +59,8 @@ export const selectCurrenciesRaw = (state: AppState) => state.currencies;
 
 export const selectFeaturesRaw = (state: AppState) => state.features;
 
+export const selectIncentivesRaw = (state: AppState) => state.incentives;
+
 export const selectBrokeragesRaw = (state: AppState) => state.brokerages;
 
 export const selectAuthorizationsRaw = (state: AppState) =>
@@ -80,6 +82,31 @@ export const selectFeaturesNeedData = createSelector(
       return false;
     }
     return shouldUpdate(rawFeatures, {
+      staleTime: ms.minutes(30),
+      now: time,
+    });
+  },
+);
+
+export const selectIncentives = createSelector(
+  selectIncentivesRaw,
+  rawIncentives => {
+    if (rawIncentives.data) {
+      return rawIncentives.data;
+    }
+    return null;
+  },
+);
+
+export const selectIncentivesNeedData = createSelector(
+  selectLoggedIn,
+  selectIncentivesRaw,
+  selectAppTime,
+  (loggedIn, rawIncentives, time) => {
+    if (!loggedIn) {
+      return false;
+    }
+    return shouldUpdate(rawIncentives, {
       staleTime: ms.minutes(30),
       now: time,
     });

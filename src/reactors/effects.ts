@@ -10,6 +10,7 @@ import {
   loadPlans,
   loadHelpArticles,
   loadFeatures,
+  loadIncentives,
 } from '../actions';
 import {
   loadPerformanceAll,
@@ -25,6 +26,7 @@ import {
   selectPlansNeedData,
   selectHelpArticlesNeedData,
   selectFeaturesNeedData,
+  selectIncentivesNeedData,
 } from '../selectors';
 import { selectAccountsNeedData } from '../selectors/accounts';
 import { selectGroupsNeedData } from '../selectors/groups';
@@ -45,6 +47,10 @@ export const effects = [
   {
     selector: selectFeaturesNeedData,
     actionCreator: loadFeatures,
+  },
+  {
+    selector: selectIncentivesNeedData,
+    actionCreator: loadIncentives,
   },
   {
     selector: selectCurrencyRatesNeedData,
