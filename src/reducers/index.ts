@@ -22,8 +22,17 @@ import { Authorization } from '../types/authorization';
 import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
 import { Settings } from '../types/settings';
-import { PerformanceData, AdjustedCostBasis } from '../types/performance';
-import { selectedTimeframe, selectedAccounts } from './performance';
+import {
+  PerformanceData,
+  PerformanceCustomData,
+  AdjustedCostBasis,
+} from '../types/performance';
+import {
+  selectedTimeframe,
+  selectedAccounts,
+  reportingStartDate,
+  reportingEndDate,
+} from './performance';
 
 export default (history: any) =>
   combineReducers({
@@ -38,6 +47,8 @@ export default (history: any) =>
     version,
     selectedTimeframe,
     selectedAccounts,
+    reportingStartDate,
+    reportingEndDate,
     referral,
     helpArticles: simple<any>({
       baseType: 'FETCH_HELP_ARTICLES',
@@ -101,6 +112,10 @@ export default (history: any) =>
     }),
     performanceAll: simple<PerformanceData>({
       baseType: 'FETCH_PERFORMANCE_ALL',
+      userData: true,
+    }),
+    performanceCustom: simple<PerformanceCustomData>({
+      baseType: 'FETCH_PERFORMANCE_CUSTOM',
       userData: true,
     }),
     performanceACB: simple<AdjustedCostBasis[]>({

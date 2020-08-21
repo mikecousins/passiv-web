@@ -52,6 +52,22 @@ export type PerformanceData = {
   badTickers: string[];
 };
 
+export type PerformanceCustomData = {
+  contributions: Contributions;
+  contributionTimeframe: PastValue[];
+  contributionTimeframeCumulative: PastValue[];
+  withdrawalTimeframe: PastValue[];
+  totalEquityTimeframe: PastValue[];
+  contributionStreak: number;
+  contributionMonthsContributed: number;
+  contributionTotalMonths: number;
+  dividends: Dividends[];
+  dividendIncome: number;
+  dividendTimeline: DividendsAtDate[];
+  monthlyDividends: number;
+  badTickers: string[];
+};
+
 export type DividendsAtDate = {
   date: string;
   dividends: TickerOnlyDividend[];

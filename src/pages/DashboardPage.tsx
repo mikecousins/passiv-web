@@ -7,6 +7,7 @@ import { selectIsAuthorized } from '../selectors';
 import { selectDashboardGroups } from '../selectors/groups';
 import TotalHoldings from '../components/TotalHoldings';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
+import WelcomeVideo from '../components/WelcomeVideo/WelcomeVideo';
 
 import { TradesContainer } from '../styled/Group';
 import { SharingWidget } from '../components/SharingWidget';
@@ -33,8 +34,18 @@ export const DashboardPage = () => {
     );
   }
 
+  let anySetupRemaining = false;
+
+  if (groups) {
+    let groupsSetupStatus = groups.map(group => group.setupComplete);
+    const verifyAnyFalse = (currentValue: any) => currentValue === false;
+
+    anySetupRemaining = groupsSetupStatus.some(verifyAnyFalse);
+  }
+
   return (
     <React.Fragment>
+      {anySetupRemaining && <WelcomeVideo />}
       <TotalHoldings />
 
       <TradesContainer>

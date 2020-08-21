@@ -21,6 +21,10 @@ import ms from 'milliseconds';
 export const selectSelectedTimeframe = (state: AppState) =>
   state.selectedTimeframe;
 
+export const selectStartDate = (state: AppState) => state.reportingStartDate;
+
+export const selectEndDate = (state: AppState) => state.reportingEndDate;
+
 export const selectSelectedAccounts = (state: AppState) =>
   state.selectedAccounts;
 
@@ -90,6 +94,8 @@ export const selectDividendTimeline = createSelector<
     return state.performanceAll?.data?.dividendTimelineYTD;
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.dividendTimelineALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.dividendTimeline;
   } else {
     return state.performanceAll?.data?.dividendTimeline1Y;
   }
@@ -107,6 +113,8 @@ export const selectMonthlyDividends = createSelector<
     return state.performanceAll?.data?.monthlyDividendsYTD;
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.monthlyDividendsALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.monthlyDividends;
   } else {
     return state.performanceAll?.data?.monthlyDividends1Y;
   }
@@ -124,6 +132,8 @@ export const selectDividends = createSelector<
     return state.performanceAll?.data?.dividendsYTD;
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.dividendsALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.dividends;
   } else {
     return state.performanceAll?.data?.dividends1Y;
   }
@@ -141,6 +151,8 @@ export const selectDividendIncome = createSelector<
     return state.performanceAll?.data?.dividendIncomeYTD;
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.dividendIncomeALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.dividendIncome;
   } else {
     return state.performanceAll?.data?.dividendIncome1Y;
   }
@@ -158,6 +170,8 @@ export const selectTotalEquityTimeframe = createSelector<
     return state.performanceAll?.data?.totalEquityTimeframeYTD;
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.totalEquityTimeframeALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.totalEquityTimeframe;
   } else {
     return state.performanceAll?.data?.totalEquityTimeframe1Y;
   }
@@ -175,6 +189,8 @@ export const selectContributionTimeframe = createSelector<
     return state.performanceAll?.data?.contributionTimeframeYTD;
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.contributionTimeframeALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.contributionTimeframe;
   } else {
     return state.performanceAll?.data?.contributionTimeframe1Y;
   }
@@ -192,6 +208,8 @@ export const selectContributionTimeframeCumulative = createSelector<
     return state.performanceAll?.data?.contributionTimeframeCumulativeYTD;
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.contributionTimeframeCumulativeALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.contributionTimeframeCumulative;
   } else {
     return state.performanceAll?.data?.contributionTimeframeCumulative1Y;
   }
@@ -209,6 +227,8 @@ export const selectWithdrawalTimeframe = createSelector<
     return state.performanceAll?.data?.withdrawalTimeframeYTD;
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.withdrawalTimeframeALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.withdrawalTimeframe;
   } else {
     return state.performanceAll?.data?.withdrawalTimeframe1Y;
   }
@@ -226,6 +246,8 @@ export const selectContributions = createSelector<
     return state.performanceAll?.data?.contributionsYTD;
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.contributionsALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.contributions;
   } else {
     return state.performanceAll?.data?.contributions1Y;
   }
@@ -243,6 +265,8 @@ export const selectContributionStreak = createSelector<
     return state.performanceAll?.data?.contributionStreakYTD;
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.contributionStreakALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.contributionStreak;
   } else {
     return state.performanceAll?.data?.contributionStreak1Y;
   }
@@ -260,6 +284,8 @@ export const selectContributionMonthsContributed = createSelector<
     return state.performanceAll?.data?.contributionMonthsContributedYTD;
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.contributionMonthsContributedALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.contributionMonthsContributed;
   } else {
     return state.performanceAll?.data?.contributionMonthsContributed1Y;
   }
@@ -277,6 +303,8 @@ export const selectContributionMonthsTotal = createSelector<
     return state.performanceAll?.data?.contributionTotalMonthsYTD;
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.contributionTotalMonthsALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.contributionTotalMonths;
   } else {
     return state.performanceAll?.data?.contributionTotalMonths1Y;
   }

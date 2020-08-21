@@ -11,6 +11,7 @@ import PerformanceDividendChart from './PerformanceDividendChart';
 import PerformanceMonthlyDividends from './PerformanceMonthlyDividends';
 import PerformanceDividendTimelineChart from './PerformanceDividendTimelineChart';
 import PerformanceDividendIncome from './PerformanceDividendIncome';
+import DatePickers from './DatePickers';
 import AccountsSelect from './AccountsSelect';
 import { setSelectedTimeframe } from '../../actions/performance';
 import { selectSelectedTimeframe } from '../../selectors/performance';
@@ -69,12 +70,15 @@ const TimeContainer = styled.div`
   border-radius: 6px;
   background: var(--brand-grey);
   border: 1px solid #04a185;
-  width: 400px;
   display: flex;
   box-shadow: 0 4px 12px 2px rgba(2, 2, 2, 0.26);
   z-index: 100;
   margin-right: 20px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
+  @media (min-width: 900px) {
+    min-width: 458px;
+  }
   @media (max-width: 900px) {
     width: 100%;
   }
@@ -88,6 +92,8 @@ const TimespanStyle = styled.span`
   flex: 1;
   cursor: pointer;
   border-right: 1px solid #04a185;
+  display: flex;
+  justify-content: center;
   button {
     color: #fff;
     padding: 12px 5px;
@@ -127,22 +133,23 @@ type Props = {
   selectedTimeframe: string;
   setTimeframe: (newTimeFrame: string) => void;
 };
-
 export const TimespanSelector: FunctionComponent<Props> = ({
   timeframe,
   selectedTimeframe,
   setTimeframe,
 }) => {
   let timeframeString = '1Y';
+
   if (timeframe === '1Y') {
     timeframeString = '1 Year';
-  }
-  if (timeframe === 'YTD') {
+  } else if (timeframe === 'YTD') {
     timeframeString = 'Year to Date';
   } else if (timeframe === 'ALL') {
     timeframeString = 'All Time';
   } else if (timeframe === '30D') {
     timeframeString = '30 Days';
+  } else if (timeframe === 'CST') {
+    timeframeString = 'Custom';
   }
 
   let selected = timeframe === selectedTimeframe;
@@ -160,13 +167,13 @@ export const TimespanSelector: FunctionComponent<Props> = ({
 export const Performance = () => {
   const dispatch = useDispatch();
   let currentTimeframe = useSelector(selectSelectedTimeframe);
+  let showDatePickers = false;
+  if (currentTimeframe === 'CST') {
+    showDatePickers = true;
+  }
 
   return (
     <React.Fragment>
-      <BetaBanner>
-        Open Beta: Help us improve our tools by{' '}
-        <A href="mailto:reporting@getpassiv.com">sharing feedback</A>
-      </BetaBanner>
       <Flex>
         <TimeContainer>
           <TimespanSelector
@@ -184,9 +191,16 @@ export const Performance = () => {
             selectedTimeframe={currentTimeframe}
             setTimeframe={t => dispatch(setSelectedTimeframe(t))}
           />
+          <TimespanSelector
+            timeframe={'CST'}
+            selectedTimeframe={currentTimeframe}
+            setTimeframe={t => dispatch(setSelectedTimeframe(t))}
+          />
+          {showDatePickers && <DatePickers />}
         </TimeContainer>
         <AccountsSelect />
       </Flex>
+
       <Grid>
         <ShadowBox>
           <PerformanceContributionChart />
@@ -233,6 +247,10 @@ export const Performance = () => {
           </ShadowBox>
         </Tiles>
       </Grid>
+      <BetaBanner>
+        Open Beta: Help us improve our tools by{' '}
+        <A href="mailto:reporting@getpassiv.com">sharing feedback</A>
+      </BetaBanner>
     </React.Fragment>
   );
 };

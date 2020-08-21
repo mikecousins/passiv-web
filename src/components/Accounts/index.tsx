@@ -213,9 +213,24 @@ const Accounts = () => {
                   ) : (
                     <React.Fragment>
                       {group.groupId === 'hidden' ? (
-                        <GroupNote>
-                          Drag accounts here to hide them in Passiv.
-                        </GroupNote>
+                        <React.Fragment>
+                          {isEditing ? (
+                            <GroupNote>
+                              Drag accounts here to hide them in Passiv.
+                            </GroupNote>
+                          ) : (
+                            <GroupNote>
+                              <Edit
+                                onClick={() => setIsEditing(true)}
+                                disabled={!canCrossAccountBalance}
+                              >
+                                <FontAwesomeIcon icon={faPen} />
+                                Edit Groups
+                              </Edit>{' '}
+                              and drag accounts here to hide them in Passiv.
+                            </GroupNote>
+                          )}
+                        </React.Fragment>
                       ) : (
                         <GroupNote>
                           There are no accounts in this group.
