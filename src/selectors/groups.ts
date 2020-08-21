@@ -122,6 +122,39 @@ export const selectGroupsNeedData = createSelector<
   },
 );
 
+export const selectGroupInfoNeedsData = createSelector<
+  AppState,
+  boolean,
+  SimpleState<GroupData[]>,
+  SimpleListState<GroupInfoData>,
+  number,
+  boolean,
+  boolean
+>(
+  selectLoggedIn,
+  selectGroupsRaw,
+  selectGroupInfo,
+  selectAppTime,
+  selectIsEditMode,
+  (loggedIn, rawGroups, groupInfo, time, edit) => {
+    if (!loggedIn || edit) {
+      return false;
+    }
+
+    let needsData = false;
+
+    needsData =
+      rawGroups &&
+      rawGroups!.data!.some(group => {
+        return (
+          !groupInfo[group.id].loading && groupInfo[group.id].data === undefined
+        );
+      });
+
+    return needsData;
+  },
+);
+
 export const selectCurrentGroupId = createSelector<
   AppState,
   RouterState,

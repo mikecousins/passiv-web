@@ -130,6 +130,24 @@ export const loadGroups: ActionCreator<ThunkAction<
   };
 };
 
+export const loadGroupInfo: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
+  return dispatch => {
+    getData('/api/v1/portfolioGroups/').then(response => {
+      response.data.forEach((group: any) => {
+        dispatch(fetchGroupInfoStart(group.id));
+        getData('/api/v1/portfolioGroups/' + group.id + '/info/')
+          .then(r => dispatch(fetchGroupInfoSuccess(r, group.id)))
+          .catch(e => dispatch(fetchGroupInfoError(e, group.id)));
+      });
+    });
+  };
+};
+
 export const loadGroupsList: ActionCreator<ThunkAction<
   void,
   any,

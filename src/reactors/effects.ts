@@ -6,6 +6,7 @@ import {
   loadAuthorizations,
   loadAccounts,
   loadGroups,
+  loadGroupInfo,
   loadSettings,
   loadPlans,
   loadHelpArticles,
@@ -27,7 +28,10 @@ import {
   selectFeaturesNeedData,
 } from '../selectors';
 import { selectAccountsNeedData } from '../selectors/accounts';
-import { selectGroupsNeedData } from '../selectors/groups';
+import {
+  selectGroupsNeedData,
+  selectGroupInfoNeedsData,
+} from '../selectors/groups';
 import { selectSubscriptionNeedData } from '../selectors/subscription';
 import { selectShouldCheckIfOnline } from '../selectors/online';
 import {
@@ -73,6 +77,10 @@ export const effects = [
   {
     selector: selectGroupsNeedData,
     actionCreator: loadGroups,
+  },
+  {
+    selector: selectGroupInfoNeedsData,
+    actionCreator: loadGroupInfo,
   },
   {
     selector: selectSettingsNeedData,

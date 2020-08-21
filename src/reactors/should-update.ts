@@ -32,7 +32,11 @@ const isStale = (object: SimpleState<any>, opts: CleanedOptions) => {
   return false;
 };
 
-export default (object: SimpleState<any>, opts: Options) => {
+const shouldUpdate = (
+  object: SimpleState<any>,
+  opts: Options,
+  simpleListMeta?: any,
+) => {
   const cleanedOpts: CleanedOptions = {
     staleTime: ms.minutes(10),
     retryAfter: ms.minutes(1),
@@ -70,3 +74,5 @@ export default (object: SimpleState<any>, opts: Options) => {
   // so we definitely want to fetch
   return true;
 };
+
+export default shouldUpdate;
