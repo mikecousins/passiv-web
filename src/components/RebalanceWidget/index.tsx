@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { loadGroupAndAccounts } from '../../actions';
+import { loadGroupAndAccounts, loadIncentives } from '../../actions';
 import { getData, postData } from '../../api';
 import { selectSettings, selectLimitOrdersFeature } from '../../selectors';
 import { selectShowQuestradeOffer } from '../../selectors/subscription';
@@ -25,6 +25,7 @@ import {
 import ErrorMessage from './ErrorMessage';
 import { Button } from '../../styled/Button';
 import UpgradeIdea from '../UpgradeIdea';
+import TryOneClickTrades from '../IncentivesMessage/TryOneClickTrades';
 
 type Props = {
   groupId: string;
@@ -55,6 +56,7 @@ const RebalanceWidget = ({
 
   const reloadData = () => {
     dispatch(loadGroupAndAccounts({ ids: [groupId] }));
+    dispatch(loadIncentives());
   };
 
   const validateOrders = () => {
@@ -119,7 +121,10 @@ const RebalanceWidget = ({
   };
 
   let orderValidation = (
-    <Button onClick={validateOrders}>Preview Orders</Button>
+    <div>
+      <TryOneClickTrades />
+      <Button onClick={validateOrders}>Preview Orders</Button>
+    </div>
   );
   if (showQuestradeOffer) {
     orderValidation = <UpgradeIdea />;
