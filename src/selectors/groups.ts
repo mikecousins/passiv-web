@@ -143,13 +143,16 @@ export const selectGroupInfoNeedsData = createSelector<
 
     let needsData = false;
 
-    needsData =
-      rawGroups &&
-      rawGroups!.data!.some(group => {
-        return (
-          !groupInfo[group.id].loading && groupInfo[group.id].data === undefined
-        );
-      });
+    if (rawGroups && rawGroups.data) {
+      needsData =
+        rawGroups &&
+        rawGroups!.data!.some(group => {
+          return (
+            !groupInfo[group.id].loading &&
+            groupInfo[group.id].data === undefined
+          );
+        });
+    }
 
     return needsData;
   },
