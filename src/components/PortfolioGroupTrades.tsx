@@ -198,7 +198,6 @@ export const PortfolioGroupTrades = ({
           </TradesContainer>
         );
       } else {
-        triggerTradesSubmitted();
         return (
           <TradesContainer>
             <H2>Trades</H2>

@@ -10,7 +10,6 @@ import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPi
 import WelcomeVideo from '../components/WelcomeVideo/WelcomeVideo';
 
 import { TradesContainer } from '../styled/Group';
-import { SharingWidget } from '../components/SharingWidget';
 
 export const DashboardPage = () => {
   const authorized = useSelector(selectIsAuthorized);
@@ -47,10 +46,6 @@ export const DashboardPage = () => {
     <React.Fragment>
       {anySetupRemaining && <WelcomeVideo />}
       <TotalHoldings />
-
-      <TradesContainer>
-        <SharingWidget />
-      </TradesContainer>
 
       {groupDisplay}
     </React.Fragment>
