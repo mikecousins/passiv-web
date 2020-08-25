@@ -44,7 +44,7 @@ export const PerformanceContributionChart = () => {
       </Tooltip>
       {}
       <PerformanceChart
-        className="dividends"
+        className="dividendsTimeline"
         data={data}
         axes={axes}
         series={series}
