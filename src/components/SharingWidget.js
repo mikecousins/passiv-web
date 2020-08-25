@@ -34,13 +34,14 @@ export const SharingWidget = () => {
 
   const shareUrl = 'https://getpassiv.com/?ref='.concat(settings.referral_code);
 
-  const facebookHashtag = ['#GetPassiv'];
-  const twitterHashtag = ['DIYinvesting', 'personalfinance'].concat(
+  const facebookHashtag = ['#Passiv'];
+  const twitterHashtag = ['investing', 'finance', 'money'].concat(
     brokerageNames,
   );
 
-  const facebookMessage = 'Passive Investing Made Easy!';
-  const twitterMessage = 'I manage my investments with #Passiv! \n\n';
+  const facebookMessage = 'Be you own Robo-Advisor! #GetPassiv!';
+  const twitterMessage =
+    '@PassivTeam thanks for making it easy for me to manage and invest my wealth at my online broker! \n\n';
 
   return (
     <React.Fragment>
