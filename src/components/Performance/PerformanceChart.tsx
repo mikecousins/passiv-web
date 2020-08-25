@@ -16,6 +16,9 @@ export const ChartBox = styled.div`
   &.dividends {
     height: 300px;
   }
+  &.dividendsTimeline {
+    height: 220px;
+  }
 `;
 
 export const Label = styled.div`
