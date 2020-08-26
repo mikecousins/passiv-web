@@ -15,6 +15,7 @@ import { GroupInfoData, Balance } from '../types/groupInfo';
 import { GroupData } from '../types/group';
 import { Currency } from '../types/currency';
 import { Feature } from '../types/feature';
+import { Incentives } from '../types/incentives';
 import { CurrencyRate } from '../types/currencyRate';
 import { Account } from '../types/account';
 import { Authorization } from '../types/authorization';
@@ -63,6 +64,10 @@ export default (history: any) =>
     }),
     features: simple<Feature[]>({
       baseType: 'FETCH_FEATURES',
+      userData: true,
+    }),
+    incentives: simple<Incentives>({
+      baseType: 'FETCH_INCENTIVES',
       userData: true,
     }),
     currencies: simple<Currency[]>({
