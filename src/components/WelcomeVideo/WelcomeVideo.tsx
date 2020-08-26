@@ -23,7 +23,7 @@ const WelcomeVideo = () => {
           </H2DarkStyle>
           <PDarkStyle>
             <ADarkStyle
-              href="https://getpassiv.com/help/tutorials/how-to-set-up-a-target-portfolio/"
+              href="https://passiv.com/help/tutorials/how-to-set-up-a-target-portfolio/"
               target="_blank"
               rel="noopener noreferrer"
             >

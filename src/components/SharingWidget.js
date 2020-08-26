@@ -32,7 +32,7 @@ export const SharingWidget = () => {
     authorization.slug.toLowerCase(),
   );
 
-  const shareUrl = 'https://getpassiv.com/?ref='.concat(settings.referral_code);
+  const shareUrl = 'https://passiv.com/?ref='.concat(settings.referral_code);
 
   const facebookHashtag = ['#Passiv'];
   const twitterHashtag = ['investing', 'finance', 'money'].concat(

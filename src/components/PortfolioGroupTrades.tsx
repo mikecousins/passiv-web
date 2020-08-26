@@ -214,7 +214,7 @@ export const PortfolioGroupTrades = ({
                   <li>
                     Perform a full rebalance by selling overweight assets.{' '}
                     <A
-                      href="https://getpassiv.com/help/tutorials/how-to-allow-selling-to-rebalance"
+                      href="https://passiv.com/help/tutorials/how-to-allow-selling-to-rebalance"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
