@@ -126,7 +126,7 @@ const ContactForm = () => {
             </P>
             <ReCAPTCHA
               ref={recaptchaRef}
-              sitekey="6Lf5SeQUAAAAACWa2toI5bh8zdeKlI82fe_9r6P0"
+              sitekey="6LdNyMMZAAAAABpL67gxVW7_O0xgcyIX2lsJBWmk"
               size="invisible"
             />
             {props.status.submitted ? (
