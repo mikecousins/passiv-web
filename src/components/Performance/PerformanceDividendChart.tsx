@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import PerformanceChart from './PerformanceChart';
+import PerformanceChart, { ExpandChart } from './PerformanceChart';
 import { selectDividends } from '../../selectors/performance';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faQuestionCircle,
+  faLongArrowAltDown,
+  faLongArrowAltUp,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tooltip from '../Tooltip';
 import { H3 } from '../../styled/GlobalElements';
 
 export const PerformanceDividendChart = () => {
   const dividendData = useSelector(selectDividends);
+  const [className, setClassName] = useState('dividends');
 
   let data = React.useMemo(
     () => [
@@ -40,11 +45,26 @@ export const PerformanceDividendChart = () => {
         <H3>
           Total Dividends{' '}
           <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 13 }} />
+          <ExpandChart>
+            {className === 'dividends' && (
+              <FontAwesomeIcon
+                icon={faLongArrowAltDown}
+                style={{ fontSize: 13 }}
+                onClick={() => setClassName('dividendsExtended')}
+              />
+            )}
+            {className === 'dividendsExtended' && (
+              <FontAwesomeIcon
+                icon={faLongArrowAltUp}
+                style={{ fontSize: 13 }}
+                onClick={() => setClassName('dividends')}
+              />
+            )}
+          </ExpandChart>
         </H3>
       </Tooltip>
-      {}
       <PerformanceChart
-        className="dividends"
+        className={className}
         data={data}
         axes={axes}
         series={series}

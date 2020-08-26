@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import PerformanceChart from './PerformanceChart';
+import PerformanceChart, { ExpandChart } from './PerformanceChart';
 import { parseDate, formatDate } from './PerformanceContributionChart';
 import { DividendsAtDate } from '../../types/performance';
 import {
   selectDividendTimeline,
   selectSelectedTimeframe,
 } from '../../selectors/performance';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faQuestionCircle,
+  faLongArrowAltDown,
+  faLongArrowAltUp,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tooltip from '../Tooltip';
 import { H3 } from '../../styled/GlobalElements';
@@ -15,6 +19,7 @@ import { H3 } from '../../styled/GlobalElements';
 export const PerformanceContributionChart = () => {
   const dividendTimeline = useSelector(selectDividendTimeline);
   const timeframe = useSelector(selectSelectedTimeframe);
+  const [className, setClassName] = useState('dividendsTimeline');
 
   let data = React.useMemo(
     () =>
@@ -40,11 +45,27 @@ export const PerformanceContributionChart = () => {
         <H3>
           Dividend History{' '}
           <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 13 }} />
+          <ExpandChart>
+            {className === 'dividendsTimeline' && (
+              <FontAwesomeIcon
+                icon={faLongArrowAltDown}
+                style={{ fontSize: 13 }}
+                onClick={() => setClassName('dividendsTimelineExtended')}
+              />
+            )}
+            {className === 'dividendsTimelineExtended' && (
+              <FontAwesomeIcon
+                icon={faLongArrowAltUp}
+                style={{ fontSize: 13 }}
+                onClick={() => setClassName('dividendsTimeline')}
+              />
+            )}
+          </ExpandChart>
         </H3>
       </Tooltip>
       {}
       <PerformanceChart
-        className="dividendsTimeline"
+        className={className}
         data={data}
         axes={axes}
         series={series}

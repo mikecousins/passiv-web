@@ -14,10 +14,16 @@ export const ChartBox = styled.div`
     height: 300px;
   }
   &.dividends {
-    height: 300px;
+    height: 220px;
   }
   &.dividendsTimeline {
     height: 220px;
+  }
+  &.dividendsExtended {
+    height: 420px;
+  }
+  &.dividendsTimelineExtended {
+    height: 380px;
   }
 `;
 
@@ -45,6 +51,10 @@ export const DollarString = styled.span`
   &.selected {
     font-weight: bold;
   }
+`;
+
+export const ExpandChart = styled.span`
+  float: right;
 `;
 
 type Props = {
