@@ -49,6 +49,12 @@ export type PerformanceData = {
   monthlyDividends1Y: number;
   monthlyDividendsYTD: number;
   monthlyDividendsALL: number;
+  fees1Y: number;
+  feesYTD: number;
+  feesALL: number;
+  feeSavings1Y: number;
+  feeSavingsYTD: number;
+  feeSavingsALL: number;
   badTickers: string[];
 };
 
@@ -65,6 +71,8 @@ export type PerformanceCustomData = {
   dividendIncome: number;
   dividendTimeline: DividendsAtDate[];
   monthlyDividends: number;
+  feeSavings: number;
+  fees: number;
   badTickers: string[];
 };
 

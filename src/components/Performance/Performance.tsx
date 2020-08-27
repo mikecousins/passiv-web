@@ -11,6 +11,8 @@ import PerformanceDividendChart from './PerformanceDividendChart';
 import PerformanceMonthlyDividends from './PerformanceMonthlyDividends';
 import PerformanceDividendTimelineChart from './PerformanceDividendTimelineChart';
 import PerformanceDividendIncome from './PerformanceDividendIncome';
+import PerformanceFees from './PerformanceFees';
+import PerformanceFeeSavings from './PerformanceFeeSavings';
 import DatePickers from './DatePickers';
 import AccountsSelect from './AccountsSelect';
 import { setSelectedTimeframe } from '../../actions/performance';
@@ -235,6 +237,9 @@ export const Performance = () => {
           <ShadowBox>
             <PerformanceMonthlyDividends />
           </ShadowBox>
+          <ShadowBox>
+            <PerformanceFees />
+          </ShadowBox>
         </Tiles>
       </Grid>
       <Grid>
@@ -242,6 +247,9 @@ export const Performance = () => {
           <PerformanceDividendChart />
         </ShadowBox>
         <Tiles>
+          <ShadowBox>
+            <PerformanceFeeSavings />
+          </ShadowBox>
           <ShadowBox>
             <PerformanceDividendIncome />
           </ShadowBox>

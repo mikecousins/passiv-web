@@ -158,6 +158,44 @@ export const selectDividendIncome = createSelector<
   }
 });
 
+export const selectFees = createSelector<
+  AppState,
+  AppState,
+  string,
+  number | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.fees1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.feesYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.feesALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.fees;
+  } else {
+    return state.performanceAll?.data?.fees1Y;
+  }
+});
+
+export const selectFeeSavings = createSelector<
+  AppState,
+  AppState,
+  string,
+  number | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.feeSavings1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.feeSavingsYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.feeSavingsALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.feeSavings;
+  } else {
+    return state.performanceAll?.data?.feeSavings1Y;
+  }
+});
+
 export const selectTotalEquityTimeframe = createSelector<
   AppState,
   AppState,
