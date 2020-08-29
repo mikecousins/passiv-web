@@ -165,7 +165,7 @@ const getData = (
 
 const getRandomColour = () => {
   const r = parseInt((Math.random() * 70 + 20).toString()).toString(16);
-  const g = parseInt((Math.random() * 60 + 120).toString()).toString(16); //"a2";
+  const g = parseInt((Math.random() * 100 + 100).toString()).toString(16); //"a2";
   const b = parseInt((Math.random() * 100 + 40).toString()).toString(16);
 
   const hexColour = '#' + r + g + b;
