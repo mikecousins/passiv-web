@@ -14,6 +14,16 @@ import { H3 } from '../../styled/GlobalElements';
 export const PerformanceDividendChart = () => {
   const dividendData = useSelector(selectDividends);
   const [className, setClassName] = useState('dividends');
+  const [needToSetDefaults, setNeedToSetDefaults] = useState(true);
+
+  if (
+    needToSetDefaults &&
+    dividendData !== undefined &&
+    dividendData?.length > 10
+  ) {
+    setNeedToSetDefaults(false);
+    setClassName('dividendsExtended');
+  }
 
   let data = React.useMemo(
     () => [
@@ -49,14 +59,14 @@ export const PerformanceDividendChart = () => {
             {className === 'dividends' && (
               <FontAwesomeIcon
                 icon={faLongArrowAltDown}
-                style={{ fontSize: 13 }}
+                style={{ fontSize: 16, cursor: 'pointer' }}
                 onClick={() => setClassName('dividendsExtended')}
               />
             )}
             {className === 'dividendsExtended' && (
               <FontAwesomeIcon
                 icon={faLongArrowAltUp}
-                style={{ fontSize: 13 }}
+                style={{ fontSize: 16, cursor: 'pointer' }}
                 onClick={() => setClassName('dividends')}
               />
             )}

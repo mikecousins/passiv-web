@@ -20,6 +20,18 @@ export const PerformanceContributionChart = () => {
   const dividendTimeline = useSelector(selectDividendTimeline);
   const timeframe = useSelector(selectSelectedTimeframe);
   const [className, setClassName] = useState('dividendsTimeline');
+  const [needToSetDefaults, setNeedToSetDefaults] = useState(true);
+
+  if (needToSetDefaults && dividendTimeline !== undefined) {
+    let dividendEvents = 0;
+    dividendTimeline.forEach(divsAtDate => {
+      dividendEvents += divsAtDate.dividends.length;
+    });
+    if (dividendEvents > 50) {
+      setNeedToSetDefaults(false);
+      setClassName('dividendsExtended');
+    }
+  }
 
   let data = React.useMemo(
     () =>
@@ -49,14 +61,14 @@ export const PerformanceContributionChart = () => {
             {className === 'dividendsTimeline' && (
               <FontAwesomeIcon
                 icon={faLongArrowAltDown}
-                style={{ fontSize: 13 }}
+                style={{ fontSize: 16, cursor: 'pointer' }}
                 onClick={() => setClassName('dividendsTimelineExtended')}
               />
             )}
             {className === 'dividendsTimelineExtended' && (
               <FontAwesomeIcon
                 icon={faLongArrowAltUp}
-                style={{ fontSize: 13 }}
+                style={{ fontSize: 16, cursor: 'pointer' }}
                 onClick={() => setClassName('dividendsTimeline')}
               />
             )}

@@ -55,6 +55,9 @@ export const DollarString = styled.span`
 
 export const ExpandChart = styled.span`
   float: right;
+  &:hover {
+    color: ${'#04a286'};
+  }
 `;
 
 type Props = {
