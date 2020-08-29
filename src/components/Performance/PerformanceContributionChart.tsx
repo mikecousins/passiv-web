@@ -17,15 +17,6 @@ export const PerformanceContributionChart = () => {
   const timeframe = useSelector(selectSelectedTimeframe);
   const customYearBased = isYearBased(contributionData);
 
-  // let showWithdrawals = false;
-  // if (withdrawalData !== undefined && withdrawalData !== null) {
-  //   withdrawalData.forEach(pastValue => {
-  //     if (pastValue.value > 0) {
-  //       showWithdrawals = true;
-  //     }
-  //   });
-  // }
-
   let data = React.useMemo(
     () => [
       {
@@ -51,21 +42,7 @@ export const PerformanceContributionChart = () => {
     ],
     [contributionData, withdrawalData, timeframe, customYearBased],
   );
-  // let dataWithoutWithdrawals = React.useMemo(
-  //   () => [
-  //     {
-  //       label: 'Contributions',
-  //       data: contributionData
-  //         ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
-  //         .map(a => {
-  //           let dateFormatted = formatDate(a.date, timeframe);
-  //           return [dateFormatted, a.value];
-  //         }),
-  //       color: '#04a286',
-  //     },
-  //   ],
-  //   [contributionData, timeframe],
-  // );
+
   const series = React.useMemo(() => ({ type: 'bar' }), []);
 
   const axes = React.useMemo(
@@ -87,7 +64,7 @@ export const PerformanceContributionChart = () => {
       {}
       <PerformanceChart
         className="contributions"
-        data={data} //{showWithdrawals ? data : dataWithoutWithdrawals}
+        data={data}
         axes={axes}
         series={series}
         displayTotal={true}
