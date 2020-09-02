@@ -12,7 +12,17 @@ export const ReferralHeading = styled.h3`
   top: -24px;
   padding: 0 15px;
   margin-bottom: -7px;
-  font-size: 26px;
+  font-size: 2.5em;
+`;
+
+const AffiliateTermDiv = styled.div`
+  font-size: 1.4em;
+  padding-bottom: 20px;
+  line-height: 1.4;
+  ul li {
+    margin-left: 20px;
+    list-style-type: disc;
+  }
 `;
 
 const ReferralManager = () => {
@@ -27,14 +37,13 @@ const ReferralManager = () => {
   return (
     <ShadowBox>
       <ReferralHeading>{<h1>The Passiv Referral Program</h1>}</ReferralHeading>
-      {
+      <AffiliateTermDiv>
         <p>
           We're excited to announce a new program through which you can earn
           money for signing your friends up for Passiv!
         </p>
-      }
-      {<p>The terms of our program are below:</p>}
-      {
+      </AffiliateTermDiv>
+      <AffiliateTermDiv>
         <ul>
           <li>Your custom referral link is:</li>
           <li>
@@ -51,7 +60,10 @@ const ReferralManager = () => {
             agreement.
           </li>
         </ul>
-      }
+      </AffiliateTermDiv>
+      <AffiliateTermDiv>
+        <p>You can find information about your past referrals below:</p>
+      </AffiliateTermDiv>
     </ShadowBox>
   );
 };
