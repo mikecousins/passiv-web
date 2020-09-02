@@ -48,9 +48,7 @@ const ReferralManager = () => {
       });
   }
 
-  const eliteUpgrades = referrals.filter((x, i) => {
-    return x.validated;
-  }).length;
+  const eliteUpgrades = referrals.filter((x, i) => x.validated).length;
   const signups = Object.keys(referrals).length;
 
   if (!authorizations) {
