@@ -86,7 +86,7 @@ const SettingsPage = React.lazy(() =>
   import(/* webpackChunkName: "settings" */ '../pages/SettingsPage'),
 );
 const ReferralPage = React.lazy(() =>
-  import(/* webpackChunkName: "settings" */ '../pages/ReferralPage'),
+  import(/* webpackChunkName: "referral" */ '../pages/ReferralPage'),
 );
 const PerformancePage = React.lazy(() =>
   import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
