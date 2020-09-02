@@ -49,7 +49,7 @@ const ReferralManager = () => {
   }
 
   const eliteUpgrades = referrals.filter((x, i) => x.validated).length;
-  const numberOfSignups = Object.keys(referrals).length;
+  const numberOfSignups = referrals.length;
 
   if (!authorizations) {
     return null;
