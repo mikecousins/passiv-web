@@ -29,14 +29,6 @@ const ReferralManager = () => {
   const authorizations = useSelector(selectAuthorizations);
   const referralCode = useSelector(selectReferralCode);
   const referralURL = 'https://passiv.com/?ref=' + referralCode;
-
-  // const referralChecker = () => {
-  //   getData(`/api/v1/referrals`).then((response) => {
-  //     setReferrals(response.data);
-
-  //   });
-  // };
-
   const [referrals, setReferrals] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
