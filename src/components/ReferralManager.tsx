@@ -33,10 +33,9 @@ const ReferralManager = () => {
   const [referrals, setReferrals] = useState(0);
   const referralChecker = () => {
     getData(`/api/v1/referrals`).then((response) => {
-      referrals = response.data;
+      setReferrals(response.data);
     });
   };
-
   if (!authorizations) {
     return null;
   } else if (authorizations.length === 0) {
@@ -45,7 +44,7 @@ const ReferralManager = () => {
 
   return (
     <ShadowBox>
-      <ReferralHeading>{<h1>The Passiv Referral Program</h1>}</ReferralHeading>
+      <ReferralHeading>The Passiv Referral Program</ReferralHeading>
       <AffiliateTermDiv>
         <p>
           We're excited to announce a new program through which you can earn
