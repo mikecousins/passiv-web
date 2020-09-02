@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import ReferralManager from '../components/ReferralManager';
-import { selectIsDemo } from '../selectors';
-import { useSelector } from 'react-redux';
 
 export const Container2Column = styled.div`
   @media (min-width: 900px) {

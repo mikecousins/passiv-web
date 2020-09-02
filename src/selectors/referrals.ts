@@ -1,6 +1,4 @@
 import { createSelector } from 'reselect';
-import ms from 'milliseconds';
-import shouldUpdate from '../reactors/should-update';
 import { AppState } from '../store';
 
 export const selectSettingsRaw = (state: AppState) => state.settings;
