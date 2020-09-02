@@ -97,7 +97,7 @@ const ReferralManager = () => {
           <li>
             {
               referrals.filter((x, i) => {
-                return x.select;
+                return x.validated;
               }).length
             }{' '}
             people have upgraded to Passiv Elite
@@ -105,7 +105,7 @@ const ReferralManager = () => {
           <li>
             This has earned you $
             {referrals.filter((x, i) => {
-              return x.select;
+              return x.validated;
             }).length * 20}
           </li>
         </ul>
