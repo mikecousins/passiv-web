@@ -49,7 +49,7 @@ const ReferralManager = () => {
   }
 
   const eliteUpgrades = referrals.filter((x, i) => x.validated).length;
-  const signups = Object.keys(referrals).length;
+  const numberOfSignups = Object.keys(referrals).length;
 
   if (!authorizations) {
     return null;
@@ -94,7 +94,7 @@ const ReferralManager = () => {
       <AffiliateTermDiv>
         <ul>
           <li>
-            {signups} {signups === 1 ? 'person' : 'people'} have signed up using
+            {numberOfSignups} {numberOfSignups === 1 ? 'person' : 'people'} have signed up using
             your referral link
           </li>
           <li>
