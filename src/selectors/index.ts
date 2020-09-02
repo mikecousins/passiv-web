@@ -188,7 +188,7 @@ export const selectSettings = createSelector(selectSettingsRaw, rawSettings => {
 export const selectContextualMessages = createSelector(
   selectSettings,
   settings => {
-    if (settings) {
+    if (settings && settings.contextual_messages) {
       return settings.contextual_messages.map(message => message.name);
     }
   },
