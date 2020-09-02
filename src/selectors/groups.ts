@@ -745,7 +745,7 @@ export const selectCurrentGroupTarget = createSelector<
       return target;
     });
 
-    switch (groupInfo.settings.order_targets) {
+    switch (groupInfo.settings.order_targets_by) {
       case 0:
         break;
       case 1:

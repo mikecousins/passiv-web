@@ -47,13 +47,7 @@ const OrderTargetAllocations = () => {
 
   const updateSettings = () => {
     if (settings) {
-      putData(`/api/v1/portfolioGroups/${groupId}/settings/`, settings)
-        .then(() => {
-          dispatch(loadGroup({ ids: [groupId] }));
-        })
-        .catch(() => {
-          toast.error('Failed to update settings');
-        });
+      console.log('Hello');
     }
   };
 
