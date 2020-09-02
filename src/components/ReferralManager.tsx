@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectAuthorizations } from '../selectors';
 import ShadowBox from '../styled/ShadowBox';
@@ -29,7 +29,7 @@ const ReferralManager = () => {
   const authorizations = useSelector(selectAuthorizations);
   const referralCode = useSelector(selectReferralCode);
   const referralURL = 'https://passiv.com/?ref=' + referralCode;
-  const [referrals, setReferrals] = useState([]);
+  const [referrals, setReferrals] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
   const [success, setSuccess] = useState(false);
