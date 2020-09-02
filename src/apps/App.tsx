@@ -85,6 +85,9 @@ const WelcomePage = React.lazy(() =>
 const SettingsPage = React.lazy(() =>
   import(/* webpackChunkName: "settings" */ '../pages/SettingsPage'),
 );
+const ReferralPage = React.lazy(() =>
+  import(/* webpackChunkName: "settings" */ '../pages/ReferralPage'),
+);
 const PerformancePage = React.lazy(() =>
   import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
 );
@@ -289,6 +292,13 @@ const App = () => {
               exact
               path={prefixPath('/questrade-offer')}
               component={UpgradeOfferPage}
+            />
+          )}
+          {loggedIn && (
+            <Route
+              exact
+              path={prefixPath('/referral')}
+              component={ReferralPage}
             />
           )}
           {loggedIn && (
