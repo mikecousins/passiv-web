@@ -107,6 +107,7 @@ const SideBar = () => {
           <GroupContainer>{groupList}</GroupContainer>
         )}
         <SideBarLink name="Settings" linkPath="/app/settings" />
+        <SideBarLink name="Refer A Friend!" linkPath="/app/referral" />
         <SideBarFooter />
       </StyledAside>
     );
