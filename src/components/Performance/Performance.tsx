@@ -30,8 +30,7 @@ const Grid = styled.div`
 
 const Tiles = styled.div`
   @media (min-width: 900px) {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
   }
   > div {
     display: flex;
