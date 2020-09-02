@@ -10,9 +10,8 @@ export const ReferralHeading = styled.h3`
   background: #fff;
   display: inline-block;
   position: relative;
-  top: -24px;
   padding: 0 15px;
-  margin-bottom: -7px;
+  margin-bottom: 20px;
   font-size: 2.5em;
 `;
 
