@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectAuthorizations } from '../selectors';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import { selectReferralCode } from '../selectors/referrals';
+import { getData } from '../api';
 
 export const ReferralHeading = styled.h3`
   background: #fff;
@@ -29,6 +30,12 @@ const ReferralManager = () => {
   const authorizations = useSelector(selectAuthorizations);
   const referralCode = useSelector(selectReferralCode);
   const referralURL = 'https://passiv.com/?ref=' + referralCode;
+  const [referrals, setReferrals] = useState(0);
+  const referralChecker = () => {
+    getData(`/api/v1/referrals`).then((response) => {
+      referrals = response.data;
+    });
+  };
 
   if (!authorizations) {
     return null;
@@ -69,6 +76,7 @@ const ReferralManager = () => {
       <AffiliateTermDiv>
         <p>You can find information about your past referrals below:</p>
       </AffiliateTermDiv>
+      <AffiliateTermDiv>{referrals}</AffiliateTermDiv>
     </ShadowBox>
   );
 };
