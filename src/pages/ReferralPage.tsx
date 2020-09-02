@@ -27,14 +27,6 @@ const SettingsPage = () => {
   const isDemo = useSelector(selectIsDemo);
   return (
     <React.Fragment>
-      <Container2Column>
-        <div>
-          <CredentialsManager />
-          <NotificationsManager />
-        </div>
-        {isDemo ? <DemoNotes /> : <SubscriptionManager />}
-      </Container2Column>
-      <ConnectionsManager />
       <AccountsManager />
     </React.Fragment>
   );
