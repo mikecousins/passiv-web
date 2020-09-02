@@ -17,6 +17,7 @@ import { putData } from '../../api';
 import { loadGroup } from '../../actions';
 import { toast } from 'react-toastify';
 import TradesExplanation from '../TradesExplanation';
+import OrderTargetAllocations from './OrderTargetAllocations';
 
 export const PortfolioGroupSettings = () => {
   const settings = useSelector(selectCurrentGroupSettings);
@@ -42,6 +43,7 @@ export const PortfolioGroupSettings = () => {
   return (
     <ShadowBox>
       <H2>General</H2>
+      <OrderTargetAllocations />
       {settings ? (
         <React.Fragment>
           <SettingsToggle
