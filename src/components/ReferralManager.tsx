@@ -57,7 +57,6 @@ const ReferralManager = () => {
       });
   }
 
-  console.log(referrals);
   if (!authorizations) {
     return null;
   } else if (authorizations.length === 0) {
@@ -99,9 +98,26 @@ const ReferralManager = () => {
       </AffiliateTermDiv>
 
       <AffiliateTermDiv>
-        {referrals.map((referral) => (
-          <div>{referral.created_date}</div>
-        ))}
+        <ul>
+          <li>
+            {Object.keys(referrals).length} people have signed up using your
+            referral link
+          </li>
+          <li>
+            {
+              referrals.filter((x, i) => {
+                return x.select;
+              }).length
+            }{' '}
+            people have upgraded to Passiv Elite
+          </li>
+          <li>
+            This has earned you $
+            {referrals.filter((x, i) => {
+              return x.select;
+            }).length * 20}
+          </li>
+        </ul>
       </AffiliateTermDiv>
     </ShadowBox>
   );
