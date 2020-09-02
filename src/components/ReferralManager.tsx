@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectAuthorizations } from '../selectors';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
+import { selectReferralCode } from '../selectors/referrals';
 
 export const ReferralHeading = styled.h3`
   background: #fff;
@@ -26,6 +27,8 @@ const AffiliateTermDiv = styled.div`
 
 const ReferralManager = () => {
   const authorizations = useSelector(selectAuthorizations);
+  const referralCode = useSelector(selectReferralCode);
+  const referralURL = 'https://passiv.com/?ref=' + referralCode;
 
   if (!authorizations) {
     return null;
@@ -44,7 +47,10 @@ const ReferralManager = () => {
       </AffiliateTermDiv>
       <AffiliateTermDiv>
         <ul>
-          <li>Your custom referral link is:</li>
+          <li>
+            Your custom referral link is:{' '}
+            <a href={referralURL}>{referralURL}</a>
+          </li>
           <li>
             Every Passiv user that signs up and upgrades to Elite using your
             link will <strong>earn you $20!</strong>.
