@@ -1,11 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import CredentialsManager from '../components/CredentialsManager';
-import SubscriptionManager from '../components/SubscriptionManager';
-import ConnectionsManager from '../components/ConnectionsManager';
-import NotificationsManager from '../components/NotificationsManager';
-import AccountsManager from '../components/AccountsManager';
-import DemoNotes from '../components/DemoNotes';
+import ReferralManager from '../components/ReferralManager';
 import { selectIsDemo } from '../selectors';
 import { useSelector } from 'react-redux';
 
@@ -24,10 +19,9 @@ export const Container2Column = styled.div`
 `;
 
 const ReferralPage = () => {
-  const isDemo = useSelector(selectIsDemo);
   return (
     <React.Fragment>
-      <AccountsManager />
+      <ReferralManager />
     </React.Fragment>
   );
 };
