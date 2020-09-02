@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectAuthorizations } from '../selectors';
 import ShadowBox from '../styled/ShadowBox';
@@ -30,12 +30,34 @@ const ReferralManager = () => {
   const authorizations = useSelector(selectAuthorizations);
   const referralCode = useSelector(selectReferralCode);
   const referralURL = 'https://passiv.com/?ref=' + referralCode;
-  const [referrals, setReferrals] = useState(0);
-  const referralChecker = () => {
-    getData(`/api/v1/referrals`).then((response) => {
-      setReferrals(response.data);
-    });
-  };
+
+  // const referralChecker = () => {
+  //   getData(`/api/v1/referrals`).then((response) => {
+  //     setReferrals(response.data);
+
+  //   });
+  // };
+
+  const [referrals, setReferrals] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error>();
+  const [success, setSuccess] = useState(false);
+
+  if (loading === false && success === false) {
+    setLoading(true);
+    getData('/api/v1/referrals/')
+      .then((response) => {
+        setReferrals(response.data);
+        setLoading(false);
+        setSuccess(true);
+      })
+      .catch((error) => {
+        setLoading(false);
+        setError(error.response.data);
+      });
+  }
+
+  console.log(referrals);
   if (!authorizations) {
     return null;
   } else if (authorizations.length === 0) {
@@ -75,7 +97,12 @@ const ReferralManager = () => {
       <AffiliateTermDiv>
         <p>You can find information about your past referrals below:</p>
       </AffiliateTermDiv>
-      <AffiliateTermDiv>{referrals}</AffiliateTermDiv>
+
+      <AffiliateTermDiv>
+        {referrals.map((referral) => (
+          <div>{referral.created_date}</div>
+        ))}
+      </AffiliateTermDiv>
     </ShadowBox>
   );
 };
