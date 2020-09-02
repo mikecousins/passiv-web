@@ -48,6 +48,11 @@ const ReferralManager = () => {
       });
   }
 
+  const eliteUpgrades = referrals.filter((x, i) => {
+    return x.validated;
+  }).length;
+  const signups = Object.keys(referrals).length;
+
   if (!authorizations) {
     return null;
   } else if (authorizations.length === 0) {
@@ -91,23 +96,14 @@ const ReferralManager = () => {
       <AffiliateTermDiv>
         <ul>
           <li>
-            {Object.keys(referrals).length} people have signed up using your
-            referral link
+            {signups} {signups === 1 ? 'person' : 'people'} have signed up using
+            your referral link
           </li>
           <li>
-            {
-              referrals.filter((x, i) => {
-                return x.validated;
-              }).length
-            }{' '}
-            people have upgraded to Passiv Elite
+            {eliteUpgrades} {eliteUpgrades === 1 ? 'person' : 'people'} have
+            upgraded to Passiv Elite
           </li>
-          <li>
-            This has earned you $
-            {referrals.filter((x, i) => {
-              return x.validated;
-            }).length * 20}
-          </li>
+          <li>This has earned you ${eliteUpgrades * 20}</li>
         </ul>
       </AffiliateTermDiv>
     </ShadowBox>
