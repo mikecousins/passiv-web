@@ -23,7 +23,7 @@ export const Container2Column = styled.div`
   }
 `;
 
-const SettingsPage = () => {
+const ReferralPage = () => {
   const isDemo = useSelector(selectIsDemo);
   return (
     <React.Fragment>
@@ -32,4 +32,4 @@ const SettingsPage = () => {
   );
 };
 
-export default SettingsPage;
+export default ReferralPage;
