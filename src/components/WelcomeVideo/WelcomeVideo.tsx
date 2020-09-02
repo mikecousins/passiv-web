@@ -9,6 +9,7 @@ import {
 import { Button } from '../../styled/Button';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { HideButton } from '../ContextualMessageWrapper';
 
 const WelcomeVideo = () => {
   const [displayBox, setDisplayBox] = useState(true);
@@ -30,8 +31,8 @@ const WelcomeVideo = () => {
               Guide to set up a target portfolio{' '}
               <FontAwesomeIcon icon={faExternalLinkAlt} />
             </ADarkStyle>
+            <HideButton name={'setup_prompt'} />
           </PDarkStyle>
-          <Button onClick={() => setDisplayBox(false)}>Close</Button>
         </ShadowBox>
       )}
     </React.Fragment>

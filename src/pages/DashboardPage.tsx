@@ -8,6 +8,7 @@ import { selectDashboardGroups } from '../selectors/groups';
 import TotalHoldings from '../components/TotalHoldings';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
 import WelcomeVideo from '../components/WelcomeVideo/WelcomeVideo';
+import { ContextualMessageWrapper } from '../components/ContextualMessageWrapper';
 
 export const DashboardPage = () => {
   const authorized = useSelector(selectIsAuthorized);
@@ -42,7 +43,11 @@ export const DashboardPage = () => {
 
   return (
     <React.Fragment>
-      {anySetupRemaining && <WelcomeVideo />}
+      {anySetupRemaining && (
+        <ContextualMessageWrapper name={'setup_prompt'}>
+          <WelcomeVideo />
+        </ContextualMessageWrapper>
+      )}
       <TotalHoldings />
 
       {groupDisplay}
