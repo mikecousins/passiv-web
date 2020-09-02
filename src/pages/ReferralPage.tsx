@@ -18,9 +18,7 @@ export const Container2Column = styled.div`
 
 const ReferralPage = () => {
   return (
-    <React.Fragment>
-      <ReferralManager />
-    </React.Fragment>
+    <ReferralManager />
   );
 };
 
