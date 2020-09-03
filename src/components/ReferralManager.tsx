@@ -170,7 +170,10 @@ const getChartData = (referrals: Referral[]) => {
       startOfCurrentWeek,
       oneWeekLater,
     );
-    data.push(['Week ' + weekNumber, numReferrals]);
+    data.push([
+      'Week ' + weekNumber + ' (' + formatDate(startOfCurrentWeek) + ')',
+      numReferrals,
+    ]);
     startOfCurrentWeek = oneWeekLater;
     weekNumber += 1;
   }
@@ -188,4 +191,14 @@ const getNumReferrals = (
       new Date(r.created_date) >= startOfCurrentWeek &&
       new Date(r.created_date) < oneWeekLater,
   ).length;
+};
+
+const dtfMonth = new Intl.DateTimeFormat('en', { month: 'short' });
+
+const formatDate = (date: Date) => {
+  if (typeof date !== 'object') {
+    return date;
+  } else {
+    return dtfMonth.format(date) + ' ' + date.getDate();
+  }
 };
