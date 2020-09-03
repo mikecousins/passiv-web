@@ -39,7 +39,10 @@ const ReferralManager = () => {
   const referralCode = useSelector(selectReferralCode);
   const referralURL = 'https://passiv.com/?ref=' + referralCode;
   const [referrals, setReferrals] = useState<Referral[]>([]);
-  const [chartData, setChartData] = useState<(number | string)[][]>([]);
+  const [signUpData, setSignUpData] = useState<(number | string)[][]>([]);
+  const [validationData, setValidationData] = useState<(number | string)[][]>(
+    [],
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
   const [success, setSuccess] = useState(false);
@@ -51,7 +54,8 @@ const ReferralManager = () => {
         setReferrals(response.data);
         setLoading(false);
         setSuccess(true);
-        setChartData(getChartData(referrals));
+        setSignUpData(getSignUpData(referrals));
+        setValidationData(getValidationData(referrals));
       })
       .catch(err => {
         setLoading(false);
@@ -67,18 +71,23 @@ const ReferralManager = () => {
     () => [
       {
         label: 'Referrals',
-        data: chartData,
+        data: signUpData,
+        color: '#003ba2',
+      },
+      {
+        label: 'Validations',
+        data: validationData,
         color: '#04a286',
       },
     ],
-    [chartData],
+    [signUpData, validationData],
   );
 
   const series = React.useMemo(() => ({ type: 'bar' }), []);
 
   const axes = React.useMemo(
     () => [
-      { primary: true, type: 'ordinal', position: 'bottom' },
+      { primary: true, type: 'ordinal', position: 'bottom', stacked: true },
       { type: 'linear', position: 'left' },
     ],
     [],
@@ -137,7 +146,7 @@ const ReferralManager = () => {
           <li>This has earned you ${eliteUpgrades * 20}</li>
         </ul>
       </AffiliateTermDiv>
-      {chartData?.length > 1 && (
+      {signUpData?.length > 1 && (
         <div
           style={{
             height: '240px',
@@ -153,7 +162,7 @@ const ReferralManager = () => {
 
 export default ReferralManager;
 
-const getChartData = (referrals: Referral[]) => {
+const getSignUpData = (referrals: Referral[]) => {
   if (referrals.length === 0) {
     return [];
   }
@@ -165,14 +174,10 @@ const getChartData = (referrals: Referral[]) => {
 
   while (startOfCurrentWeek < today) {
     const oneWeekLater = new Date(startOfCurrentWeek.getTime() + 604800000);
-    let numReferrals = getNumReferrals(
-      referrals,
-      startOfCurrentWeek,
-      oneWeekLater,
-    );
+    let numSignUps = getNumSignUps(referrals, startOfCurrentWeek, oneWeekLater);
     data.push([
       'Week ' + weekNumber + ' (' + formatDate(startOfCurrentWeek) + ')',
-      numReferrals,
+      numSignUps,
     ]);
     startOfCurrentWeek = oneWeekLater;
     weekNumber += 1;
@@ -181,7 +186,35 @@ const getChartData = (referrals: Referral[]) => {
   return data;
 };
 
-const getNumReferrals = (
+const getValidationData = (referrals: Referral[]) => {
+  if (referrals.length === 0) {
+    return [];
+  }
+  let weekNumber = 1;
+  referrals = referrals.sort((a, b) => +a.created_date - +b.created_date);
+  let startOfCurrentWeek = new Date(referrals[0].created_date);
+  const today = new Date();
+  const data = [];
+
+  while (startOfCurrentWeek < today) {
+    const oneWeekLater = new Date(startOfCurrentWeek.getTime() + 604800000);
+    let numValidated = getNumValidated(
+      referrals,
+      startOfCurrentWeek,
+      oneWeekLater,
+    );
+    data.push([
+      'Week ' + weekNumber + ' (' + formatDate(startOfCurrentWeek) + ')',
+      numValidated,
+    ]);
+    startOfCurrentWeek = oneWeekLater;
+    weekNumber += 1;
+  }
+
+  return data;
+};
+
+const getNumSignUps = (
   referrals: Referral[],
   startOfCurrentWeek: Date,
   oneWeekLater: Date,
@@ -190,6 +223,20 @@ const getNumReferrals = (
     r =>
       new Date(r.created_date) >= startOfCurrentWeek &&
       new Date(r.created_date) < oneWeekLater,
+  ).length;
+};
+
+const getNumValidated = (
+  referrals: Referral[],
+  startOfCurrentWeek: Date,
+  oneWeekLater: Date,
+) => {
+  return referrals.filter(
+    r =>
+      r.validated === true &&
+      r.validation_timestamp !== undefined &&
+      new Date(r.validation_timestamp) >= startOfCurrentWeek &&
+      new Date(r.validation_timestamp) < oneWeekLater,
   ).length;
 };
 
