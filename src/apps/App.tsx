@@ -295,6 +295,9 @@ const App = () => {
               <Route path={prefixPath('/settings')} component={SettingsPage} />
             )}
             {(showSecureApp || showOnboardingApp) && (
+              <Route path={prefixPath('/referral')} component={ReferralPage} />
+            )}
+            {(showSecureApp || showOnboardingApp) && (
               <Route path={prefixPath('/upgrade')} component={UpgradePage} />
             )}
             {(showSecureApp || showOnboardingApp) && (
