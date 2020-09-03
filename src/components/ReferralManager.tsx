@@ -5,6 +5,7 @@ import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import { selectReferralCode } from '../selectors/referrals';
 import { getData } from '../api';
+import { Chart } from 'react-charts';
 
 interface Referral {
   created_date: Date;
@@ -38,6 +39,7 @@ const ReferralManager = () => {
   const referralCode = useSelector(selectReferralCode);
   const referralURL = 'https://passiv.com/?ref=' + referralCode;
   const [referrals, setReferrals] = useState<Referral[]>([]);
+  const [chartData, setChartData] = useState<(number | string)[][]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
   const [success, setSuccess] = useState(false);
@@ -49,15 +51,38 @@ const ReferralManager = () => {
         setReferrals(response.data);
         setLoading(false);
         setSuccess(true);
+        setChartData(getChartData(referrals));
       })
-      .catch(error => {
+      .catch(err => {
         setLoading(false);
-        setError(error.response.data);
+        setError(err.response.data);
+        console.log(error);
       });
   }
 
   const eliteUpgrades = referrals.filter((x, i) => x.validated).length;
   const numberOfSignups = referrals.length;
+
+  let data = React.useMemo(
+    () => [
+      {
+        label: 'Referrals',
+        data: chartData,
+        color: '#04a286',
+      },
+    ],
+    [chartData],
+  );
+
+  const series = React.useMemo(() => ({ type: 'bar' }), []);
+
+  const axes = React.useMemo(
+    () => [
+      { primary: true, type: 'ordinal', position: 'bottom' },
+      { type: 'linear', position: 'left' },
+    ],
+    [],
+  );
 
   if (!authorizations) {
     return null;
@@ -112,8 +137,55 @@ const ReferralManager = () => {
           <li>This has earned you ${eliteUpgrades * 20}</li>
         </ul>
       </AffiliateTermDiv>
+      {chartData?.length > 0 && (
+        <div
+          style={{
+            height: '240px',
+            margin: '5px',
+          }}
+        >
+          <Chart data={data} axes={axes} series={series} tooltip />
+        </div>
+      )}
     </ShadowBox>
   );
 };
 
 export default ReferralManager;
+
+const getChartData = (referrals: Referral[]) => {
+  if (referrals.length === 0) {
+    return [];
+  }
+  let weekNumber = 1;
+  referrals = referrals.sort((a, b) => +a.created_date - +b.created_date);
+  let startOfCurrentWeek = new Date(referrals[0].created_date);
+  const today = new Date();
+  const data = [];
+
+  while (startOfCurrentWeek < today) {
+    const oneWeekLater = new Date(startOfCurrentWeek.getTime() + 604800000);
+    let numReferrals = getNumReferrals(
+      referrals,
+      startOfCurrentWeek,
+      oneWeekLater,
+    );
+    data.push(['Week ' + weekNumber, numReferrals]);
+    startOfCurrentWeek = oneWeekLater;
+    weekNumber += 1;
+  }
+
+  return data;
+};
+
+const getNumReferrals = (
+  referrals: Referral[],
+  startOfCurrentWeek: Date,
+  oneWeekLater: Date,
+) => {
+  return referrals.filter(
+    r =>
+      new Date(r.created_date) >= startOfCurrentWeek &&
+      new Date(r.created_date) < oneWeekLater,
+  ).length;
+};
