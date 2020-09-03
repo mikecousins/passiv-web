@@ -70,12 +70,12 @@ const ReferralManager = () => {
   let data = React.useMemo(
     () => [
       {
-        label: 'Referrals',
+        label: 'Signups',
         data: signUpData,
         color: '#003ba2',
       },
       {
-        label: 'Validations',
+        label: 'Elite Upgrades',
         data: validationData,
         color: '#04a286',
       },
