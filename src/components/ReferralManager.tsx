@@ -137,7 +137,7 @@ const ReferralManager = () => {
           <li>This has earned you ${eliteUpgrades * 20}</li>
         </ul>
       </AffiliateTermDiv>
-      {chartData?.length > 0 && (
+      {chartData?.length > 1 && (
         <div
           style={{
             height: '240px',
