@@ -173,9 +173,9 @@ const getData = (
 const getRandomColour = (lotsOfDifferentTickers: boolean) => {
   let r, g, b;
   if (lotsOfDifferentTickers) {
-    r = parseInt((Math.random() * 256).toString()).toString(16);
-    g = parseInt((Math.random() * 256).toString()).toString(16);
-    b = parseInt((Math.random() * 256).toString()).toString(16);
+    r = parseInt((Math.random() * 255).toString()).toString(16);
+    g = parseInt((Math.random() * 255).toString()).toString(16);
+    b = parseInt((Math.random() * 255).toString()).toString(16);
   } else {
     r = parseInt((Math.random() * 70 + 20).toString()).toString(16);
     g = parseInt((Math.random() * 100 + 100).toString()).toString(16); //"a2";
