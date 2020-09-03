@@ -6,6 +6,14 @@ import styled from '@emotion/styled';
 import { selectReferralCode } from '../selectors/referrals';
 import { getData } from '../api';
 
+interface Referral {
+  created_date: Date;
+  validated: boolean;
+  amount?: any;
+  validation_timestamp?: Date;
+  currency?: any;
+}
+
 export const ReferralHeading = styled.h3`
   background: #fff;
   display: inline-block;
@@ -29,7 +37,7 @@ const ReferralManager = () => {
   const authorizations = useSelector(selectAuthorizations);
   const referralCode = useSelector(selectReferralCode);
   const referralURL = 'https://passiv.com/?ref=' + referralCode;
-  const [referrals, setReferrals] = useState<any[]>([]);
+  const [referrals, setReferrals] = useState<Referral[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
   const [success, setSuccess] = useState(false);
