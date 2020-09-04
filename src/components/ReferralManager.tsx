@@ -35,7 +35,6 @@ const AffiliateTermDiv = styled.div`
 `;
 
 const ReferralManager = () => {
-  const authorizations = useSelector(selectAuthorizations);
   const referralCode = useSelector(selectReferralCode);
   const referralURL = 'https://passiv.com/?ref=' + referralCode;
   const [referrals, setReferrals] = useState<Referral[]>([]);
@@ -92,12 +91,6 @@ const ReferralManager = () => {
     ],
     [],
   );
-
-  if (!authorizations) {
-    return null;
-  } else if (authorizations.length === 0) {
-    return null;
-  }
 
   return (
     <ShadowBox>
