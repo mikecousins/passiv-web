@@ -24,13 +24,15 @@ export const PerformanceContributionChart = () => {
   const [needToSetDefaults, setNeedToSetDefaults] = useState(true);
 
   if (needToSetDefaults && dividendTimeline !== undefined) {
+    setNeedToSetDefaults(false);
     let dividendEvents = 0;
     dividendTimeline.forEach(divsAtDate => {
       dividendEvents += divsAtDate.dividends.length;
     });
     if (dividendEvents > 50) {
-      setNeedToSetDefaults(false);
-      setClassName('dividendsExtended');
+      setClassName('dividendsTimelineExtended');
+    }
+    if (dividendEvents > 35) {
       setlotsOfDifferentTickers(true);
     }
   }
@@ -77,7 +79,6 @@ export const PerformanceContributionChart = () => {
           </ExpandChart>
         </H3>
       </Tooltip>
-      {}
       <PerformanceChart
         className={className}
         data={data}
