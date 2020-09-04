@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectAuthorizations } from '../selectors';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import { selectReferralCode } from '../selectors/referrals';
