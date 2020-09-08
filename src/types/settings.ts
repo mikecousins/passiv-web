@@ -1,3 +1,7 @@
+type ContextualMessage = {
+  name: string;
+};
+
 export type Settings = {
   email: string;
   name: string;
@@ -15,4 +19,8 @@ export type Settings = {
   referral_code: string;
   sms_2fa_enabled: boolean;
   phone_number: string | null;
+  show_contribution_chart: boolean;
+  show_total_value_chart: boolean;
+  show_contributions1Y: boolean;
+  contextual_messages: ContextualMessage[];
 };

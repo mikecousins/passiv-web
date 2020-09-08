@@ -20,25 +20,29 @@ export const PerformanceContributionChart = () => {
   const dividendTimeline = useSelector(selectDividendTimeline);
   const timeframe = useSelector(selectSelectedTimeframe);
   const [className, setClassName] = useState('dividendsTimeline');
+  const [lotsOfDifferentTickers, setlotsOfDifferentTickers] = useState(false);
   const [needToSetDefaults, setNeedToSetDefaults] = useState(true);
 
   if (needToSetDefaults && dividendTimeline !== undefined) {
+    setNeedToSetDefaults(false);
     let dividendEvents = 0;
     dividendTimeline.forEach(divsAtDate => {
       dividendEvents += divsAtDate.dividends.length;
     });
     if (dividendEvents > 50) {
-      setNeedToSetDefaults(false);
-      setClassName('dividendsExtended');
+      setClassName('dividendsTimelineExtended');
+    }
+    if (dividendEvents > 35) {
+      setlotsOfDifferentTickers(true);
     }
   }
 
   let data = React.useMemo(
     () =>
       dividendTimeline !== undefined
-        ? getData(dividendTimeline, timeframe)
+        ? getData(dividendTimeline, timeframe, lotsOfDifferentTickers)
         : [{ data: [] }],
-    [dividendTimeline, timeframe],
+    [dividendTimeline, timeframe, lotsOfDifferentTickers],
   );
 
   const series = React.useMemo(() => ({ type: 'bar' }), []);
@@ -75,7 +79,6 @@ export const PerformanceContributionChart = () => {
           </ExpandChart>
         </H3>
       </Tooltip>
-      {}
       <PerformanceChart
         className={className}
         data={data}
@@ -90,6 +93,7 @@ export const PerformanceContributionChart = () => {
 const getData = (
   dividendTimeline: DividendsAtDate[] | undefined,
   timeframe: string,
+  lotsOfDifferentTickers: boolean,
 ) => {
   if (dividendTimeline === undefined) {
     return [];
@@ -122,7 +126,11 @@ const getData = (
     timeStrings.forEach(time => {
       timeToAdd.push([time, 0]);
     });
-    data.push({ label: ticker, data: timeToAdd, color: getRandomColour() });
+    data.push({
+      label: ticker,
+      data: timeToAdd,
+      color: getRandomColour(lotsOfDifferentTickers),
+    });
   });
 
   // Add actual data to lists
@@ -163,10 +171,17 @@ const getData = (
   return data;
 };
 
-const getRandomColour = () => {
-  const r = parseInt((Math.random() * 70 + 20).toString()).toString(16);
-  const g = parseInt((Math.random() * 100 + 100).toString()).toString(16); //"a2";
-  const b = parseInt((Math.random() * 100 + 40).toString()).toString(16);
+const getRandomColour = (lotsOfDifferentTickers: boolean) => {
+  let r, g, b;
+  if (lotsOfDifferentTickers) {
+    r = parseInt((Math.random() * 255).toString()).toString(16);
+    g = parseInt((Math.random() * 255).toString()).toString(16);
+    b = parseInt((Math.random() * 255).toString()).toString(16);
+  } else {
+    r = parseInt((Math.random() * 70 + 20).toString()).toString(16);
+    g = parseInt((Math.random() * 100 + 100).toString()).toString(16); //"a2";
+    b = parseInt((Math.random() * 100 + 40).toString()).toString(16);
+  }
 
   const hexColour = '#' + r + g + b;
 

@@ -9,9 +9,12 @@ import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { selectCurrencies } from '../selectors';
 import { restrictionTypes } from '../common';
 import Number from './Number';
+import { HideButton } from './ContextualMessageWrapper';
 
 const ToggleBox = styled.div`
+  display: inline-block;
   padding-top: 20px;
+  width: 100%;
 `;
 
 const ExplanationBox = styled.div`
@@ -129,30 +132,31 @@ const TradesExplanation = ({
   );
 
   const toggle = (
-    <ToggleBox>
-      <A onClick={() => toggleShowExplanation()}>
-        {showExplanation ? (
-          <span>
-            Hide Explanation <FontAwesomeIcon icon={faCaretUp} />
-          </span>
-        ) : (
-          <span>
-            Show Explanation <FontAwesomeIcon icon={faCaretDown} />
-          </span>
+    <TopStyle>
+      <ToggleBox>
+        <HideButton name={'no_trades'} />
+        <A onClick={() => toggleShowExplanation()}>
+          {showExplanation ? (
+            <span>
+              Hide Explanation <FontAwesomeIcon icon={faCaretUp} />
+            </span>
+          ) : (
+            <span>
+              Show Explanation <FontAwesomeIcon icon={faCaretDown} />
+            </span>
+          )}
+        </A>
+        {container && showExplanation && (
+          <ExplanationBox>{content}</ExplanationBox>
         )}
-      </A>
-    </ToggleBox>
+      </ToggleBox>
+    </TopStyle>
   );
 
   if (container === false) {
     return content;
   } else {
-    return (
-      <TopStyle>
-        {toggle}
-        {showExplanation && <ExplanationBox>{content}</ExplanationBox>}
-      </TopStyle>
-    );
+    return toggle;
   }
 };
 

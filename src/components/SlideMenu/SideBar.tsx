@@ -114,6 +114,7 @@ const SideBar = () => {
             />
           )}
           <SideBarLink name="Settings" linkPath="/app/settings" />
+          <SideBarLink name="Refer a Friend!" linkPath="/app/referral" />
         </StyledAside>
         <SideBarFooter />
       </>

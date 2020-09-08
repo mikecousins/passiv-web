@@ -23,7 +23,7 @@ const Range = styled.div`
   input {
     color: #fff;
     position: relative;
-    width: 130px;
+    padding: 6px 20px;
     &::-webkit-calendar-picker-indicator {
       font-size: 14px;
       position: absolute;

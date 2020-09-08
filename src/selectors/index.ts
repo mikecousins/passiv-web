@@ -185,6 +185,15 @@ export const selectSettings = createSelector(selectSettingsRaw, rawSettings => {
   }
 });
 
+export const selectContextualMessages = createSelector(
+  selectSettings,
+  settings => {
+    if (settings && settings.contextual_messages) {
+      return settings.contextual_messages.map(message => message.name);
+    }
+  },
+);
+
 export const select2FAEnabled = createSelector(selectSettings, settings => {
   if (settings) {
     return settings.sms_2fa_enabled;

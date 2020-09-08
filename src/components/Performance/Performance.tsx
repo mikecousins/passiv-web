@@ -30,8 +30,7 @@ const Grid = styled.div`
 
 const Tiles = styled.div`
   @media (min-width: 900px) {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
   }
   > div {
     display: flex;
@@ -79,7 +78,7 @@ const TimeContainer = styled.div`
   margin-bottom: 20px;
   flex-wrap: wrap;
   @media (min-width: 900px) {
-    min-width: 458px;
+    width: 470px;
   }
   @media (max-width: 900px) {
     width: 100%;
