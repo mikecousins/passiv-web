@@ -41,7 +41,7 @@ export const Group = ({ group }: Props) => {
         </Tooltip>
       );
     } else {
-      if (group.accuracy !== undefined) {
+      if (group.accuracy || group.accuracy === 0) {
         accuracy = (
           <Number value={group.accuracy} percentage decimalPlaces={0} />
         );
