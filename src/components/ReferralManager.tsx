@@ -20,7 +20,6 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import {
   CashBalance,
-  CashGroup,
   Cash,
   CashType,
   Center,
@@ -54,16 +53,6 @@ const SubHeading = styled(ReferralHeading)`
   margin-top: 20px;
   @media (max-width: 900px) {
     font-size: 18px;
-  }
-`;
-
-const AffiliateTermDiv = styled.div`
-  font-size: 1.4em;
-  padding-bottom: 20px;
-  line-height: 1.4;
-  ul li {
-    margin-left: 20px;
-    list-style-type: disc;
   }
 `;
 
