@@ -2,9 +2,32 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
-import { selectReferralCode } from '../selectors/referrals';
+import {
+  selectReferralCode,
+  selectReferralValue,
+  selectReferralCurrency,
+} from '../selectors/referrals';
 import { getData } from '../api';
 import { Chart } from 'react-charts';
+import {
+  faSpinner,
+  faClipboard,
+  faClipboardCheck,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Number from './Number';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
+import {
+  CashBalance,
+  CashGroup,
+  Cash,
+  CashType,
+  Center,
+  Title,
+} from '../styled/PortfolioGroupDetails';
+
+import { A, P, BulletUL } from '../styled/GlobalElements';
 
 interface Referral {
   created_date: Date;
@@ -14,13 +37,24 @@ interface Referral {
   currency?: any;
 }
 
-export const ReferralHeading = styled.h3`
-  background: #fff;
-  display: inline-block;
+const ReferralHeading = styled.div`
+  padding-bottom: 0px;
+  font-size: 40px;
+  text-align: left;
+  margin-bottom: 30px;
   position: relative;
-  padding: 0 15px;
-  margin-bottom: 20px;
-  font-size: 2.5em;
+  @media (max-width: 900px) {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+`;
+
+const SubHeading = styled(ReferralHeading)`
+  font-size: 32px;
+  margin-top: 20px;
+  @media (max-width: 900px) {
+    font-size: 18px;
+  }
 `;
 
 const AffiliateTermDiv = styled.div`
@@ -33,9 +67,120 @@ const AffiliateTermDiv = styled.div`
   }
 `;
 
+export const Container3Column = styled.div`
+  @media (min-width: 900px) {
+    display: flex;
+    justify-content: space-between;
+    > div {
+      width: 32%;
+      margin-right: 30px;
+    }
+    > div:last-of-type {
+      margin-right: 0;
+    }
+  }
+`;
+
+export const Container2WideColumn = styled.div`
+  @media (min-width: 900px) {
+    display: flex;
+    justify-content: space-between;
+    > div:first-of-type {
+      width: 66%;
+      margin-right: 30px;
+    }
+    > div:last-of-type {
+      width: 34%;
+      margin-right: 0;
+    }
+  }
+`;
+
+type Props = {
+  title: string;
+  value: any;
+  background: string;
+  loading?: boolean;
+  whiteText?: boolean;
+};
+
+const WhiteStyle = styled.div`
+  color: #fff;
+`;
+
+const ReferralSubtext = styled.div`
+  font-size: 16px;
+  padding-top: 10px;
+`;
+
+const ReferralLinkBox = styled.div`
+  width: 100%;
+  display: flex;
+`;
+
+const InputBox = styled.div`
+  flex-grow: 1;
+`;
+
+const IconBox = styled.div`
+  margin-top: -6px;
+`;
+
+const IconButton = styled.button`
+  font-size: 1.3em;
+`;
+
+const ReferralP = styled(P)`
+  font-size: 20px;
+  margin-bottom: 30px;
+`;
+
+const ReferralBulletUL = styled(BulletUL)`
+  font-size: 20px;
+  padding-top: 0;
+`;
+
+const ReferralA = styled(A)`
+  font-size: inherit;
+`;
+
+const ReferralMetric = ({
+  title,
+  value,
+  background,
+  loading,
+  whiteText,
+}: Props) => {
+  const content = (
+    <React.Fragment>
+      <Title>{title}</Title>
+      <CashBalance>
+        <CashType>
+          <Center>
+            {loading === undefined || loading === false ? (
+              value
+            ) : (
+              <FontAwesomeIcon icon={faSpinner} spin />
+            )}
+          </Center>
+        </CashType>
+      </CashBalance>
+    </React.Fragment>
+  );
+
+  return (
+    <ShadowBox background={background}>
+      <Cash>{whiteText ? <WhiteStyle>{content}</WhiteStyle> : content}</Cash>
+    </ShadowBox>
+  );
+};
+
 const ReferralManager = () => {
   const referralCode = useSelector(selectReferralCode);
-  const referralURL = 'https://passiv.com/?ref=' + referralCode;
+  const referralValue = useSelector(selectReferralValue);
+  const referralCurrency = useSelector(selectReferralCurrency);
+
+  const referralURL = 'https://passiv.com?ref=' + referralCode;
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [signUpData, setSignUpData] = useState<(number | string)[][]>([]);
   const [validationData, setValidationData] = useState<(number | string)[][]>(
@@ -44,6 +189,15 @@ const ReferralManager = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
   const [success, setSuccess] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  let earnings = 0;
+  const validatedReferrals = referrals.filter(r => r.validated === true);
+  if (validatedReferrals.length > 0) {
+    earnings = validatedReferrals
+      .map(r => r.amount)
+      .reduce((acc, r) => acc + r);
+  }
 
   if (loading === false && success === false) {
     setLoading(true);
@@ -57,7 +211,9 @@ const ReferralManager = () => {
       })
       .catch(err => {
         setLoading(false);
-        setError(err.response.data);
+        if (err.response) {
+          setError(err.response.data);
+        }
         console.log(error);
       });
   }
@@ -91,53 +247,97 @@ const ReferralManager = () => {
     [],
   );
 
-  return (
-    <ShadowBox>
-      <ReferralHeading>The Passiv Referral Program</ReferralHeading>
-      <AffiliateTermDiv>
-        <p>
-          We're excited to announce a new program through which you can earn
-          money for signing your friends up for Passiv!
-        </p>
-      </AffiliateTermDiv>
-      <AffiliateTermDiv>
-        <ul>
-          <li>
-            Your custom referral link is:{' '}
-            <a href={referralURL}>{referralURL}</a>
-          </li>
-          <li>
-            Every Passiv user that signs up and upgrades to Elite using your
-            link will <strong>earn you $20!</strong>.
-          </li>
-          <li>We send out payments each quarter.</li>
-          <li>
-            You can read the terms and conditions of our affiliate program{' '}
-            <a href="https://passiv-files.s3.ca-central-1.amazonaws.com/Affiliates+-+Terms+and+Conditions.pdf">
-              here
-            </a>
-            . By referring users to Passiv, you agree to be bound to this
-            agreement.
-          </li>
-        </ul>
-      </AffiliateTermDiv>
-      <AffiliateTermDiv>
-        <p>You can find information about your past referrals below:</p>
-      </AffiliateTermDiv>
+  console.log('referralValue', referralValue);
 
-      <AffiliateTermDiv>
-        <ul>
-          <li>
-            {numberOfSignups} {numberOfSignups === 1 ? 'person' : 'people'} have
-            signed up using your referral link
-          </li>
-          <li>
-            {eliteUpgrades} {eliteUpgrades === 1 ? 'person' : 'people'} have
-            upgraded to Passiv Elite
-          </li>
-          <li>This has earned you ${eliteUpgrades * 20}</li>
-        </ul>
-      </AffiliateTermDiv>
+  const rewardContent = (
+    <React.Fragment>
+      <Number
+        value={referralValue !== undefined ? referralValue : 0}
+        currency
+      />
+      &nbsp;
+      <span title={referralCurrency!.name}>{referralCurrency!.code}</span>
+      <ReferralSubtext>per verified referral</ReferralSubtext>
+    </React.Fragment>
+  );
+
+  const referralLinkContent = (
+    <React.Fragment>
+      <ReferralLinkBox>
+        <InputBox>
+          <ReferralA
+            href={referralURL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {referralURL}
+          </ReferralA>
+        </InputBox>
+        <IconBox>
+          <CopyToClipboard
+            text={referralURL}
+            onCopy={() => {
+              setCopied(true);
+            }}
+          >
+            {copied ? (
+              <IconButton>
+                <FontAwesomeIcon icon={faClipboardCheck} />
+              </IconButton>
+            ) : (
+              <IconButton>
+                <FontAwesomeIcon icon={faClipboard} />
+              </IconButton>
+            )}
+          </CopyToClipboard>
+        </IconBox>
+      </ReferralLinkBox>
+      <ReferralSubtext>Share this with friends to earn cash!</ReferralSubtext>
+    </React.Fragment>
+  );
+
+  return (
+    <React.Fragment>
+      <ReferralHeading>Referral Program</ReferralHeading>
+      <ReferralP>
+        Get paid for telling your friends about Passiv! Share your personal
+        referral link with friends and earn cash when they upgrade to Passiv
+        Elite.
+      </ReferralP>
+      <Container2WideColumn>
+        <ReferralMetric
+          title={'Your Referral Link'}
+          value={referralLinkContent}
+          background={'#fff'}
+        />
+        <ReferralMetric
+          title={'You Earn'}
+          value={rewardContent}
+          background={'#04A287'}
+        />
+      </Container2WideColumn>
+      <SubHeading>Metrics</SubHeading>
+      <Container3Column>
+        <ReferralMetric
+          title={'Signups'}
+          value={<Number value={numberOfSignups} decimalPlaces={0} />}
+          loading={!success}
+          background={'#04A287'}
+        />
+        <ReferralMetric
+          title={'Verified'}
+          value={<Number value={eliteUpgrades} decimalPlaces={0} />}
+          loading={!success}
+          background={'#BEE0DB'}
+        />
+        <ReferralMetric
+          title={'Total Earnings'}
+          value={<Number value={earnings} currency />}
+          loading={!success}
+          background={'var(--brand-grey)'}
+          whiteText={true}
+        />
+      </Container3Column>
       {signUpData?.length > 1 && (
         <div
           style={{
@@ -148,7 +348,29 @@ const ReferralManager = () => {
           <Chart data={data} axes={axes} series={series} tooltip />
         </div>
       )}
-    </ShadowBox>
+      <SubHeading>The Fine Print</SubHeading>
+      <ReferralBulletUL>
+        <li>
+          By using your referral link, you agree to the{' '}
+          <ReferralA
+            href="https://passiv-files.s3.ca-central-1.amazonaws.com/Affiliates+-+Terms+and+Conditions.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Terms and Conditions
+          </ReferralA>{' '}
+          of Passiv's referral program.
+        </li>
+        <li>
+          You only earn rewards for referrals that are verified as legitimate
+          and satisfy the payout criteria.
+        </li>
+        <li>Passiv will deliver bulk payouts on a quarterly basis.</li>
+        <li>
+          Passiv reserves the right to terminate this program at any time.
+        </li>
+      </ReferralBulletUL>
+    </React.Fragment>
   );
 };
 
