@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileVideo } from '@fortawesome/free-solid-svg-icons';
 import { H2, P, A } from '../../styled/GlobalElements';
 
 const TutorialContainer = styled.div`
@@ -36,10 +34,8 @@ const TutorialContainer = styled.div`
 
 const Tutorial = () => (
   <TutorialContainer>
-    <H2>
-      Passiv Tutorials <FontAwesomeIcon icon={faFileVideo} />
-    </H2>
-    <P>Looking for some how-to videos?</P>
+    <H2>Passiv Tutorials</H2>
+    <P>Looking for some how-to articles?</P>
     <A href="/help/tutorials/" target="_blank" rel="noopener noreferrer">
       Tutorials
     </A>

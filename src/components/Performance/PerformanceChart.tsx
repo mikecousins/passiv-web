@@ -13,6 +13,18 @@ export const ChartBox = styled.div`
   &.equity {
     height: 300px;
   }
+  &.dividends {
+    height: 220px;
+  }
+  &.dividendsTimeline {
+    height: 220px;
+  }
+  &.dividendsExtended {
+    height: 420px;
+  }
+  &.dividendsTimelineExtended {
+    height: 380px;
+  }
 `;
 
 export const Label = styled.div`
@@ -38,6 +50,13 @@ export const DateString = styled.span`
 export const DollarString = styled.span`
   &.selected {
     font-weight: bold;
+  }
+`;
+
+export const ExpandChart = styled.span`
+  float: right;
+  &:hover {
+    color: ${'#04a286'};
   }
 `;
 

@@ -91,6 +91,9 @@ const WelcomePage = React.lazy(() =>
 const SettingsPage = React.lazy(() =>
   import(/* webpackChunkName: "settings" */ '../pages/SettingsPage'),
 );
+const ReferralPage = React.lazy(() =>
+  import(/* webpackChunkName: "referrals" */ '../pages/ReferralPage'),
+);
 const UpgradePage = React.lazy(() =>
   import(/* webpackChunkName: "upgrade" */ '../pages/UpgradePage'),
 );
@@ -112,7 +115,7 @@ declare global {
 // use the stripe test key unless we're in prod
 const stripePublicKey =
   process.env.REACT_APP_BASE_URL_OVERRIDE &&
-  process.env.REACT_APP_BASE_URL_OVERRIDE === 'getpassiv.com'
+  process.env.REACT_APP_BASE_URL_OVERRIDE === 'passiv.com'
     ? 'pk_live_LTLbjcwtt6gUmBleYqVVhMFX'
     : 'pk_test_UEivjUoJpfSDWq5i4xc64YNK';
 
@@ -192,10 +195,6 @@ const App = () => {
       });
     }
   }, []);
-
-  console.log('current path:', window.location.pathname);
-  console.log('next path:', redirectPath);
-  console.log('---');
 
   return (
     <Layout>
@@ -299,6 +298,9 @@ const App = () => {
             )}
             {(showSecureApp || showOnboardingApp) && (
               <Route path={prefixPath('/settings')} component={SettingsPage} />
+            )}
+            {(showSecureApp || showOnboardingApp) && (
+              <Route path={prefixPath('/referrals')} component={ReferralPage} />
             )}
             {(showSecureApp || showOnboardingApp) && (
               <Route path={prefixPath('/upgrade')} component={UpgradePage} />

@@ -1,3 +1,9 @@
+import { Currency } from './currency';
+
+type ContextualMessage = {
+  name: string;
+};
+
 export type Settings = {
   email: string;
   name: string;
@@ -13,9 +19,12 @@ export type Settings = {
   demo: boolean;
   api_enabled: boolean;
   referral_code: string;
+  referral_value: number;
+  referral_currency: Currency;
   sms_2fa_enabled: boolean;
   phone_number: string | null;
-  show_total_value_chart: boolean;
   show_contribution_chart: boolean;
+  show_total_value_chart: boolean;
   show_contributions1Y: boolean;
+  contextual_messages: ContextualMessage[];
 };

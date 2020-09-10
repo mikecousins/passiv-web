@@ -15,7 +15,7 @@ import * as serviceWorker from './serviceWorker';
 
 if (
   process.env.REACT_APP_BASE_URL_OVERRIDE &&
-  process.env.REACT_APP_BASE_URL_OVERRIDE === 'getpassiv.com'
+  process.env.REACT_APP_BASE_URL_OVERRIDE === 'passiv.com'
 ) {
   Sentry.init({
     dsn: 'https://196371422ff74ef38c3e0f9632fd1710@sentry.io/1517518',

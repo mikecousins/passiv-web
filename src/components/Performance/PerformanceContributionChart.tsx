@@ -15,15 +15,7 @@ export const PerformanceContributionChart = () => {
   const contributionData = useSelector(selectContributionTimeframe);
   const withdrawalData = useSelector(selectWithdrawalTimeframe);
   const timeframe = useSelector(selectSelectedTimeframe);
-
-  // let showWithdrawals = false;
-  // if (withdrawalData !== undefined && withdrawalData !== null) {
-  //   withdrawalData.forEach(pastValue => {
-  //     if (pastValue.value > 0) {
-  //       showWithdrawals = true;
-  //     }
-  //   });
-  // }
+  const customYearBased = isYearBased(contributionData);
 
   let data = React.useMemo(
     () => [
@@ -32,7 +24,7 @@ export const PerformanceContributionChart = () => {
         data: withdrawalData
           ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
           .map(a => {
-            let dateFormatted = formatDate(a.date, timeframe);
+            let dateFormatted = formatDate(a.date, timeframe, customYearBased);
             return [dateFormatted, a.value];
           }),
         color: '#003ba2',
@@ -42,13 +34,13 @@ export const PerformanceContributionChart = () => {
         data: contributionData
           ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
           .map(a => {
-            let dateFormatted = formatDate(a.date, timeframe);
+            let dateFormatted = formatDate(a.date, timeframe, customYearBased);
             return [dateFormatted, a.value];
           }),
         color: '#04a286',
       },
     ],
-    [contributionData, withdrawalData, timeframe],
+    [contributionData, withdrawalData, timeframe, customYearBased],
   );
 
   const series = React.useMemo(() => ({ type: 'bar' }), []);
@@ -87,7 +79,11 @@ export const parseDate = (dateString: string): number => {
   return Date.parse(dateString);
 };
 
-export const formatDate = (dateString: string, timeframe: string): string => {
+export const formatDate = (
+  dateString: string,
+  timeframe: string,
+  customYearBased = false,
+): string => {
   const date = new Date(parseDate(dateString));
   if (date.getDate() > 20) {
     date.setDate(1);
@@ -98,10 +94,23 @@ export const formatDate = (dateString: string, timeframe: string): string => {
       date.setFullYear(date.getFullYear() + 1);
     }
   }
-  if (timeframe === 'ALL') {
+  if (timeframe === 'ALL' || (timeframe === 'CST' && customYearBased)) {
     return date.getFullYear().toString();
+  } else if (timeframe === 'CST') {
+    return dtfMonth.format(date) + " '" + (date.getFullYear() % 100).toString();
   } else {
     return dtfMonth.format(date);
+  }
+};
+
+const isYearBased = (data: any) => {
+  if (data === undefined || data === null) {
+    return false;
+  } else {
+    return (
+      data.filter((x: any) => new Date(parseDate(x.date)).getMonth() > 1)
+        .length <= 1
+    );
   }
 };
 

@@ -10,11 +10,31 @@ export const loadPerformanceAll: ActionCreator<ThunkAction<
 >> = accountNumbers => {
   return dispatch => {
     dispatch(fetchPerformanceAllStart());
-    postData('/api/v1/performance/all/', accountNumbers)
+    postData('/api/v1/performance/all/', { accountNumbers })
       .then(response => {
         dispatch(fetchPerformanceAllSuccess(response));
       })
       .catch(error => dispatch(fetchPerformanceAllError(error)));
+  };
+};
+
+export const loadPerformanceCustom: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = (accountNumbers, startDate, endDate) => {
+  return dispatch => {
+    dispatch(fetchPerformanceCustomStart());
+    postData('/api/v1/performance/custom/', {
+      accountNumbers,
+      startDate,
+      endDate,
+    })
+      .then(response => {
+        dispatch(fetchPerformanceCustomSuccess(response));
+      })
+      .catch(error => dispatch(fetchPerformanceCustomError(error)));
   };
 };
 
@@ -32,6 +52,20 @@ export const fetchPerformanceAllError: ActionCreator<Action> = payload => ({
   payload,
 });
 
+export const fetchPerformanceCustomStart: ActionCreator<Action> = () => ({
+  type: 'FETCH_PERFORMANCE_CUSTOM_START',
+});
+
+export const fetchPerformanceCustomSuccess: ActionCreator<Action> = payload => ({
+  type: 'FETCH_PERFORMANCE_CUSTOM_SUCCESS',
+  payload,
+});
+
+export const fetchPerformanceCustomError: ActionCreator<Action> = payload => ({
+  type: 'FETCH_PERFORMANCE_CUSTOM_ERROR',
+  payload,
+});
+
 export const setSelectedTimeframe: ActionCreator<Action> = timeframe => ({
   type: 'SET_SELECTED_TIMEFRAME',
   timeframe,
@@ -40,6 +74,16 @@ export const setSelectedTimeframe: ActionCreator<Action> = timeframe => ({
 export const setSelectedAccounts: ActionCreator<Action> = accounts => ({
   type: 'SET_SELECTED_ACCOUNTS',
   accounts,
+});
+
+export const setStartDate: ActionCreator<Action> = startDate => ({
+  type: 'SET_REPORTING_START_DATE',
+  startDate,
+});
+
+export const setEndDate: ActionCreator<Action> = endDate => ({
+  type: 'SET_REPORTING_END_DATE',
+  endDate,
 });
 
 export const loadAdjustedCostBasis: ActionCreator<ThunkAction<

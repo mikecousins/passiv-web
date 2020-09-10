@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BulletUL, H3, A } from '../styled/GlobalElements';
-import { Settings } from '../types/groupInfo';
+import { Settings, Trade } from '../types/groupInfo';
 import { Account } from '../types/account';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,9 +9,12 @@ import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { selectCurrencies } from '../selectors';
 import { restrictionTypes } from '../common';
 import Number from './Number';
+import { HideButton } from './ContextualMessageWrapper';
 
 const ToggleBox = styled.div`
+  display: inline-block;
   padding-top: 20px;
+  width: 100%;
 `;
 
 const ExplanationBox = styled.div`
@@ -37,11 +40,13 @@ type Props = {
   container?: boolean;
   settings: Settings | null;
   accounts: Account[];
+  trades?: Trade[];
 };
 
 const TradesExplanation = ({
   settings,
   accounts,
+  trades,
   container = false,
 }: Props) => {
   const [showExplanation, setShowExplanation] = useState(false);
@@ -129,30 +134,31 @@ const TradesExplanation = ({
   );
 
   const toggle = (
-    <ToggleBox>
-      <A onClick={() => toggleShowExplanation()}>
-        {showExplanation ? (
-          <span>
-            Hide Explanation <FontAwesomeIcon icon={faCaretUp} />
-          </span>
-        ) : (
-          <span>
-            Show Explanation <FontAwesomeIcon icon={faCaretDown} />
-          </span>
+    <TopStyle>
+      <ToggleBox>
+        {trades && trades.length === 0 && <HideButton name={'no_trades'} />}
+        <A onClick={() => toggleShowExplanation()}>
+          {showExplanation ? (
+            <span>
+              Hide Explanation <FontAwesomeIcon icon={faCaretUp} />
+            </span>
+          ) : (
+            <span>
+              Show Explanation <FontAwesomeIcon icon={faCaretDown} />
+            </span>
+          )}
+        </A>
+        {container && showExplanation && (
+          <ExplanationBox>{content}</ExplanationBox>
         )}
-      </A>
-    </ToggleBox>
+      </ToggleBox>
+    </TopStyle>
   );
 
   if (container === false) {
     return content;
   } else {
-    return (
-      <TopStyle>
-        {toggle}
-        {showExplanation && <ExplanationBox>{content}</ExplanationBox>}
-      </TopStyle>
-    );
+    return toggle;
   }
 };
 

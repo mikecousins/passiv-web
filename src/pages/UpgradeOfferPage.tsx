@@ -66,7 +66,7 @@ const AButtonBox = styled.div`
   margin-bottom: 20px;
 `;
 
-const shareURL = 'https://getpassiv.com/app/questrade-offer';
+const shareURL = 'https://passiv.com/app/questrade-offer';
 
 const shareTwitterCopy = `Questrade is giving away Passiv Elite subscriptions for FREE! Now it's easier than ever to manage your own investments. Go here to open a Passiv account: ${shareURL}`;
 

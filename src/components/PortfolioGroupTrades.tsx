@@ -21,7 +21,10 @@ import { selectAccounts } from '../selectors/accounts';
 import TradesExplanation from './TradesExplanation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { ContextualMessageWrapper } from './ContextualMessageWrapper';
 import styled from '@emotion/styled';
+
+import { SharingWidget } from './SharingWidget';
 
 type Props = {
   trades: any;
@@ -54,6 +57,7 @@ export const PortfolioGroupTrades = ({
   const settings = useSelector(selectCurrentGroupSettings);
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
   const [tradesCache, setTradesCache] = useState(null);
+  const [showShareMessage, setShowShareMessage] = useState(false);
 
   const groupAccounts = accounts.filter(a => a.portfolio_group === groupId);
 
@@ -63,6 +67,7 @@ export const PortfolioGroupTrades = ({
 
   const untriggerTradesSubmitted = () => {
     setTradesSubmitted(false);
+    setShowShareMessage(true);
   };
 
   useEffect(() => {
@@ -187,39 +192,50 @@ export const PortfolioGroupTrades = ({
     );
   } else {
     if (!error) {
-      return (
-        <TradesContainer>
-          <H2>Trades</H2>
-          <NoTradesNotice>
-            <P>
-              There are currently no trades available on your account. This
-              means that this group is as close as possible to your target,
-              taking into account the rebalancing rules set for this group.
-            </P>
-            <SectionHeader>Other ways to increase accuracy</SectionHeader>
-            <AccuracyBullets>
-              <li>Deposit cash into your brokerage account.</li>
-              {settings != null && settings.buy_only && (
-                <li>
-                  Perform a full rebalance by selling overweight assets.{' '}
-                  <A
-                    href="https://getpassiv.com/help/tutorials/how-to-allow-selling-to-rebalance"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Learn How
-                  </A>
-                </li>
-              )}
-            </AccuracyBullets>
-          </NoTradesNotice>
-          <TradesExplanation
-            settings={settings}
-            accounts={groupAccounts}
-            container={true}
-          />
-        </TradesContainer>
-      );
+      if (showShareMessage) {
+        return (
+          <TradesContainer>
+            <SharingWidget />
+          </TradesContainer>
+        );
+      } else {
+        return (
+          <ContextualMessageWrapper name={'no_trades'}>
+            <TradesContainer>
+              <H2>Trades</H2>
+              <NoTradesNotice>
+                <P>
+                  There are currently no trades available on your account. This
+                  means that this group is as close as possible to your target,
+                  taking into account the rebalancing rules set for this group.
+                </P>
+                <SectionHeader>Other ways to increase accuracy</SectionHeader>
+                <AccuracyBullets>
+                  <li>Deposit cash into your brokerage account.</li>
+                  {settings != null && settings.buy_only && (
+                    <li>
+                      Perform a full rebalance by selling overweight assets.{' '}
+                      <A
+                        href="https://passiv.com/help/tutorials/how-to-allow-selling-to-rebalance"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Learn How
+                      </A>
+                    </li>
+                  )}
+                </AccuracyBullets>
+              </NoTradesNotice>
+              <TradesExplanation
+                settings={settings}
+                accounts={groupAccounts}
+                container={true}
+                trades={trades!.trades}
+              />
+            </TradesContainer>
+          </ContextualMessageWrapper>
+        );
+      }
     }
   }
   return null;

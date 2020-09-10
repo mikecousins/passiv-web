@@ -49,6 +49,30 @@ export type PerformanceData = {
   monthlyDividends1Y: number;
   monthlyDividendsYTD: number;
   monthlyDividendsALL: number;
+  fees1Y: number;
+  feesYTD: number;
+  feesALL: number;
+  feeSavings1Y: number;
+  feeSavingsYTD: number;
+  feeSavingsALL: number;
+  badTickers: string[];
+};
+
+export type PerformanceCustomData = {
+  contributions: Contributions;
+  contributionTimeframe: PastValue[];
+  contributionTimeframeCumulative: PastValue[];
+  withdrawalTimeframe: PastValue[];
+  totalEquityTimeframe: PastValue[];
+  contributionStreak: number;
+  contributionMonthsContributed: number;
+  contributionTotalMonths: number;
+  dividends: Dividends[];
+  dividendIncome: number;
+  dividendTimeline: DividendsAtDate[];
+  monthlyDividends: number;
+  feeSavings: number;
+  fees: number;
   badTickers: string[];
 };
 

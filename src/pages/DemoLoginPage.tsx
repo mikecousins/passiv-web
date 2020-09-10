@@ -34,7 +34,7 @@ const DemoLoginPage = ({ location }: Props) => {
   };
 
   if (loggedIn) {
-    if (isDemo != null && !isDemo) {
+    if (isDemo != null && !isDemo && !triggered) {
       dispatch(logout());
     } else {
       return (

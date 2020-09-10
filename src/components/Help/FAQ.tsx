@@ -14,7 +14,7 @@ const FAQ = () => (
           a desired target allocation. It calculates the trades needed based on
           the target allocation you’ve set and your available cash.{' '}
           <A
-            href="https://getpassiv.com/pricing/"
+            href="https://passiv.com/pricing/"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -50,7 +50,7 @@ const FAQ = () => (
           a token. Passiv gets the information it needs through this token. To
           read more about this process, click{' '}
           <A
-            href="https://getpassiv.com/security/"
+            href="https://passiv.com/security/"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -132,7 +132,7 @@ const FAQ = () => (
           You can manage as many accounts as you want for one low price. The
           more accounts you link,{' '}
           <A
-            href="https://getpassiv.com/blog/3-ways-get-most-out-passiv/"
+            href="https://passiv.com/blog/3-ways-get-most-out-passiv/"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -147,7 +147,7 @@ const FAQ = () => (
           Yes. You can manage your spouse’s or children’s accounts by following
           the steps{' '}
           <A
-            href="https://getpassiv.com/blog/seamlessly-manage-your-spouses-account/"
+            href="https://passiv.com/blog/seamlessly-manage-your-spouses-account/"
             target="_blank"
             rel="noopener noreferrer"
           >

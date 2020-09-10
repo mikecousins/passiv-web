@@ -9,6 +9,8 @@ import { selectDashboardGroups } from '../selectors/groups';
 import TotalHoldings from '../components/TotalHoldings';
 import DashboardReporting from '../components/Performance/Dashboard/DashboardReporting';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
+import WelcomeVideo from '../components/WelcomeVideo/WelcomeVideo';
+import { ContextualMessageWrapper } from '../components/ContextualMessageWrapper';
 
 export const DashboardPage = () => {
   const authorized = useSelector(selectIsAuthorized);
@@ -32,13 +34,24 @@ export const DashboardPage = () => {
     );
   }
 
+  let anySetupRemaining = false;
+
+  if (groups) {
+    let groupsSetupStatus = groups.map(group => group.setupComplete);
+    const verifyAnyFalse = (currentValue: any) => currentValue === false;
+
+    anySetupRemaining = groupsSetupStatus.some(verifyAnyFalse);
+  }
+
   return (
     <React.Fragment>
-      <Link to={'/app/dashboard-config'}>
-        <FontAwesomeIcon icon={faCogs} />
-      </Link>
+      {anySetupRemaining && (
+        <ContextualMessageWrapper name={'setup_prompt'}>
+          <WelcomeVideo />
+        </ContextualMessageWrapper>
+      )}
       <TotalHoldings />
-      <DashboardReporting />
+
       {groupDisplay}
     </React.Fragment>
   );
