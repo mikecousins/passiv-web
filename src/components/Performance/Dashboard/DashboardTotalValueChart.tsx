@@ -17,7 +17,7 @@ export const DashboardTotalValueChart = () => {
             a.value,
           ];
         }),
-        color: '#194EC1',
+        color: '#04a286',
       },
     ],
     [totalEquityData],

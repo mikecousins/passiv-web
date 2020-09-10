@@ -6,7 +6,6 @@ import { faSpinner, faCogs } from '@fortawesome/free-solid-svg-icons';
 import Group from '../components/Group';
 import { selectIsAuthorized } from '../selectors';
 import { selectDashboardGroups } from '../selectors/groups';
-import TotalHoldings from '../components/TotalHoldings';
 import DashboardReporting from '../components/Performance/Dashboard/DashboardReporting';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
 import WelcomeVideo from '../components/WelcomeVideo/WelcomeVideo';
@@ -50,7 +49,11 @@ export const DashboardPage = () => {
           <WelcomeVideo />
         </ContextualMessageWrapper>
       )}
-      <TotalHoldings />
+      <Link to={'/app/dashboard-config'}>
+        <FontAwesomeIcon icon={faCogs} />
+      </Link>
+
+      <DashboardReporting />
 
       {groupDisplay}
     </React.Fragment>
