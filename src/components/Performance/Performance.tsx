@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
-import { useSelector, useDispatch } from 'react-redux';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectSelectedTimeframe } from '../../selectors/performance';
 import PerformanceChange from './PerformanceChange';
 import PerformanceCapitalGains from './PerformanceCapitalGains';
 import PerformanceContributions from './PerformanceContributions';
@@ -13,8 +14,6 @@ import PerformanceDividendTimelineChart from './PerformanceDividendTimelineChart
 import PerformanceDividendIncome from './PerformanceDividendIncome';
 import PerformanceFees from './PerformanceFees';
 import PerformanceFeeSavings from './PerformanceFeeSavings';
-import { setSelectedTimeframe } from '../../actions/performance';
-import { selectSelectedTimeframe } from '../../selectors/performance';
 import ShadowBox from '../../styled/ShadowBox';
 import TimeframePicker from './TimeframePicker';
 import { P, A } from '../../styled/GlobalElements';
@@ -79,21 +78,11 @@ const BetaBanner = styled(P)`
 `;
 
 export const Performance = () => {
-  const dispatch = useDispatch();
   let currentTimeframe = useSelector(selectSelectedTimeframe);
-  let showDatePickers = false;
-  if (currentTimeframe === 'CST') {
-    showDatePickers = true;
-  }
 
   return (
     <React.Fragment>
-      <TimeframePicker
-        timeframe={'CST'}
-        selectedTimeframe={currentTimeframe}
-        setTimeframe={t => dispatch(setSelectedTimeframe(t))}
-        showDatePickers={showDatePickers}
-      />
+      <TimeframePicker />
       <Grid>
         <ShadowBox>
           <PerformanceContributionChart />

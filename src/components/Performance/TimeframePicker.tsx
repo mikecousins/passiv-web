@@ -1,7 +1,10 @@
 import styled from '@emotion/styled';
 import React, { FunctionComponent } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import DatePickers from './DatePickers';
 import AccountsSelect from './AccountsSelect';
+import { setSelectedTimeframe } from '../../actions/performance';
+import { selectSelectedTimeframe } from '../../selectors/performance';
 
 const TimeContainer = styled.div`
   border-radius: 6px;
@@ -89,40 +92,35 @@ export const TimespanSelector: FunctionComponent<Props> = ({
   );
 };
 
-type Props2 = {
-  timeframe: string;
-  selectedTimeframe: string;
-  setTimeframe: (newTimeFrame: string) => void;
-  showDatePickers: boolean;
-};
-export const TimeframePicker: FunctionComponent<Props2> = ({
-  timeframe,
-  selectedTimeframe,
-  setTimeframe,
-  showDatePickers,
-}) => {
+export const TimeframePicker = () => {
+  const dispatch = useDispatch();
+  let selectedTimeframe = useSelector(selectSelectedTimeframe);
+  let showDatePickers = false;
+  if (selectedTimeframe === 'CST') {
+    showDatePickers = true;
+  }
   return (
     <Flex>
       <TimeContainer>
         <TimespanSelector
           timeframe={'1Y'}
           selectedTimeframe={selectedTimeframe}
-          setTimeframe={t => setTimeframe(t)}
+          setTimeframe={t => dispatch(setSelectedTimeframe(t))}
         />
         <TimespanSelector
           timeframe={'YTD'}
           selectedTimeframe={selectedTimeframe}
-          setTimeframe={t => setTimeframe(t)}
+          setTimeframe={t => dispatch(setSelectedTimeframe(t))}
         />
         <TimespanSelector
           timeframe={'ALL'}
           selectedTimeframe={selectedTimeframe}
-          setTimeframe={t => setTimeframe(t)}
+          setTimeframe={t => dispatch(setSelectedTimeframe(t))}
         />
         <TimespanSelector
           timeframe={'CST'}
           selectedTimeframe={selectedTimeframe}
-          setTimeframe={t => setTimeframe(t)}
+          setTimeframe={t => dispatch(setSelectedTimeframe(t))}
         />
         {showDatePickers && <DatePickers />}
       </TimeContainer>
