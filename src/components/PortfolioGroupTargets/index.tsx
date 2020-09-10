@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadGroup } from '../../actions';
+import OrderTargetAllocations from '../PortfolioGroupSettings/OrderTargetAllocations';
 import {
   selectCurrentGroupId,
   selectCurrentGroupTarget,
@@ -23,6 +24,7 @@ import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import LoadingOverlay from '../LoadingOverlay';
 import TargetSelector from './TargetSelector';
+import { selectIsEditMode } from '../../selectors/router';
 
 export const TargetContainer = styled.form`
   h2 {
@@ -80,6 +82,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   const targetInitialized = useSelector(selectCurrentGroupTargetInitialized);
   const positions = useSelector(selectCurrentGroupPositions);
   const loadingGroupInfo = useSelector(selectCurrentGroupInfoLoading);
+  const edit = useSelector(selectIsEditMode);
 
   const dispatch = useDispatch();
 
@@ -253,6 +256,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
       <ShadowBox>
         <TargetContainer>
           <H2>Target Portfolio</H2>
+          <OrderTargetAllocations edit={edit} />
           {loading ? (
             <P>
               Importing targets... <FontAwesomeIcon icon={faSpinner} spin />
