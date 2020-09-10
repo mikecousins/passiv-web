@@ -10,6 +10,7 @@ import DashboardContributionChart from '../components/Performance/Dashboard/Dash
 import Contributions1Y from '../components/Performance/Dashboard/Contributions1Y';
 import { putData } from '../api';
 import { loadSettings } from '../actions';
+import TotalHoldings from '../components/TotalHoldings';
 
 export const DashboardConfigPage = () => {
   const settings = useSelector(selectSettings);
@@ -70,8 +71,29 @@ export const DashboardConfigPage = () => {
   return (
     <React.Fragment>
       <div>
+        <H1>Dashboard Configuration</H1>
+
         <div>
-          <H1>Dashboard Configuration</H1>
+          <OptionsTitle>Show Total Holdings</OptionsTitle>
+          <ToggleButton onClick={toggleTotalValueChart}>
+            {settings.show_total_value_chart ? (
+              <React.Fragment>
+                <FontAwesomeIcon icon={faToggleOn} />
+                <StateText>on</StateText>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <FontAwesomeIcon icon={faToggleOff} />
+                <StateText>off</StateText>
+              </React.Fragment>
+            )}
+          </ToggleButton>
+        </div>
+        <TotalHoldings />
+      </div>
+
+      <div>
+        <div>
           <OptionsTitle>Show Total Value Line Chart</OptionsTitle>
           <ToggleButton onClick={toggleTotalValueChart}>
             {settings.show_total_value_chart ? (
