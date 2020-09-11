@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BulletUL, H3, A } from '../styled/GlobalElements';
-import { Settings } from '../types/groupInfo';
+import { Settings, Trade } from '../types/groupInfo';
 import { Account } from '../types/account';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -40,11 +40,13 @@ type Props = {
   container?: boolean;
   settings: Settings | null;
   accounts: Account[];
+  trades?: Trade[];
 };
 
 const TradesExplanation = ({
   settings,
   accounts,
+  trades,
   container = false,
 }: Props) => {
   const [showExplanation, setShowExplanation] = useState(false);
@@ -134,7 +136,7 @@ const TradesExplanation = ({
   const toggle = (
     <TopStyle>
       <ToggleBox>
-        <HideButton name={'no_trades'} />
+        {trades && trades.length === 0 && <HideButton name={'no_trades'} />}
         <A onClick={() => toggleShowExplanation()}>
           {showExplanation ? (
             <span>

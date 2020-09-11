@@ -126,11 +126,18 @@ const getData = (
     timeStrings.forEach(time => {
       timeToAdd.push([time, 0]);
     });
-    data.push({
-      label: ticker,
-      data: timeToAdd,
-      color: getRandomColour(lotsOfDifferentTickers),
-    });
+    if (lotsOfDifferentTickers) {
+      data.push({
+        label: ticker,
+        data: timeToAdd,
+      });
+    } else {
+      data.push({
+        label: ticker,
+        data: timeToAdd,
+        color: getRandomColour(lotsOfDifferentTickers),
+      });
+    }
   });
 
   // Add actual data to lists
