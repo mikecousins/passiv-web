@@ -195,7 +195,9 @@ export const PortfolioGroupTrades = ({
       if (showShareMessage) {
         return (
           <TradesContainer>
-            <SharingWidget />
+            <SharingWidget
+              shareWidgetClose={() => setShowShareMessage(false)}
+            />
           </TradesContainer>
         );
       } else {

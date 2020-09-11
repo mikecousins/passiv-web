@@ -2,7 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { H2, P } from '../styled/GlobalElements';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
+import { getData } from '../api';
 import { selectAuthorizationBrokerages, selectSettings } from '../selectors';
 
 import {
@@ -16,7 +19,7 @@ import {
 
 const ShareMessage = styled.div`
   color: #232225;
-  padding-top: 20px;
+  padding-top: 15px;
 `;
 
 const ShareButton = styled.div`
@@ -24,9 +27,25 @@ const ShareButton = styled.div`
   display: inline-block;
 `;
 
-export const SharingWidget = () => {
+const Tooltip = styled.div`
+  color: #2a2d34;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+export const SharingWidget = ({ shareWidgetClose }) => {
   const authorizations = useSelector(selectAuthorizationBrokerages);
   const settings = useSelector(selectSettings);
+
+  const handleShareWindowClose = name => {
+    getData(`/api/v1/shares/${name}`).then(() => {
+      console.log('Thank you for sharing Passiv!');
+    });
+  };
 
   const brokerageNames = authorizations.map(authorization =>
     authorization.slug.toLowerCase(),
@@ -46,6 +65,14 @@ export const SharingWidget = () => {
   return (
     <React.Fragment>
       <H2>Share Passiv with Family and Friends!</H2>
+
+      <Tooltip onClick={shareWidgetClose}>
+        <P>
+          <FontAwesomeIcon icon={faTimes} />
+          &nbsp; Close
+        </P>
+      </Tooltip>
+
       <ShareMessage>
         <P>Know someone who could use Passiv? Tell them about us!</P>
         <ShareButton>
@@ -53,8 +80,9 @@ export const SharingWidget = () => {
             url={shareUrl}
             quote={facebookMessage}
             hashtag={facebookHashtag}
+            onShareWindowClose={() => handleShareWindowClose('facebook')}
           >
-            <FacebookIcon size={32} round />
+            <FacebookIcon size={42} round />
           </FacebookShareButton>
         </ShareButton>
         <ShareButton>
@@ -62,13 +90,17 @@ export const SharingWidget = () => {
             url={shareUrl + '\n\n'}
             title={twitterMessage}
             hashtags={twitterHashtag}
+            onShareWindowClose={() => handleShareWindowClose('twitter')}
           >
-            <TwitterIcon size={32} round />
+            <TwitterIcon size={42} round />
           </TwitterShareButton>
         </ShareButton>
         <ShareButton>
-          <LinkedinShareButton url={shareUrl}>
-            <LinkedinIcon size={32} round />
+          <LinkedinShareButton
+            url={shareUrl}
+            onShareWindowClose={() => handleShareWindowClose('linkedin')}
+          >
+            <LinkedinIcon size={42} round />
           </LinkedinShareButton>
         </ShareButton>
       </ShareMessage>
