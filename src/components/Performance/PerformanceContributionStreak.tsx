@@ -19,6 +19,9 @@ const ContributionStreak = styled.div`
   font-size: 17px;
   color: #504d4dd9;
 `;
+const ContributionPercent = styled.span`
+  color: ${'#04a286'};
+`;
 
 export const PerformanceContributionStreak = () => {
   const contributionStreak: number | undefined = useSelector(
@@ -43,6 +46,7 @@ export const PerformanceContributionStreak = () => {
   }
 
   let contributionMonthsString = 'loading...';
+  let contributionPercentString = '';
   if (
     contributionMonthsContributed !== null &&
     contributionMonthsContributed !== undefined &&
@@ -54,7 +58,13 @@ export const PerformanceContributionStreak = () => {
       contributionMonthsContributed +
       '/' +
       contributionMonthsTotal +
-      ' Months';
+      ' Months ';
+    contributionPercentString =
+      '(' +
+      ((100 * contributionMonthsContributed) / contributionMonthsTotal).toFixed(
+        0,
+      ) +
+      '%)';
   }
 
   if (contributionStreakString === 'loading...') {
@@ -89,7 +99,12 @@ export const PerformanceContributionStreak = () => {
           </Tooltip>
           <br />
           <Tooltip label="Number of months you've made contributions in the selected timeframe">
-            <span>{contributionMonthsString}</span>
+            <span>
+              {contributionMonthsString}
+              <ContributionPercent>
+                {contributionPercentString}
+              </ContributionPercent>
+            </span>
           </Tooltip>
         </ContributionStreak>
       </div>
