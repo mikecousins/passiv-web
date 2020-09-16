@@ -35,7 +35,6 @@ export const DashboardTotalValueChart = () => {
 
   return (
     <React.Fragment>
-      Total Value
       <DashboardChart
         className="dashboard"
         data={data}

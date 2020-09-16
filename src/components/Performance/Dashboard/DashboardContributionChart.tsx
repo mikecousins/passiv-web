@@ -50,7 +50,6 @@ export const DashboardContributionChart = () => {
 
   return (
     <React.Fragment>
-      Contributions
       <DashboardChart
         className="dashboard"
         data={data}
