@@ -11,12 +11,8 @@ import {
 import { ToggleButton, StateText } from '../styled/ToggleButton';
 import { OptionsTitle, H1 } from '../styled/GlobalElements';
 import { selectSettings } from '../selectors';
-import DashboardTotalValueChart from '../components/Performance/Dashboard/DashboardTotalValueChart';
-import DashboardContributionChart from '../components/Performance/Dashboard/DashboardContributionChart';
-import Contributions1Y from '../components/Performance/Dashboard/Contributions1Y';
 import { putData } from '../api';
 import { loadSettings } from '../actions';
-import TotalHoldings from '../components/TotalHoldings';
 import ShadowBox from '../styled/ShadowBox';
 
 export const Back = styled(Link)`

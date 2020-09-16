@@ -28,7 +28,11 @@ export const HelpLinks = () => {
     <React.Fragment>
       <Grid columns="1fr 1fr 1fr">
         <ShadowBoxLinks>
-          <a href="https://passiv.com/tutorials/" target="_blank">
+          <a
+            href="https://passiv.com/tutorials/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             <H3>Passiv Guide</H3>
             <P>Check out our helpful ramblings, tips, and tricks.</P>
           </a>
