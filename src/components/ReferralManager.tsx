@@ -238,17 +238,20 @@ const ReferralManager = () => {
 
   console.log('referralValue', referralValue);
 
-  const rewardContent = (
-    <React.Fragment>
-      <Number
-        value={referralValue !== undefined ? referralValue : 0}
-        currency
-      />
-      &nbsp;
-      <span title={referralCurrency!.name}>{referralCurrency!.code}</span>
-      <ReferralSubtext>per verified referral</ReferralSubtext>
-    </React.Fragment>
-  );
+  let rewardContent = null;
+  if (referralValue !== undefined && referralCurrency !== undefined) {
+    rewardContent = (
+      <React.Fragment>
+        <Number
+          value={referralValue !== undefined ? referralValue : 0}
+          currency
+        />
+        &nbsp;
+        <span title={referralCurrency!.name}>{referralCurrency!.code}</span>
+        <ReferralSubtext>per verified referral</ReferralSubtext>
+      </React.Fragment>
+    );
+  }
 
   const referralLinkContent = (
     <React.Fragment>
