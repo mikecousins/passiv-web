@@ -9,11 +9,16 @@ import { selectSettings } from '../../../selectors';
 import ShadowBox from '../../../styled/ShadowBox';
 
 export const Flex = styled.div`
-  @media (min-width: 900px) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
+  &.twoColumns {
+    @media (min-width: 900px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 20px;
+    }
   }
+`;
+export const LeftAlign = styled.span`
+  text-align-last: left;
 `;
 
 export const DashboardReporting = () => {
@@ -25,18 +30,30 @@ export const DashboardReporting = () => {
   // Still need to add setting for showing total holdings
   return (
     <React.Fragment>
-      <Flex>
-        {settings.show_contributions1Y && (
+      <Flex
+        className={
+          settings.show_2columns_dashboard ? 'twoColumns' : 'oneColumn'
+        }
+      >
+        {settings.show_contribution_chart && (
           <ShadowBox>
-            <Contributions1Y />
-            {settings.show_contribution_chart && <DashboardContributionChart />}
+            {settings.show_contributions1Y && <Contributions1Y />}
+            <DashboardContributionChart />
           </ShadowBox>
+        )}
+        {!settings.show_contribution_chart && settings.show_contributions1Y && (
+          <LeftAlign>
+            <Contributions1Y />
+          </LeftAlign>
         )}
         {settings.show_total_value_chart && (
           <ShadowBox>
-            {true && <TotalHoldings />}
+            {settings.show_total_holdings && <TotalHoldings />}
             <DashboardTotalValueChart />
           </ShadowBox>
+        )}
+        {!settings.show_total_value_chart && settings.show_total_holdings && (
+          <TotalHoldings />
         )}
       </Flex>
     </React.Fragment>

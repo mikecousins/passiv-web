@@ -63,6 +63,22 @@ export const DashboardConfigPage = () => {
       });
   };
 
+  const toggleTotalHoldings = () => {
+    if (!settings) {
+      return;
+    }
+
+    let newSettings = { ...settings };
+    newSettings.show_total_holdings = !settings.show_total_holdings;
+    putData('/api/v1/settings/', newSettings)
+      .then(() => {
+        dispatch(loadSettings());
+      })
+      .catch(() => {
+        dispatch(loadSettings());
+      });
+  };
+
   const toggleContributionsChart = () => {
     if (!settings) {
       return;
@@ -99,6 +115,26 @@ export const DashboardConfigPage = () => {
     return null;
   }
 
+  const toggle2columns = () => {
+    if (!settings) {
+      return;
+    }
+
+    let newSettings = { ...settings };
+    newSettings.show_2columns_dashboard = !settings.show_2columns_dashboard;
+    putData('/api/v1/settings/', newSettings)
+      .then(() => {
+        dispatch(loadSettings());
+      })
+      .catch(() => {
+        dispatch(loadSettings());
+      });
+  };
+
+  if (!settings) {
+    return null;
+  }
+
   return (
     <React.Fragment>
       <div>
@@ -109,8 +145,8 @@ export const DashboardConfigPage = () => {
         <H1>Dashboard Configuration</H1>
         <ShadowBox>
           <Option>
-            <ToggleButton onClick={toggleTotalValueChart}>
-              {settings.show_total_value_chart ? (
+            <ToggleButton onClick={toggleTotalHoldings}>
+              {settings.show_total_holdings ? (
                 <React.Fragment>
                   <FontAwesomeIcon icon={faToggleOn} />
                   <StateText>on</StateText>
@@ -176,6 +212,23 @@ export const DashboardConfigPage = () => {
               )}
             </ToggleButton>
             <OptionsTitle>Show Contribution Bar Chart</OptionsTitle>
+          </Option>
+
+          <Option>
+            <ToggleButton onClick={toggle2columns}>
+              {settings.show_2columns_dashboard ? (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOn} />
+                  <StateText>on</StateText>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOff} />
+                  <StateText>off</StateText>
+                </React.Fragment>
+              )}
+            </ToggleButton>
+            <OptionsTitle>Display in 2 columns </OptionsTitle>
           </Option>
         </ShadowBox>
       </div>
