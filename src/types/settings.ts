@@ -25,6 +25,8 @@ export type Settings = {
   phone_number: string | null;
   show_contribution_chart: boolean;
   show_total_value_chart: boolean;
+  show_total_holdings: boolean;
   show_contributions1Y: boolean;
+  show_2columns_dashboard: boolean;
   contextual_messages: ContextualMessage[];
 };

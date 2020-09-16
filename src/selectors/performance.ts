@@ -291,6 +291,15 @@ export const selectContributions = createSelector<
   }
 });
 
+export const selectContributions1Y = createSelector<
+  AppState,
+  AppState,
+  string,
+  Contributions | undefined
+>(selectState, selectSelectedTimeframe, state => {
+  return state.performanceAll?.data?.contributions1Y;
+});
+
 export const selectContributionStreak = createSelector<
   AppState,
   AppState,
