@@ -134,7 +134,11 @@ export const selectQuestradeOfferFeature = createFeatureSelector(
   'questrade_offer',
 );
 
+export const select2FAFeature = createFeatureSelector('2fa');
+
 export const selectSMS2FAFeature = createFeatureSelector('sms_2fa');
+
+export const selectOTP2FAFeature = createFeatureSelector('otp_2fa');
 
 export const selectShowProgressFeature = createFeatureSelector(
   'onboarding_progress',
