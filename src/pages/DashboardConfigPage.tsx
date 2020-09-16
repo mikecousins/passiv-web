@@ -30,7 +30,17 @@ export const Back = styled(Link)`
 `;
 
 export const Option = styled.div`
-  margin-bottom: 12px;
+  margin: 15px 0;
+  button {
+    margin-right: 10px;
+    span {
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+  }
+  span {
+    font-weight: 500;
+  }
 `;
 
 export const DashboardConfigPage = () => {
@@ -99,7 +109,23 @@ export const DashboardConfigPage = () => {
         <H1>Dashboard Configuration</H1>
         <ShadowBox>
           <Option>
+            <ToggleButton onClick={toggleTotalValueChart}>
+              {settings.show_total_value_chart ? (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOn} />
+                  <StateText>on</StateText>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOff} />
+                  <StateText>off</StateText>
+                </React.Fragment>
+              )}
+            </ToggleButton>
             <OptionsTitle>Show Total Holdings</OptionsTitle>
+          </Option>
+
+          <Option>
             <ToggleButton onClick={toggleTotalValueChart}>
               {settings.show_total_value_chart ? (
                 <React.Fragment>
@@ -113,29 +139,10 @@ export const DashboardConfigPage = () => {
                 </React.Fragment>
               )}
             </ToggleButton>
-          </Option>
-
-          <Option>
             <OptionsTitle>Show Total Value Line Chart</OptionsTitle>
-            <ToggleButton onClick={toggleTotalValueChart}>
-              {settings.show_total_value_chart ? (
-                <React.Fragment>
-                  <FontAwesomeIcon icon={faToggleOn} />
-                  <StateText>on</StateText>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <FontAwesomeIcon icon={faToggleOff} />
-                  <StateText>off</StateText>
-                </React.Fragment>
-              )}
-            </ToggleButton>
           </Option>
 
           <Option>
-            <OptionsTitle>
-              Show Total Contributions in Last 12 Months
-            </OptionsTitle>
             <ToggleButton onClick={toggleContributionsNumber}>
               {settings.show_contributions1Y ? (
                 <React.Fragment>
@@ -149,10 +156,12 @@ export const DashboardConfigPage = () => {
                 </React.Fragment>
               )}
             </ToggleButton>
+            <OptionsTitle>
+              Show Total Contributions in Last 12 Months
+            </OptionsTitle>
           </Option>
 
           <Option>
-            <OptionsTitle>Show Contribution Bar Chart</OptionsTitle>
             <ToggleButton onClick={toggleContributionsChart}>
               {settings.show_contribution_chart ? (
                 <React.Fragment>
@@ -166,6 +175,7 @@ export const DashboardConfigPage = () => {
                 </React.Fragment>
               )}
             </ToggleButton>
+            <OptionsTitle>Show Contribution Bar Chart</OptionsTitle>
           </Option>
         </ShadowBox>
       </div>
