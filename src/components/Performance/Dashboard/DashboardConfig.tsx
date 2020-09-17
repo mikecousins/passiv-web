@@ -126,7 +126,7 @@ export const DashboardConfig = () => {
       .then(async () => {
         dispatch(loadSettings());
         if (hardReload) {
-          await sleep(100); // Very hacky way to force full reload of page with new settings
+          await sleep(200); // Very hacky way to force full reload of page with new settings
           window.location.reload(false);
         }
       })
