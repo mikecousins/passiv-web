@@ -36,12 +36,15 @@ export const DashboardPage = () => {
   }
 
   let anySetupRemaining = false;
+  let anyTargets = true;
 
   if (groups) {
     let groupsSetupStatus = groups.map(group => group.setupComplete);
     const verifyAnyFalse = (currentValue: any) => currentValue === false;
+    const verifyAnyTrue = (currentValue: any) => currentValue === true;
 
     anySetupRemaining = groupsSetupStatus.some(verifyAnyFalse);
+    anyTargets = !groupsSetupStatus.some(verifyAnyTrue);
   }
 
   return (
@@ -52,7 +55,7 @@ export const DashboardPage = () => {
         </ContextualMessageWrapper>
       )}
 
-      {selectHasQuestradeConnection && <DashboardReporting />}
+      {selectHasQuestradeConnection && !anyTargets && <DashboardReporting />}
       {!selectHasQuestradeConnection && <TotalHoldings smaller={false} />}
 
       {groupDisplay}
