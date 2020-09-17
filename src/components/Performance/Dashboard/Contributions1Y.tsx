@@ -14,7 +14,7 @@ export const ContributionsContainer = styled.div`
     padding: 10px 0;
   }
   h2 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 900;
     letter-spacing: 0.8px;
     text-align: right;
@@ -24,7 +24,7 @@ export const ContributionsContainer = styled.div`
     text-transform: uppercase;
     span {
       color: #000a12;
-      font-size: 14px;
+      font-size: 13px;
       letter-spacing: 0;
       margin-right: 5px;
     }
@@ -32,7 +32,7 @@ export const ContributionsContainer = styled.div`
 `;
 
 export const Num = styled.span`
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 500;
   letter-spacing: 0.8px;
   color: #000a12;

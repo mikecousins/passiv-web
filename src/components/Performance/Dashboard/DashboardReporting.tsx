@@ -23,6 +23,15 @@ export const LeftAlign = styled.span`
 
 export const DashboardReporting = () => {
   const settings = useSelector(selectSettings);
+  let columns = settings?.show_2columns_dashboard ? 'twoColumns' : 'oneColumn';
+  if (
+    !settings?.show_total_value_chart &&
+    !settings?.show_contributions1Y &&
+    !settings?.show_contribution_chart &&
+    settings?.show_total_holdings
+  ) {
+    columns = 'oneColumn';
+  }
 
   if (settings === null || settings === undefined) {
     return null;
@@ -30,11 +39,7 @@ export const DashboardReporting = () => {
   // Still need to add setting for showing total holdings
   return (
     <React.Fragment>
-      <Flex
-        className={
-          settings.show_2columns_dashboard ? 'twoColumns' : 'oneColumn'
-        }
-      >
+      <Flex className={columns}>
         {settings.show_contribution_chart && (
           <ShadowBox>
             {settings.show_contributions1Y && <Contributions1Y />}
@@ -48,12 +53,12 @@ export const DashboardReporting = () => {
         )}
         {settings.show_total_value_chart && (
           <ShadowBox>
-            {settings.show_total_holdings && <TotalHoldings />}
+            {settings.show_total_holdings && <TotalHoldings smaller={true} />}
             <DashboardTotalValueChart />
           </ShadowBox>
         )}
         {!settings.show_total_value_chart && settings.show_total_holdings && (
-          <TotalHoldings />
+          <TotalHoldings smaller={false} />
         )}
       </Flex>
     </React.Fragment>

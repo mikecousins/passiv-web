@@ -76,7 +76,7 @@ export const DashboardPage = () => {
       )}
 
       {selectHasQuestradeConnection && <DashboardReporting />}
-      {!selectHasQuestradeConnection && <TotalHoldings />}
+      {!selectHasQuestradeConnection && <TotalHoldings smaller={false} />}
 
       {groupDisplay}
 

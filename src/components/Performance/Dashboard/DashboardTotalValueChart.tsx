@@ -27,7 +27,7 @@ export const DashboardTotalValueChart = () => {
 
   const axes = React.useMemo(
     () => [
-      { primary: true, type: 'time', position: 'bottom', show: false },
+      { primary: true, type: 'time', position: 'bottom' },
       { type: 'linear', position: 'left', show: false },
     ],
     [],
