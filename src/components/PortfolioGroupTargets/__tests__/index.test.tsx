@@ -27,7 +27,10 @@ const renderWithRedux = (ui: JSX.Element, initialState: object) => {
 };
 
 test('PortfolioGroupTargets renders without issue', () => {
-  const { getByText } = renderWithRedux(<PortfolioGroupTargets />, {});
+  const { getByText } = renderWithRedux(
+    <PortfolioGroupTargets error={null} />,
+    {},
+  );
 
   expect(getByText('Target Portfolio')).toBeTruthy();
 });
