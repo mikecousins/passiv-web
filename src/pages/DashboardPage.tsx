@@ -12,6 +12,8 @@ import HelpLinks from '../components/Dashboard/HelpLinks';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
 import WelcomeVideo from '../components/WelcomeVideo/WelcomeVideo';
 import { ContextualMessageWrapper } from '../components/ContextualMessageWrapper';
+import { selectHasQuestradeConnection } from '../selectors';
+import TotalHoldings from '../components/TotalHoldings';
 
 export const CustomizeDashBtn = styled.div`
   margin-bottom: 12px;
@@ -73,7 +75,8 @@ export const DashboardPage = () => {
         </ContextualMessageWrapper>
       )}
 
-      <DashboardReporting />
+      {selectHasQuestradeConnection && <DashboardReporting />}
+      {!selectHasQuestradeConnection && <TotalHoldings />}
 
       {groupDisplay}
 
