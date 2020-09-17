@@ -3,17 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faToggleOn,
-  faToggleOff,
-  faChevronLeft,
-} from '@fortawesome/free-solid-svg-icons';
-import { ToggleButton, StateText } from '../styled/ToggleButton';
-import { OptionsTitle, H1 } from '../styled/GlobalElements';
-import { selectSettings } from '../selectors';
-import { putData } from '../api';
-import { loadSettings } from '../actions';
-import ShadowBox from '../styled/ShadowBox';
+import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
+import { ToggleButton, StateText } from '../../../styled/ToggleButton';
+import { OptionsTitle } from '../../../styled/GlobalElements';
+import { selectSettings } from '../../../selectors';
+import { putData } from '../../../api';
+import { loadSettings } from '../../../actions';
+import ShadowBox from '../../../styled/ShadowBox';
 
 export const Back = styled(Link)`
   margin-bottom: 12px;
@@ -43,7 +39,7 @@ export const Option = styled.div`
   }
 `;
 
-export const DashboardConfigPage = () => {
+export const DashboardConfig = () => {
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
 
@@ -114,17 +110,25 @@ export const DashboardConfigPage = () => {
   if (!settings) {
     return null;
   }
+  function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
   const toggle2columns = () => {
     if (!settings) {
       return;
     }
+    const hardReload = !settings.show_2columns_dashboard;
 
     let newSettings = { ...settings };
     newSettings.show_2columns_dashboard = !settings.show_2columns_dashboard;
     putData('/api/v1/settings/', newSettings)
-      .then(() => {
+      .then(async () => {
         dispatch(loadSettings());
+        if (hardReload) {
+          await sleep(100); // Very hacky way to force full reload of page with new settings
+          window.location.reload(false);
+        }
       })
       .catch(() => {
         dispatch(loadSettings());
@@ -138,11 +142,6 @@ export const DashboardConfigPage = () => {
   return (
     <React.Fragment>
       <div>
-        <Back to="/app/dashboard">
-          <FontAwesomeIcon icon={faChevronLeft} />
-          Back to Dashboard
-        </Back>
-        <H1>Dashboard Configuration</H1>
         <ShadowBox>
           <Option>
             <ToggleButton onClick={toggleTotalHoldings}>
@@ -236,4 +235,4 @@ export const DashboardConfigPage = () => {
   );
 };
 
-export default DashboardConfigPage;
+export default DashboardConfig;
