@@ -14,7 +14,7 @@ export const ContributionsContainer = styled.div`
     padding: 10px 0;
   }
   &.smaller {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     padding: 10px 0 5px;
   }
   h2 {
