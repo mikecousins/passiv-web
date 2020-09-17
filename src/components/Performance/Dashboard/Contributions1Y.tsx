@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -12,6 +12,10 @@ export const ContributionsContainer = styled.div`
   padding: 10px 0 20px;
   @media (max-width: 900px) {
     padding: 10px 0;
+  }
+  &.smaller {
+    margin-bottom: 5px;
+    padding: 10px 0 5px;
   }
   h2 {
     font-size: 16px;
@@ -32,13 +36,16 @@ export const ContributionsContainer = styled.div`
 `;
 
 export const Num = styled.span`
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 500;
   letter-spacing: 0.8px;
   color: #000a12;
+  &.smaller {
+    font-size: 32px;
+  }
 `;
 
-export const Contributions1Y = () => {
+export const Contributions1Y: FunctionComponent<Props> = ({ smaller }) => {
   const contributions1Y = useSelector(selectContributions1Y);
   let displayContributions = <FontAwesomeIcon icon={faSpinner} spin />;
   if (contributions1Y !== null && contributions1Y !== undefined) {
@@ -47,13 +54,19 @@ export const Contributions1Y = () => {
     );
   }
   return (
-    <ContributionsContainer>
+    <ContributionsContainer className={smaller ? 'smaller' : 'normal'}>
       <h2>
         <span>Last 12 Months </span> Contributions
       </h2>
-      <Num>{displayContributions}</Num>
+      <Num className={smaller ? 'smaller' : 'normal'}>
+        {displayContributions}
+      </Num>
     </ContributionsContainer>
   );
+};
+Contributions1Y.defaultProps = { smaller: false };
+type Props = {
+  smaller: boolean;
 };
 
 export default Contributions1Y;

@@ -17,6 +17,10 @@ export const TotalContainer = styled.div`
   @media (max-width: 900px) {
     padding: 10px 0;
   }
+  &.smaller {
+    margin-bottom: 5px;
+    padding: 10px 0 5px;
+  }
 `;
 
 export const Span = styled.span`
@@ -37,12 +41,9 @@ export const H2 = styled.span`
   display: block;
   margin-bottom: 12px;
   text-transform: uppercase;
-  &.smaller {
-  }
 `;
 
 export const TotalHoldings: FunctionComponent<Props> = ({ smaller }) => {
-  console.log('smaller');
   const totalHoldings = useSelector(selectTotalGroupHoldings);
   const settings = useSelector(selectSettings);
   const currencies = useSelector(selectCurrencies);
@@ -52,7 +53,7 @@ export const TotalHoldings: FunctionComponent<Props> = ({ smaller }) => {
     displayTotal = <Number value={totalHoldings} currency />;
   }
   return (
-    <TotalContainer>
+    <TotalContainer className={smaller ? 'smaller' : 'normal'}>
       <H2 className={smaller ? 'smaller' : 'normal'}>Total Holdings</H2>
       <Span className={smaller ? 'smaller' : 'normal'}>{displayTotal}</Span>
       {settings && (

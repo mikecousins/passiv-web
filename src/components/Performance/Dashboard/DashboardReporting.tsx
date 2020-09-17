@@ -62,13 +62,15 @@ export const DashboardReporting = () => {
       <Flex className={columns}>
         {settings.show_contribution_chart && (
           <ShadowBox>
-            {settings.show_contributions1Y && <Contributions1Y />}
+            {settings.show_contributions1Y && (
+              <Contributions1Y smaller={true} />
+            )}
             <DashboardContributionChart />
           </ShadowBox>
         )}
         {!settings.show_contribution_chart && settings.show_contributions1Y && (
           <LeftAlign>
-            <Contributions1Y />
+            <Contributions1Y smaller={false} />
           </LeftAlign>
         )}
         {settings.show_total_value_chart && (
