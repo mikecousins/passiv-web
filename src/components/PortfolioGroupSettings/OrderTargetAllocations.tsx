@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
 import { Formik, Field } from 'formik';
 import { Form } from '../../styled/Form';
-import { H3, P } from '../../styled/GlobalElements';
+import { H3 } from '../../styled/GlobalElements';
 
 import {
   selectCurrentGroupSettings,
@@ -86,7 +86,7 @@ const OrderTargetAllocations = ({ edit }: Props) => {
   return (
     <React.Fragment>
       <InlineDiv>
-        <H3> Order Targets</H3>
+        <H3>Order Targets</H3>
         <Formik
           initialValues={{
             orderBy: settings ? settings.order_targets_by : 0,
