@@ -62,6 +62,7 @@ const SideBar = () => {
   const performancePageFeatureActive = useSelector(
     selectPerformancePageFeature,
   );
+  const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
 
   let groupList: JSX.Element | JSX.Element[] = (
     <FontAwesomeIcon icon={faSpinner} spin />
@@ -104,7 +105,7 @@ const SideBar = () => {
           {groups && groups.length > 0 && (
             <GroupContainer>{groupList}</GroupContainer>
           )}
-          {performancePageFeatureActive && selectHasQuestradeConnection && (
+          {performancePageFeatureActive && hasQuestradeConnection && (
             <SideBarLink
               name="Reporting"
               linkPath="/app/reporting"

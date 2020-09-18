@@ -16,6 +16,7 @@ import TotalHoldings from '../components/TotalHoldings';
 export const DashboardPage = () => {
   const authorized = useSelector(selectIsAuthorized);
   const groups = useSelector(selectDashboardGroups);
+  const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
 
   if (authorized === undefined) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
@@ -55,8 +56,8 @@ export const DashboardPage = () => {
         </ContextualMessageWrapper>
       )}
 
-      {selectHasQuestradeConnection && !anyTargets && <DashboardReporting />}
-      {!selectHasQuestradeConnection && <TotalHoldings smaller={false} />}
+      {hasQuestradeConnection && !anyTargets && <DashboardReporting />}
+      {!hasQuestradeConnection && <TotalHoldings smaller={false} />}
 
       {groupDisplay}
 
