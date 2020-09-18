@@ -9,7 +9,11 @@ import { useSelector } from 'react-redux';
 import { selectSettings } from '../../../selectors';
 import ShadowBox from '../../../styled/ShadowBox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCogs } from '@fortawesome/free-solid-svg-icons';
+import { faCogs, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { selectSelectedAccounts } from '../../../selectors/performance';
+import { Link } from 'react-router-dom';
+import { selectAccounts } from '../../../selectors/accounts';
+import Tooltip from '@reach/tooltip';
 
 export const Flex = styled.div`
   &.twoColumns {
@@ -35,9 +39,38 @@ export const CustomizeDashBtn = styled.div`
     color: #033ebc;
   }
 `;
+export const FilteredLabel = styled.span`
+  cursor: pointer;
+`;
+export const AccountFilterNote = styled.span`
+  margin-bottom: 5px; // Doesn't seem to be working
+`;
 
 export const DashboardReporting = () => {
   const settings = useSelector(selectSettings);
+  const selectedAccounts: any[] = useSelector(selectSelectedAccounts);
+  const accounts = useSelector(selectAccounts);
+  let showAccountFilterLabel = false;
+  const [
+    showAccountFilterMoreDetails,
+    setShowAccountFilterMoreDetails,
+  ] = useState(false);
+  let accountFilterString = '';
+
+  if (
+    selectedAccounts !== undefined &&
+    selectedAccounts !== null &&
+    selectedAccounts.length > 0 &&
+    selectedAccounts.length !==
+      accounts.filter(a => a.institution_name === 'Questrade').length
+  ) {
+    showAccountFilterLabel = true;
+    selectedAccounts.forEach(a => (accountFilterString += a.label + ', '));
+    accountFilterString = accountFilterString.slice(
+      0,
+      accountFilterString.length - 2,
+    );
+  }
   const [configMode, setConfigMode] = useState(false);
   let columns = settings?.show_2columns_dashboard ? 'twoColumns' : 'oneColumn';
   if (
@@ -52,12 +85,30 @@ export const DashboardReporting = () => {
   if (settings === null || settings === undefined) {
     return null;
   }
-  // Still need to add setting for showing total holdings
+
   return (
     <React.Fragment>
       <CustomizeDashBtn onClick={() => setConfigMode(!configMode)}>
         <FontAwesomeIcon icon={faCogs} /> Customize Dashboard
       </CustomizeDashBtn>
+      {showAccountFilterLabel && (
+        <Tooltip label="Click for more details">
+          <FilteredLabel
+            onClick={() =>
+              setShowAccountFilterMoreDetails(!showAccountFilterMoreDetails)
+            }
+          >
+            Filtered{' '}
+            <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 12 }} />
+          </FilteredLabel>
+        </Tooltip>
+      )}
+      {showAccountFilterMoreDetails && (
+        <AccountFilterNote>
+          Certain data below may have been filtered to: {accountFilterString}.
+          Change filter on <Link to="/app/reporting">reporting page</Link>
+        </AccountFilterNote>
+      )}
       {configMode && <DashboardConfig />}
       <Flex className={columns}>
         {settings.show_contribution_chart && (
