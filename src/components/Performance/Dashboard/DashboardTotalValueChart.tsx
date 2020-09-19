@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectTotalEquityTimeframe } from '../../../selectors/performance';
+import { selectPerformanceAll } from '../../../selectors/performance';
 import DashboardChart from './DashboardChart';
 
 export const DashboardTotalValueChart = () => {
-  const totalEquityData = useSelector(selectTotalEquityTimeframe);
+  const performanceAll = useSelector(selectPerformanceAll);
+  const totalEquityData = performanceAll.data?.totalEquityTimeframe1Y;
 
   const data = React.useMemo(
     () => [

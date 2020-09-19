@@ -1,15 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import {
-  selectContributionTimeframe,
-  selectWithdrawalTimeframe,
-} from '../../../selectors/performance';
+import { selectPerformanceAll } from '../../../selectors/performance';
 import { parseDate, formatDate } from '../PerformanceContributionChart';
 import DashboardChart from './DashboardChart';
 
 export const DashboardContributionChart = () => {
-  const contributionData = useSelector(selectContributionTimeframe);
-  const withdrawalData = useSelector(selectWithdrawalTimeframe);
+  const performanceAll = useSelector(selectPerformanceAll);
+  const contributionData = performanceAll.data?.contributionTimeframe1Y;
+  const withdrawalData = performanceAll.data?.withdrawalTimeframe1Y;
   const timeframe = '1Y';
 
   let data = React.useMemo(
