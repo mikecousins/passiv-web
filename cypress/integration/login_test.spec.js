@@ -1,4 +1,4 @@
-describe('Pass', () => {
+describe('Login individual component test', () => {
     beforeEach( () => {  
         cy.visit('/app/login')
     })
@@ -20,13 +20,15 @@ describe('Pass', () => {
       
       })
     
-    it('accepts input password', () => {
-    const typedtext2 = 'Mancity2021Champs'
-    cy.get('[name=password')
-    .type(typedtext2)   
-    .should('have.value', typedtext2)
+ 
 
     // Verify the sign in button is disabled without email //
+    it('accepts input password', () => {
+      const typedtext2 = 'Mancity2021Champs'
+      cy.get('[name=password')
+      .type(typedtext2)   
+      .should('have.value', typedtext2)
+
     cy.get('[data-cy=login-button]').should('be.disabled')
       
     })
@@ -45,5 +47,5 @@ describe('Pass', () => {
     cy.get('[data-cy=login-button]').should('not.be.disabled')
     
         })
-     
+
 });
