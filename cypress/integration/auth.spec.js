@@ -1,36 +1,35 @@
-const { MenuLink } = require("@reach/menu-button");
 
-describe('Auth', () => {
-  it('login page loads', () => {
-    cy.visit('/app/login');
-    cy.get('[data-cy=login-button]').click();
+describe('Login Page Test', () => {
+  const email = ' '
+  const pass = ' '
+  beforeEach(() => {
+      cy.server()
+      cy.visit('/app/login')
   })
 
-  it.only('accepts input email', () => {
-    const typedtext = 'a.suds@unb.ca'
-    cy.visit('/app/login')
-    cy.get('[name=email]')
-      .type(typedtext)
-      .should('have.value', typedtext)
+  it('has the entry fields', () => {
   
-  // Verify that the signin button disabled with email //
-    cy.get('[data-cy=login-button]').click()
-    
-  
+      cy.contains('Email')
+      cy.contains('Password')
+
   })
 
-  it.only('accepts input password', () => {
-    const typedtext2 = 'Mancity2021Champs'
-    cy.visit('/app/login')
-    cy.get('[name=password')
-    .type(typedtext2)
-    .should('have.value', typedtext2)
+  it('test input of email and password', () => {
+      cy.route({
+          method: 'POST',
+          url:'/api/v1/auth/login',
+          status:400,
+          response:{"non_field_errors":["Unable to log in with provided credentials."]}
 
-  // Verify the sign in button is disabled without email //
-    cy.get('[data-cy=login-button]').click()
-  
+      })
+
+
+
+      cy.get('input[name=email]').type(email)
+      cy.get('input[name=password').type(pass)
+      cy.get('[data-cy=login-button]').click
+
   })
-
 
 });
 
