@@ -81,6 +81,7 @@ export type Settings = {
   drift_threshold: number;
   preferred_currency: string;
   target_initialized: boolean;
+  order_targets_by: number;
 };
 
 export type Error = {

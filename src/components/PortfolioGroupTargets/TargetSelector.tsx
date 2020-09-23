@@ -377,10 +377,17 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                             props.setFieldTouched(
                               `targets.${index}.percent` as 'targets',
                             );
-                            props.setFieldValue(
-                              `targets.${index}.percent` as 'targets',
-                              0,
-                            );
+                            if (target.is_excluded) {
+                              props.setFieldValue(
+                                `targets.${index}.percent` as 'targets',
+                                null,
+                              );
+                            } else {
+                              props.setFieldValue(
+                                `targets.${index}.percent` as 'targets',
+                                0,
+                              );
+                            }
                           }}
                         >
                           <input

@@ -4,7 +4,7 @@ import reduxThunk, { ThunkMiddleware } from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { routerMiddleware } from 'connected-react-router';
 import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import sessionStorage from 'redux-persist/lib/storage/session';
 import { responsiveStoreEnhancer } from 'redux-responsive';
 import createRootReducer from '../reducers';
 import apiMiddleware from '../middleware/api';
@@ -15,7 +15,7 @@ const defaultState = {};
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: sessionStorage,
   blacklist: ['appTime', 'router', 'browser', 'updateServiceWorker', 'online'],
 };
 

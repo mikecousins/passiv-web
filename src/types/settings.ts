@@ -26,6 +26,8 @@ export type Settings = {
   otp_2fa_enabled: boolean;
   show_contribution_chart: boolean;
   show_total_value_chart: boolean;
+  show_total_holdings: boolean;
   show_contributions1Y: boolean;
+  show_2columns_dashboard: boolean;
   contextual_messages: ContextualMessage[];
 };

@@ -246,7 +246,6 @@ const Accounts = () => {
                                   dispatch(loadGroups());
                                 });
                             }}
-                            disabled={!canCrossAccountBalance}
                           >
                             <FontAwesomeIcon icon={faTrashAlt} />
                             Delete

@@ -5,9 +5,9 @@ import {
   faSpinner,
   faFireAlt,
   faQuestionCircle,
+  faCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
-import { SubHeader } from './Performance';
 import {
   selectContributionStreak,
   selectContributionMonthsContributed,
@@ -18,6 +18,23 @@ import Tooltip from '../Tooltip';
 const ContributionStreak = styled.div`
   font-size: 17px;
   color: #504d4dd9;
+`;
+const ContributionPercent = styled.span`
+  color: ${'#04a286'};
+`;
+const SubHeader = styled.span`
+  font-size: 18px;
+  text-align: center;
+`;
+const Br = styled.span`
+  display: block;
+  margin: -10px;
+`;
+
+const StreakDots = styled.span`
+  vertical-align: middle;
+  display: inline-block;
+  font-size: 9px;
 `;
 
 export const PerformanceContributionStreak = () => {
@@ -30,6 +47,7 @@ export const PerformanceContributionStreak = () => {
   const contributionMonthsTotal: number | undefined = useSelector(
     selectContributionMonthsTotal,
   );
+  let streakDots = [];
 
   let contributionStreakString = 'loading...';
   if (contributionStreak !== null && contributionStreak !== undefined) {
@@ -40,9 +58,19 @@ export const PerformanceContributionStreak = () => {
     } else {
       contributionStreakString = '0 Months ';
     }
+    for (let i = 0; i < contributionStreak; i++) {
+      streakDots.push(
+        <FontAwesomeIcon
+          icon={faCircle}
+          color="#04a286"
+          style={{ padding: 1 }}
+        />,
+      );
+    }
   }
 
   let contributionMonthsString = 'loading...';
+  let contributionPercentString = '';
   if (
     contributionMonthsContributed !== null &&
     contributionMonthsContributed !== undefined &&
@@ -54,7 +82,13 @@ export const PerformanceContributionStreak = () => {
       contributionMonthsContributed +
       '/' +
       contributionMonthsTotal +
-      ' Months';
+      ' Months ';
+    contributionPercentString =
+      '(' +
+      ((100 * contributionMonthsContributed) / contributionMonthsTotal).toFixed(
+        0,
+      ) +
+      '%)';
   }
 
   if (contributionStreakString === 'loading...') {
@@ -75,7 +109,8 @@ export const PerformanceContributionStreak = () => {
             <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 12 }} />
           </SubHeader>
         </Tooltip>
-
+        <Br />
+        <StreakDots>{streakDots}</StreakDots>
         <ContributionStreak>
           <Tooltip label="Number of months you've consecutively contributed to your accounts">
             <span>
@@ -89,7 +124,12 @@ export const PerformanceContributionStreak = () => {
           </Tooltip>
           <br />
           <Tooltip label="Number of months you've made contributions in the selected timeframe">
-            <span>{contributionMonthsString}</span>
+            <span>
+              {contributionMonthsString}
+              <ContributionPercent>
+                {contributionPercentString}
+              </ContributionPercent>
+            </span>
           </Tooltip>
         </ContributionStreak>
       </div>
