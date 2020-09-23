@@ -5,6 +5,7 @@ import {
   faSpinner,
   faClipboard,
   faClipboardCheck,
+  faQrcode,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   selectIsDemo,
@@ -28,6 +29,8 @@ import {
   ChoiceBox,
 } from '../../styled/TwoFAManager';
 
+var QRCode = require('qrcode.react');
+
 const SecretBox = styled.div`
   padding-top: 20px;
   width: 100%;
@@ -43,6 +46,16 @@ const IconBox = styled.div`
   padding-top: 5px;
   margin-right: 20px;
   margin-left: 10px;
+`;
+
+const QRCodeBox = styled.div`
+  margin: auto;
+  margin-bottom: 20px;
+  max-width: 200px;
+  width: 100%;
+  svg {
+    width: 100%;
+  }
 `;
 
 const ReadOnlyInput = styled(InputTarget)`
@@ -69,12 +82,19 @@ const OTP2FAManager = () => {
   const [error2FA, setError2FA] = useState();
   const [loading2FA, setLoading2FA] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [showQR, setShowQR] = useState(false);
 
   // const startEditing2FA = () => {
   //   setEditing2FA(true);
   //
   //   setError2FA(null);
   // };
+
+  const toggleShowQR = () => {
+    setShowQR(!showQR);
+  };
+
+  console.log('showQR', showQR);
 
   const cancelEditing2FA = () => {
     setEditing2FA(false);
@@ -100,8 +120,6 @@ const OTP2FAManager = () => {
         setLoading2FA(false);
       });
   };
-
-  console.log('secret2FA', secret2FA);
 
   const submitCode = () => {
     setLoading2FA(true);
@@ -187,6 +205,15 @@ const OTP2FAManager = () => {
           <React.Fragment>
             <P>Copy the following code into your authenticator app:</P>
             <SecretBox>
+              <IconBox>
+                <IconButton
+                  onClick={() => {
+                    toggleShowQR();
+                  }}
+                >
+                  <FontAwesomeIcon icon={faQrcode} />
+                </IconButton>
+              </IconBox>
               <InputBox>
                 <ReadOnlyInput value={secret2FA} readOnly={true} />
               </InputBox>
@@ -209,6 +236,17 @@ const OTP2FAManager = () => {
                 </CopyToClipboard>
               </IconBox>
             </SecretBox>
+            {showQR && (
+              <SecretBox>
+                <QRCodeBox>
+                  <QRCode
+                    value={`otpauth://totp/Passiv?secret=${secret2FA}`}
+                    renderAs={'svg'}
+                    size={256}
+                  />
+                </QRCodeBox>
+              </SecretBox>
+            )}
             <P>
               Now enter the 6-digit code provided by your authenticator app to
               finalize the activation of 2FA on your account.
