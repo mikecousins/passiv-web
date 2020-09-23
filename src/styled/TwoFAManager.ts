@@ -39,3 +39,9 @@ export const Disabled2FABadge = styled(Badge2FA)`
 export const ErrorMessage = styled(ShadowBox)`
   background-color: orange;
 `;
+
+export const ChoiceBox = styled.div`
+  padding-left: 20px;
+  padding-top: 15px;
+  padding-bottom: 5px;
+`;

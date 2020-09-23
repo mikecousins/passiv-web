@@ -190,3 +190,11 @@ export const TruncatedText = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
+
+export const BorderContainer = styled.div`
+  padding-top: 15px;
+  margin-top: 6px;
+  padding-bottom: 5px;
+  font-size: 18px;
+  border-top: 1px solid #e8e8e8;
+`;

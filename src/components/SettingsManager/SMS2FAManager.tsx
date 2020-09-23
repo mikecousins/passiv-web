@@ -5,33 +5,27 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import {
   selectIsDemo,
   selectPhoneNumber,
-  select2FAEnabled,
+  selectSMS2FAEnabled,
   selectSMS2FAFeature,
 } from '../../selectors';
-import {
-  Edit,
-  Span,
-  OptionsTitle,
-  P,
-  DisabledBox,
-} from '../../styled/GlobalElements';
+import { Edit, Span, OptionsTitle, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 
 import { loadSettings } from '../../actions';
 import { postData, deleteData } from '../../api';
 
 import {
-  InputContainer,
   MiniInputNonFormik,
   Active2FABadge,
   Disabled2FABadge,
   ErrorMessage,
+  ChoiceBox,
 } from '../../styled/TwoFAManager';
 
 const SMS2FAManager = () => {
   const isDemo = useSelector(selectIsDemo);
   const SMS2FAFeatureEnabled = useSelector(selectSMS2FAFeature);
-  const is2FAEnabled = useSelector(select2FAEnabled);
+  const is2FAEnabled = useSelector(selectSMS2FAEnabled);
   const phoneNumber = useSelector(selectPhoneNumber);
   const dispatch = useDispatch();
 
@@ -138,10 +132,6 @@ const SMS2FAManager = () => {
           >
             Enable
           </Edit>
-          <DisabledBox>
-            Protect your account by enabling 2-factor authentication with your
-            phone.
-          </DisabledBox>
         </React.Fragment>
       );
     } else {
@@ -204,13 +194,13 @@ const SMS2FAManager = () => {
   }
 
   return (
-    <React.Fragment>
+    <ChoiceBox>
       {SMS2FAFeatureEnabled && (
-        <InputContainer>
-          <OptionsTitle>SMS 2FA:</OptionsTitle> {sms_2fa}
-        </InputContainer>
+        <React.Fragment>
+          <OptionsTitle>SMS Messaging:</OptionsTitle> {sms_2fa}
+        </React.Fragment>
       )}
-    </React.Fragment>
+    </ChoiceBox>
   );
 };
 

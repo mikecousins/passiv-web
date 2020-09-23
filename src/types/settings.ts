@@ -23,6 +23,7 @@ export type Settings = {
   referral_currency: Currency;
   sms_2fa_enabled: boolean;
   phone_number: string | null;
+  otp_2fa_enabled: boolean;
   show_contribution_chart: boolean;
   show_total_value_chart: boolean;
   show_contributions1Y: boolean;

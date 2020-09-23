@@ -2,18 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
-import {
-  selectSettings,
-  selectIsDemo
-} from '../../selectors';
+import { selectSettings, selectIsDemo } from '../../selectors';
 import { loadSettings } from '../../actions';
 import { postData, putData } from '../../api';
 
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../../styled/Form';
-import { H2, Edit, Span, A, OptionsTitle } from '../../styled/GlobalElements';
+import {
+  H2,
+  Edit,
+  Span,
+  A,
+  OptionsTitle,
+  BorderContainer,
+} from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
+import TwoFAManager from './TwoFAManager';
 
 const InputContainer = styled.div`
   padding-top: 10px;
@@ -92,7 +97,6 @@ const CredentialsManager = () => {
     setPasswordResetSent(false);
   };
 
-
   return (
     <ShadowBox>
       <H2>Passiv Credentials</H2>
@@ -114,10 +118,7 @@ const CredentialsManager = () => {
         <InputContainer>
           <OptionsTitle>Name:</OptionsTitle>{' '}
           {name === null ? '[no name set]' : name}
-          <Edit
-            onClick={() => !isDemo && startEditingName()}
-            disabled={isDemo}
-          >
+          <Edit onClick={() => !isDemo && startEditingName()} disabled={isDemo}>
             <FontAwesomeIcon icon={faPen} />
             Edit
           </Edit>
@@ -134,11 +135,12 @@ const CredentialsManager = () => {
             <Edit onClick={sendPasswordResetOkay}>Okay</Edit>
           </React.Fragment>
         ) : (
-          <A onClick={() => !isDemo && sendPasswordReset()}>
-            Change Password
-          </A>
+          <A onClick={() => !isDemo && sendPasswordReset()}>Change Password</A>
         )}
       </PasswordContainer>
+      <BorderContainer>
+        <TwoFAManager />
+      </BorderContainer>
     </ShadowBox>
   );
 };

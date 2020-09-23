@@ -198,9 +198,15 @@ export const selectContextualMessages = createSelector(
   },
 );
 
-export const select2FAEnabled = createSelector(selectSettings, settings => {
+export const selectSMS2FAEnabled = createSelector(selectSettings, settings => {
   if (settings) {
     return settings.sms_2fa_enabled;
+  }
+});
+
+export const selectOTP2FAEnabled = createSelector(selectSettings, settings => {
+  if (settings) {
+    return settings.otp_2fa_enabled;
   }
 });
 
