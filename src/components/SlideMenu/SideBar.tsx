@@ -112,6 +112,9 @@ const SideBar = () => {
               beta={true}
             />
           )}
+          {performancePageFeatureActive && hasQuestradeConnection && (
+            <SideBarLink name="Goals" linkPath="/app/goals" beta={true} />
+          )}
           <SideBarLink name="Refer a Friend" linkPath="/app/referrals" />
           <SideBarLink name="Settings" linkPath="/app/settings" />
         </StyledAside>

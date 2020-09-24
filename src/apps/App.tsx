@@ -16,6 +16,7 @@ import { selectQueryTokens } from '../selectors/router';
 import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import GoalsPage from '../pages/GoalsPage';
 
 // code splitting to lazy load our pages
 const LoginPage = React.lazy(() =>
@@ -314,6 +315,9 @@ const App = () => {
                 path={prefixPath('/reporting')}
                 component={PerformancePage}
               />
+            )}
+            {showSecureApp && (
+              <Route path={prefixPath('/goals')} component={GoalsPage} />
             )}
             {showSecureApp && (
               <Route path={prefixPath('/performance')}>
