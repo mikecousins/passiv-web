@@ -39,7 +39,7 @@ const PortfolioGroupButtons = ({
   return <div>{buttons}</div>;
 };
 
-export const GoalNaming = ({ setCurrentStep, setGoalName }: any) => {
+export const GoalNaming = ({ setCurrentStep, setGoalName, goalName }: any) => {
   const handleChange = (e: any) => {
     setGoalName(e.target.value);
   };
@@ -47,7 +47,8 @@ export const GoalNaming = ({ setCurrentStep, setGoalName }: any) => {
   return (
     <React.Fragment>
       <div>
-        Name your goal: <input type="text" onChange={handleChange} />
+        Name your goal:{' '}
+        <input type="text" onChange={handleChange} value={goalName} />
       </div>
 
       <Button onClick={() => setCurrentStep('portfolioGroups')}>Next</Button>
@@ -88,11 +89,24 @@ export const SetGoals = ({
     <div>
       <div>
         Investment Goal:{' '}
-        <input type="text" onChange={handleTotalTargetChange} />
+        <input type="number" min={0} onChange={handleTotalTargetChange} />
       </div>
       <div>
         Target Monthly Contributions:{' '}
-        <input type="text" onChange={handleMonthlyContributionChange} />
+        <input
+          type="number"
+          min={0}
+          onChange={handleMonthlyContributionChange}
+        />
+      </div>
+      <div>
+        To Reach this Goal, I want to Contribute:{' '}
+        <select>
+          <option value="biweekly">Biweekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="monthly">Bimonthly</option>
+          <option value="none">Whenever I can</option>
+        </select>
       </div>
       <Button onClick={() => finishSetup()}>Finish</Button>
     </div>
@@ -115,7 +129,11 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   return (
     <React.Fragment>
       {currentStep === 'naming' && (
-        <GoalNaming setCurrentStep={setCurrentStep} setGoalName={setGoalName} />
+        <GoalNaming
+          setCurrentStep={setCurrentStep}
+          setGoalName={setGoalName}
+          goalName={goalName}
+        />
       )}
       {currentStep === 'portfolioGroups' && (
         <SelectPortfolioGroups
@@ -135,6 +153,8 @@ export const GoalSetup = ({ setGoalMode }: any) => {
       <br />
       <br />
       <br />
+      <br />
+      Debugging stuff:
       <br />
       Goal Name: {goalName}
       <br />

@@ -25,9 +25,11 @@ export const Goals = () => {
 
   return (
     <React.Fragment>
-      <AddGoalButton onClick={() => setCurrentMode('add')}>
-        Add Goal +{' '}
-      </AddGoalButton>
+      {currentMode === 'view' && (
+        <AddGoalButton onClick={() => setCurrentMode('add')}>
+          Add Goal +{' '}
+        </AddGoalButton>
+      )}
       {currentMode === 'add' && <GoalSetup setGoalMode={setCurrentMode} />}
       {currentMode === 'view' && <div>View Mode</div>}
 
