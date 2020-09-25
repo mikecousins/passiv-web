@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectGroups } from '../../selectors/groups';
-import { getData, postData } from '../../api';
+// import { getData, postData } from '../../api';
 
 const Button = styled.button`
   background: #03846d;
@@ -78,33 +78,59 @@ export const SetGoals = ({
   setMonthlyContributionTarget,
   setTotalValueTarget,
 }: any) => {
+  const [investmentChecked, setInvestmentChecked] = useState(true);
+  const [contributionChecked, setContributionChecked] = useState(true);
   const handleTotalTargetChange = (e: any) => {
     setTotalValueTarget(e.target.value);
   };
   const handleMonthlyContributionChange = (e: any) => {
     setMonthlyContributionTarget(e.target.value);
   };
+  const handleInvestmentCheck = () => {
+    setInvestmentChecked(!investmentChecked);
+  };
+  const handleContributionCheck = (e: any) => {
+    setContributionChecked(!contributionChecked);
+  };
 
   return (
     <div>
       <div>
+        <input
+          type="checkbox"
+          checked={investmentChecked}
+          onClick={handleInvestmentCheck}
+        />{' '}
         Investment Goal:{' '}
-        <input type="number" min={0} onChange={handleTotalTargetChange} />
+        <input
+          type="number"
+          min={0}
+          onChange={handleTotalTargetChange}
+          disabled={!investmentChecked}
+        />
       </div>
       <div>
+        <input
+          type="checkbox"
+          checked={contributionChecked}
+          onClick={handleContributionCheck}
+        />{' '}
         Target Monthly Contributions:{' '}
         <input
           type="number"
           min={0}
           onChange={handleMonthlyContributionChange}
+          disabled={!contributionChecked}
         />
       </div>
       <div>
         To Reach this Goal, I want to Contribute:{' '}
-        <select>
+        <select disabled={!contributionChecked}>
           <option value="biweekly">Biweekly</option>
           <option value="monthly">Monthly</option>
           <option value="monthly">Bimonthly</option>
+          <option value="monthly">Semiannually</option>
+          <option value="monthly">Annually</option>
           <option value="none">Whenever I can</option>
         </select>
       </div>

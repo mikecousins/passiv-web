@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { P, A } from '../../styled/GlobalElements';
 import GoalSetup from './GoalSetup';
 
