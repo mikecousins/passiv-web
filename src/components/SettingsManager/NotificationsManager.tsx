@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import CashNotifcationSettings from './CashNotificationSettings';
+import CashNotificationSettings from './CashNotificationSettings';
 import DriftNotifcationSettings from './DriftNotificationSettings';
 import NewSymbolNotificationSettings from './NewSymbolNotificationSettings';
 import { H2 } from '../../styled/GlobalElements';
@@ -23,7 +23,7 @@ const NotificationsManager = () => (
   <ShadowBox>
     <H2>Notifications</H2>
     <InputContainer>
-      <CashNotifcationSettings />
+      <CashNotificationSettings />
     </InputContainer>
     <InputContainer>
       <NewSymbolNotificationSettings />
