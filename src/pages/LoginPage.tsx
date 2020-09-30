@@ -8,6 +8,7 @@ import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
+import PasswordField from '../components/PasswordField';
 
 const LoginPage = () => {
   const [stateMFA, setStateMFA] = useState<any>(null);
@@ -56,12 +57,10 @@ const LoginPage = () => {
             <ErrorMessage name="email" />
           </P>
           <Label>Password</Label>
-          <Input
+          <PasswordField
             error={props.touched.password && props.errors.password}
-            type="password"
-            name="password"
-            placeholder="Password"
           />
+
           <P>
             <ErrorMessage name="password" />
           </P>
@@ -109,7 +108,12 @@ const LoginPage = () => {
         render={props => (
           <Form onSubmit={props.handleSubmit}>
             <Label htmlFor="token">Verification Code</Label>
-            <Input name="token" placeholder="Code" autoFocus />
+            <Input
+              name="token"
+              placeholder="Code"
+              autocomplete="one-time-code"
+              autoFocus
+            />
 
             <P>
               <ErrorMessage name="token" />
