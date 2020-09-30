@@ -8,6 +8,7 @@ import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
+import PasswordField from '../components/PasswordField';
 
 const LoginPage = () => {
   const [stateMFA, setStateMFA] = useState<any>(null);
@@ -56,12 +57,10 @@ const LoginPage = () => {
             <ErrorMessage name="email" />
           </P>
           <Label>Password</Label>
-          <Input
+          <PasswordField
             error={props.touched.password && props.errors.password}
-            type="password"
-            name="password"
-            placeholder="Password"
           />
+
           <P>
             <ErrorMessage name="password" />
           </P>
