@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectGroups } from '../../selectors/groups';
+import { postData } from '../../api';
+import { formattedToday } from '../Performance/DatePickers';
 // import { getData, postData } from '../../api';
 
 const Button = styled.button`
@@ -77,6 +79,10 @@ export const SetGoals = ({
   finishSetup,
   setMonthlyContributionTarget,
   setTotalValueTarget,
+  setTargetDate,
+  targetDate,
+  contributionFrequency,
+  setContributionFrequency,
 }: any) => {
   const [investmentChecked, setInvestmentChecked] = useState(true);
   const [contributionChecked, setContributionChecked] = useState(true);
@@ -86,11 +92,17 @@ export const SetGoals = ({
   const handleMonthlyContributionChange = (e: any) => {
     setMonthlyContributionTarget(e.target.value);
   };
+  const handleDateChange = (e: any) => {
+    setTargetDate(e.target.value);
+  };
   const handleInvestmentCheck = () => {
     setInvestmentChecked(!investmentChecked);
   };
   const handleContributionCheck = (e: any) => {
     setContributionChecked(!contributionChecked);
+  };
+  const handleContributionFrequencyChange = (e: any) => {
+    setContributionFrequency(e.target.value);
   };
 
   return (
@@ -125,14 +137,22 @@ export const SetGoals = ({
       </div>
       <div>
         To Reach this Goal, I want to Contribute:{' '}
-        <select disabled={!contributionChecked}>
+        <select
+          disabled={!contributionChecked}
+          onChange={handleContributionFrequencyChange}
+          value={contributionFrequency}
+        >
           <option value="biweekly">Biweekly</option>
           <option value="monthly">Monthly</option>
-          <option value="monthly">Bimonthly</option>
-          <option value="monthly">Semiannually</option>
-          <option value="monthly">Annually</option>
+          <option value="bimonthly">Bimonthly</option>
+          <option value="semiannually">Semiannually</option>
+          <option value="annually">Annually</option>
           <option value="none">Whenever I can</option>
         </select>
+      </div>
+      <div>
+        I want to reach this goal by:{' '}
+        <input type="date" value={targetDate} onChange={handleDateChange} />
       </div>
       <Button onClick={() => finishSetup()}>Finish</Button>
     </div>
@@ -144,9 +164,21 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   const [goalName, setGoalName] = useState('New Goal');
   const [totalValueTarget, setTotalValueTarget] = useState(0);
   const [monthlyContributionTarget, setMonthlyContributionTarget] = useState(0);
+  const [targetDate, setTargetDate] = useState(formattedYearFromNow());
   const [portfolioGroupId, setPortfolioGroupId] = useState<string | null>(null);
-  const finishSetup = (goalData: any) => {
-    // postData('/api/v1/goals/', goalData)
+  const [contributionFrequency, setContributionFrequency] = useState('monthly');
+
+  const goalData = {
+    goalName,
+    totalValueTarget,
+    monthlyContributionTarget,
+    portfolioGroupId,
+    targetDate,
+    contributionFrequency,
+  };
+
+  const finishSetup = () => {
+    postData('/api/v1/goals/', goalData);
     //  .then(response => dispatch(importTargetSuccess(response)))
     //  .catch(error => dispatch(importTargetError(error)));
     setGoalMode('view');
@@ -173,6 +205,10 @@ export const GoalSetup = ({ setGoalMode }: any) => {
           finishSetup={finishSetup}
           setTotalValueTarget={setTotalValueTarget}
           setMonthlyContributionTarget={setMonthlyContributionTarget}
+          setTargetDate={setTargetDate}
+          targetDate={targetDate}
+          contributionFrequency={contributionFrequency}
+          setContributionFrequency={setContributionFrequency}
         />
       )}
       <br />
@@ -194,3 +230,10 @@ export const GoalSetup = ({ setGoalMode }: any) => {
 };
 
 export default GoalSetup;
+
+export const formattedYearFromNow = () => {
+  const today = formattedToday();
+  const lastYear = parseInt(today.substr(0, 4)) + 1;
+
+  return lastYear.toString() + today.substr(4);
+};
