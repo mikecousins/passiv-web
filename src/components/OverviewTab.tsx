@@ -21,6 +21,7 @@ import {
   selectCurrentGroupSetupComplete,
   selectGroupsLoading,
   selectPreferredCurrency,
+  selectCurrentGroupTradesHasSkippedTrades,
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
 
@@ -62,7 +63,9 @@ const OverviewTab = () => {
   const loading = useSelector(selectGroupsLoading);
   const error = useSelector(selectCurrentGroupInfoError);
   const preferredCurrency = useSelector(selectPreferredCurrency);
-
+  const hasSkippedTrades = useSelector(
+    selectCurrentGroupTradesHasSkippedTrades,
+  );
   // if we don't have our group yet, show a spinner
   if (group === undefined) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
@@ -95,6 +98,11 @@ const OverviewTab = () => {
       <PortfolioGroupTrades trades={trades} groupId={group.id} error={error} />
     );
   }
+
+  let skipErrorMessage = null;
+  if (hasSkippedTrades === true) {
+    skipErrorMessage = <PortfolioGroupErrors error={{ code: 'IBKR_CAN' }} />;
+  }
   return (
     <React.Fragment>
       <PortfolioGroupName name={name} />
@@ -109,6 +117,7 @@ const OverviewTab = () => {
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
+      {skipErrorMessage}
       {tradeDisplay}
 
       <PortfolioGroupTargets error={error} />

@@ -26,6 +26,9 @@ type Props = {
 
 const PortfolioGroupErrors = ({ error }: Props) => {
   let errorDisplay = null;
+
+  let error_header = 'Something went wrong!';
+
   if (error && error.meta) {
     switch (error.code) {
       case '2000':
@@ -126,10 +129,31 @@ const PortfolioGroupErrors = ({ error }: Props) => {
     }
   }
 
+  if (error.code === 'IBKR_CAN') {
+    error_header = 'IBKR Canada accounts not supported';
+    errorDisplay = (
+      <P>
+        Passiv does not support IBKR Canada accounts. You can still make one
+        click trades for your other accounts. However, trades for IBKR Canada
+        accounts will not be placed.
+        <br></br>
+        <br></br>
+        Please log into your{' '}
+        <a href="https://www.interactivebrokers.com/en/home.php">
+          IBKR account
+        </a>{' '}
+        and place them manually. <br></br>
+        <br></br>
+        If your account is not an IBKR Canada account{' '}
+        <Link to="/app/help">contact support</Link> if you see this message.
+      </P>
+    );
+  }
+
   return (
     <ErrorContainer>
       <H3>
-        <FontAwesomeIcon icon={faExclamationTriangle} /> Something went wrong!{' '}
+        <FontAwesomeIcon icon={faExclamationTriangle} /> {error_header}{' '}
         {errorDisplay}
       </H3>
     </ErrorContainer>
