@@ -108,7 +108,12 @@ const LoginPage = () => {
         render={props => (
           <Form onSubmit={props.handleSubmit}>
             <Label htmlFor="token">Verification Code</Label>
-            <Input name="token" placeholder="Code" autoFocus />
+            <Input
+              name="token"
+              placeholder="Code"
+              autocomplete="one-time-code"
+              autoFocus
+            />
 
             <P>
               <ErrorMessage name="token" />
