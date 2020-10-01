@@ -130,23 +130,21 @@ const PortfolioGroupErrors = ({ error }: Props) => {
   }
 
   if (error.code === 'IBKR_CAN') {
-    error_header = 'IBKR Canada accounts not supported';
+    error_header = 'Interactive Brokers Canada is not supported';
     errorDisplay = (
-      <P>
-        Passiv does not support IBKR Canada accounts. You can still make one
-        click trades for your other accounts. However, trades for IBKR Canada
-        accounts will not be placed.
-        <br></br>
-        <br></br>
-        Please log into your{' '}
-        <a href="https://www.interactivebrokers.com/en/home.php">
-          IBKR account
-        </a>{' '}
-        and place them manually. <br></br>
-        <br></br>
-        If your account is not an IBKR Canada account{' '}
-        <Link to="/app/help">contact support</Link> if you see this message.
-      </P>
+      <React.Fragment>
+        <P>
+          It appears that one or more of your accounts are with Interactive
+          Brokers Canada. Passiv does not support placing orders through
+          Interactive Brokers Canada, but you can still place those orders
+          manually.
+        </P>
+        <P>
+          If you believe this message is in error (for example, you don't
+          actually have an account with Interactive Brokers Canada), please{' '}
+          <Link to="/app/help">contact support</Link>.
+        </P>
+      </React.Fragment>
     );
   }
 
