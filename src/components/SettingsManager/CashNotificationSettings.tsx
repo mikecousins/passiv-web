@@ -80,6 +80,7 @@ const CashNotificationSettings = () => {
 
   return (
     <React.Fragment>
+      {console.log(settings)}
       <OptionsTitle>Cash Notifications:</OptionsTitle>
       <ToggleButton onClick={updateNotification}>
         {settings.receive_cash_notifications ? (
