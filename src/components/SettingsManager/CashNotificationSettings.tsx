@@ -4,19 +4,13 @@ import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings } from '../../selectors';
-import { selectCanReceiveCashNotifications } from '../../selectors/subscription';
 import { loadSettings } from '../../actions';
 import { putData } from '../../api';
 import { ToggleButton, StateText } from '../../styled/ToggleButton';
 import Number from './../Number';
 import { NumericTextInput } from '../../styled/Form';
 import { SmallButton } from '../../styled/Button';
-import {
-  Edit,
-  SubSetting,
-  DisabledBox,
-  OptionsTitle,
-} from '../../styled/GlobalElements';
+import { Edit, SubSetting, OptionsTitle } from '../../styled/GlobalElements';
 import { Settings } from '../../types/settings';
 
 const CashNotificationSettings = () => {
@@ -30,14 +24,11 @@ const CashNotificationSettings = () => {
   }, [settings]);
 
   const updateNotification = () => {
-    console.log(settings);
     if (!settings) {
       return;
     }
-    console.log('checkpoint 1');
     let newSettings: Settings = { ...settings };
     newSettings.receive_cash_notifications = !settings.receive_cash_notifications;
-    console.log('checkpoint 2');
     putData('/api/v1/settings/', newSettings)
       .then(() => {
         dispatch(loadSettings());
@@ -45,7 +36,6 @@ const CashNotificationSettings = () => {
       .catch(() => {
         dispatch(loadSettings());
       });
-    console.log('checkpoint 3');
   };
 
   const finishEditingThreshold = () => {
@@ -71,9 +61,7 @@ const CashNotificationSettings = () => {
   if (!settings) {
     return null;
   }
-  function logger() {
-    console.log('I got clicked!');
-  }
+
   let contents = (
     <React.Fragment>
       <OptionsTitle>Cash Notifications:</OptionsTitle>
