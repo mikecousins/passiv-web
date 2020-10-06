@@ -19,11 +19,8 @@ import {
 } from '../../styled/GlobalElements';
 import { Settings } from '../../types/settings';
 
-const DriftNotificationSettings = () => {
+const CashNotificationSettings = () => {
   const settings = useSelector(selectSettings);
-  const canReceiveCashNotifications = useSelector(
-    selectCanReceiveCashNotifications,
-  );
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
   const [cashThreshold, setCashThreshold] = useState();
@@ -36,10 +33,10 @@ const DriftNotificationSettings = () => {
     if (!settings) {
       return;
     }
-
+    console.log('checkpoint 1');
     let newSettings: Settings = { ...settings };
     newSettings.receive_cash_notifications = !settings.receive_cash_notifications;
-
+    console.log('checkpoint 2');
     putData('/api/v1/settings/', newSettings)
       .then(() => {
         dispatch(loadSettings());
@@ -47,6 +44,7 @@ const DriftNotificationSettings = () => {
       .catch(() => {
         dispatch(loadSettings());
       });
+    console.log('checkpoint 3');
   };
 
   const finishEditingThreshold = () => {
@@ -73,14 +71,12 @@ const DriftNotificationSettings = () => {
     return null;
   }
 
-  const disabled = !canReceiveCashNotifications;
-
   let contents = (
     <React.Fragment>
       <OptionsTitle>Cash Notifications:</OptionsTitle>
-      {settings.receive_cash_notifications && !disabled ? (
+      {settings.receive_cash_notifications ? (
         <React.Fragment>
-          <ToggleButton onClick={updateNotification} disabled={disabled}>
+          <ToggleButton onClick={updateNotification}>
             <React.Fragment>
               <FontAwesomeIcon icon={faToggleOn} />
               <StateText>on</StateText>
@@ -95,10 +91,7 @@ const DriftNotificationSettings = () => {
                   currency
                   decimalPlaces={2}
                 />
-                <Edit
-                  onClick={() => setEditingThreshold(true)}
-                  disabled={disabled}
-                >
+                <Edit onClick={() => setEditingThreshold(true)}>
                   <FontAwesomeIcon icon={faPen} />
                   Edit
                 </Edit>
@@ -113,32 +106,21 @@ const DriftNotificationSettings = () => {
                       finishEditingThreshold();
                     }
                   }}
-                  disabled={!canReceiveCashNotifications}
                 />{' '}
                 %
-                <SmallButton
-                  onClick={finishEditingThreshold}
-                  disabled={disabled}
-                >
-                  Done
-                </SmallButton>
+                <SmallButton onClick={finishEditingThreshold}>Done</SmallButton>
               </React.Fragment>
             )}
           </SubSetting>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <ToggleButton onClick={updateNotification} disabled={disabled}>
+          <ToggleButton onClick={console.log('clicked')}>
+            {/* <ToggleButton onClick={updateNotification} > */}
             <FontAwesomeIcon icon={faToggleOff} />
             <StateText>off</StateText>
           </ToggleButton>
         </React.Fragment>
-      )}
-      {!disabled && (
-        <DisabledBox>
-          Receive an email notification when cash is waiting for you in your
-          brokerage account.
-        </DisabledBox>
       )}
     </React.Fragment>
   );
@@ -146,4 +128,4 @@ const DriftNotificationSettings = () => {
   return contents;
 };
 
-export default DriftNotificationSettings;
+export default CashNotificationSettings;
