@@ -30,6 +30,7 @@ const CashNotificationSettings = () => {
   }, [settings]);
 
   const updateNotification = () => {
+    console.log(settings);
     if (!settings) {
       return;
     }
@@ -70,7 +71,9 @@ const CashNotificationSettings = () => {
   if (!settings) {
     return null;
   }
-
+  function logger() {
+    console.log('I got clicked!');
+  }
   let contents = (
     <React.Fragment>
       <OptionsTitle>Cash Notifications:</OptionsTitle>
@@ -107,16 +110,18 @@ const CashNotificationSettings = () => {
                     }
                   }}
                 />{' '}
-                %
                 <SmallButton onClick={finishEditingThreshold}>Done</SmallButton>
+                <br></br>
+                <br></br>
+                Note: this is the amount of cash per account (not portfolio
+                group)
               </React.Fragment>
             )}
           </SubSetting>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <ToggleButton onClick={console.log('clicked')}>
-            {/* <ToggleButton onClick={updateNotification} > */}
+          <ToggleButton onClick={updateNotification}>
             <FontAwesomeIcon icon={faToggleOff} />
             <StateText>off</StateText>
           </ToggleButton>
