@@ -28,18 +28,6 @@ const DriftNotificationSettings = () => {
   const [editingThreshold, setEditingThreshold] = useState(false);
   const [cashThreshold, setCashThreshold] = useState();
 
-  const calcDecimalPlaces = (number: number) => {
-    let decimalPlaces = 4;
-    const asString = String(number);
-    if (asString.indexOf('.') >= 0) {
-      const pieces = asString.split('.');
-      if (pieces.length === 2) {
-        decimalPlaces = pieces[1].length;
-      }
-    }
-    return decimalPlaces;
-  };
-
   useEffect(() => {
     setCashThreshold(settings && parseFloat(settings.cash_email_threshold));
   }, [settings]);
