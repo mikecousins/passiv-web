@@ -4,7 +4,7 @@ import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings } from '../../selectors';
-import { selectCanReceiveDriftNotifications } from '../../selectors/subscription';
+import { selectCanReceiveCashNotifications } from '../../selectors/subscription';
 import { loadSettings } from '../../actions';
 import { putData } from '../../api';
 import { ToggleButton, StateText } from '../../styled/ToggleButton';
@@ -21,12 +21,12 @@ import { Settings } from '../../types/settings';
 
 const DriftNotificationSettings = () => {
   const settings = useSelector(selectSettings);
-  const canReceiveDriftNotifications = useSelector(
-    selectCanReceiveDriftNotifications,
+  const canReceiveCashNotifications = useSelector(
+    selectCanReceiveCashNotifications,
   );
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
-  const [driftThreshold, setDriftThreshold] = useState();
+  const [cashThreshold, setCashThreshold] = useState();
 
   const calcDecimalPlaces = (number: number) => {
     let decimalPlaces = 4;
@@ -41,7 +41,7 @@ const DriftNotificationSettings = () => {
   };
 
   useEffect(() => {
-    setDriftThreshold(settings && parseFloat(settings.drift_threshold));
+    setCashThreshold(settings && parseFloat(settings.cash_email_threshold));
   }, [settings]);
 
   const updateNotification = () => {
@@ -50,7 +50,7 @@ const DriftNotificationSettings = () => {
     }
 
     let newSettings: Settings = { ...settings };
-    newSettings.receive_drift_notifications = !settings.receive_drift_notifications;
+    newSettings.receive_cash_notifications = !settings.receive_cash_notifications;
 
     putData('/api/v1/settings/', newSettings)
       .then(() => {
@@ -68,7 +68,7 @@ const DriftNotificationSettings = () => {
 
     let newSettings: Settings = { ...settings };
 
-    newSettings.drift_threshold = driftThreshold;
+    newSettings.cash_email_threshold = cashThreshold;
 
     putData('/api/v1/settings/', newSettings)
       .then(() => {
@@ -85,7 +85,7 @@ const DriftNotificationSettings = () => {
     return null;
   }
 
-  const disabled = !canReceiveDriftNotifications;
+  const disabled = !canReceiveCashNotifications;
 
   let contents = (
     <React.Fragment>
@@ -118,14 +118,14 @@ const DriftNotificationSettings = () => {
             ) : (
               <React.Fragment>
                 <NumericTextInput
-                  value={driftThreshold}
-                  onChange={e => setDriftThreshold(e.target.value)}
+                  value={cashThreshold}
+                  onChange={e => setCashThreshold(e.target.value)}
                   onKeyPress={e => {
                     if (e.key === 'Enter') {
                       finishEditingThreshold();
                     }
                   }}
-                  disabled={!canReceiveDriftNotifications}
+                  disabled={!canReceiveCashNotifications}
                 />{' '}
                 %
                 <SmallButton
