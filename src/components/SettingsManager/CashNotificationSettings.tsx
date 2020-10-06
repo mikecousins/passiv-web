@@ -89,8 +89,8 @@ const DriftNotificationSettings = () => {
 
   let contents = (
     <React.Fragment>
-      <OptionsTitle>Drift Notifications:</OptionsTitle>
-      {settings.receive_drift_notifications && !disabled ? (
+      <OptionsTitle>Cash Notifications:</OptionsTitle>
+      {settings.receive_cash_notifications && !disabled ? (
         <React.Fragment>
           <ToggleButton onClick={updateNotification} disabled={disabled}>
             <React.Fragment>
@@ -99,13 +99,13 @@ const DriftNotificationSettings = () => {
             </React.Fragment>
           </ToggleButton>
           <SubSetting>
-            <OptionsTitle>Drift Threshold:</OptionsTitle>
+            <OptionsTitle>Cash Threshold:</OptionsTitle>
             {!editingThreshold ? (
               <React.Fragment>
                 <Number
-                  value={parseFloat(settings.drift_threshold)}
-                  percentage
-                  decimalPlaces={calcDecimalPlaces(driftThreshold)}
+                  value={parseFloat(settings.cash_email_threshold)}
+                  currency
+                  decimalPlaces={2}
                 />
                 <Edit
                   onClick={() => setEditingThreshold(true)}
@@ -144,18 +144,12 @@ const DriftNotificationSettings = () => {
             <FontAwesomeIcon icon={faToggleOff} />
             <StateText>off</StateText>
           </ToggleButton>
-          {disabled && (
-            <DisabledBox>
-              Drift notifications are an Elite feature. Subscribe to get
-              notifications when your portfolio accuracy falls too low.
-            </DisabledBox>
-          )}
         </React.Fragment>
       )}
       {!disabled && (
         <DisabledBox>
-          Receive an email notification when your portfolio accuracy falls too
-          low.
+          Receive an email notification when cash is waiting for you in your
+          brokerage account.
         </DisabledBox>
       )}
     </React.Fragment>
