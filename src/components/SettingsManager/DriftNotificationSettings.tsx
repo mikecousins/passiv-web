@@ -16,6 +16,7 @@ import {
   SubSetting,
   DisabledBox,
   OptionsTitle,
+  ErrorBox,
 } from '../../styled/GlobalElements';
 import { Settings } from '../../types/settings';
 
@@ -27,6 +28,7 @@ const DriftNotificationSettings = () => {
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
   const [driftThreshold, setDriftThreshold] = useState();
+  const [outOfLimitErrorMessage, setOutOfLimitErrorMessage] = useState('');
 
   const calcDecimalPlaces = (number: number) => {
     let decimalPlaces = 4;
@@ -43,6 +45,10 @@ const DriftNotificationSettings = () => {
   useEffect(() => {
     setDriftThreshold(settings && parseFloat(settings.drift_threshold));
   }, [settings]);
+
+  useEffect(() => {
+    setTimeout(() => setOutOfLimitErrorMessage(''), 5000);
+  }, [outOfLimitErrorMessage]);
 
   const updateNotification = () => {
     if (!settings) {
@@ -76,6 +82,9 @@ const DriftNotificationSettings = () => {
       })
       .catch(() => {
         dispatch(loadSettings());
+        setOutOfLimitErrorMessage(
+          `${driftThreshold}% is out of limit. Please choose a limit between 0% and 100%.`,
+        );
       });
 
     setEditingThreshold(false);
@@ -137,6 +146,7 @@ const DriftNotificationSettings = () => {
               </React.Fragment>
             )}
           </SubSetting>
+          <ErrorBox>{outOfLimitErrorMessage}</ErrorBox>
         </React.Fragment>
       ) : (
         <React.Fragment>
