@@ -51,6 +51,9 @@ const QuestradeOauthPage = React.lazy(() =>
     /* webpackChunkName: "questrade-oauth" */ '../pages/QuestradeOauthPage'
   ),
 );
+const TradierOauthPage = React.lazy(() =>
+  import(/* webpackChunkName: "tradier-oauth" */ '../pages/TradierOauthPage'),
+);
 const AlpacaOauthPage = React.lazy(() =>
   import(/* webpackChunkName: "alpaca-oauth" */ '../pages/AlpacaOauthPage'),
 );
@@ -117,6 +120,12 @@ const stripePublicKey =
 const questradeOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/questrade?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
+const tradierOauthRedirect = () => {
+  let urlParams = new URLSearchParams(window.location.search);
+  let newPath = '/app/oauth/tradier?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
@@ -234,6 +243,19 @@ const App = () => {
               <Route
                 path={prefixPath('/oauth/questrade')}
                 component={QuestradeOauthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/tradier"
+                render={() => tradierOauthRedirect()}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                path={prefixPath('/oauth/tradier')}
+                component={TradierOauthPage}
               />
             )}
             {loggedIn && (
