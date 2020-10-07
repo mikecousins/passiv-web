@@ -56,7 +56,7 @@ export const PortfolioGroupTrades = ({
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
   const [tradesCache, setTradesCache] = useState(null);
 
-  const groupAccounts = accounts.filter(a => a.portfolio_group === groupId);
+  const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
   const triggerTradesSubmitted = () => {
     setTradesSubmitted(true);
@@ -88,7 +88,7 @@ export const PortfolioGroupTrades = ({
     const tradeRender = (trade: any) => {
       let accountName = '';
       if (accounts) {
-        const account = accounts.find(a => a.id === trade.account);
+        const account = accounts.find((a) => a.id === trade.account);
         if (account) {
           accountName = account.name;
         }

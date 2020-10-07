@@ -10,12 +10,15 @@ import { Account, Position, CashRestriction } from '../types/account';
 
 export const selectAccountsRaw = (state: AppState) => state.accounts;
 
-export const selectAccounts = createSelector(selectAccountsRaw, rawAccounts => {
-  if (rawAccounts.data) {
-    return rawAccounts.data;
-  }
-  return [];
-});
+export const selectAccounts = createSelector(
+  selectAccountsRaw,
+  (rawAccounts) => {
+    if (rawAccounts.data) {
+      return rawAccounts.data;
+    }
+    return [];
+  },
+);
 
 export const selectAccountsNeedData = createSelector(
   selectLoggedIn,
@@ -36,7 +39,7 @@ export const selectCashRestrictions = createSelector<
   AppState,
   any[],
   CashRestriction[]
->(selectAccounts, accounts => {
+>(selectAccounts, (accounts) => {
   let restrictions: CashRestriction[] = [];
   accounts.map((account: Account) => {
     account.cash_restrictions.map((cashRestriction: CashRestriction) => {
@@ -57,7 +60,7 @@ export const selectCurrentAccountId = createSelector<
   AppState,
   string,
   string | null
->(selectPathname, pathname => {
+>(selectPathname, (pathname) => {
   let accountId = null;
   if (pathname && pathname.split('/').length >= 6) {
     accountId = pathname.split('/')[5];

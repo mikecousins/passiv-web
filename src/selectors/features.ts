@@ -6,12 +6,15 @@ import { selectLoggedIn, selectAppTime } from '.';
 
 export const selectFeaturesRaw = (state: AppState) => state.features;
 
-export const selectFeatures = createSelector(selectFeaturesRaw, rawFeatures => {
-  if (rawFeatures.data) {
-    return rawFeatures.data.map(feature => feature.name);
-  }
-  return null;
-});
+export const selectFeatures = createSelector(
+  selectFeaturesRaw,
+  (rawFeatures) => {
+    if (rawFeatures.data) {
+      return rawFeatures.data.map((feature) => feature.name);
+    }
+    return null;
+  },
+);
 
 export const selectFeaturesNeedData = createSelector(
   selectLoggedIn,
@@ -29,10 +32,10 @@ export const selectFeaturesNeedData = createSelector(
 );
 
 const createFeatureSelector = (flagName: string) => {
-  return createSelector(selectFeatures, features => {
+  return createSelector(selectFeatures, (features) => {
     let hasFeature = false;
     if (features != null) {
-      features.map(feature => {
+      features.map((feature) => {
         if (feature === flagName) {
           hasFeature = true;
         }
@@ -49,7 +52,11 @@ export const selectQuestradeOfferFeature = createFeatureSelector(
   'questrade_offer',
 );
 
+export const select2FAFeature = createFeatureSelector('2fa');
+
 export const selectSMS2FAFeature = createFeatureSelector('sms_2fa');
+
+export const selectOTP2FAFeature = createFeatureSelector('otp_2fa');
 
 export const selectShowProgressFeature = createFeatureSelector(
   'onboarding_progress',
@@ -73,4 +80,8 @@ export const selectCashManagementFeature = createFeatureSelector(
 
 export const selectQuestradeDowntimeFeature = createFeatureSelector(
   'questrade_downtime',
+);
+
+export const selectConnectInteractiveBrokersFeature = createFeatureSelector(
+  'connect_interactive_brokers',
 );

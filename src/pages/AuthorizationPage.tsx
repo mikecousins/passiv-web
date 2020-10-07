@@ -7,14 +7,10 @@ import {
   selectIsAuthorized,
   selectBrokerages,
   selectAuthorizations,
-  selectShowProgressFeature,
-} from '../selectors';
-import { selectUserPermissions } from '../selectors/subscription';
-import {
-  selectConnectPlaidFeature,
   selectMaintenanceBrokerages,
 } from '../selectors';
-import PlaidConnection from '../components/PlaidConnection';
+import { selectUserPermissions } from '../selectors/subscription';
+
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { P } from '../styled/GlobalElements';
@@ -45,6 +41,7 @@ import {
   VerticalPadding,
 } from '../styled/Setup';
 import OnboardingProgress from '../components/OnboardingProgress';
+import { selectShowProgressFeature } from '../selectors/features';
 
 const Brokerage = styled.div``;
 
@@ -57,7 +54,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const brokerages = useSelector(selectBrokerages);
   const userPermissions = useSelector(selectUserPermissions);
   const authorizations = useSelector(selectAuthorizations);
-  const connectPlaidFeature = useSelector(selectConnectPlaidFeature);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const showProgressFeature = useSelector(selectShowProgressFeature);
   const [loading, setLoading] = useState(false);
@@ -69,7 +65,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       return false;
     }
     let filtered_permissions = userPermissions.filter(
-      permission => permission === 'can_add_multiple_connections',
+      (permission) => permission === 'can_add_multiple_connections',
     );
 
     if (filtered_permissions.length > 0) {
@@ -100,7 +96,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const startConnection = (brokerageName: string, connectionType: string) => {
     const brokerage =
       brokerages &&
-      brokerages.find(brokerage => brokerage.name === brokerageName);
+      brokerages.find((brokerage) => brokerage.name === brokerageName);
     if (brokerage) {
       if (checkBrokerageMaintenance(brokerage) === true) {
         toast.error(
@@ -109,7 +105,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: connectionType,
-        }).then(response => {
+        }).then((response) => {
           window.location = response.data.url;
         });
       }
@@ -227,7 +223,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
               return contents;
             })}
           </Container2Column>
-          {connectPlaidFeature && <PlaidConnection setLoading={setLoading} />}
         </React.Fragment>
       )}
     </React.Fragment>

@@ -13,7 +13,7 @@ const ResetPasswordConfirmPage = () => {
   const [submitted, setSubmitted] = useState(false);
   const token = useSelector(selectPasswordResetToken);
   return (
-    <React.Fragment>
+    <>
       <H1>Choose a new Password</H1>
       {submitted ? (
         <P>
@@ -24,7 +24,7 @@ const ResetPasswordConfirmPage = () => {
           initialValues={{
             password: '',
           }}
-          validate={values => {
+          validate={(values) => {
             const errors: any = {};
             if (!values.password || values.password.trim() === '') {
               errors.password = 'A new password is required.';
@@ -39,7 +39,7 @@ const ResetPasswordConfirmPage = () => {
               .then(() => {
                 setSubmitted(true);
               })
-              .catch(error => {
+              .catch((error) => {
                 let errors: any = {};
                 if (
                   error.response.data &&
@@ -62,15 +62,9 @@ const ResetPasswordConfirmPage = () => {
                 actions.setErrors(errors);
               });
           }}
-          render={({
-            touched,
-            errors,
-            values,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-          }) => (
-            <Form onSubmit={handleSubmit}>
+        >
+          {({ touched, errors, values, handleChange, handleBlur }) => (
+            <Form>
               <Label htmlFor="password">Password</Label>
               <Input
                 onChange={handleChange}
@@ -93,9 +87,9 @@ const ResetPasswordConfirmPage = () => {
               </div>
             </Form>
           )}
-        />
+        </Formik>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

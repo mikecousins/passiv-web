@@ -17,7 +17,7 @@ import {
 import Number from '../Number';
 import { Error } from '../../types/groupInfo';
 import { Currency } from '../../types/currency';
-import { selectCurrencies } from '../../selectors';
+import { selectCurrencies } from '../../selectors/currencies';
 import {
   selectCurrentGroupSettings,
   selectCurrentGroupId,

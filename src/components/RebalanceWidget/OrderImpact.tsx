@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { selectCurrencies } from '../../selectors';
+import { selectCurrencies } from '../../selectors/currencies';
 import {
   selectAccounts,
   selectAccountBalances,
@@ -123,7 +123,7 @@ export const OrderImpact = ({ impacts }: Props) => {
         let accountBalances = getAccountBalances(accountId);
         let balance =
           accountBalances &&
-          accountBalances.find(b => b.currency.id === currencyId);
+          accountBalances.find((b) => b.currency.id === currencyId);
         return balance && balance.cash;
       }
     }
@@ -131,7 +131,7 @@ export const OrderImpact = ({ impacts }: Props) => {
   };
 
   const filteredAccount = accounts.find(
-    account => account.id === impacts[0].account,
+    (account) => account.id === impacts[0].account,
   );
 
   const toggleWarningDetail = () => {
@@ -147,7 +147,7 @@ export const OrderImpact = ({ impacts }: Props) => {
       return null;
     }
     let currencyCode = currencies.find(
-      currency => currency.id === impact.currency,
+      (currency) => currency.id === impact.currency,
     )!.code;
     return currencyCode;
   };

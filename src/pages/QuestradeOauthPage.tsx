@@ -11,7 +11,7 @@ import { H1, H2, P, BulletUL, A } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import { Step } from '../styled/SignupSteps';
 import { selectQueryTokens } from '../selectors/router';
-import { selectQuestradeOfferFeature } from '../selectors';
+import { selectQuestradeOfferFeature } from '../selectors/features';
 import { selectIsPaid } from '../selectors/subscription';
 import { Error } from '../types/groupInfo';
 import styled from '@emotion/styled';
@@ -54,7 +54,7 @@ const QuestradeOauthPage = () => {
             setShowUpgradeOffer(true);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           setLoading(false);
           setError(error.response.data);
         });

@@ -31,7 +31,12 @@ const renderWithRedux = (ui: JSX.Element, initialState: object) => {
 
 test('RebalanceWidget renders without issue', () => {
   const { getByText } = renderWithRedux(
-    <RebalanceWidget groupId="" trades={{}} />,
+    <RebalanceWidget
+      groupId=""
+      trades={{}}
+      tradesTrigger={() => {}}
+      tradesUntrigger={() => {}}
+    />,
     {},
   );
 

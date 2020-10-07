@@ -30,7 +30,7 @@ export const PerformanceGroups: FunctionComponent<Props> = ({
   return (
     <div>
       <SubHeader>Check specific group:</SubHeader>
-      {groups.map(group => (
+      {groups.map((group) => (
         <AccountRow>
           <AccountGroup name={group.name} />
           <PerformanceRateOfReturn selectedTimeframe={selectedTimeframe} />

@@ -27,7 +27,7 @@ const DriftNotificationSettings = () => {
   );
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
-  const [driftThreshold, setDriftThreshold] = useState();
+  const [driftThreshold, setDriftThreshold] = useState('');
   const [outOfLimitErrorMessage, setOutOfLimitErrorMessage] = useState('');
 
   const calcDecimalPlaces = (number: number) => {
@@ -43,7 +43,9 @@ const DriftNotificationSettings = () => {
   };
 
   useEffect(() => {
-    setDriftThreshold(settings && parseFloat(settings.drift_threshold));
+    if (settings) {
+      setDriftThreshold(settings.drift_threshold);
+    }
   }, [settings]);
 
   useEffect(() => {
@@ -114,7 +116,7 @@ const DriftNotificationSettings = () => {
                 <Number
                   value={parseFloat(settings.drift_threshold)}
                   percentage
-                  decimalPlaces={calcDecimalPlaces(driftThreshold)}
+                  decimalPlaces={calcDecimalPlaces(parseFloat(driftThreshold))}
                 />
                 <Edit
                   onClick={() => setEditingThreshold(true)}
@@ -128,8 +130,8 @@ const DriftNotificationSettings = () => {
               <React.Fragment>
                 <NumericTextInput
                   value={driftThreshold}
-                  onChange={e => setDriftThreshold(e.target.value)}
-                  onKeyPress={e => {
+                  onChange={(e) => setDriftThreshold(e.target.value)}
+                  onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                       finishEditingThreshold();
                     }

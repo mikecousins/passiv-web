@@ -6,7 +6,7 @@ import { Account } from '../types/account';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { selectCurrencies } from '../selectors';
+import { selectCurrencies } from '../selectors/currencies';
 import { restrictionTypes } from '../common';
 import Number from './Number';
 import { HideButton } from './ContextualMessageWrapper';
@@ -54,9 +54,9 @@ const TradesExplanation = ({
   const currencies = useSelector(selectCurrencies);
 
   const getCurrency = (currencyId: string) =>
-    currencies && currencies.find(c => c.id === currencyId);
+    currencies && currencies.find((c) => c.id === currencyId);
   const getType = (typeId: string) =>
-    restrictionTypes.find(r => r.id === typeId);
+    restrictionTypes.find((r) => r.id === typeId);
 
   const toggleShowExplanation = () => {
     setShowExplanation(!showExplanation);
@@ -93,8 +93,8 @@ const TradesExplanation = ({
     );
   }
 
-  accounts.map(a =>
-    a.cash_restrictions.map(cr => {
+  accounts.map((a) =>
+    a.cash_restrictions.map((cr) => {
       const cashRestrictionType = getType(cr.type);
       const currency = getCurrency(cr.currency);
 

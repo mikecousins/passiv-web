@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { format, parseISO } from 'date-fns';
 import {
   selectSubscription,
   selectShowQuestradeOffer,
 } from '../../selectors/subscription';
 import { Button } from '../../styled/Button';
-import { Elements } from 'react-stripe-elements';
-import InjectedCheckoutForm from './../CheckoutForm';
-import InjectedUpdatePaymentForm from './../UpdatePaymentCheckoutForm';
+import InjectedCheckoutForm from '../CheckoutForm';
+import InjectedUpdatePaymentForm from '../UpdatePaymentCheckoutForm';
 import { loadSubscription } from '../../actions';
 import { deleteData } from '../../api';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { format, parseISO } from 'date-fns';
-
-import SubscriptionCoupon from './../SubscriptionCoupon';
-import SubscriptionPlans from './../SubscriptionPlans';
-
+import SubscriptionCoupon from '../SubscriptionCoupon';
+import SubscriptionPlans from '../SubscriptionPlans';
 import styled from '@emotion/styled';
 import { H2, P, A } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
@@ -65,6 +64,15 @@ const SubscriptionManager = () => {
   const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
   const dispatch = useDispatch();
 
+  // use the stripe test key unless we're in prod
+  const stripePublicKey =
+    process.env.REACT_APP_BASE_URL_OVERRIDE &&
+    process.env.REACT_APP_BASE_URL_OVERRIDE === 'getpassiv.com'
+      ? 'pk_live_LTLbjcwtt6gUmBleYqVVhMFX'
+      : 'pk_test_UEivjUoJpfSDWq5i4xc64YNK';
+
+  const stripePromise = loadStripe(stripePublicKey);
+
   const cancelSubscription = () => {
     setCancellingSubscription(true);
     deleteData(`/api/v1/subscriptions`)
@@ -103,7 +111,7 @@ const SubscriptionManager = () => {
       {creatingSubscription && (
         <PaymentContainer>
           <P>Enter your payment information</P>
-          <Elements>
+          <Elements stripe={stripePromise}>
             <InjectedCheckoutForm
               loading={loading}
               startCreateSubscription={() => setLoading(true)}
@@ -179,7 +187,7 @@ const SubscriptionManager = () => {
           ) : updatingPayment ? (
             <React.Fragment>
               <P>Enter your updated payment information</P>
-              <Elements>
+              <Elements stripe={stripePromise}>
                 <InjectedUpdatePaymentForm
                   loading={loading}
                   startUpdatePayment={() => setLoading(true)}

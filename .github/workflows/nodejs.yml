@@ -3,36 +3,22 @@ name: Node CI
 on: [push]
 
 jobs:
-  test:
-    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node_version: [13]
-        os: [ubuntu-16.04]
+  build:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node_version }}
-      uses: actions/setup-node@v1
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node_version }}
-    - name: yarn install, build and test
+        node-version: '14'
+    - name: yarn install, lint, test and build
       run: |
         yarn
-        yarn run ci
-        yarn run build
+        yarn lint
+        yarn test --coverage
+        yarn build
       env:
         CI: true
-    - name: Upload coverage to Codecov  
-      uses: codecov/codecov-action@v1.0.3
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
       with:
         token: ${{secrets.CODECOV_TOKEN}}
-    - name: Cypress.io
-      uses: cypress-io/github-action@v1.16.1
-      with:
-        start: yarn start
-        wait-on: 'http://localhost:3000'
-        record: true
-        parallel: true
-      env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}

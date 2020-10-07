@@ -41,7 +41,7 @@ const InteractiveBrokersOauthPage = () => {
             setSuccess(true);
           }, 1000);
         })
-        .catch(error => {
+        .catch((error) => {
           setLoading(false);
           setError(error.response.data);
         });

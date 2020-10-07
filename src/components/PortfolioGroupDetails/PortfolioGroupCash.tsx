@@ -33,7 +33,7 @@ const PortfolioGroupCash = ({ balances, error }: Props) => (
       ) : (
         <CashBalance>
           {balances &&
-            balances.map(balance => (
+            balances.map((balance) => (
               <CashGroup key={balance.currency.id}>
                 <CashType>
                   <span title={balance.currency.name}>

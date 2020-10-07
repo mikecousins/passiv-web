@@ -6,10 +6,10 @@ import { loadGroup } from '../../actions';
 import OrderTargetAllocations from '../PortfolioGroupSettings/OrderTargetAllocations';
 import {
   selectCurrentGroupId,
-  selectCurrentGroupTarget,
   selectCurrentGroupTargetInitialized,
   selectCurrentGroupPositions,
   selectCurrentGroupInfoLoading,
+  selectCurrentGroupTarget,
 } from '../../selectors/groups';
 import { Button } from '../../styled/Button';
 import {
@@ -152,7 +152,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
       !targetInitialized ||
       (!loading &&
         target &&
-        target.filter(t => t.is_supported === true).length === 0)
+        target.filter((t) => t.is_supported === true).length === 0)
     ) {
       form = <ShadowBox>{form}</ShadowBox>;
     }
@@ -206,7 +206,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     !(targetInitialized && target) &&
     !loading &&
     ((target &&
-      target.filter(t => t.is_supported === true && t.is_excluded === false)
+      target.filter((t) => t.is_supported === true && t.is_excluded === false)
         .length === 0) ||
       !target)
   ) {
@@ -228,7 +228,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
                 one of the following options:
               </P>
               <Container2Column>
-                {modelChoices.map(m => (
+                {modelChoices.map((m) => (
                   <ShadowBox key={m.id}>
                     <H3LowProfile>{m.name}</H3LowProfile>
                     <CenteredDiv>{m.button}</CenteredDiv>
