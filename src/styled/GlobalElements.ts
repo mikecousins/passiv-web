@@ -198,3 +198,9 @@ export const BorderContainer = styled.div`
   font-size: 18px;
   border-top: 1px solid #e8e8e8;
 `;
+
+export const ErrorBox = styled.div`
+  color: red;
+  font-size: 0.8rem;
+  margin: 1rem 1rem;
+`;
