@@ -773,9 +773,16 @@ export const selectCurrentGroupTarget = createSelector(
       return null;
     }
 
+    // get quotable symbols ticker
+    const quotable_tickers = groupInfo.quotable_symbols.map(
+      (symbol) => symbol.id,
+    );
+
     // add the target positions
     const currentTargetRaw = groupInfo.asset_classes_details;
     const currentTarget = currentTargetRaw.map((targetRaw) => {
+      let is_supported = quotable_tickers.includes(targetRaw.symbols[0].symbol);
+      console.log(targetRaw.symbols[0].symbol);
       const target: TargetPosition = {
         id: targetRaw.asset_class.id,
         symbol: targetRaw.symbols[0].symbol,
@@ -784,7 +791,7 @@ export const selectCurrentGroupTarget = createSelector(
         fullSymbol: undefined,
         actualPercentage: 0,
         is_excluded: targetRaw.asset_class.exclude_asset_class,
-        is_supported: true,
+        is_supported: is_supported,
       };
 
       // add the symbol to the target
