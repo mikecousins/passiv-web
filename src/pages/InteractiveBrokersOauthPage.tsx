@@ -118,7 +118,7 @@ const InteractiveBrokersOauthPage = () => {
           <React.Fragment>
             <P>
               Interactive Brokers Canada is not supported by Passiv due to our
-              exclusivity agreement with Questrade. Please consider transfering
+              exclusivity agreement with Questrade. Please consider transferring
               this account to Questrade in order to use it with Passiv.
             </P>
             <P>

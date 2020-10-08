@@ -25,6 +25,7 @@ import QuestradeLogo from '../assets/images/questrade-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
 import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 import TDAmeritradeLogo from '../assets/images/tda-logo.png';
+import TradierLogo from '../assets/images/tradier-logo.png';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
 
@@ -176,7 +177,23 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       openURL: 'https://www.tdameritrade.com/home.page',
       major: true,
       logo: TDAmeritradeLogo,
-      description: <P>TD Ameritrade is one of the largest discount brokerages in the U.S. with over $1.3 trillion in client assets.</P>,
+      description: (
+        <P>
+          TD Ameritrade is one of the largest discount brokerages in the U.S.
+          with over $1.3 trillion in client assets.
+        </P>
+      ),
+    },
+    {
+      id: 'tradier',
+      name: 'Tradier',
+      connect: () => {
+        startConnection('Tradier', 'trade');
+      },
+      openURL: 'https://brokerage.tradier.com/signup?platform=109',
+      major: true,
+      logo: TradierLogo,
+      description: <P>Tradier blah blah blah.</P>,
     },
   ];
 

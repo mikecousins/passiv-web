@@ -16,6 +16,7 @@ import {
   SubSetting,
   DisabledBox,
   OptionsTitle,
+  ErrorBox,
 } from '../../styled/GlobalElements';
 import { Settings } from '../../types/settings';
 
@@ -25,6 +26,7 @@ const LimitOrdersSettings = () => {
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
   const [priceLimitThreshold, setPriceLimitThreshold] = useState();
+  const [outOfLimitErrorMessage, setOutOfLimitErrorMessage] = useState('');
 
   const calcDecimalPlaces = (number: number) => {
     let decimalPlaces = 4;
@@ -45,6 +47,10 @@ const LimitOrdersSettings = () => {
       );
     }
   }, [settings]);
+
+  useEffect(() => {
+    setTimeout(() => setOutOfLimitErrorMessage(''), 5000);
+  }, [outOfLimitErrorMessage]);
 
   const updateLimitOrder = () => {
     if (!settings) {
@@ -82,6 +88,9 @@ const LimitOrdersSettings = () => {
       .catch(() => {
         dispatch(loadSettings());
         dispatch(loadGroups());
+        setOutOfLimitErrorMessage(
+          `${priceLimitThreshold}% is out of limit. Please choose a limit between 0% and 1%.`,
+        );
       });
 
     setEditingThreshold(false);
@@ -131,6 +140,7 @@ const LimitOrdersSettings = () => {
                 <SmallButton onClick={finishEditingThreshold}>Done</SmallButton>
               </React.Fragment>
             )}
+            <ErrorBox>{outOfLimitErrorMessage}</ErrorBox>
             <DisabledBox>
               Limit Order Premium sets the limit price to be a certain
               percentage above the ask price when buying, and below the bid

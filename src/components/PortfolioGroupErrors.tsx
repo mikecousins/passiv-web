@@ -26,6 +26,9 @@ type Props = {
 
 const PortfolioGroupErrors = ({ error }: Props) => {
   let errorDisplay = null;
+
+  let error_header = 'Something went wrong!';
+
   if (error && error.meta) {
     switch (error.code) {
       case '2000':
@@ -126,10 +129,29 @@ const PortfolioGroupErrors = ({ error }: Props) => {
     }
   }
 
+  if (error.code === 'IBKR_CAN') {
+    error_header = 'Interactive Brokers Canada is not supported';
+    errorDisplay = (
+      <React.Fragment>
+        <P>
+          It appears that one or more of your accounts are with Interactive
+          Brokers Canada. Passiv does not support placing orders through
+          Interactive Brokers Canada, but you can still place those orders
+          manually.
+        </P>
+        <P>
+          If you believe this message is in error (for example, you don't
+          actually have an account with Interactive Brokers Canada), please{' '}
+          <Link to="/app/help">contact support</Link>.
+        </P>
+      </React.Fragment>
+    );
+  }
+
   return (
     <ErrorContainer>
       <H3>
-        <FontAwesomeIcon icon={faExclamationTriangle} /> Something went wrong!{' '}
+        <FontAwesomeIcon icon={faExclamationTriangle} /> {error_header}{' '}
         {errorDisplay}
       </H3>
     </ErrorContainer>

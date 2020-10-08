@@ -5,11 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { loadGroupAndAccounts, loadIncentives } from '../../actions';
 import { getData, postData } from '../../api';
-import {
-  selectSettings,
-  selectLimitOrdersFeature,
-  selectIncentives,
-} from '../../selectors';
+import { selectSettings, selectLimitOrdersFeature } from '../../selectors';
 import { selectShowQuestradeOffer } from '../../selectors/subscription';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
 import {
@@ -29,7 +25,6 @@ import {
 import ErrorMessage from './ErrorMessage';
 import { Button } from '../../styled/Button';
 import UpgradeIdea from '../UpgradeIdea';
-import TryOneClickTrades from '../IncentivesMessage/TryOneClickTrades';
 
 type Props = {
   groupId: string;
@@ -48,16 +43,11 @@ const RebalanceWidget = ({
   tradesUntrigger,
 }: Props) => {
   const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
-  const incentives = useSelector(selectIncentives);
   const showLimitOrdersFeature = useSelector(selectLimitOrdersFeature);
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
 
   let hasFreeOneClicks = false;
-
-  if (incentives && incentives.free_one_click_trade > 0) {
-    hasFreeOneClicks = true;
-  }
 
   const [validatingOrders, setValidatingOrders] = useState(false);
   const [placingOrders, setPlacingOrders] = useState(false);
@@ -133,7 +123,6 @@ const RebalanceWidget = ({
 
   let orderValidation = (
     <div>
-      <TryOneClickTrades />
       <Button onClick={validateOrders}>Preview Orders</Button>
     </div>
   );

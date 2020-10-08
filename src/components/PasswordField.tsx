@@ -48,9 +48,9 @@ export const PasswordField = ({ error }: Props) => {
       <IconBox>
         <i onClick={() => toggleVisibility()}>
           {visible ? (
-            <FontAwesomeIcon icon={faEye} />
-          ) : (
             <FontAwesomeIcon icon={faEyeSlash} />
+          ) : (
+            <FontAwesomeIcon icon={faEye} />
           )}
         </i>
       </IconBox>
