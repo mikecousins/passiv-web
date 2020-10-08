@@ -824,6 +824,88 @@ export const selectCurrentGroupTarget = createSelector(
       }
       return target;
     });
+
+    switch (groupInfo.settings.order_targets_by) {
+      case 0:
+        break;
+      case 1:
+        currentTarget
+          .sort((a, b) => {
+            if (a.percent - b.percent === 0) {
+              if (a.actualPercentage - b.actualPercentage === 0) {
+                return 1;
+              } else {
+                return a.actualPercentage - b.actualPercentage;
+              }
+            } else {
+              return a.percent - b.percent;
+            }
+          })
+          .reverse();
+        break;
+      case 2:
+        currentTarget
+          .sort((a, b) => {
+            if (a.actualPercentage - b.actualPercentage === 0) {
+              if (a.percent - b.percent === 0) {
+                return 1;
+              } else {
+                return a.percent - b.percent;
+              }
+            } else {
+              return a.actualPercentage - b.actualPercentage;
+            }
+          })
+          .reverse();
+        break;
+      case 3:
+        currentTarget
+          .sort((a, b) => {
+            let percentageErrorA =
+              Math.round(
+                ((a.percent - a.actualPercentage) / a.percent) * 100 * 10,
+              ) / 10;
+            let percentageErrorB =
+              Math.round(
+                ((b.percent - b.actualPercentage) / b.percent) * 100 * 10,
+              ) / 10;
+
+            if (percentageErrorA - percentageErrorB === 0) {
+              if (a.actualPercentage - b.actualPercentage === 0) {
+                return 1;
+              } else {
+                return a.actualPercentage - b.actualPercentage;
+              }
+            } else {
+              return percentageErrorA - percentageErrorB;
+            }
+          })
+          .reverse();
+        break;
+      case 4:
+        currentTarget.sort((a, b) => {
+          let percentageErrorA =
+            Math.round(
+              ((a.percent - a.actualPercentage) / a.percent) * 100 * 10,
+            ) / 10;
+          let percentageErrorB =
+            Math.round(
+              ((b.percent - b.actualPercentage) / b.percent) * 100 * 10,
+            ) / 10;
+
+          if (percentageErrorA - percentageErrorB === 0) {
+            if (a.actualPercentage - b.actualPercentage === 0) {
+              return -1;
+            } else {
+              return b.actualPercentage - a.actualPercentage;
+            }
+          } else {
+            return percentageErrorA - percentageErrorB;
+          }
+        });
+        break;
+    }
+
     return currentTarget;
   },
 );
