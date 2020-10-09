@@ -44,7 +44,7 @@ const RegistrationPage = ({ location }: Props) => {
     return <Redirect to={nextPath} />;
   } else {
     return (
-      <>
+      <React.Fragment>
         <H1>Create your Account</H1>
         <Formik
           initialValues={{
@@ -87,9 +87,16 @@ const RegistrationPage = ({ location }: Props) => {
                 dispatch(registerFailed(error));
               });
           }}
-        >
-          {({ touched, errors, values, handleChange, handleBlur, isValid }) => (
-            <Form>
+          render={({
+            touched,
+            errors,
+            values,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isValid,
+          }) => (
+            <Form onSubmit={handleSubmit}>
               <Label htmlFor="name">Name</Label>
               <Input
                 onChange={handleChange}
@@ -147,8 +154,8 @@ const RegistrationPage = ({ location }: Props) => {
               </div>
             </Form>
           )}
-        </Formik>
-      </>
+        />
+      </React.Fragment>
     );
   }
 };
