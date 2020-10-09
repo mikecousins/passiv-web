@@ -4,10 +4,11 @@ import { Formik, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
 import { postData } from '../api';
 import { selectPasswordResetToken } from '../selectors';
-import { Form, Input, Label } from '../styled/Form';
+import { Form, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import PasswordRequirements from '../components/PasswordRequirements';
+import PasswordField from '../components/PasswordField';
 
 const ResetPasswordConfirmPage = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -72,16 +73,7 @@ const ResetPasswordConfirmPage = () => {
           }) => (
             <Form onSubmit={handleSubmit}>
               <Label htmlFor="password">Password</Label>
-              <Input
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
-                border={errors.password && '1px solid red'}
-                type="password"
-                name="password"
-                placeholder="Password"
-                error={touched.password && errors.password}
-              />
+              <PasswordField error={touched.password && errors.password} />
 
               <P>
                 <ErrorMessage name="password" />

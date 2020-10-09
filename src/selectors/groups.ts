@@ -607,6 +607,31 @@ export const selectCurrentGroupTrades = createSelector(
   },
 );
 
+export const selectCurrentGroupTradesHasSkippedTrades = createSelector(
+  selectCurrentGroupId,
+  selectGroupInfo,
+  (groupId, groupInfo) => {
+    let trades = null;
+    let hasSkippedTrades = false;
+    if (
+      groupId &&
+      groupInfo &&
+      groupInfo[groupId] &&
+      groupInfo[groupId].data &&
+      groupInfo[groupId].data!.calculated_trades
+    ) {
+      trades = groupInfo[groupId].data!.calculated_trades.trades;
+      trades.forEach(trade => {
+        if (trade.skip_trade) {
+          hasSkippedTrades = true;
+          return hasSkippedTrades;
+        }
+      });
+    }
+    return hasSkippedTrades;
+  },
+);
+
 export const selectCurrentGroupSymbols = createSelector(
   selectCurrentGroupInfo,
   groupInfo => {

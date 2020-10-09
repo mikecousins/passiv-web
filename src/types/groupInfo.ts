@@ -65,6 +65,7 @@ export type ExcludedPosition = {
 
 export type Trade = {
   action: string;
+  skip_trade: boolean;
 };
 
 export type CalculatedTrades = {

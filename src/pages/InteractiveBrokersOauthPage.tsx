@@ -113,6 +113,22 @@ const InteractiveBrokersOauthPage = () => {
           </React.Fragment>
         );
         break;
+      case '1053':
+        errorDisplay = (
+          <React.Fragment>
+            <P>
+              Interactive Brokers Canada is not supported by Passiv due to our
+              exclusivity agreement with Questrade. Please consider transferring
+              this account to Questrade in order to use it with Passiv.
+            </P>
+            <P>
+              If you believe you have received this message in error, please{' '}
+              <Link to="/app/help">contact support</Link> and describe your
+              situation.
+            </P>
+          </React.Fragment>
+        );
+        break;
       case '0000':
         errorDisplay = (
           <P>
