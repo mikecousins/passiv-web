@@ -104,6 +104,11 @@ const PerformancePage = React.lazy(() =>
   import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
 );
 
+const AssetClassPage = React.lazy(() =>
+  //? webpackChunkName
+  import(/* webpackChunkName: "...?" */ '../pages/AssetClassPage'),
+);
+
 // declare global {
 //   interface Window {
 //     Stripe: any;
@@ -382,6 +387,12 @@ const App = () => {
             )}
             {showSecureApp && (
               <Route path={prefixPath('/share')} component={SharePage} />
+            )}
+            {showSecureApp && (
+              <Route
+                path={prefixPath('/asset-class')}
+                component={AssetClassPage}
+              />
             )}
             // insecure app
             {showInsecureApp && (
