@@ -12,6 +12,7 @@ import {
   formattedToday,
   formattedYearAgo,
 } from '../components/Performance/DatePickers';
+import { loadGoals } from './goals';
 
 export const loginSucceeded: ActionCreator<Action> = payload => ({
   type: 'LOGIN_SUCCEEDED',
@@ -426,6 +427,7 @@ export const reloadEverything: ActionCreator<ThunkAction<
     dispatch(setStartDate(startDate));
     dispatch(setEndDate(endDate));
     dispatch(loadPerformanceCustom(selectedAccounts, startDate, endDate));
+    dispatch(loadGoals());
   };
 };
 

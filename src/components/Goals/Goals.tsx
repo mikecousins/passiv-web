@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { P, A } from '../../styled/GlobalElements';
 import GoalSetup from './GoalSetup';
+import GoalsList from './GoalsList';
 
 const BetaBanner = styled(P)`
   text-align: center;
@@ -30,7 +31,7 @@ export const Goals = () => {
         </AddGoalButton>
       )}
       {currentMode === 'add' && <GoalSetup setGoalMode={setCurrentMode} />}
-      {currentMode === 'view' && <div>View Mode</div>}
+      {currentMode === 'view' && <GoalsList />}
 
       <BetaBanner>
         Open Beta: Help us improve our tools by{' '}
