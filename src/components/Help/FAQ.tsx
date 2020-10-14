@@ -34,21 +34,13 @@ const FAQ = () => (
         </P>
       </ShadowBox>
       <ShadowBox>
-        <H3>I’m American. Can I use Passiv?</H3>
-        <P>
-          Right now we only support Canadian Questrade accounts, but we’re
-          aiming to partner with brokerages south of the border in 2019 - stay
-          tuned (and tell your brokerage about us!).
-        </P>
-      </ShadowBox>
-      <ShadowBox>
-        <H3>Does Passiv store my Questrade login credentials?</H3>
+        <H3>Does Passiv store my brokerage login credentials?</H3>
         <P>
           No, Passiv does not ask for or store users’ login credentials. To link
-          your account to Passiv, Passiv sends you over to Questrade’s website,
-          where you log in. That tells Questrade to give Passiv something called
-          a token. Passiv gets the information it needs through this token. To
-          read more about this process, click{' '}
+          your account to Passiv, Passiv sends you over to your broker's website
+          with a secure request for account access. When you approve Passiv's
+          access request, Passiv receives an access token to read your account
+          information. To read more about this process, click{' '}
           <A
             href="https://passiv.com/security/"
             target="_blank"
@@ -60,11 +52,11 @@ const FAQ = () => (
         </P>
       </ShadowBox>
       <ShadowBox>
-        <H3>Will using Passiv void Questrade’s terms of service?</H3>
+        <H3>Will using Passiv void my broker's terms of service?</H3>
         <P>
-          Using Passiv will not void Questrade’s terms of service. We are an
-          official partner and we use Questrade’s official API for third-party
-          product integration.
+          Using Passiv will not void your terms of service. Passiv works with
+          brokers as an official API partner, which means we are compliant with
+          their rules for third party account access.
         </P>
       </ShadowBox>
       <ShadowBox>
@@ -76,7 +68,7 @@ const FAQ = () => (
             target="_blank"
             rel="noopener noreferrer"
           >
-            Questrade’s official Application Programming Interface
+            your broker's official Application Programming Interface
           </A>{' '}
           (API).
         </P>
@@ -94,9 +86,8 @@ const FAQ = () => (
         <P>
           Trade access is needed if you’d like to use the One-Click Trades
           feature, where Passiv executes trades on your behalf with the click of
-          one button. If you do not want to use this feature, simply go to
-          Settings and click the Re-authorize button next to Read-Only Access.
-          This removes trading access.
+          one button. If you do not want to use this feature, you can disable
+          trade access from your Settings page under Connections.
         </P>
       </ShadowBox>
       <ShadowBox>
@@ -105,8 +96,8 @@ const FAQ = () => (
           trade access?
         </H3>
         <P>
-          Yes, simply go to the Settings page and re-authorize Passiv with
-          Read-only access. This removes trading access.
+          Yes, simply go to the Settings page and reconnect Passiv with
+          read-only access. This removes trading access.
         </P>
       </ShadowBox>
       <ShadowBox>
