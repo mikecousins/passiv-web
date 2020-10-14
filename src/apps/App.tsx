@@ -390,7 +390,7 @@ const App = () => {
             )}
             {showSecureApp && (
               <Route
-                path={prefixPath('/asset-class')}
+                path={prefixPath('/asset-class/:groupId')}
                 component={AssetClassPage}
               />
             )}
