@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectGroups } from '../../selectors/groups';
 import { postData } from '../../api';
 import { formattedToday } from '../Performance/DatePickers';
+import { loadGoals } from '../../actions/goals';
+import { selectSettings } from '../../selectors';
 // import { getData, postData } from '../../api';
 
 const Button = styled.button`
@@ -167,6 +169,9 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   const [targetDate, setTargetDate] = useState(formattedYearFromNow());
   const [portfolioGroupId, setPortfolioGroupId] = useState<string | null>(null);
   const [contributionFrequency, setContributionFrequency] = useState('monthly');
+  const dispatch = useDispatch();
+  const settings = useSelector(selectSettings);
+  const currency = settings?.preferred_currency;
 
   const goalData = {
     goalName,
@@ -175,12 +180,13 @@ export const GoalSetup = ({ setGoalMode }: any) => {
     portfolioGroupId,
     targetDate,
     contributionFrequency,
+    currency,
   };
 
   const finishSetup = () => {
-    postData('/api/v1/goals/', goalData);
-    //  .then(response => dispatch(importTargetSuccess(response)))
-    //  .catch(error => dispatch(importTargetError(error)));
+    postData('/api/v1/goals/', goalData)
+      .then(() => dispatch(loadGoals()))
+      .catch(error => console.log(error));
     setGoalMode('view');
   };
 

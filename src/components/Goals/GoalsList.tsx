@@ -1,21 +1,30 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
-import { selectGoals } from '../../selectors/goals';
+import {
+  selectDashboardGroups,
+  selectTotalGroupHoldings,
+} from '../../selectors/groups';
+import { Goal } from '../../types/goals';
 import GoalWidget from './GoalWidget';
 
-export const GoalsList = () => {
-  const goals = useSelector(selectGoals).data;
-  const goalButtons: any = [];
+type Props = {
+  goals: Goal[] | null;
+};
+export const GoalsList: FunctionComponent<Props> = ({ goals }) => {
+  const goalWidgets: any = [];
+  const groups = useSelector(selectDashboardGroups);
 
   goals?.forEach(goal => {
-    goalButtons.push(<GoalWidget goal={goal} />);
+    const group = groups.find(x => x.id === goal.portfolio_group?.id);
+    goalWidgets.push(<GoalWidget goal={goal} group={group} />);
   });
 
   return (
     <React.Fragment>
       <div>View Mode</div>
-      {goalButtons}
+      <br />
+      {goalWidgets}
     </React.Fragment>
   );
 };

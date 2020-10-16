@@ -40,6 +40,8 @@ import {
   selectPerformanceNeedData,
   selectACBNeedData,
 } from '../selectors/performance';
+import { selectGoalsNeedData } from '../selectors/goals';
+import { loadGoals } from '../actions/goals';
 
 export { default as reducer } from '../reducers';
 
@@ -107,5 +109,9 @@ export const effects = [
   {
     selector: selectShouldCheckIfOnline,
     actionCreator: checkIfOnline,
+  },
+  {
+    selector: selectGoalsNeedData,
+    actionCreator: loadGoals,
   },
 ];
