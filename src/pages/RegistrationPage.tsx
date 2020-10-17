@@ -13,15 +13,10 @@ import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import PasswordRequirements from '../components/PasswordRequirements';
 import PasswordField from '../components/PasswordField';
-import styled from '@emotion/styled';
 
 type Props = {
   location: any;
 };
-
-const HiddenField = styled.div`
-  display: none;
-`;
 
 const RegistrationPage = ({ location }: Props) => {
   const loggedIn = useSelector(selectLoggedIn);
@@ -132,7 +127,7 @@ const RegistrationPage = ({ location }: Props) => {
               <PasswordRequirements />
 
               {referralCode && (
-                <HiddenField>
+                <React.Fragment>
                   <Label htmlFor="referrer">Referral Code</Label>
                   <Input
                     onChange={handleChange}
@@ -143,7 +138,7 @@ const RegistrationPage = ({ location }: Props) => {
                     name="referralCode"
                     placeholder="Referral Code"
                   />
-                </HiddenField>
+                </React.Fragment>
               )}
 
               <div>
