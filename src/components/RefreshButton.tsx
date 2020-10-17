@@ -19,9 +19,7 @@ export const Button = styled.button`
     margin-right: 5px;
   }
   &:hover {
-    svg {
-      color: var(--brand-blue);
-    }
+    color: var(--brand-blue);
   }
 `;
 
