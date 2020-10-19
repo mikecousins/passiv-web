@@ -97,7 +97,7 @@ const SideBar = () => {
                   indent={true}
                 />
                 <SideBarLink
-                  name="Asset Class - test"
+                  name="Set up Asset Classes"
                   linkPath={`/app/asset-class/${group.id}`}
                 />
               </>
