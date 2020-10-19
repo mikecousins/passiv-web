@@ -28,7 +28,7 @@ const StyledCombobox = styled(Combobox)`
 const StyledInput = styled(ComboboxInput)`
   width: 500px;
   border: 1px solid;
-  padding: 5px;
+  padding: 10px;
   @media (max-width: 900px) {
     width: 81vw;
     margin-bottom: 20px;
@@ -77,7 +77,7 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
     postData(`/api/v1/portfolioGroups/${groupId}/symbols`, {
       substring: input,
     })
-      .then(response => {
+      .then((response) => {
         setMatchingSymbols(response.data);
         setLoading(false);
       })
@@ -91,7 +91,7 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
     if (!matchingSymbols) {
       return;
     }
-    const symbol = matchingSymbols.find(symbol => id === symbol.id);
+    const symbol = matchingSymbols.find((symbol) => id === symbol.id);
     if (symbol) {
       onSelect(symbol);
     }
