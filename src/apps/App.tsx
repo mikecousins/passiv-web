@@ -106,7 +106,7 @@ const PerformancePage = React.lazy(() =>
 
 const AssetClassPage = React.lazy(() =>
   //? webpackChunkName
-  import(/* webpackChunkName: "...?" */ '../pages/AssetClassPage'),
+  import(/* webpackChunkName: "...?" */ '../pages/AssetClassPage.jsx'),
 );
 
 // declare global {
