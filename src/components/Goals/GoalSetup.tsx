@@ -158,7 +158,11 @@ const PortfolioGroupButtons = ({
     buttons.push(
       <ButtonGhost
         className={portfolioGroupId === portfolioGroup.id ? 'selected' : 'none'}
-        onClick={() => setPortfolioGroupId(portfolioGroup.id)}
+        onClick={
+          portfolioGroupId === portfolioGroup.id
+            ? () => setPortfolioGroupId(null)
+            : () => setPortfolioGroupId(portfolioGroup.id)
+        }
         value={portfolioGroup.id}
       >
         {portfolioGroup.name}
