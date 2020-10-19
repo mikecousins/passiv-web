@@ -15,7 +15,6 @@ const InputBox = styled.div`
 
 const NameInput = styled.input`
   width: 60%;
-  margin-bottom: 1rem;
   font-size: 1.7rem;
   font-weight: 500;
   &:focus {
@@ -50,6 +49,7 @@ const AssetClasses = () => {
 
   const [assetClasses, setAssetClasses] = useState([]);
   const [enteredSecurity, setEnteredSecurity] = useState();
+  const [searchBar, setSearchBar] = useState(false);
 
   useEffect(() => {
     // call API to get asset classes for the groupId
@@ -111,7 +111,6 @@ const AssetClasses = () => {
         }
       });
     }
-
     setAssetClasses(classes);
     console.log('asset class name change:', assetClasses);
   };
@@ -124,7 +123,7 @@ const AssetClasses = () => {
       }
     });
     setAssetClasses(classes);
-
+    setSearchBar(false);
     console.log('asset class after adding security:', assetClasses);
   };
 
@@ -147,6 +146,10 @@ const AssetClasses = () => {
   const handleBackBtn = () => {
     classes = assetClasses;
     console.log('Handle Back button: ', classes);
+  };
+
+  const clicked = () => {
+    setSearchBar(true);
   };
 
   let assetClassBox = assetClasses.map((astClass) => {
@@ -175,12 +178,6 @@ const AssetClasses = () => {
             assetClassNameChange(e, astClass.model_asset_class.id)
           }
         />
-        <SymbolSelector
-          value={enteredSecurity}
-          onSelect={(cb) =>
-            handleAddSecurity(cb, astClass.model_asset_class.id)
-          }
-        />
         <ul style={{ margin: '30px' }}>
           {astClass.model_asset_class_target.map((e) => {
             return (
@@ -190,6 +187,7 @@ const AssetClasses = () => {
                   borderBottom: '1px solid #979797 ',
                   width: '60%',
                   padding: '10px 0',
+                  margin: '10px',
                 }}
               >
                 <span style={{ marginRight: '2rem', fontWeight: '700' }}>
@@ -211,6 +209,27 @@ const AssetClasses = () => {
               </li>
             );
           })}
+          {searchBar ? (
+            <SymbolSelector
+              value={enteredSecurity}
+              onSelect={(cb) =>
+                handleAddSecurity(cb, astClass.model_asset_class.id)
+              }
+            />
+          ) : (
+            <li
+              style={{
+                borderBottom: '1px solid #979797 ',
+                width: '60%',
+                padding: '10px 0',
+                cursor: 'pointer',
+                margin: '10px',
+              }}
+              onClick={clicked}
+            >
+              Add security in this asset class
+            </li>
+          )}
         </ul>
       </InputBox>
     );
