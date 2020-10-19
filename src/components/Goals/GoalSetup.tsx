@@ -1,24 +1,152 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
+import { P, H1 } from '../../styled/GlobalElements';
+import { Button } from '../../styled/Button';
+import { Label, InputPrimary, Select } from '../../styled/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectGroups } from '../../selectors/groups';
 import { postData } from '../../api';
 import { formattedToday } from '../Performance/DatePickers';
 import { loadGoals } from '../../actions/goals';
 import { selectSettings } from '../../selectors';
+import ShadowBox from '../../styled/ShadowBox';
+
 // import { getData, postData } from '../../api';
 
-const Button = styled.button`
-  background: #03846d;
+const HeaderBanner = styled.div`
+  margin-bottom: 30px;
+  h1 {
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  p {
+    margin-bottom: 0;
+    span {
+      font-weight: 700;
+      font-size: 14px;
+      margin-left: 5px;
+      display: inline-block;
+    }
+  }
+`;
+const InputPrimaryDate = styled(InputPrimary)`
+  max-width: 300px;
+`;
+const ButtonNext = styled(Button)`
   color: #fff;
   z-index: 2;
-  border-radius: 4px 4px 4px 4px;
   margin-right: 6px;
+  font-size: 20px;
   &.selected {
     color: #000;
   }
 `;
-
+const ButtonGhost = styled(Button)`
+  color: var(--brand-blue);
+  z-index: 2;
+  margin-bottom: 20px;
+  background: none;
+  border: 1px solid var(--brand-blue);
+  font-size: 20px;
+  border-radius: 0;
+  &.selected {
+    background: var(--brand-green);
+    color: #fff;
+    border: 1px solid var(--brand-green);
+  }
+`;
+const LabelGoal = styled(Label)`
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 0.04rem;
+`;
+const FormWrapper = styled.div`
+  max-width: 760px;
+  margin: 20px 0;
+`;
+const ShadowBoxRelative = styled(ShadowBox)`
+  position: relative;
+`;
+const Plant = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  display: block;
+  background: none;
+  transition: height 0.25s;
+  width: 200px;
+  height: 55px;
+`;
+const Plant1 = styled(Plant)`
+  height: 55px;
+`;
+const Plant2 = styled(Plant)`
+  height: 155px;
+`;
+const Plant3 = styled(Plant)`
+  height: 255px;
+`;
+const Stem = styled.div`
+  position: absolute;
+  width: 6px;
+  height: 100%;
+  left: 49%;
+  bottom: 0;
+  background: var(--brand-green);
+  animation-duration: 1.2s !important;
+  animation-fill-mode: forwards;
+`;
+const Leaf = styled.div`
+  position: relative;
+  width: 63px;
+  height: 34px;
+  border-radius: 15em 50% 14em;
+  background: var(--brand-green);
+  animation-duration: 1.2s !important;
+  animation-fill-mode: forwards;
+`;
+const Leaf01 = styled(Leaf)`
+  top: 70%;
+  left: 50%;
+  transform: rotate(-4deg);
+`;
+const Leaf02 = styled(Leaf)`
+  top: 60%;
+  right: 50%;
+  transform: rotate(227deg);
+`;
+const Leaf03 = styled(Leaf)`
+  width: 48px;
+  height: 44px;
+  border-radius: 18em 9% 15em;
+  top: 55%;
+  left: 24%;
+  transform: rotate(-12deg);
+`;
+const Leaf04 = styled(Leaf)`
+  width: 50px;
+  height: 34px;
+  border-radius: 15em 50% 14em;
+  top: 34%;
+  right: 8%;
+  transform: rotate(261deg);
+`;
+const Leaf05 = styled(Leaf)`
+  width: 63px;
+  height: 34px;
+  top: -25px;
+  right: 8px;
+  transform: rotate(-28deg);
+`;
+const Leaf06 = styled(Leaf)`
+  top: -44px;
+  left: -34px;
+  transform: rotate(253deg);
+  width: 39px;
+  height: 24px;
+`;
 const PortfolioGroupButtons = ({
   portfolioGroupId,
   setPortfolioGroupId,
@@ -28,13 +156,13 @@ const PortfolioGroupButtons = ({
 
   portfolioGroups?.forEach(portfolioGroup => {
     buttons.push(
-      <Button
+      <ButtonGhost
         className={portfolioGroupId === portfolioGroup.id ? 'selected' : 'none'}
         onClick={() => setPortfolioGroupId(portfolioGroup.id)}
         value={portfolioGroup.id}
       >
         {portfolioGroup.name}
-      </Button>,
+      </ButtonGhost>,
     );
   });
   if (portfolioGroups === null || portfolioGroups === undefined) {
@@ -50,12 +178,18 @@ export const GoalNaming = ({ setCurrentStep, setGoalName, goalName }: any) => {
 
   return (
     <React.Fragment>
-      <div>
-        Name your goal:{' '}
-        <input type="text" onChange={handleChange} value={goalName} />
-      </div>
-
-      <Button onClick={() => setCurrentStep('portfolioGroups')}>Next</Button>
+      <FormWrapper>
+        <LabelGoal htmlFor="goalname">What is your saving goal? </LabelGoal>
+        <InputPrimary
+          type="text"
+          id="goalname"
+          onChange={handleChange}
+          value={goalName}
+        />
+        <ButtonNext onClick={() => setCurrentStep('portfolioGroups')}>
+          Next
+        </ButtonNext>
+      </FormWrapper>
     </React.Fragment>
   );
 };
@@ -66,14 +200,16 @@ export const SelectPortfolioGroups = ({
   portfolioGroupId,
 }: any) => {
   return (
-    <div>
-      Portfolio Group:{' '}
+    <FormWrapper>
+      <LabelGoal>
+        Which account(s) do you want to contribute to this goal?{' '}
+      </LabelGoal>
       <PortfolioGroupButtons
         setPortfolioGroupId={setPortfolioGroupId}
         portfolioGroupId={portfolioGroupId}
       />
-      <Button onClick={() => setCurrentStep('setGoals')}>Next</Button>
-    </div>
+      <ButtonNext onClick={() => setCurrentStep('setGoals')}>Next</ButtonNext>
+    </FormWrapper>
   );
 };
 
@@ -108,15 +244,26 @@ export const SetGoals = ({
   };
 
   return (
-    <div>
+    <FormWrapper>
+      <div>
+        <Label>When do you want to reach your goal? </Label>
+        <InputPrimaryDate
+          type="date"
+          value={targetDate}
+          onChange={handleDateChange}
+        />
+      </div>
       <div>
         <input
           type="checkbox"
-          checked={investmentChecked}
-          onClick={handleInvestmentCheck}
+          checked={contributionChecked}
+          onClick={handleContributionCheck}
         />{' '}
-        Investment Goal:{' '}
-        <input
+        <LabelGoal>Total Holdings</LabelGoal>
+      </div>
+      <div>
+        <Label>What is your total $ goal? </Label>
+        <InputPrimary
           type="number"
           min={0}
           onChange={handleTotalTargetChange}
@@ -129,17 +276,11 @@ export const SetGoals = ({
           checked={contributionChecked}
           onClick={handleContributionCheck}
         />{' '}
-        Target Monthly Contributions:{' '}
-        <input
-          type="number"
-          min={0}
-          onChange={handleMonthlyContributionChange}
-          disabled={!contributionChecked}
-        />
+        <LabelGoal>Contributions</LabelGoal>
       </div>
       <div>
-        To Reach this Goal, I want to Contribute:{' '}
-        <select
+        <Label>How often do you want to contribute to you goal? </Label>
+        <Select
           disabled={!contributionChecked}
           onChange={handleContributionFrequencyChange}
           value={contributionFrequency}
@@ -150,14 +291,19 @@ export const SetGoals = ({
           <option value="semiannually">Semiannually</option>
           <option value="annually">Annually</option>
           <option value="none">Whenever I can</option>
-        </select>
+        </Select>
       </div>
       <div>
-        I want to reach this goal by:{' '}
-        <input type="date" value={targetDate} onChange={handleDateChange} />
+        <Label>To Reach this Goal, how much do you want to contribute? </Label>
+        <InputPrimary
+          type="number"
+          min={0}
+          onChange={handleMonthlyContributionChange}
+          disabled={!contributionChecked}
+        />
       </div>
-      <Button onClick={() => finishSetup()}>Finish</Button>
-    </div>
+      <ButtonNext onClick={() => finishSetup()}>Finish</ButtonNext>
+    </FormWrapper>
   );
 };
 
@@ -192,45 +338,62 @@ export const GoalSetup = ({ setGoalMode }: any) => {
 
   return (
     <React.Fragment>
-      {currentStep === 'naming' && (
-        <GoalNaming
-          setCurrentStep={setCurrentStep}
-          setGoalName={setGoalName}
-          goalName={goalName}
-        />
-      )}
-      {currentStep === 'portfolioGroups' && (
-        <SelectPortfolioGroups
-          setCurrentStep={setCurrentStep}
-          portfolioGroupId={portfolioGroupId}
-          setPortfolioGroupId={setPortfolioGroupId}
-        />
-      )}
-      {currentStep === 'setGoals' && (
-        <SetGoals
-          finishSetup={finishSetup}
-          setTotalValueTarget={setTotalValueTarget}
-          setMonthlyContributionTarget={setMonthlyContributionTarget}
-          setTargetDate={setTargetDate}
-          targetDate={targetDate}
-          contributionFrequency={contributionFrequency}
-          setContributionFrequency={setContributionFrequency}
-        />
-      )}
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      Debugging stuff:
-      <br />
-      Goal Name: {goalName}
-      <br />
-      Total Val: {totalValueTarget}
-      <br />
-      Monthly Val: {monthlyContributionTarget}
-      <br />
-      Portfolio Group: {portfolioGroupId}
+      <HeaderBanner>
+        <H1>Goal Setup</H1>
+        <P>
+          “If a goal is worth having, it’s worth blocking out the time in your
+          day to day life necessary to achieve it.” <span>Jill Koenig</span>
+        </P>
+      </HeaderBanner>
+      <ShadowBoxRelative>
+        {currentStep === 'naming' && (
+          <GoalNaming
+            setCurrentStep={setCurrentStep}
+            setGoalName={setGoalName}
+            goalName={goalName}
+          />
+        )}
+        {currentStep === 'portfolioGroups' && (
+          <SelectPortfolioGroups
+            setCurrentStep={setCurrentStep}
+            portfolioGroupId={portfolioGroupId}
+            setPortfolioGroupId={setPortfolioGroupId}
+          />
+        )}
+        {currentStep === 'setGoals' && (
+          <SetGoals
+            finishSetup={finishSetup}
+            setTotalValueTarget={setTotalValueTarget}
+            setMonthlyContributionTarget={setMonthlyContributionTarget}
+            setTargetDate={setTargetDate}
+            targetDate={targetDate}
+            contributionFrequency={contributionFrequency}
+            setContributionFrequency={setContributionFrequency}
+          />
+        )}
+        <Plant1>
+          <Stem>
+            {currentStep === 'naming' && (
+              <>
+                <Leaf05></Leaf05>
+                <Leaf06></Leaf06>
+              </>
+            )}
+            {currentStep === 'portfolioGroups' && (
+              <>
+                <Leaf05></Leaf05>
+                <Leaf06></Leaf06>
+              </>
+            )}
+            {currentStep === 'setGoals' && (
+              <>
+                <Leaf05></Leaf05>
+                <Leaf06></Leaf06>
+              </>
+            )}
+          </Stem>
+        </Plant1>
+      </ShadowBoxRelative>
     </React.Fragment>
   );
 };

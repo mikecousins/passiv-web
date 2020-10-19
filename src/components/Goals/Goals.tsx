@@ -2,27 +2,52 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectGoals } from '../../selectors/goals';
-import { P, A } from '../../styled/GlobalElements';
+import { P, A, H1 } from '../../styled/GlobalElements';
+import Grid from '../../styled/Grid';
 import { Goal } from '../../types/goals';
 import GoalSetup from './GoalSetup';
 import GoalsList from './GoalsList';
+import { Button } from '../../styled/Button';
+
+const HeaderBanner = styled(Grid)`
+  align-items: center;
+  margin-bottom: 30px;
+  h1 {
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  p {
+    margin-bottom: 0;
+    span {
+      font-weight: 700;
+      font-size: 14px;
+      margin-left: 5px;
+      display: inline-block;
+    }
+  }
+`;
 
 const BetaBanner = styled(P)`
   text-align: center;
   padding-bottom: 20px;
   color: #555555;
+  margin-top: 50px;
 `;
 
-const AddGoalButton = styled.button`
-  float: right;
-  background: #03846d;
-  color: #fff;
-  z-index: 2;
-  border-radius: 4px 4px 4px 4px;
-  margin-right: 6px;
-  padding: 10px;
+const AddGoalButton = styled(Button)`
+  margin: 0 0 0px auto;
+  display: block;
+  padding: 12px 24px 18px;
+  font-size: 1.2rem;
+  span {
+    font-weight: 900;
+    margin-right: 5px;
+    font-size: 1.6rem;
+    display: inline-block;
+  }
   &.noGoalsMade {
-    font-size: 22pt;
+    font-size: 2.5rem;
+    margin: 20px auto 50px;
   }
 `;
 
@@ -60,12 +85,23 @@ export const Goals = () => {
   return (
     <React.Fragment>
       {currentMode === 'view' && (
-        <AddGoalButton
-          onClick={() => setCurrentMode('add')}
-          className={goalsClass}
-        >
-          Add Goal +{' '}
-        </AddGoalButton>
+        <HeaderBanner columns="1fr auto">
+          <div>
+            <H1>Goals</H1>
+            <P>
+              “Success is the progressive realization of a worthwhile goal.”{' '}
+              <span>Earl Nightingale</span>
+            </P>
+          </div>
+          <div>
+            <AddGoalButton
+              onClick={() => setCurrentMode('add')}
+              className={goalsClass}
+            >
+              <span>+</span>Add Goal{' '}
+            </AddGoalButton>
+          </div>
+        </HeaderBanner>
       )}
       {currentMode === 'add' && <GoalSetup setGoalMode={setCurrentMode} />}
       {currentMode === 'view' && <GoalsList goals={goals} />}

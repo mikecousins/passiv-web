@@ -1,10 +1,6 @@
-import styled from '@emotion/styled';
 import React, { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  selectDashboardGroups,
-  selectTotalGroupHoldings,
-} from '../../selectors/groups';
+import { selectDashboardGroups } from '../../selectors/groups';
 import { Goal } from '../../types/goals';
 import GoalWidget from './GoalWidget';
 
@@ -22,8 +18,7 @@ export const GoalsList: FunctionComponent<Props> = ({ goals }) => {
 
   return (
     <React.Fragment>
-      <div>View Mode</div>
-      <br />
+      {/* <div>View Mode</div> */}
       {goalWidgets}
     </React.Fragment>
   );

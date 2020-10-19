@@ -7,21 +7,57 @@ import {
   selectTotalGroupHoldings,
 } from '../../selectors/groups';
 import { Goal } from '../../types/goals';
+import { P, H3 } from '../../styled/GlobalElements';
 import { toDollarString } from '../Performance/Performance';
+import ShadowBox from '../../styled/ShadowBox';
+import Grid from '../../styled/Grid';
 
-const Widget = styled.div`
-  padding-bottom: 20px;
+const Heading = styled.h2`
+  font-size: 30px;
+  font-weight: 500;
+  margin-bottom: 19px;
+  color: #04a287;
+  span {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1b1d22;
+    margin-left: 6px;
+  }
 `;
 const UnstyledLink = styled(Link)`
   text-decoration: none;
   color: black;
 `;
+const GridAlignBottom = styled(Grid)`
+  align-items: flex-end;
+`;
 const ProgressBar = styled.div`
-  background: lightgrey;
-  width: 30%;
+  background: #eee;
+  width: 100%;
+  border-radius: 25rem;
+  overflow: hidden;
+  margin-bottom: 12px;
 `;
 const Progress = styled.div`
-  background: #03846d;
+  background: #05a286;
+`;
+const ProgressCopy = styled.p`
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0 0 6px;
+  text-align: center;
+`;
+const ProgressContainer = styled.div`
+  margin-right: 5rem;
+`;
+const ShadowBoxWHover = styled(ShadowBox)`
+  transition: all 0.25s;
+  border: 1px solid #fff;
+  &:hover {
+    box-shadow: 4px 6px 12px 0 rgb(107 110 115 / 40%);
+    border: 1px solid #023ca2;
+  }
 `;
 
 type Props = {
@@ -43,20 +79,36 @@ export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
   }
   return (
     <React.Fragment>
-      <Widget>
-        <UnstyledLink to={`/app/goal/${goal.id}`}>
-          <div>Title: {goal?.title}</div>
-          <div>Target Completion Date: {goal?.target_date}</div>
-          <div>Current Value: ${toDollarString(currentValue)}</div>
-          <div>Target Value: ${toDollarString(targetValue)}</div>
-          <div>Progress: {progressPercent.toFixed(0)}%</div>
-          <ProgressBar>
-            <Progress
-              style={{ height: '24px', width: progressPercent + '%' }}
-            ></Progress>
-          </ProgressBar>
-        </UnstyledLink>
-      </Widget>
+      <UnstyledLink to={`/app/goal/${goal.id}`}>
+        <ShadowBoxWHover>
+          <Heading>
+            {goal?.title} <span> {goal?.target_date}</span>
+          </Heading>
+          <GridAlignBottom columns="200px auto 200px">
+            <div>
+              <P>
+                <H3>Balance</H3> ${toDollarString(currentValue)}
+              </P>
+            </div>
+            <ProgressContainer>
+              <ProgressCopy>
+                You're <strong>{progressPercent.toFixed(0)}%</strong> of the way
+                there!
+              </ProgressCopy>
+              <ProgressBar>
+                <Progress
+                  style={{ height: '24px', width: progressPercent + '%' }}
+                ></Progress>
+              </ProgressBar>
+            </ProgressContainer>
+            <div>
+              <P>
+                <H3>Target</H3> ${toDollarString(targetValue)}
+              </P>
+            </div>
+          </GridAlignBottom>
+        </ShadowBoxWHover>
+      </UnstyledLink>
     </React.Fragment>
   );
 };
