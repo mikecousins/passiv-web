@@ -76,10 +76,36 @@ const QuestradeOauthPage = () => {
         break;
       case '1017':
         errorDisplay = (
-          <P>
-            An identical connection already exists, please update or delete the
-            existing connection.
-          </P>
+          <React.Fragment>
+            <P>
+              The brokerage account you tried to link is already connected with
+              Passiv.
+            </P>
+            <P>
+              If you are trying to add a new connection for another account,
+              please make sure that you are logged out of Questrade's dashboard.{' '}
+              <A
+                href="https://my.questrade.com/clients/signout.aspx"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Logout Questrade
+              </A>
+            </P>
+            <P>
+              If you are trying to change your connection type (for example,
+              switching from read-access to trade-access), check out our
+              tutorial on{' '}
+              <A
+                href="https://passiv.com/help/tutorials/how-to-manage-your-brokerage-connections/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Managing your Brokerage Connections
+              </A>
+              .
+            </P>
+          </React.Fragment>
         );
         break;
       case '1023':
