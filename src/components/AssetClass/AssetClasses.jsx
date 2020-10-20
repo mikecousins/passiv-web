@@ -6,7 +6,7 @@ import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 
 const InputBox = styled.div`
   border: 1px solid #979797;
-  width: 80%;
+  width: 60%;
   height: 100%;
   box-sizing: border-box;
   padding: 30px 0 30px 40px;
@@ -49,7 +49,8 @@ const AssetClasses = () => {
 
   const [assetClasses, setAssetClasses] = useState([]);
   const [enteredSecurity, setEnteredSecurity] = useState();
-  const [searchBar, setSearchBar] = useState(false);
+  const [searchSecurity, setSearchSecurity] = useState(false);
+  const [selected, setSelected] = useState();
 
   useEffect(() => {
     // call API to get asset classes for the groupId
@@ -89,7 +90,7 @@ const AssetClasses = () => {
     console.log(assetClasses);
   };
 
-  const handleAssetClassDelete = (e, assetClassId) => {
+  const handleDeleteAssetClass = (e, assetClassId) => {
     const classes = [...assetClasses];
     if (assetClassId) {
       classes.map((element, index) => {
@@ -102,7 +103,7 @@ const AssetClasses = () => {
     console.log('asset class deletion:', assetClasses);
   };
 
-  const assetClassNameChange = (e, assetClassId) => {
+  const handleAssetClassNameChange = (e, assetClassId) => {
     const classes = [...assetClasses];
     if (assetClassId) {
       classes.map((element) => {
@@ -123,11 +124,11 @@ const AssetClasses = () => {
       }
     });
     setAssetClasses(classes);
-    setSearchBar(false);
+    setSearchSecurity(false);
     console.log('asset class after adding security:', assetClasses);
   };
 
-  const deleteAssetHandler = (assetClassId, securityId) => {
+  const handleDeleteSecurity = (assetClassId, securityId) => {
     const classes = [...assetClasses];
 
     classes.map((element) => {
@@ -148,8 +149,9 @@ const AssetClasses = () => {
     console.log('Handle Back button: ', classes);
   };
 
-  const clicked = () => {
-    setSearchBar(true);
+  const handleSearchSecurity = (id) => {
+    setSelected(id);
+    setSearchSecurity(true);
   };
 
   let assetClassBox = assetClasses.map((astClass) => {
@@ -165,7 +167,7 @@ const AssetClasses = () => {
             margin: '10px',
           }}
           onClick={(e) =>
-            handleAssetClassDelete(e, astClass.model_asset_class.id)
+            handleDeleteAssetClass(e, astClass.model_asset_class.id)
           }
         >
           Delete
@@ -175,7 +177,7 @@ const AssetClasses = () => {
           value={astClass.model_asset_class.name}
           key={astClass.model_asset_class.id}
           onChange={(e) =>
-            assetClassNameChange(e, astClass.model_asset_class.id)
+            handleAssetClassNameChange(e, astClass.model_asset_class.id)
           }
         />
         <ul style={{ margin: '30px' }}>
@@ -201,7 +203,7 @@ const AssetClasses = () => {
                     fontSize: '1rem',
                   }}
                   onClick={() =>
-                    deleteAssetHandler(astClass.model_asset_class.id, e.id)
+                    handleDeleteSecurity(astClass.model_asset_class.id, e.id)
                   }
                 >
                   Delete
@@ -209,7 +211,7 @@ const AssetClasses = () => {
               </li>
             );
           })}
-          {searchBar ? (
+          {searchSecurity && selected === astClass.model_asset_class.id ? (
             <SymbolSelector
               value={enteredSecurity}
               onSelect={(cb) =>
@@ -225,7 +227,9 @@ const AssetClasses = () => {
                 cursor: 'pointer',
                 margin: '10px',
               }}
-              onClick={clicked}
+              onClick={() =>
+                handleSearchSecurity(astClass.model_asset_class.id)
+              }
             >
               Add security in this asset class
             </li>
