@@ -55,7 +55,7 @@ const AssetClasses = () => {
     // call API to get asset classes for the groupId
 
     //if asset classes exist
-    const listOfAssetClasses = assetClasses;
+    const listOfAssetClasses = [...assetClasses];
     if (classes) {
       classes.map((cls) => {
         listOfAssetClasses.push(cls);
@@ -77,7 +77,7 @@ const AssetClasses = () => {
   }, []);
 
   const handleAddAssetClass = () => {
-    const listOfAssetClasses = assetClasses;
+    const listOfAssetClasses = [...assetClasses];
     listOfAssetClasses.push({
       model_asset_class: {
         id: Math.floor(Math.random() * 999),
