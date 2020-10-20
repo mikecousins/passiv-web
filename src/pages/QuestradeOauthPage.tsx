@@ -11,10 +11,16 @@ import { H1, H2, P, BulletUL, A } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import { Step } from '../styled/SignupSteps';
 import { selectQueryTokens } from '../selectors/router';
-import { selectQuestradeOfferFeature } from '../selectors';
+import {
+  selectQuestradeOfferFeature,
+  selectBrokerages,
+  selectMaintenanceBrokerages,
+} from '../selectors';
 import { selectIsPaid } from '../selectors/subscription';
 import { Error } from '../types/groupInfo';
 import styled from '@emotion/styled';
+import { Brokerage as BrokerageType } from '../types/brokerage';
+import { toast } from 'react-toastify';
 
 const BulletULPadded = styled(BulletUL)`
   padding-left: 20px;
@@ -34,6 +40,8 @@ const QuestradeOauthPage = () => {
   const isPaid = useSelector(selectIsPaid);
   const questradeOfferFeatureActive = useSelector(selectQuestradeOfferFeature);
   const dispatch = useDispatch();
+  const brokerages = useSelector(selectBrokerages);
+  const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
 
   useEffect(() => {
     const token = queryParams.code;
@@ -60,6 +68,35 @@ const QuestradeOauthPage = () => {
         });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const checkBrokerageMaintenance = (brokerage: BrokerageType) => {
+    if (
+      maintenanceBrokerages.find((b: BrokerageType) => b.id === brokerage.id)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const startConnection = () => {
+    const brokerage =
+      brokerages &&
+      brokerages.find(brokerage => brokerage.name === 'Questrade');
+    if (brokerage) {
+      if (checkBrokerageMaintenance(brokerage) === true) {
+        toast.error(
+          `${brokerage.name} is currently undergoing maintenance and cannot establish new connections at this time. Please try again later.`,
+        );
+      } else {
+        postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+          type: 'read',
+        }).then(response => {
+          window.location = response.data.url;
+        });
+      }
+    }
+  };
 
   let errorDisplay = null;
   if (error) {
@@ -105,6 +142,7 @@ const QuestradeOauthPage = () => {
               </A>
               .
             </P>
+            <Button onClick={() => startConnection()}>Try Again</Button>
           </React.Fragment>
         );
         break;
