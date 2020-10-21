@@ -17,6 +17,9 @@ export const selectToken = (state: AppState) => state.auth.token;
 
 export const selectReferral = (state: AppState) => state.referral;
 
+// export const selectModelAssetClassRaw = (state: AppState) =>
+//   state.modelAssetClass;
+
 export const selectReferralCode = createSelector(selectReferral, (referral) => {
   if (referral !== null) {
     return referral.referralCode;
@@ -445,3 +448,13 @@ export const selectName = createSelector(selectSettings, (settings) => {
 
 export const selectIsUpdateServiceWorker = (state: AppState) =>
   state.updateServiceWorker;
+
+// export const selectModelAssetClass = createSelector(
+//   selectAccountsRaw,
+//   (rawAccounts) => {
+//     if (rawAccounts.data) {
+//       return rawAccounts.data;
+//     }
+//     return [];
+//   },
+// );

@@ -12,6 +12,7 @@ import {
   loadHelpArticles,
   loadFeatures,
   loadIncentives,
+  fetchAssetClass,
 } from '../actions';
 import {
   loadPerformanceAll,
@@ -109,4 +110,8 @@ export const effects = [
     selector: selectShouldCheckIfOnline,
     actionCreator: checkIfOnline,
   },
+  // {
+  //   selector: selectModelAssetClass,
+  //   actionCreator: fetchAssetClass,
+  // },
 ];

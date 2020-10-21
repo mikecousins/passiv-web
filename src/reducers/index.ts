@@ -22,6 +22,7 @@ import { Authorization } from '../types/authorization';
 import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
 import { Settings } from '../types/settings';
+// import { modelAssetClassDetails } from '../types/modelAssetClass';
 import {
   PerformanceData,
   PerformanceCustomData,
@@ -50,6 +51,7 @@ export default (history: any) =>
     reportingStartDate,
     reportingEndDate,
     referral,
+    // modelAssetClass,
     helpArticles: simple<any>({
       baseType: 'FETCH_HELP_ARTICLES',
       userData: false,
@@ -122,4 +124,8 @@ export default (history: any) =>
       baseType: 'FETCH_ACB',
       userData: true,
     }),
+    // modelAssetClassDetails: simple<any>({
+    //   baseType: 'FETCH_MODELASSETCLASS',
+    //   userData: true,
+    // }),
   });

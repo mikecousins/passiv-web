@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import { Button } from '../../styled/Button';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
+import { getData } from '../../api/index';
+import { fetchAssetClass } from '../../actions/index';
 
 const InputBox = styled.div`
   border: 1px solid #979797;
@@ -26,6 +29,7 @@ const NameInput = styled.input`
 `;
 
 const AssetClasses = () => {
+  const dispatch = useDispatch();
   let classes = [
     {
       model_asset_class: {
@@ -48,13 +52,23 @@ const AssetClasses = () => {
   ];
 
   const [assetClasses, setAssetClasses] = useState([]);
-  const [enteredSecurity, setEnteredSecurity] = useState();
+  const [enteredSymbol, setEnteredSymbol] = useState();
   const [searchSecurity, setSearchSecurity] = useState(false);
   const [selected, setSelected] = useState();
 
+  const callApi = () => {
+    getData('/api/v1/modelAssetClass/')
+      .then(() => {
+        dispatch(fetchAssetClass());
+      })
+      .catch(() => {
+        dispatch(fetchAssetClass());
+      });
+  };
+
   useEffect(() => {
     // call API to get asset classes for the groupId
-
+    callApi();
     //if asset classes exist
     const listOfAssetClasses = [...assetClasses];
     if (classes) {
@@ -157,7 +171,6 @@ const AssetClasses = () => {
   let assetClassBox = assetClasses.map((astClass) => {
     return (
       //? this probably needs to be a separate component
-
       <InputBox>
         <Button
           style={{
@@ -213,7 +226,7 @@ const AssetClasses = () => {
           })}
           {searchSecurity && selected === astClass.model_asset_class.id ? (
             <SymbolSelector
-              value={enteredSecurity}
+              value={enteredSymbol}
               onSelect={(cb) =>
                 handleAddSecurity(cb, astClass.model_asset_class.id)
               }
