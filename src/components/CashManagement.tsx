@@ -90,14 +90,11 @@ const StyledSelect = styled(StyledFieldBase)`
   border-radius: 0;
   border: 1px solid #000;
   -webkit-appearance: none;
-
   background-image: linear-gradient(45deg, #0000 50%, #fff 50%),
     linear-gradient(135deg, #fff 50%, #0000 50%),
     linear-gradient(to right, #2a2d34, #2a2d34);
-
   background-position: calc(100% - 20px) calc(1em + 2px),
     calc(100% - 15px) calc(1em + 2px), 100% 0;
-
   background-size: 8px 5px, 5px 5px, 2.5em 3.5em;
   background-repeat: no-repeat;
 `;
@@ -206,9 +203,8 @@ const CashManagement = () => {
             actions.setSubmitting(false);
           });
       }}
-    >
-      {(props) => (
-        <CashForm>
+      render={(props) => (
+        <CashForm onSubmit={props.handleSubmit}>
           <CashRow>
             <ColumnAccount>
               <StyledSelect as="select" name="account">
@@ -251,7 +247,7 @@ const CashManagement = () => {
           </CashRow>
         </CashForm>
       )}
-    </Formik>
+    />
   );
 
   let cashRestrictionsContent = null;
