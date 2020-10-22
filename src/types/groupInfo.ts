@@ -83,6 +83,7 @@ export type Settings = {
   preferred_currency: string;
   target_initialized: boolean;
   order_targets_by: number;
+  rebalance_by_asset_class: boolean;
 };
 
 export type Error = {
