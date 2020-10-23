@@ -763,7 +763,14 @@ export const selectCurrentGroupTarget = createSelector(
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrencyRates,
   selectPreferredCurrency,
-  (groupInfo, totalHoldingsExcludedRemoved, rates, preferredCurrency) => {
+  selectCurrentGroupTrades,
+  (
+    groupInfo,
+    totalHoldingsExcludedRemoved,
+    rates,
+    preferredCurrency,
+    calculatedTrades,
+  ) => {
     if (
       !groupInfo ||
       !groupInfo.asset_classes_details ||
@@ -781,6 +788,21 @@ export const selectCurrentGroupTarget = createSelector(
     const rebalance_by_asset_class =
       groupInfo.settings.rebalance_by_asset_class;
 
+    let symbols_not_in_target: string[] = [];
+
+    if (calculatedTrades && calculatedTrades.trades) {
+      const trades = calculatedTrades.trades;
+
+      trades.forEach((trade) => {
+        if (trade.symbol_in_target === false) {
+          let symbol_id = trade.universal_symbol.id;
+          if (symbol_id) {
+            symbols_not_in_target.push(symbol_id);
+          }
+        }
+      });
+    }
+
     // add the target positions
     const currentTargetRaw = groupInfo.asset_classes_details;
 
@@ -792,6 +814,10 @@ export const selectCurrentGroupTarget = createSelector(
 
         targetRawSymbols.forEach((symbol) => {
           let is_supported = quotable_tickers.includes(symbol.symbol);
+
+          if (symbols_not_in_target.includes(symbol.symbol)) {
+            return;
+          }
 
           const target: TargetPosition = {
             id: symbol.symbol,
