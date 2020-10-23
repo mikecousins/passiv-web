@@ -27,11 +27,13 @@ export const Flex = styled.div`
 export const LeftAlign = styled.span`
   text-align-last: left;
 `;
-export const CustomizeDashBtn = styled.div`
+export const CustomizeDashContainer = styled.div`
   margin-bottom: 12px;
+  margin-bottom: 15px;
+`;
+export const CustomizeDashBtn = styled.span`
   text-decoration: none;
   color: #232225;
-  margin-bottom: 15px;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
@@ -88,9 +90,11 @@ export const DashboardReporting = () => {
 
   return (
     <React.Fragment>
-      <CustomizeDashBtn onClick={() => setConfigMode(!configMode)}>
-        <FontAwesomeIcon icon={faCogs} /> Customize Dashboard
-      </CustomizeDashBtn>
+      <CustomizeDashContainer>
+        <CustomizeDashBtn onClick={() => setConfigMode(!configMode)}>
+          <FontAwesomeIcon icon={faCogs} /> Customize Dashboard
+        </CustomizeDashBtn>
+      </CustomizeDashContainer>
       {showAccountFilterLabel && (
         <Tooltip label="Click for more details">
           <FilteredLabel
