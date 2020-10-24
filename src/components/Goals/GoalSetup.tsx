@@ -206,7 +206,7 @@ export const SelectPortfolioGroups = ({
   return (
     <FormWrapper>
       <LabelGoal>
-        Which account(s) do you want to contribute to this goal?{' '}
+        Is this goal for a specific Portfolio Group? (Optional){' '}
       </LabelGoal>
       <PortfolioGroupButtons
         setPortfolioGroupId={setPortfolioGroupId}
@@ -298,7 +298,9 @@ export const SetGoals = ({
         </Select>
       </div>
       <div>
-        <Label>To Reach this Goal, how much do you want to contribute? </Label>
+        <Label>
+          To Reach this Goal, how much do you want to contribute each period?{' '}
+        </Label>
         <InputPrimary
           type="number"
           min={0}
