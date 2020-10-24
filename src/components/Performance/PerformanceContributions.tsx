@@ -8,18 +8,51 @@ import {
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
-import { selectContributions } from '../../selectors/performance';
+import {
+  selectContributionMonthsTotal,
+  selectContributions,
+} from '../../selectors/performance';
 import { Contributions } from '../../types/performance';
 import Tooltip from '../Tooltip';
+import styled from '@emotion/styled';
+
+const AverageContributions = styled.div`
+  font-size: 17px;
+  color: #504d4dd9;
+`;
 
 type Props = {
   selectedTimeframe: string;
 };
-
 export const PerformanceContributions = (props: Props) => {
   const contributions: Contributions | undefined = useSelector(
     selectContributions,
   );
+
+  let contributionMonthsTotal: number | undefined = useSelector(
+    selectContributionMonthsTotal,
+  );
+  if (
+    contributionMonthsTotal !== null &&
+    contributionMonthsTotal !== undefined &&
+    contributionMonthsTotal < 1
+  ) {
+    contributionMonthsTotal = 1;
+  }
+  let averageMonthlyContribution = 0;
+  if (
+    contributionMonthsTotal !== null &&
+    contributionMonthsTotal !== undefined &&
+    contributions !== null &&
+    contributions !== undefined
+  ) {
+    averageMonthlyContribution =
+      contributions?.contributions / contributionMonthsTotal;
+  }
+  const averageMonthlyContributionString = toDollarString(
+    averageMonthlyContribution,
+  );
+
   const positive =
     contributions === undefined || !(contributions.contributions < 0);
 
@@ -54,6 +87,12 @@ export const PerformanceContributions = (props: Props) => {
               <FontAwesomeIcon icon={faCaretDown} />
             )}
           </CashReturn>
+          <AverageContributions>
+            Monthly Average:{' '}
+            <span style={{ color: '#04a286' }}>
+              ${averageMonthlyContributionString}
+            </span>
+          </AverageContributions>
         </div>
       </Tooltip>
     </React.Fragment>
