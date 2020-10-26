@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
+import { H3, P, Edit, H2 } from '../../styled/GlobalElements';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
-import { Button } from '../../styled/Button';
+import { Button, SmallButton } from '../../styled/Button';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
-import { getData } from '../../api/index';
-import { fetchAssetClass } from '../../actions/index';
+import { getData, postData, deleteData } from '../../api/index';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const InputBox = styled.div`
   border: 1px solid #979797;
-  width: 60%;
+  width: 50%;
   height: 100%;
   box-sizing: border-box;
   padding: 30px 0 30px 40px;
@@ -20,88 +22,64 @@ const NameInput = styled.input`
   width: 60%;
   font-size: 1.7rem;
   font-weight: 500;
-  &:focus {
-    outline: none;
-  }
-  &:hover {
-    border-bottom: 1px solid #979797;
-  }
+  padding: 10px;
+  border: 1px solid;
+  focus
 `;
 
-const AssetClasses = () => {
-  const dispatch = useDispatch();
-  let classes = [
-    {
-      model_asset_class: {
-        id: '2bcd7cc3-e922-4976-bce1-9858296801c3',
-        name: 'Bonds',
-      },
-      model_asset_class_target: [
-        {
-          description: 'Tesla Inc',
-          id: '81a0ae8c-f3a0-4126-8c77-25d18ef5fba3',
-          symbol: 'TSLA',
-          currency: {
-            id: 'c485d36a-617b-4b68-a366-d80e27be6a69',
-            code: 'USD',
-            name: 'US Dollar',
-          },
-        },
-      ],
-    },
-  ];
+const AssetClasses = (props) => {
+  //   const dispatch = useDispatch();
 
   const [assetClasses, setAssetClasses] = useState([]);
   const [enteredSymbol, setEnteredSymbol] = useState();
   const [searchSecurity, setSearchSecurity] = useState(false);
   const [selected, setSelected] = useState();
-
-  const callApi = () => {
-    getData('/api/v1/modelAssetClass/')
-      .then(() => {
-        dispatch(fetchAssetClass());
-      })
-      .catch(() => {
-        dispatch(fetchAssetClass());
-      });
-  };
+  const [edit, setEdit] = useState(false);
+  const [selectToEdit, setSelectToEdit] = useState();
 
   useEffect(() => {
     // call API to get asset classes for the groupId
-    callApi();
+
+    getData('/api/v1/modelAssetClass/').then((res) => {
+      setAssetClasses(res.data);
+    });
+
     //if asset classes exist
-    const listOfAssetClasses = [...assetClasses];
-    if (classes) {
-      classes.map((cls) => {
-        listOfAssetClasses.push(cls);
-      });
-    }
+    // const listOfAssetClasses = [...assetClasses];
+    // if (classes) {
+    //   classes.map((cls) => {
+    //     listOfAssetClasses.push(cls);
+    //   });
+    // }
     // if no asset asset classes
     // Math.floor(Math.random() * 999),
-    else {
-      listOfAssetClasses.push({
-        model_asset_class: {
-          id: Math.floor(Math.random() * 999),
-          name: 'New Asset Class',
-        },
-        model_asset_class_target: [],
-      });
-    }
+    // else {
+    //   listOfAssetClasses.push({
+    //     model_asset_class: {
+    //       id: Math.floor(Math.random() * 999),
+    //       name: 'New Asset Class',
+    //     },
+    //     model_asset_class_target: [],
+    //   });
+    // }
 
-    setAssetClasses(listOfAssetClasses);
+    // setAssetClasses(listOfAssetClasses);
   }, []);
 
   const handleAddAssetClass = () => {
-    const listOfAssetClasses = [...assetClasses];
-    listOfAssetClasses.push({
-      model_asset_class: {
-        id: Math.floor(Math.random() * 999),
-        name: 'New Asset Class',
-      },
-      model_asset_class_target: [],
+    const listOfAssetClasses = JSON.parse(JSON.stringify(assetClasses));
+    // listOfAssetClasses.push({
+    //   model_asset_class: {
+    //     id: Math.floor(Math.random() * 999),
+    //     name: 'New Asset Class',
+    //   },
+    //   model_asset_class_target: [],
+    // });
+    postData('/api/v1/modelAssetClass/').then((res) => {
+      listOfAssetClasses.push(res.data);
+      setAssetClasses(listOfAssetClasses);
+      console.log('add asset classes', listOfAssetClasses);
     });
-    setAssetClasses(listOfAssetClasses);
-    console.log(assetClasses);
   };
 
   const handleDeleteAssetClass = (e, assetClassId) => {
@@ -110,6 +88,7 @@ const AssetClasses = () => {
       classes.map((element, index) => {
         if (element.model_asset_class.id === assetClassId) {
           classes.splice(index, 1);
+          deleteData(`/api/v1/modelAssetClass/${element.model_asset_class.id}`);
         }
       });
     }
@@ -134,7 +113,13 @@ const AssetClasses = () => {
     const classes = [...assetClasses];
     classes.map((element) => {
       if (element.model_asset_class.id === assetClassId) {
-        element.model_asset_class_target.push(cb);
+        element.model_asset_class_target.push({ symbol: cb });
+        postData(`/api/v1/modelAssetClass/${assetClassId}`, {
+          model_asset_class: {
+            name: element.model_asset_class.name,
+          },
+          model_asset_class_target: [{ symbol: cb }],
+        });
       }
     });
     setAssetClasses(classes);
@@ -144,11 +129,10 @@ const AssetClasses = () => {
 
   const handleDeleteSecurity = (assetClassId, securityId) => {
     const classes = [...assetClasses];
-
     classes.map((element) => {
       if (element.model_asset_class.id === assetClassId) {
         element.model_asset_class_target.map((e, index) => {
-          if (e.id === securityId) {
+          if (e.symbol.id === securityId) {
             element.model_asset_class_target.splice(index, 1);
           }
         });
@@ -159,8 +143,8 @@ const AssetClasses = () => {
   };
 
   const handleBackBtn = () => {
-    classes = assetClasses;
-    console.log('Handle Back button: ', classes);
+    // classes = assetClasses;
+    console.log('Handle Back button: ');
   };
 
   const handleSearchSecurity = (id) => {
@@ -168,13 +152,31 @@ const AssetClasses = () => {
     setSearchSecurity(true);
   };
 
+  const nameChanged = (e, id) => {
+    postData(`/api/v1/modelAssetClass/${id}`, {
+      model_asset_class: {
+        name: e.target.value,
+      },
+      // loop through all the targets of this asset class saved in the state
+      model_asset_class_target: [],
+    });
+    setEdit(false);
+  };
+
+  const onEditName = (id) => {
+    setEdit(true);
+    setSelectToEdit(id);
+  };
+
   let assetClassBox = assetClasses.map((astClass) => {
     return (
       //? this probably needs to be a separate component
+
       <InputBox>
         <Button
           style={{
-            backgroundColor: 'red',
+            background: 'transparent',
+            color: 'rgb(236, 88, 81)',
             padding: '5px',
             float: 'right',
             margin: '10px',
@@ -183,32 +185,55 @@ const AssetClasses = () => {
             handleDeleteAssetClass(e, astClass.model_asset_class.id)
           }
         >
-          Delete
+          <FontAwesomeIcon icon={faTrashAlt} size="lg" />
         </Button>
-        <NameInput
-          type="text"
-          value={astClass.model_asset_class.name}
-          key={astClass.model_asset_class.id}
-          onChange={(e) =>
-            handleAssetClassNameChange(e, astClass.model_asset_class.id)
-          }
-        />
+        {edit && selectToEdit === astClass.model_asset_class.id ? (
+          <div>
+            <NameInput
+              type="text"
+              value={astClass.model_asset_class.name}
+              key={astClass.model_asset_class.id}
+              onChange={(e) =>
+                handleAssetClassNameChange(e, astClass.model_asset_class.id)
+              }
+              onKeyPress={(e) =>
+                e.key === 'Enter' &&
+                nameChanged(e, astClass.model_asset_class.id)
+              }
+            />
+            <hr />
+            {/* //! this doesn't work because we need a state to keep track of name change */}
+            {/* <SmallButton onClick={nameChanged}>Done</SmallButton> */}
+          </div>
+        ) : (
+          <P>
+            <span style={{ fontSize: '28px', fontWeight: 500 }}>
+              {astClass.model_asset_class.name}
+            </span>
+            <Edit onClick={() => onEditName(astClass.model_asset_class.id)}>
+              <FontAwesomeIcon icon={faPen} />
+              Edit
+            </Edit>
+          </P>
+        )}
+
         <ul style={{ margin: '30px' }}>
           {astClass.model_asset_class_target.map((e) => {
             return (
               <li
-                key={e.id}
+                key={e.symbol.id}
                 style={{
                   borderBottom: '1px solid #979797 ',
+                  // width: 'fit-content',
                   width: '60%',
                   padding: '10px 0',
                   margin: '10px',
                 }}
               >
                 <span style={{ marginRight: '2rem', fontWeight: '700' }}>
-                  {e.symbol}
+                  {e.symbol.symbol}
                 </span>
-                <span>{e.description}</span>
+                <span>{e.symbol.description}</span>
                 <button
                   style={{
                     marginLeft: '40px',
@@ -216,7 +241,10 @@ const AssetClasses = () => {
                     fontSize: '1rem',
                   }}
                   onClick={() =>
-                    handleDeleteSecurity(astClass.model_asset_class.id, e.id)
+                    handleDeleteSecurity(
+                      astClass.model_asset_class.id,
+                      e.symbol.id,
+                    )
                   }
                 >
                   Delete
