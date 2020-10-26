@@ -10,6 +10,7 @@ import updateServiceWorker from './updateServiceWorker';
 import online from './online';
 import version from './version';
 import referral from './referral';
+import modelAssetClasses from './modelAssetClasses';
 import { SubscriptionData } from '../types/subscription';
 import { GroupInfoData, Balance } from '../types/groupInfo';
 import { GroupData } from '../types/group';
@@ -22,7 +23,7 @@ import { Authorization } from '../types/authorization';
 import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
 import { Settings } from '../types/settings';
-// import { modelAssetClassDetails } from '../types/modelAssetClass';
+
 import {
   PerformanceData,
   PerformanceCustomData,
@@ -51,7 +52,7 @@ export default (history: any) =>
     reportingStartDate,
     reportingEndDate,
     referral,
-    // modelAssetClass,
+    astClasses: modelAssetClasses,
     helpArticles: simple<any>({
       baseType: 'FETCH_HELP_ARTICLES',
       userData: false,
@@ -124,8 +125,4 @@ export default (history: any) =>
       baseType: 'FETCH_ACB',
       userData: true,
     }),
-    // modelAssetClassDetails: simple<any>({
-    //   baseType: 'FETCH_MODELASSETCLASS',
-    //   userData: true,
-    // }),
   });

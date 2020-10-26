@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { H1, P } from '../styled/GlobalElements';
-import AssetClasses from '../components/AssetClass/AssetClasses';
+import ModelAssetClass from '../components/ModelAssetClass/ModelAssetClass';
 const AssetClassPage = () => {
   return (
     <React.Fragment>
@@ -11,7 +11,7 @@ const AssetClassPage = () => {
         <br></br>
         Create your asset classes and add your securities.
       </P>
-      <AssetClasses />
+      <ModelAssetClass />
     </React.Fragment>
   );
 };

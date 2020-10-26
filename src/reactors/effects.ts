@@ -12,7 +12,7 @@ import {
   loadHelpArticles,
   loadFeatures,
   loadIncentives,
-  fetchAssetClass,
+  // fetchAssetClass,
 } from '../actions';
 import {
   loadPerformanceAll,

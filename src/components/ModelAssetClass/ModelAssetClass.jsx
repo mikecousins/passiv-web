@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
+import { fetchAssetClasses } from '../../actions';
+
+import AssetClasses from './AssetClasses';
+
 import { H3, P, Edit, H2 } from '../../styled/GlobalElements';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
@@ -18,18 +22,7 @@ const InputBox = styled.div`
   margin: 20px;
 `;
 
-const NameInput = styled.input`
-  width: 60%;
-  font-size: 1.7rem;
-  font-weight: 500;
-  padding: 10px;
-  border: 1px solid;
-  focus
-`;
-
-const AssetClasses = (props) => {
-  //   const dispatch = useDispatch();
-
+const ModelAssetClass = (props) => {
   const [assetClasses, setAssetClasses] = useState([]);
   const [enteredSymbol, setEnteredSymbol] = useState();
   const [searchSecurity, setSearchSecurity] = useState(false);
@@ -38,32 +31,7 @@ const AssetClasses = (props) => {
   const [selectToEdit, setSelectToEdit] = useState();
 
   useEffect(() => {
-    // call API to get asset classes for the groupId
-
-    getData('/api/v1/modelAssetClass/').then((res) => {
-      setAssetClasses(res.data);
-    });
-
-    //if asset classes exist
-    // const listOfAssetClasses = [...assetClasses];
-    // if (classes) {
-    //   classes.map((cls) => {
-    //     listOfAssetClasses.push(cls);
-    //   });
-    // }
-    // if no asset asset classes
-    // Math.floor(Math.random() * 999),
-    // else {
-    //   listOfAssetClasses.push({
-    //     model_asset_class: {
-    //       id: Math.floor(Math.random() * 999),
-    //       name: 'New Asset Class',
-    //     },
-    //     model_asset_class_target: [],
-    //   });
-    // }
-
-    // setAssetClasses(listOfAssetClasses);
+    props.onFetchAssetClasses();
   }, []);
 
   const handleAddAssetClass = () => {
@@ -111,6 +79,7 @@ const AssetClasses = (props) => {
 
   const handleAddSecurity = (cb, assetClassId) => {
     const classes = [...assetClasses];
+    console.log(cb);
     classes.map((element) => {
       if (element.model_asset_class.id === assetClassId) {
         element.model_asset_class_target.push({ symbol: cb });
@@ -168,55 +137,11 @@ const AssetClasses = (props) => {
     setSelectToEdit(id);
   };
 
-  let assetClassBox = assetClasses.map((astClass) => {
+  let assetClassBox = props.assetClasses.map((astClass) => {
+    console.log(astClass);
     return (
-      //? this probably needs to be a separate component
-
       <InputBox>
-        <Button
-          style={{
-            background: 'transparent',
-            color: 'rgb(236, 88, 81)',
-            padding: '5px',
-            float: 'right',
-            margin: '10px',
-          }}
-          onClick={(e) =>
-            handleDeleteAssetClass(e, astClass.model_asset_class.id)
-          }
-        >
-          <FontAwesomeIcon icon={faTrashAlt} size="lg" />
-        </Button>
-        {edit && selectToEdit === astClass.model_asset_class.id ? (
-          <div>
-            <NameInput
-              type="text"
-              value={astClass.model_asset_class.name}
-              key={astClass.model_asset_class.id}
-              onChange={(e) =>
-                handleAssetClassNameChange(e, astClass.model_asset_class.id)
-              }
-              onKeyPress={(e) =>
-                e.key === 'Enter' &&
-                nameChanged(e, astClass.model_asset_class.id)
-              }
-            />
-            <hr />
-            {/* //! this doesn't work because we need a state to keep track of name change */}
-            {/* <SmallButton onClick={nameChanged}>Done</SmallButton> */}
-          </div>
-        ) : (
-          <P>
-            <span style={{ fontSize: '28px', fontWeight: 500 }}>
-              {astClass.model_asset_class.name}
-            </span>
-            <Edit onClick={() => onEditName(astClass.model_asset_class.id)}>
-              <FontAwesomeIcon icon={faPen} />
-              Edit
-            </Edit>
-          </P>
-        )}
-
+        <AssetClasses assetClass={astClass.model_asset_class} />
         <ul style={{ margin: '30px' }}>
           {astClass.model_asset_class_target.map((e) => {
             return (
@@ -300,4 +225,16 @@ const AssetClasses = (props) => {
   );
 };
 
-export default AssetClasses;
+const mapStateToProps = (state) => {
+  return {
+    assetClasses: state.astClasses.listOfAssetClasses,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onFetchAssetClasses: () => dispatch(fetchAssetClasses()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModelAssetClass);

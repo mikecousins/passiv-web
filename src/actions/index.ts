@@ -1,4 +1,4 @@
-import { getData, postData } from '../api';
+import { getData, postData, deleteData } from '../api';
 import { ActionCreator, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import {
@@ -433,11 +433,21 @@ export const reloadEverything: ActionCreator<ThunkAction<
   };
 };
 
-export const fetchModelAssetClassSuccess: ActionCreator<Action> = (
+export const fetchAssetClassesSuccess: ActionCreator<Action> = (payload) => ({
+  type: 'FETCH_ASSET_CLASSES',
+  data: payload.data,
+});
+
+export const updateAssetClassNameSuccess: ActionCreator<Action> = (
   payload,
 ) => ({
-  type: 'FETCH_MODELASSETCLASS_SUCCESS',
-  payload,
+  type: 'UPDATE_ASSET_CLASS_NAME',
+  data: payload.data,
+});
+
+export const deleteAssetClassSuccess: ActionCreator<Action> = (id) => ({
+  type: 'DELETE_ASSET_CLASS',
+  id,
 });
 
 export const fetchAuthorizationsStart: ActionCreator<Action> = () => ({
@@ -722,18 +732,53 @@ export const updateServiceWorker: ActionCreator<Action> = () => ({
   type: 'UPDATE_SERVICE_WORKER',
 });
 
-export const fetchAssetClass: ActionCreator<ThunkAction<
+export const fetchAssetClasses: ActionCreator<ThunkAction<
   void,
   any,
   any,
   Action<any>
 >> = () => {
+  console.log('fetch function call');
+
   return (dispatch) => {
     dispatch(fetchAccountsStart());
     getData('/api/v1/modelAssetClass/')
       .then((response) => {
-        dispatch(fetchModelAssetClassSuccess(response));
-        console.log(response.data);
+        dispatch(fetchAssetClassesSuccess(response));
+      })
+      .catch((error) => dispatch(fetchAccountsError(error)));
+  };
+};
+
+export const updateAssetClassName: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = ({ assetClassId, updatedName }) => {
+  return (dispatch) => {
+    dispatch(fetchAccountsStart());
+    postData(`/api/v1/modelAssetClass/${assetClassId}`, {
+      model_asset_class: { name: updatedName },
+    })
+      .then((response) => {
+        dispatch(updateAssetClassNameSuccess(response));
+      })
+      .catch((error) => dispatch(fetchAccountsError(error)));
+  };
+};
+
+export const deleteAssetClass: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = ({ id }) => {
+  return (dispatch) => {
+    dispatch(fetchAccountsStart());
+    deleteData(`/api/v1/modelAssetClass/${id}`)
+      .then(() => {
+        dispatch(deleteAssetClassSuccess(id));
       })
       .catch((error) => dispatch(fetchAccountsError(error)));
   };
