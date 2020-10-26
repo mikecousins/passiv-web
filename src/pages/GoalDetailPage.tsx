@@ -47,6 +47,10 @@ const GoalDetailPage = () => {
       <div>Target Completion Date: {goal?.target_date}</div>
       <div>Current Value: ${toDollarString(currentValue)}</div>
       <div>Target Value: ${toDollarString(targetValue)}</div>
+      <div>
+        Contributing ${toDollarString(goal?.average_monthly_contributions)} / $
+        {toDollarString(goal?.monthly_contribution_target)} Monthly
+      </div>
       <div>Progress: {progressPercent.toFixed(0)}%</div>
       <ProgressBar>
         <Progress

@@ -5,6 +5,7 @@ export type Goal = {
   target_date: string;
   total_value_target: number;
   monthly_contribution_target: number;
+  average_monthly_contributions: number;
   contribution_frequency: string;
   portfolio_group: PortfolioGroup | null;
   completed: boolean;
