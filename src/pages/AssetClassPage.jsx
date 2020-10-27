@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { H1, P } from '../styled/GlobalElements';
 import ModelAssetClass from '../components/ModelAssetClass/ModelAssetClass';
 const AssetClassPage = () => {

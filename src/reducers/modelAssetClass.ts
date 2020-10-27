@@ -5,30 +5,34 @@ const initialState = {
 const modelAssetClasses = (state = initialState, action: any) => {
   switch (action.type) {
     case 'FETCH_ASSET_CLASSES':
-      console.log('fetched asset classes', action.data);
       return {
         ...state,
         listOfAssetClasses: action.data,
       };
-    case 'UPDATE_ASSET_CLASS_NAME':
-      const updatedAssetClass = JSON.parse(
+    case 'ADD_ASSET_CLASS':
+      const assetClassCpy = JSON.parse(
+        JSON.stringify(state.listOfAssetClasses),
+      );
+      assetClassCpy.push(action.data);
+      return {
+        ...state,
+        listOfAssetClasses: assetClassCpy,
+      };
+    case 'UPDATE_ASSET_CLASS':
+      const assetClassCopy = JSON.parse(
         JSON.stringify(state.listOfAssetClasses),
       );
       //? Not sure if 'any' is a right type
-      updatedAssetClass.map((astClass: any) => {
+      assetClassCopy.map((astClass: any) => {
         if (
           astClass.model_asset_class.id === action.data.model_asset_class.id
         ) {
-          astClass.model_asset_class.name = action.data.model_asset_class.name;
+          astClass = action.data;
         }
       });
       return {
         ...state,
-        listOfAssetClasses: updatedAssetClass,
-      };
-    case 'ADD_ASSET_CLASS':
-      return {
-        ...state,
+        listOfAssetClasses: assetClassCopy,
       };
     case 'DELETE_ASSET_CLASS':
       const updatedList = state.listOfAssetClasses.filter((astClass: any) => {
@@ -37,14 +41,6 @@ const modelAssetClasses = (state = initialState, action: any) => {
       return {
         ...state,
         listOfAssetClasses: updatedList,
-      };
-    case 'ADD_SECURITY':
-      return {
-        ...state,
-      };
-    case 'DELETE_SECURITY':
-      return {
-        ...state,
       };
     default:
       break;

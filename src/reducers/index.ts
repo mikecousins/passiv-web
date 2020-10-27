@@ -10,7 +10,7 @@ import updateServiceWorker from './updateServiceWorker';
 import online from './online';
 import version from './version';
 import referral from './referral';
-import modelAssetClasses from './modelAssetClasses';
+import modelAssetClasses from './modelAssetClass';
 import { SubscriptionData } from '../types/subscription';
 import { GroupInfoData, Balance } from '../types/groupInfo';
 import { GroupData } from '../types/group';

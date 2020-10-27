@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { updateAssetClassName, deleteAssetClass } from '../../actions';
-
+import {
+  updateAssetClass,
+  deleteAssetClass,
+} from '../../actions/modelAssetClass';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '../../styled/Button';
 import { P, Edit } from '../../styled/GlobalElements';
 
-const AssetClasses = ({ assetClass, onNameChange, onDeleteAssetClass }) => {
-  const [assetClassName, setAssetClassName] = useState(assetClass.name);
+const AssetClasses = ({
+  assetClass,
+  onUpdateAssetClass,
+  onDeleteAssetClass,
+}) => {
+  const [assetClassName, setAssetClassName] = useState(
+    assetClass.model_asset_class.name,
+  );
   const [editName, setEditName] = useState(false);
   const [selectToEdit, setSelectToEdit] = useState();
 
@@ -27,13 +35,14 @@ const AssetClasses = ({ assetClass, onNameChange, onDeleteAssetClass }) => {
     setSelectToEdit(id);
   };
 
-  const finishEditing = (name, id) => {
-    onNameChange(name, id);
+  const finishEditing = (updatedName) => {
+    assetClass.model_asset_class.name = updatedName;
+    onUpdateAssetClass(assetClass);
     setEditName(false);
   };
 
   return (
-    <>
+    <React.Fragment>
       <Button
         style={{
           background: 'transparent',
@@ -42,39 +51,36 @@ const AssetClasses = ({ assetClass, onNameChange, onDeleteAssetClass }) => {
           float: 'right',
           margin: '10px',
         }}
-        onClick={() => onDeleteAssetClass(assetClass.id)}
+        onClick={() => onDeleteAssetClass(assetClass.model_asset_class.id)}
       >
         <FontAwesomeIcon icon={faTrashAlt} size="lg" />
       </Button>
-      {editName && selectToEdit === assetClass.id ? (
+      {editName && selectToEdit === assetClass.model_asset_class.id ? (
         <NameInput
           type="text"
+          key={assetClass.model_asset_class.id}
           value={assetClassName}
-          key={assetClass.id}
           onChange={(e) => setAssetClassName(e.target.value)} //! Not working as it should
-          onKeyPress={(e) =>
-            e.key === 'Enter' && finishEditing(e.target.value, assetClass.id)
-          }
+          onKeyPress={(e) => e.key === 'Enter' && finishEditing(e.target.value)}
         />
       ) : (
         <P>
           <span style={{ fontSize: '28px', fontWeight: 500 }}>
-            {assetClass.name}
+            {assetClass.model_asset_class.name}
           </span>
-          <Edit onClick={() => onEditName(assetClass.id)}>
+          <Edit onClick={() => onEditName(assetClass.model_asset_class.id)}>
             <FontAwesomeIcon icon={faPen} />
             Edit
           </Edit>
         </P>
       )}
-    </>
+    </React.Fragment>
   );
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onNameChange: (name, id) =>
-      dispatch(updateAssetClassName({ assetClassId: id, updatedName: name })),
+    onUpdateAssetClass: (assetClass) => dispatch(updateAssetClass(assetClass)),
     onDeleteAssetClass: (id) => dispatch(deleteAssetClass({ id })),
   };
 };
