@@ -60,6 +60,7 @@ export const MockGoal: Goal = {
   contribution_frequency: 'monthly',
   monthly_contribution_target: 1000,
   average_monthly_contributions: 1100,
+  projected_gain_by_end_date: 12000,
   completed: false,
   portfolio_group: null,
   contribution_streak: 4,

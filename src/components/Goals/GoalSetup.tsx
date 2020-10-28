@@ -291,10 +291,9 @@ export const SetGoals = ({
         >
           <option value="biweekly">Biweekly</option>
           <option value="monthly">Monthly</option>
-          <option value="bimonthly">Bimonthly</option>
+          <option value="quarterly">Quarterly</option>
           <option value="semiannually">Semiannually</option>
           <option value="annually">Annually</option>
-          <option value="none">Whenever I can</option>
         </Select>
       </div>
       <div>

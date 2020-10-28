@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { MockGoal } from '../components/Goals/Goals';
+import Goals, { MockGoal } from '../components/Goals/Goals';
 import { toDollarString } from '../components/Performance/Performance';
 import { selectCurrentGoalId, selectGoals } from '../selectors/goals';
 import {
@@ -38,6 +38,7 @@ const GoalDetailPage = () => {
   if (progressPercent > 100) {
     progressPercent = 100;
   }
+  const projectedAccountValue = currentValue + goal?.projected_gain_by_end_date;
 
   return (
     <React.Fragment>
@@ -50,6 +51,10 @@ const GoalDetailPage = () => {
       <div>
         Contributing ${toDollarString(goal?.average_monthly_contributions)} / $
         {toDollarString(goal?.monthly_contribution_target)} Monthly
+      </div>
+      <div>
+        Projected account value at target date: $
+        {toDollarString(projectedAccountValue)}
       </div>
       <div>Progress: {progressPercent.toFixed(0)}%</div>
       <ProgressBar>
