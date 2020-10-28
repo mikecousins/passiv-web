@@ -106,11 +106,7 @@ const SideBar = () => {
             <GroupContainer>{groupList}</GroupContainer>
           )}
           {performancePageFeatureActive && hasQuestradeConnection && (
-            <SideBarLink
-              name="Reporting"
-              linkPath="/app/reporting"
-              beta={true}
-            />
+            <SideBarLink name="Reporting" linkPath="/app/reporting" />
           )}
           {performancePageFeatureActive && hasQuestradeConnection && (
             <SideBarLink name="Goals" linkPath="/app/goals" beta={true} />

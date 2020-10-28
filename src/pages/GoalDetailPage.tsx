@@ -59,12 +59,6 @@ const GoalDetailPage = () => {
   }
   const today = new Date();
   const daysUntilGoalEnd = daysBetween(today, new Date(goal?.target_date));
-  const base = 1 + 0.01 * returnRate;
-  const exponent = daysUntilGoalEnd / 365.25;
-  const gainFromReturnRate =
-    currentValue * Math.pow(base, exponent) - currentValue;
-  console.log(gainFromReturnRate);
-
   const projectedAccountValue = getProjectedValue(
     currentValue,
     returnRate,
@@ -141,7 +135,7 @@ const getProjectedValue = (
     endBalance +=
       contributionAmount *
       (1 + returnRate / 100) **
-        (yearsLeft - numPeriods / getPeriodsPerYear(contributionFrequency));
+        (yearsLeft - i / getPeriodsPerYear(contributionFrequency));
   }
   return endBalance;
 };
