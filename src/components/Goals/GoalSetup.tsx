@@ -226,8 +226,6 @@ export const SetGoals = ({
   contributionFrequency,
   setContributionFrequency,
 }: any) => {
-  const [investmentChecked, setInvestmentChecked] = useState(true);
-  const [contributionChecked, setContributionChecked] = useState(true);
   const handleTotalTargetChange = (e: any) => {
     setTotalValueTarget(e.target.value);
   };
@@ -236,12 +234,6 @@ export const SetGoals = ({
   };
   const handleDateChange = (e: any) => {
     setTargetDate(e.target.value);
-  };
-  const handleInvestmentCheck = () => {
-    setInvestmentChecked(!investmentChecked);
-  };
-  const handleContributionCheck = (e: any) => {
-    setContributionChecked(!contributionChecked);
   };
   const handleContributionFrequencyChange = (e: any) => {
     setContributionFrequency(e.target.value);
@@ -258,11 +250,6 @@ export const SetGoals = ({
         />
       </div>
       <div>
-        <input
-          type="checkbox"
-          checked={contributionChecked}
-          onClick={handleContributionCheck}
-        />{' '}
         <LabelGoal>Total Holdings</LabelGoal>
       </div>
       <div>
@@ -271,21 +258,14 @@ export const SetGoals = ({
           type="number"
           min={0}
           onChange={handleTotalTargetChange}
-          disabled={!investmentChecked}
         />
       </div>
       <div>
-        <input
-          type="checkbox"
-          checked={contributionChecked}
-          onClick={handleContributionCheck}
-        />{' '}
         <LabelGoal>Contributions</LabelGoal>
       </div>
       <div>
         <Label>How often do you want to contribute to you goal? </Label>
         <Select
-          disabled={!contributionChecked}
           onChange={handleContributionFrequencyChange}
           value={contributionFrequency}
         >
@@ -304,7 +284,6 @@ export const SetGoals = ({
           type="number"
           min={0}
           onChange={handleContributionChange}
-          disabled={!contributionChecked}
         />
       </div>
       <ButtonNext onClick={() => finishSetup()}>Finish</ButtonNext>
