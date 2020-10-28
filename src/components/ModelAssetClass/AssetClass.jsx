@@ -10,6 +10,14 @@ import { faPen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '../../styled/Button';
 import { P, Edit } from '../../styled/GlobalElements';
 
+const NameInput = styled.input`
+  width: 60%;
+  font-size: 1.7rem;
+  font-weight: 500;
+  padding: 10px;
+  border: 1px solid;
+`;
+
 const AssetClasses = ({
   assetClass,
   onUpdateAssetClass,
@@ -20,16 +28,8 @@ const AssetClasses = ({
   );
   const [editName, setEditName] = useState(false);
 
-  const NameInput = styled.input`
-  width: 60%;
-  font-size: 1.7rem;
-  font-weight: 500;
-  padding: 10px;
-  border: 1px solid;
-  focus
-`;
-
   const finishEditing = (updatedName) => {
+    //! Check for empty asset class name
     assetClass.model_asset_class.name = updatedName;
     onUpdateAssetClass(assetClass);
     setEditName(false);
@@ -53,9 +53,7 @@ const AssetClasses = ({
         <NameInput
           type="text"
           value={assetClassName}
-          onChange={(e) => {
-            setAssetClassName(e.target.value);
-          }} //! Not working as it should
+          onChange={(e) => setAssetClassName(e.target.value)} //! Not working as it should
           onKeyPress={(e) => e.key === 'Enter' && finishEditing(e.target.value)}
         />
       ) : (
