@@ -58,7 +58,7 @@ export const MockGoal: Goal = {
   target_date: '2021-10-16',
   total_value_target: 50000,
   contribution_frequency: 'monthly',
-  monthly_contribution_target: 1000,
+  contribution_target: 1000,
   average_monthly_contributions: 1100,
   projected_gain_by_end_date: 12000,
   completed: false,

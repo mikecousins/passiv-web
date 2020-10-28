@@ -219,7 +219,7 @@ export const SelectPortfolioGroups = ({
 
 export const SetGoals = ({
   finishSetup,
-  setMonthlyContributionTarget,
+  setContributionTarget,
   setTotalValueTarget,
   setTargetDate,
   targetDate,
@@ -231,8 +231,8 @@ export const SetGoals = ({
   const handleTotalTargetChange = (e: any) => {
     setTotalValueTarget(e.target.value);
   };
-  const handleMonthlyContributionChange = (e: any) => {
-    setMonthlyContributionTarget(e.target.value);
+  const handleContributionChange = (e: any) => {
+    setContributionTarget(e.target.value);
   };
   const handleDateChange = (e: any) => {
     setTargetDate(e.target.value);
@@ -303,7 +303,7 @@ export const SetGoals = ({
         <InputPrimary
           type="number"
           min={0}
-          onChange={handleMonthlyContributionChange}
+          onChange={handleContributionChange}
           disabled={!contributionChecked}
         />
       </div>
@@ -316,7 +316,7 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   const [currentStep, setCurrentStep] = useState('naming');
   const [goalName, setGoalName] = useState('New Goal');
   const [totalValueTarget, setTotalValueTarget] = useState(0);
-  const [monthlyContributionTarget, setMonthlyContributionTarget] = useState(0);
+  const [contributionTarget, setContributionTarget] = useState(0);
   const [targetDate, setTargetDate] = useState(formattedYearFromNow());
   const [portfolioGroupId, setPortfolioGroupId] = useState<string | null>(null);
   const [contributionFrequency, setContributionFrequency] = useState('monthly');
@@ -327,7 +327,7 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   const goalData = {
     goalName,
     totalValueTarget,
-    monthlyContributionTarget,
+    contributionTarget,
     portfolioGroupId,
     targetDate,
     contributionFrequency,
@@ -369,7 +369,7 @@ export const GoalSetup = ({ setGoalMode }: any) => {
           <SetGoals
             finishSetup={finishSetup}
             setTotalValueTarget={setTotalValueTarget}
-            setMonthlyContributionTarget={setMonthlyContributionTarget}
+            setContributionTarget={setContributionTarget}
             setTargetDate={setTargetDate}
             targetDate={targetDate}
             contributionFrequency={contributionFrequency}
