@@ -34,7 +34,7 @@ const ModelAssetClass = ({
 
   let assetClassBox = assetClasses.map((astClass) => {
     return (
-      <InputBox>
+      <InputBox key={astClass.model_asset_class.id}>
         <AssetClass assetClass={astClass} />
         <Target assetClass={astClass} />
       </InputBox>

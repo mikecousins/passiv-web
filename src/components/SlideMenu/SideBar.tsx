@@ -88,9 +88,8 @@ const SideBar = () => {
           />
           {group.hasAccounts &&
             group.accounts.map((account) => (
-              <>
+              <div key={account.id}>
                 <SideBarLink
-                  key={account.id}
                   name={account.name}
                   linkPath={`/app/group/${group.id}/account/${account.id}`}
                   hideArrow={true}
@@ -100,7 +99,7 @@ const SideBar = () => {
                   name="Set up Asset Classes"
                   linkPath={`/app/asset-class/${group.id}`}
                 />
-              </>
+              </div>
             ))}
         </React.Fragment>
       );
