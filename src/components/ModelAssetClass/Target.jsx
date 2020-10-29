@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { postData } from '../../api';
-import { toast } from 'react-toastify';
-import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import { loadModelAssetClasses } from '../../actions';
+import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
+import { toast } from 'react-toastify';
+import styled from '@emotion/styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBackspace } from '@fortawesome/free-solid-svg-icons';
+import Tooltip from '../Tooltip';
+
+const TargetList = styled.li`
+  border-bottom: 1px solid #979797;
+  max-width: 400px;
+  padding: 10px;
+  margin: 10px;
+`;
 
 const Targets = ({ assetClass }) => {
   const dispatch = useDispatch();
@@ -23,12 +34,7 @@ const Targets = ({ assetClass }) => {
       assetClass,
     )
       .then((response) => {
-        console.log('post model', response);
         dispatch(loadModelAssetClasses());
-        toast.success(
-          `${assetClass.model_asset_class.name} Asset Class Updated Successfully`,
-          { autoClose: 3000 },
-        );
       })
       .catch(() => {
         // dispatch(loadModelAssetClasses()); //! when fails, the state doesn't changes to what it was
@@ -58,30 +64,28 @@ const Targets = ({ assetClass }) => {
       <ul>
         {assetClass.model_asset_class_target.map((target) => {
           return (
-            <li
-              key={target.symbol.id}
-              style={{
-                borderBottom: '1px solid #979797 ',
-                maxWidth: '400px',
-                padding: '10px 0',
-                margin: '10px',
-              }}
-            >
+            <TargetList key={target.symbol.id}>
+              {/* <Tooltip label={target.symbol.description}>
+                <span style={{ marginRight: '2rem', fontWeight: '700' }}>
+                  {target.symbol.symbol}
+                </span>
+              </Tooltip> */}
               <span style={{ marginRight: '2rem', fontWeight: '700' }}>
                 {target.symbol.symbol}
               </span>
-              <span>{target.symbol.description}</span>
               <button
-                style={{
-                  marginLeft: '40px',
-                  color: 'red',
-                  fontSize: '1rem',
-                }}
                 onClick={() => handleDeleteTarget(target.symbol.id)}
+                style={{ float: 'right' }}
               >
-                Delete
+                <FontAwesomeIcon icon={faBackspace} color="red" />
               </button>
-            </li>
+
+              {target.symbol.description}
+
+              {/* <button onClick={() => handleDeleteTarget(target.symbol.id)}>
+                <FontAwesomeIcon icon={faBackspace} size="lg" color="#dc3545" />
+              </button> */}
+            </TargetList>
           );
         })}
 
@@ -92,18 +96,12 @@ const Targets = ({ assetClass }) => {
             onSelect={(cb) => handleAddTarget(cb)}
           />
         ) : (
-          <li
-            style={{
-              borderBottom: '1px solid #979797 ',
-              maxWidth: '400px',
-              padding: '10px 0',
-              cursor: 'pointer',
-              margin: '10px',
-            }}
+          <TargetList
+            style={{ cursor: 'pointer' }}
             onClick={() => handleSearchTarget(assetClass.model_asset_class.id)}
           >
             Add security to this asset class
-          </li>
+          </TargetList>
         )}
       </ul>
     </React.Fragment>

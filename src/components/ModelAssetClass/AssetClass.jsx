@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { postData, deleteData } from '../../api';
+import { loadModelAssetClasses } from '../../actions';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { Button } from '../../styled/Button';
 import { P, Edit } from '../../styled/GlobalElements';
-import { loadModelAssetClasses } from '../../actions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const NameInput = styled.input`
   width: 60%;
@@ -15,6 +14,27 @@ const NameInput = styled.input`
   font-weight: 500;
   padding: 10px;
   border: 1px solid;
+`;
+
+const AssetClassName = styled.span`
+  font-size: 27px;
+  font-weight: 500;
+`;
+
+export const DeleteButton = styled.button`
+  background: #fff;
+  float: right;
+  position: relative;
+  left: 39px;
+  top: -35px;
+  padding: 8px 11px 8px;
+  z-index: 3;
+  box-shadow: var(--box-shadow);
+  border-bottom-right-radius: 4px;
+  @media (max-width: 900px) {
+    left: 20px;
+    top: -20px;
+  }
 `;
 
 const AssetClasses = ({ assetClass }) => {
@@ -26,8 +46,10 @@ const AssetClasses = ({ assetClass }) => {
   const [editName, setEditName] = useState(false);
 
   const finishEditing = () => {
-    //! Check for empty asset class name
-    if (assetClassName !== assetClass.model_asset_class.name) {
+    if (
+      assetClassName !== assetClass.model_asset_class.name &&
+      assetClassName.trim().length > 0
+    ) {
       assetClass.model_asset_class.name = assetClassName;
       console.log('updated Asset Class:', assetClass);
       //? move this function to actions
@@ -38,10 +60,6 @@ const AssetClasses = ({ assetClass }) => {
         .then((response) => {
           console.log('post model', response);
           dispatch(loadModelAssetClasses());
-          toast.success(
-            `${assetClass.model_asset_class.name} Asset Class Updated Successfully`,
-            { autoClose: 3000 },
-          );
         })
         .catch(() => {
           // dispatch(loadModelAssetClasses()); //! when fails, the state doesn't changes to what it was
@@ -50,6 +68,8 @@ const AssetClasses = ({ assetClass }) => {
             { autoClose: 3000 },
           );
         });
+    } else {
+      setAssetClassName(assetClass.model_asset_class.name);
     }
     setEditName(false);
   };
@@ -70,18 +90,10 @@ const AssetClasses = ({ assetClass }) => {
 
   return (
     <React.Fragment>
-      <Button
-        style={{
-          background: 'transparent',
-          color: 'rgb(236, 88, 81)',
-          padding: '5px',
-          float: 'right',
-          margin: '10px',
-        }}
-        onClick={handleDeleteAssetClass}
-      >
-        <FontAwesomeIcon icon={faTrashAlt} size="lg" />
-      </Button>
+      <DeleteButton onClick={handleDeleteAssetClass}>
+        <FontAwesomeIcon icon={faTimes} size="lg" />
+      </DeleteButton>
+
       {editName ? (
         <NameInput
           type="text"
@@ -91,9 +103,7 @@ const AssetClasses = ({ assetClass }) => {
         />
       ) : (
         <P>
-          <span style={{ fontSize: '28px', fontWeight: 500 }}>
-            {assetClassName}
-          </span>
+          <AssetClassName>{assetClassName}</AssetClassName>
           <Edit onClick={() => setEditName(true)}>
             <FontAwesomeIcon icon={faPen} />
             Edit

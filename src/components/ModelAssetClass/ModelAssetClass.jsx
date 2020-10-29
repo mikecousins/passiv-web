@@ -10,7 +10,7 @@ import AssetClass from './AssetClass';
 import Target from './Target';
 
 const InputBox = styled.div`
-  border: 1px solid #979797;
+  border: 1px solid #bfb6b6;
   max-width: 600px;
   box-sizing: border-box;
   padding: 30px;
@@ -21,14 +21,13 @@ const InputBox = styled.div`
   }
 `;
 
-const AddButton = styled(Button)`
-  background-color: 'red';
-`;
-
 const BackButton = styled(Button)`
-  background: 'transparent',
-  border: '1px solid #2833CB',
-  color: '#2833CB',
+  background: transparent;
+  border: 1px solid var(--brand-blue);
+  color: var(--brand-blue);
+  @media (max-width: 900px) {
+    margin-top: 10px;
+  }
 `;
 
 const ModelAssetClass = () => {
@@ -66,7 +65,7 @@ const ModelAssetClass = () => {
     <ShadowBox>
       {assetClassBox}
       <div style={{ marginTop: '30px' }}>
-        <AddButton onClick={handleAddAssetClass}>+ Add Asset Class</AddButton>
+        <Button onClick={handleAddAssetClass}>+ Add Asset Class</Button>
         <BackButton onClick={handleBackBtn}>Back to Model Portfolio</BackButton>
       </div>
     </ShadowBox>
