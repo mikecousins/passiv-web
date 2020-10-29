@@ -68,7 +68,11 @@ const GoalDetailPage = () => {
   );
   //currentValue + goal?.projected_gain_by_end_date + gainFromReturnRate;
   const handleReturnChange = (e: any) => {
-    setReturnRate(e.target.value);
+    let newValue = e.target.value;
+    if (newValue > 40) {
+      newValue = 40;
+    }
+    setReturnRate(newValue);
   };
 
   return (
@@ -111,8 +115,9 @@ const GoalDetailPage = () => {
         <InputPrimary
           type="number"
           min={0}
-          max={100}
+          max={40}
           onChange={handleReturnChange}
+          placeholder={'0'}
         />
       </div>
     </React.Fragment>
