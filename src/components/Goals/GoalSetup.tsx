@@ -265,16 +265,11 @@ export const SetGoals = ({
       </div>
       <div>
         <Label>How often do you want to contribute to you goal? </Label>
-        <Select
-          onChange={handleContributionFrequencyChange}
-          value={contributionFrequency}
-        >
-          <option value="biweekly">Biweekly</option>
-          <option value="monthly">Monthly</option>
-          <option value="quarterly">Quarterly</option>
-          <option value="semiannually">Semiannually</option>
-          <option value="annually">Annually</option>
-        </Select>
+        <FrequencyChooser
+          handleContributionFrequencyChange={handleContributionFrequencyChange}
+          contributionFrequency={contributionFrequency}
+          setup={true}
+        ></FrequencyChooser>
       </div>
       <div>
         <Label>
@@ -389,4 +384,39 @@ export const formattedYearFromNow = () => {
   const lastYear = parseInt(today.substr(0, 4)) + 1;
 
   return lastYear.toString() + today.substr(4);
+};
+
+export const FrequencyChooser = ({
+  handleContributionFrequencyChange,
+  contributionFrequency,
+  setup,
+}: any) => {
+  return (
+    <React.Fragment>
+      {setup && (
+        <Select
+          onChange={handleContributionFrequencyChange}
+          value={contributionFrequency}
+        >
+          <option value="biweekly">Biweekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="quarterly">Quarterly</option>
+          <option value="semiannually">Semiannually</option>
+          <option value="annually">Annually</option>
+        </Select>
+      )}
+      {!setup && (
+        <Select
+          onChange={handleContributionFrequencyChange}
+          value={contributionFrequency}
+        >
+          <option value="biweekly">2 weeks</option>
+          <option value="monthly">month</option>
+          <option value="quarterly">quarter</option>
+          <option value="semiannually">6 months</option>
+          <option value="annually">year</option>
+        </Select>
+      )}
+    </React.Fragment>
+  );
 };
