@@ -1,77 +1,76 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import {
-  fetchAssetClasses,
-  addAssetClass,
-} from '../../actions/modelAssetClass';
-import AssetClass from './AssetClass';
-import Target from './Target';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { postData } from '../../api';
+import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
+import { loadModelAssetClasses } from '../../actions';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import { Button } from '../../styled/Button';
+import AssetClass from './AssetClass';
+import Target from './Target';
 
 const InputBox = styled.div`
   border: 1px solid #979797;
-  width: 50%;
-  height: 100%;
+  max-width: 600px;
   box-sizing: border-box;
-  padding: 30px 0 30px 40px;
-  margin: 20px;
+  padding: 30px;
+  margin: 10px;
+  @media (max-width: 900px) {
+    margin: 0;
+    padding: 20px;
+  }
 `;
 
-const ModelAssetClass = ({
-  assetClasses,
-  onFetchAssetClasses,
-  onAddAssetClass,
-}) => {
-  useEffect(() => {
-    onFetchAssetClasses();
-  }, []);
+const AddButton = styled(Button)`
+  background-color: 'red';
+`;
 
+const BackButton = styled(Button)`
+  background: 'transparent',
+  border: '1px solid #2833CB',
+  color: '#2833CB',
+`;
+
+const ModelAssetClass = () => {
+  const dispatch = useDispatch();
+  const assetClasses = useSelector(selectModelAssetClasses);
+
+  const handleAddAssetClass = () => {
+    postData('/api/v1/modelAssetClass/', {})
+      .then(() => {
+        dispatch(loadModelAssetClasses());
+      })
+      .catch((error) => {
+        // dispatch(fetchAccountsError(error))
+        console.log(error);
+      }); //!! Add needed error handler
+  };
   const handleBackBtn = () => {
     console.log('Handle Back button: ');
   };
 
-  let assetClassBox = assetClasses.map((astClass) => {
-    return (
-      <InputBox key={astClass.model_asset_class.id}>
-        <AssetClass assetClass={astClass} />
-        <Target assetClass={astClass} />
-      </InputBox>
-    );
-  });
+  let assetClassBox;
+
+  if (assetClasses) {
+    assetClassBox = assetClasses.map((astClass) => {
+      return (
+        <InputBox key={astClass.model_asset_class.id}>
+          <AssetClass assetClass={astClass} />
+          <Target assetClass={astClass} />
+        </InputBox>
+      );
+    });
+  }
 
   return (
     <ShadowBox>
       {assetClassBox}
-      <Button style={{ background: '#2833CB' }} onClick={onAddAssetClass}>
-        + Add Asset Class
-      </Button>
-      <Button
-        style={{
-          background: 'transparent',
-          border: '1px solid #2833CB',
-          color: '#2833CB',
-        }}
-        onClick={handleBackBtn}
-      >
-        Back to Model Portfolio
-      </Button>
+      <div style={{ marginTop: '30px' }}>
+        <AddButton onClick={handleAddAssetClass}>+ Add Asset Class</AddButton>
+        <BackButton onClick={handleBackBtn}>Back to Model Portfolio</BackButton>
+      </div>
     </ShadowBox>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    assetClasses: state.astClasses.listOfAssetClasses,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onFetchAssetClasses: () => dispatch(fetchAssetClasses()),
-    onAddAssetClass: () => dispatch(addAssetClass()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ModelAssetClass);
+export default ModelAssetClass;
