@@ -20,7 +20,7 @@ const StyledCombobox = styled(Combobox)`
   position: relative;
   z-index: 5;
   @media (max-width: 900px) {
-    width: 81vw;
+    width: auto;
     margin-bottom: 20px;
   }
 `;
@@ -30,7 +30,7 @@ const StyledInput = styled(ComboboxInput)`
   border: 1px solid;
   padding: 10px;
   @media (max-width: 900px) {
-    width: 81vw;
+    width: auto;
     margin-bottom: 20px;
   }
 `;
