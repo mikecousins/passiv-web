@@ -10,6 +10,7 @@ import {
   selectDashboardGroups,
   selectTotalGroupHoldings,
 } from '../selectors/groups';
+import { FrequencyChooser } from '../components/Goals/GoalSetup';
 import { InputPrimary } from '../styled/Form';
 
 const ProgressBar = styled.div`
@@ -17,6 +18,28 @@ const ProgressBar = styled.div`
 `;
 const Progress = styled.div`
   background: #03846d;
+`;
+
+export const Input = styled.input`
+  border: none;
+  border-bottom: 1px solid var(--brand-grey);
+  box-sizing: border-box;
+  font-size: 20px;
+  padding: 14px 9px 7px 0;
+  border-radius: 0;
+  width: 10%;
+  outline: none;
+  margin: 0 6px 25px 6px;
+  -webkit-appearance: none;
+  background: #fff;
+  &:focus {
+    border: 1px solid var(--brand-blue-hover);
+    outline: 4px solid rgba(0, 59, 162, 0.44);
+  }
+`;
+
+const Question = styled.div`
+  font-size: 20px;
 `;
 
 const daysBetween = (firstDate: Date, secondDate: Date) => {
@@ -39,10 +62,14 @@ const GoalDetailPage = () => {
   // const goalsFeature = useSelector(selectGoalsFeature);
   const goalId = useSelector(selectCurrentGoalId);
   let goal = useSelector(selectGoals).data?.find(x => x.id === goalId);
-  const [returnRate, setReturnRate] = useState(0);
   if (goal === undefined) {
     goal = MockGoal;
   }
+  const [returnRate, setReturnRate] = useState(0);
+  const [contributionTarget, setContributionTarget] = useState(
+    goal?.contribution_target,
+  );
+  const [contributionFrequency, setContributionFrequency] = useState('monthly');
   const groups = useSelector(selectDashboardGroups);
   const group = groups.find(x => x.id === goal?.portfolio_group?.id);
   let currentValue = useSelector(selectTotalGroupHoldings);
@@ -62,14 +89,21 @@ const GoalDetailPage = () => {
   const projectedAccountValue = getProjectedValue(
     currentValue,
     returnRate,
-    goal?.contribution_target,
-    goal?.contribution_frequency,
+    contributionTarget,
+    contributionFrequency,
     daysUntilGoalEnd,
   );
   //currentValue + goal?.projected_gain_by_end_date + gainFromReturnRate;
   const handleReturnChange = (e: any) => {
     setReturnRate(e.target.value);
   };
+  const handleContributionFrequencyChange = (e: any) => {
+    setContributionFrequency(e.target.value);
+  };
+  const handleContributionChange = (e: any) => {
+    setContributionTarget(e.target.value);
+  };
+  const handleFocus = (e: any) => e.target.select();
 
   return (
     <React.Fragment>
@@ -106,14 +140,36 @@ const GoalDetailPage = () => {
         <br />
         <br />
         <br />
-        Assuming: <br />
-        Return Rate:{' '}
-        <InputPrimary
-          type="number"
-          min={0}
-          max={100}
-          onChange={handleReturnChange}
-        />
+
+        <Question>
+          What would happen if I contributed $
+          <Input
+            type="number"
+            min={0}
+            onChange={handleContributionChange}
+            value={contributionTarget}
+            onClick={handleFocus}
+          />
+          every:
+          <FrequencyChooser
+            handleContributionFrequencyChange={
+              handleContributionFrequencyChange
+            }
+            contributionFrequency={contributionFrequency}
+            setup={false}
+          ></FrequencyChooser>
+          with a annual return rate of
+          <Input
+            type="number"
+            min={0}
+            max={100}
+            onChange={handleReturnChange}
+            value={returnRate}
+            onClick={handleFocus}
+          />
+          %?
+          <br />
+        </Question>
       </div>
     </React.Fragment>
   );
