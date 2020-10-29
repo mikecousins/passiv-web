@@ -4,12 +4,17 @@ import { Chart } from 'react-charts';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { toDollarString } from '../Performance/Performance';
 
 export const ChartBox = styled.div`
   position: relative;
   height: 300px;
   width: 60%;
   margin: 15px 0 10px;
+`;
+
+export const LegendItem = styled.div`
+  font-size: 18px;
 `;
 
 type Props = {
@@ -58,25 +63,33 @@ export const GoalProjectionChart: FunctionComponent<Props> = ({
       Portfolio Value <br />
       <Chart data={data} axes={axes} series={series} tooltip />
       <br />
-      <FontAwesomeIcon
-        icon={faCircle}
-        color="#04a286"
-        style={{ padding: 1 }}
-      />{' '}
-      Current&nbsp;
-      <FontAwesomeIcon
-        icon={faCircle}
-        color="#1b98e0"
-        style={{ padding: 1 }}
-      />{' '}
-      Target&nbsp;
-      <FontAwesomeIcon
-        icon={faCircle}
-        color="#214f4b"
-        style={{ padding: 1 }}
-      />{' '}
-      Projected&nbsp;
-      <br />
+      <LegendItem>
+        <FontAwesomeIcon
+          icon={faCircle}
+          color="#04a286"
+          style={{ padding: 1 }}
+        />{' '}
+        Current&nbsp; ${toDollarString(currentValue)}
+      </LegendItem>
+      <LegendItem>
+        <FontAwesomeIcon
+          icon={faCircle}
+          color="#1b98e0"
+          style={{ padding: 1 }}
+        />{' '}
+        Target&nbsp; $
+        {goal?.total_value_target !== undefined
+          ? toDollarString(goal?.total_value_target)
+          : ''}
+      </LegendItem>
+      <LegendItem>
+        <FontAwesomeIcon
+          icon={faCircle}
+          color="#214f4b"
+          style={{ padding: 1 }}
+        />{' '}
+        Projected&nbsp; ${toDollarString(projectedValue)}
+      </LegendItem>
     </ChartBox>
   );
 };

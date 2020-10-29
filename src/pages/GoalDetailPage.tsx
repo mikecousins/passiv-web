@@ -153,6 +153,7 @@ const GoalDetailPage = () => {
             onChange={handleContributionChange}
             value={contributionTarget}
             onClick={handleFocus}
+            placeholder={'0'}
           />
           every:
           <FrequencyChooser
@@ -170,6 +171,7 @@ const GoalDetailPage = () => {
             onChange={handleReturnChange}
             value={returnRate}
             onClick={handleFocus}
+            placeholder={'0'}
           />
           %?
           <br />

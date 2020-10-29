@@ -6,6 +6,7 @@ import { RebalanceAlert } from '../../styled/Rebalance';
 import { useSelector } from 'react-redux';
 import { selectPathname } from '../../selectors/router';
 import styled from '@emotion/styled';
+import { differenceInCalendarQuarters } from 'date-fns/esm';
 
 const ColorBox = styled.div``;
 
@@ -65,6 +66,9 @@ const SideBarLink = ({
     (pathname.split('/').reverse()[0] === 'settings' ||
       pathname.includes('performance'))
   ) {
+    selected = true;
+  }
+  if (pathname.includes('goal') && linkPath.includes('goal')) {
     selected = true;
   }
 
