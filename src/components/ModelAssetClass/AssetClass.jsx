@@ -7,18 +7,22 @@ import styled from '@emotion/styled';
 import { P, Edit } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { SmallButton } from '../../styled/Button';
 
 const NameInput = styled.input`
-  width: 60%;
-  font-size: 1.7rem;
+  width: 40%;
+  font-size: 27px;
   font-weight: 500;
-  padding: 10px;
+  padding: 5px;
+  margin: 10px;
   border: 1px solid;
 `;
 
 const AssetClassName = styled.span`
   font-size: 27px;
   font-weight: 500;
+  margin: 10px;
+  padding: 10px;
 `;
 
 export const DeleteButton = styled.button`
@@ -51,14 +55,13 @@ const AssetClasses = ({ assetClass }) => {
       assetClassName.trim().length > 0
     ) {
       assetClass.model_asset_class.name = assetClassName;
-      console.log('updated Asset Class:', assetClass);
+
       //? move this function to actions
       postData(
         `/api/v1/modelAssetClass/${assetClass.model_asset_class.id}`,
         assetClass,
       )
-        .then((response) => {
-          console.log('post model', response);
+        .then(() => {
           dispatch(loadModelAssetClasses());
         })
         .catch(() => {
@@ -78,7 +81,10 @@ const AssetClasses = ({ assetClass }) => {
     deleteData(`/api/v1/modelAssetClass/${assetClass.model_asset_class.id}`)
       .then(() => {
         dispatch(loadModelAssetClasses());
-        toast.success('Asset Class Deleted Successfully', { autoClose: 3000 });
+        toast.success(
+          `'${assetClass.model_asset_class.name}' Deleted Successfully`,
+          { autoClose: 3000 },
+        );
       })
       .catch(() => {
         dispatch(loadModelAssetClasses());
@@ -95,12 +101,20 @@ const AssetClasses = ({ assetClass }) => {
       </DeleteButton>
 
       {editName ? (
-        <NameInput
-          type="text"
-          value={assetClassName}
-          onChange={(e) => setAssetClassName(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && finishEditing()}
-        />
+        <div>
+          <NameInput
+            type="text"
+            value={assetClassName}
+            onChange={(e) => setAssetClassName(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && finishEditing()}
+          />
+          <SmallButton
+            onClick={() => finishEditing()}
+            style={{ position: 'relative', top: '-4px' }}
+          >
+            Done
+          </SmallButton>
+        </div>
       ) : (
         <P>
           <AssetClassName>{assetClassName}</AssetClassName>

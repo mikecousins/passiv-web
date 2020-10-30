@@ -6,15 +6,19 @@ import { loadModelAssetClasses } from '../../actions';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import { Button } from '../../styled/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import AssetClass from './AssetClass';
 import Target from './Target';
 
-const InputBox = styled.div`
+const AssetBox = styled.div`
   border: 1px solid #bfb6b6;
-  max-width: 600px;
+  max-width: 700px;
   box-sizing: border-box;
-  padding: 30px;
+  padding: 20px;
   margin: 10px;
+  letter-spacing: 0.28px;
+  line-height: 36px;
   @media (max-width: 900px) {
     margin: 0;
     padding: 20px;
@@ -53,10 +57,10 @@ const ModelAssetClass = () => {
   if (assetClasses) {
     assetClassBox = assetClasses.map((astClass) => {
       return (
-        <InputBox key={astClass.model_asset_class.id}>
+        <AssetBox key={astClass.model_asset_class.id}>
           <AssetClass assetClass={astClass} />
           <Target assetClass={astClass} />
-        </InputBox>
+        </AssetBox>
       );
     });
   }
@@ -65,7 +69,15 @@ const ModelAssetClass = () => {
     <ShadowBox>
       {assetClassBox}
       <div style={{ marginTop: '30px' }}>
-        <Button onClick={handleAddAssetClass}>+ Add Asset Class</Button>
+        <Button onClick={handleAddAssetClass}>
+          {' '}
+          <FontAwesomeIcon
+            icon={faPlus}
+            size="sm"
+            style={{ position: 'relative' }}
+          />{' '}
+          Add Asset Class
+        </Button>
         <BackButton onClick={handleBackBtn}>Back to Model Portfolio</BackButton>
       </div>
     </ShadowBox>

@@ -6,12 +6,11 @@ import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBackspace } from '@fortawesome/free-solid-svg-icons';
-import Tooltip from '../Tooltip';
+import { faTimes, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const TargetList = styled.li`
   border-bottom: 1px solid #979797;
-  max-width: 400px;
+  max-width: 500px;
   padding: 10px;
   margin: 10px;
 `;
@@ -33,7 +32,7 @@ const Targets = ({ assetClass }) => {
       `/api/v1/modelAssetClass/${assetClass.model_asset_class.id}`,
       assetClass,
     )
-      .then((response) => {
+      .then(() => {
         dispatch(loadModelAssetClasses());
       })
       .catch(() => {
@@ -65,26 +64,20 @@ const Targets = ({ assetClass }) => {
         {assetClass.model_asset_class_target.map((target) => {
           return (
             <TargetList key={target.symbol.id}>
-              {/* <Tooltip label={target.symbol.description}>
-                <span style={{ marginRight: '2rem', fontWeight: '700' }}>
-                  {target.symbol.symbol}
-                </span>
-              </Tooltip> */}
-              <span style={{ marginRight: '2rem', fontWeight: '700' }}>
+              <span style={{ marginRight: '20px', fontWeight: '700' }}>
                 {target.symbol.symbol}
               </span>
               <button
                 onClick={() => handleDeleteTarget(target.symbol.id)}
                 style={{ float: 'right' }}
               >
-                <FontAwesomeIcon icon={faBackspace} color="red" />
+                <FontAwesomeIcon
+                  icon={faTimes}
+                  size="sm"
+                  style={{ position: 'relative' }}
+                />
               </button>
-
               {target.symbol.description}
-
-              {/* <button onClick={() => handleDeleteTarget(target.symbol.id)}>
-                <FontAwesomeIcon icon={faBackspace} size="lg" color="#dc3545" />
-              </button> */}
             </TargetList>
           );
         })}
@@ -100,7 +93,12 @@ const Targets = ({ assetClass }) => {
             style={{ cursor: 'pointer' }}
             onClick={() => handleSearchTarget(assetClass.model_asset_class.id)}
           >
-            Add security to this asset class
+            <FontAwesomeIcon
+              icon={faPlus}
+              size="sm"
+              style={{ position: 'relative' }}
+            />{' '}
+            Add Security
           </TargetList>
         )}
       </ul>
