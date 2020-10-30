@@ -39,6 +39,7 @@
     "@fortawesome/free-solid-svg-icons": "5.14.0",
     "@fortawesome/react-fontawesome": "0.1.11",
     "@reach/combobox": "0.10.5",
+    "@reach/dialog": "^0.11.2",
     "@reach/menu-button": "0.10.5",
     "@reach/tooltip": "0.10.5",
     "@sentry/browser": "5.20.1",

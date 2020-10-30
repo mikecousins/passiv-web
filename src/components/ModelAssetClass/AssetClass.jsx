@@ -5,9 +5,11 @@ import { loadModelAssetClasses } from '../../actions';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
 import { P, Edit } from '../../styled/GlobalElements';
+import { SmallButton } from '../../styled/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { SmallButton } from '../../styled/Button';
+import '@reach/dialog/styles.css';
+import { Dialog } from '@reach/dialog';
 
 const NameInput = styled.input`
   width: 40%;
@@ -48,6 +50,10 @@ const AssetClasses = ({ assetClass }) => {
     assetClass.model_asset_class.name,
   );
   const [editName, setEditName] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+
+  const open = () => setShowDialog(true);
+  const close = () => setShowDialog(false);
 
   const finishEditing = () => {
     if (
@@ -92,13 +98,36 @@ const AssetClasses = ({ assetClass }) => {
           autoClose: 3000,
         });
       });
+    setShowDialog(false);
   };
 
   return (
     <React.Fragment>
-      <DeleteButton onClick={handleDeleteAssetClass}>
+      <DeleteButton onClick={open}>
         <FontAwesomeIcon icon={faTimes} size="lg" />
       </DeleteButton>
+
+      <Dialog
+        isOpen={showDialog}
+        onDismiss={close}
+        style={{ borderRadius: '1rem' }}
+      >
+        <P>
+          Are you sure you want to delete{' '}
+          <span style={{ fontWeight: 'bold' }}>{assetClassName}</span> ?
+        </P>
+        <p style={{ fontSize: '0.8rem' }}>
+          All securities under this asset class would get deleted.
+        </p>
+        <br />
+        <SmallButton onClick={handleDeleteAssetClass}>Delete</SmallButton>
+        <SmallButton
+          onClick={close}
+          style={{ backgroundColor: 'transparent', color: 'black' }}
+        >
+          Cancel
+        </SmallButton>
+      </Dialog>
 
       {editName ? (
         <div>
