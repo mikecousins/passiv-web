@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { postData } from '../../api';
+import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
 import { loadModelAssetClasses } from '../../actions';
 import styled from '@emotion/styled';
@@ -36,7 +37,9 @@ const BackButton = styled(Button)`
 
 const ModelAssetClass = () => {
   const dispatch = useDispatch();
-  const assetClasses = useSelector(selectModelAssetClasses);
+  const assetClasses: ModelAssetClassDetailsType[] = useSelector(
+    selectModelAssetClasses,
+  );
 
   const handleAddAssetClass = () => {
     postData('/api/v1/modelAssetClass/', {})
@@ -44,9 +47,8 @@ const ModelAssetClass = () => {
         dispatch(loadModelAssetClasses());
       })
       .catch((error) => {
-        // dispatch(fetchAccountsError(error))
-        console.log(error);
-      }); //!! Add needed error handler
+        dispatch(loadModelAssetClasses());
+      });
   };
   const handleBackBtn = () => {
     console.log('Handle Back button: ');
@@ -55,7 +57,7 @@ const ModelAssetClass = () => {
   let assetClassBox;
 
   if (assetClasses) {
-    assetClassBox = assetClasses.map((astClass) => {
+    assetClassBox = assetClasses.map((astClass: ModelAssetClassDetailsType) => {
       return (
         <AssetBox key={astClass.model_asset_class.id}>
           <AssetClass assetClass={astClass} />

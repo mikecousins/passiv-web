@@ -104,9 +104,9 @@ const PerformancePage = React.lazy(() =>
   import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
 );
 
-const AssetClassPage = React.lazy(() =>
+const ModelAssetClassPage = React.lazy(() =>
   //? webpackChunkName
-  import(/* webpackChunkName: "...?" */ '../pages/AssetClassPage.jsx'),
+  import(/* webpackChunkName: "...?" */ '../pages/ModelAssetClassPage'),
 );
 
 // declare global {
@@ -391,7 +391,7 @@ const App = () => {
             {showSecureApp && (
               <Route
                 path={prefixPath('/asset-class/:groupId')}
-                component={AssetClassPage}
+                component={ModelAssetClassPage}
               />
             )}
             // insecure app

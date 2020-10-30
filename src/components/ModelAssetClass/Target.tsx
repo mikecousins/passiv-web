@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { postData } from '../../api';
+import {
+  ModelAssetClassDetailsType,
+  Symbolic,
+} from '../../types/modelAssetClass';
+import { Symbol } from '../../types/groupInfo';
 import { loadModelAssetClasses } from '../../actions';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import { toast } from 'react-toastify';
@@ -15,18 +20,22 @@ const TargetList = styled.li`
   margin: 10px;
 `;
 
-const Targets = ({ assetClass }) => {
+type Props = {
+  assetClass: ModelAssetClassDetailsType;
+};
+
+const Targets = ({ assetClass }: Props) => {
   const dispatch = useDispatch();
 
   const [searchSecurities, setSearchSecurities] = useState(false);
-  const [selectedTarget, setSelectedTarget] = useState();
-  const [enteredSymbol, setEnteredSymbol] = useState();
+  const [selectedTarget, setSelectedTarget] = useState('');
+  const [enteredSymbol, setEnteredSymbol] = useState(null);
 
-  const handleSearchTarget = (id) => {
+  const handleSearchTarget = (id: string) => {
     setSelectedTarget(id);
     setSearchSecurities(true);
   };
-  const updateAssetClass = (assetClass) => {
+  const updateAssetClass = () => {
     //? move this function to actions
     postData(
       `/api/v1/modelAssetClass/${assetClass.model_asset_class.id}`,
@@ -36,26 +45,29 @@ const Targets = ({ assetClass }) => {
         dispatch(loadModelAssetClasses());
       })
       .catch(() => {
-        // dispatch(loadModelAssetClasses()); //! when fails, the state doesn't changes to what it was
+        dispatch(loadModelAssetClasses());
         toast.error(
           `${assetClass.model_asset_class.name} Asset Class Update Failed`,
           { autoClose: 3000 },
         );
       });
   };
-  const handleAddTarget = (cb) => {
-    assetClass.model_asset_class_target.push({ symbol: cb });
-    updateAssetClass(assetClass);
+
+  const handleAddTarget = (cb: Symbol) => {
+    const sy: Symbolic = { symbol: cb };
+    assetClass.model_asset_class_target.push(sy);
+
+    updateAssetClass();
     setSearchSecurities(false);
   };
 
-  const handleDeleteTarget = (targetId) => {
+  const handleDeleteTarget = (targetId: string) => {
     assetClass.model_asset_class_target.map((target, index) => {
       if (target.symbol.id === targetId) {
         assetClass.model_asset_class_target.splice(index, 1);
       }
     });
-    updateAssetClass(assetClass);
+    updateAssetClass();
   };
 
   return (
@@ -64,7 +76,7 @@ const Targets = ({ assetClass }) => {
         {assetClass.model_asset_class_target.map((target) => {
           return (
             <TargetList key={target.symbol.id}>
-              <span style={{ marginRight: '20px', fontWeight: '700' }}>
+              <span style={{ marginRight: '20px', fontWeight: 700 }}>
                 {target.symbol.symbol}
               </span>
               <button

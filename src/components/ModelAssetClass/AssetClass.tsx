@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { postData, deleteData } from '../../api';
+import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
 import { loadModelAssetClasses } from '../../actions';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
@@ -43,7 +44,10 @@ export const DeleteButton = styled.button`
   }
 `;
 
-const AssetClasses = ({ assetClass }) => {
+type Props = {
+  assetClass: ModelAssetClassDetailsType;
+};
+const AssetClasses = ({ assetClass }: Props) => {
   const dispatch = useDispatch();
 
   const [assetClassName, setAssetClassName] = useState(

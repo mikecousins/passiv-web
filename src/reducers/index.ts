@@ -22,7 +22,7 @@ import { Authorization } from '../types/authorization';
 import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
 import { Settings } from '../types/settings';
-import { ModelAssetClassDetails } from '../types/modelAssetClass';
+import { ModelAssetClassDetailsType } from '../types/modelAssetClass';
 
 import {
   PerformanceData,
@@ -124,7 +124,7 @@ export default (history: any) =>
       baseType: 'FETCH_ACB',
       userData: true,
     }),
-    modelAssetClasses: simple<ModelAssetClassDetails[]>({
+    modelAssetClasses: simple<ModelAssetClassDetailsType[]>({
       baseType: 'FETCH_MODEL_ASSET_CLASSES',
       userData: true,
     }),
