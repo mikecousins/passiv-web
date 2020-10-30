@@ -55,7 +55,7 @@ export const MockGoal: Goal = {
   id: 'mockgoal',
   title: 'Mock Goal',
   created_date: '2020-10-16',
-  target_date: '2021-10-16',
+  target_date: '2024-01-01',
   total_value_target: 50000,
   contribution_frequency: 'monthly',
   contribution_target: 1000,

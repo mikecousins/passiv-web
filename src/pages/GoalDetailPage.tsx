@@ -18,6 +18,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { H1, P, H3 } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
 import ShadowBox from '../styled/ShadowBox';
+import GoalProjectionLineChart from '../components/Goals/GoalProjectionLineChart';
 
 const ProgressBar = styled.div`
   background: #eee;
@@ -143,6 +144,39 @@ const GoalDetailPage = () => {
     contributionFrequency,
     daysUntilGoalEnd,
   );
+
+  let currentDay = new Date();
+  const interval = daysUntilGoalEnd / 300;
+  let projectedData = [];
+  for (let i = 0; i < 300; i++) {
+    const newValue = getProjectedValue(
+      currentValue,
+      returnRate,
+      contributionTarget,
+      contributionFrequency,
+      daysBetween(today, currentDay),
+    );
+
+    projectedData.push([
+      new Date(
+        currentDay.getFullYear(),
+        currentDay.getMonth(),
+        currentDay.getDate(),
+      ),
+      newValue,
+    ]);
+    currentDay = addDays(currentDay, interval);
+  }
+  const targetDate = new Date(Date.parse(goal?.target_date));
+  projectedData.push([
+    new Date(
+      targetDate.getFullYear(),
+      targetDate.getMonth(),
+      targetDate.getDate(),
+    ),
+    projectedAccountValue,
+  ]);
+
   //currentValue + goal?.projected_gain_by_end_date + gainFromReturnRate;
   const handleReturnChange = (e: any) => {
     let newValue = e.target.value;
@@ -203,11 +237,12 @@ const GoalDetailPage = () => {
           {toDollarString(projectedAccountValue)}
         </div>
         <GoalProjectionContainer>
-          <GoalProjectionChart
+          <GoalProjectionLineChart
             goal={goal}
             currentValue={currentValue}
             projectedValue={projectedAccountValue}
-          ></GoalProjectionChart>
+            projectedData={projectedData}
+          ></GoalProjectionLineChart>
         </GoalProjectionContainer>
       </ShadowBox>
       <ShadowBox>
@@ -220,6 +255,7 @@ const GoalDetailPage = () => {
             value={contributionTarget}
             onClick={handleFocus}
             placeholder={'0'}
+            step={getStep(contributionTarget)}
           />
           every:
           <FrequencyChooser
@@ -308,4 +344,21 @@ const getPeriodsPerYear = (contributionFrequency: string) => {
     periodsPerYear = 12;
   }
   return periodsPerYear;
+};
+
+const addDays = (date: Date, daysToAdd: number) => {
+  date.setSeconds(date.getSeconds() + daysToAdd * 24 * 60 * 60);
+  return date;
+};
+
+const getStep = (contributionAmount: number) => {
+  if (contributionAmount < 500) {
+    return 10;
+  } else if (contributionAmount < 1000) {
+    return 25;
+  } else if (contributionAmount < 2000) {
+    return 50;
+  } else {
+    return 100;
+  }
 };
