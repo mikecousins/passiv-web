@@ -13,11 +13,61 @@ import {
 import { FrequencyChooser } from '../components/Goals/GoalSetup';
 import { InputPrimary } from '../styled/Form';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { H1, P, H3 } from '../styled/GlobalElements';
+import Grid from '../styled/Grid';
+import ShadowBox from '../styled/ShadowBox';
+
 const ProgressBar = styled.div`
-  background: lightgrey;
+  background: #eee;
+  width: 100%;
+  border-radius: 25rem;
+  overflow: hidden;
+  margin-bottom: 12px;
 `;
 const Progress = styled.div`
-  background: #03846d;
+  background: #05a286;
+`;
+const ProgressCopy = styled.p`
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0 0 12px;
+  strong {
+    color: var(--brand-green);
+  }
+`;
+const ProgressContainer = styled.div`
+  margin-right: 5rem;
+`;
+const GoalProjectionContainer = styled.div`
+  padding-bottom: 80px;
+`;
+const BackLink = styled(Link)`
+  color: var(--brand-blue);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.05rem;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  display: block;
+`;
+const HeaderBanner = styled.div`
+  margin-bottom: 30px;
+  h1 {
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  p {
+    margin-bottom: 0;
+    span {
+      font-weight: 700;
+      font-size: 14px;
+      margin-left: 5px;
+      display: inline-block;
+    }
+  }
 `;
 
 export const Input = styled.input`
@@ -111,40 +161,56 @@ const GoalDetailPage = () => {
 
   return (
     <React.Fragment>
-      <Link to="/app/goals">Back</Link>
-      <div>{goal?.title}</div>
-      <div>Some kind of positive statement about saving</div>
-      <div>Target Completion Date: {goal?.target_date}</div>
-      <div>Current Value: ${toDollarString(currentValue)}</div>
-      <div>Target Value: ${toDollarString(targetValue)}</div>
-      <div>
-        Contributing ${toDollarString(goal?.average_monthly_contributions)} / $
-        {toDollarString(goal?.contribution_target)} per{' '}
-        {goal?.contribution_frequency}
-      </div>
-      <div>
-        Projected account value at target date: $
-        {toDollarString(projectedAccountValue)}
-      </div>
-      <div>Progress: {progressPercent.toFixed(0)}%</div>
-      <ProgressBar>
-        <Progress
-          style={{ height: '24px', width: progressPercent + '%' }}
-        ></Progress>
-      </ProgressBar>
-      <div>Contribution Streak: {goal?.contribution_streak}</div>
-      <GoalProjectionChart
-        goal={goal}
-        currentValue={currentValue}
-        projectedValue={projectedAccountValue}
-      ></GoalProjectionChart>
-      <div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-
+      <HeaderBanner>
+        <BackLink to="/app/goals">
+          <FontAwesomeIcon icon={faChevronLeft} /> View all Goals
+        </BackLink>
+        <H1>{goal?.title}</H1>
+      </HeaderBanner>
+      <ShadowBox>
+        <ProgressContainer>
+          <ProgressCopy>
+            You're <strong> {progressPercent.toFixed(0)}%</strong> of the way
+            there!
+          </ProgressCopy>
+          <ProgressBar>
+            <Progress
+              style={{ height: '24px', width: progressPercent + '%' }}
+            ></Progress>
+          </ProgressBar>
+        </ProgressContainer>
+        <Grid columns="1fr 1fr 1fr">
+          <P>
+            <H3>Balance</H3> ${toDollarString(currentValue)}
+          </P>
+          <P>
+            <H3>Est Date</H3> {goal?.target_date}
+          </P>
+          <P>
+            <H3>Target</H3> ${toDollarString(targetValue)}
+          </P>
+        </Grid>
+      </ShadowBox>
+      <ShadowBox>
+        <div>Contribution Streak: {goal?.contribution_streak}</div>
+        <div>
+          Contributing ${toDollarString(goal?.average_monthly_contributions)} /
+          ${toDollarString(goal?.contribution_target)} per{' '}
+          {goal?.contribution_frequency}
+        </div>
+        <div>
+          Projected account value at target date: $
+          {toDollarString(projectedAccountValue)}
+        </div>
+        <GoalProjectionContainer>
+          <GoalProjectionChart
+            goal={goal}
+            currentValue={currentValue}
+            projectedValue={projectedAccountValue}
+          ></GoalProjectionChart>
+        </GoalProjectionContainer>
+      </ShadowBox>
+      <ShadowBox>
         <Question>
           What would happen if I contributed $
           <Input
@@ -176,7 +242,7 @@ const GoalDetailPage = () => {
           %?
           <br />
         </Question>
-      </div>
+      </ShadowBox>
     </React.Fragment>
   );
 };

@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { toDollarString } from '../Performance/Performance';
+import Grid from '../../styled/Grid';
 
 export const ChartBox = styled.div`
   position: relative;
@@ -63,33 +64,35 @@ export const GoalProjectionChart: FunctionComponent<Props> = ({
       Portfolio Value <br />
       <Chart data={data} axes={axes} series={series} tooltip />
       <br />
-      <LegendItem>
-        <FontAwesomeIcon
-          icon={faCircle}
-          color="#04a286"
-          style={{ padding: 1 }}
-        />{' '}
-        Current&nbsp; ${toDollarString(currentValue)}
-      </LegendItem>
-      <LegendItem>
-        <FontAwesomeIcon
-          icon={faCircle}
-          color="#1b98e0"
-          style={{ padding: 1 }}
-        />{' '}
-        Target&nbsp; $
-        {goal?.total_value_target !== undefined
-          ? toDollarString(goal?.total_value_target)
-          : ''}
-      </LegendItem>
-      <LegendItem>
-        <FontAwesomeIcon
-          icon={faCircle}
-          color="#214f4b"
-          style={{ padding: 1 }}
-        />{' '}
-        Projected&nbsp; ${toDollarString(projectedValue)}
-      </LegendItem>
+      <Grid columns="1fr 1fr 1fr">
+        <LegendItem>
+          <FontAwesomeIcon
+            icon={faCircle}
+            color="#04a286"
+            style={{ padding: 1 }}
+          />{' '}
+          Current&nbsp; ${toDollarString(currentValue)}
+        </LegendItem>
+        <LegendItem>
+          <FontAwesomeIcon
+            icon={faCircle}
+            color="#1b98e0"
+            style={{ padding: 1 }}
+          />{' '}
+          Target&nbsp; $
+          {goal?.total_value_target !== undefined
+            ? toDollarString(goal?.total_value_target)
+            : ''}
+        </LegendItem>
+        <LegendItem>
+          <FontAwesomeIcon
+            icon={faCircle}
+            color="#214f4b"
+            style={{ padding: 1 }}
+          />{' '}
+          Projected&nbsp; ${toDollarString(projectedValue)}
+        </LegendItem>
+      </Grid>
     </ChartBox>
   );
 };
