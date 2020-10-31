@@ -788,20 +788,21 @@ export const selectCurrentGroupTarget = createSelector(
     const rebalance_by_asset_class =
       groupInfo.settings.rebalance_by_asset_class;
 
-    let symbols_not_in_target: string[] = [];
+    let filtered_asset_classes_details = groupInfo.asset_classes_details.filter(
+      (asset_class_detail) => asset_class_detail.symbols.length > 0,
+    );
 
-    if (calculatedTrades && calculatedTrades.trades) {
-      const trades = calculatedTrades.trades;
+    filtered_asset_classes_details = groupInfo.asset_classes_details.filter(
+      (asset_class_detail) =>
+        asset_class_detail.asset_class_in_targets === false &&
+        asset_class_detail.asset_class.exclude_asset_class === false,
+    );
 
-      trades.forEach((trade) => {
-        if (trade.symbol_in_target === false) {
-          let symbol_id = trade.universal_symbol.id;
-          if (symbol_id) {
-            symbols_not_in_target.push(symbol_id);
-          }
-        }
-      });
-    }
+    let symbols_not_in_target = filtered_asset_classes_details
+      .map((asset_class_detail) => {
+        return asset_class_detail.symbols.map((symbol) => symbol.symbol).flat();
+      })
+      .flat();
 
     // add the target positions
     const currentTargetRaw = groupInfo.asset_classes_details;

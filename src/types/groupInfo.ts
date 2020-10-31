@@ -110,6 +110,7 @@ export type AssetClassSymbol = {
 export type AssetClassesDetails = {
   asset_class: AssetClass;
   symbols: AssetClassSymbol[];
+  asset_class_in_targets: boolean;
 };
 
 export type GroupInfoData = {
