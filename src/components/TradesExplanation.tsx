@@ -6,7 +6,7 @@ import { Account } from '../types/account';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { selectCurrencies } from '../selectors';
+import { selectCurrencies } from '../selectors/currencies';
 import { restrictionTypes } from '../common';
 import Number from './Number';
 import { HideButton } from './ContextualMessageWrapper';

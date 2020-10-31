@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { selectCurrencies } from '../../selectors';
+import { selectCurrencies } from '../../selectors/currencies';
 import {
   selectAccounts,
   selectAccountBalances,

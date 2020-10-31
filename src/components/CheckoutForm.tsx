@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '../styled/Button';
-import { injectStripe } from 'react-stripe-elements';
 import { loadSubscription } from '../actions';
 import { postData } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -108,4 +107,4 @@ const CheckoutForm = ({
   );
 };
 
-export default injectStripe(CheckoutForm);
+export default CheckoutForm;

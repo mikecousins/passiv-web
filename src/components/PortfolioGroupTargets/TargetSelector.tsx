@@ -4,7 +4,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik, FieldArray, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { replace } from 'connected-react-router';
 import styled from '@emotion/styled';
 import { loadGroup } from '../../actions';
@@ -159,7 +159,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
     let target = {
       symbol: null,
       percent: 0,
-      key: uuid.v4(),
+      key: uuidv4(),
     };
     return target;
   };

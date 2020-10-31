@@ -75,7 +75,8 @@ const ResetPasswordPage = ({ location }: Props) => {
                     actions.setErrors(errors);
                   });
               }}
-              render={({
+            >
+              {({
                 touched,
                 errors,
                 values,
@@ -84,7 +85,7 @@ const ResetPasswordPage = ({ location }: Props) => {
                 handleSubmit,
                 isValid,
               }) => (
-                <Form onSubmit={handleSubmit}>
+                <Form>
                   <Label htmlFor="email">Email</Label>
                   <Input
                     onChange={handleChange}
@@ -106,7 +107,7 @@ const ResetPasswordPage = ({ location }: Props) => {
                   </div>
                 </Form>
               )}
-            />
+            </Formik>
           </div>
         )}
       </React.Fragment>

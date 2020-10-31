@@ -25,7 +25,7 @@ const LimitOrdersSettings = () => {
   const canPlaceOrders = useSelector(selectCanPlaceOrders);
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
-  const [priceLimitThreshold, setPriceLimitThreshold] = useState();
+  const [priceLimitThreshold, setPriceLimitThreshold] = useState('');
   const [outOfLimitErrorMessage, setOutOfLimitErrorMessage] = useState('');
 
   const calcDecimalPlaces = (number: number) => {
@@ -43,7 +43,7 @@ const LimitOrdersSettings = () => {
   useEffect(() => {
     if (settings) {
       setPriceLimitThreshold(
-        settings && parseFloat(settings.price_limit_threshold),
+        settings && parseFloat(settings.price_limit_threshold).toString(),
       );
     }
   }, [settings]);
@@ -116,9 +116,11 @@ const LimitOrdersSettings = () => {
             {!editingThreshold ? (
               <React.Fragment>
                 <Number
-                  value={priceLimitThreshold}
+                  value={parseFloat(priceLimitThreshold)}
                   percentage
-                  decimalPlaces={calcDecimalPlaces(priceLimitThreshold)}
+                  decimalPlaces={calcDecimalPlaces(
+                    parseFloat(priceLimitThreshold),
+                  )}
                 />
                 <Edit onClick={() => setEditingThreshold(true)}>
                   <FontAwesomeIcon icon={faPen} />

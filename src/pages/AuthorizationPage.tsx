@@ -7,14 +7,10 @@ import {
   selectIsAuthorized,
   selectBrokerages,
   selectAuthorizations,
-  selectShowProgressFeature,
-} from '../selectors';
-import { selectUserPermissions } from '../selectors/subscription';
-import {
-  selectConnectPlaidFeature,
   selectMaintenanceBrokerages,
 } from '../selectors';
-import PlaidConnection from '../components/PlaidConnection';
+import { selectUserPermissions } from '../selectors/subscription';
+
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { P } from '../styled/GlobalElements';
@@ -45,6 +41,7 @@ import {
   VerticalPadding,
 } from '../styled/Setup';
 import OnboardingProgress from '../components/OnboardingProgress';
+import { selectShowProgressFeature } from '../selectors/features';
 
 const Brokerage = styled.div``;
 
@@ -57,7 +54,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const brokerages = useSelector(selectBrokerages);
   const userPermissions = useSelector(selectUserPermissions);
   const authorizations = useSelector(selectAuthorizations);
-  const connectPlaidFeature = useSelector(selectConnectPlaidFeature);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const showProgressFeature = useSelector(selectShowProgressFeature);
   const [loading, setLoading] = useState(false);
@@ -232,7 +228,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
               return contents;
             })}
           </Container2Column>
-          {connectPlaidFeature && <PlaidConnection setLoading={setLoading} />}
         </React.Fragment>
       )}
     </React.Fragment>

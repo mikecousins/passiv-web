@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { injectStripe } from 'react-stripe-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -100,4 +99,4 @@ const UpdatePaymentCheckoutForm = ({
   );
 };
 
-export default injectStripe(UpdatePaymentCheckoutForm);
+export default UpdatePaymentCheckoutForm;

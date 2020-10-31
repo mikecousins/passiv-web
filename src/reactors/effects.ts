@@ -19,14 +19,12 @@ import {
 } from '../actions/performance';
 import { checkIfOnline } from '../actions/online';
 import {
-  selectCurrenciesNeedData,
   selectCurrencyRatesNeedData,
   selectBrokeragesNeedData,
   selectAuthorizationsNeedData,
   selectSettingsNeedData,
   selectPlansNeedData,
   selectHelpArticlesNeedData,
-  selectFeaturesNeedData,
   selectIncentivesNeedData,
 } from '../selectors';
 import { selectAccountsNeedData } from '../selectors/accounts';
@@ -40,6 +38,9 @@ import {
   selectPerformanceNeedData,
   selectACBNeedData,
 } from '../selectors/performance';
+
+import { selectFeaturesNeedData } from '../selectors/features';
+import { selectCurrenciesNeedData } from '../selectors/currencies';
 
 export { default as reducer } from '../reducers';
 

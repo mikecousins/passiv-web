@@ -2,8 +2,6 @@ import { createSelector } from 'reselect';
 import ms from 'milliseconds';
 import shouldUpdate from '../reactors/should-update';
 import { AppState } from '../store';
-import { Currency } from '../types/currency';
-import { SimpleState } from '../types/common';
 
 // have to require this for Typescript to work properly.....
 // hopefully we can import this in the future
@@ -55,38 +53,12 @@ export const selectTokenIsExpired = createSelector(
   },
 );
 
-export const selectCurrenciesRaw = (state: AppState) => state.currencies;
-
-export const selectFeaturesRaw = (state: AppState) => state.features;
-
 export const selectIncentivesRaw = (state: AppState) => state.incentives;
 
 export const selectBrokeragesRaw = (state: AppState) => state.brokerages;
 
 export const selectAuthorizationsRaw = (state: AppState) =>
   state.authorizations;
-
-export const selectFeatures = createSelector(selectFeaturesRaw, rawFeatures => {
-  if (rawFeatures.data) {
-    return rawFeatures.data.map(feature => feature.name);
-  }
-  return null;
-});
-
-export const selectFeaturesNeedData = createSelector(
-  selectLoggedIn,
-  selectFeaturesRaw,
-  selectAppTime,
-  (loggedIn, rawFeatures, time) => {
-    if (!loggedIn) {
-      return false;
-    }
-    return shouldUpdate(rawFeatures, {
-      staleTime: ms.minutes(30),
-      now: time,
-    });
-  },
-);
 
 export const selectIncentives = createSelector(
   selectIncentivesRaw,
@@ -108,74 +80,6 @@ export const selectIncentivesNeedData = createSelector(
     }
     return shouldUpdate(rawIncentives, {
       staleTime: ms.minutes(30),
-      now: time,
-    });
-  },
-);
-
-const createFeatureSelector = (flagName: string) => {
-  return createSelector(selectFeatures, features => {
-    let hasFeature = false;
-    if (features != null) {
-      features.map(feature => {
-        if (feature === flagName) {
-          hasFeature = true;
-        }
-        return null;
-      });
-    }
-    return hasFeature;
-  });
-};
-
-export const selectConnectPlaidFeature = createFeatureSelector('connect_plaid');
-
-export const selectQuestradeOfferFeature = createFeatureSelector(
-  'questrade_offer',
-);
-
-export const select2FAFeature = createFeatureSelector('2fa');
-
-export const selectSMS2FAFeature = createFeatureSelector('sms_2fa');
-
-export const selectOTP2FAFeature = createFeatureSelector('otp_2fa');
-
-export const selectShowProgressFeature = createFeatureSelector(
-  'onboarding_progress',
-);
-
-export const selectConnectInteractiveBrokersFeature = createFeatureSelector(
-  'connect_interactive_brokers',
-);
-
-export const selectLimitOrdersFeature = createFeatureSelector('limit_orders');
-
-export const selectCurrencies = createSelector(
-  selectCurrenciesRaw,
-  rawCurrencies => {
-    if (rawCurrencies.data) {
-      return rawCurrencies.data;
-    }
-    return null;
-  },
-);
-
-export const selectCurrenciesNeedData = createSelector<
-  AppState,
-  boolean,
-  SimpleState<Currency[]>,
-  number,
-  boolean
->(
-  selectLoggedIn,
-  selectCurrenciesRaw,
-  selectAppTime,
-  (loggedIn, rawCurrencies, time) => {
-    if (!loggedIn) {
-      return false;
-    }
-    return shouldUpdate(rawCurrencies, {
-      staleTime: ms.days(1),
       now: time,
     });
   },

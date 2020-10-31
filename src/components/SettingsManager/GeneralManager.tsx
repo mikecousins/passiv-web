@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectLimitOrdersFeature } from '../../selectors';
+import { selectLimitOrdersFeature } from '../../selectors/features';
 import LimitOrdersSettings from './LimitOrdersSettings';
 import APIAccessSettings from './APIAccessSettings';
 
