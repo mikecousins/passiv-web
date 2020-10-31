@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import React, { useState } from 'react';
+import React from 'react';
 import { push } from 'connected-react-router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -56,7 +56,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const authorizations = useSelector(selectAuthorizations);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const showProgressFeature = useSelector(selectShowProgressFeature);
-  const [loading, setLoading] = useState(false);
   const { brokerage } = useParams();
   const dispatch = useDispatch();
 
@@ -65,7 +64,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       return false;
     }
     let filtered_permissions = userPermissions.filter(
-      permission => permission === 'can_add_multiple_connections',
+      (permission) => permission === 'can_add_multiple_connections',
     );
 
     if (filtered_permissions.length > 0) {
@@ -96,7 +95,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const startConnection = (brokerageName: string, connectionType: string) => {
     const brokerage =
       brokerages &&
-      brokerages.find(brokerage => brokerage.name === brokerageName);
+      brokerages.find((brokerage) => brokerage.name === brokerageName);
     if (brokerage) {
       if (checkBrokerageMaintenance(brokerage) === true) {
         toast.error(
@@ -105,7 +104,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: connectionType,
-        }).then(response => {
+        }).then((response) => {
           window.location = response.data.url;
         });
       }
@@ -211,25 +210,21 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         your brokerage account. Connecting your account does not allow Passiv to
         see your login information.
       </AuthP>
-      {loading ? (
-        <H2DarkStyle>Establishing brokerage connection...</H2DarkStyle>
-      ) : (
-        <React.Fragment>
-          <Container2Column>
-            {brokerageOptions.map((brokerage: any) => {
-              let contents = (
-                <AuthBox key={brokerage.id} onClick={brokerage.connect}>
-                  <LogoContainer>
-                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
-                  </LogoContainer>
-                  <AuthLink>Connect {brokerage.name}</AuthLink>
-                </AuthBox>
-              );
-              return contents;
-            })}
-          </Container2Column>
-        </React.Fragment>
-      )}
+      <React.Fragment>
+        <Container2Column>
+          {brokerageOptions.map((brokerage: any) => {
+            let contents = (
+              <AuthBox key={brokerage.id} onClick={brokerage.connect}>
+                <LogoContainer>
+                  <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                </LogoContainer>
+                <AuthLink>Connect {brokerage.name}</AuthLink>
+              </AuthBox>
+            );
+            return contents;
+          })}
+        </Container2Column>
+      </React.Fragment>
     </React.Fragment>
   );
 

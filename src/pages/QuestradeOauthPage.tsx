@@ -11,12 +11,9 @@ import { H1, H2, P, BulletUL, A } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import { Step } from '../styled/SignupSteps';
 import { selectQueryTokens } from '../selectors/router';
-import {
-  selectQuestradeOfferFeature,
-  selectBrokerages,
-  selectMaintenanceBrokerages,
-} from '../selectors';
+import { selectBrokerages, selectMaintenanceBrokerages } from '../selectors';
 import { selectIsPaid } from '../selectors/subscription';
+import { selectQuestradeOfferFeature } from '../selectors/features';
 import { Error } from '../types/groupInfo';
 import styled from '@emotion/styled';
 import { Brokerage as BrokerageType } from '../types/brokerage';
@@ -62,7 +59,7 @@ const QuestradeOauthPage = () => {
             setShowUpgradeOffer(true);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           setLoading(false);
           setError(error.response.data);
         });
@@ -82,7 +79,7 @@ const QuestradeOauthPage = () => {
   const startConnection = () => {
     const brokerage =
       brokerages &&
-      brokerages.find(brokerage => brokerage.name === 'Questrade');
+      brokerages.find((brokerage) => brokerage.name === 'Questrade');
     if (brokerage) {
       if (checkBrokerageMaintenance(brokerage) === true) {
         toast.error(
@@ -91,7 +88,7 @@ const QuestradeOauthPage = () => {
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: 'read',
-        }).then(response => {
+        }).then((response) => {
           window.location = response.data.url;
         });
       }
