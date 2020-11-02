@@ -3,12 +3,12 @@ import ms from 'milliseconds';
 import {
   selectLoggedIn,
   selectAppTime,
-  selectQuestradeOfferFeature,
   selectHasQuestradeConnection,
   selectIsDemo,
 } from './index';
 import shouldUpdate from '../reactors/should-update';
 import { AppState } from '../store';
+import { selectQuestradeOfferFeature } from './features';
 
 export const selectSubscriptionRaw = (state: AppState) => state.subscription;
 

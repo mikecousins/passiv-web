@@ -44,8 +44,8 @@ ReactGA.initialize(
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 // get GA to listen for path changes
-history.listen(location => {
-  ReactGA.pageview(location.pathname + location.search);
+history.listen(() => {
+  ReactGA.pageview(window.location.pathname + window.location.search);
 });
 
 const persistor = persistStore(store);

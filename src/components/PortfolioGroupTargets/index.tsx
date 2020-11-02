@@ -6,10 +6,10 @@ import { loadGroup } from '../../actions';
 import OrderTargetAllocations from '../PortfolioGroupSettings/OrderTargetAllocations';
 import {
   selectCurrentGroupId,
-  selectCurrentGroupTarget,
   selectCurrentGroupTargetInitialized,
   selectCurrentGroupPositions,
   selectCurrentGroupInfoLoading,
+  selectCurrentGroupTarget,
 } from '../../selectors/groups';
 import { Button } from '../../styled/Button';
 import {

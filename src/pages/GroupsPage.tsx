@@ -4,7 +4,7 @@ import AccountsManager from '../components/SettingsManager/AccountsManager';
 import OnboardingProgress from '../components/OnboardingProgress';
 import SubscriptionManager from '../components/SettingsManager/SubscriptionManager';
 
-const SetupGroupPage = () => (
+const GroupsPage = () => (
   <div>
     <h1>Setup Your Account Groups</h1>
     <p>
@@ -23,4 +23,4 @@ const SetupGroupPage = () => (
   </div>
 );
 
-export default SetupGroupPage;
+export default GroupsPage;

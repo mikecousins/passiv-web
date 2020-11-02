@@ -106,11 +106,11 @@ const PerformancePage = React.lazy(() =>
   import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
 );
 
-declare global {
-  interface Window {
-    Stripe: any;
-  }
-}
+// declare global {
+//   interface Window {
+//     Stripe: any;
+//   }
+// }
 
 // use the stripe test key unless we're in prod
 const stripePublicKey =
@@ -185,7 +185,7 @@ const App = () => {
       ignoreQueryPrefix: true,
     });
     if (params.next) {
-      redirectPath = params.next;
+      redirectPath = params.next as string;
     }
   }
 

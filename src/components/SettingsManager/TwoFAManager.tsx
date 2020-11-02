@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { select2FAFeature } from '../../selectors';
+import { select2FAFeature } from '../../selectors/features';
 import { OptionsTitle, DisabledBox } from '../../styled/GlobalElements';
 
 import SMS2FAManager from './SMS2FAManager';

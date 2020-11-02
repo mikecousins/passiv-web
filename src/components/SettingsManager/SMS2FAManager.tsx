@@ -6,8 +6,8 @@ import {
   selectIsDemo,
   selectPhoneNumber,
   selectSMS2FAEnabled,
-  selectSMS2FAFeature,
 } from '../../selectors';
+import { selectSMS2FAFeature } from '../../selectors/features';
 import { Edit, Span, OptionsTitle, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 
@@ -30,10 +30,10 @@ const SMS2FAManager = () => {
   const dispatch = useDispatch();
 
   const [verificationCode, setVerificationCode] = useState('');
-  const [state2FA, setState2FA] = useState();
+  const [state2FA, setState2FA] = useState(null);
   const [editing2FA, setEditing2FA] = useState(false);
   const [confirming2FA, setConfirming2FA] = useState(false);
-  const [error2FA, setError2FA] = useState();
+  const [error2FA, setError2FA] = useState(null);
   const [loading2FA, setLoading2FA] = useState(false);
   const [candidatePhoneNumber, setCandidatePhoneNumber] = useState('');
 

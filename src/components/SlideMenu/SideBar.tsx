@@ -30,6 +30,9 @@ const StyledAside = styled.aside`
     display: block;
     font-size: 1.125rem;
     position: relative;
+    strong {
+      font-weight: 600;
+    }
     svg {
       float: right;
     }
