@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import GoalProjectionChart from '../components/Goals/GoalProjectionChart';
 import Goals, { MockGoal } from '../components/Goals/Goals';
 import { toDollarString } from '../components/Performance/Performance';
@@ -19,6 +19,7 @@ import { H1, P, H3 } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
 import ShadowBox from '../styled/ShadowBox';
 import GoalProjectionLineChart from '../components/Goals/GoalProjectionLineChart';
+import { deleteGoal } from '../actions/goals';
 
 const ProgressBar = styled.div`
   background: #eee;
@@ -111,8 +112,10 @@ const daysBetween = (firstDate: Date, secondDate: Date) => {
 
 const GoalDetailPage = () => {
   // const goalsFeature = useSelector(selectGoalsFeature);
+  const dispatch = useDispatch();
+  const history = useHistory();
   const goalId = useSelector(selectCurrentGoalId);
-  let goal = useSelector(selectGoals).data?.find(x => x.id === goalId);
+  let goal = useSelector(selectGoals).data?.find((x) => x.id === goalId);
   if (goal === undefined) {
     goal = MockGoal;
   }
@@ -122,7 +125,7 @@ const GoalDetailPage = () => {
   );
   const [contributionFrequency, setContributionFrequency] = useState('monthly');
   const groups = useSelector(selectDashboardGroups);
-  const group = groups.find(x => x.id === goal?.portfolio_group?.id);
+  const group = groups.find((x) => x.id === goal?.portfolio_group?.id);
   let currentValue = useSelector(selectTotalGroupHoldings);
   if (group !== undefined) {
     currentValue = group.totalHoldings;
@@ -177,7 +180,6 @@ const GoalDetailPage = () => {
     projectedAccountValue,
   ]);
 
-  //currentValue + goal?.projected_gain_by_end_date + gainFromReturnRate;
   const handleReturnChange = (e: any) => {
     let newValue = e.target.value;
     if (newValue > 40) {
@@ -192,6 +194,10 @@ const GoalDetailPage = () => {
     setContributionTarget(e.target.value);
   };
   const handleFocus = (e: any) => e.target.select();
+  const handleDelete = () => {
+    dispatch(deleteGoal(goalId));
+    history.push('/app/goals');
+  };
 
   return (
     <React.Fragment>
@@ -279,6 +285,7 @@ const GoalDetailPage = () => {
           <br />
         </Question>
       </ShadowBox>
+      <button onClick={handleDelete}>Delete</button>
     </React.Fragment>
   );
 };
