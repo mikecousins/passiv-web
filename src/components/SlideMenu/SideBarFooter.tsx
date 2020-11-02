@@ -25,7 +25,8 @@ export const Help = styled.div`
   padding: 12px 20px 12px 20px;
   text-transform: none;
   &:hover {
-    svg {
+    svg,
+    a {
       color: var(--brand-blue);
     }
   }
@@ -43,8 +44,9 @@ export const Help = styled.div`
 export const SideBarFooter = () => (
   <StyledFooter>
     <Help>
-      <FontAwesomeIcon icon={faQuestionCircle} />
-      <Link to="/app/help">Help</Link>
+      <Link to="/app/help">
+        <FontAwesomeIcon icon={faQuestionCircle} /> Help
+      </Link>
     </Help>
     <RefreshButton />
   </StyledFooter>

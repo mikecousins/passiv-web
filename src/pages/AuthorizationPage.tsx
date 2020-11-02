@@ -189,7 +189,12 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       openURL: 'https://brokerage.tradier.com/signup?platform=109',
       major: true,
       logo: TradierLogo,
-      description: <P>Tradier blah blah blah.</P>,
+      description: (
+        <P>
+          Tradier is a REST-based, open, and secure API for investors, advisors,
+          and traders.
+        </P>
+      ),
     },
   ];
 
