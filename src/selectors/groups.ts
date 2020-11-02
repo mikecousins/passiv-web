@@ -763,7 +763,14 @@ export const selectCurrentGroupTarget = createSelector(
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrencyRates,
   selectPreferredCurrency,
-  (groupInfo, totalHoldingsExcludedRemoved, rates, preferredCurrency) => {
+  selectCurrentGroupTrades,
+  (
+    groupInfo,
+    totalHoldingsExcludedRemoved,
+    rates,
+    preferredCurrency,
+    calculatedTrades,
+  ) => {
     if (
       !groupInfo ||
       !groupInfo.asset_classes_details ||
@@ -778,58 +785,99 @@ export const selectCurrentGroupTarget = createSelector(
       (symbol) => symbol.id,
     );
 
+    const rebalance_by_asset_class =
+      groupInfo.settings.rebalance_by_asset_class;
+
+    let filtered_asset_classes_details = groupInfo.asset_classes_details.filter(
+      (asset_class_detail) => asset_class_detail.symbols.length > 0,
+    );
+
+    filtered_asset_classes_details = groupInfo.asset_classes_details.filter(
+      (asset_class_detail) =>
+        asset_class_detail.asset_class_in_targets === false &&
+        asset_class_detail.asset_class.exclude_asset_class === false,
+    );
+
+    let symbols_not_in_target = filtered_asset_classes_details
+      .map((asset_class_detail) => {
+        return asset_class_detail.symbols.map((symbol) => symbol.symbol).flat();
+      })
+      .flat();
+
     // add the target positions
     const currentTargetRaw = groupInfo.asset_classes_details;
-    const currentTarget = currentTargetRaw.map((targetRaw) => {
-      let is_supported = quotable_tickers.includes(targetRaw.symbols[0].symbol);
-      console.log(targetRaw.symbols[0].symbol);
-      const target: TargetPosition = {
-        id: targetRaw.asset_class.id,
-        symbol: targetRaw.symbols[0].symbol,
-        percent: targetRaw.asset_class.percent,
-        meta: {},
-        fullSymbol: undefined,
-        actualPercentage: 0,
-        is_excluded: targetRaw.asset_class.exclude_asset_class,
-        is_supported: is_supported,
-      };
 
-      // add the symbol to the target
-      target.fullSymbol = groupInfo.symbols.find(
-        (symbol) => symbol.id === target.symbol,
-      );
+    let currentTarget: TargetPosition[] = [];
 
-      // add the actual percentage to the target
-      const position = groupInfo.positions.find(
-        (p) => p.symbol.id === target.symbol,
-      );
-      if (position && !position.excluded) {
-        if (
-          preferredCurrency &&
-          position.symbol.currency.id === preferredCurrency.id
-        ) {
-          target.actualPercentage =
-            ((position.price * position.units) / totalHoldingsExcludedRemoved) *
-            100;
-        } else {
-          const conversionRate = rates.find(
-            (rate: any) =>
-              preferredCurrency &&
-              rate.src.id === position.symbol.currency.id &&
-              rate.dst.id === preferredCurrency.id,
-          );
-          if (conversionRate) {
-            target.actualPercentage =
-              ((position.price * position.units) /
-                totalHoldingsExcludedRemoved) *
-              100 *
-              conversionRate.exchange_rate;
+    currentTargetRaw.forEach((targetRaw) => {
+      if (rebalance_by_asset_class === false) {
+        let targetRawSymbols = targetRaw.symbols;
+
+        targetRawSymbols.forEach((symbol) => {
+          let is_supported = quotable_tickers.includes(symbol.symbol);
+
+          if (symbols_not_in_target.includes(symbol.symbol)) {
+            return;
           }
-        }
-      } else {
-        target.actualPercentage = 0;
+
+          const target: TargetPosition = {
+            id: symbol.symbol,
+            symbol: symbol.symbol,
+            percent: targetRaw.asset_class.percent,
+            meta: {},
+            fullSymbol: undefined,
+            actualPercentage: 0,
+            is_excluded: targetRaw.asset_class.exclude_asset_class,
+            is_supported: is_supported,
+          };
+
+          target.fullSymbol = groupInfo.symbols.find(
+            (symbol) => symbol.id === target.symbol,
+          );
+
+          const position = groupInfo.positions.find(
+            (p) => p.symbol.id === target.symbol,
+          );
+          if (position && !target.is_excluded) {
+            if (
+              preferredCurrency &&
+              position.symbol.currency.id === preferredCurrency.id
+            ) {
+              target.actualPercentage =
+                ((position.price * position.units) /
+                  totalHoldingsExcludedRemoved) *
+                100;
+            } else {
+              const conversionRate = rates.find(
+                (rate: any) =>
+                  preferredCurrency &&
+                  rate.src.id === position.symbol.currency.id &&
+                  rate.dst.id === preferredCurrency.id,
+              );
+              if (conversionRate) {
+                target.actualPercentage =
+                  ((position.price * position.units) /
+                    totalHoldingsExcludedRemoved) *
+                  100 *
+                  conversionRate.exchange_rate;
+              }
+            }
+          } else {
+            target.actualPercentage = 0;
+          }
+          currentTarget.push(target);
+        });
       }
-      return target;
+    });
+
+    currentTarget.sort((a, b) => {
+      let a_is_supported = Number(a.is_supported);
+      let b_is_supported = Number(b.is_supported);
+      if (a_is_supported - b_is_supported === -1) {
+        return 1;
+      } else {
+        return 0;
+      }
     });
 
     switch (groupInfo.settings.order_targets_by) {

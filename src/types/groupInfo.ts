@@ -66,6 +66,8 @@ export type ExcludedPosition = {
 export type Trade = {
   action: string;
   skip_trade: boolean;
+  symbol_in_target: boolean;
+  universal_symbol: Symbol;
 };
 
 export type CalculatedTrades = {
@@ -83,6 +85,7 @@ export type Settings = {
   preferred_currency: string;
   target_initialized: boolean;
   order_targets_by: number;
+  rebalance_by_asset_class: boolean;
 };
 
 export type Error = {
@@ -107,6 +110,7 @@ export type AssetClassSymbol = {
 export type AssetClassesDetails = {
   asset_class: AssetClass;
   symbols: AssetClassSymbol[];
+  asset_class_in_targets: boolean;
 };
 
 export type GroupInfoData = {

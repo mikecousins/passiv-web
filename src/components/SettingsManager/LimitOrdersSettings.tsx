@@ -42,7 +42,9 @@ const LimitOrdersSettings = () => {
 
   useEffect(() => {
     if (settings) {
-      setPriceLimitThreshold(settings && settings.price_limit_threshold);
+      setPriceLimitThreshold(
+        settings && parseFloat(settings.price_limit_threshold).toString(),
+      );
     }
   }, [settings]);
 
@@ -114,7 +116,7 @@ const LimitOrdersSettings = () => {
             {!editingThreshold ? (
               <React.Fragment>
                 <Number
-                  value={parseInt(priceLimitThreshold, 10)}
+                  value={parseFloat(priceLimitThreshold)}
                   percentage
                   decimalPlaces={calcDecimalPlaces(
                     parseFloat(priceLimitThreshold),

@@ -17,9 +17,6 @@ export const selectToken = (state: AppState) => state.auth.token;
 
 export const selectReferral = (state: AppState) => state.referral;
 
-// export const selectModelAssetClassRaw = (state: AppState) =>
-//   state.modelAssetClass;
-
 export const selectReferralCode = createSelector(selectReferral, (referral) => {
   if (referral !== null) {
     return referral.referralCode;
