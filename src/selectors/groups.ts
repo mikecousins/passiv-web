@@ -47,7 +47,7 @@ export const selectGroups = createSelector(
   selectAccounts,
   (rawGroups, groupInfo, accounts) => {
     if (rawGroups.data) {
-      return rawGroups.data.map(group => {
+      return rawGroups.data.map((group) => {
         const groupWithRebalance = group;
         if (groupInfo[group.id] && groupInfo[group.id].data) {
           if (
@@ -74,7 +74,7 @@ export const selectGroups = createSelector(
         groupWithRebalance.accounts = [];
         if (accounts) {
           let groupAccounts = accounts.filter(
-            account => account.portfolio_group === group.id,
+            (account) => account.portfolio_group === group.id,
           );
 
           if (groupAccounts.length > 0 && accounts) {
@@ -131,7 +131,7 @@ export const selectGroupInfoNeedsData = createSelector<
     if (rawGroups && rawGroups.data) {
       needsData =
         rawGroups &&
-        rawGroups!.data!.some(group => {
+        rawGroups!.data!.some((group) => {
           return (
             !groupInfo[group.id].loading &&
             groupInfo[group.id].data === undefined
@@ -147,7 +147,7 @@ export const selectCurrentGroupId = createSelector<
   AppState,
   RouterState,
   string | null
->(selectRouter, router => {
+>(selectRouter, (router) => {
   let groupId = null;
   if (
     router &&
@@ -184,7 +184,7 @@ export const selectCurrentGroupInfoLoading = createSelector(
 
 export const selectCurrentGroupInfoError = createSelector(
   selectCurrentGroupInfo,
-  groupInfo => {
+  (groupInfo) => {
     if (groupInfo) {
       return groupInfo.error;
     }
@@ -194,7 +194,7 @@ export const selectCurrentGroupInfoError = createSelector(
 
 export const selectGroupsLoading = createSelector(
   selectGroupsRaw,
-  rawGroups => rawGroups.loading,
+  (rawGroups) => rawGroups.loading,
 );
 
 export const selectCurrentGroupAccuracy = createSelector<
@@ -239,7 +239,7 @@ export const selectCurrentGroupTargetInitialized = createSelector<
   AppState,
   Settings | null,
   boolean
->(selectCurrentGroupSettings, groupSettings => {
+>(selectCurrentGroupSettings, (groupSettings) => {
   let targetInitialized = false;
   if (groupSettings && groupSettings.target_initialized) {
     targetInitialized = groupSettings.target_initialized;
@@ -277,7 +277,7 @@ export const selectPreferredCurrency = createSelector(
       return null;
     }
     const preferredCurrency = currencies.find(
-      currency => currency.id === settings.preferred_currency,
+      (currency) => currency.id === settings.preferred_currency,
     );
     if (!preferredCurrency) {
       return null;
@@ -297,7 +297,7 @@ export const selectGlobalPreferredCurrency = createSelector(
       return null;
     }
     const preferredCurrency = currencies.find(
-      currency => currency.id === settings.preferred_currency,
+      (currency) => currency.id === settings.preferred_currency,
     );
     if (!preferredCurrency) {
       return null;
@@ -321,7 +321,7 @@ export const selectCurrentGroupCash = createSelector<
   (balances, currencies, rates, preferredCurrency) => {
     if (balances && currencies) {
       let cash = 0;
-      balances.forEach(balance => {
+      balances.forEach((balance) => {
         if (preferredCurrency && balance.currency.id === preferredCurrency.id) {
           cash += balance.cash;
         } else {
@@ -329,7 +329,7 @@ export const selectCurrentGroupCash = createSelector<
             return;
           }
           const conversionRate = rates.find(
-            rate =>
+            (rate) =>
               preferredCurrency &&
               rate.src.id === balance.currency.id &&
               rate.dst.id === preferredCurrency.id,
@@ -349,7 +349,7 @@ export const selectCurrentGroupCash = createSelector<
 
 export const selectCurrentGroupQuotableSymbols = createSelector(
   selectCurrentGroupInfo,
-  groupInfo => {
+  (groupInfo) => {
     if (groupInfo && groupInfo.quotable_symbols) {
       return groupInfo.quotable_symbols;
     }
@@ -379,17 +379,34 @@ export const selectCurrentGroupPositions = createSelector(
       groupInfo[groupId] &&
       groupInfo[groupId].data &&
       groupInfo[groupId].data!.positions &&
+      groupInfo[groupId].data!.asset_classes_details &&
       quotableSymbols &&
       currencies &&
       rates
     ) {
       positions = groupInfo[groupId].data!.positions;
 
-      positions.map(position => {
+      let excluded_asset_classes = groupInfo[
+        groupId
+      ].data!.asset_classes_details.filter(
+        (detail) => detail.asset_class.exclude_asset_class === true,
+      );
+      let excludedPositionsSymbolsIds = excluded_asset_classes
+        .map((asset_classes) => {
+          return asset_classes.symbols.map((symbol) => symbol.symbol);
+        })
+        .flat();
+
+      positions.map((position) => {
         // TODO set this properly
-        position.excluded = false;
+        if (excludedPositionsSymbolsIds.includes(position.symbol.id)) {
+          position.excluded = false;
+        } else {
+          position.excluded = true;
+        }
+
         position.quotable = quotableSymbols.some(
-          quotableSymbol => quotableSymbol.id === position.symbol.id,
+          (quotableSymbol) => quotableSymbol.id === position.symbol.id,
         );
 
         if (
@@ -399,7 +416,7 @@ export const selectCurrentGroupPositions = createSelector(
           position.uniformEquity = position.units * position.price;
         } else {
           const conversionRate = rates.find(
-            rate =>
+            (rate) =>
               preferredCurrency &&
               rate.src.id === position.symbol.currency.id &&
               rate.dst.id === preferredCurrency.id,
@@ -420,7 +437,7 @@ export const selectCurrentGroupPositions = createSelector(
         return total;
       }, 0);
 
-      positions.map(position => {
+      positions.map((position) => {
         if (!position.excluded && position.quotable) {
           position.actualPercentage =
             (position.uniformEquity / totalEquity) * 100;
@@ -442,7 +459,7 @@ export const selectCurrentGroupBalancedEquity = createSelector(
       return null;
     }
     let total = 0;
-    positions.forEach(position => {
+    positions.forEach((position) => {
       if (
         preferredCurrency &&
         position.symbol.currency.id === preferredCurrency.id
@@ -450,7 +467,7 @@ export const selectCurrentGroupBalancedEquity = createSelector(
         total += position.units * position.price;
       } else {
         const conversionRate = rates.find(
-          rate =>
+          (rate) =>
             preferredCurrency &&
             rate.src.id === position.symbol.currency.id &&
             rate.dst.id === preferredCurrency.id,
@@ -509,7 +526,7 @@ export const selectCurrentGroupTradesHasSkippedTrades = createSelector(
       groupInfo[groupId].data!.calculated_trades
     ) {
       trades = groupInfo[groupId].data!.calculated_trades.trades;
-      trades.forEach(trade => {
+      trades.forEach((trade) => {
         if (trade.skip_trade) {
           hasSkippedTrades = true;
           return hasSkippedTrades;
@@ -522,7 +539,7 @@ export const selectCurrentGroupTradesHasSkippedTrades = createSelector(
 
 export const selectCurrentGroupSymbols = createSelector(
   selectCurrentGroupInfo,
-  groupInfo => {
+  (groupInfo) => {
     if (groupInfo && groupInfo.symbols) {
       return groupInfo.symbols;
     }
@@ -539,14 +556,14 @@ export const selectTotalGroupHoldings = createSelector(
   (groups, groupInfo, currencies, rates, preferredCurrency) => {
     let total = 0;
     if (groups && rates && currencies) {
-      groups.forEach(group => {
+      groups.forEach((group) => {
         if (
           groupInfo &&
           groupInfo[group.id] &&
           groupInfo[group.id].data &&
           groupInfo[group.id].data!.balances
         ) {
-          groupInfo[group.id].data!.balances.forEach(balance => {
+          groupInfo[group.id].data!.balances.forEach((balance) => {
             if (
               preferredCurrency &&
               balance.currency.id === preferredCurrency.id
@@ -554,7 +571,7 @@ export const selectTotalGroupHoldings = createSelector(
               total += balance.cash;
             } else {
               const conversionRate = rates.find(
-                rate =>
+                (rate) =>
                   preferredCurrency &&
                   rate.src.id === balance.currency.id &&
                   rate.dst.id === preferredCurrency.id,
@@ -565,7 +582,7 @@ export const selectTotalGroupHoldings = createSelector(
               total += balance.cash * conversionRate.exchange_rate;
             }
           });
-          groupInfo[group.id].data!.positions.forEach(position => {
+          groupInfo[group.id].data!.positions.forEach((position) => {
             if (
               preferredCurrency &&
               position.symbol.currency.id === preferredCurrency.id
@@ -573,7 +590,7 @@ export const selectTotalGroupHoldings = createSelector(
               total += position.units * position.price;
             } else {
               const conversionRate = rates.find(
-                rate =>
+                (rate) =>
                   preferredCurrency &&
                   rate.src.id === position.symbol.currency.id &&
                   rate.dst.id === preferredCurrency.id,
@@ -597,7 +614,7 @@ export const selectCurrentGroupSetupComplete = createSelector<
   AppState,
   boolean,
   boolean
->(selectCurrentGroupTargetInitialized, targetInitialized => {
+>(selectCurrentGroupTargetInitialized, (targetInitialized) => {
   return targetInitialized;
 });
 
@@ -605,7 +622,7 @@ export const selectCurrentAccountId = createSelector<
   AppState,
   AppState,
   string | undefined
->(selectState, state => {
+>(selectState, (state) => {
   const matchSelector = createMatchSelector<
     any,
     { groupId?: string; accountId?: string }
@@ -643,7 +660,7 @@ export const selectCurrentAccountHoldings = createSelector<
     if (!accountId || !accounts || !accountBalances || !accountPositions) {
       return null;
     }
-    const account = accounts.find(a => a.id === accountId);
+    const account = accounts.find((a) => a.id === accountId);
     if (!account) {
       return null;
     }
@@ -672,7 +689,7 @@ export const selectCurrentGroup = createSelector(
       if (!groups) {
         return undefined;
       }
-      return groups.find(g => g.id === groupId);
+      return groups.find((g) => g.id === groupId);
     }
     return null;
   },
@@ -686,7 +703,7 @@ export const selectCurrentAccount = createSelector(
       if (!accounts) {
         return undefined;
       }
-      return accounts.find(a => a.id === accountId);
+      return accounts.find((a) => a.id === accountId);
     }
     return null;
   },
@@ -700,26 +717,32 @@ export const selectCurrentGroupExcludedEquity = createSelector(
   selectPreferredCurrency,
   (groupId, groupInfo, currencies, rates, preferredCurrency) => {
     let excludedEquity = 0;
-    /*
+
     if (
       !groupId ||
       !groupInfo ||
       !groupInfo[groupId] ||
       !groupInfo[groupId].data ||
-      !groupInfo[groupId].data!.excluded_positions ||
+      !groupInfo[groupId].data!.asset_classes_details ||
       !currencies ||
       !rates ||
       !preferredCurrency
     ) {
       return excludedEquity;
     }
-    const excludedPositionsIds = groupInfo[
+    let excluded_asset_classes = groupInfo[
       groupId
-    ].data!.excluded_positions.map(
-      excluded_position => excluded_position.symbol,
+    ].data!.asset_classes_details.filter(
+      (detail) => detail.asset_class.exclude_asset_class === true,
     );
+    let excludedPositionsIds = excluded_asset_classes
+      .map((asset_classes) => {
+        return asset_classes.symbols.map((symbol) => symbol.symbol);
+      })
+      .flat();
+
     const allPositions = groupInfo[groupId].data!.positions;
-    allPositions.forEach(position => {
+    allPositions.forEach((position) => {
       if (excludedPositionsIds.includes(position.symbol.id)) {
         if (
           preferredCurrency &&
@@ -728,7 +751,7 @@ export const selectCurrentGroupExcludedEquity = createSelector(
           excludedEquity += position.units * position.price;
         } else {
           const conversionRate = rates.find(
-            rate =>
+            (rate) =>
               preferredCurrency &&
               rate.src.id === position.symbol.currency.id &&
               rate.dst.id === preferredCurrency.id,
@@ -740,7 +763,7 @@ export const selectCurrentGroupExcludedEquity = createSelector(
             position.units * position.price * conversionRate.exchange_rate;
         }
       }
-    }); */
+    });
 
     return excludedEquity;
   },
@@ -782,25 +805,25 @@ export const selectCurrentGroupTarget = createSelector(
 
     // get quotable symbols ticker
     const quotable_tickers = groupInfo.quotable_symbols.map(
-      symbol => symbol.id,
+      (symbol) => symbol.id,
     );
 
     const rebalance_by_asset_class =
       groupInfo.settings.rebalance_by_asset_class;
 
     let filtered_asset_classes_details = groupInfo.asset_classes_details.filter(
-      asset_class_detail => asset_class_detail.symbols.length > 0,
+      (asset_class_detail) => asset_class_detail.symbols.length > 0,
     );
 
     filtered_asset_classes_details = groupInfo.asset_classes_details.filter(
-      asset_class_detail =>
+      (asset_class_detail) =>
         asset_class_detail.asset_class_in_targets === false &&
         asset_class_detail.asset_class.exclude_asset_class === false,
     );
 
     let symbols_not_in_target = filtered_asset_classes_details
-      .map(asset_class_detail => {
-        return asset_class_detail.symbols.map(symbol => symbol.symbol).flat();
+      .map((asset_class_detail) => {
+        return asset_class_detail.symbols.map((symbol) => symbol.symbol).flat();
       })
       .flat();
 
@@ -809,11 +832,11 @@ export const selectCurrentGroupTarget = createSelector(
 
     let currentTarget: TargetPosition[] = [];
 
-    currentTargetRaw.forEach(targetRaw => {
+    currentTargetRaw.forEach((targetRaw) => {
       if (rebalance_by_asset_class === false) {
         let targetRawSymbols = targetRaw.symbols;
 
-        targetRawSymbols.forEach(symbol => {
+        targetRawSymbols.forEach((symbol) => {
           let is_supported = quotable_tickers.includes(symbol.symbol);
 
           if (symbols_not_in_target.includes(symbol.symbol)) {
@@ -832,11 +855,11 @@ export const selectCurrentGroupTarget = createSelector(
           };
 
           target.fullSymbol = groupInfo.symbols.find(
-            symbol => symbol.id === target.symbol,
+            (symbol) => symbol.id === target.symbol,
           );
 
           const position = groupInfo.positions.find(
-            p => p.symbol.id === target.symbol,
+            (p) => p.symbol.id === target.symbol,
           );
           if (position && !target.is_excluded) {
             if (
@@ -991,7 +1014,7 @@ export const selectDashboardGroups = createSelector(
     if (!groups || !rates) {
       return fullGroups;
     }
-    groups.forEach(g => {
+    groups.forEach((g) => {
       const group: DashboardGroup = {
         id: g.id,
         name: g.name,
@@ -1005,9 +1028,11 @@ export const selectDashboardGroups = createSelector(
         const groupData = groupInfo[group.id].data!;
         group.preferredCurrency =
           currencies &&
-          currencies.find(c => c.id === groupData.settings.preferred_currency);
+          currencies.find(
+            (c) => c.id === groupData.settings.preferred_currency,
+          );
 
-        groupData.balances.forEach(balance => {
+        groupData.balances.forEach((balance) => {
           if (
             group.preferredCurrency &&
             balance.currency.id === group.preferredCurrency.id
@@ -1015,7 +1040,7 @@ export const selectDashboardGroups = createSelector(
             group.totalCash += balance.cash;
           } else {
             const conversionRate = rates.find(
-              rate =>
+              (rate) =>
                 group.preferredCurrency &&
                 rate.src.id === balance.currency.id &&
                 rate.dst.id === group.preferredCurrency.id,
@@ -1026,7 +1051,7 @@ export const selectDashboardGroups = createSelector(
             group.totalCash += balance.cash * conversionRate.exchange_rate;
           }
         });
-        groupData.positions.forEach(position => {
+        groupData.positions.forEach((position) => {
           if (
             group.preferredCurrency &&
             position.symbol.currency.id === group.preferredCurrency.id
@@ -1034,7 +1059,7 @@ export const selectDashboardGroups = createSelector(
             group.totalHoldings += position.units * position.price;
           } else {
             const conversionRate = rates.find(
-              rate =>
+              (rate) =>
                 group.preferredCurrency &&
                 rate.src.id === position.symbol.currency.id &&
                 rate.dst.id === group.preferredCurrency.id,
@@ -1063,7 +1088,7 @@ export const selectDashboardGroups = createSelector(
         group.trades = groupData.calculated_trades;
 
         group.trades &&
-          group.trades.trades.forEach(trade => {
+          group.trades.trades.forEach((trade) => {
             if (trade.action === 'SELL') {
               group.hasSells = true;
             }
@@ -1095,7 +1120,7 @@ export const selectCurrentAccountCash = createSelector(
   (balances, currencies, rates, preferredCurrency) => {
     if (balances && currencies) {
       let cash = 0;
-      balances.forEach(balance => {
+      balances.forEach((balance) => {
         if (preferredCurrency && balance.currency.id === preferredCurrency.id) {
           cash += balance.cash;
         } else {
@@ -1103,7 +1128,7 @@ export const selectCurrentAccountCash = createSelector(
             return;
           }
           const conversionRate = rates.find(
-            rate =>
+            (rate) =>
               preferredCurrency &&
               rate.src.id === balance.currency.id &&
               rate.dst.id === preferredCurrency.id,
@@ -1131,7 +1156,7 @@ export const selectCurrentAccountBalancedEquity = createSelector(
       return null;
     }
     let total = 0;
-    positions.forEach(position => {
+    positions.forEach((position) => {
       if (
         preferredCurrency &&
         position.symbol.symbol.currency === preferredCurrency.id
@@ -1139,7 +1164,7 @@ export const selectCurrentAccountBalancedEquity = createSelector(
         total += position.units * position.price;
       } else {
         const conversionRate = rates.find(
-          rate =>
+          (rate) =>
             preferredCurrency &&
             rate.src.id === position.symbol.symbol.currency &&
             rate.dst.id === preferredCurrency.id,
@@ -1192,7 +1217,7 @@ export const selectGroupedAccounts = createSelector(
     });
 
     const groupedAccounts: Group[] = [];
-    groups.forEach(group => {
+    groups.forEach((group) => {
       groupedAccounts.push({
         groupId: group.id,
         accounts: [],
@@ -1202,13 +1227,13 @@ export const selectGroupedAccounts = createSelector(
 
     groupedAccounts.push({
       groupId: 'hidden',
-      accounts: accounts.filter(a => a.portfolio_group === null),
+      accounts: accounts.filter((a) => a.portfolio_group === null),
       name: 'Hidden Accounts',
     });
 
-    accounts.forEach(account => {
+    accounts.forEach((account) => {
       const group = groupedAccounts.find(
-        g => g.groupId === account.portfolio_group,
+        (g) => g.groupId === account.portfolio_group,
       );
       if (group) {
         group.accounts.push(account);
@@ -1224,9 +1249,9 @@ export const selectCurrentGroupAccounts = createSelector(
   selectAccounts,
   (currentGroupInfo, accounts) => {
     return accounts.filter(
-      a =>
+      (a) =>
         currentGroupInfo &&
-        currentGroupInfo.accounts.find(account => account.id === a.id),
+        currentGroupInfo.accounts.find((account) => account.id === a.id),
     );
     // return currentGroupInfo && currentGroupInfo.accounts;
   },
@@ -1237,7 +1262,7 @@ export const selectCurrentGroupCashRestrictions = createSelector(
   selectCashRestrictions,
   (accounts, cashRestrictions) => {
     return cashRestrictions.filter(
-      c => accounts && accounts.find(a => a.id === c.account),
+      (c) => accounts && accounts.find((a) => a.id === c.account),
     );
   },
 );
