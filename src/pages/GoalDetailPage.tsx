@@ -234,7 +234,7 @@ const GoalDetailPage = () => {
               contributionFrequency={contributionFrequency}
               setup={false}
             ></FrequencyChooser>
-            with a annual return rate of
+            with an annual return rate of
             <Input
               type="number"
               min={0}
