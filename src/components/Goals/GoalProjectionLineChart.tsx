@@ -10,14 +10,16 @@ import Grid from '../../styled/Grid';
 export const ChartBox = styled.div`
   position: relative;
   height: 300px;
-  width: 60%;
   margin: 15px 0 10px;
 `;
 
 export const LegendItem = styled.div`
-  font-size: 18px;
+  font-size: 24px;
+  margin-bottom: 30px;
 `;
-
+export const LegendContainer = styled(Grid)`
+  text-align: right;
+`;
 type Props = {
   goal: Goal | null;
   currentValue: number;
@@ -54,7 +56,7 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
       {
         label: 'Projected2',
         data: projectedData,
-        color: '#1b98e0',
+        color: '#003ba2',
       },
     ],
     [goal, currentValue, projectedValue, projectedData],
@@ -64,18 +66,23 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
 
   const axes = React.useMemo(
     () => [
-      { primary: true, type: 'time', position: 'bottom', showGrid: true },
-      { type: 'linear', position: 'left', hardMin: 0, showGrid: true },
+      { primary: true, type: 'time', position: 'bottom', showGrid: false },
+      { type: 'linear', position: 'left', hardMin: 0, showGrid: false },
     ],
     [],
   );
 
   return (
     <ChartBox>
-      Portfolio Value <br />
-      <Chart data={data} axes={axes} series={series} />
-      <br />
-      <Grid columns="1fr 1fr 1fr">
+      <LegendContainer columns="1fr 1fr">
+        <LegendItem>
+          <FontAwesomeIcon
+            icon={faCircle}
+            color="#003ba2"
+            style={{ padding: 1 }}
+          />{' '}
+          Projected&nbsp; ${toDollarString(projectedValue)}
+        </LegendItem>
         <LegendItem>
           <FontAwesomeIcon
             icon={faCircle}
@@ -87,15 +94,8 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
             ? toDollarString(goal?.total_value_target)
             : ''}
         </LegendItem>
-        <LegendItem>
-          <FontAwesomeIcon
-            icon={faCircle}
-            color="#1b98e0"
-            style={{ padding: 1 }}
-          />{' '}
-          Projected&nbsp; ${toDollarString(projectedValue)}
-        </LegendItem>
-      </Grid>
+      </LegendContainer>
+      <Chart data={data} axes={axes} series={series} />
     </ChartBox>
   );
 };

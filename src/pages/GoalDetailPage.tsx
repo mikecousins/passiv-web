@@ -2,8 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import GoalProjectionChart from '../components/Goals/GoalProjectionChart';
-import Goals, { MockGoal } from '../components/Goals/Goals';
+import { MockGoal } from '../components/Goals/Goals';
 import { toDollarString } from '../components/Performance/Performance';
 import { selectCurrentGoalId, selectGoals } from '../selectors/goals';
 import {
@@ -11,7 +10,6 @@ import {
   selectTotalGroupHoldings,
 } from '../selectors/groups';
 import { FrequencyChooser } from '../components/Goals/GoalSetup';
-import { InputPrimary } from '../styled/Form';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
@@ -21,28 +19,6 @@ import ShadowBox from '../styled/ShadowBox';
 import GoalProjectionLineChart from '../components/Goals/GoalProjectionLineChart';
 import { deleteGoal } from '../actions/goals';
 
-const ProgressBar = styled.div`
-  background: #eee;
-  width: 100%;
-  border-radius: 25rem;
-  overflow: hidden;
-  margin-bottom: 12px;
-`;
-const Progress = styled.div`
-  background: #05a286;
-`;
-const ProgressCopy = styled.p`
-  font-size: 1.6rem;
-  font-weight: 500;
-  line-height: 1.5;
-  margin: 0 0 12px;
-  strong {
-    color: var(--brand-green);
-  }
-`;
-const ProgressContainer = styled.div`
-  margin-right: 5rem;
-`;
 const GoalProjectionContainer = styled.div`
   padding-bottom: 80px;
 `;
@@ -71,19 +47,28 @@ const HeaderBanner = styled.div`
     }
   }
 `;
-
+const Summary = styled(Grid)`
+  text-align: center;
+  p {
+    color: #fff;
+  }
+`;
+const ChangeContainer = styled(Grid)`
+  align-items: center;
+`;
 export const Input = styled.input`
   border: none;
-  border-bottom: 1px solid var(--brand-grey);
+  border-bottom: 1px solid var(--brand-blue);
   box-sizing: border-box;
-  font-size: 20px;
+  font-size: 28px;
   padding: 14px 9px 7px 0;
   border-radius: 0;
-  width: 10%;
+  width: 120px;
   outline: none;
   margin: 0 6px 25px 6px;
   -webkit-appearance: none;
   background: #fff;
+  color: #003ba2;
   &:focus {
     border: 1px solid var(--brand-blue-hover);
     outline: 4px solid rgba(0, 59, 162, 0.44);
@@ -91,7 +76,13 @@ export const Input = styled.input`
 `;
 
 const Question = styled.div`
-  font-size: 20px;
+  font-size: 30px;
+  max-width: 475px;
+  line-height: 2;
+  select {
+    margin: 0 10px;
+    border-color: #003ba2;
+  }
 `;
 
 const daysBetween = (firstDate: Date, secondDate: Date) => {
@@ -201,90 +192,71 @@ const GoalDetailPage = () => {
 
   return (
     <React.Fragment>
-      <HeaderBanner>
-        <BackLink to="/app/goals">
-          <FontAwesomeIcon icon={faChevronLeft} /> View all Goals
-        </BackLink>
-        <H1>{goal?.title}</H1>
-      </HeaderBanner>
+      <Grid columns="1fr 1fr">
+        <HeaderBanner>
+          <BackLink to="/app/goals">
+            <FontAwesomeIcon icon={faChevronLeft} /> View all Goals
+          </BackLink>
+          <H1>{goal?.title}</H1>
+        </HeaderBanner>
+        <ShadowBox background="#04a287">
+          <Summary columns="1fr 1fr 1fr">
+            <P>
+              <H3>Goal Progress</H3> ${toDollarString(currentValue)}
+            </P>
+            <P>
+              <H3>Goal Date</H3> {goal?.target_date}
+            </P>
+            <P>
+              <H3>Target</H3> ${toDollarString(targetValue)}
+            </P>
+          </Summary>
+        </ShadowBox>
+      </Grid>
       <ShadowBox>
-        <ProgressContainer>
-          <ProgressCopy>
-            You're <strong> {progressPercent.toFixed(0)}%</strong> of the way
-            there!
-          </ProgressCopy>
-          <ProgressBar>
-            <Progress
-              style={{ height: '24px', width: progressPercent + '%' }}
-            ></Progress>
-          </ProgressBar>
-        </ProgressContainer>
-        <Grid columns="1fr 1fr 1fr">
-          <P>
-            <H3>Balance</H3> ${toDollarString(currentValue)}
-          </P>
-          <P>
-            <H3>Est Date</H3> {goal?.target_date}
-          </P>
-          <P>
-            <H3>Target</H3> ${toDollarString(targetValue)}
-          </P>
-        </Grid>
+        <ChangeContainer columns="1fr 1fr">
+          <Question>
+            What would happen if I contributed $
+            <Input
+              type="number"
+              min={0}
+              onChange={handleContributionChange}
+              value={contributionTarget}
+              onClick={handleFocus}
+              placeholder={'0'}
+              step={getStep(contributionTarget)}
+            />
+            every
+            <FrequencyChooser
+              handleContributionFrequencyChange={
+                handleContributionFrequencyChange
+              }
+              contributionFrequency={contributionFrequency}
+              setup={false}
+            ></FrequencyChooser>
+            with a annual return rate of
+            <Input
+              type="number"
+              min={0}
+              max={100}
+              onChange={handleReturnChange}
+              value={returnRate}
+              onClick={handleFocus}
+              placeholder={'0'}
+            />
+            %?
+          </Question>
+          <GoalProjectionContainer>
+            <GoalProjectionLineChart
+              goal={goal}
+              currentValue={currentValue}
+              projectedValue={projectedAccountValue}
+              projectedData={projectedData}
+            ></GoalProjectionLineChart>
+          </GoalProjectionContainer>
+        </ChangeContainer>
       </ShadowBox>
-      <ShadowBox>
-        <div>Contribution Streak: {goal?.contribution_streak}</div>
-        <div>
-          Contributing ${toDollarString(goal?.average_monthly_contributions)} /
-          ${toDollarString(goal?.contribution_target)} per{' '}
-          {goal?.contribution_frequency}
-        </div>
-        <div>
-          Projected account value at target date: $
-          {toDollarString(projectedAccountValue)}
-        </div>
-        <GoalProjectionContainer>
-          <GoalProjectionLineChart
-            goal={goal}
-            currentValue={currentValue}
-            projectedValue={projectedAccountValue}
-            projectedData={projectedData}
-          ></GoalProjectionLineChart>
-        </GoalProjectionContainer>
-      </ShadowBox>
-      <ShadowBox>
-        <Question>
-          What would happen if I contributed $
-          <Input
-            type="number"
-            min={0}
-            onChange={handleContributionChange}
-            value={contributionTarget}
-            onClick={handleFocus}
-            placeholder={'0'}
-            step={getStep(contributionTarget)}
-          />
-          every:
-          <FrequencyChooser
-            handleContributionFrequencyChange={
-              handleContributionFrequencyChange
-            }
-            contributionFrequency={contributionFrequency}
-            setup={false}
-          ></FrequencyChooser>
-          with a annual return rate of
-          <Input
-            type="number"
-            min={0}
-            max={100}
-            onChange={handleReturnChange}
-            value={returnRate}
-            onClick={handleFocus}
-            placeholder={'0'}
-          />
-          %?
-          <br />
-        </Question>
-      </ShadowBox>
+
       <button onClick={handleDelete}>Delete</button>
     </React.Fragment>
   );

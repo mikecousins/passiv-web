@@ -10,7 +10,6 @@ import Grid from '../../styled/Grid';
 export const ChartBox = styled.div`
   position: relative;
   height: 300px;
-  width: 60%;
   margin: 15px 0 10px;
 `;
 
@@ -61,9 +60,7 @@ export const GoalProjectionChart: FunctionComponent<Props> = ({
 
   return (
     <ChartBox>
-      Portfolio Value <br />
       <Chart data={data} axes={axes} series={series} tooltip />
-      <br />
       <Grid columns="1fr 1fr 1fr">
         <LegendItem>
           <FontAwesomeIcon
