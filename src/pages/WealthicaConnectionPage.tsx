@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { reloadEverything } from '../actions';
+import { Redirect } from 'react-router-dom';
+
 import { H1DarkStyle } from '../styled/Setup';
 import ShadowBox from '../styled/ShadowBox';
-
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import WealthicaSelectBrokerages from '../components/Wealthica/WealthicaSelectBrokerages';
 import WealthicaEnterLoginCredentials from '../components/Wealthica/WealthicaEnterLoginCredentials';
 import WealthicaSecurityQuestion from '../components/Wealthica/WealthicaSecurityQuestion';
-import WealthicaConnectionStatusConfirmation from '../components/Wealthica/WealthicaConnectionStatusConfirmation';
+import WealthicaConnectionFailed from '../components/Wealthica/WealthicaConnectionFailed';
 
 type Props = {
   onboarding?: boolean;
@@ -18,39 +21,51 @@ const WealthicaConnectionPage = ({ onboarding }: Props) => {
   const [selectingBrokerage, setSelectingBrokerage] = useState(true);
   const [enterLoginCredentials, setEnterLoginCredentials] = useState(false);
   const [answerSecurityQuestion, setAnswerSecurityQuestion] = useState(false);
-  const [connectionSuccess, setConnectionSuccess] = useState(false);
   const [connectionFail, setConnectionFail] = useState(false);
+  const [connectionSuccess, setConnectionSuccess] = useState(false);
   const [syncing_status, setSyncingStatus] = useState(null);
-
-  const [connectionInProgress, setConnectionInProgress] = useState(false);
-
   const [institutionData, setInstitutionData] = useState<any>();
 
-  const setAndCheckSyncingStatus = (syncing_status: any) => {
-    setSyncingStatus(syncing_status);
+  const dispatch = useDispatch();
 
-    if (syncing_status.passiv_sync_complete) {
-      setConnectionSuccess(true);
-      setConnectionInProgress(false);
-    } else if (syncing_status.sync_status === 'error') {
-      if (syncing_status.sync_error.name === 'SecurityQuestionError') {
-        setAnswerSecurityQuestion(true);
-      } else {
-        setConnectionFail(true);
-        setConnectionInProgress(false);
-      }
-    }
+  const handleSuccess = () => {
+    dispatch(reloadEverything());
+    setEnterLoginCredentials(false);
+    setAnswerSecurityQuestion(false);
+    setSyncingStatus(null);
+    setInstitutionData(null);
+    setConnectionFail(false);
+    setConnectionSuccess(true);
+  };
+
+  const handleFail = () => {
+    setEnterLoginCredentials(false);
+    setAnswerSecurityQuestion(false);
+    setSyncingStatus(null);
+    setInstitutionData(null);
+    setConnectionFail(true);
   };
 
   const handleCancel = () => {
     setEnterLoginCredentials(false);
     setAnswerSecurityQuestion(false);
-    setConnectionSuccess(false);
     setConnectionFail(false);
     setSyncingStatus(null);
-    setConnectionInProgress(false);
     setInstitutionData(null);
     setSelectingBrokerage(true);
+  };
+
+  const setAndCheckSyncingStatus = (new_syncing_status: any) => {
+    setSyncingStatus(new_syncing_status);
+    if (new_syncing_status.passiv_sync_complete) {
+      handleSuccess();
+    } else if (new_syncing_status.sync_status === 'error') {
+      if (new_syncing_status.sync_error.name === 'SecurityQuestionError') {
+        setAnswerSecurityQuestion(true);
+      } else {
+        setConnectionFail(true);
+      }
+    }
   };
 
   const onInstitutionDataInit = (institutionData: any) => {
@@ -59,7 +74,6 @@ const WealthicaConnectionPage = ({ onboarding }: Props) => {
     } else {
       setInstitutionData(institutionData);
       setEnterLoginCredentials(true);
-      setConnectionInProgress(true);
       setSelectingBrokerage(false);
     }
   };
@@ -87,9 +101,18 @@ const WealthicaConnectionPage = ({ onboarding }: Props) => {
       />
     );
   } else if (answerSecurityQuestion) {
-    content = <WealthicaSecurityQuestion />;
-  } else if (connectionSuccess || connectionFail) {
-    content = <WealthicaConnectionStatusConfirmation />;
+    content = (
+      <WealthicaSecurityQuestion
+        syncing_status={syncing_status}
+        handleCancel={handleCancel}
+        handleFail={handleFail}
+        handleSuccess={setAndCheckSyncingStatus}
+      />
+    );
+  } else if (connectionFail) {
+    content = <WealthicaConnectionFailed handleCancel={handleCancel} />;
+  } else if (connectionSuccess) {
+    return <Redirect to="/app/setup-groups" />;
   }
 
   return (

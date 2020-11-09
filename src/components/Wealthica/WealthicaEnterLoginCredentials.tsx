@@ -1,28 +1,11 @@
 import React, { useState } from 'react';
-import { H1, H2, P, BorderContainer } from '../../styled/GlobalElements';
-import {
-  aDarkStyle,
-  Container2Column,
-  Container1Column,
-  GrowBox,
-  LogoContainer,
-  LinkContainer,
-  AuthBox,
-  OpenBox,
-  AuthLink,
-  AuthP,
-  H1DarkStyle,
-  H2DarkStyle,
-  VerticalPadding,
-} from '../../styled/Setup';
-import PasswordField from '../../components/PasswordField';
-import { Formik, ErrorMessage } from 'formik';
+import { H2, P, BorderContainer } from '../../styled/GlobalElements';
+import { AuthP } from '../../styled/Setup';
+import { Formik } from 'formik';
 import { Form, Input, Label } from '../../styled/Form';
 import ShadowBox from '../../styled/ShadowBox';
 import { Button } from '../../styled/Button';
-import { Link } from 'react-router-dom';
 import { postData } from '../../api';
-import * as Yup from 'yup';
 
 import WealthicaConnectionCancelButton from './WealthicaConnectionCancelButton';
 import WealthicaPasswordField from './WealthicaPasswordField';
@@ -91,7 +74,7 @@ const WealthicaEnterLoginCredentials = ({
         let submitted_values = getValuesToSubmit(values);
         postData('/api/v1/wealthica/connect/authorize', submitted_values)
           .then((response) => {
-            onLoginSuccess(response);
+            onLoginSuccess(response.data);
           })
           .catch((error) => {
             setIsSubmitting(false);
@@ -115,7 +98,7 @@ const WealthicaEnterLoginCredentials = ({
 
                 if (required_credential_lower !== 'password') {
                   form_labels_and_fields = (
-                    <React.Fragment>
+                    <React.Fragment key={required_credential_title}>
                       <Label>{required_credential_title}</Label>
                       <Input
                         name={required_credential}
@@ -126,7 +109,7 @@ const WealthicaEnterLoginCredentials = ({
                   );
                 } else {
                   form_labels_and_fields = (
-                    <React.Fragment>
+                    <React.Fragment key={required_credential_title}>
                       <Label>Password</Label>
                       <WealthicaPasswordField />
                     </React.Fragment>
@@ -148,6 +131,7 @@ const WealthicaEnterLoginCredentials = ({
               <WealthicaConnectionCancelButton
                 disabled={isSubmitting}
                 handleCancel={handleCancel}
+                label={'Cancel'}
               />
             </Form>
           </BorderContainer>
