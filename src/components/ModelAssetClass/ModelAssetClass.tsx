@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { postData } from '../../api';
 import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import AssetClass from './AssetClass';
 import Target from './Target';
+import { Link, Redirect } from 'react-router-dom';
 
 const AssetBox = styled.div`
   border: 1px solid #bfb6b6;
@@ -37,6 +38,7 @@ const BackButton = styled(Button)`
 
 const ModelAssetClass = () => {
   const dispatch = useDispatch();
+  const [back, setBack] = useState(false);
   const assetClasses: ModelAssetClassDetailsType[] = useSelector(
     selectModelAssetClasses,
   );
@@ -50,9 +52,10 @@ const ModelAssetClass = () => {
         dispatch(loadModelAssetClasses());
       });
   };
-  const handleBackBtn = () => {
-    console.log('Handle Back button: ');
-  };
+
+  if (back) {
+    return <Redirect to="/" />;
+  }
 
   let assetClassBox;
 
@@ -80,7 +83,9 @@ const ModelAssetClass = () => {
           />{' '}
           Add Asset Class
         </Button>
-        <BackButton onClick={handleBackBtn}>Back to Model Portfolio</BackButton>
+        <BackButton onClick={() => setBack(true)}>
+          Back to Model Portfolio
+        </BackButton>
       </div>
     </ShadowBox>
   );
