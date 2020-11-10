@@ -12,12 +12,15 @@ import {
 import { FrequencyChooser } from '../components/Goals/GoalSetup';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faCheck, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { H1, P, H3 } from '../styled/GlobalElements';
+import { H1, P, H3, A, Edit } from '../styled/GlobalElements';
+import { InputPrimary } from '../styled/Form';
 import Grid from '../styled/Grid';
 import ShadowBox from '../styled/ShadowBox';
 import GoalProjectionLineChart from '../components/Goals/GoalProjectionLineChart';
 import { deleteGoal } from '../actions/goals';
+import { Button } from '../styled/Button';
 
 const GoalProjectionContainer = styled.div`
   padding-bottom: 80px;
@@ -36,6 +39,7 @@ const HeaderBanner = styled.div`
   h1 {
     margin-bottom: 10px;
     line-height: 1;
+    display: inline-block;
   }
   p {
     margin-bottom: 0;
@@ -51,37 +55,70 @@ const Summary = styled(Grid)`
   text-align: center;
   p {
     color: #fff;
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 20px;
   }
 `;
 const ChangeContainer = styled(Grid)`
   align-items: center;
 `;
-export const Input = styled.input`
-  border: none;
-  border-bottom: 1px solid var(--brand-blue);
-  box-sizing: border-box;
+const NumInput = styled(InputPrimary)`
+  border-bottom: 2px solid var(--brand-blue);
+  max-width: 100px;
+  margin: 0 20px 0 0;
+  padding: 0;
   font-size: 28px;
-  padding: 14px 9px 7px 0;
-  border-radius: 0;
-  width: 120px;
-  outline: none;
-  margin: 0 6px 25px 6px;
-  -webkit-appearance: none;
-  background: #fff;
-  color: #003ba2;
+
   &:focus {
-    border: 1px solid var(--brand-blue-hover);
-    outline: 4px solid rgba(0, 59, 162, 0.44);
+    border: none;
+    border-bottom: 2px solid var(--brand-blue);
   }
 `;
+const DateInput = styled(InputPrimary)`
+  border-bottom: 2px solid var(--brand-blue);
+  max-width: 220px;
+  margin: 0 20px;
+  padding: 0;
+  font-size: 28px;
 
+  &:focus {
+    border: none;
+    border-bottom: 2px solid var(--brand-blue);
+  }
+`;
+const ReturnInput = styled(InputPrimary)`
+  border-bottom: 2px solid var(--brand-blue);
+  max-width: 60px;
+  margin: 0 0 0 20px;
+  padding: 0;
+  font-size: 28px;
+
+  &:focus {
+    border: none;
+    border-bottom: 2px solid var(--brand-blue);
+  }
+`;
 const Question = styled.div`
-  font-size: 30px;
-  max-width: 475px;
-  line-height: 2;
+  font-size: 28px;
+  max-width: 530px;
+  line-height: 2.5;
+  margin-bottom: 20px;
   select {
-    margin: 0 10px;
+    margin: 0 20px 0 0;
     border-color: #003ba2;
+    background-size: 8px 5px, 5px 5px, 1.8em 3.5em;
+  }
+`;
+const Tip = styled.div`
+  font-size: 14px;
+  max-width: 295px;
+  padding-top: 30px;
+`;
+const Delete = styled.button`
+  svg {
+    margin-right: 5px;
   }
 `;
 
@@ -198,6 +235,10 @@ const GoalDetailPage = () => {
             <FontAwesomeIcon icon={faChevronLeft} /> View all Goals
           </BackLink>
           <H1>{goal?.title}</H1>
+          <Edit>
+            <FontAwesomeIcon icon={faPen} />
+            Edit Name
+          </Edit>
         </HeaderBanner>
         <ShadowBox background="#04a287">
           <Summary columns="1fr 1fr 1fr">
@@ -215,37 +256,52 @@ const GoalDetailPage = () => {
       </Grid>
       <ShadowBox>
         <ChangeContainer columns="1fr 1fr">
-          <Question>
-            What would happen if I contributed $
-            <Input
-              type="number"
-              min={0}
-              onChange={handleContributionChange}
-              value={contributionTarget}
-              onClick={handleFocus}
-              placeholder={'0'}
-              step={getStep(contributionTarget)}
-            />
-            every
-            <FrequencyChooser
-              handleContributionFrequencyChange={
-                handleContributionFrequencyChange
-              }
-              contributionFrequency={contributionFrequency}
-              setup={false}
-            ></FrequencyChooser>
-            with an annual return rate of
-            <Input
-              type="number"
-              min={0}
-              max={100}
-              onChange={handleReturnChange}
-              value={returnRate}
-              onClick={handleFocus}
-              placeholder={'0'}
-            />
-            %?
-          </Question>
+          <div>
+            <Question>
+              What if I contribute $
+              <NumInput
+                type="number"
+                min={0}
+                onChange={handleContributionChange}
+                value={contributionTarget}
+                onClick={handleFocus}
+                placeholder={'0'}
+                step={getStep(contributionTarget)}
+              />
+              every
+              <FrequencyChooser
+                handleContributionFrequencyChange={
+                  handleContributionFrequencyChange
+                }
+                contributionFrequency={contributionFrequency}
+                setup={false}
+              ></FrequencyChooser>
+              until
+              <DateInput
+                type="date"
+                value={goal?.target_date}
+                onClick={handleFocus}
+              />
+              with an annual return rate of
+              <ReturnInput
+                type="number"
+                min={0}
+                max={100}
+                onChange={handleReturnChange}
+                value={returnRate}
+                onClick={handleFocus}
+                placeholder={'0'}
+              />
+              %?
+            </Question>
+            <Button>Save Changes</Button>
+
+            <Tip>
+              <P>
+                Learn more about potential return rates <A>Link to article</A>.
+              </P>
+            </Tip>
+          </div>
           <GoalProjectionContainer>
             <GoalProjectionLineChart
               goal={goal}
@@ -257,7 +313,9 @@ const GoalDetailPage = () => {
         </ChangeContainer>
       </ShadowBox>
 
-      <button onClick={handleDelete}>Delete</button>
+      <Delete onClick={handleDelete}>
+        <FontAwesomeIcon icon={faTrashAlt} /> Delete {goal?.title}
+      </Delete>
     </React.Fragment>
   );
 };

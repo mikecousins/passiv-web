@@ -3,22 +3,28 @@ import { Goal } from '../../types/goals';
 import { Chart } from 'react-charts';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faPen } from '@fortawesome/free-solid-svg-icons';
 import { toDollarString } from '../Performance/Performance';
+import { Edit } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
 
 export const ChartBox = styled.div`
   position: relative;
-  height: 300px;
-  margin: 15px 0 10px;
+  height: 400px;
+  margin: 6px 0 0;
+  padding-bottom: 60px;
 `;
-
 export const LegendItem = styled.div`
   font-size: 24px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 `;
 export const LegendContainer = styled(Grid)`
   text-align: right;
+  align-items: flex-end;
+  button {
+    margin-bottom: 5px;
+    display: inline-block;
+  }
 `;
 type Props = {
   goal: Goal | null;
@@ -83,17 +89,23 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
           />{' '}
           Projected&nbsp; ${toDollarString(projectedValue)}
         </LegendItem>
-        <LegendItem>
-          <FontAwesomeIcon
-            icon={faCircle}
-            color="#04a286"
-            style={{ padding: 1 }}
-          />{' '}
-          Target&nbsp; $
-          {goal?.total_value_target !== undefined
-            ? toDollarString(goal?.total_value_target)
-            : ''}
-        </LegendItem>
+        <div>
+          <Edit>
+            <FontAwesomeIcon icon={faPen} />
+            Edit Target
+          </Edit>
+          <LegendItem>
+            <FontAwesomeIcon
+              icon={faCircle}
+              color="#04a286"
+              style={{ padding: 1 }}
+            />{' '}
+            Target&nbsp; $
+            {goal?.total_value_target !== undefined
+              ? toDollarString(goal?.total_value_target)
+              : ''}
+          </LegendItem>
+        </div>
       </LegendContainer>
       <Chart data={data} axes={axes} series={series} />
     </ChartBox>
