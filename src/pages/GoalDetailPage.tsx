@@ -19,8 +19,9 @@ import { InputPrimary } from '../styled/Form';
 import Grid from '../styled/Grid';
 import ShadowBox from '../styled/ShadowBox';
 import GoalProjectionLineChart from '../components/Goals/GoalProjectionLineChart';
-import { deleteGoal } from '../actions/goals';
+import { deleteGoal, loadGoals } from '../actions/goals';
 import { Button } from '../styled/Button';
+import { patchData } from '../api';
 
 const GoalProjectionContainer = styled.div`
   padding-bottom: 80px;
@@ -151,7 +152,10 @@ const GoalDetailPage = () => {
   const [contributionTarget, setContributionTarget] = useState(
     goal?.contribution_target,
   );
-  const [contributionFrequency, setContributionFrequency] = useState('monthly');
+  const [endDate, setEndDate] = useState(goal?.target_date);
+  const [contributionFrequency, setContributionFrequency] = useState(
+    goal?.contribution_frequency,
+  );
   const groups = useSelector(selectDashboardGroups);
   const group = groups.find((x) => x.id === goal?.portfolio_group?.id);
   let currentValue = useSelector(selectTotalGroupHoldings);
@@ -221,10 +225,24 @@ const GoalDetailPage = () => {
   const handleContributionChange = (e: any) => {
     setContributionTarget(e.target.value);
   };
+  const handleDateChange = (e: any) => {
+    setEndDate(e.target.value);
+  };
   const handleFocus = (e: any) => e.target.select();
   const handleDelete = () => {
     dispatch(deleteGoal(goalId));
     history.push('/app/goals');
+  };
+  const handleSave = () => {
+    patchData('/api/v1/goals/', {
+      endDate,
+      contributionFrequency,
+      contributionTarget,
+      returnRate,
+      goalId,
+    })
+      .then(() => dispatch(loadGoals()))
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -279,8 +297,9 @@ const GoalDetailPage = () => {
               until
               <DateInput
                 type="date"
-                value={goal?.target_date}
+                value={endDate}
                 onClick={handleFocus}
+                onChange={handleDateChange}
               />
               with an annual return rate of
               <ReturnInput
@@ -294,7 +313,7 @@ const GoalDetailPage = () => {
               />
               %?
             </Question>
-            <Button>Save Changes</Button>
+            <Button onClick={handleSave}>Save Changes</Button>
 
             <Tip>
               <P>
