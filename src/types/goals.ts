@@ -9,6 +9,7 @@ export type Goal = {
   projected_gain_by_end_date: number;
   contribution_frequency: string;
   portfolio_group: PortfolioGroup | null;
+  return_rate: number;
   completed: boolean;
   contribution_streak: number;
 };

@@ -12,7 +12,7 @@ import {
 import { FrequencyChooser } from '../components/Goals/GoalSetup';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faCheck, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { H1, P, H3, A, Edit } from '../styled/GlobalElements';
 import { InputPrimary } from '../styled/Form';
@@ -148,7 +148,9 @@ const GoalDetailPage = () => {
   if (goal === undefined) {
     goal = MockGoal;
   }
-  const [returnRate, setReturnRate] = useState(0);
+  const [title, setTitle] = useState(goal?.title);
+  const [returnRate, setReturnRate] = useState(goal?.return_rate);
+  const [goalTarget, setGoalTarget] = useState(goal?.total_value_target);
   const [contributionTarget, setContributionTarget] = useState(
     goal?.contribution_target,
   );
@@ -235,6 +237,8 @@ const GoalDetailPage = () => {
   };
   const handleSave = () => {
     patchData('/api/v1/goals/', {
+      title,
+      goalTarget,
       endDate,
       contributionFrequency,
       contributionTarget,
@@ -245,6 +249,12 @@ const GoalDetailPage = () => {
       .catch((error) => console.log(error));
   };
 
+  const dateChanged = endDate !== goal?.target_date;
+  const targetChanged = goalTarget !== goal?.total_value_target;
+  const returnRateWarning =
+    returnRate > 3 &&
+    daysBetween(new Date(), new Date(Date.parse(endDate))) / 365.25 < 3;
+
   return (
     <React.Fragment>
       <Grid columns="1fr 1fr">
@@ -252,11 +262,7 @@ const GoalDetailPage = () => {
           <BackLink to="/app/goals">
             <FontAwesomeIcon icon={faChevronLeft} /> View all Goals
           </BackLink>
-          <H1>{goal?.title}</H1>
-          <Edit>
-            <FontAwesomeIcon icon={faPen} />
-            Edit Name
-          </Edit>
+          <GoalTitle title={title} setTitle={setTitle} />
         </HeaderBanner>
         <ShadowBox background="#04a287">
           <Summary columns="1fr 1fr 1fr">
@@ -314,6 +320,14 @@ const GoalDetailPage = () => {
               %?
             </Question>
             <Button onClick={handleSave}>Save Changes</Button>
+            {(dateChanged || targetChanged) && (
+              <div>
+                Save changes to update chart with new
+                {dateChanged && <span>&nbsp;date</span>}
+                {dateChanged && targetChanged && <span>&nbsp;and</span>}
+                {targetChanged && <span>&nbsp;target</span>}
+              </div>
+            )}
 
             <Tip>
               <P>
@@ -327,6 +341,8 @@ const GoalDetailPage = () => {
               currentValue={currentValue}
               projectedValue={projectedAccountValue}
               projectedData={projectedData}
+              goalTarget={goalTarget}
+              setGoalTarget={setGoalTarget}
             ></GoalProjectionLineChart>
           </GoalProjectionContainer>
         </ChangeContainer>
@@ -416,5 +432,36 @@ const getStep = (contributionAmount: number) => {
     return 50;
   } else {
     return 100;
+  }
+};
+
+const GoalTitle = ({ title, setTitle }: any) => {
+  const [editMode, setEditMode] = useState(false);
+  const [newTitle, setNewTitle] = useState(title);
+  const finishEditing = (newTitle: string) => {
+    setTitle(newTitle);
+    setEditMode(false);
+  };
+
+  if (!editMode) {
+    return (
+      <div>
+        <H1>{title}</H1>
+        <Edit onClick={() => setEditMode(true)}>
+          <FontAwesomeIcon icon={faPen} />
+          Edit Name
+        </Edit>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <InputPrimary
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+        ></InputPrimary>
+        <Button onClick={() => finishEditing(newTitle)}>Done</Button>
+      </div>
+    );
   }
 };

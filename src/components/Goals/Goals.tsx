@@ -63,6 +63,7 @@ export const MockGoal: Goal = {
   projected_gain_by_end_date: 12000,
   completed: false,
   portfolio_group: null,
+  return_rate: 0,
   contribution_streak: 4,
 };
 

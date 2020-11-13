@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Goal } from '../../types/goals';
 import { Chart } from 'react-charts';
 import styled from '@emotion/styled';
@@ -7,6 +7,7 @@ import { faCircle, faPen } from '@fortawesome/free-solid-svg-icons';
 import { toDollarString } from '../Performance/Performance';
 import { Edit } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
+import { Button } from '../../styled/Button';
 
 export const ChartBox = styled.div`
   position: relative;
@@ -31,12 +32,16 @@ type Props = {
   currentValue: number;
   projectedValue: number;
   projectedData: (number | Date)[][];
+  goalTarget: number;
+  setGoalTarget: any;
 };
 export const GoalProjectionLineChart: FunctionComponent<Props> = ({
   goal,
   currentValue,
   projectedValue,
   projectedData,
+  goalTarget,
+  setGoalTarget,
 }) => {
   const data = React.useMemo(
     () => [
@@ -90,21 +95,7 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
           Projected&nbsp; ${toDollarString(projectedValue)}
         </LegendItem>
         <div>
-          <Edit>
-            <FontAwesomeIcon icon={faPen} />
-            Edit Target
-          </Edit>
-          <LegendItem>
-            <FontAwesomeIcon
-              icon={faCircle}
-              color="#04a286"
-              style={{ padding: 1 }}
-            />{' '}
-            Target&nbsp; $
-            {goal?.total_value_target !== undefined
-              ? toDollarString(goal?.total_value_target)
-              : ''}
-          </LegendItem>
+          <GoalTarget goalTarget={goalTarget} setGoalTarget={setGoalTarget} />
         </div>
       </LegendContainer>
       <Chart data={data} axes={axes} series={series} />
@@ -113,3 +104,51 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
 };
 
 export default GoalProjectionLineChart;
+
+const GoalTarget = ({ goalTarget, setGoalTarget }: any) => {
+  const [editMode, setEditMode] = useState(false);
+  const [newValue, setNewValue] = useState(goalTarget);
+  const finishEditing = (newValue: number) => {
+    setGoalTarget(newValue);
+    setEditMode(false);
+  };
+
+  if (!editMode) {
+    return (
+      <React.Fragment>
+        <Edit onClick={() => setEditMode(true)}>
+          <FontAwesomeIcon icon={faPen} />
+          Edit Target
+        </Edit>
+        <LegendItem>
+          <FontAwesomeIcon
+            icon={faCircle}
+            color="#04a286"
+            style={{ padding: 1 }}
+          />{' '}
+          Target&nbsp; $
+          {goalTarget !== undefined ? toDollarString(goalTarget) : ''}
+        </LegendItem>
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <React.Fragment>
+        <LegendItem>
+          <FontAwesomeIcon
+            icon={faCircle}
+            color="#04a286"
+            style={{ padding: 1 }}
+          />{' '}
+          Target&nbsp; ${' '}
+          <input
+            type="number"
+            value={newValue}
+            onChange={(e) => setNewValue(parseFloat(e.target.value))}
+          ></input>
+          <Button onClick={() => finishEditing(newValue)}>Done</Button>
+        </LegendItem>
+      </React.Fragment>
+    );
+  }
+};
