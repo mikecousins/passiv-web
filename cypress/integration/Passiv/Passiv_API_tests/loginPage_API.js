@@ -188,8 +188,6 @@ describe('Login individual component test', () => {
         .should('have.value', pass)
         cy.get('[data-cy=login-button]').click()
 
-        cy.get('nav').contains('Logout')
-        .click()
     
 
     })
