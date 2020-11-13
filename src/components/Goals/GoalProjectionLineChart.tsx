@@ -48,14 +48,8 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
       {
         label: 'Target',
         data: [
-          [
-            new Date(Date.parse(goal ? goal.created_date : '')),
-            goal ? goal.total_value_target : 100,
-          ],
-          [
-            new Date(Date.parse(goal ? goal.target_date : '')),
-            goal ? goal.total_value_target : 100,
-          ],
+          [new Date(Date.parse(goal ? goal.created_date : '')), goalTarget],
+          [new Date(Date.parse(goal ? goal.target_date : '')), goalTarget],
         ],
         color: '#04A286',
       },

@@ -320,12 +320,10 @@ const GoalDetailPage = () => {
               %?
             </Question>
             <Button onClick={handleSave}>Save Changes</Button>
-            {(dateChanged || targetChanged) && (
+            {dateChanged && (
               <div>
                 Save changes to update chart with new
                 {dateChanged && <span>&nbsp;date</span>}
-                {dateChanged && targetChanged && <span>&nbsp;and</span>}
-                {targetChanged && <span>&nbsp;target</span>}
               </div>
             )}
 
