@@ -36,7 +36,7 @@ describe('Login individual component test', () => {
 
     it('Button works with email AND password', () => {
         const typedtext = 'a.suds@unb.ca'
-        const typedtext2 = '5Browse8'
+        const typedtext2 = 'test1234@'
         cy.get('[name=email]')
         .type(typedtext)
         .should('have.value', typedtext)
@@ -51,7 +51,7 @@ describe('Login individual component test', () => {
     // Verify the error prompt works
     it('Error Prompt', () => {
         const typedtext = 'a.suds@unb.ca'
-        const typedtext2 = '5Browe8'
+        const typedtext2 = 'test1234@'
         cy.get('[name=email]')
         .type(typedtext)
         .should('have.value', typedtext)
@@ -96,7 +96,7 @@ describe('Login individual component test', () => {
     it('Login Success', () => {
     
             const user = 'alex.sutherland@getpassiv.com'
-            const pass = '5Browse8'
+            const pass = 'test1234@'
         
           
         
