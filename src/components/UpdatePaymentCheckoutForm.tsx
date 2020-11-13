@@ -8,13 +8,13 @@ import { patchData } from '../api';
 import Card from '../styled/Card';
 import { H2, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 
 type Props = {
   loading: boolean;
   startUpdatePayment: () => void;
   finishUpdatePayment: () => void;
   finishUpdatePaymentFail: () => void;
-  stripe?: any;
 };
 
 const UpdatePaymentCheckoutForm = ({
@@ -22,25 +22,31 @@ const UpdatePaymentCheckoutForm = ({
   startUpdatePayment,
   finishUpdatePayment,
   finishUpdatePaymentFail,
-  stripe,
 }: Props) => {
   const [error, setError] = useState<any>(null);
   const dispatch = useDispatch();
+  const stripe = useStripe();
+  const elements = useElements();
 
   const submit = async () => {
     setError(null);
     startUpdatePayment();
-    let { token } = await stripe.createToken({ name: 'Name' });
-    patchData('/api/v1/subscriptions', { token: token })
-      .then(() => {
-        dispatch(loadSubscription());
-        finishUpdatePayment();
-      })
-      .catch(error => {
-        setError(error.detail);
-        dispatch(loadSubscription());
-        finishUpdatePaymentFail();
-      });
+    if (elements !== null) {
+      const card = elements.getElement(CardElement);
+      if (stripe !== null && card !== null) {
+        let { token } = await stripe.createToken(card);
+        patchData('/api/v1/subscriptions', { token: token })
+          .then(() => {
+            dispatch(loadSubscription());
+            finishUpdatePayment();
+          })
+          .catch((error) => {
+            setError(error.detail);
+            dispatch(loadSubscription());
+            finishUpdatePaymentFail();
+          });
+      }
+    }
   };
 
   let errorMessage = null;
