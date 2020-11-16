@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectAccounts } from '../../selectors/accounts';
 import {
   selectSelectedAccounts,
-  selectSelectedTimeframe,
   selectStartDate,
   selectEndDate,
 } from '../../selectors/performance';
@@ -53,7 +52,6 @@ export const AccountsSelect = () => {
   const accounts = useSelector(selectAccounts).filter(
     (a) => a.institution_name === 'Questrade',
   );
-  const timeframe = useSelector(selectSelectedTimeframe);
   const startDate = useSelector(selectStartDate);
   const endDate = useSelector(selectEndDate);
   const selectedAccounts = useSelector(selectSelectedAccounts);
