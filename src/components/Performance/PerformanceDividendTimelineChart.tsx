@@ -26,7 +26,7 @@ export const PerformanceContributionChart = () => {
   if (needToSetDefaults && dividendTimeline !== undefined) {
     setNeedToSetDefaults(false);
     let dividendEvents = 0;
-    dividendTimeline.forEach(divsAtDate => {
+    dividendTimeline.forEach((divsAtDate) => {
       dividendEvents += divsAtDate.dividends.length;
     });
     if (dividendEvents > 50) {
@@ -102,8 +102,8 @@ const getData = (
 
   // Add 0s for all tickers at all times
   const tickers: string[] = [];
-  dividendTimeline.forEach(divsAtDate => {
-    divsAtDate.dividends.forEach(divAtDate => {
+  dividendTimeline.forEach((divsAtDate) => {
+    divsAtDate.dividends.forEach((divAtDate) => {
       if (!tickers.includes(divAtDate.symbol)) {
         tickers.push(divAtDate.symbol);
       }
@@ -111,7 +111,7 @@ const getData = (
   });
   const formattedTimes: string[] = [];
   const timeStrings: string[] = [];
-  dividendTimeline.forEach(divsAtDate => {
+  dividendTimeline.forEach((divsAtDate) => {
     const formatted = formatDate(divsAtDate.date, timeframe);
     if (!formattedTimes.includes(formatted)) {
       formattedTimes.push(formatted);
@@ -121,9 +121,9 @@ const getData = (
       timeStrings.push(divsAtDate.date);
     }
   });
-  tickers.forEach(ticker => {
+  tickers.forEach((ticker) => {
     const timeToAdd: any = [];
-    timeStrings.forEach(time => {
+    timeStrings.forEach((time) => {
       timeToAdd.push([time, 0]);
     });
     if (lotsOfDifferentTickers) {
@@ -141,16 +141,18 @@ const getData = (
   });
 
   // Add actual data to lists
-  dividendTimeline.forEach(divsAtDate => {
+  dividendTimeline.forEach((divsAtDate) => {
     if (divsAtDate.dividends.length === 0) {
       data.push({ label: ' ', data: [[divsAtDate.date, 0]] });
     }
-    divsAtDate.dividends.forEach(divAtDate => {
+    divsAtDate.dividends.forEach((divAtDate) => {
       const filteredData = data.filter(
         (x: any) => x.label === divAtDate.symbol,
       );
       if (filteredData.length > 0) {
-        filteredData[0].data.push([divsAtDate.date, divAtDate.amount]);
+        filteredData[0].data.find((x: any) => {
+          return x[0] === divsAtDate.date;
+        })[1] += divAtDate.amount;
       } else {
         data.push({
           label: divAtDate.symbol,
