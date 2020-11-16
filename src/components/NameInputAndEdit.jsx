@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { P, Edit } from '../styled/GlobalElements';
 import { SmallButton } from '../styled/Button';
 
@@ -16,45 +16,43 @@ const Input = styled.input`
 
 const Name = styled.span`
   font-size: 27px;
-  font-weight: 500;
-  margin: 10px;
-  padding: 10px;
+  font-weight: 900;
+`;
+const StyledP = styled(P)`
+  background: #fff;
+  display: inline-block;
+  position: relative;
+  top: -24px;
+  padding: 0 15px;
+  margin-bottom: -7px;
 `;
 
-const NameInputAndEdit = ({
-  value,
-  edit,
-  onChange,
-  onClick,
-  onKeyPress,
-  onClickEdit,
-}) => {
+const NameInputAndEdit = (props) => {
   return (
     <Fragment>
-      {edit ? (
-        <Fragment>
-          {' '}
+      {props.edit ? (
+        <div style={props.styleDiv}>
           <Input
             type="text"
-            value={value}
-            onChange={onChange}
-            onKeyPress={onKeyPress}
+            value={props.value}
+            onChange={props.onChange}
+            onKeyPress={props.onKeyPress}
           />
           <SmallButton
-            onClick={onClick}
+            onClick={props.onClick}
             style={{ position: 'relative', top: '-4px' }}
           >
             Done
-          </SmallButton>{' '}
-        </Fragment>
+          </SmallButton>
+        </div>
       ) : (
-        <P>
-          <Name>{value}</Name>
-          <Edit onClick={onClickEdit}>
+        <div style={props.styleDiv}>
+          <Name>{props.value}</Name>
+          <Edit onClick={props.onClickEdit}>
             <FontAwesomeIcon icon={faPen} />
-            Edit
+            Edit Name
           </Edit>
-        </P>
+        </div>
       )}
     </Fragment>
   );
