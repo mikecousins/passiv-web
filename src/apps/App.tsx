@@ -67,6 +67,16 @@ const TDAmeritradeOauthPage = React.lazy(() =>
     /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/TDAmeritradeOauthPage'
   ),
 );
+const WealthicaConnectionPage = React.lazy(() =>
+  import(
+    /* webpackChunkName: "wealthica-connection-page" */ '../pages/WealthicaConnectionPage'
+  ),
+);
+const WealthicaConnectionUpdatePage = React.lazy(() =>
+  import(
+    /* webpackChunkName: "wealthica-update-connection-page" */ '../pages/WealthicaConnectionUpdatePage'
+  ),
+);
 const UpgradeOfferPage = React.lazy(() =>
   import(/* webpackChunkName: "upgrade-offer" */ '../pages/UpgradeOfferPage'),
 );
@@ -304,6 +314,11 @@ const App = () => {
               </Route>
             )}
             {showOnboardingApp && (
+              <Route path={prefixPath('/wealthica/onboard-connect')}>
+                <WealthicaConnectionPage onboarding={true} />
+              </Route>
+            )}
+            {showOnboardingApp && (
               <Route path={prefixPath('/welcome')}>
                 <WelcomePage />
               </Route>
@@ -311,6 +326,11 @@ const App = () => {
             {(showSecureApp || showOnboardingApp) && (
               <Route path={prefixPath('/settings/connect/:brokerage?')}>
                 <AuthorizationPage onboarding={false} />
+              </Route>
+            )}
+            {(showSecureApp || showOnboardingApp) && (
+              <Route exact path={prefixPath('/wealthica/connect/')}>
+                <WealthicaConnectionPage onboarding={false} />
               </Route>
             )}
             {(showSecureApp || showOnboardingApp) && (
@@ -338,6 +358,13 @@ const App = () => {
               />
             )}
             {showSecureApp && (
+              <Route
+                exact
+                path={prefixPath('/wealthica/connect/:authorizationID?')}
+                component={WealthicaConnectionUpdatePage}
+              />
+            )}
+            {showSecureApp && (
               <Route path={prefixPath('/performance')}>
                 <Redirect to={prefixPath(`/reporting`)} />
               </Route>
@@ -353,7 +380,7 @@ const App = () => {
               <Route
                 exact
                 path={prefixPath('/loading')}
-                render={props => (
+                render={(props) => (
                   <LoginLoadingPage {...props} redirectPath={redirectPath} />
                 )}
               />

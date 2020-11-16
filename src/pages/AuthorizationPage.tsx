@@ -282,6 +282,11 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           {onboarding ? (
             <LinkContainer>
               <VerticalPadding>
+                <Link style={aDarkStyle} to="/app/wealthica/onboard-connect">
+                  See More Brokerages
+                </Link>
+              </VerticalPadding>
+              <VerticalPadding>
                 <Link style={aDarkStyle} to="/app/connect/open">
                   I don't have a brokerage account.
                 </Link>
@@ -294,9 +299,16 @@ const AuthorizationPage = ({ onboarding }: Props) => {
             </LinkContainer>
           ) : (
             <LinkContainer>
-              <Link style={aDarkStyle} to="/app/settings">
-                Back
-              </Link>
+              <VerticalPadding>
+                <Link style={aDarkStyle} to="/app/wealthica/connect">
+                  See More Brokerages
+                </Link>
+              </VerticalPadding>
+              <VerticalPadding>
+                <Link style={aDarkStyle} to="/app/settings">
+                  Back
+                </Link>
+              </VerticalPadding>
             </LinkContainer>
           )}
         </React.Fragment>
