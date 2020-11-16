@@ -69,7 +69,12 @@ const TDAmeritradeOauthPage = React.lazy(() =>
 );
 const WealthicaConnectionPage = React.lazy(() =>
   import(
-    /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/WealthicaConnectionPage'
+    /* webpackChunkName: "wealthica-connection-page" */ '../pages/WealthicaConnectionPage'
+  ),
+);
+const WealthicaConnectionUpdatePage = React.lazy(() =>
+  import(
+    /* webpackChunkName: "wealthica-update-connection-page" */ '../pages/WealthicaConnectionUpdatePage'
   ),
 );
 const UpgradeOfferPage = React.lazy(() =>
@@ -324,7 +329,7 @@ const App = () => {
               </Route>
             )}
             {(showSecureApp || showOnboardingApp) && (
-              <Route path={prefixPath('/wealthica/connect')}>
+              <Route exact path={prefixPath('/wealthica/connect/')}>
                 <WealthicaConnectionPage onboarding={false} />
               </Route>
             )}
@@ -350,6 +355,13 @@ const App = () => {
               <Route
                 path={prefixPath('/reporting')}
                 component={PerformancePage}
+              />
+            )}
+            {showSecureApp && (
+              <Route
+                exact
+                path={prefixPath('/wealthica/connect/:authorizationID?')}
+                component={WealthicaConnectionUpdatePage}
               />
             )}
             {showSecureApp && (
