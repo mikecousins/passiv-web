@@ -98,6 +98,12 @@ const SideBar = () => {
                 <SideBarLink
                   name="Set up Asset Classes"
                   linkPath={`/app/asset-class/${group.id}`}
+                  beta={true}
+                />
+                <SideBarLink
+                  name="Model Portfolio"
+                  linkPath={`/app/model-portfolio`}
+                  beta={true}
                 />
               </div>
             ))}

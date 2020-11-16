@@ -16,6 +16,7 @@ import { selectQueryTokens } from '../selectors/router';
 import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ModelPortfolioPage from '../pages/ModelPortfolioPage';
 
 // code splitting to lazy load our pages
 const LoginPage = React.lazy(() =>
@@ -392,6 +393,12 @@ const App = () => {
               <Route
                 path={prefixPath('/asset-class/:groupId')}
                 component={ModelAssetClassPage}
+              />
+            )}
+            {showSecureApp && (
+              <Route
+                path={prefixPath('/model-portfolio')}
+                component={ModelPortfolioPage}
               />
             )}
             // insecure app

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { postData } from '../../api';
 import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
@@ -11,7 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import AssetClass from './AssetClass';
 import Target from './Target';
-import { Link, Redirect } from 'react-router-dom';
 
 const AssetBox = styled.div`
   border: 1px solid #bfb6b6;

@@ -21,8 +21,8 @@ const StyledHeader = styled.header<StyledHeaderProps>`
   position: fixed;
   width: 100%;
   padding: 10px 20px 10px 222px;
-  background: ${props => (props.isOnline ? '#fff' : '#FFCF9E')};
-  box-shadow: 2px 2px 8px rgba(190, 190, 190, 0.29);
+  background: ${(props) => (props.isOnline ? '#fff' : '#FFCF9E')};
+  box-shadow: 2px 2px 8px rgba(190, 190, 190, 0.5);
   z-index: 4;
   @media (max-width: 900px) {
     padding: 9px 8px 4px 75px;

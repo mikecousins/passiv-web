@@ -5,28 +5,14 @@ import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
 import { loadModelAssetClasses } from '../../actions';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
-import { P, Edit } from '../../styled/GlobalElements';
+import { P } from '../../styled/GlobalElements';
 import { SmallButton } from '../../styled/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import '@reach/dialog/styles.css';
 import { Dialog } from '@reach/dialog';
 
-const NameInput = styled.input`
-  width: 40%;
-  font-size: 27px;
-  font-weight: 500;
-  padding: 5px;
-  margin: 10px;
-  border: 1px solid;
-`;
-
-const AssetClassName = styled.span`
-  font-size: 27px;
-  font-weight: 500;
-  margin: 10px;
-  padding: 10px;
-`;
+import NameInputAndEdit from '../NameInputAndEdit.jsx';
 
 export const DeleteButton = styled.button`
   background: #fff;
@@ -133,30 +119,16 @@ const AssetClasses = ({ assetClass }: Props) => {
         </SmallButton>
       </Dialog>
 
-      {editName ? (
-        <div>
-          <NameInput
-            type="text"
-            value={assetClassName}
-            onChange={(e) => setAssetClassName(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && finishEditing()}
-          />
-          <SmallButton
-            onClick={() => finishEditing()}
-            style={{ position: 'relative', top: '-4px' }}
-          >
-            Done
-          </SmallButton>
-        </div>
-      ) : (
-        <P>
-          <AssetClassName>{assetClassName}</AssetClassName>
-          <Edit onClick={() => setEditName(true)}>
-            <FontAwesomeIcon icon={faPen} />
-            Edit
-          </Edit>
-        </P>
-      )}
+      {/* TODO reuse NameInputAndEdit in other places in the app */}
+
+      <NameInputAndEdit
+        value={assetClassName}
+        edit={editName}
+        onChange={(e: any) => setAssetClassName(e.target.value)}
+        onKeyPress={(e: any) => e.key === 'Enter' && finishEditing()}
+        onClick={() => finishEditing()}
+        onClickEdit={() => setEditName(true)}
+      />
     </React.Fragment>
   );
 };
