@@ -17,12 +17,16 @@ type Props = {
   institutionData: any;
   onLoginSuccess: any;
   handleCancel: any;
+  isUpdate: boolean;
+  authorizationId: string | null;
 };
 
 const WealthicaEnterLoginCredentials = ({
   institutionData,
   onLoginSuccess,
   handleCancel,
+  isUpdate,
+  authorizationId,
 }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [failedVerification, setFailedVerification] = useState(false);
@@ -49,6 +53,7 @@ const WealthicaEnterLoginCredentials = ({
     let valuesToSubmit = {
       required_credentials: required_credential_dict,
       external_brokerage_id: brokerage_id,
+      authorization_id: authorizationId,
     };
 
     return valuesToSubmit;
@@ -65,6 +70,28 @@ const WealthicaEnterLoginCredentials = ({
     );
   }
 
+  const handleSubmitPost = (isUpdate: boolean, submitted_values: any) => {
+    if (isUpdate) {
+      postData('/api/v1/wealthica/connect/authorize/update', submitted_values)
+        .then((response) => {
+          onLoginSuccess(response.data);
+        })
+        .catch((error) => {
+          setIsSubmitting(false);
+          setFailedVerification(true);
+        });
+    } else {
+      postData('/api/v1/wealthica/connect/authorize', submitted_values)
+        .then((response) => {
+          onLoginSuccess(response.data);
+        })
+        .catch((error) => {
+          setIsSubmitting(false);
+          setFailedVerification(true);
+        });
+    }
+  };
+
   let form = (
     <Formik
       key={'login'}
@@ -72,14 +99,7 @@ const WealthicaEnterLoginCredentials = ({
       onSubmit={(values, actions) => {
         setIsSubmitting(true);
         let submitted_values = getValuesToSubmit(values);
-        postData('/api/v1/wealthica/connect/authorize', submitted_values)
-          .then((response) => {
-            onLoginSuccess(response.data);
-          })
-          .catch((error) => {
-            setIsSubmitting(false);
-            setFailedVerification(true);
-          });
+        handleSubmitPost(isUpdate, submitted_values);
       }}
       render={(props) => (
         <ShadowBox>

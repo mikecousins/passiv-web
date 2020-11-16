@@ -98,6 +98,8 @@ const WealthicaConnectionPage = ({ onboarding }: Props) => {
         institutionData={institutionData}
         onLoginSuccess={onLoginSuccess}
         handleCancel={handleCancel}
+        isUpdate={false}
+        authorizationId={null}
       />
     );
   } else if (answerSecurityQuestion) {
