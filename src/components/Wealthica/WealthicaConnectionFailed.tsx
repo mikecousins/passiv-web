@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type Props = {
   handleCancel: any;
+  handleRetry: any;
 };
 
 const StyledTitle = styled.h2`
@@ -21,7 +22,7 @@ const StyledTitle = styled.h2`
   color: #c41515;
 `;
 
-const WealthicaConnectionFailed = ({ handleCancel }: Props) => {
+const WealthicaConnectionFailed = ({ handleCancel, handleRetry }: Props) => {
   let content = (
     <React.Fragment>
       <ShadowBox>
@@ -36,9 +37,16 @@ const WealthicaConnectionFailed = ({ handleCancel }: Props) => {
           </P>
           <WealthicaConnectionCancelButton
             disabled={false}
-            handleCancel={handleCancel}
+            handleCancel={handleRetry}
             label={'Try Again'}
           />
+          {handleCancel ? (
+            <WealthicaConnectionCancelButton
+              disabled={false}
+              handleCancel={handleCancel}
+              label={'Cancel'}
+            />
+          ) : null}
         </BorderContainer>
       </ShadowBox>
     </React.Fragment>

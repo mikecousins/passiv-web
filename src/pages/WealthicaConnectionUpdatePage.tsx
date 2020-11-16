@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Redirect, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { reloadEverything } from '../actions';
-import { Redirect } from 'react-router-dom';
+import { postData } from '../api';
 
 import { H1DarkStyle } from '../styled/Setup';
 import ShadowBox from '../styled/ShadowBox';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import WealthicaSelectBrokerages from '../components/Wealthica/WealthicaSelectBrokerages';
 import WealthicaEnterLoginCredentials from '../components/Wealthica/WealthicaEnterLoginCredentials';
 import WealthicaSecurityQuestion from '../components/Wealthica/WealthicaSecurityQuestion';
 import WealthicaConnectionFailed from '../components/Wealthica/WealthicaConnectionFailed';
@@ -17,32 +17,47 @@ type Props = {
   onboarding?: boolean;
 };
 
-const WealthicaConnectionPage = ({ onboarding }: Props) => {
-  const [selectingBrokerage, setSelectingBrokerage] = useState(true);
+const WealthicaConnectionUpdatePage = ({ onboarding }: Props) => {
   const [enterLoginCredentials, setEnterLoginCredentials] = useState(false);
   const [answerSecurityQuestion, setAnswerSecurityQuestion] = useState(false);
   const [connectionFail, setConnectionFail] = useState(false);
   const [connectionSuccess, setConnectionSuccess] = useState(false);
+  const [connectionCancel, setConnectionCancel] = useState(false);
   const [syncing_status, setSyncingStatus] = useState(null);
   const [institutionData, setInstitutionData] = useState<any>();
 
   const dispatch = useDispatch();
 
+  let { authorizationID } = useParams();
+
+  useEffect(() => {
+    alert('Hello');
+    if (!institutionData && !connectionFail) {
+      postData(`/api/v1/wealthica/connect`, {
+        authorization_id: authorizationID,
+      })
+        .then((response) => {
+          onInstitutionDataInit(response.data);
+        })
+        .catch(() => {
+          setConnectionFail(true);
+        });
+    }
+  }, []);
+
   const handleSuccess = () => {
     dispatch(reloadEverything());
     setEnterLoginCredentials(false);
     setAnswerSecurityQuestion(false);
+    setConnectionFail(false);
     setSyncingStatus(null);
     setInstitutionData(null);
-    setConnectionFail(false);
     setConnectionSuccess(true);
   };
 
   const handleFail = () => {
     setEnterLoginCredentials(false);
     setAnswerSecurityQuestion(false);
-    setSyncingStatus(null);
-    setInstitutionData(null);
     setConnectionFail(true);
   };
 
@@ -51,15 +66,26 @@ const WealthicaConnectionPage = ({ onboarding }: Props) => {
     setAnswerSecurityQuestion(false);
     setConnectionFail(false);
     setSyncingStatus(null);
-    setInstitutionData(null);
-    setSelectingBrokerage(true);
+    setInstitutionData(false);
+    setConnectionCancel(true);
+  };
+
+  const handleRetry = () => {
+    setEnterLoginCredentials(true);
+    setAnswerSecurityQuestion(false);
+    setConnectionFail(false);
+    setSyncingStatus(null);
   };
 
   const setAndCheckSyncingStatus = (new_syncing_status: any) => {
     setSyncingStatus(new_syncing_status);
+
     if (new_syncing_status.passiv_sync_complete) {
       handleSuccess();
-    } else if (new_syncing_status.sync_status === 'error') {
+    } else if (
+      new_syncing_status.sync_status === 'error' ||
+      new_syncing_status.sync_status === 'syncing'
+    ) {
       if (new_syncing_status.sync_error.name === 'SecurityQuestionError') {
         setAnswerSecurityQuestion(true);
       } else {
@@ -74,7 +100,6 @@ const WealthicaConnectionPage = ({ onboarding }: Props) => {
     } else {
       setInstitutionData(institutionData);
       setEnterLoginCredentials(true);
-      setSelectingBrokerage(false);
     }
   };
 
@@ -85,21 +110,14 @@ const WealthicaConnectionPage = ({ onboarding }: Props) => {
 
   let content = <FontAwesomeIcon icon={faSpinner} spin />;
 
-  if (selectingBrokerage) {
-    content = (
-      <WealthicaSelectBrokerages
-        onInstitutionDataInit={onInstitutionDataInit}
-        onboarding={onboarding}
-      />
-    );
-  } else if (enterLoginCredentials) {
+  if (enterLoginCredentials) {
     content = (
       <WealthicaEnterLoginCredentials
         institutionData={institutionData}
         onLoginSuccess={onLoginSuccess}
         handleCancel={handleCancel}
-        isUpdate={false}
-        authorizationId={null}
+        isUpdate={true}
+        authorizationId={authorizationID}
       />
     );
   } else if (answerSecurityQuestion) {
@@ -114,12 +132,14 @@ const WealthicaConnectionPage = ({ onboarding }: Props) => {
   } else if (connectionFail) {
     content = (
       <WealthicaConnectionFailed
-        handleRetry={handleCancel}
-        handleCancel={null}
+        handleRetry={handleRetry}
+        handleCancel={handleCancel}
       />
     );
   } else if (connectionSuccess) {
     return <Redirect to="/app/setup-groups" />;
+  } else if (connectionCancel) {
+    return <Redirect to="/app/settings" />;
   }
 
   return (
@@ -132,4 +152,4 @@ const WealthicaConnectionPage = ({ onboarding }: Props) => {
   );
 };
 
-export default WealthicaConnectionPage;
+export default WealthicaConnectionUpdatePage;
