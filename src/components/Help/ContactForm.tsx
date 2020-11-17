@@ -26,6 +26,11 @@ const GreenBox = styled.div`
   }
 `;
 
+const HiddenInput = styled(Input)`
+  color: red;
+  display: none;
+`;
+
 const ContactForm = () => {
   const settings = useSelector(selectSettings);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
@@ -43,9 +48,7 @@ const ContactForm = () => {
         }}
         initialStatus={{ submitted: false }}
         validationSchema={Yup.object().shape({
-          le: Yup.string()
-            .email('Must be a valid email')
-            .required('Required'),
+          le: Yup.string().email('Must be a valid email').required('Required'),
           lm: Yup.string().required('Required'),
         })}
         onSubmit={(values, actions) => {
@@ -67,12 +70,35 @@ const ContactForm = () => {
               actions.setSubmitting(false);
             });
         }}
-      >
-        {props => (
-          <Form>
+        render={(props) => (
+          <Form onSubmit={props.handleSubmit}>
             <legend>
               <H2>Send us a Message</H2>
             </legend>
+            <HiddenInput
+              id="name"
+              name="name"
+              placeholder="This field is a trap for bots, don't enter anything here."
+              disabled={props.status.submitted}
+            />
+            <HiddenInput
+              id="url"
+              name="url"
+              placeholder="This field is a trap for bots, don't enter anything here."
+              disabled={props.status.submitted}
+            />
+            <HiddenInput
+              id="email"
+              name="email"
+              placeholder="This field is a trap for bots, don't enter anything here."
+              disabled={props.status.submitted}
+            />
+            <HiddenInput
+              id="message"
+              name="message"
+              placeholder="This field is a trap for bots, don't enter anything here."
+              disabled={props.status.submitted}
+            />
             <Label htmlFor="le">Email</Label>
             <Input
               id="le"
@@ -123,7 +149,7 @@ const ContactForm = () => {
             )}
           </Form>
         )}
-      </Formik>
+      />
     </GreenBox>
   );
 };
