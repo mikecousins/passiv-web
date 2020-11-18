@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { postData, deleteData } from '../../api';
 import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
+import NameInputAndEdit from '../NameInputAndEdit';
 import { loadModelAssetClasses } from '../../actions';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
@@ -12,8 +13,6 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import '@reach/dialog/styles.css';
 import { Dialog } from '@reach/dialog';
 
-import NameInputAndEdit from '../NameInputAndEdit.jsx';
-
 export const DeleteButton = styled.button`
   background: #fff;
   float: right;
@@ -21,13 +20,17 @@ export const DeleteButton = styled.button`
   left: 39px;
   top: -35px;
   padding: 8px 11px 8px;
-  z-index: 3;
   box-shadow: var(--box-shadow);
   border-bottom-right-radius: 4px;
   @media (max-width: 900px) {
     left: 20px;
     top: -20px;
   }
+`;
+
+const StyledName = styled.span`
+  font-size: 28px;
+  font-weight: 600;
 `;
 
 type Props = {
@@ -119,15 +122,15 @@ const AssetClasses = ({ assetClass }: Props) => {
         </SmallButton>
       </Dialog>
 
-      {/* TODO reuse NameInputAndEdit in other places in the app */}
-
       <NameInputAndEdit
         value={assetClassName}
         edit={editName}
         onChange={(e: any) => setAssetClassName(e.target.value)}
         onKeyPress={(e: any) => e.key === 'Enter' && finishEditing()}
-        onClick={() => finishEditing()}
+        onClickDone={() => finishEditing()}
         onClickEdit={() => setEditName(true)}
+        editBtnTxt={'Edit Name'}
+        StyledName={StyledName}
       />
     </React.Fragment>
   );
