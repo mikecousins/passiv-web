@@ -154,7 +154,7 @@ const PortfolioGroupButtons = ({
   const portfolioGroups = useSelector(selectGroups);
   const buttons: any[] = [];
 
-  portfolioGroups?.forEach(portfolioGroup => {
+  portfolioGroups?.forEach((portfolioGroup) => {
     buttons.push(
       <ButtonGhost
         className={portfolioGroupId === portfolioGroup.id ? 'selected' : 'none'}
@@ -264,7 +264,7 @@ export const SetGoals = ({
         <LabelGoal>Contributions</LabelGoal>
       </div>
       <div>
-        <Label>How often do you want to contribute to you goal? </Label>
+        <Label>How often do you want to contribute to your goal? </Label>
         <FrequencyChooser
           handleContributionFrequencyChange={handleContributionFrequencyChange}
           contributionFrequency={contributionFrequency}
@@ -311,7 +311,7 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   const finishSetup = () => {
     postData('/api/v1/goals/', goalData)
       .then(() => dispatch(loadGoals()))
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
     setGoalMode('view');
   };
 
