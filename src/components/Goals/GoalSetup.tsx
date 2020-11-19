@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { P, H1 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import { Label, InputPrimary, Select } from '../../styled/Form';
@@ -217,12 +217,50 @@ export const SelectPortfolioGroups = ({
   );
 };
 
+export const GoalDateSelector = ({ month, setMonth, year, setYear }: any) => {
+  const currentYear = new Date().getFullYear();
+  const handleYearChange = (e: any) => {
+    setYear(e.target.value);
+  };
+  const handleMonthChange = (e: any) => {
+    setMonth(e.target.value);
+  };
+
+  return (
+    <React.Fragment>
+      <select value={month} onChange={handleMonthChange}>
+        <option value="01">January</option>
+        <option value="02">February</option>
+        <option value="03">March</option>
+        <option value="04">April</option>
+        <option value="05">May</option>
+        <option value="06">June</option>
+        <option value="07">July</option>
+        <option value="08">August</option>
+        <option value="09">September</option>
+        <option value="10">October</option>
+        <option value="11">Novemeber</option>
+        <option value="12">December</option>
+      </select>
+      <input
+        type="number"
+        min={currentYear}
+        max={2200}
+        value={year}
+        onChange={handleYearChange}
+      ></input>
+    </React.Fragment>
+  );
+};
+
 export const SetGoals = ({
   finishSetup,
   setContributionTarget,
   setTotalValueTarget,
-  setTargetDate,
-  targetDate,
+  month,
+  setMonth,
+  year,
+  setYear,
   contributionFrequency,
   setContributionFrequency,
 }: any) => {
@@ -232,9 +270,6 @@ export const SetGoals = ({
   const handleContributionChange = (e: any) => {
     setContributionTarget(e.target.value);
   };
-  const handleDateChange = (e: any) => {
-    setTargetDate(e.target.value);
-  };
   const handleContributionFrequencyChange = (e: any) => {
     setContributionFrequency(e.target.value);
   };
@@ -243,10 +278,11 @@ export const SetGoals = ({
     <FormWrapper>
       <div>
         <Label>When do you want to reach your goal? </Label>
-        <InputPrimaryDate
-          type="date"
-          value={targetDate}
-          onChange={handleDateChange}
+        <GoalDateSelector
+          month={month}
+          setMonth={setMonth}
+          year={year}
+          setYear={setYear}
         />
       </div>
       <div>
@@ -291,24 +327,27 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   const [goalName, setGoalName] = useState('New Goal');
   const [totalValueTarget, setTotalValueTarget] = useState(0);
   const [contributionTarget, setContributionTarget] = useState(0);
-  const [targetDate, setTargetDate] = useState(formattedYearFromNow());
+  const currentYear = new Date().getFullYear();
+  const defaultYear = currentYear + 5;
+  const [month, setMonth] = useState(formatted5YearsFromNow().substr(5, 2));
+  const [year, setYear] = useState(defaultYear);
   const [portfolioGroupId, setPortfolioGroupId] = useState<string | null>(null);
   const [contributionFrequency, setContributionFrequency] = useState('monthly');
   const dispatch = useDispatch();
   const settings = useSelector(selectSettings);
   const currency = settings?.preferred_currency;
 
-  const goalData = {
-    goalName,
-    totalValueTarget,
-    contributionTarget,
-    portfolioGroupId,
-    targetDate,
-    contributionFrequency,
-    currency,
-  };
-
   const finishSetup = () => {
+    const targetDate = getTargetDate(year, month);
+    let goalData = {
+      goalName,
+      totalValueTarget,
+      contributionTarget,
+      portfolioGroupId,
+      targetDate,
+      contributionFrequency,
+      currency,
+    };
     postData('/api/v1/goals/', goalData)
       .then(() => dispatch(loadGoals()))
       .catch((error) => console.log(error));
@@ -342,10 +381,12 @@ export const GoalSetup = ({ setGoalMode }: any) => {
         {currentStep === 'setGoals' && (
           <SetGoals
             finishSetup={finishSetup}
-            setTotalValueTarget={setTotalValueTarget}
             setContributionTarget={setContributionTarget}
-            setTargetDate={setTargetDate}
-            targetDate={targetDate}
+            setTotalValueTarget={setTotalValueTarget}
+            month={month}
+            setMonth={setMonth}
+            year={year}
+            setYear={setYear}
             contributionFrequency={contributionFrequency}
             setContributionFrequency={setContributionFrequency}
           />
@@ -379,9 +420,9 @@ export const GoalSetup = ({ setGoalMode }: any) => {
 
 export default GoalSetup;
 
-export const formattedYearFromNow = () => {
+export const formatted5YearsFromNow = () => {
   const today = formattedToday();
-  const lastYear = parseInt(today.substr(0, 4)) + 1;
+  const lastYear = parseInt(today.substr(0, 4)) + 5;
 
   return lastYear.toString() + today.substr(4);
 };
@@ -419,4 +460,12 @@ export const FrequencyChooser = ({
       )}
     </React.Fragment>
   );
+};
+
+export const getTargetDate = (year: number, month: string) => {
+  let yearString = year.toString();
+  while (yearString.length < 4) {
+    yearString = '0' + yearString;
+  }
+  return yearString + '-' + month + '-01';
 };

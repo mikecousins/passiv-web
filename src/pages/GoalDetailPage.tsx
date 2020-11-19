@@ -9,7 +9,11 @@ import {
   selectDashboardGroups,
   selectTotalGroupHoldings,
 } from '../selectors/groups';
-import { FrequencyChooser } from '../components/Goals/GoalSetup';
+import {
+  FrequencyChooser,
+  getTargetDate,
+  GoalDateSelector,
+} from '../components/Goals/GoalSetup';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
@@ -154,10 +158,11 @@ const GoalDetailPage = () => {
   const [contributionTarget, setContributionTarget] = useState(
     goal?.contribution_target,
   );
-  const [endDate, setEndDate] = useState(goal?.target_date);
   const [contributionFrequency, setContributionFrequency] = useState(
     goal?.contribution_frequency,
   );
+  const [month, setMonth] = useState(goal?.target_date.substr(5, 2));
+  const [year, setYear] = useState(parseInt(goal?.target_date.substr(0, 4)));
   const groups = useSelector(selectDashboardGroups);
   const group = groups.find((x) => x.id === goal?.portfolio_group?.id);
   let currentValue = useSelector(selectTotalGroupHoldings);
@@ -227,15 +232,14 @@ const GoalDetailPage = () => {
   const handleContributionChange = (e: any) => {
     setContributionTarget(e.target.value);
   };
-  const handleDateChange = (e: any) => {
-    setEndDate(e.target.value);
-  };
+
   const handleFocus = (e: any) => e.target.select();
   const handleDelete = () => {
     dispatch(deleteGoal(goalId));
     history.push('/app/goals');
   };
   const handleSave = () => {
+    const endDate = getTargetDate(year, month);
     patchData('/api/v1/goals/', {
       title,
       goalTarget,
@@ -249,11 +253,12 @@ const GoalDetailPage = () => {
       .catch((error) => console.log(error));
   };
 
-  const dateChanged = endDate !== goal?.target_date;
+  const dateChanged = getTargetDate(year, month) !== goal?.target_date;
   const targetChanged = goalTarget !== goal?.total_value_target;
   const returnRateWarning =
     returnRate > 3 &&
-    daysBetween(new Date(), new Date(Date.parse(endDate))) / 365.25 < 3;
+    daysBetween(new Date(), new Date(Date.parse(goal?.target_date))) / 365.25 <
+      3;
 
   return (
     <React.Fragment>
@@ -301,11 +306,11 @@ const GoalDetailPage = () => {
                 setup={false}
               ></FrequencyChooser>
               until
-              <DateInput
-                type="date"
-                value={endDate}
-                onClick={handleFocus}
-                onChange={handleDateChange}
+              <GoalDateSelector
+                month={month}
+                setMonth={setMonth}
+                year={year}
+                setYear={setYear}
               />
               with an annual return rate of
               <ReturnInput
