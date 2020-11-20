@@ -6,12 +6,15 @@ import { selectLoggedIn, selectAppTime } from '.';
 
 export const selectFeaturesRaw = (state: AppState) => state.features;
 
-export const selectFeatures = createSelector(selectFeaturesRaw, rawFeatures => {
-  if (rawFeatures.data) {
-    return rawFeatures.data.map(feature => feature.name);
-  }
-  return null;
-});
+export const selectFeatures = createSelector(
+  selectFeaturesRaw,
+  (rawFeatures) => {
+    if (rawFeatures.data) {
+      return rawFeatures.data.map((feature) => feature.name);
+    }
+    return null;
+  },
+);
 
 export const selectFeaturesNeedData = createSelector(
   selectLoggedIn,
@@ -29,10 +32,10 @@ export const selectFeaturesNeedData = createSelector(
 );
 
 const createFeatureSelector = (flagName: string) => {
-  return createSelector(selectFeatures, features => {
+  return createSelector(selectFeatures, (features) => {
     let hasFeature = false;
     if (features != null) {
-      features.map(feature => {
+      features.map((feature) => {
         if (feature === flagName) {
           hasFeature = true;
         }
@@ -81,4 +84,8 @@ export const selectQuestradeDowntimeFeature = createFeatureSelector(
 
 export const selectConnectInteractiveBrokersFeature = createFeatureSelector(
   'connect_interactive_brokers',
+);
+
+export const selectShowOtherBrokeragesFeature = createFeatureSelector(
+  'other_brokerages',
 );

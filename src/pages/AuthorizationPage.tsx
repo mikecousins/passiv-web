@@ -41,7 +41,10 @@ import {
   VerticalPadding,
 } from '../styled/Setup';
 import OnboardingProgress from '../components/OnboardingProgress';
-import { selectShowProgressFeature } from '../selectors/features';
+import {
+  selectShowProgressFeature,
+  selectShowOtherBrokeragesFeature,
+} from '../selectors/features';
 
 const Brokerage = styled.div``;
 
@@ -56,6 +59,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const authorizations = useSelector(selectAuthorizations);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const showProgressFeature = useSelector(selectShowProgressFeature);
+  const showOtherBrokerages = useSelector(selectShowOtherBrokeragesFeature);
   const { brokerage } = useParams();
   const dispatch = useDispatch();
 
@@ -281,11 +285,13 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         <React.Fragment>
           {onboarding ? (
             <LinkContainer>
-              <VerticalPadding>
-                <Link style={aDarkStyle} to="/app/wealthica/onboard-connect">
-                  See More Brokerages
-                </Link>
-              </VerticalPadding>
+              {showOtherBrokerages && (
+                <VerticalPadding>
+                  <Link style={aDarkStyle} to="/app/wealthica/onboard-connect">
+                    See More Brokerages
+                  </Link>
+                </VerticalPadding>
+              )}
               <VerticalPadding>
                 <Link style={aDarkStyle} to="/app/connect/open">
                   I don't have a brokerage account.
@@ -299,11 +305,13 @@ const AuthorizationPage = ({ onboarding }: Props) => {
             </LinkContainer>
           ) : (
             <LinkContainer>
-              <VerticalPadding>
-                <Link style={aDarkStyle} to="/app/wealthica/connect">
-                  See More Brokerages
-                </Link>
-              </VerticalPadding>
+              {showOtherBrokerages && (
+                <VerticalPadding>
+                  <Link style={aDarkStyle} to="/app/wealthica/onboard-connect">
+                    See More Brokerages
+                  </Link>
+                </VerticalPadding>
+              )}
               <VerticalPadding>
                 <Link style={aDarkStyle} to="/app/settings">
                   Back
