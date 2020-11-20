@@ -43,7 +43,7 @@ const WealthicaConnectionUpdatePage = ({ onboarding }: Props) => {
           setConnectionFail(true);
         });
     }
-  }, []);
+  });
 
   const handleSuccess = () => {
     dispatch(reloadEverything());
