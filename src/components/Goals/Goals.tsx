@@ -82,6 +82,9 @@ export const Goals = () => {
   if (goals !== null && goals !== undefined) {
     if (goals?.length === 0) {
       goalsClass = 'noGoalsMade';
+      if (currentMode === 'view') {
+        setCurrentMode('add');
+      }
     }
   }
 
