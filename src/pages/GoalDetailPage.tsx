@@ -178,7 +178,8 @@ const GoalDetailPage = () => {
     progressPercent = 100;
   }
   const today = new Date();
-  const daysUntilGoalEnd = daysBetween(today, new Date(goal?.target_date));
+  const targetDate = new Date(Date.parse(getTargetDate(year, month)));
+  const daysUntilGoalEnd = daysBetween(today, new Date(targetDate));
   const projectedAccountValue = getProjectedValue(
     currentValue,
     returnRate,
@@ -209,7 +210,6 @@ const GoalDetailPage = () => {
     ]);
     currentDay = addDays(currentDay, interval);
   }
-  const targetDate = new Date(Date.parse(goal?.target_date));
   projectedData.push([
     new Date(
       targetDate.getFullYear(),
@@ -325,12 +325,6 @@ const GoalDetailPage = () => {
               %?
             </Question>
             <Button onClick={handleSave}>Save Changes</Button>
-            {dateChanged && (
-              <div>
-                Save changes to update chart with new
-                {dateChanged && <span>&nbsp;date</span>}
-              </div>
-            )}
 
             <Tip>
               <P>
@@ -341,6 +335,7 @@ const GoalDetailPage = () => {
           <GoalProjectionContainer>
             <GoalProjectionLineChart
               goal={goal}
+              targetDate={targetDate}
               currentValue={currentValue}
               projectedValue={projectedAccountValue}
               projectedData={projectedData}

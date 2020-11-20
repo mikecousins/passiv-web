@@ -29,6 +29,7 @@ export const LegendContainer = styled(Grid)`
 `;
 type Props = {
   goal: Goal | null;
+  targetDate: Date;
   currentValue: number;
   projectedValue: number;
   projectedData: (number | Date)[][];
@@ -37,6 +38,7 @@ type Props = {
 };
 export const GoalProjectionLineChart: FunctionComponent<Props> = ({
   goal,
+  targetDate,
   currentValue,
   projectedValue,
   projectedData,
@@ -49,7 +51,7 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
         label: 'Target',
         data: [
           [new Date(Date.parse(goal ? goal.created_date : '')), goalTarget],
-          [new Date(Date.parse(goal ? goal.target_date : '')), goalTarget],
+          [new Date(Date.parse(goal ? targetDate.toString() : '')), goalTarget],
         ],
         color: '#04A286',
       },
@@ -64,7 +66,7 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
         color: '#003ba2',
       },
     ],
-    [goal, currentValue, projectedValue, projectedData],
+    [goal, projectedData, targetDate, goalTarget],
   );
 
   const series = React.useMemo(() => ({ type: 'line', showPoints: false }), []);
