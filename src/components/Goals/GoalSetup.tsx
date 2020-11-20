@@ -277,6 +277,9 @@ export const SetGoals = ({
   return (
     <FormWrapper>
       <div>
+        <LabelGoal>Duration</LabelGoal>
+      </div>
+      <div>
         <Label>When do you want to reach your goal? </Label>
         <GoalDateSelector
           month={month}
