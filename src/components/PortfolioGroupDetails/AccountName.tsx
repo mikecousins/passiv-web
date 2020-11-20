@@ -11,6 +11,7 @@ import { Button } from '../../styled/Button';
 import { toast } from 'react-toastify';
 import { Account } from '../../types/account';
 import { loadAccounts, loadGroups } from '../../actions';
+import NameInputAndEdit from '../NameInputAndEdit';
 
 const MetaContainer = styled.div`
   text-align: right;
@@ -69,7 +70,9 @@ const AccountName = ({ name }: Props) => {
   }, [editing, inputEl]);
 
   const finishEditingName = () => {
-    if (account && newName !== name) {
+    if (account && newName !== name && newName.trim().length > 0) {
+      console.log(newName.trim().length);
+
       const newAccount: Account = { ...account };
       newAccount.name = newName;
       putData(`/api/v1/accounts/${newAccount.id}/`, newAccount)
@@ -79,7 +82,11 @@ const AccountName = ({ name }: Props) => {
         })
         .catch(() => {
           toast.error('Failed to edit group name');
+          setNewName(name);
         });
+    } else if (newName.trim().length === 0) {
+      toast.error('Failed to edit group name');
+      setNewName(name);
     }
     setEditing(false);
   };
@@ -87,7 +94,7 @@ const AccountName = ({ name }: Props) => {
   return (
     <MetaContainer>
       <Table>
-        {editing ? (
+        {/* {editing ? (
           <NameContainer>
             <InputNonFormik
               value={newName}
@@ -111,7 +118,16 @@ const AccountName = ({ name }: Props) => {
               Edit
             </Edit>
           </NameContainer>
-        )}
+        )} */}
+        <NameInputAndEdit
+          value={newName}
+          edit={editing}
+          StyledContainer={NameContainer}
+          onChange={(event: any) => setNewName(event.target.value)}
+          onKeyPress={(e: any) => e.key === 'Enter' && finishEditingName()}
+          onClickDone={() => finishEditingName()}
+          onClickEdit={() => setEditing(true)}
+        />
       </Table>
     </MetaContainer>
   );

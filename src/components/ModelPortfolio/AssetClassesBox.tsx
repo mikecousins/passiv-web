@@ -42,7 +42,7 @@ const AssetClassesBox = ({ assetClasses }: Props) => {
     let labelList: any[] = [];
     if (target.length > 0) {
       target.map((t: any) => {
-        labelList.push(t.symbol.symbol);
+        return labelList.push(t.symbol.symbol);
       });
     }
     const label = labelList.join(', ');

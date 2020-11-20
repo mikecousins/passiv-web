@@ -13,6 +13,7 @@ import {
   loadFeatures,
   loadIncentives,
   loadModelAssetClasses,
+  loadModelPortfolio,
 } from '../actions';
 import {
   loadPerformanceAll,
@@ -30,10 +31,12 @@ import {
 } from '../selectors';
 import { selectAccountsNeedData } from '../selectors/accounts';
 import { selectModelAssetClassesNeedData } from '../selectors/modelAssetClasses';
+import { selectModelPortfolioNeedData } from '../selectors/modelPortfolio';
 import {
   selectGroupsNeedData,
   selectGroupInfoNeedsData,
 } from '../selectors/groups';
+
 import { selectSubscriptionNeedData } from '../selectors/subscription';
 import { selectShouldCheckIfOnline } from '../selectors/online';
 import {
@@ -114,5 +117,9 @@ export const effects = [
   {
     selector: selectModelAssetClassesNeedData,
     actionCreator: loadModelAssetClasses,
+  },
+  {
+    selector: selectModelPortfolioNeedData,
+    actionCreator: loadModelPortfolio,
   },
 ];

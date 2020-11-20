@@ -2,14 +2,14 @@ import { Symbol } from './groupInfo';
 
 export type ModelAssetClassDetailsType = {
   model_asset_class: ModelAssetClass;
-  model_asset_class_target: Symbolic[];
+  model_asset_class_target: Target[];
 };
 
 export type ModelAssetClass = {
   id: string;
-  name: string;
+  name?: string;
 };
 
-export type Symbolic = {
+export type Target = {
   symbol: Symbol;
 };

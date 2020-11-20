@@ -35,6 +35,7 @@ import {
   reportingStartDate,
   reportingEndDate,
 } from './performance';
+import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
 
 export default (history: any) =>
   combineReducers({
@@ -126,6 +127,10 @@ export default (history: any) =>
     }),
     modelAssetClasses: simple<ModelAssetClassDetailsType[]>({
       baseType: 'FETCH_MODEL_ASSET_CLASSES',
+      userData: true,
+    }),
+    modelPortfolio: simple<ModelPortfolioDetailsType>({
+      baseType: 'FETCH_MODEL_PORTFOLIO',
       userData: true,
     }),
   });

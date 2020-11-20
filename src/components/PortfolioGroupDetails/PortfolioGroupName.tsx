@@ -11,6 +11,7 @@ import { Button } from '../../styled/Button';
 import { toast } from 'react-toastify';
 import { GroupData } from '../../types/group';
 import { loadGroupsList } from '../../actions';
+import NameInputAndEdit from '../NameInputAndEdit';
 
 const MetaContainer = styled.div`
   text-align: right;
@@ -69,7 +70,7 @@ const PortfolioGroupName = ({ name }: Props) => {
   }, [editing, inputEl]);
 
   const finishEditingName = () => {
-    if (group && newName !== name) {
+    if (group && newName !== name && newName.trim().length > 0) {
       const newGroup: GroupData = { ...group };
       newGroup.name = newName;
       patchData(`/api/v1/portfolioGroups/${newGroup.id}/`, newGroup)
@@ -78,15 +79,20 @@ const PortfolioGroupName = ({ name }: Props) => {
         })
         .catch(() => {
           toast.error('Failed to edit group name');
+          setNewName(name);
         });
+    } else if (newName.trim().length === 0) {
+      toast.error('Failed to edit group name');
+      setNewName(name);
     }
+
     setEditing(false);
   };
 
   return (
     <MetaContainer>
       <Table>
-        {editing ? (
+        {/* {editing ? (
           <NameContainer>
             <InputNonFormik
               value={newName}
@@ -110,7 +116,16 @@ const PortfolioGroupName = ({ name }: Props) => {
               Edit
             </Edit>
           </NameContainer>
-        )}
+        )} */}
+        <NameInputAndEdit
+          value={newName}
+          edit={editing}
+          StyledContainer={NameContainer}
+          onChange={(event: any) => setNewName(event.target.value)}
+          onKeyPress={(e: any) => e.key === 'Enter' && finishEditingName()}
+          onClickDone={() => finishEditingName()}
+          onClickEdit={() => setEditing(true)}
+        />
       </Table>
     </MetaContainer>
   );

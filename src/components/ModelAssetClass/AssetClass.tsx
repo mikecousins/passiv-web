@@ -51,7 +51,7 @@ const AssetClasses = ({ assetClass }: Props) => {
   const finishEditing = () => {
     if (
       assetClassName !== assetClass.model_asset_class.name &&
-      assetClassName.trim().length > 0
+      assetClassName!.trim().length > 0
     ) {
       assetClass.model_asset_class.name = assetClassName;
 
@@ -66,7 +66,7 @@ const AssetClasses = ({ assetClass }: Props) => {
         .catch(() => {
           // dispatch(loadModelAssetClasses()); //! when fails, the state doesn't changes to what it was
           toast.error(
-            `${assetClass.model_asset_class.name} Asset Class Update Failed`,
+            `${assetClass.model_asset_class.name} Asset Class Name Update Failed`,
             { autoClose: 3000 },
           );
         });
@@ -123,7 +123,7 @@ const AssetClasses = ({ assetClass }: Props) => {
       </Dialog>
 
       <NameInputAndEdit
-        value={assetClassName}
+        value={assetClassName!}
         edit={editName}
         onChange={(e: any) => setAssetClassName(e.target.value)}
         onKeyPress={(e: any) => e.key === 'Enter' && finishEditing()}

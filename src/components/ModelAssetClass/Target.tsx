@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { postData } from '../../api';
 import {
   ModelAssetClassDetailsType,
-  Symbolic,
+  Target,
 } from '../../types/modelAssetClass';
 import { Symbol } from '../../types/groupInfo';
 import { loadModelAssetClasses } from '../../actions';
@@ -54,7 +54,7 @@ const Targets = ({ assetClass }: Props) => {
   };
 
   const handleAddTarget = (cb: Symbol) => {
-    const sy: Symbolic = { symbol: cb };
+    const sy: Target = { symbol: cb };
     assetClass.model_asset_class_target.push(sy);
 
     updateAssetClass();

@@ -17,6 +17,7 @@ const Input = styled.input`
 
 const SmallDoneButton = styled(SmallButton)`
   padding: 5px 10px;
+  margin-left: 10px;
 `;
 
 const Container = styled.div``;

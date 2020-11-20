@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { ModelAssetClass } from '../../types/modelAssetClass';
 import styled from '@emotion/styled';
 import {
@@ -7,12 +7,11 @@ import {
   ComboboxPopover,
   ComboboxList,
   ComboboxOption,
+  ComboboxOptionText,
 } from '@reach/combobox';
 import '@reach/combobox/styles.css';
-import { useSelector, useDispatch } from 'react-redux';
 import { faSpinner, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { selectCurrentGroupId } from '../../selectors/groups';
 
 const StyledCombobox = styled(Combobox)`
   width: 500px;
@@ -69,107 +68,46 @@ const AddAssetClassBtn = styled.li`
 `;
 
 type Props = {
-  value: any;
+  name: string;
+  id: string;
   assetClassesAvailable: ModelAssetClass[];
-  onSelect: (modelAssetClass: any) => void;
-};
-
-const useDebouncedEffect = (callback: any, delay: number, deps: any[] = []) => {
-  const firstUpdate = useRef(true);
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
-    const handler = setTimeout(() => {
-      callback();
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [delay, ...deps]); // eslint-disable-line react-hooks/exhaustive-deps
+  onSelect: any;
 };
 
 const AssetClassSelector = ({
-  value,
+  name,
+  id,
   assetClassesAvailable,
   onSelect,
 }: Props) => {
-  const [matchingModelAssetClasses, setMatchingModelAssetClasses] = useState<
-    any[]
-  >();
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [val, setVal] = useState(value);
-
-  const loadOptions = () => {
-    setLoading(true);
-    setMatchingModelAssetClasses(assetClassesAvailable);
-    setLoading(false);
-  };
-
-  const handleSelect = (id: string) => {
-    if (!matchingModelAssetClasses) {
-      return;
-    }
-    const modelAssetClass = matchingModelAssetClasses.find(
-      (modelAssetClass) => id === modelAssetClass.name,
-    );
-    if (modelAssetClass) {
-      onSelect(modelAssetClass);
-    }
-  };
-
-  useDebouncedEffect(
-    () => {
-      loadOptions();
-    },
-    500,
-    [input],
-  );
-
-  const onChange = (event: any) => {
-    setInput(event.target.value);
-  };
-
   return (
-    <StyledCombobox onSelect={handleSelect}>
+    <StyledCombobox>
       <StyledInput
-        value={val}
-        onChange={onChange}
         placeholder="Pick Asset Class"
+        onSelect={onSelect}
+        name={name}
+        id={id}
       />
-      {loading ? (
-        <StyledComboboxPopover>
-          <ComboboxList>
-            <FontAwesomeIcon icon={faSpinner} spin />
-          </ComboboxList>
-        </StyledComboboxPopover>
-      ) : (
-        matchingModelAssetClasses &&
-        matchingModelAssetClasses.length > 0 && (
-          <StyledComboboxPopover>
-            <StyledComboboxList>
-              {matchingModelAssetClasses.map((option: any, index) => {
-                return (
-                  <StyledComboboxOption key={index} value={option.name}>
-                    <span>{option.name}</span>
-                  </StyledComboboxOption>
-                );
-              })}
-              <AddAssetClassBtn>
-                <FontAwesomeIcon
-                  icon={faPlus}
-                  size="sm"
-                  style={{ position: 'relative' }}
-                />{' '}
-                New Asset Class
-              </AddAssetClassBtn>
-            </StyledComboboxList>
-          </StyledComboboxPopover>
-        )
-      )}
+      <StyledComboboxPopover>
+        <StyledComboboxList>
+          {assetClassesAvailable.map((option: any, index) => {
+            return (
+              <StyledComboboxOption key={index} value={option.id}>
+                {/* <ComboboxOptionText /> */}
+                {option.name}
+              </StyledComboboxOption>
+            );
+          })}
+          <AddAssetClassBtn>
+            <FontAwesomeIcon
+              icon={faPlus}
+              size="sm"
+              style={{ position: 'relative' }}
+            />{' '}
+            New Asset Class
+          </AddAssetClassBtn>
+        </StyledComboboxList>
+      </StyledComboboxPopover>
     </StyledCombobox>
   );
 };

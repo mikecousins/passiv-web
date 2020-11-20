@@ -359,6 +359,26 @@ export const loadModelAssetClasses: ActionCreator<ThunkAction<
   };
 };
 
+export const loadModelPortfolio: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
+  const idOfModelPortfolio = 'cc095d43-9170-4de0-8729-1acfaf4c5832';
+  return (dispatch) => {
+    dispatch(fetchModelPortfolioStart());
+    getData(`/api/v1/modelPortfolio/${idOfModelPortfolio}`)
+      .then((response) => {
+        dispatch(fetchModelPortfolioSuccess(response));
+      })
+      .catch((error) => {
+        dispatch(fetchModelPortfolioError(error));
+        console.log(error);
+      });
+  };
+};
+
 export const reloadEverything: ActionCreator<ThunkAction<
   void,
   any,
@@ -734,6 +754,29 @@ export const fetchAssetClassesError: ActionCreator<Action> = (payload) => ({
   type: 'FETCH_MODEL_ASSET_CLASSES_ERROR',
   data: payload,
 });
+
+/**
+  Model Portfolio Start
+*/
+
+export const fetchModelPortfolioStart: ActionCreator<Action> = () => ({
+  type: 'FETCH_MODEL_PORTFOLIO_START',
+});
+
+export const fetchModelPortfolioSuccess: ActionCreator<Action> = (payload) => {
+  return {
+    type: 'FETCH_MODEL_PORTFOLIO_SUCCESS',
+    payload,
+  };
+};
+export const fetchModelPortfolioError: ActionCreator<Action> = (payload) => ({
+  type: 'FETCH_MODEL_PORTFOLIO_ERROR',
+  data: payload,
+});
+
+/**
+  Model Portfolio End
+*/
 
 export const importTargetError: ActionCreator<Action> = (payload) => ({
   type: 'IMPORT_TARGET_ERROR',
