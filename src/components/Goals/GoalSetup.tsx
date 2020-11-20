@@ -299,27 +299,6 @@ export const SetGoals = ({
           onChange={handleTotalTargetChange}
         />
       </div>
-      <div>
-        <LabelGoal>Contributions</LabelGoal>
-      </div>
-      <div>
-        <Label>How often do you want to contribute to your goal? </Label>
-        <FrequencyChooser
-          handleContributionFrequencyChange={handleContributionFrequencyChange}
-          contributionFrequency={contributionFrequency}
-          setup={true}
-        ></FrequencyChooser>
-      </div>
-      <div>
-        <Label>
-          To Reach this Goal, how much do you want to contribute each period?{' '}
-        </Label>
-        <InputPrimary
-          type="number"
-          min={0}
-          onChange={handleContributionChange}
-        />
-      </div>
       <ButtonNext onClick={() => finishSetup()}>Finish</ButtonNext>
     </FormWrapper>
   );
@@ -329,13 +308,11 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   const [currentStep, setCurrentStep] = useState('naming');
   const [goalName, setGoalName] = useState('New Goal');
   const [totalValueTarget, setTotalValueTarget] = useState(0);
-  const [contributionTarget, setContributionTarget] = useState(0);
   const currentYear = new Date().getFullYear();
   const defaultYear = currentYear + 5;
   const [month, setMonth] = useState(formatted5YearsFromNow().substr(5, 2));
   const [year, setYear] = useState(defaultYear);
   const [portfolioGroupId, setPortfolioGroupId] = useState<string | null>(null);
-  const [contributionFrequency, setContributionFrequency] = useState('monthly');
   const dispatch = useDispatch();
   const settings = useSelector(selectSettings);
   const currency = settings?.preferred_currency;
@@ -345,10 +322,8 @@ export const GoalSetup = ({ setGoalMode }: any) => {
     let goalData = {
       goalName,
       totalValueTarget,
-      contributionTarget,
       portfolioGroupId,
       targetDate,
-      contributionFrequency,
       currency,
     };
     postData('/api/v1/goals/', goalData)
@@ -384,14 +359,11 @@ export const GoalSetup = ({ setGoalMode }: any) => {
         {currentStep === 'setGoals' && (
           <SetGoals
             finishSetup={finishSetup}
-            setContributionTarget={setContributionTarget}
             setTotalValueTarget={setTotalValueTarget}
             month={month}
             setMonth={setMonth}
             year={year}
             setYear={setYear}
-            contributionFrequency={contributionFrequency}
-            setContributionFrequency={setContributionFrequency}
           />
         )}
         <Plant1>

@@ -156,7 +156,7 @@ const GoalDetailPage = () => {
   const [returnRate, setReturnRate] = useState(goal?.return_rate);
   const [goalTarget, setGoalTarget] = useState(goal?.total_value_target);
   const [contributionTarget, setContributionTarget] = useState(
-    goal?.contribution_target,
+    parseInt(goal?.contribution_target.toFixed(0)),
   );
   const [contributionFrequency, setContributionFrequency] = useState(
     goal?.contribution_frequency,
