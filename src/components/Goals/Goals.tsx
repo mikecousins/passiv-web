@@ -73,9 +73,9 @@ export const Goals = () => {
   goalsSelect = useSelector(selectGoals).data;
   let goals: Goal[] | null;
   if (goalsSelect !== undefined && goalsSelect !== null) {
-    goals = goalsSelect?.concat([MockGoal]);
+    goals = goalsSelect;
   } else {
-    goals = [MockGoal];
+    goals = [];
   }
 
   let goalsClass = 'goalsExist';
@@ -90,7 +90,7 @@ export const Goals = () => {
 
   return (
     <React.Fragment>
-      {currentMode === 'view' && (
+      {(currentMode === 'view' || currentMode === 'finishedSetup') && (
         <HeaderBanner columns="1fr auto">
           <div>
             <H1>Goals</H1>
@@ -110,7 +110,9 @@ export const Goals = () => {
         </HeaderBanner>
       )}
       {currentMode === 'add' && <GoalSetup setGoalMode={setCurrentMode} />}
-      {currentMode === 'view' && <GoalsList goals={goals} />}
+      {(currentMode === 'view' || currentMode === 'finishedSetup') && (
+        <GoalsList goals={goals} />
+      )}
 
       <BetaBanner>
         Open Beta: Help us improve our tools by{' '}

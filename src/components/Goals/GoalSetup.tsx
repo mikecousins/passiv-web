@@ -329,7 +329,7 @@ export const GoalSetup = ({ setGoalMode }: any) => {
     postData('/api/v1/goals/', goalData)
       .then(() => dispatch(loadGoals()))
       .catch((error) => console.log(error));
-    setGoalMode('view');
+    setGoalMode('finishedSetup');
   };
 
   return (
