@@ -3,7 +3,10 @@ import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectLoggedIn, selectHasQuestradeConnection } from '../../selectors';
-import { selectPerformancePageFeature } from '../../selectors/features';
+import {
+  selectGoalsPageFeature,
+  selectPerformancePageFeature,
+} from '../../selectors/features';
 import { selectGroups } from '../../selectors/groups';
 import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
@@ -65,6 +68,8 @@ const SideBar = () => {
   const performancePageFeatureActive = useSelector(
     selectPerformancePageFeature,
   );
+  const goalsPageFeatureActive = useSelector(selectGoalsPageFeature);
+
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
 
   let groupList: JSX.Element | JSX.Element[] = (
@@ -72,7 +77,7 @@ const SideBar = () => {
   );
 
   if (groups) {
-    groupList = groups.map(group => {
+    groupList = groups.map((group) => {
       return (
         <React.Fragment key={group.id}>
           <SideBarLink
@@ -87,7 +92,7 @@ const SideBar = () => {
             hideArrow={true}
           />
           {group.hasAccounts &&
-            group.accounts.map(account => (
+            group.accounts.map((account) => (
               <SideBarLink
                 key={account.id}
                 name={account.name}
@@ -111,7 +116,7 @@ const SideBar = () => {
           {performancePageFeatureActive && hasQuestradeConnection && (
             <SideBarLink name="Reporting" linkPath="/app/reporting" />
           )}
-          {performancePageFeatureActive && hasQuestradeConnection && (
+          {goalsPageFeatureActive && hasQuestradeConnection && (
             <SideBarLink name="Goals" linkPath="/app/goals" beta={true} />
           )}
           <SideBarLink name="Refer a Friend" linkPath="/app/referrals" />
