@@ -18,6 +18,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GoalsPage from '../pages/GoalsPage';
 import GoalDetailPage from '../pages/GoalDetailPage';
+import { selectGoalsPageFeature } from '../selectors/features';
 
 // code splitting to lazy load our pages
 const LoginPage = React.lazy(() =>
@@ -166,6 +167,7 @@ const App = () => {
   const referralCode = useSelector(selectReferralCode);
   const loggedIn = useSelector(selectLoggedIn);
   const location = useLocation();
+  const goalsPageFeatureActive = useSelector(selectGoalsPageFeature);
   const dispatch = useDispatch();
 
   const queryParams = useSelector(selectQueryTokens);
@@ -359,10 +361,10 @@ const App = () => {
                 component={PerformancePage}
               />
             )}
-            {showSecureApp && (
+            {showSecureApp && goalsPageFeatureActive && (
               <Route path={prefixPath('/goals')} component={GoalsPage} />
             )}
-            {showSecureApp && (
+            {showSecureApp && goalsPageFeatureActive && (
               <Route
                 path={prefixPath('/goal/:goalId')}
                 component={GoalDetailPage}
