@@ -87,3 +87,7 @@ export const selectQuestradeDowntimeFeature = createFeatureSelector(
 export const selectConnectInteractiveBrokersFeature = createFeatureSelector(
   'connect_interactive_brokers',
 );
+
+export const selectShowOtherBrokeragesFeature = createFeatureSelector(
+  'other_brokerages',
+);
