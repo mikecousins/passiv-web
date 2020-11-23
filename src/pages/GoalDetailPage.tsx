@@ -82,18 +82,6 @@ const NumInput = styled(InputPrimary)`
     border-bottom: 2px solid var(--brand-blue);
   }
 `;
-const DateInput = styled(InputPrimary)`
-  border-bottom: 2px solid var(--brand-blue);
-  max-width: 220px;
-  margin: 0 20px;
-  padding: 0;
-  font-size: 28px;
-
-  &:focus {
-    border: none;
-    border-bottom: 2px solid var(--brand-blue);
-  }
-`;
 const ReturnInput = styled(InputPrimary)`
   border-bottom: 2px solid var(--brand-blue);
   max-width: 60px;
@@ -269,13 +257,6 @@ const GoalDetailPage = () => {
       .then(() => dispatch(loadGoals()))
       .catch((error) => console.log(error));
   };
-
-  const dateChanged = getTargetDate(year, month) !== goal?.target_date;
-  const targetChanged = goalTarget !== goal?.total_value_target;
-  const returnRateWarning =
-    returnRate > 3 &&
-    daysBetween(new Date(), new Date(Date.parse(goal?.target_date))) / 365.25 <
-      3;
 
   return (
     <React.Fragment>

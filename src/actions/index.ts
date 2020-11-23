@@ -12,7 +12,7 @@ import {
   formattedToday,
   formattedYearAgo,
 } from '../components/Performance/DatePickers';
-import { loadGoals } from './goals';
+// import { loadGoals } from './goals';
 
 export const loginSucceeded: ActionCreator<Action> = (payload) => ({
   type: 'LOGIN_SUCCEEDED',

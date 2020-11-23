@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { P, H1 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import { Label, InputPrimary, Select } from '../../styled/Form';
@@ -29,7 +29,6 @@ const HeaderBanner = styled.div`
     }
   }
 `;
-
 const GoalInput = styled(InputPrimary)`
   border-bottom: 2px solid var(--brand-blue);
   max-width: 350px;
@@ -78,6 +77,7 @@ const MonthSelect = styled.select`
 const InputPrimaryDate = styled(InputPrimary)`
   max-width: 300px;
 `;
+
 const ButtonNext = styled(Button)`
   color: #fff;
   z-index: 2;
@@ -136,12 +136,6 @@ const Plant = styled.div`
 const Plant1 = styled(Plant)`
   height: 55px;
 `;
-const Plant2 = styled(Plant)`
-  height: 155px;
-`;
-const Plant3 = styled(Plant)`
-  height: 255px;
-`;
 const Stem = styled.div`
   position: absolute;
   width: 6px;
@@ -160,32 +154,6 @@ const Leaf = styled.div`
   background: var(--brand-green);
   animation-duration: 1.2s !important;
   animation-fill-mode: forwards;
-`;
-const Leaf01 = styled(Leaf)`
-  top: 70%;
-  left: 50%;
-  transform: rotate(-4deg);
-`;
-const Leaf02 = styled(Leaf)`
-  top: 60%;
-  right: 50%;
-  transform: rotate(227deg);
-`;
-const Leaf03 = styled(Leaf)`
-  width: 48px;
-  height: 44px;
-  border-radius: 18em 9% 15em;
-  top: 55%;
-  left: 24%;
-  transform: rotate(-12deg);
-`;
-const Leaf04 = styled(Leaf)`
-  width: 50px;
-  height: 34px;
-  border-radius: 15em 50% 14em;
-  top: 34%;
-  right: 8%;
-  transform: rotate(261deg);
 `;
 const Leaf05 = styled(Leaf)`
   width: 63px;
@@ -323,12 +291,6 @@ export const SetGoals = ({
 }: any) => {
   const handleTotalTargetChange = (e: any) => {
     setTotalValueTarget(e.target.value);
-  };
-  const handleContributionChange = (e: any) => {
-    setContributionTarget(e.target.value);
-  };
-  const handleContributionFrequencyChange = (e: any) => {
-    setContributionFrequency(e.target.value);
   };
 
   return (
