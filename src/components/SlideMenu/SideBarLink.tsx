@@ -6,7 +6,6 @@ import { RebalanceAlert } from '../../styled/Rebalance';
 import { useSelector } from 'react-redux';
 import { selectPathname } from '../../selectors/router';
 import styled from '@emotion/styled';
-import { differenceInCalendarQuarters } from 'date-fns/esm';
 
 const ColorBox = styled.div``;
 
