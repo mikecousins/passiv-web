@@ -14,7 +14,7 @@ import ShadowBox from '../../styled/ShadowBox';
 // import { getData, postData } from '../../api';
 
 const HeaderBanner = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   h1 {
     margin-bottom: 10px;
     line-height: 1;
@@ -29,14 +29,61 @@ const HeaderBanner = styled.div`
     }
   }
 `;
+
+const GoalInput = styled(InputPrimary)`
+  border-bottom: 2px solid var(--brand-blue);
+  max-width: 350px;
+  margin: 0;
+  padding: 0;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  &:focus {
+    border: none;
+    border-bottom: 2px solid var(--brand-blue);
+  }
+`;
+
+const NumInput = styled(InputPrimary)`
+  border-bottom: 2px solid var(--brand-blue);
+  max-width: 100px;
+  margin: 0 20px 0 0;
+  padding: 0;
+  font-size: 28px;
+  font-weight: 600;
+  &:focus {
+    border: none;
+    border-bottom: 2px solid var(--brand-blue);
+  }
+`;
+
+const DurationSelect = styled.select`
+  border-bottom: 2px solid #003ba2;
+  margin: 15px 10px 0 0;
+  font-size: 28px;
+  padding-bottom: 0px;
+  padding: 0;
+  vertical-align: top;
+  font-weight: 600;
+`;
+const MonthSelect = styled.select`
+  border-bottom: 2px solid #003ba2;
+  margin: 15px 10px 0 10px;
+  font-size: 28px;
+  padding-bottom: 0px;
+  padding: 0;
+  vertical-align: top;
+  font-weight: 600;
+`;
 const InputPrimaryDate = styled(InputPrimary)`
   max-width: 300px;
 `;
 const ButtonNext = styled(Button)`
   color: #fff;
   z-index: 2;
-  margin-right: 6px;
-  font-size: 20px;
+  margin-top: 30px;
+  padding: 14px 58px 16px;
+  font-size: 28px;
   &.selected {
     color: #000;
   }
@@ -44,26 +91,33 @@ const ButtonNext = styled(Button)`
 const ButtonGhost = styled(Button)`
   color: var(--brand-blue);
   z-index: 2;
-  margin-bottom: 20px;
   background: none;
   border: 1px solid var(--brand-blue);
   font-size: 20px;
   border-radius: 0;
+  margin: 0px 0 20px 0;
   &.selected {
-    background: var(--brand-green);
+    background: var(--brand-grey);
     color: #fff;
-    border: 1px solid var(--brand-green);
+    border: 1px solid var(--brand-grey);
   }
 `;
 const LabelGoal = styled(Label)`
   font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 15px;
+  font-weight: 500;
+  margin: 0 15px 15px 0;
   letter-spacing: 0.04rem;
+  display: inline-block;
+  small {
+    font-size: 0.55em;
+  }
 `;
 const FormWrapper = styled.div`
-  max-width: 760px;
-  margin: 20px 0;
+  max-width: 720px;
+  margin: 20px auto;
+  text-align: center;
+  padding: 40px 0 60px;
+  line-height: 2.5;
 `;
 const ShadowBoxRelative = styled(ShadowBox)`
   position: relative;
@@ -183,13 +237,15 @@ export const GoalNaming = ({ setCurrentStep, setGoalName, goalName }: any) => {
   return (
     <React.Fragment>
       <FormWrapper>
-        <LabelGoal htmlFor="goalname">What is your saving goal? </LabelGoal>
-        <InputPrimary
-          type="text"
-          id="goalname"
-          onChange={handleChange}
-          value={goalName}
-        />
+        <div>
+          <LabelGoal htmlFor="goalname">My saving goal is for </LabelGoal>
+          <GoalInput
+            type="text"
+            id="goalname"
+            onChange={handleChange}
+            value={goalName}
+          />
+        </div>
         <ButtonNext onClick={() => setCurrentStep('portfolioGroups')}>
           Next
         </ButtonNext>
@@ -206,7 +262,8 @@ export const SelectPortfolioGroups = ({
   return (
     <FormWrapper>
       <LabelGoal>
-        Is this goal for a specific Portfolio Group? (Optional){' '}
+        I'd like to include these portfolio groups in my goal{' '}
+        <small>Optional</small>{' '}
       </LabelGoal>
       <PortfolioGroupButtons
         setPortfolioGroupId={setPortfolioGroupId}
@@ -228,7 +285,7 @@ export const GoalDateSelector = ({ month, setMonth, year, setYear }: any) => {
 
   return (
     <React.Fragment>
-      <select value={month} onChange={handleMonthChange}>
+      <MonthSelect value={month} onChange={handleMonthChange}>
         <option value="01">January</option>
         <option value="02">February</option>
         <option value="03">March</option>
@@ -241,14 +298,14 @@ export const GoalDateSelector = ({ month, setMonth, year, setYear }: any) => {
         <option value="10">October</option>
         <option value="11">Novemeber</option>
         <option value="12">December</option>
-      </select>
-      <input
+      </MonthSelect>
+      <NumInput
         type="number"
         min={currentYear}
         max={2200}
         value={year}
         onChange={handleYearChange}
-      ></input>
+      ></NumInput>
     </React.Fragment>
   );
 };
@@ -277,10 +334,11 @@ export const SetGoals = ({
   return (
     <FormWrapper>
       <div>
-        <LabelGoal>Duration</LabelGoal>
+        <LabelGoal>I want to save $</LabelGoal>
+        <GoalInput type="number" min={0} onChange={handleTotalTargetChange} />
       </div>
       <div>
-        <Label>When do you want to reach your goal? </Label>
+        <LabelGoal>By the date</LabelGoal>
         <GoalDateSelector
           month={month}
           setMonth={setMonth}
@@ -288,18 +346,7 @@ export const SetGoals = ({
           setYear={setYear}
         />
       </div>
-      <div>
-        <LabelGoal>Total Holdings</LabelGoal>
-      </div>
-      <div>
-        <Label>What is your total $ goal? </Label>
-        <InputPrimary
-          type="number"
-          min={0}
-          onChange={handleTotalTargetChange}
-        />
-      </div>
-      <ButtonNext onClick={() => finishSetup()}>Finish</ButtonNext>
+      <ButtonNext onClick={() => finishSetup()}>Start Saving!</ButtonNext>
     </FormWrapper>
   );
 };
@@ -410,7 +457,7 @@ export const FrequencyChooser = ({
   return (
     <React.Fragment>
       {setup && (
-        <Select
+        <DurationSelect
           onChange={handleContributionFrequencyChange}
           value={contributionFrequency}
         >
@@ -419,10 +466,10 @@ export const FrequencyChooser = ({
           <option value="quarterly">Quarterly</option>
           <option value="semiannually">Semiannually</option>
           <option value="annually">Annually</option>
-        </Select>
+        </DurationSelect>
       )}
       {!setup && (
-        <Select
+        <DurationSelect
           onChange={handleContributionFrequencyChange}
           value={contributionFrequency}
         >
@@ -431,7 +478,7 @@ export const FrequencyChooser = ({
           <option value="quarterly">quarter</option>
           <option value="semiannually">6 months</option>
           <option value="annually">year</option>
-        </Select>
+        </DurationSelect>
       )}
     </React.Fragment>
   );

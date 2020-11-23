@@ -41,6 +41,7 @@ const BackLink = styled(Link)`
 `;
 const HeaderBanner = styled.div`
   margin-bottom: 30px;
+  position: relative;
   h1 {
     margin-bottom: 10px;
     line-height: 1;
@@ -75,7 +76,7 @@ const NumInput = styled(InputPrimary)`
   margin: 0 20px 0 0;
   padding: 0;
   font-size: 28px;
-
+  font-weight: 600;
   &:focus {
     border: none;
     border-bottom: 2px solid var(--brand-blue);
@@ -99,6 +100,7 @@ const ReturnInput = styled(InputPrimary)`
   margin: 0 0 0 20px;
   padding: 0;
   font-size: 28px;
+  font-weight: 600;
 
   &:focus {
     border: none;
@@ -110,11 +112,6 @@ const Question = styled.div`
   max-width: 530px;
   line-height: 2.5;
   margin-bottom: 20px;
-  select {
-    margin: 0 20px 0 0;
-    border-color: #003ba2;
-    background-size: 8px 5px, 5px 5px, 1.8em 3.5em;
-  }
 `;
 const Tip = styled.div`
   font-size: 14px;
@@ -126,7 +123,27 @@ const Delete = styled.button`
     margin-right: 5px;
   }
 `;
-
+const NameInput = styled(InputPrimary)`
+  font-size: 42px;
+  font-weight: 500;
+  line-height: 1;
+  -webkit-letter-spacing: -1.5px;
+  -moz-letter-spacing: -1.5px;
+  -ms-letter-spacing: -1.5px;
+  letter-spacing: -1.5px;
+  color: #2a2d34;
+  padding-top: 0;
+  padding: 0;
+  margin: 0;
+  background: none;
+`;
+const EditButton = styled(Button)`
+  position: absolute;
+  right: 0;
+  bottom: 16px;
+  border-radius: 0;
+  padding: 14px 32px 16px;
+`;
 const daysBetween = (firstDate: Date, secondDate: Date) => {
   const _MS_PER_DAY = 1000 * 60 * 60 * 24;
   const utc1 = Date.UTC(
@@ -275,7 +292,7 @@ const GoalDetailPage = () => {
               <H3>Goal Progress</H3> ${toDollarString(currentValue)}
             </P>
             <P>
-              <H3>Goal Date</H3> {goal?.target_date}
+              <H3>Goal Date</H3> {goal?.target_date}{' '}
             </P>
             <P>
               <H3>Target</H3> ${toDollarString(targetValue)}
@@ -454,11 +471,11 @@ const GoalTitle = ({ title, setTitle }: any) => {
   } else {
     return (
       <div>
-        <InputPrimary
+        <NameInput
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
-        ></InputPrimary>
-        <Button onClick={() => finishEditing(newTitle)}>Done</Button>
+        />
+        <EditButton onClick={() => finishEditing(newTitle)}>Done</EditButton>
       </div>
     );
   }

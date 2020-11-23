@@ -27,6 +27,16 @@ export const LegendContainer = styled(Grid)`
     display: inline-block;
   }
 `;
+export const TargetDoneButton = styled(Button)`
+  position: absolute;
+  left: 100%;
+  top: -13px;
+`;
+export const TargetInput = styled.input`
+  display: inline-block;
+  width: 104px;
+  border-bottom: 2px solid var(--brand-blue);
+`;
 type Props = {
   goal: Goal | null;
   targetDate: Date;
@@ -137,12 +147,14 @@ const GoalTarget = ({ goalTarget, setGoalTarget }: any) => {
             style={{ padding: 1 }}
           />{' '}
           Target&nbsp; ${' '}
-          <input
+          <TargetInput
             type="number"
             value={newValue}
             onChange={(e) => setNewValue(parseFloat(e.target.value))}
-          ></input>
-          <Button onClick={() => finishEditing(newValue)}>Done</Button>
+          ></TargetInput>
+          <TargetDoneButton onClick={() => finishEditing(newValue)}>
+            Done
+          </TargetDoneButton>
         </LegendItem>
       </React.Fragment>
     );
