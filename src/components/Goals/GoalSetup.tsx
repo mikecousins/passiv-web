@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { P, H1 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
-import { Label, InputPrimary, Select } from '../../styled/Form';
+import { Label, InputPrimary } from '../../styled/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectGroups } from '../../selectors/groups';
 import { postData } from '../../api';
@@ -73,9 +73,6 @@ const MonthSelect = styled.select`
   padding: 0;
   vertical-align: top;
   font-weight: 600;
-`;
-const InputPrimaryDate = styled(InputPrimary)`
-  max-width: 300px;
 `;
 
 const ButtonNext = styled(Button)`
