@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faPen } from '@fortawesome/free-solid-svg-icons';
 import { putData } from '../../api';
 import { selectCurrentAccount } from '../../selectors/groups';
 import styled from '@emotion/styled';
 import { Table, Edit } from '../../styled/GlobalElements';
-import { InputNonFormik } from '../../styled/Form';
-import { Button } from '../../styled/Button';
 import { toast } from 'react-toastify';
 import { Account } from '../../types/account';
 import { loadAccounts, loadGroups } from '../../actions';
@@ -94,31 +90,6 @@ const AccountName = ({ name }: Props) => {
   return (
     <MetaContainer>
       <Table>
-        {/* {editing ? (
-          <NameContainer>
-            <InputNonFormik
-              value={newName}
-              onChange={event => {
-                setNewName(event.target.value);
-              }}
-              onKeyPress={e => {
-                if (e.key === 'Enter') {
-                  finishEditingName();
-                }
-              }}
-              ref={inputEl}
-            />
-            <Button onClick={() => finishEditingName()}>Done</Button>
-          </NameContainer>
-        ) : (
-          <NameContainer>
-            {newName ? newName : <FontAwesomeIcon icon={faSpinner} spin />}
-            <Edit onClick={() => setEditing(true)}>
-              <FontAwesomeIcon icon={faPen} />
-              Edit
-            </Edit>
-          </NameContainer>
-        )} */}
         <NameInputAndEdit
           value={newName}
           edit={editing}
