@@ -31,7 +31,7 @@ const HeaderBanner = styled.div`
 `;
 const GoalInput = styled(InputPrimary)`
   border-bottom: 2px solid var(--brand-blue);
-  max-width: 350px;
+  max-width: 180px;
   margin: 0;
   padding: 0;
   font-size: 28px;
@@ -203,7 +203,9 @@ export const GoalNaming = ({ setCurrentStep, setGoalName, goalName }: any) => {
     <React.Fragment>
       <FormWrapper>
         <div>
-          <LabelGoal htmlFor="goalname">My saving goal is for </LabelGoal>
+          <LabelGoal htmlFor="goalname">
+            The name of this goal will be
+          </LabelGoal>
           <GoalInput
             type="text"
             id="goalname"
@@ -283,8 +285,6 @@ export const SetGoals = ({
   setMonth,
   year,
   setYear,
-  contributionFrequency,
-  setContributionFrequency,
 }: any) => {
   const handleTotalTargetChange = (e: any) => {
     setTotalValueTarget(e.target.value);
@@ -293,11 +293,11 @@ export const SetGoals = ({
   return (
     <FormWrapper>
       <div>
-        <LabelGoal>I want to save $</LabelGoal>
+        <LabelGoal>I want to reach $</LabelGoal>
         <GoalInput type="number" min={0} onChange={handleTotalTargetChange} />
       </div>
       <div>
-        <LabelGoal>By the date</LabelGoal>
+        <LabelGoal>By</LabelGoal>
         <GoalDateSelector
           month={month}
           setMonth={setMonth}
