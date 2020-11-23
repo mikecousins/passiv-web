@@ -4,8 +4,8 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import createRootReducer from '../../../reducers';
-import PortfolioGroupSettings from '../';
+import createRootReducer from '../../reducers';
+import CashManagement from '../CashManagement';
 
 afterEach(cleanup);
 
@@ -26,8 +26,8 @@ const renderWithRedux = (ui: JSX.Element, initialState: object) => {
   };
 };
 
-test('PortfolioGroupSettings renders without issue', () => {
-  const { getByText } = renderWithRedux(<PortfolioGroupSettings />, {});
+test('CashManagement renders without issue', () => {
+  const { getByText } = renderWithRedux(<CashManagement />, {});
 
-  expect(getByText('General')).toBeTruthy();
+  expect(getByText('Cash Management')).toBeTruthy();
 });
