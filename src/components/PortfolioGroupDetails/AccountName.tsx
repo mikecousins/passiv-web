@@ -10,7 +10,7 @@ import { InputNonFormik } from '../../styled/Form';
 import { Button } from '../../styled/Button';
 import { toast } from 'react-toastify';
 import { Account } from '../../types/account';
-import { loadAccounts, loadGroups } from '../../actions';
+import { loadAccounts } from '../../actions';
 
 const MetaContainer = styled.div`
   text-align: right;
@@ -75,7 +75,6 @@ const AccountName = ({ name }: Props) => {
       putData(`/api/v1/accounts/${newAccount.id}/`, newAccount)
         .then(() => {
           dispatch(loadAccounts());
-          dispatch(loadGroups());
         })
         .catch(() => {
           toast.error('Failed to edit group name');
@@ -91,10 +90,10 @@ const AccountName = ({ name }: Props) => {
           <NameContainer>
             <InputNonFormik
               value={newName}
-              onChange={event => {
+              onChange={(event) => {
                 setNewName(event.target.value);
               }}
-              onKeyPress={e => {
+              onKeyPress={(e) => {
                 if (e.key === 'Enter') {
                   finishEditingName();
                 }
