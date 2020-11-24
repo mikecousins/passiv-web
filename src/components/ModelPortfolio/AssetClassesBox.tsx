@@ -16,6 +16,10 @@ const Box = styled.div`
   height: fit-content;
 `;
 
+const StyledH3 = styled(H3)`
+  font-size: 20px;
+`;
+
 const SmallBox = styled.div`
   border: 1px solid white;
   padding: 10px;
@@ -23,8 +27,11 @@ const SmallBox = styled.div`
   text-align: center;
 `;
 
-const StyledH3 = styled(H3)`
-  font-size: 20px;
+const ResponsiveGrid = styled(Grid)`
+  @media (max-width: 900px) {
+    display: grid;
+    grid-gap: 20px;
+  }
 `;
 
 type Props = {
@@ -55,23 +62,30 @@ const AssetClassesBox = ({ assetClasses }: Props) => {
       <br></br>
       {assetClasses.length > 0 ? (
         <>
-          <Grid columns="1fr 1fr">
+          <ResponsiveGrid columns="1fr 1fr">
             {assetClasses.map((cls) => {
               return (
-                <>
-                  <SmallBox>
-                    {cls.model_asset_class.name}{' '}
+                <SmallBox key={cls.model_asset_class.id}>
+                  {cls.model_asset_class.name}{' '}
+                  {cls.model_asset_class_target.length > 0 ? (
                     <Tooltip label={makeLabel(cls.model_asset_class_target)}>
                       <FontAwesomeIcon
                         icon={faInfoCircle}
                         style={{ fontSize: 12 }}
                       />
                     </Tooltip>
-                  </SmallBox>
-                </>
+                  ) : (
+                    <Tooltip label={'No Security Added'}>
+                      <FontAwesomeIcon
+                        icon={faInfoCircle}
+                        style={{ fontSize: 12 }}
+                      />
+                    </Tooltip>
+                  )}
+                </SmallBox>
               );
             })}
-          </Grid>
+          </ResponsiveGrid>
           <Button
             style={{ marginTop: '30px' }}
             onClick={() => setBackToAssetClass(true)}
