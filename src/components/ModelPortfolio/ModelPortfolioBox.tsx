@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ModelAssetClass } from '../../types/modelAssetClass';
 import NameInputAndEdit from '../NameInputAndEdit';
 import AssetClassSelector from './AssetClassSelector';
@@ -6,18 +6,20 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
-import { Button } from '../../styled/Button';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { postData } from '../../api';
 import { useDispatch } from 'react-redux';
 import { loadModelPortfolio } from '../../actions';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 
 const Box = styled.div`
   border: 1px solid #bfb6b6;
   margin-right: 50px;
   padding: 10px;
   margin-bottom: 20px;
+  @media (max-width: 900px) {
+    margin-right: 0;
+  }
 `;
 
 const StyledContainer = styled.div`
@@ -28,8 +30,17 @@ const StyledContainer = styled.div`
   padding: 0 15px;
   margin-bottom: -7px;
 `;
+
+const FormContainer = styled.div`
+  border-bottom: 1px solid var(--brand-blue);
+  margin: 20px;
+`;
+
 const Percentage = styled.div`
   display: inline-block;
+  @media (max-width: 740px) {
+    margin-bottom: 10px;
+  }
 `;
 
 const PercentageLabel = styled.label`
@@ -39,12 +50,11 @@ const PercentageLabel = styled.label`
   margin-right: 10px;
 `;
 
-const PercentageInput = styled(Field)`
+const PercentageInput = styled.input`
   max-width: 70px;
   color: var(--brand-blue);
   font-weight: 600;
   font-size: 26px;
-  /* -moz-appearance: textfield; */
 `;
 
 const StyledName = styled.span`
@@ -55,40 +65,64 @@ const StyledName = styled.span`
 type Props = {
   assetClasses: ModelAssetClass[];
   modelPortfolio: ModelPortfolioDetailsType;
-  allocatedPercent: number;
 };
 
-const ModelPortoflioBox = ({
-  assetClasses,
-  modelPortfolio,
-  allocatedPercent,
-}: Props) => {
+const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
   const dispatch = useDispatch();
-  const [
-    listOfAssetClassesAvailable,
-    setListOfAssetClassesAvailable,
-  ] = useState(assetClasses);
 
   const [modelPortfolioName, setModelPortfolioName] = useState(
     modelPortfolio.model_portfolio.name,
   );
   const [editName, setEditName] = useState(false);
   const [notAssetError, setNotAssetError] = useState(false);
+
+  const getAvailableAssetClasses = () => {
+    const usedAssetClasses = modelPortfolio.model_portfolio_asset_class.map(
+      (astCls) => {
+        return astCls.model_asset_class.id;
+      },
+    );
+    // filter out the asset classes that have been already added to the model portfolio from the available asset classes
+    const assetClassesAvailable = assetClasses.filter(
+      (ast) => !usedAssetClasses.includes(ast.id),
+    );
+
+    return assetClassesAvailable;
+  };
+
+  const getAllocatedPercent = () => {
+    const allocatedPercent = modelPortfolio.model_portfolio_asset_class.reduce(
+      (sum, astCls) => {
+        return sum + astCls.percent;
+      },
+      0,
+    );
+    console.log(allocatedPercent);
+
+    return allocatedPercent;
+  };
+  const [
+    listOfAssetClassesAvailable,
+    setListOfAssetClassesAvailable,
+  ] = useState(getAvailableAssetClasses());
+
   const [remainingPercent, setRemainingPercent] = useState(
-    100 - allocatedPercent,
+    100 - getAllocatedPercent(),
   );
 
-  //! 1- make it so user can't put string in
-  //! 2- math
-  // const validatePercentage = (value: any) => {
-  //   let error;
-  //   if (+value > 100) {
-  //     error = 'Percentage cant be larger than 100';
-  //   } else if (!value) {
-  //     error = 'Required';
-  //   }
-  //   return error;
-  // };
+  // update list of available asset classes and the remaining percentage when modelPortfolio gets updated
+  useEffect(() => {
+    return () => {
+      setListOfAssetClassesAvailable(getAvailableAssetClasses());
+      setRemainingPercent(100 - getAllocatedPercent());
+    };
+  }, [modelPortfolio]);
+
+  // remove the error after 5 seconds
+  useEffect(() => {
+    setTimeout(() => setNotAssetError(false), 5000);
+  }, [notAssetError]);
+
   const finishEditingName = () => {
     if (
       modelPortfolioName !== modelPortfolio.model_portfolio.name &&
@@ -104,7 +138,7 @@ const ModelPortoflioBox = ({
           dispatch(loadModelPortfolio());
         })
         .catch(() => {
-          dispatch(loadModelPortfolio()); //! when fails, the state doesn't changes to what it was
+          dispatch(loadModelPortfolio());
           toast.error(
             `${modelPortfolio.model_portfolio.name} Model Portfolio Name Update Failed`,
             { autoClose: 3000 },
@@ -117,8 +151,8 @@ const ModelPortoflioBox = ({
   };
 
   const handleDelete = (id: string) => {
-    modelPortfolio.model_portfolio_asset_class.map((target, index) => {
-      if (target.model_asset_class.id === id) {
+    modelPortfolio.model_portfolio_asset_class.forEach((astCls, index) => {
+      if (astCls.model_asset_class.id === id) {
         modelPortfolio.model_portfolio_asset_class.splice(index, 1);
         postData(
           '/api/v1/modelPortfolio/cc095d43-9170-4de0-8729-1acfaf4c5832',
@@ -128,7 +162,7 @@ const ModelPortoflioBox = ({
             dispatch(loadModelPortfolio());
           })
           .catch(() => {
-            dispatch(loadModelPortfolio()); //! when fails, the state doesn't changes to what it was
+            dispatch(loadModelPortfolio());
             toast.error(
               `${modelPortfolio.model_portfolio.name} Asset Class Deletion Failed`,
               { autoClose: 3000 },
@@ -137,6 +171,7 @@ const ModelPortoflioBox = ({
       }
     });
   };
+
   return (
     <Box>
       <NameInputAndEdit
@@ -150,64 +185,59 @@ const ModelPortoflioBox = ({
         StyledName={StyledName}
         StyledContainer={StyledContainer}
       />
-      {modelPortfolio ? (
-        <ul
-          style={{
-            margin: '40px 20px',
-          }}
-        >
-          <li
-            style={{
-              borderLeft: '5px solid var(--brand-green)',
-              lineHeight: '30px',
-              padding: '10px',
-              marginBottom: '20px',
-            }}
-            key="cash"
-          >
-            <span style={{ fontSize: '26px', fontWeight: 900 }}>
-              {remainingPercent}% Cash
-            </span>
-          </li>
-          {modelPortfolio.model_portfolio_asset_class.map((cl: any) => {
-            // console.log(modelPortfolio);
 
-            return (
-              <li
-                style={{
-                  borderLeft: '5px solid var(--brand-green)',
-                  lineHeight: '30px',
-                  padding: '10px',
-                  marginBottom: '20px',
-                }}
-                key={cl.model_asset_class.id}
-              >
-                <span style={{ fontSize: '26px' }}>
-                  {cl.percent}% {cl.model_asset_class.name}
-                </span>
-                <button
-                  onClick={() => handleDelete(cl.model_asset_class.id)}
-                  style={{ marginLeft: '50px', position: 'relative' }}
-                >
-                  <FontAwesomeIcon
-                    icon={faTimesCircle}
-                    size="sm"
-                    style={{ position: 'relative' }}
-                  />
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      ) : null}
-
-      <div
-        style={{ borderBottom: '1px solid var(--brand-blue)', margin: '20px' }}
+      <ul
+        style={{
+          margin: '40px 20px',
+        }}
       >
+        <li
+          style={{
+            borderLeft: '5px solid var(--brand-green)',
+            lineHeight: '30px',
+            padding: '10px',
+            marginBottom: '20px',
+          }}
+          key="cash"
+        >
+          <span style={{ fontSize: '26px', fontWeight: 900 }}>
+            {remainingPercent}% Cash
+          </span>
+        </li>
+        {modelPortfolio.model_portfolio_asset_class.map((cl: any) => {
+          return (
+            <li
+              style={{
+                borderLeft: '5px solid var(--brand-green)',
+                lineHeight: '30px',
+                padding: '10px',
+                marginBottom: '20px',
+              }}
+              key={cl.model_asset_class.id}
+            >
+              <span style={{ fontSize: '26px' }}>
+                {cl.percent}% {cl.model_asset_class.name}
+              </span>
+              <button
+                onClick={() => handleDelete(cl.model_asset_class.id)}
+                style={{ marginLeft: '50px', position: 'relative' }}
+              >
+                <FontAwesomeIcon
+                  icon={faTimesCircle}
+                  size="sm"
+                  style={{ position: 'relative' }}
+                />
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+
+      <FormContainer>
         <Formik
           initialValues={{
             assetClassId: '',
-            percent: remainingPercent,
+            percent: 0,
           }}
           initialStatus={{ submitted: false }}
           onSubmit={(values, actions) => {
@@ -224,23 +254,11 @@ const ModelPortoflioBox = ({
             )
               .then(() => {
                 dispatch(loadModelPortfolio());
-
-                // updating the total
-                setRemainingPercent(remainingPercent - values.percent);
-
-                // filtering out the asset class that got added
-                let copy = [...listOfAssetClassesAvailable];
-                const usedAssetClasses = modelPortfolio.model_portfolio_asset_class.map(
-                  (astcls) => {
-                    return astcls.model_asset_class.id;
-                  },
-                );
-                copy = copy.filter((ast) => !usedAssetClasses.includes(ast.id));
-                setListOfAssetClassesAvailable(copy);
                 actions.resetForm();
               })
-              .catch((err) => {
+              .catch(() => {
                 dispatch(loadModelPortfolio());
+                setRemainingPercent(remainingPercent);
                 setNotAssetError(true);
                 actions.resetForm();
               });
@@ -257,13 +275,11 @@ const ModelPortoflioBox = ({
                   type="number"
                   onChange={props.handleChange}
                   value={props.values.percent}
-                  // validate={validatePercentage}
                   min="0"
                   max={remainingPercent}
                   required
                 />
                 <PercentageLabel htmlFor="percentage">%</PercentageLabel>
-                {/* {props.errors.percent} */}
               </Percentage>
               <AssetClassSelector
                 name="assetClassId"
@@ -275,18 +291,12 @@ const ModelPortoflioBox = ({
             </Form>
           )}
         </Formik>
-      </div>
+      </FormContainer>
       {notAssetError ? (
-        <>
-          <span style={{ color: 'red' }}>
-            Please select from the list of available asset classes and try
-            again.
-          </span>
-          <br></br>
-        </>
+        <span style={{ color: 'red', padding: 'inherit' }}>
+          Please select from the list of available asset classes and try again.
+        </span>
       ) : null}
-
-      <Button style={{ margin: '30px 20px' }}>Save Model</Button>
     </Box>
   );
 };
