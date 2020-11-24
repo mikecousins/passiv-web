@@ -1,5 +1,5 @@
 import React from 'react';
-import { H1, P } from '../styled/GlobalElements';
+import { H1 } from '../styled/GlobalElements';
 import ModelPortfolio from '../components/ModelPortfolio/ModelPortfolio';
 import { StyledP } from './ModelAssetClassPage';
 
