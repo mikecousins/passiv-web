@@ -18,6 +18,13 @@ import { H3 } from '../../styled/GlobalElements';
 
 export const PerformanceContributionChart = () => {
   const dividendTimeline = useSelector(selectDividendTimeline);
+  let dividendHasData = false;
+  dividendTimeline?.forEach((dividendObject) => {
+    if (dividendObject?.dividends.length > 0) {
+      dividendHasData = true;
+      return;
+    }
+  });
   const timeframe = useSelector(selectSelectedTimeframe);
   const [className, setClassName] = useState('dividendsTimeline');
   const [lotsOfDifferentTickers, setlotsOfDifferentTickers] = useState(false);
@@ -39,10 +46,10 @@ export const PerformanceContributionChart = () => {
 
   let data = React.useMemo(
     () =>
-      dividendTimeline !== undefined
+      dividendTimeline !== undefined && dividendHasData
         ? getData(dividendTimeline, timeframe, lotsOfDifferentTickers)
         : [{ data: [] }],
-    [dividendTimeline, timeframe, lotsOfDifferentTickers],
+    [dividendTimeline, timeframe, lotsOfDifferentTickers, dividendHasData],
   );
 
   const series = React.useMemo(() => ({ type: 'bar' }), []);
