@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { putData } from '../../api';
 import { selectCurrentAccount } from '../../selectors/groups';
 import styled from '@emotion/styled';
-import { Table, Edit } from '../../styled/GlobalElements';
+import { Table } from '../../styled/GlobalElements';
 import { toast } from 'react-toastify';
 import { Account } from '../../types/account';
 import { loadAccounts, loadGroups } from '../../actions';
