@@ -14,6 +14,7 @@ import {
   loadIncentives,
   loadModelAssetClasses,
   loadModelPortfolio,
+  loadModelPortfolios,
 } from '../actions';
 import {
   loadPerformanceAll,
@@ -32,6 +33,7 @@ import {
 import { selectAccountsNeedData } from '../selectors/accounts';
 import { selectModelAssetClassesNeedData } from '../selectors/modelAssetClasses';
 import { selectModelPortfolioNeedData } from '../selectors/modelPortfolio';
+import { selectModelPortfoliosNeedData } from '../selectors/modelPortfolios';
 import {
   selectGroupsNeedData,
   selectGroupInfoNeedsData,
@@ -121,5 +123,9 @@ export const effects = [
   {
     selector: selectModelPortfolioNeedData,
     actionCreator: loadModelPortfolio,
+  },
+  {
+    selector: selectModelPortfoliosNeedData,
+    actionCreator: loadModelPortfolios,
   },
 ];
