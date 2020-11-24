@@ -232,18 +232,27 @@ const GoalDetailPage = () => {
     projectedAccountValue,
   ]);
 
+  const dateChanged = getTargetDate(year, month) !== goal?.target_date;
+  const targetChanged = goalTarget !== goal?.total_value_target;
+  const contributionsChanged =
+    contributionTarget !== parseInt(goal?.contribution_target?.toFixed(0));
+  const contributionFrequencyChanged =
+    contributionFrequency !== goal?.contribution_frequency;
+  const returnRateChanged = returnRate !== goal?.return_rate;
+  const titleChanged = title !== goal?.title;
+
   const handleReturnChange = (e: any) => {
     let newValue = e.target.value;
     if (newValue > 40) {
       newValue = 40;
     }
-    setReturnRate(newValue);
+    setReturnRate(parseFloat(newValue));
   };
   const handleContributionFrequencyChange = (e: any) => {
     setContributionFrequency(e.target.value);
   };
   const handleContributionChange = (e: any) => {
-    setContributionTarget(e.target.value);
+    setContributionTarget(parseFloat(e.target.value));
   };
 
   const handleFocus = (e: any) => e.target.select();
@@ -267,6 +276,15 @@ const GoalDetailPage = () => {
         toast.success(`'${title}' Successfully Updated`, { autoClose: 3000 });
       })
       .catch((error) => console.log(error));
+  };
+  const handleDiscard = () => {
+    setMonth(goal?.target_date.substr(5, 2));
+    setYear(parseInt(goal?.target_date.substr(0, 4)));
+    setGoalTarget(goal?.total_value_target);
+    setContributionTarget(parseInt(goal?.contribution_target?.toFixed(0)));
+    setContributionFrequency(goal?.contribution_frequency);
+    setReturnRate(goal?.return_rate);
+    setTitle(goal?.title);
   };
 
   return (
@@ -333,8 +351,6 @@ const GoalDetailPage = () => {
               />
               %?
             </Question>
-            <Button onClick={handleSave}>Save Changes</Button>
-
             <Tip>
               <P>
                 Learn more about potential return rates <A>Link to article</A>.
@@ -354,7 +370,17 @@ const GoalDetailPage = () => {
           </GoalProjectionContainer>
         </ChangeContainer>
       </ShadowBox>
-
+      {(dateChanged ||
+        targetChanged ||
+        contributionsChanged ||
+        contributionFrequencyChanged ||
+        returnRateChanged ||
+        titleChanged) && (
+        <div>
+          <Button onClick={handleDiscard}>Discard Changes</Button>
+          <Button onClick={handleSave}>Update Goal</Button>
+        </div>
+      )}
       <Delete onClick={handleDelete}>
         <FontAwesomeIcon icon={faTrashAlt} /> Delete {goal?.title}
       </Delete>
