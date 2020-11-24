@@ -49,7 +49,6 @@ type Props = {
 export const GoalProjectionLineChart: FunctionComponent<Props> = ({
   goal,
   targetDate,
-  currentValue,
   projectedValue,
   projectedData,
   goalTarget,
@@ -65,13 +64,8 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
         ],
         color: '#04A286',
       },
-      // {
-      //   label: 'Projected',
-      //   data: [[new Date(Date.parse(goal? goal.created_date : '')), currentValue], [new Date(Date.parse(goal? goal.target_date : '')), projectedValue]],
-      //   color: '#1b98e0',
-      // },
       {
-        label: 'Projected2',
+        label: 'Projected',
         data: projectedData,
         color: '#003ba2',
       },

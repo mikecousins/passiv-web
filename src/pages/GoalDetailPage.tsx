@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import { MockGoal } from '../components/Goals/Goals';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { toDollarString } from '../components/Performance/Performance';
-import { selectCurrentGoalId, selectGoals } from '../selectors/goals';
+import { selectCurrentGoalId } from '../selectors/goals';
 import {
   selectDashboardGroups,
   selectTotalGroupHoldings,
@@ -147,16 +146,18 @@ const daysBetween = (firstDate: Date, secondDate: Date) => {
 
   return Math.floor((utc2 - utc1) / _MS_PER_DAY);
 };
+interface LocationState {
+  goal?: any;
+}
 
 const GoalDetailPage = () => {
   // const goalsFeature = useSelector(selectGoalsFeature);
   const dispatch = useDispatch();
   const history = useHistory();
   const goalId = useSelector(selectCurrentGoalId);
-  let goal = useSelector(selectGoals).data?.find((x) => x.id === goalId);
-  if (goal === undefined) {
-    goal = MockGoal;
-  }
+  const location = useLocation<LocationState>();
+  const goal: any = location.state.goal;
+
   const [title, setTitle] = useState(goal?.title);
   const [returnRate, setReturnRate] = useState(goal?.return_rate);
   const [goalTarget, setGoalTarget] = useState(goal?.total_value_target);

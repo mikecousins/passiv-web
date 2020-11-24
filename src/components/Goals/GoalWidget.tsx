@@ -11,6 +11,7 @@ import { P, H3 } from '../../styled/GlobalElements';
 import { toDollarString } from '../Performance/Performance';
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
+import { selectGoals } from '../../selectors/goals';
 
 const Heading = styled.h2`
   font-size: 30px;
@@ -79,7 +80,16 @@ export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
   }
   return (
     <React.Fragment>
-      <UnstyledLink to={`/app/goal/${goal.id}`}>
+      <UnstyledLink
+        to={{
+          pathname: '/app/goal/' + goal.id,
+          state: {
+            goal: useSelector(selectGoals)?.data?.find(
+              (x: any) => x.id === goal.id,
+            ),
+          },
+        }}
+      >
         <ShadowBoxWHover>
           <Heading>
             {goal?.title} <span> {goal?.target_date}</span>

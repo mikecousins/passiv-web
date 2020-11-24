@@ -5,11 +5,11 @@ import { Button } from '../../styled/Button';
 import { Label, InputPrimary } from '../../styled/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectGroups } from '../../selectors/groups';
-import { postData } from '../../api';
 import { formattedToday } from '../Performance/DatePickers';
-import { loadGoals } from '../../actions/goals';
+import { createGoal } from '../../actions/goals';
 import { selectSettings } from '../../selectors';
 import ShadowBox from '../../styled/ShadowBox';
+import { useHistory } from 'react-router';
 
 // import { getData, postData } from '../../api';
 
@@ -279,7 +279,6 @@ export const GoalDateSelector = ({ month, setMonth, year, setYear }: any) => {
 
 export const SetGoals = ({
   finishSetup,
-  setContributionTarget,
   setTotalValueTarget,
   month,
   setMonth,
@@ -289,6 +288,7 @@ export const SetGoals = ({
   const handleTotalTargetChange = (e: any) => {
     setTotalValueTarget(e.target.value);
   };
+  const history = useHistory();
 
   return (
     <FormWrapper>
@@ -305,7 +305,9 @@ export const SetGoals = ({
           setYear={setYear}
         />
       </div>
-      <ButtonNext onClick={() => finishSetup()}>Start Saving!</ButtonNext>
+      <ButtonNext onClick={() => finishSetup(history)}>
+        Start Saving!
+      </ButtonNext>
     </FormWrapper>
   );
 };
@@ -323,7 +325,7 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   const settings = useSelector(selectSettings);
   const currency = settings?.preferred_currency;
 
-  const finishSetup = () => {
+  const finishSetup = (history: any) => {
     const targetDate = getTargetDate(year, month);
     let goalData = {
       goalName,
@@ -332,10 +334,7 @@ export const GoalSetup = ({ setGoalMode }: any) => {
       targetDate,
       currency,
     };
-    postData('/api/v1/goals/', goalData)
-      .then(() => dispatch(loadGoals()))
-      .catch((error) => console.log(error));
-    setGoalMode('finishedSetup');
+    dispatch(createGoal(goalData, history));
   };
 
   return (
