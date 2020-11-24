@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { ModelAssetClass } from '../../types/modelAssetClass';
 import styled from '@emotion/styled';
 import {
@@ -7,10 +8,9 @@ import {
   ComboboxPopover,
   ComboboxList,
   ComboboxOption,
-  ComboboxOptionText,
 } from '@reach/combobox';
 import '@reach/combobox/styles.css';
-import { faSpinner, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const StyledCombobox = styled(Combobox)`
@@ -20,7 +20,6 @@ const StyledCombobox = styled(Combobox)`
   display: inline-block;
   @media (max-width: 900px) {
     width: auto;
-    margin-bottom: 20px;
   }
 `;
 
@@ -28,16 +27,16 @@ const StyledInput = styled(ComboboxInput)`
   width: 500px;
   padding: 10px;
   border-left: 1px solid var(--brand-blue);
-  padding: 10px;
   color: var(--brand-blue);
   font-weight: 600;
   font-size: 18px;
   ::placeholder {
     opacity: 1;
   }
-  @media (max-width: 900px) {
+  @media (max-width: 740px) {
     width: auto;
-    margin-bottom: 20px;
+    border: none;
+    padding: 0;
   }
 `;
 
@@ -65,6 +64,7 @@ const StyledComboboxOption = styled(ComboboxOption)`
 const AddAssetClassBtn = styled.li`
   cursor: pointer;
   color: var(--brand-blue);
+  margin-top: 20px;
 `;
 
 type Props = {
@@ -80,6 +80,12 @@ const AssetClassSelector = ({
   assetClassesAvailable,
   onSelect,
 }: Props) => {
+  const [backToAssetClass, setBackToAssetClass] = useState(false);
+
+  if (backToAssetClass) {
+    return <Redirect to="asset-class/6050c7fa-7c27-47d8-b5b6-206cbc994733" />; //Todo change the hardcoded groupId
+  }
+
   return (
     <StyledCombobox>
       <StyledInput
@@ -93,18 +99,12 @@ const AssetClassSelector = ({
           {assetClassesAvailable.map((option: any, index) => {
             return (
               <StyledComboboxOption key={index} value={option.id}>
-                {/* <ComboboxOptionText /> */}
                 {option.name}
               </StyledComboboxOption>
             );
           })}
-          <AddAssetClassBtn>
-            <FontAwesomeIcon
-              icon={faPlus}
-              size="sm"
-              style={{ position: 'relative' }}
-            />{' '}
-            New Asset Class
+          <AddAssetClassBtn onClick={() => setBackToAssetClass(true)}>
+            <FontAwesomeIcon icon={faPlus} size="sm" /> New Asset Class
           </AddAssetClassBtn>
         </StyledComboboxList>
       </StyledComboboxPopover>
