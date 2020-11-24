@@ -23,7 +23,7 @@ import Grid from '../styled/Grid';
 import ShadowBox from '../styled/ShadowBox';
 import GoalProjectionLineChart from '../components/Goals/GoalProjectionLineChart';
 import { deleteGoal, loadGoals } from '../actions/goals';
-import { Button } from '../styled/Button';
+import { Button, SmallButton } from '../styled/Button';
 import { patchData } from '../api';
 import { toast } from 'react-toastify';
 
@@ -176,6 +176,8 @@ const GoalDetailPage = () => {
   );
   const [month, setMonth] = useState(goal?.target_date.substr(5, 2));
   const [year, setYear] = useState(parseInt(goal?.target_date.substr(0, 4)));
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
   const groups = useSelector(selectDashboardGroups);
   const group = groups.find((x) => x.id === goal?.portfolio_group?.id);
   let currentValue = useSelector(selectTotalGroupHoldings);
@@ -256,6 +258,9 @@ const GoalDetailPage = () => {
   };
 
   const handleFocus = (e: any) => e.target.select();
+  const handleDeleteClick = () => {
+    setShowDeleteDialog(true);
+  };
   const handleDelete = () => {
     dispatch(deleteGoal(goalId));
     history.push('/app/goals');
@@ -381,9 +386,20 @@ const GoalDetailPage = () => {
           <Button onClick={handleSave}>Update Goal</Button>
         </div>
       )}
-      <Delete onClick={handleDelete}>
+      <Delete onClick={handleDeleteClick}>
         <FontAwesomeIcon icon={faTrashAlt} /> Delete {goal?.title}
       </Delete>
+      {showDeleteDialog && (
+        <>
+          <SmallButton onClick={handleDelete}>Delete</SmallButton>
+          <SmallButton
+            onClick={() => setShowDeleteDialog(false)}
+            style={{ backgroundColor: 'transparent', color: 'black' }}
+          >
+            Cancel
+          </SmallButton>
+        </>
+      )}
     </React.Fragment>
   );
 };
