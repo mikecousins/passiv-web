@@ -133,4 +133,8 @@ export default (history: any) =>
       baseType: 'FETCH_MODEL_PORTFOLIO',
       userData: true,
     }),
+    modelPortfolios: simple<ModelPortfolioDetailsType[]>({
+      baseType: 'FETCH_MODEL_PORTFOLIOS',
+      userData: true,
+    }),
   });

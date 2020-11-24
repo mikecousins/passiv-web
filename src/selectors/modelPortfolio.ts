@@ -14,8 +14,7 @@ export const selectModelPortfolio = createSelector(
     if (rawModelPortfolio.data) {
       return rawModelPortfolio.data;
     }
-    //? If not throw an error we get type error when trying to use the selector
-    throw new Error('Unable to fecth model portfolio');
+    throw new Error('Unable to fetch model portfolio');
   },
 );
 
