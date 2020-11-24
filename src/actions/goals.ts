@@ -1,6 +1,7 @@
 import { deleteData, getData, postData } from '../api';
 import { ActionCreator, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import { toast } from 'react-toastify';
 
 export const loadGoals: ActionCreator<ThunkAction<
   void,
@@ -43,6 +44,7 @@ export const deleteGoal: ActionCreator<ThunkAction<
     if (id !== '') {
       deleteData('/api/v1/goal/' + id)
         .then(() => {
+          toast.success(`Goal Successfully Deleted`, { autoClose: 3000 });
           dispatch(loadGoals());
           dispatch(fetchDeleteGoalSuccess);
         })
@@ -79,12 +81,15 @@ export const createGoal: ActionCreator<ThunkAction<
         dispatch(fetchCreateGoalSuccess());
         return response;
       })
-      .then((response) =>
+      .then((response) => {
+        toast.success(`'${response.data.title}' Created Successfully`, {
+          autoClose: 3000,
+        });
         history.push({
           pathname: '/app/goal/' + response.data.id,
           state: { goal: response.data },
-        }),
-      )
+        });
+      })
       .catch((error) => dispatch(fetchCreateGoalError(error)));
   };
 };

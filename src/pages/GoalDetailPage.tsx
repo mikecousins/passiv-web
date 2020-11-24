@@ -25,6 +25,7 @@ import GoalProjectionLineChart from '../components/Goals/GoalProjectionLineChart
 import { deleteGoal, loadGoals } from '../actions/goals';
 import { Button } from '../styled/Button';
 import { patchData } from '../api';
+import { toast } from 'react-toastify';
 
 const GoalProjectionContainer = styled.div`
   padding-bottom: 80px;
@@ -261,7 +262,10 @@ const GoalDetailPage = () => {
       returnRate,
       goalId,
     })
-      .then(() => dispatch(loadGoals()))
+      .then(() => {
+        dispatch(loadGoals());
+        toast.success(`'${title}' Successfully Updated`, { autoClose: 3000 });
+      })
       .catch((error) => console.log(error));
   };
 

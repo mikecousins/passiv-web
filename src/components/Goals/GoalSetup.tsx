@@ -11,8 +11,6 @@ import { selectSettings } from '../../selectors';
 import ShadowBox from '../../styled/ShadowBox';
 import { useHistory } from 'react-router';
 
-// import { getData, postData } from '../../api';
-
 const HeaderBanner = styled.div`
   margin-bottom: 40px;
   h1 {
