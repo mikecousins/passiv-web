@@ -13,6 +13,8 @@ import {
   formattedYearAgo,
 } from '../components/Performance/DatePickers';
 
+const idOfModelPortfolio = 'cc095d43-9170-4de0-8729-1acfaf4c5832';
+
 export const loginSucceeded: ActionCreator<Action> = (payload) => ({
   type: 'LOGIN_SUCCEEDED',
   payload,
@@ -365,7 +367,6 @@ export const loadModelPortfolio: ActionCreator<ThunkAction<
   any,
   Action<any>
 >> = () => {
-  const idOfModelPortfolio = 'cc095d43-9170-4de0-8729-1acfaf4c5832';
   return (dispatch) => {
     dispatch(fetchModelPortfolioStart());
     getData(`/api/v1/modelPortfolio/${idOfModelPortfolio}`)
@@ -374,6 +375,25 @@ export const loadModelPortfolio: ActionCreator<ThunkAction<
       })
       .catch((error) => {
         dispatch(fetchModelPortfolioError(error));
+        console.log(error);
+      });
+  };
+};
+
+export const loadModelPortfolios: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
+  return (dispatch) => {
+    dispatch(fetchModelPortfoliosStart());
+    getData('/api/v1/modelPortfolio/')
+      .then((response) => {
+        dispatch(fetchModelPortfoliosSuccess(response));
+      })
+      .catch((error) => {
+        dispatch(fetchModelPortfoliosError(error));
         console.log(error);
       });
   };
@@ -469,7 +489,24 @@ export const reloadEverything: ActionCreator<ThunkAction<
       })
       .catch((error) => {
         dispatch(fetchAssetClassesError(error));
-        console.log(error);
+      });
+
+    dispatch(fetchModelPortfolioStart());
+    getData(`/api/v1/modelPortfolio/${idOfModelPortfolio}`)
+      .then((response) => {
+        dispatch(fetchModelPortfolioSuccess(response));
+      })
+      .catch((error) => {
+        dispatch(fetchModelPortfolioError(error));
+      });
+
+    dispatch(fetchModelPortfoliosStart());
+    getData('/api/v1/modelPortfolio')
+      .then((response) => {
+        dispatch(fetchModelPortfoliosSuccess(response));
+      })
+      .catch((error) => {
+        dispatch(fetchModelPortfoliosError(error));
       });
 
     dispatch(setSelectedTimeframe('1Y'));
@@ -755,10 +792,6 @@ export const fetchAssetClassesError: ActionCreator<Action> = (payload) => ({
   data: payload,
 });
 
-/**
-  Model Portfolio Start
-*/
-
 export const fetchModelPortfolioStart: ActionCreator<Action> = () => ({
   type: 'FETCH_MODEL_PORTFOLIO_START',
 });
@@ -774,9 +807,20 @@ export const fetchModelPortfolioError: ActionCreator<Action> = (payload) => ({
   data: payload,
 });
 
-/**
-  Model Portfolio End
-*/
+export const fetchModelPortfoliosStart: ActionCreator<Action> = () => ({
+  type: 'FETCH_MODEL_PORTFOLIOS_START',
+});
+
+export const fetchModelPortfoliosSuccess: ActionCreator<Action> = (payload) => {
+  return {
+    type: 'FETCH_MODEL_PORTFOLIOS_SUCCESS',
+    payload,
+  };
+};
+export const fetchModelPortfoliosError: ActionCreator<Action> = (payload) => ({
+  type: 'FETCH_MODEL_PORTFOLIOS_ERROR',
+  data: payload,
+});
 
 export const importTargetError: ActionCreator<Action> = (payload) => ({
   type: 'IMPORT_TARGET_ERROR',
