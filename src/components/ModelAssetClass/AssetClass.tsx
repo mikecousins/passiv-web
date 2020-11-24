@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { postData, deleteData } from '../../api';
 import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
 import NameInputAndEdit from '../NameInputAndEdit';
-import { loadModelAssetClasses } from '../../actions';
+import { loadModelAssetClasses, loadModelPortfolio } from '../../actions';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
 import { P } from '../../styled/GlobalElements';
@@ -62,6 +62,7 @@ const AssetClasses = ({ assetClass }: Props) => {
       )
         .then(() => {
           dispatch(loadModelAssetClasses());
+          dispatch(loadModelPortfolio());
         })
         .catch(() => {
           // dispatch(loadModelAssetClasses()); //! when fails, the state doesn't changes to what it was
@@ -80,6 +81,7 @@ const AssetClasses = ({ assetClass }: Props) => {
     deleteData(`/api/v1/modelAssetClass/${assetClass.model_asset_class.id}`)
       .then(() => {
         dispatch(loadModelAssetClasses());
+        dispatch(loadModelPortfolio());
         toast.success(
           `'${assetClass.model_asset_class.name}' Deleted Successfully`,
           { autoClose: 3000 },
@@ -104,6 +106,8 @@ const AssetClasses = ({ assetClass }: Props) => {
         isOpen={showDialog}
         onDismiss={close}
         style={{ borderRadius: '1rem' }}
+        aria-labelledby="dialog1Title"
+        aria-describedby="dialog1Desc"
       >
         <P>
           Are you sure you want to delete{' '}
