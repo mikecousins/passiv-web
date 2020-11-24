@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { toDollarString } from '../components/Performance/Performance';
-import { selectCurrentGoalId } from '../selectors/goals';
+import { selectCurrentGoalId, selectGoals } from '../selectors/goals';
 import {
   selectDashboardGroups,
   selectTotalGroupHoldings,
@@ -156,7 +156,13 @@ const GoalDetailPage = () => {
   const history = useHistory();
   const goalId = useSelector(selectCurrentGoalId);
   const location = useLocation<LocationState>();
-  const goal: any = location.state.goal;
+
+  let goal: any = useSelector(selectGoals).data?.find(
+    (x: any) => x.id === goalId,
+  );
+  if (goal === undefined || goal === null) {
+    goal = location.state.goal;
+  }
 
   const [title, setTitle] = useState(goal?.title);
   const [returnRate, setReturnRate] = useState(goal?.return_rate);
