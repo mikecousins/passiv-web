@@ -16,7 +16,6 @@ import { selectQueryTokens } from '../selectors/router';
 import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ModelPortfolioPage from '../pages/ModelPortfolioPage';
 
 // code splitting to lazy load our pages
 const LoginPage = React.lazy(() =>
@@ -108,6 +107,16 @@ const PerformancePage = React.lazy(() =>
 const ModelAssetClassPage = React.lazy(() =>
   //? webpackChunkName
   import(/* webpackChunkName: "...?" */ '../pages/ModelAssetClassPage'),
+);
+
+const ModelPortfolioPage = React.lazy(() =>
+  //? webpackChunkName
+  import(/* webpackChunkName: "...?" */ '../pages/ModelPortfolioPage'),
+);
+
+const SettingTargetsPage = React.lazy(() =>
+  //? webpackChunkName
+  import(/* webpackChunkName: "...?" */ '../pages/SettingTargetsPage'),
 );
 
 // declare global {
@@ -399,6 +408,12 @@ const App = () => {
               <Route
                 path={prefixPath('/model-portfolio')}
                 component={ModelPortfolioPage}
+              />
+            )}
+            {showSecureApp && (
+              <Route
+                path={prefixPath('/setting-targets')}
+                component={SettingTargetsPage}
               />
             )}
             // insecure app
