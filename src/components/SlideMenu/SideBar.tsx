@@ -101,6 +101,11 @@ const SideBar = () => {
                   beta={true}
                 />
                 <SideBarLink
+                  name="Setting Targets"
+                  linkPath={`/app/setting-targets`}
+                  beta={true}
+                />
+                <SideBarLink
                   name="Model Portfolio"
                   linkPath={`/app/model-portfolio`}
                   beta={true}
