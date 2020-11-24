@@ -145,6 +145,11 @@ const GoalTarget = ({ goalTarget, setGoalTarget }: any) => {
             type="number"
             value={newValue}
             onChange={(e) => setNewValue(parseFloat(e.target.value))}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                finishEditing(newValue);
+              }
+            }}
           ></TargetInput>
           <TargetDoneButton onClick={() => finishEditing(newValue)}>
             Done

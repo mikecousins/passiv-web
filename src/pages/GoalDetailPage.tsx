@@ -462,6 +462,11 @@ const GoalTitle = ({ title, setTitle }: any) => {
         <NameInput
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              finishEditing(newTitle);
+            }
+          }}
         />
         <EditButton onClick={() => finishEditing(newTitle)}>Done</EditButton>
       </div>

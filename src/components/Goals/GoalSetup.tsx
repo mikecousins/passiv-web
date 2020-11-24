@@ -211,6 +211,11 @@ export const GoalNaming = ({ setCurrentStep, setGoalName, goalName }: any) => {
             id="goalname"
             onChange={handleChange}
             value={goalName}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                setCurrentStep('portfolioGroups');
+              }
+            }}
           />
         </div>
         <ButtonNext onClick={() => setCurrentStep('portfolioGroups')}>
