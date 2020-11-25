@@ -333,7 +333,7 @@ export const GoalSetup = ({ setGoalMode }: any) => {
 
   const finishSetup = (history: any) => {
     const targetDate = getTargetDate(year, month);
-    const titleToSave = getTitleToSave(goalName, goals.data);
+    const titleToSave = getTitleToSave(goalName, goals.data, null);
     let goalData = {
       goalName: titleToSave,
       totalValueTarget,

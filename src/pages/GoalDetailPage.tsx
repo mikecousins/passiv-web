@@ -271,7 +271,7 @@ const GoalDetailPage = () => {
   };
   const handleSave = () => {
     const endDate = getTargetDate(year, month);
-    const titleToSave = getTitleToSave(title, goals.data);
+    const titleToSave = getTitleToSave(title, goals.data, goalId);
     setTitle(titleToSave);
     patchData('/api/v1/goals/', {
       title: titleToSave,
@@ -495,13 +495,17 @@ const getStep = (contributionAmount: number) => {
   }
 };
 
-export const getTitleToSave = (originalTitle: string, goals: Goal[] | null) => {
+export const getTitleToSave = (
+  originalTitle: string,
+  goals: Goal[] | null,
+  goalId: string | null,
+) => {
   if (goals === null || goals.length === 0) {
     return originalTitle;
   }
   let count = 1;
   function checkIfMatch(title: string, goal: any) {
-    return title === goal.title;
+    return goal.id !== goalId && title === goal.title;
   }
 
   let shouldContinue =
