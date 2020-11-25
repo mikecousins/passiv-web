@@ -5,13 +5,13 @@ import { Button } from '../../styled/Button';
 import { Label, InputPrimary } from '../../styled/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectGroups } from '../../selectors/groups';
-import { postData } from '../../api';
 import { formattedToday } from '../Performance/DatePickers';
-import { loadGoals } from '../../actions/goals';
+import { createGoal } from '../../actions/goals';
 import { selectSettings } from '../../selectors';
 import ShadowBox from '../../styled/ShadowBox';
-
-// import { getData, postData } from '../../api';
+import { useHistory } from 'react-router';
+import { getTitleToSave } from '../../pages/GoalDetailPage';
+import { selectGoals } from '../../selectors/goals';
 
 const HeaderBanner = styled.div`
   margin-bottom: 40px;
@@ -31,7 +31,7 @@ const HeaderBanner = styled.div`
 `;
 const GoalInput = styled(InputPrimary)`
   border-bottom: 2px solid var(--brand-blue);
-  max-width: 350px;
+  max-width: 180px;
   margin: 0;
   padding: 0;
   font-size: 28px;
@@ -203,12 +203,19 @@ export const GoalNaming = ({ setCurrentStep, setGoalName, goalName }: any) => {
     <React.Fragment>
       <FormWrapper>
         <div>
-          <LabelGoal htmlFor="goalname">My saving goal is for </LabelGoal>
+          <LabelGoal htmlFor="goalname">
+            The name of this goal will be
+          </LabelGoal>
           <GoalInput
             type="text"
             id="goalname"
             onChange={handleChange}
             value={goalName}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                setCurrentStep('portfolioGroups');
+              }
+            }}
           />
         </div>
         <ButtonNext onClick={() => setCurrentStep('portfolioGroups')}>
@@ -277,27 +284,25 @@ export const GoalDateSelector = ({ month, setMonth, year, setYear }: any) => {
 
 export const SetGoals = ({
   finishSetup,
-  setContributionTarget,
   setTotalValueTarget,
   month,
   setMonth,
   year,
   setYear,
-  contributionFrequency,
-  setContributionFrequency,
 }: any) => {
   const handleTotalTargetChange = (e: any) => {
     setTotalValueTarget(e.target.value);
   };
+  const history = useHistory();
 
   return (
     <FormWrapper>
       <div>
-        <LabelGoal>I want to save $</LabelGoal>
+        <LabelGoal>I want to reach $</LabelGoal>
         <GoalInput type="number" min={0} onChange={handleTotalTargetChange} />
       </div>
       <div>
-        <LabelGoal>By the date</LabelGoal>
+        <LabelGoal>By</LabelGoal>
         <GoalDateSelector
           month={month}
           setMonth={setMonth}
@@ -305,7 +310,9 @@ export const SetGoals = ({
           setYear={setYear}
         />
       </div>
-      <ButtonNext onClick={() => finishSetup()}>Start Saving!</ButtonNext>
+      <ButtonNext onClick={() => finishSetup(history)}>
+        Start Saving!
+      </ButtonNext>
     </FormWrapper>
   );
 };
@@ -321,21 +328,20 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   const [portfolioGroupId, setPortfolioGroupId] = useState<string | null>(null);
   const dispatch = useDispatch();
   const settings = useSelector(selectSettings);
+  const goals = useSelector(selectGoals);
   const currency = settings?.preferred_currency;
 
-  const finishSetup = () => {
+  const finishSetup = (history: any) => {
     const targetDate = getTargetDate(year, month);
+    const titleToSave = getTitleToSave(goalName, goals.data, null);
     let goalData = {
-      goalName,
+      goalName: titleToSave,
       totalValueTarget,
       portfolioGroupId,
       targetDate,
       currency,
     };
-    postData('/api/v1/goals/', goalData)
-      .then(() => dispatch(loadGoals()))
-      .catch((error) => console.log(error));
-    setGoalMode('finishedSetup');
+    dispatch(createGoal(goalData, history));
   };
 
   return (

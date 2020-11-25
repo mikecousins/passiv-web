@@ -31,7 +31,7 @@ export const PerformanceDividendChart = () => {
         label: 'Dividends',
         data: dividendData
           ?.sort((a, b) => b.amount - a.amount)
-          .map(a => {
+          .map((a) => {
             return [a.symbol.symbol, a.amount];
           }),
         color: '#04a286',
@@ -41,10 +41,14 @@ export const PerformanceDividendChart = () => {
   );
   const series = React.useMemo(() => ({ type: 'bar' }), []);
 
+  const formatAxis = (x: number) => {
+    return '‏‏‎‎$' + x.toString();
+  };
+
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'ordinal', position: 'left' },
-      { type: 'linear', position: 'bottom', stacked: true },
+      { type: 'linear', position: 'bottom', stacked: true, format: formatAxis },
     ],
     [],
   );

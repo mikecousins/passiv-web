@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import { MockGoal } from '../components/Goals/Goals';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { toDollarString } from '../components/Performance/Performance';
 import { selectCurrentGoalId, selectGoals } from '../selectors/goals';
 import {
@@ -24,8 +23,10 @@ import Grid from '../styled/Grid';
 import ShadowBox from '../styled/ShadowBox';
 import GoalProjectionLineChart from '../components/Goals/GoalProjectionLineChart';
 import { deleteGoal, loadGoals } from '../actions/goals';
-import { Button } from '../styled/Button';
+import { Button, SmallButton } from '../styled/Button';
 import { patchData } from '../api';
+import { toast } from 'react-toastify';
+import { Goal } from '../types/goals';
 
 const GoalProjectionContainer = styled.div`
   padding-bottom: 80px;
@@ -72,7 +73,7 @@ const ChangeContainer = styled(Grid)`
 `;
 const NumInput = styled(InputPrimary)`
   border-bottom: 2px solid var(--brand-blue);
-  max-width: 100px;
+  max-width: 120px;
   margin: 0 20px 0 0;
   padding: 0;
   font-size: 28px;
@@ -110,6 +111,8 @@ const Delete = styled.button`
   svg {
     margin-right: 5px;
   }
+  float: right;
+  clear-both: ;
 `;
 const NameInput = styled(InputPrimary)`
   font-size: 42px;
@@ -147,16 +150,25 @@ const daysBetween = (firstDate: Date, secondDate: Date) => {
 
   return Math.floor((utc2 - utc1) / _MS_PER_DAY);
 };
+interface LocationState {
+  goal?: any;
+}
 
 const GoalDetailPage = () => {
   // const goalsFeature = useSelector(selectGoalsFeature);
   const dispatch = useDispatch();
   const history = useHistory();
   const goalId = useSelector(selectCurrentGoalId);
-  let goal = useSelector(selectGoals).data?.find((x) => x.id === goalId);
-  if (goal === undefined) {
-    goal = MockGoal;
+  const goals = useSelector(selectGoals);
+  const location = useLocation<LocationState>();
+
+  let goal: any = useSelector(selectGoals).data?.find(
+    (x: any) => x.id === goalId,
+  );
+  if (goal === undefined || goal === null) {
+    goal = location.state.goal;
   }
+
   const [title, setTitle] = useState(goal?.title);
   const [returnRate, setReturnRate] = useState(goal?.return_rate);
   const [goalTarget, setGoalTarget] = useState(goal?.total_value_target);
@@ -168,6 +180,8 @@ const GoalDetailPage = () => {
   );
   const [month, setMonth] = useState(goal?.target_date.substr(5, 2));
   const [year, setYear] = useState(parseInt(goal?.target_date.substr(0, 4)));
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
   const groups = useSelector(selectDashboardGroups);
   const group = groups.find((x) => x.id === goal?.portfolio_group?.id);
   let currentValue = useSelector(selectTotalGroupHoldings);
@@ -224,29 +238,43 @@ const GoalDetailPage = () => {
     projectedAccountValue,
   ]);
 
+  const dateChanged = getTargetDate(year, month) !== goal?.target_date;
+  const targetChanged = goalTarget !== goal?.total_value_target;
+  const contributionsChanged =
+    contributionTarget !== parseInt(goal?.contribution_target?.toFixed(0));
+  const contributionFrequencyChanged =
+    contributionFrequency !== goal?.contribution_frequency;
+  const returnRateChanged = returnRate !== goal?.return_rate;
+  const titleChanged = title !== goal?.title;
+
   const handleReturnChange = (e: any) => {
     let newValue = e.target.value;
     if (newValue > 40) {
       newValue = 40;
     }
-    setReturnRate(newValue);
+    setReturnRate(parseFloat(newValue));
   };
   const handleContributionFrequencyChange = (e: any) => {
     setContributionFrequency(e.target.value);
   };
   const handleContributionChange = (e: any) => {
-    setContributionTarget(e.target.value);
+    setContributionTarget(parseFloat(e.target.value));
   };
 
   const handleFocus = (e: any) => e.target.select();
+  const handleDeleteClick = () => {
+    setShowDeleteDialog(true);
+  };
   const handleDelete = () => {
     dispatch(deleteGoal(goalId));
     history.push('/app/goals');
   };
   const handleSave = () => {
     const endDate = getTargetDate(year, month);
+    const titleToSave = getTitleToSave(title, goals.data, goalId);
+    setTitle(titleToSave);
     patchData('/api/v1/goals/', {
-      title,
+      title: titleToSave,
       goalTarget,
       endDate,
       contributionFrequency,
@@ -254,8 +282,20 @@ const GoalDetailPage = () => {
       returnRate,
       goalId,
     })
-      .then(() => dispatch(loadGoals()))
+      .then(() => {
+        dispatch(loadGoals());
+        toast.success(`'${title}' Successfully Updated`, { autoClose: 3000 });
+      })
       .catch((error) => console.log(error));
+  };
+  const handleDiscard = () => {
+    setMonth(goal?.target_date.substr(5, 2));
+    setYear(parseInt(goal?.target_date.substr(0, 4)));
+    setGoalTarget(goal?.total_value_target);
+    setContributionTarget(parseInt(goal?.contribution_target?.toFixed(0)));
+    setContributionFrequency(goal?.contribution_frequency);
+    setReturnRate(goal?.return_rate);
+    setTitle(goal?.title);
   };
 
   return (
@@ -322,8 +362,6 @@ const GoalDetailPage = () => {
               />
               %?
             </Question>
-            <Button onClick={handleSave}>Save Changes</Button>
-
             <Tip>
               <P>
                 Learn more about potential return rates <A>Link to article</A>.
@@ -343,10 +381,36 @@ const GoalDetailPage = () => {
           </GoalProjectionContainer>
         </ChangeContainer>
       </ShadowBox>
-
-      <Delete onClick={handleDelete}>
+      {(dateChanged ||
+        targetChanged ||
+        contributionsChanged ||
+        contributionFrequencyChanged ||
+        returnRateChanged ||
+        titleChanged) && (
+        <span>
+          <Button
+            onClick={handleDiscard}
+            style={{ backgroundColor: 'transparent', color: 'black' }}
+          >
+            Discard Changes
+          </Button>
+          <Button onClick={handleSave}>Update Goal</Button>
+        </span>
+      )}
+      <Delete onClick={handleDeleteClick}>
         <FontAwesomeIcon icon={faTrashAlt} /> Delete {goal?.title}
       </Delete>
+      {showDeleteDialog && (
+        <div style={{ float: 'right' }}>
+          <SmallButton onClick={handleDelete}>Delete</SmallButton>
+          <SmallButton
+            onClick={() => setShowDeleteDialog(false)}
+            style={{ backgroundColor: 'transparent', color: 'black' }}
+          >
+            Cancel
+          </SmallButton>
+        </div>
+      )}
     </React.Fragment>
   );
 };
@@ -431,6 +495,32 @@ const getStep = (contributionAmount: number) => {
   }
 };
 
+export const getTitleToSave = (
+  originalTitle: string,
+  goals: Goal[] | null,
+  goalId: string | null,
+) => {
+  if (goals === null || goals.length === 0) {
+    return originalTitle;
+  }
+  let count = 1;
+  function checkIfMatch(title: string, goal: any) {
+    return goal.id !== goalId && title === goal.title;
+  }
+
+  let shouldContinue =
+    goals.find((x) => checkIfMatch(originalTitle, x)) !== undefined;
+  let title = originalTitle;
+  while (shouldContinue && count < 50) {
+    title = originalTitle + ' (' + count + ')';
+    let currentTitle = title;
+    count++;
+    shouldContinue =
+      goals.find((x) => checkIfMatch(currentTitle, x)) !== undefined;
+  }
+  return title;
+};
+
 const GoalTitle = ({ title, setTitle }: any) => {
   const [editMode, setEditMode] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
@@ -438,12 +528,16 @@ const GoalTitle = ({ title, setTitle }: any) => {
     setTitle(newTitle);
     setEditMode(false);
   };
+  const handleEdit = () => {
+    setNewTitle(title);
+    setEditMode(true);
+  };
 
   if (!editMode) {
     return (
       <div>
         <H1>{title}</H1>
-        <Edit onClick={() => setEditMode(true)}>
+        <Edit onClick={() => handleEdit()}>
           <FontAwesomeIcon icon={faPen} />
           Edit Name
         </Edit>
@@ -455,6 +549,11 @@ const GoalTitle = ({ title, setTitle }: any) => {
         <NameInput
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              finishEditing(newTitle);
+            }
+          }}
         />
         <EditButton onClick={() => finishEditing(newTitle)}>Done</EditButton>
       </div>

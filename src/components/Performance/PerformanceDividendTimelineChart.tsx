@@ -16,8 +16,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tooltip from '../Tooltip';
 import { H3 } from '../../styled/GlobalElements';
 
+var emptyData: any[] = [];
+
 export const PerformanceContributionChart = () => {
   const dividendTimeline = useSelector(selectDividendTimeline);
+  let dividendHasData = false;
+  dividendTimeline?.forEach((dividendObject) => {
+    if (dividendObject?.dividends.length > 0) {
+      dividendHasData = true;
+      return;
+    }
+  });
   const timeframe = useSelector(selectSelectedTimeframe);
   const [className, setClassName] = useState('dividendsTimeline');
   const [lotsOfDifferentTickers, setlotsOfDifferentTickers] = useState(false);
@@ -35,22 +44,31 @@ export const PerformanceContributionChart = () => {
     if (dividendEvents > 35) {
       setlotsOfDifferentTickers(true);
     }
+
+    if (emptyData.length === 0) {
+      // Populate empty data
+      emptyData = getEmptyData(dividendTimeline, timeframe);
+    }
   }
 
   let data = React.useMemo(
     () =>
-      dividendTimeline !== undefined
+      dividendTimeline !== undefined && dividendHasData
         ? getData(dividendTimeline, timeframe, lotsOfDifferentTickers)
-        : [{ data: [] }],
-    [dividendTimeline, timeframe, lotsOfDifferentTickers],
+        : emptyData,
+    [dividendTimeline, timeframe, lotsOfDifferentTickers, dividendHasData],
   );
 
   const series = React.useMemo(() => ({ type: 'bar' }), []);
 
+  const formatAxis = (x: number) => {
+    return '‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎$' + x.toString();
+  };
+
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'ordinal', position: 'bottom' },
-      { type: 'linear', position: 'left', stacked: true },
+      { type: 'linear', position: 'left', stacked: true, format: formatAxis },
     ],
     [],
   );
@@ -178,6 +196,46 @@ const getData = (
       });
   });
   return data;
+};
+
+const getEmptyData = (dividendTimeline: any[], timeframe: string) => {
+  let emptyData = [];
+  const formattedTimes: string[] = [];
+  const timeStrings: string[] = [];
+  const timeToAdd: any = [];
+  dividendTimeline.forEach((divsAtDate) => {
+    const formatted = formatDate(divsAtDate.date, timeframe);
+    if (!formattedTimes.includes(formatted)) {
+      formattedTimes.push(formatted);
+      timeStrings.push(divsAtDate.date);
+    } else {
+      formattedTimes.push(formatted + ' ');
+      timeStrings.push(divsAtDate.date);
+    }
+  });
+  timeStrings.forEach((time) => {
+    timeToAdd.push([time, 0]);
+  });
+  emptyData.push({
+    label: 'Dividends',
+    data: timeToAdd,
+  });
+  // Sort all data
+  emptyData.forEach((d: any) => {
+    d.data = d.data
+      .sort((a: any, b: any) => parseDate(a[0]) - parseDate(b[0]))
+      .map((a: any) => {
+        let wrongYear =
+          new Date(a[0]).getFullYear() !== new Date().getFullYear();
+        let dateFormatted = formatDate(a[0], timeframe);
+        // Dividend chart has 13 months, to ensure first and last month get
+        // treated as seperate in stack chart, add a space to the earlier month's string
+        return timeframe === '1Y' && wrongYear
+          ? [dateFormatted + ' ', a[1]]
+          : [dateFormatted, a[1]];
+      });
+  });
+  return emptyData;
 };
 
 const getRandomColour = (lotsOfDifferentTickers: boolean) => {

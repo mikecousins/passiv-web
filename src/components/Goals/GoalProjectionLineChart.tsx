@@ -49,7 +49,6 @@ type Props = {
 export const GoalProjectionLineChart: FunctionComponent<Props> = ({
   goal,
   targetDate,
-  currentValue,
   projectedValue,
   projectedData,
   goalTarget,
@@ -65,13 +64,8 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
         ],
         color: '#04A286',
       },
-      // {
-      //   label: 'Projected',
-      //   data: [[new Date(Date.parse(goal? goal.created_date : '')), currentValue], [new Date(Date.parse(goal? goal.target_date : '')), projectedValue]],
-      //   color: '#1b98e0',
-      // },
       {
-        label: 'Projected2',
+        label: 'Projected',
         data: projectedData,
         color: '#003ba2',
       },
@@ -81,10 +75,20 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
 
   const series = React.useMemo(() => ({ type: 'line', showPoints: false }), []);
 
+  const formatAxis = (x: number) => {
+    return '‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎$' + x.toString();
+  };
+
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'time', position: 'bottom', showGrid: true },
-      { type: 'linear', position: 'left', hardMin: 0, showGrid: true },
+      {
+        type: 'linear',
+        position: 'left',
+        hardMin: 0,
+        showGrid: true,
+        format: formatAxis,
+      },
     ],
     [],
   );
@@ -151,6 +155,11 @@ const GoalTarget = ({ goalTarget, setGoalTarget }: any) => {
             type="number"
             value={newValue}
             onChange={(e) => setNewValue(parseFloat(e.target.value))}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                finishEditing(newValue);
+              }
+            }}
           ></TargetInput>
           <TargetDoneButton onClick={() => finishEditing(newValue)}>
             Done
