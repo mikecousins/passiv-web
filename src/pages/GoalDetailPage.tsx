@@ -111,6 +111,8 @@ const Delete = styled.button`
   svg {
     margin-right: 5px;
   }
+  float: right;
+  clear-both: ;
 `;
 const NameInput = styled(InputPrimary)`
   font-size: 42px;
@@ -385,16 +387,21 @@ const GoalDetailPage = () => {
         contributionFrequencyChanged ||
         returnRateChanged ||
         titleChanged) && (
-        <div>
-          <Button onClick={handleDiscard}>Discard Changes</Button>
+        <span>
+          <Button
+            onClick={handleDiscard}
+            style={{ backgroundColor: 'transparent', color: 'black' }}
+          >
+            Discard Changes
+          </Button>
           <Button onClick={handleSave}>Update Goal</Button>
-        </div>
+        </span>
       )}
       <Delete onClick={handleDeleteClick}>
         <FontAwesomeIcon icon={faTrashAlt} /> Delete {goal?.title}
       </Delete>
       {showDeleteDialog && (
-        <>
+        <div style={{ float: 'right' }}>
           <SmallButton onClick={handleDelete}>Delete</SmallButton>
           <SmallButton
             onClick={() => setShowDeleteDialog(false)}
@@ -402,7 +409,7 @@ const GoalDetailPage = () => {
           >
             Cancel
           </SmallButton>
-        </>
+        </div>
       )}
     </React.Fragment>
   );
