@@ -75,10 +75,20 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
 
   const series = React.useMemo(() => ({ type: 'line', showPoints: false }), []);
 
+  const formatAxis = (x: number) => {
+    return '‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎$' + x.toString();
+  };
+
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'time', position: 'bottom', showGrid: true },
-      { type: 'linear', position: 'left', hardMin: 0, showGrid: true },
+      {
+        type: 'linear',
+        position: 'left',
+        hardMin: 0,
+        showGrid: true,
+        format: formatAxis,
+      },
     ],
     [],
   );

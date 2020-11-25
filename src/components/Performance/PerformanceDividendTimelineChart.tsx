@@ -61,10 +61,14 @@ export const PerformanceContributionChart = () => {
 
   const series = React.useMemo(() => ({ type: 'bar' }), []);
 
+  const formatAxis = (x: number) => {
+    return '‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎$' + x.toString();
+  };
+
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'ordinal', position: 'bottom' },
-      { type: 'linear', position: 'left', stacked: true },
+      { type: 'linear', position: 'left', stacked: true, format: formatAxis },
     ],
     [],
   );
