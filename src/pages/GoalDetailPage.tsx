@@ -306,6 +306,9 @@ const GoalDetailPage = () => {
             <FontAwesomeIcon icon={faChevronLeft} /> View all Goals
           </BackLink>
           <GoalTitle title={title} setTitle={setTitle} />
+          {goal?.portfolio_group !== null && (
+            <>Portfolio Group: {goal?.portfolio_group?.name}</>
+          )}
         </HeaderBanner>
         <ShadowBox background="#04a287">
           <Summary columns="1fr 1fr 1fr">
