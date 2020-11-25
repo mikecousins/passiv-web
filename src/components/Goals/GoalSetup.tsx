@@ -10,6 +10,8 @@ import { createGoal } from '../../actions/goals';
 import { selectSettings } from '../../selectors';
 import ShadowBox from '../../styled/ShadowBox';
 import { useHistory } from 'react-router';
+import { getTitleToSave } from '../../pages/GoalDetailPage';
+import { selectGoals } from '../../selectors/goals';
 
 const HeaderBanner = styled.div`
   margin-bottom: 40px;
@@ -326,12 +328,14 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   const [portfolioGroupId, setPortfolioGroupId] = useState<string | null>(null);
   const dispatch = useDispatch();
   const settings = useSelector(selectSettings);
+  const goals = useSelector(selectGoals);
   const currency = settings?.preferred_currency;
 
   const finishSetup = (history: any) => {
     const targetDate = getTargetDate(year, month);
+    const titleToSave = getTitleToSave(goalName, goals.data);
     let goalData = {
-      goalName,
+      goalName: titleToSave,
       totalValueTarget,
       portfolioGroupId,
       targetDate,

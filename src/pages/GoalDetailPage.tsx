@@ -26,6 +26,7 @@ import { deleteGoal, loadGoals } from '../actions/goals';
 import { Button, SmallButton } from '../styled/Button';
 import { patchData } from '../api';
 import { toast } from 'react-toastify';
+import { Goal } from '../types/goals';
 
 const GoalProjectionContainer = styled.div`
   padding-bottom: 80px;
@@ -72,7 +73,7 @@ const ChangeContainer = styled(Grid)`
 `;
 const NumInput = styled(InputPrimary)`
   border-bottom: 2px solid var(--brand-blue);
-  max-width: 100px;
+  max-width: 120px;
   margin: 0 20px 0 0;
   padding: 0;
   font-size: 28px;
@@ -156,6 +157,7 @@ const GoalDetailPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const goalId = useSelector(selectCurrentGoalId);
+  const goals = useSelector(selectGoals);
   const location = useLocation<LocationState>();
 
   let goal: any = useSelector(selectGoals).data?.find(
@@ -267,8 +269,10 @@ const GoalDetailPage = () => {
   };
   const handleSave = () => {
     const endDate = getTargetDate(year, month);
+    const titleToSave = getTitleToSave(title, goals.data);
+    setTitle(titleToSave);
     patchData('/api/v1/goals/', {
-      title,
+      title: titleToSave,
       goalTarget,
       endDate,
       contributionFrequency,
@@ -484,6 +488,28 @@ const getStep = (contributionAmount: number) => {
   }
 };
 
+export const getTitleToSave = (originalTitle: string, goals: Goal[] | null) => {
+  if (goals === null || goals.length === 0) {
+    return originalTitle;
+  }
+  let count = 1;
+  function checkIfMatch(title: string, goal: any) {
+    return title === goal.title;
+  }
+
+  let shouldContinue =
+    goals.find((x) => checkIfMatch(originalTitle, x)) !== undefined;
+  let title = originalTitle;
+  while (shouldContinue && count < 50) {
+    title = originalTitle + ' (' + count + ')';
+    let currentTitle = title;
+    count++;
+    shouldContinue =
+      goals.find((x) => checkIfMatch(currentTitle, x)) !== undefined;
+  }
+  return title;
+};
+
 const GoalTitle = ({ title, setTitle }: any) => {
   const [editMode, setEditMode] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
@@ -491,12 +517,16 @@ const GoalTitle = ({ title, setTitle }: any) => {
     setTitle(newTitle);
     setEditMode(false);
   };
+  const handleEdit = () => {
+    setNewTitle(title);
+    setEditMode(true);
+  };
 
   if (!editMode) {
     return (
       <div>
         <H1>{title}</H1>
-        <Edit onClick={() => setEditMode(true)}>
+        <Edit onClick={() => handleEdit()}>
           <FontAwesomeIcon icon={faPen} />
           Edit Name
         </Edit>
