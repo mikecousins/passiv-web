@@ -66,7 +66,8 @@ type Props = {
   group: DashboardGroup | undefined;
 };
 export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
-  let currentValue = useSelector(selectTotalGroupHoldings);
+  let totalHoldings = useSelector(selectTotalGroupHoldings);
+  let currentValue = totalHoldings;
   if (group !== undefined) {
     currentValue = group.totalHoldings;
   }
@@ -74,7 +75,7 @@ export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
   if (targetValue === undefined) {
     targetValue = 100;
   }
-  let progressPercent = (currentValue / targetValue) * 100;
+  let progressPercent = getProgressPercent(goal, group, totalHoldings);
   if (progressPercent > 100) {
     progressPercent = 100;
   }
@@ -122,6 +123,30 @@ export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
       </UnstyledLink>
     </React.Fragment>
   );
+};
+
+export const getCurrentValue = (
+  totalHoldings: number,
+  group: DashboardGroup | undefined,
+) => {
+  let currentValue = totalHoldings;
+  if (group !== undefined) {
+    currentValue = group.totalHoldings;
+  }
+  return currentValue;
+};
+
+export const getProgressPercent = (
+  goal: Goal,
+  group: DashboardGroup | undefined,
+  totalHoldings: number,
+) => {
+  let currentValue = getCurrentValue(totalHoldings, group);
+  let targetValue = goal?.total_value_target;
+  if (targetValue === undefined) {
+    targetValue = 100;
+  }
+  return (currentValue / targetValue) * 100;
 };
 
 export default GoalWidget;
