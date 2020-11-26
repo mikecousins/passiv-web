@@ -105,11 +105,6 @@ const SideBar = () => {
                   linkPath={`/app/setting-targets`}
                   beta={true}
                 />
-                <SideBarLink
-                  name="Model Portfolio"
-                  linkPath={`/app/model-portfolio`}
-                  beta={true}
-                />
               </div>
             ))}
         </React.Fragment>
