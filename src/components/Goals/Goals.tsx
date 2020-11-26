@@ -109,7 +109,7 @@ export const Goals = () => {
           </div>
         </HeaderBanner>
       )}
-      {currentMode === 'add' && <GoalSetup />}
+      {currentMode === 'add' && <GoalSetup setGoalMode={setCurrentMode} />}
       {(currentMode === 'view' || currentMode === 'finishedSetup') && (
         <GoalsList goals={goals} />
       )}

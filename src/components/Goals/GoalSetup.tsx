@@ -75,6 +75,16 @@ const MonthSelect = styled.select`
   font-weight: 600;
 `;
 
+const ButtonPrev = styled.button`
+  background-color: lightgrey;
+  z-index: 2;
+  padding: 6px 20px 7px;
+  font-size: 18px;
+  border-radius: 4px;
+  &.selected {
+    color: #000;
+  }
+`;
 const ButtonNext = styled(Button)`
   color: #fff;
   z-index: 2;
@@ -194,13 +204,19 @@ const PortfolioGroupButtons = ({
   return <div>{buttons}</div>;
 };
 
-export const GoalNaming = ({ setCurrentStep, setGoalName, goalName }: any) => {
+export const GoalNaming = ({
+  setCurrentStep,
+  setGoalName,
+  goalName,
+  setGoalMode,
+}: any) => {
   const handleChange = (e: any) => {
     setGoalName(e.target.value);
   };
 
   return (
     <React.Fragment>
+      <ButtonPrev onClick={() => setGoalMode('view')}>Back</ButtonPrev>
       <FormWrapper>
         <div>
           <LabelGoal htmlFor="goalname">
@@ -355,9 +371,9 @@ export const GoalSetup = ({ setGoalMode }: any) => {
       </HeaderBanner>
       <ShadowBoxRelative>
         {currentStep !== 'naming' && (
-          <button onClick={() => setCurrentStep(previousStep(currentStep))}>
+          <ButtonPrev onClick={() => setCurrentStep(previousStep(currentStep))}>
             Previous
-          </button>
+          </ButtonPrev>
         )}
 
         {currentStep === 'naming' && (
@@ -365,6 +381,7 @@ export const GoalSetup = ({ setGoalMode }: any) => {
             setCurrentStep={setCurrentStep}
             setGoalName={setGoalName}
             goalName={goalName}
+            setGoalMode={setGoalMode}
           />
         )}
         {currentStep === 'portfolioGroups' && (
