@@ -88,7 +88,7 @@ const AssetClassSelector = ({
         exact
         to="/app/asset-class/6050c7fa-7c27-47d8-b5b6-206cbc994733"
       />
-    ); //Todo change the hardcoded groupId
+    ); //TODO change the hardcoded groupId
   }
 
   return (
@@ -101,7 +101,7 @@ const AssetClassSelector = ({
       />
       <StyledComboboxPopover>
         <StyledComboboxList>
-          {assetClassesAvailable.map((option: any, index) => {
+          {assetClassesAvailable.map((option, index) => {
             return (
               <StyledComboboxOption key={index} value={option.id}>
                 {option.name}
