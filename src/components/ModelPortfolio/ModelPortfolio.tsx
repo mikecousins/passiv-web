@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   ModelAssetClassDetailsType,
@@ -15,7 +15,11 @@ import Grid from '../../styled/Grid';
 import { ViewBtn } from '../../styled/Group';
 import AssetClassesBox from './AssetClassesBox';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
-import { selectModelPortfolio } from '../../selectors/modelPortfolio';
+import {
+  selectModelPortfolio,
+  selectCurrentModelPortfolioId,
+} from '../../selectors/modelPortfolio';
+import { loadModelPortfolio } from '../../actions';
 
 const BackButton = styled(ViewBtn)`
   padding: 30px 10px;
@@ -33,12 +37,20 @@ const ResponsiveGrid = styled(Grid)`
 `;
 
 const ModelPortfolio = () => {
-  const modelAssetClasses: ModelAssetClassDetailsType[] = useSelector(
-    selectModelAssetClasses,
+  const dispatch = useDispatch();
+
+  const modelPortfolioId = useSelector(selectCurrentModelPortfolioId);
+
+  useEffect(() => {
+    dispatch(loadModelPortfolio({ id: modelPortfolioId }));
+  }, []);
+
+  const modelPortfolio: ModelPortfolioDetailsType | null = useSelector(
+    selectModelPortfolio,
   );
 
-  const modelPortfolio: ModelPortfolioDetailsType = useSelector(
-    selectModelPortfolio,
+  const modelAssetClasses: ModelAssetClassDetailsType[] = useSelector(
+    selectModelAssetClasses,
   );
 
   let assetClasses: ModelAssetClass[] = modelAssetClasses.map((obj) => {
@@ -52,10 +64,13 @@ const ModelPortfolio = () => {
         </Link>
       </BackButton>
       <ResponsiveGrid columns="4fr 2fr">
-        <ModelPortoflioBox
-          assetClasses={assetClasses}
-          modelPortfolio={modelPortfolio}
-        />
+        {modelPortfolio ? (
+          <ModelPortoflioBox
+            assetClasses={assetClasses}
+            modelPortfolio={modelPortfolio}
+          />
+        ) : null}
+
         <AssetClassesBox assetClasses={modelAssetClasses} />
       </ResponsiveGrid>
     </ShadowBox>
