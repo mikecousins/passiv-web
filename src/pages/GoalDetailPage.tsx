@@ -179,6 +179,7 @@ const GoalDetailPage = () => {
   const [displayOnDashboard, setDisplayOnDashboard] = useState(
     goal?.display_on_dashboard,
   );
+  const [showOptions, setShowOptions] = useState(false);
   const [returnRate, setReturnRate] = useState(goal?.return_rate);
   const [goalTarget, setGoalTarget] = useState(goal?.total_value_target);
   const [contributionTarget, setContributionTarget] = useState(
@@ -322,6 +323,24 @@ const GoalDetailPage = () => {
           {goal?.portfolio_group !== null && (
             <P>{goal?.portfolio_group?.name}</P>
           )}
+          <div>
+            <div onClick={() => setShowOptions(!showOptions)}>Show Options</div>
+            {showOptions && (
+              <div>
+                <div onClick={() => setDisplayOnDashboard(!displayOnDashboard)}>
+                  {displayOnDashboard ? (
+                    <span>Pin to Dashboard</span>
+                  ) : (
+                    <span>Unpin to Dashboard</span>
+                  )}
+                </div>
+                <div>Edit Name</div>
+                <div onClick={handleSave}>Update Goal</div>
+                <div onClick={handleDiscard}>Discard Changes</div>
+                <div onClick={handleDeleteClick}>Delete Goal</div>
+              </div>
+            )}
+          </div>
           <div>
             Display Goal on Dashboard:{' '}
             <ToggleButton
