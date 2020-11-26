@@ -117,11 +117,17 @@ const AssetClasses = ({ assetClass }: Props) => {
           All securities under this asset class would get deleted.
         </p>
         <br />
-        <SmallButton onClick={handleDeleteAssetClass}>Delete</SmallButton>
         <SmallButton
-          onClick={close}
-          style={{ backgroundColor: 'transparent', color: 'black' }}
+          onClick={handleDeleteAssetClass}
+          style={{
+            backgroundColor: 'transparent',
+            color: 'black',
+            fontWeight: 600,
+          }}
         >
+          Delete
+        </SmallButton>
+        <SmallButton onClick={close} style={{ fontWeight: 600 }}>
           Cancel
         </SmallButton>
       </Dialog>
