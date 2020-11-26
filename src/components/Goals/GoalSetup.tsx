@@ -1,6 +1,4 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
-
 import React, { useState } from 'react';
 import { P, H1 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
@@ -80,7 +78,7 @@ const MonthSelect = styled.select`
   font-weight: 600;
 `;
 
-const BackLink = styled(Link)`
+const BackLink = styled.button`
   color: var(--brand-blue);
   text-decoration: none;
   font-weight: 700;
@@ -383,7 +381,7 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   return (
     <React.Fragment>
       <HeaderBanner>
-        <BackLink to="/app/goals">
+        <BackLink onClick={() => setGoalMode('view')}>
           <FontAwesomeIcon icon={faChevronLeft} /> Back to Goals
         </BackLink>
         <H1>Goal Setup</H1>
