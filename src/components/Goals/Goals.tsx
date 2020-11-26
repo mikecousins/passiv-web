@@ -65,6 +65,7 @@ export const MockGoal: Goal = {
   portfolio_group: null,
   return_rate: 0,
   contribution_streak: 4,
+  display_on_dashboard: false,
 };
 
 export const Goals = () => {

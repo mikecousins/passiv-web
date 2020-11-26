@@ -15,7 +15,12 @@ import {
 } from '../components/Goals/GoalSetup';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPen,
+  faToggleOff,
+  faToggleOn,
+  faTrashAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { H1, P, H3, A, Edit } from '../styled/GlobalElements';
 import { InputPrimary } from '../styled/Form';
@@ -27,6 +32,7 @@ import { Button, SmallButton } from '../styled/Button';
 import { patchData } from '../api';
 import { toast } from 'react-toastify';
 import { Goal } from '../types/goals';
+import { StateText, ToggleButton } from '../styled/ToggleButton';
 
 const GoalProjectionContainer = styled.div`
   padding-bottom: 80px;
@@ -177,6 +183,9 @@ const GoalDetailPage = () => {
   }
 
   const [title, setTitle] = useState(goal?.title);
+  const [displayOnDashboard, setDisplayOnDashboard] = useState(
+    goal?.display_on_dashboard,
+  );
   const [returnRate, setReturnRate] = useState(goal?.return_rate);
   const [goalTarget, setGoalTarget] = useState(goal?.total_value_target);
   const [contributionTarget, setContributionTarget] = useState(
@@ -253,6 +262,8 @@ const GoalDetailPage = () => {
     contributionFrequency !== goal?.contribution_frequency;
   const returnRateChanged = returnRate !== goal?.return_rate;
   const titleChanged = title !== goal?.title;
+  const displayOnDashboardChanged =
+    displayOnDashboard !== goal?.display_on_dashboard;
 
   const handleReturnChange = (e: any) => {
     let newValue = e.target.value;
@@ -288,6 +299,7 @@ const GoalDetailPage = () => {
       contributionTarget,
       returnRate,
       goalId,
+      displayOnDashboard,
     })
       .then(() => {
         dispatch(loadGoals());
@@ -303,6 +315,7 @@ const GoalDetailPage = () => {
     setContributionFrequency(goal?.contribution_frequency);
     setReturnRate(goal?.return_rate);
     setTitle(goal?.title);
+    setDisplayOnDashboard(goal?.display_on_dashboard);
   };
 
   return (
@@ -316,6 +329,24 @@ const GoalDetailPage = () => {
           {goal?.portfolio_group !== null && (
             <P>{goal?.portfolio_group?.name}</P>
           )}
+          <div>
+            Display Goal on Dashboard:{' '}
+            <ToggleButton
+              onClick={() => setDisplayOnDashboard(!displayOnDashboard)}
+            >
+              {displayOnDashboard ? (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOn} />
+                  <StateText>on</StateText>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOff} />
+                  <StateText>off</StateText>
+                </React.Fragment>
+              )}
+            </ToggleButton>
+          </div>
         </HeaderBanner>
         <ShadowBox background="#04a287">
           <Summary columns="1fr 1fr 1fr">
@@ -378,7 +409,8 @@ const GoalDetailPage = () => {
               contributionsChanged ||
               contributionFrequencyChanged ||
               returnRateChanged ||
-              titleChanged) && (
+              titleChanged ||
+              displayOnDashboardChanged) && (
               <span>
                 <Button onClick={handleSave}>Update Goal</Button>
                 <Discard onClick={handleDiscard}>Discard Changes</Discard>
