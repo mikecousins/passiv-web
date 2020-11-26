@@ -7,7 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { H3 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
-import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
+import {
+  ModelAssetClassDetailsType,
+  Target,
+} from '../../types/modelAssetClass';
 
 const Box = styled.div`
   border-radius: 4px;
@@ -47,13 +50,13 @@ const AssetClassesBox = ({ assetClasses }: Props) => {
         exact
         to="/app/asset-class/6050c7fa-7c27-47d8-b5b6-206cbc994733"
       />
-    ); //Todo change the hardcoded groupId
+    ); //TODO change the hardcoded groupId
   }
 
-  const makeLabel = (target: any) => {
-    let labelList: any[] = [];
+  const makeLabel = (target: Target[]) => {
+    let labelList: string[] = [];
     if (target.length > 0) {
-      target.map((t: any) => {
+      target.map((t) => {
         return labelList.push(t.symbol.symbol);
       });
     }
