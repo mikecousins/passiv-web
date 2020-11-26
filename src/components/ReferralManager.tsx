@@ -13,6 +13,7 @@ import {
   faSpinner,
   faClipboard,
   faClipboardCheck,
+  faFileInvoice,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Number from './Number';
@@ -27,6 +28,7 @@ import {
 } from '../styled/PortfolioGroupDetails';
 
 import { A, P, BulletUL } from '../styled/GlobalElements';
+import Grid from '../styled/Grid';
 
 interface Referral {
   created_date: Date;
@@ -180,30 +182,42 @@ const ReferralManager = () => {
   const [success, setSuccess] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  const [invoices, setInvoices] = useState([]);
+
   let earnings = 0;
-  const validatedReferrals = referrals.filter(r => r.validated === true);
+  const validatedReferrals = referrals.filter((r) => r.validated === true);
   if (validatedReferrals.length > 0) {
     earnings = validatedReferrals
-      .map(r => r.amount)
+      .map((r) => r.amount)
       .reduce((acc, r) => acc + r);
   }
 
   if (loading === false && success === false) {
     setLoading(true);
     getData('/api/v1/referrals/')
-      .then(response => {
+      .then((response) => {
         setReferrals(response.data);
         setLoading(false);
         setSuccess(true);
         setSignUpData(getSignUpData(referrals));
         setValidationData(getValidationData(referrals));
       })
-      .catch(err => {
+      .catch((err) => {
         setLoading(false);
         if (err.response) {
           setError(err.response.data);
         }
         console.log(error);
+      });
+
+    getData('/api/v1/invoices')
+      .then((res) => {
+        setInvoices(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
       });
   }
 
@@ -235,8 +249,6 @@ const ReferralManager = () => {
     ],
     [],
   );
-
-  console.log('referralValue', referralValue);
 
   let rewardContent = null;
   if (referralValue !== undefined && referralCurrency !== undefined) {
@@ -340,6 +352,33 @@ const ReferralManager = () => {
           <Chart data={data} axes={axes} series={series} tooltip />
         </div>
       )}
+
+      {invoices ? (
+        <>
+          <SubHeading>Invoices</SubHeading>
+          <ShadowBox>
+            {loading ? (
+              <FontAwesomeIcon icon={faSpinner} spin />
+            ) : (
+              <Grid columns="1fr 1fr 1fr 1fr">
+                {invoices.map((inv: any) => {
+                  return (
+                    <div style={{ marginBottom: '30px', padding: '5px' }}>
+                      <FontAwesomeIcon
+                        icon={faFileInvoice}
+                        size="lg"
+                        style={{ marginRight: '10px' }}
+                      />
+                      <a href={inv.pdf_url}>{inv.end_date}</a>
+                    </div>
+                  );
+                })}
+              </Grid>
+            )}
+          </ShadowBox>
+        </>
+      ) : null}
+
       <SubHeading>The Fine Print</SubHeading>
       <ReferralBulletUL>
         <li>
@@ -426,7 +465,7 @@ const getNumSignUps = (
   oneWeekLater: Date,
 ) => {
   return referrals.filter(
-    r =>
+    (r) =>
       new Date(r.created_date) >= startOfCurrentWeek &&
       new Date(r.created_date) < oneWeekLater,
   ).length;
@@ -438,7 +477,7 @@ const getNumValidated = (
   oneWeekLater: Date,
 ) => {
   return referrals.filter(
-    r =>
+    (r) =>
       r.validated === true &&
       r.validation_timestamp !== undefined &&
       new Date(r.validation_timestamp) >= startOfCurrentWeek &&
