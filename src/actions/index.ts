@@ -366,8 +366,6 @@ export const loadModelPortfolio: ActionCreator<ThunkAction<
   any,
   Action<any>
 >> = ({ id }) => {
-  console.log(id);
-
   return (dispatch) => {
     dispatch(fetchModelPortfolioStart());
     getData(`/api/v1/modelPortfolio/${id}`)
