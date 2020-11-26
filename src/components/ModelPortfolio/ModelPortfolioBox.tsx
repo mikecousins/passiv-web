@@ -71,8 +71,6 @@ type Props = {
 const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
   const dispatch = useDispatch();
 
-  console.log(modelPortfolio);
-
   const modelPortfolioId = useSelector(selectCurrentModelPortfolioId);
 
   const [modelPortfolioName, setModelPortfolioName] = useState('');
@@ -118,10 +116,7 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
       modelPortfolioName!.trim().length > 0
     ) {
       modelPortfolio.model_portfolio.name = modelPortfolioName;
-      postData(
-        '/api/v1/modelPortfolio/cc095d43-9170-4de0-8729-1acfaf4c5832',
-        modelPortfolio,
-      )
+      postData(`/api/v1/modelPortfolio/${modelPortfolioId}`, modelPortfolio)
         .then(() => {
           dispatch(loadModelPortfolio({ id: modelPortfolioId }));
           dispatch(loadModelPortfolios());
@@ -190,7 +185,7 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
             {getRemainingPercent()}% Cash
           </span>
         </li>
-        {modelPortfolio.model_portfolio_asset_class.map((cl: any) => {
+        {modelPortfolio.model_portfolio_asset_class.map((cl) => {
           return (
             <li
               style={{
@@ -227,7 +222,8 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
           }}
           initialStatus={{ submitted: false }}
           onSubmit={(values, actions) => {
-            modelPortfolio.model_portfolio.model_type = 1; //Todo this doesn't need to get reassigned every time
+            //TODO the model_type should only be set when the user first create the model portfolio (based on security model portfolio or asset class model portfolio)
+            modelPortfolio.model_portfolio.model_type = 1;
             modelPortfolio.model_portfolio_asset_class.push({
               model_asset_class: {
                 id: values.assetClassId!,
@@ -278,11 +274,11 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
           )}
         </Formik>
       </FormContainer>
-      {notAssetError ? (
+      {notAssetError && (
         <span style={{ color: 'red', padding: 'inherit' }}>
           Please select from the list of available asset classes and try again.
         </span>
-      ) : null}
+      )}
     </Box>
   );
 };
