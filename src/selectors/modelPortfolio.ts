@@ -1,12 +1,30 @@
 import { createSelector } from 'reselect';
 import ms from 'milliseconds';
 import shouldUpdate from '../reactors/should-update';
-import { selectLoggedIn, selectAppTime } from './index';
+import { selectLoggedIn, selectAppTime, selectRouter } from './index';
+import { RouterState } from 'connected-react-router';
 import { AppState } from '../store';
 
 export const selectModelPortfolioRaw = (state: AppState) => {
   return state.modelPortfolio;
 };
+
+export const selectCurrentModelPortfolioId = createSelector<
+  AppState,
+  RouterState,
+  string | null
+>(selectRouter, (router) => {
+  let mdlPortfolioId = null;
+  if (
+    router &&
+    router.location &&
+    router.location.pathname &&
+    router.location.pathname.split('/').length >= 4
+  ) {
+    mdlPortfolioId = router.location.pathname.split('/')[3];
+  }
+  return mdlPortfolioId;
+});
 
 export const selectModelPortfolio = createSelector(
   selectModelPortfolioRaw,
@@ -14,11 +32,12 @@ export const selectModelPortfolio = createSelector(
     if (rawModelPortfolio.data) {
       return rawModelPortfolio.data;
     }
-    throw new Error('Unable to fetch model portfolio');
+    // throw new Error('Unable to fetch model portfolio');
+    return null;
   },
 );
 
-export const selectModelPortfolioNeedData = createSelector(
+export const selectModelPortfolioNeedsData = createSelector(
   selectLoggedIn,
   selectModelPortfolioRaw,
   selectAppTime,
