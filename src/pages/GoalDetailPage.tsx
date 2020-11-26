@@ -33,6 +33,8 @@ import { patchData } from '../api';
 import { toast } from 'react-toastify';
 import { Goal } from '../types/goals';
 import { StateText, ToggleButton } from '../styled/ToggleButton';
+import '@reach/dialog/styles.css';
+import { Dialog } from '@reach/dialog';
 
 const GoalProjectionContainer = styled.div`
   padding-bottom: 80px;
@@ -451,17 +453,36 @@ const GoalDetailPage = () => {
       <Delete onClick={handleDeleteClick}>
         <FontAwesomeIcon icon={faTrashAlt} /> Delete {goal?.title}
       </Delete>
-      {showDeleteDialog && (
-        <div style={{ float: 'right' }}>
-          <SmallButton onClick={handleDelete}>Delete</SmallButton>
-          <SmallButton
-            onClick={() => setShowDeleteDialog(false)}
-            style={{ backgroundColor: 'transparent', color: 'black' }}
-          >
-            Cancel
-          </SmallButton>
-        </div>
-      )}
+      <Dialog
+        isOpen={showDeleteDialog}
+        onDismiss={() => setShowDeleteDialog(false)}
+        style={{ borderRadius: '1rem' }}
+        aria-labelledby="dialog1Title"
+        aria-describedby="dialog1Desc"
+      >
+        <P>
+          Are you sure you want to delete{' '}
+          <span style={{ fontWeight: 'bold' }}>{goal?.title}</span> ?
+        </P>
+        <p style={{ fontSize: '0.8rem' }}>This can not be undone</p>
+        <br />
+        <SmallButton
+          onClick={handleDelete}
+          style={{
+            backgroundColor: 'transparent',
+            color: 'black',
+            fontWeight: 600,
+          }}
+        >
+          Delete
+        </SmallButton>
+        <SmallButton
+          onClick={() => setShowDeleteDialog(false)}
+          style={{ fontWeight: 600 }}
+        >
+          Cancel
+        </SmallButton>
+      </Dialog>
     </React.Fragment>
   );
 };
