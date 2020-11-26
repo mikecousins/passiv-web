@@ -36,7 +36,7 @@ type Props = {
   onClickDone: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onClickEdit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 
-  //Todo: replace Style components' types with correct types
+  //TODO: replace Style components' types with correct types
   StyledContainer?: any;
   StyledInput?: any;
   StyledDoneButton?: any;
