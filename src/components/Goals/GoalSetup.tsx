@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
+
 import React, { useState } from 'react';
 import { P, H1 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
@@ -12,6 +14,9 @@ import ShadowBox from '../../styled/ShadowBox';
 import { useHistory } from 'react-router';
 import { getTitleToSave } from '../../pages/GoalDetailPage';
 import { selectGoals } from '../../selectors/goals';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 const HeaderBanner = styled.div`
   margin-bottom: 40px;
@@ -31,7 +36,7 @@ const HeaderBanner = styled.div`
 `;
 const GoalInput = styled(InputPrimary)`
   border-bottom: 2px solid var(--brand-blue);
-  max-width: 180px;
+  max-width: 280px;
   margin: 0;
   padding: 0;
   font-size: 28px;
@@ -75,12 +80,26 @@ const MonthSelect = styled.select`
   font-weight: 600;
 `;
 
+const BackLink = styled(Link)`
+  color: var(--brand-blue);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.05rem;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  display: block;
+`;
+
 const ButtonPrev = styled.button`
-  background-color: lightgrey;
-  z-index: 2;
-  padding: 6px 20px 7px;
-  font-size: 18px;
-  border-radius: 4px;
+  color: var(--brand-blue);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.05rem;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  display: block;
+  position: absolute;
+  bottom: 20px;
   &.selected {
     color: #000;
   }
@@ -216,7 +235,6 @@ export const GoalNaming = ({
 
   return (
     <React.Fragment>
-      <ButtonPrev onClick={() => setGoalMode('view')}>Back</ButtonPrev>
       <FormWrapper>
         <div>
           <LabelGoal htmlFor="goalname">
@@ -235,7 +253,7 @@ export const GoalNaming = ({
           />
         </div>
         <ButtonNext onClick={() => setCurrentStep('portfolioGroups')}>
-          Next
+          Next Step
         </ButtonNext>
       </FormWrapper>
     </React.Fragment>
@@ -257,7 +275,9 @@ export const SelectPortfolioGroups = ({
         setPortfolioGroupId={setPortfolioGroupId}
         portfolioGroupId={portfolioGroupId}
       />
-      <ButtonNext onClick={() => setCurrentStep('setGoals')}>Next</ButtonNext>
+      <ButtonNext onClick={() => setCurrentStep('setGoals')}>
+        Next Step
+      </ButtonNext>
     </FormWrapper>
   );
 };
@@ -363,6 +383,9 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   return (
     <React.Fragment>
       <HeaderBanner>
+        <BackLink to="/app/goals">
+          <FontAwesomeIcon icon={faChevronLeft} /> Back to Goals
+        </BackLink>
         <H1>Goal Setup</H1>
         <P>
           “If a goal is worth having, it’s worth blocking out the time in your
@@ -370,12 +393,6 @@ export const GoalSetup = ({ setGoalMode }: any) => {
         </P>
       </HeaderBanner>
       <ShadowBoxRelative>
-        {currentStep !== 'naming' && (
-          <ButtonPrev onClick={() => setCurrentStep(previousStep(currentStep))}>
-            Previous
-          </ButtonPrev>
-        )}
-
         {currentStep === 'naming' && (
           <GoalNaming
             setCurrentStep={setCurrentStep}
@@ -400,6 +417,11 @@ export const GoalSetup = ({ setGoalMode }: any) => {
             year={year}
             setYear={setYear}
           />
+        )}
+        {currentStep !== 'naming' && (
+          <ButtonPrev onClick={() => setCurrentStep(previousStep(currentStep))}>
+            <FontAwesomeIcon icon={faChevronLeft} /> Previous Step
+          </ButtonPrev>
         )}
         <Plant1>
           <Stem>

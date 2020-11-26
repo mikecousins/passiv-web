@@ -135,6 +135,13 @@ const EditButton = styled(Button)`
   border-radius: 0;
   padding: 14px 32px 16px;
 `;
+const Discard = styled(Button)`
+  color: var(--brand-blue);
+  background: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 const daysBetween = (firstDate: Date, secondDate: Date) => {
   const _MS_PER_DAY = 1000 * 60 * 60 * 24;
   const utc1 = Date.UTC(
@@ -307,7 +314,7 @@ const GoalDetailPage = () => {
           </BackLink>
           <GoalTitle title={title} setTitle={setTitle} />
           {goal?.portfolio_group !== null && (
-            <>Portfolio Group: {goal?.portfolio_group?.name}</>
+            <P>{goal?.portfolio_group?.name}</P>
           )}
         </HeaderBanner>
         <ShadowBox background="#04a287">
@@ -365,6 +372,19 @@ const GoalDetailPage = () => {
               />
               %?
             </Question>
+
+            {(dateChanged ||
+              targetChanged ||
+              contributionsChanged ||
+              contributionFrequencyChanged ||
+              returnRateChanged ||
+              titleChanged) && (
+              <span>
+                <Button onClick={handleSave}>Update Goal</Button>
+                <Discard onClick={handleDiscard}>Discard Changes</Discard>
+              </span>
+            )}
+
             <Tip>
               <P>
                 Learn more about potential return rates <A>Link to article</A>.
@@ -384,22 +404,6 @@ const GoalDetailPage = () => {
           </GoalProjectionContainer>
         </ChangeContainer>
       </ShadowBox>
-      {(dateChanged ||
-        targetChanged ||
-        contributionsChanged ||
-        contributionFrequencyChanged ||
-        returnRateChanged ||
-        titleChanged) && (
-        <span>
-          <Button
-            onClick={handleDiscard}
-            style={{ backgroundColor: 'transparent', color: 'black' }}
-          >
-            Discard Changes
-          </Button>
-          <Button onClick={handleSave}>Update Goal</Button>
-        </span>
-      )}
       <Delete onClick={handleDeleteClick}>
         <FontAwesomeIcon icon={faTrashAlt} /> Delete {goal?.title}
       </Delete>
