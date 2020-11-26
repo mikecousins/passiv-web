@@ -47,7 +47,7 @@ const StyledComboboxPopover = styled(ComboboxPopover)`
 const StyledComboboxList = styled(ComboboxList)`
   box-sizing: border-box;
   width: 553px;
-  padding: 10px;
+  padding: 10px !important; //? why this style wouldn't get applied without !important
   border: 1px solid var(--brand-blue);
   background: #f2f3fd;
   line-height: 30px;
@@ -56,8 +56,10 @@ const StyledComboboxList = styled(ComboboxList)`
 `;
 
 const StyledComboboxOption = styled(ComboboxOption)`
-  &: hover {
-    background: var(--brand-green);
+  &:hover {
+    background: var(
+      --brand-green
+    ) !important; //? why this style wouldn't get applied without !important
   }
 `;
 
