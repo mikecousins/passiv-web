@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {
   ModelAssetClassDetailsType,
   ModelAssetClass,
@@ -9,7 +9,7 @@ import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
 import ModelPortoflioBox from './ModelPortfolioBox';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
 import { ViewBtn } from '../../styled/Group';
@@ -19,14 +19,33 @@ import {
   selectModelPortfolio,
   selectCurrentModelPortfolioId,
 } from '../../selectors/modelPortfolio';
-import { loadModelPortfolio } from '../../actions';
+import { loadModelPortfolio, loadModelPortfolios } from '../../actions';
+import { deleteData } from '../../api';
+import { SmallButton } from '../../styled/Button';
 
-const BackButton = styled(ViewBtn)`
+const BackButton = styled.div`
   padding: 30px 10px;
   margin-bottom: 20px;
+  display: block;
+  a {
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: 2px;
+    color: #033ebc;
+    display: block;
+    text-decoration: none;
+  }
   @media (max-width: 900px) {
     margin-bottom: 50px;
+    padding: 16px 20px 20px;
     text-align: center;
+    width: 100%;
+    border: 1px solid var(--brand-blue);
+    display: inline-block;
+    a {
+      font-size: 18px;
+    }
   }
 `;
 
@@ -36,8 +55,13 @@ const ResponsiveGrid = styled(Grid)`
   }
 `;
 
+const DeleteContainer = styled.div`
+  float: right;
+`;
+
 const ModelPortfolio = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const modelPortfolioId = useSelector(selectCurrentModelPortfolioId);
 
@@ -45,6 +69,7 @@ const ModelPortfolio = () => {
     dispatch(loadModelPortfolio({ id: modelPortfolioId }));
   }, []);
 
+  const [deleteDialog, setDeleteDialog] = useState(false);
   const modelPortfolio: ModelPortfolioDetailsType | null = useSelector(
     selectModelPortfolio,
   );
@@ -53,27 +78,69 @@ const ModelPortfolio = () => {
     selectModelAssetClasses,
   );
 
-  let assetClasses: ModelAssetClass[] = modelAssetClasses.map((obj) => {
+  const assetClasses: ModelAssetClass[] = modelAssetClasses.map((obj) => {
     return obj.model_asset_class;
   });
-  return (
-    <ShadowBox>
-      <BackButton>
-        <Link to={'/'}>
-          <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to ...
-        </Link>
-      </BackButton>
-      <ResponsiveGrid columns="4fr 2fr">
-        {modelPortfolio ? (
-          <ModelPortoflioBox
-            assetClasses={assetClasses}
-            modelPortfolio={modelPortfolio}
-          />
-        ) : null}
 
-        <AssetClassesBox assetClasses={modelAssetClasses} />
-      </ResponsiveGrid>
-    </ShadowBox>
+  const handleDeleteModel = () => {
+    deleteData(
+      `/api/v1/modelPortfolio/${modelPortfolio?.model_portfolio.id}`,
+    ).then(() => {
+      history.push('/app/setting-targets');
+      dispatch(loadModelPortfolios());
+    });
+  };
+
+  return (
+    <>
+      <ShadowBox>
+        <BackButton>
+          <Link to={'/app/setting-targets'}>
+            <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to Setting
+            Targets
+          </Link>
+        </BackButton>
+        <ResponsiveGrid columns="4fr 2fr">
+          {modelPortfolio && (
+            <ModelPortoflioBox
+              assetClasses={assetClasses}
+              modelPortfolio={modelPortfolio}
+            />
+          )}
+
+          <AssetClassesBox assetClasses={modelAssetClasses} />
+        </ResponsiveGrid>
+      </ShadowBox>
+      <DeleteContainer>
+        {deleteDialog ? (
+          <>
+            <SmallButton
+              onClick={handleDeleteModel}
+              style={{
+                backgroundColor: 'transparent',
+                color: 'black',
+                fontWeight: 600,
+              }}
+            >
+              Delete
+            </SmallButton>
+            <SmallButton
+              onClick={() => setDeleteDialog(false)}
+              style={{ fontWeight: 600 }}
+            >
+              Cancel
+            </SmallButton>
+          </>
+        ) : (
+          <button onClick={() => setDeleteDialog(true)}>
+            <FontAwesomeIcon icon={faTrashAlt} /> Delete{' '}
+            <span style={{ fontWeight: 600 }}>
+              {modelPortfolio?.model_portfolio.name}
+            </span>{' '}
+          </button>
+        )}
+      </DeleteContainer>
+    </>
   );
 };
 
