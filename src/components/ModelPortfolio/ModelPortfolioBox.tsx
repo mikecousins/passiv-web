@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ModelAssetClass } from '../../types/modelAssetClass';
+import { selectCurrentModelPortfolioId } from '../../selectors/modelPortfolio';
 import NameInputAndEdit from '../NameInputAndEdit';
 import AssetClassSelector from './AssetClassSelector';
 import styled from '@emotion/styled';
@@ -8,8 +9,8 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { postData } from '../../api';
-import { useDispatch } from 'react-redux';
-import { loadModelPortfolio } from '../../actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadModelPortfolio, loadModelPortfolios } from '../../actions';
 import { Formik, Form } from 'formik';
 
 const Box = styled.div`
@@ -70,9 +71,11 @@ type Props = {
 const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
   const dispatch = useDispatch();
 
-  const [modelPortfolioName, setModelPortfolioName] = useState(
-    modelPortfolio.model_portfolio.name,
-  );
+  console.log(modelPortfolio);
+
+  const modelPortfolioId = useSelector(selectCurrentModelPortfolioId);
+
+  const [modelPortfolioName, setModelPortfolioName] = useState('');
   const [editName, setEditName] = useState(false);
   const [notAssetError, setNotAssetError] = useState(false);
 
@@ -90,32 +93,18 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
     return assetClassesAvailable;
   };
 
-  const getAllocatedPercent = () => {
+  const getRemainingPercent = () => {
     const allocatedPercent = modelPortfolio.model_portfolio_asset_class.reduce(
       (sum, astCls) => {
         return sum + astCls.percent;
       },
       0,
     );
-    console.log(allocatedPercent);
-
-    return allocatedPercent;
+    return 100 - allocatedPercent;
   };
-  const [
-    listOfAssetClassesAvailable,
-    setListOfAssetClassesAvailable,
-  ] = useState(getAvailableAssetClasses());
 
-  const [remainingPercent, setRemainingPercent] = useState(
-    100 - getAllocatedPercent(),
-  );
-
-  // update list of available asset classes and the remaining percentage when modelPortfolio gets updated
   useEffect(() => {
-    return () => {
-      setListOfAssetClassesAvailable(getAvailableAssetClasses());
-      setRemainingPercent(100 - getAllocatedPercent());
-    };
+    setModelPortfolioName(modelPortfolio.model_portfolio.name);
   }, [modelPortfolio]);
 
   // remove the error after 5 seconds
@@ -129,16 +118,16 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
       modelPortfolioName!.trim().length > 0
     ) {
       modelPortfolio.model_portfolio.name = modelPortfolioName;
-
       postData(
         '/api/v1/modelPortfolio/cc095d43-9170-4de0-8729-1acfaf4c5832',
         modelPortfolio,
       )
         .then(() => {
-          dispatch(loadModelPortfolio());
+          dispatch(loadModelPortfolio({ id: modelPortfolioId }));
+          dispatch(loadModelPortfolios());
         })
         .catch(() => {
-          dispatch(loadModelPortfolio());
+          // dispatch(loadModelPortfolio({ id: modelPortfolioId }));
           toast.error(
             `${modelPortfolio.model_portfolio.name} Model Portfolio Name Update Failed`,
             { autoClose: 3000 },
@@ -154,15 +143,12 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
     modelPortfolio.model_portfolio_asset_class.forEach((astCls, index) => {
       if (astCls.model_asset_class.id === id) {
         modelPortfolio.model_portfolio_asset_class.splice(index, 1);
-        postData(
-          '/api/v1/modelPortfolio/cc095d43-9170-4de0-8729-1acfaf4c5832',
-          modelPortfolio,
-        )
+        postData(`/api/v1/modelPortfolio/${modelPortfolioId}`, modelPortfolio)
           .then(() => {
-            dispatch(loadModelPortfolio());
+            dispatch(loadModelPortfolio({ id: modelPortfolioId }));
           })
           .catch(() => {
-            dispatch(loadModelPortfolio());
+            dispatch(loadModelPortfolio({ id: modelPortfolioId }));
             toast.error(
               `${modelPortfolio.model_portfolio.name} Asset Class Deletion Failed`,
               { autoClose: 3000 },
@@ -201,7 +187,7 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
           key="cash"
         >
           <span style={{ fontSize: '26px', fontWeight: 900 }}>
-            {remainingPercent}% Cash
+            {getRemainingPercent()}% Cash
           </span>
         </li>
         {modelPortfolio.model_portfolio_asset_class.map((cl: any) => {
@@ -249,16 +235,16 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
               percent: values.percent,
             });
             postData(
-              'api/v1/modelPortfolio/cc095d43-9170-4de0-8729-1acfaf4c5832',
+              `/api/v1/modelPortfolio/${modelPortfolioId}`,
               modelPortfolio,
             )
               .then(() => {
-                dispatch(loadModelPortfolio());
+                dispatch(loadModelPortfolio({ id: modelPortfolioId }));
                 actions.resetForm();
               })
               .catch(() => {
-                dispatch(loadModelPortfolio());
-                setRemainingPercent(remainingPercent);
+                dispatch(loadModelPortfolio({ id: modelPortfolioId }));
+                getRemainingPercent();
                 setNotAssetError(true);
                 actions.resetForm();
               });
@@ -276,7 +262,7 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
                   onChange={props.handleChange}
                   value={props.values.percent}
                   min="0"
-                  max={remainingPercent}
+                  max={getRemainingPercent()}
                   required
                 />
                 <PercentageLabel htmlFor="percentage">%</PercentageLabel>
@@ -284,7 +270,7 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
               <AssetClassSelector
                 name="assetClassId"
                 id="assetClassId"
-                assetClassesAvailable={listOfAssetClassesAvailable}
+                assetClassesAvailable={getAvailableAssetClasses()}
                 onSelect={props.handleChange}
               />
               <button type="submit" style={{ display: 'none' }}></button>
