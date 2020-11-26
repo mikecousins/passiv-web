@@ -353,7 +353,7 @@ const ReferralManager = () => {
         </div>
       )}
 
-      {invoices ? (
+      {invoices.length > 0 ? (
         <>
           <SubHeading>Invoices</SubHeading>
           <ShadowBox>
