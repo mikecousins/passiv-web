@@ -134,13 +134,6 @@ const NameInput = styled(InputPrimary)`
   margin: 0;
   background: none;
 `;
-const EditButton = styled(Button)`
-  position: absolute;
-  right: 0;
-  bottom: 16px;
-  border-radius: 0;
-  padding: 14px 32px 16px;
-`;
 const Discard = styled(Button)`
   color: var(--brand-blue);
   background: none;
@@ -562,14 +555,11 @@ export const getTitleToSave = (
 
 const GoalTitle = ({ title, setTitle }: any) => {
   const [editMode, setEditMode] = useState(false);
-  const [newTitle, setNewTitle] = useState(title);
-  const finishEditing = (newTitle: string) => {
-    setTitle(newTitle);
-    setEditMode(false);
-  };
   const handleEdit = () => {
-    setNewTitle(title);
     setEditMode(true);
+  };
+  const finishEditing = () => {
+    setEditMode(false);
   };
 
   if (!editMode) {
@@ -586,15 +576,14 @@ const GoalTitle = ({ title, setTitle }: any) => {
     return (
       <div>
         <NameInput
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
-              finishEditing(newTitle);
+              finishEditing();
             }
           }}
         />
-        <EditButton onClick={() => finishEditing(newTitle)}>Done</EditButton>
       </div>
     );
   }
