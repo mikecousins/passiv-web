@@ -354,6 +354,12 @@ export const GoalSetup = ({ setGoalMode }: any) => {
         </P>
       </HeaderBanner>
       <ShadowBoxRelative>
+        {currentStep !== 'naming' && (
+          <button onClick={() => setCurrentStep(previousStep(currentStep))}>
+            Previous
+          </button>
+        )}
+
         {currentStep === 'naming' && (
           <GoalNaming
             setCurrentStep={setCurrentStep}
@@ -406,6 +412,14 @@ export const GoalSetup = ({ setGoalMode }: any) => {
 };
 
 export default GoalSetup;
+
+const previousStep = (currentStep: string) => {
+  if (currentStep === 'setGoals') {
+    return 'portfolioGroups';
+  } else {
+    return 'naming';
+  }
+};
 
 export const formatted5YearsFromNow = () => {
   const today = formattedToday();
