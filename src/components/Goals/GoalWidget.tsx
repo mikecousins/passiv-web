@@ -134,7 +134,6 @@ export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
               </P>
             </div>
           </GridAlignBottom>
-          <div>Contribution Streak: {goal?.contribution_streak}</div>
         </ShadowBoxWHover>
       </UnstyledLink>
     </React.Fragment>
