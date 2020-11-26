@@ -67,8 +67,6 @@ const AccountName = ({ name }: Props) => {
 
   const finishEditingName = () => {
     if (account && newName !== name && newName.trim().length > 0) {
-      console.log(newName.trim().length);
-
       const newAccount: Account = { ...account };
       newAccount.name = newName;
       putData(`/api/v1/accounts/${newAccount.id}/`, newAccount)
