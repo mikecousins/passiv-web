@@ -356,7 +356,6 @@ export const loadModelAssetClasses: ActionCreator<ThunkAction<
       })
       .catch((error) => {
         dispatch(fetchAssetClassesError(error));
-        console.log(error);
       });
   };
 };
@@ -366,16 +365,17 @@ export const loadModelPortfolio: ActionCreator<ThunkAction<
   any,
   any,
   Action<any>
->> = () => {
+>> = ({ id }) => {
+  console.log(id);
+
   return (dispatch) => {
     dispatch(fetchModelPortfolioStart());
-    getData(`/api/v1/modelPortfolio/${idOfModelPortfolio}`)
+    getData(`/api/v1/modelPortfolio/${id}`)
       .then((response) => {
         dispatch(fetchModelPortfolioSuccess(response));
       })
       .catch((error) => {
         dispatch(fetchModelPortfolioError(error));
-        console.log(error);
       });
   };
 };
@@ -394,7 +394,6 @@ export const loadModelPortfolios: ActionCreator<ThunkAction<
       })
       .catch((error) => {
         dispatch(fetchModelPortfoliosError(error));
-        console.log(error);
       });
   };
 };
@@ -489,15 +488,6 @@ export const reloadEverything: ActionCreator<ThunkAction<
       })
       .catch((error) => {
         dispatch(fetchAssetClassesError(error));
-      });
-
-    dispatch(fetchModelPortfolioStart());
-    getData(`/api/v1/modelPortfolio/${idOfModelPortfolio}`)
-      .then((response) => {
-        dispatch(fetchModelPortfolioSuccess(response));
-      })
-      .catch((error) => {
-        dispatch(fetchModelPortfolioError(error));
       });
 
     dispatch(fetchModelPortfoliosStart());
