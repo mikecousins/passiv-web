@@ -8,6 +8,7 @@ import { Goal } from '../../types/goals';
 import GoalSetup from './GoalSetup';
 import GoalsList from './GoalsList';
 import { Button } from '../../styled/Button';
+import Tour from '../Tour';
 
 const HeaderBanner = styled(Grid)`
   align-items: center;
@@ -90,6 +91,7 @@ export const Goals = () => {
 
   return (
     <React.Fragment>
+      <Tour />
       {(currentMode === 'view' || currentMode === 'finishedSetup') && (
         <HeaderBanner columns="1fr auto">
           <div>
@@ -102,7 +104,7 @@ export const Goals = () => {
           <div>
             <AddGoalButton
               onClick={() => setCurrentMode('add')}
-              className={goalsClass}
+              className={`${goalsClass} tour-add-goal`}
             >
               <span>+</span>Add Goal{' '}
             </AddGoalButton>
@@ -116,7 +118,9 @@ export const Goals = () => {
 
       <BetaBanner>
         Open Beta: Help us improve our tools by{' '}
-        <A href="mailto:reporting@getpassiv.com">sharing feedback</A>
+        <A href="mailto:reporting@getpassiv.com" className="tour-goal-name">
+          sharing feedback
+        </A>
       </BetaBanner>
     </React.Fragment>
   );
