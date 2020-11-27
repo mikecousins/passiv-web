@@ -69,9 +69,9 @@ export const DashboardPage = () => {
         </CustomizeDashContainer>
       )}
       {configMode && <DashboardConfig />}
-      <DashboardGoalWidgets />
       {hasQuestradeConnection && !anyTargets && <DashboardReporting />}
       {!hasQuestradeConnection && <TotalHoldings smaller={false} />}
+      <DashboardGoalWidgets />
 
       {groupDisplay}
 
