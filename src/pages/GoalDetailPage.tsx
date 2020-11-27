@@ -211,7 +211,7 @@ const GoalDetailPage = () => {
   const today = new Date();
   const targetDate = new Date(Date.parse(getTargetDate(year, month)));
   const daysUntilGoalEnd = daysBetween(today, new Date(targetDate));
-  const projectedAccountValue = getProjectedValue(
+  const [projectedAccountValue, principal, interest] = getProjectedValue(
     currentValue,
     returnRate,
     contributionTarget,
@@ -222,8 +222,10 @@ const GoalDetailPage = () => {
   let currentDay = new Date();
   const interval = daysUntilGoalEnd / 300;
   let projectedData = [];
+  let principalData = [];
+  let interestData = [];
   for (let i = 0; i < 300; i++) {
-    const newValue = getProjectedValue(
+    const [newProjectedValue, newPrincipal, newInterest] = getProjectedValue(
       currentValue,
       returnRate,
       contributionTarget,
@@ -237,7 +239,23 @@ const GoalDetailPage = () => {
         currentDay.getMonth(),
         currentDay.getDate(),
       ),
-      newValue,
+      newProjectedValue,
+    ]);
+    principalData.push([
+      new Date(
+        currentDay.getFullYear(),
+        currentDay.getMonth(),
+        currentDay.getDate(),
+      ),
+      newPrincipal,
+    ]);
+    interestData.push([
+      new Date(
+        currentDay.getFullYear(),
+        currentDay.getMonth(),
+        currentDay.getDate(),
+      ),
+      newInterest,
     ]);
     currentDay = addDays(currentDay, interval);
   }
@@ -248,6 +266,22 @@ const GoalDetailPage = () => {
       targetDate.getDate(),
     ),
     projectedAccountValue,
+  ]);
+  principalData.push([
+    new Date(
+      currentDay.getFullYear(),
+      currentDay.getMonth(),
+      currentDay.getDate(),
+    ),
+    principal,
+  ]);
+  interestData.push([
+    new Date(
+      currentDay.getFullYear(),
+      currentDay.getMonth(),
+      currentDay.getDate(),
+    ),
+    interest,
   ]);
 
   const dateChanged = getTargetDate(year, month) !== goal?.target_date;
@@ -443,7 +477,11 @@ const GoalDetailPage = () => {
               targetDate={targetDate}
               currentValue={currentValue}
               projectedValue={projectedAccountValue}
+              principal={principal}
+              interest={interest}
               projectedData={projectedData}
+              principalData={principalData}
+              interestData={interestData}
               goalTarget={goalTarget}
               setGoalTarget={setGoalTarget}
             ></GoalProjectionLineChart>
@@ -499,13 +537,16 @@ const getProjectedValue = (
   const numPeriods = getNumPeriods(contributionFrequency, daysUntilGoalEnd);
   const yearsLeft = daysUntilGoalEnd / 365.25;
   let endBalance = currentValue * (1 + returnRate / 100) ** yearsLeft;
+  let principal = currentValue;
   for (let i = 0; i < numPeriods; i++) {
+    principal += contributionAmount;
     endBalance +=
       contributionAmount *
       (1 + returnRate / 100) **
         (yearsLeft - i / getPeriodsPerYear(contributionFrequency));
   }
-  return endBalance;
+  const interest = endBalance - principal;
+  return [endBalance, principal, interest];
 };
 
 const getNumPeriods = (
