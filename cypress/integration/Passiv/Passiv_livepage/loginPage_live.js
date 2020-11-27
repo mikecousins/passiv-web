@@ -6,7 +6,7 @@ describe('Login individual component test', () => {
     
     it('Button works with email AND password', () => {
         const typedtext = 'alex.sutherland@getpassiv.com'
-        const typedtext2 = '5Browse8'
+        const typedtext2 = 'GGEZ'
         cy.get('[name=email]')
         .type(typedtext)
         .should('have.value', typedtext)

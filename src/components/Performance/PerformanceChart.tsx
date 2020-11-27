@@ -86,7 +86,7 @@ export const PerformanceChart: FunctionComponent<Props> = ({
     [displayTotal],
   );
 
-  if (data[0].data !== undefined) {
+  if (data[0] !== undefined && data[0].data !== undefined) {
     return (
       <ChartBox className={className}>
         <Chart data={data} axes={axes} series={series} tooltip={tooltip} />

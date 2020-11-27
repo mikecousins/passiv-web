@@ -25,6 +25,12 @@ const Heading = styled.h2`
     margin-left: 6px;
   }
 `;
+const Completed = styled.p`
+  font-size: 26px;
+  font-weight: 1000;
+  color: #04a287;
+  text-align: right;
+`;
 const UnstyledLink = styled(Link)`
   text-decoration: none;
   color: black;
@@ -55,6 +61,14 @@ const ProgressContainer = styled.div`
 const ShadowBoxWHover = styled(ShadowBox)`
   transition: all 0.25s;
   border: 1px solid #fff;
+  &.completed {
+    border: 15px solid #05a286;
+    &:hover {
+      box-shadow: 4px 6px 12px 0 rgb(107 110 115 / 40%);
+      border: 10px solid #023ca2;
+      border: 10px solid #05a286;
+    }
+  }
   &:hover {
     box-shadow: 4px 6px 12px 0 rgb(107 110 115 / 40%);
     border: 1px solid #023ca2;
@@ -79,6 +93,7 @@ export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
   if (progressPercent > 100) {
     progressPercent = 100;
   }
+  const completed = progressPercent >= 100;
   return (
     <React.Fragment>
       <UnstyledLink
@@ -91,9 +106,10 @@ export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
           },
         }}
       >
-        <ShadowBoxWHover>
+        <ShadowBoxWHover className={completed ? 'completed' : 'inProgress'}>
           <Heading>
             {goal?.title} <span> {goal?.target_date}</span>
+            {completed && <Completed>Completed!</Completed>}
           </Heading>
           <GridAlignBottom columns="200px auto 200px">
             <div>
@@ -118,7 +134,6 @@ export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
               </P>
             </div>
           </GridAlignBottom>
-          <div>Contribution Streak: {goal?.contribution_streak}</div>
         </ShadowBoxWHover>
       </UnstyledLink>
     </React.Fragment>
