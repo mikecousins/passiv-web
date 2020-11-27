@@ -185,7 +185,7 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
         </LegendContainer>
       )}
       <Chart data={data} axes={axes} series={series} />
-      {interest > 0 && (
+      {(interest > 0 || showDetailed) && (
         <BreakdownToggle onClick={() => setShowDetailed(!showDetailed)}>
           <FontAwesomeIcon icon={faSearch} style={{ padding: 1 }} /> Show
           Breakdown
