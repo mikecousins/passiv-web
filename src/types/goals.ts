@@ -10,6 +10,7 @@ export type Goal = {
   contribution_frequency: string;
   portfolio_group: PortfolioGroup | null;
   return_rate: number;
+  display_on_dashboard: boolean;
   completed: boolean;
   contribution_streak: number;
 };

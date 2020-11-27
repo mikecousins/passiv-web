@@ -15,7 +15,12 @@ import {
 } from '../components/Goals/GoalSetup';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPen,
+  faToggleOff,
+  faToggleOn,
+  faTrashAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { H1, P, H3, A, Edit } from '../styled/GlobalElements';
 import { InputPrimary } from '../styled/Form';
@@ -27,6 +32,9 @@ import { Button, SmallButton } from '../styled/Button';
 import { patchData } from '../api';
 import { toast } from 'react-toastify';
 import { Goal } from '../types/goals';
+import { StateText, ToggleButton } from '../styled/ToggleButton';
+import '@reach/dialog/styles.css';
+import { Dialog } from '@reach/dialog';
 
 const GoalProjectionContainer = styled.div`
   padding-bottom: 80px;
@@ -128,12 +136,12 @@ const NameInput = styled(InputPrimary)`
   margin: 0;
   background: none;
 `;
-const EditButton = styled(Button)`
-  position: absolute;
-  right: 0;
-  bottom: 16px;
-  border-radius: 0;
-  padding: 14px 32px 16px;
+const Discard = styled(Button)`
+  color: var(--brand-blue);
+  background: none;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 const daysBetween = (firstDate: Date, secondDate: Date) => {
   const _MS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -170,6 +178,10 @@ const GoalDetailPage = () => {
   }
 
   const [title, setTitle] = useState(goal?.title);
+  const [displayOnDashboard, setDisplayOnDashboard] = useState(
+    goal?.display_on_dashboard,
+  );
+  const [showOptions, setShowOptions] = useState(false);
   const [returnRate, setReturnRate] = useState(goal?.return_rate);
   const [goalTarget, setGoalTarget] = useState(goal?.total_value_target);
   const [contributionTarget, setContributionTarget] = useState(
@@ -199,7 +211,7 @@ const GoalDetailPage = () => {
   const today = new Date();
   const targetDate = new Date(Date.parse(getTargetDate(year, month)));
   const daysUntilGoalEnd = daysBetween(today, new Date(targetDate));
-  const projectedAccountValue = getProjectedValue(
+  const [projectedAccountValue, principal, interest] = getProjectedValue(
     currentValue,
     returnRate,
     contributionTarget,
@@ -210,8 +222,10 @@ const GoalDetailPage = () => {
   let currentDay = new Date();
   const interval = daysUntilGoalEnd / 300;
   let projectedData = [];
+  let principalData = [];
+  let interestData = [];
   for (let i = 0; i < 300; i++) {
-    const newValue = getProjectedValue(
+    const [newProjectedValue, newPrincipal, newInterest] = getProjectedValue(
       currentValue,
       returnRate,
       contributionTarget,
@@ -225,7 +239,23 @@ const GoalDetailPage = () => {
         currentDay.getMonth(),
         currentDay.getDate(),
       ),
-      newValue,
+      newProjectedValue,
+    ]);
+    principalData.push([
+      new Date(
+        currentDay.getFullYear(),
+        currentDay.getMonth(),
+        currentDay.getDate(),
+      ),
+      newPrincipal,
+    ]);
+    interestData.push([
+      new Date(
+        currentDay.getFullYear(),
+        currentDay.getMonth(),
+        currentDay.getDate(),
+      ),
+      newInterest,
     ]);
     currentDay = addDays(currentDay, interval);
   }
@@ -237,6 +267,22 @@ const GoalDetailPage = () => {
     ),
     projectedAccountValue,
   ]);
+  principalData.push([
+    new Date(
+      currentDay.getFullYear(),
+      currentDay.getMonth(),
+      currentDay.getDate(),
+    ),
+    principal,
+  ]);
+  interestData.push([
+    new Date(
+      currentDay.getFullYear(),
+      currentDay.getMonth(),
+      currentDay.getDate(),
+    ),
+    interest,
+  ]);
 
   const dateChanged = getTargetDate(year, month) !== goal?.target_date;
   const targetChanged = goalTarget !== goal?.total_value_target;
@@ -246,6 +292,8 @@ const GoalDetailPage = () => {
     contributionFrequency !== goal?.contribution_frequency;
   const returnRateChanged = returnRate !== goal?.return_rate;
   const titleChanged = title !== goal?.title;
+  const displayOnDashboardChanged =
+    displayOnDashboard !== goal?.display_on_dashboard;
 
   const handleReturnChange = (e: any) => {
     let newValue = e.target.value;
@@ -281,6 +329,7 @@ const GoalDetailPage = () => {
       contributionTarget,
       returnRate,
       goalId,
+      displayOnDashboard,
     })
       .then(() => {
         dispatch(loadGoals());
@@ -296,6 +345,7 @@ const GoalDetailPage = () => {
     setContributionFrequency(goal?.contribution_frequency);
     setReturnRate(goal?.return_rate);
     setTitle(goal?.title);
+    setDisplayOnDashboard(goal?.display_on_dashboard);
   };
 
   return (
@@ -306,6 +356,45 @@ const GoalDetailPage = () => {
             <FontAwesomeIcon icon={faChevronLeft} /> View all Goals
           </BackLink>
           <GoalTitle title={title} setTitle={setTitle} />
+          {goal?.portfolio_group !== null && (
+            <P>{goal?.portfolio_group?.name}</P>
+          )}
+          <div>
+            <div onClick={() => setShowOptions(!showOptions)}>Show Options</div>
+            {showOptions && (
+              <div>
+                <div onClick={() => setDisplayOnDashboard(!displayOnDashboard)}>
+                  {displayOnDashboard ? (
+                    <span>Pin to Dashboard</span>
+                  ) : (
+                    <span>Unpin to Dashboard</span>
+                  )}
+                </div>
+                <div>Edit Name</div>
+                <div onClick={handleSave}>Update Goal</div>
+                <div onClick={handleDiscard}>Discard Changes</div>
+                <div onClick={handleDeleteClick}>Delete Goal</div>
+              </div>
+            )}
+          </div>
+          <div>
+            Display Goal on Dashboard:{' '}
+            <ToggleButton
+              onClick={() => setDisplayOnDashboard(!displayOnDashboard)}
+            >
+              {displayOnDashboard ? (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOn} />
+                  <StateText>on</StateText>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOff} />
+                  <StateText>off</StateText>
+                </React.Fragment>
+              )}
+            </ToggleButton>
+          </div>
         </HeaderBanner>
         <ShadowBox background="#04a287">
           <Summary columns="1fr 1fr 1fr">
@@ -362,6 +451,20 @@ const GoalDetailPage = () => {
               />
               %?
             </Question>
+
+            {(dateChanged ||
+              targetChanged ||
+              contributionsChanged ||
+              contributionFrequencyChanged ||
+              returnRateChanged ||
+              titleChanged ||
+              displayOnDashboardChanged) && (
+              <span>
+                <Button onClick={handleSave}>Update Goal</Button>
+                <Discard onClick={handleDiscard}>Discard Changes</Discard>
+              </span>
+            )}
+
             <Tip>
               <P>
                 Learn more about potential return rates <A>Link to article</A>.
@@ -374,43 +477,50 @@ const GoalDetailPage = () => {
               targetDate={targetDate}
               currentValue={currentValue}
               projectedValue={projectedAccountValue}
+              principal={principal}
+              interest={interest}
               projectedData={projectedData}
+              principalData={principalData}
+              interestData={interestData}
               goalTarget={goalTarget}
               setGoalTarget={setGoalTarget}
             ></GoalProjectionLineChart>
           </GoalProjectionContainer>
         </ChangeContainer>
       </ShadowBox>
-      {(dateChanged ||
-        targetChanged ||
-        contributionsChanged ||
-        contributionFrequencyChanged ||
-        returnRateChanged ||
-        titleChanged) && (
-        <span>
-          <Button
-            onClick={handleDiscard}
-            style={{ backgroundColor: 'transparent', color: 'black' }}
-          >
-            Discard Changes
-          </Button>
-          <Button onClick={handleSave}>Update Goal</Button>
-        </span>
-      )}
       <Delete onClick={handleDeleteClick}>
         <FontAwesomeIcon icon={faTrashAlt} /> Delete {goal?.title}
       </Delete>
-      {showDeleteDialog && (
-        <div style={{ float: 'right' }}>
-          <SmallButton onClick={handleDelete}>Delete</SmallButton>
-          <SmallButton
-            onClick={() => setShowDeleteDialog(false)}
-            style={{ backgroundColor: 'transparent', color: 'black' }}
-          >
-            Cancel
-          </SmallButton>
-        </div>
-      )}
+      <Dialog
+        isOpen={showDeleteDialog}
+        onDismiss={() => setShowDeleteDialog(false)}
+        style={{ borderRadius: '1rem' }}
+        aria-labelledby="dialog1Title"
+        aria-describedby="dialog1Desc"
+      >
+        <P>
+          Are you sure you want to delete{' '}
+          <span style={{ fontWeight: 'bold' }}>{goal?.title}</span> ?
+        </P>
+        <p style={{ fontSize: '0.8rem' }}>This can not be undone</p>
+        <br />
+        <SmallButton
+          onClick={handleDelete}
+          style={{
+            backgroundColor: 'transparent',
+            color: 'black',
+            fontWeight: 600,
+          }}
+        >
+          Delete
+        </SmallButton>
+        <SmallButton
+          onClick={() => setShowDeleteDialog(false)}
+          style={{ fontWeight: 600 }}
+        >
+          Cancel
+        </SmallButton>
+      </Dialog>
     </React.Fragment>
   );
 };
@@ -427,13 +537,16 @@ const getProjectedValue = (
   const numPeriods = getNumPeriods(contributionFrequency, daysUntilGoalEnd);
   const yearsLeft = daysUntilGoalEnd / 365.25;
   let endBalance = currentValue * (1 + returnRate / 100) ** yearsLeft;
+  let principal = currentValue;
   for (let i = 0; i < numPeriods; i++) {
+    principal += contributionAmount;
     endBalance +=
       contributionAmount *
       (1 + returnRate / 100) **
         (yearsLeft - i / getPeriodsPerYear(contributionFrequency));
   }
-  return endBalance;
+  const interest = endBalance - principal;
+  return [endBalance, principal, interest];
 };
 
 const getNumPeriods = (
@@ -523,14 +636,11 @@ export const getTitleToSave = (
 
 const GoalTitle = ({ title, setTitle }: any) => {
   const [editMode, setEditMode] = useState(false);
-  const [newTitle, setNewTitle] = useState(title);
-  const finishEditing = (newTitle: string) => {
-    setTitle(newTitle);
-    setEditMode(false);
-  };
   const handleEdit = () => {
-    setNewTitle(title);
     setEditMode(true);
+  };
+  const finishEditing = () => {
+    setEditMode(false);
   };
 
   if (!editMode) {
@@ -547,15 +657,14 @@ const GoalTitle = ({ title, setTitle }: any) => {
     return (
       <div>
         <NameInput
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
-              finishEditing(newTitle);
+              finishEditing();
             }
           }}
         />
-        <EditButton onClick={() => finishEditing(newTitle)}>Done</EditButton>
       </div>
     );
   }
