@@ -217,6 +217,9 @@ const ReferralManager = () => {
       })
       .catch((err) => {
         setLoading(false);
+        if (err.response) {
+          setError(err.response.data);
+        }
         console.log(err);
       });
   }
