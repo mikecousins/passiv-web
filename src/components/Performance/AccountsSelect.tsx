@@ -83,7 +83,9 @@ export const AccountsSelect = () => {
     }
   });
   const [selected, setSelected] = useState<any[]>(selectedOptions);
-  dispatch(setSelectedAccounts(selected));
+  if (selectedAccounts !== selected) {
+    dispatch(setSelectedAccounts(selected));
+  }
 
   return (
     <React.Fragment>
