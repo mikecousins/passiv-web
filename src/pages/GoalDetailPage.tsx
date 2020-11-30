@@ -20,9 +20,10 @@ import {
   faToggleOff,
   faToggleOn,
   faTrashAlt,
+  faEllipsisV,
 } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { H1, P, H3, A, Edit } from '../styled/GlobalElements';
+import { H1, P, H2, H3, A, Edit } from '../styled/GlobalElements';
 import { InputPrimary } from '../styled/Form';
 import Grid from '../styled/Grid';
 import ShadowBox from '../styled/ShadowBox';
@@ -55,6 +56,7 @@ const HeaderBanner = styled.div`
     margin-bottom: 10px;
     line-height: 1;
     display: inline-block;
+    padding-left: 55px;
   }
   p {
     margin-bottom: 0;
@@ -78,6 +80,7 @@ const Summary = styled(Grid)`
 `;
 const ChangeContainer = styled(Grid)`
   align-items: center;
+  position: relative;
 `;
 const NumInput = styled(InputPrimary)`
   border-bottom: 2px solid var(--brand-blue);
@@ -113,7 +116,6 @@ const Question = styled.div`
 const Tip = styled.div`
   font-size: 14px;
   max-width: 295px;
-  padding-top: 30px;
 `;
 const Delete = styled.button`
   svg {
@@ -142,6 +144,76 @@ const Discard = styled(Button)`
   &:hover {
     text-decoration: underline;
   }
+`;
+const ToggleShow = styled(Button)`
+  border: 1px solid var(--brand-blue);
+  background: none;
+  color: var(--brand-blue);
+  position: absolute;
+  top: 39px;
+  left: 0;
+  font-size: 1.1rem;
+  font-weight: 300;
+  padding: 8px 16px;
+  background: #fff;
+  &:hover {
+    background: var(--brand-blue);
+    color: #fff;
+  }
+`;
+const DropDown = styled.div`
+  border: 1px solid var(--brand-blue);
+  position: absolute;
+  top: 82%;
+  left: 0;
+  width: 100%;
+  padding: 22px 20px 24px;
+  background: #c3e7ff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  p {
+    margin-bottom: 24px;
+  }
+  svg {
+    margin-right: 12px;
+  }
+`;
+const DeleteGoal = styled.div`
+  position: absolute;
+  bottom: 28px;
+  right: 30px;
+  cursor: pointer;
+  &:hover {
+    color: #003ba2;
+    text-decoration: underline;
+  }
+`;
+const SaveContainer = styled.div`
+  position: absolute;
+  left: -21px;
+  bottom: -21px;
+  background: #c3e7ff;
+  padding: 26px 26px 20px 20px;
+  overflow: hidden;
+  border-radius: 0 0 0 4px;
+`;
+const DashboardToggle = styled.div`
+  margin-top: 18px;
+`;
+const ActionContainer = styled.div`
+  text-align: center;
+  a {
+    padding-left: 20px;
+  }
+`;
+const H2Margin = styled(H2)`
+  max-width: 500px;
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1.3;
+  text-align: center;
+  margin: 0 auto 40px;
 `;
 const daysBetween = (firstDate: Date, secondDate: Date) => {
   const _MS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -356,44 +428,48 @@ const GoalDetailPage = () => {
             <FontAwesomeIcon icon={faChevronLeft} /> View all Goals
           </BackLink>
           <GoalTitle title={title} setTitle={setTitle} />
-          {goal?.portfolio_group !== null && (
-            <P>{goal?.portfolio_group?.name}</P>
-          )}
           <div>
-            <div onClick={() => setShowOptions(!showOptions)}>Show Options</div>
+            <ToggleShow onClick={() => setShowOptions(!showOptions)}>
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </ToggleShow>
             {showOptions && (
-              <div>
-                <div onClick={() => setDisplayOnDashboard(!displayOnDashboard)}>
-                  {displayOnDashboard ? (
-                    <span>Pin to Dashboard</span>
-                  ) : (
-                    <span>Unpin to Dashboard</span>
-                  )}
+              <DropDown>
+                {goal?.portfolio_group !== null && (
+                  <P>
+                    <strong>Included Portfolio(s):</strong>{' '}
+                    {goal?.portfolio_group?.name}
+                  </P>
+                )}
+                <div>
+                  <FontAwesomeIcon icon={faPen} />
+                  Edit Name
                 </div>
-                <div>Edit Name</div>
-                <div onClick={handleSave}>Update Goal</div>
-                <div onClick={handleDiscard}>Discard Changes</div>
-                <div onClick={handleDeleteClick}>Delete Goal</div>
-              </div>
+                <DashboardToggle
+                  onClick={() => setDisplayOnDashboard(!displayOnDashboard)}
+                >
+                  <div>
+                    <ToggleButton
+                      onClick={() => setDisplayOnDashboard(!displayOnDashboard)}
+                    >
+                      {displayOnDashboard ? (
+                        <React.Fragment>
+                          <FontAwesomeIcon icon={faToggleOn} />
+                        </React.Fragment>
+                      ) : (
+                        <React.Fragment>
+                          <FontAwesomeIcon icon={faToggleOff} />
+                        </React.Fragment>
+                      )}
+                    </ToggleButton>
+                    Display Goal on Dashboard{' '}
+                  </div>
+                </DashboardToggle>
+                <DeleteGoal onClick={handleDeleteClick}>
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                  Delete Goal
+                </DeleteGoal>
+              </DropDown>
             )}
-          </div>
-          <div>
-            Display Goal on Dashboard:{' '}
-            <ToggleButton
-              onClick={() => setDisplayOnDashboard(!displayOnDashboard)}
-            >
-              {displayOnDashboard ? (
-                <React.Fragment>
-                  <FontAwesomeIcon icon={faToggleOn} />
-                  <StateText>on</StateText>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <FontAwesomeIcon icon={faToggleOff} />
-                  <StateText>off</StateText>
-                </React.Fragment>
-              )}
-            </ToggleButton>
           </div>
         </HeaderBanner>
         <ShadowBox background="#04a287">
@@ -452,6 +528,12 @@ const GoalDetailPage = () => {
               %?
             </Question>
 
+            <Tip>
+              <P>
+                Learn more about potential return rates <A>Link to article</A>.
+              </P>
+            </Tip>
+
             {(dateChanged ||
               targetChanged ||
               contributionsChanged ||
@@ -459,17 +541,11 @@ const GoalDetailPage = () => {
               returnRateChanged ||
               titleChanged ||
               displayOnDashboardChanged) && (
-              <span>
+              <SaveContainer>
                 <Button onClick={handleSave}>Update Goal</Button>
                 <Discard onClick={handleDiscard}>Discard Changes</Discard>
-              </span>
+              </SaveContainer>
             )}
-
-            <Tip>
-              <P>
-                Learn more about potential return rates <A>Link to article</A>.
-              </P>
-            </Tip>
           </div>
           <GoalProjectionContainer>
             <GoalProjectionLineChart
@@ -488,38 +564,21 @@ const GoalDetailPage = () => {
           </GoalProjectionContainer>
         </ChangeContainer>
       </ShadowBox>
-      <Delete onClick={handleDeleteClick}>
-        <FontAwesomeIcon icon={faTrashAlt} /> Delete {goal?.title}
-      </Delete>
       <Dialog
         isOpen={showDeleteDialog}
         onDismiss={() => setShowDeleteDialog(false)}
-        style={{ borderRadius: '1rem' }}
+        style={{ borderRadius: '4px' }}
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
       >
-        <P>
+        <H2Margin>
           Are you sure you want to delete{' '}
           <span style={{ fontWeight: 'bold' }}>{goal?.title}</span> ?
-        </P>
-        <p style={{ fontSize: '0.8rem' }}>This can not be undone</p>
-        <br />
-        <SmallButton
-          onClick={handleDelete}
-          style={{
-            backgroundColor: 'transparent',
-            color: 'black',
-            fontWeight: 600,
-          }}
-        >
-          Delete
-        </SmallButton>
-        <SmallButton
-          onClick={() => setShowDeleteDialog(false)}
-          style={{ fontWeight: 600 }}
-        >
-          Cancel
-        </SmallButton>
+        </H2Margin>
+        <ActionContainer>
+          <Button onClick={handleDelete}>Delete</Button>
+          <A onClick={() => setShowDeleteDialog(false)}>Cancel</A>
+        </ActionContainer>
       </Dialog>
     </React.Fragment>
   );
@@ -647,10 +706,10 @@ const GoalTitle = ({ title, setTitle }: any) => {
     return (
       <div>
         <H1>{title}</H1>
-        <Edit onClick={() => handleEdit()}>
+        {/* <Edit onClick={() => handleEdit()}>
           <FontAwesomeIcon icon={faPen} />
           Edit Name
-        </Edit>
+        </Edit> */}
       </div>
     );
   } else {
