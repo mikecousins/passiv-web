@@ -30,4 +30,5 @@ export type Settings = {
   show_contributions1Y: boolean;
   show_2columns_dashboard: boolean;
   contextual_messages: ContextualMessage[];
+  affiliate_bonus_amount: number;
 };
