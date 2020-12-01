@@ -23,6 +23,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { ContextualMessageWrapper } from './ContextualMessageWrapper';
 import styled from '@emotion/styled';
+import Tour from './AppTour/Tour';
 
 type Props = {
   trades: any;
@@ -31,6 +32,14 @@ type Props = {
   onClose?: () => void;
 };
 
+const TOUR_STEPS = [
+  {
+    target: '.tour-trades',
+    content:
+      'We want to make sure that your accuracy gets as close as possible to 100%. The trades listed below are based on your holdings and your available cash. ',
+    placement: 'right',
+  },
+];
 const NoTradesNotice = styled.div`
   color: #232225;
   padding-top: 20px;
@@ -56,7 +65,7 @@ export const PortfolioGroupTrades = ({
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
   const [tradesCache, setTradesCache] = useState(null);
 
-  const groupAccounts = accounts.filter(a => a.portfolio_group === groupId);
+  const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
   const triggerTradesSubmitted = () => {
     setTradesSubmitted(true);
@@ -88,7 +97,7 @@ export const PortfolioGroupTrades = ({
     const tradeRender = (trade: any) => {
       let accountName = '';
       if (accounts) {
-        const account = accounts.find(a => a.id === trade.account);
+        const account = accounts.find((a) => a.id === trade.account);
         if (account) {
           accountName = account.name;
         }
@@ -168,23 +177,26 @@ export const PortfolioGroupTrades = ({
 
   if (tradesSubmitted || (tradesToRender && tradesToRender.trades.length)) {
     return (
-      <TradesContainer>
-        <H2>Trades</H2>
-        {sellsListRender}
-        {buysListRender}
-        <RebalanceWidget
-          trades={trades}
-          groupId={groupId}
-          onClose={onClose}
-          tradesTrigger={() => triggerTradesSubmitted()}
-          tradesUntrigger={() => untriggerTradesSubmitted()}
-        />
-        <TradesExplanation
-          settings={settings}
-          accounts={groupAccounts}
-          container={true}
-        />
-      </TradesContainer>
+      <>
+        <Tour steps={TOUR_STEPS} />
+        <TradesContainer className="tour-trades">
+          <H2>Trades</H2>
+          {sellsListRender}
+          {buysListRender}
+          <RebalanceWidget
+            trades={trades}
+            groupId={groupId}
+            onClose={onClose}
+            tradesTrigger={() => triggerTradesSubmitted()}
+            tradesUntrigger={() => untriggerTradesSubmitted()}
+          />
+          <TradesExplanation
+            settings={settings}
+            accounts={groupAccounts}
+            container={true}
+          />
+        </TradesContainer>
+      </>
     );
   } else {
     if (!error) {
