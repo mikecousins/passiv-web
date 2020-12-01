@@ -13,8 +13,6 @@ import {
   formattedYearAgo,
 } from '../components/Performance/DatePickers';
 
-const idOfModelPortfolio = 'cc095d43-9170-4de0-8729-1acfaf4c5832';
-
 export const loginSucceeded: ActionCreator<Action> = (payload) => ({
   type: 'LOGIN_SUCCEEDED',
   payload,
