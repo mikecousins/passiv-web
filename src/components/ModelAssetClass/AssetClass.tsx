@@ -10,7 +10,6 @@ import { P } from '../../styled/GlobalElements';
 import { SmallButton } from '../../styled/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import '@reach/dialog/styles.css';
 import { Dialog } from '@reach/dialog';
 
 export const DeleteButton = styled.button`
