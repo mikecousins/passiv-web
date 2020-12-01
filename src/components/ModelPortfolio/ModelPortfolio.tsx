@@ -12,7 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
-import { ViewBtn } from '../../styled/Group';
 import AssetClassesBox from './AssetClassesBox';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import {
@@ -67,9 +66,10 @@ const ModelPortfolio = () => {
 
   useEffect(() => {
     dispatch(loadModelPortfolio({ id: modelPortfolioId }));
-  }, []);
+  }, [dispatch, modelPortfolioId]);
 
   const [deleteDialog, setDeleteDialog] = useState(false);
+
   const modelPortfolio: ModelPortfolioDetailsType | null = useSelector(
     selectModelPortfolio,
   );
@@ -133,10 +133,10 @@ const ModelPortfolio = () => {
           </>
         ) : (
           <button onClick={() => setDeleteDialog(true)}>
-            <FontAwesomeIcon icon={faTrashAlt} /> Delete{' '}
+            <FontAwesomeIcon icon={faTrashAlt} /> Delete
             <span style={{ fontWeight: 600 }}>
               {modelPortfolio?.model_portfolio.name}
-            </span>{' '}
+            </span>
           </button>
         )}
       </DeleteContainer>
