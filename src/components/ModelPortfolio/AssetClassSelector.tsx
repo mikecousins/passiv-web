@@ -9,7 +9,6 @@ import {
   ComboboxList,
   ComboboxOption,
 } from '@reach/combobox';
-import '@reach/combobox/styles.css';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
