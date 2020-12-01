@@ -263,7 +263,7 @@ const GoalDetailPage = () => {
   const group = groups.find((x) => x.id === goal?.portfolio_group?.id);
   let currentValue = useSelector(selectTotalGroupHoldings);
   if (group !== undefined) {
-    currentValue = group.totalHoldings;
+    currentValue = group.totalHoldings + group.totalCash;
   }
   let targetValue = goal?.total_value_target;
   if (targetValue === undefined) {
