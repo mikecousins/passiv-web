@@ -173,7 +173,7 @@ export const getCurrentValue = (
 ) => {
   let currentValue = totalHoldings;
   if (group !== undefined) {
-    currentValue = group.totalHoldings;
+    currentValue = group.totalHoldings + group.totalCash;
   }
   return currentValue;
 };
