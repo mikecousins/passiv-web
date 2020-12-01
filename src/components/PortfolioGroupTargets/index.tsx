@@ -25,6 +25,20 @@ import ShadowBox from '../../styled/ShadowBox';
 import LoadingOverlay from '../LoadingOverlay';
 import TargetSelector from './TargetSelector';
 import { selectIsEditMode } from '../../selectors/router';
+import Tour from '../AppTour/Tour';
+
+const TOUR_STEPS = [
+  {
+    target: '.tour-import-holdings',
+    content:
+      'Import your holdings automatically from your brokerage account. All your holdings get imported and get assigned with an actual percentage automatically. Start by clicking the Import button.',
+  },
+  {
+    target: '.tour-build-portfolio',
+    content:
+      'Build your portfolio manually by adding your securities one-by-one. Start by clicking the Build button.',
+  },
+];
 
 export const TargetContainer = styled.form`
   h2 {
@@ -96,6 +110,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     {
       id: 'IMPORT',
       name: 'Import your current holdings as a target',
+      tourClass: 'tour-import-holdings',
       button: (
         <React.Fragment>
           <Button onClick={() => importTarget()} disabled={importDisabled()}>
@@ -113,6 +128,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     {
       id: 'MANUAL',
       name: 'Build your target portfolio manually',
+      tourClass: 'tour-build-portfolio',
       button: <Button onClick={() => setModel('MANUAL')}>Build</Button>,
     },
   ];
@@ -152,7 +168,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
       !targetInitialized ||
       (!loading &&
         target &&
-        target.filter(t => t.is_supported === true).length === 0)
+        target.filter((t) => t.is_supported === true).length === 0)
     ) {
       form = <ShadowBox>{form}</ShadowBox>;
     }
@@ -206,7 +222,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     !(targetInitialized && target) &&
     !loading &&
     ((target &&
-      target.filter(t => t.is_supported === true && t.is_excluded === false)
+      target.filter((t) => t.is_supported === true && t.is_excluded === false)
         .length === 0) ||
       !target)
   ) {
@@ -216,6 +232,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
           <H2 style={h2DarkStyle}>Target Portfolio</H2>
           {!model ? (
             <React.Fragment>
+              <Tour steps={TOUR_STEPS} />
               <P style={pDarkStyle}>
                 A target portfolio is how you tell Passiv what you want. You
                 will need to choose which securities you want to hold and how
@@ -228,9 +245,11 @@ const PortfolioGroupTargets = ({ error }: Props) => {
                 one of the following options:
               </P>
               <Container2Column>
-                {modelChoices.map(m => (
+                {modelChoices.map((m) => (
                   <ShadowBox key={m.id}>
-                    <H3LowProfile>{m.name}</H3LowProfile>
+                    <H3LowProfile className={m.tourClass}>
+                      {m.name}
+                    </H3LowProfile>
                     <CenteredDiv>{m.button}</CenteredDiv>
                   </ShadowBox>
                 ))}
