@@ -24,23 +24,7 @@ import {
   selectCurrentGroupTradesHasSkippedTrades,
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
-import Tour from './AppTour/Tour';
 
-const TOUR_STEPS = [
-  {
-    target: '.tour-accuracy',
-    content:
-      'Accuracy tells you how close your holdings are to your desired target, where 100% indicates your holdings are perfectly on target. The accuracy changes when you adjust your targets.',
-  },
-  {
-    target: '.tour-cash',
-    content: 'All your available fund in CAD and USD.',
-  },
-  {
-    target: '.tour-total-value',
-    content: 'Current total value of your holding plus your available cash',
-  },
-];
 export const Container3Column = styled.div`
   @media (min-width: 900px) {
     display: flex;
@@ -121,24 +105,23 @@ const OverviewTab = () => {
   }
   return (
     <React.Fragment>
-      {setupComplete && <Tour steps={TOUR_STEPS} />}
       <PortfolioGroupName name={name} />
       <Container3Column>
         <PortfolioGroupAccuracy
           accuracy={accuracy}
           loading={loading}
-          tourClass="tour-accuracy"
+          tourClass={setupComplete ? 'tour-accuracy' : ''}
         />
         <PortfolioGroupCash
           balances={balances}
           error={error}
-          tourClass="tour-cash"
+          tourClass={setupComplete ? 'tour-cash' : ''}
         />
         <PortfolioGroupTotal
           equity={equity}
           error={error}
           currency={preferredCurrency}
-          tourClass="tour-total-value"
+          tourClass={setupComplete ? 'tour-total-value' : ''}
         />
       </Container3Column>
 

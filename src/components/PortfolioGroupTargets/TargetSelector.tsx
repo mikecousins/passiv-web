@@ -389,6 +389,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                           key={t.symbol}
                           target={t}
                           edit={canEdit}
+                          tour={index === 0 ? true : false}
                           setSymbol={(symbol) => {
                             setSymbol(t, symbol);
                             props.setFieldTouched(

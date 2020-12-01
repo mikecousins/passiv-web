@@ -25,7 +25,7 @@ import ShadowBox from '../../styled/ShadowBox';
 import LoadingOverlay from '../LoadingOverlay';
 import TargetSelector from './TargetSelector';
 import { selectIsEditMode } from '../../selectors/router';
-import Tour from '../AppTour/Tour';
+import Tour from '../Tour/Tour';
 
 const TOUR_STEPS = [
   {

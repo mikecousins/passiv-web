@@ -22,6 +22,42 @@ import { restrictionTypes } from '../common';
 import styled from '@emotion/styled';
 
 import { Form } from '../styled/Form';
+import Tour from './Tour/Tour';
+
+const TOUR_STEPS = [
+  {
+    target: '.tour-cash-management',
+    content:
+      'Control over how Passiv treats the currencies you hold in your brokerage account. Start dollar-cost averaging your assets by clicking Add Rule button.',
+    placement: 'top',
+  },
+  {
+    target: '.tour-cash-mng-add',
+    content:
+      'Control over how Passiv treats the currencies you hold in your brokerage account. Start dollar-cost averaging your assets by clicking Add Rule button.',
+    placement: 'top',
+  },
+  {
+    target: '.tour-cash-mng-account',
+    content: 'Account',
+    placement: 'top',
+  },
+  {
+    target: '.tour-cash-mng-rule',
+    content: 'Rule',
+    placement: 'top',
+  },
+  {
+    target: '.tour-cash-mng-currency',
+    content: 'Currency',
+    placement: 'top',
+  },
+  {
+    target: '.tour-cash-mng-amount',
+    content: 'Amount.',
+    placement: 'top',
+  },
+];
 
 const CashManagementBox = styled.div`
   margin-top: 30px;
@@ -158,11 +194,11 @@ const CashManagement = () => {
   };
 
   const getCurrency = (currencyId: string) =>
-    currencies && currencies.find(c => c.id === currencyId);
+    currencies && currencies.find((c) => c.id === currencyId);
   const getAccount = (accountId: string) =>
-    accounts && accounts.find(a => a.id === accountId);
+    accounts && accounts.find((a) => a.id === accountId);
   const getType = (typeId: string) =>
-    restrictionTypes.find(r => r.id === typeId);
+    restrictionTypes.find((r) => r.id === typeId);
 
   const dispatch = useDispatch();
 
@@ -194,22 +230,22 @@ const CashManagement = () => {
           currency: values.currency,
           amount: values.amount,
         })
-          .then(response => {
+          .then((response) => {
             actions.setSubmitting(false);
             setEditing(false);
             reloadGroupAndAccounts();
           })
-          .catch(error => {
+          .catch((error) => {
             actions.setSubmitting(false);
           });
       }}
-      render={props => (
+      render={(props) => (
         <CashForm onSubmit={props.handleSubmit}>
           <CashRow>
             <ColumnAccount>
               <StyledSelect as="select" name="account">
                 {accounts &&
-                  accounts.map(account => (
+                  accounts.map((account) => (
                     <option value={account.id} key={account.id}>
                       {account.name}
                     </option>
@@ -218,7 +254,7 @@ const CashManagement = () => {
             </ColumnAccount>
             <ColumnType>
               <StyledSelect as="select" name="type">
-                {restrictionTypes.map(restrictionType => (
+                {restrictionTypes.map((restrictionType) => (
                   <option value={restrictionType.id} key={restrictionType.id}>
                     {restrictionType.name}
                   </option>
@@ -228,7 +264,7 @@ const CashManagement = () => {
             <ColumnCurrency>
               <StyledSelect as="select" name="currency">
                 {currencies &&
-                  currencies.map(currency => (
+                  currencies.map((currency) => (
                     <option value={currency.id} key={currency.id}>
                       {currency.code}
                     </option>
@@ -291,16 +327,16 @@ const CashManagement = () => {
     <CashRestrictionBox>
       {(editing || cashRestrictions.length > 0) && (
         <CashRow>
-          <ColumnAccount>
+          <ColumnAccount className="tour-cash-mng-account">
             <Title>Account</Title>
           </ColumnAccount>
-          <ColumnType>
+          <ColumnType className="tour-cash-mng-rule">
             <Title>Rule</Title>
           </ColumnType>
-          <ColumnCurrency>
+          <ColumnCurrency className="tour-cash-mng-currency">
             <Title>Currency</Title>
           </ColumnCurrency>
-          <ColumnAmount>
+          <ColumnAmount className="tour-cash-mng-amount">
             <Title>Amount</Title>
           </ColumnAmount>
           <ColumnDelete></ColumnDelete>
@@ -312,7 +348,8 @@ const CashManagement = () => {
   );
 
   return (
-    <CashManagementBox>
+    <CashManagementBox className="tour-cash-management">
+      <Tour steps={TOUR_STEPS} />
       <H2>Cash Management</H2>
       {cashRestrictionsRendered}
       {editing ? (

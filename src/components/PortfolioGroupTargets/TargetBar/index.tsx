@@ -58,6 +58,7 @@ type Props = {
   edit: boolean;
   onDelete: (key: string) => void;
   onExclude: (key: string) => void;
+  tour: boolean;
 };
 
 const TargetBar = ({
@@ -67,6 +68,7 @@ const TargetBar = ({
   edit,
   onDelete,
   onExclude,
+  tour,
 }: Props) => {
   const {
     key,
@@ -131,12 +133,22 @@ const TargetBar = ({
                   Warning: allocation cannot be negative!
                 </Bar>
               ) : (
-                <Bar style={{ width: `${renderActualPercentage}%` }}> </Bar>
+                <Bar
+                  className={tour ? 'tour-bar-actual' : ''}
+                  style={{ width: `${renderActualPercentage}%` }}
+                >
+                  {' '}
+                </Bar>
               )}
             </BarActual>
             {!(actualPercentage === undefined) && (
               <BarTarget>
-                <Bar style={{ width: `${percent}%` }}> </Bar>
+                <Bar
+                  style={{ width: `${percent}%` }}
+                  className={tour ? 'tour-bar-target' : ''}
+                >
+                  {' '}
+                </Bar>
               </BarTarget>
             )}
           </BarsContainer>
