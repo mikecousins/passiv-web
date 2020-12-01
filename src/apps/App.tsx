@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { StripeProvider } from 'react-stripe-elements';
 import '@reach/menu-button/styles.css';
+import '@reach/dialog/styles.css';
 import { selectLoggedIn, selectReferralCode } from '../selectors';
 import {
   selectShowInsecureApp,
