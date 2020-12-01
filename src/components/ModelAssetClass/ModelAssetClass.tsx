@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { postData } from '../../api';
 import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
@@ -38,7 +38,8 @@ const BackButton = styled(Button)`
 
 const ModelAssetClass = () => {
   const dispatch = useDispatch();
-  const [back, setBack] = useState(false);
+  const history = useHistory();
+
   const assetClasses: ModelAssetClassDetailsType[] = useSelector(
     selectModelAssetClasses,
   );
@@ -52,10 +53,6 @@ const ModelAssetClass = () => {
         dispatch(loadModelAssetClasses());
       });
   };
-
-  if (back) {
-    return <Redirect to="/" />;
-  }
 
   let assetClassBox;
 
@@ -83,7 +80,7 @@ const ModelAssetClass = () => {
           />{' '}
           Add Asset Class
         </Button>
-        <BackButton onClick={() => setBack(true)}>
+        <BackButton onClick={() => history.push('/')}>
           Back to Model Portfolio
         </BackButton>
       </div>
