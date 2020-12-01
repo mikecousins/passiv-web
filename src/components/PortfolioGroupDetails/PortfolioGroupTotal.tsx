@@ -30,9 +30,10 @@ type Props = {
   error?: Error | null;
   equity?: any;
   currency?: Currency | null;
+  tourClass?: string;
 };
 
-const PortfolioGroupTotal = ({ error, equity }: Props) => {
+const PortfolioGroupTotal = ({ error, equity, tourClass }: Props) => {
   const settings = useSelector(selectCurrentGroupSettings);
   const currencies = useSelector(selectCurrencies);
   const groupId = useSelector(selectCurrentGroupId);
@@ -57,7 +58,7 @@ const PortfolioGroupTotal = ({ error, equity }: Props) => {
   }
 
   return (
-    <ShadowBox background="#04a287">
+    <ShadowBox background="#04a287" className={tourClass}>
       <Total>
         <Title>Total Value</Title>
         <CashGroup>
