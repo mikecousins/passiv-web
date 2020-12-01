@@ -29,7 +29,6 @@ const Targets = ({ assetClass }: Props) => {
 
   const [searchSecurities, setSearchSecurities] = useState(false);
   const [selectedTarget, setSelectedTarget] = useState('');
-  const [enteredSymbol, setEnteredSymbol] = useState(null);
 
   const handleSearchTarget = (id: string) => {
     setSelectedTarget(id);
@@ -96,10 +95,7 @@ const Targets = ({ assetClass }: Props) => {
 
         {searchSecurities &&
         selectedTarget === assetClass.model_asset_class.id ? (
-          <SymbolSelector
-            value={enteredSymbol}
-            onSelect={(cb) => handleAddTarget(cb)}
-          />
+          <SymbolSelector value={null} onSelect={(cb) => handleAddTarget(cb)} />
         ) : (
           <TargetList
             style={{ cursor: 'pointer' }}
