@@ -3,7 +3,12 @@ import { Goal } from '../../types/goals';
 import { Chart } from 'react-charts';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle, faPen, faSearch } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCircle,
+  faPen,
+  faSyncAlt,
+  faSearch,
+} from '@fortawesome/free-solid-svg-icons';
 import { toDollarString } from '../Performance/Performance';
 import { Edit } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
@@ -27,14 +32,19 @@ export const LegendContainer = styled(Grid)`
   text-align: right;
   align-items: flex-end;
   button {
-    margin-bottom: 5px;
-    display: inline-block;
+    font-size: 18px;
+    display: block;
+    text-align: right;
+    margin: 0 0 8px auto;
+    font-size: 18px;
+    padding-right: 0;
   }
 `;
 export const TargetDoneButton = styled(Button)`
-  position: absolute;
-  left: 100%;
-  top: -13px;
+  background: none;
+  color: var(--brand-blue);
+  right: 0;
+  font-size: 18px;
 `;
 export const TargetInput = styled.input`
   display: inline-block;
@@ -185,7 +195,7 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
         </LegendContainer>
       )}
       <Chart data={data} axes={axes} series={series} />
-      {interest > 0 && (
+      {(interest > 0 || showDetailed) && (
         <BreakdownToggle onClick={() => setShowDetailed(!showDetailed)}>
           <FontAwesomeIcon icon={faSearch} style={{ padding: 1 }} /> Show
           Breakdown
@@ -227,6 +237,10 @@ const GoalTarget = ({ goalTarget, setGoalTarget, className }: any) => {
     return (
       <React.Fragment>
         <LegendItem className={className}>
+          <Edit onClick={() => finishEditing(newValue)}>
+            <FontAwesomeIcon icon={faSyncAlt} />
+            Update
+          </Edit>
           <FontAwesomeIcon
             icon={faCircle}
             color="#04a286"
@@ -243,9 +257,6 @@ const GoalTarget = ({ goalTarget, setGoalTarget, className }: any) => {
               }
             }}
           ></TargetInput>
-          <TargetDoneButton onClick={() => finishEditing(newValue)}>
-            Done
-          </TargetDoneButton>
         </LegendItem>
       </React.Fragment>
     );

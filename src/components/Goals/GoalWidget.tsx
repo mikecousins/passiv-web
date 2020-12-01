@@ -7,11 +7,15 @@ import {
   selectTotalGroupHoldings,
 } from '../../selectors/groups';
 import { Goal } from '../../types/goals';
-import { P, H3 } from '../../styled/GlobalElements';
+import { P, H3, A } from '../../styled/GlobalElements';
 import { toDollarString } from '../Performance/Performance';
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
 import { selectGoals } from '../../selectors/goals';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+
+import trophy from '../../assets/images/trophy@2x.png';
 
 const Heading = styled.h2`
   font-size: 30px;
@@ -24,12 +28,6 @@ const Heading = styled.h2`
     color: #1b1d22;
     margin-left: 6px;
   }
-`;
-const Completed = styled.p`
-  font-size: 26px;
-  font-weight: 1000;
-  color: #04a287;
-  text-align: right;
 `;
 const UnstyledLink = styled(Link)`
   text-decoration: none;
@@ -55,18 +53,44 @@ const ProgressCopy = styled.p`
   margin: 0 0 6px;
   text-align: center;
 `;
-const ProgressContainer = styled.div`
-  margin-right: 5rem;
+const ProgressContainer = styled.div``;
+const TargetNum = styled.div`
+  text-align: right;
+`;
+const View = styled(A)`
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 0.95;
+  -webkit-letter-spacing: 2px;
+  -moz-letter-spacing: 2px;
+  -ms-letter-spacing: 2px;
+  letter-spacing: 2px;
+  color: #033ebc;
+  display: block;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  padding: 30px 40px 30px;
+  padding-right: 20px;
+  display: block;
+  text-align: center;
 `;
 const ShadowBoxWHover = styled(ShadowBox)`
   transition: all 0.25s;
   border: 1px solid #fff;
   &.completed {
-    border: 15px solid #05a286;
-    &:hover {
-      box-shadow: 4px 6px 12px 0 rgb(107 110 115 / 40%);
-      border: 10px solid #023ca2;
-      border: 10px solid #05a286;
+    background: url(${trophy}) no-repeat right #05a286;
+    background-size: contain;
+    h2,
+    h3,
+    p,
+    span {
+      color: #fff;
+    }
+    .css-f63kg5 {
+      background: #1b1d22;
+    }
+    a {
+      color: #1b1d22;
     }
   }
   &:hover {
@@ -108,10 +132,10 @@ export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
       >
         <ShadowBoxWHover className={completed ? 'completed' : 'inProgress'}>
           <Heading>
-            {goal?.title} <span> {goal?.target_date}</span>
-            {completed && <Completed>Completed!</Completed>}
+            {goal?.title} {completed && 'is complete!'}
+            <span> {goal?.target_date}</span>
           </Heading>
-          <GridAlignBottom columns="200px auto 200px">
+          <GridAlignBottom columns="150px auto 150px 20%">
             <div>
               <P>
                 <H3>Balance</H3> ${toDollarString(currentValue)}
@@ -128,11 +152,14 @@ export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
                 ></Progress>
               </ProgressBar>
             </ProgressContainer>
-            <div>
+            <TargetNum>
               <P>
                 <H3>Target</H3> ${toDollarString(targetValue)}
               </P>
-            </div>
+            </TargetNum>
+            <View>
+              View <FontAwesomeIcon icon={faAngleRight} />
+            </View>
           </GridAlignBottom>
         </ShadowBoxWHover>
       </UnstyledLink>

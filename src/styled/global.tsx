@@ -277,6 +277,10 @@ export const GlobalStyle = () => (
       input[type='button']::-moz-focus-inner {
         outline: 0;
       }
+
+      [data-reach-dialog-overlay] {
+        z-index: 4;
+      }
     `}
   />
 );
