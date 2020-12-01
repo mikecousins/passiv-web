@@ -23,17 +23,17 @@ import {
   faEllipsisV,
 } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { H1, P, H2, H3, A, Edit } from '../styled/GlobalElements';
+import { H1, P, H2, H3, A } from '../styled/GlobalElements';
 import { InputPrimary } from '../styled/Form';
 import Grid from '../styled/Grid';
 import ShadowBox from '../styled/ShadowBox';
 import GoalProjectionLineChart from '../components/Goals/GoalProjectionLineChart';
 import { deleteGoal, loadGoals } from '../actions/goals';
-import { Button, SmallButton } from '../styled/Button';
+import { Button } from '../styled/Button';
 import { patchData } from '../api';
 import { toast } from 'react-toastify';
 import { Goal } from '../types/goals';
-import { StateText, ToggleButton } from '../styled/ToggleButton';
+import { ToggleButton } from '../styled/ToggleButton';
 import '@reach/dialog/styles.css';
 import { Dialog } from '@reach/dialog';
 
@@ -116,13 +116,6 @@ const Question = styled.div`
 const Tip = styled.div`
   font-size: 14px;
   max-width: 295px;
-`;
-const Delete = styled.button`
-  svg {
-    margin-right: 5px;
-  }
-  float: right;
-  clear-both: ;
 `;
 const NameInput = styled(InputPrimary)`
   font-size: 42px;
@@ -419,6 +412,7 @@ const GoalDetailPage = () => {
     setTitle(goal?.title);
     setDisplayOnDashboard(goal?.display_on_dashboard);
   };
+  const [editMode, setEditMode] = useState(false);
 
   return (
     <React.Fragment>
@@ -427,7 +421,12 @@ const GoalDetailPage = () => {
           <BackLink to="/app/goals">
             <FontAwesomeIcon icon={faChevronLeft} /> View all Goals
           </BackLink>
-          <GoalTitle title={title} setTitle={setTitle} />
+          <GoalTitle
+            title={title}
+            setTitle={setTitle}
+            editMode={editMode}
+            setEditMode={setEditMode}
+          />
           <div>
             <ToggleShow onClick={() => setShowOptions(!showOptions)}>
               <FontAwesomeIcon icon={faEllipsisV} />
@@ -440,10 +439,18 @@ const GoalDetailPage = () => {
                     {goal?.portfolio_group?.name}
                   </P>
                 )}
-                <div>
-                  <FontAwesomeIcon icon={faPen} />
-                  Edit Name
-                </div>
+                {!editMode ? (
+                  <div onClick={() => setEditMode(true)}>
+                    <FontAwesomeIcon icon={faPen} />
+                    Edit Name
+                  </div>
+                ) : (
+                  <div onClick={() => setEditMode(false)}>
+                    <FontAwesomeIcon icon={faPen} />
+                    Finish Editing
+                  </div>
+                )}
+
                 <DashboardToggle
                   onClick={() => setDisplayOnDashboard(!displayOnDashboard)}
                 >
@@ -693,11 +700,7 @@ export const getTitleToSave = (
   return title;
 };
 
-const GoalTitle = ({ title, setTitle }: any) => {
-  const [editMode, setEditMode] = useState(false);
-  const handleEdit = () => {
-    setEditMode(true);
-  };
+const GoalTitle = ({ title, setTitle, editMode, setEditMode }: any) => {
   const finishEditing = () => {
     setEditMode(false);
   };
@@ -706,10 +709,6 @@ const GoalTitle = ({ title, setTitle }: any) => {
     return (
       <div>
         <H1>{title}</H1>
-        {/* <Edit onClick={() => handleEdit()}>
-          <FontAwesomeIcon icon={faPen} />
-          Edit Name
-        </Edit> */}
       </div>
     );
   } else {
