@@ -6,11 +6,11 @@ import NameInputAndEdit from '../NameInputAndEdit';
 import { loadModelAssetClasses, loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
-import { P } from '../../styled/GlobalElements';
-import { SmallButton } from '../../styled/Button';
+import { A, H2 } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Dialog } from '@reach/dialog';
+import { Button } from '../../styled/Button';
 
 export const DeleteButton = styled.button`
   background: #fff;
@@ -30,6 +30,31 @@ export const DeleteButton = styled.button`
 const StyledName = styled.span`
   font-size: 28px;
   font-weight: 600;
+`;
+
+const StyledDialog = styled(Dialog)`
+  border-radius: 5px;
+  @media (max-width: 500px) {
+    margin-top: 150px;
+    width: 250px;
+  }
+`;
+
+const H2Margin = styled(H2)`
+  font-size: 2.3rem;
+  font-weight: 300;
+  line-height: 1.3;
+  text-align: center;
+  margin: 0 auto 40px;
+  color: black;
+`;
+
+const ActionContainer = styled.div`
+  text-align: center;
+  margin-top: 30px;
+  a {
+    padding-right: 20px;
+  }
 `;
 
 type Props = {
@@ -101,35 +126,24 @@ const AssetClasses = ({ assetClass }: Props) => {
         <FontAwesomeIcon icon={faTimes} size="lg" />
       </DeleteButton>
 
-      <Dialog
+      <StyledDialog
         isOpen={showDialog}
         onDismiss={close}
-        style={{ borderRadius: '1rem' }}
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
       >
-        <P>
+        <H2Margin>
           Are you sure you want to delete{' '}
-          <span style={{ fontWeight: 'bold' }}>{assetClassName}</span> ?
-        </P>
-        <p style={{ fontSize: '0.8rem' }}>
-          All securities under this asset class would get deleted.
+          <span style={{ fontWeight: 'bold' }}>{assetClassName} *</span> ?
+        </H2Margin>
+        <p style={{ fontSize: '0.9rem', textAlign: 'center' }}>
+          * All securities under this asset class would get deleted.
         </p>
-        <br />
-        <SmallButton
-          onClick={handleDeleteAssetClass}
-          style={{
-            backgroundColor: 'transparent',
-            color: 'black',
-            fontWeight: 600,
-          }}
-        >
-          Delete
-        </SmallButton>
-        <SmallButton onClick={close} style={{ fontWeight: 600 }}>
-          Cancel
-        </SmallButton>
-      </Dialog>
+        <ActionContainer>
+          <A onClick={handleDeleteAssetClass}>Delete</A>
+          <Button onClick={close}>Cancel</Button>
+        </ActionContainer>
+      </StyledDialog>
 
       <NameInputAndEdit
         value={assetClassName!}

@@ -133,7 +133,7 @@ const ModelPortfolio = () => {
           </>
         ) : (
           <button onClick={() => setDeleteDialog(true)}>
-            <FontAwesomeIcon icon={faTrashAlt} /> Delete
+            <FontAwesomeIcon icon={faTrashAlt} /> Delete{' '}
             <span style={{ fontWeight: 600 }}>
               {modelPortfolio?.model_portfolio.name}
             </span>
