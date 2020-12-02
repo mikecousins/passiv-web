@@ -32,14 +32,6 @@ const StyledName = styled.span`
   font-weight: 600;
 `;
 
-const StyledDialog = styled(Dialog)`
-  border-radius: 5px;
-  @media (max-width: 500px) {
-    margin-top: 150px;
-    width: 250px;
-  }
-`;
-
 const H2Margin = styled(H2)`
   font-size: 2.3rem;
   font-weight: 300;
@@ -126,7 +118,7 @@ const AssetClasses = ({ assetClass }: Props) => {
         <FontAwesomeIcon icon={faTimes} size="lg" />
       </DeleteButton>
 
-      <StyledDialog
+      <Dialog
         isOpen={showDialog}
         onDismiss={close}
         aria-labelledby="dialog1Title"
@@ -143,7 +135,7 @@ const AssetClasses = ({ assetClass }: Props) => {
           <A onClick={handleDeleteAssetClass}>Delete</A>
           <Button onClick={close}>Cancel</Button>
         </ActionContainer>
-      </StyledDialog>
+      </Dialog>
 
       <NameInputAndEdit
         value={assetClassName!}

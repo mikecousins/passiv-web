@@ -277,6 +277,17 @@ export const GlobalStyle = () => (
       input[type='button']::-moz-focus-inner {
         outline: 0;
       }
+
+      [data-reach-dialog-content] {
+        border-radius: 5px;
+        @media (max-width: 500px) {
+          margin-top: 150px;
+          width: 250px;
+        }
+      }
+      [data-reach-dialog-overlay] {
+        z-index: 4;
+      }
     `}
   />
 );
