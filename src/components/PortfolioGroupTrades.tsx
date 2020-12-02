@@ -23,6 +23,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { ContextualMessageWrapper } from './ContextualMessageWrapper';
 import styled from '@emotion/styled';
+import Tour from './Tour/Tour';
+
+const TOUR_STEPS = [
+  {
+    target: '.tour-trades',
+    content:
+      'We want to make sure that your accuracy gets as close as possible to 100%. The trades listed below are based on your holdings and your available cash. Invest your cash according to your target portfolio and rebalanced in one-click.',
+    placement: 'right',
+  },
+];
 
 type Props = {
   trades: any;
@@ -169,6 +179,7 @@ export const PortfolioGroupTrades = ({
   if (tradesSubmitted || (tradesToRender && tradesToRender.trades.length)) {
     return (
       <>
+        <Tour steps={TOUR_STEPS} />
         <TradesContainer className="tour-trades">
           <H2>Trades</H2>
           {sellsListRender}

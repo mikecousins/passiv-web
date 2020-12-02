@@ -109,7 +109,7 @@ export const PercentBox = styled.div`
 type Props = {
   accuracy: number | null;
   loading: boolean;
-  tourClass: string;
+  tourClass?: string;
 };
 
 export const PortfolioGroupAccuracy = ({

@@ -25,6 +25,25 @@ import {
 } from '../../../styled/Target';
 import { ToggleButton } from '../../../styled/ToggleButton';
 import Tooltip from '../../Tooltip';
+import Tour from '../../Tour/Tour';
+
+const TOUR_STEPS = [
+  {
+    target: '.tour-bar-actual',
+    content: 'Actual Bar.',
+    placement: 'right',
+  },
+  {
+    target: '.tour-bar-target',
+    content: 'Target Bar',
+    placement: 'right',
+  },
+  {
+    target: '.tour-group-settings',
+    content: 'Change settings for this group',
+    placement: 'right',
+  },
+];
 
 const Disabled = styled.div`
   opacity: 0.5;
@@ -122,6 +141,7 @@ const TargetBar = ({
     <Container>
       {!is_excluded ? (
         <React.Fragment>
+          {tour && <Tour steps={TOUR_STEPS} />}
           <BarsContainer>
             <BarActual>
               {percent > 100 ? (
@@ -134,7 +154,7 @@ const TargetBar = ({
                 </Bar>
               ) : (
                 <Bar
-                  className={tour ? 'tour-bar-actual' : ''}
+                  className={'tour-bar-actual'}
                   style={{ width: `${renderActualPercentage}%` }}
                 >
                   {' '}
@@ -145,7 +165,7 @@ const TargetBar = ({
               <BarTarget>
                 <Bar
                   style={{ width: `${percent}%` }}
-                  className={tour ? 'tour-bar-target' : ''}
+                  className={'tour-bar-target'}
                 >
                   {' '}
                 </Bar>
