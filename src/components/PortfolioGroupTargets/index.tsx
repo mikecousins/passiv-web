@@ -26,6 +26,7 @@ import LoadingOverlay from '../LoadingOverlay';
 import TargetSelector from './TargetSelector';
 import { selectIsEditMode } from '../../selectors/router';
 import Tour from '../Tour/Tour';
+import { replace } from 'connected-react-router';
 
 const TOUR_STEPS = [
   {
@@ -128,8 +129,16 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     {
       id: 'MANUAL',
       name: 'Build your target portfolio manually',
-      tourClass: 'tour-build-portfolio',
-      button: <Button onClick={() => setModel('MANUAL')}>Build</Button>,
+      button: (
+        <Button
+          onClick={() => {
+            setModel('MANUAL');
+            dispatch(replace(`/app/group/${groupId}?edit=true`));
+          }}
+        >
+          Build
+        </Button>
+      ),
     },
   ];
 

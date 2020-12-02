@@ -15,18 +15,27 @@ import {
 } from '../components/Goals/GoalSetup';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPen,
+  faToggleOff,
+  faToggleOn,
+  faTrashAlt,
+  faEllipsisV,
+} from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { H1, P, H3, A, Edit } from '../styled/GlobalElements';
+import { H1, P, H2, H3, A } from '../styled/GlobalElements';
 import { InputPrimary } from '../styled/Form';
 import Grid from '../styled/Grid';
 import ShadowBox from '../styled/ShadowBox';
 import GoalProjectionLineChart from '../components/Goals/GoalProjectionLineChart';
 import { deleteGoal, loadGoals } from '../actions/goals';
-import { Button, SmallButton } from '../styled/Button';
+import { Button } from '../styled/Button';
 import { patchData } from '../api';
 import { toast } from 'react-toastify';
 import { Goal } from '../types/goals';
+import { ToggleButton } from '../styled/ToggleButton';
+import '@reach/dialog/styles.css';
+import { Dialog } from '@reach/dialog';
 
 const GoalProjectionContainer = styled.div`
   padding-bottom: 80px;
@@ -47,6 +56,7 @@ const HeaderBanner = styled.div`
     margin-bottom: 10px;
     line-height: 1;
     display: inline-block;
+    padding-left: 55px;
   }
   p {
     margin-bottom: 0;
@@ -70,6 +80,7 @@ const Summary = styled(Grid)`
 `;
 const ChangeContainer = styled(Grid)`
   align-items: center;
+  position: relative;
 `;
 const NumInput = styled(InputPrimary)`
   border-bottom: 2px solid var(--brand-blue);
@@ -105,14 +116,6 @@ const Question = styled.div`
 const Tip = styled.div`
   font-size: 14px;
   max-width: 295px;
-  padding-top: 30px;
-`;
-const Delete = styled.button`
-  svg {
-    margin-right: 5px;
-  }
-  float: right;
-  clear-both: ;
 `;
 const NameInput = styled(InputPrimary)`
   font-size: 42px;
@@ -128,12 +131,82 @@ const NameInput = styled(InputPrimary)`
   margin: 0;
   background: none;
 `;
-const EditButton = styled(Button)`
+const Discard = styled(Button)`
+  color: var(--brand-blue);
+  background: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+const ToggleShow = styled(Button)`
+  border: 1px solid var(--brand-blue);
+  background: none;
+  color: var(--brand-blue);
   position: absolute;
-  right: 0;
-  bottom: 16px;
-  border-radius: 0;
-  padding: 14px 32px 16px;
+  top: 39px;
+  left: 0;
+  font-size: 1.1rem;
+  font-weight: 300;
+  padding: 8px 16px;
+  background: #fff;
+  &:hover {
+    background: var(--brand-blue);
+    color: #fff;
+  }
+`;
+const DropDown = styled.div`
+  border: 1px solid var(--brand-blue);
+  position: absolute;
+  top: 82%;
+  left: 0;
+  width: 100%;
+  padding: 22px 20px 24px;
+  background: #c3e7ff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  p {
+    margin-bottom: 24px;
+  }
+  svg {
+    margin-right: 12px;
+  }
+`;
+const DeleteGoal = styled.div`
+  position: absolute;
+  bottom: 28px;
+  right: 30px;
+  cursor: pointer;
+  &:hover {
+    color: #003ba2;
+    text-decoration: underline;
+  }
+`;
+const SaveContainer = styled.div`
+  position: absolute;
+  left: -21px;
+  bottom: -21px;
+  background: #c3e7ff;
+  padding: 26px 26px 20px 20px;
+  overflow: hidden;
+  border-radius: 0 0 0 4px;
+`;
+const DashboardToggle = styled.div`
+  margin-top: 18px;
+`;
+const ActionContainer = styled.div`
+  text-align: center;
+  a {
+    padding-left: 20px;
+  }
+`;
+const H2Margin = styled(H2)`
+  max-width: 500px;
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1.3;
+  text-align: center;
+  margin: 0 auto 40px;
 `;
 const daysBetween = (firstDate: Date, secondDate: Date) => {
   const _MS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -170,6 +243,10 @@ const GoalDetailPage = () => {
   }
 
   const [title, setTitle] = useState(goal?.title);
+  const [displayOnDashboard, setDisplayOnDashboard] = useState(
+    goal?.display_on_dashboard,
+  );
+  const [showOptions, setShowOptions] = useState(false);
   const [returnRate, setReturnRate] = useState(goal?.return_rate);
   const [goalTarget, setGoalTarget] = useState(goal?.total_value_target);
   const [contributionTarget, setContributionTarget] = useState(
@@ -199,7 +276,7 @@ const GoalDetailPage = () => {
   const today = new Date();
   const targetDate = new Date(Date.parse(getTargetDate(year, month)));
   const daysUntilGoalEnd = daysBetween(today, new Date(targetDate));
-  const projectedAccountValue = getProjectedValue(
+  const [projectedAccountValue, principal, interest] = getProjectedValue(
     currentValue,
     returnRate,
     contributionTarget,
@@ -210,8 +287,10 @@ const GoalDetailPage = () => {
   let currentDay = new Date();
   const interval = daysUntilGoalEnd / 300;
   let projectedData = [];
+  let principalData = [];
+  let interestData = [];
   for (let i = 0; i < 300; i++) {
-    const newValue = getProjectedValue(
+    const [newProjectedValue, newPrincipal, newInterest] = getProjectedValue(
       currentValue,
       returnRate,
       contributionTarget,
@@ -225,7 +304,23 @@ const GoalDetailPage = () => {
         currentDay.getMonth(),
         currentDay.getDate(),
       ),
-      newValue,
+      newProjectedValue,
+    ]);
+    principalData.push([
+      new Date(
+        currentDay.getFullYear(),
+        currentDay.getMonth(),
+        currentDay.getDate(),
+      ),
+      newPrincipal,
+    ]);
+    interestData.push([
+      new Date(
+        currentDay.getFullYear(),
+        currentDay.getMonth(),
+        currentDay.getDate(),
+      ),
+      newInterest,
     ]);
     currentDay = addDays(currentDay, interval);
   }
@@ -237,6 +332,22 @@ const GoalDetailPage = () => {
     ),
     projectedAccountValue,
   ]);
+  principalData.push([
+    new Date(
+      currentDay.getFullYear(),
+      currentDay.getMonth(),
+      currentDay.getDate(),
+    ),
+    principal,
+  ]);
+  interestData.push([
+    new Date(
+      currentDay.getFullYear(),
+      currentDay.getMonth(),
+      currentDay.getDate(),
+    ),
+    interest,
+  ]);
 
   const dateChanged = getTargetDate(year, month) !== goal?.target_date;
   const targetChanged = goalTarget !== goal?.total_value_target;
@@ -246,6 +357,8 @@ const GoalDetailPage = () => {
     contributionFrequency !== goal?.contribution_frequency;
   const returnRateChanged = returnRate !== goal?.return_rate;
   const titleChanged = title !== goal?.title;
+  const displayOnDashboardChanged =
+    displayOnDashboard !== goal?.display_on_dashboard;
 
   const handleReturnChange = (e: any) => {
     let newValue = e.target.value;
@@ -281,6 +394,7 @@ const GoalDetailPage = () => {
       contributionTarget,
       returnRate,
       goalId,
+      displayOnDashboard,
     })
       .then(() => {
         dispatch(loadGoals());
@@ -296,7 +410,9 @@ const GoalDetailPage = () => {
     setContributionFrequency(goal?.contribution_frequency);
     setReturnRate(goal?.return_rate);
     setTitle(goal?.title);
+    setDisplayOnDashboard(goal?.display_on_dashboard);
   };
+  const [editMode, setEditMode] = useState(false);
 
   return (
     <React.Fragment>
@@ -305,7 +421,63 @@ const GoalDetailPage = () => {
           <BackLink to="/app/goals">
             <FontAwesomeIcon icon={faChevronLeft} /> View all Goals
           </BackLink>
-          <GoalTitle title={title} setTitle={setTitle} />
+          <GoalTitle
+            title={title}
+            setTitle={setTitle}
+            editMode={editMode}
+            setEditMode={setEditMode}
+          />
+          <div>
+            <ToggleShow onClick={() => setShowOptions(!showOptions)}>
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </ToggleShow>
+            {showOptions && (
+              <DropDown>
+                {goal?.portfolio_group !== null && (
+                  <P>
+                    <strong>Included Portfolio(s):</strong>{' '}
+                    {goal?.portfolio_group?.name}
+                  </P>
+                )}
+                {!editMode ? (
+                  <div onClick={() => setEditMode(true)}>
+                    <FontAwesomeIcon icon={faPen} />
+                    Edit Name
+                  </div>
+                ) : (
+                  <div onClick={() => setEditMode(false)}>
+                    <FontAwesomeIcon icon={faPen} />
+                    Finish Editing
+                  </div>
+                )}
+
+                <DashboardToggle
+                  onClick={() => setDisplayOnDashboard(!displayOnDashboard)}
+                >
+                  <div>
+                    <ToggleButton
+                      onClick={() => setDisplayOnDashboard(!displayOnDashboard)}
+                    >
+                      {displayOnDashboard ? (
+                        <React.Fragment>
+                          <FontAwesomeIcon icon={faToggleOn} />
+                        </React.Fragment>
+                      ) : (
+                        <React.Fragment>
+                          <FontAwesomeIcon icon={faToggleOff} />
+                        </React.Fragment>
+                      )}
+                    </ToggleButton>
+                    Display Goal on Dashboard{' '}
+                  </div>
+                </DashboardToggle>
+                <DeleteGoal onClick={handleDeleteClick}>
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                  Delete Goal
+                </DeleteGoal>
+              </DropDown>
+            )}
+          </div>
         </HeaderBanner>
         <ShadowBox background="#04a287">
           <Summary columns="1fr 1fr 1fr">
@@ -362,11 +534,25 @@ const GoalDetailPage = () => {
               />
               %?
             </Question>
+
             <Tip>
               <P>
                 Learn more about potential return rates <A>Link to article</A>.
               </P>
             </Tip>
+
+            {(dateChanged ||
+              targetChanged ||
+              contributionsChanged ||
+              contributionFrequencyChanged ||
+              returnRateChanged ||
+              titleChanged ||
+              displayOnDashboardChanged) && (
+              <SaveContainer>
+                <Button onClick={handleSave}>Update Goal</Button>
+                <Discard onClick={handleDiscard}>Discard Changes</Discard>
+              </SaveContainer>
+            )}
           </div>
           <GoalProjectionContainer>
             <GoalProjectionLineChart
@@ -374,43 +560,33 @@ const GoalDetailPage = () => {
               targetDate={targetDate}
               currentValue={currentValue}
               projectedValue={projectedAccountValue}
+              principal={principal}
+              interest={interest}
               projectedData={projectedData}
+              principalData={principalData}
+              interestData={interestData}
               goalTarget={goalTarget}
               setGoalTarget={setGoalTarget}
             ></GoalProjectionLineChart>
           </GoalProjectionContainer>
         </ChangeContainer>
       </ShadowBox>
-      {(dateChanged ||
-        targetChanged ||
-        contributionsChanged ||
-        contributionFrequencyChanged ||
-        returnRateChanged ||
-        titleChanged) && (
-        <span>
-          <Button
-            onClick={handleDiscard}
-            style={{ backgroundColor: 'transparent', color: 'black' }}
-          >
-            Discard Changes
-          </Button>
-          <Button onClick={handleSave}>Update Goal</Button>
-        </span>
-      )}
-      <Delete onClick={handleDeleteClick}>
-        <FontAwesomeIcon icon={faTrashAlt} /> Delete {goal?.title}
-      </Delete>
-      {showDeleteDialog && (
-        <div style={{ float: 'right' }}>
-          <SmallButton onClick={handleDelete}>Delete</SmallButton>
-          <SmallButton
-            onClick={() => setShowDeleteDialog(false)}
-            style={{ backgroundColor: 'transparent', color: 'black' }}
-          >
-            Cancel
-          </SmallButton>
-        </div>
-      )}
+      <Dialog
+        isOpen={showDeleteDialog}
+        onDismiss={() => setShowDeleteDialog(false)}
+        style={{ borderRadius: '4px' }}
+        aria-labelledby="dialog1Title"
+        aria-describedby="dialog1Desc"
+      >
+        <H2Margin>
+          Are you sure you want to delete{' '}
+          <span style={{ fontWeight: 'bold' }}>{goal?.title}</span> ?
+        </H2Margin>
+        <ActionContainer>
+          <Button onClick={handleDelete}>Delete</Button>
+          <A onClick={() => setShowDeleteDialog(false)}>Cancel</A>
+        </ActionContainer>
+      </Dialog>
     </React.Fragment>
   );
 };
@@ -427,13 +603,16 @@ const getProjectedValue = (
   const numPeriods = getNumPeriods(contributionFrequency, daysUntilGoalEnd);
   const yearsLeft = daysUntilGoalEnd / 365.25;
   let endBalance = currentValue * (1 + returnRate / 100) ** yearsLeft;
+  let principal = currentValue;
   for (let i = 0; i < numPeriods; i++) {
+    principal += contributionAmount;
     endBalance +=
       contributionAmount *
       (1 + returnRate / 100) **
         (yearsLeft - i / getPeriodsPerYear(contributionFrequency));
   }
-  return endBalance;
+  const interest = endBalance - principal;
+  return [endBalance, principal, interest];
 };
 
 const getNumPeriods = (
@@ -521,41 +700,29 @@ export const getTitleToSave = (
   return title;
 };
 
-const GoalTitle = ({ title, setTitle }: any) => {
-  const [editMode, setEditMode] = useState(false);
-  const [newTitle, setNewTitle] = useState(title);
-  const finishEditing = (newTitle: string) => {
-    setTitle(newTitle);
+const GoalTitle = ({ title, setTitle, editMode, setEditMode }: any) => {
+  const finishEditing = () => {
     setEditMode(false);
-  };
-  const handleEdit = () => {
-    setNewTitle(title);
-    setEditMode(true);
   };
 
   if (!editMode) {
     return (
       <div>
         <H1>{title}</H1>
-        <Edit onClick={() => handleEdit()}>
-          <FontAwesomeIcon icon={faPen} />
-          Edit Name
-        </Edit>
       </div>
     );
   } else {
     return (
       <div>
         <NameInput
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
-              finishEditing(newTitle);
+              finishEditing();
             }
           }}
         />
-        <EditButton onClick={() => finishEditing(newTitle)}>Done</EditButton>
       </div>
     );
   }
