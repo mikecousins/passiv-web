@@ -323,7 +323,7 @@ const CashManagement = () => {
 
   return (
     <CashManagementBox className="tour-cash-management">
-      <Tour steps={TOUR_STEPS} />
+      <Tour steps={TOUR_STEPS} name="cash_management_tour" />
       <H2>Cash Management</H2>
       {cashRestrictionsRendered}
       {editing ? (

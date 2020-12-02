@@ -179,7 +179,7 @@ export const PortfolioGroupTrades = ({
   if (tradesSubmitted || (tradesToRender && tradesToRender.trades.length)) {
     return (
       <>
-        <Tour steps={TOUR_STEPS} />
+        <Tour steps={TOUR_STEPS} name="trades_tour" />
         <TradesContainer className="tour-trades">
           <H2>Trades</H2>
           {sellsListRender}

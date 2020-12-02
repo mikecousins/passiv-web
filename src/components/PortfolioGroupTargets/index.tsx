@@ -232,7 +232,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
           <H2 style={h2DarkStyle}>Target Portfolio</H2>
           {!model ? (
             <React.Fragment>
-              <Tour steps={TOUR_STEPS} />
+              <Tour steps={TOUR_STEPS} name="setup_portfolio_tour" />
               <P style={pDarkStyle}>
                 A target portfolio is how you tell Passiv what you want. You
                 will need to choose which securities you want to hold and how

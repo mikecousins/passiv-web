@@ -141,7 +141,7 @@ const TargetBar = ({
     <Container>
       {!is_excluded ? (
         <React.Fragment>
-          {tour && <Tour steps={TOUR_STEPS} />}
+          {tour && <Tour steps={TOUR_STEPS} name="target_actual_bar_tour" />}
           <BarsContainer>
             <BarActual>
               {percent > 100 ? (

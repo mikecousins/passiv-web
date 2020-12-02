@@ -1,30 +1,37 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import JoyRide from 'react-joyride';
 import { getData, postData } from '../../api';
+import { loadSettings } from '../../actions';
+import { toast } from 'react-toastify';
 
 type Props = {
   steps: any;
+  name: string;
 };
 
-const Tour = ({ steps }: Props) => {
-  const [showMessage, setShowMessage] = useState(true);
+const Tour = ({ steps, name }: Props) => {
+  const dispatch = useDispatch();
+  const [showMessage, setShowMessage] = useState(false);
   const handleJoyrideCallback = (data: any) => {
     if (data.action === 'skip') {
-      // call the endpoint
-      // postData(`/api/v1/contextualMessages`, {
-      //   name: 'import_targets_tour',
-      // }).then((res) => {
-      //   console.log(res);
-      // });
-      console.log(data);
+      postData(`/api/v1/contextualMessages`, {
+        name: name,
+      })
+        .then((res) => {
+          dispatch(loadSettings());
+        })
+        .catch(() => {
+          toast.error(`Failed to skip tour "${name}".`);
+        });
     }
   };
 
   useEffect(() => {
     getData('/api/v1/settings').then((res) => {
       res.data.contextual_messages.map((c: any) => {
-        if (c.name === 'import_targets_tour') {
-          setShowMessage(false);
+        if (c.name === name) {
+          setShowMessage(true);
         }
       });
     });

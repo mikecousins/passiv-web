@@ -122,7 +122,7 @@ const OverviewTab = () => {
   }
   return (
     <React.Fragment>
-      {setupComplete && <Tour steps={Steps} />}
+      {setupComplete && <Tour steps={Steps} name="overview_tab_tour" />}
       <PortfolioGroupName name={name} />
       <Container3Column>
         <PortfolioGroupAccuracy
