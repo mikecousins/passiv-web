@@ -4,12 +4,11 @@ import DashboardTotalValueChart from './DashboardTotalValueChart';
 import DashboardContributionChart from './DashboardContributionChart';
 import TotalHoldings from '../../TotalHoldings';
 import Contributions1Y from './Contributions1Y';
-import DashboardConfig from './DashboardConfig';
 import { useSelector } from 'react-redux';
 import { selectSettings } from '../../../selectors';
 import ShadowBox from '../../../styled/ShadowBox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCogs, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { selectSelectedAccounts } from '../../../selectors/performance';
 import { Link } from 'react-router-dom';
 import { selectAccounts } from '../../../selectors/accounts';
@@ -64,16 +63,15 @@ export const DashboardReporting = () => {
     selectedAccounts !== null &&
     selectedAccounts.length > 0 &&
     selectedAccounts.length !==
-      accounts.filter(a => a.institution_name === 'Questrade').length
+      accounts.filter((a) => a.institution_name === 'Questrade').length
   ) {
     showAccountFilterLabel = true;
-    selectedAccounts.forEach(a => (accountFilterString += a.label + ', '));
+    selectedAccounts.forEach((a) => (accountFilterString += a.label + ', '));
     accountFilterString = accountFilterString.slice(
       0,
       accountFilterString.length - 2,
     );
   }
-  const [configMode, setConfigMode] = useState(false);
   let columns = settings?.show_2columns_dashboard ? 'twoColumns' : 'oneColumn';
   if (
     !settings?.show_total_value_chart &&
@@ -90,11 +88,6 @@ export const DashboardReporting = () => {
 
   return (
     <React.Fragment>
-      <CustomizeDashContainer>
-        <CustomizeDashBtn onClick={() => setConfigMode(!configMode)}>
-          <FontAwesomeIcon icon={faCogs} /> Customize Dashboard
-        </CustomizeDashBtn>
-      </CustomizeDashContainer>
       {showAccountFilterLabel && (
         <Tooltip label="Click for more details">
           <FilteredLabel
@@ -113,7 +106,6 @@ export const DashboardReporting = () => {
           Change filter on <Link to="/app/reporting">reporting page</Link>
         </AccountFilterNote>
       )}
-      {configMode && <DashboardConfig />}
       <Flex className={columns}>
         {settings.show_contribution_chart && (
           <ShadowBox>

@@ -130,6 +130,16 @@ const PortfolioGroupTargets = ({ error }: Props) => {
       name: 'Build your target portfolio manually',
       tourClass: 'tour-build-portfolio',
       button: <Button onClick={() => setModel('MANUAL')}>Build</Button>,
+      button: (
+        <Button
+          onClick={() => {
+            setModel('MANUAL');
+            dispatch(replace(`/app/group/${groupId}?edit=true`));
+          }}
+        >
+          Build
+        </Button>
+      ),
     },
   ];
 

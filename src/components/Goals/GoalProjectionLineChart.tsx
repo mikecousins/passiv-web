@@ -3,7 +3,12 @@ import { Goal } from '../../types/goals';
 import { Chart } from 'react-charts';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle, faPen } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCircle,
+  faPen,
+  faSyncAlt,
+  faSearch,
+} from '@fortawesome/free-solid-svg-icons';
 import { toDollarString } from '../Performance/Performance';
 import { Edit } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
@@ -18,31 +23,49 @@ export const ChartBox = styled.div`
 export const LegendItem = styled.div`
   font-size: 24px;
   margin-bottom: 50px;
+  &.small {
+    font-size: 16px;
+    margin-bottom: 58px;
+  }
 `;
 export const LegendContainer = styled(Grid)`
   text-align: right;
   align-items: flex-end;
   button {
-    margin-bottom: 5px;
-    display: inline-block;
+    font-size: 18px;
+    display: block;
+    text-align: right;
+    margin: 0 0 8px auto;
+    font-size: 18px;
+    padding-right: 0;
   }
 `;
 export const TargetDoneButton = styled(Button)`
-  position: absolute;
-  left: 100%;
-  top: -13px;
+  background: none;
+  color: var(--brand-blue);
+  right: 0;
+  font-size: 18px;
 `;
 export const TargetInput = styled.input`
   display: inline-block;
   width: 104px;
   border-bottom: 2px solid var(--brand-blue);
 `;
+export const BreakdownToggle = styled.button`
+  font-size: 14px;
+  margin-top: 16px;
+  margin-left: 46%;
+`;
 type Props = {
   goal: Goal | null;
   targetDate: Date;
   currentValue: number;
   projectedValue: number;
+  principal: number;
+  interest: number;
   projectedData: (number | Date)[][];
+  principalData: (number | Date)[][];
+  interestData: (number | Date)[][];
   goalTarget: number;
   setGoalTarget: any;
 };
@@ -50,10 +73,15 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
   goal,
   targetDate,
   projectedValue,
+  principal,
+  interest,
   projectedData,
+  principalData,
+  interestData,
   goalTarget,
   setGoalTarget,
 }) => {
+  const [showDetailed, setShowDetailed] = useState(false);
   const data = React.useMemo(
     () => [
       {
@@ -69,8 +97,26 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
         data: projectedData,
         color: '#003ba2',
       },
+      {
+        label: 'Principal',
+        data: showDetailed ? principalData : [],
+        color: 'red',
+      },
+      {
+        label: 'Interest',
+        data: showDetailed ? interestData : [],
+        color: 'purple',
+      },
     ],
-    [goal, projectedData, targetDate, goalTarget],
+    [
+      goal,
+      projectedData,
+      principalData,
+      interestData,
+      targetDate,
+      goalTarget,
+      showDetailed,
+    ],
   );
 
   const series = React.useMemo(() => ({ type: 'line', showPoints: false }), []);
@@ -95,27 +141,73 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
 
   return (
     <ChartBox>
-      <LegendContainer columns="1fr 1fr">
-        <LegendItem>
-          <FontAwesomeIcon
-            icon={faCircle}
-            color="#003ba2"
-            style={{ padding: 1 }}
-          />{' '}
-          Projected&nbsp; ${toDollarString(projectedValue)}
-        </LegendItem>
-        <div>
-          <GoalTarget goalTarget={goalTarget} setGoalTarget={setGoalTarget} />
-        </div>
-      </LegendContainer>
+      {!showDetailed ? (
+        <LegendContainer columns="1fr 1fr">
+          <LegendItem>
+            <FontAwesomeIcon
+              icon={faCircle}
+              color="#003ba2"
+              style={{ padding: 1 }}
+            />{' '}
+            Projected&nbsp; ${toDollarString(projectedValue)}
+          </LegendItem>
+          <div>
+            <GoalTarget
+              goalTarget={goalTarget}
+              setGoalTarget={setGoalTarget}
+              className="normal"
+            />
+          </div>
+        </LegendContainer>
+      ) : (
+        <LegendContainer columns="1fr 1fr 1fr 1fr">
+          <LegendItem className="small">
+            <FontAwesomeIcon
+              icon={faCircle}
+              color="#003ba2"
+              style={{ padding: 1 }}
+            />{' '}
+            Projected&nbsp; ${toDollarString(projectedValue)}
+          </LegendItem>
+          <LegendItem className="small">
+            <FontAwesomeIcon
+              icon={faCircle}
+              color="red"
+              style={{ padding: 1 }}
+            />{' '}
+            Principal&nbsp; ${toDollarString(principal)}
+          </LegendItem>
+          <LegendItem className="small">
+            <FontAwesomeIcon
+              icon={faCircle}
+              color="purple"
+              style={{ padding: 1 }}
+            />{' '}
+            Interest&nbsp; ${toDollarString(interest)}
+          </LegendItem>
+          <div>
+            <GoalTarget
+              goalTarget={goalTarget}
+              setGoalTarget={setGoalTarget}
+              className="small"
+            />
+          </div>
+        </LegendContainer>
+      )}
       <Chart data={data} axes={axes} series={series} />
+      {(interest > 0 || showDetailed) && (
+        <BreakdownToggle onClick={() => setShowDetailed(!showDetailed)}>
+          <FontAwesomeIcon icon={faSearch} style={{ padding: 1 }} /> Show
+          Breakdown
+        </BreakdownToggle>
+      )}
     </ChartBox>
   );
 };
 
 export default GoalProjectionLineChart;
 
-const GoalTarget = ({ goalTarget, setGoalTarget }: any) => {
+const GoalTarget = ({ goalTarget, setGoalTarget, className }: any) => {
   const [editMode, setEditMode] = useState(false);
   const [newValue, setNewValue] = useState(goalTarget);
   const finishEditing = (newValue: number) => {
@@ -130,7 +222,7 @@ const GoalTarget = ({ goalTarget, setGoalTarget }: any) => {
           <FontAwesomeIcon icon={faPen} />
           Edit Target
         </Edit>
-        <LegendItem>
+        <LegendItem className={className}>
           <FontAwesomeIcon
             icon={faCircle}
             color="#04a286"
@@ -144,7 +236,11 @@ const GoalTarget = ({ goalTarget, setGoalTarget }: any) => {
   } else {
     return (
       <React.Fragment>
-        <LegendItem>
+        <LegendItem className={className}>
+          <Edit onClick={() => finishEditing(newValue)}>
+            <FontAwesomeIcon icon={faSyncAlt} />
+            Update
+          </Edit>
           <FontAwesomeIcon
             icon={faCircle}
             color="#04a286"
@@ -161,9 +257,6 @@ const GoalTarget = ({ goalTarget, setGoalTarget }: any) => {
               }
             }}
           ></TargetInput>
-          <TargetDoneButton onClick={() => finishEditing(newValue)}>
-            Done
-          </TargetDoneButton>
         </LegendItem>
       </React.Fragment>
     );
