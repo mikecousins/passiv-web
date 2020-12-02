@@ -8,44 +8,7 @@ import AccountTab from '../components/AccountTab';
 import GroupSettingsTab from '../components/GroupSettingsTab';
 import styled from '@emotion/styled';
 import { selectPathname } from '../selectors/router';
-import Tour from '../components/Tour/Tour';
 
-const TOUR_STEPS = [
-  {
-    target: '.tour-accuracy',
-    content:
-      'Accuracy tells you how close your holdings are to your desired target, where 100% indicates your holdings are perfectly on target. The accuracy changes when you adjust your targets.',
-  },
-  {
-    target: '.tour-cash',
-    content: 'All your available fund in CAD and USD.',
-  },
-  {
-    target: '.tour-total-value',
-    content: 'Current total value of your holding plus your available cash',
-  },
-  {
-    target: '.tour-trades',
-    content:
-      'We want to make sure that your accuracy gets as close as possible to 100%. The trades listed below are based on your holdings and your available cash. Invest your cash according to your target portfolio and rebalanced in one-click.',
-    placement: 'right',
-  },
-  {
-    target: '.tour-bar-actual',
-    content: 'Actual Bar.',
-    placement: 'right',
-  },
-  {
-    target: '.tour-bar-target',
-    content: 'Target Bar',
-    placement: 'right',
-  },
-  {
-    target: '.tour-group-settings',
-    content: 'Change settings for this group',
-    placement: 'right',
-  },
-];
 export const SubNav = styled.div`
   border-bottom: 1px solid #e5e5e5;
   margin: 0px 0 30px;
@@ -104,7 +67,6 @@ const GroupPage = () => {
 
   return (
     <React.Fragment>
-      <Tour steps={TOUR_STEPS} />
       <SubNav>
         <NavContainer>
           <Link

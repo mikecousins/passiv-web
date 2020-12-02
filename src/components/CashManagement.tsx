@@ -31,32 +31,6 @@ const TOUR_STEPS = [
       'Control over how Passiv treats the currencies you hold in your brokerage account. Start dollar-cost averaging your assets by clicking Add Rule button.',
     placement: 'top',
   },
-  {
-    target: '.tour-cash-mng-add',
-    content:
-      'Control over how Passiv treats the currencies you hold in your brokerage account. Start dollar-cost averaging your assets by clicking Add Rule button.',
-    placement: 'top',
-  },
-  {
-    target: '.tour-cash-mng-account',
-    content: 'Account',
-    placement: 'top',
-  },
-  {
-    target: '.tour-cash-mng-rule',
-    content: 'Rule',
-    placement: 'top',
-  },
-  {
-    target: '.tour-cash-mng-currency',
-    content: 'Currency',
-    placement: 'top',
-  },
-  {
-    target: '.tour-cash-mng-amount',
-    content: 'Amount.',
-    placement: 'top',
-  },
 ];
 
 const CashManagementBox = styled.div`
@@ -327,16 +301,16 @@ const CashManagement = () => {
     <CashRestrictionBox>
       {(editing || cashRestrictions.length > 0) && (
         <CashRow>
-          <ColumnAccount className="tour-cash-mng-account">
+          <ColumnAccount>
             <Title>Account</Title>
           </ColumnAccount>
-          <ColumnType className="tour-cash-mng-rule">
+          <ColumnType>
             <Title>Rule</Title>
           </ColumnType>
-          <ColumnCurrency className="tour-cash-mng-currency">
+          <ColumnCurrency>
             <Title>Currency</Title>
           </ColumnCurrency>
-          <ColumnAmount className="tour-cash-mng-amount">
+          <ColumnAmount>
             <Title>Amount</Title>
           </ColumnAmount>
           <ColumnDelete></ColumnDelete>
