@@ -115,6 +115,7 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
         value={value}
         onChange={onChange}
         placeholder="Search for security..."
+        autoFocus
       />
       {loading ? (
         <StyledComboboxPopover>

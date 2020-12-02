@@ -65,6 +65,7 @@ const NameInputAndEdit = ({
         <StyledContainer>
           <StyledInput
             type="text"
+            autoFocus
             value={value}
             onChange={onChange}
             onKeyPress={onKeyPress}
