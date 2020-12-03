@@ -15,10 +15,12 @@ import {
   A,
   OptionsTitle,
   BorderContainer,
+  P,
 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import TwoFAManager from './TwoFAManager';
+import * as Yup from 'yup';
 
 const InputContainer = styled.div`
   padding-top: 10px;
@@ -39,6 +41,10 @@ const MiniInputNonFormik = styled(InputNonFormik)`
   padding: 15px 12px;
 `;
 
+const CancelBtn = styled(A)`
+  margin-left: 10px;
+`;
+
 const CredentialsManager = () => {
   const settings = useSelector(selectSettings);
   const isDemo = useSelector(selectIsDemo);
@@ -47,6 +53,8 @@ const CredentialsManager = () => {
   const [name, setName] = useState('');
   const [editingName, setEditingName] = useState(false);
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [editingEmail, setEditingEmail] = useState(false);
   const [passwordResetSent, setPasswordResetSent] = useState(false);
 
   useEffect(() => {
@@ -56,11 +64,15 @@ const CredentialsManager = () => {
     }
   }, [settings]);
 
+  useEffect(() => {
+    setTimeout(() => setEmailError(''), 5000);
+  }, [emailError]);
+
   const startEditingName = () => {
     setEditingName(true);
   };
 
-  const finishEditing = () => {
+  const finishEditingName = () => {
     if (!settings) {
       return;
     }
@@ -82,7 +94,45 @@ const CredentialsManager = () => {
     }
     setEditingName(false);
   };
+  let schema = Yup.object().shape({
+    email: Yup.string().email().required(),
+  });
+  const finishEditingEmail = () => {
+    if (!settings) {
+      return;
+    }
+    if (email !== settings.email) {
+      schema
+        .isValid({
+          email,
+        })
+        .then((valid) => {
+          if (valid) {
+            let newSettings = { ...settings };
+            newSettings.email = email;
+            putData('/api/v1/settings/', newSettings)
+              .then(() => {
+                dispatch(loadSettings());
+                setEditingEmail(false);
+              })
+              .catch((error) => {
+                if (error.response.data.errors.email) {
+                  setEmailError(error.response.data.errors.email.join(' '));
+                }
+              });
+          } else {
+            setEmailError('Must be a valid email.');
+          }
+        });
+    } else {
+      setEditingEmail(false);
+    }
+  };
 
+  const cancelEditingEmail = () => {
+    setEditingEmail(false);
+    dispatch(loadSettings());
+  };
   const sendPasswordReset = () => {
     postData('/api/v1/auth/resetPassword/', { email })
       .then(() => {
@@ -104,15 +154,15 @@ const CredentialsManager = () => {
         <InputContainer>
           <MiniInputNonFormik
             value={name === null ? '' : name}
-            onChange={e => setName(e.target.value)}
-            onKeyPress={e => {
+            onChange={(e) => setName(e.target.value)}
+            onKeyPress={(e) => {
               if (e.key === 'Enter') {
-                finishEditing();
+                finishEditingName();
               }
             }}
             placeholder={'Your name'}
           />
-          <Button onClick={finishEditing}>Done</Button>
+          <Button onClick={finishEditingName}>Done</Button>
         </InputContainer>
       ) : (
         <InputContainer>
@@ -124,9 +174,34 @@ const CredentialsManager = () => {
           </Edit>
         </InputContainer>
       )}
-      <InputContainer>
-        <OptionsTitle>Email:</OptionsTitle> {email}
-      </InputContainer>
+      {editingEmail ? (
+        <InputContainer>
+          <MiniInputNonFormik
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                finishEditingEmail();
+              }
+            }}
+            placeholder={'Your email'}
+          />
+          <P>{emailError}</P>
+          <Button onClick={finishEditingEmail}>Done</Button>
+          <CancelBtn onClick={() => cancelEditingEmail()}>Cancel</CancelBtn>
+        </InputContainer>
+      ) : (
+        <InputContainer>
+          <OptionsTitle>Email:</OptionsTitle> {email}
+          <Edit
+            onClick={() => !isDemo && setEditingEmail(true)}
+            disabled={isDemo}
+          >
+            <FontAwesomeIcon icon={faPen} />
+            Edit
+          </Edit>
+        </InputContainer>
+      )}
       <PasswordContainer>
         {' '}
         {passwordResetSent ? (
