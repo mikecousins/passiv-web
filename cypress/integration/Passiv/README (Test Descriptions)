@@ -1,0 +1,18 @@
+Hello! Here are the various automated tests for Passiv! Here I will breakdown the test and the caveats for each. 
+    --> Beta Features: 
+            these features are currently in beta testing, that indicates they are on the prod server or are given to a limited number of Passiv.com  users. Any of the tests in this folder will require the tester to enter active account info in order to log in. 
+
+    --> Passiv_API_Tests:
+            These tests are aiming to test components without actually touching the API but making sure the request is made and the appropriate response is given. Tests here should be able to be run along side local server with no issues.
+
+    --> Passiv_landing_tests:
+            These tests are on the passiv landing website ; currently they require a Dev local host running in the background. These tests will have to be reformatted after fixing server load issues.
+
+    --> Passiv_livepage:
+            These are all LIVE tests and require an active user and email to access. These test components on the live pages. The main purpose of these tests is to verify everything in the app is running smoothly after deployments. 
+            These should be run immediately following deployment (especially things like help section)
+
+    --> Passiv_stubs:
+            These are stubs that a user who is creating tests can use to stub different sections for API requests. 
+
+Last updated Dec 3rd, 2020 by Alex Sutherland 
