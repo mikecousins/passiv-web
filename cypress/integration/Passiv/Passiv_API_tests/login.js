@@ -19,7 +19,7 @@ describe ('Logging in using XHR request', function () {
 
     cy.getCookie('csrftoken').should('exist')
 
-    cy.visit('/app/dasboard/')
+    cy.visit('/app/dashboard/')
     })
 })
 

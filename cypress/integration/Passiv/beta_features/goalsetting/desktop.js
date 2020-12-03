@@ -5,8 +5,8 @@ describe('Desktop goal setting test', () => {
     
 
             //these are placeholder values
-            const  user = "testemail.com"
-            const  pass = "pass12345"
+            const  user = "asutherland8219@gmail.com"
+            const  pass = "Urecstaff2019@"
             
             //these are the values for the goal
             const goal1 = "Get the bag"
@@ -112,11 +112,13 @@ describe('Desktop goal setting test', () => {
             })
 
             it('Change goal name', () => {
-                cy.get('button').contains('Edit Name').click()
+                cy.get('div').find('div.css-ov1ktg main.css-ozbw39 div.css-875kku div.css-59dqri div:nth-child(3) > button.css-1v6e5e8').click()
+                cy.contains('Edit Name').click({multiple: true})
                 .get('div').find('input').first()
                 .clear()
                 .type(goal2)
-                .get('button').contains('Done').click()
+
+                cy.contains('Finish').click()
             })
 
             it('Update Goal', () => {
@@ -129,7 +131,7 @@ describe('Desktop goal setting test', () => {
                 .get('div').find('input').last()
                 .clear()
                 .type(goalnumber2)
-                .get('button').contains('Done').click()
+                .get('button').contains('Update').click()
 
             })
 
@@ -173,10 +175,6 @@ describe('Desktop goal setting test', () => {
             //     .click()
             // })
 
-            it('Next' , () => {
-                cy.get('div').find('button').contains('Next')
-                .click()
-            })
 
             it('Enter goal ammount', () => {
                 cy.get('div').find('label').contains('I want to reach $').next()   
@@ -211,9 +209,21 @@ describe('Desktop goal setting test', () => {
 
     
     it('Delete the goals', () => {
-        cy.get('div').find('h2').contains(goal2).click()
-        .get('button').contains(goal2).click()
-        .get('button').contains('Delete').last().click()
+        cy.get('div').find('h2').contains(goal2).click() 
+        cy.get('div').find('div.css-ov1ktg main.css-ozbw39 div.css-875kku div.css-59dqri div:nth-child(3) > button.css-1v6e5e8').click()
+        cy.contains('Delete').click({multiple: true})
+        cy.get('button').contains('Delete').click({multiple: true})
+
+        cy.get('div').find('h2').contains(goal1).click() 
+        cy.get('div').find('div.css-ov1ktg main.css-ozbw39 div.css-875kku div.css-59dqri div:nth-child(3) > button.css-1v6e5e8').click()
+        cy.contains('Delete').click({multiple: true})
+        cy.get('button').contains('Delete').click({multiple: true})
+        
+        
+                // .get('div').find('input').first()
+                // .clear()
+                // .type(goal2)
+
     })  
             
     
