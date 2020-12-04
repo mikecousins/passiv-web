@@ -219,7 +219,11 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
       {(interest > 0 || showDetailed) && (
         <BreakdownToggle onClick={() => setShowDetailed(!showDetailed)}>
           <FontAwesomeIcon icon={faSearch} style={{ padding: 1 }} />
-          Show Breakdown
+          {!showDetailed ? (
+            <>&nbsp;Show Detailed View</>
+          ) : (
+            <>&nbsp;Show Simple View</>
+          )}
         </BreakdownToggle>
       )}
     </ChartBox>
