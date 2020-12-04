@@ -578,9 +578,18 @@ const GoalDetailPage = () => {
               %?
             </Question>
 
-            <Tip>
-              Learn more about potential return rates <A>Link to article</A>.
-            </Tip>
+            {false && (
+              <Tip>
+                Learn more about potential return rates{' '}
+                <A
+                  target="_blank"
+                  href="https://www.aqr.com/Insights/Research/Alternative-Thinking/2020-Capital-Market-Assumptions-for-Major-Asset-Classes"
+                >
+                  here
+                </A>
+                .
+              </Tip>
+            )}
 
             {(dateChanged ||
               targetChanged ||
