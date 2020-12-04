@@ -10,7 +10,12 @@ import { ToggleButton, StateText } from '../../styled/ToggleButton';
 import Number from './../Number';
 import { NumericTextInput } from '../../styled/Form';
 import { SmallButton } from '../../styled/Button';
-import { Edit, SubSetting, OptionsTitle } from '../../styled/GlobalElements';
+import {
+  Edit,
+  SubSetting,
+  OptionsTitle,
+  DisabledBox,
+} from '../../styled/GlobalElements';
 import { Settings } from '../../types/settings';
 
 const CashNotificationSettings = () => {
@@ -104,10 +109,6 @@ const CashNotificationSettings = () => {
                   }}
                 />{' '}
                 <SmallButton onClick={finishEditingThreshold}>Done</SmallButton>
-                <br></br>
-                <br></br>
-                Note: this is the amount of cash per account (not portfolio
-                group)
               </React.Fragment>
             )}
           </SubSetting>
@@ -120,6 +121,10 @@ const CashNotificationSettings = () => {
           </ToggleButton>
         </React.Fragment>
       )}
+      <DisabledBox>
+        Receive an email notification when new cash or dividends arrive in your
+        account.
+      </DisabledBox>
     </React.Fragment>
   );
 
