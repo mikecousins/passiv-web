@@ -17,10 +17,14 @@ const CashNotificationSettings = () => {
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
-  const [cashThreshold, setCashThreshold] = useState();
+  const [cashThreshold, setCashThreshold] = useState('');
 
   useEffect(() => {
-    setCashThreshold(settings && parseFloat(settings.cash_email_threshold));
+    if (settings) {
+      setCashThreshold(
+        settings && parseFloat(settings.cash_email_threshold).toString(),
+      );
+    }
   }, [settings]);
 
   const updateNotification = () => {
@@ -89,10 +93,11 @@ const CashNotificationSettings = () => {
               </React.Fragment>
             ) : (
               <React.Fragment>
+                $
                 <NumericTextInput
                   value={cashThreshold}
-                  onChange={e => setCashThreshold(e.target.value)}
-                  onKeyPress={e => {
+                  onChange={(e) => setCashThreshold(e.target.value)}
+                  onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                       finishEditingThreshold();
                     }
