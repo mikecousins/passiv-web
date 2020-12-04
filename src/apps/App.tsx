@@ -361,10 +361,10 @@ const App = () => {
                 component={PerformancePage}
               />
             )}
-            {showSecureApp && goalsPageFeatureActive && (
+            {showSecureApp && (
               <Route path={prefixPath('/goals')} component={GoalsPage} />
             )}
-            {showSecureApp && goalsPageFeatureActive && (
+            {showSecureApp && (
               <Route
                 path={prefixPath('/goal/:goalId')}
                 component={GoalDetailPage}

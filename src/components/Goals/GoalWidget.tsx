@@ -56,6 +56,9 @@ const ProgressCopy = styled.p`
 const ProgressContainer = styled.div``;
 const TargetNum = styled.div`
   text-align: right;
+  @media (max-width: 900px) {
+    text-align: center;
+  }
 `;
 const View = styled(A)`
   font-size: 20px;
@@ -77,6 +80,9 @@ const View = styled(A)`
 const ShadowBoxWHover = styled(ShadowBox)`
   transition: all 0.25s;
   border: 1px solid #fff;
+  @media (max-width: 900px) {
+    text-align: center;
+  }
   &.completed {
     background: url(${trophy}) no-repeat right #05a286;
     background-size: contain;
