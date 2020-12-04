@@ -36,6 +36,7 @@ type Props = {
   hideArrow?: boolean;
   indent?: boolean;
   beta?: boolean;
+  onMouseEnter?: any; //TODO change the type
 };
 
 const SideBarLink = ({
@@ -49,6 +50,7 @@ const SideBarLink = ({
   hideArrow,
   indent,
   beta = false,
+  onMouseEnter,
 }: Props) => {
   const pathname = useSelector(selectPathname);
 

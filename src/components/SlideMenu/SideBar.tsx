@@ -12,6 +12,7 @@ import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
 import styled from '@emotion/styled';
+import { preloadRouteComponent } from '../../apps/App';
 
 const StyledAside = styled.aside`
   background-color: var(--brand-grey);
@@ -119,7 +120,11 @@ const SideBar = () => {
           {goalsPageFeatureActive && hasQuestradeConnection && (
             <SideBarLink name="Goals" linkPath="/app/goals" beta={true} />
           )}
-          <SideBarLink name="Refer a Friend" linkPath="/app/referrals" />
+          <SideBarLink
+            name="Refer a Friend"
+            linkPath="/app/referrals"
+            onMouseEnter={() => preloadRouteComponent('/app/referrals')}
+          />
           <SideBarLink name="Settings" linkPath="/app/settings" />
         </StyledAside>
         <SideBarFooter />

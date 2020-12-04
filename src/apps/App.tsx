@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../layouts/Layout';
-import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
+import {
+  Route,
+  Redirect,
+  Switch,
+  useLocation,
+  matchPath,
+} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { StripeProvider } from 'react-stripe-elements';
@@ -19,6 +25,43 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GoalsPage from '../pages/GoalsPage';
 import GoalDetailPage from '../pages/GoalDetailPage';
 import { selectGoalsPageFeature } from '../selectors/features';
+
+const ReactLazyPreload = (importStatement: any) => {
+  const Component = React.lazy(importStatement);
+  // @ts-ignore
+  Component.preload = importStatement;
+  return Component;
+};
+
+// const ReferralPage = ReactLazyPreload(() =>
+//   import(/* webpackChunkName: "referrals-preload" */ '../pages/ReferralPage'),
+// );
+// const PerformancePage = ReactLazyPreload(() =>
+//   import(
+//     /* webpackChunkName: "reporting-preload" */ '../pages/PerformancePage'
+//   ),
+// );
+
+// const routes = [
+//   { path: '/app/referrals', exact: true, component: ReferralPage },
+//   { path: '/app/reporting', exact: true, component: PerformancePage },
+// ];
+
+const findComponentForRoute = (path: any, routes: any) => {
+  const matchingRoute = routes.find((route: any) =>
+    matchPath(path, {
+      path: route.path,
+      exact: route.exact,
+    }),
+  );
+  return matchingRoute ? matchingRoute.component : null;
+};
+export const preloadRouteComponent = (to: string) => {
+  const component = findComponentForRoute(to, routes);
+  if (component && component.preload) {
+    component.preload();
+  }
+};
 
 // code splitting to lazy load our pages
 const LoginPage = React.lazy(() =>
