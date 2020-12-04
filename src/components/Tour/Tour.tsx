@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import JoyRide from 'react-joyride';
-import { getData, postData } from '../../api';
+// import { getData, postData } from '../../api';
+import { selectShowInAppTour } from '../../selectors/features';
 
 type Props = {
   steps: any;
 };
 
 const Tour = ({ steps }: Props) => {
-  const [showMessage, setShowMessage] = useState(true);
+  // const [showMessage, setShowMessage] = useState(true);
   const handleJoyrideCallback = (data: any) => {
     if (data.action === 'skip') {
       // call the endpoint
@@ -20,19 +21,19 @@ const Tour = ({ steps }: Props) => {
     }
   };
 
-  useEffect(() => {
-    getData('/api/v1/settings').then((res) => {
-      res.data.contextual_messages.map((c: any) => {
-        if (c.name === 'import_targets_tour') {
-          setShowMessage(false);
-        }
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   getData('/api/v1/settings').then((res) => {
+  //     res.data.contextual_messages.map((c: any) => {
+  //       if (c.name === 'import_targets_tour') {
+  //         setShowMessage(false);
+  //       }
+  //     });
+  //   });
+  // }, []);
 
   return (
     <>
-      {showMessage && (
+      {selectShowInAppTour && (
         <JoyRide
           callback={handleJoyrideCallback}
           steps={steps}
