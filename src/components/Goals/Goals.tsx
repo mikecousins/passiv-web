@@ -117,7 +117,7 @@ export const Goals = () => {
 
       <BetaBanner>
         Open Beta: Help us improve our tools by{' '}
-        <A href="mailto:reporting@getpassiv.com">sharing feedback</A>
+        <A href="mailto:goals@passiv.com">sharing feedback</A>
       </BetaBanner>
     </React.Fragment>
   );
