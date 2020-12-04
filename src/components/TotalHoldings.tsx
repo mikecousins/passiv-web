@@ -3,12 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
-import { selectSettings, selectCurrencies } from '../selectors';
+import { selectSettings } from '../selectors';
 import { selectTotalGroupHoldings } from '../selectors/groups';
 import Number from './Number';
 import { putData } from '../api';
 import { loadSettings } from '../actions';
 import CurrencySelector from './CurrencySelector';
+import { selectCurrencies } from '../selectors/currencies';
 
 export const TotalContainer = styled.div`
   text-align: right;

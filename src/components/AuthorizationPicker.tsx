@@ -40,14 +40,14 @@ const AuthorizationPicker = ({
     if (updateBrokerageAuthorizationId === null) {
       postData(`/api/v1/brokerages/${brokerage}/authorize/`, {
         type: type,
-      }).then(response => {
+      }).then((response) => {
         window.location = response.data.url;
       });
     } else {
       postData(
         `/api/v1/brokerages/${brokerage}/authorize/${updateBrokerageAuthorizationId}`,
         { type: type },
-      ).then(response => {
+      ).then((response) => {
         window.location = response.data.url;
       });
     }
@@ -65,10 +65,10 @@ const AuthorizationPicker = ({
   }
 
   let types = null;
-  if (brokerage) {
+  if (brokerages && brokerage) {
     types = brokerages!
-      .find(x => x.id === brokerage)!
-      .authorization_types.map(type => {
+      .find((x) => x.id === brokerage)!
+      .authorization_types.map((type) => {
         return (
           <option key={type.type} value={type.type}>
             {type.type}
@@ -99,7 +99,7 @@ const AuthorizationPicker = ({
           {allowSelectBrokerage && (
             <SelectAuth
               value={brokerage}
-              onChange={event => {
+              onChange={(event) => {
                 setBrokerage(event.target.value);
               }}
             >
@@ -112,7 +112,7 @@ const AuthorizationPicker = ({
           {allowSelectType && (
             <SelectAuth
               value={type}
-              onChange={event => {
+              onChange={(event) => {
                 setType(event.target.value);
               }}
             >

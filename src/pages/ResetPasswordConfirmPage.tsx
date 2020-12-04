@@ -25,7 +25,7 @@ const ResetPasswordConfirmPage = () => {
           initialValues={{
             password: '',
           }}
-          validate={values => {
+          validate={(values) => {
             const errors: any = {};
             if (!values.password || values.password.trim() === '') {
               errors.password = 'A new password is required.';
@@ -40,7 +40,7 @@ const ResetPasswordConfirmPage = () => {
               .then(() => {
                 setSubmitted(true);
               })
-              .catch(error => {
+              .catch((error) => {
                 let errors: any = {};
                 if (
                   error.response.data &&

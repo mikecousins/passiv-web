@@ -43,7 +43,7 @@ const ResetPasswordPage = ({ location }: Props) => {
               initialValues={{
                 email: '',
               }}
-              validate={values => {
+              validate={(values) => {
                 let errors: any = {};
                 if (!values.email) {
                   errors.email = 'An email is required.';
@@ -60,7 +60,7 @@ const ResetPasswordPage = ({ location }: Props) => {
                   .then(() => {
                     setSubmitted(true);
                   })
-                  .catch(error => {
+                  .catch((error) => {
                     let errors: any = {};
                     if (
                       error.response.data &&

@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faCheck, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
+import styled from '@emotion/styled';
 import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
 import AccountGroup from './AccountGroup';
@@ -16,7 +17,6 @@ import { deleteData, putData, postData } from '../../api';
 import { H2, A, Edit, H3, P, DisabledBox } from '../../styled/GlobalElements';
 import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 import { loadAccounts, loadGroups } from '../../actions';
-import styled from '@emotion/styled';
 
 export const Header = styled.form`
   h2 {

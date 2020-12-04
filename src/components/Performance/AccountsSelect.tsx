@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectAccounts } from '../../selectors/accounts';
 import {
   selectSelectedAccounts,
-  selectSelectedTimeframe,
   selectStartDate,
   selectEndDate,
 } from '../../selectors/performance';
@@ -51,9 +50,8 @@ const Submit = styled.input`
 export const AccountsSelect = () => {
   const dispatch = useDispatch();
   const accounts = useSelector(selectAccounts).filter(
-    a => a.institution_name === 'Questrade',
+    (a) => a.institution_name === 'Questrade',
   );
-  const timeframe = useSelector(selectSelectedTimeframe);
   const startDate = useSelector(selectStartDate);
   const endDate = useSelector(selectEndDate);
   const selectedAccounts = useSelector(selectSelectedAccounts);
@@ -63,14 +61,14 @@ export const AccountsSelect = () => {
     if (
       accounts
         .slice(i + 1)
-        .map(a => a.name)
+        .map((a) => a.name)
         .includes(accounts[i].name)
     ) {
       hasDuplicates = true;
     }
   }
 
-  const options = accounts.map(a => {
+  const options = accounts.map((a) => {
     let l = a.name;
     if (hasDuplicates) {
       l = a.name + ': ' + a.number;
@@ -79,13 +77,15 @@ export const AccountsSelect = () => {
   });
 
   const selectedOptions: any = [];
-  options.forEach(option => {
+  options.forEach((option) => {
     if (selectedAccounts.map((a: any) => a?.value).includes(option.value)) {
       selectedOptions.push(option);
     }
   });
   const [selected, setSelected] = useState<any[]>(selectedOptions);
-  dispatch(setSelectedAccounts(selected));
+  if (selectedAccounts !== selected) {
+    dispatch(setSelectedAccounts(selected));
+  }
 
   return (
     <React.Fragment>
@@ -101,22 +101,19 @@ export const AccountsSelect = () => {
           type="submit"
           value="Apply"
           onClick={() => {
-            if (timeframe === 'CST') {
-              if (validDates(startDate, endDate)) {
-                setshowInvalidDateMessage(false);
-                dispatch(
-                  loadPerformanceCustom(
-                    selected.map(a => a?.value),
-                    startDate,
-                    endDate,
-                  ),
-                );
-              } else {
-                setshowInvalidDateMessage(true);
-              }
+            if (validDates(startDate, endDate)) {
+              setshowInvalidDateMessage(false);
+              dispatch(
+                loadPerformanceCustom(
+                  selected.map((a) => a?.value),
+                  startDate,
+                  endDate,
+                ),
+              );
             } else {
-              dispatch(loadPerformanceAll(selected.map(a => a?.value)));
+              setshowInvalidDateMessage(true);
             }
+            dispatch(loadPerformanceAll(selected.map((a) => a?.value)));
           }}
         />
       </SelectContainer>

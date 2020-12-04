@@ -67,6 +67,9 @@ const SideBarLink = ({
   ) {
     selected = true;
   }
+  if (pathname.includes('goal') && linkPath.includes('goal')) {
+    selected = true;
+  }
 
   let colorClass = undefined;
   if (selected) {

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { loadGroupAndAccounts, loadIncentives } from '../../actions';
 import { getData, postData } from '../../api';
-import { selectSettings, selectLimitOrdersFeature } from '../../selectors';
+import { selectSettings } from '../../selectors';
 import { selectShowQuestradeOffer } from '../../selectors/subscription';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
 import {
@@ -25,6 +25,7 @@ import {
 import ErrorMessage from './ErrorMessage';
 import { Button } from '../../styled/Button';
 import UpgradeIdea from '../UpgradeIdea';
+import { selectLimitOrdersFeature } from '../../selectors/features';
 
 type Props = {
   groupId: string;
@@ -51,9 +52,9 @@ const RebalanceWidget = ({
 
   const [validatingOrders, setValidatingOrders] = useState(false);
   const [placingOrders, setPlacingOrders] = useState(false);
-  const [orderSummary, setOrderSummary] = useState();
-  const [orderResults, setOrderResults] = useState();
-  const [error, setError] = useState();
+  const [orderSummary, setOrderSummary] = useState<any>();
+  const [orderResults, setOrderResults] = useState<any>();
+  const [error, setError] = useState<any>();
 
   const reloadData = () => {
     dispatch(loadGroupAndAccounts({ ids: [groupId] }));

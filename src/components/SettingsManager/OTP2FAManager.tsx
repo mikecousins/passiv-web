@@ -7,11 +7,8 @@ import {
   faClipboardCheck,
   faQrcode,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  selectIsDemo,
-  selectOTP2FAEnabled,
-  selectOTP2FAFeature,
-} from '../../selectors';
+import { selectIsDemo, selectOTP2FAEnabled } from '../../selectors';
+import { selectOTP2FAFeature } from '../../selectors/features';
 import { Edit, OptionsTitle, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import { InputTarget } from '../../styled/Form';
@@ -79,7 +76,7 @@ const OTP2FAManager = () => {
   const [secret2FA, setSecret2FA] = useState();
   const [editing2FA, setEditing2FA] = useState(false);
   const [confirming2FA, setConfirming2FA] = useState(false);
-  const [error2FA, setError2FA] = useState();
+  const [error2FA, setError2FA] = useState(null);
   const [loading2FA, setLoading2FA] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showQR, setShowQR] = useState(false);

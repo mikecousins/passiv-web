@@ -48,9 +48,7 @@ const ContactForm = () => {
         }}
         initialStatus={{ submitted: false }}
         validationSchema={Yup.object().shape({
-          le: Yup.string()
-            .email('Must be a valid email')
-            .required('Required'),
+          le: Yup.string().email('Must be a valid email').required('Required'),
           lm: Yup.string().required('Required'),
         })}
         onSubmit={(values, actions) => {
@@ -72,7 +70,7 @@ const ContactForm = () => {
               actions.setSubmitting(false);
             });
         }}
-        render={props => (
+        render={(props) => (
           <Form onSubmit={props.handleSubmit}>
             <legend>
               <H2>Send us a Message</H2>

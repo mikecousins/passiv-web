@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '../styled/Button';
-import { injectStripe } from 'react-stripe-elements';
 import { loadSubscription } from '../actions';
 import { postData } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,13 +8,13 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { H2, P } from '../styled/GlobalElements';
 import { Link } from 'react-router-dom';
 import Card from '../styled/Card';
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 
 type Props = {
   loading: boolean;
   startCreateSubscription: () => void;
   finishCreateSubscription: () => void;
   finishCreateSubscriptionFail: () => void;
-  stripe?: any;
 };
 
 const CheckoutForm = ({
@@ -23,24 +22,31 @@ const CheckoutForm = ({
   startCreateSubscription,
   finishCreateSubscription,
   finishCreateSubscriptionFail,
-  stripe,
 }: Props) => {
   const [error, setError] = useState<any>(null);
   const dispatch = useDispatch();
+  const stripe = useStripe();
+  const elements = useElements();
 
   const submit = async () => {
     setError(null);
     startCreateSubscription();
-    let { token } = await stripe.createToken({ name: 'Name' });
-    postData(`/api/v1/subscriptions`, { token: token, period: 'annual' })
-      .then(() => {
-        dispatch(loadSubscription());
-        finishCreateSubscription();
-      })
-      .catch(error => {
-        setError(error.response.data.detail);
-        finishCreateSubscriptionFail();
-      });
+
+    if (elements !== null) {
+      const card = elements.getElement(CardElement);
+      if (stripe !== null && card !== null) {
+        let { token } = await stripe.createToken(card);
+        postData(`/api/v1/subscriptions`, { token: token, period: 'annual' })
+          .then(() => {
+            dispatch(loadSubscription());
+            finishCreateSubscription();
+          })
+          .catch((error) => {
+            setError(error.response.data.detail);
+            finishCreateSubscriptionFail();
+          });
+      }
+    }
   };
 
   let errorMessage = null;
@@ -108,4 +114,4 @@ const CheckoutForm = ({
   );
 };
 
-export default injectStripe(CheckoutForm);
+export default CheckoutForm;

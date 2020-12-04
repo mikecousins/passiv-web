@@ -1,9 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
 import ShadowBox from '../../styled/ShadowBox';
 import { H3, P } from '../../styled/GlobalElements';
+import { selectHasQuestradeConnection } from '../../selectors';
 
 export const ShadowBoxLinks = styled(ShadowBox)`
   a {
@@ -24,6 +26,8 @@ export const ShadowBoxLinks = styled(ShadowBox)`
 `;
 
 export const HelpLinks = () => {
+  const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
+
   return (
     <React.Fragment>
       <Grid columns="1fr 1fr 1fr">
@@ -37,12 +41,15 @@ export const HelpLinks = () => {
             <P>Check out our helpful ramblings, tips, and tricks.</P>
           </a>
         </ShadowBoxLinks>
-        <ShadowBoxLinks>
-          <Link to={'/app/reporting'}>
-            <H3>Reporting</H3>
-            <P>Check out the graphs showing what your account is doing</P>
-          </Link>
-        </ShadowBoxLinks>
+        {hasQuestradeConnection && (
+          <ShadowBoxLinks>
+            <Link to={'/app/reporting'}>
+              <H3>Reporting</H3>
+              <P>Check out the graphs showing what your account is doing</P>
+            </Link>
+          </ShadowBoxLinks>
+        )}
+
         <ShadowBoxLinks>
           <Link to={'/app/referrals'}>
             <H3>Invite Friends, Make Money</H3>

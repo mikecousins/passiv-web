@@ -23,7 +23,7 @@ export const PerformanceContributionChart = () => {
         label: 'Withdrawals',
         data: withdrawalData
           ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
-          .map(a => {
+          .map((a) => {
             let dateFormatted = formatDate(a.date, timeframe, customYearBased);
             return [dateFormatted, a.value];
           }),
@@ -33,7 +33,7 @@ export const PerformanceContributionChart = () => {
         label: 'Contributions',
         data: contributionData
           ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
-          .map(a => {
+          .map((a) => {
             let dateFormatted = formatDate(a.date, timeframe, customYearBased);
             return [dateFormatted, a.value];
           }),
@@ -45,10 +45,14 @@ export const PerformanceContributionChart = () => {
 
   const series = React.useMemo(() => ({ type: 'bar' }), []);
 
+  const formatAxis = (x: number) => {
+    return '‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎$' + x.toString();
+  };
+
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'ordinal', position: 'bottom' },
-      { type: 'linear', position: 'left', stacked: true },
+      { type: 'linear', position: 'left', stacked: true, format: formatAxis },
     ],
     [],
   );
