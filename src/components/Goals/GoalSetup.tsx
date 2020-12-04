@@ -452,26 +452,14 @@ export const GoalSetup = ({ setGoalMode }: any) => {
             <FontAwesomeIcon icon={faChevronLeft} /> Previous Step
           </ButtonPrev>
         )}
-        <Plant1>
+
+        <Plant1 className={getClassName(currentStep)}>
+          {getClassName(currentStep)}
           <Stem>
-            {currentStep === 'naming' && (
-              <>
-                <Leaf05></Leaf05>
-                <Leaf06></Leaf06>
-              </>
-            )}
-            {currentStep === 'portfolioGroups' && (
-              <>
-                <Leaf05></Leaf05>
-                <Leaf06></Leaf06>
-              </>
-            )}
-            {currentStep === 'setGoals' && (
-              <>
-                <Leaf05></Leaf05>
-                <Leaf06></Leaf06>
-              </>
-            )}
+            <>
+              <Leaf05></Leaf05>
+              <Leaf06></Leaf06>
+            </>
           </Stem>
         </Plant1>
       </ShadowBoxRelative>
@@ -541,4 +529,14 @@ export const getTargetDate = (year: number, month: string) => {
     yearString = '0' + yearString;
   }
   return yearString + '-' + month + '-01';
+};
+
+const getClassName = (currentStep: string) => {
+  if (currentStep === 'naming') {
+    return 'step1';
+  } else if (currentStep === 'portfolioGroups') {
+    return 'step2';
+  } else {
+    return 'step3';
+  }
 };
