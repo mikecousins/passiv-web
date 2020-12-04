@@ -1,4 +1,11 @@
-Hello! Here are the various automated tests for Passiv! Here I will breakdown the test and the caveats for each. 
+Hello! Here are the various automated tests for Passiv! 
+
+Cypress lets you choose tests or groups of tests individually or you can open the App and pick exactly what test you would like to run:
+        --> To run all tests "npm cypress run"
+        --> To open the app "npx cypress open" 
+
+Here I will breakdown the test folders and the caveats for each. 
+
     --> Beta Features: 
             these features are currently in beta testing, that indicates they are on the prod server or are given to a limited number of Passiv.com  users. Any of the tests in this folder will require the tester to enter active account info in order to log in. 
 
@@ -18,4 +25,4 @@ Hello! Here are the various automated tests for Passiv! Here I will breakdown th
     --> Passiv_stubs:
             These are stubs that a user who is creating tests can use to stub different sections for API requests. 
 
-Last updated Dec 3rd, 2020 by Alex Sutherland 
+Last updated Dec 4th, 2020 by Alex Sutherland 
