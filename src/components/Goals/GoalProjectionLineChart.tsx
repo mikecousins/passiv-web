@@ -16,21 +16,27 @@ import { Button } from '../../styled/Button';
 
 export const ChartBox = styled.div`
   position: relative;
-  height: 400px;
+  height: 500px;
   margin: 6px 0 0;
   padding-bottom: 60px;
+  @media (max-width: 900px) {
+    margin-top: 40px;
+    padding-bottom: 100px;
+  }
 `;
 export const LegendItem = styled.div`
   font-size: 24px;
-  margin-bottom: 50px;
   &.small {
-    font-size: 16px;
-    margin-bottom: 58px;
+    font-size: 20px;
+  }
+  @media (max-width: 900px) {
+    margin-top: 16px;
   }
 `;
 export const LegendContainer = styled(Grid)`
   text-align: right;
   align-items: flex-end;
+  margin-bottom: 40px;
   button {
     font-size: 18px;
     display: block;
@@ -38,7 +44,13 @@ export const LegendContainer = styled(Grid)`
     margin: 0 0 8px auto;
     font-size: 18px;
     padding-right: 0;
+    @media (max-width: 900px) {
+      margin-bottom: 4px;
+    }
   }
+`;
+export const LegendContainerExtended = styled(LegendContainer)`
+  margin-bottom: 20px;
 `;
 export const TargetDoneButton = styled(Button)`
   background: none;
@@ -52,9 +64,18 @@ export const TargetInput = styled.input`
   border-bottom: 2px solid var(--brand-blue);
 `;
 export const BreakdownToggle = styled.button`
-  font-size: 14px;
-  margin-top: 16px;
-  margin-left: 46%;
+  font-size: 18px;
+  background: #c3e7fe;
+  padding: 12px;
+
+  @media (min-width: 900px) {
+    position: absolute;
+    right: 99%;
+    top: 101%;
+  }
+  @media (max-width: 900px) {
+    margin-top: 9px;
+  }
 `;
 type Props = {
   goal: Goal | null;
@@ -151,16 +172,16 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
             />{' '}
             Projected&nbsp; ${toDollarString(projectedValue)}
           </LegendItem>
-          <div>
+          <LegendItem>
             <GoalTarget
               goalTarget={goalTarget}
               setGoalTarget={setGoalTarget}
               className="normal"
             />
-          </div>
+          </LegendItem>
         </LegendContainer>
       ) : (
-        <LegendContainer columns="1fr 1fr 1fr 1fr">
+        <LegendContainerExtended columns="1fr 1fr">
           <LegendItem className="small">
             <FontAwesomeIcon
               icon={faCircle}
@@ -168,6 +189,13 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
               style={{ padding: 1 }}
             />{' '}
             Projected&nbsp; ${toDollarString(projectedValue)}
+          </LegendItem>
+          <LegendItem className="small">
+            <GoalTarget
+              goalTarget={goalTarget}
+              setGoalTarget={setGoalTarget}
+              className="small"
+            />
           </LegendItem>
           <LegendItem className="small">
             <FontAwesomeIcon
@@ -185,20 +213,17 @@ export const GoalProjectionLineChart: FunctionComponent<Props> = ({
             />{' '}
             Interest&nbsp; ${toDollarString(interest)}
           </LegendItem>
-          <div>
-            <GoalTarget
-              goalTarget={goalTarget}
-              setGoalTarget={setGoalTarget}
-              className="small"
-            />
-          </div>
-        </LegendContainer>
+        </LegendContainerExtended>
       )}
       <Chart data={data} axes={axes} series={series} />
       {(interest > 0 || showDetailed) && (
         <BreakdownToggle onClick={() => setShowDetailed(!showDetailed)}>
-          <FontAwesomeIcon icon={faSearch} style={{ padding: 1 }} /> Show
-          Breakdown
+          <FontAwesomeIcon icon={faSearch} style={{ padding: 1 }} />
+          {!showDetailed ? (
+            <>&nbsp;Show Detailed View</>
+          ) : (
+            <>&nbsp;Show Simple View</>
+          )}
         </BreakdownToggle>
       )}
     </ChartBox>
@@ -222,7 +247,7 @@ const GoalTarget = ({ goalTarget, setGoalTarget, className }: any) => {
           <FontAwesomeIcon icon={faPen} />
           Edit Target
         </Edit>
-        <LegendItem className={className}>
+        <div className={className}>
           <FontAwesomeIcon
             icon={faCircle}
             color="#04a286"
@@ -230,7 +255,7 @@ const GoalTarget = ({ goalTarget, setGoalTarget, className }: any) => {
           />{' '}
           Target&nbsp; $
           {goalTarget !== undefined ? toDollarString(goalTarget) : ''}
-        </LegendItem>
+        </div>
       </React.Fragment>
     );
   } else {

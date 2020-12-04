@@ -48,15 +48,19 @@ const BackLink = styled(Link)`
   font-size: 1.2rem;
   margin-bottom: 20px;
   display: block;
+  margin-left: -55px;
 `;
 const HeaderBanner = styled.div`
   margin-bottom: 30px;
   position: relative;
+  padding-left: 55px;
+  @media (max-width: 1140px) {
+    display: block;
+  }
   h1 {
     margin-bottom: 10px;
     line-height: 1;
     display: inline-block;
-    padding-left: 55px;
   }
   p {
     margin-bottom: 0;
@@ -81,6 +85,9 @@ const Summary = styled(Grid)`
 const ChangeContainer = styled(Grid)`
   align-items: center;
   position: relative;
+  @media (max-width: 1140px) {
+    display: block;
+  }
 `;
 const NumInput = styled(InputPrimary)`
   border-bottom: 2px solid var(--brand-blue);
@@ -111,11 +118,13 @@ const Question = styled.div`
   font-size: 28px;
   max-width: 530px;
   line-height: 2.5;
-  margin-bottom: 20px;
+  margin-bottom: 3rem;
+  @media (max-width: 900px) {
+    margin-bottom: 1.5rem;
+  }
 `;
-const Tip = styled.div`
-  font-size: 14px;
-  max-width: 295px;
+const Tip = styled(P)`
+  max-width: 530px;
 `;
 const NameInput = styled(InputPrimary)`
   font-size: 42px;
@@ -130,6 +139,10 @@ const NameInput = styled(InputPrimary)`
   padding: 0;
   margin: 0;
   background: none;
+  margin-top: -4px;
+  margin-bottom: -4px;
+  border-bottom: 3px solid #023ca2;
+  color: #023da2;
 `;
 const Discard = styled(Button)`
   color: var(--brand-blue);
@@ -157,7 +170,7 @@ const ToggleShow = styled(Button)`
 const DropDown = styled.div`
   border: 1px solid var(--brand-blue);
   position: absolute;
-  top: 82%;
+  top: 88%;
   left: 0;
   width: 100%;
   padding: 22px 20px 24px;
@@ -165,18 +178,33 @@ const DropDown = styled.div`
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   z-index: 1;
+  font-size: 18px;
+  @media (max-width: 900px) {
+    top: 112%;
+  }
   p {
     margin-bottom: 24px;
   }
   svg {
     margin-right: 12px;
   }
+  button {
+    &:hover {
+      color: #003ba2;
+      text-decoration: underline;
+    }
+  }
 `;
-const DeleteGoal = styled.div`
-  position: absolute;
-  bottom: 28px;
-  right: 30px;
+const DeleteGoal = styled.button`
   cursor: pointer;
+  @media (min-width: 1160px) {
+    position: absolute;
+    bottom: 28px;
+    right: 30px;
+  }
+  @media (max-width: 1160px) {
+    padding-top: 18px;
+  }
   &:hover {
     color: #003ba2;
     text-decoration: underline;
@@ -190,6 +218,13 @@ const SaveContainer = styled.div`
   padding: 26px 26px 20px 20px;
   overflow: hidden;
   border-radius: 0 0 0 4px;
+  z-index: 1;
+  @media (max-width: 900px) {
+    position: fixed;
+    width: 100vw;
+    left: 0;
+    bottom: 0;
+  }
 `;
 const DashboardToggle = styled.div`
   margin-top: 18px;
@@ -200,6 +235,10 @@ const ActionContainer = styled.div`
     padding-left: 20px;
   }
 `;
+const FinishButton = styled.button`
+  font-weight: 700;
+  color: #023ca2;
+`;
 const H2Margin = styled(H2)`
   max-width: 500px;
   font-size: 2.5rem;
@@ -207,6 +246,12 @@ const H2Margin = styled(H2)`
   line-height: 1.3;
   text-align: center;
   margin: 0 auto 40px;
+  @media (max-width: 900px) {
+    font-size: 2rem;
+  }
+`;
+const ToggleDashboard = styled(ToggleButton)`
+  font-size: 18px;
 `;
 const daysBetween = (firstDate: Date, secondDate: Date) => {
   const _MS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -263,7 +308,7 @@ const GoalDetailPage = () => {
   const group = groups.find((x) => x.id === goal?.portfolio_group?.id);
   let currentValue = useSelector(selectTotalGroupHoldings);
   if (group !== undefined) {
-    currentValue = group.totalHoldings;
+    currentValue = group.totalHoldings + group.totalCash;
   }
   let targetValue = goal?.total_value_target;
   if (targetValue === undefined) {
@@ -440,36 +485,34 @@ const GoalDetailPage = () => {
                   </P>
                 )}
                 {!editMode ? (
-                  <div onClick={() => setEditMode(true)}>
+                  <button onClick={() => setEditMode(true)}>
                     <FontAwesomeIcon icon={faPen} />
                     Edit Name
-                  </div>
+                  </button>
                 ) : (
-                  <div onClick={() => setEditMode(false)}>
+                  <FinishButton onClick={() => setEditMode(false)}>
                     <FontAwesomeIcon icon={faPen} />
                     Finish Editing
-                  </div>
+                  </FinishButton>
                 )}
 
                 <DashboardToggle
                   onClick={() => setDisplayOnDashboard(!displayOnDashboard)}
                 >
-                  <div>
-                    <ToggleButton
-                      onClick={() => setDisplayOnDashboard(!displayOnDashboard)}
-                    >
-                      {displayOnDashboard ? (
-                        <React.Fragment>
-                          <FontAwesomeIcon icon={faToggleOn} />
-                        </React.Fragment>
-                      ) : (
-                        <React.Fragment>
-                          <FontAwesomeIcon icon={faToggleOff} />
-                        </React.Fragment>
-                      )}
-                    </ToggleButton>
+                  <ToggleDashboard
+                    onClick={() => setDisplayOnDashboard(!displayOnDashboard)}
+                  >
+                    {displayOnDashboard ? (
+                      <React.Fragment>
+                        <FontAwesomeIcon icon={faToggleOn} />
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        <FontAwesomeIcon icon={faToggleOff} />
+                      </React.Fragment>
+                    )}
                     Display Goal on Dashboard{' '}
-                  </div>
+                  </ToggleDashboard>
                 </DashboardToggle>
                 <DeleteGoal onClick={handleDeleteClick}>
                   <FontAwesomeIcon icon={faTrashAlt} />
@@ -535,11 +578,18 @@ const GoalDetailPage = () => {
               %?
             </Question>
 
-            <Tip>
-              <P>
-                Learn more about potential return rates <A>Link to article</A>.
-              </P>
-            </Tip>
+            {false && (
+              <Tip>
+                Learn more about potential return rates{' '}
+                <A
+                  target="_blank"
+                  href="https://www.aqr.com/Insights/Research/Alternative-Thinking/2020-Capital-Market-Assumptions-for-Major-Asset-Classes"
+                >
+                  here
+                </A>
+                .
+              </Tip>
+            )}
 
             {(dateChanged ||
               targetChanged ||

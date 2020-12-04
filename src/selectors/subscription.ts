@@ -104,6 +104,18 @@ export const selectCanReceiveDriftNotifications = createSelector(
   },
 );
 
+export const selectCanReceiveCashNotifications = createSelector(
+  selectUserPermissions,
+  permissions => {
+    if (!permissions) {
+      return false;
+    }
+    return permissions.some(
+      permission => permission === 'can_receive_cash_notifications',
+    );
+  },
+);
+
 export const selectCanSeparateCurrencies = createSelector(
   selectUserPermissions,
   permissions => {
