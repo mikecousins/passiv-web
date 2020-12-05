@@ -109,6 +109,7 @@ type Props = {
   goal: Goal;
   group: DashboardGroup | undefined;
 };
+
 export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
   let totalHoldings = useSelector(selectTotalGroupHoldings);
   let currentValue = totalHoldings;
