@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/core';
 import React, { useState } from 'react';
 import { P, H1 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
@@ -225,6 +226,15 @@ const Leaf06 = styled(Leaf)`
   transform: rotate(253deg);
   visibility: hidden;
 `;
+const fadein = keyframes`
+  0% {
+    bottom: -40px;
+  }
+
+  100% {
+    bottom: 0px;
+  }
+`;
 const Plant = styled.div`
   position: absolute;
   right: 0;
@@ -234,6 +244,7 @@ const Plant = styled.div`
   background: none;
   transition: height 0.5s;
   width: 200px;
+  animation: ${fadein} 0.5s forwards;
   @media (max-width: 900px) {
     transform: scale(0.5);
     right: -60px;
@@ -284,14 +295,15 @@ const Plant = styled.div`
     }
   }
 `;
+
 const Stem = styled.div`
   position: absolute;
   width: 6px;
-  height: 100%;
+  height: 0px;
   left: 49%;
   bottom: 0;
   background: var(--brand-green);
-  transition: 0.25s height;
+  transition: height 0.5s;
 `;
 const PortfolioGroupButtons = ({
   portfolioGroupId,
