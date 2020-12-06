@@ -1,5 +1,6 @@
 import React from 'react';
 import JoyRide from 'react-joyride';
+import { useSelector } from 'react-redux';
 // import { getData, postData } from '../../api';
 import { selectShowInAppTour } from '../../selectors/features';
 
@@ -9,6 +10,8 @@ type Props = {
 
 const Tour = ({ steps }: Props) => {
   // const [showMessage, setShowMessage] = useState(true);
+  const showInAppTour = useSelector(selectShowInAppTour);
+
   const handleJoyrideCallback = (data: any) => {
     if (data.action === 'skip') {
       // call the endpoint
@@ -33,7 +36,7 @@ const Tour = ({ steps }: Props) => {
 
   return (
     <>
-      {selectShowInAppTour && (
+      {showInAppTour && (
         <JoyRide
           callback={handleJoyrideCallback}
           steps={steps}
