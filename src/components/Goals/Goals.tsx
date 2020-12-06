@@ -39,6 +39,9 @@ const AddGoalButton = styled(Button)`
   display: block;
   padding: 12px 24px 18px;
   font-size: 1.2rem;
+  @media (max-width: 900px) {
+    margin: 20px 0 0 0;
+  }
   span {
     font-weight: 900;
     margin-right: 5px;

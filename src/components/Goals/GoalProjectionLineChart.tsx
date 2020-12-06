@@ -62,16 +62,17 @@ export const TargetInput = styled.input`
   display: inline-block;
   width: 104px;
   border-bottom: 2px solid var(--brand-blue);
+  border-radius: 0;
 `;
 export const BreakdownToggle = styled.button`
   font-size: 18px;
-  background: #c3e7fe;
+  background-color: rgba(195, 231, 254, 0.54);
   padding: 12px;
 
   @media (min-width: 900px) {
     position: absolute;
-    right: 99%;
-    top: 101%;
+    right: 0;
+    bottom: 0;
   }
   @media (max-width: 900px) {
     margin-top: 9px;
