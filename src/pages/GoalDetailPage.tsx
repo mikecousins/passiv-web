@@ -35,6 +35,7 @@ import ShadowBox from '../styled/ShadowBox';
 import { ToggleButton } from '../styled/ToggleButton';
 import '@reach/dialog/styles.css';
 import { Dialog } from '@reach/dialog';
+import { getGroupTotalValue } from '../components/Goals/GoalWidget';
 
 const GoalProjectionContainer = styled.div`
   padding-bottom: 80px;
@@ -314,7 +315,7 @@ const GoalDetailPage = () => {
   const group = groups.find((x) => x.id === goal?.portfolio_group?.id);
   let currentValue = useSelector(selectTotalGroupHoldings);
   if (group !== undefined) {
-    currentValue = group.totalHoldings + group.totalCash;
+    currentValue = getGroupTotalValue(group);
   }
   let targetValue = goal?.total_value_target;
   if (targetValue === undefined) {
