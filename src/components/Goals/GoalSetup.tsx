@@ -479,6 +479,10 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   const settings = useSelector(selectSettings);
   const goals = useSelector(selectGoals);
   const currency = settings?.preferred_currency;
+  let showBackLink = true;
+  if (goals !== null && goals !== undefined && goals?.data?.length === 0) {
+    showBackLink = false;
+  }
 
   const finishSetup = (history: any) => {
     const targetDate = getTargetDate(year, month);
@@ -496,9 +500,11 @@ export const GoalSetup = ({ setGoalMode }: any) => {
   return (
     <React.Fragment>
       <HeaderBanner>
-        <BackLink onClick={() => setGoalMode('view')}>
-          <FontAwesomeIcon icon={faChevronLeft} /> Back to Goals
-        </BackLink>
+        {showBackLink && (
+          <BackLink onClick={() => setGoalMode('view')}>
+            <FontAwesomeIcon icon={faChevronLeft} /> Back to Goals
+          </BackLink>
+        )}
         <H1>Goal Setup</H1>
         <P>
           “If a goal is worth having, it’s worth blocking out the time in your
