@@ -581,6 +581,7 @@ const GoalDetailPage = () => {
               with an annual return rate of
               <ReturnInput
                 type="number"
+                step="any"
                 min={0}
                 max={100}
                 onChange={handleReturnChange}
