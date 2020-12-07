@@ -17,6 +17,28 @@ import { putData } from '../../api';
 import { loadGroup } from '../../actions';
 import { toast } from 'react-toastify';
 import TradesExplanation from '../TradesExplanation';
+import Tour from '../Tour/Tour';
+
+const TOUR_STEPS = [
+  {
+    target: '.tour-allow-selling',
+    content:
+      'By default, Passiv is set to only allocate cash to your underweight targets. To do a full rebalance, you can enable Sell.',
+    placement: 'top',
+  },
+  {
+    target: '.tour-currency-separation',
+    content:
+      'Have more control over how Passiv treats multiple currencies you hold in your brokerage account.',
+    placement: 'top',
+  },
+  {
+    target: '.tour-cash-management',
+    content:
+      'Helps you to allocate new cash gradually or withhold a specific amount of cash to invest later. Start dollar-cost averaging your assets by clicking "Add Rule".',
+    placement: 'top',
+  },
+];
 
 export const PortfolioGroupSettings = () => {
   const settings = useSelector(selectCurrentGroupSettings);
@@ -25,7 +47,7 @@ export const PortfolioGroupSettings = () => {
   const featureCashManagement = useSelector(selectCashManagementFeature);
   const dispatch = useDispatch();
 
-  const groupAccounts = accounts.filter(a => a.portfolio_group === groupId);
+  const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
   const updateSettings = () => {
     if (settings) {
@@ -41,6 +63,7 @@ export const PortfolioGroupSettings = () => {
 
   return (
     <ShadowBox>
+      <Tour steps={TOUR_STEPS} name="group_settings_tour" />
       <H2>General</H2>
       {settings ? (
         <React.Fragment>

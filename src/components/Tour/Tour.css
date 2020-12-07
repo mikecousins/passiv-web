@@ -1,0 +1,9 @@
+button[title='Next'],
+button[title='End tour'],
+button[title='Hide tour'] {
+  background-color: var(--brand-blue) !important;
+}
+
+button[title='Back'] {
+  color: var(--brand-blue) !important;
+}

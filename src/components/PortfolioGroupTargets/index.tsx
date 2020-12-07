@@ -129,6 +129,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     {
       id: 'MANUAL',
       name: 'Build your target portfolio manually',
+      tourClass: 'tour-build-portfolio',
       button: (
         <Button
           onClick={() => {

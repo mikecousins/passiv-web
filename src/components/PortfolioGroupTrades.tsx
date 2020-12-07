@@ -29,7 +29,7 @@ const TOUR_STEPS = [
   {
     target: '.tour-trades',
     content:
-      'We want to make sure that your accuracy gets as close as possible to 100%. The trades listed below are based on your holdings and your available cash. Invest your cash according to your target portfolio and rebalanced in one-click.',
+      'We recommend trades to maximize your accuracy based on your targets, current holdings, your available cash, and your settings. Review your recommended trades and rebalance your portfolio in one-click. ',
     placement: 'right',
   },
 ];

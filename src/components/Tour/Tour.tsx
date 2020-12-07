@@ -4,16 +4,31 @@ import JoyRide from 'react-joyride';
 import { getData, postData } from '../../api';
 import { loadSettings } from '../../actions';
 import { toast } from 'react-toastify';
+import styled from '@emotion/styled';
 
 type Props = {
   steps: any;
   name: string;
 };
 
+// const StyledJoyRide = styled(JoyRide)`
+//   button[title='Next'],
+//   button[title='End tour'] button[title='Hide tour'] {
+//     background-color: var(--brand-blue) !important;
+//     font-weight: 600 !important;
+//   }
+//   button[title='Back'] {
+//     color: var(--brand-blue) !important;
+//     font-weight: 600 !important;
+//   }
+// `;
+
 const Tour = ({ steps, name }: Props) => {
   const dispatch = useDispatch();
   const [showMessage, setShowMessage] = useState(false);
   const handleJoyrideCallback = (data: any) => {
+    console.log(data);
+
     if (data.action === 'skip') {
       postData(`/api/v1/contextualMessages`, {
         name: name,
@@ -44,20 +59,17 @@ const Tour = ({ steps, name }: Props) => {
           callback={handleJoyrideCallback}
           steps={steps}
           showProgress
-          continuous={true}
+          continuous={steps.length > 1 ? true : false}
           showSkipButton={true}
+          scrollOffset={500}
           locale={{
-            last: 'End tour',
-            skip: 'Close tour',
+            last: 'Hide tour',
+            skip: 'Hide',
+            close: 'Hide',
           }}
           styles={{
             options: {
-              arrowColor: '#ffffff',
-              backgroundColor: '#ffffff',
               primaryColor: 'orange',
-              textColor: 'black',
-              width: 500,
-              zIndex: 1,
             },
           }}
         />

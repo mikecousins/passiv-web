@@ -7,6 +7,21 @@ import { useSelector } from 'react-redux';
 import { selectPathname } from '../../selectors/router';
 import styled from '@emotion/styled';
 
+import Tour from '../Tour/Tour';
+
+const TOUR_STEPS = [
+  {
+    target: '.tour-settings',
+    content: (
+      <div>
+        Change settings for your Passiv account, manage your notifications, add
+        2 factor authentication, manage your brokerage connections and your
+        brokerage accounts.
+      </div>
+    ),
+  },
+];
+
 const ColorBox = styled.div``;
 
 const IndentColorBox = styled(ColorBox)`
@@ -113,12 +128,15 @@ const SideBarLink = ({
   }
 
   const link = (
-    <Link to={linkPath}>
-      {indicator}
-      {indent ? name : <strong>{name}</strong>}
-      {!hideArrow && <FontAwesomeIcon icon={faAngleRight} />}
-      {beta && <BetaTag>BETA</BetaTag>}
-    </Link>
+    <div className={name === 'Settings' ? 'tour-settings' : ''}>
+      <Tour steps={TOUR_STEPS} name="overview_tab_tour" />
+      <Link to={linkPath}>
+        {indicator}
+        {indent ? name : <strong>{name}</strong>}
+        {!hideArrow && <FontAwesomeIcon icon={faAngleRight} />}
+        {beta && <BetaTag>BETA</BetaTag>}
+      </Link>
+    </div>
   );
 
   if (indent) {

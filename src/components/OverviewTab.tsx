@@ -26,19 +26,23 @@ import {
 import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
 
-const Steps = [
+const TOUR_STEPS = [
   {
+    title: 'Accuracy',
     target: '.tour-accuracy',
     content:
-      'Accuracy tells you how close your holdings are to your desired target, where 100% indicates your holdings are perfectly on target. The accuracy changes when you adjust your targets.',
+      'Accuracy tells you how close your holdings are to your desired target. 100% indicates your holdings are perfectly on target (including cash). Accuracy changes when you adjust your targets, your settings, and when you place trades. ',
+    placement: 'left-end',
+    footer: 'Read More',
   },
   {
     target: '.tour-cash',
-    content: 'All your available fund in CAD and USD.',
+    content: 'All your available funds in your brokerage accounts’ currencies.',
   },
   {
     target: '.tour-total-value',
-    content: 'Current total value of your holding plus your available cash',
+    content:
+      'Current total value of your holding plus your available cash. You can choose the currency Passiv displays your Total Value in.',
   },
 ];
 
@@ -122,7 +126,7 @@ const OverviewTab = () => {
   }
   return (
     <React.Fragment>
-      {setupComplete && <Tour steps={Steps} name="overview_tab_tour" />}
+      {setupComplete && <Tour steps={TOUR_STEPS} name="overview_tab_tour" />}
       <PortfolioGroupName name={name} />
       <Container3Column>
         <PortfolioGroupAccuracy

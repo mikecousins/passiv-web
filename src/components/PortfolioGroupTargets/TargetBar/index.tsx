@@ -29,19 +29,18 @@ import Tour from '../../Tour/Tour';
 
 const TOUR_STEPS = [
   {
-    target: '.tour-bar-actual',
-    content: 'Actual Bar.',
+    target: '.tour-actual-target-bar',
+    content: '',
     placement: 'right',
   },
   {
-    target: '.tour-bar-target',
-    content: 'Target Bar',
+    target: '.tour-exclude-toggle',
+    content: 'Exclude stock picks from your target allocation in Edit mode.',
     placement: 'right',
   },
   {
     target: '.tour-group-settings',
-    content: 'Change settings for this group',
-    placement: 'right',
+    content: 'Change settings for this portfolio.',
   },
 ];
 
@@ -142,7 +141,7 @@ const TargetBar = ({
       {!is_excluded ? (
         <React.Fragment>
           {tour && <Tour steps={TOUR_STEPS} name="target_actual_bar_tour" />}
-          <BarsContainer>
+          <BarsContainer className="tour-actual-target-bar">
             <BarActual>
               {percent > 100 ? (
                 <Bar style={{ width: '100%', backgroundColor: 'red' }}>
@@ -153,22 +152,12 @@ const TargetBar = ({
                   Warning: allocation cannot be negative!
                 </Bar>
               ) : (
-                <Bar
-                  className={'tour-bar-actual'}
-                  style={{ width: `${renderActualPercentage}%` }}
-                >
-                  {' '}
-                </Bar>
+                <Bar style={{ width: `${renderActualPercentage}%` }}> </Bar>
               )}
             </BarActual>
             {!(actualPercentage === undefined) && (
               <BarTarget>
-                <Bar
-                  style={{ width: `${percent}%` }}
-                  className={'tour-bar-target'}
-                >
-                  {' '}
-                </Bar>
+                <Bar style={{ width: `${percent}%` }}> </Bar>
               </BarTarget>
             )}
           </BarsContainer>
