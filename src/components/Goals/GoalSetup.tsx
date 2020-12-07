@@ -311,16 +311,21 @@ const PortfolioGroupButtons = ({
 }: any) => {
   const portfolioGroups = useSelector(selectGroups);
   const buttons: any[] = [];
+  buttons.push(
+    <ButtonGhost
+      className={portfolioGroupId === null ? 'selected' : 'none'}
+      onClick={() => setPortfolioGroupId(null)}
+      value={'all'}
+    >
+      All Accounts
+    </ButtonGhost>,
+  );
 
   portfolioGroups?.forEach((portfolioGroup) => {
     buttons.push(
       <ButtonGhost
         className={portfolioGroupId === portfolioGroup.id ? 'selected' : 'none'}
-        onClick={
-          portfolioGroupId === portfolioGroup.id
-            ? () => setPortfolioGroupId(null)
-            : () => setPortfolioGroupId(portfolioGroup.id)
-        }
+        onClick={() => setPortfolioGroupId(portfolioGroup.id)}
         value={portfolioGroup.id}
       >
         {portfolioGroup.name}
@@ -377,10 +382,7 @@ export const SelectPortfolioGroups = ({
 }: any) => {
   return (
     <FormWrapper>
-      <LabelGoal>
-        I'd like to include these portfolio groups in my goal{' '}
-        <small>Optional</small>{' '}
-      </LabelGoal>
+      <LabelGoal>This goal is for the following group </LabelGoal>
       <PortfolioGroupButtons
         setPortfolioGroupId={setPortfolioGroupId}
         portfolioGroupId={portfolioGroupId}
