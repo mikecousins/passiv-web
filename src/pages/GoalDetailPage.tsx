@@ -420,6 +420,12 @@ const GoalDetailPage = () => {
     setReturnRate(parseFloat(newValue));
   };
   const handleContributionFrequencyChange = (e: any) => {
+    setContributionTarget(
+      Math.round(
+        contributionTarget *
+          getContributionConversion(contributionFrequency, e.target.value),
+      ),
+    );
     setContributionFrequency(e.target.value);
   };
   const handleContributionChange = (e: any) => {
@@ -783,4 +789,14 @@ const GoalTitle = ({ title, setTitle, editMode, setEditMode }: any) => {
       </div>
     );
   }
+};
+
+const getContributionConversion = (
+  oldFrequency: string,
+  newFrequency: string,
+) => {
+  const oldRatio = getPeriodsPerYear(oldFrequency);
+  const newRatio = getPeriodsPerYear(newFrequency);
+
+  return oldRatio / newRatio;
 };
