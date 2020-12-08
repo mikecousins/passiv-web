@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import JoyRide from 'react-joyride';
 import { postData } from '../../api';
+import { selectShowInAppTour } from '../../selectors/features';
 import { selectContextualMessages } from '../../selectors';
 import { loadSettings } from '../../actions';
 import { toast } from 'react-toastify';
@@ -13,6 +14,7 @@ type Props = {
 
 const Tour = ({ steps, name }: Props) => {
   const dispatch = useDispatch();
+  const showInAppTour = useSelector(selectShowInAppTour);
   const messages = useSelector(selectContextualMessages);
   const [showMessage, setShowMessage] = useState(false);
 
@@ -46,7 +48,7 @@ const Tour = ({ steps, name }: Props) => {
 
   return (
     <>
-      {showMessage && (
+      {showMessage && showInAppTour && (
         <JoyRide
           callback={handleJoyrideCallback}
           steps={steps}
