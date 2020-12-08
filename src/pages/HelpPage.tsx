@@ -4,6 +4,7 @@ import { Table } from '../styled/GlobalElements';
 import Tutorial from '../components/Help/Tutorial';
 import ContactForm from '../components/Help/ContactForm';
 import HelpHeader from '../components/Help/HelpHeader';
+import Tour from '../components/Help/ResetTour';
 
 const HelpPage = () => {
   return (
@@ -13,6 +14,7 @@ const HelpPage = () => {
         <Table>
           <ContactForm />
           <Tutorial />
+          <Tour />
         </Table>
       </React.Fragment>
       <FAQ />
