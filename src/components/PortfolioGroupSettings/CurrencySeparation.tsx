@@ -29,7 +29,7 @@ const CurrencySeparation = ({
 
   if (canSeparateCurrencies) {
     return (
-      <React.Fragment>
+      <div className="tour-currency-separation">
         <SettingsToggle
           name="Keep currencies separate"
           value={preventConversion}
@@ -45,11 +45,11 @@ const CurrencySeparation = ({
             tip="Separating currencies must be enabled in order to retain cash for manual conversion."
           />
         </SubSetting>
-      </React.Fragment>
+      </div>
     );
   } else {
     return (
-      <React.Fragment>
+      <div className="tour-currency-separation">
         <DisabledBox>
           <SettingsToggle
             name="Keep currencies separate"
@@ -68,7 +68,7 @@ const CurrencySeparation = ({
             />
           </SubSetting>
         </DisabledBox>
-      </React.Fragment>
+      </div>
     );
   }
 };

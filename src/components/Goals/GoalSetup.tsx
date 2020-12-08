@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/core';
 import React, { useState } from 'react';
 import { P, H1 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
@@ -40,44 +41,74 @@ const GoalInput = styled(InputPrimary)`
   font-size: 28px;
   font-weight: 600;
   letter-spacing: 0.025em;
+  -webkit-appearance: none;
+  border-radius: 0;
   &:focus {
     border: none;
     border-bottom: 2px solid var(--brand-blue);
   }
 `;
-
 const NumInput = styled(InputPrimary)`
   border-bottom: 2px solid var(--brand-blue);
   max-width: 100px;
-  margin: 0 20px 0 0;
-  padding: 0;
+  margin: 11px 16px 0 0;
+  padding: 0 0 3px 0;
   font-size: 28px;
   font-weight: 600;
+  vertical-align: top;
+  -webkit-appearance: none;
+  border-radius: 0;
   &:focus {
     border: none;
     border-bottom: 2px solid var(--brand-blue);
   }
 `;
-
 const DurationSelect = styled.select`
   border-bottom: 2px solid #003ba2;
-  margin: 15px 10px 0 0;
+  margin: 14px 14px 0 0;
   font-size: 28px;
-  padding-bottom: 0px;
-  padding: 0;
+  padding: 0 20px 0 0;
   vertical-align: top;
   font-weight: 600;
+  -webkit-appearance: none;
+  border-radius: 0;
+  font-family: 'Cooper', sans-serif;
 `;
 const MonthSelect = styled.select`
   border-bottom: 2px solid #003ba2;
-  margin: 15px 10px 0 10px;
+  margin: 14px 10px 0 16px;
   font-size: 28px;
-  padding-bottom: 0px;
-  padding: 0;
+  padding: 0 20px 0 0;
   vertical-align: top;
   font-weight: 600;
+  position: relative;
+  -webkit-appearance: none;
+  border-radius: 0;
+  font-family: 'Cooper', sans-serif;
+  @media (max-width: 900px) {
+    margin-left: 0;
+  }
 `;
-
+const SelectContainer = styled.div`
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  &:after {
+    border-style: solid;
+    border-width: 0.12em 0.12em 0 0;
+    content: '';
+    display: inline-block;
+    height: 0.45em;
+    right: 14px;
+    position: absolute;
+    top: 23px;
+    transform: rotate(-45deg);
+    vertical-align: top;
+    width: 0.45em;
+    transform: rotate(135deg);
+    border-color: var(--brand-grey);
+  }
+`;
 const BackLink = styled.button`
   color: var(--brand-blue);
   text-decoration: none;
@@ -87,7 +118,6 @@ const BackLink = styled.button`
   margin-bottom: 20px;
   display: block;
 `;
-
 const ButtonPrev = styled.button`
   color: var(--brand-blue);
   text-decoration: none;
@@ -132,6 +162,8 @@ const LabelGoal = styled(Label)`
   margin: 0 15px 15px 0;
   letter-spacing: 0.04rem;
   display: inline-block;
+  line-height: 2;
+  text-align: center;
   small {
     font-size: 0.55em;
   }
@@ -145,6 +177,63 @@ const FormWrapper = styled.div`
 `;
 const ShadowBoxRelative = styled(ShadowBox)`
   position: relative;
+  overflow: hidden;
+`;
+const Leaf = styled.div`
+  position: relative;
+  border-radius: 15em 50% 14em;
+  background: var(--brand-green);
+  transition: height 0.75s ease-out, width 0.5s ease-out;
+  width: 0;
+  height: 0;
+`;
+const Leaf01 = styled(Leaf)`
+  top: -25px;
+  right: 8px;
+  transform: rotate(-28deg);
+  visibility: hidden;
+`;
+const Leaf02 = styled(Leaf)`
+  top: -44px;
+  left: -34px;
+  transform: rotate(253deg);
+  background: #086b59;
+  visibility: hidden;
+`;
+const Leaf03 = styled(Leaf)`
+  top: -25px;
+  right: 8px;
+  transform: rotate(-28deg);
+  background: #077d68;
+  visibility: hidden;
+`;
+const Leaf04 = styled(Leaf)`
+  top: -40px;
+  left: -34px;
+  transform: rotate(253deg);
+  visibility: hidden;
+`;
+const Leaf05 = styled(Leaf)`
+  top: -34px;
+  right: 2px;
+  transform: rotate(167deg);
+  visibility: hidden;
+`;
+const Leaf06 = styled(Leaf)`
+  top: -55px;
+  background: #02caa5;
+  left: -39px;
+  transform: rotate(253deg);
+  visibility: hidden;
+`;
+const fadein = keyframes`
+  0% {
+    bottom: -40px;
+  }
+
+  100% {
+    bottom: 0px;
+  }
 `;
 const Plant = styled.div`
   position: absolute;
@@ -153,45 +242,68 @@ const Plant = styled.div`
   margin: auto;
   display: block;
   background: none;
-  transition: height 0.25s;
+  transition: height 0.5s;
   width: 200px;
-  height: 55px;
+  animation: ${fadein} 0.5s forwards;
+  @media (max-width: 900px) {
+    transform: scale(0.5);
+    right: -60px;
+  }
+  &.step1 {
+    div {
+      height: 40px;
+    }
+    div div:nth-of-type(1) {
+      width: 63px;
+      height: 34px;
+      visibility: visible;
+    }
+    div div:nth-child(2) {
+      width: 39px;
+      height: 24px;
+      visibility: visible;
+    }
+  }
+  &.step2 {
+    div {
+      height: 80px;
+    }
+    div div:nth-of-type(3) {
+      visibility: visible;
+      width: 48px;
+      height: 26px;
+    }
+    div div:nth-child(4) {
+      visibility: visible;
+      width: 39px;
+      height: 24px;
+    }
+  }
+  &.step3 {
+    div {
+      height: 140px;
+    }
+    div div:nth-of-type(5) {
+      visibility: visible;
+      width: 55px;
+      height: 29px;
+    }
+    div div:nth-child(6) {
+      visibility: visible;
+      height: 34px;
+      width: 41px;
+    }
+  }
 `;
-const Plant1 = styled(Plant)`
-  height: 55px;
-`;
+
 const Stem = styled.div`
   position: absolute;
   width: 6px;
-  height: 100%;
+  height: 0px;
   left: 49%;
   bottom: 0;
   background: var(--brand-green);
-  animation-duration: 1.2s !important;
-  animation-fill-mode: forwards;
-`;
-const Leaf = styled.div`
-  position: relative;
-  width: 63px;
-  height: 34px;
-  border-radius: 15em 50% 14em;
-  background: var(--brand-green);
-  animation-duration: 1.2s !important;
-  animation-fill-mode: forwards;
-`;
-const Leaf05 = styled(Leaf)`
-  width: 63px;
-  height: 34px;
-  top: -25px;
-  right: 8px;
-  transform: rotate(-28deg);
-`;
-const Leaf06 = styled(Leaf)`
-  top: -44px;
-  left: -34px;
-  transform: rotate(253deg);
-  width: 39px;
-  height: 24px;
+  transition: height 0.5s;
 `;
 const PortfolioGroupButtons = ({
   portfolioGroupId,
@@ -291,20 +403,23 @@ export const GoalDateSelector = ({ month, setMonth, year, setYear }: any) => {
 
   return (
     <React.Fragment>
-      <MonthSelect value={month} onChange={handleMonthChange}>
-        <option value="01">January</option>
-        <option value="02">February</option>
-        <option value="03">March</option>
-        <option value="04">April</option>
-        <option value="05">May</option>
-        <option value="06">June</option>
-        <option value="07">July</option>
-        <option value="08">August</option>
-        <option value="09">September</option>
-        <option value="10">October</option>
-        <option value="11">November</option>
-        <option value="12">December</option>
-      </MonthSelect>
+      <SelectContainer>
+        <MonthSelect value={month} onChange={handleMonthChange}>
+          <option value="01">January</option>
+          <option value="02">February</option>
+          <option value="03">March</option>
+          <option value="04">April</option>
+          <option value="05">May</option>
+          <option value="06">June</option>
+          <option value="07">July</option>
+          <option value="08">August</option>
+          <option value="09">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </MonthSelect>
+      </SelectContainer>
+
       <NumInput
         type="number"
         min={currentYear}
@@ -421,28 +536,17 @@ export const GoalSetup = ({ setGoalMode }: any) => {
             <FontAwesomeIcon icon={faChevronLeft} /> Previous Step
           </ButtonPrev>
         )}
-        <Plant1>
+
+        <Plant className={getClassName(currentStep)}>
           <Stem>
-            {currentStep === 'naming' && (
-              <>
-                <Leaf05></Leaf05>
-                <Leaf06></Leaf06>
-              </>
-            )}
-            {currentStep === 'portfolioGroups' && (
-              <>
-                <Leaf05></Leaf05>
-                <Leaf06></Leaf06>
-              </>
-            )}
-            {currentStep === 'setGoals' && (
-              <>
-                <Leaf05></Leaf05>
-                <Leaf06></Leaf06>
-              </>
-            )}
+            <Leaf01></Leaf01>
+            <Leaf02></Leaf02>
+            <Leaf03></Leaf03>
+            <Leaf04></Leaf04>
+            <Leaf05></Leaf05>
+            <Leaf06></Leaf06>
           </Stem>
-        </Plant1>
+        </Plant>
       </ShadowBoxRelative>
     </React.Fragment>
   );
@@ -473,28 +577,32 @@ export const FrequencyChooser = ({
   return (
     <React.Fragment>
       {setup && (
-        <DurationSelect
-          onChange={handleContributionFrequencyChange}
-          value={contributionFrequency}
-        >
-          <option value="biweekly">Biweekly</option>
-          <option value="monthly">Monthly</option>
-          <option value="quarterly">Quarterly</option>
-          <option value="semiannually">Semiannually</option>
-          <option value="annually">Annually</option>
-        </DurationSelect>
+        <SelectContainer>
+          <DurationSelect
+            onChange={handleContributionFrequencyChange}
+            value={contributionFrequency}
+          >
+            <option value="biweekly">Biweekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="quarterly">Quarterly</option>
+            <option value="semiannually">Semiannually</option>
+            <option value="annually">Annually</option>
+          </DurationSelect>
+        </SelectContainer>
       )}
       {!setup && (
-        <DurationSelect
-          onChange={handleContributionFrequencyChange}
-          value={contributionFrequency}
-        >
-          <option value="biweekly">2 weeks</option>
-          <option value="monthly">month</option>
-          <option value="quarterly">quarter</option>
-          <option value="semiannually">6 months</option>
-          <option value="annually">year</option>
-        </DurationSelect>
+        <SelectContainer>
+          <DurationSelect
+            onChange={handleContributionFrequencyChange}
+            value={contributionFrequency}
+          >
+            <option value="biweekly">2 weeks</option>
+            <option value="monthly">month</option>
+            <option value="quarterly">quarter</option>
+            <option value="semiannually">6 months</option>
+            <option value="annually">year</option>
+          </DurationSelect>
+        </SelectContainer>
       )}
     </React.Fragment>
   );
@@ -506,4 +614,14 @@ export const getTargetDate = (year: number, month: string) => {
     yearString = '0' + yearString;
   }
   return yearString + '-' + month + '-01';
+};
+
+const getClassName = (currentStep: string) => {
+  if (currentStep === 'naming') {
+    return 'step1';
+  } else if (currentStep === 'portfolioGroups') {
+    return 'step1 step2';
+  } else {
+    return 'step1 step2 step3';
+  }
 };
