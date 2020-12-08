@@ -1,44 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { selectLoggedIn } from '../../selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import JoyRide from 'react-joyride';
-import { getData, postData } from '../../api';
+import { postData } from '../../api';
+import { selectContextualMessages } from '../../selectors';
 import { loadSettings } from '../../actions';
 import { toast } from 'react-toastify';
-import styled from '@emotion/styled';
 
 type Props = {
   steps: any;
   name: string;
 };
 
-// const StyledJoyRide = styled(JoyRide)`
-//   button[title='Next'],
-//   button[title='End tour'] button[title='Hide tour'] {
-//     background-color: var(--brand-blue) !important;
-//     font-weight: 600 !important;
-//   }
-//   button[title='Back'] {
-//     color: var(--brand-blue) !important;
-//     font-weight: 600 !important;
-//   }
-// `;
-
 const Tour = ({ steps, name }: Props) => {
   const dispatch = useDispatch();
-  const loggedIn = useSelector(selectLoggedIn);
+  const messages = useSelector(selectContextualMessages);
   const [showMessage, setShowMessage] = useState(false);
 
   const handleJoyrideCallback = (data: any) => {
     if (
       data.action === 'skip' ||
-      (data.action === 'close' && data.size === 1) ||
+      // (data.action === 'close' && data.size === 1) ||
       (data.action === 'next' && data.status === 'finished')
     ) {
       postData(`/api/v1/contextualMessages`, {
-        name: name,
+        name: [name],
       })
-        .then((res) => {
+        .then(() => {
           dispatch(loadSettings());
         })
         .catch(() => {
@@ -48,20 +35,18 @@ const Tour = ({ steps, name }: Props) => {
   };
 
   useEffect(() => {
-    if (loggedIn) {
-      getData('/api/v1/settings').then((res) => {
-        res.data.contextual_messages.map((c: any) => {
-          if (c.name === name) {
-            setShowMessage(true);
-          }
-        });
+    if (messages) {
+      messages.map((msg: string) => {
+        if (msg === name) {
+          setShowMessage(true);
+        }
       });
     }
-  }, []);
+  }, [messages, name]);
 
   return (
     <>
-      {showInAppTour && (
+      {showMessage && (
         <JoyRide
           callback={handleJoyrideCallback}
           steps={steps}
@@ -71,12 +56,21 @@ const Tour = ({ steps, name }: Props) => {
           disableScrolling
           locale={{
             last: 'Hide tour',
-            skip: 'Hide',
-            close: 'Hide',
+            skip: 'Hide tour',
+            close: 'Hide tour',
           }}
           styles={{
+            tooltip: {
+              fontSize: 20,
+            },
             options: {
               primaryColor: 'orange',
+            },
+            buttonBack: {
+              color: 'var(--brand-blue)',
+            },
+            buttonNext: {
+              backgroundColor: 'var(--brand-blue)',
             },
           }}
         />
