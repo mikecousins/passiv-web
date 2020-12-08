@@ -31,7 +31,6 @@ const TOUR_STEPS = [
     target: '.tour-accuracy',
     content:
       'Accuracy tells you how close your holdings are to your desired target. 100% indicates your holdings are perfectly on target (including cash). Accuracy changes when you adjust your targets, your settings, and when you place trades. ',
-    placement: 'left-end',
   },
   {
     target: '.tour-cash',
