@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { selectLoggedIn } from '../../selectors';
+import { useDispatch, useSelector } from 'react-redux';
 import JoyRide from 'react-joyride';
 import { getData, postData } from '../../api';
 import { loadSettings } from '../../actions';
@@ -25,11 +26,15 @@ type Props = {
 
 const Tour = ({ steps, name }: Props) => {
   const dispatch = useDispatch();
+  const loggedIn = useSelector(selectLoggedIn);
   const [showMessage, setShowMessage] = useState(false);
-  const handleJoyrideCallback = (data: any) => {
-    console.log(data);
 
-    if (data.action === 'skip') {
+  const handleJoyrideCallback = (data: any) => {
+    if (
+      data.action === 'skip' ||
+      (data.action === 'close' && data.size === 1) ||
+      (data.action === 'next' && data.status === 'finished')
+    ) {
       postData(`/api/v1/contextualMessages`, {
         name: name,
       })
@@ -43,13 +48,15 @@ const Tour = ({ steps, name }: Props) => {
   };
 
   useEffect(() => {
-    getData('/api/v1/settings').then((res) => {
-      res.data.contextual_messages.map((c: any) => {
-        if (c.name === name) {
-          setShowMessage(true);
-        }
+    if (loggedIn) {
+      getData('/api/v1/settings').then((res) => {
+        res.data.contextual_messages.map((c: any) => {
+          if (c.name === name) {
+            setShowMessage(true);
+          }
+        });
       });
-    });
+    }
   }, []);
 
   return (
@@ -61,7 +68,7 @@ const Tour = ({ steps, name }: Props) => {
           showProgress
           continuous={steps.length > 1 ? true : false}
           showSkipButton={true}
-          scrollOffset={500}
+          disableScrolling
           locale={{
             last: 'Hide tour',
             skip: 'Hide',

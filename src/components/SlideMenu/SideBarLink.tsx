@@ -12,13 +12,8 @@ import Tour from '../Tour/Tour';
 const TOUR_STEPS = [
   {
     target: '.tour-settings',
-    content: (
-      <div>
-        Change settings for your Passiv account, manage your notifications, add
-        2 factor authentication, manage your brokerage connections and your
-        brokerage accounts.
-      </div>
-    ),
+    content:
+      'Change settings for your Passiv account, manage your notifications, add 2 factor authentication, manage your brokerage connections and your brokerage accounts.',
   },
 ];
 
@@ -129,7 +124,7 @@ const SideBarLink = ({
 
   const link = (
     <div className={name === 'Settings' ? 'tour-settings' : ''}>
-      <Tour steps={TOUR_STEPS} name="overview_tab_tour" />
+      <Tour steps={TOUR_STEPS} name="settings_nav_tour" />
       <Link to={linkPath}>
         {indicator}
         {indent ? name : <strong>{name}</strong>}

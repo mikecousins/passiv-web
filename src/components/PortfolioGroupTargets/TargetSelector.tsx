@@ -540,7 +540,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                         <Button
                           type="button"
                           onClick={() => toggleEditMode()}
-                          className="tour-exclude-toggle"
+                          className="tour-edit-targets"
                         >
                           <FontAwesomeIcon icon={faLock} />
                           Edit Targets

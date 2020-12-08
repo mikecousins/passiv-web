@@ -28,14 +28,29 @@ const TOUR_STEPS = [
   },
   {
     target: '.tour-currency-separation',
-    content:
-      'Have more control over how Passiv treats multiple currencies you hold in your brokerage account.',
+    content: (
+      <div>
+        Have more control over how Passiv treats multiple currencies you hold in
+        your brokerage account.{' '}
+        <a href="https://passiv.com/help/tutorials/how-to-change-your-currency-handling-settings/">
+          Learn More
+        </a>
+      </div>
+    ),
     placement: 'top',
   },
   {
     target: '.tour-cash-management',
-    content:
-      'Helps you to allocate new cash gradually or withhold a specific amount of cash to invest later. Start dollar-cost averaging your assets by clicking "Add Rule".',
+    content: (
+      <div>
+        Helps you to allocate new cash gradually or withhold a specific amount
+        of cash to invest later. Start dollar-cost averaging your assets by
+        clicking <strong>Add Rule</strong>.{' '}
+        <a href="https://passiv.com/help/tutorials/how-to-use-cash-management/">
+          Learn More
+        </a>
+      </div>
+    ),
     placement: 'top',
   },
 ];

@@ -30,13 +30,40 @@ import Tour from '../../Tour/Tour';
 const TOUR_STEPS = [
   {
     target: '.tour-actual-target-bar',
-    content: '',
+    content: (
+      <ul>
+        <li>
+          The <span style={{ color: 'var(--brand-green)' }}>green bar</span> is
+          the <strong>Actual Bar</strong>. It represents the current percentage
+          of your holdings in this security.
+        </li>
+        <br></br>
+        <li>
+          The <span style={{ color: 'var(--brand-blue)' }}>blue gauge</span> is
+          the <strong>Target Bar</strong>. It represents the desired percentage
+          of your holdings in this security.
+        </li>
+      </ul>
+    ),
     placement: 'right',
   },
   {
-    target: '.tour-exclude-toggle',
-    content: 'Exclude stock picks from your target allocation in Edit mode.',
-    placement: 'right',
+    target: '.tour-edit-targets',
+    content: (
+      <div>
+        Click <strong>Edit Targets</strong> to adjust your target, add and
+        delete securities from your target, or
+        <a href="https://passiv.com/help/tutorials/how-to-exclude-stock-picks-from-your-portfolio/">
+          {' '}
+          exclude assets
+        </a>
+        .<br></br>* Note that if you delete an asset from your target portfolio,
+        Passiv will try to sell it if Selling is enabled and your accuracy will
+        be affected until you do. If you exclude it, Passiv will simply ignore
+        it.
+      </div>
+    ),
+    placement: 'top',
   },
   {
     target: '.tour-group-settings',
