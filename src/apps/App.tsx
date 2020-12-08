@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { StripeProvider } from 'react-stripe-elements';
 import '@reach/menu-button/styles.css';
-import '../components/Tour/Tour.css';
 import { selectLoggedIn, selectReferralCode } from '../selectors';
 import {
   selectShowInsecureApp,
