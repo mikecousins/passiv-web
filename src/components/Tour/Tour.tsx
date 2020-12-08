@@ -61,7 +61,7 @@ const Tour = ({ steps, name }: Props) => {
 
   return (
     <>
-      {showMessage && (
+      {showInAppTour && (
         <JoyRide
           callback={handleJoyrideCallback}
           steps={steps}

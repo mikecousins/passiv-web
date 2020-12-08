@@ -85,7 +85,7 @@ const DriftNotificationSettings = () => {
       .catch(() => {
         dispatch(loadSettings());
         setOutOfLimitErrorMessage(
-          `${driftThreshold}% is out of limit. Please choose a limit between 0% and 100%.`,
+          `${driftThreshold}% is out of limit. Please choose a threshold between 0% and 100%.`,
         );
       });
 
@@ -130,8 +130,8 @@ const DriftNotificationSettings = () => {
               <React.Fragment>
                 <NumericTextInput
                   value={driftThreshold}
-                  onChange={e => setDriftThreshold(e.target.value)}
-                  onKeyPress={e => {
+                  onChange={(e) => setDriftThreshold(e.target.value)}
+                  onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                       finishEditingThreshold();
                     }

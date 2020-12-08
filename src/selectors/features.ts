@@ -91,3 +91,5 @@ export const selectConnectInteractiveBrokersFeature = createFeatureSelector(
 export const selectShowOtherBrokeragesFeature = createFeatureSelector(
   'other_brokerages',
 );
+
+export const selectShowInAppTour = createFeatureSelector('in-app-tour');

@@ -29,7 +29,7 @@ const StyledAside = styled.aside`
   a {
     color: #fff;
     text-decoration: none;
-    padding: 20px 15px 20px 20px;
+    padding: 14px 15px 14px 20px;
     display: block;
     font-size: 1.125rem;
     position: relative;
@@ -39,19 +39,30 @@ const StyledAside = styled.aside`
     svg {
       float: right;
     }
+    &:hover {
+      color: var(--brand-green);
+    }
   }
   .active {
     background: var(--brand-green);
     box-shadow: -1px 2px 3px 0 rgba(0, 0, 0, 0.27);
     margin-right: -5px;
     padding-right: 5px;
+    a:hover {
+      color: #fff;
+    }
+    span {
+      color: #fff;
+      border-color: #fff;
+    }
   }
 `;
 const GroupContainer = styled.div`
   border-top: 1px solid rgba(255, 255, 255, 0.23);
-  padding-top: 18px;
-  padding-bottom: 20px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.23);
+  margin-bottom: 10px;
   text-transform: none;
   font-weight: 500;
   a {
