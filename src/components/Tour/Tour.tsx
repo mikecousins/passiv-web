@@ -21,7 +21,6 @@ const Tour = ({ steps, name }: Props) => {
   const handleJoyrideCallback = (data: any) => {
     if (
       data.action === 'skip' ||
-      // (data.action === 'close' && data.size === 1) ||
       (data.action === 'next' && data.status === 'finished')
     ) {
       postData(`/api/v1/contextualMessages`, {
@@ -42,6 +41,7 @@ const Tour = ({ steps, name }: Props) => {
         if (msg === name) {
           setShowMessage(true);
         }
+        return null;
       });
     }
   }, [messages, name]);
@@ -53,7 +53,7 @@ const Tour = ({ steps, name }: Props) => {
           callback={handleJoyrideCallback}
           steps={steps}
           showProgress
-          continuous={steps.length > 1 ? true : false}
+          continuous={true}
           showSkipButton={true}
           disableScrolling
           locale={{
@@ -63,7 +63,7 @@ const Tour = ({ steps, name }: Props) => {
           }}
           styles={{
             tooltip: {
-              fontSize: 20,
+              fontSize: 18,
             },
             options: {
               primaryColor: 'orange',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { H2, P } from '../../styled/GlobalElements';
+import { A, H2, P } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
@@ -43,14 +43,15 @@ const TourContainer = styled.div`
 
 const ResetTour = () => {
   const messages = useSelector(selectContextualMessages);
-  const [tour, setTour] = useState(false);
+  // const showTour = useSelector(selectShowTour)
+  const [tour, setTour] = useState(true);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (messages?.length === 9) {
-      setTour(true);
-    }
-  }, [messages]);
+  // useEffect(() => {
+  //   if (messages?.length === 9) {
+  //     setTour(true);
+  //   }
+  // }, [messages]);
 
   const updateTour = () => {
     setTour(!tour);
@@ -62,7 +63,6 @@ const ResetTour = () => {
           'group_settings_tour',
           'target_actual_bar_tour',
           'setup_portfolio_tour',
-          'settings_nav_tour',
           'trades_tour',
         ],
       })
@@ -80,7 +80,6 @@ const ResetTour = () => {
           'group_settings_tour',
           'target_actual_bar_tour',
           'setup_portfolio_tour',
-          'settings_nav_tour',
           'trades_tour',
         ],
       })
@@ -97,7 +96,7 @@ const ResetTour = () => {
     <TourContainer>
       <H2>Passiv Tours</H2>
       {tour ? (
-        <P>Turn in-app tours Off</P>
+        <P>Turn in-app tours Off or reset all the tours</P>
       ) : (
         <P>Need a refresher? Turn in-app tours back On </P>
       )}
@@ -114,8 +113,32 @@ const ResetTour = () => {
           </React.Fragment>
         )}
       </ToggleButton>
+      {tour && (
+        <A
+          style={{
+            color: 'var(--brand-blue)',
+            background: 'white',
+            border: '1px solid var(--brand-blue) ',
+            marginLeft: '30px',
+            fontWeight: 'bold',
+          }}
+        >
+          Reset Tour
+        </A>
+      )}
     </TourContainer>
   );
 };
 
 export default ResetTour;
+
+// {tour ? (
+//   <>
+//     {/* //! show only if they have one tour hidden AND tour turn ON (in /settings endpoint)*/}
+//     <A>Reset Tour</A>
+//     {/* //! show only if they have tour ON (in /settings endpoint) */}
+//     <A style={{ background: 'white', color: 'red' }}>Turn off Tour</A>
+//   </>
+// ) : (
+//   <A> Turn on Tour </A>
+// )}
