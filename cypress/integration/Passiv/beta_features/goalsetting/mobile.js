@@ -9,8 +9,8 @@ describe('Mobile goal setting test', () => {
 
 
                 //these are placeholder values
-                const  user = "test12345@mail.com"
-                const  pass = "test12345@"
+                const  user = "asutherland8219@gmail.com"
+                const  pass = "Urecstaff2019@"
             
                 
                 //these are the values for the goal
