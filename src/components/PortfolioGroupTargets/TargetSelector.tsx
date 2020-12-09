@@ -389,6 +389,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                           key={t.symbol}
                           target={t}
                           edit={canEdit}
+                          tour={index === 0 ? true : false}
                           setSymbol={(symbol) => {
                             setSymbol(t, symbol);
                             props.setFieldTouched(
@@ -536,7 +537,11 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                   ) : (
                     <ButtonBox>
                       <div>
-                        <Button type="button" onClick={() => toggleEditMode()}>
+                        <Button
+                          type="button"
+                          onClick={() => toggleEditMode()}
+                          className="tour-edit-targets"
+                        >
                           <FontAwesomeIcon icon={faLock} />
                           Edit Targets
                         </Button>

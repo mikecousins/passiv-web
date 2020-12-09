@@ -109,9 +109,14 @@ export const PercentBox = styled.div`
 type Props = {
   accuracy: number | null;
   loading: boolean;
+  tourClass?: string;
 };
 
-export const PortfolioGroupAccuracy = ({ accuracy, loading }: Props) => {
+export const PortfolioGroupAccuracy = ({
+  accuracy,
+  loading,
+  tourClass,
+}: Props) => {
   const setupComplete = useSelector(selectCurrentGroupSetupComplete);
   const error = useSelector(selectCurrentGroupInfoError);
 
@@ -146,7 +151,7 @@ export const PortfolioGroupAccuracy = ({ accuracy, loading }: Props) => {
     }
   }
   return (
-    <Accuracy>
+    <Accuracy className={tourClass}>
       <H2>
         Accuracy&nbsp;
         <Tooltip label="How close your holdings are to your desired target, where 100% indicates your holdings are perfectly on target.">

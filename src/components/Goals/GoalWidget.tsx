@@ -109,11 +109,12 @@ type Props = {
   goal: Goal;
   group: DashboardGroup | undefined;
 };
+
 export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
   let totalHoldings = useSelector(selectTotalGroupHoldings);
   let currentValue = totalHoldings;
   if (group !== undefined) {
-    currentValue = group.totalHoldings;
+    currentValue = getGroupTotalValue(group);
   }
   let targetValue = goal?.total_value_target;
   if (targetValue === undefined) {
@@ -179,7 +180,7 @@ export const getCurrentValue = (
 ) => {
   let currentValue = totalHoldings;
   if (group !== undefined) {
-    currentValue = group.totalHoldings + group.totalCash;
+    currentValue = getGroupTotalValue(group);
   }
   return currentValue;
 };
@@ -198,3 +199,7 @@ export const getProgressPercent = (
 };
 
 export default GoalWidget;
+
+export const getGroupTotalValue = (group: DashboardGroup) => {
+  return group.totalHoldings + group.totalCash;
+};

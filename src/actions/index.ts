@@ -12,7 +12,8 @@ import {
   formattedToday,
   formattedYearAgo,
 } from '../components/Performance/DatePickers';
-// import { loadGoals } from './goals';
+import { checkIfOnline } from './online';
+import { loadGoals } from './goals';
 
 export const loginSucceeded: ActionCreator<Action> = (payload) => ({
   type: 'LOGIN_SUCCEEDED',
@@ -348,6 +349,9 @@ export const reloadEverything: ActionCreator<ThunkAction<
   Action<any>
 >> = (selectedAccounts) => {
   return (dispatch) => {
+    // Update the online check first to make sure that the app version coherent and updated promptly. Without this check, it's possible to get into an infinite reload situation.
+    dispatch(checkIfOnline());
+
     dispatch(fetchAuthorizationsStart());
     getData('/api/v1/authorizations')
       .then((response) => dispatch(fetchAuthorizationsSuccess(response)))
@@ -431,7 +435,7 @@ export const reloadEverything: ActionCreator<ThunkAction<
     dispatch(setStartDate(startDate));
     dispatch(setEndDate(endDate));
     dispatch(loadPerformanceCustom(selectedAccounts, startDate, endDate));
-    // dispatch(loadGoals()); disabled for now
+    dispatch(loadGoals());
   };
 };
 

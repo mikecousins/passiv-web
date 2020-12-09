@@ -16,10 +16,11 @@ import { Balance, Error } from '../../types/groupInfo';
 type Props = {
   balances: Balance[] | null;
   error: Error | null;
+  tourClass?: string;
 };
 
-const PortfolioGroupCash = ({ balances, error }: Props) => (
-  <ShadowBox background="#BEE0DB">
+const PortfolioGroupCash = ({ balances, error, tourClass }: Props) => (
+  <ShadowBox background="#BEE0DB" className={tourClass}>
     <Cash>
       <Title>Cash</Title>
       {error ? (
@@ -33,7 +34,7 @@ const PortfolioGroupCash = ({ balances, error }: Props) => (
       ) : (
         <CashBalance>
           {balances &&
-            balances.map(balance => (
+            balances.map((balance) => (
               <CashGroup key={balance.currency.id}>
                 <CashType>
                   <span title={balance.currency.name}>

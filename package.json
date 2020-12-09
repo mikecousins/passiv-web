@@ -64,6 +64,7 @@
     "react-dom": "16.13.1",
     "react-ga": "3.1.2",
     "react-google-recaptcha": "2.1.0",
+    "react-joyride": "^2.2.1",
     "react-markdown": "4.3.1",
     "react-multi-select-component": "^2.0.8",
     "react-plaid-link": "1.5.1",

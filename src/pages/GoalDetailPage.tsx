@@ -13,7 +13,6 @@ import {
   getTargetDate,
   GoalDateSelector,
 } from '../components/Goals/GoalSetup';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPen,
@@ -23,19 +22,20 @@ import {
   faEllipsisV,
 } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { H1, P, H2, H3, A } from '../styled/GlobalElements';
-import { InputPrimary } from '../styled/Form';
-import Grid from '../styled/Grid';
-import ShadowBox from '../styled/ShadowBox';
 import GoalProjectionLineChart from '../components/Goals/GoalProjectionLineChart';
 import { deleteGoal, loadGoals } from '../actions/goals';
 import { Button } from '../styled/Button';
 import { patchData } from '../api';
 import { toast } from 'react-toastify';
 import { Goal } from '../types/goals';
+import { H1, H2, H3, P, A } from '../styled/GlobalElements';
+import { InputPrimary } from '../styled/Form';
+import Grid from '../styled/Grid';
+import ShadowBox from '../styled/ShadowBox';
 import { ToggleButton } from '../styled/ToggleButton';
 import '@reach/dialog/styles.css';
 import { Dialog } from '@reach/dialog';
+import { getGroupTotalValue } from '../components/Goals/GoalWidget';
 
 const GoalProjectionContainer = styled.div`
   padding-bottom: 80px;
@@ -77,9 +77,13 @@ const Summary = styled(Grid)`
   p {
     color: #fff;
     font-size: 20px;
+    margin-bottom: 4px;
+    line-height: 1.3;
   }
   h3 {
     font-size: 20px;
+    margin-bottom: 4px;
+    line-height: 1.3;
   }
 `;
 const ChangeContainer = styled(Grid)`
@@ -92,10 +96,12 @@ const ChangeContainer = styled(Grid)`
 const NumInput = styled(InputPrimary)`
   border-bottom: 2px solid var(--brand-blue);
   max-width: 120px;
-  margin: 0 20px 0 0;
-  padding: 0;
+  margin: 0 16px 0 0;
+  padding: 0 0 3px 0;
   font-size: 28px;
   font-weight: 600;
+  -webkit-appearance: none;
+  border-radius: 0;
   &:focus {
     border: none;
     border-bottom: 2px solid var(--brand-blue);
@@ -104,11 +110,12 @@ const NumInput = styled(InputPrimary)`
 const ReturnInput = styled(InputPrimary)`
   border-bottom: 2px solid var(--brand-blue);
   max-width: 60px;
-  margin: 0 0 0 20px;
-  padding: 0;
+  margin: 0 0 0 16px;
+  padding: 0 0 3px 0;
   font-size: 28px;
   font-weight: 600;
-
+  -webkit-appearance: none;
+  border-radius: 0;
   &:focus {
     border: none;
     border-bottom: 2px solid var(--brand-blue);
@@ -137,12 +144,12 @@ const NameInput = styled(InputPrimary)`
   color: #2a2d34;
   padding-top: 0;
   padding: 0;
-  margin: 0;
   background: none;
-  margin-top: -4px;
-  margin-bottom: -4px;
+  margin: -4px 0 3px 0;
   border-bottom: 3px solid #023ca2;
   color: #023da2;
+  -webkit-appearance: none;
+  border-radius: 0;
 `;
 const Discard = styled(Button)`
   color: var(--brand-blue);
@@ -170,7 +177,7 @@ const ToggleShow = styled(Button)`
 const DropDown = styled.div`
   border: 1px solid var(--brand-blue);
   position: absolute;
-  top: 88%;
+  top: 102%;
   left: 0;
   width: 100%;
   padding: 22px 20px 24px;
@@ -199,7 +206,7 @@ const DeleteGoal = styled.button`
   cursor: pointer;
   @media (min-width: 1160px) {
     position: absolute;
-    bottom: 28px;
+    bottom: 23px;
     right: 30px;
   }
   @media (max-width: 1160px) {
@@ -308,7 +315,7 @@ const GoalDetailPage = () => {
   const group = groups.find((x) => x.id === goal?.portfolio_group?.id);
   let currentValue = useSelector(selectTotalGroupHoldings);
   if (group !== undefined) {
-    currentValue = group.totalHoldings + group.totalCash;
+    currentValue = getGroupTotalValue(group);
   }
   let targetValue = goal?.total_value_target;
   if (targetValue === undefined) {
@@ -413,6 +420,12 @@ const GoalDetailPage = () => {
     setReturnRate(parseFloat(newValue));
   };
   const handleContributionFrequencyChange = (e: any) => {
+    setContributionTarget(
+      Math.round(
+        contributionTarget *
+          getContributionConversion(contributionFrequency, e.target.value),
+      ),
+    );
     setContributionFrequency(e.target.value);
   };
   const handleContributionChange = (e: any) => {
@@ -568,6 +581,7 @@ const GoalDetailPage = () => {
               with an annual return rate of
               <ReturnInput
                 type="number"
+                step="any"
                 min={0}
                 max={100}
                 onChange={handleReturnChange}
@@ -578,9 +592,18 @@ const GoalDetailPage = () => {
               %?
             </Question>
 
-            <Tip>
-              Learn more about potential return rates <A>Link to article</A>.
-            </Tip>
+            {false && (
+              <Tip>
+                Learn more about potential return rates{' '}
+                <A
+                  target="_blank"
+                  href="https://www.aqr.com/Insights/Research/Alternative-Thinking/2020-Capital-Market-Assumptions-for-Major-Asset-Classes"
+                >
+                  here
+                </A>
+                .
+              </Tip>
+            )}
 
             {(dateChanged ||
               targetChanged ||
@@ -767,4 +790,14 @@ const GoalTitle = ({ title, setTitle, editMode, setEditMode }: any) => {
       </div>
     );
   }
+};
+
+const getContributionConversion = (
+  oldFrequency: string,
+  newFrequency: string,
+) => {
+  const oldRatio = getPeriodsPerYear(oldFrequency);
+  const newRatio = getPeriodsPerYear(newFrequency);
+
+  return oldRatio / newRatio;
 };
