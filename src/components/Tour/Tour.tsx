@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import JoyRide from 'react-joyride';
 import { postData } from '../../api';
 import { selectShowInAppTour } from '../../selectors/features';
-import { selectContextualMessages } from '../../selectors';
+import { selectContextualMessages, selectTakeTour } from '../../selectors';
 import { loadSettings } from '../../actions';
 import { toast } from 'react-toastify';
 
@@ -16,6 +16,7 @@ const Tour = ({ steps, name }: Props) => {
   const dispatch = useDispatch();
   const showInAppTour = useSelector(selectShowInAppTour);
   const messages = useSelector(selectContextualMessages);
+  const showTour = useSelector(selectTakeTour);
   const [showMessage, setShowMessage] = useState(false);
 
   const handleJoyrideCallback = (data: any) => {
@@ -48,7 +49,9 @@ const Tour = ({ steps, name }: Props) => {
 
   return (
     <>
-      {showMessage && showInAppTour && (
+      {/* show tour if: user have access to this feature, the message hasn't been
+      acknowledged, and the tour is not off */}
+      {showInAppTour && showTour && showMessage && (
         <JoyRide
           callback={handleJoyrideCallback}
           steps={steps}
