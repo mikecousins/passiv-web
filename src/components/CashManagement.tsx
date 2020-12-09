@@ -22,16 +22,6 @@ import { restrictionTypes } from '../common';
 import styled from '@emotion/styled';
 
 import { Form } from '../styled/Form';
-import Tour from './Tour/Tour';
-
-const TOUR_STEPS = [
-  {
-    target: '.tour-cash-management',
-    content:
-      'Control over how Passiv treats the currencies you hold in your brokerage account. Start dollar-cost averaging your assets by clicking Add Rule button.',
-    placement: 'top',
-  },
-];
 
 const CashManagementBox = styled.div`
   margin-top: 30px;
@@ -323,7 +313,6 @@ const CashManagement = () => {
 
   return (
     <CashManagementBox className="tour-cash-management">
-      <Tour steps={TOUR_STEPS} />
       <H2>Cash Management</H2>
       {cashRestrictionsRendered}
       {editing ? (

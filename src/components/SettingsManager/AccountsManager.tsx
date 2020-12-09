@@ -14,7 +14,7 @@ const AccountsManager = () => {
   }
 
   return (
-    <ShadowBox>
+    <ShadowBox className="tour-edit-groups">
       <Accounts />
     </ShadowBox>
   );

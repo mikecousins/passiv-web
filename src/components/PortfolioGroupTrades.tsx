@@ -28,8 +28,18 @@ import Tour from './Tour/Tour';
 const TOUR_STEPS = [
   {
     target: '.tour-trades',
-    content:
-      'We want to make sure that your accuracy gets as close as possible to 100%. The trades listed below are based on your holdings and your available cash. Invest your cash according to your target portfolio and rebalanced in one-click.',
+    content: (
+      <div>
+        Passiv displays the trades needed to maximize your accuracy based on
+        your targets, current holdings, your available cash, and your settings.
+        Review your recommended trades by clicking Preview Orders and click
+        Confirm to rebalance your portfolio in{' '}
+        <a href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/">
+          one-click
+        </a>
+        .
+      </div>
+    ),
     placement: 'right',
   },
 ];
@@ -179,7 +189,7 @@ export const PortfolioGroupTrades = ({
   if (tradesSubmitted || (tradesToRender && tradesToRender.trades.length)) {
     return (
       <>
-        <Tour steps={TOUR_STEPS} />
+        <Tour steps={TOUR_STEPS} name="trades_tour" />
         <TradesContainer className="tour-trades">
           <H2>Trades</H2>
           {sellsListRender}
