@@ -42,6 +42,7 @@ const Tour = ({ steps, name }: Props) => {
         if (msg === name) {
           setShowMessage(true);
         }
+        return null;
       });
     }
   }, [messages, name]);
