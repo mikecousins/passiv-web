@@ -1,7 +1,4 @@
 // REgistration Page 
-
-const { cy } = require("date-fns/locale")
-
 describe('Create a new User', function () {
     context('Registration Functionality' , () => {
             
@@ -10,46 +7,38 @@ describe('Create a new User', function () {
             cy.intercept('GET', '/api/v1', {
                 response:'"version":1,"timestamp":"2020-12-03T15:48:22.119592Z","online":true'
                 }).as('api')
-                cy.intercept('POST', '/api/v1/auth/login', {
-                    statusCode: 404
-                }).as('login')
-            cy.visit('/app/login')
+
+            cy.intercept('get', '/api/v1/auth/register', {
+                    statusCode: 606
+                }).as('register')
+
+            cy.intercept('POST', '/api/v1/auth/login', {
+                statusCode: 202,
+                response: {
+                key: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MDcxLCJ1c2VybmFtZSI6IjRiVVRHWlBpZFROSDlIWW5PYjdGbXlIcDZaVXRCQiIsImV4cCI6MTYwNzk2NjI5MywiZW1haWwiOiJhc3V0aGVybGFuZDgyMTlAZ21haWwuY29tIiwib3JpZ19pYXQiOjE2MDc1MzQyOTN9.FeoVWnIHnCTNhQ9sT3Tt4al62UXTrNtmyjitqSq2JbE' }
+            }).as('login')            
+            
+            cy.visit('/app/register')
 
             cy.get('[name=name]').type('Alex')
             cy.get('[name=email]').type('alex.sutherland@passiv.com')
             cy.get('[name=password]').type('5Browse8')
             cy.get('button[type=submit]').click()
-            
-    
-        cy.wait('@login')
+         
+
+        cy.wait('@register')
         .then(({request, response}) => {
-            expect(response.statusCode).to.eq(404)
+            expect(response.statusCode).to.eq(606)
             expect(request.body).to.have.property('email', 'alex.sutherland@passiv.com')
             expect(request.body).to.have.property('password', '5Browse8')
             expect(request.method).to.eq('POST')
-            
         })
-
-    })
-
-                //cons values 
-    const  name = "Gerry General"
-    const  email = "asdfas.cccccom"
-    const  pass = "General12345"
-
-            
-        cy.get('[name=name]')
-            .type(name)
-        cy.get('[name=email]')
-            .type(email)
-            .should('have.value', email)
-        cy.get('[placeholder=Password]')
-            .type(pass)
-            .should('have.value', pass)
-        cy.contains('Register').click({multiple: true})
     })
 
 })
+})
+
+
 
 
 
