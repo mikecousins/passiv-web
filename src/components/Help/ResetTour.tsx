@@ -25,7 +25,7 @@ const TourContainer = styled.div`
   svg {
     margin-left: 12px;
     font-size: 50px;
-    color: var(--brand-blue);
+    color: var(--brand-green);
   }
   a {
     border-radius: 4px;

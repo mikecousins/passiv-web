@@ -19,8 +19,11 @@ const Tour = ({ steps, name }: Props) => {
   const showTour = useSelector(selectTakeTour);
   const [showMessage, setShowMessage] = useState(false);
 
+  const goalsNewFeature = name === 'goals_new_feature';
+
   const handleJoyrideCallback = (data: any) => {
     if (
+      (goalsNewFeature && data.action === 'close') ||
       data.action === 'skip' ||
       (data.action === 'next' && data.status === 'finished')
     ) {
@@ -50,19 +53,20 @@ const Tour = ({ steps, name }: Props) => {
   return (
     <>
       {/* show tour if: user have access to this feature, the message hasn't been
-      acknowledged, and the tour is not off */}
-      {showInAppTour && showTour && showMessage && (
+      acknowledged, and the tour is not off OR show the goals feature*/}
+      {((showInAppTour && showTour && showMessage) ||
+        (showMessage && goalsNewFeature)) && (
         <JoyRide
           callback={handleJoyrideCallback}
           steps={steps}
           showProgress
-          continuous={true}
+          continuous={goalsNewFeature ? false : true}
           showSkipButton={true}
           disableScrolling
           locale={{
             last: 'Hide tour',
             skip: 'Hide tour',
-            close: 'Hide tour',
+            close: goalsNewFeature ? 'Close' : 'Hide tour',
           }}
           styles={{
             tooltip: {

@@ -6,6 +6,7 @@ import { RebalanceAlert } from '../../styled/Rebalance';
 import { useSelector } from 'react-redux';
 import { selectPathname } from '../../selectors/router';
 import styled from '@emotion/styled';
+import Tour from '../Tour/Tour';
 
 const ColorBox = styled.div``;
 
@@ -116,9 +117,44 @@ const SideBarLink = ({
     }
   }
 
+  const STEP = [
+    {
+      title: (
+        <p style={{ fontSize: '25px', fontWeight: 900 }}>
+          New Year, New Goals{' '}
+          <span role="img" aria-label="tada-emoji">
+            {' '}
+            🎉
+          </span>
+        </p>
+      ),
+      target: '.tour-goals-feature',
+      content: (
+        <div>
+          Start the year right and set your investment goals with our new Goals
+          feature!{' '}
+          <a href="https://passiv.com/help/tutorials/how-to-set-up-goals-and-track-your-progress/">
+            Learn More
+          </a>
+        </div>
+      ),
+      placement: 'right',
+      hideCloseButton: true,
+      styles: {
+        tooltip: {
+          fontSize: 20,
+        },
+      },
+    },
+  ];
+
   const link = (
     <>
-      <Link to={linkPath}>
+      <Tour steps={STEP} name="goals_new_feature" />
+      <Link
+        to={linkPath}
+        className={name === 'Goals' ? 'tour-goals-feature' : ''}
+      >
         {indicator}
         {indent ? name : <strong>{name}</strong>}
         {beta && <BetaTag>BETA</BetaTag>}
