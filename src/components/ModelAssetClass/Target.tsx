@@ -96,7 +96,11 @@ const Targets = ({ assetClass }: Props) => {
 
         {searchSecurities &&
         selectedTarget === assetClass.model_asset_class.id ? (
-          <SymbolSelector value={null} onSelect={(cb) => handleAddTarget(cb)} />
+          <SymbolSelector
+            value={null}
+            onSelect={(cb) => handleAddTarget(cb)}
+            allSymbols={true}
+          />
         ) : (
           <TargetList
             style={{ cursor: 'pointer' }}

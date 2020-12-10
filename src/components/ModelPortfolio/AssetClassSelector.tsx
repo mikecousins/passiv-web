@@ -84,12 +84,7 @@ const AssetClassSelector = ({
   const [backToAssetClass, setBackToAssetClass] = useState(false);
 
   if (backToAssetClass) {
-    return (
-      <Redirect
-        exact
-        to="/app/asset-class/6050c7fa-7c27-47d8-b5b6-206cbc994733"
-      />
-    ); //TODO change the hardcoded groupId
+    return <Redirect exact to="/app/asset-class" />;
   }
 
   return (

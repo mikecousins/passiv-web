@@ -133,6 +133,11 @@ const SettingTargetsPage = React.lazy(() =>
   import(/* webpackChunkName: "...?" */ '../pages/SettingTargetsPage'),
 );
 
+const MyModelPortfoliosPage = React.lazy(() =>
+  //? webpackChunkName
+  import(/* webpackChunkName: "...?" */ '../pages/MyModelPortfoliosPage'),
+);
+
 // declare global {
 //   interface Window {
 //     Stripe: any;
@@ -441,7 +446,7 @@ const App = () => {
             )}
             {showSecureApp && (
               <Route
-                path={prefixPath('/asset-class/:groupId')}
+                path={prefixPath('/asset-class')}
                 component={ModelAssetClassPage}
               />
             )}
@@ -455,6 +460,12 @@ const App = () => {
               <Route
                 path={prefixPath('/setting-targets')}
                 component={SettingTargetsPage}
+              />
+            )}
+            {showSecureApp && (
+              <Route
+                path={prefixPath('/my-model-portfolios')}
+                component={MyModelPortfoliosPage}
               />
             )}
             // insecure app

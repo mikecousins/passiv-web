@@ -111,16 +111,6 @@ const SideBar = () => {
                   hideArrow={true}
                   indent={true}
                 />
-                <SideBarLink
-                  name="Set up Asset Classes"
-                  linkPath={`/app/asset-class/${group.id}`}
-                  beta={true}
-                />
-                <SideBarLink
-                  name="Setting Targets"
-                  linkPath={`/app/setting-targets`}
-                  beta={true}
-                />
               </div>
             ))}
         </React.Fragment>
@@ -135,6 +125,11 @@ const SideBar = () => {
           {groups && groups.length > 0 && (
             <GroupContainer>{groupList}</GroupContainer>
           )}
+          <SideBarLink
+            name="My Models"
+            linkPath={`/app/my-model-portfolios`}
+            beta={true}
+          />
           {performancePageFeatureActive && hasQuestradeConnection && (
             <SideBarLink name="Reporting" linkPath="/app/reporting" />
           )}

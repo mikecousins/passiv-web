@@ -196,7 +196,11 @@ const TargetBar = ({
       <TargetRow style={{ flexWrap: 'wrap' }}>
         <Symbol>
           {!(typeof symbol == 'string') && !is_excluded ? (
-            <SymbolSelector value={fullSymbol} onSelect={setSymbol} />
+            <SymbolSelector
+              value={fullSymbol}
+              onSelect={setSymbol}
+              allSymbols={false}
+            />
           ) : is_supported ? (
             <SymbolDetail symbol={fullSymbol} />
           ) : (

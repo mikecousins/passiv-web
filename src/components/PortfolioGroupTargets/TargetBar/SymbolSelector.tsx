@@ -45,6 +45,7 @@ const StyledComboboxOption = styled(ComboboxOption)`
 
 type Props = {
   value: any;
+  allSymbols: boolean;
   onSelect: (symbol: any) => void;
 };
 
@@ -65,7 +66,7 @@ const useDebouncedEffect = (callback: any, delay: number, deps: any[] = []) => {
   }, [delay, ...deps]); // eslint-disable-line react-hooks/exhaustive-deps
 };
 
-const SymbolSelector = ({ value, onSelect }: Props) => {
+const SymbolSelector = ({ value, onSelect, allSymbols }: Props) => {
   const groupId = useSelector(selectCurrentGroupId);
   const dispatch = useDispatch();
   const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
@@ -74,7 +75,13 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
 
   const loadOptions = () => {
     setLoading(true);
-    postData(`/api/v1/portfolioGroups/${groupId}/symbols`, {
+    let symbolsURL = '';
+    if (allSymbols) {
+      symbolsURL = '/api/v1/symbols';
+    } else {
+      symbolsURL = `/api/v1/portfolioGroups/${groupId}/symbols`;
+    }
+    postData(symbolsURL, {
       substring: input,
     })
       .then((response) => {
