@@ -23,12 +23,12 @@ export const HideButton = ({ name }: Props) => {
     <PaddedButton
       onClick={() => {
         postData(`/api/v1/contextualMessages`, {
-          name: name,
+          name: [name],
         })
-          .then(response => {
+          .then((response) => {
             dispatch(loadSettings());
           })
-          .catch(error => {
+          .catch((error) => {
             toast.error(`Failed to hide contextual message "${name}".`);
           });
       }}
@@ -41,7 +41,7 @@ export const HideButton = ({ name }: Props) => {
 export const ContextualMessageWrapper = ({ name, children }: Props) => {
   const messages = useSelector(selectContextualMessages);
 
-  if (messages && messages.some(messageName => messageName === name)) {
+  if (messages && messages.some((messageName) => messageName === name)) {
     return <React.Fragment>{children}</React.Fragment>;
   }
   return null;

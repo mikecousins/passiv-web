@@ -23,6 +23,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { ContextualMessageWrapper } from './ContextualMessageWrapper';
 import styled from '@emotion/styled';
+import Tour from './Tour/Tour';
+
+const TOUR_STEPS = [
+  {
+    target: '.tour-trades',
+    content: (
+      <div>
+        Passiv displays the trades needed to maximize your accuracy based on
+        your targets, current holdings, your available cash, and your settings.
+        Review your recommended trades by clicking Preview Orders and click
+        Confirm to rebalance your portfolio in{' '}
+        <a href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/">
+          one-click
+        </a>
+        .
+      </div>
+    ),
+    placement: 'right',
+  },
+];
 
 type Props = {
   trades: any;
@@ -168,23 +188,26 @@ export const PortfolioGroupTrades = ({
 
   if (tradesSubmitted || (tradesToRender && tradesToRender.trades.length)) {
     return (
-      <TradesContainer>
-        <H2>Trades</H2>
-        {sellsListRender}
-        {buysListRender}
-        <RebalanceWidget
-          trades={trades}
-          groupId={groupId}
-          onClose={onClose}
-          tradesTrigger={() => triggerTradesSubmitted()}
-          tradesUntrigger={() => untriggerTradesSubmitted()}
-        />
-        <TradesExplanation
-          settings={settings}
-          accounts={groupAccounts}
-          container={true}
-        />
-      </TradesContainer>
+      <>
+        <Tour steps={TOUR_STEPS} name="trades_tour" />
+        <TradesContainer className="tour-trades">
+          <H2>Trades</H2>
+          {sellsListRender}
+          {buysListRender}
+          <RebalanceWidget
+            trades={trades}
+            groupId={groupId}
+            onClose={onClose}
+            tradesTrigger={() => triggerTradesSubmitted()}
+            tradesUntrigger={() => untriggerTradesSubmitted()}
+          />
+          <TradesExplanation
+            settings={settings}
+            accounts={groupAccounts}
+            container={true}
+          />
+        </TradesContainer>
+      </>
     );
   } else {
     if (!error) {

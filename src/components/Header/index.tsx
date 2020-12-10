@@ -22,7 +22,7 @@ const StyledHeader = styled.header<StyledHeaderProps>`
   width: 100%;
   padding: 10px 20px 10px 222px;
   background: ${(props) => (props.isOnline ? '#fff' : '#FFCF9E')};
-  box-shadow: 2px 2px 8px rgba(190, 190, 190, 0.5);
+  box-shadow: 2px 2px 8px rgba(190, 190, 190, 0.29);
   z-index: 4;
   @media (max-width: 900px) {
     padding: 9px 8px 4px 75px;
@@ -37,6 +37,9 @@ const Logo = styled.header`
   margin-top: 2px;
   @media (max-width: 900px) {
     margin-top: 0;
+  }
+  object {
+    max-height: 55.5px;
   }
 `;
 

@@ -67,7 +67,7 @@ export const PerformanceTotalValueChart = () => {
     () => [
       {
         label: 'Total Value',
-        data: totalEquityData?.map(a => {
+        data: totalEquityData?.map((a) => {
           let date = new Date(Date.parse(a.date));
           return [
             new Date(date.getFullYear(), date.getMonth(), date.getDate()),
@@ -78,7 +78,7 @@ export const PerformanceTotalValueChart = () => {
       },
       {
         label: 'Contributions',
-        data: contributionCumulativeData?.map(a => {
+        data: contributionCumulativeData?.map((a) => {
           let date = new Date(Date.parse(a.date));
           return [
             new Date(date.getFullYear(), date.getMonth(), date.getDate()),
@@ -93,10 +93,20 @@ export const PerformanceTotalValueChart = () => {
 
   const series = React.useMemo(() => ({ type: 'line' }), []);
 
+  const formatAxis = (x: number) => {
+    return '‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎$' + x.toString();
+  };
+
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'time', position: 'bottom' },
-      { type: 'linear', position: 'left', hardMin: chartMin, showGrid: false },
+      {
+        type: 'linear',
+        position: 'left',
+        hardMin: chartMin,
+        showGrid: false,
+        format: formatAxis,
+      },
     ],
     [chartMin],
   );

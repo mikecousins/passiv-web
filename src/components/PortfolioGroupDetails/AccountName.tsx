@@ -6,8 +6,8 @@ import styled from '@emotion/styled';
 import { Table } from '../../styled/GlobalElements';
 import { toast } from 'react-toastify';
 import { Account } from '../../types/account';
-import { loadAccounts, loadGroups } from '../../actions';
 import NameInputAndEdit from '../NameInputAndEdit';
+import { loadAccounts } from '../../actions';
 
 const MetaContainer = styled.div`
   text-align: right;
@@ -72,7 +72,6 @@ const AccountName = ({ name }: Props) => {
       putData(`/api/v1/accounts/${newAccount.id}/`, newAccount)
         .then(() => {
           dispatch(loadAccounts());
-          dispatch(loadGroups());
         })
         .catch(() => {
           toast.error('Failed to edit group name');

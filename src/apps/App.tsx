@@ -17,6 +17,9 @@ import { selectQueryTokens } from '../selectors/router';
 import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import GoalsPage from '../pages/GoalsPage';
+import GoalDetailPage from '../pages/GoalDetailPage';
+import { selectGoalsPageFeature } from '../selectors/features';
 
 // code splitting to lazy load our pages
 const LoginPage = React.lazy(() =>
@@ -66,6 +69,16 @@ const InteractiveBrokersOauthPage = React.lazy(() =>
 const TDAmeritradeOauthPage = React.lazy(() =>
   import(
     /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/TDAmeritradeOauthPage'
+  ),
+);
+const WealthicaConnectionPage = React.lazy(() =>
+  import(
+    /* webpackChunkName: "wealthica-connection-page" */ '../pages/WealthicaConnectionPage'
+  ),
+);
+const WealthicaConnectionUpdatePage = React.lazy(() =>
+  import(
+    /* webpackChunkName: "wealthica-update-connection-page" */ '../pages/WealthicaConnectionUpdatePage'
   ),
 );
 const UpgradeOfferPage = React.lazy(() =>
@@ -170,6 +183,7 @@ const App = () => {
   const referralCode = useSelector(selectReferralCode);
   const loggedIn = useSelector(selectLoggedIn);
   const location = useLocation();
+  const goalsPageFeatureActive = useSelector(selectGoalsPageFeature);
   const dispatch = useDispatch();
 
   const queryParams = useSelector(selectQueryTokens);
@@ -320,6 +334,11 @@ const App = () => {
               </Route>
             )}
             {showOnboardingApp && (
+              <Route path={prefixPath('/wealthica/onboard-connect')}>
+                <WealthicaConnectionPage onboarding={true} />
+              </Route>
+            )}
+            {showOnboardingApp && (
               <Route path={prefixPath('/welcome')}>
                 <WelcomePage />
               </Route>
@@ -327,6 +346,11 @@ const App = () => {
             {(showSecureApp || showOnboardingApp) && (
               <Route path={prefixPath('/settings/connect/:brokerage?')}>
                 <AuthorizationPage onboarding={false} />
+              </Route>
+            )}
+            {(showSecureApp || showOnboardingApp) && (
+              <Route exact path={prefixPath('/wealthica/connect/')}>
+                <WealthicaConnectionPage onboarding={false} />
               </Route>
             )}
             {(showSecureApp || showOnboardingApp) && (
@@ -351,6 +375,22 @@ const App = () => {
               <Route
                 path={prefixPath('/reporting')}
                 component={PerformancePage}
+              />
+            )}
+            {showSecureApp && goalsPageFeatureActive && (
+              <Route path={prefixPath('/goals')} component={GoalsPage} />
+            )}
+            {showSecureApp && goalsPageFeatureActive && (
+              <Route
+                path={prefixPath('/goal/:goalId')}
+                component={GoalDetailPage}
+              />
+            )}
+            {showSecureApp && (
+              <Route
+                exact
+                path={prefixPath('/wealthica/connect/:authorizationID?')}
+                component={WealthicaConnectionUpdatePage}
               />
             )}
             {showSecureApp && (

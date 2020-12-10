@@ -45,6 +45,8 @@ import {
   selectPerformanceNeedData,
   selectACBNeedData,
 } from '../selectors/performance';
+import { selectGoalsNeedData } from '../selectors/goals';
+import { loadGoals } from '../actions/goals';
 
 import { selectFeaturesNeedData } from '../selectors/features';
 import { selectCurrenciesNeedData } from '../selectors/currencies';
@@ -127,5 +129,9 @@ export const effects = [
   {
     selector: selectModelPortfoliosNeedData,
     actionCreator: loadModelPortfolios,
+  },
+  {
+    selector: selectGoalsNeedData,
+    actionCreator: loadGoals,
   },
 ];

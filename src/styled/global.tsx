@@ -278,6 +278,7 @@ export const GlobalStyle = () => (
         outline: 0;
       }
 
+<<<<<<< HEAD
       [data-reach-dialog-content] {
         border-radius: 5px;
         @media (max-width: 500px) {
@@ -288,6 +289,16 @@ export const GlobalStyle = () => (
       [data-reach-dialog-overlay] {
         z-index: 4;
       }
+=======
+      [data-reach-dialog-overlay] {
+        z-index: 4;
+      }
+      [data-reach-dialog-content] {
+        @media (max-width: 900px) {
+          width: 95vw;
+        }
+      }
+>>>>>>> integrations
     `}
   />
 );

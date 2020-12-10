@@ -36,6 +36,7 @@ import {
   reportingEndDate,
 } from './performance';
 import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
+import { Goal } from '../types/goals';
 
 export default (history: any) =>
   combineReducers({
@@ -115,6 +116,10 @@ export default (history: any) =>
     }),
     performanceAll: simple<PerformanceData>({
       baseType: 'FETCH_PERFORMANCE_ALL',
+      userData: true,
+    }),
+    goals: simple<Goal[]>({
+      baseType: 'FETCH_GOALS',
       userData: true,
     }),
     performanceCustom: simple<PerformanceCustomData>({

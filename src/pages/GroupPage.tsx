@@ -76,7 +76,7 @@ const GroupPage = () => {
             Overview
           </Link>
           {accounts &&
-            accounts.map(account => {
+            accounts.map((account) => {
               if (account.portfolio_group === groupId) {
                 return (
                   <Link
@@ -91,7 +91,10 @@ const GroupPage = () => {
               return null;
             })}
           <Link
-            className={settingsSelected(pathname, groupId)}
+            className={`${settingsSelected(
+              pathname,
+              groupId,
+            )} tour-group-settings`}
             to={`/app/group/${groupId}/settings`}
           >
             Group Settings

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { RebalanceAlert } from '../../styled/Rebalance';
 import { useSelector } from 'react-redux';
 import { selectPathname } from '../../selectors/router';
@@ -17,12 +17,16 @@ const IndentColorBox = styled(ColorBox)`
 `;
 
 const BetaTag = styled.span`
-  border: 1px solid white;
+  border: 1px solid var(--brand-green);
   border-radius: 25px;
-  padding: 1px 4px;
-  margin-left: 5px;
+  padding: 2px 4px 1px;
+  margin-left: 6px;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 11px;
+  margin-top: 0px;
+  vertical-align: top;
+  display: inline-block;
+  color: var(--brand-green);
 `;
 
 type Props = {
@@ -65,6 +69,9 @@ const SideBarLink = ({
     (pathname.split('/').reverse()[0] === 'settings' ||
       pathname.includes('performance'))
   ) {
+    selected = true;
+  }
+  if (pathname.includes('goal') && linkPath.includes('goal')) {
     selected = true;
   }
 
@@ -110,12 +117,13 @@ const SideBarLink = ({
   }
 
   const link = (
-    <Link to={linkPath}>
-      {indicator}
-      {indent ? name : <strong>{name}</strong>}
-      {!hideArrow && <FontAwesomeIcon icon={faAngleRight} />}
-      {beta && <BetaTag>BETA</BetaTag>}
-    </Link>
+    <>
+      <Link to={linkPath}>
+        {indicator}
+        {indent ? name : <strong>{name}</strong>}
+        {beta && <BetaTag>BETA</BetaTag>}
+      </Link>
+    </>
   );
 
   if (indent) {

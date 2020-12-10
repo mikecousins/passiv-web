@@ -105,6 +105,12 @@ export const selectContextualMessages = createSelector(
   },
 );
 
+export const selectTakeTour = createSelector(selectSettings, (settings) => {
+  if (settings) {
+    return settings.take_passiv_tour;
+  }
+});
+
 export const selectSMS2FAEnabled = createSelector(
   selectSettings,
   (settings) => {

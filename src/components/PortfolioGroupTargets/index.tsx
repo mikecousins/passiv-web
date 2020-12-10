@@ -25,6 +25,27 @@ import ShadowBox from '../../styled/ShadowBox';
 import LoadingOverlay from '../LoadingOverlay';
 import TargetSelector from './TargetSelector';
 import { selectIsEditMode } from '../../selectors/router';
+import Tour from '../Tour/Tour';
+import { replace } from 'connected-react-router';
+
+const TOUR_STEPS = [
+  {
+    target: '.tour-import-holdings',
+    content: (
+      <div>
+        If you already own securities in your brokerage account, then the
+        easiest way to get started is to import your holdings as your target
+        portfolio allocation by clicking the <strong> Import button</strong>.
+        Once this is done, don’t forget to review and adjust your targets.
+      </div>
+    ),
+  },
+  {
+    target: '.tour-build-portfolio',
+    content:
+      'If you don’t own any securities yet, you can build your target portfolio’s allocation from scratch by adding securities and assigning percentages to them.',
+  },
+];
 
 export const TargetContainer = styled.form`
   h2 {
@@ -96,6 +117,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     {
       id: 'IMPORT',
       name: 'Import your current holdings as a target',
+      tourClass: 'tour-import-holdings',
       button: (
         <React.Fragment>
           <Button onClick={() => importTarget()} disabled={importDisabled()}>
@@ -113,7 +135,17 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     {
       id: 'MANUAL',
       name: 'Build your target portfolio manually',
-      button: <Button onClick={() => setModel('MANUAL')}>Build</Button>,
+      tourClass: 'tour-build-portfolio',
+      button: (
+        <Button
+          onClick={() => {
+            setModel('MANUAL');
+            dispatch(replace(`/app/group/${groupId}?edit=true`));
+          }}
+        >
+          Build
+        </Button>
+      ),
     },
   ];
 
@@ -216,6 +248,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
           <H2 style={h2DarkStyle}>Target Portfolio</H2>
           {!model ? (
             <React.Fragment>
+              <Tour steps={TOUR_STEPS} name="setup_portfolio_tour" />
               <P style={pDarkStyle}>
                 A target portfolio is how you tell Passiv what you want. You
                 will need to choose which securities you want to hold and how
@@ -230,7 +263,9 @@ const PortfolioGroupTargets = ({ error }: Props) => {
               <Container2Column>
                 {modelChoices.map((m) => (
                   <ShadowBox key={m.id}>
-                    <H3LowProfile>{m.name}</H3LowProfile>
+                    <H3LowProfile className={m.tourClass}>
+                      {m.name}
+                    </H3LowProfile>
                     <CenteredDiv>{m.button}</CenteredDiv>
                   </ShadowBox>
                 ))}

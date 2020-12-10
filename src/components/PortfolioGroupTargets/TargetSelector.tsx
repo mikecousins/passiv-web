@@ -18,14 +18,23 @@ import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../../styled/Button';
-import { Edit, AButton } from '../../styled/GlobalElements';
+import { A } from '../../styled/GlobalElements';
 import { postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
 
 const ButtonBox = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 20px 0 20px 0;
+  button {
+    svg {
+      margin-right: 5px;
+    }
+  }
+  a {
+    margin-right: 8px;
+  }
 `;
 const Th = styled.div`
   text-align: right;
@@ -38,7 +47,6 @@ const Legend = styled.div`
     padding-right: 0;
   }
 `;
-
 const BaseLegendTitle = styled.span`
   font-size: 18px;
   color: #000;
@@ -57,14 +65,12 @@ const BaseLegendTitle = styled.span`
     top: 2px;
   }
 `;
-
 const ActualTitle = styled(BaseLegendTitle)`
   color: var(--brand-green);
   &:before {
     background: var(--brand-green);
   }
 `;
-
 const TargetTitle = styled(BaseLegendTitle)`
   margin-left: 5px;
   color: var(--brand-blue);
@@ -72,25 +78,63 @@ const TargetTitle = styled(BaseLegendTitle)`
     background: var(--brand-blue);
   }
 `;
-
 const ExcludedNote = styled.div`
   text-align: center;
   font-weight: 600;
   font-size: 1em;
 `;
-
 const ExcludeTitle = styled(BaseLegendTitle)`
   @media (max-width: 900px) {
     display: none;
   }
 `;
-
 const ActionsContainer = styled.div`
-  @media (max-width: 900px) {
-    display: flex;
-    justify-content: space-between;
-    margin: 35px 0 10px;
-    max-width: 500px;
+  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 50px;
+  @media (max-width: 1050px) {
+    grid-template-columns: 160px auto;
+  }
+`;
+const Add = styled(Button)`
+  border: 1px solid #023ca2;
+  margin-right: 20px;
+  color: #023ca2;
+  font-weight: bold;
+  width: 200px;
+  background: none;
+  @media (max-width: 1050px) {
+    width: auto;
+  }
+`;
+const Save = styled(Button)`
+  border: 1px solid #023ca2;
+  margin-right: 20px;
+  color: #023ca2;
+  font-weight: bold;
+  width: 200px;
+  color: #fff;
+  @media (max-width: 1050px) {
+    width: auto;
+  }
+`;
+const ButtonLinks = styled.div`
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  button {
+    width: 150px;
+    text-decoration: underline;
+    text-align: right;
+    padding-right: 15px;
+    @media (max-width: 1050px) {
+      width: auto;
+      padding-left: 20px;
+      padding-right: 0;
+    }
   }
 `;
 
@@ -345,6 +389,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                           key={t.symbol}
                           target={t}
                           edit={canEdit}
+                          tour={index === 0 ? true : false}
                           setSymbol={(symbol) => {
                             setSymbol(t, symbol);
                             props.setFieldTouched(
@@ -437,66 +482,78 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                   {canEdit ? (
                     <React.Fragment>
                       <ActionsContainer>
-                        <button
-                          type="button"
-                          onClick={() => arrayHelpers.push(generateNewTarget())}
-                        >
-                          Add
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            if (lockable) {
-                              resetTargets(props.resetForm);
-                            } else {
-                              let len = props.values.targets.length;
-                              for (let i = 0; i < len; i++) {
-                                props.values.targets.pop();
-                              }
-                              arrayHelpers.push(generateNewTarget());
-                            }
-                          }}
-                        >
-                          Reset
-                        </button>
-                        <Button
-                          type="submit"
-                          onClick={() => props.handleSubmit()}
-                          disabled={
-                            props.isSubmitting || !props.dirty || !props.isValid
-                          }
-                        >
-                          Save
-                        </Button>
-                        {lockable && (
-                          <button
+                        <div>
+                          <Add
                             type="button"
-                            onClick={() => {
-                              props.handleReset();
-                              toggleEditMode();
-                            }}
+                            onClick={() =>
+                              arrayHelpers.push(generateNewTarget())
+                            }
                           >
-                            Cancel
-                          </button>
+                            Add
+                          </Add>
+                          <Save
+                            type="submit"
+                            onClick={() => props.handleSubmit()}
+                            disabled={
+                              props.isSubmitting ||
+                              !props.dirty ||
+                              !props.isValid
+                            }
+                          >
+                            Save
+                          </Save>
+                        </div>
+                        {lockable && (
+                          <ButtonLinks>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                props.handleReset();
+                                toggleEditMode();
+                              }}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (lockable) {
+                                  resetTargets(props.resetForm);
+                                } else {
+                                  let len = props.values.targets.length;
+                                  for (let i = 0; i < len; i++) {
+                                    props.values.targets.pop();
+                                  }
+                                  arrayHelpers.push(generateNewTarget());
+                                }
+                              }}
+                            >
+                              Reset
+                            </button>
+                          </ButtonLinks>
                         )}
                       </ActionsContainer>
                     </React.Fragment>
                   ) : (
                     <ButtonBox>
                       <div>
-                        <Edit type="button" onClick={() => toggleEditMode()}>
+                        <Button
+                          type="button"
+                          onClick={() => toggleEditMode()}
+                          className="tour-edit-targets"
+                        >
                           <FontAwesomeIcon icon={faLock} />
                           Edit Targets
-                        </Edit>
+                        </Button>
                       </div>
                       <div>
-                        <AButton
+                        <A
                           href={portfolioVisualizerURL}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           Portfolio Visualizer
-                        </AButton>
+                        </A>
                       </div>
                     </ButtonBox>
                   )}

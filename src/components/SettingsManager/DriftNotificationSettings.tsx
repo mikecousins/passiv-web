@@ -85,7 +85,7 @@ const DriftNotificationSettings = () => {
       .catch(() => {
         dispatch(loadSettings());
         setOutOfLimitErrorMessage(
-          `${driftThreshold}% is out of limit. Please choose a limit between 0% and 100%.`,
+          `${driftThreshold}% is out of limit. Please choose a threshold between 0% and 100%.`,
         );
       });
 

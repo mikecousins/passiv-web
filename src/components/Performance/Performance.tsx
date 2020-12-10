@@ -17,6 +17,8 @@ import PerformanceFeeSavings from './PerformanceFeeSavings';
 import ShadowBox from '../../styled/ShadowBox';
 import TimeframePicker from './TimeframePicker';
 import { P, A } from '../../styled/GlobalElements';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 const Grid = styled.div`
   @media (min-width: 900px) {
@@ -82,6 +84,12 @@ export const Performance = () => {
 
   return (
     <React.Fragment>
+      <div style={{ margin: '5px' }}>
+        <FontAwesomeIcon icon={faExclamationTriangle} />
+        &nbsp;Reporting data may be temporarily innaccurate due to issues with
+        our data provider
+      </div>
+
       <TimeframePicker />
       <Grid>
         <ShadowBox>
@@ -137,7 +145,7 @@ export const Performance = () => {
       </Grid>
       <BetaBanner>
         Open Beta: Help us improve our tools by{' '}
-        <A href="mailto:reporting@getpassiv.com">sharing feedback</A>
+        <A href="mailto:reporting@passiv.com">sharing feedback</A>
       </BetaBanner>
     </React.Fragment>
   );

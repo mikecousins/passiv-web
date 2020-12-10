@@ -30,12 +30,12 @@ const ConnectionsManager = () => {
       return false;
     }
     return userPermissions.some(
-      permission => permission === 'can_add_multiple_connections',
+      (permission) => permission === 'can_add_multiple_connections',
     );
   };
 
   return (
-    <ShadowBox>
+    <ShadowBox className="tour-connections">
       <H2>Connections</H2>
       <Connections />
 

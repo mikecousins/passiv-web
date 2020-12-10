@@ -312,7 +312,7 @@ const CashManagement = () => {
   );
 
   return (
-    <CashManagementBox>
+    <CashManagementBox className="tour-cash-management">
       <H2>Cash Management</H2>
       {cashRestrictionsRendered}
       {editing ? (

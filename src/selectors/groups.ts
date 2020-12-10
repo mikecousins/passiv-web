@@ -379,15 +379,32 @@ export const selectCurrentGroupPositions = createSelector(
       groupInfo[groupId] &&
       groupInfo[groupId].data &&
       groupInfo[groupId].data!.positions &&
+      groupInfo[groupId].data!.asset_classes_details &&
       quotableSymbols &&
       currencies &&
       rates
     ) {
       positions = groupInfo[groupId].data!.positions;
 
+      let excluded_asset_classes = groupInfo[
+        groupId
+      ].data!.asset_classes_details.filter(
+        (detail) => detail.asset_class.exclude_asset_class === true,
+      );
+      let excludedPositionsSymbolsIds = excluded_asset_classes
+        .map((asset_classes) => {
+          return asset_classes.symbols.map((symbol) => symbol.symbol);
+        })
+        .flat();
+
       positions.map((position) => {
         // TODO set this properly
-        position.excluded = false;
+        if (excludedPositionsSymbolsIds.includes(position.symbol.id)) {
+          position.excluded = false;
+        } else {
+          position.excluded = true;
+        }
+
         position.quotable = quotableSymbols.some(
           (quotableSymbol) => quotableSymbol.id === position.symbol.id,
         );
@@ -700,26 +717,32 @@ export const selectCurrentGroupExcludedEquity = createSelector(
   selectPreferredCurrency,
   (groupId, groupInfo, currencies, rates, preferredCurrency) => {
     let excludedEquity = 0;
-    /*
+
     if (
       !groupId ||
       !groupInfo ||
       !groupInfo[groupId] ||
       !groupInfo[groupId].data ||
-      !groupInfo[groupId].data!.excluded_positions ||
+      !groupInfo[groupId].data!.asset_classes_details ||
       !currencies ||
       !rates ||
       !preferredCurrency
     ) {
       return excludedEquity;
     }
-    const excludedPositionsIds = groupInfo[
+    let excluded_asset_classes = groupInfo[
       groupId
-    ].data!.excluded_positions.map(
-      excluded_position => excluded_position.symbol,
+    ].data!.asset_classes_details.filter(
+      (detail) => detail.asset_class.exclude_asset_class === true,
     );
+    let excludedPositionsIds = excluded_asset_classes
+      .map((asset_classes) => {
+        return asset_classes.symbols.map((symbol) => symbol.symbol);
+      })
+      .flat();
+
     const allPositions = groupInfo[groupId].data!.positions;
-    allPositions.forEach(position => {
+    allPositions.forEach((position) => {
       if (excludedPositionsIds.includes(position.symbol.id)) {
         if (
           preferredCurrency &&
@@ -728,7 +751,7 @@ export const selectCurrentGroupExcludedEquity = createSelector(
           excludedEquity += position.units * position.price;
         } else {
           const conversionRate = rates.find(
-            rate =>
+            (rate) =>
               preferredCurrency &&
               rate.src.id === position.symbol.currency.id &&
               rate.dst.id === preferredCurrency.id,
@@ -740,7 +763,7 @@ export const selectCurrentGroupExcludedEquity = createSelector(
             position.units * position.price * conversionRate.exchange_rate;
         }
       }
-    }); */
+    });
 
     return excludedEquity;
   },

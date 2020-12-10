@@ -30,5 +30,4 @@ test('PortfolioGroupSettings renders without issue', () => {
   const { getByText } = renderWithRedux(<PortfolioGroupSettings />, {});
 
   expect(getByText('General')).toBeTruthy();
-  expect(getByText('Cash Management')).toBeTruthy();
 });

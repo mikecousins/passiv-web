@@ -7,6 +7,24 @@ export const Form = styled.form`
   max-width: 500px;
 `;
 
+export const InputPrimary = styled.input`
+  border: none;
+  border-bottom: 1px solid var(--brand-grey);
+  box-sizing: border-box;
+  font-size: 22px;
+  padding: 28px 18px 15px 0;
+  border-radius: 0;
+  width: 100%;
+  outline: none;
+  margin-bottom: 25px;
+  -webkit-appearance: none;
+  background: #fff;
+  &:focus {
+    border: 1px solid var(--brand-blue-hover);
+    outline: 4px solid rgba(0, 59, 162, 0.44);
+  }
+`;
+
 export const Input = styled(Field)`
   border: ${(props) =>
     props.error ? '1px solid red' : '1px solid var(--brand-grey)'};

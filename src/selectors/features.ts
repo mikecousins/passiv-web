@@ -68,6 +68,8 @@ export const selectPerformancePageFeature = createFeatureSelector(
   'performance_page',
 );
 
+export const selectGoalsPageFeature = createFeatureSelector('goals_page');
+
 export const selectAdjustedCostBasisFeature = createFeatureSelector(
   'adjusted_cost_basis_tab',
 );
@@ -85,3 +87,9 @@ export const selectQuestradeDowntimeFeature = createFeatureSelector(
 export const selectConnectInteractiveBrokersFeature = createFeatureSelector(
   'connect_interactive_brokers',
 );
+
+export const selectShowOtherBrokeragesFeature = createFeatureSelector(
+  'other_brokerages',
+);
+
+export const selectShowInAppTour = createFeatureSelector('in-app-tour');
