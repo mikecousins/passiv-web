@@ -65,6 +65,7 @@ const Targets = ({ assetClass }: Props) => {
       if (target.symbol.id === targetId) {
         assetClass.model_asset_class_target.splice(index, 1);
       }
+      return null;
     });
     updateAssetClass();
   };
