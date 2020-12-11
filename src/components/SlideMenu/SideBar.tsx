@@ -13,6 +13,7 @@ import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
 import styled from '@emotion/styled';
 import { preloadRouteComponent } from '../../apps/App';
+import Tour from '../Tour/Tour';
 
 const StyledAside = styled.aside`
   background-color: var(--brand-grey);
@@ -75,6 +76,36 @@ const GroupContainer = styled.div`
 `;
 
 const SideBar = () => {
+  const STEP = [
+    {
+      title: (
+        <p style={{ fontSize: '25px', fontWeight: 900 }}>
+          New Year, New Goals{' '}
+          <span role="img" aria-label="tada-emoji">
+            {' '}
+            🎉
+          </span>
+        </p>
+      ),
+      target: '.tour-goals-feature',
+      content: (
+        <div>
+          Start the year right and set your investment goals with our new Goals
+          feature!{' '}
+          <a href="https://passiv.com/help/tutorials/how-to-set-up-goals-and-track-your-progress/">
+            Learn More
+          </a>
+        </div>
+      ),
+      placement: 'right',
+      hideCloseButton: true,
+      styles: {
+        tooltip: {
+          fontSize: 20,
+        },
+      },
+    },
+  ];
   const loggedIn = useSelector(selectLoggedIn);
   const groups = useSelector(selectGroups);
   const performancePageFeatureActive = useSelector(
@@ -121,6 +152,7 @@ const SideBar = () => {
     return (
       <>
         <StyledAside>
+          <Tour steps={STEP} name="goals_new_feature" />
           <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
           {groups && groups.length > 0 && (
             <GroupContainer>{groupList}</GroupContainer>
@@ -128,7 +160,7 @@ const SideBar = () => {
           {performancePageFeatureActive && hasQuestradeConnection && (
             <SideBarLink name="Reporting" linkPath="/app/reporting" />
           )}
-          {goalsPageFeatureActive && hasQuestradeConnection && (
+          {goalsPageFeatureActive && (
             <SideBarLink name="Goals" linkPath="/app/goals" beta={true} />
           )}
           <SideBarLink
@@ -142,6 +174,7 @@ const SideBar = () => {
       </>
     );
   }
+
   return (
     <>
       <StyledAside>

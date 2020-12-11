@@ -17,7 +17,7 @@ export const selectToken = (state: AppState) => state.auth.token;
 
 export const selectReferral = (state: AppState) => state.referral;
 
-export const selectReferralCode = createSelector(selectReferral, referral => {
+export const selectReferralCode = createSelector(selectReferral, (referral) => {
   if (referral !== null) {
     return referral.referralCode;
   }
@@ -62,7 +62,7 @@ export const selectAuthorizationsRaw = (state: AppState) =>
 
 export const selectIncentives = createSelector(
   selectIncentivesRaw,
-  rawIncentives => {
+  (rawIncentives) => {
     if (rawIncentives.data) {
       return rawIncentives.data;
     }
@@ -87,40 +87,55 @@ export const selectIncentivesNeedData = createSelector(
 
 export const selectSettingsRaw = (state: AppState) => state.settings;
 
-export const selectSettings = createSelector(selectSettingsRaw, rawSettings => {
-  if (rawSettings.data) {
-    return rawSettings.data;
-  }
-});
-
-export const selectContextualMessages = createSelector(
-  selectSettings,
-  settings => {
-    if (settings && settings.contextual_messages) {
-      return settings.contextual_messages.map(message => message.name);
+export const selectSettings = createSelector(
+  selectSettingsRaw,
+  (rawSettings) => {
+    if (rawSettings.data) {
+      return rawSettings.data;
     }
   },
 );
 
-export const selectSMS2FAEnabled = createSelector(selectSettings, settings => {
+export const selectContextualMessages = createSelector(
+  selectSettings,
+  (settings) => {
+    if (settings && settings.contextual_messages) {
+      return settings.contextual_messages.map((message) => message.name);
+    }
+  },
+);
+
+export const selectTakeTour = createSelector(selectSettings, (settings) => {
   if (settings) {
-    return settings.sms_2fa_enabled;
+    return settings.take_passiv_tour;
   }
 });
 
-export const selectOTP2FAEnabled = createSelector(selectSettings, settings => {
-  if (settings) {
-    return settings.otp_2fa_enabled;
-  }
-});
+export const selectSMS2FAEnabled = createSelector(
+  selectSettings,
+  (settings) => {
+    if (settings) {
+      return settings.sms_2fa_enabled;
+    }
+  },
+);
 
-export const selectPhoneNumber = createSelector(selectSettings, settings => {
+export const selectOTP2FAEnabled = createSelector(
+  selectSettings,
+  (settings) => {
+    if (settings) {
+      return settings.otp_2fa_enabled;
+    }
+  },
+);
+
+export const selectPhoneNumber = createSelector(selectSettings, (settings) => {
   if (settings) {
     return settings.phone_number;
   }
 });
 
-export const selectIsDemo = createSelector(selectSettings, settings => {
+export const selectIsDemo = createSelector(selectSettings, (settings) => {
   if (settings) {
     return settings.demo;
   }
@@ -134,7 +149,7 @@ export const selectBrokerages = createSelector(
     if (rawBrokerages.data) {
       let brokerages = rawBrokerages.data;
       if (!isDemo) {
-        brokerages = brokerages.filter(b => b.enabled === true);
+        brokerages = brokerages.filter((b) => b.enabled === true);
       }
       return brokerages;
     }
@@ -143,7 +158,7 @@ export const selectBrokerages = createSelector(
 
 export const selectAllBrokerages = createSelector(
   selectBrokeragesRaw,
-  rawBrokerages => {
+  (rawBrokerages) => {
     return rawBrokerages.data;
   },
 );
@@ -165,7 +180,7 @@ export const selectBrokeragesNeedData = createSelector(
 
 export const selectAuthorizations = createSelector(
   selectAuthorizationsRaw,
-  rawAuthorizations => {
+  (rawAuthorizations) => {
     if (rawAuthorizations.data) {
       return rawAuthorizations.data;
     }
@@ -174,10 +189,10 @@ export const selectAuthorizations = createSelector(
 
 export const selectDisabledAuthorizations = createSelector(
   selectAuthorizations,
-  authorizations => {
+  (authorizations) => {
     const disabledAuthorizations =
       authorizations !== undefined &&
-      authorizations.filter(a => a.disabled === true);
+      authorizations.filter((a) => a.disabled === true);
     return disabledAuthorizations;
   },
 );
@@ -187,10 +202,10 @@ export const selectAuthorizationBrokerages = createSelector(
   selectAuthorizations,
   (brokerages, authorizations) => {
     if (authorizations) {
-      const authorizedBrokerageIds = authorizations.map(a => a.brokerage.id);
+      const authorizedBrokerageIds = authorizations.map((a) => a.brokerage.id);
       if (brokerages) {
         return brokerages.filter(
-          b => authorizedBrokerageIds.indexOf(b.id) >= 0,
+          (b) => authorizedBrokerageIds.indexOf(b.id) >= 0,
         );
       }
     }
@@ -240,9 +255,9 @@ export const selectMaintenanceBrokerages = createSelector(
 
 export const selectHasQuestradeConnection = createSelector(
   selectAuthorizations,
-  authorizations => {
+  (authorizations) => {
     if (authorizations) {
-      return authorizations.some(a => a.brokerage.name === 'Questrade');
+      return authorizations.some((a) => a.brokerage.name === 'Questrade');
     } else {
       return false;
     }
@@ -281,7 +296,7 @@ export const selectSettingsNeedData = createSelector(
 
 export const selectPlansRaw = (state: AppState) => state.plans;
 
-export const selectPlans = createSelector(selectPlansRaw, rawPlans => {
+export const selectPlans = createSelector(selectPlansRaw, (rawPlans) => {
   if (rawPlans.data) {
     return rawPlans.data;
   }
@@ -310,7 +325,7 @@ export const selectCurrencyRatesRaw = (state: AppState) => state.currencyRates;
 
 export const selectCurrencyRates = createSelector(
   selectCurrencyRatesRaw,
-  rawCurrencyRates => {
+  (rawCurrencyRates) => {
     if (rawCurrencyRates.data) {
       return rawCurrencyRates.data;
     } else {
@@ -334,20 +349,23 @@ export const selectCurrencyRatesNeedData = createSelector(
   },
 );
 
-export const selectPasswordResetToken = createSelector(selectRouter, router => {
-  let token = null;
-  if (
-    router &&
-    router.location &&
-    router.location.pathname &&
-    router.location.pathname.split('/').length === 4
-  ) {
-    token = router.location.pathname.split('/')[3];
-  }
-  return token;
-});
+export const selectPasswordResetToken = createSelector(
+  selectRouter,
+  (router) => {
+    let token = null;
+    if (
+      router &&
+      router.location &&
+      router.location.pathname &&
+      router.location.pathname.split('/').length === 4
+    ) {
+      token = router.location.pathname.split('/')[3];
+    }
+    return token;
+  },
+);
 
-export const selectHelpArticleSlug = createSelector(selectRouter, router => {
+export const selectHelpArticleSlug = createSelector(selectRouter, (router) => {
   let slug = null;
   if (
     router &&
@@ -364,7 +382,7 @@ export const selectHelpArticlesRaw = (state: AppState) => state.helpArticles;
 
 export const selectHelpArticles = createSelector(
   selectHelpArticlesRaw,
-  helpArticlesRaw => {
+  (helpArticlesRaw) => {
     if (helpArticlesRaw.data) {
       return helpArticlesRaw.data;
     }
@@ -384,7 +402,7 @@ export const selectHelpArticlesNeedData = createSelector(
 
 export const selectIsAuthorized = createSelector(
   selectAuthorizations,
-  authorizations => {
+  (authorizations) => {
     if (authorizations === undefined) {
       return true;
     }
@@ -397,7 +415,7 @@ export const selectIsAuthorized = createSelector(
 
 export const selectShowInsecureApp = createSelector(
   selectLoggedIn,
-  loggedIn => {
+  (loggedIn) => {
     return loggedIn === false;
   },
 );
@@ -424,7 +442,7 @@ export const selectShowSecureApp = createSelector(
   },
 );
 
-export const selectName = createSelector(selectSettings, settings => {
+export const selectName = createSelector(selectSettings, (settings) => {
   if (settings) {
     return settings.name;
   }

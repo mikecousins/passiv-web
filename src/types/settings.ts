@@ -32,4 +32,5 @@ export type Settings = {
   show_2columns_dashboard: boolean;
   contextual_messages: ContextualMessage[];
   affiliate_bonus_amount: number;
+  take_passiv_tour: boolean;
 };

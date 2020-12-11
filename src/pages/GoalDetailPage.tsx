@@ -35,6 +35,7 @@ import ShadowBox from '../styled/ShadowBox';
 import { ToggleButton } from '../styled/ToggleButton';
 import '@reach/dialog/styles.css';
 import { Dialog } from '@reach/dialog';
+import { getGroupTotalValue } from '../components/Goals/GoalWidget';
 
 const GoalProjectionContainer = styled.div`
   padding-bottom: 80px;
@@ -314,7 +315,7 @@ const GoalDetailPage = () => {
   const group = groups.find((x) => x.id === goal?.portfolio_group?.id);
   let currentValue = useSelector(selectTotalGroupHoldings);
   if (group !== undefined) {
-    currentValue = group.totalHoldings + group.totalCash;
+    currentValue = getGroupTotalValue(group);
   }
   let targetValue = goal?.total_value_target;
   if (targetValue === undefined) {
@@ -419,6 +420,12 @@ const GoalDetailPage = () => {
     setReturnRate(parseFloat(newValue));
   };
   const handleContributionFrequencyChange = (e: any) => {
+    setContributionTarget(
+      Math.round(
+        contributionTarget *
+          getContributionConversion(contributionFrequency, e.target.value),
+      ),
+    );
     setContributionFrequency(e.target.value);
   };
   const handleContributionChange = (e: any) => {
@@ -574,6 +581,7 @@ const GoalDetailPage = () => {
               with an annual return rate of
               <ReturnInput
                 type="number"
+                step="any"
                 min={0}
                 max={100}
                 onChange={handleReturnChange}
@@ -782,4 +790,14 @@ const GoalTitle = ({ title, setTitle, editMode, setEditMode }: any) => {
       </div>
     );
   }
+};
+
+const getContributionConversion = (
+  oldFrequency: string,
+  newFrequency: string,
+) => {
+  const oldRatio = getPeriodsPerYear(oldFrequency);
+  const newRatio = getPeriodsPerYear(newFrequency);
+
+  return oldRatio / newRatio;
 };
