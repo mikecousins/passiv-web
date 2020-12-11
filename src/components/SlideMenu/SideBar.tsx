@@ -159,7 +159,7 @@ const SideBar = () => {
           {performancePageFeatureActive && hasQuestradeConnection && (
             <SideBarLink name="Reporting" linkPath="/app/reporting" />
           )}
-          {goalsPageFeatureActive && hasQuestradeConnection && (
+          {goalsPageFeatureActive && (
             <SideBarLink name="Goals" linkPath="/app/goals" beta={true} />
           )}
           <SideBarLink name="Refer a Friend" linkPath="/app/referrals" />
