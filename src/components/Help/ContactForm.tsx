@@ -31,6 +31,15 @@ const HiddenInput = styled(Input)`
   display: none;
 `;
 
+// beta key
+let recaptchaSiteKey = '6LdAQwEaAAAAADug0rrAhrHLQ9XaVWFngK_fEPkF';
+if (
+  process.env.REACT_APP_BASE_URL_OVERRIDE &&
+  process.env.REACT_APP_BASE_URL_OVERRIDE === 'passiv.com'
+) {
+  recaptchaSiteKey = '6LdNyMMZAAAAABpL67gxVW7_O0xgcyIX2lsJBWmk';
+}
+
 const ContactForm = () => {
   const settings = useSelector(selectSettings);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
@@ -125,7 +134,7 @@ const ContactForm = () => {
             </P>
             <ReCAPTCHA
               ref={recaptchaRef}
-              sitekey="6LdNyMMZAAAAABpL67gxVW7_O0xgcyIX2lsJBWmk"
+              sitekey={recaptchaSiteKey}
               size="invisible"
             />
             {props.status.submitted ? (

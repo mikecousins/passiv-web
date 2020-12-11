@@ -13,7 +13,6 @@ import {
   loadFeatures,
   loadIncentives,
   loadModelAssetClasses,
-  loadModelPortfolio,
   loadModelPortfolios,
 } from '../actions';
 import {
@@ -32,7 +31,6 @@ import {
 } from '../selectors';
 import { selectAccountsNeedData } from '../selectors/accounts';
 import { selectModelAssetClassesNeedData } from '../selectors/modelAssetClasses';
-import { selectModelPortfolioNeedsData } from '../selectors/modelPortfolio';
 import { selectModelPortfoliosNeedData } from '../selectors/modelPortfolios';
 import {
   selectGroupsNeedData,
@@ -121,10 +119,6 @@ export const effects = [
   {
     selector: selectModelAssetClassesNeedData,
     actionCreator: loadModelAssetClasses,
-  },
-  {
-    selector: selectModelPortfolioNeedsData,
-    actionCreator: loadModelPortfolio,
   },
   {
     selector: selectModelPortfoliosNeedData,

@@ -118,7 +118,10 @@ const SideBarLink = ({
 
   const link = (
     <>
-      <Link to={linkPath}>
+      <Link
+        to={linkPath}
+        className={name === 'Goals' ? 'tour-goals-feature' : ''}
+      >
         {indicator}
         {indent ? name : <strong>{name}</strong>}
         {beta && <BetaTag>BETA</BetaTag>}

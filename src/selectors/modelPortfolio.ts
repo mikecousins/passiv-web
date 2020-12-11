@@ -1,7 +1,5 @@
 import { createSelector } from 'reselect';
-import ms from 'milliseconds';
-import shouldUpdate from '../reactors/should-update';
-import { selectLoggedIn, selectAppTime, selectRouter } from './index';
+import { selectRouter } from './index';
 import { RouterState } from 'connected-react-router';
 import { AppState } from '../store';
 
@@ -34,20 +32,5 @@ export const selectModelPortfolio = createSelector(
     }
     // throw new Error('Unable to fetch model portfolio');
     return null;
-  },
-);
-
-export const selectModelPortfolioNeedsData = createSelector(
-  selectLoggedIn,
-  selectModelPortfolioRaw,
-  selectAppTime,
-  (loggedIn, rawModelPortfolio, time) => {
-    if (!loggedIn) {
-      return false;
-    }
-    return shouldUpdate(rawModelPortfolio, {
-      staleTime: ms.minutes(10),
-      now: time,
-    });
   },
 );
