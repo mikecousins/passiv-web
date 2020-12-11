@@ -6,6 +6,7 @@ import Grid from '../../styled/Grid';
 import ShadowBox from '../../styled/ShadowBox';
 import { H3, P } from '../../styled/GlobalElements';
 import { selectHasQuestradeConnection } from '../../selectors';
+import { preloadRouteComponent } from '../../apps/App';
 
 export const ShadowBoxLinks = styled(ShadowBox)`
   a {
@@ -43,7 +44,10 @@ export const HelpLinks = () => {
         </ShadowBoxLinks>
         {hasQuestradeConnection && (
           <ShadowBoxLinks>
-            <Link to={'/app/reporting'}>
+            <Link
+              to={'/app/reporting'}
+              onMouseEnter={() => preloadRouteComponent('/app/reporting')}
+            >
               <H3>Reporting</H3>
               <P>Check out the graphs showing what your account is doing</P>
             </Link>
@@ -51,7 +55,10 @@ export const HelpLinks = () => {
         )}
 
         <ShadowBoxLinks>
-          <Link to={'/app/referrals'}>
+          <Link
+            to={'/app/referrals'}
+            onMouseEnter={() => preloadRouteComponent('/app/referrals')}
+          >
             <H3>Invite Friends, Make Money</H3>
             <P>Earn cash when referrals upgrade to Passiv Elite.</P>
           </Link>

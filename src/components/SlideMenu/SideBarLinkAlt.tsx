@@ -6,9 +6,10 @@ import { selectPathname } from '../../selectors/router';
 type Props = {
   linkPath: string;
   name: string;
-}
+  onMouseEnter?: any; //TODO: change the type
+};
 
-export const SideBarLinkAlt = ({ linkPath, name }: Props) => {
+export const SideBarLinkAlt = ({ linkPath, name, onMouseEnter }: Props) => {
   const pathname = useSelector(selectPathname);
   let className = undefined;
   if (pathname.startsWith(linkPath)) {
@@ -16,7 +17,9 @@ export const SideBarLinkAlt = ({ linkPath, name }: Props) => {
   }
   return (
     <div className={className}>
-      <Link to={linkPath}>{name}</Link>
+      <Link to={linkPath} onMouseEnter={onMouseEnter}>
+        {name}
+      </Link>
     </div>
   );
 };

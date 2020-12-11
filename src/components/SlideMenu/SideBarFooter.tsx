@@ -4,6 +4,7 @@ import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import RefreshButton from './../RefreshButton';
 import styled from '@emotion/styled';
+import { preloadRouteComponent } from '../../apps/App';
 
 export const StyledFooter = styled.div`
   position: fixed;
@@ -44,7 +45,10 @@ export const Help = styled.div`
 export const SideBarFooter = () => (
   <StyledFooter>
     <Help>
-      <Link to="/app/help">
+      <Link
+        to="/app/help"
+        onMouseEnter={() => preloadRouteComponent('/app/help')}
+      >
         <FontAwesomeIcon icon={faQuestionCircle} /> Help
       </Link>
     </Help>

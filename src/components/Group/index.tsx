@@ -20,6 +20,7 @@ import {
 } from '../../styled/Group';
 import Number from '../Number';
 import PortfolioGroupTrades from '../PortfolioGroupTrades';
+import { preloadRouteComponent } from '../../apps/App';
 
 type Props = {
   group: any;
@@ -65,7 +66,10 @@ export const Group = ({ group }: Props) => {
   if (group.setupComplete === undefined || group.setupComplete === true) {
     viewButton = (
       <ViewBtn>
-        <Link to={`/app/group/${group.id}`}>
+        <Link
+          to={`/app/group/${group.id}`}
+          onMouseEnter={() => preloadRouteComponent(`/app/group/${group.id}`)}
+        >
           View
           <FontAwesomeIcon icon={faAngleRight} />
         </Link>

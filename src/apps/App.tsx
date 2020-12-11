@@ -22,30 +22,179 @@ import { selectQueryTokens } from '../selectors/router';
 import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import GoalsPage from '../pages/GoalsPage';
 import GoalDetailPage from '../pages/GoalDetailPage';
 import { selectGoalsPageFeature } from '../selectors/features';
 
+// preload pages
 const ReactLazyPreload = (importStatement: any) => {
   const Component = React.lazy(importStatement);
-  // @ts-ignore
+  //@ts-ignore
   Component.preload = importStatement;
   return Component;
 };
 
-// const ReferralPage = ReactLazyPreload(() =>
-//   import(/* webpackChunkName: "referrals-preload" */ '../pages/ReferralPage'),
-// );
-// const PerformancePage = ReactLazyPreload(() =>
-//   import(
-//     /* webpackChunkName: "reporting-preload" */ '../pages/PerformancePage'
-//   ),
-// );
+// code splitting to load our pages
+const LoginPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "login" */ '../pages/LoginPage'),
+);
 
-// const routes = [
-//   { path: '/app/referrals', exact: true, component: ReferralPage },
-//   { path: '/app/reporting', exact: true, component: PerformancePage },
-// ];
+const RegistrationPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "registration" */ '../pages/RegistrationPage'),
+);
+
+const DemoLoginPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "demo-login" */ '../pages/DemoLoginPage'),
+);
+
+const HelpArticlePage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "help-article" */ '../pages/HelpArticlePage'),
+);
+
+const HelpPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "help" */ '../pages/HelpPage'),
+);
+
+const ResetPasswordPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "reset-password" */ '../pages/ResetPasswordPage'),
+);
+
+const ResetPasswordConfirmPage = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "reset-password-confirm" */ '../pages/ResetPasswordConfirmPage'
+  ),
+);
+
+const SetNewPasswordPage = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "set-new-password" */ '../pages/SetNewPasswordPage'
+  ),
+);
+
+const QuestradeOauthPage = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "questrade-oauth" */ '../pages/QuestradeOauthPage'
+  ),
+);
+
+const TradierOauthPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "tradier-oauth" */ '../pages/TradierOauthPage'),
+);
+
+const AlpacaOauthPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "alpaca-oauth" */ '../pages/AlpacaOauthPage'),
+);
+
+const InteractiveBrokersOauthPage = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "interactive-brokers-oauth" */ '../pages/InteractiveBrokersOauthPage'
+  ),
+);
+
+const TDAmeritradeOauthPage = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/TDAmeritradeOauthPage'
+  ),
+);
+
+const WealthicaConnectionPage = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "wealthica-connection-page" */ '../pages/WealthicaConnectionPage'
+  ),
+);
+
+const WealthicaConnectionUpdatePage = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "wealthica-update-connection-page" */ '../pages/WealthicaConnectionUpdatePage'
+  ),
+);
+
+const UpgradeOfferPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "upgrade-offer" */ '../pages/UpgradeOfferPage'),
+);
+
+const LoginLoadingPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "login-loading" */ '../pages/LoginLoadingPage'),
+);
+
+const DashboardPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "dashboard" */ '../pages/DashboardPage'),
+);
+
+const GroupPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "group" */ '../pages/GroupPage'),
+);
+
+const CouponPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "coupon" */ '../pages/CouponPage'),
+);
+
+const SharePage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "share" */ '../pages/SharePage'),
+);
+
+const AuthorizationPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "authorization" */ '../pages/AuthorizationPage'),
+);
+
+const WelcomePage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "welcome" */ '../pages/WelcomePage'),
+);
+
+const SettingsPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "settings" */ '../pages/SettingsPage'),
+);
+
+const ReferralPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "referrals" */ '../pages/ReferralPage'),
+);
+
+const UpgradePage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "upgrade" */ '../pages/UpgradePage'),
+);
+
+const PerformancePage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
+);
+
+const GoalsPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "goals" */ '../pages/GoalsPage'),
+);
+
+// declare global {
+//   interface Window {
+//     Stripe: any;
+//   }
+// }
+
+const routes = [
+  { path: '/app/login', exact: true, component: LoginPage },
+  { path: '/app/register', exact: true, component: RegistrationPage },
+  { path: '/app/help', exact: true, component: HelpPage },
+  { path: '/app/reset-password', exact: true, component: ResetPasswordPage },
+  { path: '/app/dashboard', exact: true, component: DashboardPage },
+  { path: '/app/group', exact: false, component: GroupPage },
+  { path: '/app/settings', exact: true, component: SettingsPage },
+  { path: '/app/referrals', exact: true, component: ReferralPage },
+  { path: '/app/reporting', exact: true, component: PerformancePage },
+  { path: '/app/goals', exact: true, component: GoalsPage },
+  // { path: '', exact: true, component: UpgradePage },
+  // { path: '', exact: true, component: DemoLoginPage },
+  // { path: '', exact: true, component: HelpArticlePage },
+  // { path: '', exact: true, component: ResetPasswordConfirmPage },
+  // { path: '', exact: true, component: SetNewPasswordPage },
+  // { path: '', exact: true, component: QuestradeOauthPage },
+  // { path: '', exact: true, component: TradierOauthPage },
+  // { path: '', exact: true, component: AlpacaOauthPage },
+  // { path: '', exact: true, component: TDAmeritradeOauthPage },
+  // { path: '', exact: true, component: WealthicaConnectionPage },
+  // { path: '', exact: true, component: WealthicaConnectionUpdatePage },
+  // { path: '', exact: true, component: UpgradeOfferPage },
+  // { path: '', exact: true, component: LoginLoadingPage },
+  // { path: '', exact: true, component: CouponPage },
+  // { path: '', exact: true, component: SharePage },
+  // { path: '', exact: true, component: AuthorizationPage },
+  // { path: '', exact: true, component: WelcomePage },
+];
 
 const findComponentForRoute = (path: any, routes: any) => {
   const matchingRoute = routes.find((route: any) =>
@@ -62,109 +211,6 @@ export const preloadRouteComponent = (to: string) => {
     component.preload();
   }
 };
-
-// code splitting to lazy load our pages
-const LoginPage = React.lazy(() =>
-  import(/* webpackChunkName: "login" */ '../pages/LoginPage'),
-);
-const RegistrationPage = React.lazy(() =>
-  import(/* webpackChunkName: "registration" */ '../pages/RegistrationPage'),
-);
-const DemoLoginPage = React.lazy(() =>
-  import(/* webpackChunkName: "demo-login" */ '../pages/DemoLoginPage'),
-);
-const HelpArticlePage = React.lazy(() =>
-  import(/* webpackChunkName: "help-article" */ '../pages/HelpArticlePage'),
-);
-const HelpPage = React.lazy(() =>
-  import(/* webpackChunkName: "help" */ '../pages/HelpPage'),
-);
-const ResetPasswordPage = React.lazy(() =>
-  import(/* webpackChunkName: "reset-password" */ '../pages/ResetPasswordPage'),
-);
-const ResetPasswordConfirmPage = React.lazy(() =>
-  import(
-    /* webpackChunkName: "reset-password-confirm" */ '../pages/ResetPasswordConfirmPage'
-  ),
-);
-const SetNewPasswordPage = React.lazy(() =>
-  import(
-    /* webpackChunkName: "set-new-password" */ '../pages/SetNewPasswordPage'
-  ),
-);
-const QuestradeOauthPage = React.lazy(() =>
-  import(
-    /* webpackChunkName: "questrade-oauth" */ '../pages/QuestradeOauthPage'
-  ),
-);
-const TradierOauthPage = React.lazy(() =>
-  import(/* webpackChunkName: "tradier-oauth" */ '../pages/TradierOauthPage'),
-);
-const AlpacaOauthPage = React.lazy(() =>
-  import(/* webpackChunkName: "alpaca-oauth" */ '../pages/AlpacaOauthPage'),
-);
-const InteractiveBrokersOauthPage = React.lazy(() =>
-  import(
-    /* webpackChunkName: "interactive-brokers-oauth" */ '../pages/InteractiveBrokersOauthPage'
-  ),
-);
-const TDAmeritradeOauthPage = React.lazy(() =>
-  import(
-    /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/TDAmeritradeOauthPage'
-  ),
-);
-const WealthicaConnectionPage = React.lazy(() =>
-  import(
-    /* webpackChunkName: "wealthica-connection-page" */ '../pages/WealthicaConnectionPage'
-  ),
-);
-const WealthicaConnectionUpdatePage = React.lazy(() =>
-  import(
-    /* webpackChunkName: "wealthica-update-connection-page" */ '../pages/WealthicaConnectionUpdatePage'
-  ),
-);
-const UpgradeOfferPage = React.lazy(() =>
-  import(/* webpackChunkName: "upgrade-offer" */ '../pages/UpgradeOfferPage'),
-);
-const LoginLoadingPage = React.lazy(() =>
-  import(/* webpackChunkName: "login-loading" */ '../pages/LoginLoadingPage'),
-);
-const DashboardPage = React.lazy(() =>
-  import(/* webpackChunkName: "dashboard" */ '../pages/DashboardPage'),
-);
-const GroupPage = React.lazy(() =>
-  import(/* webpackChunkName: "group" */ '../pages/GroupPage'),
-);
-const CouponPage = React.lazy(() =>
-  import(/* webpackChunkName: "coupon" */ '../pages/CouponPage'),
-);
-const SharePage = React.lazy(() =>
-  import(/* webpackChunkName: "share" */ '../pages/SharePage'),
-);
-const AuthorizationPage = React.lazy(() =>
-  import(/* webpackChunkName: "authorization" */ '../pages/AuthorizationPage'),
-);
-const WelcomePage = React.lazy(() =>
-  import(/* webpackChunkName: "welcome" */ '../pages/WelcomePage'),
-);
-const SettingsPage = React.lazy(() =>
-  import(/* webpackChunkName: "settings" */ '../pages/SettingsPage'),
-);
-const ReferralPage = React.lazy(() =>
-  import(/* webpackChunkName: "referrals" */ '../pages/ReferralPage'),
-);
-const UpgradePage = React.lazy(() =>
-  import(/* webpackChunkName: "upgrade" */ '../pages/UpgradePage'),
-);
-const PerformancePage = React.lazy(() =>
-  import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
-);
-
-// declare global {
-//   interface Window {
-//     Stripe: any;
-//   }
-// }
 
 // use the stripe test key unless we're in prod
 const stripePublicKey =

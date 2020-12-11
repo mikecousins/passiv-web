@@ -40,7 +40,7 @@ type Props = {
   hideArrow?: boolean;
   indent?: boolean;
   beta?: boolean;
-  onMouseEnter?: any; //TODO change the type
+  onMouseEnter?: any; //TODO: change the type
 };
 
 const SideBarLink = ({
@@ -123,6 +123,7 @@ const SideBarLink = ({
       <Link
         to={linkPath}
         className={name === 'Goals' ? 'tour-goals-feature' : ''}
+        onMouseEnter={onMouseEnter}
       >
         {indicator}
         {indent ? name : <strong>{name}</strong>}

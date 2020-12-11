@@ -133,6 +133,7 @@ const SideBar = () => {
             setupComplete={group.setupComplete}
             spinnerLoading={true}
             hideArrow={true}
+            onMouseEnter={() => preloadRouteComponent('/app/group')}
           />
           {group.hasAccounts &&
             group.accounts.map((account) => (
@@ -153,22 +154,39 @@ const SideBar = () => {
       <>
         <StyledAside>
           <Tour steps={STEP} name="goals_new_feature" />
-          <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
+          <SideBarLink
+            name="Dashboard"
+            linkPath="/app/dashboard"
+            onMouseEnter={() => preloadRouteComponent('/app/dashboard')}
+          />
           {groups && groups.length > 0 && (
             <GroupContainer>{groupList}</GroupContainer>
           )}
           {performancePageFeatureActive && hasQuestradeConnection && (
-            <SideBarLink name="Reporting" linkPath="/app/reporting" />
+            <SideBarLink
+              name="Reporting"
+              linkPath="/app/reporting"
+              onMouseEnter={() => preloadRouteComponent('/app/reporting')}
+            />
           )}
           {goalsPageFeatureActive && (
-            <SideBarLink name="Goals" linkPath="/app/goals" beta={true} />
+            <SideBarLink
+              name="Goals"
+              linkPath="/app/goals"
+              beta={true}
+              onMouseEnter={() => preloadRouteComponent('/app/goals')}
+            />
           )}
           <SideBarLink
             name="Refer a Friend"
             linkPath="/app/referrals"
             onMouseEnter={() => preloadRouteComponent('/app/referrals')}
           />
-          <SideBarLink name="Settings" linkPath="/app/settings" />
+          <SideBarLink
+            name="Settings"
+            linkPath="/app/settings"
+            onMouseEnter={() => preloadRouteComponent('/app/settings')}
+          />
         </StyledAside>
         <SideBarFooter />
       </>
@@ -178,9 +196,21 @@ const SideBar = () => {
   return (
     <>
       <StyledAside>
-        <SideBarLink name="Login" linkPath="/app/login" />
-        <SideBarLink name="Sign Up" linkPath="/app/register" />
-        <SideBarLinkAlt name="Reset Password" linkPath="/app/reset-password" />
+        <SideBarLink
+          name="Login"
+          linkPath="/app/login"
+          onMouseEnter={() => preloadRouteComponent('/app/login')}
+        />
+        <SideBarLink
+          name="Sign Up"
+          linkPath="/app/register"
+          onMouseEnter={() => preloadRouteComponent('/app/register')}
+        />
+        <SideBarLinkAlt
+          name="Reset Password"
+          linkPath="/app/reset-password"
+          onMouseEnter={() => preloadRouteComponent('/app/reset-password')}
+        />
       </StyledAside>
       <SideBarFooter />
     </>
