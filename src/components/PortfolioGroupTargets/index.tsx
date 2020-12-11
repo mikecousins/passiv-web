@@ -31,13 +31,19 @@ import { replace } from 'connected-react-router';
 const TOUR_STEPS = [
   {
     target: '.tour-import-holdings',
-    content:
-      'Import your holdings automatically from your brokerage account. All your holdings get imported and get assigned with an actual percentage automatically. Start by clicking the Import button.',
+    content: (
+      <div>
+        If you already own securities in your brokerage account, then the
+        easiest way to get started is to import your holdings as your target
+        portfolio allocation by clicking the <strong> Import button</strong>.
+        Once this is done, don’t forget to review and adjust your targets.
+      </div>
+    ),
   },
   {
     target: '.tour-build-portfolio',
     content:
-      'Build your portfolio manually by adding your securities one-by-one. Start by clicking the Build button.',
+      'If you don’t own any securities yet, you can build your target portfolio’s allocation from scratch by adding securities and assigning percentages to them.',
   },
 ];
 
@@ -129,6 +135,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     {
       id: 'MANUAL',
       name: 'Build your target portfolio manually',
+      tourClass: 'tour-build-portfolio',
       button: (
         <Button
           onClick={() => {
@@ -241,7 +248,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
           <H2 style={h2DarkStyle}>Target Portfolio</H2>
           {!model ? (
             <React.Fragment>
-              <Tour steps={TOUR_STEPS} />
+              <Tour steps={TOUR_STEPS} name="setup_portfolio_tour" />
               <P style={pDarkStyle}>
                 A target portfolio is how you tell Passiv what you want. You
                 will need to choose which securities you want to hold and how
