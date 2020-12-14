@@ -88,7 +88,10 @@ const MyModelPortfoliosPage = () => {
       <div style={{ marginTop: '50px' }}>
         {modelPortfolios.map((mdl) => {
           return (
-            <ShadowBox key={mdl.model_portfolio.id}>
+            <ShadowBox
+              key={mdl.model_portfolio.id}
+              style={{ lineHeight: '2rem' }}
+            >
               <Grid columns="4fr 2fr 1fr">
                 <ModelName>{mdl.model_portfolio.name}</ModelName>
                 {/* TODO: check if 'in use' and then show this  */}
