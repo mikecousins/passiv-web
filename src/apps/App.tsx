@@ -166,6 +166,7 @@ const GoalsPage = ReactLazyPreload(() =>
 //   }
 // }
 
+// list of all the routes that has any link associate with them in the app
 const routes = [
   { path: '/app/login', exact: true, component: LoginPage },
   { path: '/app/register', exact: true, component: RegistrationPage },
@@ -177,23 +178,6 @@ const routes = [
   { path: '/app/referrals', exact: true, component: ReferralPage },
   { path: '/app/reporting', exact: true, component: PerformancePage },
   { path: '/app/goals', exact: true, component: GoalsPage },
-  // { path: '', exact: true, component: UpgradePage },
-  // { path: '', exact: true, component: DemoLoginPage },
-  // { path: '', exact: true, component: HelpArticlePage },
-  // { path: '', exact: true, component: ResetPasswordConfirmPage },
-  // { path: '', exact: true, component: SetNewPasswordPage },
-  // { path: '', exact: true, component: QuestradeOauthPage },
-  // { path: '', exact: true, component: TradierOauthPage },
-  // { path: '', exact: true, component: AlpacaOauthPage },
-  // { path: '', exact: true, component: TDAmeritradeOauthPage },
-  // { path: '', exact: true, component: WealthicaConnectionPage },
-  // { path: '', exact: true, component: WealthicaConnectionUpdatePage },
-  // { path: '', exact: true, component: UpgradeOfferPage },
-  // { path: '', exact: true, component: LoginLoadingPage },
-  // { path: '', exact: true, component: CouponPage },
-  // { path: '', exact: true, component: SharePage },
-  // { path: '', exact: true, component: AuthorizationPage },
-  // { path: '', exact: true, component: WelcomePage },
 ];
 
 const findComponentForRoute = (path: any, routes: any) => {
