@@ -14,6 +14,17 @@ import SideBarFooter from './SideBarFooter';
 import styled from '@emotion/styled';
 import { preloadRouteComponent } from '../../apps/App';
 import Tour from '../Tour/Tour';
+import {
+  DASHBOARD_PATH,
+  GOALS_PATH,
+  GROUP_PATH,
+  LOGIN_PATH,
+  REFERRALS_PATH,
+  REGISTER_PATH,
+  REPORTING_PATH,
+  RESET_PASSWORD_PATH,
+  SETTINGS_PATH,
+} from '../../apps/Paths';
 
 const StyledAside = styled.aside`
   background-color: var(--brand-grey);
@@ -126,14 +137,16 @@ const SideBar = () => {
           <SideBarLink
             key={group.id}
             name={group.name}
-            linkPath={`/app/group/${group.id}`}
+            linkPath={`${GROUP_PATH}/${group.id}`}
             rebalance={!!group.rebalance}
             hasAccounts={group.hasAccounts}
             loading={group.loading}
             setupComplete={group.setupComplete}
             spinnerLoading={true}
             hideArrow={true}
-            onMouseEnter={() => preloadRouteComponent('/app/group')}
+            onMouseEnter={() =>
+              preloadRouteComponent(`${GROUP_PATH}/${group.id}`)
+            }
           />
           {group.hasAccounts &&
             group.accounts.map((account) => (
@@ -156,8 +169,8 @@ const SideBar = () => {
           <Tour steps={STEP} name="goals_new_feature" />
           <SideBarLink
             name="Dashboard"
-            linkPath="/app/dashboard"
-            onMouseEnter={() => preloadRouteComponent('/app/dashboard')}
+            linkPath={DASHBOARD_PATH}
+            onMouseEnter={() => preloadRouteComponent(DASHBOARD_PATH)}
           />
           {groups && groups.length > 0 && (
             <GroupContainer>{groupList}</GroupContainer>
@@ -165,27 +178,27 @@ const SideBar = () => {
           {performancePageFeatureActive && hasQuestradeConnection && (
             <SideBarLink
               name="Reporting"
-              linkPath="/app/reporting"
-              onMouseEnter={() => preloadRouteComponent('/app/reporting')}
+              linkPath={REPORTING_PATH}
+              onMouseEnter={() => preloadRouteComponent(REPORTING_PATH)}
             />
           )}
           {goalsPageFeatureActive && (
             <SideBarLink
               name="Goals"
-              linkPath="/app/goals"
+              linkPath={GOALS_PATH}
               beta={true}
-              onMouseEnter={() => preloadRouteComponent('/app/goals')}
+              onMouseEnter={() => preloadRouteComponent(GOALS_PATH)}
             />
           )}
           <SideBarLink
             name="Refer a Friend"
-            linkPath="/app/referrals"
-            onMouseEnter={() => preloadRouteComponent('/app/referrals')}
+            linkPath={REFERRALS_PATH}
+            onMouseEnter={() => preloadRouteComponent(REFERRALS_PATH)}
           />
           <SideBarLink
             name="Settings"
-            linkPath="/app/settings"
-            onMouseEnter={() => preloadRouteComponent('/app/settings')}
+            linkPath={SETTINGS_PATH}
+            onMouseEnter={() => preloadRouteComponent(SETTINGS_PATH)}
           />
         </StyledAside>
         <SideBarFooter />
@@ -198,18 +211,18 @@ const SideBar = () => {
       <StyledAside>
         <SideBarLink
           name="Login"
-          linkPath="/app/login"
-          onMouseEnter={() => preloadRouteComponent('/app/login')}
+          linkPath={LOGIN_PATH}
+          onMouseEnter={() => preloadRouteComponent(LOGIN_PATH)}
         />
         <SideBarLink
           name="Sign Up"
-          linkPath="/app/register"
-          onMouseEnter={() => preloadRouteComponent('/app/register')}
+          linkPath={REGISTER_PATH}
+          onMouseEnter={() => preloadRouteComponent(REGISTER_PATH)}
         />
         <SideBarLinkAlt
           name="Reset Password"
-          linkPath="/app/reset-password"
-          onMouseEnter={() => preloadRouteComponent('/app/reset-password')}
+          linkPath={RESET_PASSWORD_PATH}
+          onMouseEnter={() => preloadRouteComponent(RESET_PASSWORD_PATH)}
         />
       </StyledAside>
       <SideBarFooter />

@@ -21,6 +21,7 @@ import {
 import Number from '../Number';
 import PortfolioGroupTrades from '../PortfolioGroupTrades';
 import { preloadRouteComponent } from '../../apps/App';
+import { GROUP_PATH } from '../../apps/Paths';
 
 type Props = {
   group: any;
@@ -67,8 +68,10 @@ export const Group = ({ group }: Props) => {
     viewButton = (
       <ViewBtn>
         <Link
-          to={`/app/group/${group.id}`}
-          onMouseEnter={() => preloadRouteComponent(`/app/group/${group.id}`)}
+          to={`${GROUP_PATH}/${group.id}`}
+          onMouseEnter={() =>
+            preloadRouteComponent(`${GROUP_PATH}/${group.id}`)
+          }
         >
           View
           <FontAwesomeIcon icon={faAngleRight} />

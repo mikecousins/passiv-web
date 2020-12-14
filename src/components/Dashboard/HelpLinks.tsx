@@ -7,6 +7,7 @@ import ShadowBox from '../../styled/ShadowBox';
 import { H3, P } from '../../styled/GlobalElements';
 import { selectHasQuestradeConnection } from '../../selectors';
 import { preloadRouteComponent } from '../../apps/App';
+import { REFERRALS_PATH, REPORTING_PATH } from '../../apps/Paths';
 
 export const ShadowBoxLinks = styled(ShadowBox)`
   a {
@@ -45,8 +46,8 @@ export const HelpLinks = () => {
         {hasQuestradeConnection && (
           <ShadowBoxLinks>
             <Link
-              to={'/app/reporting'}
-              onMouseEnter={() => preloadRouteComponent('/app/reporting')}
+              to={REPORTING_PATH}
+              onMouseEnter={() => preloadRouteComponent(REPORTING_PATH)}
             >
               <H3>Reporting</H3>
               <P>Check out the graphs showing what your account is doing</P>
@@ -56,8 +57,8 @@ export const HelpLinks = () => {
 
         <ShadowBoxLinks>
           <Link
-            to={'/app/referrals'}
-            onMouseEnter={() => preloadRouteComponent('/app/referrals')}
+            to={REFERRALS_PATH}
+            onMouseEnter={() => preloadRouteComponent(REFERRALS_PATH)}
           >
             <H3>Invite Friends, Make Money</H3>
             <P>Earn cash when referrals upgrade to Passiv Elite.</P>

@@ -24,6 +24,18 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GoalDetailPage from '../pages/GoalDetailPage';
 import { selectGoalsPageFeature } from '../selectors/features';
+import {
+  LOGIN_PATH,
+  REGISTER_PATH,
+  HELP_PATH,
+  RESET_PASSWORD_PATH,
+  DASHBOARD_PATH,
+  GROUP_PATH,
+  SETTINGS_PATH,
+  REFERRALS_PATH,
+  REPORTING_PATH,
+  GOALS_PATH,
+} from './Paths';
 
 // preload pages
 const ReactLazyPreload = (importStatement: any) => {
@@ -168,16 +180,16 @@ const GoalsPage = ReactLazyPreload(() =>
 
 // list of all the routes that has any link associate with them in the app
 const routes = [
-  { path: '/app/login', exact: true, component: LoginPage },
-  { path: '/app/register', exact: true, component: RegistrationPage },
-  { path: '/app/help', exact: true, component: HelpPage },
-  { path: '/app/reset-password', exact: true, component: ResetPasswordPage },
-  { path: '/app/dashboard', exact: true, component: DashboardPage },
-  { path: '/app/group', exact: false, component: GroupPage },
-  { path: '/app/settings', exact: true, component: SettingsPage },
-  { path: '/app/referrals', exact: true, component: ReferralPage },
-  { path: '/app/reporting', exact: true, component: PerformancePage },
-  { path: '/app/goals', exact: true, component: GoalsPage },
+  { path: LOGIN_PATH, exact: true, component: LoginPage },
+  { path: REGISTER_PATH, exact: true, component: RegistrationPage },
+  { path: HELP_PATH, exact: true, component: HelpPage },
+  { path: RESET_PASSWORD_PATH, exact: true, component: ResetPasswordPage },
+  { path: DASHBOARD_PATH, exact: true, component: DashboardPage },
+  { path: GROUP_PATH, exact: false, component: GroupPage },
+  { path: SETTINGS_PATH, exact: true, component: SettingsPage },
+  { path: REFERRALS_PATH, exact: true, component: ReferralPage },
+  { path: REPORTING_PATH, exact: true, component: PerformancePage },
+  { path: GOALS_PATH, exact: true, component: GoalsPage },
 ];
 
 const findComponentForRoute = (path: any, routes: any) => {

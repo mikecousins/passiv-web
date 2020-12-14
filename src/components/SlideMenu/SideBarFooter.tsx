@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import RefreshButton from './../RefreshButton';
 import styled from '@emotion/styled';
 import { preloadRouteComponent } from '../../apps/App';
+import { HELP_PATH } from '../../apps/Paths';
 
 export const StyledFooter = styled.div`
   position: fixed;
@@ -46,8 +47,8 @@ export const SideBarFooter = () => (
   <StyledFooter>
     <Help>
       <Link
-        to="/app/help"
-        onMouseEnter={() => preloadRouteComponent('/app/help')}
+        to={HELP_PATH}
+        onMouseEnter={() => preloadRouteComponent(HELP_PATH)}
       >
         <FontAwesomeIcon icon={faQuestionCircle} /> Help
       </Link>
