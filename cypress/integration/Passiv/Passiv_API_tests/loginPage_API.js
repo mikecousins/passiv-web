@@ -32,11 +32,9 @@ describe('Login Test using XHR stubbing', function () {
 
         it('Login Does Work', () => {
 
-            cy.intercept('GET', '/api/v1', {
-            response:'"version":1,"timestamp":"2020-12-03T15:48:22.119592Z","online":true',
-            request: 'http://localhost:3000/app/login?next=/app/dashboard'
-
-            }).as('api')
+            cy.intercept('GET', '/api/v1', (res) => {
+            expect(res.body).to.include('"version":1,"timestamp":"2020-12-03T15:48:22.119592Z","online":true'
+            ).as('api')
             cy.intercept('POST', '/api/v1/auth/login', {
                 statusCode: 202,
                 response: {
@@ -66,5 +64,6 @@ describe('Login Test using XHR stubbing', function () {
         })
 
     })
+})
 })
 })

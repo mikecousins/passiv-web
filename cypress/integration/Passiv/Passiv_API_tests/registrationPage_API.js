@@ -8,7 +8,8 @@ describe('Create a new User', function () {
                 response:'"version":1,"timestamp":"2020-12-03T15:48:22.119592Z","online":true'
                 }).as('api')
 
-            cy.intercept('get', '/api/v1/auth/register', {
+            cy.intercept('get', '/api/v1/auth/register', 
+                req.reply({
                     statusCode: 606
                 }).as('register')
 
@@ -34,6 +35,8 @@ describe('Create a new User', function () {
             expect(request.method).to.eq('POST')
         })
     })
+
+})
 
 })
 })
