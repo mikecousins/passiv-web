@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { RebalanceAlert } from '../../styled/Rebalance';
 import { useSelector } from 'react-redux';
 import { selectPathname } from '../../selectors/router';
 import styled from '@emotion/styled';
+import PreLoadLink from '../PreLoadLink';
 
 const ColorBox = styled.div``;
 
@@ -118,14 +118,14 @@ const SideBarLink = ({
 
   const link = (
     <>
-      <Link
-        to={linkPath}
+      <PreLoadLink
+        path={linkPath}
         className={name === 'Goals' ? 'tour-goals-feature' : ''}
       >
         {indicator}
         {indent ? name : <strong>{name}</strong>}
         {beta && <BetaTag>BETA</BetaTag>}
-      </Link>
+      </PreLoadLink>
     </>
   );
 

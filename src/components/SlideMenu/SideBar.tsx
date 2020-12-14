@@ -13,6 +13,17 @@ import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
 import styled from '@emotion/styled';
 import Tour from '../Tour/Tour';
+import {
+  DASHBOARD_PATH,
+  GOALS_PATH,
+  GROUP_PATH,
+  LOGIN_PATH,
+  REFERRALS_PATH,
+  REGISTER_PATH,
+  REPORTING_PATH,
+  RESET_PASSWORD_PATH,
+  SETTINGS_PATH,
+} from '../../apps/Paths';
 
 const StyledAside = styled.aside`
   background-color: var(--brand-grey);
@@ -125,7 +136,7 @@ const SideBar = () => {
           <SideBarLink
             key={group.id}
             name={group.name}
-            linkPath={`/app/group/${group.id}`}
+            linkPath={`${GROUP_PATH}/${group.id}`}
             rebalance={!!group.rebalance}
             hasAccounts={group.hasAccounts}
             loading={group.loading}
@@ -138,7 +149,7 @@ const SideBar = () => {
               <SideBarLink
                 key={account.id}
                 name={account.name}
-                linkPath={`/app/group/${group.id}/account/${account.id}`}
+                linkPath={`${GROUP_PATH}/${group.id}/account/${account.id}`}
                 hideArrow={true}
                 indent={true}
               />
@@ -152,18 +163,18 @@ const SideBar = () => {
       <>
         <StyledAside>
           <Tour steps={STEP} name="goals_new_feature" />
-          <SideBarLink name="Dashboard" linkPath="/app/dashboard" />
+          <SideBarLink name="Dashboard" linkPath={DASHBOARD_PATH} />
           {groups && groups.length > 0 && (
             <GroupContainer>{groupList}</GroupContainer>
           )}
           {performancePageFeatureActive && hasQuestradeConnection && (
-            <SideBarLink name="Reporting" linkPath="/app/reporting" />
+            <SideBarLink name="Reporting" linkPath={REPORTING_PATH} />
           )}
           {goalsPageFeatureActive && (
-            <SideBarLink name="Goals" linkPath="/app/goals" beta={true} />
+            <SideBarLink name="Goals" linkPath={GOALS_PATH} beta={true} />
           )}
-          <SideBarLink name="Refer a Friend" linkPath="/app/referrals" />
-          <SideBarLink name="Settings" linkPath="/app/settings" />
+          <SideBarLink name="Refer a Friend" linkPath={REFERRALS_PATH} />
+          <SideBarLink name="Settings" linkPath={SETTINGS_PATH} />
         </StyledAside>
         <SideBarFooter />
       </>
@@ -173,9 +184,9 @@ const SideBar = () => {
   return (
     <>
       <StyledAside>
-        <SideBarLink name="Login" linkPath="/app/login" />
-        <SideBarLink name="Sign Up" linkPath="/app/register" />
-        <SideBarLinkAlt name="Reset Password" linkPath="/app/reset-password" />
+        <SideBarLink name="Login" linkPath={LOGIN_PATH} />
+        <SideBarLink name="Sign Up" linkPath={REGISTER_PATH} />
+        <SideBarLinkAlt name="Reset Password" linkPath={RESET_PASSWORD_PATH} />
       </StyledAside>
       <SideBarFooter />
     </>

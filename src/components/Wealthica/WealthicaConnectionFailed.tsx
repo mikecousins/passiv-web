@@ -3,11 +3,12 @@ import styled from '@emotion/styled';
 
 import { P, BorderContainer } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
-import { Link } from 'react-router-dom';
 import WealthicaConnectionCancelButton from './WealthicaConnectionCancelButton';
 
 import { faBug } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PreLoadLink from '../PreLoadLink';
+import { HELP_PATH } from '../../apps/Paths';
 
 type Props = {
   handleCancel: any;
@@ -33,7 +34,8 @@ const WealthicaConnectionFailed = ({ handleCancel, handleRetry }: Props) => {
           <P>
             We were unable to create a brokerage connection with the provided
             credentials. Please try again or{' '}
-            <Link to="/app/help">contact support</Link> if this persists.
+            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
+            persists.
           </P>
           <WealthicaConnectionCancelButton
             disabled={false}

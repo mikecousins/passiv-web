@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { loadGroupAndAccounts, loadIncentives } from '../../actions';
@@ -26,6 +25,8 @@ import ErrorMessage from './ErrorMessage';
 import { Button } from '../../styled/Button';
 import UpgradeIdea from '../UpgradeIdea';
 import { selectLimitOrdersFeature } from '../../selectors/features';
+import PreLoadLink from '../PreLoadLink';
+import { SETTINGS_PATH } from '../../apps/Paths';
 
 type Props = {
   groupId: string;
@@ -66,12 +67,12 @@ const RebalanceWidget = ({
     getData(
       `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/impact`,
     )
-      .then(response => {
+      .then((response) => {
         setValidatingOrders(false);
         setOrderSummary(response.data);
         setError(null);
       })
-      .catch(error => {
+      .catch((error) => {
         setValidatingOrders(false);
         setOrderSummary(null);
         setError(error.response.data);
@@ -85,13 +86,13 @@ const RebalanceWidget = ({
       `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/placeOrders`,
       {},
     )
-      .then(response => {
+      .then((response) => {
         setPlacingOrders(false);
         setOrderResults(response.data);
         setError(null);
         reloadData();
       })
-      .catch(error => {
+      .catch((error) => {
         setPlacingOrders(false);
         setOrderResults(null);
         setError(error.response.data);
@@ -195,8 +196,8 @@ const RebalanceWidget = ({
               </div>
               <P>
                 You can change the price limit threshold or switch over to
-                market orders on your <Link to="/app/settings">settings</Link>{' '}
-                page.
+                market orders on your{' '}
+                <PreLoadLink path={SETTINGS_PATH}>settings</PreLoadLink> page.
               </P>
             </React.Fragment>
           ) : (
@@ -223,7 +224,7 @@ const RebalanceWidget = ({
               {showLimitOrdersFeature && (
                 <P>
                   You can switch over to limit orders on your{' '}
-                  <Link to="/app/settings">settings</Link> page.
+                  <PreLoadLink path={SETTINGS_PATH}>settings</PreLoadLink> page.
                 </P>
               )}
             </React.Fragment>

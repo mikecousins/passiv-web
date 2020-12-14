@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { P } from '../styled/GlobalElements';
+import PreLoadLink from './PreLoadLink';
+import { LOGIN_PATH, REGISTER_PATH, RESET_PASSWORD_PATH } from '../apps/Paths';
 
 const LoginLinksStyle = styled.div`
   margin: 15px 0;
@@ -22,7 +23,7 @@ const LoginLinks = ({ page }: Props) => {
     <LoginLinksStyle key="reset">
       <P>
         Forgot your password?
-        <Link to="/app/reset-password">Reset it!</Link>
+        <PreLoadLink path={RESET_PASSWORD_PATH}>Reset it!</PreLoadLink>
       </P>
     </LoginLinksStyle>
   );
@@ -31,7 +32,7 @@ const LoginLinks = ({ page }: Props) => {
     <LoginLinksStyle key="register">
       <P>
         Don't have an account?
-        <Link to="/app/register">Sign up!</Link>
+        <PreLoadLink path={REGISTER_PATH}>Sign up!</PreLoadLink>
       </P>
     </LoginLinksStyle>
   );
@@ -40,7 +41,7 @@ const LoginLinks = ({ page }: Props) => {
     <LoginLinksStyle key="login">
       <P>
         Already have an account?
-        <Link to="/app/login">Login!</Link>
+        <PreLoadLink path={LOGIN_PATH}>Login!</PreLoadLink>
       </P>
     </LoginLinksStyle>
   );
@@ -49,7 +50,7 @@ const LoginLinks = ({ page }: Props) => {
     <LoginLinksStyle key="login-remembered">
       <P>
         Remembered your password?
-        <Link to="/app/login">Login!</Link>
+        <PreLoadLink path={LOGIN_PATH}>Login!</PreLoadLink>
       </P>
     </LoginLinksStyle>
   );

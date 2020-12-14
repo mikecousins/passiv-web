@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../layouts/Layout';
-import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
+import {
+  Route,
+  Redirect,
+  Switch,
+  useLocation,
+  matchPath,
+} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { StripeProvider } from 'react-stripe-elements';
@@ -16,105 +22,154 @@ import { selectQueryTokens } from '../selectors/router';
 import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import GoalsPage from '../pages/GoalsPage';
 import GoalDetailPage from '../pages/GoalDetailPage';
 import { selectGoalsPageFeature } from '../selectors/features';
+import {
+  LOGIN_PATH,
+  REGISTER_PATH,
+  HELP_PATH,
+  RESET_PASSWORD_PATH,
+  DASHBOARD_PATH,
+  GROUP_PATH,
+  SETTINGS_PATH,
+  REFERRALS_PATH,
+  REPORTING_PATH,
+  GOALS_PATH,
+} from './Paths';
 
-// code splitting to lazy load our pages
-const LoginPage = React.lazy(() =>
+// preload pages
+const ReactLazyPreload = (importStatement: any) => {
+  const Component = React.lazy(importStatement);
+  //@ts-ignore
+  Component.preload = importStatement;
+  return Component;
+};
+
+// code splitting to load our pages
+const LoginPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "login" */ '../pages/LoginPage'),
 );
-const RegistrationPage = React.lazy(() =>
+
+const RegistrationPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "registration" */ '../pages/RegistrationPage'),
 );
-const DemoLoginPage = React.lazy(() =>
+
+const DemoLoginPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "demo-login" */ '../pages/DemoLoginPage'),
 );
-const HelpArticlePage = React.lazy(() =>
+
+const HelpArticlePage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "help-article" */ '../pages/HelpArticlePage'),
 );
-const HelpPage = React.lazy(() =>
+
+const HelpPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "help" */ '../pages/HelpPage'),
 );
-const ResetPasswordPage = React.lazy(() =>
+
+const ResetPasswordPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "reset-password" */ '../pages/ResetPasswordPage'),
 );
-const ResetPasswordConfirmPage = React.lazy(() =>
+
+const ResetPasswordConfirmPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "reset-password-confirm" */ '../pages/ResetPasswordConfirmPage'
   ),
 );
-const SetNewPasswordPage = React.lazy(() =>
+
+const SetNewPasswordPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "set-new-password" */ '../pages/SetNewPasswordPage'
   ),
 );
-const QuestradeOauthPage = React.lazy(() =>
+
+const QuestradeOauthPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "questrade-oauth" */ '../pages/QuestradeOauthPage'
   ),
 );
-const TradierOauthPage = React.lazy(() =>
+
+const TradierOauthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "tradier-oauth" */ '../pages/TradierOauthPage'),
 );
-const AlpacaOauthPage = React.lazy(() =>
+
+const AlpacaOauthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "alpaca-oauth" */ '../pages/AlpacaOauthPage'),
 );
-const InteractiveBrokersOauthPage = React.lazy(() =>
+
+const InteractiveBrokersOauthPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "interactive-brokers-oauth" */ '../pages/InteractiveBrokersOauthPage'
   ),
 );
-const TDAmeritradeOauthPage = React.lazy(() =>
+
+const TDAmeritradeOauthPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/TDAmeritradeOauthPage'
   ),
 );
-const WealthicaConnectionPage = React.lazy(() =>
+
+const WealthicaConnectionPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "wealthica-connection-page" */ '../pages/WealthicaConnectionPage'
   ),
 );
-const WealthicaConnectionUpdatePage = React.lazy(() =>
+
+const WealthicaConnectionUpdatePage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "wealthica-update-connection-page" */ '../pages/WealthicaConnectionUpdatePage'
   ),
 );
-const UpgradeOfferPage = React.lazy(() =>
+
+const UpgradeOfferPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "upgrade-offer" */ '../pages/UpgradeOfferPage'),
 );
-const LoginLoadingPage = React.lazy(() =>
+
+const LoginLoadingPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "login-loading" */ '../pages/LoginLoadingPage'),
 );
-const DashboardPage = React.lazy(() =>
+
+const DashboardPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "dashboard" */ '../pages/DashboardPage'),
 );
-const GroupPage = React.lazy(() =>
+
+const GroupPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "group" */ '../pages/GroupPage'),
 );
-const CouponPage = React.lazy(() =>
+
+const CouponPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "coupon" */ '../pages/CouponPage'),
 );
-const SharePage = React.lazy(() =>
+
+const SharePage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "share" */ '../pages/SharePage'),
 );
-const AuthorizationPage = React.lazy(() =>
+
+const AuthorizationPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "authorization" */ '../pages/AuthorizationPage'),
 );
-const WelcomePage = React.lazy(() =>
+
+const WelcomePage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "welcome" */ '../pages/WelcomePage'),
 );
-const SettingsPage = React.lazy(() =>
+
+const SettingsPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "settings" */ '../pages/SettingsPage'),
 );
-const ReferralPage = React.lazy(() =>
+
+const ReferralPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "referrals" */ '../pages/ReferralPage'),
 );
-const UpgradePage = React.lazy(() =>
+
+const UpgradePage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "upgrade" */ '../pages/UpgradePage'),
 );
-const PerformancePage = React.lazy(() =>
+
+const PerformancePage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
+);
+
+const GoalsPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "goals" */ '../pages/GoalsPage'),
 );
 
 // declare global {
@@ -122,6 +177,36 @@ const PerformancePage = React.lazy(() =>
 //     Stripe: any;
 //   }
 // }
+
+// list of all the routes that has any link associate with them in the app
+const routes = [
+  { path: LOGIN_PATH, exact: true, component: LoginPage },
+  { path: REGISTER_PATH, exact: true, component: RegistrationPage },
+  { path: HELP_PATH, exact: true, component: HelpPage },
+  { path: RESET_PASSWORD_PATH, exact: true, component: ResetPasswordPage },
+  { path: DASHBOARD_PATH, exact: true, component: DashboardPage },
+  { path: GROUP_PATH, exact: false, component: GroupPage },
+  { path: SETTINGS_PATH, exact: true, component: SettingsPage },
+  { path: REFERRALS_PATH, exact: true, component: ReferralPage },
+  { path: REPORTING_PATH, exact: true, component: PerformancePage },
+  { path: GOALS_PATH, exact: true, component: GoalsPage },
+];
+
+const findComponentForRoute = (path: any, routes: any) => {
+  const matchingRoute = routes.find((route: any) =>
+    matchPath(path, {
+      path: route.path,
+      exact: route.exact,
+    }),
+  );
+  return matchingRoute ? matchingRoute.component : null;
+};
+export const preloadRouteComponent = (to: string) => {
+  const component = findComponentForRoute(to, routes);
+  if (component && component.preload) {
+    component.preload();
+  }
+};
 
 // use the stripe test key unless we're in prod
 const stripePublicKey =
