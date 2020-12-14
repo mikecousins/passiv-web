@@ -12,7 +12,6 @@ import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
 import styled from '@emotion/styled';
-import { preloadRouteComponent } from '../../apps/App';
 import Tour from '../Tour/Tour';
 import {
   DASHBOARD_PATH,
@@ -144,16 +143,13 @@ const SideBar = () => {
             setupComplete={group.setupComplete}
             spinnerLoading={true}
             hideArrow={true}
-            onMouseEnter={() =>
-              preloadRouteComponent(`${GROUP_PATH}/${group.id}`)
-            }
           />
           {group.hasAccounts &&
             group.accounts.map((account) => (
               <SideBarLink
                 key={account.id}
                 name={account.name}
-                linkPath={`/app/group/${group.id}/account/${account.id}`}
+                linkPath={`${GROUP_PATH}/${group.id}/account/${account.id}`}
                 hideArrow={true}
                 indent={true}
               />
@@ -167,39 +163,18 @@ const SideBar = () => {
       <>
         <StyledAside>
           <Tour steps={STEP} name="goals_new_feature" />
-          <SideBarLink
-            name="Dashboard"
-            linkPath={DASHBOARD_PATH}
-            onMouseEnter={() => preloadRouteComponent(DASHBOARD_PATH)}
-          />
+          <SideBarLink name="Dashboard" linkPath={DASHBOARD_PATH} />
           {groups && groups.length > 0 && (
             <GroupContainer>{groupList}</GroupContainer>
           )}
           {performancePageFeatureActive && hasQuestradeConnection && (
-            <SideBarLink
-              name="Reporting"
-              linkPath={REPORTING_PATH}
-              onMouseEnter={() => preloadRouteComponent(REPORTING_PATH)}
-            />
+            <SideBarLink name="Reporting" linkPath={REPORTING_PATH} />
           )}
           {goalsPageFeatureActive && (
-            <SideBarLink
-              name="Goals"
-              linkPath={GOALS_PATH}
-              beta={true}
-              onMouseEnter={() => preloadRouteComponent(GOALS_PATH)}
-            />
+            <SideBarLink name="Goals" linkPath={GOALS_PATH} beta={true} />
           )}
-          <SideBarLink
-            name="Refer a Friend"
-            linkPath={REFERRALS_PATH}
-            onMouseEnter={() => preloadRouteComponent(REFERRALS_PATH)}
-          />
-          <SideBarLink
-            name="Settings"
-            linkPath={SETTINGS_PATH}
-            onMouseEnter={() => preloadRouteComponent(SETTINGS_PATH)}
-          />
+          <SideBarLink name="Refer a Friend" linkPath={REFERRALS_PATH} />
+          <SideBarLink name="Settings" linkPath={SETTINGS_PATH} />
         </StyledAside>
         <SideBarFooter />
       </>
@@ -209,21 +184,9 @@ const SideBar = () => {
   return (
     <>
       <StyledAside>
-        <SideBarLink
-          name="Login"
-          linkPath={LOGIN_PATH}
-          onMouseEnter={() => preloadRouteComponent(LOGIN_PATH)}
-        />
-        <SideBarLink
-          name="Sign Up"
-          linkPath={REGISTER_PATH}
-          onMouseEnter={() => preloadRouteComponent(REGISTER_PATH)}
-        />
-        <SideBarLinkAlt
-          name="Reset Password"
-          linkPath={RESET_PASSWORD_PATH}
-          onMouseEnter={() => preloadRouteComponent(RESET_PASSWORD_PATH)}
-        />
+        <SideBarLink name="Login" linkPath={LOGIN_PATH} />
+        <SideBarLink name="Sign Up" linkPath={REGISTER_PATH} />
+        <SideBarLinkAlt name="Reset Password" linkPath={RESET_PASSWORD_PATH} />
       </StyledAside>
       <SideBarFooter />
     </>

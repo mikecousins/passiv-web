@@ -20,8 +20,8 @@ import {
 } from '../../styled/Group';
 import Number from '../Number';
 import PortfolioGroupTrades from '../PortfolioGroupTrades';
-import { preloadRouteComponent } from '../../apps/App';
 import { GROUP_PATH } from '../../apps/Paths';
+import PreLoadLink from '../PreLoadLink';
 
 type Props = {
   group: any;
@@ -67,15 +67,10 @@ export const Group = ({ group }: Props) => {
   if (group.setupComplete === undefined || group.setupComplete === true) {
     viewButton = (
       <ViewBtn>
-        <Link
-          to={`${GROUP_PATH}/${group.id}`}
-          onMouseEnter={() =>
-            preloadRouteComponent(`${GROUP_PATH}/${group.id}`)
-          }
-        >
+        <PreLoadLink path={`${GROUP_PATH}/${group.id}`}>
           View
           <FontAwesomeIcon icon={faAngleRight} />
-        </Link>
+        </PreLoadLink>
       </ViewBtn>
     );
   } else if (!group.hasAccounts) {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { postData } from '../api';
 import { loadSubscription } from '../actions';
@@ -16,6 +15,8 @@ import { Step } from '../styled/SignupSteps';
 import { Error } from '../types/groupInfo';
 import { Button } from '../styled/Button';
 import { push } from 'connected-react-router';
+import PreLoadLink from '../components/PreLoadLink';
+import { HELP_PATH } from '../apps/Paths';
 
 const ModifiedShadowBox = styled(ShadowBox)`
   margin-bottom: 10px;
@@ -93,7 +94,7 @@ const UpgradeOfferPage = () => {
           setSuccess(true);
         }, 2000);
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(loadSubscription());
         setTimeout(() => {
           setLoading(false);
@@ -191,7 +192,8 @@ const UpgradeOfferPage = () => {
         errorMessage = (
           <P>
             We hit a problem while trying to upgrade your account. Please try
-            again later or <Link to="/app/help">contact support</Link> if this
+            again later or{' '}
+            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
             persists.
           </P>
         );

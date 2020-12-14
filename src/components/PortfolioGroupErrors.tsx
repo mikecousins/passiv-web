@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { ErrorContainer, Symbol } from '../styled/Group';
 import { H3, P, Table, A } from '../styled/GlobalElements';
 import { Error } from '../types/groupInfo';
+import PreLoadLink from './PreLoadLink';
+import { HELP_PATH } from '../apps/Paths';
 
 const Ticker = styled.div`
   padding-left: 20px;
@@ -36,7 +37,8 @@ const PortfolioGroupErrors = ({ error }: Props) => {
           <P>
             We encountered an unexpected error while accessing your account
             information. Please try again later or{' '}
-            <Link to="/app/help">contact support</Link> if this persists.
+            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
+            persists.
           </P>
         );
         break;
@@ -66,8 +68,8 @@ const PortfolioGroupErrors = ({ error }: Props) => {
               security itself such as a delisting or other corporate action. You
               can always remove the security from your target portfolio to get
               past this error, or you can{' '}
-              <Link to="/app/help">contact support</Link> if you think this is a
-              mistake.
+              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if you
+              think this is a mistake.
             </P>
           </React.Fragment>
         );
@@ -82,7 +84,8 @@ const PortfolioGroupErrors = ({ error }: Props) => {
             <P>
               This is likely a temporary issue due to technical issues at the
               brokerage. Please try again later or{' '}
-              <Link to="/app/help">contact support</Link> if this persists.
+              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if
+              this persists.
             </P>
           </React.Fragment>
         );
@@ -93,7 +96,8 @@ const PortfolioGroupErrors = ({ error }: Props) => {
             <P>
               Your brokerage's API is currently undergoing maintenance and we
               cannot pull your account information. Please try again later or{' '}
-              <Link to="/app/help">contact support</Link> if this persists.
+              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if
+              this persists.
             </P>
           </React.Fragment>
         );
@@ -112,7 +116,7 @@ const PortfolioGroupErrors = ({ error }: Props) => {
                 reconnect your brokerage account
               </A>
               . Alternatively, you can always{' '}
-              <Link to="/app/help">contact support</Link>.
+              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink>.
             </P>
           </React.Fragment>
         );
@@ -122,7 +126,8 @@ const PortfolioGroupErrors = ({ error }: Props) => {
           <P>
             We encountered an unexpected error while accessing your account
             information. Please try again later or{' '}
-            <Link to="/app/help">contact support</Link> if this persists.
+            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
+            persists.
           </P>
         );
         break;
@@ -142,7 +147,7 @@ const PortfolioGroupErrors = ({ error }: Props) => {
         <P>
           If you believe this message is in error (for example, you don't
           actually have an account with Interactive Brokers Canada), please{' '}
-          <Link to="/app/help">contact support</Link>.
+          <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink>.
         </P>
       </React.Fragment>
     );

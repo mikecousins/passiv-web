@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
 import { loadSubscription } from '../actions';
 import { patchData } from '../api';
 import Card from '../styled/Card';
 import { H2, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import PreLoadLink from './PreLoadLink';
+import { HELP_PATH } from '../apps/Paths';
 
 type Props = {
   loading: boolean;
@@ -58,7 +59,8 @@ const UpdatePaymentCheckoutForm = ({
             <H2>Card update could not be processed</H2>
             <P>
               Check that you have entered your payment information correctly or{' '}
-              <Link to="/app/help">contact support</Link> if that doesn't help.
+              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if
+              that doesn't help.
             </P>
           </div>
         );
@@ -69,7 +71,8 @@ const UpdatePaymentCheckoutForm = ({
             <H2>Card update could not be processed</H2>
             <P>
               Oops, you've encountered a bug! Please try again later or{' '}
-              <Link to="/app/help">contact support</Link> if this persists.
+              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if
+              this persists.
             </P>
           </div>
         );
@@ -80,7 +83,8 @@ const UpdatePaymentCheckoutForm = ({
             <H2>Card update could not be processed</H2>
             <P>
               Oops, you've encountered a bug! Please try again later or{' '}
-              <Link to="/app/help">contact support</Link> if this persists.
+              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if
+              this persists.
             </P>
           </div>
         );

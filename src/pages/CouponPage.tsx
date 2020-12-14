@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { putData } from '../api';
 import { loadSubscription } from '../actions';
@@ -10,6 +10,8 @@ import ShadowBox from '../styled/ShadowBox';
 import { H1, P } from '../styled/GlobalElements';
 import { Step } from '../styled/SignupSteps';
 import { Error } from '../types/groupInfo';
+import PreLoadLink from '../components/PreLoadLink';
+import { HELP_PATH } from '../apps/Paths';
 
 const BoldCode = styled.span`
   font-weight: 600;
@@ -37,7 +39,7 @@ const CouponPage = () => {
         setSuccess(true);
         dispatch(loadSubscription());
       })
-      .catch(error => {
+      .catch((error) => {
         setLoading(false);
         setError(error.response.data);
         dispatch(loadSubscription());
@@ -60,8 +62,8 @@ const CouponPage = () => {
           <P>
             We encountered an unexpected error while attempting to apply the
             coupon <BoldCode>{code}</BoldCode> to your account. Please try again
-            later or <Link to="/app/help">contact support</Link> if this
-            persists.
+            later or <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink>{' '}
+            if this persists.
           </P>
         );
         break;

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -15,6 +14,8 @@ import ConnectionUpdate from '../ConnectionUpdate';
 import { loadGroupAndAccounts } from '../../actions';
 import { selectDashboardGroups } from '../../selectors/groups';
 import { push } from 'connected-react-router';
+import PreLoadLink from '../PreLoadLink';
+import { HELP_PATH, SETTINGS_PATH } from '../../apps/Paths';
 
 type Props = {
   error: any;
@@ -31,11 +32,11 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
   };
 
   const getReadBrokerageAuthorization = () => {
-    let group = groups.find(g => g.id === groupId);
+    let group = groups.find((g) => g.id === groupId);
     if (!group || !group.brokerage_authorizations) {
       return;
     }
-    return group.brokerage_authorizations.find(a => a.type === 'read');
+    return group.brokerage_authorizations.find((a) => a.type === 'read');
   };
   switch (error.code) {
     case '1014':
@@ -89,8 +90,9 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <P>
             One-click Trades are only available to Elite subscribers. You can
             upgrade your account to use this feature.{' '}
-            <Link to="/app/help">Contact support</Link> if you're already a paid
-            subscriber and you're still receiving this message.
+            <PreLoadLink path={HELP_PATH}>Contact support</PreLoadLink> if
+            you're already a paid subscriber and you're still receiving this
+            message.
           </P>
           <Button onClick={() => dispatch(push('/app/settings'))}>
             Upgrade
@@ -104,7 +106,8 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <P>
             Our records show that this order has already been placed, so Passiv
             will not attempt to place it again. Please refresh the orders or{' '}
-            <Link to="/app/help">contact support</Link> if this persists.
+            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
+            persists.
           </P>
           <Button onClick={reloadGroup}>Refresh</Button>
         </OrderContainer>
@@ -120,8 +123,9 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           </P>
           <P>
             Consider using limit orders by enabling them on your{' '}
-            <Link to="/app/settings">settings</Link> page. Alternatively, you
-            can always place orders manually on your brokerage.
+            <PreLoadLink path={SETTINGS_PATH}>settings</PreLoadLink> page.
+            Alternatively, you can always place orders manually on your
+            brokerage.
           </P>
           <Button onClick={closeWidget}>Okay</Button>
         </OrderContainer>
@@ -153,7 +157,8 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <P>
             You can fix this by logging into your brokerage account and closing
             any open orders that you may have. If that's not the case, please{' '}
-            <Link to="/app/help">contact support</Link> and let us know!
+            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> and let
+            us know!
           </P>
           <Button onClick={closeWidget}>Okay</Button>
         </OrderContainer>
@@ -166,7 +171,8 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <P>
             You can fix this by logging into your brokerage account and closing
             any open orders that you may have. If that's not the case, please{' '}
-            <Link to="/app/help">contact support</Link> and let us know!
+            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> and let
+            us know!
           </P>
           <Button onClick={closeWidget}>Okay</Button>
         </OrderContainer>
@@ -177,7 +183,8 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <H2>Order cannot be Processed</H2>
           <P>
             Oops, you've encountered a bug! Please try again later or{' '}
-            <Link to="/app/help">contact support</Link> if this persists.
+            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
+            persists.
           </P>
           <ConfirmContainer>
             <Button onClick={closeWidget}>Okay</Button>
@@ -190,7 +197,8 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <H2>Order cannot be Processed</H2>
           <P>
             Oops, you've encountered a bug! Please try again later or{' '}
-            <Link to="/app/help">contact support</Link> if this persists.
+            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
+            persists.
           </P>
         </OrderContainer>
       );

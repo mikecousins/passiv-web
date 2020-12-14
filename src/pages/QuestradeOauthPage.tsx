@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { push, replace } from 'connected-react-router';
@@ -18,6 +17,8 @@ import { Error } from '../types/groupInfo';
 import styled from '@emotion/styled';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
+import PreLoadLink from '../components/PreLoadLink';
+import { HELP_PATH } from '../apps/Paths';
 
 const BulletULPadded = styled(BulletUL)`
   padding-left: 20px;
@@ -167,7 +168,8 @@ const QuestradeOauthPage = () => {
             <P>
               We encountered an unexpected error while attempting to establish a
               connection. Please try again later or{' '}
-              <Link to="/app/help">contact support</Link> if this persists.
+              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if
+              this persists.
             </P>
             <P>
               Note that in order for a connection to be established, you must
