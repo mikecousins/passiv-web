@@ -49,12 +49,20 @@ export const PerformanceTotalValueChart = () => {
       badTickers?.join(', ');
   }
 
-  let showZoomToggle = true;
-  if (totalEquityData !== undefined && totalEquityData !== null) {
-    showZoomToggle =
-      totalEquityData?.sort(
-        (a, b) => Date.parse(a.date) - Date.parse(b.date),
-      )[0].value !== 0;
+  let showZoomToggle = false;
+  let minValue = 1;
+  totalEquityData?.forEach((data) => {
+    if (data.value < minValue) {
+      minValue = data.value;
+    }
+  });
+  contributionCumulativeData?.forEach((data) => {
+    if (data.value < minValue) {
+      minValue = data.value;
+    }
+  });
+  if (minValue !== 0) {
+    showZoomToggle = true;
   }
 
   const [chartStartsAt0, setChartMin] = useState(true);
