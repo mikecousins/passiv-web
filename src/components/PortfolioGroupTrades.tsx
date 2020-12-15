@@ -24,25 +24,11 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { ContextualMessageWrapper } from './ContextualMessageWrapper';
 import styled from '@emotion/styled';
 import Tour from './Tour/Tour';
-
-const TOUR_STEPS = [
-  {
-    target: '.tour-trades',
-    content: (
-      <div>
-        Passiv displays the trades needed to maximize your accuracy based on
-        your targets, current holdings, your available cash, and your settings.
-        Review your recommended trades by clicking Preview Orders and click
-        Confirm to rebalance your portfolio in{' '}
-        <a href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/">
-          one-click
-        </a>
-        .
-      </div>
-    ),
-    placement: 'right',
-  },
-];
+import { Link } from 'react-router-dom';
+import {
+  selectShowQuestradeOffer,
+  selectSubscription,
+} from '../selectors/subscription';
 
 type Props = {
   trades: any;
@@ -65,6 +51,19 @@ const AccuracyBullets = styled(BulletUL)`
   padding-top: 10px;
 `;
 
+const EliteFeatureTile = styled(H2)`
+  text-align: center;
+`;
+const EliteUpgradeBtn = styled(Link)`
+  margin-top: 50px;
+  border-radius: 0.5rem;
+  background-color: var(--brand-green);
+  padding: 10px;
+  color: white;
+  font-size: 15px;
+  font-weight: 900;
+  text-decoration: none;
+`;
 export const PortfolioGroupTrades = ({
   trades,
   groupId,
@@ -73,6 +72,8 @@ export const PortfolioGroupTrades = ({
 }: Props) => {
   const accounts = useSelector(selectAccounts);
   const settings = useSelector(selectCurrentGroupSettings);
+  const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
+  const subscription = useSelector(selectSubscription);
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
   const [tradesCache, setTradesCache] = useState(null);
 
@@ -91,6 +92,49 @@ export const PortfolioGroupTrades = ({
       setTradesCache(trades);
     }
   }, [tradesSubmitted, trades]);
+
+  const TOUR_STEPS = [
+    {
+      target: '.tour-trades',
+      content:
+        ' Passiv displays the trades needed to maximize your accuracy based on your targets, current holdings, your available cash, and your settings.',
+      placement: 'right',
+    },
+    {
+      target: '.tour-one-click-trade',
+      title: (
+        <>
+          <span style={{ display: 'none' }}>.</span>
+          <EliteFeatureTile>Elite Feature</EliteFeatureTile>
+        </>
+      ),
+      content: (
+        <>
+          <div>
+            Review your recommended trades by clicking Preview Orders and click
+            Confirm to rebalance your portfolio in{' '}
+            <a href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/">
+              one-click
+            </a>
+            .
+          </div>
+          <br />
+          {!showQuestradeOffer ? (
+            <EliteUpgradeBtn to="/app/questrade-offer">
+              Upgrade to Elite
+            </EliteUpgradeBtn>
+          ) : (
+            subscription?.type === 'free' && (
+              <EliteUpgradeBtn to="/app/settings">
+                Upgrade to Elite
+              </EliteUpgradeBtn>
+            )
+          )}
+        </>
+      ),
+      placement: 'right',
+    },
+  ];
 
   let buysListRender = null;
   let sellsListRender = null;

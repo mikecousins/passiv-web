@@ -66,12 +66,12 @@ const RebalanceWidget = ({
     getData(
       `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/impact`,
     )
-      .then(response => {
+      .then((response) => {
         setValidatingOrders(false);
         setOrderSummary(response.data);
         setError(null);
       })
-      .catch(error => {
+      .catch((error) => {
         setValidatingOrders(false);
         setOrderSummary(null);
         setError(error.response.data);
@@ -85,13 +85,13 @@ const RebalanceWidget = ({
       `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/placeOrders`,
       {},
     )
-      .then(response => {
+      .then((response) => {
         setPlacingOrders(false);
         setOrderResults(response.data);
         setError(null);
         reloadData();
       })
-      .catch(error => {
+      .catch((error) => {
         setPlacingOrders(false);
         setOrderResults(null);
         setError(error.response.data);
@@ -124,7 +124,9 @@ const RebalanceWidget = ({
 
   let orderValidation = (
     <div>
-      <Button onClick={validateOrders}>Preview Orders</Button>
+      <Button onClick={validateOrders} className="tour-one-click-trade">
+        Preview Orders
+      </Button>
     </div>
   );
 
