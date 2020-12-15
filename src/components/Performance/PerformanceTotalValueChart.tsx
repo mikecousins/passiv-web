@@ -49,7 +49,6 @@ export const PerformanceTotalValueChart = () => {
       badTickers?.join(', ');
   }
 
-  let showZoomToggle = false;
   let minValue = 1;
   totalEquityData?.forEach((data) => {
     if (data.value < minValue) {
@@ -61,9 +60,8 @@ export const PerformanceTotalValueChart = () => {
       minValue = data.value;
     }
   });
-  if (minValue !== 0) {
-    showZoomToggle = true;
-  }
+
+  const showZoomToggle = minValue !== 0;
 
   const [chartStartsAt0, setChartMin] = useState(true);
   let chartMin: number | undefined = 0;
