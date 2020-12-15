@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import JoyRide from 'react-joyride';
 import { postData } from '../../api';
 import { selectShowInAppTour } from '../../selectors/features';
-import { selectContextualMessages } from '../../selectors';
+import { selectContextualMessages, selectTakeTour } from '../../selectors';
 import { loadSettings } from '../../actions';
 import { toast } from 'react-toastify';
 
@@ -16,12 +16,15 @@ const Tour = ({ steps, name }: Props) => {
   const dispatch = useDispatch();
   const showInAppTour = useSelector(selectShowInAppTour);
   const messages = useSelector(selectContextualMessages);
+  const showTour = useSelector(selectTakeTour);
   const [showMessage, setShowMessage] = useState(false);
+
+  const goalsNewFeature = name === 'goals_new_feature';
 
   const handleJoyrideCallback = (data: any) => {
     if (
+      (goalsNewFeature && data.action === 'close') ||
       data.action === 'skip' ||
-      // (data.action === 'close' && data.size === 1) ||
       (data.action === 'next' && data.status === 'finished')
     ) {
       postData(`/api/v1/contextualMessages`, {
@@ -49,22 +52,25 @@ const Tour = ({ steps, name }: Props) => {
 
   return (
     <>
-      {showMessage && showInAppTour && (
+      {/* show tour if: user have access to this feature, the message hasn't been
+      acknowledged, and the tour is not off OR show the goals feature*/}
+      {((showInAppTour && showTour && showMessage) ||
+        (showMessage && goalsNewFeature)) && (
         <JoyRide
           callback={handleJoyrideCallback}
           steps={steps}
           showProgress
-          continuous={steps.length > 1 ? true : false}
+          continuous={goalsNewFeature ? false : true}
           showSkipButton={true}
           disableScrolling
           locale={{
             last: 'Hide tour',
             skip: 'Hide tour',
-            close: 'Hide tour',
+            close: goalsNewFeature ? 'Close' : 'Hide tour',
           }}
           styles={{
             tooltip: {
-              fontSize: 20,
+              fontSize: 18,
             },
             options: {
               primaryColor: 'orange',

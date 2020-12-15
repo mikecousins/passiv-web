@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
-import { H2, P } from '../../styled/GlobalElements';
+import { A, H2, P } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
-
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContextualMessages } from '../../selectors';
+import { selectSettings, selectTakeTour } from '../../selectors';
 import { postData, putData } from '../../api';
 import { loadSettings } from '../../actions';
 import { toast } from 'react-toastify';
@@ -26,83 +25,75 @@ const TourContainer = styled.div`
   svg {
     margin-left: 12px;
     font-size: 50px;
-    color: #04a287;
+    color: var(--brand-green);
   }
   a {
     border-radius: 4px;
-    background: var(--brand-blue);
-    color: #fff;
     display: inline-block;
     margin-bottom: 8px;
-    margin-left: 5px;
+    margin-left: 30px;
     padding: 12px 20px 12px 18px;
     text-transform: none;
     text-decoration: none;
+    color: var(--brand-blue);
+    background: white;
+    border: 1px solid var(--brand-blue);
+    font-weight: bold;
   }
 `;
 
 const ResetTour = () => {
-  const messages = useSelector(selectContextualMessages);
-  const [tour, setTour] = useState(false);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (messages?.length === 9) {
-      setTour(true);
-    }
-  }, [messages]);
+  const settings = useSelector(selectSettings);
+  const showTour = useSelector(selectTakeTour);
 
   const updateTour = () => {
-    setTour(!tour);
-    if (tour === true) {
-      postData(`/api/v1/contextualMessages`, {
-        name: [
-          'settings_page_tour',
-          'overview_tab_tour',
-          'group_settings_tour',
-          'target_actual_bar_tour',
-          'setup_portfolio_tour',
-          'settings_nav_tour',
-          'trades_tour',
-        ],
-      })
+    if (!settings) {
+      return;
+    }
+    let newSettings = { ...settings };
+    if (!showTour) {
+      newSettings.take_passiv_tour = true;
+      putData('api/v1/settings/', newSettings)
         .then(() => {
           dispatch(loadSettings());
         })
         .catch(() => {
-          toast.error('Failed to turn off tours.');
+          toast.error('Unable to turn tours on.');
         });
     } else {
-      putData(`/api/v1/contextualMessages`, {
-        name: [
-          'settings_page_tour',
-          'overview_tab_tour',
-          'group_settings_tour',
-          'target_actual_bar_tour',
-          'setup_portfolio_tour',
-          'settings_nav_tour',
-          'trades_tour',
-        ],
-      })
+      newSettings.take_passiv_tour = false;
+      putData('api/v1/settings/', newSettings)
         .then(() => {
           dispatch(loadSettings());
         })
         .catch(() => {
-          toast.error('Failed to turn on tours.');
+          toast.error('Unable to turn tours off.');
         });
     }
+  };
+
+  const handleResetTours = () => {
+    postData('api/v1/resetPassivTour/', {})
+      .then(() => {
+        toast.success('Tours has been reset successfully.');
+        dispatch(loadSettings());
+      })
+      .catch(() => {
+        toast.error('Unable to reset tours.');
+      });
   };
 
   return (
     <TourContainer>
       <H2>Passiv Tours</H2>
-      {tour ? (
-        <P>Turn in-app tours Off</P>
+      {showTour ? (
+        <P>Turn in-app tours Off or reset all the tours</P>
       ) : (
         <P>Need a refresher? Turn in-app tours back On </P>
       )}
       <ToggleButton onClick={updateTour}>
-        {tour ? (
+        {showTour ? (
           <React.Fragment>
             <FontAwesomeIcon icon={faToggleOn} />
             <StateText>on</StateText>
@@ -114,6 +105,7 @@ const ResetTour = () => {
           </React.Fragment>
         )}
       </ToggleButton>
+      {showTour && <A onClick={() => handleResetTours()}>Reset Tours</A>}
     </TourContainer>
   );
 };
