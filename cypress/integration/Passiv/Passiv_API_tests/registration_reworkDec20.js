@@ -1,33 +1,65 @@
 describe('Registration Test', () => {
     it('Registration works but does not create a new user', () => {
+        
+    cy.visit('localhost:3000/app/register')
+        
+    cy.intercept('POST', '/api/v1/auth/register/', {
+        statusCode: 202,
+        response: {
+        name: '@name',
+        email: '@email',
+        password: ('@pass'),
+        referralCode: ' ',
+    }}).as('Success')
 
-    cy.visit('/app/register')
 
-    cy.server();
-    cy.route({
-        url:"/api/v1/auth/register/",
-        method:"GET",
-        status: 400,
-        response: {token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MDcxLCJ1c2VybmFtZSI6IjRiVVRHWlBpZFROSDlIWW5PYjdGbXlIcDZaVXRCQiIsImV4cCI6MTYwNTAzNTkwMCwiZW1haWwiOiJhc3V0aGVybGFuZDgyMTlAZ21haWwuY29tIiwib3JpZ19pYXQiOjE2MDQ2MDM5MDB9.lz1xdxwzdQrlo7RE0qnEtHRjszFHYTWQqgOZzFGB2l8"}
-    });
 
             //cons values 
-            const  name = "Gerry General"
-            const  email = "GG2EZ28@passiv.com"
-            const  pass = "General12345"
-        
-        cy.get('[name=name]')
+            const  name = 'Alex Sutherland'
+            const  email = 'testemail@passiv.com'
+            const  pass = 'testpass12345'
+        cy
+        .get('[name=name]')
             .type(name)
-        cy.get('[name=email]')
+        .get('[name=email]')
             .type(email)
             .should('have.value', email)
-        cy.get('[placeholder=Password]')
+        .get('[placeholder=Password]')
             .type(pass)
             .should('have.value', pass)
+           
         cy.get('form').submit()
-    
-    
-    })
-
 })
 
+
+describe('Database test', () => {
+        it('Data is stored in correct format in JSON file', () => {
+
+                        //cons values 
+            const  name = 'Alex Sutherland'
+            const  email = 'testemail@passiv.com'
+            const  pass = 'testpass12345'
+
+        cy.visit('localhost:3000/app/register')
+                let body
+                cy.intercept('POST', '/api/v1/auth/register/', req => {
+                    console.log('POST user info', req)
+                    body = req.body
+                }).as('Save')
+                cy
+                .get('[name=name]')
+                    .type(name)
+                .get('[name=email]')
+                    .type(email)
+                    .should('have.value', email)
+                .get('[placeholder=Password]')
+                    .type(pass)
+                    .should('have.value', pass)
+                cy.get('form').submit()
+
+                .then(() => {
+                cy.writeFile('cypress/fixtures/user.json', JSON.stringify(body, null, 2))
+                })
+            })
+        })
+    })
