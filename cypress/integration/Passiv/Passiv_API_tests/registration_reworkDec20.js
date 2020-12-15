@@ -5,8 +5,8 @@ describe('Registration Test', () => {
         
     cy.visit('localhost:3000/app/register')
     
-    cy.intercept('POST', '/api/v1/auth/register', req => {
-        console.log('POST /api/v1/auth/register', req)
+    cy.intercept( '/api/v1/', req => {
+        console.log('POST /api/v1/', req)
         body = req.body
     }).as('User')
 
