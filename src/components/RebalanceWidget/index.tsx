@@ -124,7 +124,9 @@ const RebalanceWidget = ({
 
   let orderValidation = (
     <div>
-      <Button onClick={validateOrders}>Preview Orders</Button>
+      <Button onClick={validateOrders} className="tour-one-click">
+        Preview Orders
+      </Button>
     </div>
   );
 

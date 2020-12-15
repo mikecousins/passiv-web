@@ -22,7 +22,7 @@ const StyledCombobox = styled(Combobox)`
   }
 `;
 
-const StyledInput = styled(ComboboxInput)`
+export const StyledComboboxInput = styled(ComboboxInput)`
   width: 500px;
   padding: 10px;
   border-left: 1px solid var(--brand-blue);
@@ -43,7 +43,7 @@ const StyledComboboxPopover = styled(ComboboxPopover)`
   z-index: 5;
 `;
 
-const StyledComboboxList = styled(ComboboxList)`
+export const StyledComboboxList = styled(ComboboxList)`
   box-sizing: border-box;
   width: 553px;
   padding: 10px !important; //? why this style wouldn't get applied without !important
@@ -54,7 +54,7 @@ const StyledComboboxList = styled(ComboboxList)`
   font-weight: 600;
 `;
 
-const StyledComboboxOption = styled(ComboboxOption)`
+export const StyledComboboxOption = styled(ComboboxOption)`
   &:hover {
     background: var(
       --brand-green
@@ -89,7 +89,7 @@ const AssetClassSelector = ({
 
   return (
     <StyledCombobox>
-      <StyledInput
+      <StyledComboboxInput
         placeholder="Pick Asset Class"
         onSelect={onSelect}
         name={name}

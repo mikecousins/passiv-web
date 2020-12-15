@@ -1,4 +1,4 @@
-import { Symbol } from './groupInfo';
+import { Currency } from './currency';
 import { ModelAssetClass } from './modelAssetClass';
 
 export type ModelPortfolioDetailsType = {
@@ -11,6 +11,14 @@ export type ModelPortfolio = {
   id?: string;
   name: string;
   model_type: number;
+};
+
+type Symbol = {
+  id: string;
+  symbol?: string;
+  description?: string;
+  security_type?: string;
+  currency?: Currency;
 };
 
 export type TargetWithPercentage = {

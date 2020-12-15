@@ -21,6 +21,7 @@ import {
 import { loadModelPortfolio, loadModelPortfolios } from '../../actions';
 import { deleteData } from '../../api';
 import { SmallButton } from '../../styled/Button';
+import ModelSecurity from './ModelSecurity';
 
 const BackButton = styled.div`
   padding: 30px 10px;
@@ -101,14 +102,22 @@ const ModelPortfolio = () => {
           </Link>
         </BackButton>
         <ResponsiveGrid columns="4fr 2fr">
-          {modelPortfolio && (
+          {modelPortfolio && modelPortfolio.model_portfolio.model_type === 1 ? (
             <ModelPortoflioBox
               assetClasses={assetClasses}
               modelPortfolio={modelPortfolio}
             />
+          ) : (
+            modelPortfolio && (
+              <ModelSecurity
+                assetClasses={assetClasses}
+                modelPortfolio={modelPortfolio}
+              />
+            )
           )}
-
-          <AssetClassesBox assetClasses={modelAssetClasses} />
+          {modelPortfolio?.model_portfolio.model_type === 1 && (
+            <AssetClassesBox assetClasses={modelAssetClasses} />
+          )}
         </ResponsiveGrid>
       </ShadowBox>
       <DeleteContainer>

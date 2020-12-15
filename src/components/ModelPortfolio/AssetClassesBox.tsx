@@ -52,7 +52,9 @@ const AssetClassesBox = ({ assetClasses }: Props) => {
     let labelList: string[] = [];
     if (target.length > 0) {
       target.map((t) => {
-        return labelList.push(t.symbol.symbol);
+        if (t.symbol.symbol) {
+          return labelList.push(t.symbol.symbol);
+        }
       });
     }
     const label = labelList.join(', ');

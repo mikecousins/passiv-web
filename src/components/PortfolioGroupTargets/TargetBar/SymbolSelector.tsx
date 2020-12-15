@@ -14,11 +14,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { selectCurrentGroupId } from '../../../selectors/groups';
 import { postData } from '../../../api';
 import { loadGroup } from '../../../actions';
+import {
+  StyledComboboxInput,
+  StyledComboboxList,
+  StyledComboboxOption,
+} from '../../ModelPortfolio/AssetClassSelector';
 
 const StyledCombobox = styled(Combobox)`
   width: 500px;
   position: relative;
   z-index: 5;
+  display: inline-block;
   @media (max-width: 900px) {
     width: auto;
     margin-bottom: 20px;
@@ -35,17 +41,20 @@ const StyledInput = styled(ComboboxInput)`
   }
 `;
 
-const StyledComboboxPopover = styled(ComboboxPopover)`
+const StyledPopover = styled(ComboboxPopover)`
   z-index: 5;
 `;
 
-const StyledComboboxOption = styled(ComboboxOption)`
+const StyledOption = styled(ComboboxOption)`
   margin: 5px;
 `;
 
 type Props = {
   value: any;
   allSymbols: boolean;
+  forModelSecurity?: boolean;
+  name?: string;
+  id?: string;
   onSelect: (symbol: any) => void;
 };
 
@@ -66,7 +75,14 @@ const useDebouncedEffect = (callback: any, delay: number, deps: any[] = []) => {
   }, [delay, ...deps]); // eslint-disable-line react-hooks/exhaustive-deps
 };
 
-const SymbolSelector = ({ value, onSelect, allSymbols }: Props) => {
+const SymbolSelector = ({
+  value,
+  allSymbols,
+  forModelSecurity,
+  name,
+  id,
+  onSelect,
+}: Props) => {
   const groupId = useSelector(selectCurrentGroupId);
   const dispatch = useDispatch();
   const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
@@ -117,35 +133,61 @@ const SymbolSelector = ({ value, onSelect, allSymbols }: Props) => {
   };
 
   return (
-    <StyledCombobox onSelect={handleSelect}>
-      <StyledInput
-        value={value}
-        onChange={onChange}
-        placeholder="Search for security..."
-        autoFocus
-      />
+    <StyledCombobox onSelect={forModelSecurity ? onSelect : handleSelect}>
+      {forModelSecurity ? (
+        <StyledComboboxInput
+          value={value}
+          onChange={onChange}
+          onSelect={onSelect}
+          placeholder="Search for security..."
+          autoFocus
+          name={name}
+          id={id}
+        />
+      ) : (
+        <StyledInput
+          value={value}
+          onChange={onChange}
+          placeholder="Search for security..."
+          autoFocus
+        />
+      )}
       {loading ? (
-        <StyledComboboxPopover>
+        <StyledPopover>
           <ComboboxList>
             <FontAwesomeIcon icon={faSpinner} spin />
           </ComboboxList>
-        </StyledComboboxPopover>
+        </StyledPopover>
       ) : (
         matchingSymbols &&
         matchingSymbols.length > 0 && (
-          <StyledComboboxPopover>
-            <ComboboxList>
-              {matchingSymbols.map((option: any, index) => {
-                return (
-                  <StyledComboboxOption key={index} value={option.id}>
-                    <span>
-                      {option.symbol} ({option.description})
-                    </span>
-                  </StyledComboboxOption>
-                );
-              })}
-            </ComboboxList>
-          </StyledComboboxPopover>
+          <StyledPopover>
+            {forModelSecurity ? (
+              <StyledComboboxList>
+                {matchingSymbols.map((option: any, index) => {
+                  return (
+                    <StyledComboboxOption key={index} value={option.id}>
+                      <span>
+                        {option.symbol} ({option.description})
+                      </span>
+                    </StyledComboboxOption>
+                  );
+                })}
+              </StyledComboboxList>
+            ) : (
+              <ComboboxList>
+                {matchingSymbols.map((option: any, index) => {
+                  return (
+                    <StyledOption key={index} value={option.id}>
+                      <span>
+                        {option.symbol} ({option.description})
+                      </span>
+                    </StyledOption>
+                  );
+                })}
+              </ComboboxList>
+            )}
+          </StyledPopover>
         )
       )}
     </StyledCombobox>

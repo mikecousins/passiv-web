@@ -158,7 +158,7 @@ const Discard = styled(Button)`
     text-decoration: underline;
   }
 `;
-const ToggleShow = styled(Button)`
+export const ToggleShow = styled(Button)`
   border: 1px solid var(--brand-blue);
   background: none;
   color: var(--brand-blue);
@@ -174,7 +174,7 @@ const ToggleShow = styled(Button)`
     color: #fff;
   }
 `;
-const DropDown = styled.div`
+export const DropDown = styled.div`
   border: 1px solid var(--brand-blue);
   position: absolute;
   top: 102%;

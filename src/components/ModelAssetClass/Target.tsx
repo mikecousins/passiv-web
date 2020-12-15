@@ -100,6 +100,7 @@ const Targets = ({ assetClass }: Props) => {
             value={null}
             onSelect={(cb) => handleAddTarget(cb)}
             allSymbols={true}
+            forModelSecurity={false}
           />
         ) : (
           <TargetList

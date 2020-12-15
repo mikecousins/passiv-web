@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 import { selectModelPortfolios } from '../../selectors/modelPortfolios';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { selectGroups } from '../../selectors/groups';
-import { P, H1, H2, Table } from '../../styled/GlobalElements';
+import { H1, H2, Table } from '../../styled/GlobalElements';
 
 const StyledMenuButton = styled(MenuButton)`
   border: 1px solid var(--brand-blue);

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { faAngleRight, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useDispatch } from 'react-redux';
@@ -92,17 +92,17 @@ const MyModelPortfoliosPage = () => {
               key={mdl.model_portfolio.id}
               style={{ lineHeight: '2rem' }}
             >
-              <Grid columns="4fr 2fr 1fr">
+              <Grid columns="6fr 1fr">
                 <ModelName>{mdl.model_portfolio.name}</ModelName>
                 {/* TODO: check if 'in use' and then show this  */}
-                <InUseDiv>
+                {/* <InUseDiv>
                   <FontAwesomeIcon
                     icon={faCheck}
                     size="lg"
                     style={{ marginRight: '8px', color: 'var(--brand-green)' }}
                   />
                   <InUse>In Use</InUse> | 2 Groups
-                </InUseDiv>
+                </InUseDiv> */}
                 <StyledViewBtn>
                   <Link to={`model-portfolio/${mdl.model_portfolio.id}`}>
                     View

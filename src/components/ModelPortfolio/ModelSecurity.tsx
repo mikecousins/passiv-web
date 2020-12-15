@@ -2,16 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { ModelAssetClass } from '../../types/modelAssetClass';
 import { selectCurrentModelPortfolioId } from '../../selectors/modelPortfolio';
 import NameInputAndEdit from '../NameInputAndEdit';
-import AssetClassSelector from './AssetClassSelector';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEllipsisH,
+  faEllipsisV,
+  faTimesCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { postData } from '../../api';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadModelPortfolio, loadModelPortfolios } from '../../actions';
 import { Formik, Form } from 'formik';
+import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
+import { ToggleShow } from '../../pages/GoalDetailPage';
 
 const Box = styled.div`
   border: 1px solid #bfb6b6;
@@ -68,7 +73,7 @@ type Props = {
   modelPortfolio: ModelPortfolioDetailsType;
 };
 
-const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
+const ModelSecurity = ({ assetClasses, modelPortfolio }: Props) => {
   const dispatch = useDispatch();
 
   const modelPortfolioId = useSelector(selectCurrentModelPortfolioId);
@@ -77,24 +82,10 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
   const [editName, setEditName] = useState(false);
   const [notAssetError, setNotAssetError] = useState(false);
 
-  const getAvailableAssetClasses = () => {
-    const usedAssetClasses = modelPortfolio.model_portfolio_asset_class.map(
-      (astCls) => {
-        return astCls.model_asset_class.id;
-      },
-    );
-    // filter out the asset classes that have been already added to the model portfolio from the available asset classes
-    const assetClassesAvailable = assetClasses.filter(
-      (ast) => !usedAssetClasses.includes(ast.id),
-    );
-
-    return assetClassesAvailable;
-  };
-
   const getRemainingPercent = () => {
-    const allocatedPercent = modelPortfolio.model_portfolio_asset_class.reduce(
-      (sum, astCls) => {
-        return sum + astCls.percent;
+    const allocatedPercent = modelPortfolio.model_portfolio_security.reduce(
+      (sum, sec) => {
+        return sum + sec.percent;
       },
       0,
     );
@@ -135,9 +126,9 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
   };
 
   const handleDelete = (id: string) => {
-    modelPortfolio.model_portfolio_asset_class.forEach((astCls, index) => {
-      if (astCls.model_asset_class.id === id) {
-        modelPortfolio.model_portfolio_asset_class.splice(index, 1);
+    modelPortfolio.model_portfolio_security.forEach((sec, index) => {
+      if (sec.symbol.id === id) {
+        modelPortfolio.model_portfolio_security.splice(index, 1);
         postData(`/api/v1/modelPortfolio/${modelPortfolioId}`, modelPortfolio)
           .then(() => {
             dispatch(loadModelPortfolio({ id: modelPortfolioId }));
@@ -163,7 +154,6 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
         StyledName={StyledName}
         StyledContainer={StyledContainer}
       />
-
       <ul
         style={{
           margin: '40px 20px',
@@ -182,7 +172,7 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
             {getRemainingPercent()}% Cash
           </span>
         </li>
-        {modelPortfolio.model_portfolio_asset_class.map((cl) => {
+        {modelPortfolio.model_portfolio_security.map((sec) => {
           return (
             <li
               style={{
@@ -191,13 +181,13 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
                 padding: '10px',
                 marginBottom: '20px',
               }}
-              key={cl.model_asset_class.id}
+              key={sec.symbol.id}
             >
               <span style={{ fontSize: '26px' }}>
-                {cl.percent}% {cl.model_asset_class.name}
+                {sec.percent}% {sec.symbol.symbol}
               </span>
               <button
-                onClick={() => handleDelete(cl.model_asset_class.id)}
+                onClick={() => handleDelete(sec.symbol.id)}
                 style={{ marginLeft: '50px', position: 'relative' }}
               >
                 <FontAwesomeIcon
@@ -214,14 +204,14 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
       <FormContainer>
         <Formik
           initialValues={{
-            assetClassId: '',
+            securityId: '',
             percent: 0,
           }}
           initialStatus={{ submitted: false }}
           onSubmit={(values, actions) => {
-            modelPortfolio.model_portfolio_asset_class.push({
-              model_asset_class: {
-                id: values.assetClassId!,
+            modelPortfolio.model_portfolio_security.push({
+              symbol: {
+                id: values.securityId!,
               },
               percent: values.percent,
             });
@@ -258,11 +248,13 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
                 />
                 <PercentageLabel htmlFor="percentage">%</PercentageLabel>
               </Percentage>
-              <AssetClassSelector
-                name="assetClassId"
-                id="assetClassId"
-                assetClassesAvailable={getAvailableAssetClasses()}
+              <SymbolSelector
+                name="securityId"
+                id="securityId"
+                value={null}
                 onSelect={props.handleChange}
+                allSymbols={true}
+                forModelSecurity={true}
               />
               <button type="submit" style={{ display: 'none' }}></button>
             </Form>
@@ -278,4 +270,4 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
   );
 };
 
-export default ModelPortoflioBox;
+export default ModelSecurity;
