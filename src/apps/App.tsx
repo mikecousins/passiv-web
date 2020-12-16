@@ -108,22 +108,12 @@ const TDAmeritradeOauthPage = ReactLazyPreload(() =>
   ),
 );
 
-const WealthicaConnectionPage = ReactLazyPreload(() =>
-  import(
-    /* webpackChunkName: "wealthica-connection-page" */ '../pages/WealthicaConnectionPage'
-  ),
-);
-
 const KrakenAuthPage = ReactLazyPreload(() =>
-  import(
-    /* webpackChunkName: "wealthica-connection-page" */ '../pages/KrakenAuthPage'
-  ),
+  import(/* webpackChunkName: "kraken-oauth" */ '../pages/KrakenAuthPage'),
 );
 
-const WealthicaConnectionUpdatePage = ReactLazyPreload(() =>
-  import(
-    /* webpackChunkName: "wealthica-update-connection-page" */ '../pages/WealthicaConnectionUpdatePage'
-  ),
+const KrakenOauthPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "kraken-oauth" */ '../pages/KrakenOauthPage'),
 );
 
 const UpgradeOfferPage = ReactLazyPreload(() =>
@@ -365,8 +355,15 @@ const App = () => {
             )}
             {loggedIn && (
               <Route
+                exact
                 path={prefixPath('/connect/kraken')}
                 component={KrakenAuthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                path={prefixPath('/oauth/kraken')}
+                component={KrakenOauthPage}
               />
             )}
             {loggedIn && (
@@ -415,11 +412,6 @@ const App = () => {
               </Route>
             )}
             {showOnboardingApp && (
-              <Route path={prefixPath('/wealthica/onboard-connect')}>
-                <WealthicaConnectionPage onboarding={true} />
-              </Route>
-            )}
-            {showOnboardingApp && (
               <Route path={prefixPath('/welcome')}>
                 <WelcomePage />
               </Route>
@@ -427,11 +419,6 @@ const App = () => {
             {(showSecureApp || showOnboardingApp) && (
               <Route path={prefixPath('/settings/connect/:brokerage?')}>
                 <AuthorizationPage onboarding={false} />
-              </Route>
-            )}
-            {(showSecureApp || showOnboardingApp) && (
-              <Route exact path={prefixPath('/wealthica/connect/')}>
-                <WealthicaConnectionPage onboarding={false} />
               </Route>
             )}
             {(showSecureApp || showOnboardingApp) && (
@@ -465,13 +452,6 @@ const App = () => {
               <Route
                 path={prefixPath('/goal/:goalId')}
                 component={GoalDetailPage}
-              />
-            )}
-            {showSecureApp && (
-              <Route
-                exact
-                path={prefixPath('/wealthica/connect/:authorizationID?')}
-                component={WealthicaConnectionUpdatePage}
               />
             )}
             {showSecureApp && (

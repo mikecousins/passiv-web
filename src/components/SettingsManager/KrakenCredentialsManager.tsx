@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings, selectIsDemo } from '../../selectors';
-import { loadSettings } from '../../actions';
-import { postData, putData } from '../../api';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../../styled/Form';
-import {
-  H2,
-  Edit,
-  Span,
-  A,
-  OptionsTitle,
-  P,
-} from '../../styled/GlobalElements';
+import { H2, Edit, A, OptionsTitle, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 
@@ -39,7 +30,6 @@ const CancelBtn = styled(A)`
 const KrakenCredentialsManager = () => {
   const settings = useSelector(selectSettings);
   const isDemo = useSelector(selectIsDemo);
-  const dispatch = useDispatch();
 
   const [APIKey, setAPIKey] = useState('');
   const [PrivateKey, setPrivateKey] = useState('');
@@ -48,8 +38,9 @@ const KrakenCredentialsManager = () => {
 
   useEffect(() => {
     if (settings) {
-      setAPIKey(settings.APIKey);
-      setPrivateKey(settings.email);
+      console.log('Hello');
+      // setAPIKey(settings.APIKey);
+      // setPrivateKey(settings.email);
     }
   }, [settings]);
 
@@ -58,55 +49,28 @@ const KrakenCredentialsManager = () => {
   };
 
   const finishEditingAPIKey = () => {
-    if (!settings) {
-      return;
-    }
-    if (name !== settings.name) {
-      let newSettings = { ...settings };
-      if (name === '') {
-        newSettings.name = '';
-      } else {
-        newSettings.name = name;
-      }
-
-      putData('/api/v1/settings/', newSettings)
-        .then(() => {
-          dispatch(loadSettings());
-        })
-        .catch(() => {
-          dispatch(loadSettings());
-        });
-    }
     setEditingAPIKey(false);
   };
 
   const finishEditingPrivateKey = () => {
-    if (!settings) {
-      return;
-    }
-    if (email !== settings.email) {
-      schema
-        .isValid({
-          email,
-        })
-        .then((valid) => {
-          if (valid) {
-            let newSettings = { ...settings };
-            newSettings.email = email;
-            putData('/api/v1/settings/', newSettings).then(() => {
-              dispatch(loadSettings());
-              setEditingEmail(false);
-            });
-          }
-        });
-    } else {
-      setEditingPrivateKey(false);
-    }
+    setEditingPrivateKey(false);
   };
 
   const cancelEditingPrivateKey = () => {
     setEditingPrivateKey(false);
-    dispatch(loadSettings());
+  };
+
+  const generateTokenString = () => {
+    let token_string = '';
+
+    token_string = `${APIKey}:${PrivateKey}`;
+
+    return window.btoa(token_string);
+  };
+
+  const handleSubmit = () => {
+    let token_string = generateTokenString();
+    history.push(`/app/oauth/kraken?code=${token_string}`);
   };
 
   const history = useHistory();
@@ -121,7 +85,7 @@ const KrakenCredentialsManager = () => {
       {editingAPIKey ? (
         <InputContainer>
           <MiniInputNonFormik
-            value={APIKey === null ? '' : name}
+            value={APIKey === null ? '' : APIKey}
             onChange={(e) => setAPIKey(e.target.value)}
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
@@ -180,7 +144,7 @@ const KrakenCredentialsManager = () => {
           tutorial on how to connect your Kraken account to Passiv.
         </A>
       </P>
-      <Button onClick={() => history.push('/')}>Done</Button>
+      <Button onClick={handleSubmit}>Done</Button>
     </ShadowBox>
   );
 };

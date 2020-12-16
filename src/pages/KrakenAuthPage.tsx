@@ -1,15 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import KrakenCredentialsManager from '../components/SettingsManager/KrakenCredentialsManager';
-import GeneralManager from '../components/SettingsManager/GeneralManager';
-import SubscriptionManager from '../components/SettingsManager/SubscriptionManager';
-import ConnectionsManager from '../components/SettingsManager/ConnectionsManager';
-import NotificationsManager from '../components/SettingsManager/NotificationsManager';
-import AccountsManager from '../components/SettingsManager/AccountsManager';
-import DemoNotes from '../components/DemoNotes';
-import { selectIsDemo } from '../selectors';
-import { useSelector } from 'react-redux';
-import Tour from '../components/Tour/Tour';
 
 export const Flex = styled.div`
   @media (min-width: 900px) {
@@ -26,9 +17,8 @@ export const Flex = styled.div`
   }
 `;
 
-const SettingsPage = () => {
-  const isDemo = useSelector(selectIsDemo);
+const KrakenAuthPage = () => {
   return <KrakenCredentialsManager />;
 };
 
-export default SettingsPage;
+export default KrakenAuthPage;
