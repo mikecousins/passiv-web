@@ -114,6 +114,12 @@ const WealthicaConnectionPage = ReactLazyPreload(() =>
   ),
 );
 
+const KrakenAuthPage = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "wealthica-connection-page" */ '../pages/KrakenAuthPage'
+  ),
+);
+
 const WealthicaConnectionUpdatePage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "wealthica-update-connection-page" */ '../pages/WealthicaConnectionUpdatePage'
@@ -355,6 +361,12 @@ const App = () => {
               <Route
                 path={prefixPath('/oauth/tradier')}
                 component={TradierOauthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                path={prefixPath('/connect/kraken')}
+                component={KrakenAuthPage}
               />
             )}
             {loggedIn && (
