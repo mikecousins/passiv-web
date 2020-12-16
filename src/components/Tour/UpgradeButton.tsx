@@ -28,7 +28,7 @@ const UpgradeButton = () => {
           Upgrade to Elite
         </EliteUpgradeBtn>
       ) : (
-        subscription?.type !== 'free' && (
+        subscription?.type === 'free' && (
           <EliteUpgradeBtn to="/app/settings">Upgrade to Elite</EliteUpgradeBtn>
         )
       )}

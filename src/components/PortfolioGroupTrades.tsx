@@ -24,10 +24,6 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { ContextualMessageWrapper } from './ContextualMessageWrapper';
 import styled from '@emotion/styled';
 import Tour from './Tour/Tour';
-import {
-  selectShowQuestradeOffer,
-  selectSubscription,
-} from '../selectors/subscription';
 import UpgradeButton from './Tour/UpgradeButton';
 import EliteFeatureTitle from './Tour/EliteFeatureTitle';
 

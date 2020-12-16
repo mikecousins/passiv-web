@@ -58,8 +58,7 @@ const TOUR_STEPS = [
           <a href="https://passiv.com/help/tutorials/how-to-hide-accounts-in-passiv/">
             hide
           </a>{' '}
-          accounts that you don’t want to see in Passiv. (<strong>note:</strong>{' '}
-          holdings in hidden accounts are not included in your total holdings).
+          accounts that you don’t want to see in Passiv.
         </div>
         <br />
         <UpgradeButton />
