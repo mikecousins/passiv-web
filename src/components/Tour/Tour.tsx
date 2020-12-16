@@ -71,6 +71,7 @@ const Tour = ({ steps, name }: Props) => {
           styles={{
             tooltip: {
               fontSize: 18,
+              // width: 'fit-content',
             },
             options: {
               primaryColor: 'orange',
