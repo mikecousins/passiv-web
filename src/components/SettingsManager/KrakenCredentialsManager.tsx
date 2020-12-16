@@ -18,7 +18,6 @@ import {
 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
-import * as Yup from 'yup';
 
 const InputContainer = styled.div`
   padding-top: 10px;
@@ -43,21 +42,20 @@ const KrakenCredentialsManager = () => {
   const dispatch = useDispatch();
 
   const [APIKey, setAPIKey] = useState('');
+  const [PrivateKey, setPrivateKey] = useState('');
   const [editingAPIKey, setEditingAPIKey] = useState(false);
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [editingEmail, setEditingEmail] = useState(false);
+  const [editingPrivateKey, setEditingPrivateKey] = useState(false);
 
   useEffect(() => {
     if (settings) {
       setAPIKey(settings.APIKey);
-      setEmail(settings.email);
+      setPrivateKey(settings.email);
     }
   }, [settings]);
 
-  useEffect(() => {
-    setTimeout(() => setEmailError(''), 5000);
-  }, [emailError]);
+  const startEditingAPIKey = () => {
+    setEditingAPIKey(true);
+  };
 
   const finishEditingAPIKey = () => {
     if (!settings) {
@@ -79,11 +77,35 @@ const KrakenCredentialsManager = () => {
           dispatch(loadSettings());
         });
     }
-    setEditingName(false);
+    setEditingAPIKey(false);
   };
 
-  const cancelEditingEmail = () => {
-    setEditingEmail(false);
+  const finishEditingPrivateKey = () => {
+    if (!settings) {
+      return;
+    }
+    if (email !== settings.email) {
+      schema
+        .isValid({
+          email,
+        })
+        .then((valid) => {
+          if (valid) {
+            let newSettings = { ...settings };
+            newSettings.email = email;
+            putData('/api/v1/settings/', newSettings).then(() => {
+              dispatch(loadSettings());
+              setEditingEmail(false);
+            });
+          }
+        });
+    } else {
+      setEditingPrivateKey(false);
+    }
+  };
+
+  const cancelEditingPrivateKey = () => {
+    setEditingPrivateKey(false);
     dispatch(loadSettings());
   };
 
@@ -103,7 +125,7 @@ const KrakenCredentialsManager = () => {
             onChange={(e) => setAPIKey(e.target.value)}
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
-                finishEditingName();
+                finishEditingAPIKey();
               }
             }}
             placeholder={'API Key'}
@@ -113,34 +135,38 @@ const KrakenCredentialsManager = () => {
       ) : (
         <InputContainer>
           <OptionsTitle>API Key:</OptionsTitle>{' '}
-          {name === null ? '[no name set]' : name}
-          <Edit onClick={() => !isDemo && startEditingName()} disabled={isDemo}>
+          {APIKey === null ? '[no name set]' : APIKey}
+          <Edit
+            onClick={() => !isDemo && startEditingAPIKey()}
+            disabled={isDemo}
+          >
             <FontAwesomeIcon icon={faPen} />
             Edit
           </Edit>
         </InputContainer>
       )}
-      {editingEmail ? (
+      {editingPrivateKey ? (
         <InputContainer>
           <MiniInputNonFormik
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={PrivateKey}
+            onChange={(e) => setPrivateKey(e.target.value)}
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
-                finishEditingEmail();
+                finishEditingPrivateKey();
               }
             }}
-            placeholder={'Your email'}
+            placeholder={'Secret Key'}
           />
-          <P>{emailError}</P>
-          <Button onClick={finishEditingEmail}>Done</Button>
-          <CancelBtn onClick={() => cancelEditingEmail()}>Cancel</CancelBtn>
+          <Button onClick={finishEditingPrivateKey}>Done</Button>
+          <CancelBtn onClick={() => cancelEditingPrivateKey()}>
+            Cancel
+          </CancelBtn>
         </InputContainer>
       ) : (
         <InputContainer>
-          <OptionsTitle>Private key:</OptionsTitle> {email}
+          <OptionsTitle>Private key:</OptionsTitle> {PrivateKey}
           <Edit
-            onClick={() => !isDemo && setEditingEmail(true)}
+            onClick={() => !isDemo && setEditingPrivateKey(true)}
             disabled={isDemo}
           >
             <FontAwesomeIcon icon={faPen} />
