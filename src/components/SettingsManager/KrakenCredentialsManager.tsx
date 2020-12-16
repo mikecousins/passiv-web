@@ -5,7 +5,7 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings, selectIsDemo } from '../../selectors';
 import { loadSettings } from '../../actions';
 import { postData, putData } from '../../api';
-
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../../styled/Form';
 import {
@@ -26,12 +26,6 @@ const InputContainer = styled.div`
   font-size: 18px;
 `;
 
-const PasswordContainer = styled.div`
-  padding-top: 20px;
-  padding-bottom: 5px;
-  font-size: 18px;
-`;
-
 const MiniInputNonFormik = styled(InputNonFormik)`
   margin-top: 10px;
   margin-bottom: 10px;
@@ -48,16 +42,15 @@ const KrakenCredentialsManager = () => {
   const isDemo = useSelector(selectIsDemo);
   const dispatch = useDispatch();
 
-  const [name, setName] = useState('');
-  const [editingName, setEditingName] = useState(false);
+  const [APIKey, setAPIKey] = useState('');
+  const [editingAPIKey, setEditingAPIKey] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [editingEmail, setEditingEmail] = useState(false);
-  const [passwordResetSent, setPasswordResetSent] = useState(false);
 
   useEffect(() => {
     if (settings) {
-      setName(settings.name);
+      setAPIKey(settings.APIKey);
       setEmail(settings.email);
     }
   }, [settings]);
@@ -66,11 +59,7 @@ const KrakenCredentialsManager = () => {
     setTimeout(() => setEmailError(''), 5000);
   }, [emailError]);
 
-  const startEditingName = () => {
-    setEditingName(true);
-  };
-
-  const finishEditingName = () => {
+  const finishEditingAPIKey = () => {
     if (!settings) {
       return;
     }
@@ -92,44 +81,31 @@ const KrakenCredentialsManager = () => {
     }
     setEditingName(false);
   };
-  let schema = Yup.object().shape({
-    email: Yup.string().email().required(),
-  });
 
   const cancelEditingEmail = () => {
     setEditingEmail(false);
     dispatch(loadSettings());
   };
-  const sendPasswordReset = () => {
-    postData('/api/v1/auth/resetPassword/', { email })
-      .then(() => {
-        setPasswordResetSent(true);
-      })
-      .catch(() => {
-        setPasswordResetSent(false);
-      });
-  };
 
-  const sendPasswordResetOkay = () => {
-    setPasswordResetSent(false);
-  };
+  const history = useHistory();
 
   return (
     <ShadowBox>
-      <H2>Passiv Credentials</H2>
-      {editingName ? (
+      <H2>Connect to Kraken</H2>
+      <P>To connect your Kraken account to Passiv, you'll need to </P>
+      {editingAPIKey ? (
         <InputContainer>
           <MiniInputNonFormik
-            value={name === null ? '' : name}
-            onChange={(e) => setName(e.target.value)}
+            value={APIKey === null ? '' : name}
+            onChange={(e) => setAPIKey(e.target.value)}
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
                 finishEditingName();
               }
             }}
-            placeholder={'Your name'}
+            placeholder={'API Key'}
           />
-          <Button onClick={finishEditingName}>Done</Button>
+          <Button onClick={finishEditingAPIKey}>Done</Button>
         </InputContainer>
       ) : (
         <InputContainer>
@@ -169,6 +145,7 @@ const KrakenCredentialsManager = () => {
           </Edit>
         </InputContainer>
       )}
+      <Button onClick={() => history.push('/')}>Done</Button>
     </ShadowBox>
   );
 };
