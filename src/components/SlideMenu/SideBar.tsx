@@ -102,7 +102,11 @@ const SideBar = () => {
         <div>
           Start the year right and set your investment goals with our new Goals
           feature!{' '}
-          <a href="https://passiv.com/help/tutorials/how-to-set-up-goals-and-track-your-progress/">
+          <a
+            href="https://passiv.com/help/tutorials/how-to-set-up-goals-and-track-your-progress/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Learn More
           </a>
         </div>

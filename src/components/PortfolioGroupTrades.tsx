@@ -90,7 +90,11 @@ export const PortfolioGroupTrades = ({
           <div>
             Review your recommended trades by clicking Preview Orders and click
             Confirm to rebalance your portfolio in{' '}
-            <a href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/">
+            <a
+              href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               one-click
             </a>
             .

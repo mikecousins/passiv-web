@@ -36,7 +36,11 @@ const TOUR_STEPS = [
         <div>
           Have more control over how Passiv treats multiple currencies you hold
           in your brokerage account.{' '}
-          <a href="https://passiv.com/help/tutorials/how-to-change-your-currency-handling-settings/">
+          <a
+            href="https://passiv.com/help/tutorials/how-to-change-your-currency-handling-settings/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Learn More
           </a>
         </div>
@@ -53,7 +57,11 @@ const TOUR_STEPS = [
         Helps you to allocate new cash gradually or withhold a specific amount
         of cash to invest later. Start dollar-cost averaging your assets by
         clicking <strong>Add Rule</strong>.{' '}
-        <a href="https://passiv.com/help/tutorials/how-to-use-cash-management/">
+        <a
+          href="https://passiv.com/help/tutorials/how-to-use-cash-management/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Learn More
         </a>
       </>

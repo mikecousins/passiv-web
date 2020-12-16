@@ -54,7 +54,11 @@ const TOUR_STEPS = [
         <div>
           Click <strong>Edit Targets</strong> to adjust your target, add and
           delete securities from your target, or
-          <a href="https://passiv.com/help/tutorials/how-to-exclude-stock-picks-from-your-portfolio/">
+          <a
+            href="https://passiv.com/help/tutorials/how-to-exclude-stock-picks-from-your-portfolio/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {' '}
             exclude assets
           </a>

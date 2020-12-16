@@ -21,7 +21,11 @@ const TOUR_STEPS = [
         A connection is a unique brokerage login. Your connection is always
         read-only when you first connect. You can enable trading by clicking
         <strong> Edit</strong>.<br />
-        <a href="https://passiv.com/help/tutorials/how-to-manage-your-brokerage-connections/">
+        <a
+          href="https://passiv.com/help/tutorials/how-to-manage-your-brokerage-connections/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Learn More
         </a>
       </div>
@@ -50,12 +54,20 @@ const TOUR_STEPS = [
         <div>
           Elite users can click on <strong> Edit Groups</strong> to manage their
           accounts. You can{' '}
-          <a href="https://passiv.com/help/tutorials/how-to-set-up-multi-account-portfolios/">
+          <a
+            href="https://passiv.com/help/tutorials/how-to-set-up-multi-account-portfolios/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             group
           </a>{' '}
           them into portfolios to manage them together with the same target
           allocation. You can also{' '}
-          <a href="https://passiv.com/help/tutorials/how-to-hide-accounts-in-passiv/">
+          <a
+            href="https://passiv.com/help/tutorials/how-to-hide-accounts-in-passiv/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             hide
           </a>{' '}
           accounts that you don’t want to see in Passiv.
