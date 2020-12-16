@@ -92,7 +92,10 @@ const KrakenCredentialsManager = () => {
   return (
     <ShadowBox>
       <H2>Connect to Kraken</H2>
-      <P>To connect your Kraken account to Passiv, you'll need to </P>
+      <P>
+        To connect your Kraken account to Passiv, you'll need to generate a new
+        Kraken API key and enter your credentials below.
+      </P>
       {editingAPIKey ? (
         <InputContainer>
           <MiniInputNonFormik
@@ -109,7 +112,7 @@ const KrakenCredentialsManager = () => {
         </InputContainer>
       ) : (
         <InputContainer>
-          <OptionsTitle>Name:</OptionsTitle>{' '}
+          <OptionsTitle>API Key:</OptionsTitle>{' '}
           {name === null ? '[no name set]' : name}
           <Edit onClick={() => !isDemo && startEditingName()} disabled={isDemo}>
             <FontAwesomeIcon icon={faPen} />
@@ -135,7 +138,7 @@ const KrakenCredentialsManager = () => {
         </InputContainer>
       ) : (
         <InputContainer>
-          <OptionsTitle>Email:</OptionsTitle> {email}
+          <OptionsTitle>Private key:</OptionsTitle> {email}
           <Edit
             onClick={() => !isDemo && setEditingEmail(true)}
             disabled={isDemo}
@@ -145,6 +148,12 @@ const KrakenCredentialsManager = () => {
           </Edit>
         </InputContainer>
       )}
+      <P>
+        If you're stuck, read our{' '}
+        <A href="#">
+          tutorial on how to connect your Kraken account to Passiv.
+        </A>
+      </P>
       <Button onClick={() => history.push('/')}>Done</Button>
     </ShadowBox>
   );
