@@ -24,25 +24,8 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { ContextualMessageWrapper } from './ContextualMessageWrapper';
 import styled from '@emotion/styled';
 import Tour from './Tour/Tour';
-
-const TOUR_STEPS = [
-  {
-    target: '.tour-trades',
-    content: (
-      <div>
-        Passiv displays the trades needed to maximize your accuracy based on
-        your targets, current holdings, your available cash, and your settings.
-        Review your recommended trades by clicking Preview Orders and click
-        Confirm to rebalance your portfolio in{' '}
-        <a href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/">
-          one-click
-        </a>
-        .
-      </div>
-    ),
-    placement: 'right',
-  },
-];
+import UpgradeButton from './Tour/UpgradeButton';
+import EliteFeatureTitle from './Tour/EliteFeatureTitle';
 
 type Props = {
   trades: any;
@@ -91,6 +74,34 @@ export const PortfolioGroupTrades = ({
       setTradesCache(trades);
     }
   }, [tradesSubmitted, trades]);
+
+  const TOUR_STEPS = [
+    {
+      target: '.tour-trades',
+      content:
+        ' Passiv displays the trades needed to maximize your accuracy based on your targets, current holdings, your available cash, and your settings.',
+      placement: 'right',
+    },
+    {
+      target: '.tour-one-click-trade',
+      title: <EliteFeatureTitle />,
+      content: (
+        <>
+          <div>
+            Review your recommended trades by clicking Preview Orders and click
+            Confirm to rebalance your portfolio in{' '}
+            <a href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/">
+              one-click
+            </a>
+            .
+          </div>
+          <br />
+          <UpgradeButton />
+        </>
+      ),
+      placement: 'right',
+    },
+  ];
 
   let buysListRender = null;
   let sellsListRender = null;

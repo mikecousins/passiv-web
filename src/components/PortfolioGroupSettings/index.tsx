@@ -18,6 +18,8 @@ import { loadGroup } from '../../actions';
 import { toast } from 'react-toastify';
 import TradesExplanation from '../TradesExplanation';
 import Tour from '../Tour/Tour';
+import UpgradeButton from '../Tour/UpgradeButton';
+import EliteFeatureTitle from '../Tour/EliteFeatureTitle';
 
 const TOUR_STEPS = [
   {
@@ -28,28 +30,33 @@ const TOUR_STEPS = [
   },
   {
     target: '.tour-currency-separation',
+    title: <EliteFeatureTitle />,
     content: (
-      <div>
-        Have more control over how Passiv treats multiple currencies you hold in
-        your brokerage account.{' '}
-        <a href="https://passiv.com/help/tutorials/how-to-change-your-currency-handling-settings/">
-          Learn More
-        </a>
-      </div>
+      <>
+        <div>
+          Have more control over how Passiv treats multiple currencies you hold
+          in your brokerage account.{' '}
+          <a href="https://passiv.com/help/tutorials/how-to-change-your-currency-handling-settings/">
+            Learn More
+          </a>
+        </div>
+        <br />
+        <UpgradeButton />
+      </>
     ),
     placement: 'top',
   },
   {
     target: '.tour-cash-management',
     content: (
-      <div>
+      <>
         Helps you to allocate new cash gradually or withhold a specific amount
         of cash to invest later. Start dollar-cost averaging your assets by
         clicking <strong>Add Rule</strong>.{' '}
         <a href="https://passiv.com/help/tutorials/how-to-use-cash-management/">
           Learn More
         </a>
-      </div>
+      </>
     ),
     placement: 'top',
   },

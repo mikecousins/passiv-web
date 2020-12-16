@@ -79,7 +79,10 @@ const Tour = ({ steps, name }: Props) => {
               color: 'var(--brand-blue)',
             },
             buttonNext: {
-              backgroundColor: 'var(--brand-blue)',
+              fontWeight: 600,
+              background: 'white',
+              border: '1px solid',
+              color: 'var(--brand-blue)',
             },
           }}
         />
