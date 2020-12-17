@@ -108,6 +108,12 @@ const TDAmeritradeOauthPage = ReactLazyPreload(() =>
   ),
 );
 
+const WealthicaOauthPage = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/WealthicaOauthPage'
+  ),
+);
+
 const UpgradeOfferPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "upgrade-offer" */ '../pages/UpgradeOfferPage'),
 );
@@ -230,6 +236,12 @@ const interactiveBrokersOauthRedirect = () => {
 const tdAmeritradeOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/td?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
+const wealthicaOauthRedirect = () => {
+  let urlParams = new URLSearchParams(window.location.search);
+  let newPath = '/app/oauth/wealthica?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
@@ -382,6 +394,19 @@ const App = () => {
                 exact
                 path="/oauth/td"
                 render={() => tdAmeritradeOauthRedirect()}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                path={prefixPath('/oauth/wealthica')}
+                component={WealthicaOauthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/wealthica"
+                render={() => wealthicaOauthRedirect()}
               />
             )}
             // onboarding app

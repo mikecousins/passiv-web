@@ -41,10 +41,7 @@ import {
   VerticalPadding,
 } from '../styled/Setup';
 import OnboardingProgress from '../components/OnboardingProgress';
-import {
-  selectShowProgressFeature,
-  selectShowOtherBrokeragesFeature,
-} from '../selectors/features';
+import { selectShowProgressFeature } from '../selectors/features';
 
 const Brokerage = styled.div``;
 
@@ -59,7 +56,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const authorizations = useSelector(selectAuthorizations);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const showProgressFeature = useSelector(selectShowProgressFeature);
-  const showOtherBrokerages = useSelector(selectShowOtherBrokeragesFeature);
   const { brokerage } = useParams();
   const dispatch = useDispatch();
 
@@ -199,6 +195,22 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         </P>
       ),
     },
+    {
+      id: 'wealthica',
+      name: 'Wealthica',
+      connect: () => {
+        startConnection('Wealthica', 'read');
+      },
+      openURL: 'https://wealthica.com/',
+      major: true,
+      logo: 'Wealthica Logo',
+      description: (
+        <P>
+          Wealthica is a 3rd party account aggregator for your brokerage
+          account.
+        </P>
+      ),
+    },
   ];
 
   if (authorized === undefined || !brokerages) {
@@ -285,13 +297,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         <React.Fragment>
           {onboarding ? (
             <LinkContainer>
-              {showOtherBrokerages && (
-                <VerticalPadding>
-                  <Link style={aDarkStyle} to="/app/wealthica/onboard-connect">
-                    See More Brokerages
-                  </Link>
-                </VerticalPadding>
-              )}
               <VerticalPadding>
                 <Link style={aDarkStyle} to="/app/connect/open">
                   I don't have a brokerage account.
@@ -305,13 +310,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
             </LinkContainer>
           ) : (
             <LinkContainer>
-              {showOtherBrokerages && (
-                <VerticalPadding>
-                  <Link style={aDarkStyle} to="/app/wealthica/onboard-connect">
-                    See More Brokerages
-                  </Link>
-                </VerticalPadding>
-              )}
               <VerticalPadding>
                 <Link style={aDarkStyle} to="/app/settings">
                   Back
