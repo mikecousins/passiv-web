@@ -1,6 +1,7 @@
 import React from 'react';
 import SideBar from './SideBar';
 import styled from '@emotion/styled';
+import Tour from '../Tour/Tour';
 
 const FlyOut = styled.div`
   background-color: var(--brand-grey);
@@ -56,10 +57,47 @@ type Props = {
   menuVisibility: boolean;
 };
 
-const Menu = ({ menuVisibility }: Props) => (
-  <FlyOut className={menuVisibility ? 'show' : 'hide'}>
-    <SideBar />
-  </FlyOut>
-);
+const Menu = ({ menuVisibility }: Props) => {
+  const STEP = [
+    {
+      title: (
+        <p style={{ fontSize: '25px', fontWeight: 900 }}>
+          New Year, New Goals{' '}
+          <span role="img" aria-label="tada-emoji">
+            {' '}
+            🎉
+          </span>
+        </p>
+      ),
+      target: '.tour-goals-feature',
+      content: (
+        <div>
+          Start the year right and set your investment goals with our new Goals
+          feature!{' '}
+          <a
+            href="https://passiv.com/help/tutorials/how-to-set-up-goals-and-track-your-progress/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn More
+          </a>
+        </div>
+      ),
+      placement: 'right',
+      hideCloseButton: true,
+      styles: {
+        tooltip: {
+          fontSize: 20,
+        },
+      },
+    },
+  ];
+  return (
+    <FlyOut className={menuVisibility ? 'show' : 'hide'}>
+      {menuVisibility && <Tour steps={STEP} name="goals_new_feature" />}
+      <SideBar />
+    </FlyOut>
+  );
+};
 
 export default Menu;
