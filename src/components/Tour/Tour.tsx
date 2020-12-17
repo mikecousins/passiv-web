@@ -4,6 +4,7 @@ import JoyRide from 'react-joyride';
 import { postData } from '../../api';
 import { selectShowInAppTour } from '../../selectors/features';
 import { selectContextualMessages, selectTakeTour } from '../../selectors';
+import { selectIsMobile } from '../../selectors/browser';
 import { loadSettings } from '../../actions';
 import { toast } from 'react-toastify';
 
@@ -18,6 +19,7 @@ const Tour = ({ steps, name }: Props) => {
   const messages = useSelector(selectContextualMessages);
   const showTour = useSelector(selectTakeTour);
   const [showMessage, setShowMessage] = useState(false);
+  const isMobile = useSelector(selectIsMobile);
 
   const goalsNewFeature = name === 'goals_new_feature';
 
@@ -54,8 +56,8 @@ const Tour = ({ steps, name }: Props) => {
     <>
       {/* show tour if: user have access to this feature, the message hasn't been
       acknowledged, and the tour is not off OR show the goals feature*/}
-      {((showInAppTour && showTour && showMessage) ||
-        (showMessage && goalsNewFeature)) && (
+      {((!isMobile && showInAppTour && showTour && showMessage) ||
+        (!isMobile && showMessage && goalsNewFeature)) && (
         <JoyRide
           callback={handleJoyrideCallback}
           steps={steps}
