@@ -30,7 +30,7 @@ const TOUR_STEPS = [
         </a>
       </div>
     ),
-    placement: 'top',
+    placement: 'right',
   },
   {
     target: '.tour-add-more-connections',
@@ -44,7 +44,7 @@ const TOUR_STEPS = [
         <UpgradeButton />
       </div>
     ),
-    placement: 'top',
+    placement: 'right',
   },
   {
     target: '.tour-edit-groups',
@@ -76,7 +76,7 @@ const TOUR_STEPS = [
         <UpgradeButton />
       </>
     ),
-    placement: 'top',
+    placement: 'right',
   },
 ];
 
