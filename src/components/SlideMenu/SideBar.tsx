@@ -12,7 +12,6 @@ import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
 import styled from '@emotion/styled';
-import Tour from '../Tour/Tour';
 import {
   DASHBOARD_PATH,
   GOALS_PATH,
@@ -86,40 +85,6 @@ const GroupContainer = styled.div`
 `;
 
 const SideBar = () => {
-  const STEP = [
-    {
-      title: (
-        <p style={{ fontSize: '25px', fontWeight: 900 }}>
-          New Year, New Goals{' '}
-          <span role="img" aria-label="tada-emoji">
-            {' '}
-            🎉
-          </span>
-        </p>
-      ),
-      target: '.tour-goals-feature',
-      content: (
-        <div>
-          Start the year right and set your investment goals with our new Goals
-          feature!{' '}
-          <a
-            href="https://passiv.com/help/tutorials/how-to-set-up-goals-and-track-your-progress/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn More
-          </a>
-        </div>
-      ),
-      placement: 'right',
-      hideCloseButton: true,
-      styles: {
-        tooltip: {
-          fontSize: 20,
-        },
-      },
-    },
-  ];
   const loggedIn = useSelector(selectLoggedIn);
   const groups = useSelector(selectGroups);
   const performancePageFeatureActive = useSelector(
@@ -166,7 +131,6 @@ const SideBar = () => {
     return (
       <>
         <StyledAside>
-          <Tour steps={STEP} name="goals_new_feature" />
           <SideBarLink name="Dashboard" linkPath={DASHBOARD_PATH} />
           {groups && groups.length > 0 && (
             <GroupContainer>{groupList}</GroupContainer>
