@@ -40,6 +40,8 @@ describe('Login using created data from registration', () => {
         expect(request.method).to.eq('POST')
         expect(response.body.token).to.eq(authtoken)
     window.alert('Successfully logged in! Welcome to passiv!')
+
+    cy.location('pathname').should('eq', '/app/dashboard')
     })
   })
 })
