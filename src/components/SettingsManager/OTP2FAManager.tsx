@@ -91,8 +91,6 @@ const OTP2FAManager = () => {
     setShowQR(!showQR);
   };
 
-  console.log('showQR', showQR);
-
   const cancelEditing2FA = () => {
     setEditing2FA(false);
     setConfirming2FA(false);
@@ -107,12 +105,12 @@ const OTP2FAManager = () => {
     setLoading2FA(true);
     setError2FA(null);
     postData('/api/v1/auth/otp/', {})
-      .then(response => {
+      .then((response) => {
         setConfirming2FA(true);
         setLoading2FA(false);
         setSecret2FA(response.data.mfa_required.secret);
       })
-      .catch(error => {
+      .catch((error) => {
         setError2FA(error.response && error.response.data.detail);
         setLoading2FA(false);
       });
@@ -128,7 +126,7 @@ const OTP2FAManager = () => {
         dispatch(loadSettings());
         cancelEditing2FA();
       })
-      .catch(error => {
+      .catch((error) => {
         setError2FA(error.response.data.detail);
         setLoading2FA(false);
       });
@@ -141,7 +139,7 @@ const OTP2FAManager = () => {
         setLoading2FA(false);
         dispatch(loadSettings());
       })
-      .catch(error => {
+      .catch((error) => {
         setError2FA(error.response.data.detail);
         setLoading2FA(false);
       });
@@ -251,7 +249,7 @@ const OTP2FAManager = () => {
             <MiniInputNonFormik
               value={verificationCode}
               placeholder={'Your verification code'}
-              onChange={e => setVerificationCode(e.target.value)}
+              onChange={(e) => setVerificationCode(e.target.value)}
             />
             {error2FA}
             <Edit
