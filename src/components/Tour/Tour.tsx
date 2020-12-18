@@ -25,10 +25,23 @@ const Tour = ({ steps, name }: Props) => {
 
   const handleJoyrideCallback = (data: any) => {
     if (
-      (goalsNewFeature && data.action === 'close') ||
-      data.action === 'skip' ||
-      (data.action === 'next' && data.status === 'finished')
+      data.lifecycle === 'complete' &&
+      ((goalsNewFeature && data.action === 'close') ||
+        data.action === 'skip' ||
+        (data.action === 'next' && data.status === 'finished'))
     ) {
+      if (!messages?.indexOf('tour-popup')) {
+        toast.info('You can reset or turn the tours off in Help page.', {
+          position: 'top-center',
+          autoClose: false,
+        });
+
+        postData(`/api/v1/contextualMessages`, {
+          name: ['tour-popup'],
+        }).then(() => {
+          dispatch(loadSettings());
+        });
+      }
       postData(`/api/v1/contextualMessages`, {
         name: [name],
       })
@@ -42,14 +55,12 @@ const Tour = ({ steps, name }: Props) => {
   };
 
   useEffect(() => {
-    if (messages) {
-      messages.map((msg: string) => {
-        if (msg === name) {
-          setShowMessage(true);
-        }
-        return null;
-      });
-    }
+    messages?.map((msg: string) => {
+      if (msg === name) {
+        setShowMessage(true);
+      }
+      return null;
+    });
   }, [messages, name]);
 
   return (
