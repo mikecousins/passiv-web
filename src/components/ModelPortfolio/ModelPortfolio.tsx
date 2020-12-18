@@ -108,12 +108,7 @@ const ModelPortfolio = () => {
               modelPortfolio={modelPortfolio}
             />
           ) : (
-            modelPortfolio && (
-              <ModelSecurity
-                assetClasses={assetClasses}
-                modelPortfolio={modelPortfolio}
-              />
-            )
+            modelPortfolio && <ModelSecurity modelPortfolio={modelPortfolio} />
           )}
           {modelPortfolio?.model_portfolio.model_type === 1 && (
             <AssetClassesBox assetClasses={modelAssetClasses} />

@@ -7,7 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEllipsisH,
   faEllipsisV,
+  faPen,
   faTimesCircle,
+  faToggleOff,
+  faToggleOn,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
@@ -17,6 +20,8 @@ import { loadModelPortfolio, loadModelPortfolios } from '../../actions';
 import { Formik, Form } from 'formik';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import { ToggleShow } from '../../pages/GoalDetailPage';
+import DropDownOptions from '../DropDownOptions';
+import { ToggleButton } from '../../styled/ToggleButton';
 
 const Box = styled.div`
   border: 1px solid #bfb6b6;
@@ -68,12 +73,20 @@ const StyledName = styled.span`
   font-size: 30px;
 `;
 
+const MarginedFontAwesomeIcon = styled(FontAwesomeIcon)`
+  margin-right: 10px;
+`;
+
+const ToggleShareButton = styled(ToggleButton)`
+  font-size: inherit;
+  margin-top: 10px;
+`;
+
 type Props = {
-  assetClasses: ModelAssetClass[];
   modelPortfolio: ModelPortfolioDetailsType;
 };
 
-const ModelSecurity = ({ assetClasses, modelPortfolio }: Props) => {
+const ModelSecurity = ({ modelPortfolio }: Props) => {
   const dispatch = useDispatch();
 
   const modelPortfolioId = useSelector(selectCurrentModelPortfolioId);
@@ -81,6 +94,9 @@ const ModelSecurity = ({ assetClasses, modelPortfolio }: Props) => {
   const [modelPortfolioName, setModelPortfolioName] = useState('');
   const [editName, setEditName] = useState(false);
   const [notAssetError, setNotAssetError] = useState(false);
+  const [shareModel, setShareModel] = useState(
+    modelPortfolio.model_portfolio.share_portfolio,
+  );
 
   const getRemainingPercent = () => {
     const allocatedPercent = modelPortfolio.model_portfolio_security.reduce(
@@ -141,19 +157,55 @@ const ModelSecurity = ({ assetClasses, modelPortfolio }: Props) => {
     });
   };
 
+  const handleToggleBtn = () => {
+    modelPortfolio.model_portfolio.share_portfolio = !shareModel;
+    postData(`/api/v1/modelPortfolio/${modelPortfolioId}`, modelPortfolio)
+      .then(() => {
+        setShareModel(!shareModel);
+        dispatch(loadModelPortfolios());
+      })
+      .catch(() => {
+        dispatch(loadModelPortfolios());
+        toast.error('Deletion Failed', { autoClose: 3000 });
+      });
+  };
+
   return (
     <Box>
-      <NameInputAndEdit
+      <DropDownOptions
         value={modelPortfolioName}
         edit={editName}
-        editBtnTxt={'Edit Name'}
         onChange={(e: any) => setModelPortfolioName(e.target.value)}
         onKeyPress={(e: any) => e.key === 'Enter' && finishEditingName()}
-        onClickDone={() => finishEditingName()}
-        onClickEdit={() => setEditName(true)}
         StyledName={StyledName}
-        StyledContainer={StyledContainer}
-      />
+      >
+        {!editName ? (
+          <button onClick={() => setEditName(true)}>
+            <MarginedFontAwesomeIcon icon={faPen} />
+            Edit Name
+          </button>
+        ) : (
+          <button onClick={() => setEditName(true)}>
+            <MarginedFontAwesomeIcon icon={faPen} />
+            Finish Editing
+          </button>
+        )}
+        <br />
+        <ToggleShareButton onClick={handleToggleBtn}>
+          {shareModel ? (
+            <React.Fragment>
+              <MarginedFontAwesomeIcon icon={faToggleOn} />
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <MarginedFontAwesomeIcon icon={faToggleOff} />
+            </React.Fragment>
+          )}
+          Share Model Portfolio
+        </ToggleShareButton>
+        <br />
+        {shareModel && <p>Share Model Link: {} </p>}
+      </DropDownOptions>
       <ul
         style={{
           margin: '40px 20px',
