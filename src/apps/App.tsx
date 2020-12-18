@@ -11,13 +11,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { StripeProvider } from 'react-stripe-elements';
 import '@reach/menu-button/styles.css';
-import { selectLoggedIn, selectReferralCode } from '../selectors';
+import {
+  selectLoggedIn,
+  selectReferralCode,
+  selectTrackingId,
+} from '../selectors';
 import {
   selectShowInsecureApp,
   selectShowOnboardingApp,
   selectShowSecureApp,
 } from '../selectors/app';
-import { setReferralCode } from '../actions';
+import { setReferralCode, setTrackingId } from '../actions';
 import { selectQueryTokens } from '../selectors/router';
 import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -250,6 +254,7 @@ const App = () => {
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const showSecureApp = useSelector(selectShowSecureApp);
   const referralCode = useSelector(selectReferralCode);
+  const trackingId = useSelector(selectTrackingId);
   const loggedIn = useSelector(selectLoggedIn);
   const location = useLocation();
   const goalsPageFeatureActive = useSelector(selectGoalsPageFeature);
@@ -257,15 +262,30 @@ const App = () => {
 
   const queryParams = useSelector(selectQueryTokens);
 
+  let updateQuery = false;
+
   // extract referral code (if any) and make available on registration page
-  if (queryParams.ref && queryParams.ref !== referralCode) {
-    dispatch(setReferralCode({ referralCode: queryParams.ref }));
+  if (queryParams.ref) {
+    if (queryParams.ref !== referralCode) {
+      dispatch(setReferralCode({ referralCode: queryParams.ref }));
+    }
     delete queryParams.ref;
+    updateQuery = true;
+  }
+
+  // extract tracking id (if any) and make available on registration page
+  if (queryParams.uid) {
+    if (queryParams.uid !== trackingId) {
+      dispatch(setTrackingId({ trackingId: queryParams.uid }));
+    }
+    delete queryParams.uid;
+    updateQuery = true;
   }
 
   // include query params in deep link redirect for insecure app
   if (queryParams.next) {
     delete queryParams.next;
+    updateQuery = true;
   }
   let appendParams = '';
   if (Object.keys(queryParams).length > 0) {
@@ -283,7 +303,17 @@ const App = () => {
     });
     if (params.next) {
       redirectPath = params.next as string;
+      queryParams.next = redirectPath;
     }
+  }
+
+  if (updateQuery) {
+    const newQuery = qs.stringify(queryParams);
+    let newPath = location.pathname;
+    if (newQuery) {
+      newPath += '?' + newQuery;
+    }
+    window.history.replaceState({}, '', newPath);
   }
 
   // stripe provider

@@ -54,6 +54,11 @@ export const setReferralCode: ActionCreator<Action> = (payload) => ({
   payload,
 });
 
+export const setTrackingId: ActionCreator<Action> = (payload) => ({
+  type: 'SET_TRACKING_ID',
+  payload,
+});
+
 export const loadAuthorizations: ActionCreator<ThunkAction<
   void,
   any,
