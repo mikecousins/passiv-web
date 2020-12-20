@@ -205,7 +205,7 @@ export const preloadRouteComponent = (to: string) => {
 // use the stripe test key unless we're in prod
 const stripePublicKey =
   process.env.REACT_APP_BASE_URL_OVERRIDE &&
-  process.env.REACT_APP_BASE_URL_OVERRIDE === 'passiv.com'
+  process.env.REACT_APP_BASE_URL_OVERRIDE === 'api.passiv.com'
     ? 'pk_live_LTLbjcwtt6gUmBleYqVVhMFX'
     : 'pk_test_UEivjUoJpfSDWq5i4xc64YNK';
 
