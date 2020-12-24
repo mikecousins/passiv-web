@@ -22,6 +22,7 @@ import AlpacaLogo from '../assets/images/alpaca-logo.png';
 import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 import TDAmeritradeLogo from '../assets/images/tda-logo.png';
 import TradierLogo from '../assets/images/tradier-logo.png';
+import WealthicaLogo from '../assets/images/wealthica-logo.png';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
 
@@ -203,7 +204,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       },
       openURL: 'https://wealthica.com/',
       major: true,
-      logo: 'Wealthica Logo',
+      logo: WealthicaLogo,
       description: (
         <P>
           Wealthica is a 3rd party account aggregator for your brokerage
