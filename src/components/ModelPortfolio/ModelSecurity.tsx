@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ModelAssetClass } from '../../types/modelAssetClass';
 import { selectCurrentModelPortfolioId } from '../../selectors/modelPortfolio';
-import NameInputAndEdit from '../NameInputAndEdit';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faEllipsisH,
-  faEllipsisV,
+  faLink,
   faPen,
   faTimesCircle,
   faToggleOff,
@@ -19,7 +16,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadModelPortfolio, loadModelPortfolios } from '../../actions';
 import { Formik, Form } from 'formik';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
-import { ToggleShow } from '../../pages/GoalDetailPage';
 import DropDownOptions from '../DropDownOptions';
 import { ToggleButton } from '../../styled/ToggleButton';
 
@@ -31,15 +27,6 @@ const Box = styled.div`
   @media (max-width: 900px) {
     margin-right: 0;
   }
-`;
-
-const StyledContainer = styled.div`
-  background: #fff;
-  display: inline-block;
-  position: relative;
-  top: -24px;
-  padding: 0 15px;
-  margin-bottom: -7px;
 `;
 
 const FormContainer = styled.div`
@@ -94,22 +81,22 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
   const [modelPortfolioName, setModelPortfolioName] = useState('');
   const [editName, setEditName] = useState(false);
   const [notAssetError, setNotAssetError] = useState(false);
-  const [shareModel, setShareModel] = useState(
-    modelPortfolio.model_portfolio.share_portfolio,
-  );
+  const [shareModel, setShareModel] = useState(false);
 
   const getRemainingPercent = () => {
     const allocatedPercent = modelPortfolio.model_portfolio_security.reduce(
       (sum, sec) => {
-        return sum + sec.percent;
+        return (+sum + +sec.percent).toFixed(3);
       },
-      0,
+      '0',
     );
-    return 100 - allocatedPercent;
+
+    return (100 - +allocatedPercent).toFixed(3);
   };
 
   useEffect(() => {
     setModelPortfolioName(modelPortfolio.model_portfolio.name);
+    setShareModel(modelPortfolio.model_portfolio.share_portfolio);
   }, [modelPortfolio]);
 
   // remove the error after 5 seconds
@@ -162,11 +149,12 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
     postData(`/api/v1/modelPortfolio/${modelPortfolioId}`, modelPortfolio)
       .then(() => {
         setShareModel(!shareModel);
+        dispatch(loadModelPortfolio({ id: modelPortfolioId }));
         dispatch(loadModelPortfolios());
       })
       .catch(() => {
         dispatch(loadModelPortfolios());
-        toast.error('Deletion Failed', { autoClose: 3000 });
+        toast.error('Change Share Model Failed', { autoClose: 3000 });
       });
   };
 
@@ -204,7 +192,11 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
           Share Model Portfolio
         </ToggleShareButton>
         <br />
-        {shareModel && <p>Share Model Link: {} </p>}
+        {shareModel && (
+          <p style={{ marginTop: '10px' }}>
+            <MarginedFontAwesomeIcon icon={faLink} /> Share Model Link: {}{' '}
+          </p>
+        )}
       </DropDownOptions>
       <ul
         style={{
@@ -265,7 +257,7 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
               symbol: {
                 id: values.securityId!,
               },
-              percent: values.percent,
+              percent: parseInt(values.percent.toFixed(3)),
             });
             postData(
               `/api/v1/modelPortfolio/${modelPortfolioId}`,
@@ -294,8 +286,8 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
                   type="number"
                   onChange={props.handleChange}
                   value={props.values.percent}
-                  min="0"
-                  max={getRemainingPercent()}
+                  // min="0"
+                  max={+getRemainingPercent()}
                   required
                 />
                 <PercentageLabel htmlFor="percentage">%</PercentageLabel>

@@ -11,7 +11,7 @@ export type ModelPortfolio = {
   id?: string;
   name: string;
   model_type: number;
-  share_portfolio?: boolean;
+  share_portfolio: boolean;
 };
 
 type Symbol = {

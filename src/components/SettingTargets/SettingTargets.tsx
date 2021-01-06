@@ -110,7 +110,7 @@ const SettingTargets = () => {
   } else {
     toBeLoaded = (
       <>
-        <H1 style={{ marginBottom: '20px' }}>Select Portfolio Group</H1>;
+        <H1 style={{ marginBottom: '20px' }}>Select Portfolio Group</H1>
         {groups
           ? groups.map((group) => {
               return (
