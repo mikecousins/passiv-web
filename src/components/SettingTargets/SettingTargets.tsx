@@ -114,7 +114,7 @@ const SettingTargets = () => {
         {groups
           ? groups.map((group) => {
               return (
-                <GreyBox>
+                <GreyBox key={group.id}>
                   <Table>
                     <H2 style={{ fontWeight: 400 }}>{group.name}</H2>{' '}
                     <span style={{ fontWeight: 600 }}>

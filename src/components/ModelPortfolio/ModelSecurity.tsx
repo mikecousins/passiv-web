@@ -173,7 +173,7 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
             Edit Name
           </button>
         ) : (
-          <button onClick={() => setEditName(true)}>
+          <button onClick={() => setEditName(false)}>
             <MarginedFontAwesomeIcon icon={faPen} />
             Finish Editing
           </button>
@@ -286,7 +286,7 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
                   type="number"
                   onChange={props.handleChange}
                   value={props.values.percent}
-                  // min="0"
+                  min={0}
                   max={+getRemainingPercent()}
                   required
                 />
