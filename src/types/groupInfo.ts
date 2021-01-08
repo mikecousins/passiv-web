@@ -124,5 +124,6 @@ export type GroupInfoData = {
   calculated_trades: CalculatedTrades;
   accuracy: number;
   settings: Settings;
+  model_portfolio: any; //TODO change to the actual type
   error: Error;
 };
