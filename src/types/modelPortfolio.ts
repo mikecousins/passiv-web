@@ -24,7 +24,7 @@ type Symbol = {
 
 export type TargetWithPercentage = {
   symbol: Symbol;
-  percent: number;
+  percent: string;
 };
 
 export type ModelAssetClassWithPercentage = {

@@ -257,7 +257,7 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
               symbol: {
                 id: values.securityId!,
               },
-              percent: parseInt(values.percent.toFixed(3)),
+              percent: values.percent.toFixed(3),
             });
             postData(
               `/api/v1/modelPortfolio/${modelPortfolioId}`,
@@ -286,8 +286,8 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
                   type="number"
                   onChange={props.handleChange}
                   value={props.values.percent}
-                  min={0}
-                  max={+getRemainingPercent()}
+                  // min={0}
+                  // max={+getRemainingPercent()}
                   required
                 />
                 <PercentageLabel htmlFor="percentage">%</PercentageLabel>
