@@ -21,21 +21,17 @@ const Tour = ({ steps, name }: Props) => {
   const [showMessage, setShowMessage] = useState(false);
   const isMobile = useSelector(selectIsMobile);
 
-  const goalsNewFeature = name === 'goals_new_feature';
-
   const handleJoyrideCallback = (data: any) => {
     if (
       data.lifecycle === 'complete' &&
-      ((goalsNewFeature && data.action === 'close') ||
-        data.action === 'skip' ||
+      (data.action === 'skip' ||
         (data.action === 'next' && data.status === 'finished'))
     ) {
-      if (!messages?.indexOf('tour-popup')) {
+      if (messages?.includes('tour-popup')) {
         toast.info('You can reset or turn the tours off in Help page.', {
           position: 'top-center',
           autoClose: false,
         });
-
         postData(`/api/v1/contextualMessages`, {
           name: ['tour-popup'],
         }).then(() => {
@@ -67,19 +63,18 @@ const Tour = ({ steps, name }: Props) => {
     <>
       {/* show tour if: user have access to this feature, the message hasn't been
       acknowledged, and the tour is not off OR show the goals feature*/}
-      {((!isMobile && showInAppTour && showTour && showMessage) ||
-        (!isMobile && showMessage && goalsNewFeature)) && (
+      {!isMobile && showInAppTour && showTour && showMessage && (
         <JoyRide
           callback={handleJoyrideCallback}
           steps={steps}
           showProgress
-          continuous={goalsNewFeature ? false : true}
+          continuous={true}
           showSkipButton={true}
           disableScrolling
           locale={{
             last: 'Hide tour',
             skip: 'Hide tour',
-            close: goalsNewFeature ? 'Close' : 'Hide tour',
+            close: 'Hide tour',
           }}
           styles={{
             tooltip: {
