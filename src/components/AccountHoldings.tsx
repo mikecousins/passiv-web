@@ -121,9 +121,14 @@ export const AccountHoldings = ({ holdings }: Props) => {
     return <FontAwesomeIcon icon={faSpinner} spin />;
   }
 
+  const hasOpenPnl =
+    holdings &&
+    holdings.positions &&
+    holdings.positions.some((position) => position.open_pnl !== null);
+
   const getCurrencyById = (currencyId: string) => {
     return (
-      currencies && currencies.find(currency => currencyId === currency.id)
+      currencies && currencies.find((currency) => currencyId === currency.id)
     );
   };
 
@@ -143,6 +148,11 @@ export const AccountHoldings = ({ holdings }: Props) => {
           <td data-label="Value">
             <Number value={position.price * position.units} currency />
           </td>
+          {hasOpenPnl && (
+            <td data-label="Open P&L">
+              <Number value={position.open_pnl} currency />
+            </td>
+          )}
           <td data-label="Currency">
             <CurrencyCodeBox title={currency ? currency.name : ''}>
               {currency && currency.code}
@@ -169,6 +179,11 @@ export const AccountHoldings = ({ holdings }: Props) => {
                 <th>
                   <Title>Value</Title>
                 </th>
+                {hasOpenPnl && (
+                  <th>
+                    <Title>Open P&L</Title>
+                  </th>
+                )}
                 <th>
                   <Title>Currency</Title>
                 </th>
