@@ -29,12 +29,12 @@ const SearchBar = () => {
 
     return (
       <div>
-        <Grid columns="1fr 1fr">
+        <ShadowBox>
           <H2 margin="40px 0 25px" title={faq.question}>
             {faq.question.substring(0, 100)}
           </H2>
           <P>{faq.resolution}</P>
-        </Grid>
+        </ShadowBox>
       </div>
     );
   };
@@ -65,11 +65,9 @@ const SearchBar = () => {
         </div>
         <div className="row-2-20">
           <FAQContainer>
-            <ShadowBox>
-              {filteredFaq.map((faq) => {
-                return renderFaq(faq);
-              })}
-            </ShadowBox>
+            {filteredFaq.map((faq) => {
+              return renderFaq(faq);
+            })}
           </FAQContainer>
         </div>
       </div>
