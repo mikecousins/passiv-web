@@ -7,20 +7,24 @@ import ContactForm from '../components/Help/ContactForm';
 import HelpHeader from '../components/Help/HelpHeader';
 import { selectShowInAppTour } from '../selectors/features';
 import ResetTour from '../components/Help/ResetTour';
+import SearchBar from '../components/Help/SearchBar';
+import CollapseBox from '../components/Help/CollapseBox';
 
 const HelpPage = () => {
   const showInAppTour = useSelector(selectShowInAppTour);
   return (
     <React.Fragment>
       <React.Fragment>
-        <HelpHeader />
-        <Table>
-          <ContactForm />
-          <Tutorial />
-          {showInAppTour && <ResetTour />}
-        </Table>
+        <SearchBar />
       </React.Fragment>
-      <FAQ />
+      <CollapseBox
+        title="Can't find what you're looking for? Send us a message!"
+        content={<ContactForm />}
+      />
+      <Table>
+        <Tutorial />
+        {showInAppTour && <ResetTour />}
+      </Table>
     </React.Fragment>
   );
 };
