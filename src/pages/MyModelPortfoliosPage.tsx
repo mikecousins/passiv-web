@@ -39,13 +39,13 @@ const ModelName = styled(H3)`
   font-size: 22px;
   font-weight: 600;
 `;
-const InUseDiv = styled.div`
-  font-size: 20px;
-`;
-const InUse = styled.span`
-  font-weight: 600;
-  margin-right: 7px;
-`;
+// const InUseDiv = styled.div`
+//   font-size: 20px;
+// `;
+// const InUse = styled.span`
+//   font-weight: 600;
+//   margin-right: 7px;
+// `;
 
 const MyModelPortfoliosPage = () => {
   const dispatch = useDispatch();
