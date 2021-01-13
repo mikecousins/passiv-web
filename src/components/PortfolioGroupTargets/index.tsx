@@ -47,7 +47,7 @@ const TOUR_STEPS = [
   },
 ];
 
-export const TargetContainer = styled.form`
+export const TargetContainer = styled.div`
   h2 {
     margin-bottom: 20px;
   }
