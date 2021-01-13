@@ -10,6 +10,7 @@ type faqObj = {
   question: string;
   resolution: string;
   keyword: string;
+  link: string;
 };
 
 const FAQContainer = styled.div`
@@ -34,6 +35,7 @@ const SearchBar = () => {
             {faq.question.substring(0, 100)}
           </H2>
           <P>{faq.resolution}</P>
+          <a href={faq.link}> Learn more </a>
         </ShadowBox>
       </div>
     );
