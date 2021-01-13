@@ -71,13 +71,14 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
   const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [confirmTicker, setConfirmTicker] = useState('');
 
   const loadOptions = () => {
     setLoading(true);
     postData(`/api/v1/portfolioGroups/${groupId}/symbols`, {
       substring: input,
     })
-      .then(response => {
+      .then((response) => {
         setMatchingSymbols(response.data);
         setLoading(false);
       })
@@ -91,7 +92,19 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
     if (!matchingSymbols) {
       return;
     }
-    const symbol = matchingSymbols.find(symbol => id === symbol.id);
+    const symbol = matchingSymbols.find((symbol) => id === symbol.id);
+    if (symbol) {
+      onSelect(symbol);
+    }
+  };
+
+  const handleSelectByTicker = (ticker: string) => {
+    if (!matchingSymbols) {
+      return;
+    }
+    const symbol = matchingSymbols.find(
+      (symbol) => ticker.toUpperCase() === symbol.symbol,
+    );
     if (symbol) {
       onSelect(symbol);
     }
@@ -109,11 +122,22 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
     setInput(event.target.value);
   };
 
+  const onEnter = (event: any) => {
+    if (event.which === 13) {
+      setConfirmTicker(event.target.value);
+    }
+  };
+
+  if (confirmTicker !== '') {
+    handleSelectByTicker(confirmTicker);
+  }
+
   return (
     <StyledCombobox onSelect={handleSelect}>
       <StyledInput
         value={value}
         onChange={onChange}
+        onKeyUp={onEnter}
         placeholder="Search for security..."
       />
       {loading ? (
