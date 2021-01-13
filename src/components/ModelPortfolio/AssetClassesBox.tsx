@@ -53,8 +53,9 @@ const AssetClassesBox = ({ assetClasses }: Props) => {
     if (target.length > 0) {
       target.map((t) => {
         if (t.symbol.symbol) {
-          return labelList.push(t.symbol.symbol);
+          labelList.push(t.symbol.symbol);
         }
+        return labelList;
       });
     }
     const label = labelList.join(', ');
