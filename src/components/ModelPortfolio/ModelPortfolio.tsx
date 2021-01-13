@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import {
@@ -14,16 +14,13 @@ import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
 import AssetClassesBox from './AssetClassesBox';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
-import {
-  selectModelPortfolio,
-  selectCurrentModelPortfolioId,
-} from '../../selectors/modelPortfolio';
-import { loadModelPortfolio, loadModelPortfolios } from '../../actions';
+import { loadModelPortfolios } from '../../actions';
 import { deleteData } from '../../api';
 import { SmallButton } from '../../styled/Button';
 import ModelSecurity from './ModelSecurity';
+import { selectCurrentModelPortfolio } from '../../selectors/modelPortfolios';
 
-const BackButton = styled.div`
+export const BackButton = styled.div`
   padding: 30px 10px;
   margin-bottom: 20px;
   display: block;
@@ -63,16 +60,10 @@ const ModelPortfolio = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const modelPortfolioId = useSelector(selectCurrentModelPortfolioId);
-
-  useEffect(() => {
-    dispatch(loadModelPortfolio({ id: modelPortfolioId }));
-  }, [dispatch, modelPortfolioId]);
-
   const [deleteDialog, setDeleteDialog] = useState(false);
 
-  const modelPortfolio: ModelPortfolioDetailsType | null = useSelector(
-    selectModelPortfolio,
+  const currentModelPortfolio: ModelPortfolioDetailsType | null = useSelector(
+    selectCurrentModelPortfolio,
   );
 
   const modelAssetClasses: ModelAssetClassDetailsType[] = useSelector(
@@ -85,65 +76,69 @@ const ModelPortfolio = () => {
 
   const handleDeleteModel = () => {
     deleteData(
-      `/api/v1/modelPortfolio/${modelPortfolio?.model_portfolio.id}`,
+      `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
     ).then(() => {
-      history.push('/app/setting-targets');
       dispatch(loadModelPortfolios());
+      history.push('/app/setting-targets');
     });
   };
 
   return (
     <>
-      <ShadowBox>
-        <BackButton>
-          <Link to={'/app/setting-targets'}>
-            <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to Setting
-            Targets
-          </Link>
-        </BackButton>
-        <ResponsiveGrid columns="4fr 2fr">
-          {modelPortfolio && modelPortfolio.model_portfolio.model_type === 1 ? (
-            <ModelPortoflioBox
-              assetClasses={assetClasses}
-              modelPortfolio={modelPortfolio}
-            />
-          ) : (
-            modelPortfolio && <ModelSecurity modelPortfolio={modelPortfolio} />
-          )}
-          {modelPortfolio?.model_portfolio.model_type === 1 && (
-            <AssetClassesBox assetClasses={modelAssetClasses} />
-          )}
-        </ResponsiveGrid>
-      </ShadowBox>
-      <DeleteContainer>
-        {deleteDialog ? (
-          <>
-            <SmallButton
-              onClick={handleDeleteModel}
-              style={{
-                backgroundColor: 'transparent',
-                color: 'black',
-                fontWeight: 600,
-              }}
-            >
-              Delete
-            </SmallButton>
-            <SmallButton
-              onClick={() => setDeleteDialog(false)}
-              style={{ fontWeight: 600 }}
-            >
-              Cancel
-            </SmallButton>
-          </>
-        ) : (
-          <button onClick={() => setDeleteDialog(true)}>
-            <FontAwesomeIcon icon={faTrashAlt} /> Delete{' '}
-            <span style={{ fontWeight: 600 }}>
-              {modelPortfolio?.model_portfolio.name}
-            </span>
-          </button>
-        )}
-      </DeleteContainer>
+      {currentModelPortfolio && (
+        <>
+          <ShadowBox>
+            <BackButton>
+              <Link to={'/app/my-model-portfolios'}>
+                <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to My
+                Models
+              </Link>
+            </BackButton>
+            <ResponsiveGrid columns="4fr 2fr">
+              {currentModelPortfolio!.model_portfolio.model_type === 1 ? (
+                <ModelPortoflioBox
+                  assetClasses={assetClasses}
+                  modelPortfolio={currentModelPortfolio}
+                />
+              ) : (
+                <ModelSecurity modelPortfolio={currentModelPortfolio} />
+              )}
+              {currentModelPortfolio!.model_portfolio.model_type === 1 && (
+                <AssetClassesBox assetClasses={modelAssetClasses} />
+              )}
+            </ResponsiveGrid>
+          </ShadowBox>
+          <DeleteContainer>
+            {deleteDialog ? (
+              <>
+                <SmallButton
+                  onClick={handleDeleteModel}
+                  style={{
+                    backgroundColor: 'transparent',
+                    color: 'black',
+                    fontWeight: 600,
+                  }}
+                >
+                  Delete
+                </SmallButton>
+                <SmallButton
+                  onClick={() => setDeleteDialog(false)}
+                  style={{ fontWeight: 600 }}
+                >
+                  Cancel
+                </SmallButton>
+              </>
+            ) : (
+              <button onClick={() => setDeleteDialog(true)}>
+                <FontAwesomeIcon icon={faTrashAlt} /> Delete{' '}
+                <span style={{ fontWeight: 600 }}>
+                  {currentModelPortfolio!.model_portfolio.name}
+                </span>
+              </button>
+            )}
+          </DeleteContainer>
+        </>
+      )}
     </>
   );
 };

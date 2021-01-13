@@ -14,6 +14,7 @@ import {
 } from '../components/Performance/DatePickers';
 import { checkIfOnline } from './online';
 import { loadGoals } from './goals';
+import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
 
 export const loginSucceeded: ActionCreator<Action> = (payload) => ({
   type: 'LOGIN_SUCCEEDED',
@@ -360,24 +361,6 @@ export const loadModelAssetClasses: ActionCreator<ThunkAction<
   };
 };
 
-export const loadModelPortfolio: ActionCreator<ThunkAction<
-  void,
-  any,
-  any,
-  Action<any>
->> = ({ id }) => {
-  return (dispatch) => {
-    dispatch(fetchModelPortfolioStart());
-    getData(`/api/v1/modelPortfolio/${id}`)
-      .then((response) => {
-        dispatch(fetchModelPortfolioSuccess(response));
-      })
-      .catch((error) => {
-        dispatch(fetchModelPortfolioError(error));
-      });
-  };
-};
-
 export const loadModelPortfolios: ActionCreator<ThunkAction<
   void,
   any,
@@ -388,6 +371,15 @@ export const loadModelPortfolios: ActionCreator<ThunkAction<
     dispatch(fetchModelPortfoliosStart());
     getData('/api/v1/modelPortfolio/')
       .then((response) => {
+        response.data.forEach((model: ModelPortfolioDetailsType) => {
+          const modelId = model.model_portfolio.id;
+          dispatch(fetchModelPortfolioStart(modelId));
+          getData(`/api/v1/modelPortfolio/${modelId}`)
+            .then((res) => {
+              dispatch(fetchModelPortfolioSuccess(res, modelId));
+            })
+            .catch((err) => dispatch(fetchModelPortfolioError(err, modelId)));
+        });
         dispatch(fetchModelPortfoliosSuccess(response));
       })
       .catch((error) => {
@@ -784,19 +776,22 @@ export const fetchAssetClassesError: ActionCreator<Action> = (payload) => ({
   data: payload,
 });
 
-export const fetchModelPortfolioStart: ActionCreator<Action> = () => ({
+export const fetchModelPortfolioStart: ActionCreator<Action> = (id) => ({
   type: 'FETCH_MODEL_PORTFOLIO_START',
+  id,
 });
 
-export const fetchModelPortfolioSuccess: ActionCreator<Action> = (payload) => {
-  return {
-    type: 'FETCH_MODEL_PORTFOLIO_SUCCESS',
-    payload,
-  };
-};
-export const fetchModelPortfolioError: ActionCreator<Action> = (payload) => ({
+export const fetchModelPortfolioSuccess: ActionCreator<Action> = (
+  payload,
+  id,
+) => ({ type: 'FETCH_MODEL_PORTFOLIO_SUCCESS', payload, id });
+
+export const fetchModelPortfolioError: ActionCreator<Action> = (
+  payload,
+  id,
+) => ({
   type: 'FETCH_MODEL_PORTFOLIO_ERROR',
-  data: payload,
+  payload,
 });
 
 export const fetchModelPortfoliosStart: ActionCreator<Action> = () => ({

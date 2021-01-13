@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { ModelAssetClass } from '../../types/modelAssetClass';
-import { selectCurrentModelPortfolioId } from '../../selectors/modelPortfolio';
 import NameInputAndEdit from '../NameInputAndEdit';
 import AssetClassSelector from './AssetClassSelector';
 import styled from '@emotion/styled';
@@ -9,8 +8,8 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { postData } from '../../api';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadModelPortfolio, loadModelPortfolios } from '../../actions';
+import { useDispatch } from 'react-redux';
+import { loadModelPortfolios } from '../../actions';
 import { Formik, Form } from 'formik';
 
 const Box = styled.div`
@@ -70,10 +69,9 @@ type Props = {
 
 const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
   const dispatch = useDispatch();
-
-  const modelPortfolioId = useSelector(selectCurrentModelPortfolioId);
-
-  const [modelPortfolioName, setModelPortfolioName] = useState('');
+  const [modelPortfolioName, setModelPortfolioName] = useState(
+    modelPortfolio.model_portfolio.name,
+  );
   const [editName, setEditName] = useState(false);
   const [notAssetError, setNotAssetError] = useState(false);
 
@@ -101,10 +99,6 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
     return 100 - allocatedPercent;
   };
 
-  useEffect(() => {
-    setModelPortfolioName(modelPortfolio.model_portfolio.name);
-  }, [modelPortfolio]);
-
   // remove the error after 5 seconds
   useEffect(() => {
     setTimeout(() => setNotAssetError(false), 5000);
@@ -116,13 +110,15 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
       modelPortfolioName!.trim().length > 0
     ) {
       modelPortfolio.model_portfolio.name = modelPortfolioName;
-      postData(`/api/v1/modelPortfolio/${modelPortfolioId}`, modelPortfolio)
+      postData(
+        `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
+        modelPortfolio,
+      )
         .then(() => {
-          dispatch(loadModelPortfolio({ id: modelPortfolioId }));
           dispatch(loadModelPortfolios());
         })
         .catch(() => {
-          // dispatch(loadModelPortfolio({ id: modelPortfolioId }));
+          dispatch(loadModelPortfolios());
           toast.error(
             `${modelPortfolio.model_portfolio.name} Model Portfolio Name Update Failed`,
             { autoClose: 3000 },
@@ -138,12 +134,15 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
     modelPortfolio.model_portfolio_asset_class.forEach((astCls, index) => {
       if (astCls.model_asset_class.id === id) {
         modelPortfolio.model_portfolio_asset_class.splice(index, 1);
-        postData(`/api/v1/modelPortfolio/${modelPortfolioId}`, modelPortfolio)
+        postData(
+          `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
+          modelPortfolio,
+        )
           .then(() => {
-            dispatch(loadModelPortfolio({ id: modelPortfolioId }));
+            dispatch(loadModelPortfolios());
           })
           .catch(() => {
-            dispatch(loadModelPortfolio({ id: modelPortfolioId }));
+            dispatch(loadModelPortfolios());
             toast.error('Deletion Failed', { autoClose: 3000 });
           });
       }
@@ -226,15 +225,15 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
               percent: values.percent,
             });
             postData(
-              `/api/v1/modelPortfolio/${modelPortfolioId}`,
+              `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
               modelPortfolio,
             )
               .then(() => {
-                dispatch(loadModelPortfolio({ id: modelPortfolioId }));
+                dispatch(loadModelPortfolios());
                 actions.resetForm();
               })
               .catch(() => {
-                dispatch(loadModelPortfolio({ id: modelPortfolioId }));
+                dispatch(loadModelPortfolios());
                 getRemainingPercent();
                 setNotAssetError(true);
                 actions.resetForm();

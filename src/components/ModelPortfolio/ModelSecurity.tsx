@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { selectCurrentModelPortfolioId } from '../../selectors/modelPortfolio';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -12,8 +11,8 @@ import {
 import { toast } from 'react-toastify';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { postData } from '../../api';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadModelPortfolio, loadModelPortfolios } from '../../actions';
+import { useDispatch } from 'react-redux';
+import { loadModelPortfolios } from '../../actions';
 import { Formik, Form } from 'formik';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import DropDownOptions from '../DropDownOptions';
@@ -76,12 +75,14 @@ type Props = {
 const ModelSecurity = ({ modelPortfolio }: Props) => {
   const dispatch = useDispatch();
 
-  const modelPortfolioId = useSelector(selectCurrentModelPortfolioId);
-
-  const [modelPortfolioName, setModelPortfolioName] = useState('');
+  const [modelPortfolioName, setModelPortfolioName] = useState(
+    modelPortfolio.model_portfolio.name,
+  );
   const [editName, setEditName] = useState(false);
   const [notAssetError, setNotAssetError] = useState(false);
-  const [shareModel, setShareModel] = useState(false);
+  const [shareModel, setShareModel] = useState(
+    modelPortfolio.model_portfolio.share_portfolio,
+  );
 
   const getRemainingPercent = () => {
     const allocatedPercent = modelPortfolio.model_portfolio_security.reduce(
@@ -94,11 +95,6 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
     return (100 - +allocatedPercent).toFixed(3);
   };
 
-  useEffect(() => {
-    setModelPortfolioName(modelPortfolio.model_portfolio.name);
-    setShareModel(modelPortfolio.model_portfolio.share_portfolio);
-  }, [modelPortfolio]);
-
   // remove the error after 5 seconds
   useEffect(() => {
     setTimeout(() => setNotAssetError(false), 5000);
@@ -110,13 +106,15 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
       modelPortfolioName!.trim().length > 0
     ) {
       modelPortfolio.model_portfolio.name = modelPortfolioName;
-      postData(`/api/v1/modelPortfolio/${modelPortfolioId}`, modelPortfolio)
+      postData(
+        `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
+        modelPortfolio,
+      )
         .then(() => {
-          dispatch(loadModelPortfolio({ id: modelPortfolioId }));
           dispatch(loadModelPortfolios());
         })
         .catch(() => {
-          // dispatch(loadModelPortfolio({ id: modelPortfolioId }));
+          dispatch(loadModelPortfolios());
           toast.error(
             `${modelPortfolio.model_portfolio.name} Model Portfolio Name Update Failed`,
             { autoClose: 3000 },
@@ -132,12 +130,15 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
     modelPortfolio.model_portfolio_security.forEach((sec, index) => {
       if (sec.symbol.id === id) {
         modelPortfolio.model_portfolio_security.splice(index, 1);
-        postData(`/api/v1/modelPortfolio/${modelPortfolioId}`, modelPortfolio)
+        postData(
+          `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
+          modelPortfolio,
+        )
           .then(() => {
-            dispatch(loadModelPortfolio({ id: modelPortfolioId }));
+            dispatch(loadModelPortfolios());
           })
           .catch(() => {
-            dispatch(loadModelPortfolio({ id: modelPortfolioId }));
+            dispatch(loadModelPortfolios());
             toast.error('Deletion Failed', { autoClose: 3000 });
           });
       }
@@ -146,10 +147,12 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
 
   const handleToggleBtn = () => {
     modelPortfolio.model_portfolio.share_portfolio = !shareModel;
-    postData(`/api/v1/modelPortfolio/${modelPortfolioId}`, modelPortfolio)
+    postData(
+      `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
+      modelPortfolio,
+    )
       .then(() => {
         setShareModel(!shareModel);
-        dispatch(loadModelPortfolio({ id: modelPortfolioId }));
         dispatch(loadModelPortfolios());
       })
       .catch(() => {
@@ -260,15 +263,15 @@ const ModelSecurity = ({ modelPortfolio }: Props) => {
               percent: values.percent.toFixed(3),
             });
             postData(
-              `/api/v1/modelPortfolio/${modelPortfolioId}`,
+              `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
               modelPortfolio,
             )
               .then(() => {
-                dispatch(loadModelPortfolio({ id: modelPortfolioId }));
+                dispatch(loadModelPortfolios());
                 actions.resetForm();
               })
               .catch(() => {
-                dispatch(loadModelPortfolio({ id: modelPortfolioId }));
+                dispatch(loadModelPortfolios());
                 getRemainingPercent();
                 setNotAssetError(true);
                 actions.resetForm();
