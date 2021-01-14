@@ -88,16 +88,6 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
       });
   };
 
-  const handleSelect = (id: string) => {
-    if (!matchingSymbols) {
-      return;
-    }
-    const symbol = matchingSymbols.find((symbol) => id === symbol.id);
-    if (symbol) {
-      onSelect(symbol);
-    }
-  };
-
   const handleSelectByTicker = (ticker: string) => {
     if (!matchingSymbols) {
       return;
@@ -133,7 +123,7 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
   }
 
   return (
-    <StyledCombobox onSelect={handleSelect}>
+    <StyledCombobox onSelect={handleSelectByTicker}>
       <StyledInput
         value={value}
         onChange={onChange}
