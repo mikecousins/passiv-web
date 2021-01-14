@@ -153,7 +153,7 @@ const SymbolSelector = ({ value, onSelect }: Props) => {
             <ComboboxList>
               {matchingSymbols.map((option: any, index) => {
                 return (
-                  <StyledComboboxOption key={index} value={option.id}>
+                  <StyledComboboxOption key={index} value={option.symbol}>
                     <span>
                       {option.symbol} ({option.description})
                     </span>
