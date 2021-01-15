@@ -171,21 +171,34 @@ export const AccountHoldings = ({ holdings }: Props) => {
       name: 'Ticker',
       show: true,
       sortable: true,
-      currency: false,
+      sortFunc: (a: Position, b: Position): number => {
+        let result = 1;
+        if (b.symbol.symbol.symbol < a.symbol.symbol.symbol) {
+          result = 1;
+        } else {
+          result = -1;
+        }
+        if (sortAsc) {
+          return result;
+        } else {
+          return -result;
+        }
+      },
     },
     {
       id: 'units',
       name: 'Units',
       show: true,
       sortable: true,
-      currency: false,
+      sortFunc: (a: Position, b: Position): number => {
+        return multiplier * (b.units - a.units);
+      },
     },
     {
       id: 'price',
       name: 'Price',
       show: true,
       sortable: true,
-      currency: true,
       sortFunc: (a: Position, b: Position): number => {
         const aPreferred = convertCurrencyToPreferred(
           a.price,
@@ -203,7 +216,6 @@ export const AccountHoldings = ({ holdings }: Props) => {
       name: 'Value',
       show: true,
       sortable: true,
-      currency: true,
       sortFunc: (a: Position, b: Position): number => {
         const aPreferred =
           convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
@@ -219,7 +231,6 @@ export const AccountHoldings = ({ holdings }: Props) => {
       name: 'Open P&L',
       show: hasOpenPnl,
       sortable: true,
-      currency: true,
       sortFunc: (a: Position, b: Position): number => {
         const aPreferred = convertCurrencyToPreferred(
           a.open_pnl,
@@ -229,7 +240,6 @@ export const AccountHoldings = ({ holdings }: Props) => {
           b.open_pnl,
           b.symbol.symbol.currency,
         );
-        // console.log('convert', a.open_pnl, a.symbol.symbol.currency, 'to', aPreferred, preferredCurrency&& preferredCurrency.id)
         return multiplier * (bPreferred - aPreferred);
       },
     },
@@ -238,7 +248,6 @@ export const AccountHoldings = ({ holdings }: Props) => {
       name: 'Currency',
       show: true,
       sortable: false,
-      currency: false,
     },
   ];
 
@@ -256,7 +265,6 @@ export const AccountHoldings = ({ holdings }: Props) => {
     } else {
       setSortAsc(!sortAsc);
     }
-    console.log('click');
   };
 
   const renderedPositions =
