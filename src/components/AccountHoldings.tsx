@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSpinner,
+  faSort,
+  faSortUp,
+  faSortDown,
+} from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import { Title, P } from '../styled/GlobalElements';
@@ -8,7 +13,16 @@ import Number from './Number';
 import { selectCurrencies } from '../selectors/currencies';
 import ShadowBox from '../styled/ShadowBox';
 import { SymbolDetail } from './SymbolDetail';
-import { AccountHoldings as AccountHoldingsType } from '../selectors/groups';
+import { selectCurrencyRates } from '../selectors';
+import {
+  AccountHoldings as AccountHoldingsType,
+  selectPreferredCurrency,
+} from '../selectors/groups';
+import { Position } from '../types/account';
+
+export const FontAwesomeIconDisabled = styled(FontAwesomeIcon)`
+  opacity: 0.4;
+`;
 
 export const HoldingsTable = styled.table`
   width: 100%;
@@ -116,6 +130,23 @@ type Props = {
 
 export const AccountHoldings = ({ holdings }: Props) => {
   const currencies = useSelector(selectCurrencies);
+  const preferredCurrency = useSelector(selectPreferredCurrency);
+  const currencyRates = useSelector(selectCurrencyRates);
+  const [sortKey, setSortKey] = useState<string>('value');
+  const [sortAsc, setSortAsc] = useState<boolean>(false);
+
+  const convertCurrencyToPreferred = (value: number, src: string): number => {
+    const conversionRate =
+      currencyRates &&
+      currencyRates.find(
+        (rate) =>
+          preferredCurrency &&
+          rate.src.id === src &&
+          rate.dst.id === preferredCurrency.id,
+      );
+
+    return conversionRate ? value * conversionRate.exchange_rate : value;
+  };
 
   if (!holdings) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
@@ -132,9 +163,105 @@ export const AccountHoldings = ({ holdings }: Props) => {
     );
   };
 
+  const multiplier = sortAsc ? -1 : 1;
+
+  const headers = [
+    {
+      id: 'name',
+      name: 'Ticker',
+      show: true,
+      sortable: true,
+      currency: false,
+    },
+    {
+      id: 'units',
+      name: 'Units',
+      show: true,
+      sortable: true,
+      currency: false,
+    },
+    {
+      id: 'price',
+      name: 'Price',
+      show: true,
+      sortable: true,
+      currency: true,
+      sortFunc: (a: Position, b: Position): number => {
+        const aPreferred = convertCurrencyToPreferred(
+          a.price,
+          a.symbol.symbol.currency,
+        );
+        const bPreferred = convertCurrencyToPreferred(
+          b.price,
+          b.symbol.symbol.currency,
+        );
+        return multiplier * (bPreferred - aPreferred);
+      },
+    },
+    {
+      id: 'value',
+      name: 'Value',
+      show: true,
+      sortable: true,
+      currency: true,
+      sortFunc: (a: Position, b: Position): number => {
+        const aPreferred =
+          convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
+          a.units;
+        const bPreferred =
+          convertCurrencyToPreferred(b.price, b.symbol.symbol.currency) *
+          b.units;
+        return multiplier * (bPreferred - aPreferred);
+      },
+    },
+    {
+      id: 'open_pnl',
+      name: 'Open P&L',
+      show: hasOpenPnl,
+      sortable: true,
+      currency: true,
+      sortFunc: (a: Position, b: Position): number => {
+        const aPreferred = convertCurrencyToPreferred(
+          a.open_pnl,
+          a.symbol.symbol.currency,
+        );
+        const bPreferred = convertCurrencyToPreferred(
+          b.open_pnl,
+          b.symbol.symbol.currency,
+        );
+        // console.log('convert', a.open_pnl, a.symbol.symbol.currency, 'to', aPreferred, preferredCurrency&& preferredCurrency.id)
+        return multiplier * (bPreferred - aPreferred);
+      },
+    },
+    {
+      id: 'currency',
+      name: 'Currency',
+      show: true,
+      sortable: false,
+      currency: false,
+    },
+  ];
+
+  const currentHeader = headers.find((header) => header.id === sortKey);
+
+  let sortedPositions = holdings.positions && holdings.positions;
+
+  currentHeader &&
+    sortedPositions != null &&
+    sortedPositions.sort(currentHeader.sortFunc);
+
+  const triggerSort = (key: string) => {
+    if (key !== sortKey) {
+      setSortKey(key);
+    } else {
+      setSortAsc(!sortAsc);
+    }
+    console.log('click');
+  };
+
   const renderedPositions =
-    holdings.positions &&
-    holdings.positions.map((position: any) => {
+    sortedPositions &&
+    sortedPositions.map((position: any) => {
       const currency = getCurrencyById(position.symbol.symbol.currency);
       return (
         <tr key={position.symbol.id}>
@@ -162,35 +289,48 @@ export const AccountHoldings = ({ holdings }: Props) => {
       );
     });
 
+  const headersRender = (
+    <HoldingsTable>
+      <thead>
+        <tr>
+          {headers.map((header) => {
+            if (header.show === false) {
+              return null;
+            } else {
+              const sortIcon =
+                sortKey === header.id ? (
+                  <FontAwesomeIcon icon={sortAsc ? faSortUp : faSortDown} />
+                ) : (
+                  <FontAwesomeIconDisabled icon={faSort} />
+                );
+              if (header.sortable) {
+                return (
+                  <th key={header.id}>
+                    <Title onClick={() => triggerSort(header.id)}>
+                      {header.name}&nbsp;{sortIcon}
+                    </Title>
+                  </th>
+                );
+              } else {
+                return (
+                  <th key={header.id}>
+                    <Title>{header.name}</Title>
+                  </th>
+                );
+              }
+            }
+          })}
+        </tr>
+      </thead>
+      <tbody>{renderedPositions}</tbody>
+    </HoldingsTable>
+  );
+
   return (
     <ShadowBox>
       <HoldingsBox>
         {holdings.positions && holdings.positions.length > 0 ? (
-          <HoldingsTable>
-            <thead>
-              <tr>
-                <th></th>
-                <th>
-                  <Title>Units</Title>
-                </th>
-                <th>
-                  <Title>Price</Title>
-                </th>
-                <th>
-                  <Title>Value</Title>
-                </th>
-                {hasOpenPnl && (
-                  <th>
-                    <Title>Open P&L</Title>
-                  </th>
-                )}
-                <th>
-                  <Title>Currency</Title>
-                </th>
-              </tr>
-            </thead>
-            <tbody>{renderedPositions}</tbody>
-          </HoldingsTable>
+          headersRender
         ) : (
           <NoPositionsBox>
             <P>There are no open positions in this account.</P>
