@@ -6,7 +6,7 @@ describe('Tutorial Links work', () => {
     })
 
 it('Article links all work', () => {
-    cy.get('ul').children().should('have.length', 12)
+    cy.get('ul').children().should('have.length', 13)
     // .selectNth(1).click()
     cy.get('ul>li div a').eq(0).click({multiple:true})
 

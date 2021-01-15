@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { CashReturn, SubHeader, toDollarString } from './Performance';
 import {
   selectTotalEquityTimeframe,
-  selectContributions,
+  selectContributionTimeframeCumulative,
 } from '../../selectors/performance';
 import { PastValue } from '../../types/performance';
 import Tooltip from '../Tooltip';
@@ -26,19 +26,27 @@ export const PerformanceCapitalGain = () => {
     selectTotalEquityTimeframe,
   );
   equityData?.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
-  const contributions = useSelector(selectContributions);
+  const contributionData: PastValue[] | undefined = useSelector(
+    selectContributionTimeframeCumulative,
+  );
+  contributionData?.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
 
   let capitalGainsString = 'loading...';
   let capitalGains = 0;
-  let change = 0;
+  let changeInEquity = 0;
+  let changeInContributions = 0;
   if (
-    contributions !== null &&
-    contributions !== undefined &&
     equityData !== null &&
-    equityData !== undefined
+    equityData !== undefined &&
+    contributionData !== null &&
+    contributionData !== undefined
   ) {
-    change = equityData[equityData.length - 1].value - equityData[0].value;
-    capitalGains = change - contributions.contributions;
+    changeInEquity =
+      equityData[equityData.length - 1].value - equityData[0].value;
+    changeInContributions =
+      contributionData[contributionData.length - 1].value -
+      contributionData[0].value;
+    capitalGains = changeInEquity - changeInContributions;
     capitalGainsString = toDollarString(capitalGains);
   }
 

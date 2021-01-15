@@ -35,7 +35,7 @@ const ConnectionsManager = () => {
   };
 
   return (
-    <ShadowBox className="tour-connections">
+    <ShadowBox className="tour-edit-connections">
       <H2>Connections</H2>
       <Connections />
 
@@ -74,6 +74,7 @@ const ConnectionsManager = () => {
               }
             }}
             disabled={isDemo}
+            className="tour-add-more-connections"
           >
             {authorizations && authorizations.length > 0
               ? 'Add Another Connection'

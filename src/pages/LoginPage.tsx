@@ -32,7 +32,7 @@ const LoginPage = () => {
           email: values.email,
           password: values.password,
         })
-          .then(response => {
+          .then((response) => {
             actions.setSubmitting(false);
             if (response.data.token === null && response.data.mfa_required) {
               setStateMFA(response.data.mfa_required);
@@ -40,7 +40,7 @@ const LoginPage = () => {
               dispatch(loginSucceeded(response));
             }
           })
-          .catch(error => {
+          .catch((error) => {
             actions.setErrors({
               password:
                 error.response.data.non_field_errors || 'Failed to login.',
@@ -48,7 +48,7 @@ const LoginPage = () => {
             actions.setSubmitting(false);
           });
       }}
-      render={props => (
+      render={(props) => (
         <Form onSubmit={props.handleSubmit}>
           <Label htmlFor="email">Email</Label>
           <Input name="email" placeholder="Email" autoFocus />
@@ -80,6 +80,8 @@ const LoginPage = () => {
   );
 
   if (stateMFA !== null) {
+    console.log(stateMFA);
+
     form = (
       <Formik
         key={'2fa'}
@@ -94,20 +96,31 @@ const LoginPage = () => {
             token: values.token,
             state: stateMFA && stateMFA.state,
           })
-            .then(response => {
+            .then((response) => {
               actions.setSubmitting(false);
               dispatch(loginSucceeded(response));
             })
-            .catch(error => {
+            .catch((error) => {
               actions.setErrors({
                 token: error.response.data.detail || 'Failed to login.',
               });
               actions.setSubmitting(false);
             });
         }}
-        render={props => (
+        render={(props) => (
           <Form onSubmit={props.handleSubmit}>
             <Label htmlFor="token">Verification Code</Label>
+            {stateMFA.type === 'OTP_TOKEN' ? (
+              <P>
+                Enter the 6-digit security code from your authenticator app.
+              </P>
+            ) : (
+              <P>
+                A text message with a 6-digit verification code was just sent to{' '}
+                {stateMFA.phone_number.slice(0).replace(/.(?=..)/g, '*')}.
+              </P>
+            )}
+
             <Input
               name="token"
               placeholder="Code"
