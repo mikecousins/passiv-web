@@ -5,6 +5,7 @@ export type ModelPortfolioDetailsType = {
   model_portfolio: ModelPortfolio;
   model_portfolio_asset_class: ModelAssetClassWithPercentage[];
   model_portfolio_security: TargetWithPercentage[];
+  total_assigned_portfolio_groups: number;
 };
 
 export type ModelPortfolio = {
@@ -29,5 +30,5 @@ export type TargetWithPercentage = {
 
 export type ModelAssetClassWithPercentage = {
   model_asset_class: ModelAssetClass;
-  percent: number;
+  percent: string;
 };
