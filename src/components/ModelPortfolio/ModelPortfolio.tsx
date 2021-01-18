@@ -15,10 +15,11 @@ import Grid from '../../styled/Grid';
 import AssetClassesBox from './AssetClassesBox';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { loadModelPortfolios } from '../../actions';
-import { deleteData } from '../../api';
-import { SmallButton } from '../../styled/Button';
+import { deleteData, postData } from '../../api';
+import { Button, SmallButton } from '../../styled/Button';
 import ModelSecurity from './ModelSecurity';
 import { selectCurrentModelPortfolio } from '../../selectors/modelPortfolios';
+import { toast } from 'react-toastify';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -56,13 +57,15 @@ const DeleteContainer = styled.div`
   float: right;
 `;
 
+const UseAssetClassBtn = styled(Button)``;
+
 const ModelPortfolio = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [deleteDialog, setDeleteDialog] = useState(false);
 
-  const currentModelPortfolio: ModelPortfolioDetailsType | null = useSelector(
+  let currentModelPortfolio: ModelPortfolioDetailsType | null = useSelector(
     selectCurrentModelPortfolio,
   );
 
@@ -81,6 +84,24 @@ const ModelPortfolio = () => {
       dispatch(loadModelPortfolios());
       history.push('/app/setting-targets');
     });
+  };
+
+  const handleUseAssetClass = () => {
+    if (currentModelPortfolio !== null) {
+      currentModelPortfolio.model_portfolio.model_type = 1;
+      postData(
+        `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
+        currentModelPortfolio,
+      )
+        .then(() => {
+          dispatch(loadModelPortfolios());
+        })
+        .catch(() => {
+          toast.error('Unable to use asset classes for this model.', {
+            autoClose: 3000,
+          });
+        });
+    }
   };
 
   return (
@@ -107,7 +128,14 @@ const ModelPortfolio = () => {
                 <AssetClassesBox assetClasses={modelAssetClasses} />
               )}
             </ResponsiveGrid>
+            {currentModelPortfolio!.model_portfolio.model_type === 0 &&
+              currentModelPortfolio!.model_portfolio_security.length === 0 && (
+                <UseAssetClassBtn onClick={handleUseAssetClass}>
+                  Use Asset Classes
+                </UseAssetClassBtn>
+              )}
           </ShadowBox>
+
           <DeleteContainer>
             {deleteDialog ? (
               <>
