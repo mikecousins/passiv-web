@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getData, postData } from '../../api';
 import styled from '@emotion/styled';
-import { loadModelPortfolios } from '../../actions';
+import { loadGroup, loadGroupInfo, loadModelPortfolios } from '../../actions';
 import { selectModelPortfolios } from '../../selectors/modelPortfolios';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,6 +14,7 @@ import {
   faAngleUp,
   faAngleLeft,
   faPlus,
+  faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   selectCurrentGroup,
@@ -25,6 +26,7 @@ import { H2, H3, P } from '../../styled/GlobalElements';
 import { GreyBox } from './SettingTargets';
 import { BackButton } from '../ModelPortfolio/ModelPortfolio';
 import { toast } from 'react-toastify';
+import AssetClassModelDetails from './AssetClassModelDetails';
 
 const StyledMenuButton = styled(MenuButton)`
   border: 1px solid var(--brand-blue);
@@ -53,108 +55,167 @@ const NewModelBtn = styled.button`
 const TopInfo = styled.div`
   margin-bottom: 30px;
 `;
+
+const GroupName = styled(H2)`
+  font-weight: 400;
+  line-height: 50px;
+`;
 const AssetDetails = styled.div`
   margin-left: 20px;
+`;
+const Name = styled.span`
+  font-weight: 400;
+  font-size: 23px;
+`;
+const Percent = styled.span`
+  font-weight: 400;
+  font-size: 33px;
+`;
+const SecurityNotInTarget = styled.div`
+  margin: 50px 20px;
+  border-top: 1px solid #bfb6b6;
+`;
+
+const NoSecurities = styled(P)`
+  text-align: center;
+  font-weight: 600;
 `;
 
 const ApplyTarget = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const currentGroup = useSelector(selectCurrentGroup);
   const currentGroupInfo = useSelector(selectCurrentGroupInfo);
   const modelPortfolios: ModelPortfolioDetailsType[] = useSelector(
     selectModelPortfolios,
   );
   const [selectedName, setSelectedName] = useState('Apply a Model');
-  const [selectedModel, setSelectedModel] = useState<
-    ModelPortfolioDetailsType
-  >();
-  const [selectedModelDetails, setSelectedModelDetails] = useState();
+  const [selectedModelDetails, setSelectedModelDetails] = useState<any>();
   const [showDetails, setShowDetails] = useState(false);
+  const [showDetailsId, setShowDetailsId] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const loadModelForCurrentGroup = () => {
+    //! have to make an action for this
+    getData(
+      `/api/v1/portfolioGroups/${currentGroup?.id}/modelPortfolio/${currentGroupInfo?.model_portfolio?.id}`,
+    )
+      .then((res) => {
+        setSelectedModelDetails(res.data);
+        setSelectedName(currentGroupInfo?.model_portfolio?.name);
+        setLoading(false);
+      })
+      .catch(() => {
+        toast.error('Loading Model Failed.');
+      });
+  };
 
   useEffect(() => {
     if (currentGroupInfo?.model_portfolio) {
       setSelectedName(currentGroupInfo?.model_portfolio.name);
-      getData(
-        `/api/v1/modelPortfolio/${currentGroupInfo.model_portfolio.id}`,
-      ).then((res) => {
-        setSelectedModel(res.data);
-        getData(
-          `/api/v1/portfolioGroups/${currentGroup?.id}/modelPortfolio/${currentGroupInfo?.model_portfolio.id}`,
-        ).then((res) => {
-          setSelectedModelDetails(res.data);
-        });
-      });
+      setLoading(true);
+      loadModelForCurrentGroup();
     }
   }, [currentGroup, currentGroupInfo]);
 
-  const handleModelSelect = (model: ModelPortfolioDetailsType) => {
-    if (model.model_portfolio.id === selectedModel?.model_portfolio.id) {
-      return;
-    }
-    postData(
-      `/api/v1/portfolioGroups/${currentGroup?.id}/modelPortfolio/${model.model_portfolio.id}`,
-      {},
-    )
-      .then(() => {
-        setSelectedModel(model);
-        setSelectedName(model.model_portfolio.name);
-        toast.success(
-          `"${model.model_portfolio.name}" model applied to "${currentGroup?.name}"`,
-          { autoClose: 3000 },
-        );
-      })
-      .catch(() => {
-        // check when symbol is not supported
+  const getAssetClass = (id: string) => {
+    const securityIds: string[] = [];
+    getData(`/api/v1/modelAssetClass/${id}`).then((res) => {
+      res.data.model_asset_class_target.map((symbol: any) => {
+        securityIds.push(symbol.symbol.id);
       });
+    });
+    return securityIds;
+  };
+
+  const handleModelSelect = (model: ModelPortfolioDetailsType) => {
+    setLoading(true);
+    if (model.model_portfolio.model_type === 0) {
+      postData(
+        `/api/v1/portfolioGroups/${currentGroup?.id}/modelPortfolio/${model.model_portfolio.id}`,
+        {},
+      )
+        .then((res) => {
+          dispatch(loadModelPortfolios());
+          dispatch(loadGroupInfo());
+          loadModelForCurrentGroup();
+          toast.success(
+            `"${model.model_portfolio.name}" model applied to "${currentGroup?.name}".`,
+            { autoClose: 3000 },
+          );
+        })
+        .catch(() => {
+          toast.error(
+            `"${model.model_portfolio.name}" model failed to apply to "${currentGroup?.name}".`,
+            { autoClose: 3000 },
+          );
+        });
+    }
+    // else {
+    //   const priorities: any[] = [];
+    //   model.model_portfolio_asset_class.map((assetClass) => {
+    //     let assetClassObj;
+    //     let assetClassSecurities = getAssetClass(
+    //       assetClass.model_asset_class.id,
+    //     );
+    //     let symbolPriority: any[] = [];
+    //     // @ts-ignore
+    //     assetClassSecurities.map((securityId: any) => {
+    //       symbolPriority.push({
+    //         symbol_id: securityId,
+    //         accounts_id: [],
+    //       });
+    //     });
+    //     assetClassObj = {
+    //       model_asset_class: {
+    //         id: assetClass.model_asset_class.id,
+    //         name: assetClass.model_asset_class.name,
+    //       },
+    //       symbols_accounts_priorities: symbolPriority,
+    //     };
+    //     priorities.push(assetClassObj);
+    //   });
+    //   const body = {
+    //     priorities: priorities,
+    //     securities_not_in_targets: [],
+    //     excluded_symbols: [],
+    //   };
+    //   postData(
+    //     `/api/v1/portfolioGroups/${currentGroup?.id}/modelPortfolio/${model.model_portfolio.id}`,
+    //     body,
+    //   )
+    //     .then((res) => {
+    //       dispatch(loadModelPortfolios());
+    //       dispatch(loadGroupInfo());
+    //       loadModelForCurrentGroup();
+    //       toast.success(
+    //         `"${model.model_portfolio.name}" model applied to "${currentGroup?.name}".`,
+    //         { autoClose: 3000 },
+    //       );
+    //     })
+    //     .catch(() => {
+    //       toast.error(
+    //         `"${model.model_portfolio.name}" model failed to apply to "${currentGroup?.name}".`,
+    //         { autoClose: 3000 },
+    //       );
+    //     });
+    // }
   };
 
   const handleNewModelBtn = () => {
     postData('/api/v1/modelPortfolio/', {})
-      .then((res: any) => {
-        const id = res.data.model_portfolio.id;
-        history.replace(`model-portfolio/${id}`);
+      .then(() => {
         dispatch(loadModelPortfolios());
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        toast.error('Unable to create a new model.', { autoClose: 3000 });
       });
   };
 
-  const previewAssetClass = (assetClassId: string) => {
-    const preview: any = [];
-    // @ts-ignore
-    selectedModelDetails?.model_asset_classes_preview.map((model: any) => {
-      if (model.model_asset_class.id === assetClassId) {
-        model.model_asset_class_accounts_preview.map((asset: any) => {
-          return preview.push(asset);
-        });
-      }
-    });
-
-    let accountName;
-    let assets;
-    let pre;
-    preview.map((p: any) => {
-      accountName = (
-        <H3 style={{ fontSize: '18px', marginBottom: '20px' }}>
-          {p.account.number}
-        </H3>
-      );
-      assets = p.tradable_symbols.map((symbol: any) => {
-        return (
-          <Grid columns="100px 1fr">
-            <H3 style={{ fontSize: '16px', marginBottom: '10px' }}>
-              {symbol.symbol}
-            </H3>
-            <P>{symbol.description}</P>
-          </Grid>
-        );
-      });
-    });
-    // @ts-ignore
-    pre = [accountName, assets];
-    return pre;
+  const showDetailsHere = (assetClassId: string) => {
+    if (showDetails && showDetailsId === assetClassId) {
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -166,12 +227,14 @@ const ApplyTarget = () => {
       </BackButton>
       <TopInfo>
         <Grid columns="1fr 300px">
-          <H2 style={{ fontWeight: 400, lineHeight: '50px' }}>
-            {currentGroup?.name}
-          </H2>
+          <GroupName>{currentGroup?.name}</GroupName>
           <Menu>
             <StyledMenuButton>
-              {selectedName}
+              {loading ? (
+                <FontAwesomeIcon icon={faSpinner} spin />
+              ) : (
+                selectedName
+              )}
               <span aria-hidden style={{ marginLeft: '30px' }}>
                 <FontAwesomeIcon icon={faAngleDown} size="lg" />
               </span>
@@ -202,59 +265,99 @@ const ApplyTarget = () => {
         </Grid>
       </TopInfo>
       <div>
-        {
-          //TODO fix this
-          /* @ts-ignore */
-          selectedModel?.model_portfolio.model_type === 0
-            ? selectedModel?.model_portfolio_security.map((security) => {
+        {loading ? (
+          <FontAwesomeIcon icon={faSpinner} spin />
+        ) : currentGroupInfo?.model_portfolio?.model_type === 0 &&
+          selectedModelDetails ? (
+          selectedModelDetails?.model_portfolio_securities?.length < 1 ? (
+            <NoSecurities>No securities exist in this Model.</NoSecurities>
+          ) : (
+            selectedModelDetails?.model_portfolio_securities.map(
+              (security: any) => {
                 return (
                   <GreyBox key={security.symbol.id}>
                     <Grid columns="3fr 1fr">
-                      <span style={{ fontWeight: 400, fontSize: '23px' }}>
-                        {security.symbol.symbol}
-                      </span>{' '}
+                      <Name>{security.symbol.symbol}</Name>{' '}
                       <div>
-                        <span style={{ fontWeight: 400, fontSize: '33px' }}>
-                          {security.percent}%
-                        </span>{' '}
+                        <Percent>{security.percent}%</Percent>{' '}
                       </div>
                     </Grid>
                   </GreyBox>
                 );
-              }) //TODO fix this
-            : /* @ts-ignore */
-              selectedModel?.model_portfolio_asset_class.map((assetClass) => {
-                return (
-                  <>
-                    <GreyBox key={assetClass.model_asset_class.id}>
-                      <Grid columns="3fr 1fr 100px">
-                        <span style={{ fontWeight: 400, fontSize: '23px' }}>
-                          {assetClass.model_asset_class.name}
-                        </span>{' '}
-                        <div>
-                          <span style={{ fontWeight: 400, fontSize: '33px' }}>
-                            {assetClass.percent}%
-                          </span>{' '}
-                        </div>
-                        <FontAwesomeIcon
-                          icon={showDetails ? faAngleUp : faAngleDown}
-                          size="2x"
-                          color="var(--brand-blue)"
-                          cursor="pointer"
-                          onClick={() => setShowDetails(!showDetails)}
-                        />
-                      </Grid>
-                    </GreyBox>
-                    {showDetails && (
-                      <AssetDetails>
-                        {previewAssetClass(assetClass.model_asset_class.id)}{' '}
-                      </AssetDetails>
-                    )}
-                  </>
-                );
-              })
-        }
+              },
+            )
+          )
+        ) : selectedModelDetails?.model_asset_classes_preview?.length < 1 ? (
+          <NoSecurities>No asset class exist in this Model.</NoSecurities>
+        ) : (
+          selectedModelDetails?.model_asset_classes_preview.map(
+            (assetClass: any) => {
+              const assetClassId =
+                assetClass.model_portfolio_asset_class.model_asset_class.id;
+              return (
+                <>
+                  <GreyBox key={assetClassId}>
+                    <Grid columns="3fr 1fr 100px">
+                      <Name>
+                        {
+                          assetClass.model_portfolio_asset_class
+                            .model_asset_class.name
+                        }
+                      </Name>{' '}
+                      <div>
+                        <Percent>
+                          {assetClass.model_portfolio_asset_class.percent}%
+                        </Percent>{' '}
+                      </div>
+                      <FontAwesomeIcon
+                        icon={
+                          showDetailsHere(assetClassId)
+                            ? faAngleUp
+                            : faAngleDown
+                        }
+                        size="2x"
+                        color="var(--brand-blue)"
+                        cursor="pointer"
+                        onClick={() => {
+                          setShowDetails(!showDetails);
+                          setShowDetailsId(assetClassId);
+                        }}
+                      />
+                    </Grid>
+                  </GreyBox>
+                  {showDetailsHere(assetClassId) && (
+                    <AssetDetails>
+                      <AssetClassModelDetails
+                        assetClassesDetails={selectedModelDetails}
+                        assetClassId={assetClassId}
+                      />
+                    </AssetDetails>
+                  )}
+                </>
+              );
+            },
+          )
+        )}
       </div>
+      {selectedModelDetails?.securities_not_in_targets.length > 0 && (
+        <SecurityNotInTarget>
+          <H3 style={{ marginBottom: '20px' }}>
+            Other Securities in this Group
+          </H3>
+          {selectedModelDetails?.securities_not_in_targets.map(
+            (symbol: any) => {
+              return (
+                <Grid columns="100px 1fr">
+                  <H3 style={{ fontSize: '16px', marginBottom: '10px' }}>
+                    {symbol.symbol}
+                  </H3>
+                  <P>{symbol.description}</P>
+                </Grid>
+              );
+            },
+          )}
+        </SecurityNotInTarget>
+      )}
     </ShadowBox>
   );
 };
