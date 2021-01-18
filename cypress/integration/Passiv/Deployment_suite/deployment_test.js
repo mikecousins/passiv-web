@@ -269,8 +269,6 @@ describe('Reset and build portfolio manually', () => {
         cy.get('button').contains('Reset').click().wait(8000)
         cy.get('button').contains('Import').click().wait(8000)
 
-        cy.get('nav').contains('Logout')
-        .click()
 
 
     })
@@ -278,24 +276,6 @@ describe('Reset and build portfolio manually', () => {
     })
 
 })
-
-
-describe('Desktop goal setting test', () => {
-
-    it('Login test 2', () => {
-        // redirect for any other domains
-        
-        cy.fixture('testDomain').as('server')
-        cy.get('@server').then(domain => {
-        cy.visit((domain.test).concat('/login'))})
-        cy.fixture('credentials').as('userFixture')
-            cy.get('@userFixture').then(user => {
-            cy.get('[name=email]').first().type(user.username)
-            cy.get('[placeholder=Password]').type(user.password)})
-        cy.get('[data-cy=login-button]').should('not.be.disabled')
-        .click({multiple:true})
-    
-            })
 
     it('Goals Test', () => {
             cy.contains('Goals').click()
@@ -496,4 +476,4 @@ describe('Desktop goal setting test', () => {
 
 })
 
-
+})

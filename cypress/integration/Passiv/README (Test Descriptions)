@@ -4,25 +4,39 @@ Cypress lets you choose tests or groups of tests individually or you can open th
         --> To run all tests "npm cypress run"
         --> To open the app "npx cypress open" 
 
+*** FIXTURE NOTES ***
+
+IMPORTANT READ HERE FOR USABILITY
+
+- credentials:          
+         is where you put in credentials to test the app. Each test calls the credentials from this file so you only have to edit them in one location! Some tests, such as deployment suite are more particularly tailored to my credentials specifically.
+        This is because some of the elements (ie. Selecting the assets when editing portfolio are variable for each user.
+
+- testdomain: 
+        This is where you modify which domain the tests take place, again, each should be directed to this domain automatically. Typically they would be localhost, app.passiv.com/app, beta.getpassiv.com/app
+        **** DONT ADD THE SUFFIX TO THE END FOR SPECIFIC PAGES, EACH TEST CONCATENATES IT AUTOMATICALLY ****
+
+- user: 
+        This is the file where the mock stub is registered too. When you test the mock api calls, they will save the registered user in this file, then you can call the user data from the file for the login. 
+
+- api_v1.json is the timestamp to be fed to the api mocks so it thinks it is online
+
+
 Here I will breakdown the test folders and the caveats for each. 
 
     --> Beta Features: 
             these features are currently in beta testing, that indicates they are on the prod server or are given to a limited number of Passiv.com  users. Any of the tests in this folder will require the tester to enter active account info in order to log in. 
 
-    --> Passiv_API_Tests:
-            These tests are aiming to test components without actually touching the API but making sure the request is made and the appropriate response is given. Tests here should be able to be run along side local server with no issues.
+    --> Deployment Suite
+            These tests are aiming to test components immediately following deployment, it is to be supplemented with the checklist of components to assess.
 
-    --> Passiv_landing_tests:
-            These tests are on the passiv landing website ; currently they require a Dev local host running in the background (most are configured to Local Host 8000). These tests will have to be reformatted after fixing server load issues.
-
-    --> Passiv_livepage:
-            These are all LIVE tests and require an active user and email to access. These test components on the live pages. The main purpose of these tests is to verify everything in the app is running smoothly after deployments. 
-            These should be run immediately following deployment (especially things like help section)
-                
-                -->Brokerage Onboarding Tests: 
-                        This subcategory of tests can be used to test account redirects to each brokerage. Similarily should be tested following major deployments. Due to the nature of the data, any actual connections will have to be done via manual testing. 
-
-    --> Passiv_stubs:
-            These are stubs that a user who is creating tests can use to stub different sections for API requests. 
+    --> Mock API Tests:
+            These tests are meant to test 2 main features, login and registration, without actually touching the API and posting.    
+     
+    --> Unit Tests :
+            These are tests which can be run individually for each component. Essentially they are a carve out of the deployment suite. Goals, Asset classes and model portfolio.
+           
+    --> Testing Bench:
+            These are tests using different features or new features in Cypress. It also includes deprecated and legacy tests in case I need to reference something. Eseentially an archive
 
 Last updated Dec 4th, 2020 by Alex Sutherland 
