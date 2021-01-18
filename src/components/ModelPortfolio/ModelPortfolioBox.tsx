@@ -92,11 +92,11 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
   const getRemainingPercent = () => {
     const allocatedPercent = modelPortfolio.model_portfolio_asset_class.reduce(
       (sum, astCls) => {
-        return sum + astCls.percent;
+        return (+sum + +astCls.percent).toFixed(3);
       },
-      0,
+      '0',
     );
-    return 100 - allocatedPercent;
+    return (100 - +allocatedPercent).toFixed(3);
   };
 
   // remove the error after 5 seconds
@@ -222,7 +222,7 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
               model_asset_class: {
                 id: values.assetClassId!,
               },
-              percent: values.percent,
+              percent: values.percent.toFixed(3),
             });
             postData(
               `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
@@ -251,8 +251,6 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
                   type="number"
                   onChange={props.handleChange}
                   value={props.values.percent}
-                  min="0"
-                  max={getRemainingPercent()}
                   required
                 />
                 <PercentageLabel htmlFor="percentage">%</PercentageLabel>
