@@ -136,28 +136,45 @@ describe('Login individual component test', () => {
     })
 
 
- describe('Login-Logout-Login and Adjust portfolio', () => { 
-    // Login Success  
-    it('Login test 1', () => {
-        cy.fixture('testDomain').as('server')
-        cy.get('@server').then(domain => {
+describe('Conditional Login Test', () => {
+
+    it('User will log in and continue; non user registers new account', () => {
+        // redirect for any other domains
+        
+        cy.fixture('testDomain').as('login')
+        cy.get('@login').then(domain => {
         cy.visit((domain.test).concat('/login')) })
         cy.fixture('credentials').as('userFixture')
         cy.get('@userFixture').then(user => {
-        cy.get('[name=email]').first().type(user.username)
+        cy.get('[name=email]').type(user.username)
         cy.get('[placeholder=Password]').type(user.password)
+        })
 
-    // Verify the sign in button is enabled//
-    cy.get('[data-cy=login-button]').should('not.be.disabled')
-    .click({multiple:true})
+    cy.get('[data-cy=login-button]').then(($button) => {
+        if (cy.get($button).click().should('be.disabled') ){
+            cy.fixture('testDomain').as('server')
+            cy.get('@server').then(domain => {
+            cy.get('div').contains('Sign Up').click()})
+            cy.fixture('credentials').as('userFixture')
+                cy.get('@userFixture').then(user => {
+                cy.get('[name=name').type('Al')
+                cy.get('[name=email]').first().type(user.username)
+                cy.get('[placeholder=Password]').type(user.password)})
 
-    cy.get('nav').contains('Logout')
-    .click()
-    }) 
-    
+    } else {
 
+        cy.fixture('testDomain').as('login')
+        cy.get('@login').then(domain => {
+        cy.visit((domain.test).concat('/register')) })
+        cy.fixture('credentials').as('userFixture')
+        cy.get('@userFixture').then(user => {
+        cy.get('[name=email]').type(user.username)
+        cy.get('[placeholder=Password]').type(user.password)})
+
+    }
 })
 
+describe('Login and Adjust portfolio', () => {
 
     // Re-login
     it('Login test 2', () => {
