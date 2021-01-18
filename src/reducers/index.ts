@@ -23,7 +23,6 @@ import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
 import { Settings } from '../types/settings';
 import { ModelAssetClassDetailsType } from '../types/modelAssetClass';
-
 import {
   PerformanceData,
   PerformanceCustomData,
@@ -132,10 +131,6 @@ export default (history: any) =>
     }),
     modelAssetClasses: simple<ModelAssetClassDetailsType[]>({
       baseType: 'FETCH_MODEL_ASSET_CLASSES',
-      userData: true,
-    }),
-    modelPortfolio: simple<ModelPortfolioDetailsType>({
-      baseType: 'FETCH_MODEL_PORTFOLIO',
       userData: true,
     }),
     modelPortfolios: simple<ModelPortfolioDetailsType[]>({
