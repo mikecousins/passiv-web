@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -16,6 +16,7 @@ import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
 import { StyledP } from './ModelAssetClassPage';
 import { postData } from '../api';
 import { loadModelPortfolios } from '../actions';
+import { toast } from 'react-toastify';
 
 const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -39,13 +40,13 @@ const ModelName = styled(H3)`
   font-size: 22px;
   font-weight: 600;
 `;
-// const InUseDiv = styled.div`
-//   font-size: 20px;
-// `;
-// const InUse = styled.span`
-//   font-weight: 600;
-//   margin-right: 7px;
-// `;
+const InUseDiv = styled.div`
+  font-size: 20px;
+`;
+const InUse = styled.span`
+  font-weight: 600;
+  margin-right: 7px;
+`;
 
 const MyModelPortfoliosPage = () => {
   const dispatch = useDispatch();
@@ -62,8 +63,8 @@ const MyModelPortfoliosPage = () => {
         history.replace(`model-portfolio/${id}`);
         dispatch(loadModelPortfolios());
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        toast.error('Failed to create a new model.');
       });
   };
 
@@ -92,17 +93,26 @@ const MyModelPortfoliosPage = () => {
               key={mdl.model_portfolio.id}
               style={{ lineHeight: '2rem' }}
             >
-              <Grid columns="6fr 1fr">
+              <Grid columns="4fr 1fr 1fr">
                 <ModelName>{mdl.model_portfolio.name}</ModelName>
-                {/* TODO: check if 'in use' and then show this  */}
-                {/* <InUseDiv>
-                  <FontAwesomeIcon
-                    icon={faCheck}
-                    size="lg"
-                    style={{ marginRight: '8px', color: 'var(--brand-green)' }}
-                  />
-                  <InUse>In Use</InUse> | 2 Groups
-                </InUseDiv> */}
+
+                <InUseDiv>
+                  {mdl.total_assigned_portfolio_groups > 0 && (
+                    <>
+                      <FontAwesomeIcon
+                        icon={faCheck}
+                        size="lg"
+                        style={{
+                          marginRight: '8px',
+                          color: 'var(--brand-green)',
+                        }}
+                      />
+                      <InUse>In Use</InUse> |{' '}
+                      {mdl.total_assigned_portfolio_groups} Group(s)
+                    </>
+                  )}
+                </InUseDiv>
+
                 <StyledViewBtn>
                   <Link to={`model-portfolio/${mdl.model_portfolio.id}`}>
                     View
