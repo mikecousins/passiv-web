@@ -1,15 +1,12 @@
 // @ts-nocheck
 import { postData } from '../api';
 import { TrackingMetadata } from '../types/tracking';
-import { selectReferralCode } from '../selectors/referrals';
 import store from '../store';
 
 export function collectMetadata() {
   const state = store.getState();
-  console.log('state', state);
 
   const metadata: any = {};
-  // setReferralAndTracking(metadata);
   metadata.uid = state.tracking.trackingId;
   metadata.ref = state.referral.referralCode;
 
@@ -36,6 +33,7 @@ export function collectMetadata() {
 
   navigatorFields.map((field) => {
     metadata[field] = navigator[field];
+    return null;
   });
 
   return metadata;
