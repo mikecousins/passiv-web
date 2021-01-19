@@ -25,6 +25,7 @@ import {
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
+import SecuritiesNotInTarget from './SecuritiesNotInTarget';
 
 const TOUR_STEPS = [
   {
@@ -124,6 +125,10 @@ const OverviewTab = () => {
   if (hasSkippedTrades === true) {
     skipErrorMessage = <PortfolioGroupErrors error={{ code: 'IBKR_CAN' }} />;
   }
+  const securitiesNotInTarget = trades?.trades.filter(
+    (trade: any) => !trade.symbol_in_target,
+  );
+
   return (
     <React.Fragment>
       {setupComplete && <Tour steps={TOUR_STEPS} name="overview_tab_tour" />}
@@ -148,6 +153,9 @@ const OverviewTab = () => {
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
+      {securitiesNotInTarget && securitiesNotInTarget.length > 0 && (
+        <SecuritiesNotInTarget targets={securitiesNotInTarget} />
+      )}
       {skipErrorMessage}
       {tradeDisplay}
 
