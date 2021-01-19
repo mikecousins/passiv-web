@@ -12,6 +12,7 @@ import createRunLoop from './reactors/init-runloop';
 import { effects } from './reactors/effects';
 import store, { history } from './store';
 import * as serviceWorker from './serviceWorker';
+import { pingTracking } from './seo';
 
 if (
   process.env.REACT_APP_BASE_URL_OVERRIDE &&
@@ -45,6 +46,7 @@ ReactGA.pageview(window.location.pathname + window.location.search);
 
 // get GA to listen for path changes
 history.listen(() => {
+  pingTracking();
   ReactGA.pageview(window.location.pathname + window.location.search);
 });
 
@@ -53,6 +55,10 @@ const persistor = persistStore(store);
 // create our run loop that loads our data
 const runLoop = createRunLoop();
 runLoop.start(store, effects);
+
+// fire the first tracking ping
+setTimeout(() => pingTracking(), 50);
+// pingTracking();
 
 ReactDOM.render(
   <React.StrictMode>
