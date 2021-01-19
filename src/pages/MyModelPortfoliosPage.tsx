@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { selectModelPortfolios } from '../selectors/modelPortfolios';
 import { Button } from '../styled/Button';
-import { H1, H3, Table } from '../styled/GlobalElements';
+import { A, H1, H3, Table } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
 import { ViewBtn } from '../styled/Group';
 import ShadowBox from '../styled/ShadowBox';
@@ -124,6 +124,9 @@ const MyModelPortfoliosPage = () => {
           );
         })}
       </div>
+      <A onClick={() => history.push('setting-targets')}>
+        Setting Targets Page
+      </A>
     </React.Fragment>
   );
 };
