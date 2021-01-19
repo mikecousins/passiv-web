@@ -112,15 +112,9 @@ const TDAmeritradeOauthPage = ReactLazyPreload(() =>
   ),
 );
 
-const WealthicaConnectionPage = ReactLazyPreload(() =>
+const WealthicaOauthPage = ReactLazyPreload(() =>
   import(
-    /* webpackChunkName: "wealthica-connection-page" */ '../pages/WealthicaConnectionPage'
-  ),
-);
-
-const WealthicaConnectionUpdatePage = ReactLazyPreload(() =>
-  import(
-    /* webpackChunkName: "wealthica-update-connection-page" */ '../pages/WealthicaConnectionUpdatePage'
+    /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/WealthicaOauthPage'
   ),
 );
 
@@ -215,7 +209,7 @@ export const preloadRouteComponent = (to: string) => {
 // use the stripe test key unless we're in prod
 const stripePublicKey =
   process.env.REACT_APP_BASE_URL_OVERRIDE &&
-  process.env.REACT_APP_BASE_URL_OVERRIDE === 'passiv.com'
+  process.env.REACT_APP_BASE_URL_OVERRIDE === 'api.passiv.com'
     ? 'pk_live_LTLbjcwtt6gUmBleYqVVhMFX'
     : 'pk_test_UEivjUoJpfSDWq5i4xc64YNK';
 
@@ -246,6 +240,12 @@ const interactiveBrokersOauthRedirect = () => {
 const tdAmeritradeOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/td?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
+const wealthicaOauthRedirect = () => {
+  let urlParams = new URLSearchParams(window.location.search);
+  let newPath = '/app/oauth/wealthica?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
@@ -426,15 +426,23 @@ const App = () => {
                 render={() => tdAmeritradeOauthRedirect()}
               />
             )}
+            {loggedIn && (
+              <Route
+                path={prefixPath('/oauth/wealthica')}
+                component={WealthicaOauthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/wealthica"
+                render={() => wealthicaOauthRedirect()}
+              />
+            )}
             // onboarding app
             {showOnboardingApp && (
               <Route path={prefixPath('/connect/:brokerage?')}>
                 <AuthorizationPage onboarding={true} />
-              </Route>
-            )}
-            {showOnboardingApp && (
-              <Route path={prefixPath('/wealthica/onboard-connect')}>
-                <WealthicaConnectionPage onboarding={true} />
               </Route>
             )}
             {showOnboardingApp && (
@@ -445,11 +453,6 @@ const App = () => {
             {(showSecureApp || showOnboardingApp) && (
               <Route path={prefixPath('/settings/connect/:brokerage?')}>
                 <AuthorizationPage onboarding={false} />
-              </Route>
-            )}
-            {(showSecureApp || showOnboardingApp) && (
-              <Route exact path={prefixPath('/wealthica/connect/')}>
-                <WealthicaConnectionPage onboarding={false} />
               </Route>
             )}
             {(showSecureApp || showOnboardingApp) && (
@@ -483,13 +486,6 @@ const App = () => {
               <Route
                 path={prefixPath('/goal/:goalId')}
                 component={GoalDetailPage}
-              />
-            )}
-            {showSecureApp && (
-              <Route
-                exact
-                path={prefixPath('/wealthica/connect/:authorizationID?')}
-                component={WealthicaConnectionUpdatePage}
               />
             )}
             {showSecureApp && (

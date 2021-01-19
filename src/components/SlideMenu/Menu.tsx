@@ -56,10 +56,12 @@ type Props = {
   menuVisibility: boolean;
 };
 
-const Menu = ({ menuVisibility }: Props) => (
-  <FlyOut className={menuVisibility ? 'show' : 'hide'}>
-    <SideBar />
-  </FlyOut>
-);
+const Menu = ({ menuVisibility }: Props) => {
+  return (
+    <FlyOut className={menuVisibility ? 'show' : 'hide'}>
+      <SideBar />
+    </FlyOut>
+  );
+};
 
 export default Menu;
