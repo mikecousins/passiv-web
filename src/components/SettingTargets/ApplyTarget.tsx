@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getData, postData } from '../../api';
 import styled from '@emotion/styled';
-import { loadGroup, loadGroupInfo, loadModelPortfolios } from '../../actions';
+import { loadModelPortfolios } from '../../actions';
 import { selectModelPortfolios } from '../../selectors/modelPortfolios';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,6 +19,7 @@ import {
 import {
   selectCurrentGroup,
   selectCurrentGroupInfo,
+  selectCurrentGroupTarget,
 } from '../../selectors/groups';
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
@@ -27,6 +28,9 @@ import { GreyBox } from './SettingTargets';
 import { BackButton } from '../ModelPortfolio/ModelPortfolio';
 import { toast } from 'react-toastify';
 import AssetClassModelDetails from './AssetClassModelDetails';
+import { Button } from '../../styled/Button';
+import ApplySecurityModel from './ApplySecurityModel';
+import TargetSelector from '../PortfolioGroupTargets/TargetSelector';
 
 const StyledMenuButton = styled(MenuButton)`
   border: 1px solid var(--brand-blue);
@@ -63,13 +67,29 @@ const GroupName = styled(H2)`
 const AssetDetails = styled.div`
   margin-left: 20px;
 `;
-const Name = styled.span`
-  font-weight: 400;
-  font-size: 23px;
+const Symbol = styled.span`
+  font-weight: 600;
+  font-size: 22px;
+`;
+const Description = styled.span`
+  font-size: 22px;
+  margin-left: 20px;
 `;
 const Percent = styled.span`
   font-weight: 400;
   font-size: 33px;
+`;
+const TargetPercent = styled.input`
+  font-weight: 600;
+  font-size: 33px;
+  margin-right: 50px;
+  color: var(--brand-blue);
+  width: 150px;
+  text-align: center;
+  background: white;
+  border: 2px solid var(--brand-blue);
+  padding: 5px;
+  position: relative;
 `;
 const SecurityNotInTarget = styled.div`
   margin: 50px 20px;
@@ -88,14 +108,16 @@ const ApplyTarget = () => {
   const modelPortfolios: ModelPortfolioDetailsType[] = useSelector(
     selectModelPortfolios,
   );
+  const currentGroupTarget = useSelector(selectCurrentGroupTarget);
+
   const [selectedName, setSelectedName] = useState('Apply a Model');
   const [selectedModelDetails, setSelectedModelDetails] = useState<any>();
   const [showDetails, setShowDetails] = useState(false);
   const [showDetailsId, setShowDetailsId] = useState('');
+  const [modelChanged, setModelChanged] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const loadModelForCurrentGroup = () => {
-    //! have to make an action for this
     getData(
       `/api/v1/portfolioGroups/${currentGroup?.id}/modelPortfolio/${currentGroupInfo?.model_portfolio?.id}`,
     )
@@ -111,33 +133,28 @@ const ApplyTarget = () => {
 
   useEffect(() => {
     if (currentGroupInfo?.model_portfolio) {
-      setSelectedName(currentGroupInfo?.model_portfolio.name);
       setLoading(true);
       loadModelForCurrentGroup();
     }
   }, [currentGroup, currentGroupInfo]);
 
-  const getAssetClass = (id: string) => {
-    const securityIds: string[] = [];
-    getData(`/api/v1/modelAssetClass/${id}`).then((res) => {
-      res.data.model_asset_class_target.map((symbol: any) => {
-        securityIds.push(symbol.symbol.id);
-      });
-    });
-    return securityIds;
-  };
-
   const handleModelSelect = (model: ModelPortfolioDetailsType) => {
-    setLoading(true);
-    if (model.model_portfolio.model_type === 0) {
-      postData(
+    if (
+      model.model_portfolio.model_type === 0 &&
+      model.model_portfolio.id !== currentGroupInfo?.model_portfolio.id
+    ) {
+      setLoading(true);
+      getData(
         `/api/v1/portfolioGroups/${currentGroup?.id}/modelPortfolio/${model.model_portfolio.id}`,
-        {},
       )
         .then((res) => {
-          dispatch(loadModelPortfolios());
-          dispatch(loadGroupInfo());
-          loadModelForCurrentGroup();
+          // dispatch(loadModelPortfolios());
+          // dispatch(loadGroupInfo());
+          // loadModelForCurrentGroup();
+          setSelectedModelDetails(res.data);
+          setSelectedName(model.model_portfolio.name);
+          setModelChanged(true);
+          setLoading(false);
           toast.success(
             `"${model.model_portfolio.name}" model applied to "${currentGroup?.name}".`,
             { autoClose: 3000 },
@@ -218,6 +235,10 @@ const ApplyTarget = () => {
     return false;
   };
 
+  const handleSaveButton = () => {
+    setModelChanged(false);
+  };
+
   return (
     <ShadowBox>
       <BackButton>
@@ -272,20 +293,8 @@ const ApplyTarget = () => {
           selectedModelDetails?.model_portfolio_securities?.length < 1 ? (
             <NoSecurities>No securities exist in this Model.</NoSecurities>
           ) : (
-            selectedModelDetails?.model_portfolio_securities.map(
-              (security: any) => {
-                return (
-                  <GreyBox key={security.symbol.id}>
-                    <Grid columns="3fr 1fr">
-                      <Name>{security.symbol.symbol}</Name>{' '}
-                      <div>
-                        <Percent>{security.percent}%</Percent>{' '}
-                      </div>
-                    </Grid>
-                  </GreyBox>
-                );
-              },
-            )
+            <ApplySecurityModel model={selectedModelDetails} />
+            // <TargetSelector lockable={false} target={currentGroupTarget} />
           )
         ) : selectedModelDetails?.model_asset_classes_preview?.length < 1 ? (
           <NoSecurities>No asset class exist in this Model.</NoSecurities>
@@ -298,12 +307,12 @@ const ApplyTarget = () => {
                 <>
                   <GreyBox key={assetClassId}>
                     <Grid columns="3fr 1fr 100px">
-                      <Name>
+                      <Symbol>
                         {
                           assetClass.model_portfolio_asset_class
                             .model_asset_class.name
                         }
-                      </Name>{' '}
+                      </Symbol>{' '}
                       <div>
                         <Percent>
                           {assetClass.model_portfolio_asset_class.percent}%
@@ -358,6 +367,7 @@ const ApplyTarget = () => {
           )}
         </SecurityNotInTarget>
       )}
+      {modelChanged && <Button onClick={() => handleSaveButton()}>Save</Button>}
     </ShadowBox>
   );
 };
