@@ -21,6 +21,7 @@ import {
   selectShowOnboardingApp,
   selectShowSecureApp,
 } from '../selectors/app';
+import { generateTrackingCode } from '../seo';
 import { setReferralCode, setTrackingId } from '../actions';
 import { selectQueryTokens } from '../selectors/router';
 import { prefixPath } from '../common';
@@ -280,6 +281,10 @@ const App = () => {
     }
     delete queryParams.uid;
     updateQuery = true;
+  } else {
+    if (trackingId === '') {
+      dispatch(setTrackingId({ trackingId: generateTrackingCode() }));
+    }
   }
 
   // include query params in deep link redirect for insecure app

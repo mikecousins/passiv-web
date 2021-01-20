@@ -2,6 +2,18 @@ import { postData } from '../api';
 import { TrackingMetadata } from '../types/tracking';
 import store from '../store';
 
+export function generateTrackingCode(): string {
+  var result: string = '';
+  var characters: string =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength: number = characters.length;
+  var codeLength: number = 10;
+  for (var i = 0; i < codeLength; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
 export function collectMetadata(): TrackingMetadata {
   const state = store.getState();
 
