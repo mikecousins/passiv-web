@@ -1,16 +1,23 @@
-// @ts-nocheck
 import { postData } from '../api';
 import { TrackingMetadata } from '../types/tracking';
 import store from '../store';
 
-export function collectMetadata() {
+export function collectMetadata(): TrackingMetadata {
   const state = store.getState();
 
-  const metadata: any = {};
-  metadata.uid = state.tracking.trackingId;
-  metadata.ref = state.referral.referralCode;
+  const metadata: TrackingMetadata = {
+    uid: state.tracking.trackingId,
+    ref: state.referral.referralCode,
+    url: window.location,
+    referrer: null,
+    clientTimestamp: new Date().toISOString(),
+    clientTimezoneOffset: new Date().getTimezoneOffset(),
+    platform: navigator['platform'],
+    appCodeName: navigator['appCodeName'],
+    userAgent: navigator['userAgent'],
+    language: navigator['language'],
+  };
 
-  metadata.url = window.location;
   if (document.referrer) {
     const referrer_url = new URL(document.referrer);
     metadata.referrer = {
@@ -23,18 +30,7 @@ export function collectMetadata() {
       protocol: referrer_url.protocol,
       search: referrer_url.search,
     };
-  } else {
-    metadata.referrer = null;
   }
-  metadata.clientTimestamp = new Date().toISOString();
-  metadata.clientTimezoneOffset = new Date().getTimezoneOffset();
-
-  const navigatorFields = ['platform', 'appCodeName', 'userAgent', 'language'];
-
-  navigatorFields.map((field) => {
-    metadata[field] = navigator[field];
-    return null;
-  });
 
   return metadata;
 }

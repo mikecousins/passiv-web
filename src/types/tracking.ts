@@ -1,5 +1,4 @@
 export type URL = {
-  hash: string | undefined;
   host: string;
   hostname: string;
   href: string;
