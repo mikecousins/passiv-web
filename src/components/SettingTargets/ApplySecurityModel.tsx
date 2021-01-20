@@ -4,6 +4,8 @@ import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
 import { GreyBox } from './SettingTargets';
 import { selectCurrentGroupTarget } from '../../selectors/groups';
+import { BarsContainer, Bar, BarTarget, BarActual } from '../../styled/Target';
+import { P } from '../../styled/GlobalElements';
 
 const Symbol = styled.span`
   font-weight: 600;
@@ -30,6 +32,11 @@ const TargetPercent = styled.input`
   position: relative;
 `;
 
+const NoSecurities = styled(P)`
+  text-align: center;
+  font-weight: 600;
+`;
+
 type Props = {
   model: any;
 };
@@ -46,25 +53,55 @@ const ApplySecurityModel = ({ model }: Props) => {
     });
     return actualPercent?.toFixed(0);
   };
+  console.log('model', model);
 
   return (
     <>
-      {model?.model_portfolio_securities.map((security: any) => {
-        return (
-          <GreyBox key={security.symbol.id}>
-            <Grid columns="3fr 1fr">
-              <div>
-                <Symbol>{security.symbol.symbol}</Symbol>
-                <Description>{security.symbol.description}</Description>
-              </div>
-              <div>
-                <TargetPercent type="text" value={security.percent} />
-                <Percent>{actualPercent(security.symbol.id)}%</Percent>
-              </div>
-            </Grid>
-          </GreyBox>
-        );
-      })}
+      {model?.model_portfolio_security.length > 0 ? (
+        model?.model_portfolio_security.map((security: any) => {
+          if (security.actualPercentage === undefined) {
+            security.actualPercentage = 0;
+          }
+          return (
+            <GreyBox key={security.symbol.id}>
+              <Grid columns="3fr 1fr">
+                <div>
+                  <Symbol>{security.symbol.symbol}</Symbol>
+                  <Description>{security.symbol.description}</Description>
+                </div>
+                <div>
+                  <TargetPercent type="text" value={security.percent} />
+                  <Percent>{security.actualPercentage.toFixed(1)}%</Percent>
+                </div>
+              </Grid>
+              <BarsContainer style={{ background: 'white', width: '50%' }}>
+                {!(security.actualPercentage === undefined) && (
+                  <BarActual>
+                    <Bar
+                      style={{
+                        width: `${security.actualPercentage.toFixed(0)}%`,
+                      }}
+                    >
+                      {' '}
+                    </Bar>
+                  </BarActual>
+                )}
+                <BarTarget>
+                  {security.percent < 0 ? (
+                    <div style={{ width: '100%', backgroundColor: 'red' }}>
+                      Warning: cash allocation cannot be negative!
+                    </div>
+                  ) : (
+                    <Bar style={{ width: `${security.percent}%` }}> </Bar>
+                  )}
+                </BarTarget>
+              </BarsContainer>
+            </GreyBox>
+          );
+        })
+      ) : (
+        <NoSecurities>There are no securities in this model.</NoSecurities>
+      )}
     </>
   );
 };
