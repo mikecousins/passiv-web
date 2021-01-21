@@ -10,9 +10,9 @@ import styled from '@emotion/styled';
 import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
-  selectCurrentGroupPositions,
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrentGroupCash,
+  selectCurrentGroupPositionsWithActualPercentage,
 } from '../../selectors/groups';
 import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
@@ -36,10 +36,10 @@ const ButtonBox = styled.div`
     margin-right: 8px;
   }
 `;
-const Th = styled.div`
+export const Th = styled.div`
   text-align: right;
 `;
-const Legend = styled.div`
+export const Legend = styled.div`
   display: inline-block;
   margin: 0 5px 0 auto;
   padding: 11px 16px;
@@ -65,13 +65,13 @@ const BaseLegendTitle = styled.span`
     top: 2px;
   }
 `;
-const ActualTitle = styled(BaseLegendTitle)`
+export const ActualTitle = styled(BaseLegendTitle)`
   color: var(--brand-green);
   &:before {
     background: var(--brand-green);
   }
 `;
-const TargetTitle = styled(BaseLegendTitle)`
+export const TargetTitle = styled(BaseLegendTitle)`
   margin-left: 5px;
   color: var(--brand-blue);
   &:before {
@@ -146,7 +146,9 @@ type Props = {
 
 export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const groupId = useSelector(selectCurrentGroupId);
-  const positions = useSelector(selectCurrentGroupPositions);
+  const positions = useSelector(
+    selectCurrentGroupPositionsWithActualPercentage,
+  );
   const totalEquity = useSelector(selectCurrentGroupTotalEquityExcludedRemoved);
   const cash = useSelector(selectCurrentGroupCash);
   const edit = useSelector(selectIsEditMode);
@@ -336,8 +338,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                       (position) => position.symbol.id === target.symbol,
                     );
                     if (position) {
-                      target.actualPercentage =
-                        ((position.price * position.units) / totalEquity) * 100;
+                      target.actualPercentage = position.actualPercentage;
                     }
                   }
                 });
