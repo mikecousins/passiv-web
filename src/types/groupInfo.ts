@@ -86,6 +86,7 @@ export type Settings = {
   target_initialized: boolean;
   order_targets_by: number;
   rebalance_by_asset_class: boolean;
+  model_portfolio_changed: boolean;
 };
 
 export type Error = {
