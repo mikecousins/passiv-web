@@ -32,7 +32,7 @@ const StyledName = styled.span`
   font-weight: 600;
 `;
 
-const H2Margin = styled(H2)`
+export const H2Margin = styled(H2)`
   font-size: 2.3rem;
   font-weight: 300;
   line-height: 1.3;
@@ -41,7 +41,7 @@ const H2Margin = styled(H2)`
   color: black;
 `;
 
-const ActionContainer = styled.div`
+export const ActionContainer = styled.div`
   text-align: center;
   margin-top: 30px;
   a {
