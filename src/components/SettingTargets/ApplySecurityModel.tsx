@@ -1,11 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { ErrorMessage, FieldArray, Formik } from 'formik';
 import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
 import { GreyBox } from './SettingTargets';
-import { selectCurrentGroupTarget } from '../../selectors/groups';
+import {
+  selectCurrentGroup,
+  selectCurrentGroupCash,
+  selectCurrentGroupTarget,
+  selectCurrentGroupTotalEquityExcludedRemoved,
+} from '../../selectors/groups';
 import { BarsContainer, Bar, BarTarget, BarActual } from '../../styled/Target';
-import { P } from '../../styled/GlobalElements';
+import { A, H2, P } from '../../styled/GlobalElements';
+import {
+  Th,
+  Legend,
+  ActualTitle,
+  TargetTitle,
+} from '../PortfolioGroupTargets/TargetSelector';
+import TargetBar from '../PortfolioGroupTargets/TargetBar';
+import CashBar from '../PortfolioGroupTargets/CashBar';
+import { Button } from '../../styled/Button';
+import { postData } from '../../api';
+import { loadGroupInfo, loadModelPortfolios } from '../../actions';
+import Dialog from '@reach/dialog';
+import { H2Margin, ActionContainer } from '../ModelAssetClass/AssetClass';
+import { toast } from 'react-toastify';
+
+const StyledLegend = styled(Legend)``;
 
 const Symbol = styled.span`
   font-weight: 600;
@@ -39,68 +62,392 @@ const NoSecurities = styled(P)`
 
 type Props = {
   model: any;
+  modelPortfolio: any;
 };
 
-const ApplySecurityModel = ({ model }: Props) => {
-  const currentGroupTarget = useSelector(selectCurrentGroupTarget);
-
-  const actualPercent = (symbolId: string) => {
-    let actualPercent = 0;
-    currentGroupTarget?.forEach((target: any) => {
-      if (target.id === symbolId) {
-        actualPercent = target.actualPercentage;
-      }
-    });
-    return actualPercent?.toFixed(0);
-  };
-  console.log('model', model);
-
+const ApplySecurityModel = ({ model, modelPortfolio }: Props) => {
+  const dispatch = useDispatch();
+  const totalEquity = useSelector(selectCurrentGroupTotalEquityExcludedRemoved);
+  const cash = useSelector(selectCurrentGroupCash);
+  const [showDialog, setShowDialog] = useState(false);
+  const [overWriteModel, setOverWriteModel] = useState(true);
+  const currentGroup = useSelector(selectCurrentGroup);
+  // const setSymbol = (target: any, symbol: any) => {
+  //   target.fullSymbol = symbol;
+  //   target.symbol = symbol.id;
+  //   target.is_supported = true;
+  // };
   return (
     <>
-      {model?.model_portfolio_security.length > 0 ? (
-        model?.model_portfolio_security.map((security: any) => {
-          if (security.actualPercentage === undefined) {
-            security.actualPercentage = 0;
-          }
-          return (
-            <GreyBox key={security.symbol.id}>
-              <Grid columns="3fr 1fr">
-                <div>
-                  <Symbol>{security.symbol.symbol}</Symbol>
-                  <Description>{security.symbol.description}</Description>
-                </div>
-                <div>
-                  <TargetPercent type="text" value={security.percent} />
-                  <Percent>{security.actualPercentage.toFixed(1)}%</Percent>
-                </div>
-              </Grid>
-              <BarsContainer style={{ background: 'white', width: '50%' }}>
-                {!(security.actualPercentage === undefined) && (
-                  <BarActual>
-                    <Bar
-                      style={{
-                        width: `${security.actualPercentage.toFixed(0)}%`,
-                      }}
-                    >
-                      {' '}
-                    </Bar>
-                  </BarActual>
-                )}
-                <BarTarget>
-                  {security.percent < 0 ? (
-                    <div style={{ width: '100%', backgroundColor: 'red' }}>
-                      Warning: cash allocation cannot be negative!
-                    </div>
-                  ) : (
-                    <Bar style={{ width: `${security.percent}%` }}> </Bar>
-                  )}
-                </BarTarget>
-              </BarsContainer>
-            </GreyBox>
-          );
-        })
-      ) : (
+      {model?.length < 1 ? (
         <NoSecurities>There are no securities in this model.</NoSecurities>
+      ) : (
+        <Formik
+          initialValues={{ targets: model }}
+          enableReinitialize
+          validate={(values) => {
+            const errors: any = {};
+            const cashPercentage =
+              100 -
+              values.targets.reduce((total: number, target: any) => {
+                if (!target.deleted && target.percent) {
+                  return total + parseFloat(target.percent);
+                }
+                return total;
+              }, 0);
+            const roundedCashPercentage =
+              Math.round(cashPercentage * 1000) / 1000;
+            if (roundedCashPercentage < -0) {
+              errors.cash = 'Too low';
+            }
+            return errors;
+          }}
+          onSubmit={(values, actions) => {
+            const newArrayOfObj = values?.targets.map(
+              //@ts-ignore
+              ({ fullSymbol: symbol, ...rest }) => ({
+                symbol,
+                ...rest,
+              }),
+            );
+            const toBeSubmitted = {
+              model_portfolio: modelPortfolio,
+              model_portfolio_security: newArrayOfObj,
+            };
+            if (overWriteModel) {
+              postData(
+                `/api/v1/modelPortfolio/${modelPortfolio.id}`,
+                toBeSubmitted,
+              ).then((res) => {
+                dispatch(loadModelPortfolios());
+                toast.success(
+                  `'${toBeSubmitted.model_portfolio.name}' got overwritten.`,
+                  { autoClose: 3000 },
+                );
+              });
+            } else {
+              toBeSubmitted.model_portfolio.name = `${modelPortfolio.name} - modified`;
+              // create new model portfolio
+              postData('/api/v1/modelPortfolio/', {}).then((res) => {
+                // apply the details of model to the new model
+                postData(
+                  `/api/v1/modelPortfolio/${res.data.model_portfolio.id}`,
+                  toBeSubmitted,
+                ).then((res) => {
+                  dispatch(loadModelPortfolios());
+                  // apply the new model to the current group
+                  postData(
+                    `api/v1/portfolioGroups/${currentGroup?.id}/modelPortfolio/${res.data.model_portfolio.id}`,
+                    {},
+                  ).then((res) => {
+                    dispatch(loadGroupInfo());
+                    toast.success(
+                      `'${toBeSubmitted.model_portfolio.name}' has applied to '${currentGroup?.name}'.`,
+                      { autoClose: 3000 },
+                    );
+                    // setOriginalModel(selectedModel);
+                  });
+                });
+              });
+            }
+          }}
+        >
+          {(props) => (
+            <div>
+              {/* <Th>
+                <Legend>
+                  <TargetTitle>TARGET</TargetTitle>
+                  <ActualTitle>ACTUAL</ActualTitle>
+                </Legend>
+              </Th> */}
+              <FieldArray
+                name="targets"
+                render={(arrayHelpers) => {
+                  // calculate any new targets actual percentages
+                  // props.values.targets
+                  //   .filter((target) => target.actualPercentage === undefined)
+                  //   .forEach((target) => {
+                  //     if (
+                  //       positions &&
+                  //       positions.find(
+                  //         (position) => position.symbol.id === target.symbol,
+                  //       )
+                  //     ) {
+                  //       const position = positions.find(
+                  //         (position) => position.symbol.id === target.symbol,
+                  //       );
+                  //       if (position) {
+                  //         target.actualPercentage = position.actualPercentage;
+                  //       }
+                  //     }
+                  //   });
+
+                  // calculate the desired cash percentage
+                  const cashPercentage =
+                    100 -
+                    props.values.targets.reduce(
+                      (total: number, target: any) => {
+                        if (!target.deleted && target.percent) {
+                          return total + parseFloat(target.percent);
+                        }
+                        return total;
+                      },
+                      0,
+                    );
+
+                  // calculate the actual cash percentage
+
+                  const cashActualPercentage = (cash! / totalEquity) * 100;
+
+                  // if (
+                  //   props.values.targets.filter((t) => !t.deleted).length === 0
+                  // ) {
+                  //   arrayHelpers.push(generateNewTarget());
+                  // }
+
+                  // generate the share url
+
+                  var excludedAssetCount = props.values.targets.filter(
+                    (target: any) => target.is_excluded === true,
+                  ).length;
+
+                  return (
+                    <React.Fragment>
+                      {props.values.targets.map((t: any, index: number) => {
+                        if (
+                          props.values.targets[index].actualPercentage ===
+                          undefined
+                        ) {
+                          props.values.targets[index].actualPercentage = 0;
+                        }
+                        if (t.deleted) {
+                          return null;
+                        }
+                        return (
+                          <GreyBox key={t.key}>
+                            {/* <TargetBar
+                              key={t.symbol}
+                              target={t}
+                              edit={true}
+                              tour={false}
+                              setSymbol={(symbol) => {
+                                setSymbol(t, symbol);
+                                props.setFieldTouched(
+                                  `targets.${index}.symbol` as 'targets',
+                                );
+                              }}
+                              onDelete={(key) => {
+                                let target = props.values.targets.find(
+                                  (t: any) => t.key === key,
+                                );
+                                if (!target) {
+                                  return;
+                                }
+                                target.deleted = true;
+                                props.setFieldTouched(
+                                  `targets.${index}.percent` as 'targets',
+                                );
+                                props.setFieldValue(
+                                  `targets.${index}.percent` as 'targets',
+                                  -0.1,
+                                );
+                              }}
+                              onExclude={(key) => {
+                                let target = props.values.targets.find(
+                                  (t: any) => t.key === key,
+                                );
+                                if (!target) {
+                                  return;
+                                }
+                                const newExcluded = !target.is_excluded;
+                                target.is_excluded = newExcluded;
+                                props.setFieldTouched(
+                                  `targets.${index}.percent` as 'targets',
+                                );
+                                if (target.is_excluded) {
+                                  props.setFieldValue(
+                                    `targets.${index}.percent` as 'targets',
+                                    null,
+                                  );
+                                } else {
+                                  props.setFieldValue(
+                                    `targets.${index}.percent` as 'targets',
+                                    0,
+                                  );
+                                }
+                              }}
+                            >
+                        
+                            </TargetBar> */}
+
+                            <Grid columns="3fr 1fr">
+                              <div>
+                                <Symbol>
+                                  {
+                                    props.values.targets[index].fullSymbol
+                                      .symbol
+                                  }
+                                </Symbol>
+                                <Description>
+                                  {
+                                    props.values.targets[index].fullSymbol
+                                      .description
+                                  }
+                                </Description>
+                              </div>
+                              <div>
+                                <TargetPercent
+                                  type="number"
+                                  name={`targets.${index}.percent`}
+                                  value={props.values.targets[index].percent}
+                                  tabIndex={index + 1}
+                                  onChange={(e) =>
+                                    props.setFieldValue(
+                                      `targets.${index}.percent` as 'targets',
+                                      parseFloat(e.target.value),
+                                    )
+                                  }
+                                  // min={'0'}
+                                  // max={'100'}
+                                  // onBlur={() => {
+                                  //   props.setFieldValue(
+                                  //     `targets.${index}.percent` as 'targets',
+                                  //     parseFloat(
+                                  //       props.values.targets[
+                                  //         index
+                                  //       ].percent.toFixed(4),
+                                  //     ),
+                                  //   );
+                                  // }}
+                                />
+                                <Percent>
+                                  {props.values.targets[
+                                    index
+                                  ].actualPercentage?.toFixed(1)}
+                                  %
+                                </Percent>
+                              </div>
+                            </Grid>
+                            <BarsContainer
+                              style={{
+                                background: 'white',
+                                width: '100%',
+                                marginTop: '20px',
+                                border: '1px solid #BBBBBB',
+                              }}
+                            >
+                              {!(
+                                props.values.targets[index].actualPercentage ===
+                                undefined
+                              ) && (
+                                <BarActual>
+                                  <Bar
+                                    style={{
+                                      width: `${props.values.targets[
+                                        index
+                                      ].actualPercentage?.toFixed(0)}%`,
+                                    }}
+                                  >
+                                    {' '}
+                                  </Bar>
+                                </BarActual>
+                              )}
+                              <BarTarget>
+                                {props.values.targets[index].percent < 0 ? (
+                                  <div
+                                    style={{
+                                      width: '100%',
+                                      backgroundColor: 'red',
+                                    }}
+                                  >
+                                    Warning: cash allocation cannot be negative!
+                                  </div>
+                                ) : (
+                                  <Bar
+                                    style={{
+                                      width: `${props.values.targets[index].percent}%`,
+                                      maxWidth: '100%',
+                                    }}
+                                  >
+                                    {' '}
+                                  </Bar>
+                                )}
+                              </BarTarget>
+                            </BarsContainer>
+                          </GreyBox>
+                        );
+                      })}
+                      <div key="cashBar">
+                        <CashBar
+                          percentage={cashPercentage}
+                          actualPercentage={cashActualPercentage}
+                          edit={true}
+                        />
+                      </div>
+                      {/* {true && excludedAssetCount > 0 && (
+                        <ExcludedNote>
+                          And <strong>{excludedAssetCount}</strong> excluded
+                          asset
+                          {excludedAssetCount > 1 && 's'}.
+                        </ExcludedNote>
+                      )} */}
+
+                      <ErrorMessage name="targets" component="div" />
+                      {props.dirty && (
+                        <Button
+                          type="submit"
+                          onClick={() => {
+                            true ? setShowDialog(true) : props.handleSubmit();
+                          }}
+                          disabled={!props.dirty}
+                        >
+                          SAVE CHANGES
+                        </Button>
+                      )}
+                      <Dialog
+                        isOpen={showDialog}
+                        onDismiss={() => setShowDialog(false)}
+                        aria-labelledby="dialog1Title"
+                        aria-describedby="dialog1Desc"
+                      >
+                        <H2Margin>
+                          This Model is being used by{' '}
+                          {modelPortfolio.total_assigned_portfolio_groups - 1}
+                          groups.
+                          <span style={{ fontWeight: 'bold' }}>*</span>?
+                        </H2Margin>
+                        {/* <p style={{ fontSize: '0.9rem', textAlign: 'center' }}>
+                          * All securities under this asset class would get
+                          deleted.
+                        </p> */}
+                        <ActionContainer>
+                          <A
+                            onClick={() => {
+                              setShowDialog(false);
+                              setOverWriteModel(true);
+                              props.handleSubmit();
+                            }}
+                          >
+                            Overwrite "{modelPortfolio.name}"
+                          </A>
+                          <Button
+                            onClick={() => {
+                              setShowDialog(false);
+                              setOverWriteModel(false);
+                              props.handleSubmit();
+                            }}
+                          >
+                            Create New Model
+                          </Button>
+                        </ActionContainer>
+                      </Dialog>
+                    </React.Fragment>
+                  );
+                }}
+              />
+            </div>
+          )}
+        </Formik>
       )}
     </>
   );
