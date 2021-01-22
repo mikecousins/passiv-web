@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getData, postData } from '../../api';
 import styled from '@emotion/styled';
-import { loadModelPortfolios, loadGroup, loadGroupInfo } from '../../actions';
+import { loadModelPortfolios, loadGroupInfo } from '../../actions';
 import { selectModelPortfolios } from '../../selectors/modelPortfolios';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,15 +25,11 @@ import {
 } from '../../selectors/groups';
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
-import { ErrorBox, H2, H3, P, Table, H1 } from '../../styled/GlobalElements';
-import { GreyBox } from './SettingTargets';
+import { H2, H3, P } from '../../styled/GlobalElements';
 import { BackButton } from '../ModelPortfolio/ModelPortfolio';
 import { toast } from 'react-toastify';
 import { Button } from '../../styled/Button';
 import ApplySecurityModel from './ApplySecurityModel';
-import { selectCurrencyRates } from '../../selectors';
-import { selectCurrentGroupSettings } from '../../selectors/groups';
-import { ErrorAttributeSpan } from '../RebalanceWidget/styles';
 
 const StyledMenuButton = styled(MenuButton)`
   border: 1px solid var(--brand-blue);
@@ -128,7 +124,6 @@ const ApplyTarget = () => {
   const [showDetails, setShowDetails] = useState(false);
   const [showDetailsId, setShowDetailsId] = useState('');
   const [loading, setLoading] = useState(false);
-  const currentGroupTarget = useSelector(selectCurrentGroupTarget);
   const trades = useSelector(selectCurrentGroupTrades);
   const [modelHasChanged, setModelHasChanged] = useState(
     currentGroupInfo?.settings.model_portfolio_changed,

@@ -8,18 +8,16 @@ import { GreyBox } from './SettingTargets';
 import {
   selectCurrentGroup,
   selectCurrentGroupCash,
-  selectCurrentGroupTarget,
   selectCurrentGroupTotalEquityExcludedRemoved,
 } from '../../selectors/groups';
 import { BarsContainer, Bar, BarTarget, BarActual } from '../../styled/Target';
-import { A, H2, P } from '../../styled/GlobalElements';
+import { A, P } from '../../styled/GlobalElements';
 import {
   Th,
   Legend,
   ActualTitle,
   TargetTitle,
 } from '../PortfolioGroupTargets/TargetSelector';
-import TargetBar from '../PortfolioGroupTargets/TargetBar';
 import CashBar from '../PortfolioGroupTargets/CashBar';
 import { Button } from '../../styled/Button';
 import { postData } from '../../api';
@@ -58,6 +56,14 @@ const TargetPercent = styled.input`
 const NoSecurities = styled(P)`
   text-align: center;
   font-weight: 600;
+`;
+
+const DeleteButton = styled.div`
+  background-color: #535455;
+  width: 40px;
+  position: relative;
+  top: -20px;
+  right: 19px;
 `;
 
 type Props = {
@@ -116,17 +122,24 @@ const ApplySecurityModel = ({ model, modelPortfolio }: Props) => {
             };
             if (overWriteModel) {
               postData(
-                `/api/v1/modelPortfolio/${modelPortfolio.id}`,
+                `/api/v1/modelsPortfolio/${modelPortfolio.id}`,
                 toBeSubmitted,
-              ).then((res) => {
-                dispatch(loadModelPortfolios());
-                toast.success(
-                  `'${toBeSubmitted.model_portfolio.name}' got overwritten.`,
-                  { autoClose: 3000 },
-                );
-              });
+              )
+                .then((res) => {
+                  dispatch(loadModelPortfolios());
+                  toast.success(
+                    `'${toBeSubmitted.model_portfolio.name}' got overwritten.`,
+                    { autoClose: 3000 },
+                  );
+                })
+                .catch(() => {
+                  toast.error('Failed to apply changes to this model.', {
+                    autoClose: 3000,
+                  });
+                  actions.resetForm();
+                });
             } else {
-              toBeSubmitted.model_portfolio.name = `${modelPortfolio.name} - modified`;
+              toBeSubmitted.model_portfolio.name = `${modelPortfolio.name}(modified)`;
               // create new model portfolio
               postData('/api/v1/modelPortfolio/', {}).then((res) => {
                 // apply the details of model to the new model
@@ -145,7 +158,6 @@ const ApplySecurityModel = ({ model, modelPortfolio }: Props) => {
                       `'${toBeSubmitted.model_portfolio.name}' has applied to '${currentGroup?.name}'.`,
                       { autoClose: 3000 },
                     );
-                    // setOriginalModel(selectedModel);
                   });
                 });
               });
@@ -225,61 +237,7 @@ const ApplySecurityModel = ({ model, modelPortfolio }: Props) => {
                         }
                         return (
                           <GreyBox key={t.key}>
-                            {/* <TargetBar
-                              key={t.symbol}
-                              target={t}
-                              edit={true}
-                              tour={false}
-                              setSymbol={(symbol) => {
-                                setSymbol(t, symbol);
-                                props.setFieldTouched(
-                                  `targets.${index}.symbol` as 'targets',
-                                );
-                              }}
-                              onDelete={(key) => {
-                                let target = props.values.targets.find(
-                                  (t: any) => t.key === key,
-                                );
-                                if (!target) {
-                                  return;
-                                }
-                                target.deleted = true;
-                                props.setFieldTouched(
-                                  `targets.${index}.percent` as 'targets',
-                                );
-                                props.setFieldValue(
-                                  `targets.${index}.percent` as 'targets',
-                                  -0.1,
-                                );
-                              }}
-                              onExclude={(key) => {
-                                let target = props.values.targets.find(
-                                  (t: any) => t.key === key,
-                                );
-                                if (!target) {
-                                  return;
-                                }
-                                const newExcluded = !target.is_excluded;
-                                target.is_excluded = newExcluded;
-                                props.setFieldTouched(
-                                  `targets.${index}.percent` as 'targets',
-                                );
-                                if (target.is_excluded) {
-                                  props.setFieldValue(
-                                    `targets.${index}.percent` as 'targets',
-                                    null,
-                                  );
-                                } else {
-                                  props.setFieldValue(
-                                    `targets.${index}.percent` as 'targets',
-                                    0,
-                                  );
-                                }
-                              }}
-                            >
-                        
-                            </TargetBar> */}
-
+                            <DeleteButton></DeleteButton>
                             <Grid columns="3fr 1fr">
                               <div>
                                 <Symbol>
@@ -309,16 +267,6 @@ const ApplySecurityModel = ({ model, modelPortfolio }: Props) => {
                                   }
                                   // min={'0'}
                                   // max={'100'}
-                                  // onBlur={() => {
-                                  //   props.setFieldValue(
-                                  //     `targets.${index}.percent` as 'targets',
-                                  //     parseFloat(
-                                  //       props.values.targets[
-                                  //         index
-                                  //       ].percent.toFixed(4),
-                                  //     ),
-                                  //   );
-                                  // }}
                                 />
                                 <Percent>
                                   {props.values.targets[
@@ -397,6 +345,7 @@ const ApplySecurityModel = ({ model, modelPortfolio }: Props) => {
                         <Button
                           type="submit"
                           onClick={() => {
+                            // modelPortfolio.total_assigned_portfolio_groups > 1
                             true ? setShowDialog(true) : props.handleSubmit();
                           }}
                           disabled={!props.dirty}
@@ -416,10 +365,6 @@ const ApplySecurityModel = ({ model, modelPortfolio }: Props) => {
                           groups.
                           <span style={{ fontWeight: 'bold' }}>*</span>?
                         </H2Margin>
-                        {/* <p style={{ fontSize: '0.9rem', textAlign: 'center' }}>
-                          * All securities under this asset class would get
-                          deleted.
-                        </p> */}
                         <ActionContainer>
                           <A
                             onClick={() => {
