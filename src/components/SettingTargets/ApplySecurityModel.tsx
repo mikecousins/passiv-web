@@ -122,7 +122,7 @@ const ApplySecurityModel = ({ model, modelPortfolio }: Props) => {
             };
             if (overWriteModel) {
               postData(
-                `/api/v1/modelsPortfolio/${modelPortfolio.id}`,
+                `/api/v1/modelPortfolio/${modelPortfolio.id}`,
                 toBeSubmitted,
               )
                 .then((res) => {
