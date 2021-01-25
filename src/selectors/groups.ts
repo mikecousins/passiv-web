@@ -1266,3 +1266,17 @@ export const selectCurrentGroupCashRestrictions = createSelector(
     );
   },
 );
+
+export const selectCurrentGroupPositionsNotInTarget = createSelector(
+  selectCurrentGroupPositions,
+  selectCurrentGroupTarget,
+  (positions, targets) => {
+    let notInTarget = null;
+    const targetIds = targets?.map((target: any) => target.fullSymbol.id);
+    notInTarget = positions?.filter(
+      (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+    );
+
+    return notInTarget;
+  },
+);
