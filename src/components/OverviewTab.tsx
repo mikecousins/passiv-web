@@ -22,9 +22,11 @@ import {
   selectGroupsLoading,
   selectPreferredCurrency,
   selectCurrentGroupTradesHasSkippedTrades,
+  selectCurrentGroupPositionsNotInTarget,
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
+import SecuritiesNotInTarget from './SecuritiesNotInTarget';
 
 const TOUR_STEPS = [
   {
@@ -87,6 +89,10 @@ const OverviewTab = () => {
   const hasSkippedTrades = useSelector(
     selectCurrentGroupTradesHasSkippedTrades,
   );
+  const positionsNotInTargets = useSelector(
+    selectCurrentGroupPositionsNotInTarget,
+  );
+
   // if we don't have our group yet, show a spinner
   if (group === undefined) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
@@ -124,6 +130,7 @@ const OverviewTab = () => {
   if (hasSkippedTrades === true) {
     skipErrorMessage = <PortfolioGroupErrors error={{ code: 'IBKR_CAN' }} />;
   }
+
   return (
     <React.Fragment>
       {setupComplete && <Tour steps={TOUR_STEPS} name="overview_tab_tour" />}
@@ -148,6 +155,9 @@ const OverviewTab = () => {
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
+      {positionsNotInTargets && positionsNotInTargets.length > 0 && (
+        <SecuritiesNotInTarget targets={positionsNotInTargets} />
+      )}
       {skipErrorMessage}
       {tradeDisplay}
 
