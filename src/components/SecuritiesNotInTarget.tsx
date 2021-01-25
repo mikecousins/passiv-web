@@ -1,26 +1,24 @@
-import styled from '@emotion/styled';
-import {
-  faExclamationTriangle,
-  faTimesCircle,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { postData } from '../api';
+import {
+  selectCurrentGroup,
+  selectCurrentGroupTarget,
+} from '../selectors/groups';
 import { SmallButton } from '../styled/Button';
-import { H1, P, Table } from '../styled/GlobalElements';
-import { ColumnWarning } from '../styled/Group';
+import { A, H3, P } from '../styled/GlobalElements';
+import Grid from '../styled/Grid';
+import { ErrorContainer } from '../styled/Group';
+import styled from '@emotion/styled';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { loadGroup, loadSettings } from '../actions';
+import { toast } from 'react-toastify';
+import { ContextualMessageWrapper } from './ContextualMessageWrapper';
 
 type Props = {
   targets: any;
 };
-
-const WarningDiv = styled(ColumnWarning)`
-  margin: 20px !important;
-  background-color: ;
-`;
-
-const CloseButton = styled.div`
-  text-align: right;
-`;
 
 const ListOfAssets = styled.ul`
   font-size: 1.3rem;
@@ -30,61 +28,103 @@ const ListOfAssets = styled.ul`
 
 const DontShowBtn = styled.div`
   text-align: left;
+  margin-top: 50px;
 `;
 
 const SecuritiesNotInTarget = ({ targets }: Props) => {
-  return (
-    <>
-      <WarningDiv>
-        <CloseButton>
-          <button>
-            <FontAwesomeIcon icon={faTimesCircle} />
-          </button>
-        </CloseButton>
-        <H1>
-          <FontAwesomeIcon icon={faExclamationTriangle} />
-          Warning
-        </H1>
-        <P>
-          We noticed that you added the following securities in your account and
-          since these assets are not included in your target portfolio, they may
-          impact your portfolio accuracy or trade calculations.
-        </P>
-        <ListOfAssets>
-          {targets!.map((sec: any) => {
-            return (
-              <Table style={{ marginBottom: '10px' }}>
-                <div>
-                  <span style={{ fontWeight: 600 }}>
-                    {sec.universal_symbol.symbol}
-                  </span>{' '}
-                  - {sec.universal_symbol.description}
-                </div>
-                <SmallButton
-                  style={{
-                    float: 'right',
-                  }}
-                >
-                  Add to Portfolio
-                </SmallButton>
-              </Table>
-            );
-          })}
-        </ListOfAssets>
+  const currentGroup = useSelector(selectCurrentGroup);
+  const currentTargets = useSelector(selectCurrentGroupTarget);
 
+  const dispatch = useDispatch();
+
+  const handleAddTarget = (target: any, exclude: boolean) => {
+    const newTarget = {
+      symbol: target.symbol.id,
+      percent: 0,
+      fullSymbol: target.symbol,
+      is_supported: true,
+      is_excluded: exclude,
+    };
+    const targets = currentTargets;
+    //@ts-ignore
+    targets?.push(newTarget);
+
+    postData(`/api/v1/portfolioGroups/${currentGroup?.id}/targets/`, targets!)
+      .then(() => {
+        dispatch(loadGroup({ ids: [currentGroup?.id] }));
+        toast.success(
+          `'${newTarget.fullSymbol.symbol}' got ${
+            exclude ? 'excluded from your target' : 'added to your target'
+          }.`,
+        );
+      })
+      .catch((error) => {
+        toast.error(
+          `Failed to edit targets: ${
+            error.response && error.response.data.detail
+          }`,
+        );
+      });
+  };
+
+  const hideMsgBtn = () => {
+    postData(`/api/v1/contextualMessages`, {
+      name: ['new_assets_detected'],
+    })
+      .then(() => {
+        dispatch(loadSettings());
+      })
+      .catch(() => {
+        toast.error(`Failed to hide contextual message "new_assets_detected".`);
+      });
+  };
+
+  return (
+    <ContextualMessageWrapper name={'new_assets_detected'}>
+      <ErrorContainer>
+        <H3>
+          <FontAwesomeIcon icon={faExclamationTriangle} /> New Assets Detected
+          <P>
+            We noticed that you added the following securities in your account
+            and since these assets are not included in your target portfolio,
+            they may impact your portfolio accuracy or trade calculations.
+          </P>
+          <ListOfAssets>
+            {targets!.map((target: any) => {
+              return (
+                <Grid
+                  style={{ marginBottom: '10px' }}
+                  columns="1fr 200px 200px"
+                >
+                  <div>
+                    <span style={{ fontWeight: 600, marginRight: '20px' }}>
+                      {target.symbol.symbol}
+                    </span>{' '}
+                    {target.symbol.description}
+                  </div>
+                  <SmallButton onClick={() => handleAddTarget(target, false)}>
+                    Add to Target
+                  </SmallButton>
+                  <SmallButton
+                    style={{
+                      background: 'transparent',
+                      border: '1px solid var(--brand-blue)',
+                      color: 'var(--brand-blue)',
+                    }}
+                    onClick={() => handleAddTarget(target, true)}
+                  >
+                    Exclude
+                  </SmallButton>
+                </Grid>
+              );
+            })}
+          </ListOfAssets>
+        </H3>
         <DontShowBtn>
-          <SmallButton
-            style={{
-              background: 'transparent',
-              color: 'var(--brand-blue)',
-              border: '1px solid var(--brand-blue)',
-            }}
-          >
-            Do not show this message again
-          </SmallButton>
+          <A onClick={hideMsgBtn}>Do not display this message again</A>
         </DontShowBtn>
-      </WarningDiv>
-    </>
+      </ErrorContainer>
+    </ContextualMessageWrapper>
   );
 };
 
