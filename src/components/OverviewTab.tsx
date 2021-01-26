@@ -155,9 +155,11 @@ const OverviewTab = () => {
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
-      {positionsNotInTargets && positionsNotInTargets.length > 0 && (
-        <SecuritiesNotInTarget targets={positionsNotInTargets} />
-      )}
+      {setupComplete &&
+        positionsNotInTargets &&
+        positionsNotInTargets.length > 0 && (
+          <SecuritiesNotInTarget targets={positionsNotInTargets} />
+        )}
       {skipErrorMessage}
       {tradeDisplay}
 
