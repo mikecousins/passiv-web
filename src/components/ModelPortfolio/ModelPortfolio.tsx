@@ -82,7 +82,7 @@ const ModelPortfolio = () => {
       `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
     ).then(() => {
       dispatch(loadModelPortfolios());
-      history.push('/app/setting-targets');
+      history.push('/app/my-model-portfolios');
     });
   };
 
@@ -116,14 +116,18 @@ const ModelPortfolio = () => {
               </Link>
             </BackButton>
             <ResponsiveGrid columns="4fr 2fr">
-              {currentModelPortfolio!.model_portfolio.model_type === 1 ? (
+              {/* {currentModelPortfolio!.model_portfolio.model_type === 1 ? (
                 <ModelPortoflioBox
                   assetClasses={assetClasses}
                   modelPortfolio={currentModelPortfolio}
                 />
               ) : (
                 <ModelSecurity modelPortfolio={currentModelPortfolio} />
-              )}
+              )} */}
+              <ModelPortoflioBox
+                assetClasses={assetClasses}
+                modelPortfolio={currentModelPortfolio}
+              />
               {currentModelPortfolio!.model_portfolio.model_type === 1 && (
                 <AssetClassesBox assetClasses={modelAssetClasses} />
               )}
