@@ -27,6 +27,7 @@ import TargetSelector from './TargetSelector';
 import { selectIsEditMode } from '../../selectors/router';
 import Tour from '../Tour/Tour';
 import { replace } from 'connected-react-router';
+import Grid from '../../styled/Grid';
 
 const TOUR_STEPS = [
   {
@@ -147,6 +148,34 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         </Button>
       ),
     },
+    {
+      id: 'NEW_MODEL',
+      name: 'Create New Model',
+      button: (
+        <Button
+          onClick={() => {
+            setModel('NEW_MODEL');
+            dispatch(replace(`/app/my-model-portfolios`));
+          }}
+        >
+          Create Model
+        </Button>
+      ),
+    },
+    {
+      id: 'USE_MODEL',
+      name: 'Use one of the Existing Models',
+      button: (
+        <Button
+          onClick={() => {
+            setModel('USE_MODEL');
+            dispatch(replace(`/app/my-model-portfolios`));
+          }}
+        >
+          Choose From Models
+        </Button>
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -260,7 +289,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
                 There is no target portfolio set for this account. Please choose
                 one of the following options:
               </P>
-              <Container2Column>
+              <Grid columns="1fr 1fr">
                 {modelChoices.map((m) => (
                   <ShadowBox key={m.id}>
                     <H3LowProfile className={m.tourClass}>
@@ -269,7 +298,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
                     <CenteredDiv>{m.button}</CenteredDiv>
                   </ShadowBox>
                 ))}
-              </Container2Column>
+              </Grid>
             </React.Fragment>
           ) : (
             <React.Fragment>
