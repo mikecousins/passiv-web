@@ -93,7 +93,7 @@ const MyModelPortfoliosPage = () => {
               key={mdl.model_portfolio.id}
               style={{ lineHeight: '2rem' }}
             >
-              <Grid columns="4fr 1fr 1fr">
+              <Grid columns="3fr 1fr 1fr 1fr">
                 <ModelName>{mdl.model_portfolio.name}</ModelName>
 
                 <InUseDiv>
@@ -116,6 +116,13 @@ const MyModelPortfoliosPage = () => {
                 <StyledViewBtn>
                   <Link to={`model-portfolio/${mdl.model_portfolio.id}`}>
                     View
+                    <FontAwesomeIcon icon={faAngleRight} />
+                  </Link>
+                </StyledViewBtn>
+
+                <StyledViewBtn>
+                  <Link to={`model-portfolio/${mdl.model_portfolio.id}`}>
+                    Apply Model
                     <FontAwesomeIcon icon={faAngleRight} />
                   </Link>
                 </StyledViewBtn>
