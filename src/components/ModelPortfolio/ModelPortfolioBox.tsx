@@ -6,11 +6,16 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
-import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
+import {
+  ModelAssetClassWithPercentage,
+  ModelPortfolioDetailsType,
+  TargetWithPercentage,
+} from '../../types/modelPortfolio';
 import { postData } from '../../api';
 import { useDispatch } from 'react-redux';
 import { loadModelPortfolios } from '../../actions';
 import { Formik, Form } from 'formik';
+import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 
 const Box = styled.div`
   border: 1px solid #bfb6b6;
@@ -72,15 +77,21 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
   const [modelPortfolioName, setModelPortfolioName] = useState(
     modelPortfolio.model_portfolio.name,
   );
+  const [securityBased, setSecurityBased] = useState(
+    modelPortfolio.model_portfolio.model_type === 0,
+  );
   const [editName, setEditName] = useState(false);
   const [notAssetError, setNotAssetError] = useState(false);
 
+  let model: any[] = modelPortfolio.model_portfolio_asset_class;
+  if (securityBased) {
+    model = modelPortfolio.model_portfolio_security;
+  }
+
   const getAvailableAssetClasses = () => {
-    const usedAssetClasses = modelPortfolio.model_portfolio_asset_class.map(
-      (astCls) => {
-        return astCls.model_asset_class.id;
-      },
-    );
+    const usedAssetClasses = model.map((astCls) => {
+      return astCls.model_asset_class.id;
+    });
     // filter out the asset classes that have been already added to the model portfolio from the available asset classes
     const assetClassesAvailable = assetClasses.filter(
       (ast) => !usedAssetClasses.includes(ast.id),
@@ -90,12 +101,10 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
   };
 
   const getRemainingPercent = () => {
-    const allocatedPercent = modelPortfolio.model_portfolio_asset_class.reduce(
-      (sum, astCls) => {
-        return (+sum + +astCls.percent).toFixed(3);
-      },
-      '0',
-    );
+    //@ts-ignore
+    const allocatedPercent = model.reduce((sum: number, asset: any) => {
+      return (+sum + +asset.percent).toFixed(3);
+    }, '0');
     return (100 - +allocatedPercent).toFixed(3);
   };
 
@@ -104,26 +113,30 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
     setTimeout(() => setNotAssetError(false), 5000);
   }, [notAssetError]);
 
+  const changeModel = () => {
+    console.log(modelPortfolio);
+    postData(
+      `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
+      modelPortfolio,
+    )
+      .then(() => {
+        dispatch(loadModelPortfolios());
+      })
+      .catch(() => {
+        dispatch(loadModelPortfolios());
+        toast.error(
+          `${modelPortfolio.model_portfolio.name} Model Portfolio Name Update Failed`,
+          { autoClose: 3000 },
+        );
+      });
+  };
   const finishEditingName = () => {
     if (
       modelPortfolioName !== modelPortfolio.model_portfolio.name &&
       modelPortfolioName!.trim().length > 0
     ) {
       modelPortfolio.model_portfolio.name = modelPortfolioName;
-      postData(
-        `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
-        modelPortfolio,
-      )
-        .then(() => {
-          dispatch(loadModelPortfolios());
-        })
-        .catch(() => {
-          dispatch(loadModelPortfolios());
-          toast.error(
-            `${modelPortfolio.model_portfolio.name} Model Portfolio Name Update Failed`,
-            { autoClose: 3000 },
-          );
-        });
+      changeModel();
     } else {
       setModelPortfolioName(modelPortfolio.model_portfolio.name);
     }
@@ -131,22 +144,16 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
   };
 
   const handleDelete = (id: string) => {
-    modelPortfolio.model_portfolio_asset_class.forEach((astCls, index) => {
-      if (astCls.model_asset_class.id === id) {
+    model.map((mdl: any, index: number) => {
+      if (securityBased && mdl.symbol.id === id) {
+        modelPortfolio.model_portfolio_security.splice(index, 1);
+        return;
+      } else if (!securityBased && mdl.model_asset_class.id === id) {
         modelPortfolio.model_portfolio_asset_class.splice(index, 1);
-        postData(
-          `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
-          modelPortfolio,
-        )
-          .then(() => {
-            dispatch(loadModelPortfolios());
-          })
-          .catch(() => {
-            dispatch(loadModelPortfolios());
-            toast.error('Deletion Failed', { autoClose: 3000 });
-          });
+        return;
       }
     });
+    changeModel();
   };
 
   return (
@@ -181,49 +188,86 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
             {getRemainingPercent()}% Cash
           </span>
         </li>
-        {modelPortfolio.model_portfolio_asset_class.map((cl) => {
-          return (
-            <li
-              style={{
-                borderLeft: '5px solid var(--brand-green)',
-                lineHeight: '30px',
-                padding: '10px',
-                marginBottom: '20px',
-              }}
-              key={cl.model_asset_class.id}
-            >
-              <span style={{ fontSize: '26px' }}>
-                {cl.percent}% {cl.model_asset_class.name}
-              </span>
-              <button
-                onClick={() => handleDelete(cl.model_asset_class.id)}
-                style={{ marginLeft: '50px', position: 'relative' }}
-              >
-                <FontAwesomeIcon
-                  icon={faTimesCircle}
-                  size="sm"
-                  style={{ position: 'relative' }}
-                />
-              </button>
-            </li>
-          );
-        })}
+        {!securityBased
+          ? model.map((cl) => {
+              return (
+                <li
+                  style={{
+                    borderLeft: '5px solid var(--brand-green)',
+                    lineHeight: '30px',
+                    padding: '10px',
+                    marginBottom: '20px',
+                  }}
+                  key={cl.model_asset_class.id}
+                >
+                  <span style={{ fontSize: '26px' }}>
+                    {cl.percent}% {cl.model_asset_class.name}
+                  </span>
+                  <button
+                    onClick={() => handleDelete(cl.model_asset_class.id)}
+                    style={{ marginLeft: '50px', position: 'relative' }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faTimesCircle}
+                      size="sm"
+                      style={{ position: 'relative' }}
+                    />
+                  </button>
+                </li>
+              );
+            })
+          : model.map((sec) => {
+              return (
+                <li
+                  style={{
+                    borderLeft: '5px solid var(--brand-green)',
+                    lineHeight: '30px',
+                    padding: '10px',
+                    marginBottom: '20px',
+                  }}
+                  key={sec.symbol.id}
+                >
+                  <span style={{ fontSize: '26px' }}>
+                    {sec.percent}% {sec.symbol.symbol}
+                  </span>
+                  <button
+                    onClick={() => handleDelete(sec.symbol.id)}
+                    style={{ marginLeft: '50px', position: 'relative' }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faTimesCircle}
+                      size="sm"
+                      style={{ position: 'relative' }}
+                    />
+                  </button>
+                </li>
+              );
+            })}
       </ul>
 
       <FormContainer>
         <Formik
           initialValues={{
-            assetClassId: '',
+            assetId: '',
             percent: 0,
           }}
           initialStatus={{ submitted: false }}
           onSubmit={(values, actions) => {
-            modelPortfolio.model_portfolio_asset_class.push({
-              model_asset_class: {
-                id: values.assetClassId!,
-              },
-              percent: values.percent.toFixed(3),
-            });
+            if (securityBased) {
+              modelPortfolio.model_portfolio_security.push({
+                symbol: {
+                  id: values.assetId!,
+                },
+                percent: values.percent.toFixed(3),
+              });
+            } else {
+              modelPortfolio.model_portfolio_asset_class.push({
+                model_asset_class: {
+                  id: values.assetId!,
+                },
+                percent: values.percent.toFixed(3),
+              });
+            }
             postData(
               `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
               modelPortfolio,
@@ -255,12 +299,23 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
                 />
                 <PercentageLabel htmlFor="percentage">%</PercentageLabel>
               </Percentage>
-              <AssetClassSelector
-                name="assetClassId"
-                id="assetClassId"
-                assetClassesAvailable={getAvailableAssetClasses()}
-                onSelect={props.handleChange}
-              />
+              {securityBased ? (
+                <SymbolSelector
+                  name="assetId"
+                  id="assetId"
+                  value={null}
+                  onSelect={props.handleChange}
+                  allSymbols={true}
+                  forModelSecurity={true}
+                />
+              ) : (
+                <AssetClassSelector
+                  name="assetId"
+                  id="assetId"
+                  assetClassesAvailable={getAvailableAssetClasses()}
+                  onSelect={props.handleChange}
+                />
+              )}
               <button type="submit" style={{ display: 'none' }}></button>
             </Form>
           )}

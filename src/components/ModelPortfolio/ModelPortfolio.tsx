@@ -17,7 +17,6 @@ import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { loadModelPortfolios } from '../../actions';
 import { deleteData, postData } from '../../api';
 import { Button, SmallButton } from '../../styled/Button';
-import ModelSecurity from './ModelSecurity';
 import { selectCurrentModelPortfolio } from '../../selectors/modelPortfolios';
 import { toast } from 'react-toastify';
 
