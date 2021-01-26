@@ -87,6 +87,10 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
   if (securityBased) {
     model = modelPortfolio.model_portfolio_security;
   }
+  const nameChanged =
+    modelPortfolio.model_portfolio.name.trim() !== modelPortfolioName.trim();
+
+  console.log('name changed?', nameChanged);
 
   const getAvailableAssetClasses = () => {
     const usedAssetClasses = model.map((astCls) => {
@@ -136,7 +140,7 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
       modelPortfolioName!.trim().length > 0
     ) {
       modelPortfolio.model_portfolio.name = modelPortfolioName;
-      changeModel();
+      // changeModel();
     } else {
       setModelPortfolioName(modelPortfolio.model_portfolio.name);
     }
