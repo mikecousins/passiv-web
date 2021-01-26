@@ -42,6 +42,10 @@ const DontShowBtn = styled.div`
   margin-top: 50px;
 `;
 
+const MaxHeightSmallBtn = styled(SmallButton)`
+  max-height: 40px;
+`;
+
 const SecuritiesNotInTarget = ({ targets }: Props) => {
   const [loading, setLoading] = useState(false);
   const currentGroup = useSelector(selectCurrentGroup);
@@ -127,10 +131,12 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
                       </span>{' '}
                       {target.symbol.description}
                     </div>
-                    <SmallButton onClick={() => handleAddTarget(target, false)}>
+                    <MaxHeightSmallBtn
+                      onClick={() => handleAddTarget(target, false)}
+                    >
                       Add to Target
-                    </SmallButton>
-                    <SmallButton
+                    </MaxHeightSmallBtn>
+                    <MaxHeightSmallBtn
                       style={{
                         background: 'transparent',
                         border: '1px solid var(--brand-blue)',
@@ -139,7 +145,7 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
                       onClick={() => handleAddTarget(target, true)}
                     >
                       Exclude
-                    </SmallButton>
+                    </MaxHeightSmallBtn>
                   </StyledGrid>
                 );
               })}
