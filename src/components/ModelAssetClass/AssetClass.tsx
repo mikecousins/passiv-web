@@ -140,6 +140,7 @@ const AssetClasses = ({ assetClass }: Props) => {
       <NameInputAndEdit
         value={assetClassName!}
         edit={editName}
+        allowEdit={true}
         onChange={(e: any) => setAssetClassName(e.target.value)}
         onKeyPress={(e: any) => e.key === 'Enter' && finishEditing()}
         onClickDone={() => finishEditing()}

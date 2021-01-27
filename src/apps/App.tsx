@@ -264,6 +264,10 @@ const App = () => {
               component={SetNewPasswordPage}
             />
             <Route path={prefixPath('/demo')} component={DemoLoginPage} />
+            <Route
+              path={prefixPath('/model-portfolio/:modelId/share/:shareId')}
+              component={ModelPortfolioPage}
+            />
             // oauth routes
             {loggedIn && (
               <Route

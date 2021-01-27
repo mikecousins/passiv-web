@@ -29,6 +29,7 @@ const Name = styled.span`
 type Props = {
   value: string;
   edit: boolean;
+  allowEdit: boolean;
   doneBtnTxt?: string;
   editBtnTxt?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -47,6 +48,7 @@ type Props = {
 const NameInputAndEdit = ({
   value,
   edit,
+  allowEdit,
   doneBtnTxt = 'Done',
   editBtnTxt = 'Edit',
   onChange,
@@ -77,10 +79,12 @@ const NameInputAndEdit = ({
       ) : (
         <StyledContainer>
           <StyledName>{value}</StyledName>
-          <StyledEditButton onClick={onClickEdit}>
-            <FontAwesomeIcon icon={faPen} />
-            {editBtnTxt}
-          </StyledEditButton>
+          {allowEdit && (
+            <StyledEditButton onClick={onClickEdit}>
+              <FontAwesomeIcon icon={faPen} />
+              {editBtnTxt}
+            </StyledEditButton>
+          )}
         </StyledContainer>
       )}
     </Fragment>

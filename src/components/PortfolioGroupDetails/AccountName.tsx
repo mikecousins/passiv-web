@@ -90,6 +90,7 @@ const AccountName = ({ name }: Props) => {
         <NameInputAndEdit
           value={newName}
           edit={editing}
+          allowEdit={true}
           StyledContainer={NameContainer}
           onChange={(event: any) => setNewName(event.target.value)}
           onKeyPress={(e: any) => e.key === 'Enter' && finishEditingName()}

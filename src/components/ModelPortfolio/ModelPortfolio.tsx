@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import {
@@ -15,10 +15,11 @@ import Grid from '../../styled/Grid';
 import AssetClassesBox from './AssetClassesBox';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { loadModelPortfolios } from '../../actions';
-import { deleteData, postData } from '../../api';
+import { deleteData, getData, postData } from '../../api';
 import { Button, SmallButton } from '../../styled/Button';
 import { selectCurrentModelPortfolio } from '../../selectors/modelPortfolios';
 import { toast } from 'react-toastify';
+import { selectRouter } from '../../selectors/router';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -56,8 +57,6 @@ const DeleteContainer = styled.div`
   float: right;
 `;
 
-const UseAssetClassBtn = styled(Button)``;
-
 const ModelPortfolio = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -84,30 +83,49 @@ const ModelPortfolio = () => {
       history.push('/app/my-model-portfolios');
     });
   };
+  const [sharedModel, setSharedModel] = useState(false);
+  const router = useSelector(selectRouter);
 
+  useEffect(() => {
+    //@ts-ignore
+    if (router && router.location) {
+      const path = router.location.pathname.split('/');
+      const shareId = path[5];
+      if (shareId) {
+        const modelId = router.location.pathname.split('/')[3];
+        getData(
+          //@ts-ignore
+          `/api/v1/modelPortfolio/${modelId}/share/${shareId}`,
+        )
+          .then((res) => {
+            setSharedModel(true);
+            currentModelPortfolio = res.data;
+          })
+          .catch(() => {
+            alert('Invalid Share Id');
+          });
+      }
+    }
+  }, [router]);
   return (
     <>
       {currentModelPortfolio && (
         <>
           <ShadowBox>
-            <BackButton>
-              <Link to={'/app/my-model-portfolios'}>
-                <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to My
-                Models
-              </Link>
-            </BackButton>
+            {!sharedModel && (
+              <BackButton>
+                <Link to={'/app/my-model-portfolios'}>
+                  <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to My
+                  Models
+                </Link>
+              </BackButton>
+            )}
+
             <ResponsiveGrid columns="4fr 2fr">
-              {/* {currentModelPortfolio!.model_portfolio.model_type === 1 ? (
-                <ModelPortoflioBox
-                  assetClasses={assetClasses}
-                  modelPortfolio={currentModelPortfolio}
-                />
-              ) : (
-                <ModelSecurity modelPortfolio={currentModelPortfolio} />
-              )} */}
               <ModelPortoflioBox
                 assetClasses={assetClasses}
                 modelPortfolio={currentModelPortfolio}
+                sharedModel={sharedModel}
               />
               {currentModelPortfolio!.model_portfolio.model_type === 1 && (
                 <AssetClassesBox assetClasses={modelAssetClasses} />
@@ -115,35 +133,37 @@ const ModelPortfolio = () => {
             </ResponsiveGrid>
           </ShadowBox>
 
-          <DeleteContainer>
-            {deleteDialog ? (
-              <>
-                <SmallButton
-                  onClick={handleDeleteModel}
-                  style={{
-                    backgroundColor: 'transparent',
-                    color: 'black',
-                    fontWeight: 600,
-                  }}
-                >
-                  Delete
-                </SmallButton>
-                <SmallButton
-                  onClick={() => setDeleteDialog(false)}
-                  style={{ fontWeight: 600 }}
-                >
-                  Cancel
-                </SmallButton>
-              </>
-            ) : (
-              <button onClick={() => setDeleteDialog(true)}>
-                <FontAwesomeIcon icon={faTrashAlt} /> Delete{' '}
-                <span style={{ fontWeight: 600 }}>
-                  {currentModelPortfolio!.model_portfolio.name}
-                </span>
-              </button>
-            )}
-          </DeleteContainer>
+          {!sharedModel && (
+            <DeleteContainer>
+              {deleteDialog ? (
+                <>
+                  <SmallButton
+                    onClick={handleDeleteModel}
+                    style={{
+                      backgroundColor: 'transparent',
+                      color: 'black',
+                      fontWeight: 600,
+                    }}
+                  >
+                    Delete
+                  </SmallButton>
+                  <SmallButton
+                    onClick={() => setDeleteDialog(false)}
+                    style={{ fontWeight: 600 }}
+                  >
+                    Cancel
+                  </SmallButton>
+                </>
+              ) : (
+                <button onClick={() => setDeleteDialog(true)}>
+                  <FontAwesomeIcon icon={faTrashAlt} /> Delete{' '}
+                  <span style={{ fontWeight: 600 }}>
+                    {currentModelPortfolio!.model_portfolio.name}
+                  </span>
+                </button>
+              )}
+            </DeleteContainer>
+          )}
         </>
       )}
     </>

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { ModelAssetClass } from '../../types/modelAssetClass';
 import NameInputAndEdit from '../NameInputAndEdit';
 import AssetClassSelector from './AssetClassSelector';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faClipboard,
+  faClipboardCheck,
   faEllipsisV,
   faExchangeAlt,
   faLink,
@@ -19,7 +22,6 @@ import {
   TargetWithPercentage,
 } from '../../types/modelPortfolio';
 import { postData } from '../../api';
-import { useDispatch } from 'react-redux';
 import { loadModelPortfolios } from '../../actions';
 import { Formik, Form } from 'formik';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
@@ -27,6 +29,8 @@ import { ToggleButton } from '../../styled/ToggleButton';
 import Grid from '../../styled/Grid';
 import { ToggleShow } from '../../pages/GoalDetailPage';
 import { SmallButton } from '../../styled/Button';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { selectReferralCode } from '../../selectors/referrals';
 
 const Box = styled.div`
   border: 1px solid #bfb6b6;
@@ -83,7 +87,7 @@ const ToggleShareButton = styled(ToggleButton)`
   margin-top: 10px;
 `;
 const MarginedFontAwesomeIcon = styled(FontAwesomeIcon)`
-  margin-right: 10px;
+  margin-right: 15px;
 `;
 
 const KebabMenu = styled(ToggleShow)`
@@ -118,22 +122,30 @@ const ChangeModelTypeBtn = styled(SmallButton)`
 type Props = {
   assetClasses: ModelAssetClass[];
   modelPortfolio: ModelPortfolioDetailsType;
+  sharedModel: boolean;
 };
 
-const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
+const ModelPortoflioBox = ({
+  assetClasses,
+  modelPortfolio,
+  sharedModel,
+}: Props) => {
   const dispatch = useDispatch();
+  const referralCode = useSelector(selectReferralCode);
   const [modelPortfolioName, setModelPortfolioName] = useState(
     modelPortfolio.model_portfolio.name,
   );
   const [securityBased, setSecurityBased] = useState(
     modelPortfolio.model_portfolio.model_type === 0,
   );
-  const [shareModel, setShareModel] = useState(
+  const [share, setShare] = useState(
     modelPortfolio.model_portfolio.share_portfolio,
   );
   const [editName, setEditName] = useState(false);
   const [notAssetError, setNotAssetError] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const SHARE_URL = `https://passiv.com/app/model-portfolio/${modelPortfolio.model_portfolio.id}/share/${referralCode}`;
 
   let model: any[] = modelPortfolio.model_portfolio_asset_class;
   if (securityBased) {
@@ -213,13 +225,13 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
   };
 
   const handleToggleBtn = () => {
-    modelPortfolio.model_portfolio.share_portfolio = !shareModel;
+    modelPortfolio.model_portfolio.share_portfolio = !share;
     postData(
       `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
       modelPortfolio,
     )
       .then(() => {
-        setShareModel(!shareModel);
+        setShare(!share);
         dispatch(loadModelPortfolios());
       })
       .catch(() => {
@@ -250,15 +262,18 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
 
   return (
     <Box>
-      <Grid columns="10px 1fr">
-        <div>
-          <KebabMenu onClick={() => setShowOptions(!showOptions)}>
-            <FontAwesomeIcon icon={faEllipsisV} />
-          </KebabMenu>
-        </div>
+      <Grid columns={sharedModel ? '1fr' : '10px 1fr'}>
+        {!sharedModel && (
+          <div>
+            <KebabMenu onClick={() => setShowOptions(!showOptions)}>
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </KebabMenu>
+          </div>
+        )}
         <NameInputAndEdit
           value={modelPortfolioName}
           edit={editName}
+          allowEdit={!sharedModel}
           editBtnTxt={'Edit Name'}
           onChange={(e: any) => setModelPortfolioName(e.target.value)}
           onKeyPress={(e: any) => e.key === 'Enter' && finishEditingName()}
@@ -274,7 +289,7 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
               <>
                 {' '}
                 <ToggleShareButton onClick={handleToggleBtn}>
-                  {shareModel ? (
+                  {share ? (
                     <React.Fragment>
                       <MarginedFontAwesomeIcon icon={faToggleOn} />
                     </React.Fragment>
@@ -286,11 +301,28 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
                   Share Model Portfolio
                 </ToggleShareButton>
                 <br />
-                {shareModel && (
-                  <p style={{ marginTop: '10px' }}>
-                    <MarginedFontAwesomeIcon icon={faLink} /> Share Model Link:{' '}
-                    {}{' '}
-                  </p>
+                {share && (
+                  <div
+                    style={{
+                      marginTop: '10px',
+                      marginLeft: '5px',
+                    }}
+                  >
+                    <CopyToClipboard
+                      text={SHARE_URL}
+                      onCopy={() => {
+                        setCopied(true);
+                      }}
+                    >
+                      {copied ? (
+                        <MarginedFontAwesomeIcon icon={faClipboardCheck} />
+                      ) : (
+                        <MarginedFontAwesomeIcon icon={faClipboard} />
+                      )}
+                    </CopyToClipboard>{' '}
+                    Copy link to share model
+                    {/* ^v1/modelPortfolio/%(uuid_pk)s/share/%(referral_code)s/?$ */}
+                  </div>
                 )}
                 <br />
               </>
@@ -365,97 +397,101 @@ const ModelPortoflioBox = ({ assetClasses, modelPortfolio }: Props) => {
                   <span style={{ fontSize: '26px' }}>
                     {sec.percent}% {sec.symbol.symbol}
                   </span>
-                  <button
-                    onClick={() => handleDelete(sec.symbol.id)}
-                    style={{ marginLeft: '50px', position: 'relative' }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faTimesCircle}
-                      size="sm"
-                      style={{ position: 'relative' }}
-                    />
-                  </button>
+                  {!sharedModel && (
+                    <button
+                      onClick={() => handleDelete(sec.symbol.id)}
+                      style={{ marginLeft: '50px', position: 'relative' }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faTimesCircle}
+                        size="sm"
+                        style={{ position: 'relative' }}
+                      />
+                    </button>
+                  )}
                 </li>
               );
             })}
       </ul>
+      {!sharedModel && (
+        <FormContainer>
+          <Formik
+            initialValues={{
+              assetId: '',
+              percent: 0,
+            }}
+            initialStatus={{ submitted: false }}
+            onSubmit={(values, actions) => {
+              if (securityBased) {
+                modelPortfolio.model_portfolio_security.push({
+                  symbol: {
+                    id: values.assetId!,
+                  },
+                  percent: values.percent.toFixed(3),
+                });
+              } else {
+                modelPortfolio.model_portfolio_asset_class.push({
+                  model_asset_class: {
+                    id: values.assetId!,
+                  },
+                  percent: values.percent.toFixed(3),
+                });
+              }
+              postData(
+                `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
+                modelPortfolio,
+              )
+                .then(() => {
+                  dispatch(loadModelPortfolios());
+                  actions.resetForm();
+                })
+                .catch(() => {
+                  dispatch(loadModelPortfolios());
+                  getRemainingPercent();
+                  setNotAssetError(true);
+                  actions.resetForm();
+                });
+              actions.setSubmitting(false);
+              actions.setStatus({ submitted: true });
+            }}
+          >
+            {(props) => (
+              <Form onSubmit={props.handleSubmit}>
+                <Percentage>
+                  <PercentageInput
+                    id="percent"
+                    name="percent"
+                    type="number"
+                    onChange={props.handleChange}
+                    value={props.values.percent}
+                    required
+                  />
+                  <PercentageLabel htmlFor="percentage">%</PercentageLabel>
+                </Percentage>
+                {securityBased ? (
+                  <SymbolSelector
+                    name="assetId"
+                    id="assetId"
+                    value={null}
+                    onSelect={props.handleChange}
+                    allSymbols={true}
+                    forModelSecurity={true}
+                  />
+                ) : (
+                  <AssetClassSelector
+                    name="assetId"
+                    id="assetId"
+                    assetClassesAvailable={getAvailableAssetClasses()}
+                    onSelect={props.handleChange}
+                  />
+                )}
+                <button type="submit" style={{ display: 'none' }}></button>
+              </Form>
+            )}
+          </Formik>
+        </FormContainer>
+      )}
 
-      <FormContainer>
-        <Formik
-          initialValues={{
-            assetId: '',
-            percent: 0,
-          }}
-          initialStatus={{ submitted: false }}
-          onSubmit={(values, actions) => {
-            if (securityBased) {
-              modelPortfolio.model_portfolio_security.push({
-                symbol: {
-                  id: values.assetId!,
-                },
-                percent: values.percent.toFixed(3),
-              });
-            } else {
-              modelPortfolio.model_portfolio_asset_class.push({
-                model_asset_class: {
-                  id: values.assetId!,
-                },
-                percent: values.percent.toFixed(3),
-              });
-            }
-            postData(
-              `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
-              modelPortfolio,
-            )
-              .then(() => {
-                dispatch(loadModelPortfolios());
-                actions.resetForm();
-              })
-              .catch(() => {
-                dispatch(loadModelPortfolios());
-                getRemainingPercent();
-                setNotAssetError(true);
-                actions.resetForm();
-              });
-            actions.setSubmitting(false);
-            actions.setStatus({ submitted: true });
-          }}
-        >
-          {(props) => (
-            <Form onSubmit={props.handleSubmit}>
-              <Percentage>
-                <PercentageInput
-                  id="percent"
-                  name="percent"
-                  type="number"
-                  onChange={props.handleChange}
-                  value={props.values.percent}
-                  required
-                />
-                <PercentageLabel htmlFor="percentage">%</PercentageLabel>
-              </Percentage>
-              {securityBased ? (
-                <SymbolSelector
-                  name="assetId"
-                  id="assetId"
-                  value={null}
-                  onSelect={props.handleChange}
-                  allSymbols={true}
-                  forModelSecurity={true}
-                />
-              ) : (
-                <AssetClassSelector
-                  name="assetId"
-                  id="assetId"
-                  assetClassesAvailable={getAvailableAssetClasses()}
-                  onSelect={props.handleChange}
-                />
-              )}
-              <button type="submit" style={{ display: 'none' }}></button>
-            </Form>
-          )}
-        </Formik>
-      </FormContainer>
       {notAssetError && (
         <span style={{ color: 'red', padding: 'inherit' }}>
           Please select from the list of available asset classes and try again.
