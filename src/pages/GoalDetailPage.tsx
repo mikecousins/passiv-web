@@ -174,7 +174,7 @@ export const ToggleShow = styled(Button)`
     color: #fff;
   }
 `;
-export const DropDown = styled.div`
+const DropDown = styled.div`
   border: 1px solid var(--brand-blue);
   position: absolute;
   top: 102%;
