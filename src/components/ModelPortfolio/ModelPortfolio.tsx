@@ -85,24 +85,6 @@ const ModelPortfolio = () => {
     });
   };
 
-  const handleUseAssetClass = () => {
-    if (currentModelPortfolio !== null) {
-      currentModelPortfolio.model_portfolio.model_type = 1;
-      postData(
-        `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
-        currentModelPortfolio,
-      )
-        .then(() => {
-          dispatch(loadModelPortfolios());
-        })
-        .catch(() => {
-          toast.error('Unable to use asset classes for this model.', {
-            autoClose: 3000,
-          });
-        });
-    }
-  };
-
   return (
     <>
       {currentModelPortfolio && (
@@ -131,12 +113,6 @@ const ModelPortfolio = () => {
                 <AssetClassesBox assetClasses={modelAssetClasses} />
               )}
             </ResponsiveGrid>
-            {currentModelPortfolio!.model_portfolio.model_type === 0 &&
-              currentModelPortfolio!.model_portfolio_security.length === 0 && (
-                <UseAssetClassBtn onClick={handleUseAssetClass}>
-                  Use Asset Classes
-                </UseAssetClassBtn>
-              )}
           </ShadowBox>
 
           <DeleteContainer>
