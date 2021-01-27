@@ -298,7 +298,7 @@ const ApplyTarget = () => {
           )}
         </SecurityNotInTarget>
       )}
-      {originalModel.id !== selectedModel?.id && (
+      {originalModel?.id !== selectedModel?.id && (
         <Button onClick={() => handleApplyModelBtn()}>Apply this Model</Button>
       )}
     </ShadowBox>
