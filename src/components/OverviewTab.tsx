@@ -23,6 +23,7 @@ import {
   selectPreferredCurrency,
   selectCurrentGroupTradesHasSkippedTrades,
   selectCurrentGroupPositionsNotInTarget,
+  groupWithOnlyWealthicaAccount,
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
@@ -92,6 +93,7 @@ const OverviewTab = () => {
   const positionsNotInTargets = useSelector(
     selectCurrentGroupPositionsNotInTarget,
   );
+  const onlyWealthica = useSelector(groupWithOnlyWealthicaAccount);
 
   // if we don't have our group yet, show a spinner
   if (group === undefined) {
@@ -127,7 +129,7 @@ const OverviewTab = () => {
   }
 
   let skipErrorMessage = null;
-  if (hasSkippedTrades === true) {
+  if (hasSkippedTrades === true && !onlyWealthica) {
     skipErrorMessage = <PortfolioGroupErrors error={{ code: 'SKIP_TRADES' }} />;
   }
 
