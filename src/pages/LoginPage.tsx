@@ -10,11 +10,20 @@ import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import PasswordField from '../components/PasswordField';
 import { selectDevice } from '../selectors/index';
+import styled from '@emotion/styled';
+
+const RememberMe = styled(Field)`
+  margin-bottom: 20px;
+`;
 
 const LoginPage = () => {
   const [stateMFA, setStateMFA] = useState<any>(null);
   const device: any = useSelector(selectDevice);
   const dispatch = useDispatch();
+
+  if (Date.parse(device?.expiry) <= Date.now()) {
+    device.token = null;
+  }
 
   let form = (
     <Formik
@@ -34,6 +43,7 @@ const LoginPage = () => {
           email: values.email,
           password: values.password,
         };
+
         if (device.token !== null) {
           body.device = device.token;
         }
@@ -143,7 +153,8 @@ const LoginPage = () => {
               <ErrorMessage name="token" />
             </P>
             <label>
-              <Field type="checkbox" name="remember" value="true" /> Remember Me
+              <RememberMe type="checkbox" name="remember" value="true" />{' '}
+              Remember this device for 60 days
             </label>
             <div>
               <Button

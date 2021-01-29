@@ -32,19 +32,22 @@ type AuthAction = {
     };
   };
 };
-
+//@ts-ignore
 const auth: Reducer<AuthState, AuthAction> = (
   state = initialState,
   action: AuthAction,
 ) => {
   if (action.type === 'LOGIN_SUCCEEDED') {
-    return {
-      token: action.payload.data.token,
-      error: null,
-      device: {
+    if (action.payload.data.device) {
+      state.device = {
         token: action.payload.data.device.token,
         expiry: action.payload.data.device.expiry,
-      },
+      };
+    }
+    return {
+      ...state,
+      token: action.payload.data.token,
+      error: null,
     };
   }
 
