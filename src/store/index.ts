@@ -5,7 +5,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { routerMiddleware } from 'connected-react-router';
 import { persistReducer } from 'redux-persist';
 import sessionStorage from 'redux-persist/lib/storage/session';
-import asyncSessionStorage from 'redux-persist/lib/storage';
 import { responsiveStoreEnhancer } from 'redux-responsive';
 import createRootReducer from '../reducers';
 import apiMiddleware from '../middleware/api';
@@ -42,10 +41,9 @@ const rootReducer = combineReducers({
 });
 
 // export the type for usage elsewhere
-export type AppState = ReturnType<typeof rootReducer>;
-export type State = ReturnType<typeof other>;
+export type AppState = ReturnType<typeof other>;
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(persistConfig, other);
 
 const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 });
 const store = createStore(

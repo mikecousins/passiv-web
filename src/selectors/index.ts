@@ -19,6 +19,8 @@ export const selectReferral = (state: AppState) => state.referral;
 
 export const selectTracking = (state: AppState) => state.tracking;
 
+export const selectDevice = (state: AppState) => state.device;
+
 export const selectReferralCode = createSelector(selectReferral, (referral) => {
   if (referral !== null) {
     return referral.referralCode;
