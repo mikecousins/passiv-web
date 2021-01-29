@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import CashNotificationSettings from './CashNotificationSettings';
 import DriftNotificationSettings from './DriftNotificationSettings';
 import NewSymbolNotificationSettings from './NewSymbolNotificationSettings';
+import ReminderNotificationSettings from './ReminderNotificationSettings';
 import { H2 } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
 
@@ -31,6 +32,9 @@ const NotificationsManager = () => (
     <DriftGroup>
       <DriftNotificationSettings />
     </DriftGroup>
+    <InputContainer>
+      <ReminderNotificationSettings />
+    </InputContainer>
   </ShadowBox>
 );
 

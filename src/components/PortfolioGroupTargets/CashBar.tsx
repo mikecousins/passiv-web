@@ -11,7 +11,7 @@ import {
   BarTarget,
   BarActual,
   Container,
-  CashTargetRow
+  CashTargetRow,
 } from '../../styled/Target';
 
 type Props = {
@@ -47,18 +47,16 @@ export const CashBar = ({ edit, percentage, actualPercentage }: Props) => {
           )}
         </BarTarget>
       </BarsContainer>
-      <CashTargetRow>
+      <CashTargetRow editing={edit}>
         <Symbol>Cash</Symbol>
-        {edit && (
-          <React.Fragment>
-            <Target>
-              <Number value={percentage} />%
-            </Target>
-            <Actual>
-              <Number value={actualPercentage} />%
-            </Actual>
-          </React.Fragment>
-        )}
+        <React.Fragment>
+          <Target>
+            <Number value={percentage} />%
+          </Target>
+          <Actual>
+            <Number value={actualPercentage} />%
+          </Actual>
+        </React.Fragment>
       </CashTargetRow>
     </Container>
   );

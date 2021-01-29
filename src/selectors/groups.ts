@@ -356,22 +356,14 @@ export const selectCurrentGroupQuotableSymbols = createSelector(
     return null;
   },
 );
-
+//!NOTE! if need the actualPercentage use the other selector called `selectCurrentGroupPositionsWithActualPercentage`
 export const selectCurrentGroupPositions = createSelector(
   selectCurrentGroupId,
   selectGroupInfo,
   selectCurrentGroupQuotableSymbols,
   selectCurrencies,
   selectCurrencyRates,
-  selectPreferredCurrency,
-  (
-    groupId,
-    groupInfo,
-    quotableSymbols,
-    currencies,
-    rates,
-    preferredCurrency,
-  ) => {
+  (groupId, groupInfo, quotableSymbols, currencies, rates) => {
     let positions = null;
     if (
       groupId &&
@@ -408,40 +400,6 @@ export const selectCurrentGroupPositions = createSelector(
         position.quotable = quotableSymbols.some(
           (quotableSymbol) => quotableSymbol.id === position.symbol.id,
         );
-
-        if (
-          preferredCurrency &&
-          position.symbol.currency.id === preferredCurrency.id
-        ) {
-          position.uniformEquity = position.units * position.price;
-        } else {
-          const conversionRate = rates.find(
-            (rate) =>
-              preferredCurrency &&
-              rate.src.id === position.symbol.currency.id &&
-              rate.dst.id === preferredCurrency.id,
-          );
-          if (!conversionRate) {
-            return null;
-          }
-          position.uniformEquity =
-            position.units * position.price * conversionRate.exchange_rate;
-        }
-        return null;
-      });
-
-      let totalEquity = positions.reduce((total, position) => {
-        if (!position.excluded && position.quotable) {
-          return total + position.uniformEquity;
-        }
-        return total;
-      }, 0);
-
-      positions.map((position) => {
-        if (!position.excluded && position.quotable) {
-          position.actualPercentage =
-            (position.uniformEquity / totalEquity) * 100;
-        }
         return null;
       });
     }
@@ -1264,5 +1222,51 @@ export const selectCurrentGroupCashRestrictions = createSelector(
     return cashRestrictions.filter(
       (c) => accounts && accounts.find((a) => a.id === c.account),
     );
+  },
+);
+
+export const selectCurrentGroupPositionsWithActualPercentage = createSelector(
+  selectCurrentGroupPositions,
+  selectCurrentGroupTotalEquityExcludedRemoved,
+  selectCurrencyRates,
+  selectPreferredCurrency,
+  (positions, totalHoldingsExcludedRemoved, rates, preferredCurrency) => {
+    positions?.forEach((position) => {
+      if (
+        preferredCurrency &&
+        position.symbol.currency.id === preferredCurrency.id
+      ) {
+        position.actualPercentage =
+          ((position.price * position.units) / totalHoldingsExcludedRemoved) *
+          100;
+      } else {
+        const conversionRate = rates?.find(
+          (rate: any) =>
+            preferredCurrency &&
+            rate.src.id === position.symbol.currency.id &&
+            rate.dst.id === preferredCurrency.id,
+        );
+        if (conversionRate) {
+          position.actualPercentage =
+            ((position.price * position.units) / totalHoldingsExcludedRemoved) *
+            100 *
+            conversionRate.exchange_rate;
+        }
+      }
+    });
+    return positions;
+  },
+);
+
+export const selectCurrentGroupPositionsNotInTarget = createSelector(
+  selectCurrentGroupPositions,
+  selectCurrentGroupTarget,
+  (positions, targets) => {
+    let notInTarget = null;
+    const targetIds = targets?.map((target: any) => target.fullSymbol.id);
+    notInTarget = positions?.filter(
+      (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+    );
+    return notInTarget;
   },
 );

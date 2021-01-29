@@ -10,6 +10,7 @@ import updateServiceWorker from './updateServiceWorker';
 import online from './online';
 import version from './version';
 import referral from './referral';
+import tracking from './tracking';
 import { SubscriptionData } from '../types/subscription';
 import { GroupInfoData, Balance } from '../types/groupInfo';
 import { GroupData } from '../types/group';
@@ -51,6 +52,7 @@ export default (history: any) =>
     reportingStartDate,
     reportingEndDate,
     referral,
+    tracking,
     helpArticles: simple<any>({
       baseType: 'FETCH_HELP_ARTICLES',
       userData: false,

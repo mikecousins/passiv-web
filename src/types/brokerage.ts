@@ -5,7 +5,8 @@ export type Brokerage = {
     | 'Alpaca'
     | 'Interactive Brokers'
     | 'Plaid'
-    | 'TD Ameritrade';
+    | 'TD Ameritrade'
+    | 'Wealthica';
   url: 'https://questrade.com';
   enabled: boolean;
   authorization_types: [
