@@ -27,6 +27,7 @@ import UpgradeIdea from '../UpgradeIdea';
 import { selectLimitOrdersFeature } from '../../selectors/features';
 import PreLoadLink from '../PreLoadLink';
 import { SETTINGS_PATH } from '../../apps/Paths';
+import { groupWithOnlyWealthicaAccount } from '../../selectors/groups';
 
 type Props = {
   groupId: string;
@@ -46,6 +47,7 @@ const RebalanceWidget = ({
 }: Props) => {
   const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
   const showLimitOrdersFeature = useSelector(selectLimitOrdersFeature);
+  const onlyWealthica = useSelector(groupWithOnlyWealthicaAccount);
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
 
@@ -131,6 +133,9 @@ const RebalanceWidget = ({
     </div>
   );
 
+  if (onlyWealthica) {
+    orderValidation = <></>;
+  }
   if (showQuestradeOffer && !hasFreeOneClicks) {
     orderValidation = <UpgradeIdea />;
   }
