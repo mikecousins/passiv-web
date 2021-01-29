@@ -249,7 +249,6 @@ const tdAmeritradeOauthRedirect = () => {
 };
 
 const zerodhaOauthRedirect = () => {
-  alert('hello');
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/zerodha?' + urlParams;
   return <Redirect to={newPath} />;
