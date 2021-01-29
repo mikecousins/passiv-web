@@ -128,7 +128,7 @@ const OverviewTab = () => {
 
   let skipErrorMessage = null;
   if (hasSkippedTrades === true) {
-    skipErrorMessage = <PortfolioGroupErrors error={{ code: 'IBKR_CAN' }} />;
+    skipErrorMessage = <PortfolioGroupErrors error={{ code: 'SKIP_TRADES' }} />;
   }
 
   return (

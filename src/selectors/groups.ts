@@ -1270,3 +1270,17 @@ export const selectCurrentGroupPositionsNotInTarget = createSelector(
     return notInTarget;
   },
 );
+
+export const groupWithOnlyWealthicaAccount = createSelector(
+  selectCurrentGroup,
+  (group) => {
+    let onlyWealthica = false;
+    const wealthicaAccounts = group?.accounts.filter(
+      (acc: any) => acc.meta.institution_name === 'Wealthica',
+    );
+    if (wealthicaAccounts?.length === group?.accounts.length) {
+      onlyWealthica = true;
+    }
+    return onlyWealthica;
+  },
+);
