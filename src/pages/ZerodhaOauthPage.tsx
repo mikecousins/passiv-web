@@ -21,8 +21,7 @@ const ZerodhaOauthPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = queryParams.code;
-
+    const token = queryParams.request_token;
     if (token === null) {
       setLoading(false);
       setError({ code: '0000' });
