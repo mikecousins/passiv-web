@@ -2,7 +2,6 @@ import { connectRouter } from 'connected-react-router';
 import { combineReducers } from 'redux';
 import { responsiveStateReducer } from 'redux-responsive';
 import auth from './auth';
-import device from './device';
 import demo from './demo';
 import language from './language';
 import simple from './simple';
@@ -54,7 +53,6 @@ export default (history: any) =>
     reportingEndDate,
     referral,
     tracking,
-    device,
     helpArticles: simple<any>({
       baseType: 'FETCH_HELP_ARTICLES',
       userData: false,

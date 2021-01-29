@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
-import { loginSucceeded, rememberDeviceSucceeded } from '../actions';
+import { loginSucceeded } from '../actions';
 import { postData, putData } from '../api';
 import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
@@ -34,7 +34,7 @@ const LoginPage = () => {
           email: values.email,
           password: values.password,
         };
-        if (device.token !== null && device.token !== 'test_remember_device') {
+        if (device.token !== null) {
           body.device = device.token;
         }
         postData('/api/v1/auth/login/', body)
@@ -110,7 +110,6 @@ const LoginPage = () => {
             .then((response) => {
               actions.setSubmitting(false);
               dispatch(loginSucceeded(response));
-              dispatch(rememberDeviceSucceeded(response));
             })
             .catch((error) => {
               actions.setErrors({

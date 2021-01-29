@@ -1,5 +1,5 @@
 import { createBrowserHistory } from 'history';
-import { createStore, applyMiddleware, Action, combineReducers } from 'redux';
+import { createStore, applyMiddleware, Action } from 'redux';
 import reduxThunk, { ThunkMiddleware } from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { routerMiddleware } from 'connected-react-router';
@@ -8,8 +8,6 @@ import sessionStorage from 'redux-persist/lib/storage/session';
 import { responsiveStoreEnhancer } from 'redux-responsive';
 import createRootReducer from '../reducers';
 import apiMiddleware from '../middleware/api';
-import storage from 'redux-persist/lib/storage';
-import device from '../reducers/device';
 
 export const history = createBrowserHistory();
 
@@ -18,32 +16,16 @@ const defaultState = {};
 const persistConfig = {
   key: 'root',
   storage: sessionStorage,
-  blacklist: [
-    'appTime',
-    'router',
-    'browser',
-    'updateServiceWorker',
-    'online',
-    'device',
-  ],
-};
-
-const devicePersistConfig = {
-  key: 'device',
-  storage: storage,
+  blacklist: ['appTime', 'router', 'browser', 'updateServiceWorker', 'online'],
 };
 
 // create our root reducer
-const other = createRootReducer(history);
-const rootReducer = combineReducers({
-  device: persistReducer(devicePersistConfig, device),
-  other,
-});
+const rootReducer = createRootReducer(history);
 
 // export the type for usage elsewhere
-export type AppState = ReturnType<typeof other>;
+export type AppState = ReturnType<typeof rootReducer>;
 
-const persistedReducer = persistReducer(persistConfig, other);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 });
 const store = createStore(

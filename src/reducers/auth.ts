@@ -1,13 +1,23 @@
 import { Reducer } from 'redux';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 export type AuthState = {
   token: string | null;
   error: object | null;
+  device: {
+    token: string | null;
+    expiry: string | null;
+  };
 };
 
 const initialState: AuthState = {
   token: null,
   error: null,
+  device: {
+    token: null,
+    expiry: null,
+  },
 };
 
 type AuthAction = {
@@ -15,6 +25,10 @@ type AuthAction = {
   payload: {
     data: {
       token: string;
+      device: {
+        token: string;
+        expiry: string;
+      };
     };
   };
 };
@@ -27,11 +41,16 @@ const auth: Reducer<AuthState, AuthAction> = (
     return {
       token: action.payload.data.token,
       error: null,
+      device: {
+        token: action.payload.data.device.token,
+        expiry: action.payload.data.device.expiry,
+      },
     };
   }
 
   if (action.type === 'LOGIN_FAILED') {
     return {
+      ...state,
       token: null,
       error: action.payload,
     };
@@ -39,6 +58,7 @@ const auth: Reducer<AuthState, AuthAction> = (
 
   if (action.type === 'LOGOUT') {
     return {
+      ...state,
       token: null,
       error: null,
     };
@@ -53,4 +73,10 @@ const auth: Reducer<AuthState, AuthAction> = (
   return state;
 };
 
-export default auth;
+const persistConfig = {
+  key: 'auth',
+  storage: storage,
+  blacklist: ['token', 'error'],
+};
+
+export default persistReducer(persistConfig, auth);
