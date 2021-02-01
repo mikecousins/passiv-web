@@ -32,7 +32,7 @@ type AuthAction = {
     };
   };
 };
-//@ts-ignore
+
 const auth: Reducer<AuthState, AuthAction> = (
   state = initialState,
   action: AuthAction,
