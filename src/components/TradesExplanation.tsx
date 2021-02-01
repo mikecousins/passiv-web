@@ -10,7 +10,6 @@ import { selectCurrencies } from '../selectors/currencies';
 import { restrictionTypes } from '../common';
 import Number from './Number';
 import { HideButton } from './ContextualMessageWrapper';
-import { groupWithOnlyWealthicaAccount } from '../selectors/groups';
 
 const ToggleBox = styled.div`
   display: inline-block;
@@ -50,7 +49,6 @@ const TradesExplanation = ({
   trades,
   container = false,
 }: Props) => {
-  const onlyWealthica = useSelector(groupWithOnlyWealthicaAccount);
   const [showExplanation, setShowExplanation] = useState(false);
   const [hasCashRestriction, setHasCashRestriction] = useState(false);
 
@@ -150,7 +148,7 @@ const TradesExplanation = ({
 
   const toggle = (
     <TopStyle>
-      {!onlyWealthica && (
+      {
         <ToggleBox>
           {trades && trades.length === 0 && <HideButton name={'no_trades'} />}
           <A onClick={() => toggleShowExplanation()}>
@@ -168,7 +166,7 @@ const TradesExplanation = ({
             <ExplanationBox>{content}</ExplanationBox>
           )}
         </ToggleBox>
-      )}
+      }
     </TopStyle>
   );
 
