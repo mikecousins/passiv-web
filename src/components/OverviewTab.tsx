@@ -21,9 +21,7 @@ import {
   selectCurrentGroupSetupComplete,
   selectGroupsLoading,
   selectPreferredCurrency,
-  selectCurrentGroupTradesHasSkippedTrades,
   selectCurrentGroupPositionsNotInTarget,
-  groupWithOnlyWealthicaAccount,
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
@@ -87,13 +85,9 @@ const OverviewTab = () => {
   const loading = useSelector(selectGroupsLoading);
   const error = useSelector(selectCurrentGroupInfoError);
   const preferredCurrency = useSelector(selectPreferredCurrency);
-  const hasSkippedTrades = useSelector(
-    selectCurrentGroupTradesHasSkippedTrades,
-  );
   const positionsNotInTargets = useSelector(
     selectCurrentGroupPositionsNotInTarget,
   );
-  const onlyWealthica = useSelector(groupWithOnlyWealthicaAccount);
 
   // if we don't have our group yet, show a spinner
   if (group === undefined) {
@@ -128,11 +122,6 @@ const OverviewTab = () => {
     );
   }
 
-  let skipErrorMessage = null;
-  if (hasSkippedTrades === true && !onlyWealthica) {
-    skipErrorMessage = <PortfolioGroupErrors error={{ code: 'SKIP_TRADES' }} />;
-  }
-
   return (
     <React.Fragment>
       {setupComplete && <Tour steps={TOUR_STEPS} name="overview_tab_tour" />}
@@ -162,7 +151,6 @@ const OverviewTab = () => {
         positionsNotInTargets.length > 0 && (
           <SecuritiesNotInTarget targets={positionsNotInTargets} />
         )}
-      {skipErrorMessage}
       {tradeDisplay}
 
       <PortfolioGroupTargets error={error} />
