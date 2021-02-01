@@ -107,7 +107,7 @@ const ZerodhaOauthPage = () => {
       {loading ? (
         <React.Fragment>
           <Step>
-            Establishing connection to TD Ameritrade...{' '}
+            Establishing connection to Zerodha...{' '}
             <FontAwesomeIcon icon={faSpinner} spin />
           </Step>
         </React.Fragment>
