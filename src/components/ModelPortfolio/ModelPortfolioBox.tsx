@@ -31,6 +31,7 @@ import { ToggleShow } from '../../pages/GoalDetailPage';
 import { SmallButton } from '../../styled/Button';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { selectReferralCode } from '../../selectors/referrals';
+import ListAssets from './ListAssets';
 
 const Box = styled.div`
   border: 1px solid #bfb6b6;
@@ -355,63 +356,7 @@ const ModelPortoflioBox = ({
             {getRemainingPercent()}% Cash
           </span>
         </li>
-        {!securityBased
-          ? model.map((cl) => {
-              return (
-                <li
-                  style={{
-                    borderLeft: '5px solid var(--brand-green)',
-                    lineHeight: '30px',
-                    padding: '10px',
-                    marginBottom: '20px',
-                  }}
-                  key={cl.model_asset_class.id}
-                >
-                  <span style={{ fontSize: '26px' }}>
-                    {cl.percent}% {cl.model_asset_class.name}
-                  </span>
-                  <button
-                    onClick={() => handleDelete(cl.model_asset_class.id)}
-                    style={{ marginLeft: '50px', position: 'relative' }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faTimesCircle}
-                      size="sm"
-                      style={{ position: 'relative' }}
-                    />
-                  </button>
-                </li>
-              );
-            })
-          : model.map((sec) => {
-              return (
-                <li
-                  style={{
-                    borderLeft: '5px solid var(--brand-green)',
-                    lineHeight: '30px',
-                    padding: '10px',
-                    marginBottom: '20px',
-                  }}
-                  key={sec.symbol.id}
-                >
-                  <span style={{ fontSize: '26px' }}>
-                    {sec.percent}% {sec.symbol.symbol}
-                  </span>
-                  {!sharedModel && (
-                    <button
-                      onClick={() => handleDelete(sec.symbol.id)}
-                      style={{ marginLeft: '50px', position: 'relative' }}
-                    >
-                      <FontAwesomeIcon
-                        icon={faTimesCircle}
-                        size="sm"
-                        style={{ position: 'relative' }}
-                      />
-                    </button>
-                  )}
-                </li>
-              );
-            })}
+        <ListAssets model={model} securityBased={securityBased} />
       </ul>
       {!sharedModel && (
         <FormContainer>
