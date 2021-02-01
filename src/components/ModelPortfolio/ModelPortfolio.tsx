@@ -91,7 +91,7 @@ const ModelPortfolio = () => {
     if (router && router.location) {
       const path = router.location.pathname.split('/');
       const shareId = path[5];
-      if (shareId) {
+      if (path[4] === 'share' && shareId) {
         const modelId = router.location.pathname.split('/')[3];
         getData(
           //@ts-ignore
