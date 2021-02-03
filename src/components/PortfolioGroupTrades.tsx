@@ -20,7 +20,10 @@ import Number from './Number';
 import { selectAccounts } from '../selectors/accounts';
 import TradesExplanation from './TradesExplanation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faExclamationCircle,
+  faInfoCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { ContextualMessageWrapper } from './ContextualMessageWrapper';
 import styled from '@emotion/styled';
 import Tour from './Tour/Tour';
@@ -122,10 +125,14 @@ export const PortfolioGroupTrades = ({
   ) {
     const tradeRender = (trade: any) => {
       let accountName = '';
+      let isWealthica = false;
       if (accounts) {
         const account = accounts.find((a) => a.id === trade.account);
         if (account) {
           accountName = account.name;
+          if (account.institution_name === 'Wealthica') {
+            isWealthica = true;
+          }
         }
       }
       return (
@@ -152,14 +159,27 @@ export const PortfolioGroupTrades = ({
                 <Symbol>{trade.universal_symbol.symbol}</Symbol>
               </ColumnSymbolWarning>
               <ColumnWarning>
-                <Title>Warning</Title>
                 <div>
                   <Tooltip
                     label={
-                      "Passiv is trying to sell all units of a security that is not in the target. If you actually want to keep this security but exclude it from Passiv's calculations, you can edit your target and flag this security as an excluded asset."
+                      isWealthica
+                        ? "Cannot place trade for this security through Passiv because your brokerage's API does not provide the trading functionality."
+                        : "Passiv is trying to sell all units of a security that is not in the target. If you actually want to keep this security but exclude it from Passiv's calculations, you can edit your target and flag this security as an excluded asset."
                     }
                   >
-                    <FontAwesomeIcon icon={faInfoCircle} />
+                    {isWealthica ? (
+                      <FontAwesomeIcon
+                        icon={faInfoCircle}
+                        size="2x"
+                        color="var(--grey-darker)"
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faExclamationCircle}
+                        size="2x"
+                        color="orange"
+                      />
+                    )}
                   </Tooltip>
                 </div>
               </ColumnWarning>

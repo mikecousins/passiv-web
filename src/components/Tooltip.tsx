@@ -11,6 +11,9 @@ interface Props {
 
 const StyledTooltip = styled(ReachTooltip)`
   white-space: normal;
+  max-width: 300px;
+  font-size: 16px;
+  line-height: 22px;
 `;
 
 export const Tooltip = ({ children, label, additionalComponent }: Props) => {
