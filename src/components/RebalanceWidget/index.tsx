@@ -133,9 +133,6 @@ const RebalanceWidget = ({
     </div>
   );
 
-  if (onlyWealthica) {
-    orderValidation = <></>;
-  }
   if (showQuestradeOffer && !hasFreeOneClicks) {
     orderValidation = <UpgradeIdea />;
   }
