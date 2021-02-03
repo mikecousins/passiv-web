@@ -14,6 +14,7 @@ const StyledTooltip = styled(ReachTooltip)`
   max-width: 300px;
   font-size: 16px;
   line-height: 22px;
+  z-index: 3;
 `;
 
 export const Tooltip = ({ children, label, additionalComponent }: Props) => {
