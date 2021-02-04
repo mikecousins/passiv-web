@@ -147,12 +147,37 @@ export const PortfolioGroupTrades = ({
             <Title>Units</Title>
             <div>{trade.units}</div>
           </ColumnUnits>
-          {trade.symbol_in_target ? (
+          {trade.symbol_in_target && !isWealthica ? (
             <ColumnSymbol>
               <Title>{trade.universal_symbol.description}</Title>
               <Symbol>{trade.universal_symbol.symbol}</Symbol>
             </ColumnSymbol>
           ) : (
+            !isWealthica && (
+              <React.Fragment>
+                <ColumnSymbolWarning>
+                  <Title>{trade.universal_symbol.description}</Title>
+                  <Symbol>{trade.universal_symbol.symbol}</Symbol>
+                </ColumnSymbolWarning>
+                <ColumnWarning>
+                  <div>
+                    <Tooltip
+                      label={
+                        "Passiv is trying to sell all units of a security that is not in the target. If you actually want to keep this security but exclude it from Passiv's calculations, you can edit your target and flag this security as an excluded asset."
+                      }
+                    >
+                      <FontAwesomeIcon
+                        icon={faExclamationCircle}
+                        size="2x"
+                        color="orange"
+                      />
+                    </Tooltip>
+                  </div>
+                </ColumnWarning>
+              </React.Fragment>
+            )
+          )}
+          {isWealthica && (
             <React.Fragment>
               <ColumnSymbolWarning>
                 <Title>{trade.universal_symbol.description}</Title>
@@ -162,24 +187,14 @@ export const PortfolioGroupTrades = ({
                 <div>
                   <Tooltip
                     label={
-                      isWealthica
-                        ? "Cannot place trade for this security through Passiv because your brokerage's API does not provide the trading functionality."
-                        : "Passiv is trying to sell all units of a security that is not in the target. If you actually want to keep this security but exclude it from Passiv's calculations, you can edit your target and flag this security as an excluded asset."
+                      "Cannot place trade for this security through Passiv because your brokerage's API does not provide the trading functionality."
                     }
                   >
-                    {isWealthica ? (
-                      <FontAwesomeIcon
-                        icon={faInfoCircle}
-                        size="2x"
-                        color="var(--grey-darker)"
-                      />
-                    ) : (
-                      <FontAwesomeIcon
-                        icon={faExclamationCircle}
-                        size="2x"
-                        color="orange"
-                      />
-                    )}
+                    <FontAwesomeIcon
+                      icon={faInfoCircle}
+                      size="2x"
+                      color="var(--grey-darker)"
+                    />
                   </Tooltip>
                 </div>
               </ColumnWarning>
