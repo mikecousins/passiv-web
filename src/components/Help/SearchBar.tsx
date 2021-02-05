@@ -5,6 +5,8 @@ import faq from './faq.json';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import ContactForm from './ContactForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 type faqObj = {
   question: string;
@@ -13,23 +15,31 @@ type faqObj = {
   link: string;
 };
 
-const Wrap = styled.div``;
-
 const SearchContainer = styled.div`
-  margin-right: 50px;
-`;
-
-const Search = styled(InputPrimary)`
   width: 100%;
-  border: 3px solid var(--brand-green);
-  padding: 15px;
-  height: 70px;
-  border-radius: 3rem;
-  outline: none;
-  color: black;
-`;
+  position: relative;
+  display: flex;
+  input[type='search'] {
+    padding-right: 50px;
+    width: 100%;
+    border: 3px solid var(--brand-green);
+    padding: 15px;
+    height: 70px;
+    border-radius: 3rem;
+    outline: none;
+    color: black;
+  }
 
-const FAQContainer = styled.div``;
+  button[type='submit'] {
+    margin-left: -50px;
+    position: relative;
+    top: 15px;
+    width: 40px;
+    height: 36px;
+    text-align: center;
+    font-size: 20px;
+  }
+`;
 
 const SearchBar = () => {
   const [search, setSearch] = useState('');
@@ -57,17 +67,22 @@ const SearchBar = () => {
   });
 
   return (
-    <Wrap>
+    <div>
       <SearchContainer>
-        <Search
+        <InputPrimary
           type="search"
           placeholder="Type keywords to search our site"
           value={search}
           onChange={(e: any) => setSearch(e.target.value)}
         />
+        {search.length > 0 && (
+          <button type="submit" onClick={() => setSearch('')}>
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        )}
       </SearchContainer>
       <div>
-        <FAQContainer>
+        <div>
           {filteredFaq.map((faq) => {
             return renderFaq(faq);
           })}
@@ -78,9 +93,9 @@ const SearchBar = () => {
               Cannot find what you're looking for? Send us a message!
             </A>
           )}
-        </FAQContainer>
+        </div>
       </div>
-    </Wrap>
+    </div>
   );
 };
 
