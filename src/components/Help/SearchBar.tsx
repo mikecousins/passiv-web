@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { H1, H2, P } from '../../styled/GlobalElements';
+import { A, H3, P } from '../../styled/GlobalElements';
 import { InputPrimary } from '../../styled/Form';
 import faq from './faq.json';
-import Grid from '../../styled/Grid';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
+import ContactForm from './ContactForm';
 
 type faqObj = {
   question: string;
@@ -13,12 +13,23 @@ type faqObj = {
   link: string;
 };
 
-const FAQContainer = styled.div`
-  width: 70%;
-  justifycontent: 'center' @media (max-width: 900px) {
-    width: 100%;
-  }
+const Wrap = styled.div``;
+
+const SearchContainer = styled.div`
+  margin-right: 50px;
 `;
+
+const Search = styled(InputPrimary)`
+  width: 100%;
+  border: 3px solid var(--brand-green);
+  padding: 15px;
+  height: 70px;
+  border-radius: 3rem;
+  outline: none;
+  color: black;
+`;
+
+const FAQContainer = styled.div``;
 
 const SearchBar = () => {
   const [search, setSearch] = useState('');
@@ -31,11 +42,11 @@ const SearchBar = () => {
     return (
       <div>
         <ShadowBox>
-          <H2 margin="40px 0 25px" title={faq.question}>
+          <H3 title={faq.question} style={{ marginBottom: '10px' }}>
             {faq.question.substring(0, 100)}
-          </H2>
+          </H3>
           <P>{faq.resolution}</P>
-          <a href={faq.link}> Learn more </a>
+          {faq.link.trim() !== '' && <a href={faq.link}> Learn more </a>}
         </ShadowBox>
       </div>
     );
@@ -46,34 +57,30 @@ const SearchBar = () => {
   });
 
   return (
-    <div className="banner">
-      <main style={{ marginTop: '20rem' }}></main>
-      <div className="container">
-        <div className="row">
-          <div className="search-box">
-            <InputPrimary
-              type="search"
-              placeholder="How can we help you?"
-              style={{
-                display: '-ms-flexbox',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundPosition: '50px 50px',
-                border: '1px solid #ccc',
-              }}
-              onChange={(e: any) => setSearch(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="row-2-20">
-          <FAQContainer>
-            {filteredFaq.map((faq) => {
-              return renderFaq(faq);
-            })}
-          </FAQContainer>
-        </div>
+    <Wrap>
+      <SearchContainer>
+        <Search
+          type="search"
+          placeholder="Type keywords to search our site"
+          value={search}
+          onChange={(e: any) => setSearch(e.target.value)}
+        />
+      </SearchContainer>
+      <div>
+        <FAQContainer>
+          {filteredFaq.map((faq) => {
+            return renderFaq(faq);
+          })}
+          {filteredFaq.length === 0 || search.length === 0 ? (
+            <ContactForm />
+          ) : (
+            <A onClick={() => setSearch('')}>
+              Cannot find what you're looking for? Send us a message!
+            </A>
+          )}
+        </FAQContainer>
       </div>
-    </div>
+    </Wrap>
   );
 };
 

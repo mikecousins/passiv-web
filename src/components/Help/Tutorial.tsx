@@ -6,6 +6,7 @@ const TutorialContainer = styled.div`
   flex: 1;
   padding: 7rem 1rem 5rem;
   text-align: center;
+  width: 100%;
   h2 {
     text-align: center;
     margin-bottom: 20px;
