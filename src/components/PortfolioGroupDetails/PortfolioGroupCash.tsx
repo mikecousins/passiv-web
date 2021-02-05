@@ -23,31 +23,28 @@ const PortfolioGroupCash = ({ balances, error, tourClass }: Props) => (
   <ShadowBox background="#BEE0DB" className={tourClass}>
     <Cash>
       <Title>Cash</Title>
-      {error ? (
-        <CashBalance>
+      <CashBalance>
+        {balances ? (
+          balances.map((balance) => (
+            <CashGroup key={balance.currency.id}>
+              <CashType>
+                <span title={balance.currency.name}>
+                  {balance.currency.code}
+                </span>
+              </CashType>
+              <CashType>
+                <Number value={balance.cash} currency />
+              </CashType>
+            </CashGroup>
+          ))
+        ) : (
           <CashType>
             <Center>
               <FontAwesomeIcon icon={faExclamationTriangle} />
             </Center>
           </CashType>
-        </CashBalance>
-      ) : (
-        <CashBalance>
-          {balances &&
-            balances.map((balance) => (
-              <CashGroup key={balance.currency.id}>
-                <CashType>
-                  <span title={balance.currency.name}>
-                    {balance.currency.code}
-                  </span>
-                </CashType>
-                <CashType>
-                  <Number value={balance.cash} currency />
-                </CashType>
-              </CashGroup>
-            ))}
-        </CashBalance>
-      )}
+        )}
+      </CashBalance>
     </Cash>
   </ShadowBox>
 );

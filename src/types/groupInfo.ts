@@ -86,6 +86,7 @@ export type Settings = {
   target_initialized: boolean;
   order_targets_by: number;
   rebalance_by_asset_class: boolean;
+  new_assets_detected: boolean;
 };
 
 export type Error = {

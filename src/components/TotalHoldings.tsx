@@ -10,6 +10,7 @@ import { putData } from '../api';
 import { loadSettings } from '../actions';
 import CurrencySelector from './CurrencySelector';
 import { selectCurrencies } from '../selectors/currencies';
+import HiddenAccountsTooltip from './HiddenAccountsTooltip';
 
 export const TotalContainer = styled.div`
   text-align: right;
@@ -55,7 +56,9 @@ export const TotalHoldings: FunctionComponent<Props> = ({ smaller }) => {
   }
   return (
     <TotalContainer className={smaller ? 'smaller' : 'normal'}>
-      <H2 className={smaller ? 'smaller' : 'normal'}>Total Holdings</H2>
+      <H2 className={smaller ? 'smaller' : 'normal'}>
+        Total Holdings <HiddenAccountsTooltip />
+      </H2>
       <Span className={smaller ? 'smaller' : 'normal'}>{displayTotal}</Span>
       {settings && (
         <CurrencySelector

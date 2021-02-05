@@ -20,29 +20,15 @@ import Number from './Number';
 import { selectAccounts } from '../selectors/accounts';
 import TradesExplanation from './TradesExplanation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faExclamationCircle,
+  faInfoCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { ContextualMessageWrapper } from './ContextualMessageWrapper';
 import styled from '@emotion/styled';
 import Tour from './Tour/Tour';
-
-const TOUR_STEPS = [
-  {
-    target: '.tour-trades',
-    content: (
-      <div>
-        Passiv displays the trades needed to maximize your accuracy based on
-        your targets, current holdings, your available cash, and your settings.
-        Review your recommended trades by clicking Preview Orders and click
-        Confirm to rebalance your portfolio in{' '}
-        <a href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/">
-          one-click
-        </a>
-        .
-      </div>
-    ),
-    placement: 'right',
-  },
-];
+import UpgradeButton from './Tour/UpgradeButton';
+import EliteFeatureTitle from './Tour/EliteFeatureTitle';
 
 type Props = {
   trades: any;
@@ -92,6 +78,38 @@ export const PortfolioGroupTrades = ({
     }
   }, [tradesSubmitted, trades]);
 
+  const TOUR_STEPS = [
+    {
+      target: '.tour-trades',
+      content:
+        ' Passiv displays the trades needed to maximize your accuracy based on your targets, current holdings, your available cash, and your settings.',
+      placement: 'right',
+    },
+    {
+      target: '.tour-one-click-trade',
+      title: <EliteFeatureTitle />,
+      content: (
+        <>
+          <div>
+            Review your recommended trades by clicking Preview Orders and click
+            Confirm to rebalance your portfolio in{' '}
+            <a
+              href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              one-click
+            </a>
+            .
+          </div>
+          <br />
+          <UpgradeButton />
+        </>
+      ),
+      placement: 'right',
+    },
+  ];
+
   let buysListRender = null;
   let sellsListRender = null;
 
@@ -107,10 +125,14 @@ export const PortfolioGroupTrades = ({
   ) {
     const tradeRender = (trade: any) => {
       let accountName = '';
+      let isWealthica = false;
       if (accounts) {
         const account = accounts.find((a) => a.id === trade.account);
         if (account) {
           accountName = account.name;
+          if (account.institution_name === 'Wealthica') {
+            isWealthica = true;
+          }
         }
       }
       return (
@@ -125,26 +147,54 @@ export const PortfolioGroupTrades = ({
             <Title>Units</Title>
             <div>{trade.units}</div>
           </ColumnUnits>
-          {trade.symbol_in_target ? (
+          {trade.symbol_in_target && !isWealthica ? (
             <ColumnSymbol>
               <Title>{trade.universal_symbol.description}</Title>
               <Symbol>{trade.universal_symbol.symbol}</Symbol>
             </ColumnSymbol>
           ) : (
+            !isWealthica && (
+              <React.Fragment>
+                <ColumnSymbolWarning>
+                  <Title>{trade.universal_symbol.description}</Title>
+                  <Symbol>{trade.universal_symbol.symbol}</Symbol>
+                </ColumnSymbolWarning>
+                <ColumnWarning>
+                  <div>
+                    <Tooltip
+                      label={
+                        "Passiv is trying to sell all units of a security that is not in the target. If you actually want to keep this security but exclude it from Passiv's calculations, you can edit your target and flag this security as an excluded asset."
+                      }
+                    >
+                      <FontAwesomeIcon
+                        icon={faExclamationCircle}
+                        size="2x"
+                        color="orange"
+                      />
+                    </Tooltip>
+                  </div>
+                </ColumnWarning>
+              </React.Fragment>
+            )
+          )}
+          {isWealthica && (
             <React.Fragment>
               <ColumnSymbolWarning>
                 <Title>{trade.universal_symbol.description}</Title>
                 <Symbol>{trade.universal_symbol.symbol}</Symbol>
               </ColumnSymbolWarning>
               <ColumnWarning>
-                <Title>Warning</Title>
                 <div>
                   <Tooltip
                     label={
-                      "Passiv is trying to sell all units of a security that is not in the target. If you actually want to keep this security but exclude it from Passiv's calculations, you can edit your target and flag this security as an excluded asset."
+                      "Cannot place trade for this security through Passiv because your brokerage's API does not provide the trading functionality."
                     }
                   >
-                    <FontAwesomeIcon icon={faInfoCircle} />
+                    <FontAwesomeIcon
+                      icon={faInfoCircle}
+                      size="2x"
+                      color="var(--grey-darker)"
+                    />
                   </Tooltip>
                 </div>
               </ColumnWarning>

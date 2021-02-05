@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import {
+  selectDevice,
   selectIsDemo,
   selectPhoneNumber,
   selectSMS2FAEnabled,
@@ -36,6 +37,7 @@ const SMS2FAManager = () => {
   const [error2FA, setError2FA] = useState(null);
   const [loading2FA, setLoading2FA] = useState(false);
   const [candidatePhoneNumber, setCandidatePhoneNumber] = useState('');
+  const device: any = useSelector(selectDevice);
 
   const startEditing2FA = () => {
     setEditing2FA(true);
@@ -59,12 +61,12 @@ const SMS2FAManager = () => {
     setLoading2FA(true);
     setError2FA(null);
     postData('/api/v1/auth/sms/', { phone: candidatePhoneNumber })
-      .then(response => {
+      .then((response) => {
         setConfirming2FA(true);
         setLoading2FA(false);
         setState2FA(response.data.mfa_required.state);
       })
-      .catch(error => {
+      .catch((error) => {
         setError2FA(error.response && error.response.data.detail);
         setLoading2FA(false);
       });
@@ -81,7 +83,7 @@ const SMS2FAManager = () => {
         dispatch(loadSettings());
         cancelEditing2FA();
       })
-      .catch(error => {
+      .catch((error) => {
         setError2FA(error.response.data.detail);
         setLoading2FA(false);
       });
@@ -93,8 +95,9 @@ const SMS2FAManager = () => {
       .then(() => {
         setLoading2FA(false);
         dispatch(loadSettings());
+        device.token = null;
       })
-      .catch(error => {
+      .catch((error) => {
         setError2FA(error.response.data.detail);
         setLoading2FA(false);
       });
@@ -147,7 +150,7 @@ const SMS2FAManager = () => {
             <MiniInputNonFormik
               value={candidatePhoneNumber}
               placeholder={'Your phone number'}
-              onChange={e => setCandidatePhoneNumber(e.target.value)}
+              onChange={(e) => setCandidatePhoneNumber(e.target.value)}
             />
             {error2FA}
             <Edit
@@ -171,7 +174,7 @@ const SMS2FAManager = () => {
             <MiniInputNonFormik
               value={verificationCode}
               placeholder={'Your verification code'}
-              onChange={e => setVerificationCode(e.target.value)}
+              onChange={(e) => setVerificationCode(e.target.value)}
             />
             {error2FA}
             <Edit

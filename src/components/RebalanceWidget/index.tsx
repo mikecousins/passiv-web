@@ -27,6 +27,7 @@ import UpgradeIdea from '../UpgradeIdea';
 import { selectLimitOrdersFeature } from '../../selectors/features';
 import PreLoadLink from '../PreLoadLink';
 import { SETTINGS_PATH } from '../../apps/Paths';
+import { selectAccounts } from '../../selectors/accounts';
 
 type Props = {
   groupId: string;
@@ -46,6 +47,7 @@ const RebalanceWidget = ({
 }: Props) => {
   const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
   const showLimitOrdersFeature = useSelector(selectLimitOrdersFeature);
+
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
 
@@ -56,6 +58,18 @@ const RebalanceWidget = ({
   const [orderSummary, setOrderSummary] = useState<any>();
   const [orderResults, setOrderResults] = useState<any>();
   const [error, setError] = useState<any>();
+  const accounts = useSelector(selectAccounts);
+
+  const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
+
+  // check if the group contains only Wealthica accounts
+  let onlyWealthica = false;
+  const wealthicaAccounts = groupAccounts.filter(
+    (acc: any) => acc.meta.institution_name === 'Wealthica',
+  );
+  if (wealthicaAccounts?.length === groupAccounts.length) {
+    onlyWealthica = true;
+  }
 
   const reloadData = () => {
     dispatch(loadGroupAndAccounts({ ids: [groupId] }));
@@ -125,9 +139,16 @@ const RebalanceWidget = ({
 
   let orderValidation = (
     <div>
-      <Button onClick={validateOrders}>Preview Orders</Button>
+      <Button onClick={validateOrders} className="tour-one-click-trade">
+        Preview Orders
+      </Button>
     </div>
   );
+
+  // if the group has only Wealthica accounts, then don't show the Preview Order button
+  if (onlyWealthica) {
+    orderValidation = <></>;
+  }
 
   if (showQuestradeOffer && !hasFreeOneClicks) {
     orderValidation = <UpgradeIdea />;

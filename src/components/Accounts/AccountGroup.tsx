@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import HiddenAccountsTooltip from '../HiddenAccountsTooltip';
 
 export const GroupHeading = styled.h3`
   background: #fff;
@@ -16,11 +17,15 @@ type Props = {
   children?: JSX.Element;
 };
 
-const AccountGroup = ({ name, children }: Props) => (
-  <div>
-    <GroupHeading>{name}</GroupHeading>
-    {children}
-  </div>
-);
+const AccountGroup = ({ name, children }: Props) => {
+  return (
+    <>
+      <GroupHeading>
+        {name} {name === 'Hidden Accounts' && <HiddenAccountsTooltip />}
+      </GroupHeading>
+      {children}
+    </>
+  );
+};
 
 export default AccountGroup;

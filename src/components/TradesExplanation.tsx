@@ -50,13 +50,14 @@ const TradesExplanation = ({
   container = false,
 }: Props) => {
   const [showExplanation, setShowExplanation] = useState(false);
+  const [hasCashRestriction, setHasCashRestriction] = useState(false);
 
   const currencies = useSelector(selectCurrencies);
 
   const getCurrency = (currencyId: string) =>
-    currencies && currencies.find(c => c.id === currencyId);
+    currencies && currencies.find((c) => c.id === currencyId);
   const getType = (typeId: string) =>
-    restrictionTypes.find(r => r.id === typeId);
+    restrictionTypes.find((r) => r.id === typeId);
 
   const toggleShowExplanation = () => {
     setShowExplanation(!showExplanation);
@@ -93,14 +94,19 @@ const TradesExplanation = ({
     );
   }
 
-  accounts.map(a =>
-    a.cash_restrictions.map(cr => {
+  accounts.map((a) =>
+    a.cash_restrictions.map((cr) => {
+      if (!hasCashRestriction) {
+        setHasCashRestriction(true);
+      }
+
       const cashRestrictionType = getType(cr.type);
       const currency = getCurrency(cr.currency);
 
       let explainText = (
         <React.Fragment>
-          {a.name} must keep at least <Number value={cr.amount} currency />{' '}
+          {a.name} must keep at least the equivalent of{' '}
+          <Number value={cr.amount} currency />{' '}
           {currency != null && currency.code} as cash.
         </React.Fragment>
       );
@@ -111,7 +117,8 @@ const TradesExplanation = ({
       ) {
         explainText = (
           <React.Fragment>
-            {a.name} will use a max of <Number value={cr.amount} currency />{' '}
+            {a.name} will use at most the equivalent of{' '}
+            <Number value={cr.amount} currency />{' '}
             {currency != null && currency.code} to purchase new assets.
           </React.Fragment>
         );
@@ -121,6 +128,12 @@ const TradesExplanation = ({
       return null;
     }),
   );
+
+  if (hasCashRestriction) {
+    summary.push(
+      'Note: If you have multiple cash rule of the same type in different currencies on the same account. It will use the total value of all the cash restrictions.',
+    );
+  }
 
   const content = (
     <React.Fragment>
@@ -135,23 +148,25 @@ const TradesExplanation = ({
 
   const toggle = (
     <TopStyle>
-      <ToggleBox>
-        {trades && trades.length === 0 && <HideButton name={'no_trades'} />}
-        <A onClick={() => toggleShowExplanation()}>
-          {showExplanation ? (
-            <span>
-              Hide Explanation <FontAwesomeIcon icon={faCaretUp} />
-            </span>
-          ) : (
-            <span>
-              Show Explanation <FontAwesomeIcon icon={faCaretDown} />
-            </span>
+      {
+        <ToggleBox>
+          {trades && trades.length === 0 && <HideButton name={'no_trades'} />}
+          <A onClick={() => toggleShowExplanation()}>
+            {showExplanation ? (
+              <span>
+                Hide Explanation <FontAwesomeIcon icon={faCaretUp} />
+              </span>
+            ) : (
+              <span>
+                Show Explanation <FontAwesomeIcon icon={faCaretDown} />
+              </span>
+            )}
+          </A>
+          {container && showExplanation && (
+            <ExplanationBox>{content}</ExplanationBox>
           )}
-        </A>
-        {container && showExplanation && (
-          <ExplanationBox>{content}</ExplanationBox>
-        )}
-      </ToggleBox>
+        </ToggleBox>
+      }
     </TopStyle>
   );
 

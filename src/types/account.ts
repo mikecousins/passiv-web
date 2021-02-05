@@ -52,4 +52,5 @@ export type Position = {
   symbol: Symbol;
   price: number;
   units: number;
+  open_pnl: number;
 };

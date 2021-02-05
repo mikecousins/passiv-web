@@ -10,9 +10,9 @@ import styled from '@emotion/styled';
 import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
-  selectCurrentGroupPositions,
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrentGroupCash,
+  selectCurrentGroupPositionsWithActualPercentage,
 } from '../../selectors/groups';
 import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
@@ -146,7 +146,9 @@ type Props = {
 
 export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const groupId = useSelector(selectCurrentGroupId);
-  const positions = useSelector(selectCurrentGroupPositions);
+  const positions = useSelector(
+    selectCurrentGroupPositionsWithActualPercentage,
+  );
   const totalEquity = useSelector(selectCurrentGroupTotalEquityExcludedRemoved);
   const cash = useSelector(selectCurrentGroupCash);
   const edit = useSelector(selectIsEditMode);
@@ -336,8 +338,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                       (position) => position.symbol.id === target.symbol,
                     );
                     if (position) {
-                      target.actualPercentage =
-                        ((position.price * position.units) / totalEquity) * 100;
+                      target.actualPercentage = position.actualPercentage;
                     }
                   }
                 });
