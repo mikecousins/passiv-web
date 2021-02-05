@@ -110,14 +110,14 @@ export const PortfolioGroupSettings = () => {
           />
           <SettingsToggle
             name="Notify me about new detected assets"
-            value={settings.new_assets_detected}
+            value={settings.show_warning_for_new_assets_detected}
             onChange={() => {
               if (settings) {
-                settings.new_assets_detected = !settings.new_assets_detected;
+                settings.show_warning_for_new_assets_detected = !settings.show_warning_for_new_assets_detected;
                 updateSettings();
               }
             }}
-            invert={true}
+            invert={false}
           />
           <CurrencySeparation
             preventConversion={settings.prevent_currency_conversion}

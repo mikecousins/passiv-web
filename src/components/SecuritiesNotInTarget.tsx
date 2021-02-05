@@ -100,7 +100,7 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
       });
   };
 
-  if (!settings?.new_assets_detected) {
+  if (!settings?.show_warning_for_new_assets_detected) {
     return <></>;
   } else {
     return (
