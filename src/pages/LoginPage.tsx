@@ -145,7 +145,7 @@ const LoginPage = () => {
             <Input
               name="token"
               placeholder="Code"
-              autocomplete="one-time-code"
+              autoComplete="one-time-code"
               autoFocus
             />
 
