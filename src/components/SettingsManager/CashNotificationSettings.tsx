@@ -69,6 +69,21 @@ const CashNotificationSettings = () => {
     setEditingThreshold(false);
   };
 
+  const updateSummaryThresholdNotification = () => {
+    if (!settings) {
+      return;
+    }
+    let newSettings: Settings = { ...settings };
+    newSettings.apply_cash_email_threshold_to_summary_email = !settings.apply_cash_email_threshold_to_summary_email;
+    putData('/api/v1/settings/', newSettings)
+      .then(() => {
+        dispatch(loadSettings());
+      })
+      .catch(() => {
+        dispatch(loadSettings());
+      });
+  };
+
   if (!settings) {
     return null;
   }
@@ -112,6 +127,24 @@ const CashNotificationSettings = () => {
                 />{' '}
                 <SmallButton onClick={finishEditingThreshold}>Done</SmallButton>
               </React.Fragment>
+            )}
+          </SubSetting>
+          <SubSetting>
+            <OptionsTitle>Apply Cash Threshold to Summary Emails:</OptionsTitle>
+            {settings.apply_cash_email_threshold_to_summary_email ? (
+              <ToggleButton onClick={updateSummaryThresholdNotification}>
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOn} />
+                  <StateText>on</StateText>
+                </React.Fragment>
+              </ToggleButton>
+            ) : (
+              <ToggleButton onClick={updateSummaryThresholdNotification}>
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOff} />
+                  <StateText>off</StateText>
+                </React.Fragment>
+              </ToggleButton>
             )}
           </SubSetting>
         </React.Fragment>
