@@ -1265,7 +1265,7 @@ export const selectCurrentGroupPositionsNotInTarget = createSelector(
     let notInTarget = null;
     const targetIds = targets?.map((target: any) => target.fullSymbol.id);
     notInTarget = positions?.filter(
-      (position: any) => targetIds?.indexOf(position.symbol.id) == -1,
+      (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
     );
 
     return notInTarget;
