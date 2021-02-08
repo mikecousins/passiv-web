@@ -273,7 +273,12 @@ const CashManagement = () => {
                 </span>
               </ColumnCurrency>
               <ColumnAmount>
-                {<Number value={cashRestriction.amount} currency />}
+                {
+                  <Number
+                    value={cashRestriction.amount}
+                    currency={currency ? currency.code : undefined}
+                  />
+                }
               </ColumnAmount>
               <ColumnDelete>
                 <A onClick={() => deleteRestriction(cashRestriction)}>Delete</A>

@@ -54,13 +54,23 @@ export const Group = ({ group }: Props) => {
   let cash = <FontAwesomeIcon icon={faSpinner} spin />;
 
   if (group.totalCash !== null && group.setupComplete !== undefined) {
-    cash = <Number value={group.totalCash} currency />;
+    cash = (
+      <Number
+        value={group.totalCash}
+        currency={group.preferredCurrency && group.preferredCurrency.code}
+      />
+    );
   }
 
   let totalValue = <FontAwesomeIcon icon={faSpinner} spin />;
 
   if (group.totalValue !== null && group.setupComplete !== undefined) {
-    totalValue = <Number value={group.totalValue} currency />;
+    totalValue = (
+      <Number
+        value={group.totalValue}
+        currency={group.preferredCurrency && group.preferredCurrency.code}
+      />
+    );
   }
 
   let viewButton = null;

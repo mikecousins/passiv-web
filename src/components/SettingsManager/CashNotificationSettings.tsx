@@ -4,6 +4,7 @@ import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings } from '../../selectors';
+import { selectGlobalPreferredCurrency } from '../../selectors/groups';
 import { loadSettings } from '../../actions';
 import { putData } from '../../api';
 import { ToggleButton, StateText } from '../../styled/ToggleButton';
@@ -20,6 +21,7 @@ import { Settings } from '../../types/settings';
 
 const CashNotificationSettings = () => {
   const settings = useSelector(selectSettings);
+  const preferredCurrency = useSelector(selectGlobalPreferredCurrency);
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
   const [cashThreshold, setCashThreshold] = useState('');
@@ -88,7 +90,7 @@ const CashNotificationSettings = () => {
               <React.Fragment>
                 <Number
                   value={parseFloat(settings.cash_email_threshold)}
-                  currency
+                  currency={preferredCurrency && preferredCurrency.code}
                   decimalPlaces={2}
                 />
                 <Edit onClick={() => setEditingThreshold(true)}>

@@ -15,6 +15,7 @@ import {
   ColumnWarning,
 } from '../styled/Group';
 import { selectCurrentGroupSettings } from '../selectors/groups';
+import { selectCurrencies } from '../selectors/currencies';
 import Tooltip from './Tooltip';
 import Number from './Number';
 import { selectAccounts } from '../selectors/accounts';
@@ -59,8 +60,14 @@ export const PortfolioGroupTrades = ({
 }: Props) => {
   const accounts = useSelector(selectAccounts);
   const settings = useSelector(selectCurrentGroupSettings);
+  const currencies = useSelector(selectCurrencies);
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
   const [tradesCache, setTradesCache] = useState(null);
+  const currency =
+    currencies &&
+    currencies.find(
+      (currency) => currency.id === (settings && settings.preferred_currency),
+    );
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
@@ -140,7 +147,11 @@ export const PortfolioGroupTrades = ({
           <ColumnPrice>
             <Title>Price</Title>
             <div>
-              <Number value={trade.price} currency isTrade={true} />
+              <Number
+                value={trade.price}
+                currency={currency ? currency.code : undefined}
+                isTrade={true}
+              />
             </div>
           </ColumnPrice>
           <ColumnUnits>
