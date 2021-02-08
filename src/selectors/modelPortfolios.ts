@@ -53,6 +53,20 @@ export const selectCurrentModelPortfolio = createSelector(
   },
 );
 
+export const selectGroupIdForModelPortfolio = createSelector<
+  AppState,
+  RouterState,
+  string | null
+>(selectRouter, (router) => {
+  let groupId = null;
+  if (router && router.location) {
+    //! need to update connected-react-router - the new release add query type definition for RouterState.location
+    //@ts-ignore
+    groupId = router.location.query.group;
+  }
+  return groupId;
+});
+
 export const selectModelPortfoliosNeedData = createSelector(
   selectLoggedIn,
   selectModelPortfoliosRaw,
