@@ -6,7 +6,10 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { selectModelPortfolios } from '../selectors/modelPortfolios';
+import {
+  selectGroupIdForModelPortfolio,
+  selectModelPortfolios,
+} from '../selectors/modelPortfolios';
 import { Button } from '../styled/Button';
 import { A, H1, H3, Table } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
@@ -17,8 +20,10 @@ import { StyledP } from './ModelAssetClassPage';
 import { postData } from '../api';
 import { loadModelPortfolios } from '../actions';
 import { toast } from 'react-toastify';
+import { selectCurrentGoalId } from '../selectors/goals';
+import { selectRouter } from '../selectors/router';
 
-const TransparentButton = styled(Button)`
+export const TransparentButton = styled(Button)`
   background-color: transparent;
   color: var(--brand-blue);
   border: 3px solid var(--brand-blue);
@@ -55,6 +60,8 @@ const MyModelPortfoliosPage = () => {
   const modelPortfolios: ModelPortfolioDetailsType[] = useSelector(
     selectModelPortfolios,
   );
+
+  const groupId = useSelector(selectGroupIdForModelPortfolio);
 
   const handleNewModelBtn = () => {
     postData('/api/v1/modelPortfolio/', {})
@@ -93,7 +100,7 @@ const MyModelPortfoliosPage = () => {
               key={mdl.model_portfolio.id}
               style={{ lineHeight: '2rem' }}
             >
-              <Grid columns="3fr 1fr 1fr 1fr">
+              <Grid columns="2fr 1fr 150px 150px">
                 <ModelName>{mdl.model_portfolio.name}</ModelName>
 
                 <InUseDiv>
@@ -112,17 +119,17 @@ const MyModelPortfoliosPage = () => {
                     </>
                   )}
                 </InUseDiv>
-
+                {/* onClick should redirect to settings page Apply */}
+                <TransparentButton style={{ padding: '12px', width: '100px' }}>
+                  Apply
+                </TransparentButton>
                 <StyledViewBtn>
-                  <Link to={`model-portfolio/${mdl.model_portfolio.id}`}>
+                  <Link
+                    to={`model-portfolio/${mdl.model_portfolio.id}${
+                      groupId ? `?group=${groupId}` : ''
+                    }`}
+                  >
                     View
-                    <FontAwesomeIcon icon={faAngleRight} />
-                  </Link>
-                </StyledViewBtn>
-
-                <StyledViewBtn>
-                  <Link to={`model-portfolio/${mdl.model_portfolio.id}`}>
-                    Apply Model
                     <FontAwesomeIcon icon={faAngleRight} />
                   </Link>
                 </StyledViewBtn>
