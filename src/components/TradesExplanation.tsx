@@ -141,7 +141,7 @@ const TradesExplanation = ({
 
   if (hasCashRestriction) {
     summary.push(
-      'Note: If you have multiple cash rule of the same type in different currencies on the same account. It will use the total value of all the cash restrictions.',
+      'Note: If you have multiple cash rule of the same type in different currencies on the same account, it will use the total value of all the cash restrictions.',
     );
   }
 
