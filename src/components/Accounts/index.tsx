@@ -14,7 +14,7 @@ import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
 import AccountGroup from './AccountGroup';
 import { deleteData, putData, postData } from '../../api';
-import { H2, A, Edit, H3, P, DisabledBox } from '../../styled/GlobalElements';
+import { H2, A, Edit, H3, P } from '../../styled/GlobalElements';
 import { loadAccounts, loadGroups } from '../../actions';
 
 export const Header = styled.form`
