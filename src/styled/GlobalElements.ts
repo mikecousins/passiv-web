@@ -132,7 +132,7 @@ export const AButton = styled.a`
 export const Edit = styled.button`
   color: var(--brand-blue);
   margin-left: 10px;
-  opacity: ${props => (props.disabled ? '.7' : '1')};
+  opacity: ${(props) => (props.disabled ? '.7' : '1')};
   svg {
     padding-right: 3px;
   }
@@ -142,6 +142,7 @@ export const Edit = styled.button`
 
 //subsetting
 export const SubSetting = styled.div`
+  margin-left: 20px;
   margin-top: 14px;
   margin-bottom: 10px;
 `;
