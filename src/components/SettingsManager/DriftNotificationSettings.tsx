@@ -4,7 +4,6 @@ import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings } from '../../selectors';
-import { selectCanReceiveDriftNotifications } from '../../selectors/subscription';
 import { loadSettings } from '../../actions';
 import { putData } from '../../api';
 import { ToggleButton, StateText } from '../../styled/ToggleButton';
@@ -22,9 +21,6 @@ import { Settings } from '../../types/settings';
 
 const DriftNotificationSettings = () => {
   const settings = useSelector(selectSettings);
-  const canReceiveDriftNotifications = useSelector(
-    selectCanReceiveDriftNotifications,
-  );
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
   const [driftThreshold, setDriftThreshold] = useState('');
@@ -96,14 +92,12 @@ const DriftNotificationSettings = () => {
     return null;
   }
 
-  const disabled = !canReceiveDriftNotifications;
-
   let contents = (
     <React.Fragment>
       <OptionsTitle>Drift Notifications:</OptionsTitle>
-      {settings.receive_drift_notifications && !disabled ? (
+      {settings.receive_drift_notifications ? (
         <React.Fragment>
-          <ToggleButton onClick={updateNotification} disabled={disabled}>
+          <ToggleButton onClick={updateNotification}>
             <React.Fragment>
               <FontAwesomeIcon icon={faToggleOn} />
               <StateText>on</StateText>
@@ -118,10 +112,7 @@ const DriftNotificationSettings = () => {
                   percentage
                   decimalPlaces={calcDecimalPlaces(parseFloat(driftThreshold))}
                 />
-                <Edit
-                  onClick={() => setEditingThreshold(true)}
-                  disabled={disabled}
-                >
+                <Edit onClick={() => setEditingThreshold(true)}>
                   <FontAwesomeIcon icon={faPen} />
                   Edit
                 </Edit>
@@ -136,15 +127,9 @@ const DriftNotificationSettings = () => {
                       finishEditingThreshold();
                     }
                   }}
-                  disabled={!canReceiveDriftNotifications}
                 />{' '}
                 %
-                <SmallButton
-                  onClick={finishEditingThreshold}
-                  disabled={disabled}
-                >
-                  Done
-                </SmallButton>
+                <SmallButton onClick={finishEditingThreshold}>Done</SmallButton>
               </React.Fragment>
             )}
           </SubSetting>
@@ -152,24 +137,16 @@ const DriftNotificationSettings = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <ToggleButton onClick={updateNotification} disabled={disabled}>
+          <ToggleButton onClick={updateNotification}>
             <FontAwesomeIcon icon={faToggleOff} />
             <StateText>off</StateText>
           </ToggleButton>
-          {disabled && (
-            <DisabledBox>
-              Drift notifications are an Elite feature. Subscribe to get
-              notifications when your portfolio accuracy falls too low.
-            </DisabledBox>
-          )}
         </React.Fragment>
       )}
-      {!disabled && (
-        <DisabledBox>
-          Receive an email notification when your portfolio accuracy falls too
-          low.
-        </DisabledBox>
-      )}
+      <DisabledBox>
+        Receive an email notification when your portfolio accuracy falls too
+        low.
+      </DisabledBox>
     </React.Fragment>
   );
 
