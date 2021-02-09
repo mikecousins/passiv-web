@@ -52,7 +52,7 @@ export const PercentageLabel = styled.label`
 `;
 
 export const PercentageInput = styled.input`
-  max-width: 70px;
+  max-width: 100px;
   color: var(--brand-blue);
   font-weight: 600;
   font-size: 26px;
