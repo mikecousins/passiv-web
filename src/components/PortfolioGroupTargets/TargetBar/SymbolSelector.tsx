@@ -133,12 +133,12 @@ const SymbolSelector = ({
   };
 
   return (
-    <StyledCombobox onSelect={forModelSecurity ? onSelect : handleSelect}>
+    <StyledCombobox onSelect={handleSelect}>
       {forModelSecurity ? (
         <StyledComboboxInput
           value={value}
           onChange={onChange}
-          onSelect={onSelect}
+          // onSelect={onSelect}
           placeholder="Search for security..."
           autoFocus
           name={name}

@@ -229,7 +229,7 @@ const ModelPortfolio = () => {
     setLoading(true);
     postData('/api/v1/portfolioGroups/' + groupId + '/import/', {})
       .then((res) => {
-        console.log('data', res.data);
+        console.log('imported target', res.data);
         setLoading(false);
         dispatch(loadGroup({ ids: [groupId] }));
       })

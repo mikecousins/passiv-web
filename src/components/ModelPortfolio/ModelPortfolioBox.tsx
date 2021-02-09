@@ -31,26 +31,27 @@ const StyledContainer = styled.div`
   margin-bottom: -7px;
 `;
 
-const FormContainer = styled.div`
+export const FormContainer = styled.div`
   border-bottom: 1px solid var(--brand-blue);
-  margin: 20px;
+  margin-top: 20px;
 `;
 
-const Percentage = styled.div`
+export const Percentage = styled.div`
   display: inline-block;
+  border-right: 1px solid var(--brand-blue);
   @media (max-width: 740px) {
     margin-bottom: 10px;
   }
 `;
 
-const PercentageLabel = styled.label`
+export const PercentageLabel = styled.label`
   color: var(--brand-blue);
   font-weight: 600;
   font-size: 26px;
   margin-right: 10px;
 `;
 
-const PercentageInput = styled.input`
+export const PercentageInput = styled.input`
   max-width: 70px;
   color: var(--brand-blue);
   font-weight: 600;
@@ -73,8 +74,6 @@ const ModelPortoflioBox = ({
   modelPortfolio,
   sharedModel,
 }: Props) => {
-  console.log(modelPortfolio);
-
   const dispatch = useDispatch();
   const [modelPortfolioName, setModelPortfolioName] = useState(
     modelPortfolio.model_portfolio.name,
@@ -148,19 +147,6 @@ const ModelPortoflioBox = ({
     setEditName(false);
   };
 
-  const handleDelete = (id: string) => {
-    model.map((mdl: any, index: number) => {
-      if (securityBased && mdl.symbol.id === id) {
-        modelPortfolio.model_portfolio_security.splice(index, 1);
-        return;
-      } else if (!securityBased && mdl.model_asset_class.id === id) {
-        modelPortfolio.model_portfolio_asset_class.splice(index, 1);
-        return;
-      }
-    });
-    changeModel();
-  };
-
   return (
     <Box>
       <NameInputAndEdit
@@ -195,7 +181,7 @@ const ModelPortoflioBox = ({
         </li>
         <ListAssets model={model} securityBased={securityBased} />
       </ul>
-      {!sharedModel && (
+      {/* {!sharedModel && (
         <FormContainer>
           <Formik
             initialValues={{
@@ -278,7 +264,7 @@ const ModelPortoflioBox = ({
         <span style={{ color: 'red', padding: 'inherit' }}>
           Please select from the list of available asset classes and try again.
         </span>
-      )}
+      )} */}
     </Box>
   );
 };
