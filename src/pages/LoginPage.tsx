@@ -44,7 +44,7 @@ const LoginPage = () => {
           password: values.password,
         };
 
-        if (device.token !== null) {
+        if (device && device.token !== null) {
           body.device = device.token;
         }
         postData('/api/v1/auth/login/', body)
