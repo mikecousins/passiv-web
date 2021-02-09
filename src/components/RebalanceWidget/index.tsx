@@ -171,7 +171,7 @@ const RebalanceWidget = ({
     orderValidation = (
       <div>
         <A onClick={handleHideTrades}>
-          I made these orders. Do not show me Trades for the 48 hours.
+          I made these orders. Do not show Trades for the next 48 hours.
         </A>
       </div>
     );

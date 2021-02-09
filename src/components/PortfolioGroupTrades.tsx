@@ -85,6 +85,12 @@ export const PortfolioGroupTrades = ({
     }
   }, [tradesSubmitted, trades]);
 
+  // for wealthica accounts, if user has set a hide trades for 48 hours, we check to show or hide trades
+  let hideTrades = false;
+  if (settings && settings.hide_trades_until !== null) {
+    hideTrades = Date.parse(settings.hide_trades_until) > Date.now();
+  }
+
   const TOUR_STEPS = [
     {
       target: '.tour-trades',
@@ -247,7 +253,10 @@ export const PortfolioGroupTrades = ({
     }
   }
 
-  if (tradesSubmitted || (tradesToRender && tradesToRender.trades.length)) {
+  if (
+    tradesSubmitted ||
+    (tradesToRender && tradesToRender.trades.length && !hideTrades)
+  ) {
     return (
       <>
         <Tour steps={TOUR_STEPS} name="trades_tour" />

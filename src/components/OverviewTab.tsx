@@ -22,7 +22,6 @@ import {
   selectGroupsLoading,
   selectPreferredCurrency,
   selectCurrentGroupPositionsNotInTarget,
-  selectCurrentGroupSettings,
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
@@ -89,7 +88,6 @@ const OverviewTab = () => {
   const positionsNotInTargets = useSelector(
     selectCurrentGroupPositionsNotInTarget,
   );
-  const groupSettings = useSelector(selectCurrentGroupSettings);
 
   // if we don't have our group yet, show a spinner
   if (group === undefined) {
@@ -116,11 +114,6 @@ const OverviewTab = () => {
     );
   }
 
-  // for wealthica accounts, if user has set a hide trades for 48 hours, we check to show or hide trades
-  // let hideTrades = false;
-  // if (groupSettings && groupSettings.hide_trades_until !== null) {
-  //   hideTrades = Date.parse(groupSettings.hide_trades_until) <= Date.now();
-  // }
   // see if we have any suggested trades to display
   let tradeDisplay = null;
   if (setupComplete === true) {
