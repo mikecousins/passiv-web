@@ -34,7 +34,10 @@ export const Group = ({ group }: Props) => {
   const groupInfo = useSelector(selectGroupInfo);
 
   let hideTrades = false;
-  const currentGroupSettings = groupInfo[group.id].data!.settings;
+  const currentGroupSettings =
+    groupInfo[group.id] &&
+    groupInfo[group.id].data &&
+    groupInfo[group.id].data!.settings;
   if (currentGroupSettings && currentGroupSettings.hide_trades_until !== null) {
     hideTrades =
       Date.parse(currentGroupSettings.hide_trades_until) > Date.now();
