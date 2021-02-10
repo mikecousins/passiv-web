@@ -126,7 +126,7 @@ const ZerodhaRebalanceWidget = ({
   let orderValidation = (
     <div>
       <Button onClick={validateOrders} className="tour-one-click-trade">
-        Preview Orders
+        Place Trades on Zerodha
       </Button>
     </div>
   );
