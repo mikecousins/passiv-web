@@ -55,7 +55,7 @@ const Number = (props: Props) => {
   };
   if (props.currency !== undefined && props.currency !== null) {
     numberProps.style = 'currency';
-    numberProps.currencyDisplay = 'narrowSymbol';
+    numberProps.currencyDisplay = 'symbol';
     numberProps.currency = props.currency;
   }
   return (
