@@ -89,6 +89,22 @@ const RebalanceWidget = ({
       .then((response) => {
         setValidatingOrders(false);
         setOrderSummary(response.data);
+
+        // let zerodhaTradeData: any[] = [];
+
+        // trades.forEach(x: any => zerodhaTradeData.push(
+        //     {
+        //       "variety": "regular",
+        //       "tradingsymbol": "INFY",
+        //       "exchange": "NSE",
+        //       "transaction_type": "BUY",
+        //       "order_type": "MARKET",
+        //       "quantity": 10,
+        //       "readonly": false
+        //     },
+        // ))
+
+        postData('https://kite.zerodha.com/connect/basket', zerodhaTradeData);
         setError(null);
       })
       .catch((error) => {
