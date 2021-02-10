@@ -2,7 +2,7 @@ import React from 'react';
 
 type Props = {
   decimalPlaces?: number;
-  currency?: boolean;
+  currency?: string | null;
   percentage?: boolean;
   isTrade?: boolean;
   forcePlusMinus?: boolean;
@@ -14,9 +14,12 @@ const Number = (props: Props) => {
   if (props.decimalPlaces !== undefined) {
     decimalPlaces = props.decimalPlaces;
   }
+  let language = 'en-US';
+  if (typeof window !== 'undefined') {
+    language = navigator.language;
+  }
   let prefix = null;
-  if (props.currency) {
-    prefix = '$';
+  if (props.currency !== undefined && props.currency !== null) {
     if (props.decimalPlaces === undefined) {
       if (!props.isTrade) {
         decimalPlaces = 2;
@@ -40,13 +43,25 @@ const Number = (props: Props) => {
       prefix = '+';
     }
   }
+  let numberProps: {
+    maximumFractionDigits: number;
+    minimumFractionDigits: number;
+    currency?: string;
+    style?: string;
+    currencyDisplay?: string;
+  } = {
+    maximumFractionDigits: decimalPlaces,
+    minimumFractionDigits: decimalPlaces,
+  };
+  if (props.currency !== undefined && props.currency !== null) {
+    numberProps.style = 'currency';
+    numberProps.currencyDisplay = 'narrowSymbol';
+    numberProps.currency = props.currency;
+  }
   return (
     <React.Fragment>
       {prefix}
-      {new Intl.NumberFormat('en-CA', {
-        maximumFractionDigits: decimalPlaces,
-        minimumFractionDigits: decimalPlaces,
-      }).format(props.value)}
+      {new Intl.NumberFormat(language, numberProps).format(props.value)}
       {postfix}
     </React.Fragment>
   );

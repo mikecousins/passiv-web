@@ -4,6 +4,7 @@ import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { selectSettings } from '../../selectors';
+import { selectGlobalPreferredCurrency } from '../../selectors/groups';
 import { loadSettings } from '../../actions';
 import { putData } from '../../api';
 import { ToggleButton, StateText } from '../../styled/ToggleButton';
@@ -20,6 +21,7 @@ import { Settings } from '../../types/settings';
 
 const CashNotificationSettings = () => {
   const settings = useSelector(selectSettings);
+  const preferredCurrency = useSelector(selectGlobalPreferredCurrency);
   const dispatch = useDispatch();
   const [editingThreshold, setEditingThreshold] = useState(false);
   const [cashThreshold, setCashThreshold] = useState('');
@@ -67,6 +69,21 @@ const CashNotificationSettings = () => {
     setEditingThreshold(false);
   };
 
+  const updateSummaryThresholdNotification = () => {
+    if (!settings) {
+      return;
+    }
+    let newSettings: Settings = { ...settings };
+    newSettings.apply_cash_email_threshold_to_summary_email = !settings.apply_cash_email_threshold_to_summary_email;
+    putData('/api/v1/settings/', newSettings)
+      .then(() => {
+        dispatch(loadSettings());
+      })
+      .catch(() => {
+        dispatch(loadSettings());
+      });
+  };
+
   if (!settings) {
     return null;
   }
@@ -88,7 +105,7 @@ const CashNotificationSettings = () => {
               <React.Fragment>
                 <Number
                   value={parseFloat(settings.cash_email_threshold)}
-                  currency
+                  currency={preferredCurrency && preferredCurrency.code}
                   decimalPlaces={2}
                 />
                 <Edit onClick={() => setEditingThreshold(true)}>
@@ -110,6 +127,24 @@ const CashNotificationSettings = () => {
                 />{' '}
                 <SmallButton onClick={finishEditingThreshold}>Done</SmallButton>
               </React.Fragment>
+            )}
+          </SubSetting>
+          <SubSetting>
+            <OptionsTitle>Apply Cash Threshold to Summary Emails:</OptionsTitle>
+            {settings.apply_cash_email_threshold_to_summary_email ? (
+              <ToggleButton onClick={updateSummaryThresholdNotification}>
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOn} />
+                  <StateText>on</StateText>
+                </React.Fragment>
+              </ToggleButton>
+            ) : (
+              <ToggleButton onClick={updateSummaryThresholdNotification}>
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOff} />
+                  <StateText>off</StateText>
+                </React.Fragment>
+              </ToggleButton>
             )}
           </SubSetting>
         </React.Fragment>
