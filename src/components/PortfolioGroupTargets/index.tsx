@@ -2,7 +2,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { loadGroup } from '../../actions';
+import { loadModelPortfolios } from '../../actions';
 import OrderTargetAllocations from '../PortfolioGroupSettings/OrderTargetAllocations';
 import {
   selectCurrentGroupId,
@@ -19,7 +19,7 @@ import {
   OverlayContainer,
   DisabledBox,
 } from '../../styled/GlobalElements';
-import { postData } from '../../api';
+import { getData, postData } from '../../api';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import LoadingOverlay from '../LoadingOverlay';
@@ -115,9 +115,27 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   };
 
   const modelChoices = [
+    // {
+    //   id: 'IMPORT',
+    //   name: 'Import your current holdings as a target',
+    //   tourClass: 'tour-import-holdings',
+    //   button: (
+    //     <React.Fragment>
+    //       <Button onClick={() => importTarget()} disabled={importDisabled()}>
+    //         Import
+    //       </Button>
+    //       {importDisabled() && (
+    //         <DisabledBox>
+    //           Importing a target is not available because there are no open
+    //           positions in your account.
+    //         </DisabledBox>
+    //       )}
+    //     </React.Fragment>
+    //   ),
+    // },
     {
       id: 'IMPORT',
-      name: 'Import your current holdings as a target',
+      name: 'Import your current holdings as a model',
       tourClass: 'tour-import-holdings',
       button: (
         <React.Fragment>
@@ -187,13 +205,38 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     setShowResetOverlay(false);
   }, [targetInitialized]);
 
+  // const importTarget = () => {
+  //   setLoading(true);
+  //   setShowImportOverlay(true);
+  //   postData('/api/v1/portfolioGroups/' + groupId + '/import/', {})
+  //     .then(() => {
+  //       setLoading(false);
+  //       dispatch(loadGroup({ ids: [groupId] }));
+  //     })
+  //     .catch(() => {
+  //       setLoading(false);
+  //       setShowImportOverlay(false);
+  //     });
+  // };
+
   const importTarget = () => {
     setLoading(true);
     setShowImportOverlay(true);
-    postData('/api/v1/portfolioGroups/' + groupId + '/import/', {})
-      .then(() => {
+    getData('/api/v1/portfolioGroups/' + groupId + '/import/')
+      .then((res) => {
+        const holdings = res.data;
+        postData('api/v1/modelPortfolio', {}).then((res) => {
+          const model = res.data;
+          const modelId = model.model_portfolio.id;
+          model.model_portfolio_security = holdings;
+          postData(`api/v1/modelPortfolio/${modelId}`, model).then((res) => {
+            dispatch(loadModelPortfolios());
+            dispatch(
+              replace(`/app/model-portfolio/${modelId}?group=${groupId}`),
+            );
+          });
+        });
         setLoading(false);
-        dispatch(loadGroup({ ids: [groupId] }));
       })
       .catch(() => {
         setLoading(false);
