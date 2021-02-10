@@ -28,6 +28,7 @@ import { selectLimitOrdersFeature } from '../../selectors/features';
 import PreLoadLink from '../PreLoadLink';
 import { SETTINGS_PATH } from '../../apps/Paths';
 import { selectAccounts } from '../../selectors/accounts';
+import { Redirect } from 'react-router-dom';
 
 type Props = {
   groupId: string;
@@ -82,47 +83,38 @@ const RebalanceWidget = ({
   };
 
   const placeZerodhaTrades = () => {
-    setValidatingOrders(true);
-    getData(
-      `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/impact`,
-    )
+    const t = trades.trades;
+    t.map((t: any) => {
+      t['variety'] = 'regular';
+      t['tradingsymbol'] = t['universal_symbol'].description;
+      delete t['universal_symbol'];
+
+      t['exchange'] = 'NSE';
+      t['transaction_type'] = t['action'];
+      delete t['action'];
+
+      t['quantity'] = t['units'];
+      t['order_type'] = 'MARKET';
+      delete t['units'];
+      t['readonly'] = false;
+
+      delete t['account'];
+      delete t['id'];
+      delete t['modified_units'];
+      delete t['skip_trade'];
+      delete t['symbol'];
+      delete t['symbol_in_target'];
+      delete t['price'];
+      delete t['sequence'];
+      return t;
+    });
+    postData('https://kite.zerodha.com/connect/basket', t)
       .then((response) => {
-        setValidatingOrders(false);
-        setOrderSummary(response.data);
-
-        const t = trades.trades;
-        t.map((t: any) => {
-          t['variety'] = 'regular';
-          t['tradingsymbol'] = t['universal_symbol'].description;
-          delete t['universal_symbol'];
-
-          t['exchange'] = 'NSE';
-          t['transaction_type'] = t['action'];
-          delete t['action'];
-
-          t['quantity'] = t['units'];
-          t['order_type'] = 'MARKET';
-          delete t['units'];
-          t['readonly'] = false;
-
-          delete t['account'];
-          delete t['id'];
-          delete t['modified_units'];
-          delete t['skip_trade'];
-          delete t['symbol'];
-          delete t['symbol_in_target'];
-          delete t['price'];
-          delete t['sequence'];
-          return t;
-        });
-        postData('https://kite.zerodha.com/connect/basket', t);
-        setError(null);
+        console.log(response.data);
+        let newPath = 'https://kite.zerodha.com/connect/basket' + t;
+        return <Redirect to={newPath} />;
       })
-      .catch((error) => {
-        setValidatingOrders(false);
-        setOrderSummary(null);
-        setError(error.response.data);
-      });
+      .catch((error) => console.log(error));
   };
 
   const confirmOrders = () => {
