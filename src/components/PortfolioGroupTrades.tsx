@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import RebalanceWidget from './RebalanceWidget';
-import ZerodhaRebalanceWidget from './ZerodhaRebalanceWidget';
 import { H2, H3, Title, P, BulletUL, A } from '../styled/GlobalElements';
 import {
   TradesContainer,
@@ -210,24 +209,13 @@ export const PortfolioGroupTrades = ({
           <H2>Trades</H2>
           {sellsListRender}
           {buysListRender}
-          {accounts[0].institution_name === 'Zerodha' ? (
-            <ZerodhaRebalanceWidget
-              trades={trades}
-              groupId={groupId}
-              onClose={onClose}
-              tradesTrigger={() => triggerTradesSubmitted()}
-              tradesUntrigger={() => untriggerTradesSubmitted()}
-            />
-          ) : (
-            <RebalanceWidget
-              trades={trades}
-              groupId={groupId}
-              onClose={onClose}
-              tradesTrigger={() => triggerTradesSubmitted()}
-              tradesUntrigger={() => untriggerTradesSubmitted()}
-            />
-          )}
-
+          <RebalanceWidget
+            trades={trades}
+            groupId={groupId}
+            onClose={onClose}
+            tradesTrigger={() => triggerTradesSubmitted()}
+            tradesUntrigger={() => untriggerTradesSubmitted()}
+          />
           <TradesExplanation
             settings={settings}
             accounts={groupAccounts}
