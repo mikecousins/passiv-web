@@ -27,6 +27,7 @@ import UpgradeIdea from '../UpgradeIdea';
 import { selectLimitOrdersFeature } from '../../selectors/features';
 import PreLoadLink from '../PreLoadLink';
 import { SETTINGS_PATH } from '../../apps/Paths';
+import { selectAccounts } from '../../selectors/accounts';
 
 type Props = {
   groupId: string;
@@ -44,6 +45,7 @@ const RebalanceWidget = ({
   tradesTrigger,
   tradesUntrigger,
 }: Props) => {
+  const accounts = useSelector(selectAccounts);
   const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
   const showLimitOrdersFeature = useSelector(selectLimitOrdersFeature);
   const settings = useSelector(selectSettings);
@@ -63,6 +65,23 @@ const RebalanceWidget = ({
   };
 
   const validateOrders = () => {
+    setValidatingOrders(true);
+    getData(
+      `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/impact`,
+    )
+      .then((response) => {
+        setValidatingOrders(false);
+        setOrderSummary(response.data);
+        setError(null);
+      })
+      .catch((error) => {
+        setValidatingOrders(false);
+        setOrderSummary(null);
+        setError(error.response.data);
+      });
+  };
+
+  const placeZerodhaTrades = () => {
     setValidatingOrders(true);
     getData(
       `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/impact`,
@@ -130,7 +149,22 @@ const RebalanceWidget = ({
       </Button>
     </div>
   );
+  console.log(trades);
 
+  const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
+  const zerodhaAccounts = groupAccounts.filter(
+    (acc: any) => acc.meta.institution_name === 'Zerodha',
+  );
+
+  if (zerodhaAccounts) {
+    orderValidation = (
+      <div>
+        <Button onClick={placeZerodhaTrades} className="tour-one-click-trade">
+          Place Trades on Zerodha
+        </Button>
+      </div>
+    );
+  }
   if (showQuestradeOffer && !hasFreeOneClicks) {
     orderValidation = <UpgradeIdea />;
   }
