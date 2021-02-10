@@ -1,15 +1,22 @@
 import React from 'react';
 import { Formik, Form, FieldArray, ErrorMessage } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPlus,
+  faPlusSquare,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import AssetClassSelector from './AssetClassSelector';
 import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
 import { Button } from '../../styled/Button';
+import { postData } from '../../api';
+import { loadModelPortfolios } from '../../actions';
+import { useDispatch } from 'react-redux';
 
 const MainContainer = styled.div`
-  margin: 20px;
+  margin: 10px;
 `;
 
 const FormContainer = styled.div`
@@ -55,11 +62,17 @@ const ApplyModelBtn = styled(Button)`
 `;
 
 type Props = {
-  model: any;
+  modelPortfolio: any;
   securityBased: Boolean;
 };
 
-const ListAssets = ({ model, securityBased }: Props) => {
+const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
+  const dispatch = useDispatch();
+
+  let model: any[] = modelPortfolio.model_portfolio_asset_class;
+  if (securityBased) {
+    model = modelPortfolio.model_portfolio_security;
+  }
   return (
     <MainContainer>
       <Formik
@@ -90,38 +103,25 @@ const ListAssets = ({ model, securityBased }: Props) => {
         //   return errors;
         // }}
         onSubmit={(values, actions) => {
-          // if (securityBased) {
-          //   modelPortfolio.model_portfolio_security.push({
-          //     symbol: {
-          //       id: values.assetId!,
-          //     },
-          //     percent: values.percent.toFixed(3),
-          //   });
-          // } else {
-          //   modelPortfolio.model_portfolio_asset_class.push({
-          //     model_asset_class: {
-          //       id: values.assetId!,
-          //     },
-          //     percent: values.percent.toFixed(3),
-          //   });
-          // }
-          // postData(
-          //   `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
-          //   modelPortfolio,
-          // )
-          //   .then(() => {
-          //     dispatch(loadModelPortfolios());
-          //     actions.resetForm();
-          //   })
-          //   .catch(() => {
-          //     dispatch(loadModelPortfolios());
-          //     getRemainingPercent();
-          //     setNotAssetError(true);
-          //     actions.resetForm();
-          //   });
-          // actions.setSubmitting(false);
-          // actions.setStatus({ submitted: true });
-          console.log('submitted values', values);
+          if (securityBased) {
+            modelPortfolio.model_portfolio_security = values.targets;
+          } else {
+            modelPortfolio.model_portfolio_asset_class = values.targets;
+          }
+          postData(
+            `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
+            modelPortfolio,
+          )
+            .then(() => {
+              dispatch(loadModelPortfolios());
+              actions.resetForm();
+            })
+            .catch(() => {
+              dispatch(loadModelPortfolios());
+            });
+          actions.setSubmitting(false);
+          actions.setStatus({ submitted: true });
+          console.log('submitted values', values.targets);
         }}
       >
         {(props) => (
@@ -191,8 +191,13 @@ const ListAssets = ({ model, securityBased }: Props) => {
                           <button
                             type="button"
                             onClick={() => arrayHelpers.remove(index)}
+                            title="Delete security from model"
                           >
-                            <FontAwesomeIcon icon={faTimes} size="lg" />
+                            <FontAwesomeIcon
+                              icon={faTimes}
+                              size="lg"
+                              color="var(--grey-darkest)"
+                            />
                           </button>
                         </Grid>
                       );
@@ -231,10 +236,11 @@ const ListAssets = ({ model, securityBased }: Props) => {
                         onClick={() =>
                           arrayHelpers.push(props.values.newTarget)
                         }
+                        title="Add security to model"
                       >
                         <FontAwesomeIcon
-                          icon={faPlus}
-                          color="var(--brand-blue)"
+                          icon={faPlusSquare}
+                          color="var(--grey-darkest)"
                           size="lg"
                         />
                       </button>
@@ -247,8 +253,13 @@ const ListAssets = ({ model, securityBased }: Props) => {
               }}
             />
             <ButtonContainer>
-              <Button type="submit">Save Model</Button>
-              <ApplyModelBtn>Apply to Retirement Plan</ApplyModelBtn>
+              <Button
+                type="submit"
+                disabled={props.isSubmitting || !props.isValid || !props.dirty}
+              >
+                Save Model
+              </Button>
+              {/* <ApplyModelBtn>Apply to Retirement Plan</ApplyModelBtn> */}
             </ButtonContainer>
           </Form>
         )}
