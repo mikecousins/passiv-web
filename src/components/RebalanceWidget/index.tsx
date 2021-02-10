@@ -103,8 +103,15 @@ const RebalanceWidget = ({
         //       "readonly": false
         //     },
         // ))
+        const t = trades.trades;
+        t.map((t: any) => {
+          t['new_name'] = t['action'];
+          delete t['action'];
+          return t;
+        });
+        console.log(t);
 
-        postData('https://kite.zerodha.com/connect/basket', zerodhaTradeData);
+        // postData('https://kite.zerodha.com/connect/basket', zerodhaTradeData);
         setError(null);
       })
       .catch((error) => {
