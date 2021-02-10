@@ -53,22 +53,17 @@ const ModelPortoflioBox = ({
   );
   const [editName, setEditName] = useState(false);
 
-  let model: any[] = modelPortfolio.model_portfolio_asset_class;
-  if (securityBased) {
-    model = modelPortfolio.model_portfolio_security;
-  }
+  // const getAvailableAssetClasses = () => {
+  //   const usedAssetClasses = model.map((astCls) => {
+  //     return astCls.model_asset_class.id;
+  //   });
+  //   // filter out the asset classes that have been already added to the model portfolio from the available asset classes
+  //   const assetClassesAvailable = assetClasses.filter(
+  //     (ast) => !usedAssetClasses.includes(ast.id),
+  //   );
 
-  const getAvailableAssetClasses = () => {
-    const usedAssetClasses = model.map((astCls) => {
-      return astCls.model_asset_class.id;
-    });
-    // filter out the asset classes that have been already added to the model portfolio from the available asset classes
-    const assetClassesAvailable = assetClasses.filter(
-      (ast) => !usedAssetClasses.includes(ast.id),
-    );
-
-    return assetClassesAvailable;
-  };
+  //   return assetClassesAvailable;
+  // };
 
   const changeModel = () => {
     postData(
@@ -114,7 +109,10 @@ const ModelPortoflioBox = ({
         StyledContainer={StyledContainer}
       />
 
-      <ListAssets model={model} securityBased={securityBased} />
+      <ListAssets
+        modelPortfolio={modelPortfolio}
+        securityBased={securityBased}
+      />
     </Box>
   );
 };
