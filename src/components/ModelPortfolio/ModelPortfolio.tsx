@@ -21,7 +21,7 @@ import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
 import AssetClassesBox from './AssetClassesBox';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
-import { loadGroup, loadModelPortfolios } from '../../actions';
+import { loadModelPortfolios } from '../../actions';
 import { deleteData, getData, postData } from '../../api';
 import { SmallButton } from '../../styled/Button';
 import {
@@ -34,9 +34,7 @@ import { H3 } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { selectReferralCode } from '../../selectors';
-import { TransparentButton } from '../../pages/MyModelPortfoliosPage';
-import LoadingOverlay from '../LoadingOverlay';
-import { selectGroupInfo, selectGroupedAccounts } from '../../selectors/groups';
+import { selectGroupedAccounts } from '../../selectors/groups';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -95,12 +93,6 @@ const ToggleShareBtn = styled(ToggleButton)`
   margin-top: 10px;
 `;
 
-const ImportBtn = styled(TransparentButton)`
-  width: 40%;
-  font-size: 20px;
-  margin-top: 20px;
-`;
-
 const DeleteContainer = styled.div`
   float: right;
 `;
@@ -124,7 +116,6 @@ const ModelPortfolio = () => {
     return obj.model_asset_class;
   });
 
-  const [loading, setLoading] = useState(false);
   const [sharedModel, setSharedModel] = useState(false);
   const [share, setShare] = useState(
     currentModelPortfolio!?.model_portfolio.share_portfolio,
@@ -231,25 +222,11 @@ const ModelPortfolio = () => {
       });
   };
 
-  const importTarget = () => {
-    setLoading(true);
-    postData('/api/v1/portfolioGroups/' + groupId + '/import/', {})
-      .then((res) => {
-        console.log('imported target', res.data);
-        setLoading(false);
-        dispatch(loadGroup({ ids: [groupId] }));
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  };
-
   return (
     <>
       {currentModelPortfolio && (
         <>
           <ShadowBox>
-            {loading && <LoadingOverlay />}
             {!sharedModel && (
               <BackButton>
                 <Link to={'/app/my-model-portfolios'}>
@@ -328,9 +305,6 @@ const ModelPortfolio = () => {
                         <br />
                       </>
                     </SetShareModelContainer>
-                    {groupId && (
-                      <ImportBtn onClick={importTarget}>Import</ImportBtn>
-                    )}
                   </>
                 )}
                 {!securityBased && (
