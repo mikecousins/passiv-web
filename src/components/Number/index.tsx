@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectIsAppleDevice } from '../../selectors';
 
 type Props = {
   decimalPlaces?: number;
@@ -10,6 +12,7 @@ type Props = {
 };
 
 const Number = (props: Props) => {
+  const isAppleDevice = useSelector(selectIsAppleDevice);
   let decimalPlaces = 1;
   if (props.decimalPlaces !== undefined) {
     decimalPlaces = props.decimalPlaces;
@@ -55,7 +58,7 @@ const Number = (props: Props) => {
   };
   if (props.currency !== undefined && props.currency !== null) {
     numberProps.style = 'currency';
-    numberProps.currencyDisplay = 'symbol';
+    numberProps.currencyDisplay = isAppleDevice ? 'symbol' : 'narrowSymbol';
     numberProps.currency = props.currency;
   }
   return (
