@@ -1,34 +1,53 @@
 import React from 'react';
-import { Formik, Form, Field, FieldArray } from 'formik';
+import { Formik, Form, FieldArray, ErrorMessage } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faMinusCircle,
-  faPlus,
-  faPlusCircle,
-  faTimes,
-  faTimesCircle,
-} from '@fortawesome/free-solid-svg-icons';
-import {
-  FormContainer,
-  Percentage,
-  PercentageInput,
-  PercentageLabel,
-} from './ModelPortfolioBox';
+import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import AssetClassSelector from './AssetClassSelector';
 import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
-import { Button, SmallButton } from '../../styled/Button';
-import { Table } from '../../styled/GlobalElements';
-import { TransparentButton } from '../../pages/MyModelPortfoliosPage';
+import { Button } from '../../styled/Button';
+
+const MainContainer = styled.div`
+  margin: 20px;
+`;
+
+const FormContainer = styled.div`
+  border-bottom: 1px solid var(--brand-blue);
+  margin-top: 20px;
+`;
+
+const Percentage = styled.div`
+  display: inline-block;
+  border-right: 1px solid var(--brand-blue);
+  @media (max-width: 740px) {
+    margin-bottom: 10px;
+  }
+`;
+
+const PercentageInput = styled.input`
+  max-width: 100px;
+  color: var(--brand-blue);
+  font-weight: 600;
+  font-size: 26px;
+`;
+
+const PercentageLabel = styled.label`
+  color: var(--brand-blue);
+  font-weight: 600;
+  font-size: 26px;
+  margin-right: 10px;
+`;
 
 const Symbol = styled.span`
   font-size: 18px;
   margin-left: 10px;
 `;
+
 const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
+
 const ApplyModelBtn = styled(Button)`
   background-color: transparent;
   color: var(--brand-blue);
@@ -41,19 +60,8 @@ type Props = {
 };
 
 const ListAssets = ({ model, securityBased }: Props) => {
-  const handleDelete = (id: string) => {
-    model.map((mdl: any, index: number) => {
-      if (securityBased && mdl.symbol.id === id) {
-        model.splice(index, 1);
-        return;
-      } else if (!securityBased && mdl.model_asset_class.id === id) {
-        model.splice(index, 1);
-        return;
-      }
-    });
-  };
   return (
-    <>
+    <MainContainer>
       <Formik
         initialValues={{
           targets: model,
@@ -62,7 +70,25 @@ const ListAssets = ({ model, securityBased }: Props) => {
             symbol: {},
           },
         }}
+        enableReinitialize
         initialStatus={{ submitted: false }}
+        // validate={(values) => {
+        //   const errors: any = {};
+        //   const cashPercentage =
+        //     100 -
+        //     values.targets.reduce((total: number, target: any) => {
+        //       if (!target.deleted && target.percent) {
+        //         return total + parseFloat(target.percent);
+        //       }
+        //       return total;
+        //     }, 0);
+        //   const roundedCashPercentage =
+        //     Math.round(cashPercentage * 1000) / 1000;
+        //   if (roundedCashPercentage < 0) {
+        //     errors.cash = 'Too low';
+        //   }
+        //   return errors;
+        // }}
         onSubmit={(values, actions) => {
           // if (securityBased) {
           //   modelPortfolio.model_portfolio_security.push({
@@ -102,93 +128,123 @@ const ListAssets = ({ model, securityBased }: Props) => {
           <Form onSubmit={props.handleSubmit}>
             <FieldArray
               name="targets"
-              render={(arrayHelpers) => (
-                <>
-                  {props.values.targets.map((target: any, index: number) => {
-                    return (
-                      <Grid columns="1fr 50px">
-                        <FormContainer style={{ borderColor: 'black' }}>
-                          <Percentage>
-                            <PercentageInput
-                              type="number"
-                              name={`targets.${index}`}
-                              value={props.values.targets[index].percent}
-                              onChange={(e) =>
-                                props.setFieldValue(
-                                  `targets.${index}.percent` as 'targets',
-                                  parseFloat(e.target.value),
-                                )
-                              }
-                              required
-                            />
-                            <PercentageLabel htmlFor="percentage">
-                              %
-                            </PercentageLabel>
-                          </Percentage>
-                          <Symbol>
-                            <span
-                              style={{ fontWeight: 600, marginRight: '20px' }}
-                            >
-                              {props.values.targets[index].symbol?.symbol}
-                            </span>
-                            {props.values.targets[index].symbol?.description}
-                          </Symbol>
+              render={(arrayHelpers) => {
+                // calculate the desired cash percentage
+                const cashPercentage =
+                  100 -
+                  props.values.targets.reduce((total: number, target: any) => {
+                    if (!target.deleted && target.percent) {
+                      return total + parseFloat(target.percent);
+                    }
+                    return total;
+                  }, 0);
 
-                          <br></br>
-                        </FormContainer>
-                        <button
-                          type="button"
-                          onClick={() => arrayHelpers.remove(index)}
-                        >
-                          <FontAwesomeIcon icon={faTimes} size="lg" />
-                        </button>
-                      </Grid>
-                    );
-                  })}
-                  <Grid columns="1fr 50px" style={{ marginTop: '30px' }}>
-                    <FormContainer>
-                      <Percentage>
-                        <PercentageInput
-                          id="percent"
-                          name="newTarget.percent"
-                          type="number"
-                          onChange={props.handleChange}
-                          value={props.values.newTarget.percent}
-                          required
-                        />
-                        <PercentageLabel htmlFor="percentage">
-                          %
-                        </PercentageLabel>
-                      </Percentage>
-                      <SymbolSelector
-                        name="newTarget.symbol"
-                        id="symbol"
-                        value={null}
-                        onSelect={(symbol) => {
-                          props.setFieldValue(
-                            `newTarget.symbol` as 'newTarget',
-                            symbol,
-                          );
+                return (
+                  <>
+                    <ul>
+                      <li
+                        style={{
+                          borderLeft: '5px solid var(--brand-green)',
+                          lineHeight: '30px',
+                          padding: '10px',
+                          marginBottom: '20px',
                         }}
-                        allSymbols={true}
-                        forModelSecurity={true}
-                      />
-                    </FormContainer>
-                    <button
-                      type="button"
-                      onClick={() => arrayHelpers.push(props.values.newTarget)}
-                    >
-                      <FontAwesomeIcon
-                        icon={faPlus}
-                        color="var(--brand-blue)"
-                        size="lg"
-                      />
-                    </button>
-                  </Grid>
+                        key="cash"
+                      >
+                        <span style={{ fontSize: '26px', fontWeight: 900 }}>
+                          {cashPercentage}% Cash
+                        </span>
+                      </li>
+                    </ul>
+                    {props.values.targets.map((target: any, index: number) => {
+                      return (
+                        <Grid columns="1fr 50px">
+                          <FormContainer style={{ borderColor: 'black' }}>
+                            <Percentage>
+                              <PercentageInput
+                                type="number"
+                                name={`targets.${index}`}
+                                value={props.values.targets[index].percent}
+                                onChange={(e) =>
+                                  props.setFieldValue(
+                                    `targets.${index}.percent` as 'targets',
+                                    parseFloat(e.target.value),
+                                  )
+                                }
+                                required
+                              />
+                              <PercentageLabel htmlFor="percentage">
+                                %
+                              </PercentageLabel>
+                            </Percentage>
+                            <Symbol>
+                              <span
+                                style={{ fontWeight: 600, marginRight: '20px' }}
+                              >
+                                {props.values.targets[index].symbol?.symbol}
+                              </span>
+                              {props.values.targets[index].symbol?.description}
+                            </Symbol>
 
-                  <br />
-                </>
-              )}
+                            <br></br>
+                          </FormContainer>
+                          <button
+                            type="button"
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            <FontAwesomeIcon icon={faTimes} size="lg" />
+                          </button>
+                        </Grid>
+                      );
+                    })}
+                    <Grid columns="1fr 50px" style={{ marginTop: '30px' }}>
+                      <FormContainer>
+                        <Percentage>
+                          <PercentageInput
+                            id="percent"
+                            name="newTarget.percent"
+                            type="number"
+                            onChange={props.handleChange}
+                            value={props.values.newTarget.percent}
+                            required
+                          />
+                          <PercentageLabel htmlFor="percentage">
+                            %
+                          </PercentageLabel>
+                        </Percentage>
+                        <SymbolSelector
+                          name="newTarget.symbol"
+                          id="symbol"
+                          value={null}
+                          onSelect={(symbol) => {
+                            props.setFieldValue(
+                              `newTarget.symbol` as 'newTarget',
+                              symbol,
+                            );
+                          }}
+                          allSymbols={true}
+                          forModelSecurity={true}
+                        />
+                      </FormContainer>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          arrayHelpers.push(props.values.newTarget)
+                        }
+                      >
+                        <FontAwesomeIcon
+                          icon={faPlus}
+                          color="var(--brand-blue)"
+                          size="lg"
+                        />
+                      </button>
+                    </Grid>
+
+                    <br />
+                    <ErrorMessage name="targets" component="div" />
+                  </>
+                );
+              }}
             />
             <ButtonContainer>
               <Button type="submit">Save Model</Button>
@@ -197,7 +253,7 @@ const ListAssets = ({ model, securityBased }: Props) => {
           </Form>
         )}
       </Formik>
-    </>
+    </MainContainer>
   );
 };
 
