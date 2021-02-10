@@ -36,6 +36,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { selectReferralCode } from '../../selectors';
 import { TransparentButton } from '../../pages/MyModelPortfoliosPage';
 import LoadingOverlay from '../LoadingOverlay';
+import { selectGroupInfo, selectGroupedAccounts } from '../../selectors/groups';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -132,9 +133,14 @@ const ModelPortfolio = () => {
     currentModelPortfolio!?.model_portfolio.model_type === 0,
   );
   const [deleteDialog, setDeleteDialog] = useState(false);
-
+  const groups = useSelector(selectGroupedAccounts);
   const router = useSelector(selectRouter);
   const groupId = useSelector(selectGroupIdForModelPortfolio);
+
+  let group;
+  if (groupId) {
+    group = groups?.find((gp) => gp.groupId === groupId);
+  }
 
   const [copied, setCopied] = useState(false);
   const referralCode = useSelector(selectReferralCode);
@@ -247,8 +253,8 @@ const ModelPortfolio = () => {
             {!sharedModel && (
               <BackButton>
                 <Link to={'/app/my-model-portfolios'}>
-                  <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to My
-                  Models
+                  <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to{' '}
+                  {group ? group.name : 'My Models'}
                 </Link>
               </BackButton>
             )}
