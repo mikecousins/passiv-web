@@ -10,8 +10,6 @@ import DemoNotes from '../components/DemoNotes';
 import { selectIsDemo } from '../selectors';
 import { useSelector } from 'react-redux';
 import Tour from '../components/Tour/Tour';
-import UpgradeButton from '../components/Tour/UpgradeButton';
-import EliteFeatureTitle from '../components/Tour/EliteFeatureTitle';
 
 const TOUR_STEPS = [
   {
@@ -34,26 +32,21 @@ const TOUR_STEPS = [
   },
   {
     target: '.tour-add-more-connections',
-    title: <EliteFeatureTitle />,
     content: (
       <div>
-        Elite users can have multiple connections. Connect your spouse’s
-        accounts by clicking <strong>Add Another Connection</strong>.
-        <br />
-        <br />
-        <UpgradeButton />
+        You can have multiple connections. Connect your spouse’s accounts by
+        clicking <strong>Add Another Connection</strong>.
       </div>
     ),
     placement: 'right',
   },
   {
     target: '.tour-edit-groups',
-    title: <EliteFeatureTitle />,
     content: (
       <>
         <div>
-          Elite users can click on <strong> Edit Groups</strong> to manage their
-          accounts. You can{' '}
+          Click on <strong> Edit Groups</strong> to manage your accounts. You
+          can{' '}
           <a
             href="https://passiv.com/help/tutorials/how-to-set-up-multi-account-portfolios/"
             target="_blank"
@@ -72,8 +65,6 @@ const TOUR_STEPS = [
           </a>{' '}
           accounts that you don’t want to see in Passiv.
         </div>
-        <br />
-        <UpgradeButton />
       </>
     ),
     placement: 'right',
