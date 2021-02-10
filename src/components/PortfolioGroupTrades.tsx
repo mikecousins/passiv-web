@@ -280,7 +280,7 @@ export const PortfolioGroupTrades = ({
       </>
     );
   } else {
-    if (!error) {
+    if (!error && !hideTrades) {
       return (
         <ContextualMessageWrapper name={'no_trades'}>
           <TradesContainer>
