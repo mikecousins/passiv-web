@@ -14,9 +14,10 @@ import {
 
 const Box = styled.div`
   border-radius: 4px;
-  padding: 20px;
-  background: var(--brand-green);
+  padding: 15px;
+  border: 1px solid;
   height: fit-content;
+  margin-top: 20px;
 `;
 
 const StyledH3 = styled(H3)`
@@ -24,10 +25,11 @@ const StyledH3 = styled(H3)`
 `;
 
 const SmallBox = styled.div`
-  border: 1px solid white;
+  border: 1px solid var(--brand-blue);
   padding: 10px;
-  color: white;
+  color: var(--brand-blue);
   text-align: center;
+  font-weight: 600;
 `;
 
 const ResponsiveGrid = styled(Grid)`
