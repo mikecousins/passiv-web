@@ -90,28 +90,32 @@ const RebalanceWidget = ({
         setValidatingOrders(false);
         setOrderSummary(response.data);
 
-        // let zerodhaTradeData: any[] = [];
-
-        // trades.forEach(x: any => zerodhaTradeData.push(
-        //     {
-        //       "variety": "regular",
-        //       "tradingsymbol": "INFY",
-        //       "exchange": "NSE",
-        //       "transaction_type": "BUY",
-        //       "order_type": "MARKET",
-        //       "quantity": 10,
-        //       "readonly": false
-        //     },
-        // ))
         const t = trades.trades;
         t.map((t: any) => {
-          t['new_name'] = t['action'];
+          t['variety'] = 'regular';
+          t['tradingsymbol'] = t['universal_symbol'].description;
+          delete t['universal_symbol'];
+
+          t['exchange'] = 'NSE';
+          t['transaction_type'] = t['action'];
           delete t['action'];
+
+          t['quantity'] = t['units'];
+          t['order_type'] = 'MARKET';
+          delete t['units'];
+          t['readonly'] = false;
+
+          delete t['account'];
+          delete t['id'];
+          delete t['modified_units'];
+          delete t['skip_trade'];
+          delete t['symbol'];
+          delete t['symbol_in_target'];
+          delete t['price'];
+          delete t['sequence'];
           return t;
         });
-        console.log(t);
-
-        // postData('https://kite.zerodha.com/connect/basket', zerodhaTradeData);
+        postData('https://kite.zerodha.com/connect/basket', t);
         setError(null);
       })
       .catch((error) => {
@@ -172,7 +176,6 @@ const RebalanceWidget = ({
       </Button>
     </div>
   );
-  console.log(trades);
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
   const zerodhaAccounts = groupAccounts.filter(
