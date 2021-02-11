@@ -163,7 +163,6 @@ const RebalanceWidget = ({
           method="post"
           id="basket-form"
           action="https://kite.zerodha.com/connect/basket"
-          target="_blank"
         >
           <input type="hidden" name="api_key" value="pnriechdkzx5ipvq" />
           <input
