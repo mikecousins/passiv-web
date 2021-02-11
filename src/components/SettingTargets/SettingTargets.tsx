@@ -48,7 +48,7 @@ const SettingTargets = () => {
                   size="2x"
                   color="var(--brand-blue)"
                   cursor="pointer"
-                  onClick={() => history.replace(`setting-targets/${group.id}`)}
+                  onClick={() => history.replace(`model-setting/${group.id}`)}
                 />
               </Grid>
             </GreyBox>

@@ -138,9 +138,7 @@ const MyModelPortfoliosPage = () => {
           );
         })}
       </div>
-      <A onClick={() => history.push('setting-targets')}>
-        Setting Targets Page
-      </A>
+      <A onClick={() => history.push('model-setting')}>Setting Targets Page</A>
     </React.Fragment>
   );
 };

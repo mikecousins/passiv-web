@@ -157,11 +157,7 @@ const SideBar = () => {
           {groups && groups.length > 0 && (
             <GroupContainer>{groupList}</GroupContainer>
           )}
-          <SideBarLink
-            name="My Models"
-            linkPath={`/app/my-model-portfolios`}
-            beta={true}
-          />
+          <SideBarLink name="My Models" linkPath={`/app/models`} beta={true} />
           {performancePageFeatureActive && hasQuestradeConnection && (
             <SideBarLink name="Reporting" linkPath="/app/reporting" />
           )}

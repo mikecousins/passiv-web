@@ -185,13 +185,6 @@ const ApplyTarget = () => {
     // setLoading(false);
   }, []);
 
-  const handleModelSelect = (model: ModelPortfolioDetailsType) => {
-    if (model.model_portfolio.model_type === 0) {
-      loadModelForCurrentGroup(model.model_portfolio.id);
-      // setLoading(true);
-    }
-  };
-
   const handleNewModelBtn = () => {
     postData('/api/v1/modelPortfolio/', {})
       .then(() => {
@@ -226,50 +219,11 @@ const ApplyTarget = () => {
   return (
     <ShadowBox>
       <BackButton>
-        <Link to={'/app/setting-targets'}>
+        <Link to={'/app/model-setting'}>
           <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to Groups
         </Link>
       </BackButton>
-      <TopInfo>
-        {/* {modelHasChanged && <Alert> ❗️ The Model Has Changed.</Alert>} */}
-        <Grid columns="1fr 300px">
-          <GroupName>{currentGroup?.name}</GroupName>
-          <Menu>
-            <StyledMenuButton>
-              {loading ? (
-                <FontAwesomeIcon icon={faSpinner} spin />
-              ) : (
-                selectedModel?.name
-              )}
-              <span aria-hidden style={{ marginLeft: '30px' }}>
-                <FontAwesomeIcon icon={faAngleDown} size="lg" />
-              </span>
-            </StyledMenuButton>
-            <StyledMenuList>
-              {modelPortfolios.map((mdl) => {
-                return (
-                  <StyledMenuItem
-                    onSelect={() => {
-                      handleModelSelect(mdl);
-                    }}
-                    key={mdl.model_portfolio.id}
-                  >
-                    {mdl.model_portfolio.name}
-                  </StyledMenuItem>
-                );
-              })}
-              <NewModelBtn onClick={handleNewModelBtn}>
-                <FontAwesomeIcon
-                  icon={faPlus}
-                  size="sm"
-                  style={{ marginRight: '5px' }}
-                />
-                Create New Model
-              </NewModelBtn>
-            </StyledMenuList>
-          </Menu>
-        </Grid>
-      </TopInfo>
+      <GroupName>{currentGroup?.name}</GroupName>
       <div>
         {currentGroupInfo?.model_portfolio?.model_type === 0 &&
           selectedModelDetails && (

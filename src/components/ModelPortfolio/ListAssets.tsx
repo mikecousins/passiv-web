@@ -1,11 +1,7 @@
 import React from 'react';
 import { Formik, Form, FieldArray, ErrorMessage } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPlus,
-  faPlusSquare,
-  faTimes,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPlusSquare, faTimes } from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import AssetClassSelector from './AssetClassSelector';
 import styled from '@emotion/styled';
@@ -13,7 +9,9 @@ import Grid from '../../styled/Grid';
 import { Button } from '../../styled/Button';
 import { postData } from '../../api';
 import { loadModelPortfolios } from '../../actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { selectGroupIdForModelPortfolio } from '../../selectors/modelPortfolios';
 
 const MainContainer = styled.div`
   margin: 10px;
@@ -68,11 +66,14 @@ type Props = {
 
 const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   let model: any[] = modelPortfolio.model_portfolio_asset_class;
+  const groupId = useSelector(selectGroupIdForModelPortfolio);
+
   if (securityBased) {
     model = modelPortfolio.model_portfolio_security;
   }
+
   return (
     <MainContainer>
       <Formik
@@ -108,20 +109,22 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
           } else {
             modelPortfolio.model_portfolio_asset_class = values.targets;
           }
-          postData(
-            `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
-            modelPortfolio,
-          )
+          const modelId = modelPortfolio.model_portfolio.id;
+          postData(`/api/v1/modelPortfolio/${modelId}`, modelPortfolio)
             .then(() => {
               dispatch(loadModelPortfolios());
               actions.resetForm();
+              history.push(
+                `/app/model-setting/group/${
+                  groupId && groupId
+                }/model/${modelId}`,
+              );
             })
             .catch(() => {
               dispatch(loadModelPortfolios());
             });
           actions.setSubmitting(false);
           actions.setStatus({ submitted: true });
-          console.log('submitted values', values.targets);
         }}
       >
         {(props) => (

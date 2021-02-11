@@ -467,19 +467,19 @@ const App = () => {
             )}
             {showSecureApp && (
               <Route
-                path={prefixPath('/setting-targets/:groupId')}
+                path={prefixPath('/model-setting/:groupId')}
                 component={ApplyTargetPage}
               />
             )}
             {showSecureApp && (
               <Route
-                path={prefixPath('/setting-targets')}
+                path={prefixPath('/model-setting')}
                 component={SettingTargetsPage}
               />
             )}
             {showSecureApp && (
               <Route
-                path={prefixPath('/my-model-portfolios')}
+                path={prefixPath('/models')}
                 component={MyModelPortfoliosPage}
               />
             )}

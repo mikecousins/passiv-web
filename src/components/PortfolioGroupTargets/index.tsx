@@ -176,7 +176,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         <Button
           onClick={() => {
             setModel('NEW_MODEL');
-            dispatch(replace(`/app/my-model-portfolios`));
+            dispatch(replace(`/app/models`));
           }}
         >
           New Model
@@ -190,7 +190,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         <Button
           onClick={() => {
             setModel('USE_MODEL');
-            dispatch(replace(`/app/my-model-portfolios?group=${groupId}`));
+            dispatch(replace(`/app/models?group=${groupId}`));
           }}
         >
           Choose From Models

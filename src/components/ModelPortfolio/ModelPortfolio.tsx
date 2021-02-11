@@ -177,7 +177,7 @@ const ModelPortfolio = () => {
       `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
     ).then(() => {
       dispatch(loadModelPortfolios());
-      history.push('/app/my-model-portfolios');
+      history.push('/app/models');
     });
   };
 
@@ -229,7 +229,7 @@ const ModelPortfolio = () => {
           <ShadowBox>
             {!sharedModel && (
               <BackButton>
-                <Link to={'/app/my-model-portfolios'}>
+                <Link to={'/app/models'}>
                   <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to{' '}
                   {group ? group.name : 'My Models'}
                 </Link>
