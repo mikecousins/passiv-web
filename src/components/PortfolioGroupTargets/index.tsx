@@ -155,23 +155,8 @@ const PortfolioGroupTargets = ({ error }: Props) => {
       ),
     },
     {
-      id: 'MANUAL',
-      name: 'Build your target portfolio manually',
-      tourClass: 'tour-build-portfolio',
-      button: (
-        <Button
-          onClick={() => {
-            setModel('MANUAL');
-            dispatch(replace(`/app/group/${groupId}?edit=true`));
-          }}
-        >
-          Build
-        </Button>
-      ),
-    },
-    {
       id: 'NEW_MODEL',
-      name: 'Create New Model',
+      name: 'Create new model',
       button: (
         <Button
           onClick={() => {
@@ -185,7 +170,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     },
     {
       id: 'USE_MODEL',
-      name: 'Use one of the Existing Models',
+      name: 'Use one of the existing models',
       button: (
         <Button
           onClick={() => {
@@ -193,7 +178,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
             dispatch(replace(`/app/models?group=${groupId}`));
           }}
         >
-          Choose From Models
+          Models
         </Button>
       ),
     },
@@ -239,7 +224,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         const holdings = responses[0].data;
         const model = responses[1].data;
         const modelId = model.model_portfolio.id;
-        model.model_portfolio.name = group?.name;
+        model.model_portfolio.name = `${group?.name} Model`;
         model.model_portfolio_security = holdings;
 
         postData(`api/v1/modelPortfolio/${modelId}`, model)
@@ -350,7 +335,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
                 There is no target portfolio set for this account. Please choose
                 one of the following options:
               </P>
-              <Grid columns="1fr 1fr">
+              <Grid columns="1fr 1fr 1fr">
                 {modelChoices.map((m) => (
                   <ShadowBox key={m.id}>
                     <H3LowProfile className={m.tourClass}>
