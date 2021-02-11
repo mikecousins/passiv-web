@@ -200,10 +200,9 @@ const CashManagement = () => {
             reloadGroupAndAccounts();
           })
           .catch((error) => {
-            if (error.response.data.code && error.response.data.code === 1057) {
-              toast.error('Failed to add cash management rule');
-            }
-
+            toast.error(
+              `Failed to add cash management rule: ${error.response.data.detail}`,
+            );
             actions.setSubmitting(false);
           });
       }}
@@ -273,7 +272,12 @@ const CashManagement = () => {
                 </span>
               </ColumnCurrency>
               <ColumnAmount>
-                {<Number value={cashRestriction.amount} currency />}
+                {
+                  <Number
+                    value={cashRestriction.amount}
+                    currency={currency ? currency.code : undefined}
+                  />
+                }
               </ColumnAmount>
               <ColumnDelete>
                 <A onClick={() => deleteRestriction(cashRestriction)}>Delete</A>

@@ -49,7 +49,7 @@ const SubscriptionPlans = () => {
               <Number
                 value={parseInt(plans[0].amount)}
                 decimalPlaces={0}
-                currency
+                currency={'USD'}
               />
               /year
             </strong>
@@ -69,7 +69,7 @@ const SubscriptionPlans = () => {
               <Number
                 value={parseInt(plans[0].amount)}
                 decimalPlaces={0}
-                currency
+                currency={'USD'}
               />
               /year
             </strong>{' '}

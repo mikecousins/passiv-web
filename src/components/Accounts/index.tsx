@@ -14,8 +14,7 @@ import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
 import AccountGroup from './AccountGroup';
 import { deleteData, putData, postData } from '../../api';
-import { H2, A, Edit, H3, P, DisabledBox } from '../../styled/GlobalElements';
-import { selectCanCrossAccountBalance } from '../../selectors/subscription';
+import { H2, A, Edit, H3, P } from '../../styled/GlobalElements';
 import { loadAccounts, loadGroups } from '../../actions';
 
 export const Header = styled.form`
@@ -44,7 +43,6 @@ const Accounts = () => {
   const accounts = useSelector(selectGroupedAccounts);
   const [localAccounts, setLocalAccounts] = useState(accounts);
   const [isEditing, setIsEditing] = useState(false);
-  const canCrossAccountBalance = useSelector(selectCanCrossAccountBalance);
   const dispatch = useDispatch();
 
   // when we get new accounts back from the server, reset our accounts
@@ -88,10 +86,10 @@ const Accounts = () => {
 
     const newList: Group[] = Array.from(localAccounts);
     const sourceList = newList.find(
-      group => group.groupId === result.source.droppableId,
+      (group) => group.groupId === result.source.droppableId,
     );
     const destList = newList.find(
-      group => group.groupId === result.destination!.droppableId,
+      (group) => group.groupId === result.destination!.droppableId,
     );
 
     if (sourceList) {
@@ -116,7 +114,7 @@ const Accounts = () => {
           });
       } else if (result.destination.droppableId === 'new') {
         postData('/api/v1/portfolioGroups', { name: 'New Group' }).then(
-          newGroup => {
+          (newGroup) => {
             newAccount.portfolio_group = newGroup.data[0].id;
             putData(`/api/v1/accounts/${moved.id}`, newAccount)
               .then(() => {
@@ -152,19 +150,10 @@ const Accounts = () => {
           </A>
         ) : (
           <React.Fragment>
-            <Edit
-              onClick={() => setIsEditing(true)}
-              disabled={!canCrossAccountBalance}
-            >
+            <Edit onClick={() => setIsEditing(true)}>
               <FontAwesomeIcon icon={faPen} />
               Edit Groups
             </Edit>
-            {!canCrossAccountBalance && (
-              <DisabledBox>
-                Editing account groups is an Elite feature, subscribe to access
-                it!
-              </DisabledBox>
-            )}
           </React.Fragment>
         )}
       </Header>
@@ -174,7 +163,7 @@ const Accounts = () => {
         its own group. Drag and drop to reorganize.
       </PaddedP>
       <DragDropContext onDragEnd={onDragEnd}>
-        {localAccounts.map(group => (
+        {localAccounts.map((group) => (
           <Droppable droppableId={group.groupId} key={group.groupId}>
             {(provided, snapshot) => (
               <div
@@ -220,10 +209,7 @@ const Accounts = () => {
                             </GroupNote>
                           ) : (
                             <GroupNote>
-                              <Edit
-                                onClick={() => setIsEditing(true)}
-                                disabled={!canCrossAccountBalance}
-                              >
+                              <Edit onClick={() => setIsEditing(true)}>
                                 <FontAwesomeIcon icon={faPen} />
                                 Edit Groups
                               </Edit>{' '}
