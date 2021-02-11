@@ -100,7 +100,7 @@ const MyModelPortfoliosPage = () => {
               key={mdl.model_portfolio.id}
               style={{ lineHeight: '2rem' }}
             >
-              <Grid columns="2fr 1fr 150px 150px">
+              <Grid columns={groupId ? '2fr 1fr 250px' : '2fr 1fr 150px 150px'}>
                 <ModelName>{mdl.model_portfolio.name}</ModelName>
 
                 <InUseDiv>
@@ -119,17 +119,23 @@ const MyModelPortfoliosPage = () => {
                     </>
                   )}
                 </InUseDiv>
-                {/* onClick should redirect to settings page Apply */}
-                <TransparentButton style={{ padding: '12px', width: '100px' }}>
-                  Apply
-                </TransparentButton>
+                {!groupId && (
+                  <TransparentButton
+                    style={{ padding: '12px', width: '100px' }}
+                    onClick={() => history.push(`model-setting`)}
+                  >
+                    Apply
+                  </TransparentButton>
+                )}
                 <StyledViewBtn>
                   <Link
-                    to={`model-portfolio/${mdl.model_portfolio.id}${
-                      groupId ? `?group=${groupId}` : ''
-                    }`}
+                    to={
+                      groupId
+                        ? `model-setting`
+                        : `model-portfolio/${mdl.model_portfolio.id}?group=${groupId}`
+                    }
                   >
-                    View
+                    {groupId ? 'Apply Model' : 'View'}
                     <FontAwesomeIcon icon={faAngleRight} />
                   </Link>
                 </StyledViewBtn>
