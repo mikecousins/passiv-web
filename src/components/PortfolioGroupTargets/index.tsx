@@ -10,6 +10,7 @@ import {
   selectCurrentGroupPositions,
   selectCurrentGroupInfoLoading,
   selectCurrentGroupTarget,
+  selectGroupedAccounts,
 } from '../../selectors/groups';
 import { Button } from '../../styled/Button';
 import {
@@ -106,6 +107,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   const positions = useSelector(selectCurrentGroupPositions);
   const loadingGroupInfo = useSelector(selectCurrentGroupInfoLoading);
   const edit = useSelector(selectIsEditMode);
+  const groups = useSelector(selectGroupedAccounts);
 
   const dispatch = useDispatch();
 
@@ -221,6 +223,10 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   // };
 
   const importTarget = () => {
+    let group: any;
+    if (groupId) {
+      group = groups?.find((gp) => gp.groupId === groupId);
+    }
     setLoading(true);
     setShowImportOverlay(true);
     const importing = getData(
@@ -233,7 +239,9 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         const holdings = responses[0].data;
         const model = responses[1].data;
         const modelId = model.model_portfolio.id;
+        model.model_portfolio.name = group?.name;
         model.model_portfolio_security = holdings;
+
         postData(`api/v1/modelPortfolio/${modelId}`, model)
           .then(() => {
             dispatch(loadModelPortfolios());
