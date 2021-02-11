@@ -38,9 +38,12 @@ const PortfolioGroupTotal = ({ error, equity, tourClass }: Props) => {
   if (!currencies || !settings) {
     return null;
   }
+  const currency = currencies.find(
+    (currency) => currency.id === settings.preferred_currency,
+  );
   const equityValue =
     equity !== null ? (
-      <Number value={equity} currency />
+      <Number value={equity} currency={currency && currency.code} />
     ) : (
       <Center>
         <FontAwesomeIcon icon={faExclamationTriangle} />

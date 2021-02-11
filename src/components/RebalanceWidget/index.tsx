@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { loadGroupAndAccounts, loadIncentives } from '../../actions';
-import { getData, postData } from '../../api';
+import { loadGroup, loadGroupAndAccounts, loadIncentives } from '../../actions';
+import { getData, postData, putData } from '../../api';
 import { selectSettings } from '../../selectors';
 import { selectShowQuestradeOffer } from '../../selectors/subscription';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
@@ -27,6 +27,10 @@ import UpgradeIdea from '../UpgradeIdea';
 import { selectLimitOrdersFeature } from '../../selectors/features';
 import PreLoadLink from '../PreLoadLink';
 import { SETTINGS_PATH } from '../../apps/Paths';
+import { selectAccounts } from '../../selectors/accounts';
+import { selectCurrentGroupSettings } from '../../selectors/groups';
+import { toast } from 'react-toastify';
+import { format } from 'date-fns';
 
 type Props = {
   groupId: string;
@@ -46,6 +50,7 @@ const RebalanceWidget = ({
 }: Props) => {
   const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
   const showLimitOrdersFeature = useSelector(selectLimitOrdersFeature);
+
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
 
@@ -56,6 +61,19 @@ const RebalanceWidget = ({
   const [orderSummary, setOrderSummary] = useState<any>();
   const [orderResults, setOrderResults] = useState<any>();
   const [error, setError] = useState<any>();
+  const accounts = useSelector(selectAccounts);
+  const groupSettings = useSelector(selectCurrentGroupSettings);
+
+  const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
+
+  // check if the group contains only Wealthica accounts
+  let onlyWealthica = false;
+  const wealthicaAccounts = groupAccounts.filter(
+    (acc: any) => acc.meta.institution_name === 'Wealthica',
+  );
+  if (wealthicaAccounts?.length === groupAccounts.length) {
+    onlyWealthica = true;
+  }
 
   const reloadData = () => {
     dispatch(loadGroupAndAccounts({ ids: [groupId] }));
@@ -123,6 +141,23 @@ const RebalanceWidget = ({
     }
   };
 
+  const handleHideTrades = () => {
+    let today = new Date();
+    today.setHours(today.getHours() + 48);
+    const twoDays = format(today, 'yyyy-MM-dd');
+
+    if (groupSettings) {
+      groupSettings.hide_trades_until = twoDays;
+      putData(`/api/v1/portfolioGroups/${groupId}/settings/`, groupSettings)
+        .then(() => {
+          dispatch(loadGroup({ ids: [groupId] }));
+        })
+        .catch(() => {
+          toast.error('Failed to update settings');
+        });
+    }
+  };
+
   let orderValidation = (
     <div>
       <Button onClick={validateOrders} className="tour-one-click-trade">
@@ -130,6 +165,17 @@ const RebalanceWidget = ({
       </Button>
     </div>
   );
+
+  // if the group has only Wealthica accounts, then don't show the Preview Order button and instead show the hide trades for 48 hours button
+  if (onlyWealthica) {
+    orderValidation = (
+      <div>
+        <A onClick={handleHideTrades}>
+          I made these orders. Do not show Trades for the next 48 hours.
+        </A>
+      </div>
+    );
+  }
 
   if (showQuestradeOffer && !hasFreeOneClicks) {
     orderValidation = <UpgradeIdea />;

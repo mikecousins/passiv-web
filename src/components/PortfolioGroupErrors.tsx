@@ -134,19 +134,18 @@ const PortfolioGroupErrors = ({ error }: Props) => {
     }
   }
 
-  if (error.code === 'IBKR_CAN') {
-    error_header = 'Interactive Brokers Canada is not supported';
+  if (error.code === 'SKIP_TRADES') {
+    error_header = 'Warning: Unable to place some trades through Passiv ';
     errorDisplay = (
       <React.Fragment>
         <P>
-          It appears that one or more of your accounts are with Interactive
-          Brokers Canada. Passiv does not support placing orders through
-          Interactive Brokers Canada, but you can still place those orders
-          manually.
+          Some trades cannot be placed through Passiv. This could be caused by
+          your brokerage's API not providing trades functionality. If your
+          brokerage's API allows trades to be made, you could change your
+          trading permissions to access this feature.
         </P>
         <P>
-          If you believe this message is in error (for example, you don't
-          actually have an account with Interactive Brokers Canada), please{' '}
+          If you believe this message is in error, please{' '}
           <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink>.
         </P>
       </React.Fragment>

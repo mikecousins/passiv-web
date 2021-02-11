@@ -89,3 +89,4 @@ package-lock.json
 # Cypress
 /cypress/videos
 /cypress/screenshots
+/cypress/fixtures/my_credentials.json

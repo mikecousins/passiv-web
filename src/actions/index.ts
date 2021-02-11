@@ -20,6 +20,11 @@ export const loginSucceeded: ActionCreator<Action> = (payload) => ({
   payload,
 });
 
+export const rememberDeviceSucceeded: ActionCreator<Action> = (payload) => ({
+  type: 'REMEMBER_DEVICE_SUCCEEDED',
+  payload,
+});
+
 export const logout: ActionCreator<Action> = () => ({
   type: 'LOGOUT',
 });
@@ -51,6 +56,11 @@ export const registerFailed: ActionCreator<Action> = (payload) => ({
 
 export const setReferralCode: ActionCreator<Action> = (payload) => ({
   type: 'SET_REFERRAL_CODE',
+  payload,
+});
+
+export const setTrackingId: ActionCreator<Action> = (payload) => ({
+  type: 'SET_TRACKING_ID',
   payload,
 });
 
@@ -153,14 +163,16 @@ export const loadGroupInfo: ActionCreator<ThunkAction<
   Action<any>
 >> = () => {
   return (dispatch) => {
-    getData('/api/v1/portfolioGroups/').then((response) => {
-      response.data.forEach((group: any) => {
-        dispatch(fetchGroupInfoStart(group.id));
-        getData('/api/v1/portfolioGroups/' + group.id + '/info/')
-          .then((r) => dispatch(fetchGroupInfoSuccess(r, group.id)))
-          .catch((e) => dispatch(fetchGroupInfoError(e, group.id)));
-      });
-    });
+    getData('/api/v1/portfolioGroups/')
+      .then((response) => {
+        response.data.forEach((group: any) => {
+          dispatch(fetchGroupInfoStart(group.id));
+          getData('/api/v1/portfolioGroups/' + group.id + '/info/')
+            .then((r) => dispatch(fetchGroupInfoSuccess(r, group.id)))
+            .catch((e) => dispatch(fetchGroupInfoError(e, group.id)));
+        });
+      })
+      .catch((error) => dispatch(fetchGroupsError(error)));
   };
 };
 

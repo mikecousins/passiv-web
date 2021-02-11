@@ -12,10 +12,10 @@ const OrderImpacts = ({ impacts }: Props) => {
   const accountBalances = useSelector(selectAccountBalances);
   let filteredAccountIds: string[] = [];
 
-  impacts.forEach(impact => {
+  impacts.forEach((impact) => {
     let accountBalanceData = accountBalances[impact.account]['data'];
     let filteredAccountBalance = accountBalanceData!.filter(
-      data => data.currency.id === impact.currency,
+      (data) => data.currency.id === impact.currency,
     );
 
     if (
@@ -32,10 +32,14 @@ const OrderImpacts = ({ impacts }: Props) => {
 
   let impactsByAccount: any[] = [];
 
-  filteredAccountIds.forEach(accountId => {
-    let filteredImpact = impacts.filter(impact => impact.account === accountId);
+  filteredAccountIds.forEach((accountId) => {
+    let filteredImpact = impacts.filter(
+      (impact) => impact.account === accountId,
+    );
     impactsByAccount.push(filteredImpact);
   });
+
+  console.log(impactsByAccount);
 
   return (
     <React.Fragment>

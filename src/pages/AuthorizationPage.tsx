@@ -1,15 +1,12 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import React from 'react';
-import { push } from 'connected-react-router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   selectIsAuthorized,
   selectBrokerages,
-  selectAuthorizations,
   selectMaintenanceBrokerages,
 } from '../selectors';
-import { selectUserPermissions } from '../selectors/subscription';
 
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -54,35 +51,9 @@ type Props = {
 const AuthorizationPage = ({ onboarding }: Props) => {
   const authorized = useSelector(selectIsAuthorized);
   const brokerages = useSelector(selectBrokerages);
-  const userPermissions = useSelector(selectUserPermissions);
-  const authorizations = useSelector(selectAuthorizations);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const showProgressFeature = useSelector(selectShowProgressFeature);
   const { brokerage } = useParams();
-  const dispatch = useDispatch();
-
-  const canAddMultipleConnections = () => {
-    if (userPermissions === null) {
-      return false;
-    }
-    let filtered_permissions = userPermissions.filter(
-      (permission) => permission === 'can_add_multiple_connections',
-    );
-
-    if (filtered_permissions.length > 0) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  if (
-    authorizations &&
-    authorizations.length > 0 &&
-    !canAddMultipleConnections()
-  ) {
-    dispatch(push('/app/settings'));
-  }
 
   const checkBrokerageMaintenance = (brokerage: BrokerageType) => {
     if (

@@ -1,3 +1,4 @@
+import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 
 export const BarsContainer = styled.div`
@@ -111,8 +112,19 @@ export const TargetRow = styled.div`
     }
   }
 `;
-export const CashTargetRow = styled(TargetRow)`
-  padding-right: 98px;
+type Props = {
+  editing?: boolean;
+};
+const paddingRight = ({ editing }: Props) =>
+  editing
+    ? css`
+        padding-right: 119px;
+      `
+    : css`
+        padding-right: 30px;
+      `;
+export const CashTargetRow = styled(TargetRow)<Props>`
+  ${paddingRight};
   @media (max-width: 900px) {
     padding-right: 0;
   }
