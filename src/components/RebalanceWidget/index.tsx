@@ -28,7 +28,6 @@ import { selectLimitOrdersFeature } from '../../selectors/features';
 import PreLoadLink from '../PreLoadLink';
 import { SETTINGS_PATH } from '../../apps/Paths';
 import { selectAccounts } from '../../selectors/accounts';
-import { Redirect } from 'react-router-dom';
 
 type Props = {
   groupId: string;
@@ -84,38 +83,28 @@ const RebalanceWidget = ({
 
   const placeZerodhaTrades = () => {
     const t = trades.trades;
-    t.map((t: any) => {
-      t['variety'] = 'regular';
-      t['tradingsymbol'] = t['universal_symbol'].description;
-      delete t['universal_symbol'];
-
-      t['exchange'] = 'NSE';
-      t['transaction_type'] = t['action'];
-      delete t['action'];
-
-      t['quantity'] = t['units'];
-      t['order_type'] = 'MARKET';
-      delete t['units'];
-      t['readonly'] = false;
-
-      delete t['account'];
-      delete t['id'];
-      delete t['modified_units'];
-      delete t['skip_trade'];
-      delete t['symbol'];
-      delete t['symbol_in_target'];
-      delete t['price'];
-      delete t['sequence'];
-      return t;
+    const zerodhaTradeBasket: any = [];
+    t.forEach((t: any) => {
+      let zerodhaTrade: any = {};
+      zerodhaTrade['variety'] = 'regular';
+      zerodhaTrade['tradingsymbol'] = t['universal_symbol']['description'];
+      zerodhaTrade['exchange'] = 'NSE';
+      zerodhaTrade['transaction_type'] = t['action'];
+      zerodhaTrade['quantity'] = t['units'];
+      zerodhaTrade['order_type'] = 'MARKET';
+      zerodhaTrade['readonly'] = false;
+      zerodhaTradeBasket.push(zerodhaTrade);
     });
-    postData('https://kite.zerodha.com/connect/basket', t)
-      .then((response) => {
-        console.log(response.data);
-        let newPath = 'https://kite.zerodha.com/connect/basket' + t;
-        return <Redirect to={newPath} />;
-      })
-      .catch((error) => console.log(error));
+    return zerodhaTradeBasket;
   };
+
+  const zerodhaTrades = placeZerodhaTrades();
+  const zerodhaData = {
+    basket: zerodhaTrades,
+    api_key: 'pnriechdkzx5ipvq',
+  };
+
+  console.log(zerodhaTrades);
 
   const confirmOrders = () => {
     setPlacingOrders(true);
@@ -177,9 +166,23 @@ const RebalanceWidget = ({
   if (zerodhaAccounts) {
     orderValidation = (
       <div>
-        <Button onClick={placeZerodhaTrades} className="tour-one-click-trade">
-          Place Trades on Zerodha
-        </Button>
+        <form
+          method="post"
+          id="basket-form"
+          action="https://kite.zerodha.com/connect/basket"
+          target="_blank"
+        >
+          <input type="hidden" name="api_key" value="pnriechdkzx5ipvq" />
+          <input
+            type="hidden"
+            id="basket"
+            name="data"
+            value={JSON.stringify(zerodhaData)}
+          />
+          <Button onClick={placeZerodhaTrades} className="tour-one-click-trade">
+            Place Trades on Zerodha
+          </Button>
+        </form>
       </div>
     );
   }
