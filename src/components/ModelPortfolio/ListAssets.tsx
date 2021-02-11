@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
 import { Button } from '../../styled/Button';
 import { postData } from '../../api';
-import { loadModelPortfolios } from '../../actions';
+import { loadGroup, loadModelPortfolios } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { selectGroupIdForModelPortfolio } from '../../selectors/modelPortfolios';
@@ -114,11 +114,19 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
             .then(() => {
               dispatch(loadModelPortfolios());
               actions.resetForm();
-              history.push(
-                `/app/model-setting/group/${
-                  groupId && groupId
-                }/model/${modelId}`,
-              );
+              // apply the model
+              // https://api.beta.getpassiv.com/api/v1/portfolioGroups/8eefaab6-58dd-4d7d-880c-c50b109b1535/modelPortfolio/ea819f81-f8e1-4241-b360-49faa145bbc3
+              postData(
+                `api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`,
+                {},
+              ).then((res) => {
+                dispatch(loadGroup({ ids: [groupId] }));
+              });
+              // history.push(
+              //   `/app/model-setting/group/${
+              //     groupId && groupId
+              //   }/model/${modelId}`,
+              // );
             })
             .catch(() => {
               dispatch(loadModelPortfolios());
