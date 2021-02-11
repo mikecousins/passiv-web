@@ -68,16 +68,17 @@ const DeleteButton = styled.div`
 
 type Props = {
   model: any;
-  modelPortfolio: any;
 };
 
-const ApplySecurityModel = ({ model, modelPortfolio }: Props) => {
+const ApplySecurityModel = ({ model }: Props) => {
   const dispatch = useDispatch();
   const totalEquity = useSelector(selectCurrentGroupTotalEquityExcludedRemoved);
   const cash = useSelector(selectCurrentGroupCash);
   const [showDialog, setShowDialog] = useState(false);
   const [overWriteModel, setOverWriteModel] = useState(true);
   const currentGroup = useSelector(selectCurrentGroup);
+  console.log(`model`, model);
+
   // const setSymbol = (target: any, symbol: any) => {
   //   target.fullSymbol = symbol;
   //   target.symbol = symbol.id;
@@ -109,59 +110,61 @@ const ApplySecurityModel = ({ model, modelPortfolio }: Props) => {
             return errors;
           }}
           onSubmit={(values, actions) => {
-            const newArrayOfObj = values?.targets.map(
-              //@ts-ignore
-              ({ fullSymbol: symbol, ...rest }) => ({
-                symbol,
-                ...rest,
-              }),
-            );
-            const toBeSubmitted = {
-              model_portfolio: modelPortfolio,
-              model_portfolio_security: newArrayOfObj,
-            };
-            if (overWriteModel) {
-              postData(
-                `/api/v1/modelPortfolio/${modelPortfolio.id}`,
-                toBeSubmitted,
-              )
-                .then((res) => {
-                  dispatch(loadModelPortfolios());
-                  toast.success(
-                    `'${toBeSubmitted.model_portfolio.name}' got overwritten.`,
-                    { autoClose: 3000 },
-                  );
-                })
-                .catch(() => {
-                  toast.error('Failed to apply changes to this model.', {
-                    autoClose: 3000,
-                  });
-                  actions.resetForm();
-                });
-            } else {
-              toBeSubmitted.model_portfolio.name = `${modelPortfolio.name}(modified)`;
-              // create new model portfolio
-              postData('/api/v1/modelPortfolio/', {}).then((res) => {
-                // apply the details of model to the new model
-                postData(
-                  `/api/v1/modelPortfolio/${res.data.model_portfolio.id}`,
-                  toBeSubmitted,
-                ).then((res) => {
-                  dispatch(loadModelPortfolios());
-                  // apply the new model to the current group
-                  postData(
-                    `api/v1/portfolioGroups/${currentGroup?.id}/modelPortfolio/${res.data.model_portfolio.id}`,
-                    {},
-                  ).then((res) => {
-                    dispatch(loadGroupInfo());
-                    toast.success(
-                      `'${toBeSubmitted.model_portfolio.name}' has applied to '${currentGroup?.name}'.`,
-                      { autoClose: 3000 },
-                    );
-                  });
-                });
-              });
-            }
+            console.log(values);
+
+            // const newArrayOfObj = values?.targets.map(
+            //   //@ts-ignore
+            //   ({ fullSymbol: symbol, ...rest }) => ({
+            //     symbol,
+            //     ...rest,
+            //   }),
+            // );
+            // const toBeSubmitted = {
+            //   model_portfolio: modelPortfolio,
+            //   model_portfolio_security: newArrayOfObj,
+            // };
+            // if (overWriteModel) {
+            //   postData(
+            //     `/api/v1/modelPortfolio/${modelPortfolio.id}`,
+            //     toBeSubmitted,
+            //   )
+            //     .then((res) => {
+            //       dispatch(loadModelPortfolios());
+            //       toast.success(
+            //         `'${toBeSubmitted.model_portfolio.name}' got overwritten.`,
+            //         { autoClose: 3000 },
+            //       );
+            //     })
+            //     .catch(() => {
+            //       toast.error('Failed to apply changes to this model.', {
+            //         autoClose: 3000,
+            //       });
+            //       actions.resetForm();
+            //     });
+            // } else {
+            //   toBeSubmitted.model_portfolio.name = `${modelPortfolio.name}(modified)`;
+            //   // create new model portfolio
+            //   postData('/api/v1/modelPortfolio/', {}).then((res) => {
+            //     // apply the details of model to the new model
+            //     postData(
+            //       `/api/v1/modelPortfolio/${res.data.model_portfolio.id}`,
+            //       toBeSubmitted,
+            //     ).then((res) => {
+            //       dispatch(loadModelPortfolios());
+            //       // apply the new model to the current group
+            //       postData(
+            //         `api/v1/portfolioGroups/${currentGroup?.id}/modelPortfolio/${res.data.model_portfolio.id}`,
+            //         {},
+            //       ).then((res) => {
+            //         dispatch(loadGroupInfo());
+            //         toast.success(
+            //           `'${toBeSubmitted.model_portfolio.name}' has applied to '${currentGroup?.name}'.`,
+            //           { autoClose: 3000 },
+            //         );
+            //       });
+            //     });
+            //   });
+            // }
           }}
         >
           {(props) => (
@@ -241,14 +244,11 @@ const ApplySecurityModel = ({ model, modelPortfolio }: Props) => {
                             <Grid columns="3fr 1fr">
                               <div>
                                 <Symbol>
-                                  {
-                                    props.values.targets[index].fullSymbol
-                                      .symbol
-                                  }
+                                  {props.values.targets[index].symbol.symbol}
                                 </Symbol>
                                 <Description>
                                   {
-                                    props.values.targets[index].fullSymbol
+                                    props.values.targets[index].symbol
                                       .description
                                   }
                                 </Description>
@@ -361,7 +361,7 @@ const ApplySecurityModel = ({ model, modelPortfolio }: Props) => {
                       >
                         <H2Margin>
                           This Model is being used by{' '}
-                          {modelPortfolio.total_assigned_portfolio_groups - 1}
+                          {/* {modelPortfolio.total_assigned_portfolio_groups - 1} */}
                           groups.
                           <span style={{ fontWeight: 'bold' }}>*</span>?
                         </H2Margin>
@@ -373,7 +373,7 @@ const ApplySecurityModel = ({ model, modelPortfolio }: Props) => {
                               props.handleSubmit();
                             }}
                           >
-                            Overwrite "{modelPortfolio.name}"
+                            Overwrite ""
                           </A>
                           <Button
                             onClick={() => {

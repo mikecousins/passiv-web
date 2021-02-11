@@ -22,6 +22,7 @@ import {
   selectCurrentGroupPositionsWithActualPercentage,
   selectCurrentGroupTarget,
   selectCurrentGroupTrades,
+  selectGroupedAccounts,
 } from '../../selectors/groups';
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
@@ -30,6 +31,7 @@ import { BackButton } from '../ModelPortfolio/ModelPortfolio';
 import { toast } from 'react-toastify';
 import { Button } from '../../styled/Button';
 import ApplySecurityModel from './ApplySecurityModel';
+import { selectRouter } from '../../selectors/router';
 
 const StyledMenuButton = styled(MenuButton)`
   border: 1px solid var(--brand-blue);
@@ -110,6 +112,46 @@ const Alert = styled.div`
 
 const ApplyTarget = () => {
   const dispatch = useDispatch();
+  const router = useSelector(selectRouter);
+  const groups = useSelector(selectGroupedAccounts);
+  const models = useSelector(selectModelPortfolios);
+  const positions = useSelector(
+    selectCurrentGroupPositionsWithActualPercentage,
+  );
+
+  let groupId: string;
+  let modelId: string;
+  let group;
+  let model;
+  if (
+    router &&
+    router.location &&
+    router.location.pathname &&
+    router.location.pathname.split('/').length === 7
+  ) {
+    groupId = router.location.pathname.split('/')[4];
+    modelId = router.location.pathname.split('/')[6];
+    if (groupId) {
+      group = groups?.find((gp) => gp.groupId === groupId);
+    }
+    if (modelId) {
+      model = models.find((mdl) => mdl.model_portfolio.id === modelId);
+      model?.model_portfolio_security.map((security: any) => {
+        const position = positions?.find(
+          (position: any) => security.symbol.id === position.symbol.id,
+        );
+        security.actualPercentage = position?.actualPercentage;
+      });
+      // const securitiesNotInTarget = trades?.trades.filter(
+      //   (trade: any) => !trade.symbol_in_target,
+      // );
+      // //@ts-ignore
+      // model.securities_not_in_targets = securitiesNotInTarget;
+    }
+  }
+
+  console.log(model);
+
   const currentGroup = useSelector(selectCurrentGroup);
   const currentGroupInfo = useSelector(selectCurrentGroupInfo);
 
@@ -128,62 +170,53 @@ const ApplyTarget = () => {
   const [modelHasChanged, setModelHasChanged] = useState(
     currentGroupInfo?.settings.model_portfolio_changed,
   );
-  const positions = useSelector(
-    selectCurrentGroupPositionsWithActualPercentage,
-  );
 
-  const loadModelForCurrentGroup = (id: any) => {
-    // dispatch(loadGroupInfo());
-    let model = modelPortfolios.find(
-      (model: ModelPortfolioDetailsType) => model.model_portfolio.id === id,
-    );
-    setSelectedModel(model?.model_portfolio);
+  // const loadModelForCurrentGroup = (id: any) => {
+  //   //@ts-ignore
+  //   model?.model_portfolio_security.map((security: any) => {
+  //     const position = positions?.find(
+  //       (position: any) => security.symbol.id === position.symbol.id,
+  //     );
+  //     security.actualPercentage = position?.actualPercentage;
+  //   });
+  //   const securitiesNotInTarget = trades?.trades.filter(
+  //     (trade: any) => !trade.symbol_in_target,
+  //   );
+  //   //@ts-ignore
+  //   model.securities_not_in_targets = securitiesNotInTarget;
+  //   const newArrayOfObj = model?.model_portfolio_security.map(
+  //     ({ symbol: fullSymbol, ...rest }) => ({
+  //       fullSymbol,
+  //       ...rest,
+  //     }),
+  //   );
+  //   setSelectedModelDetails(newArrayOfObj);
+  // };
 
-    //@ts-ignore
-    model?.model_portfolio_security.map((security: any) => {
-      const position = positions?.find(
-        (position: any) => security.symbol.id === position.symbol.id,
-      );
-      security.actualPercentage = position?.actualPercentage;
-    });
-    const securitiesNotInTarget = trades?.trades.filter(
-      (trade: any) => !trade.symbol_in_target,
-    );
-    //@ts-ignore
-    model.securities_not_in_targets = securitiesNotInTarget;
-    const newArrayOfObj = model?.model_portfolio_security.map(
-      ({ symbol: fullSymbol, ...rest }) => ({
-        fullSymbol,
-        ...rest,
-      }),
-    );
-    setSelectedModelDetails(newArrayOfObj);
-  };
-
-  useEffect(() => {
-    // if (
-    //   currentGroupInfo?.model_portfolio?.model_type === 0 &&
-    //   modelHasChanged
-    // ) {
-    //   // setLoading(true);
-    //   // let model = currentGroupTarget;
-    //   // const newArrayOfObj = model?.map(({ fullSymbol: symbol, ...rest }) => ({
-    //   //   ...rest,
-    //   // }));
-    //   // console.log(newArrayOfObj);
-    //   setSelectedModelDetails(currentGroupTarget);
-    //   setSelectedModel(currentGroupInfo?.model_portfolio);
-    // } else if (
-    //   currentGroupInfo?.model_portfolio?.model_type === 0 &&
-    //   !modelHasChanged
-    // ) {
-    //   loadModelForCurrentGroup(currentGroupInfo?.model_portfolio.id);
-    // }
-    if (currentGroupInfo?.model_portfolio?.model_type === 0) {
-      loadModelForCurrentGroup(currentGroupInfo?.model_portfolio.id);
-    }
-    // setLoading(false);
-  }, []);
+  // useEffect(() => {
+  //   // if (
+  //   //   currentGroupInfo?.model_portfolio?.model_type === 0 &&
+  //   //   modelHasChanged
+  //   // ) {
+  //   //   // setLoading(true);
+  //   //   // let model = currentGroupTarget;
+  //   //   // const newArrayOfObj = model?.map(({ fullSymbol: symbol, ...rest }) => ({
+  //   //   //   ...rest,
+  //   //   // }));
+  //   //   // console.log(newArrayOfObj);
+  //   //   setSelectedModelDetails(currentGroupTarget);
+  //   //   setSelectedModel(currentGroupInfo?.model_portfolio);
+  //   // } else if (
+  //   //   currentGroupInfo?.model_portfolio?.model_type === 0 &&
+  //   //   !modelHasChanged
+  //   // ) {
+  //   //   loadModelForCurrentGroup(currentGroupInfo?.model_portfolio.id);
+  //   // }
+  //   if (currentGroupInfo?.model_portfolio?.model_type === 0) {
+  //     loadModelForCurrentGroup(currentGroupInfo?.model_portfolio.id);
+  //   }
+  //   // setLoading(false);
+  // }, []);
 
   const handleNewModelBtn = () => {
     postData('/api/v1/modelPortfolio/', {})
@@ -220,18 +253,14 @@ const ApplyTarget = () => {
     <ShadowBox>
       <BackButton>
         <Link to={'/app/model-setting'}>
-          <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to Groups
+          <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to {group?.name}
         </Link>
       </BackButton>
-      <GroupName>{currentGroup?.name}</GroupName>
+      <GroupName>{group?.name}</GroupName>
       <div>
-        {currentGroupInfo?.model_portfolio?.model_type === 0 &&
-          selectedModelDetails && (
-            <ApplySecurityModel
-              model={selectedModelDetails}
-              modelPortfolio={selectedModel}
-            />
-          )}
+        {model?.model_portfolio.model_type === 0 && (
+          <ApplySecurityModel model={model.model_portfolio_security} />
+        )}
       </div>
       {selectedModelDetails?.securities_not_in_targets?.length > 0 && (
         <SecurityNotInTarget>
