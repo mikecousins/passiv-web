@@ -28,6 +28,7 @@ import { selectIsEditMode } from '../../selectors/router';
 import Tour from '../Tour/Tour';
 import { replace } from 'connected-react-router';
 import Grid from '../../styled/Grid';
+import { toast } from 'react-toastify';
 
 const TOUR_STEPS = [
   {
@@ -222,23 +223,32 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   const importTarget = () => {
     setLoading(true);
     setShowImportOverlay(true);
-    getData('/api/v1/portfolioGroups/' + groupId + '/import/')
-      .then((res) => {
-        const holdings = res.data;
-        postData('api/v1/modelPortfolio', {}).then((res) => {
-          const model = res.data;
-          const modelId = model.model_portfolio.id;
-          model.model_portfolio_security = holdings;
-          postData(`api/v1/modelPortfolio/${modelId}`, model).then((res) => {
+    const importing = getData(
+      '/api/v1/portfolioGroups/' + groupId + '/import/',
+    );
+    const newModel = postData('api/v1/modelPortfolio', {});
+
+    Promise.all([importing, newModel])
+      .then((responses) => {
+        const holdings = responses[0].data;
+        const model = responses[1].data;
+        const modelId = model.model_portfolio.id;
+        model.model_portfolio_security = holdings;
+        postData(`api/v1/modelPortfolio/${modelId}`, model)
+          .then(() => {
             dispatch(loadModelPortfolios());
             dispatch(
               replace(`/app/model-portfolio/${modelId}?group=${groupId}`),
             );
+          })
+          .catch(() => {
+            toast.error('Unable to import holdings.');
+            setLoading(false);
+            setShowImportOverlay(false);
           });
-        });
-        setLoading(false);
       })
       .catch(() => {
+        toast.error('Unable to import holdings.');
         setLoading(false);
         setShowImportOverlay(false);
       });
