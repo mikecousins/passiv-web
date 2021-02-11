@@ -103,9 +103,7 @@ const AssetClassesBox = ({ assetClasses }: Props) => {
         </>
       ) : (
         <>
-          <p style={{ color: 'white' }}>
-            You still need to define your asset classes.{' '}
-          </p>
+          <p>You still need to define your asset classes. </p>
           <Button
             style={{ marginTop: '30px' }}
             onClick={() => setBackToAssetClass(true)}
