@@ -548,6 +548,33 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                         </Button>
                       </div>
                       <div>
+                        <Button
+                          type="button"
+                          onClick={() => {
+                            // history.push(
+                            //   `/app/model-setting/group/${
+                            //     groupId && groupId
+                            //   }/model/${modelId}`,
+                            // );
+                            console.log('');
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faLock} />
+                          Edit Model
+                        </Button>
+                      </div>
+                      <div>
+                        <Button
+                          type="button"
+                          onClick={() => {
+                            console.log('');
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faLock} />
+                          Apply New Model
+                        </Button>
+                      </div>
+                      <div>
                         <A
                           href={portfolioVisualizerURL}
                           target="_blank"
