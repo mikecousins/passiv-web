@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { replace } from 'connected-react-router';
+import { useHistory } from 'react-router-dom';
 import { postData } from '../api';
 import {
   selectCurrentGroup,
+  selectCurrentGroupId,
+  selectCurrentGroupSettings,
   selectCurrentGroupTarget,
 } from '../selectors/groups';
 import { SmallButton } from '../styled/Button';
@@ -16,9 +19,8 @@ import {
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { loadGroup, loadSettings } from '../actions';
+import { loadGroup } from '../actions';
 import { toast } from 'react-toastify';
-import { ContextualMessageWrapper } from './ContextualMessageWrapper';
 
 type Props = {
   targets: any;
@@ -47,10 +49,13 @@ const MaxHeightSmallBtn = styled(SmallButton)`
 `;
 
 const SecuritiesNotInTarget = ({ targets }: Props) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const currentGroup = useSelector(selectCurrentGroup);
   const currentTargets = useSelector(selectCurrentGroupTarget);
-  const dispatch = useDispatch();
+  const settings = useSelector(selectCurrentGroupSettings);
+  const currentGroupId = useSelector(selectCurrentGroupId);
 
   const handleAddTarget = (target: any, exclude: boolean) => {
     setLoading(true);
@@ -95,20 +100,10 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
       });
   };
 
-  const hideMsgBtn = () => {
-    postData(`/api/v1/contextualMessages`, {
-      name: ['new_assets_detected'],
-    })
-      .then(() => {
-        dispatch(loadSettings());
-      })
-      .catch(() => {
-        toast.error(`Failed to hide contextual message "new_assets_detected".`);
-      });
-  };
-
-  return (
-    <ContextualMessageWrapper name={'new_assets_detected'}>
+  if (!settings?.show_warning_for_new_assets_detected) {
+    return <></>;
+  } else {
+    return (
       <ErrorContainer>
         <H3>
           <FontAwesomeIcon icon={faExclamationTriangle} /> New Assets Detected
@@ -158,11 +153,18 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
           bottom and change them.
         </small>
         <DontShowBtn>
-          <A onClick={hideMsgBtn}>Do not display this message again</A>
+          <A
+            onClick={() =>
+              history.push(`/app/group/${currentGroupId}/settings`)
+            }
+          >
+            Do not want to see this message again? Turn it off in your group
+            settings.
+          </A>
         </DontShowBtn>
       </ErrorContainer>
-    </ContextualMessageWrapper>
-  );
+    );
+  }
 };
 
 export default SecuritiesNotInTarget;

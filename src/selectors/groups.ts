@@ -35,7 +35,7 @@ import { CurrencyRate } from '../types/currencyRate';
 import { SimpleListState } from '../reducers/simpleList';
 import { Currency } from '../types/currency';
 import { Position, Account } from '../types/account';
-import { selectCurrencies } from './currencies';
+import { selectCurrencies } from '../selectors/currencies';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 

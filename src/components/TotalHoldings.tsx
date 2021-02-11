@@ -51,8 +51,19 @@ export const TotalHoldings: FunctionComponent<Props> = ({ smaller }) => {
   const currencies = useSelector(selectCurrencies);
   const dispatch = useDispatch();
   let displayTotal = <FontAwesomeIcon icon={faSpinner} spin />;
+  if (settings === undefined) {
+    return null;
+  }
+  const currency =
+    currencies === null
+      ? undefined
+      : currencies.find(
+          (currency) => currency.id === settings.preferred_currency,
+        );
   if (totalHoldings !== null) {
-    displayTotal = <Number value={totalHoldings} currency />;
+    displayTotal = (
+      <Number value={totalHoldings} currency={currency && currency.code} />
+    );
   }
   return (
     <TotalContainer className={smaller ? 'smaller' : 'normal'}>

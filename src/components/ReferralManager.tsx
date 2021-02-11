@@ -259,7 +259,7 @@ const ReferralManager = () => {
       <React.Fragment>
         <Number
           value={referralValue !== undefined ? referralValue : 0}
-          currency
+          currency={referralCurrency!.code}
         />
         &nbsp;
         <span title={referralCurrency!.name}>{referralCurrency!.code}</span>
@@ -339,7 +339,7 @@ const ReferralManager = () => {
         />
         <ReferralMetric
           title={'Total Earnings'}
-          value={<Number value={earnings} currency />}
+          value={<Number value={earnings} currency={referralCurrency!.code} />}
           loading={!success}
           background={'var(--brand-grey)'}
           whiteText={true}

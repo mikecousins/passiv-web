@@ -7,7 +7,11 @@ import {
   faClipboardCheck,
   faQrcode,
 } from '@fortawesome/free-solid-svg-icons';
-import { selectIsDemo, selectOTP2FAEnabled } from '../../selectors';
+import {
+  selectDevice,
+  selectIsDemo,
+  selectOTP2FAEnabled,
+} from '../../selectors';
 import { selectOTP2FAFeature } from '../../selectors/features';
 import { Edit, OptionsTitle, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
@@ -80,6 +84,7 @@ const OTP2FAManager = () => {
   const [loading2FA, setLoading2FA] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showQR, setShowQR] = useState(false);
+  const device: any = useSelector(selectDevice);
 
   // const startEditing2FA = () => {
   //   setEditing2FA(true);
@@ -138,6 +143,7 @@ const OTP2FAManager = () => {
       .then(() => {
         setLoading2FA(false);
         dispatch(loadSettings());
+        device.token = null;
       })
       .catch((error) => {
         setError2FA(error.response.data.detail);

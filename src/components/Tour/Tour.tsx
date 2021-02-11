@@ -28,7 +28,7 @@ const Tour = ({ steps, name }: Props) => {
         (data.action === 'next' && data.status === 'finished'))
     ) {
       if (messages?.includes('tour-popup')) {
-        toast.info('You can reset or turn the tours off in Help page.', {
+        toast.info('You can reset or turn the tours off in Settings page.', {
           position: 'top-center',
           autoClose: false,
         });

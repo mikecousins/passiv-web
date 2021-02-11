@@ -21,7 +21,6 @@ import {
   selectCurrentGroupSetupComplete,
   selectGroupsLoading,
   selectPreferredCurrency,
-  selectCurrentGroupTradesHasSkippedTrades,
   selectCurrentGroupPositionsNotInTarget,
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
@@ -86,9 +85,6 @@ const OverviewTab = () => {
   const loading = useSelector(selectGroupsLoading);
   const error = useSelector(selectCurrentGroupInfoError);
   const preferredCurrency = useSelector(selectPreferredCurrency);
-  const hasSkippedTrades = useSelector(
-    selectCurrentGroupTradesHasSkippedTrades,
-  );
   const positionsNotInTargets = useSelector(
     selectCurrentGroupPositionsNotInTarget,
   );
@@ -126,11 +122,6 @@ const OverviewTab = () => {
     );
   }
 
-  let skipErrorMessage = null;
-  if (hasSkippedTrades === true) {
-    skipErrorMessage = <PortfolioGroupErrors error={{ code: 'IBKR_CAN' }} />;
-  }
-
   return (
     <React.Fragment>
       {setupComplete && <Tour steps={TOUR_STEPS} name="overview_tab_tour" />}
@@ -160,7 +151,6 @@ const OverviewTab = () => {
         positionsNotInTargets.length > 0 && (
           <SecuritiesNotInTarget targets={positionsNotInTargets} />
         )}
-      {skipErrorMessage}
       {tradeDisplay}
 
       <PortfolioGroupTargets error={error} />

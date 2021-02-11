@@ -123,7 +123,7 @@ export const OrderImpact = ({ impacts }: Props) => {
         let accountBalances = getAccountBalances(accountId);
         let balance =
           accountBalances &&
-          accountBalances.find(b => b.currency.id === currencyId);
+          accountBalances.find((b) => b.currency.id === currencyId);
         return balance && balance.cash;
       }
     }
@@ -131,7 +131,7 @@ export const OrderImpact = ({ impacts }: Props) => {
   };
 
   const filteredAccount = accounts.find(
-    account => account.id === impacts[0].account,
+    (account) => account.id === impacts[0].account,
   );
 
   const toggleWarningDetail = () => {
@@ -147,7 +147,7 @@ export const OrderImpact = ({ impacts }: Props) => {
       return null;
     }
     let currencyCode = currencies.find(
-      currency => currency.id === impact.currency,
+      (currency) => currency.id === impact.currency,
     )!.code;
     return currencyCode;
   };
@@ -181,16 +181,19 @@ export const OrderImpact = ({ impacts }: Props) => {
             <MetaHorizontal>
               <p>Trade commissions:</p>
               <BalanceContainer>
-                {impacts.map((impact, index) => (
-                  <p key={index}>
-                    {' '}
-                    <Number
-                      value={impact.estimated_commissions}
-                      currency
-                    />{' '}
-                    {'  '} {filteredCurrencyCode(impact)}{' '}
-                  </p>
-                ))}
+                {impacts.map((impact, index) => {
+                  const code = filteredCurrencyCode(impact);
+                  return (
+                    <p key={index}>
+                      {' '}
+                      <Number
+                        value={impact.estimated_commissions}
+                        currency={code === null ? undefined : code}
+                      />{' '}
+                      {'  '} {code}{' '}
+                    </p>
+                  );
+                })}
               </BalanceContainer>
             </MetaHorizontal>
           </CommissionsDiv>
@@ -198,13 +201,19 @@ export const OrderImpact = ({ impacts }: Props) => {
             <MetaHorizontal>
               <p>Remaining cash:</p>
               <BalanceContainer>
-                {impacts.map((impact, index) => (
-                  <p key={index}>
-                    {' '}
-                    <Number value={impact.remaining_cash} currency /> {'  '}{' '}
-                    {filteredCurrencyCode(impact)}{' '}
-                  </p>
-                ))}
+                {impacts.map((impact, index) => {
+                  const code = filteredCurrencyCode(impact);
+                  return (
+                    <p key={index}>
+                      {' '}
+                      <Number
+                        value={impact.remaining_cash}
+                        currency={code === null ? undefined : code}
+                      />{' '}
+                      {'  '} {filteredCurrencyCode(impact)}{' '}
+                    </p>
+                  );
+                })}
               </BalanceContainer>
             </MetaHorizontal>
           </RemainingCashDiv>
@@ -212,13 +221,19 @@ export const OrderImpact = ({ impacts }: Props) => {
             <MetaHorizontal>
               <p>Forex fees:</p>
               <BalanceContainer>
-                {impacts.map((impact, index) => (
-                  <p key={index}>
-                    {' '}
-                    <Number value={impact.forex_fees} currency /> {'  '}{' '}
-                    {filteredCurrencyCode(impact)}{' '}
-                  </p>
-                ))}
+                {impacts.map((impact, index) => {
+                  const code = filteredCurrencyCode(impact);
+                  return (
+                    <p key={index}>
+                      {' '}
+                      <Number
+                        value={impact.forex_fees}
+                        currency={code === null ? undefined : code}
+                      />{' '}
+                      {'  '} {filteredCurrencyCode(impact)}{' '}
+                    </p>
+                  );
+                })}
               </BalanceContainer>
             </MetaHorizontal>
           </ForexFeesDiv>

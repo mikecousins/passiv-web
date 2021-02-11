@@ -6,7 +6,6 @@ import { loadAccounts, loadGroups } from '../../actions';
 import { putData } from '../../api';
 import { Table, H3, P, A } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
-import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 import {
   AccountContainer,
   Brokerage,
@@ -27,14 +26,13 @@ export const AccountRow = ({ account }: Props) => {
   const brokerages = useSelector(selectAllBrokerages);
   const authorizations = useSelector(selectAuthorizations);
   const groups = useSelector(selectGroups);
-  const canCrossAccountBalance = useSelector(selectCanCrossAccountBalance);
   const dispatch = useDispatch();
 
   if (!groups) {
     return null;
   }
 
-  const group = groups.find(group => group.id === account.portfolio_group);
+  const group = groups.find((group) => group.id === account.portfolio_group);
   if (group && !newGroupId) {
     setNewGroupId(group.id);
   }
@@ -63,7 +61,7 @@ export const AccountRow = ({ account }: Props) => {
     }
 
     const authorization = authorizations.find(
-      authorization => authorization.id === account.brokerage_authorization,
+      (authorization) => authorization.id === account.brokerage_authorization,
     );
 
     if (!authorization) {
@@ -71,7 +69,7 @@ export const AccountRow = ({ account }: Props) => {
     }
 
     const brokerage = brokerages.find(
-      brokerage => brokerage.id === authorization.brokerage.id,
+      (brokerage) => brokerage.id === authorization.brokerage.id,
     );
 
     if (brokerage) {
@@ -99,17 +97,6 @@ export const AccountRow = ({ account }: Props) => {
       <A onClick={() => setGroupEditing(false)}>Cancel</A>
     </React.Fragment>
   );
-  if (!canCrossAccountBalance) {
-    editingFooter = (
-      <React.Fragment>
-        <Button onClick={() => setGroupEditing(false)}>Cancel</Button>
-        <React.Fragment>
-          Modifying portfolio groups is only available to Elite subscribers.
-          Upgrade your account to access this feature!
-        </React.Fragment>
-      </React.Fragment>
-    );
-  }
 
   return (
     <AccountContainer>

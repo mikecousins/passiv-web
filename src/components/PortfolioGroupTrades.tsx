@@ -15,12 +15,16 @@ import {
   ColumnWarning,
 } from '../styled/Group';
 import { selectCurrentGroupSettings } from '../selectors/groups';
+import { selectCurrencies } from '../selectors/currencies';
 import Tooltip from './Tooltip';
 import Number from './Number';
 import { selectAccounts } from '../selectors/accounts';
 import TradesExplanation from './TradesExplanation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faExclamationCircle,
+  faInfoCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { ContextualMessageWrapper } from './ContextualMessageWrapper';
 import styled from '@emotion/styled';
 import Tour from './Tour/Tour';
@@ -56,8 +60,14 @@ export const PortfolioGroupTrades = ({
 }: Props) => {
   const accounts = useSelector(selectAccounts);
   const settings = useSelector(selectCurrentGroupSettings);
+  const currencies = useSelector(selectCurrencies);
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
   const [tradesCache, setTradesCache] = useState(null);
+  const currency =
+    currencies &&
+    currencies.find(
+      (currency) => currency.id === (settings && settings.preferred_currency),
+    );
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
@@ -74,6 +84,12 @@ export const PortfolioGroupTrades = ({
       setTradesCache(trades);
     }
   }, [tradesSubmitted, trades]);
+
+  // for wealthica accounts, if user has set a hide trades for 48 hours, we check to show or hide trades
+  let hideTrades = false;
+  if (settings && settings.hide_trades_until !== null) {
+    hideTrades = Date.parse(settings.hide_trades_until) > Date.now();
+  }
 
   const TOUR_STEPS = [
     {
@@ -122,10 +138,14 @@ export const PortfolioGroupTrades = ({
   ) {
     const tradeRender = (trade: any) => {
       let accountName = '';
+      let isWealthica = false;
       if (accounts) {
         const account = accounts.find((a) => a.id === trade.account);
         if (account) {
           accountName = account.name;
+          if (account.institution_name === 'Wealthica') {
+            isWealthica = true;
+          }
         }
       }
       return (
@@ -133,33 +153,65 @@ export const PortfolioGroupTrades = ({
           <ColumnPrice>
             <Title>Price</Title>
             <div>
-              <Number value={trade.price} currency isTrade={true} />
+              <Number
+                value={trade.price}
+                currency={currency ? currency.code : undefined}
+                isTrade={true}
+              />
             </div>
           </ColumnPrice>
           <ColumnUnits>
             <Title>Units</Title>
             <div>{trade.units}</div>
           </ColumnUnits>
-          {trade.symbol_in_target ? (
+          {trade.symbol_in_target && !isWealthica ? (
             <ColumnSymbol>
               <Title>{trade.universal_symbol.description}</Title>
               <Symbol>{trade.universal_symbol.symbol}</Symbol>
             </ColumnSymbol>
           ) : (
+            !isWealthica && (
+              <React.Fragment>
+                <ColumnSymbolWarning>
+                  <Title>{trade.universal_symbol.description}</Title>
+                  <Symbol>{trade.universal_symbol.symbol}</Symbol>
+                </ColumnSymbolWarning>
+                <ColumnWarning>
+                  <div>
+                    <Tooltip
+                      label={
+                        "Passiv is trying to sell all units of a security that is not in the target. If you actually want to keep this security but exclude it from Passiv's calculations, you can edit your target and flag this security as an excluded asset."
+                      }
+                    >
+                      <FontAwesomeIcon
+                        icon={faExclamationCircle}
+                        size="2x"
+                        color="orange"
+                      />
+                    </Tooltip>
+                  </div>
+                </ColumnWarning>
+              </React.Fragment>
+            )
+          )}
+          {isWealthica && (
             <React.Fragment>
               <ColumnSymbolWarning>
                 <Title>{trade.universal_symbol.description}</Title>
                 <Symbol>{trade.universal_symbol.symbol}</Symbol>
               </ColumnSymbolWarning>
               <ColumnWarning>
-                <Title>Warning</Title>
                 <div>
                   <Tooltip
                     label={
-                      "Passiv is trying to sell all units of a security that is not in the target. If you actually want to keep this security but exclude it from Passiv's calculations, you can edit your target and flag this security as an excluded asset."
+                      "Cannot place trade for this security through Passiv because your brokerage's API does not provide the trading functionality."
                     }
                   >
-                    <FontAwesomeIcon icon={faInfoCircle} />
+                    <FontAwesomeIcon
+                      icon={faInfoCircle}
+                      size="2x"
+                      color="var(--grey-darker)"
+                    />
                   </Tooltip>
                 </div>
               </ColumnWarning>
@@ -201,7 +253,10 @@ export const PortfolioGroupTrades = ({
     }
   }
 
-  if (tradesSubmitted || (tradesToRender && tradesToRender.trades.length)) {
+  if (
+    tradesSubmitted ||
+    (tradesToRender && tradesToRender.trades.length && !hideTrades)
+  ) {
     return (
       <>
         <Tour steps={TOUR_STEPS} name="trades_tour" />
@@ -225,7 +280,7 @@ export const PortfolioGroupTrades = ({
       </>
     );
   } else {
-    if (!error) {
+    if (!error && !hideTrades) {
       return (
         <ContextualMessageWrapper name={'no_trades'}>
           <TradesContainer>
