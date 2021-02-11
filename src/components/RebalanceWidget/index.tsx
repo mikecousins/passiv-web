@@ -92,19 +92,55 @@ const RebalanceWidget = ({
       zerodhaTrade['transaction_type'] = t['action'];
       zerodhaTrade['quantity'] = t['units'];
       zerodhaTrade['order_type'] = 'MARKET';
-      zerodhaTrade['readonly'] = false;
       zerodhaTradeBasket.push(zerodhaTrade);
     });
     return zerodhaTradeBasket;
   };
 
   const zerodhaTrades = placeZerodhaTrades();
-  const zerodhaData = {
-    basket: zerodhaTrades,
-    api_key: 'pnriechdkzx5ipvq',
-  };
 
-  console.log(zerodhaTrades);
+  const exampleZerodhaTrades: any = [
+    {
+      variety: 'regular',
+      tradingsymbol: 'INFY',
+      exchange: 'NSE',
+      transaction_type: 'BUY',
+      order_type: 'MARKET',
+      quantity: 10,
+      readonly: false,
+    },
+    {
+      variety: 'regular',
+      tradingsymbol: 'NIFTY15DECFUT',
+      exchange: 'NFO',
+      transaction_type: 'SELL',
+      order_type: 'LIMIT',
+      price: 7845,
+      quantity: 1,
+      readonly: false,
+    },
+    {
+      variety: 'bo',
+      tradingsymbol: 'RELIANCE',
+      exchange: 'NSE',
+      transaction_type: 'BUY',
+      order_type: 'LIMIT',
+      product: 'MIS',
+      price: 915.15,
+      quantity: 1,
+      stoploss: 5,
+      squareoff: 7,
+      trailing_stoploss: 1.5,
+      readonly: true,
+    },
+  ];
+
+  const zerodhaData = JSON.stringify({
+    data: exampleZerodhaTrades,
+    api_key: '7twyh4ouzzisspqlzzbkgw7b6fbn82kt',
+  });
+
+  console.log(zerodhaData);
 
   const confirmOrders = () => {
     setPlacingOrders(true);
@@ -177,7 +213,7 @@ const RebalanceWidget = ({
             type="hidden"
             id="basket"
             name="data"
-            value={JSON.stringify(zerodhaData)}
+            value={JSON.stringify(exampleZerodhaTrades)}
           />
           <Button onClick={placeZerodhaTrades} className="tour-one-click-trade">
             Place Trades on Zerodha
