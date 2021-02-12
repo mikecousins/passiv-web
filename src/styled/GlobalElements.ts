@@ -65,9 +65,15 @@ export const BulletUL = styled.ul`
   margin-left: 20px;
   list-style-type: disc;
   li {
-    margin-bottom: 10px;
-    line-height: 1.3;
+    margin-bottom: 12px;
+    line-height: 1.5;
   }
+`;
+
+export const Li = styled.li`
+  font-size: 18px;
+  font-weight: 500;
+  ${dynamicStyle};
 `;
 
 type SpaceAroundProps = {
