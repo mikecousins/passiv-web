@@ -67,13 +67,26 @@ type Props = {
 const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+
   let model: any[] = modelPortfolio.model_portfolio_asset_class;
+  const modelId = modelPortfolio.model_portfolio.id;
+
   const groupInfo = useSelector(selectGroupInfoForModelPortfolio);
   const groupId = groupInfo?.groupId;
 
   if (securityBased) {
     model = modelPortfolio.model_portfolio_security;
   }
+
+  const applyModel = () => {
+    // apply the model to the group
+    postData(
+      `api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`,
+      {},
+    ).then((res) => {
+      dispatch(loadGroup({ ids: [groupId] }));
+    });
+  };
 
   return (
     <MainContainer>
@@ -105,8 +118,6 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
         //   return errors;
         // }}
         onSubmit={(values, actions) => {
-          const modelId = modelPortfolio.model_portfolio.id;
-
           if (securityBased) {
             modelPortfolio.model_portfolio_security = values.targets;
           } else {
@@ -116,14 +127,6 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
           postData(`/api/v1/modelPortfolio/${modelId}`, modelPortfolio)
             .then(() => {
               dispatch(loadModelPortfolios());
-
-              // apply the model to the group
-              postData(
-                `api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`,
-                {},
-              ).then((res) => {
-                dispatch(loadGroup({ ids: [groupId] }));
-              });
               // history.push(
               //   `/app/model-setting/group/${
               //     groupId && groupId
@@ -241,7 +244,7 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
                               symbol,
                             );
                           }}
-                          allSymbols={true}
+                          groupId={groupInfo ? groupInfo.groupId : ''}
                           forModelSecurity={true}
                         />
                       </FormContainer>
@@ -271,11 +274,13 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
                 type="submit"
                 disabled={props.isSubmitting || !props.isValid || !props.dirty}
               >
-                {groupId
-                  ? `Save and apply to ${groupInfo?.name}`
-                  : 'Save Model'}
+                Save Model
               </Button>
-              {/* <ApplyModelBtn>Apply to Retirement Plan</ApplyModelBtn> */}
+              {groupId && !props.dirty && (
+                <ApplyModelBtn onClick={applyModel}>
+                  Apply to {groupInfo?.name}
+                </ApplyModelBtn>
+              )}
             </ButtonContainer>
           </Form>
         )}
