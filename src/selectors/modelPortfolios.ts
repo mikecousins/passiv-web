@@ -5,6 +5,7 @@ import { selectLoggedIn, selectAppTime, selectRouter } from './index';
 import { AppState } from '../store';
 import { RouterState } from 'connected-react-router';
 import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
+import { selectGroupedAccounts } from './groups';
 
 export const selectModelPortfoliosRaw = (state: AppState) => {
   return state.modelPortfolios;
@@ -30,6 +31,7 @@ export const selectCurrentModelPortfolioId = createSelector<
     router &&
     router.location &&
     router.location.pathname &&
+    router.location.pathname.split('/')[2] === 'model-portfolio' &&
     router.location.pathname.split('/').length >= 4
   ) {
     mdlPortfolioId = router.location.pathname.split('/')[3];
@@ -53,19 +55,20 @@ export const selectCurrentModelPortfolio = createSelector(
   },
 );
 
-export const selectGroupIdForModelPortfolio = createSelector<
-  AppState,
-  RouterState,
-  string | null
->(selectRouter, (router) => {
-  let groupId = null;
-  if (router && router.location) {
-    //! need to update connected-react-router - the new release add query type definition for RouterState.location
-    //@ts-ignore
-    groupId = router.location.query.group;
-  }
-  return groupId;
-});
+export const selectGroupInfoForModelPortfolio = createSelector(
+  selectRouter,
+  selectGroupedAccounts,
+  (router, groups) => {
+    let groupInfo = null;
+    if (router && router.location) {
+      //! need to update connected-react-router - the new release add query type definition for RouterState.location
+      //@ts-ignore
+      const groupId = router.location.query.group;
+      groupInfo = groups?.find((gp) => gp.groupId === groupId);
+    }
+    return groupInfo;
+  },
+);
 
 export const selectModelPortfoliosNeedData = createSelector(
   selectLoggedIn,
