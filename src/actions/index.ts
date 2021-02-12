@@ -371,15 +371,6 @@ export const loadModelPortfolios: ActionCreator<ThunkAction<
     dispatch(fetchModelPortfoliosStart());
     getData('/api/v1/modelPortfolio/')
       .then((response) => {
-        response.data.forEach((model: ModelPortfolioDetailsType) => {
-          const modelId = model.model_portfolio.id;
-          dispatch(fetchModelPortfolioStart(modelId));
-          getData(`/api/v1/modelPortfolio/${modelId}`)
-            .then((res) => {
-              dispatch(fetchModelPortfolioSuccess(res, modelId));
-            })
-            .catch((err) => dispatch(fetchModelPortfolioError(err, modelId)));
-        });
         dispatch(fetchModelPortfoliosSuccess(response));
       })
       .catch((error) => {
@@ -775,25 +766,6 @@ export const fetchAssetClassesError: ActionCreator<Action> = (payload) => ({
   type: 'FETCH_MODEL_ASSET_CLASSES_ERROR',
   data: payload,
 });
-
-export const fetchModelPortfolioStart: ActionCreator<Action> = (id) => ({
-  type: 'FETCH_MODEL_PORTFOLIO_START',
-  id,
-});
-
-export const fetchModelPortfolioSuccess: ActionCreator<Action> = (
-  payload,
-  id,
-) => ({ type: 'FETCH_MODEL_PORTFOLIO_SUCCESS', payload, id });
-
-export const fetchModelPortfolioError: ActionCreator<Action> = (
-  payload,
-  id,
-) => ({
-  type: 'FETCH_MODEL_PORTFOLIO_ERROR',
-  payload,
-});
-
 export const fetchModelPortfoliosStart: ActionCreator<Action> = () => ({
   type: 'FETCH_MODEL_PORTFOLIOS_START',
 });
