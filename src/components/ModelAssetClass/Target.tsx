@@ -73,6 +73,7 @@ const Targets = ({ assetClass }: Props) => {
   return (
     <React.Fragment>
       <ul>
+        selectedTarget
         {assetClass.model_asset_class_target.map((target) => {
           return (
             <TargetList key={target.symbol.id}>
@@ -93,13 +94,11 @@ const Targets = ({ assetClass }: Props) => {
             </TargetList>
           );
         })}
-
         {searchSecurities &&
         selectedTarget === assetClass.model_asset_class.id ? (
           <SymbolSelector
             value={null}
             onSelect={(cb) => handleAddTarget(cb)}
-            allSymbols={true}
             forModelSecurity={false}
           />
         ) : (

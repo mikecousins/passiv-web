@@ -42,7 +42,7 @@ const StyledInput = styled(ComboboxInput)`
 `;
 
 const StyledPopover = styled(ComboboxPopover)`
-  z-index: 5;
+  z-index: 5;SymbolSelec
 `;
 
 const StyledOption = styled(ComboboxOption)`
@@ -51,7 +51,7 @@ const StyledOption = styled(ComboboxOption)`
 
 type Props = {
   value: any;
-  allSymbols: boolean;
+  groupId?: string;
   forModelSecurity?: boolean;
   name?: string;
   id?: string;
@@ -77,13 +77,13 @@ const useDebouncedEffect = (callback: any, delay: number, deps: any[] = []) => {
 
 const SymbolSelector = ({
   value,
-  allSymbols,
+  groupId,
   forModelSecurity,
   name,
   id,
   onSelect,
 }: Props) => {
-  const groupId = useSelector(selectCurrentGroupId);
+  // const groupId = useSelector(selectCurrentGroupId);
   const dispatch = useDispatch();
   const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
   const [input, setInput] = useState('');
@@ -92,10 +92,10 @@ const SymbolSelector = ({
   const loadOptions = () => {
     setLoading(true);
     let symbolsURL = '';
-    if (allSymbols) {
-      symbolsURL = '/api/v1/symbols';
-    } else {
+    if (groupId) {
       symbolsURL = `/api/v1/portfolioGroups/${groupId}/symbols`;
+    } else {
+      symbolsURL = '/api/v1/symbols';
     }
     postData(symbolsURL, {
       substring: input,

@@ -199,7 +199,6 @@ const TargetBar = ({
             <SymbolSelector
               value={fullSymbol}
               onSelect={setSymbol}
-              allSymbols={false}
               forModelSecurity={false}
             />
           ) : is_supported ? (
