@@ -42,10 +42,6 @@ import {
 import OnboardingProgress from '../components/OnboardingProgress';
 import { selectShowProgressFeature } from '../selectors/features';
 
-const PaddedLink = styled(Link)`
-  margin-left: 20px;
-`;
-
 const Brokerage = styled.div``;
 
 type Props = {
