@@ -12,6 +12,7 @@ import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
 import { Button } from '../../styled/Button';
+import { toast } from 'react-toastify';
 
 const MainContainer = styled.div`
   margin: 10px;
@@ -68,15 +69,14 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  let model: any[] = modelPortfolio.model_portfolio_asset_class;
+  let model: any = modelPortfolio.model_portfolio_asset_class;
+  if (securityBased) {
+    model = modelPortfolio.model_portfolio_security;
+  }
   const modelId = modelPortfolio.model_portfolio.id;
 
   const groupInfo = useSelector(selectGroupInfoForModelPortfolio);
   const groupId = groupInfo?.groupId;
-
-  if (securityBased) {
-    model = modelPortfolio.model_portfolio_security;
-  }
 
   const applyModel = () => {
     // apply the model to the group
@@ -85,6 +85,10 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
       {},
     ).then((res) => {
       dispatch(loadGroup({ ids: [groupId] }));
+      toast.success(
+        `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
+      );
+      history.push(`/app/group/${groupId}`);
     });
   };
 
