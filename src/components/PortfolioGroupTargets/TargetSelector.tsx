@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Formik, FieldArray, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
-import { replace } from 'connected-react-router';
+import { push, replace } from 'connected-react-router';
 import styled from '@emotion/styled';
 import { loadGroup } from '../../actions';
 import {
@@ -551,15 +551,9 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                         <Button
                           type="button"
                           onClick={() => {
-                            // history.push(
-                            //   `/app/model-setting/group/${
-                            //     groupId && groupId
-                            //   }/model/${modelId}`,
-                            // );
-                            console.log('');
+                            console.log('here');
                           }}
                         >
-                          <FontAwesomeIcon icon={faLock} />
                           Edit Model
                         </Button>
                       </div>
@@ -567,10 +561,24 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                         <Button
                           type="button"
                           onClick={() => {
-                            console.log('');
+                            dispatch(
+                              push(
+                                `/app/model-portfolio/1111/setting/group?=${groupId}`,
+                              ),
+                            );
+                            console.log('here');
                           }}
                         >
-                          <FontAwesomeIcon icon={faLock} />
+                          Portfolio Settings
+                        </Button>
+                      </div>
+                      <div>
+                        <Button
+                          type="button"
+                          onClick={() => {
+                            dispatch(push(`/app/models?group=${groupId}`));
+                          }}
+                        >
                           Apply New Model
                         </Button>
                       </div>
