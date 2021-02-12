@@ -13,6 +13,7 @@ import {
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrentGroupCash,
   selectCurrentGroupPositionsWithActualPercentage,
+  selectCurrentGroupInfo,
 } from '../../selectors/groups';
 import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
@@ -146,6 +147,7 @@ type Props = {
 
 export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const groupId = useSelector(selectCurrentGroupId);
+  const groupInfo = useSelector(selectCurrentGroupInfo);
   const positions = useSelector(
     selectCurrentGroupPositionsWithActualPercentage,
   );
@@ -154,6 +156,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const edit = useSelector(selectIsEditMode);
 
   const dispatch = useDispatch();
+  console.log(target);
 
   if (!target || cash === null || cash === undefined) {
     return null;
@@ -551,7 +554,12 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                         <Button
                           type="button"
                           onClick={() => {
-                            console.log('here');
+                            // link to edit model page
+                            dispatch(
+                              push(
+                                `/app/model-portfolio/${groupInfo?.model_portfolio.id}?group=${groupId}`,
+                              ),
+                            );
                           }}
                         >
                           Edit Model
@@ -563,7 +571,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                           onClick={() => {
                             dispatch(
                               push(
-                                `/app/model-portfolio/1111/setting/group?=${groupId}`,
+                                `/app/model-portfolio/${groupInfo?.model_portfolio.id}/setting/group?=${groupId}`,
                               ),
                             );
                             console.log('here');
