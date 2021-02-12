@@ -61,10 +61,11 @@ const ApplyModelBtn = styled(Button)`
 
 type Props = {
   modelPortfolio: any;
+  group: any;
   securityBased: Boolean;
 };
 
-const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
+const ListAssets = ({ modelPortfolio, group, securityBased }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   let model: any[] = modelPortfolio.model_portfolio_asset_class;
@@ -104,18 +105,19 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
         //   return errors;
         // }}
         onSubmit={(values, actions) => {
+          const modelId = modelPortfolio.model_portfolio.id;
+
           if (securityBased) {
             modelPortfolio.model_portfolio_security = values.targets;
           } else {
             modelPortfolio.model_portfolio_asset_class = values.targets;
           }
-          const modelId = modelPortfolio.model_portfolio.id;
+
           postData(`/api/v1/modelPortfolio/${modelId}`, modelPortfolio)
             .then(() => {
               dispatch(loadModelPortfolios());
-              actions.resetForm();
-              // apply the model
-              // https://api.beta.getpassiv.com/api/v1/portfolioGroups/8eefaab6-58dd-4d7d-880c-c50b109b1535/modelPortfolio/ea819f81-f8e1-4241-b360-49faa145bbc3
+
+              // apply the model to the group
               postData(
                 `api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`,
                 {},
@@ -131,6 +133,7 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
             .catch(() => {
               dispatch(loadModelPortfolios());
             });
+          actions.resetForm();
           actions.setSubmitting(false);
           actions.setStatus({ submitted: true });
         }}
@@ -268,7 +271,7 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
                 type="submit"
                 disabled={props.isSubmitting || !props.isValid || !props.dirty}
               >
-                Save Model
+                {groupId ? `Save and apply to ${group.name}` : 'Save Model'}
               </Button>
               {/* <ApplyModelBtn>Apply to Retirement Plan</ApplyModelBtn> */}
             </ButtonContainer>

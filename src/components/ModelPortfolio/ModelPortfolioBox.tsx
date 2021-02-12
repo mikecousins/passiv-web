@@ -34,14 +34,16 @@ const StyledName = styled.span`
 `;
 
 type Props = {
-  assetClasses: ModelAssetClass[];
   modelPortfolio: ModelPortfolioDetailsType;
+  assetClasses: ModelAssetClass[];
+  group: any;
   sharedModel: boolean;
 };
 
 const ModelPortoflioBox = ({
-  assetClasses,
   modelPortfolio,
+  assetClasses,
+  group,
   sharedModel,
 }: Props) => {
   const dispatch = useDispatch();
@@ -111,6 +113,7 @@ const ModelPortoflioBox = ({
 
       <ListAssets
         modelPortfolio={modelPortfolio}
+        group={group}
         securityBased={securityBased}
       />
     </Box>

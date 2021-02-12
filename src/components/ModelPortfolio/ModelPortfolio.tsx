@@ -238,8 +238,9 @@ const ModelPortfolio = () => {
 
             <ResponsiveGrid columns="4fr 2fr">
               <ModelPortoflioBox
-                assetClasses={assetClasses}
                 modelPortfolio={currentModelPortfolio}
+                assetClasses={assetClasses}
+                group={group}
                 sharedModel={sharedModel}
               />
               <div>

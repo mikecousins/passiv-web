@@ -132,7 +132,7 @@ const MyModelPortfoliosPage = () => {
                     to={
                       groupId
                         ? `model-setting`
-                        : `model-portfolio/${mdl.model_portfolio.id}?group=${groupId}`
+                        : `model-portfolio/${mdl.model_portfolio.id}`
                     }
                   >
                     {groupId ? 'Apply Model' : 'View'}
