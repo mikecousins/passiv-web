@@ -12,7 +12,10 @@ import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { selectRouter } from '../../selectors/router';
 import { selectReferralCode } from '../../selectors';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
-import { selectCurrentModelPortfolio } from '../../selectors/modelPortfolios';
+import {
+  selectCurrentModelPortfolio,
+  selectGroupInfoForModelPortfolio,
+} from '../../selectors/modelPortfolios';
 import { loadModelPortfolios } from '../../actions';
 import ModelPortoflioBox from './ModelPortfolioBox';
 import AssetClassesBox from './AssetClassesBox';
@@ -123,6 +126,8 @@ const ModelPortfolio = () => {
   const assetClasses: ModelAssetClass[] = modelAssetClasses.map((obj) => {
     return obj.model_asset_class;
   });
+
+  const groupInfo = useSelector(selectGroupInfoForModelPortfolio);
 
   const [sharedModel, setSharedModel] = useState(false);
   const [share, setShare] = useState(
@@ -237,9 +242,15 @@ const ModelPortfolio = () => {
             <ShadowBox>
               {!sharedModel && (
                 <BackButton>
-                  <Link to={'/app/models'}>
-                    <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to My
-                    Models
+                  <Link
+                    to={
+                      groupInfo
+                        ? `/app/group/${groupInfo.groupId}`
+                        : '/app/models'
+                    }
+                  >
+                    <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to
+                    {groupInfo ? groupInfo.name : 'My Models'}
                   </Link>
                 </BackButton>
               )}
