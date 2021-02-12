@@ -1,27 +1,23 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { postData } from '../api';
 import styled from '@emotion/styled';
-import { faAngleRight, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { faAngleRight, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 import {
-  selectGroupIdForModelPortfolio,
+  selectGroupInfoForModelPortfolio,
   selectModelPortfolios,
 } from '../selectors/modelPortfolios';
+import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
+import { loadModelPortfolios } from '../actions';
 import { Button } from '../styled/Button';
-import { A, H1, H3, Table } from '../styled/GlobalElements';
+import { H1, H3, Table } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
 import { ViewBtn } from '../styled/Group';
 import ShadowBox from '../styled/ShadowBox';
-import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
 import { StyledP } from './ModelAssetClassPage';
-import { postData } from '../api';
-import { loadModelPortfolios } from '../actions';
-import { toast } from 'react-toastify';
-import { selectCurrentGoalId } from '../selectors/goals';
-import { selectRouter } from '../selectors/router';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -61,14 +57,15 @@ const MyModelPortfoliosPage = () => {
     selectModelPortfolios,
   );
 
-  const groupId = useSelector(selectGroupIdForModelPortfolio);
+  const groupInfo = useSelector(selectGroupInfoForModelPortfolio);
+  const groupId = groupInfo?.groupId;
 
   const handleNewModelBtn = () => {
     postData('/api/v1/modelPortfolio/', {})
       .then((res: any) => {
+        dispatch(loadModelPortfolios());
         const id = res.data.model_portfolio.id;
         history.replace(`model-portfolio/${id}`);
-        dispatch(loadModelPortfolios());
       })
       .catch(() => {
         toast.error('Failed to create a new model.');
@@ -119,6 +116,7 @@ const MyModelPortfoliosPage = () => {
                     </>
                   )}
                 </InUseDiv>
+                {/* display Apply button only when there is a group id  */}
                 {!groupId && (
                   <TransparentButton
                     style={{ padding: '12px', width: '100px' }}
@@ -131,7 +129,8 @@ const MyModelPortfoliosPage = () => {
                   <Link
                     to={
                       groupId
-                        ? `model-setting`
+                        ? // this should be link to "choose group" first and then "group-settings" page
+                          `model-setting`
                         : `model-portfolio/${mdl.model_portfolio.id}`
                     }
                   >
@@ -144,7 +143,6 @@ const MyModelPortfoliosPage = () => {
           );
         })}
       </div>
-      <A onClick={() => history.push('model-setting')}>Setting Targets Page</A>
     </React.Fragment>
   );
 };

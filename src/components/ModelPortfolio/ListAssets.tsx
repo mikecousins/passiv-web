@@ -1,17 +1,17 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import { Formik, Form, FieldArray, ErrorMessage } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { postData } from '../../api';
+import AssetClassSelector from './AssetClassSelector';
+import { selectGroupInfoForModelPortfolio } from '../../selectors/modelPortfolios';
+import { loadGroup, loadModelPortfolios } from '../../actions';
 import { faPlusSquare, faTimes } from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
-import AssetClassSelector from './AssetClassSelector';
 import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
 import { Button } from '../../styled/Button';
-import { postData } from '../../api';
-import { loadGroup, loadModelPortfolios } from '../../actions';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
-import { selectGroupIdForModelPortfolio } from '../../selectors/modelPortfolios';
 
 const MainContainer = styled.div`
   margin: 10px;
@@ -61,15 +61,15 @@ const ApplyModelBtn = styled(Button)`
 
 type Props = {
   modelPortfolio: any;
-  group: any;
   securityBased: Boolean;
 };
 
-const ListAssets = ({ modelPortfolio, group, securityBased }: Props) => {
+const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   let model: any[] = modelPortfolio.model_portfolio_asset_class;
-  const groupId = useSelector(selectGroupIdForModelPortfolio);
+  const groupInfo = useSelector(selectGroupInfoForModelPortfolio);
+  const groupId = groupInfo?.groupId;
 
   if (securityBased) {
     model = modelPortfolio.model_portfolio_security;
@@ -271,7 +271,9 @@ const ListAssets = ({ modelPortfolio, group, securityBased }: Props) => {
                 type="submit"
                 disabled={props.isSubmitting || !props.isValid || !props.dirty}
               >
-                {groupId ? `Save and apply to ${group.name}` : 'Save Model'}
+                {groupId
+                  ? `Save and apply to ${groupInfo?.name}`
+                  : 'Save Model'}
               </Button>
               {/* <ApplyModelBtn>Apply to Retirement Plan</ApplyModelBtn> */}
             </ButtonContainer>

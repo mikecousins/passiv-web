@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import ListAssets from './ListAssets';
-import NameInputAndEdit from '../NameInputAndEdit';
+import { postData } from '../../api';
 import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
-import { postData } from '../../api';
-import { ModelAssetClass } from '../../types/modelAssetClass';
-import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { loadModelPortfolios } from '../../actions';
+import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
+import NameInputAndEdit from '../NameInputAndEdit';
+import ListAssets from './ListAssets';
+import { ModelAssetClass } from '../../types/modelAssetClass';
 
 const Box = styled.div`
   border: 1px solid #bfb6b6;
@@ -36,22 +36,19 @@ const StyledName = styled.span`
 type Props = {
   modelPortfolio: ModelPortfolioDetailsType;
   assetClasses: ModelAssetClass[];
-  group: any;
+  securityBased: boolean;
   sharedModel: boolean;
 };
 
 const ModelPortoflioBox = ({
   modelPortfolio,
   assetClasses,
-  group,
+  securityBased,
   sharedModel,
 }: Props) => {
   const dispatch = useDispatch();
   const [modelPortfolioName, setModelPortfolioName] = useState(
     modelPortfolio.model_portfolio.name,
-  );
-  const [securityBased, setSecurityBased] = useState(
-    modelPortfolio.model_portfolio.model_type === 0,
   );
   const [editName, setEditName] = useState(false);
 
@@ -66,30 +63,26 @@ const ModelPortoflioBox = ({
 
   //   return assetClassesAvailable;
   // };
-
-  const changeModel = () => {
-    postData(
-      `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
-      modelPortfolio,
-    )
-      .then(() => {
-        dispatch(loadModelPortfolios());
-      })
-      .catch(() => {
-        dispatch(loadModelPortfolios());
-        toast.error(
-          `${modelPortfolio.model_portfolio.name} Model Portfolio Name Update Failed`,
-          { autoClose: 3000 },
-        );
-      });
-  };
   const finishEditingName = () => {
     if (
       modelPortfolioName !== modelPortfolio.model_portfolio.name &&
       modelPortfolioName!.trim().length > 0
     ) {
       modelPortfolio.model_portfolio.name = modelPortfolioName;
-      changeModel();
+      postData(
+        `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
+        modelPortfolio,
+      )
+        .then(() => {
+          dispatch(loadModelPortfolios());
+        })
+        .catch(() => {
+          dispatch(loadModelPortfolios());
+          toast.error(
+            `${modelPortfolio.model_portfolio.name} Model Portfolio Name Update Failed`,
+            { autoClose: 3000 },
+          );
+        });
     } else {
       setModelPortfolioName(modelPortfolio.model_portfolio.name);
     }
@@ -113,7 +106,6 @@ const ModelPortoflioBox = ({
 
       <ListAssets
         modelPortfolio={modelPortfolio}
-        group={group}
         securityBased={securityBased}
       />
     </Box>
