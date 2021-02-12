@@ -32,7 +32,11 @@ import { SmallButton } from '../../styled/Button';
 import { H3 } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import LoadingOverlay from '../LoadingOverlay';
+import {
+  InputBox,
+  ReadOnlyInput,
+  IconBox,
+} from '../SettingsManager/APIAccessSettings';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -97,6 +101,13 @@ const DeleteContainer = styled.div`
 
 const SetShareModelContainer = styled.div`
   margin-top: 20px;
+`;
+
+const ShareLinkContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-left: 5px;
 `;
 
 const ModelPortfolio = () => {
@@ -279,26 +290,34 @@ const ModelPortfolio = () => {
                           </ToggleShareBtn>
                           <br />
                           {share && (
-                            <div
-                              style={{
-                                marginTop: '10px',
-                                marginLeft: '5px',
-                              }}
-                            >
-                              <CopyToClipboard
-                                text={SHARE_URL}
-                                onCopy={() => {
-                                  setCopied(true);
-                                }}
-                              >
-                                {copied ? (
-                                  <FontAwesomeIcon icon={faClipboardCheck} />
-                                ) : (
-                                  <FontAwesomeIcon icon={faClipboard} />
-                                )}
-                              </CopyToClipboard>{' '}
-                              Copy link to share model
-                            </div>
+                            <ShareLinkContainer>
+                              <InputBox>
+                                <ReadOnlyInput
+                                  value={SHARE_URL}
+                                  readOnly={true}
+                                />
+                              </InputBox>
+                              <IconBox>
+                                <CopyToClipboard
+                                  text={SHARE_URL}
+                                  onCopy={() => {
+                                    setCopied(true);
+                                  }}
+                                >
+                                  {copied ? (
+                                    <FontAwesomeIcon
+                                      icon={faClipboardCheck}
+                                      size="lg"
+                                    />
+                                  ) : (
+                                    <FontAwesomeIcon
+                                      icon={faClipboard}
+                                      size="lg"
+                                    />
+                                  )}
+                                </CopyToClipboard>
+                              </IconBox>
+                            </ShareLinkContainer>
                           )}
                           <br />
                         </>
