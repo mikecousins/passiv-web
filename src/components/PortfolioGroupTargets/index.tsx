@@ -118,24 +118,6 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   };
 
   const modelChoices = [
-    // {
-    //   id: 'IMPORT',
-    //   name: 'Import your current holdings as a target',
-    //   tourClass: 'tour-import-holdings',
-    //   button: (
-    //     <React.Fragment>
-    //       <Button onClick={() => importTarget()} disabled={importDisabled()}>
-    //         Import
-    //       </Button>
-    //       {importDisabled() && (
-    //         <DisabledBox>
-    //           Importing a target is not available because there are no open
-    //           positions in your account.
-    //         </DisabledBox>
-    //       )}
-    //     </React.Fragment>
-    //   ),
-    // },
     {
       id: 'IMPORT',
       name: 'Import your current holdings as a model',
@@ -157,16 +139,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     {
       id: 'NEW_MODEL',
       name: 'Create new model',
-      button: (
-        <Button
-          onClick={() => {
-            setModel('NEW_MODEL');
-            dispatch(replace(`/app/models`));
-          }}
-        >
-          New Model
-        </Button>
-      ),
+      button: <Button onClick={() => newModel()}>New Model</Button>,
     },
     {
       id: 'USE_MODEL',
@@ -193,33 +166,18 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     setShowResetOverlay(false);
   }, [targetInitialized]);
 
-  // const importTarget = () => {
-  //   setLoading(true);
-  //   setShowImportOverlay(true);
-  //   postData('/api/v1/portfolioGroups/' + groupId + '/import/', {})
-  //     .then(() => {
-  //       setLoading(false);
-  //       dispatch(loadGroup({ ids: [groupId] }));
-  //     })
-  //     .catch(() => {
-  //       setLoading(false);
-  //       setShowImportOverlay(false);
-  //     });
-  // };
-
   const importTarget = () => {
     let group: any;
-    if (groupId) {
-      group = groups?.find((gp) => gp.groupId === groupId);
-    }
+    group = groups?.find((gp) => gp.groupId === groupId);
+
     setLoading(true);
     setShowImportOverlay(true);
     const importing = getData(
       '/api/v1/portfolioGroups/' + groupId + '/import/',
     );
-    const newModel = postData('api/v1/modelPortfolio', {});
+    const createNewModel = postData('api/v1/modelPortfolio', {});
 
-    Promise.all([importing, newModel])
+    Promise.all([importing, createNewModel])
       .then((responses) => {
         const holdings = responses[0].data;
         const model = responses[1].data;
@@ -245,6 +203,19 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         setLoading(false);
         setShowImportOverlay(false);
       });
+  };
+
+  const newModel = () => {
+    postData('api/v1/modelPortfolio', {})
+      .then((res) => {
+        dispatch(loadModelPortfolios());
+        dispatch(
+          replace(
+            `/app/model-portfolio/${res.data.model_portfolio.id}?group=${groupId}`,
+          ),
+        );
+      })
+      .catch(() => toast.error('Unable to create new model.'));
   };
 
   const generateTargetForm = (lockable: boolean) => {
