@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { push, replace } from 'connected-react-router';
 import styled from '@emotion/styled';
-import { loadGroup } from '../../actions';
+import { loadGroup, loadModelPortfolios } from '../../actions';
 import {
   selectCurrentGroupId,
   selectCurrentGroupTotalEquityExcludedRemoved,
@@ -20,7 +20,7 @@ import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../../styled/Button';
 import { A } from '../../styled/GlobalElements';
-import { postData } from '../../api';
+import { deleteData, postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
 
 const ButtonBox = styled.div`
@@ -186,11 +186,10 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const resetTargets = (resetForm: () => void) => {
     onReset();
     toggleEditMode();
-    postData(`/api/v1/portfolioGroups/${groupId}/targets/`, [])
+    deleteData(`/api/v1/portfolioGroups/${groupId}/targets/`)
       .then(() => {
-        // once we're done refresh the groups
-
         dispatch(loadGroup({ ids: [groupId] }));
+        dispatch(loadModelPortfolios());
       })
       .catch((error) => {
         // display our error
