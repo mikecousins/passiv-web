@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { push, replace } from 'connected-react-router';
-import { postData } from '../api';
+import { getData, postData } from '../api';
 import { reloadEverything } from '../actions';
 import ShadowBox from '../styled/ShadowBox';
 import { H1, P } from '../styled/GlobalElements';
@@ -19,6 +19,13 @@ const ZerodhaOauthPage = () => {
   const [error, setError] = useState<Error>();
   const queryParams = useSelector(selectQueryTokens);
   const dispatch = useDispatch();
+
+  getData('/api/v1/tradesinprogress/').then((response) => {
+    console.log(response.data.is_trade_in_progress);
+    if (response.data.is_trade_in_progress === true) {
+      dispatch(replace('app/dashboard'));
+    }
+  });
 
   useEffect(() => {
     const token = queryParams.request_token;
