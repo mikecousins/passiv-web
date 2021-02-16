@@ -156,7 +156,6 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const edit = useSelector(selectIsEditMode);
 
   const dispatch = useDispatch();
-  console.log(target);
 
   if (!target || cash === null || cash === undefined) {
     return null;
@@ -556,7 +555,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                             // link to edit model page
                             dispatch(
                               push(
-                                `/app/model-portfolio/${groupInfo?.model_portfolio.id}?group=${groupId}`,
+                                `/app/model-portfolio/${groupInfo?.model_portfolio?.id}/group/${groupId}?edit=true`,
                               ),
                             );
                           }}
@@ -570,7 +569,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                           onClick={() => {
                             dispatch(
                               push(
-                                `/app/model-portfolio/${groupInfo?.model_portfolio.id}/setting/group?=${groupId}`,
+                                `/app/model-portfolio/${groupInfo?.model_portfolio?.id}/setting/group?=${groupId}`,
                               ),
                             );
                             console.log('here');
@@ -583,7 +582,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                         <Button
                           type="button"
                           onClick={() => {
-                            dispatch(push(`/app/models?group=${groupId}`));
+                            dispatch(push(`/app/models/group/${groupId}`));
                           }}
                         >
                           Apply New Model

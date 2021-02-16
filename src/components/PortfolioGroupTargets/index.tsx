@@ -148,7 +148,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         <Button
           onClick={() => {
             setModel('USE_MODEL');
-            dispatch(replace(`/app/models?group=${groupId}`));
+            dispatch(replace(`/app/models/group/${groupId}`));
           }}
         >
           Models
@@ -189,7 +189,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
           .then(() => {
             dispatch(loadModelPortfolios());
             dispatch(
-              replace(`/app/model-portfolio/${modelId}?group=${groupId}`),
+              replace(`/app/model-portfolio/${modelId}/group/${groupId}`),
             );
           })
           .catch(() => {
@@ -211,7 +211,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         dispatch(loadModelPortfolios());
         dispatch(
           replace(
-            `/app/model-portfolio/${res.data.model_portfolio.id}?group=${groupId}`,
+            `/app/model-portfolio/${res.data.model_portfolio.id}/group/${groupId}`,
           ),
         );
       })

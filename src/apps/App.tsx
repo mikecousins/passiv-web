@@ -473,6 +473,13 @@ const App = () => {
             )}
             {showSecureApp && (
               <Route
+                exact
+                path={prefixPath('/model-portfolio/:modelId/group/:groupId')}
+                component={ModelPortfolioPage}
+              />
+            )}
+            {showSecureApp && (
+              <Route
                 path={prefixPath('/model-portfolio/:modelId/setting/group')}
                 component={ModelSettingsPage}
               />
