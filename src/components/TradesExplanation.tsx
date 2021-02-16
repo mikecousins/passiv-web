@@ -93,6 +93,11 @@ const TradesExplanation = ({
       'Currency exchange is allowed, which may result in foreign exchange transactions if there is a currency imbalance.',
     );
   }
+  if (settings.prevent_trades_in_non_tradable_accounts) {
+    summary.push(
+      'Passiv will attempt to route your trades through brokers with One-Click Trade support.',
+    );
+  }
 
   accounts.map((a) =>
     a.cash_restrictions.map((cr) => {
