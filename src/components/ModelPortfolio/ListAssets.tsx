@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { Formik, Form, FieldArray, ErrorMessage } from 'formik';
+import { Formik, Form, FieldArray, ErrorMessage, Field } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { postData } from '../../api';
 import AssetClassSelector from './AssetClassSelector';
@@ -16,7 +16,6 @@ import { toast } from 'react-toastify';
 import Dialog from '@reach/dialog';
 import { ActionContainer, H2Margin } from '../ModelAssetClass/AssetClass';
 import { A } from '../../styled/GlobalElements';
-import { TransparentButton } from '../../pages/MyModelPortfoliosPage';
 
 const MainContainer = styled.div`
   margin: 10px;
@@ -64,6 +63,19 @@ const ApplyModelBtn = styled(Button)`
   border: 1px solid var(--brand-blue);
 `;
 
+const NewNameInput = styled(Field)`
+  border-bottom: 2px solid var(--brand-blue);
+  color: var(--brand-blue);
+  font-size: 28px;
+  font-weight: 600;
+`;
+const NewNameLabel = styled.label`
+  font-size: 28px;
+  font-weight: 500;
+  margin: 0 15px;
+  display: inline-block;
+`;
+
 type Props = {
   modelPortfolio: any;
   securityBased: Boolean;
@@ -86,6 +98,7 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
 
   const [showDialog, setShowDialog] = useState(false);
   const [overWriteModel, setOverWriteModel] = useState(true);
+  const [showNameInput, setShowNameInput] = useState(false);
 
   const applyModel = () => {
     // apply the model to the group
@@ -107,6 +120,7 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
       <Formik
         initialValues={{
           targets: model,
+          newModelName: '',
           newTarget: {
             percent: 0,
             symbol: {},
@@ -152,7 +166,7 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
             // create new model portfolio
             postData('/api/v1/modelPortfolio/', {}).then((res) => {
               // apply the details of model to the new model
-              modelPortfolio.model_portfolio.name += ' - Copy';
+              modelPortfolio.model_portfolio.name = values.newModelName;
               postData(
                 `/api/v1/modelPortfolio/${res.data.model_portfolio.id}`,
                 modelPortfolio,
@@ -329,6 +343,7 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
                 aria-labelledby="dialog1Title"
                 aria-describedby="dialog1Desc"
               >
+                {}
                 <H2Margin>
                   This model is applied to{' '}
                   {
@@ -350,13 +365,34 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
                   <Button
                     onClick={() => {
                       setShowDialog(false);
-                      setOverWriteModel(false);
-                      props.handleSubmit();
+                      setShowNameInput(true);
                     }}
                   >
                     Create New Model
                   </Button>
                   <A onClick={() => setShowDialog(false)}>Cancel</A>
+                </ActionContainer>
+              </Dialog>
+              <Dialog
+                isOpen={showNameInput}
+                onDismiss={() => setShowNameInput(false)}
+                aria-labelledby="dialog1Title"
+                aria-describedby="dialog1Desc"
+              >
+                <NewNameLabel htmlFor="newModelName">
+                  The name of the new model:{' '}
+                </NewNameLabel>
+                <NewNameInput name="newModelName" id="newModelName" />
+                <ActionContainer>
+                  <Button
+                    onClick={() => {
+                      setShowNameInput(false);
+                      setOverWriteModel(false);
+                      props.handleSubmit();
+                    }}
+                  >
+                    Done
+                  </Button>
                 </ActionContainer>
               </Dialog>
               {groupId && !props.dirty && !editMode && (
