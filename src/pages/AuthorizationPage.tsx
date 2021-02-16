@@ -10,7 +10,7 @@ import {
 
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { A, P, BulletUL, Li } from '../styled/GlobalElements';
+import { P, BulletUL, Li } from '../styled/GlobalElements';
 import { postData } from '../api';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
@@ -240,11 +240,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
               </Li>
             </BulletUL>
           </VerticalPadding>
-          <P>
-            <A href="" target="_blank" rel="noopener noreferrer">
-              Learn More
-            </A>
-          </P>
           <P>By connecting, I understand and agree to these limitations.</P>
         </ShadowBox>
       ),
