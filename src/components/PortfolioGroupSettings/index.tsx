@@ -109,6 +109,17 @@ export const PortfolioGroupSettings = () => {
             invert={true}
           />
           <SettingsToggle
+            name="Prevent trades in non-tradable accounts"
+            value={settings.prevent_trades_in_non_tradable_accounts}
+            onChange={() => {
+              if (settings) {
+                settings.prevent_trades_in_non_tradable_accounts = !settings.prevent_trades_in_non_tradable_accounts;
+                updateSettings();
+              }
+            }}
+            invert={false}
+          />
+          <SettingsToggle
             name="Notify me about new detected assets"
             value={settings.show_warning_for_new_assets_detected}
             onChange={() => {

@@ -88,6 +88,7 @@ export type Settings = {
   rebalance_by_asset_class: boolean;
   show_warning_for_new_assets_detected: boolean;
   hide_trades_until: string | null;
+  prevent_trades_in_non_tradable_accounts: boolean;
 };
 
 export type Error = {
