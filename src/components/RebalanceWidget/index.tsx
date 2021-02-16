@@ -62,7 +62,6 @@ const RebalanceWidget = ({
   const [orderSummary, setOrderSummary] = useState<any>();
   const [orderResults, setOrderResults] = useState<any>();
   const [error, setError] = useState<any>();
-  const accounts = useSelector(selectAccounts);
   const groupSettings = useSelector(selectCurrentGroupSettings);
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
@@ -185,7 +184,6 @@ const RebalanceWidget = ({
     </div>
   );
 
-  const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
   const zerodhaAccounts = groupAccounts.filter(
     (acc: any) => acc.meta.institution_name === 'Zerodha',
   );
