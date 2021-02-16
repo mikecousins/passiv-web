@@ -5,7 +5,6 @@ export type ModelPortfolioDetailsType = {
   model_portfolio: ModelPortfolio;
   model_portfolio_asset_class: ModelAssetClassWithPercentage[];
   model_portfolio_security: TargetWithPercentage[];
-  total_assigned_portfolio_groups: number;
 };
 
 export type ModelPortfolio = {
@@ -13,6 +12,7 @@ export type ModelPortfolio = {
   name: string;
   model_type: number;
   share_portfolio: boolean;
+  total_assigned_portfolio_groups: number;
 };
 
 type Symbol = {
