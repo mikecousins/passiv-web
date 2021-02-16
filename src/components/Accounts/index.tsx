@@ -99,10 +99,13 @@ const Accounts = () => {
         portfolio_group: result.destination!.droppableId,
       };
 
-      const affectedGroupIds = [
+      let affectedGroupIds = [
         moved.portfolio_group,
         newAccount.portfolio_group,
-      ].filter((groupId) => groupId !== 'hidden' && groupId !== null);
+      ].filter(
+        (groupId) =>
+          groupId !== 'hidden' && groupId !== 'new' && groupId !== null,
+      );
 
       if (destList) {
         destList.accounts.splice(result.destination.index, 0, moved);
@@ -122,6 +125,7 @@ const Accounts = () => {
       } else if (result.destination.droppableId === 'new') {
         postData('/api/v1/portfolioGroups', { name: 'New Group' }).then(
           (newGroup) => {
+            affectedGroupIds.push(newGroup.data[0].id);
             newAccount.portfolio_group = newGroup.data[0].id;
             putData(`/api/v1/accounts/${moved.id}`, newAccount)
               .then(() => {
