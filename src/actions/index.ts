@@ -289,6 +289,22 @@ export const loadAccounts: ActionCreator<ThunkAction<
   };
 };
 
+export const loadAccountList: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
+  return (dispatch) => {
+    dispatch(fetchAccountsStart());
+    getData('/api/v1/accounts/')
+      .then((response) => {
+        return dispatch(fetchAccountsSuccess(response));
+      })
+      .catch((error) => dispatch(fetchAccountsError(error)));
+  };
+};
+
 export const loadGroupDetails: ActionCreator<ThunkAction<
   void,
   any,
