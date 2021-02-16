@@ -11,13 +11,14 @@ import {
   selectModelPortfolios,
 } from '../selectors/modelPortfolios';
 import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
-import { loadModelPortfolios } from '../actions';
+import { loadGroup, loadModelPortfolios } from '../actions';
 import { Button } from '../styled/Button';
 import { H1, H3, Table } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
 import { ViewBtn } from '../styled/Group';
 import ShadowBox from '../styled/ShadowBox';
 import { StyledP } from './ModelAssetClassPage';
+import { group } from 'console';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -31,6 +32,12 @@ export const TransparentButton = styled(Button)`
 const StyledViewBtn = styled(ViewBtn)`
   width: 100%;
   text-align: center;
+  display: flex;
+  button {
+    color: var(--brand-blue);
+    font-size: 20px;
+    font-weight: 700;
+  }
 `;
 const NewModelButton = styled(Button)`
   padding: 23px 50px;
@@ -72,6 +79,25 @@ const MyModelPortfoliosPage = () => {
       });
   };
 
+  const handleApplyOrViewBtn = (model: any) => {
+    const modelId = model.model_portfolio.id;
+    if (groupId) {
+      postData(
+        `api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`,
+        {},
+      ).then((res) => {
+        dispatch(loadGroup({ ids: [groupId] }));
+        dispatch(loadModelPortfolios());
+        toast.success(
+          `"${model.model_portfolio.name}" applied to "${groupInfo?.name}"`,
+        );
+        history.push(`/app/group/${groupId}`);
+      });
+    } else {
+      history.replace(`model-portfolio/${modelId}`);
+    }
+  };
+
   return (
     <React.Fragment>
       <H1>Model Portfolios</H1>
@@ -80,15 +106,17 @@ const MyModelPortfoliosPage = () => {
           A model portfolio is a group of assets and target allocations that are
           designed to meet a particular investing goal.
         </StyledP>
-        <div>
-          {' '}
-          <TransparentButton onClick={() => history.replace('asset-class')}>
-            Edit Asset Classes
-          </TransparentButton>
-          <NewModelButton onClick={() => handleNewModelBtn()}>
-            New Model
-          </NewModelButton>
-        </div>
+        {!groupId && (
+          <div>
+            {' '}
+            <TransparentButton onClick={() => history.replace('asset-class')}>
+              Edit Asset Classes
+            </TransparentButton>
+            <NewModelButton onClick={() => handleNewModelBtn()}>
+              New Model
+            </NewModelButton>
+          </div>
+        )}
       </Table>
       <div style={{ marginTop: '50px' }}>
         {modelPortfolios.map((mdl) => {
@@ -99,9 +127,11 @@ const MyModelPortfoliosPage = () => {
             >
               <Grid columns={groupId ? '2fr 1fr 250px' : '2fr 1fr 150px 150px'}>
                 <ModelName>{mdl.model_portfolio.name}</ModelName>
-
+                {console.log(
+                  mdl.model_portfolio.total_assigned_portfolio_groups,
+                )}
                 <InUseDiv>
-                  {mdl.total_assigned_portfolio_groups > 0 && (
+                  {mdl.model_portfolio.total_assigned_portfolio_groups > 0 && (
                     <>
                       <FontAwesomeIcon
                         icon={faCheck}
@@ -112,7 +142,8 @@ const MyModelPortfoliosPage = () => {
                         }}
                       />
                       <InUse>In Use</InUse> |{' '}
-                      {mdl.total_assigned_portfolio_groups} Group(s)
+                      {mdl.model_portfolio.total_assigned_portfolio_groups}{' '}
+                      Group(s)
                     </>
                   )}
                 </InUseDiv>
@@ -127,16 +158,14 @@ const MyModelPortfoliosPage = () => {
                   </TransparentButton>
                 )}
                 <StyledViewBtn>
-                  <Link
-                    to={
-                      groupId
-                        ? `model-setting`
-                        : `model-portfolio/${mdl.model_portfolio.id}`
-                    }
-                  >
+                  <button onClick={() => handleApplyOrViewBtn(mdl)}>
                     {groupId ? 'Apply Model' : 'View'}
-                    <FontAwesomeIcon icon={faAngleRight} />
-                  </Link>
+                  </button>
+                  <FontAwesomeIcon
+                    icon={faAngleRight}
+                    size="lg"
+                    color="var(--brand-blue)"
+                  />
                 </StyledViewBtn>
               </Grid>
             </ShadowBox>
