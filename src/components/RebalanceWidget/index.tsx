@@ -97,7 +97,7 @@ const RebalanceWidget = ({
       });
   };
 
-  const placeZerodhaTrades = () => {
+  const calculateZerodhaTrades = () => {
     const t = trades.trades;
     const zerodhaTradeBasket: any = [];
     t.forEach((t: any) => {
@@ -113,8 +113,13 @@ const RebalanceWidget = ({
     });
     return zerodhaTradeBasket;
   };
-
-  const zerodhaTrades = placeZerodhaTrades();
+  const executeZerodhaTrades = () => {
+    const zerodhaTrades = calculateZerodhaTrades();
+    postData(
+      `v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/starttrades/`,
+      zerodhaTrades,
+    );
+  };
 
   const confirmOrders = () => {
     setPlacingOrders(true);
@@ -202,9 +207,12 @@ const RebalanceWidget = ({
             type="hidden"
             id="basket"
             name="data"
-            value={JSON.stringify(zerodhaTrades)}
+            value={JSON.stringify(calculateZerodhaTrades())}
           />
-          <Button onClick={placeZerodhaTrades} className="tour-one-click-trade">
+          <Button
+            onClick={executeZerodhaTrades}
+            className="tour-one-click-trade"
+          >
             Place Trades on Zerodha
           </Button>
         </form>
