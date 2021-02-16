@@ -85,6 +85,7 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
       {},
     ).then((res) => {
       dispatch(loadGroup({ ids: [groupId] }));
+      dispatch(loadModelPortfolios());
       toast.success(
         `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
       );
