@@ -60,13 +60,24 @@ export const selectGroupInfoForModelPortfolio = createSelector(
   selectGroupedAccounts,
   (router, groups) => {
     let groupInfo = null;
-    if (router && router.location) {
-      //! need to update connected-react-router - the new release add query type definition for RouterState.location
-      //@ts-ignore
-      const groupId = router.location.query.group;
+    const pathName = router.location.pathname.split('/');
+    if (
+      router &&
+      router.location &&
+      pathName &&
+      (pathName[2] === 'models' || pathName[2] === 'model-portfolio') &&
+      (pathName[3] === 'group' || pathName[4] === 'group')
+    ) {
+      let groupId: any;
+      if (pathName[3] === 'group') {
+        groupId = pathName[4];
+      } else if (pathName[4] === 'group') {
+        groupId = pathName[5];
+      }
       groupInfo = groups?.find((gp) => gp.groupId === groupId);
     }
-    return groupInfo;
+    //@ts-ignore
+    return { groupInfo, edit: router.location.query.edit };
   },
 );
 

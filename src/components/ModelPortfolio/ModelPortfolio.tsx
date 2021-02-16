@@ -127,7 +127,8 @@ const ModelPortfolio = () => {
     return obj.model_asset_class;
   });
 
-  const groupInfo = useSelector(selectGroupInfoForModelPortfolio);
+  const group = useSelector(selectGroupInfoForModelPortfolio);
+  const groupInfo = group.groupInfo;
 
   const [sharedModel, setSharedModel] = useState(false);
   const [share, setShare] = useState(

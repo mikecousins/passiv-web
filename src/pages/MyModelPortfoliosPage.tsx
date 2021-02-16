@@ -64,7 +64,8 @@ const MyModelPortfoliosPage = () => {
     selectModelPortfolios,
   );
 
-  const groupInfo = useSelector(selectGroupInfoForModelPortfolio);
+  const group = useSelector(selectGroupInfoForModelPortfolio);
+  const groupInfo = group.groupInfo;
   const groupId = groupInfo?.groupId;
 
   const handleNewModelBtn = () => {
@@ -127,9 +128,6 @@ const MyModelPortfoliosPage = () => {
             >
               <Grid columns={groupId ? '2fr 1fr 250px' : '2fr 1fr 150px 150px'}>
                 <ModelName>{mdl.model_portfolio.name}</ModelName>
-                {console.log(
-                  mdl.model_portfolio.total_assigned_portfolio_groups,
-                )}
                 <InUseDiv>
                   {mdl.model_portfolio.total_assigned_portfolio_groups > 0 && (
                     <>
