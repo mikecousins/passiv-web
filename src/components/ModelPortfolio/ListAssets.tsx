@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Formik, Form, FieldArray, ErrorMessage } from 'formik';
@@ -13,6 +13,10 @@ import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
 import { Button } from '../../styled/Button';
 import { toast } from 'react-toastify';
+import Dialog from '@reach/dialog';
+import { ActionContainer, H2Margin } from '../ModelAssetClass/AssetClass';
+import { A } from '../../styled/GlobalElements';
+import { TransparentButton } from '../../pages/MyModelPortfoliosPage';
 
 const MainContainer = styled.div`
   margin: 10px;
@@ -75,8 +79,13 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
   }
   const modelId = modelPortfolio.model_portfolio.id;
 
-  const groupInfo = useSelector(selectGroupInfoForModelPortfolio);
+  const group = useSelector(selectGroupInfoForModelPortfolio);
+  const groupInfo = group.groupInfo;
   const groupId = groupInfo?.groupId;
+  const editMode = group.edit;
+
+  const [showDialog, setShowDialog] = useState(false);
+  const [overWriteModel, setOverWriteModel] = useState(true);
 
   const applyModel = () => {
     // apply the model to the group
@@ -128,26 +137,52 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
           } else {
             modelPortfolio.model_portfolio_asset_class = values.targets;
           }
-
-          postData(`/api/v1/modelPortfolio/${modelId}`, modelPortfolio)
-            .then(() => {
-              dispatch(loadModelPortfolios());
-              // history.push(
-              //   `/app/model-setting/group/${
-              //     groupId && groupId
-              //   }/model/${modelId}`,
-              // );
-            })
-            .catch(() => {
-              dispatch(loadModelPortfolios());
+          if (overWriteModel) {
+            postData(`/api/v1/modelPortfolio/${modelId}`, modelPortfolio)
+              .then(() => {
+                dispatch(loadModelPortfolios());
+                if (editMode) {
+                  // apply the model to all the accounts
+                }
+              })
+              .catch(() => {
+                dispatch(loadModelPortfolios());
+              });
+          } else {
+            // create new model portfolio
+            postData('/api/v1/modelPortfolio/', {}).then((res) => {
+              // apply the details of model to the new model
+              modelPortfolio.model_portfolio.name += ' - Copy';
+              postData(
+                `/api/v1/modelPortfolio/${res.data.model_portfolio.id}`,
+                modelPortfolio,
+              ).then((res) => {
+                dispatch(loadModelPortfolios());
+                // apply the new model to the current group
+                if (groupId) {
+                  postData(
+                    `api/v1/portfolioGroups/${groupId}/modelPortfolio/${res.data.model_portfolio.id}`,
+                    {},
+                  ).then((res) => {
+                    toast.success(
+                      `'${modelPortfolio.model_portfolio.name}' has applied to '${groupInfo?.name}'.`,
+                    );
+                    history.replace('/app/models');
+                    dispatch(loadModelPortfolios());
+                  });
+                } else {
+                  history.replace('/app/models');
+                }
+              });
             });
+          }
           actions.resetForm();
           actions.setSubmitting(false);
           actions.setStatus({ submitted: true });
         }}
       >
         {(props) => (
-          <Form onSubmit={props.handleSubmit}>
+          <Form>
             <FieldArray
               name="targets"
               render={(arrayHelpers) => {
@@ -276,12 +311,55 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
             />
             <ButtonContainer>
               <Button
-                type="submit"
+                type="button"
+                onClick={() => {
+                  modelPortfolio.model_portfolio
+                    .total_assigned_portfolio_groups > 1
+                    ? setShowDialog(true)
+                    : props.handleSubmit();
+                }}
                 disabled={props.isSubmitting || !props.isValid || !props.dirty}
               >
                 Save Model
               </Button>
-              {groupId && !props.dirty && (
+
+              <Dialog
+                isOpen={showDialog}
+                onDismiss={() => setShowDialog(false)}
+                aria-labelledby="dialog1Title"
+                aria-describedby="dialog1Desc"
+              >
+                <H2Margin>
+                  This model is applied to{' '}
+                  {
+                    modelPortfolio.model_portfolio
+                      .total_assigned_portfolio_groups
+                  }{' '}
+                  groups. Do you want to save as a new model or overwrite other
+                  groups ?
+                </H2Margin>
+                <ActionContainer>
+                  <Button
+                    onClick={() => {
+                      setShowDialog(false);
+                      props.handleSubmit();
+                    }}
+                  >
+                    Overwrite All
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setShowDialog(false);
+                      setOverWriteModel(false);
+                      props.handleSubmit();
+                    }}
+                  >
+                    Create New Model
+                  </Button>
+                  <A onClick={() => setShowDialog(false)}>Cancel</A>
+                </ActionContainer>
+              </Dialog>
+              {groupId && !props.dirty && !editMode && (
                 <ApplyModelBtn onClick={applyModel}>
                   Apply to {groupInfo?.name}
                 </ApplyModelBtn>
