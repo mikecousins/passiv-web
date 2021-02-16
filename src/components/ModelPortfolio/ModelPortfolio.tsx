@@ -249,7 +249,7 @@ const ModelPortfolio = () => {
                         : '/app/models'
                     }
                   >
-                    <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to
+                    <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to{' '}
                     {groupInfo ? groupInfo.name : 'My Models'}
                   </Link>
                 </BackButton>
