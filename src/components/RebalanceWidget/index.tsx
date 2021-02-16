@@ -107,7 +107,8 @@ const RebalanceWidget = ({
       zerodhaTrade['exchange'] = 'NSE';
       zerodhaTrade['transaction_type'] = t['action'];
       zerodhaTrade['quantity'] = t['units'];
-      zerodhaTrade['order_type'] = 'MARKET';
+      zerodhaTrade['order_type'] = 'LIMIT';
+      zerodhaTrade['price'] = t['price'];
       zerodhaTradeBasket.push(zerodhaTrade);
     });
     return zerodhaTradeBasket;
