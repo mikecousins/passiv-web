@@ -21,7 +21,6 @@ const ZerodhaOauthPage = () => {
   const dispatch = useDispatch();
 
   getData('/api/v1/tradesinprogress/').then((response) => {
-    console.log(response.data.is_trade_in_progress);
     if (response.data.is_trade_in_progress === true) {
       dispatch(replace('app/dashboard'));
     }
