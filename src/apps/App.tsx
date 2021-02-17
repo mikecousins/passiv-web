@@ -117,6 +117,10 @@ const KrakenAuthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "kraken-oauth" */ '../pages/KrakenAuthPage'),
 );
 
+const UnocoinAuthPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "kraken-oauth" */ '../pages/UnocoinAuthPage'),
+);
+
 const KrakenOauthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "kraken-oauth" */ '../pages/KrakenOauthPage'),
 );
@@ -405,6 +409,13 @@ const App = () => {
                 exact
                 path={prefixPath('/connect/kraken')}
                 component={KrakenAuthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/connect/unocoin')}
+                component={UnocoinAuthPage}
               />
             )}
             {loggedIn && (
