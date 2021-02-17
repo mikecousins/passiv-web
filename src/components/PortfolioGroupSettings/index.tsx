@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { H2 } from '../../styled/GlobalElements';
+import { H2, H3 } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
 import SettingsToggle from './SettingsToggle';
 import CurrencySeparation from './CurrencySeparation';
@@ -18,6 +18,7 @@ import { loadGroup } from '../../actions';
 import { toast } from 'react-toastify';
 import TradesExplanation from '../TradesExplanation';
 import Tour from '../Tour/Tour';
+import ExcludedAssets from './ExcludedAssets';
 
 const TOUR_STEPS = [
   {
@@ -79,6 +80,7 @@ export const PortfolioGroupSettings = () => {
   return (
     <ShadowBox>
       <Tour steps={TOUR_STEPS} name="group_settings_tour" />
+      <ExcludedAssets />
       <H2>General</H2>
       {settings ? (
         <React.Fragment>
@@ -88,6 +90,17 @@ export const PortfolioGroupSettings = () => {
             onChange={() => {
               if (settings) {
                 settings.buy_only = !settings.buy_only;
+                updateSettings();
+              }
+            }}
+            invert={true}
+          />
+          <SettingsToggle
+            name="Notify me about new detected assets"
+            value={settings.new_assets_detected}
+            onChange={() => {
+              if (settings) {
+                settings.new_assets_detected = !settings.new_assets_detected;
                 updateSettings();
               }
             }}
