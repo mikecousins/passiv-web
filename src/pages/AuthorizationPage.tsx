@@ -19,6 +19,7 @@ import AlpacaLogo from '../assets/images/alpaca-logo.png';
 import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 import TDAmeritradeLogo from '../assets/images/tda-logo.png';
 import TradierLogo from '../assets/images/tradier-logo.png';
+import KrakenLogo from '../assets/images/kraken-logo.png';
 import WealthicaLogo from '../assets/images/wealthica-logo.png';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
@@ -200,6 +201,22 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         <P>
           Tradier is a REST-based, open, and secure API for investors, advisors,
           and traders.
+        </P>
+      ),
+    },
+    {
+      id: 'kraken',
+      name: 'Kraken',
+      connect: () => {
+        startConnection('Kraken', 'trade');
+      },
+      openURL: 'https://passiv.com/app/connect/kraken',
+      major: true,
+      logo: KrakenLogo,
+      description: (
+        <P>
+          Kraken is a US-based cryptocurrency exchange that allows users to
+          trade more than 40 cryptocurrencies.
         </P>
       ),
     },
