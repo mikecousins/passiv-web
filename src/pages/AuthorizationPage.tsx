@@ -230,6 +230,8 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       openURL: 'https://passiv.com/app/connect/unocoin',
       major: true,
       logo: UnocoinLogo,
+      defaultConnectionType: 'trade',
+      confirmPrompt: null,
       description: (
         <P>
           Unocoin is India's most trusted place to trade Bitcoin (BTC), Ether
