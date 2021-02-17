@@ -8,7 +8,6 @@ import {
   ModelAssetClassDetailsType,
   ModelAssetClass,
 } from '../../types/modelAssetClass';
-import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { selectRouter } from '../../selectors/router';
 import { selectReferralCode } from '../../selectors';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';

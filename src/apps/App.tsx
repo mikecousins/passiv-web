@@ -138,11 +138,6 @@ const MyModelPortfoliosPage = React.lazy(() =>
   import(/* webpackChunkName: "...?" */ '../pages/MyModelPortfoliosPage'),
 );
 
-const ApplyTargetPage = React.lazy(() =>
-  //? webpackChunkName
-  import(/* webpackChunkName: "...?" */ '../pages/ApplyTargetPage'),
-);
-
 const ModelSettingsPage = React.lazy(() =>
   //? webpackChunkName
   import(/* webpackChunkName: "...?" */ '../pages/ModelSettingsPage'),

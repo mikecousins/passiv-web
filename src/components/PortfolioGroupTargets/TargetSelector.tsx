@@ -13,7 +13,6 @@ import {
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrentGroupCash,
   selectCurrentGroupPositionsWithActualPercentage,
-  selectCurrentGroupInfo,
 } from '../../selectors/groups';
 import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
@@ -147,7 +146,6 @@ type Props = {
 
 export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const groupId = useSelector(selectCurrentGroupId);
-  const groupInfo = useSelector(selectCurrentGroupInfo);
   const positions = useSelector(
     selectCurrentGroupPositionsWithActualPercentage,
   );

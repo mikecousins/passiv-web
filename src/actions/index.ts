@@ -14,7 +14,6 @@ import {
 } from '../components/Performance/DatePickers';
 import { checkIfOnline } from './online';
 import { loadGoals } from './goals';
-import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
 
 export const loginSucceeded: ActionCreator<Action> = (payload) => ({
   type: 'LOGIN_SUCCEEDED',

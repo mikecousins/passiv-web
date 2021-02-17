@@ -1,16 +1,12 @@
-import styled from '@emotion/styled';
-import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from '@emotion/styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
+import { deleteData, postData } from '../../api';
 import { loadGroup } from '../../actions';
-import { deleteData, getData, postData } from '../../api';
 import {
   selectCurrentGroupId,
-  selectCurrentGroupInfo,
-  selectCurrentGroupPositionsNotInTarget,
-  selectCurrentGroupPositions,
-  selectCurrentGroupTarget,
   selectCurrentGroupPositionsNotInTargetOrExcluded,
 } from '../../selectors/groups';
 import { H2 } from '../../styled/GlobalElements';
