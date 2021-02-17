@@ -11,6 +11,7 @@ import {
   selectCurrentGroupInfoLoading,
   selectCurrentGroupTarget,
   selectGroupedAccounts,
+  selectCurrentGroupInfo,
 } from '../../selectors/groups';
 import { Button } from '../../styled/Button';
 import {
@@ -108,6 +109,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   const loadingGroupInfo = useSelector(selectCurrentGroupInfoLoading);
   const edit = useSelector(selectIsEditMode);
   const groups = useSelector(selectGroupedAccounts);
+  const groupInfo = useSelector(selectCurrentGroupInfo);
 
   const dispatch = useDispatch();
 
@@ -337,6 +339,16 @@ const PortfolioGroupTargets = ({ error }: Props) => {
       <ShadowBox>
         <TargetContainer>
           <H2>Target Portfolio</H2>
+          <small>
+            <span style={{ fontWeight: 700 }}>
+              {groupInfo?.model_portfolio.name}
+            </span>{' '}
+            (
+            {groupInfo?.model_portfolio.model_type === 0
+              ? 'Security Based Model'
+              : 'Asset Class Based Model'}
+            )
+          </small>
           <OrderTargetAllocations edit={edit} />
           {loading ? (
             <P>
