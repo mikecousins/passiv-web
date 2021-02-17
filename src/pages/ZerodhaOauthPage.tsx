@@ -21,8 +21,9 @@ const ZerodhaOauthPage = () => {
   const dispatch = useDispatch();
 
   postData('/api/v1/tradesinprogress/', queryParams).then((response) => {
-    if (response.data.is_trade_in_progress === true) {
-      dispatch(replace('app/dashboard'));
+    if (response.data.portfolio_group) {
+      dispatch(replace(`/app/group/${response.data.portfolio_group}`));
+      dispatch(reloadEverything());
     }
   });
 
