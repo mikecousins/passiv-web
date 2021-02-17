@@ -15,7 +15,6 @@ import { Button } from '../../styled/Button';
 import { toast } from 'react-toastify';
 import Dialog from '@reach/dialog';
 import { ActionContainer, H2Margin } from '../ModelAssetClass/AssetClass';
-import { A } from '../../styled/GlobalElements';
 
 const MainContainer = styled.div`
   margin: 10px;
@@ -90,6 +89,8 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
     model = modelPortfolio.model_portfolio_security;
   }
   const modelId = modelPortfolio.model_portfolio.id;
+  const assignedPortfolioGroups =
+    modelPortfolio.model_portfolio.total_assigned_portfolio_groups > 0;
 
   const group = useSelector(selectGroupInfoForModelPortfolio);
   const groupInfo = group.groupInfo;
@@ -101,7 +102,7 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
   const [showNameInput, setShowNameInput] = useState(false);
 
   const applyModel = () => {
-    // apply the model to the group
+    // apply model to the group
     postData(
       `api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`,
       {},
@@ -151,45 +152,55 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
           } else {
             modelPortfolio.model_portfolio_asset_class = values.targets;
           }
-          if (overWriteModel) {
-            postData(`/api/v1/modelPortfolio/${modelId}`, modelPortfolio)
-              .then(() => {
-                dispatch(loadModelPortfolios());
-                if (editMode) {
-                  // apply the model to all the accounts
-                }
-              })
-              .catch(() => {
-                dispatch(loadModelPortfolios());
-              });
-          } else {
-            // create new model portfolio
-            postData('/api/v1/modelPortfolio/', {}).then((res) => {
-              // apply the details of model to the new model
-              modelPortfolio.model_portfolio.name = values.newModelName;
-              postData(
-                `/api/v1/modelPortfolio/${res.data.model_portfolio.id}`,
-                modelPortfolio,
-              ).then((res) => {
-                dispatch(loadModelPortfolios());
-                // apply the new model to the current group
-                if (groupId) {
-                  postData(
-                    `api/v1/portfolioGroups/${groupId}/modelPortfolio/${res.data.model_portfolio.id}`,
-                    {},
-                  ).then((res) => {
-                    toast.success(
-                      `'${modelPortfolio.model_portfolio.name}' has applied to '${groupInfo?.name}'.`,
-                    );
-                    history.replace('/app/models');
-                    dispatch(loadModelPortfolios());
-                  });
-                } else {
-                  history.replace('/app/models');
-                }
-              });
+          postData(`/api/v1/modelPortfolio/${modelId}`, modelPortfolio)
+            .then(() => {
+              dispatch(loadModelPortfolios());
+              // if (editMode) {
+              //   // apply the model to all the accounts
+              // }
+            })
+            .catch(() => {
+              dispatch(loadModelPortfolios());
             });
-          }
+          // if (overWriteModel) {
+          //   postData(`/api/v1/modelPortfolio/${modelId}`, modelPortfolio)
+          //     .then(() => {
+          //       dispatch(loadModelPortfolios());
+          //       if (editMode) {
+          //         // apply the model to all the accounts
+          //       }
+          //     })
+          //     .catch(() => {
+          //       dispatch(loadModelPortfolios());
+          //     });
+          // } else {
+          //   // create new model portfolio
+          //   postData('/api/v1/modelPortfolio/', {}).then((res) => {
+          //     // apply the details of model to the new model
+          //     modelPortfolio.model_portfolio.name = values.newModelName;
+          //     postData(
+          //       `/api/v1/modelPortfolio/${res.data.model_portfolio.id}`,
+          //       modelPortfolio,
+          //     ).then((res) => {
+          //       dispatch(loadModelPortfolios());
+          //       // apply the new model to the current group
+          //       if (groupId) {
+          //         postData(
+          //           `api/v1/portfolioGroups/${groupId}/modelPortfolio/${res.data.model_portfolio.id}`,
+          //           {},
+          //         ).then((res) => {
+          //           toast.success(
+          //             `'${modelPortfolio.model_portfolio.name}' has applied to '${groupInfo?.name}'.`,
+          //           );
+          //           history.replace('/app/models');
+          //           dispatch(loadModelPortfolios());
+          //         });
+          //       } else {
+          //         history.replace('/app/models');
+          //       }
+          //     });
+          //   });
+          // }
           actions.resetForm();
           actions.setSubmitting(false);
           actions.setStatus({ submitted: true });
@@ -243,6 +254,7 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
                                   )
                                 }
                                 required
+                                readOnly={assignedPortfolioGroups}
                               />
                               <PercentageLabel htmlFor="percentage">
                                 %
@@ -259,64 +271,67 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
 
                             <br></br>
                           </FormContainer>
-                          <button
-                            type="button"
-                            onClick={() => arrayHelpers.remove(index)}
-                            title="Delete security from model"
-                          >
-                            <FontAwesomeIcon
-                              icon={faTimes}
-                              size="lg"
-                              color="var(--grey-darkest)"
-                            />
-                          </button>
+                          {!assignedPortfolioGroups && (
+                            <button
+                              type="button"
+                              onClick={() => arrayHelpers.remove(index)}
+                              title="Delete security from model"
+                            >
+                              <FontAwesomeIcon
+                                icon={faTimes}
+                                size="lg"
+                                color="var(--grey-darkest)"
+                              />
+                            </button>
+                          )}
                         </Grid>
                       );
                     })}
-                    <Grid columns="1fr 50px" style={{ marginTop: '30px' }}>
-                      <FormContainer>
-                        <Percentage>
-                          <PercentageInput
-                            id="percent"
-                            name="newTarget.percent"
-                            type="number"
-                            onChange={props.handleChange}
-                            value={props.values.newTarget.percent}
-                            required
+                    {!assignedPortfolioGroups && (
+                      <Grid columns="1fr 50px" style={{ marginTop: '30px' }}>
+                        <FormContainer>
+                          <Percentage>
+                            <PercentageInput
+                              id="percent"
+                              name="newTarget.percent"
+                              type="number"
+                              onChange={props.handleChange}
+                              value={props.values.newTarget.percent}
+                              required
+                            />
+                            <PercentageLabel htmlFor="percentage">
+                              %
+                            </PercentageLabel>
+                          </Percentage>
+                          <SymbolSelector
+                            name="newTarget.symbol"
+                            id="symbol"
+                            value={null}
+                            onSelect={(symbol) => {
+                              props.setFieldValue(
+                                `newTarget.symbol` as 'newTarget',
+                                symbol,
+                              );
+                            }}
+                            groupId={groupInfo ? groupInfo.groupId : ''}
+                            forModelSecurity={true}
                           />
-                          <PercentageLabel htmlFor="percentage">
-                            %
-                          </PercentageLabel>
-                        </Percentage>
-                        <SymbolSelector
-                          name="newTarget.symbol"
-                          id="symbol"
-                          value={null}
-                          onSelect={(symbol) => {
-                            props.setFieldValue(
-                              `newTarget.symbol` as 'newTarget',
-                              symbol,
-                            );
-                          }}
-                          groupId={groupInfo ? groupInfo.groupId : ''}
-                          forModelSecurity={true}
-                        />
-                      </FormContainer>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          arrayHelpers.push(props.values.newTarget)
-                        }
-                        title="Add security to model"
-                      >
-                        <FontAwesomeIcon
-                          icon={faPlusSquare}
-                          color="var(--grey-darkest)"
-                          size="lg"
-                        />
-                      </button>
-                    </Grid>
-
+                        </FormContainer>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            arrayHelpers.push(props.values.newTarget)
+                          }
+                          title="Add security to model"
+                        >
+                          <FontAwesomeIcon
+                            icon={faPlusSquare}
+                            color="var(--grey-darkest)"
+                            size="lg"
+                          />
+                        </button>
+                      </Grid>
+                    )}
                     <br />
                     <ErrorMessage name="targets" component="div" />
                   </>
@@ -324,20 +339,24 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
               }}
             />
             <ButtonContainer>
-              <Button
-                type="button"
-                onClick={() => {
-                  modelPortfolio.model_portfolio
-                    .total_assigned_portfolio_groups > 1
-                    ? setShowDialog(true)
-                    : props.handleSubmit();
-                }}
-                disabled={props.isSubmitting || !props.isValid || !props.dirty}
-              >
-                Save Model
-              </Button>
+              {!assignedPortfolioGroups && (
+                <Button
+                  type="submit"
+                  // onClick={() => {
+                  //   modelPortfolio.model_portfolio
+                  //     .total_assigned_portfolio_groups > 1
+                  //     ? setShowDialog(true)
+                  //     : props.handleSubmit();
+                  // }}
+                  disabled={
+                    props.isSubmitting || !props.isValid || !props.dirty
+                  }
+                >
+                  Save Model
+                </Button>
+              )}
 
-              <Dialog
+              {/* <Dialog
                 isOpen={showDialog}
                 onDismiss={() => setShowDialog(false)}
                 aria-labelledby="dialog1Title"
@@ -350,8 +369,8 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
                     modelPortfolio.model_portfolio
                       .total_assigned_portfolio_groups
                   }{' '}
-                  groups. Do you want to save as a new model or overwrite other
-                  groups ?
+                  groups. Do you want to save as a new model or overwrite this
+                  model ?
                 </H2Margin>
                 <ActionContainer>
                   <Button
@@ -360,7 +379,7 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
                       props.handleSubmit();
                     }}
                   >
-                    Overwrite All
+                    Overwrite Model
                   </Button>
                   <Button
                     onClick={() => {
@@ -370,7 +389,6 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
                   >
                     Create New Model
                   </Button>
-                  <A onClick={() => setShowDialog(false)}>Cancel</A>
                 </ActionContainer>
               </Dialog>
               <Dialog
@@ -394,7 +412,7 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
                     Done
                   </Button>
                 </ActionContainer>
-              </Dialog>
+              </Dialog> */}
               {groupId && !props.dirty && !editMode && (
                 <ApplyModelBtn onClick={applyModel}>
                   Apply to {groupInfo?.name}

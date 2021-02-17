@@ -548,7 +548,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                           Edit Targets
                         </Button>
                       </div>
-                      <div>
+                      {/* <div>
                         <Button
                           type="button"
                           onClick={() => {
@@ -562,22 +562,8 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                         >
                           Edit Model
                         </Button>
-                      </div>
-                      <div>
-                        <Button
-                          type="button"
-                          onClick={() => {
-                            dispatch(
-                              push(
-                                `/app/model-portfolio/${groupInfo?.model_portfolio?.id}/setting/group?=${groupId}`,
-                              ),
-                            );
-                            console.log('here');
-                          }}
-                        >
-                          Portfolio Settings
-                        </Button>
-                      </div>
+                      </div> */}
+
                       <div>
                         <Button
                           type="button"
