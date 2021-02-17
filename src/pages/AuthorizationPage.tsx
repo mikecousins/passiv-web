@@ -20,6 +20,7 @@ import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 import TDAmeritradeLogo from '../assets/images/tda-logo.png';
 import TradierLogo from '../assets/images/tradier-logo.png';
 import KrakenLogo from '../assets/images/kraken-logo.png';
+import UnocoinLogo from '../assets/images/unocoin-logo.png';
 import WealthicaLogo from '../assets/images/wealthica-logo.png';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
@@ -217,6 +218,23 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         <P>
           Kraken is a US-based cryptocurrency exchange that allows users to
           trade more than 40 cryptocurrencies.
+        </P>
+      ),
+    },
+    {
+      id: 'unocoin',
+      name: 'Unocoin',
+      connect: () => {
+        startConnection('Unocoin', 'trade');
+      },
+      openURL: 'https://passiv.com/app/connect/unocoin',
+      major: true,
+      logo: UnocoinLogo,
+      description: (
+        <P>
+          Unocoin is India's most trusted place to trade Bitcoin (BTC), Ether
+          (ETH) and Tether (USDT) and the largest ecosystem of traders in the
+          country.
         </P>
       ),
     },
