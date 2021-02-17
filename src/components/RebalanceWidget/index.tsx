@@ -116,7 +116,7 @@ const RebalanceWidget = ({
   const executeZerodhaTrades = () => {
     const zerodhaTrades = calculateZerodhaTrades();
     postData(
-      `v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/starttrades/`,
+      `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/starttrades/`,
       zerodhaTrades,
     );
   };
