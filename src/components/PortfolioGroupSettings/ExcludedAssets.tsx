@@ -1,9 +1,18 @@
 import styled from '@emotion/styled';
 import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectCurrentGroupPositionsNotInTarget } from '../../selectors/groups';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadGroup } from '../../actions';
+import { deleteData, getData, postData } from '../../api';
+import {
+  selectCurrentGroupId,
+  selectCurrentGroupInfo,
+  selectCurrentGroupPositionsNotInTarget,
+  selectCurrentGroupPositions,
+  selectCurrentGroupTarget,
+  selectCurrentGroupPositionsNotInTargetOrExcluded,
+} from '../../selectors/groups';
 import { H2 } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 
@@ -21,36 +30,55 @@ const Positions = styled.li``;
 const Symbol = styled.span`
   font-size: 18px;
   font-weight: 600;
-  margin-right: 33px;
+  margin: 0 50px;
   + span {
     font-size: 18px;
   }
 `;
 
 const ExcludedAssets = () => {
-  const positionsNotInTarget = useSelector(
-    selectCurrentGroupPositionsNotInTarget,
+  const dispatch = useDispatch();
+  const groupId = useSelector(selectCurrentGroupId);
+  const positionsNotInTargetOrExcluded = useSelector(
+    selectCurrentGroupPositionsNotInTargetOrExcluded,
   );
 
-  let toggleButton = (
-    <ToggleButton onClick={() => console.log('toggled')}>
-      {/* <Tooltip label={tip}> */}
-      <FontAwesomeIcon icon={true ? faToggleOn : faToggleOff} />
-      {/* </Tooltip> */}
-      <StateText>{true ? 'Excluded' : 'Not Excluded'}</StateText>
-    </ToggleButton>
-  );
+  const handleToggle = (position: any) => {
+    const positionId = position.symbol.id;
+    if (position.excluded) {
+      deleteData(
+        `/api/v1/portfolioGroups/${groupId}/excludedassets/${positionId}`,
+      ).then(() => {
+        dispatch(loadGroup({ ids: [groupId] }));
+      });
+    } else {
+      postData(`/api/v1/portfolioGroups/${groupId}/excludedassets/`, {
+        symbol: positionId,
+      }).then(() => {
+        dispatch(loadGroup({ ids: [groupId] }));
+      });
+    }
+  };
 
   return (
     <Container>
       <H2>Excluded securities in this portfolio</H2>
-      {positionsNotInTarget && positionsNotInTarget.length > 0 ? (
+      {positionsNotInTargetOrExcluded &&
+      positionsNotInTargetOrExcluded.length > 0 ? (
         <ul>
-          {positionsNotInTarget.map((position) => {
+          {positionsNotInTargetOrExcluded.map((position) => {
             return (
               <Positions>
+                <ToggleButton onClick={() => handleToggle(position)}>
+                  <FontAwesomeIcon
+                    icon={position.excluded ? faToggleOn : faToggleOff}
+                  />
+                  <StateText>
+                    {position.excluded ? 'excluded' : 'not excluded'}
+                  </StateText>
+                </ToggleButton>
                 <Symbol>{position.symbol.symbol}</Symbol>
-                <span>{position.symbol.description}</span>
+                {/* <span>{position.symbol.description}</span> */}
               </Positions>
             );
           })}

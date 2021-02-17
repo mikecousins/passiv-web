@@ -392,9 +392,9 @@ export const selectCurrentGroupPositions = createSelector(
       positions.map((position) => {
         // TODO set this properly
         if (excludedPositionsSymbolsIds.includes(position.symbol.id)) {
-          position.excluded = false;
-        } else {
           position.excluded = true;
+        } else {
+          position.excluded = false;
         }
 
         position.quotable = quotableSymbols.some(
@@ -1269,5 +1269,28 @@ export const selectCurrentGroupPositionsNotInTarget = createSelector(
     );
 
     return notInTarget;
+  },
+);
+
+export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
+  selectCurrentGroupPositions,
+  selectCurrentGroupTarget,
+  (positions, targets) => {
+    let notInTarget: any = [];
+    let excluded: any = [];
+    const targetIds = targets?.map((target: any) => target.fullSymbol.id);
+    notInTarget = positions?.filter(
+      (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+    );
+    targets?.map((target: any) => {
+      if (target.is_excluded) {
+        excluded.push({
+          excluded: target.is_excluded,
+          symbol: target.fullSymbol,
+        });
+      }
+    });
+
+    return [...notInTarget, ...excluded];
   },
 );
