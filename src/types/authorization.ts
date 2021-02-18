@@ -8,4 +8,5 @@ export type Authorization = {
   type: 'read' | 'trade';
   disabled: boolean;
   disabled_date: string;
+  meta: any;
 };
