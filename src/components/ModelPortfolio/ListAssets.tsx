@@ -75,6 +75,11 @@ const NewNameLabel = styled.label`
   display: inline-block;
 `;
 
+const ErroMsg = styled.div`
+  color: red;
+  margin-top: 5px;
+`;
+
 type Props = {
   modelPortfolio: any;
   securityBased: Boolean;
@@ -129,23 +134,16 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
         }}
         enableReinitialize
         initialStatus={{ submitted: false }}
-        // validate={(values) => {
-        //   const errors: any = {};
-        //   const cashPercentage =
-        //     100 -
-        //     values.targets.reduce((total: number, target: any) => {
-        //       if (!target.deleted && target.percent) {
-        //         return total + parseFloat(target.percent);
-        //       }
-        //       return total;
-        //     }, 0);
-        //   const roundedCashPercentage =
-        //     Math.round(cashPercentage * 1000) / 1000;
-        //   if (roundedCashPercentage < 0) {
-        //     errors.cash = 'Too low';
-        //   }
-        //   return errors;
-        // }}
+        validate={(values) => {
+          const errors: any = {};
+          if (values.newTarget.percent < 0) {
+            errors.newTarget = 'Percentage cannot be negative';
+          }
+          // if (!values.newTarget.symbol) {
+          //   errors.newTarget = 'Symbol cannot be empty';
+          // }
+          return errors;
+        }}
         onSubmit={(values, actions) => {
           if (securityBased) {
             modelPortfolio.model_portfolio_security = values.targets;
@@ -211,15 +209,17 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
             <FieldArray
               name="targets"
               render={(arrayHelpers) => {
-                // calculate the desired cash percentage
-                const cashPercentage =
-                  100 -
-                  props.values.targets.reduce((total: number, target: any) => {
-                    if (!target.deleted && target.percent) {
-                      return total + parseFloat(target.percent);
+                const total = props.values.targets.reduce(
+                  (sum: string, target: any) => {
+                    if (target.percent) {
+                      return (+sum + +target.percent).toFixed(3);
                     }
-                    return total;
-                  }, 0);
+                    return sum;
+                  },
+                  '0',
+                );
+
+                const cashPercentage = (100 - +total).toFixed(3);
 
                 return (
                   <>
@@ -289,40 +289,49 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
                     })}
                     {!assignedPortfolioGroups && (
                       <Grid columns="1fr 50px" style={{ marginTop: '30px' }}>
-                        <FormContainer>
-                          <Percentage>
-                            <PercentageInput
-                              id="percent"
-                              name="newTarget.percent"
-                              type="number"
-                              onChange={props.handleChange}
-                              value={props.values.newTarget.percent}
-                              required
+                        <div>
+                          <FormContainer>
+                            <Percentage>
+                              <PercentageInput
+                                id="percent"
+                                name="newTarget.percent"
+                                type="number"
+                                onChange={props.handleChange}
+                                value={props.values.newTarget.percent}
+                                required
+                              />
+                              <PercentageLabel htmlFor="percentage">
+                                %
+                              </PercentageLabel>
+                            </Percentage>
+                            <SymbolSelector
+                              name="newTarget.symbol"
+                              id="symbol"
+                              value={null}
+                              onSelect={(symbol) => {
+                                props.setFieldValue(
+                                  `newTarget.symbol` as 'newTarget',
+                                  symbol,
+                                );
+                              }}
+                              groupId={groupInfo ? groupInfo.groupId : ''}
+                              forModelSecurity={true}
                             />
-                            <PercentageLabel htmlFor="percentage">
-                              %
-                            </PercentageLabel>
-                          </Percentage>
-                          <SymbolSelector
-                            name="newTarget.symbol"
-                            id="symbol"
-                            value={null}
-                            onSelect={(symbol) => {
-                              props.setFieldValue(
-                                `newTarget.symbol` as 'newTarget',
-                                symbol,
-                              );
-                            }}
-                            groupId={groupInfo ? groupInfo.groupId : ''}
-                            forModelSecurity={true}
-                          />
-                        </FormContainer>
+                          </FormContainer>
+                          {props.errors.newTarget && (
+                            <ErroMsg>{props.errors.newTarget}</ErroMsg>
+                          )}
+                        </div>
                         <button
                           type="button"
-                          onClick={() =>
-                            arrayHelpers.push(props.values.newTarget)
-                          }
+                          onClick={() => {
+                            // if (props.values.newTarget.symbol === {}) {
+                            //   console.log('Error');
+                            // }
+                            return arrayHelpers.push(props.values.newTarget);
+                          }}
                           title="Add security to model"
+                          disabled={props.dirty}
                         >
                           <FontAwesomeIcon
                             icon={faPlusSquare}
@@ -332,8 +341,6 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
                         </button>
                       </Grid>
                     )}
-                    <br />
-                    <ErrorMessage name="targets" component="div" />
                   </>
                 );
               }}

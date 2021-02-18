@@ -73,7 +73,6 @@ const Targets = ({ assetClass }: Props) => {
   return (
     <React.Fragment>
       <ul>
-        selectedTarget
         {assetClass.model_asset_class_target.map((target) => {
           return (
             <TargetList key={target.symbol.id}>
