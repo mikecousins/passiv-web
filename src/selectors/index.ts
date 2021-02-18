@@ -21,11 +21,6 @@ export const selectTracking = (state: AppState) => state.tracking;
 
 export const selectDevice = (state: AppState) => state.auth.device;
 
-export const selectIsAppleDevice = (state: AppState) => {
-  const applePlatforms = ['MacIntel', 'iPhone', 'iPad'];
-  return applePlatforms.some((platform) => platform === navigator.platform);
-};
-
 export const selectReferralCode = createSelector(selectReferral, (referral) => {
   if (referral !== null) {
     return referral.referralCode;

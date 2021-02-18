@@ -15,7 +15,7 @@ import AccountRow from './AccountRow';
 import AccountGroup from './AccountGroup';
 import { deleteData, putData, postData } from '../../api';
 import { H2, A, Edit, H3, P } from '../../styled/GlobalElements';
-import { loadAccounts, loadGroups } from '../../actions';
+import { loadAccountList, loadGroup, loadGroupsList } from '../../actions';
 
 export const Header = styled.form`
   h2 {
@@ -99,32 +99,45 @@ const Accounts = () => {
         portfolio_group: result.destination!.droppableId,
       };
 
+      let affectedGroupIds = [
+        moved.portfolio_group,
+        newAccount.portfolio_group,
+      ].filter(
+        (groupId) =>
+          groupId !== 'hidden' && groupId !== 'new' && groupId !== null,
+      );
+
       if (destList) {
         destList.accounts.splice(result.destination.index, 0, moved);
         putData(`/api/v1/accounts/${moved.id}`, newAccount)
           .then(() => {
-            dispatch(loadAccounts());
-            dispatch(loadGroups());
+            dispatch(loadAccountList());
+            dispatch(loadGroupsList());
+            dispatch(loadGroup({ ids: affectedGroupIds }));
             toast.success('Moved the account successfully');
           })
           .catch(() => {
-            dispatch(loadAccounts());
-            dispatch(loadGroups());
+            dispatch(loadAccountList());
+            dispatch(loadGroupsList());
+            dispatch(loadGroup({ ids: affectedGroupIds }));
             toast.error('Failed to move the account');
           });
       } else if (result.destination.droppableId === 'new') {
         postData('/api/v1/portfolioGroups', { name: 'New Group' }).then(
           (newGroup) => {
+            affectedGroupIds.push(newGroup.data[0].id);
             newAccount.portfolio_group = newGroup.data[0].id;
             putData(`/api/v1/accounts/${moved.id}`, newAccount)
               .then(() => {
-                dispatch(loadAccounts());
-                dispatch(loadGroups());
+                dispatch(loadAccountList());
+                dispatch(loadGroupsList());
+                dispatch(loadGroup({ ids: affectedGroupIds }));
                 toast.success('Moved the account successfully');
               })
               .catch(() => {
-                dispatch(loadAccounts());
-                dispatch(loadGroups());
+                dispatch(loadAccountList());
+                dispatch(loadGroupsList());
+                dispatch(loadGroup({ ids: affectedGroupIds }));
                 toast.error('Failed to move the account');
               });
           },
@@ -226,10 +239,10 @@ const Accounts = () => {
                                 `/api/v1/portfolioGroups/${group.groupId}`,
                               )
                                 .then(() => {
-                                  dispatch(loadGroups());
+                                  dispatch(loadGroupsList());
                                 })
                                 .catch(() => {
-                                  dispatch(loadGroups());
+                                  dispatch(loadGroupsList());
                                 });
                             }}
                           >
