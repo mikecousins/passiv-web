@@ -38,7 +38,6 @@ const KrakenCredentialsManager = () => {
 
   useEffect(() => {
     if (settings) {
-      console.log('Hello');
       // setAPIKey(settings.APIKey);
       // setPrivateKey(settings.email);
     }
