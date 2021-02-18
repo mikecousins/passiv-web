@@ -5,7 +5,7 @@ import { selectLoggedIn, selectAppTime, selectRouter } from './index';
 import { AppState } from '../store';
 import { RouterState } from 'connected-react-router';
 import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
-import { selectGroupedAccounts } from './groups';
+import { selectGroupedAccounts, selectGroupInfo, selectGroups } from './groups';
 
 export const selectModelPortfoliosRaw = (state: AppState) => {
   return state.modelPortfolios;
@@ -78,6 +78,26 @@ export const selectGroupInfoForModelPortfolio = createSelector(
     }
     //@ts-ignore
     return { groupInfo, edit: router.location.query.edit };
+  },
+);
+
+export const selectGroupsUsingAModel = createSelector(
+  selectGroups,
+  (groupInfo) => {
+    const models = groupInfo?.reduce((acc: any, obj) => {
+      if (obj.model_portfolio) {
+        const existingModel = acc[obj.model_portfolio];
+        if (existingModel) {
+          existingModel.groups.push({ id: obj.id, name: obj.name });
+        } else {
+          acc[obj.model_portfolio] = {
+            groups: [{ id: obj.id, name: obj.name }],
+          };
+        }
+      }
+      return acc;
+    }, {});
+    return models;
   },
 );
 
