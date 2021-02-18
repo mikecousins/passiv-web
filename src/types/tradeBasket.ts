@@ -18,7 +18,7 @@ export type UniversalSymbolType = {
 };
 
 export type TradeType = {
-  universal_symbol: UniversalSymbolType[];
+  universal_symbol: UniversalSymbolType;
   description: string;
   account: string;
   action: string;
