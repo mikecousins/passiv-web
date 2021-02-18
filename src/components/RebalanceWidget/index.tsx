@@ -32,6 +32,7 @@ import { selectCurrentGroupSettings } from '../../selectors/groups';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import { TradeType, TradeBasketType } from '../../types/tradeBasket';
+import { selectAuthorizations } from '../../selectors';
 
 type Props = {
   groupId: string;
@@ -64,7 +65,7 @@ const RebalanceWidget = ({
   const [orderResults, setOrderResults] = useState<any>();
   const [error, setError] = useState<any>();
   const groupSettings = useSelector(selectCurrentGroupSettings);
-
+  const authorizations = useSelector(selectAuthorizations);
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
   // check if the group contains only Wealthica accounts
@@ -193,11 +194,24 @@ const RebalanceWidget = ({
     </div>
   );
 
-  const zerodhaAccounts = groupAccounts.filter(
-    (acc: any) => acc.meta.institution_name === 'Zerodha',
-  );
+  var hasZerodhaAccount = false;
 
-  if (zerodhaAccounts) {
+  const zerodhaAccounts = groupAccounts.map((acc: any) => {
+    //find the authorization associated with this account
+    const authorization = authorizations.find(
+      (authorization) => authorization.id === acc.brokerage_authorization,
+    );
+
+    //test whether this is a Zerodha authorization
+    const isZerodhaConnection = authorization.brokerage.name === 'Zerodha';
+
+    //If so, marks the `hasZerodhaAccount` variable as `true`
+    if (isZerodhaConnection) {
+      hasZerodhaAccount = true;
+    }
+  });
+
+  if (hasZerodhaAccount) {
     orderValidation = (
       <div>
         <form
