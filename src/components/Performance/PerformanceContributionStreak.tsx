@@ -64,6 +64,7 @@ export const PerformanceContributionStreak = () => {
           icon={faCircle}
           color="#04a286"
           style={{ padding: 1 }}
+          key={'dot' + i}
         />,
       );
     }

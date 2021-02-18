@@ -124,3 +124,12 @@ export const selectCurrentAccountPositionsError = createSelector<
   }
   return error;
 });
+
+export const selectHiddenAccounts = createSelector<AppState, any[], any[]>(
+  selectAccounts,
+  (accounts) => {
+    let hiddenAccounts = [];
+    hiddenAccounts = accounts.filter((a) => a.portfolio_group === null);
+    return hiddenAccounts;
+  },
+);

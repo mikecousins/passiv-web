@@ -36,12 +36,12 @@ const TOUR_STEPS = [
   {
     target: '.tour-import-holdings',
     content: (
-      <div>
+      <>
         If you already own securities in your brokerage account, then the
         easiest way to get started is to import your holdings as your target
         portfolio allocation by clicking the <strong> Import button</strong>.
         Once this is done, don’t forget to review and adjust your targets.
-      </div>
+      </>
     ),
   },
   {
@@ -51,7 +51,7 @@ const TOUR_STEPS = [
   },
 ];
 
-export const TargetContainer = styled.form`
+export const TargetContainer = styled.div`
   h2 {
     margin-bottom: 20px;
   }

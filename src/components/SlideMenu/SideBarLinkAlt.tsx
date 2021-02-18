@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectPathname } from '../../selectors/router';
+import PreLoadLink from '../PreLoadLink';
 
 type Props = {
   linkPath: string;
   name: string;
-}
+};
 
 export const SideBarLinkAlt = ({ linkPath, name }: Props) => {
   const pathname = useSelector(selectPathname);
@@ -16,7 +16,7 @@ export const SideBarLinkAlt = ({ linkPath, name }: Props) => {
   }
   return (
     <div className={className}>
-      <Link to={linkPath}>{name}</Link>
+      <PreLoadLink path={linkPath}>{name}</PreLoadLink>
     </div>
   );
 };

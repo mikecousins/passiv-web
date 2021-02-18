@@ -1,9 +1,11 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+
 import RefreshButton from './../RefreshButton';
 import styled from '@emotion/styled';
+import { HELP_PATH } from '../../apps/Paths';
+import PreLoadLink from '../PreLoadLink';
 
 export const StyledFooter = styled.div`
   position: fixed;
@@ -44,9 +46,9 @@ export const Help = styled.div`
 export const SideBarFooter = () => (
   <StyledFooter>
     <Help>
-      <Link to="/app/help">
+      <PreLoadLink path={HELP_PATH}>
         <FontAwesomeIcon icon={faQuestionCircle} /> Help
-      </Link>
+      </PreLoadLink>
     </Help>
     <RefreshButton />
   </StyledFooter>

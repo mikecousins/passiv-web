@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import { selectContributions1Y } from '../../../selectors/performance';
+import { selectGlobalPreferredCurrency } from '../../../selectors/groups';
 import Number from '../../Number';
 
 export const ContributionsContainer = styled.div`
@@ -47,10 +48,18 @@ export const Num = styled.span`
 
 export const Contributions1Y: FunctionComponent<Props> = ({ smaller }) => {
   const contributions1Y = useSelector(selectContributions1Y);
+  const preferredCurrency = useSelector(selectGlobalPreferredCurrency);
   let displayContributions = <FontAwesomeIcon icon={faSpinner} spin />;
-  if (contributions1Y !== null && contributions1Y !== undefined) {
+  if (
+    contributions1Y !== null &&
+    contributions1Y !== undefined &&
+    preferredCurrency !== null
+  ) {
     displayContributions = (
-      <Number value={contributions1Y.contributions} currency />
+      <Number
+        value={contributions1Y.contributions}
+        currency={preferredCurrency && preferredCurrency.code}
+      />
     );
   }
   return (

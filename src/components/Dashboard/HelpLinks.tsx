@@ -1,11 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
 import ShadowBox from '../../styled/ShadowBox';
 import { H3, P } from '../../styled/GlobalElements';
 import { selectHasQuestradeConnection } from '../../selectors';
+import { REFERRALS_PATH, REPORTING_PATH } from '../../apps/Paths';
+import PreLoadLink from '../PreLoadLink';
 
 export const ShadowBoxLinks = styled(ShadowBox)`
   a {
@@ -43,18 +44,18 @@ export const HelpLinks = () => {
         </ShadowBoxLinks>
         {hasQuestradeConnection && (
           <ShadowBoxLinks>
-            <Link to={'/app/reporting'}>
+            <PreLoadLink path={REPORTING_PATH}>
               <H3>Reporting</H3>
               <P>Check out the graphs showing what your account is doing</P>
-            </Link>
+            </PreLoadLink>
           </ShadowBoxLinks>
         )}
 
         <ShadowBoxLinks>
-          <Link to={'/app/referrals'}>
+          <PreLoadLink path={REFERRALS_PATH}>
             <H3>Invite Friends, Make Money</H3>
             <P>Earn cash when referrals upgrade to Passiv Elite.</P>
-          </Link>
+          </PreLoadLink>
         </ShadowBoxLinks>
       </Grid>
     </React.Fragment>

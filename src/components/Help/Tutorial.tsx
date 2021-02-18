@@ -36,7 +36,11 @@ const Tutorial = () => (
   <TutorialContainer>
     <H2>Passiv Tutorials</H2>
     <P>Looking for some how-to articles?</P>
-    <A href="/help/tutorials/" target="_blank" rel="noopener noreferrer">
+    <A
+      href="https://passiv.com/help/tutorials/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       Tutorials
     </A>
   </TutorialContainer>

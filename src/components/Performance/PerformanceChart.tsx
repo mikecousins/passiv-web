@@ -136,7 +136,7 @@ export const CustomTooltip: FunctionComponent<Props2> = ({
         {allDatums.map((element: any) => {
           const selected = datum.seriesID === element.seriesID;
           return (
-            <React.Fragment>
+            <React.Fragment key={element.seriesID}>
               <Label className={selected ? 'selected' : 'unselected'}>
                 <svg height="16" width="20">
                   <circle

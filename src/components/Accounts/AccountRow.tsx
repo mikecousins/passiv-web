@@ -6,7 +6,6 @@ import { loadAccounts, loadGroups } from '../../actions';
 import { putData } from '../../api';
 import { Table, H3, P, A } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
-import { selectCanCrossAccountBalance } from '../../selectors/subscription';
 import {
   AccountContainer,
   Brokerage,
@@ -27,7 +26,6 @@ export const AccountRow = ({ account }: Props) => {
   const brokerages = useSelector(selectAllBrokerages);
   const authorizations = useSelector(selectAuthorizations);
   const groups = useSelector(selectGroups);
-  const canCrossAccountBalance = useSelector(selectCanCrossAccountBalance);
   const dispatch = useDispatch();
 
   if (!groups) {
@@ -99,17 +97,6 @@ export const AccountRow = ({ account }: Props) => {
       <A onClick={() => setGroupEditing(false)}>Cancel</A>
     </React.Fragment>
   );
-  if (!canCrossAccountBalance) {
-    editingFooter = (
-      <React.Fragment>
-        <Button onClick={() => setGroupEditing(false)}>Cancel</Button>
-        <React.Fragment>
-          Modifying portfolio groups is only available to Elite subscribers.
-          Upgrade your account to access this feature!
-        </React.Fragment>
-      </React.Fragment>
-    );
-  }
 
   return (
     <AccountContainer>

@@ -49,13 +49,29 @@ export const PerformanceTotalValueChart = () => {
       badTickers?.join(', ');
   }
 
+  // Show zoom toggle if minimum value is not 0
+  let minValue = 1;
   let showZoomToggle = true;
-  if (totalEquityData !== undefined && totalEquityData !== null) {
-    showZoomToggle =
-      totalEquityData?.sort(
-        (a, b) => Date.parse(a.date) - Date.parse(b.date),
-      )[0].value !== 0;
-  }
+  totalEquityData?.forEach((data) => {
+    if (data.value < minValue) {
+      minValue = data.value;
+      if (minValue === 0) {
+        showZoomToggle = false;
+      } else {
+        showZoomToggle = true;
+      }
+    }
+  });
+  contributionCumulativeData?.forEach((data) => {
+    if (data.value < minValue) {
+      minValue = data.value;
+      if (minValue === 0) {
+        showZoomToggle = false;
+      } else {
+        showZoomToggle = true;
+      }
+    }
+  });
 
   const [chartStartsAt0, setChartMin] = useState(true);
   let chartMin: number | undefined = 0;
@@ -143,7 +159,7 @@ export const PerformanceTotalValueChart = () => {
   return (
     <React.Fragment>
       <H3>
-        <Tooltip label="The total estimated value of your accounts (may exclude mutual funds, options, and investements from unsupported exchanges)">
+        <Tooltip label="The total estimated value of your accounts (may exclude mutual funds, options, and investments from unsupported exchanges)">
           <>
             Total Value{' '}
             <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 13 }} />

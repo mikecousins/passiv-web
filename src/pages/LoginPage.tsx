@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Formik, ErrorMessage } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import { loginSucceeded } from '../actions';
 import { postData, putData } from '../api';
@@ -9,10 +9,21 @@ import { Form, Input, Label } from '../styled/Form';
 import { H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import PasswordField from '../components/PasswordField';
+import { selectDevice } from '../selectors/index';
+import styled from '@emotion/styled';
+
+const RememberMe = styled(Field)`
+  margin-bottom: 20px;
+`;
 
 const LoginPage = () => {
   const [stateMFA, setStateMFA] = useState<any>(null);
+  const device: any = useSelector(selectDevice);
   const dispatch = useDispatch();
+
+  if (Date.parse(device?.expiry) <= Date.now()) {
+    device.token = null;
+  }
 
   let form = (
     <Formik
@@ -28,11 +39,16 @@ const LoginPage = () => {
         password: Yup.string().required('A password is required.'),
       })}
       onSubmit={(values, actions) => {
-        postData('/api/v1/auth/login/', {
+        let body: any = {
           email: values.email,
           password: values.password,
-        })
-          .then(response => {
+        };
+
+        if (device && device.token !== null) {
+          body.device = device.token;
+        }
+        postData('/api/v1/auth/login/', body)
+          .then((response) => {
             actions.setSubmitting(false);
             if (response.data.token === null && response.data.mfa_required) {
               setStateMFA(response.data.mfa_required);
@@ -40,7 +56,7 @@ const LoginPage = () => {
               dispatch(loginSucceeded(response));
             }
           })
-          .catch(error => {
+          .catch((error) => {
             actions.setErrors({
               password:
                 error.response.data.non_field_errors || 'Failed to login.',
@@ -48,7 +64,7 @@ const LoginPage = () => {
             actions.setSubmitting(false);
           });
       }}
-      render={props => (
+      render={(props) => (
         <Form onSubmit={props.handleSubmit}>
           <Label htmlFor="email">Email</Label>
           <Input name="email" placeholder="Email" autoFocus />
@@ -85,39 +101,61 @@ const LoginPage = () => {
         key={'2fa'}
         initialValues={{
           token: '',
+          remember: [],
         }}
         validationSchema={Yup.object().shape({
           token: Yup.string().required('Must enter your verification code.'),
         })}
         onSubmit={(values, actions) => {
+          let remember = false;
+          if (values.remember[0] === 'true') {
+            remember = true;
+          }
+
           putData('/api/v1/auth/login/', {
             token: values.token,
             state: stateMFA && stateMFA.state,
+            remember_device: remember,
           })
-            .then(response => {
+            .then((response) => {
               actions.setSubmitting(false);
               dispatch(loginSucceeded(response));
             })
-            .catch(error => {
+            .catch((error) => {
               actions.setErrors({
                 token: error.response.data.detail || 'Failed to login.',
               });
               actions.setSubmitting(false);
             });
         }}
-        render={props => (
+        render={(props) => (
           <Form onSubmit={props.handleSubmit}>
             <Label htmlFor="token">Verification Code</Label>
+            {stateMFA.type === 'OTP_TOKEN' ? (
+              <P>
+                Enter the 6-digit security code from your authenticator app.
+              </P>
+            ) : (
+              <P>
+                A text message with a 6-digit verification code was just sent to{' '}
+                {stateMFA.phone_number.slice(0).replace(/.(?=..)/g, '*')}.
+              </P>
+            )}
+
             <Input
               name="token"
               placeholder="Code"
-              autocomplete="one-time-code"
+              autoComplete="one-time-code"
               autoFocus
             />
 
             <P>
               <ErrorMessage name="token" />
             </P>
+            <label>
+              <RememberMe type="checkbox" name="remember" value="true" />{' '}
+              Remember this device for 60 days
+            </label>
             <div>
               <Button
                 type="submit"

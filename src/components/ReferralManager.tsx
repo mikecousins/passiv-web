@@ -254,16 +254,40 @@ const ReferralManager = () => {
   );
 
   let rewardContent = null;
+  let metricsContent = null;
   if (referralValue !== undefined && referralCurrency !== undefined) {
     rewardContent = (
       <React.Fragment>
         <Number
           value={referralValue !== undefined ? referralValue : 0}
-          currency
+          currency={referralCurrency!.code}
         />
         &nbsp;
         <span title={referralCurrency!.name}>{referralCurrency!.code}</span>
         <ReferralSubtext>per verified referral</ReferralSubtext>
+      </React.Fragment>
+    );
+    metricsContent = (
+      <React.Fragment>
+        <ReferralMetric
+          title={'Signups'}
+          value={<Number value={numberOfSignups} decimalPlaces={0} />}
+          loading={!success}
+          background={'#04A287'}
+        />
+        <ReferralMetric
+          title={'Verified'}
+          value={<Number value={eliteUpgrades} decimalPlaces={0} />}
+          loading={!success}
+          background={'#BEE0DB'}
+        />
+        <ReferralMetric
+          title={'Total Earnings'}
+          value={<Number value={earnings} currency={referralCurrency!.code} />}
+          loading={!success}
+          background={'var(--brand-grey)'}
+          whiteText={true}
+        />
       </React.Fragment>
     );
   }
@@ -324,27 +348,7 @@ const ReferralManager = () => {
         />
       </Container2WideColumn>
       <SubHeading>Metrics</SubHeading>
-      <Container3Column>
-        <ReferralMetric
-          title={'Signups'}
-          value={<Number value={numberOfSignups} decimalPlaces={0} />}
-          loading={!success}
-          background={'#04A287'}
-        />
-        <ReferralMetric
-          title={'Verified'}
-          value={<Number value={eliteUpgrades} decimalPlaces={0} />}
-          loading={!success}
-          background={'#BEE0DB'}
-        />
-        <ReferralMetric
-          title={'Total Earnings'}
-          value={<Number value={earnings} currency />}
-          loading={!success}
-          background={'var(--brand-grey)'}
-          whiteText={true}
-        />
-      </Container3Column>
+      <Container3Column>{metricsContent}</Container3Column>
       {signUpData?.length > 1 && (
         <div
           style={{

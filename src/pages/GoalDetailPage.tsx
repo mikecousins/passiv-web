@@ -497,6 +497,11 @@ const GoalDetailPage = () => {
                     {goal?.portfolio_group?.name}
                   </P>
                 )}
+                {goal?.portfolio_group === null && (
+                  <P>
+                    <strong>Included Portfolio(s):</strong> All Portfolios
+                  </P>
+                )}
                 {!editMode ? (
                   <button onClick={() => setEditMode(true)}>
                     <FontAwesomeIcon icon={faPen} />

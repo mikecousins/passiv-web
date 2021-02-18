@@ -1,120 +1,170 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../layouts/Layout';
-import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
+import {
+  Route,
+  Redirect,
+  Switch,
+  useLocation,
+  matchPath,
+} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { StripeProvider } from 'react-stripe-elements';
 import '@reach/menu-button/styles.css';
 import '@reach/dialog/styles.css';
-import { selectLoggedIn, selectReferralCode } from '../selectors';
+import {
+  selectLoggedIn,
+  selectReferralCode,
+  selectTrackingId,
+} from '../selectors';
 import {
   selectShowInsecureApp,
   selectShowOnboardingApp,
   selectShowSecureApp,
 } from '../selectors/app';
-import { setReferralCode } from '../actions';
+import { generateTrackingCode } from '../seo';
+import { setReferralCode, setTrackingId } from '../actions';
 import { selectQueryTokens } from '../selectors/router';
 import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import GoalsPage from '../pages/GoalsPage';
 import GoalDetailPage from '../pages/GoalDetailPage';
 import { selectGoalsPageFeature } from '../selectors/features';
+import {
+  LOGIN_PATH,
+  REGISTER_PATH,
+  HELP_PATH,
+  RESET_PASSWORD_PATH,
+  DASHBOARD_PATH,
+  GROUP_PATH,
+  SETTINGS_PATH,
+  REFERRALS_PATH,
+  REPORTING_PATH,
+  GOALS_PATH,
+} from './Paths';
 
-// code splitting to lazy load our pages
-const LoginPage = React.lazy(() =>
+// preload pages
+const ReactLazyPreload = (importStatement: any) => {
+  const Component = React.lazy(importStatement);
+  //@ts-ignore
+  Component.preload = importStatement;
+  return Component;
+};
+
+// code splitting to load our pages
+const LoginPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "login" */ '../pages/LoginPage'),
 );
-const RegistrationPage = React.lazy(() =>
+
+const RegistrationPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "registration" */ '../pages/RegistrationPage'),
 );
-const DemoLoginPage = React.lazy(() =>
+
+const DemoLoginPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "demo-login" */ '../pages/DemoLoginPage'),
 );
-const HelpArticlePage = React.lazy(() =>
+
+const HelpArticlePage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "help-article" */ '../pages/HelpArticlePage'),
 );
-const HelpPage = React.lazy(() =>
+
+const HelpPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "help" */ '../pages/HelpPage'),
 );
-const ResetPasswordPage = React.lazy(() =>
+
+const ResetPasswordPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "reset-password" */ '../pages/ResetPasswordPage'),
 );
-const ResetPasswordConfirmPage = React.lazy(() =>
+
+const ResetPasswordConfirmPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "reset-password-confirm" */ '../pages/ResetPasswordConfirmPage'
   ),
 );
-const SetNewPasswordPage = React.lazy(() =>
+
+const SetNewPasswordPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "set-new-password" */ '../pages/SetNewPasswordPage'
   ),
 );
-const QuestradeOauthPage = React.lazy(() =>
+
+const QuestradeOauthPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "questrade-oauth" */ '../pages/QuestradeOauthPage'
   ),
 );
-const TradierOauthPage = React.lazy(() =>
+
+const TradierOauthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "tradier-oauth" */ '../pages/TradierOauthPage'),
 );
-const AlpacaOauthPage = React.lazy(() =>
+
+const AlpacaOauthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "alpaca-oauth" */ '../pages/AlpacaOauthPage'),
 );
-const InteractiveBrokersOauthPage = React.lazy(() =>
+
+const InteractiveBrokersOauthPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "interactive-brokers-oauth" */ '../pages/InteractiveBrokersOauthPage'
   ),
 );
-const TDAmeritradeOauthPage = React.lazy(() =>
+
+const TDAmeritradeOauthPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/TDAmeritradeOauthPage'
   ),
 );
-const WealthicaConnectionPage = React.lazy(() =>
+
+const WealthicaOauthPage = ReactLazyPreload(() =>
   import(
-    /* webpackChunkName: "wealthica-connection-page" */ '../pages/WealthicaConnectionPage'
+    /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/WealthicaOauthPage'
   ),
 );
-const WealthicaConnectionUpdatePage = React.lazy(() =>
-  import(
-    /* webpackChunkName: "wealthica-update-connection-page" */ '../pages/WealthicaConnectionUpdatePage'
-  ),
-);
-const UpgradeOfferPage = React.lazy(() =>
+
+const UpgradeOfferPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "upgrade-offer" */ '../pages/UpgradeOfferPage'),
 );
-const LoginLoadingPage = React.lazy(() =>
+
+const LoginLoadingPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "login-loading" */ '../pages/LoginLoadingPage'),
 );
-const DashboardPage = React.lazy(() =>
+
+const DashboardPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "dashboard" */ '../pages/DashboardPage'),
 );
-const GroupPage = React.lazy(() =>
+
+const GroupPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "group" */ '../pages/GroupPage'),
 );
-const CouponPage = React.lazy(() =>
+
+const CouponPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "coupon" */ '../pages/CouponPage'),
 );
-const SharePage = React.lazy(() =>
+
+const SharePage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "share" */ '../pages/SharePage'),
 );
-const AuthorizationPage = React.lazy(() =>
+
+const AuthorizationPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "authorization" */ '../pages/AuthorizationPage'),
 );
-const WelcomePage = React.lazy(() =>
+
+const WelcomePage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "welcome" */ '../pages/WelcomePage'),
 );
-const SettingsPage = React.lazy(() =>
+
+const SettingsPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "settings" */ '../pages/SettingsPage'),
 );
-const ReferralPage = React.lazy(() =>
+
+const ReferralPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "referrals" */ '../pages/ReferralPage'),
 );
-const UpgradePage = React.lazy(() =>
+
+const UpgradePage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "upgrade" */ '../pages/UpgradePage'),
 );
-const PerformancePage = React.lazy(() =>
+
+const PerformancePage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
 );
 
@@ -147,6 +197,9 @@ const SelectGroupPage = React.lazy(() =>
   //? webpackChunkName
   import(/* webpackChunkName: "...?" */ '../pages/SelectGroupPage'),
 );
+const GoalsPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "goals" */ '../pages/GoalsPage'),
+);
 
 // declare global {
 //   interface Window {
@@ -154,10 +207,40 @@ const SelectGroupPage = React.lazy(() =>
 //   }
 // }
 
+// list of all the routes that has any link associate with them in the app
+const routes = [
+  { path: LOGIN_PATH, exact: true, component: LoginPage },
+  { path: REGISTER_PATH, exact: true, component: RegistrationPage },
+  { path: HELP_PATH, exact: true, component: HelpPage },
+  { path: RESET_PASSWORD_PATH, exact: true, component: ResetPasswordPage },
+  { path: DASHBOARD_PATH, exact: true, component: DashboardPage },
+  { path: GROUP_PATH, exact: false, component: GroupPage },
+  { path: SETTINGS_PATH, exact: true, component: SettingsPage },
+  { path: REFERRALS_PATH, exact: true, component: ReferralPage },
+  { path: REPORTING_PATH, exact: true, component: PerformancePage },
+  { path: GOALS_PATH, exact: true, component: GoalsPage },
+];
+
+const findComponentForRoute = (path: any, routes: any) => {
+  const matchingRoute = routes.find((route: any) =>
+    matchPath(path, {
+      path: route.path,
+      exact: route.exact,
+    }),
+  );
+  return matchingRoute ? matchingRoute.component : null;
+};
+export const preloadRouteComponent = (to: string) => {
+  const component = findComponentForRoute(to, routes);
+  if (component && component.preload) {
+    component.preload();
+  }
+};
+
 // use the stripe test key unless we're in prod
 const stripePublicKey =
   process.env.REACT_APP_BASE_URL_OVERRIDE &&
-  process.env.REACT_APP_BASE_URL_OVERRIDE === 'passiv.com'
+  process.env.REACT_APP_BASE_URL_OVERRIDE === 'api.passiv.com'
     ? 'pk_live_LTLbjcwtt6gUmBleYqVVhMFX'
     : 'pk_test_UEivjUoJpfSDWq5i4xc64YNK';
 
@@ -191,11 +274,18 @@ const tdAmeritradeOauthRedirect = () => {
   return <Redirect to={newPath} />;
 };
 
+const wealthicaOauthRedirect = () => {
+  let urlParams = new URLSearchParams(window.location.search);
+  let newPath = '/app/oauth/wealthica?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
 const App = () => {
   const showInsecureApp = useSelector(selectShowInsecureApp);
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const showSecureApp = useSelector(selectShowSecureApp);
   const referralCode = useSelector(selectReferralCode);
+  const trackingId = useSelector(selectTrackingId);
   const loggedIn = useSelector(selectLoggedIn);
   const location = useLocation();
   const goalsPageFeatureActive = useSelector(selectGoalsPageFeature);
@@ -203,15 +293,34 @@ const App = () => {
 
   const queryParams = useSelector(selectQueryTokens);
 
+  let updateQuery = false;
+
   // extract referral code (if any) and make available on registration page
-  if (queryParams.ref && queryParams.ref !== referralCode) {
-    dispatch(setReferralCode({ referralCode: queryParams.ref }));
+  if (queryParams.ref) {
+    if (queryParams.ref !== referralCode) {
+      dispatch(setReferralCode({ referralCode: queryParams.ref }));
+    }
     delete queryParams.ref;
+    updateQuery = true;
+  }
+
+  // extract tracking id (if any) and make available on registration page
+  if (queryParams.uid) {
+    if (queryParams.uid !== trackingId) {
+      dispatch(setTrackingId({ trackingId: queryParams.uid }));
+    }
+    delete queryParams.uid;
+    updateQuery = true;
+  } else {
+    if (trackingId === '') {
+      dispatch(setTrackingId({ trackingId: generateTrackingCode() }));
+    }
   }
 
   // include query params in deep link redirect for insecure app
   if (queryParams.next) {
     delete queryParams.next;
+    updateQuery = true;
   }
   let appendParams = '';
   if (Object.keys(queryParams).length > 0) {
@@ -229,7 +338,17 @@ const App = () => {
     });
     if (params.next) {
       redirectPath = params.next as string;
+      queryParams.next = redirectPath;
     }
+  }
+
+  if (updateQuery) {
+    const newQuery = qs.stringify(queryParams);
+    let newPath = location.pathname;
+    if (newQuery) {
+      newPath += '?' + newQuery;
+    }
+    window.history.replaceState({}, '', newPath);
   }
 
   // stripe provider
@@ -346,15 +465,23 @@ const App = () => {
                 render={() => tdAmeritradeOauthRedirect()}
               />
             )}
+            {loggedIn && (
+              <Route
+                path={prefixPath('/oauth/wealthica')}
+                component={WealthicaOauthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/wealthica"
+                render={() => wealthicaOauthRedirect()}
+              />
+            )}
             // onboarding app
             {showOnboardingApp && (
               <Route path={prefixPath('/connect/:brokerage?')}>
                 <AuthorizationPage onboarding={true} />
-              </Route>
-            )}
-            {showOnboardingApp && (
-              <Route path={prefixPath('/wealthica/onboard-connect')}>
-                <WealthicaConnectionPage onboarding={true} />
               </Route>
             )}
             {showOnboardingApp && (
@@ -365,11 +492,6 @@ const App = () => {
             {(showSecureApp || showOnboardingApp) && (
               <Route path={prefixPath('/settings/connect/:brokerage?')}>
                 <AuthorizationPage onboarding={false} />
-              </Route>
-            )}
-            {(showSecureApp || showOnboardingApp) && (
-              <Route exact path={prefixPath('/wealthica/connect/')}>
-                <WealthicaConnectionPage onboarding={false} />
               </Route>
             )}
             {(showSecureApp || showOnboardingApp) && (
@@ -403,13 +525,6 @@ const App = () => {
               <Route
                 path={prefixPath('/goal/:goalId')}
                 component={GoalDetailPage}
-              />
-            )}
-            {showSecureApp && (
-              <Route
-                exact
-                path={prefixPath('/wealthica/connect/:authorizationID?')}
-                component={WealthicaConnectionUpdatePage}
               />
             )}
             {showSecureApp && (

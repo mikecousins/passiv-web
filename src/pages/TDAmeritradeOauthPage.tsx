@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { push, replace } from 'connected-react-router';
@@ -12,6 +11,8 @@ import { Button } from '../styled/Button';
 import { Step } from '../styled/SignupSteps';
 import { selectQueryTokens } from '../selectors/router';
 import { Error } from '../types/groupInfo';
+import PreLoadLink from '../components/PreLoadLink';
+import { HELP_PATH } from '../apps/Paths';
 
 const TDAmeritradeOauthPage = () => {
   const [loading, setLoading] = useState(true);
@@ -85,7 +86,8 @@ const TDAmeritradeOauthPage = () => {
             <P>
               We encountered an unexpected error while attempting to establish a
               connection. Please try again later or{' '}
-              <Link to="/app/help">contact support</Link> if this persists.
+              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if
+              this persists.
             </P>
             <P>
               Note that in order for a connection to be established, you must

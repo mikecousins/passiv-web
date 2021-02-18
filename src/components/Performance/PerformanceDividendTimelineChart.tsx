@@ -185,12 +185,11 @@ const getData = (
     d.data = d.data
       .sort((a: any, b: any) => parseDate(a[0]) - parseDate(b[0]))
       .map((a: any) => {
-        let wrongYear =
-          new Date(a[0]).getFullYear() !== new Date().getFullYear();
+        let differentYear = new Date(a[0]).getFullYear() % 2 === 0;
         let dateFormatted = formatDate(a[0], timeframe);
         // Dividend chart has 13 months, to ensure first and last month get
         // treated as seperate in stack chart, add a space to the earlier month's string
-        return timeframe === '1Y' && wrongYear
+        return timeframe === '1Y' && differentYear
           ? [dateFormatted + ' ', a[1]]
           : [dateFormatted, a[1]];
       });

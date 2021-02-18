@@ -1,9 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faSpinner,
-  faExclamationTriangle,
-} from '@fortawesome/free-solid-svg-icons';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import ShadowBox from '../../styled/ShadowBox';
@@ -41,21 +38,17 @@ const PortfolioGroupTotal = ({ error, equity, tourClass }: Props) => {
   if (!currencies || !settings) {
     return null;
   }
-  let equityValue = null;
-  if (error) {
-    equityValue = (
+  const currency = currencies.find(
+    (currency) => currency.id === settings.preferred_currency,
+  );
+  const equityValue =
+    equity !== null ? (
+      <Number value={equity} currency={currency && currency.code} />
+    ) : (
       <Center>
         <FontAwesomeIcon icon={faExclamationTriangle} />
       </Center>
     );
-  } else {
-    equityValue =
-      equity !== null ? (
-        <Number value={equity} currency />
-      ) : (
-        <FontAwesomeIcon icon={faSpinner} spin />
-      );
-  }
 
   return (
     <ShadowBox background="#04a287" className={tourClass}>

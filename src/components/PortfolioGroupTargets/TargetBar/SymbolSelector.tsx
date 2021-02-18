@@ -87,6 +87,7 @@ const SymbolSelector = ({
   const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [confirmTicker, setConfirmTicker] = useState('');
 
   const loadOptions = () => {
     setLoading(true);
@@ -109,11 +110,13 @@ const SymbolSelector = ({
       });
   };
 
-  const handleSelect = (id: string) => {
+  const handleSelectByTicker = (ticker: string) => {
     if (!matchingSymbols) {
       return;
     }
-    const symbol = matchingSymbols.find((symbol) => id === symbol.id);
+    const symbol = matchingSymbols.find(
+      (symbol) => ticker.toUpperCase() === symbol.symbol,
+    );
     if (symbol) {
       onSelect(symbol);
     }
@@ -131,26 +134,24 @@ const SymbolSelector = ({
     setInput(event.target.value);
   };
 
+  const onEnter = (event: any) => {
+    if (event.which === 13) {
+      setConfirmTicker(event.target.value);
+    }
+  };
+
+  if (confirmTicker !== '') {
+    handleSelectByTicker(confirmTicker);
+  }
+
   return (
-    <StyledCombobox onSelect={handleSelect}>
-      {/* // TODO: have to change this */}
-      {forModelSecurity ? (
-        <StyledComboboxInput
-          value={value}
-          onChange={onChange}
-          placeholder="Search for security..."
-          autoFocus
-          name={name}
-          id={id}
-        />
-      ) : (
-        <StyledInput
-          value={value}
-          onChange={onChange}
-          placeholder="Search for security..."
-          autoFocus
-        />
-      )}
+    <StyledCombobox onSelect={handleSelectByTicker}>
+      <StyledInput
+        value={value}
+        onChange={onChange}
+        onKeyUp={onEnter}
+        placeholder="Search for security..."
+      />
       {loading ? (
         <StyledPopover>
           <ComboboxList>

@@ -70,55 +70,6 @@ export const selectCanPlaceOrders = createSelector(
   },
 );
 
-export const selectCanCrossAccountBalance = createSelector(
-  selectUserPermissions,
-  (permissions) => {
-    if (!permissions) {
-      return false;
-    }
-    // TODO fix this flag when it exists in the API
-    return permissions.some(
-      (permission) => permission === 'can_change_account_portfolio_group',
-    );
-  },
-);
-
-export const selectCanAddMulitpleConnections = createSelector(
-  selectUserPermissions,
-  (permissions) => {
-    if (!permissions) {
-      return false;
-    }
-    return permissions.some(
-      (permission) => permission === 'can_add_multiple_connections',
-    );
-  },
-);
-
-export const selectCanReceiveDriftNotifications = createSelector(
-  selectUserPermissions,
-  (permissions) => {
-    if (!permissions) {
-      return false;
-    }
-    return permissions.some(
-      (permission) => permission === 'can_receive_drift_notifications',
-    );
-  },
-);
-
-export const selectCanReceiveCashNotifications = createSelector(
-  selectUserPermissions,
-  (permissions) => {
-    if (!permissions) {
-      return false;
-    }
-    return permissions.some(
-      (permission) => permission === 'can_receive_cash_notifications',
-    );
-  },
-);
-
 export const selectCanSeparateCurrencies = createSelector(
   selectUserPermissions,
   (permissions) => {
@@ -127,30 +78,6 @@ export const selectCanSeparateCurrencies = createSelector(
     }
     return permissions.some(
       (permission) => permission === 'can_separate_currencies',
-    );
-  },
-);
-
-export const selectCanCreatePortfolioGroup = createSelector(
-  selectUserPermissions,
-  (permissions) => {
-    if (!permissions) {
-      return false;
-    }
-    return permissions.some(
-      (permission) => permission === 'can_create_portfolio_group',
-    );
-  },
-);
-
-export const selectCanDeletePortfolioGroup = createSelector(
-  selectUserPermissions,
-  (permissions) => {
-    if (!permissions) {
-      return false;
-    }
-    return permissions.some(
-      (permission) => permission === 'can_delete_portfolio_group',
     );
   },
 );

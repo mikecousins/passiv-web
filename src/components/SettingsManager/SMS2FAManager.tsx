@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import {
+  selectDevice,
   selectIsDemo,
   selectPhoneNumber,
   selectSMS2FAEnabled,
@@ -36,6 +37,7 @@ const SMS2FAManager = () => {
   const [error2FA, setError2FA] = useState(null);
   const [loading2FA, setLoading2FA] = useState(false);
   const [candidatePhoneNumber, setCandidatePhoneNumber] = useState('');
+  const device: any = useSelector(selectDevice);
 
   const startEditing2FA = () => {
     setEditing2FA(true);
@@ -93,6 +95,7 @@ const SMS2FAManager = () => {
       .then(() => {
         setLoading2FA(false);
         dispatch(loadSettings());
+        device.token = null;
       })
       .catch((error) => {
         setError2FA(error.response.data.detail);

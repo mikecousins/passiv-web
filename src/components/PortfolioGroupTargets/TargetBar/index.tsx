@@ -37,7 +37,7 @@ const TOUR_STEPS = [
           the <strong>Actual Bar</strong>. It represents the current percentage
           of your holdings in this security.
         </li>
-        <br></br>
+        <br />
         <li>
           The <span style={{ color: 'var(--brand-blue)' }}>blue gauge</span> is
           the <strong>Target Bar</strong>. It represents the desired percentage
@@ -50,18 +50,28 @@ const TOUR_STEPS = [
   {
     target: '.tour-edit-targets',
     content: (
-      <div>
-        Click <strong>Edit Targets</strong> to adjust your target, add and
-        delete securities from your target, or
-        <a href="https://passiv.com/help/tutorials/how-to-exclude-stock-picks-from-your-portfolio/">
-          {' '}
-          exclude assets
-        </a>
-        .<br></br>* Note that if you delete an asset from your target portfolio,
-        Passiv will try to sell it if Selling is enabled and your accuracy will
-        be affected until you do. If you exclude it, Passiv will simply ignore
-        it.
-      </div>
+      <>
+        <div>
+          Click <strong>Edit Targets</strong> to adjust your target, add and
+          delete securities from your target, or
+          <a
+            href="https://passiv.com/help/tutorials/how-to-exclude-stock-picks-from-your-portfolio/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {' '}
+            exclude assets
+          </a>
+          .
+        </div>
+        <br />
+        <small style={{ marginTop: '300px' }}>
+          Note that if you delete an asset from your target portfolio, Passiv
+          will try to sell it if Selling is enabled and your accuracy will be
+          affected until you do. If you exclude it, Passiv will simply ignore
+          it.
+        </small>
+      </>
     ),
     placement: 'top',
   },
@@ -241,6 +251,7 @@ const TargetBar = ({
               disabled={!is_supported}
               type="button"
               onClick={() => onExclude(key)}
+              className="tour-exclude-assets"
             >
               <Tooltip
                 label={

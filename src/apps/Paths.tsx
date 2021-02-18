@@ -1,0 +1,10 @@
+export const LOGIN_PATH = '/app/login';
+export const REGISTER_PATH = '/app/register';
+export const HELP_PATH = '/app/help';
+export const RESET_PASSWORD_PATH = '/app/reset-password';
+export const DASHBOARD_PATH = '/app/dashboard';
+export const GROUP_PATH = '/app/group';
+export const SETTINGS_PATH = '/app/settings';
+export const REFERRALS_PATH = '/app/referrals';
+export const REPORTING_PATH = '/app/reporting';
+export const GOALS_PATH = '/app/goals';

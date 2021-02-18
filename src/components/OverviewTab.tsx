@@ -21,25 +21,29 @@ import {
   selectCurrentGroupSetupComplete,
   selectGroupsLoading,
   selectPreferredCurrency,
-  selectCurrentGroupTradesHasSkippedTrades,
+  selectCurrentGroupPositionsNotInTarget,
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
+import SecuritiesNotInTarget from './SecuritiesNotInTarget';
 
 const TOUR_STEPS = [
   {
     target: '.tour-accuracy',
     content:
       'Accuracy tells you how close your holdings are to your desired target. 100% indicates your holdings are perfectly on target (including cash). Accuracy changes when you adjust your targets, your settings, and when you place trades. ',
+    placement: 'right',
   },
   {
     target: '.tour-cash',
     content: 'All your available funds in your brokerage accounts’ currencies.',
+    placement: 'right',
   },
   {
     target: '.tour-total-value',
     content:
       'Current total value of your holding plus your available cash. You can choose the currency Passiv displays your Total Value in.',
+    placement: 'right',
   },
 ];
 
@@ -81,9 +85,10 @@ const OverviewTab = () => {
   const loading = useSelector(selectGroupsLoading);
   const error = useSelector(selectCurrentGroupInfoError);
   const preferredCurrency = useSelector(selectPreferredCurrency);
-  const hasSkippedTrades = useSelector(
-    selectCurrentGroupTradesHasSkippedTrades,
+  const positionsNotInTargets = useSelector(
+    selectCurrentGroupPositionsNotInTarget,
   );
+
   // if we don't have our group yet, show a spinner
   if (group === undefined) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
@@ -117,10 +122,6 @@ const OverviewTab = () => {
     );
   }
 
-  let skipErrorMessage = null;
-  if (hasSkippedTrades === true) {
-    skipErrorMessage = <PortfolioGroupErrors error={{ code: 'IBKR_CAN' }} />;
-  }
   return (
     <React.Fragment>
       {setupComplete && <Tour steps={TOUR_STEPS} name="overview_tab_tour" />}
@@ -145,7 +146,11 @@ const OverviewTab = () => {
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
-      {skipErrorMessage}
+      {setupComplete &&
+        positionsNotInTargets &&
+        positionsNotInTargets.length > 0 && (
+          <SecuritiesNotInTarget targets={positionsNotInTargets} />
+        )}
       {tradeDisplay}
 
       <PortfolioGroupTargets error={error} />

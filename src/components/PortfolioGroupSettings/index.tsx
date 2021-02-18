@@ -19,6 +19,8 @@ import { toast } from 'react-toastify';
 import TradesExplanation from '../TradesExplanation';
 import Tour from '../Tour/Tour';
 import ExcludedAssets from './ExcludedAssets';
+import UpgradeButton from '../Tour/UpgradeButton';
+import EliteFeatureTitle from '../Tour/EliteFeatureTitle';
 
 const TOUR_STEPS = [
   {
@@ -29,28 +31,41 @@ const TOUR_STEPS = [
   },
   {
     target: '.tour-currency-separation',
+    title: <EliteFeatureTitle />,
     content: (
-      <div>
-        Have more control over how Passiv treats multiple currencies you hold in
-        your brokerage account.{' '}
-        <a href="https://passiv.com/help/tutorials/how-to-change-your-currency-handling-settings/">
-          Learn More
-        </a>
-      </div>
+      <>
+        <div>
+          Have more control over how Passiv treats multiple currencies you hold
+          in your brokerage account.{' '}
+          <a
+            href="https://passiv.com/help/tutorials/how-to-change-your-currency-handling-settings/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn More
+          </a>
+        </div>
+        <br />
+        <UpgradeButton />
+      </>
     ),
     placement: 'top',
   },
   {
     target: '.tour-cash-management',
     content: (
-      <div>
+      <>
         Helps you to allocate new cash gradually or withhold a specific amount
         of cash to invest later. Start dollar-cost averaging your assets by
         clicking <strong>Add Rule</strong>.{' '}
-        <a href="https://passiv.com/help/tutorials/how-to-use-cash-management/">
+        <a
+          href="https://passiv.com/help/tutorials/how-to-use-cash-management/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Learn More
         </a>
-      </div>
+      </>
     ),
     placement: 'top',
   },
@@ -96,15 +111,26 @@ export const PortfolioGroupSettings = () => {
             invert={true}
           />
           <SettingsToggle
-            name="Notify me about new detected assets"
-            value={settings.new_assets_detected}
+            name="Prevent trades in non-tradable accounts"
+            value={settings.prevent_trades_in_non_tradable_accounts}
             onChange={() => {
               if (settings) {
-                settings.new_assets_detected = !settings.new_assets_detected;
+                settings.prevent_trades_in_non_tradable_accounts = !settings.prevent_trades_in_non_tradable_accounts;
                 updateSettings();
               }
             }}
-            invert={true}
+            invert={false}
+          />
+          <SettingsToggle
+            name="Notify me about new detected assets"
+            value={settings.show_warning_for_new_assets_detected}
+            onChange={() => {
+              if (settings) {
+                settings.show_warning_for_new_assets_detected = !settings.show_warning_for_new_assets_detected;
+                updateSettings();
+              }
+            }}
+            invert={false}
           />
           <CurrencySeparation
             preventConversion={settings.prevent_currency_conversion}
