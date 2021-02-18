@@ -8,4 +8,5 @@ export interface GroupData {
   rebalance: boolean;
   hasAccounts: boolean;
   accounts: Account[];
+  model_portfolio: string;
 }
