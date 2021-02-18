@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { ErrorMessage, FieldArray, Formik } from 'formik';
 import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
-import { GreyBox } from './SettingTargets';
+// import { GreyBox } from './SelectGroup';
 import {
   selectCurrentGroup,
   selectCurrentGroupCash,
@@ -239,7 +239,7 @@ const ApplySecurityModel = ({ model }: Props) => {
                           return null;
                         }
                         return (
-                          <GreyBox key={t.key}>
+                          <div key={t.key}>
                             <DeleteButton></DeleteButton>
                             <Grid columns="3fr 1fr">
                               <div>
@@ -322,7 +322,7 @@ const ApplySecurityModel = ({ model }: Props) => {
                                 )}
                               </BarTarget>
                             </BarsContainer>
-                          </GreyBox>
+                          </div>
                         );
                       })}
                       <div key="cashBar">

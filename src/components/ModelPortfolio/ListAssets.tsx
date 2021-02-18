@@ -102,18 +102,18 @@ const ListAssets = ({ modelPortfolio, securityBased }: Props) => {
   const [showNameInput, setShowNameInput] = useState(false);
 
   const applyModel = () => {
-    // apply model to the group
-    postData(
-      `api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`,
-      {},
-    ).then((res) => {
-      dispatch(loadGroup({ ids: [groupId] }));
-      dispatch(loadModelPortfolios());
-      toast.success(
-        `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
-      );
-      history.push(`/app/group/${groupId}`);
-    });
+    postData(`api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`, {})
+      .then((res) => {
+        dispatch(loadGroup({ ids: [groupId] }));
+        dispatch(loadModelPortfolios());
+        toast.success(
+          `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
+        );
+        history.push(`/app/group/${groupId}`);
+      })
+      .catch((err) => {
+        toast.success(`${err.message}`);
+      });
   };
 
   return (

@@ -339,16 +339,17 @@ const PortfolioGroupTargets = ({ error }: Props) => {
       <ShadowBox>
         <TargetContainer>
           <H2>Target Portfolio</H2>
-          <small>
+          {/* <small>
             <span style={{ fontWeight: 700 }}>
-              {groupInfo?.model_portfolio.name}
-            </span>{' '}
+              {/* {groupInfo?.model_portfolio !== null &&
+                groupInfo?.model_portfolio.name} 
+            </span>
             (
             {groupInfo?.model_portfolio.model_type === 0
               ? 'Security Based Model'
               : 'Asset Class Based Model'}
             )
-          </small>
+          </small> */}
           <OrderTargetAllocations edit={edit} />
           {loading ? (
             <P>

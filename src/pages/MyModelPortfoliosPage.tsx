@@ -149,7 +149,11 @@ const MyModelPortfoliosPage = () => {
                   <TransparentButton
                     style={{ padding: '12px', width: '100px' }}
                     // this should be link to "choose group" first and then "group-settings" page
-                    onClick={() => history.push(`model-setting`)}
+                    onClick={() =>
+                      history.push(
+                        `/app/model-portfolio/${mdl.model_portfolio.id}/select-group`,
+                      )
+                    }
                   >
                     Apply
                   </TransparentButton>

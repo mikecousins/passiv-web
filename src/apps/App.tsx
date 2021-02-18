@@ -143,6 +143,11 @@ const ModelSettingsPage = React.lazy(() =>
   import(/* webpackChunkName: "...?" */ '../pages/ModelSettingsPage'),
 );
 
+const SelectGroupPage = React.lazy(() =>
+  //? webpackChunkName
+  import(/* webpackChunkName: "...?" */ '../pages/SelectGroupPage'),
+);
+
 // declare global {
 //   interface Window {
 //     Stripe: any;
@@ -477,6 +482,12 @@ const App = () => {
               <Route
                 path={prefixPath('/model-portfolio/:modelId/setting/group')}
                 component={ModelSettingsPage}
+              />
+            )}
+            {showSecureApp && (
+              <Route
+                path={prefixPath('/model-portfolio/:modelId/select-group')}
+                component={SelectGroupPage}
               />
             )}
             {showSecureApp && (

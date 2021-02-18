@@ -1,5 +1,4 @@
 import React from 'react';
-import SettingTargets from '../components/SettingTargets/SettingTargets';
 import { H1 } from '../styled/GlobalElements';
 import { StyledP } from './ModelAssetClassPage';
 
@@ -11,7 +10,6 @@ const SettingTargetsPage = () => {
         Adjust your holdings target percentages or apply one of your model
         portfolios
       </StyledP>
-      <SettingTargets />
     </React.Fragment>
   );
 };
