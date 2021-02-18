@@ -399,7 +399,6 @@ const ModelPortoflioBox = ({
                                 <button
                                   type="button"
                                   onClick={() => arrayHelpers.remove(index)}
-                                  title="Delete security from model"
                                 >
                                   <FontAwesomeIcon
                                     icon={faTimes}
@@ -469,7 +468,6 @@ const ModelPortoflioBox = ({
                               // }
                               return arrayHelpers.push(props.values.newTarget);
                             }}
-                            title="Add security to model"
                             // disabled={props.dirty}
                           >
                             <FontAwesomeIcon
