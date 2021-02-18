@@ -16,7 +16,7 @@ import {
   selectModelPortfolios,
 } from '../selectors/modelPortfolios';
 import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
-import { loadGroup, loadModelPortfolios } from '../actions';
+import { loadGroup, loadGroups, loadModelPortfolios } from '../actions';
 import { Button } from '../styled/Button';
 import { H1, H3, Table } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
@@ -94,7 +94,7 @@ const MyModelPortfoliosPage = () => {
         `api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`,
         {},
       ).then((res) => {
-        dispatch(loadGroup({ ids: [groupId] }));
+        dispatch(loadGroups()); // need to load groups to have update list of groups using a model in my models page
         dispatch(loadModelPortfolios());
         toast.success(
           `"${model.model_portfolio.name}" applied to "${groupInfo?.name}"`,

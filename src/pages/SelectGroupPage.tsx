@@ -9,7 +9,10 @@ import { H1, H2 } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
 import Grid from '../styled/Grid';
 import { postData } from '../api';
-import { selectCurrentModelPortfolioId } from '../selectors/modelPortfolios';
+import {
+  selectCurrentModelPortfolioId,
+  selectGroupsUsingAModel,
+} from '../selectors/modelPortfolios';
 import { loadGroup, loadModelPortfolios } from '../actions';
 import { toast } from 'react-toastify';
 
@@ -30,6 +33,7 @@ const SettingTargets = () => {
   const groups = useSelector(selectGroups);
   const groupInfo = useSelector(selectGroupInfo);
   const currentModelId = useSelector(selectCurrentModelPortfolioId);
+  const groupsUsingByModel = useSelector(selectGroupsUsingAModel);
 
   const applyModel = (groupId: string, groupName: string) => {
     postData(
@@ -46,6 +50,16 @@ const SettingTargets = () => {
         toast.success(`${err.message}`);
       });
   };
+
+  let usingModel: any = [];
+  if (currentModelId && groupsUsingByModel[currentModelId]) {
+    usingModel = groupsUsingByModel[currentModelId].groups;
+    const filteredGroups = groups?.map((gp) => {
+      return usingModel.filter((l: any) => {
+        return l.id === gp.id;
+      });
+    });
+  }
 
   return (
     <ShadowBox>

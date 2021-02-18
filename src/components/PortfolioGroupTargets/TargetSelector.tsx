@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { push, replace } from 'connected-react-router';
 import styled from '@emotion/styled';
-import { loadGroup, loadModelPortfolios } from '../../actions';
+import { loadGroup, loadGroups, loadModelPortfolios } from '../../actions';
 import {
   selectCurrentGroupId,
   selectCurrentGroupTotalEquityExcludedRemoved,
@@ -185,7 +185,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
     toggleEditMode();
     deleteData(`/api/v1/portfolioGroups/${groupId}/targets/`)
       .then(() => {
-        dispatch(loadGroup({ ids: [groupId] }));
+        dispatch(loadGroups()); // need to load groups to have update list of groups using a model in my models page
         dispatch(loadModelPortfolios());
       })
       .catch((error) => {
