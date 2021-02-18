@@ -23,24 +23,16 @@ const MiniInputNonFormik = styled(InputNonFormik)`
   padding: 15px 12px;
 `;
 
-const CancelBtn = styled(A)`
-  margin-left: 10px;
-`;
-
 const UnocoinCredentialsManager = () => {
   const settings = useSelector(selectSettings);
   const isDemo = useSelector(selectIsDemo);
-
   const [APIKey, setAPIKey] = useState('');
-  const [PrivateKey, setPrivateKey] = useState('');
   const [editingAPIKey, setEditingAPIKey] = useState(false);
-  const [editingPrivateKey, setEditingPrivateKey] = useState(false);
 
   useEffect(() => {
     if (settings) {
       console.log('Hello');
       // setAPIKey(settings.APIKey);
-      // setPrivateKey(settings.email);
     }
   }, [settings]);
 
@@ -52,19 +44,9 @@ const UnocoinCredentialsManager = () => {
     setEditingAPIKey(false);
   };
 
-  const finishEditingPrivateKey = () => {
-    setEditingPrivateKey(false);
-  };
-
-  const cancelEditingPrivateKey = () => {
-    setEditingPrivateKey(false);
-  };
-
   const generateTokenString = () => {
     let token_string = '';
-
-    token_string = `${APIKey}:${PrivateKey}`;
-
+    token_string = `${APIKey}`;
     return window.btoa(token_string);
   };
 
@@ -102,35 +84,6 @@ const UnocoinCredentialsManager = () => {
           {APIKey === null ? '[no name set]' : APIKey}
           <Edit
             onClick={() => !isDemo && startEditingAPIKey()}
-            disabled={isDemo}
-          >
-            <FontAwesomeIcon icon={faPen} />
-            Edit
-          </Edit>
-        </InputContainer>
-      )}
-      {editingPrivateKey ? (
-        <InputContainer>
-          <MiniInputNonFormik
-            value={PrivateKey}
-            onChange={(e) => setPrivateKey(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                finishEditingPrivateKey();
-              }
-            }}
-            placeholder={'Secret Key'}
-          />
-          <Button onClick={finishEditingPrivateKey}>Done</Button>
-          <CancelBtn onClick={() => cancelEditingPrivateKey()}>
-            Cancel
-          </CancelBtn>
-        </InputContainer>
-      ) : (
-        <InputContainer>
-          <OptionsTitle>Private key:</OptionsTitle> {PrivateKey}
-          <Edit
-            onClick={() => !isDemo && setEditingPrivateKey(true)}
             disabled={isDemo}
           >
             <FontAwesomeIcon icon={faPen} />
