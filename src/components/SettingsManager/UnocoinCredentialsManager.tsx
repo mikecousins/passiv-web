@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { selectSettings, selectIsDemo } from '../../selectors';
+import { selectSettings } from '../../selectors';
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../../styled/Form';
-import { H2, Edit, A, OptionsTitle, P } from '../../styled/GlobalElements';
+import { H2, A, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
@@ -25,9 +23,7 @@ const MiniInputNonFormik = styled(InputNonFormik)`
 
 const UnocoinCredentialsManager = () => {
   const settings = useSelector(selectSettings);
-  const isDemo = useSelector(selectIsDemo);
   const [APIKey, setAPIKey] = useState('');
-  const [editingAPIKey, setEditingAPIKey] = useState(false);
 
   useEffect(() => {
     if (settings) {
@@ -35,14 +31,6 @@ const UnocoinCredentialsManager = () => {
       // setAPIKey(settings.APIKey);
     }
   }, [settings]);
-
-  const startEditingAPIKey = () => {
-    setEditingAPIKey(true);
-  };
-
-  const finishEditingAPIKey = () => {
-    setEditingAPIKey(false);
-  };
 
   const generateTokenString = () => {
     let token_string = '';
@@ -67,11 +55,6 @@ const UnocoinCredentialsManager = () => {
         <MiniInputNonFormik
           value={APIKey === null ? '' : APIKey}
           onChange={(e) => setAPIKey(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') {
-              finishEditingAPIKey();
-            }
-          }}
           placeholder={'API Key'}
         />
         <Button onClick={handleSubmit}>Done</Button>
