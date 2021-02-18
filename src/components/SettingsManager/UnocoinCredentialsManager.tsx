@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectSettings } from '../../selectors';
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../../styled/Form';
@@ -7,7 +7,8 @@ import { H2, A, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
-
+import { reloadEverything } from '../../actions';
+import { replace } from 'connected-react-router';
 const InputContainer = styled.div`
   padding-top: 10px;
   padding-bottom: 5px;
@@ -24,10 +25,10 @@ const MiniInputNonFormik = styled(InputNonFormik)`
 const UnocoinCredentialsManager = () => {
   const settings = useSelector(selectSettings);
   const [APIKey, setAPIKey] = useState('');
+  const [error, setError] = useState<Error>();
 
   useEffect(() => {
     if (settings) {
-      console.log('Hello');
       // setAPIKey(settings.APIKey);
     }
   }, [settings]);
@@ -35,12 +36,23 @@ const UnocoinCredentialsManager = () => {
   const generateTokenString = () => {
     let token_string = '';
     token_string = `${APIKey}`;
-    return window.btoa(token_string);
+    return JSON.stringify(token_string);
   };
 
+  const dispatch = useDispatch();
   const handleSubmit = () => {
-    let token_string = generateTokenString();
-    postData('/brokerages/authComplete/', { token: token_string });
+    let token = generateTokenString();
+    postData('/api/v1/brokerages/authComplete/', { token: token })
+      .then(() => {
+        dispatch(reloadEverything());
+        setTimeout(() => {
+          dispatch(replace('/app/setup-groups'));
+        }, 1000);
+      })
+      .catch((error) => {
+        console.log(error);
+        setError(error.response.data);
+      });
   };
 
   return (
