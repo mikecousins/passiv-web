@@ -4,10 +4,15 @@ import { useHistory } from 'react-router-dom';
 import { postData } from '../api';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+  faAngleRight,
+  faCheck,
+  faInfoCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
   selectGroupInfoForModelPortfolio,
+  selectGroupsUsingAModel,
   selectModelPortfolios,
 } from '../selectors/modelPortfolios';
 import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
@@ -18,6 +23,7 @@ import Grid from '../styled/Grid';
 import { ViewBtn } from '../styled/Group';
 import ShadowBox from '../styled/ShadowBox';
 import { StyledP } from './ModelAssetClassPage';
+import Tooltip from '../components/Tooltip';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -64,6 +70,8 @@ const MyModelPortfoliosPage = () => {
   );
 
   const group = useSelector(selectGroupInfoForModelPortfolio);
+  const groupsUsingModel = useSelector(selectGroupsUsingAModel);
+
   const groupInfo = group.groupInfo;
   const groupId = groupInfo?.groupId;
 
@@ -97,7 +105,15 @@ const MyModelPortfoliosPage = () => {
       history.replace(`model-portfolio/${modelId}`);
     }
   };
+  const makeLabel = (modelId: any) => {
+    let labelList: string[] = [];
+    groupsUsingModel[modelId].groups.map((model: any) =>
+      labelList.push(model.name),
+    );
+    const label = labelList.join(', ');
 
+    return label;
+  };
   return (
     <React.Fragment>
       <H1>Model Portfolios</H1>
@@ -120,6 +136,8 @@ const MyModelPortfoliosPage = () => {
       </Table>
       <div style={{ marginTop: '50px' }}>
         {modelPortfolios.map((mdl) => {
+          const totalAssignedGroups =
+            mdl.model_portfolio.total_assigned_portfolio_groups;
           return (
             <ShadowBox
               key={mdl.model_portfolio.id}
@@ -128,7 +146,7 @@ const MyModelPortfoliosPage = () => {
               <Grid columns={groupId ? '2fr 1fr 250px' : '2fr 1fr 150px 150px'}>
                 <ModelName>{mdl.model_portfolio.name}</ModelName>
                 <InUseDiv>
-                  {mdl.model_portfolio.total_assigned_portfolio_groups > 0 && (
+                  {totalAssignedGroups > 0 && (
                     <>
                       <FontAwesomeIcon
                         icon={faCheck}
@@ -139,8 +157,13 @@ const MyModelPortfoliosPage = () => {
                         }}
                       />
                       <InUse>In Use</InUse> |{' '}
-                      {mdl.model_portfolio.total_assigned_portfolio_groups}{' '}
-                      Group(s)
+                      <span style={{ marginRight: '10px' }}>
+                        {totalAssignedGroups} Group
+                        {totalAssignedGroups > 1 && 's'}
+                      </span>
+                      <Tooltip label={makeLabel(mdl.model_portfolio.id)}>
+                        <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+                      </Tooltip>
                     </>
                   )}
                 </InUseDiv>
