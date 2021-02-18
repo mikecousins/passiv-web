@@ -196,19 +196,27 @@ const RebalanceWidget = ({
 
   var hasZerodhaAccount = false;
 
-  const zerodhaAccounts = groupAccounts.map((acc: any) => {
+  groupAccounts.map((acc: any) => {
     //find the authorization associated with this account
+    if (authorizations === undefined) {
+      return false;
+    }
     const authorization = authorizations.find(
       (authorization) => authorization.id === acc.brokerage_authorization,
     );
 
     //test whether this is a Zerodha authorization
+    if (authorization === undefined) {
+      return false;
+    }
     const isZerodhaConnection = authorization.brokerage.name === 'Zerodha';
 
     //If so, marks the `hasZerodhaAccount` variable as `true`
     if (isZerodhaConnection) {
       hasZerodhaAccount = true;
+      return true;
     }
+    return false;
   });
 
   if (hasZerodhaAccount) {
