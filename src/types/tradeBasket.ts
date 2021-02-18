@@ -1,3 +1,5 @@
+import { Currency } from './currency';
+
 export type TradeBasketType = {
   variety: string;
   tradingsymbol: string;
@@ -8,8 +10,15 @@ export type TradeBasketType = {
   price: number;
 };
 
+export type UniversalSymbolType = {
+  currency: Currency[];
+  description: string;
+  id: string;
+  symbol: string;
+};
+
 export type TradeType = {
-  universal_symbol: object;
+  universal_symbol: UniversalSymbol[];
   description: string;
   account: string;
   action: string;
