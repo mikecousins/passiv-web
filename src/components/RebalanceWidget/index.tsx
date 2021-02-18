@@ -31,6 +31,7 @@ import { selectAccounts } from '../../selectors/accounts';
 import { selectCurrentGroupSettings } from '../../selectors/groups';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
+import { TradeType, TradeBasketType } from '../../types/tradeBasket';
 
 type Props = {
   groupId: string;
@@ -98,21 +99,23 @@ const RebalanceWidget = ({
   };
 
   const calculateZerodhaTrades = () => {
-    const t = trades.trades;
-    const zerodhaTradeBasket: any = [];
-    t.forEach((t: any) => {
-      let zerodhaTrade: any = {};
-      zerodhaTrade['variety'] = 'regular';
-      zerodhaTrade['tradingsymbol'] = t['universal_symbol']['description'];
-      zerodhaTrade['exchange'] = 'NSE';
-      zerodhaTrade['transaction_type'] = t['action'];
-      zerodhaTrade['quantity'] = t['units'];
-      zerodhaTrade['order_type'] = 'LIMIT';
-      zerodhaTrade['price'] = t['price'];
-      zerodhaTradeBasket.push(zerodhaTrade);
-    });
+    const zerodhaTradeBasket: TradeBasketType = trades.trades.map(
+      (trade: TradeType) => {
+        return {
+          variety: 'regular',
+          tradingsymbol: trade.universal_symbol.description,
+          exchange: 'NSE',
+          transaction_type: trade.action,
+          quantity: trade.units,
+          order_type: 'LIMIT',
+          price: trade.price,
+        };
+      },
+    );
+
     return zerodhaTradeBasket;
   };
+
   const executeZerodhaTrades = () => {
     const zerodhaTrades = calculateZerodhaTrades();
     postData(
