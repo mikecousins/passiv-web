@@ -107,9 +107,11 @@ const MyModelPortfoliosPage = () => {
   };
   const makeLabel = (modelId: any) => {
     let labelList: string[] = [];
-    groupsUsingModel[modelId].groups.map((model: any) =>
-      labelList.push(model.name),
-    );
+    if (groupsUsingModel[modelId]) {
+      groupsUsingModel[modelId].groups.map((model: any) =>
+        labelList.push(model.name),
+      );
+    }
     const label = labelList.join(', ');
 
     return label;
