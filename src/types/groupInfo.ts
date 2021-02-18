@@ -1,5 +1,6 @@
 import { Currency } from './currency';
 import { Account } from './account';
+import { ModelPortfolio } from './modelPortfolio';
 
 // export type Account = {
 //   id: string;
@@ -126,6 +127,6 @@ export type GroupInfoData = {
   calculated_trades: CalculatedTrades;
   accuracy: number;
   settings: Settings;
-  model_portfolio: any; //TODO change to the actual type
+  model_portfolio: ModelPortfolio;
   error: Error;
 };
