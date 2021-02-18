@@ -257,6 +257,8 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       connect: () => {
         startConnection('Zerodha', 'trade');
       },
+      confirmPrompt: null,
+      defaultConnectionType: 'trade',
       openURL: 'https://kite.trade/connect/login?api_key=pnriechdkzx5ipvq&v=3',
       major: true,
       logo: ZerodhaLogo,
