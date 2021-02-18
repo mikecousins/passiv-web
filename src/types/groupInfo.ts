@@ -1,24 +1,7 @@
 import { Currency } from './currency';
 import { Account } from './account';
-
-// export type Account = {
-//   id: string;
-//   number: string;
-// };
-
-export type Brokerage = {
-  id: string;
-  name: string;
-  url: string;
-};
-
-export type BrokerageAuthorization = {
-  id: string;
-  created_date: string;
-  brokerage: Brokerage;
-  name: string;
-  type: string;
-};
+import { Brokerage } from './brokerage';
+import { Authorization } from './authorization';
 
 export type Symbol = {
   id: string;
@@ -119,7 +102,7 @@ export type AssetClassesDetails = {
 export type GroupInfoData = {
   asset_classes_details: AssetClassesDetails[];
   accounts: Account[];
-  brokerage_authorizations: BrokerageAuthorization[];
+  brokerage_authorizations: Authorization[];
   symbols: Symbol[];
   quotable_symbols: Symbol[];
   balances: Balance[];

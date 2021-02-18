@@ -1,4 +1,4 @@
-import { Brokerage } from './groupInfo';
+import { Brokerage } from './brokerage';
 
 export type Authorization = {
   id: string;
