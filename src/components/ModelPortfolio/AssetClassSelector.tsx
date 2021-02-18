@@ -71,14 +71,14 @@ const AddAssetClassBtn = styled.li`
 type Props = {
   name: string;
   id: string;
-  assetClassesAvailable: ModelAssetClass[];
+  availableAssetClasses: any[];
   onSelect: any;
 };
 
 const AssetClassSelector = ({
   name,
   id,
-  assetClassesAvailable,
+  availableAssetClasses,
   onSelect,
 }: Props) => {
   const [backToAssetClass, setBackToAssetClass] = useState(false);
@@ -87,17 +87,19 @@ const AssetClassSelector = ({
     return <Redirect exact to="/app/asset-class" />;
   }
 
+  const handleSelect = (id: string) => {
+    const assetClass = availableAssetClasses.find((astCls) => id === astCls.id);
+    if (assetClass) {
+      onSelect(assetClass);
+    }
+  };
+
   return (
-    <StyledCombobox>
-      <StyledComboboxInput
-        placeholder="Pick Asset Class"
-        onSelect={onSelect}
-        name={name}
-        id={id}
-      />
+    <StyledCombobox onSelect={handleSelect}>
+      <StyledComboboxInput placeholder="Pick Asset Class" name={name} id={id} />
       <StyledComboboxPopover>
         <StyledComboboxList>
-          {assetClassesAvailable.map((option, index) => {
+          {availableAssetClasses.map((option, index) => {
             return (
               <StyledComboboxOption key={index} value={option.id}>
                 {option.name}
