@@ -74,9 +74,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   };
 
   const startConfirmConnection = (brokerageName: string) => {
-    console.log('connect', brokerageName);
     const options = getBrokerageOptions(brokerageName);
-    console.log('options', options);
     if (options) {
       if (checkBrokerageMaintenance(brokerage) === true) {
         toast.error(
@@ -86,11 +84,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         if (options.confirmPrompt !== null) {
           setConfirmConnection(brokerageName);
         } else {
-          console.log(
-            'start connect',
-            brokerageName,
-            options.defaultConnectionType,
-          );
           startConnection(brokerageName, options.defaultConnectionType);
         }
       }
