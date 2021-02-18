@@ -338,18 +338,19 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     <OverlayContainer>
       <ShadowBox>
         <TargetContainer>
-          <H2>Target Portfolio</H2>
-          {/* <small>
-            <span style={{ fontWeight: 700 }}>
-              {/* {groupInfo?.model_portfolio !== null &&
-                groupInfo?.model_portfolio.name} 
-            </span>
-            (
-            {groupInfo?.model_portfolio.model_type === 0
-              ? 'Security Based Model'
-              : 'Asset Class Based Model'}
-            )
-          </small> */}
+          <H2>Model Portfolio</H2>
+          {groupInfo?.model_portfolio !== null && (
+            <small>
+              <span style={{ fontWeight: 700 }}>
+                {groupInfo?.model_portfolio.name}
+              </span>{' '}
+              (
+              {groupInfo?.model_portfolio.model_type === 0
+                ? 'Security Based Model'
+                : 'Asset Class Based Model'}
+              )
+            </small>
+          )}
           <OrderTargetAllocations edit={edit} />
           {loading ? (
             <P>
