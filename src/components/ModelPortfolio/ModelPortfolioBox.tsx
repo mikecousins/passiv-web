@@ -105,6 +105,12 @@ const StyledName = styled.span`
   font-size: 30px;
 `;
 
+const AddButton = styled.button`
+  :disabled {
+    display: none;
+  }
+`;
+
 type Props = {
   modelPortfolio: ModelPortfolioDetailsType;
   assetClasses: ModelAssetClass[];
@@ -136,12 +142,13 @@ const ModelPortoflioBox = ({
 
   const modelId = modelPortfolio.model_portfolio.id;
   const assignedPortfolioGroups =
-    modelPortfolio.model_portfolio.total_assigned_portfolio_groups > 0;
+    modelPortfolio.model_portfolio.total_assigned_portfolio_groups;
 
   const group = useSelector(selectGroupInfoForModelPortfolio);
   const groupInfo = group.groupInfo;
   const groupId = groupInfo?.groupId;
   const editMode = group.edit;
+  const [error, setError] = useState('');
 
   const finishEditingName = () => {
     if (
@@ -212,10 +219,13 @@ const ModelPortoflioBox = ({
           initialStatus={{ submitted: false }}
           validate={(values) => {
             const errors: any = {};
+
             if (values.newTarget.percent < 0) {
               errors.newTarget = 'Percentage cannot be negative';
+            } else if (typeof values.newTarget.percent === 'string') {
+              errors.newTarget = 'Percentage should be a number';
             }
-            // if (!values.newTarget.symbol) {
+            // else if (Object.entries(values.newTarget.symbol).length === 0) {
             //   errors.newTarget = 'Symbol cannot be empty';
             // }
             return errors;
@@ -351,7 +361,9 @@ const ModelPortoflioBox = ({
                                       )
                                     }
                                     required
-                                    readOnly={assignedPortfolioGroups}
+                                    readOnly={
+                                      assignedPortfolioGroups > 1 || !editMode
+                                    }
                                   />
                                   <PercentageLabel htmlFor="percentage">
                                     %
@@ -393,7 +405,7 @@ const ModelPortoflioBox = ({
 
                                 <br></br>
                               </FormContainer>
-                              {!assignedPortfolioGroups && (
+                              {assignedPortfolioGroups === 0 && (
                                 <button
                                   type="button"
                                   onClick={() => arrayHelpers.remove(index)}
@@ -409,7 +421,7 @@ const ModelPortoflioBox = ({
                           );
                         },
                       )}
-                      {!assignedPortfolioGroups && (
+                      {assignedPortfolioGroups === 0 && (
                         <Grid columns="1fr 50px" style={{ marginTop: '30px' }}>
                           <div>
                             <FormContainer>
@@ -457,25 +469,42 @@ const ModelPortoflioBox = ({
                             {props.errors.newTarget && (
                               <ErroMsg>{props.errors.newTarget}</ErroMsg>
                             )}
+                            {error !== '' && <ErroMsg>{error}</ErroMsg>}
                           </div>
-                          <button
+                          <AddButton
                             type="button"
                             onClick={() => {
-                              // if (props.values.newTarget.symbol === {}) {
-                              //   console.log('Error');
+                              // if (
+                              //   (securityBased &&
+                              //     Object.entries(props.values.newTarget.symbol)
+                              //       .length === 0) ||
+                              //   (!securityBased &&
+                              //     Object.entries(
+                              //       props.values.newTarget.model_asset_class,
+                              //     ).length === 0)
+                              // ) {
+                              //   setError(
+                              //     `Entered ${
+                              //       securityBased ? 'symbol' : 'asset class'
+                              //     } does not exist`,
+                              //   );
+                              // } else {
+                              //   arrayHelpers.push(props.values.newTarget);
                               // }
-
                               return arrayHelpers.push(props.values.newTarget);
                             }}
-
-                            // disabled={props.dirty}
+                            disabled={
+                              !props.isValid ||
+                              Object.entries(props.values.newTarget.symbol)
+                                .length === 0
+                            }
                           >
                             <FontAwesomeIcon
                               icon={faPlusSquare}
                               color="var(--grey-darkest)"
                               size="lg"
                             />
-                          </button>
+                          </AddButton>
                         </Grid>
                       )}
                     </>
@@ -483,7 +512,7 @@ const ModelPortoflioBox = ({
                 }}
               />
               <ButtonContainer>
-                {!assignedPortfolioGroups && (
+                {props.dirty && props.isValid && (
                   <Button
                     type="button"
                     onClick={() => {
@@ -493,9 +522,6 @@ const ModelPortoflioBox = ({
                       //   : props.handleSubmit();
                       props.handleSubmit();
                     }}
-                    disabled={
-                      props.isSubmitting || !props.isValid || !props.dirty
-                    }
                   >
                     Save Model
                   </Button>
