@@ -496,8 +496,13 @@ const ModelPortoflioBox = ({
                             }}
                             disabled={
                               !props.isValid ||
-                              Object.entries(props.values.newTarget.symbol)
-                                .length === 0
+                              (securityBased &&
+                                Object.entries(props.values.newTarget.symbol)
+                                  .length === 0) ||
+                              (!securityBased &&
+                                Object.entries(
+                                  props.values.newTarget.model_asset_class,
+                                ).length === 0)
                             }
                           >
                             <FontAwesomeIcon
