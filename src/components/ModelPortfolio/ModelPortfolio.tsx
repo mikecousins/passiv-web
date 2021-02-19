@@ -139,9 +139,6 @@ const ModelPortfolio = () => {
       : true,
   );
 
-  const assignedPortfolioGroups =
-    currentModelPortfolio.model_portfolio.total_assigned_portfolio_groups > 0;
-
   const [deleteDialog, setDeleteDialog] = useState(false);
   const router = useSelector(selectRouter);
 
@@ -345,7 +342,7 @@ const ModelPortfolio = () => {
               </ResponsiveGrid>
             </ShadowBox>
 
-            {!sharedModel && !assignedPortfolioGroups && (
+            {!sharedModel && (
               <DeleteContainer>
                 {deleteDialog ? (
                   <>
