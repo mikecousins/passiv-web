@@ -146,12 +146,22 @@ const SymbolSelector = ({
 
   return (
     <StyledCombobox onSelect={handleSelectByTicker}>
-      <StyledInput
-        value={value}
-        onChange={onChange}
-        onKeyUp={onEnter}
-        placeholder="Search for security..."
-      />
+      {forModelSecurity ? (
+        <StyledComboboxInput
+          value={value}
+          onChange={onChange}
+          placeholder="Search for security..."
+          name={name}
+          id={id}
+        />
+      ) : (
+        <StyledInput
+          value={value}
+          onChange={onChange}
+          onKeyUp={onEnter}
+          placeholder="Search for security..."
+        />
+      )}
       {loading ? (
         <StyledPopover>
           <ComboboxList>
@@ -166,7 +176,7 @@ const SymbolSelector = ({
               <StyledComboboxList>
                 {matchingSymbols.map((option: any, index) => {
                   return (
-                    <StyledComboboxOption key={index} value={option.id}>
+                    <StyledComboboxOption key={index} value={option.symbol}>
                       <span>
                         {option.symbol} ({option.description})
                       </span>
@@ -178,7 +188,7 @@ const SymbolSelector = ({
               <ComboboxList>
                 {matchingSymbols.map((option: any, index) => {
                   return (
-                    <StyledOption key={index} value={option.id}>
+                    <StyledOption key={index} value={option.symbol}>
                       <span>
                         {option.symbol} ({option.description})
                       </span>
