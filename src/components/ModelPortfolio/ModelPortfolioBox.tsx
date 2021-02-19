@@ -234,8 +234,6 @@ const ModelPortoflioBox = ({
               // });
               modelPortfolio.model_portfolio_asset_class = values.targets;
             }
-            console.log('model', modelPortfolio);
-
             postData(`/api/v1/modelPortfolio/${modelId}`, modelPortfolio)
               .then(() => {
                 dispatch(loadModelPortfolios());
@@ -466,8 +464,10 @@ const ModelPortoflioBox = ({
                               // if (props.values.newTarget.symbol === {}) {
                               //   console.log('Error');
                               // }
+
                               return arrayHelpers.push(props.values.newTarget);
                             }}
+
                             // disabled={props.dirty}
                           >
                             <FontAwesomeIcon
@@ -485,13 +485,14 @@ const ModelPortoflioBox = ({
               <ButtonContainer>
                 {!assignedPortfolioGroups && (
                   <Button
-                    type="submit"
-                    // onClick={() => {
-                    //   modelPortfolio.model_portfolio
-                    //     .total_assigned_portfolio_groups > 1
-                    //     ? setShowDialog(true)
-                    //     : props.handleSubmit();
-                    // }}
+                    type="button"
+                    onClick={() => {
+                      // modelPortfolio.model_portfolio
+                      //   .total_assigned_portfolio_groups > 1
+                      //   ? setShowDialog(true)
+                      //   : props.handleSubmit();
+                      props.handleSubmit();
+                    }}
                     disabled={
                       props.isSubmitting || !props.isValid || !props.dirty
                     }
