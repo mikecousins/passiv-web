@@ -362,7 +362,8 @@ const ModelPortoflioBox = ({
                                     }
                                     required
                                     readOnly={
-                                      assignedPortfolioGroups > 1 || !editMode
+                                      assignedPortfolioGroups > 1 ||
+                                      (!editMode && assignedPortfolioGroups > 0)
                                     }
                                   />
                                   <PercentageLabel htmlFor="percentage">
