@@ -83,20 +83,29 @@ export const selectGroupInfoForModelPortfolio = createSelector(
 
 export const selectGroupsUsingAModel = createSelector(
   selectGroups,
-  (groupInfo) => {
+  selectModelPortfolios,
+  (groupInfo, modelPortfolios) => {
     const models = groupInfo?.reduce((acc: any, obj) => {
       if (obj.model_portfolio) {
         const existingModel = acc[obj.model_portfolio];
         if (existingModel) {
-          existingModel.groups.push({ id: obj.id, name: obj.name });
+          existingModel.groups.push(obj);
         } else {
           acc[obj.model_portfolio] = {
-            groups: [{ id: obj.id, name: obj.name }],
+            groups: [obj],
           };
         }
       }
       return acc;
     }, {});
+    modelPortfolios.map((mdl: any) => {
+      Object.entries(models).map(([key, value]) => {
+        if (mdl.model_portfolio.id === key) {
+          models[key].model = mdl.model_portfolio;
+        }
+      });
+    });
+
     return models;
   },
 );
