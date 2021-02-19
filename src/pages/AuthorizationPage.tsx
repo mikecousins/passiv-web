@@ -10,7 +10,7 @@ import {
 
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { P, BulletUL, Li } from '../styled/GlobalElements';
+import { A, P, BulletUL, Li } from '../styled/GlobalElements';
 import { postData } from '../api';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
@@ -246,6 +246,17 @@ const AuthorizationPage = ({ onboarding }: Props) => {
               </Li>
             </BulletUL>
           </VerticalPadding>
+          <P>
+            Read more about these limitations in our{' '}
+            <A
+              href="https://passiv.com/help/tutorials/how-to-view-holdings-outside-passiv-brokerage-partners/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Wealthica Guide
+            </A>
+            .
+          </P>
           <P>By connecting, I understand and agree to these limitations.</P>
         </ShadowBox>
       ),
