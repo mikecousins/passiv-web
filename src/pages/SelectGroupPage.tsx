@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { selectGroupInfo, selectGroups } from '../selectors/groups';
-import { H1, H2 } from '../styled/GlobalElements';
+import { H1, H2, H3 } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
 import Grid from '../styled/Grid';
 import { postData } from '../api';
@@ -26,11 +26,15 @@ export const GreyBox = styled.div`
   }
 `;
 
+const GroupsUsingModel = styled.div`
+  border-top: 1px solid grey;
+  padding: 10px;
+`;
+
 const SettingTargets = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const groups = useSelector(selectGroups);
+  let groups = useSelector(selectGroups);
   const groupInfo = useSelector(selectGroupInfo);
   const currentModelId = useSelector(selectCurrentModelPortfolioId);
   const groupsUsingByModel = useSelector(selectGroupsUsingAModel);
@@ -51,21 +55,24 @@ const SettingTargets = () => {
       });
   };
 
-  let usingModel: any = [];
+  let filteredGroups: any;
   if (currentModelId && groupsUsingByModel[currentModelId]) {
-    usingModel = groupsUsingByModel[currentModelId].groups;
-    const filteredGroups = groups?.map((gp) => {
-      return usingModel.filter((l: any) => {
-        return l.id === gp.id;
-      });
-    });
+    filteredGroups =
+      currentModelId && groupsUsingByModel[currentModelId].groups;
+    filteredGroups = filteredGroups
+      ?.map((gp: any) => {
+        return groups?.filter((g: any) => gp.id !== g.id);
+      })
+      .flat();
+  } else {
+    filteredGroups = groups;
   }
 
   return (
     <ShadowBox>
       <H1 style={{ marginBottom: '20px' }}>Select Portfolio Group</H1>
-      {groups &&
-        groups.map((group) => {
+      {filteredGroups &&
+        filteredGroups.map((group: any) => {
           const targetByAssetClass =
             groupInfo[group.id].data?.settings.rebalance_by_asset_class;
           return (
@@ -90,6 +97,19 @@ const SettingTargets = () => {
             </GreyBox>
           );
         })}
+      {/* <GroupsUsingModel>
+        <H3>
+          "{currentModelId && groupsUsingByModel[currentModelId].model.name}" is
+          already being used by:
+        </H3>
+        <br />
+        <ul style={{ padding: '0px 10px' }}>
+          {filteredGroups &&
+            filteredGroups.map((gp: any) => {
+              return <li style={{ marginBottom: '10px' }}>{gp.name}</li>;
+            })}
+        </ul>
+      </GroupsUsingModel> */}
     </ShadowBox>
   );
 };
