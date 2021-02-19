@@ -31,6 +31,7 @@ import Tour from '../Tour/Tour';
 import { replace } from 'connected-react-router';
 import Grid from '../../styled/Grid';
 import { toast } from 'react-toastify';
+import { selectModelPortfolios } from '../../selectors/modelPortfolios';
 
 const TOUR_STEPS = [
   {
@@ -110,6 +111,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   const edit = useSelector(selectIsEditMode);
   const groups = useSelector(selectGroupedAccounts);
   const groupInfo = useSelector(selectCurrentGroupInfo);
+  const modelPortfolios = useSelector(selectModelPortfolios);
 
   const dispatch = useDispatch();
 
@@ -184,7 +186,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         const holdings = responses[0].data;
         const model = responses[1].data;
         const modelId = model.model_portfolio.id;
-        model.model_portfolio.name = `${group?.name} Model`;
+        model.model_portfolio.name = `${group?.name} - Model Portfolio`;
         model.model_portfolio_security = holdings;
 
         postData(`api/v1/modelPortfolio/${modelId}`, model)
@@ -309,14 +311,20 @@ const PortfolioGroupTargets = ({ error }: Props) => {
                 one of the following options:
               </P>
               <Grid columns="1fr 1fr 1fr">
-                {modelChoices.map((m) => (
-                  <ShadowBox key={m.id}>
-                    <H3LowProfile className={m.tourClass}>
-                      {m.name}
-                    </H3LowProfile>
-                    <CenteredDiv>{m.button}</CenteredDiv>
-                  </ShadowBox>
-                ))}
+                {modelChoices.map((m) => {
+                  // do not show `Use existing models` option if there're no models
+                  if (m.id === 'USE_MODEL' && modelPortfolios.length === 0) {
+                    return;
+                  }
+                  return (
+                    <ShadowBox key={m.id}>
+                      <H3LowProfile className={m.tourClass}>
+                        {m.name}
+                      </H3LowProfile>
+                      <CenteredDiv>{m.button}</CenteredDiv>
+                    </ShadowBox>
+                  );
+                })}
               </Grid>
             </React.Fragment>
           ) : (
