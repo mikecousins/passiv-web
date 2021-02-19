@@ -130,6 +130,6 @@ export type GroupInfoData = {
   calculated_trades: CalculatedTrades;
   accuracy: number;
   settings: Settings;
-  model_portfolio: ModelPortfolio;
+  model_portfolio: any;
   error: Error;
 };

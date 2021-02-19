@@ -13,6 +13,8 @@ import {
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrentGroupCash,
   selectCurrentGroupPositionsWithActualPercentage,
+  selectGroupInfo,
+  selectCurrentGroupInfo,
 } from '../../selectors/groups';
 import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
@@ -21,6 +23,11 @@ import { Button } from '../../styled/Button';
 import { A } from '../../styled/GlobalElements';
 import { deleteData, postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
+import { selectModelPortfolios } from '../../selectors/modelPortfolios';
+import {
+  ModelPortfolio,
+  ModelPortfolioDetailsType,
+} from '../../types/modelPortfolio';
 
 const ButtonBox = styled.div`
   display: flex;
@@ -145,6 +152,7 @@ type Props = {
 };
 
 export const TargetSelector = ({ lockable, target, onReset }: Props) => {
+  const dispatch = useDispatch();
   const groupId = useSelector(selectCurrentGroupId);
   const positions = useSelector(
     selectCurrentGroupPositionsWithActualPercentage,
@@ -152,8 +160,9 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const totalEquity = useSelector(selectCurrentGroupTotalEquityExcludedRemoved);
   const cash = useSelector(selectCurrentGroupCash);
   const edit = useSelector(selectIsEditMode);
-
-  const dispatch = useDispatch();
+  const currentGroupInfo = useSelector(selectCurrentGroupInfo);
+  const modelPortfolios = useSelector(selectModelPortfolios);
+  const modelId = currentGroupInfo?.model_portfolio.id;
 
   if (!target || cash === null || cash === undefined) {
     return null;
@@ -258,6 +267,14 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   portfolioVisualizerURLParts.push('#analysisResults');
 
   const portfolioVisualizerURL = portfolioVisualizerURLParts.join('');
+
+  let modelUseByOtherGroups = false;
+  modelPortfolios.forEach((model: ModelPortfolioDetailsType) => {
+    if (modelId && model.model_portfolio.id === modelId) {
+      modelUseByOtherGroups =
+        model.model_portfolio.total_assigned_portfolio_groups > 1;
+    }
+  });
 
   return (
     <Formik
@@ -546,22 +563,22 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                           Edit Targets
                         </Button>
                       </div>
-                      {/* <div>
+                      <div>
                         <Button
                           type="button"
                           onClick={() => {
                             // link to edit model page
                             dispatch(
                               push(
-                                `/app/model-portfolio/${groupInfo?.model_portfolio?.id}/group/${groupId}?edit=true`,
+                                `/app/model-portfolio/${modelId}/group/${groupId}?edit=true`,
                               ),
                             );
                           }}
+                          disabled={modelUseByOtherGroups}
                         >
                           Edit Model
                         </Button>
-                      </div> */}
-
+                      </div>
                       <div>
                         <Button
                           type="button"
