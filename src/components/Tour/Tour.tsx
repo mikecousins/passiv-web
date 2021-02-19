@@ -21,10 +21,13 @@ const Tour = ({ steps, name }: Props) => {
   const [showMessage, setShowMessage] = useState(false);
   const isMobile = useSelector(selectIsMobile);
 
+  const hideAccounts = name === 'hide_accounts_indicator';
+
   const handleJoyrideCallback = (data: any) => {
     if (
       data.lifecycle === 'complete' &&
-      (data.action === 'skip' ||
+      ((hideAccounts && data.action === 'close') ||
+        data.action === 'skip' ||
         (data.action === 'next' && data.status === 'finished'))
     ) {
       if (messages?.includes('tour-popup')) {
@@ -62,19 +65,20 @@ const Tour = ({ steps, name }: Props) => {
   return (
     <>
       {/* show tour if: user have access to this feature, the message hasn't been
-      acknowledged, and the tour is not off OR show the goals feature*/}
-      {!isMobile && showInAppTour && showTour && showMessage && (
+      acknowledged, the tour is for hiding accounts, AND the tour is not off*/}
+      {((!isMobile && showInAppTour && showTour && showMessage) ||
+        (hideAccounts && showMessage)) && (
         <JoyRide
           callback={handleJoyrideCallback}
           steps={steps}
           showProgress
-          continuous={true}
+          continuous={hideAccounts ? false : true}
           showSkipButton={true}
           disableScrolling
           locale={{
             last: 'Hide tour',
             skip: 'Hide tour',
-            close: 'Hide tour',
+            close: hideAccounts ? 'Hide' : 'Hide tour',
           }}
           styles={{
             tooltip: {

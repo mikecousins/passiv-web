@@ -133,7 +133,11 @@ const SideBar = () => {
         <StyledAside>
           <SideBarLink name="Dashboard" linkPath={DASHBOARD_PATH} />
           {groups && groups.length > 0 && (
-            <GroupContainer>{groupList}</GroupContainer>
+            <GroupContainer
+              className={groups.length > 2 ? 'tour-hide_accounts' : ''}
+            >
+              {groupList}
+            </GroupContainer>
           )}
           {performancePageFeatureActive && hasQuestradeConnection && (
             <SideBarLink name="Reporting" linkPath={REPORTING_PATH} />
