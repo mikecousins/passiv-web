@@ -113,6 +113,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'questrade',
       name: 'Questrade',
+      displayName: 'Questrade',
       connect: () => {
         startConnection('Questrade', 'read');
       },
@@ -133,6 +134,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'alpaca',
       name: 'Alpaca',
+      displayName: 'Alpaca',
       connect: () => {
         startConnection('Alpaca', 'trade');
       },
@@ -150,7 +152,8 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     },
     {
       id: 'interactivebrokers',
-      name: 'IBKR',
+      name: 'Interactive Brokers',
+      displayName: 'IBKR',
       connect: () => {
         startConnection('Interactive Brokers', 'trade');
       },
@@ -170,6 +173,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'tdameritrade',
       name: 'TD Ameritrade',
+      displayName: 'TD Ameritrade',
       connect: () => {
         startConnection('TD Ameritrade', 'trade');
       },
@@ -188,6 +192,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'tradier',
       name: 'Tradier',
+      displayName: 'Tradier',
       connect: () => {
         startConnection('Tradier', 'trade');
       },
@@ -206,6 +211,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'wealthica',
       name: 'Wealthica',
+      displayName: 'Wealthica',
       connect: () => {
         startConnection('Wealthica', 'read');
       },
@@ -276,7 +282,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
                 <LogoContainer>
                   <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
                 </LogoContainer>
-                <AuthLink>Connect {brokerage.name}</AuthLink>
+                <AuthLink>Connect {brokerage.displayName}</AuthLink>
               </AuthBox>
             );
             return contents;
