@@ -18,12 +18,13 @@ import {
 import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
 import { loadGroup, loadGroups, loadModelPortfolios } from '../actions';
 import { Button } from '../styled/Button';
-import { H1, H3, Table } from '../styled/GlobalElements';
+import { H1, H3, P, Table } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
 import { ViewBtn } from '../styled/Group';
 import ShadowBox from '../styled/ShadowBox';
 import { StyledP } from './ModelAssetClassPage';
 import Tooltip from '../components/Tooltip';
+import { GreyBox } from './SelectGroupPage';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -33,6 +34,18 @@ export const TransparentButton = styled(Button)`
   border-radius: 4px;
   font-weight: 600;
   font-size: 18px;
+  @media (max-width: 900px) {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+`;
+const NewModelButton = styled(Button)`
+  padding: 23px 50px;
+  font-weight: 600;
+  font-size: 18px;
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 `;
 const StyledViewBtn = styled(ViewBtn)`
   width: 100%;
@@ -44,21 +57,31 @@ const StyledViewBtn = styled(ViewBtn)`
     font-weight: 700;
   }
 `;
-const NewModelButton = styled(Button)`
-  padding: 23px 50px;
-  font-weight: 600;
-  font-size: 18px;
-`;
 const ModelName = styled(H3)`
   font-size: 22px;
   font-weight: 600;
+  @media (max-width: 900px) {
+    margin-bottom: 15px;
+    text-align: center;
+  }
 `;
 const InUseDiv = styled.div`
   font-size: 20px;
+  @media (max-width: 900px) {
+    margin-bottom: 20px;
+    text-align: center;
+  }
 `;
 const InUse = styled.span`
   font-weight: 600;
   margin-right: 7px;
+`;
+const ApplyTransparentBtn = styled(TransparentButton)`
+  padding: 12px;
+  width: 100px;
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 `;
 
 const MyModelPortfoliosPage = () => {
@@ -137,66 +160,72 @@ const MyModelPortfoliosPage = () => {
         )}
       </Table>
       <div style={{ marginTop: '50px' }}>
-        {modelPortfolios.map((mdl) => {
-          const totalAssignedGroups =
-            mdl.model_portfolio.total_assigned_portfolio_groups;
-          return (
-            <ShadowBox
-              key={mdl.model_portfolio.id}
-              style={{ lineHeight: '2rem' }}
-            >
-              <Grid columns={groupId ? '2fr 1fr 250px' : '2fr 1fr 150px 150px'}>
-                <ModelName>{mdl.model_portfolio.name}</ModelName>
-                <InUseDiv>
-                  {totalAssignedGroups > 0 && (
-                    <>
-                      <FontAwesomeIcon
-                        icon={faCheck}
-                        size="lg"
-                        style={{
-                          marginRight: '8px',
-                          color: 'var(--brand-green)',
-                        }}
-                      />
-                      <InUse>In Use</InUse> |{' '}
-                      <span style={{ marginRight: '10px' }}>
-                        {totalAssignedGroups} Group
-                        {totalAssignedGroups > 1 && 's'}
-                      </span>
-                      <Tooltip label={makeLabel(mdl.model_portfolio.id)}>
-                        <FontAwesomeIcon icon={faInfoCircle} size="sm" />
-                      </Tooltip>
-                    </>
+        {modelPortfolios.length > 0 ? (
+          modelPortfolios.map((mdl) => {
+            const totalAssignedGroups =
+              mdl.model_portfolio.total_assigned_portfolio_groups;
+            return (
+              <ShadowBox key={mdl.model_portfolio.id}>
+                <Grid
+                  columns={groupId ? '2fr 1fr 250px' : '2fr 1fr 150px 150px'}
+                >
+                  <ModelName>{mdl.model_portfolio.name}</ModelName>
+                  <InUseDiv>
+                    {totalAssignedGroups > 0 && (
+                      <>
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          size="lg"
+                          style={{
+                            marginRight: '8px',
+                            color: 'var(--brand-green)',
+                          }}
+                        />
+                        <InUse>In Use</InUse> |{' '}
+                        <span style={{ marginRight: '10px' }}>
+                          {totalAssignedGroups} Group
+                          {totalAssignedGroups > 1 && 's'}
+                        </span>
+                        <Tooltip label={makeLabel(mdl.model_portfolio.id)}>
+                          <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+                        </Tooltip>
+                      </>
+                    )}
+                  </InUseDiv>
+                  {/* display Apply button only when there is a group id  */}
+                  {!groupId && (
+                    <ApplyTransparentBtn
+                      // this should be link to "choose group" first and then "group-settings" page
+                      onClick={() =>
+                        history.push(
+                          `/app/model-portfolio/${mdl.model_portfolio.id}/select-group`,
+                        )
+                      }
+                    >
+                      Apply
+                    </ApplyTransparentBtn>
                   )}
-                </InUseDiv>
-                {/* display Apply button only when there is a group id  */}
-                {!groupId && (
-                  <TransparentButton
-                    style={{ padding: '12px', width: '100px' }}
-                    // this should be link to "choose group" first and then "group-settings" page
-                    onClick={() =>
-                      history.push(
-                        `/app/model-portfolio/${mdl.model_portfolio.id}/select-group`,
-                      )
-                    }
-                  >
-                    Apply
-                  </TransparentButton>
-                )}
-                <StyledViewBtn>
-                  <button onClick={() => handleApplyOrViewBtn(mdl)}>
-                    {groupId ? 'Apply Model' : 'View'}
-                  </button>
-                  <FontAwesomeIcon
-                    icon={faAngleRight}
-                    size="lg"
-                    color="var(--brand-blue)"
-                  />
-                </StyledViewBtn>
-              </Grid>
-            </ShadowBox>
-          );
-        })}
+                  <StyledViewBtn>
+                    <button onClick={() => handleApplyOrViewBtn(mdl)}>
+                      {groupId ? 'Apply Model' : 'View'}
+                    </button>
+                    <FontAwesomeIcon
+                      icon={faAngleRight}
+                      size="lg"
+                      color="var(--brand-blue)"
+                    />
+                  </StyledViewBtn>
+                </Grid>
+              </ShadowBox>
+            );
+          })
+        ) : (
+          <ShadowBox>
+            <P style={{ textAlign: 'center' }}>
+              There are no model portfolios available.
+            </P>
+          </ShadowBox>
+        )}
       </div>
     </React.Fragment>
   );

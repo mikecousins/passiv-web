@@ -162,7 +162,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const edit = useSelector(selectIsEditMode);
   const currentGroupInfo = useSelector(selectCurrentGroupInfo);
   const modelPortfolios = useSelector(selectModelPortfolios);
-  const modelId = currentGroupInfo?.model_portfolio.id;
+  const modelId = currentGroupInfo?.model_portfolio?.id;
 
   if (!target || cash === null || cash === undefined) {
     return null;
