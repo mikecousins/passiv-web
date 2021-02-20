@@ -101,6 +101,11 @@ export const PortfolioGroupSettings = () => {
         <React.Fragment>
           <SettingsToggle
             name="Allow selling to rebalance"
+            explanation={
+              settings.buy_only
+                ? 'Passiv will use available cash to purchase the most underweight assets in your portfolio. Sell orders are not permitted.'
+                : 'Passiv will buy and sell assets to get as close to 100% accuracy as possible.'
+            }
             value={settings.buy_only}
             onChange={() => {
               if (settings) {
@@ -112,6 +117,11 @@ export const PortfolioGroupSettings = () => {
           />
           <SettingsToggle
             name="Prevent trades in non-tradable accounts"
+            explanation={
+              settings.prevent_trades_in_non_tradable_accounts
+                ? 'Passiv will attempt to route your trades through brokers with One-Click Trade support.'
+                : ''
+            }
             value={settings.prevent_trades_in_non_tradable_accounts}
             onChange={() => {
               if (settings) {
@@ -123,6 +133,11 @@ export const PortfolioGroupSettings = () => {
           />
           <SettingsToggle
             name="Notify me about new detected assets"
+            explanation={
+              settings.show_warning_for_new_assets_detected
+                ? 'Passiv will show you a message for new holding assets that are not part of your target protfolio.'
+                : ''
+            }
             value={settings.show_warning_for_new_assets_detected}
             onChange={() => {
               if (settings) {
@@ -156,7 +171,7 @@ export const PortfolioGroupSettings = () => {
         </React.Fragment>
       )}
       {featureCashManagement && <CashManagement />}
-      <TradesExplanation settings={settings} accounts={groupAccounts} />
+      {/* <TradesExplanation settings={settings} accounts={groupAccounts} /> */}
     </ShadowBox>
   );
 };

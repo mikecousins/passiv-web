@@ -8,9 +8,11 @@ import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
   selectCurrentGroupPositionsNotInTargetOrExcluded,
+  selectCurrentGroupSetupComplete,
 } from '../../selectors/groups';
 import { H2 } from '../../styled/GlobalElements';
-import { StateText, ToggleButton } from '../../styled/ToggleButton';
+import { ToggleButton } from '../../styled/ToggleButton';
+import { ToggleText } from './SettingsToggle';
 
 const Container = styled.div`
   margin-bottom: 37px;
@@ -22,7 +24,10 @@ const Container = styled.div`
     margin-bottom: 37px;
   }
 `;
-const Positions = styled.li``;
+const Positions = styled.li`
+  margin-bottom: 10px;
+`;
+
 const Symbol = styled.span`
   font-size: 18px;
   font-weight: 600;
@@ -38,6 +43,7 @@ const ExcludedAssets = () => {
   const positionsNotInTargetOrExcluded = useSelector(
     selectCurrentGroupPositionsNotInTargetOrExcluded,
   );
+  const setupComplete = useSelector(selectCurrentGroupSetupComplete);
 
   const handleToggle = (position: any) => {
     const positionId = position.symbol.id;
@@ -60,6 +66,7 @@ const ExcludedAssets = () => {
     <Container>
       <H2>Excluded securities in this portfolio</H2>
       {positionsNotInTargetOrExcluded &&
+      setupComplete &&
       positionsNotInTargetOrExcluded.length > 0 ? (
         <ul>
           {positionsNotInTargetOrExcluded.map((position) => {
@@ -69,12 +76,12 @@ const ExcludedAssets = () => {
                   <FontAwesomeIcon
                     icon={position.excluded ? faToggleOn : faToggleOff}
                   />
-                  <StateText>
-                    {position.excluded ? 'excluded' : 'not excluded'}
-                  </StateText>
+                  <ToggleText>
+                    {position.excluded ? 'Excluded' : 'Not Excluded'}
+                  </ToggleText>
                 </ToggleButton>
                 <Symbol>{position.symbol.symbol}</Symbol>
-                {/* <span>{position.symbol.description}</span> */}
+                <span>{position.symbol.description}</span>
               </Positions>
             );
           })}

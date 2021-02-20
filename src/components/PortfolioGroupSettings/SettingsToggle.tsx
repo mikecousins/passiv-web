@@ -8,9 +8,28 @@ import {
   Row,
 } from '../../styled/ToggleButton';
 import Tooltip from '../Tooltip';
+import styled from '@emotion/styled';
+import { P } from '../../styled/GlobalElements';
+
+export const ToggleText = styled(StateText)`
+  font-size: 20px;
+  font-weight: 200;
+`;
+
+const Name = styled.span`
+  font-size: 20px;
+  margin-left: 26px;
+`;
+
+const Explanation = styled(P)`
+  font-weight: 200;
+  font-size: 16px;
+  margin-left: 87px;
+`;
 
 type Props = {
   name: string;
+  explanation?: string;
   value: boolean;
   onChange?: () => void;
   tip?: string | null;
@@ -21,6 +40,7 @@ type Props = {
 const SettingsToggle = ({
   name,
   value,
+  explanation,
   onChange = () => {},
   tip = null,
   disabled = false,
@@ -34,7 +54,7 @@ const SettingsToggle = ({
       <Tooltip label={tip}>
         <FontAwesomeIcon icon={value ? faToggleOn : faToggleOff} />
       </Tooltip>
-      <StateText>{value ? 'on' : 'off'}</StateText>
+      <ToggleText>{value ? 'On' : 'Off'}</ToggleText>
     </ToggleButton>
   );
   if (disabled) {
@@ -43,15 +63,16 @@ const SettingsToggle = ({
         <Tooltip label={tip}>
           <FontAwesomeIcon icon={value ? faToggleOn : faToggleOff} />
         </Tooltip>
-        <StateText>{value ? 'on' : 'off'}</StateText>*
+        <ToggleText>{value ? 'On' : 'Off'}</ToggleText>*
       </DisabledToggleButton>
     );
   }
   return (
     <React.Fragment>
       <Row>
-        <span>{name}: </span>
         {toggleButton}
+        <Name>{name}</Name>
+        <Explanation>{explanation}</Explanation>
       </Row>
     </React.Fragment>
   );
