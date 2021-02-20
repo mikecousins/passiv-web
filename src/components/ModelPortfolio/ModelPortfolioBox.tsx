@@ -219,9 +219,12 @@ const ModelPortoflioBox = ({
           initialStatus={{ submitted: false }}
           validate={(values) => {
             const errors: any = {};
-
-            if (values.newTarget.percent < 0) {
-              errors.newTarget = 'Percentage cannot be negative';
+            //TODO check for cash %
+            if (
+              values.newTarget.percent < 0 ||
+              values.newTarget.percent > 100
+            ) {
+              errors.newTarget = 'Percentage should be between 0 and 100';
             } else if (typeof values.newTarget.percent === 'string') {
               errors.newTarget = 'Percentage should be a number';
             }
@@ -446,7 +449,7 @@ const ModelPortoflioBox = ({
                                   value={null}
                                   onSelect={(symbol) => {
                                     props.setFieldValue(
-                                      `newTarget.symbol` as 'newTarget',
+                                      'newTarget.symbol',
                                       symbol,
                                     );
                                   }}
@@ -460,7 +463,7 @@ const ModelPortoflioBox = ({
                                   availableAssetClasses={availableAssetClasses}
                                   onSelect={(symbol: any) => {
                                     props.setFieldValue(
-                                      `newTarget.model_asset_class` as 'newTarget',
+                                      'newTarget.model_asset_class',
                                       symbol,
                                     );
                                   }}
@@ -475,24 +478,8 @@ const ModelPortoflioBox = ({
                           <AddButton
                             type="button"
                             onClick={() => {
-                              // if (
-                              //   (securityBased &&
-                              //     Object.entries(props.values.newTarget.symbol)
-                              //       .length === 0) ||
-                              //   (!securityBased &&
-                              //     Object.entries(
-                              //       props.values.newTarget.model_asset_class,
-                              //     ).length === 0)
-                              // ) {
-                              //   setError(
-                              //     `Entered ${
-                              //       securityBased ? 'symbol' : 'asset class'
-                              //     } does not exist`,
-                              //   );
-                              // } else {
-                              //   arrayHelpers.push(props.values.newTarget);
-                              // }
-                              return arrayHelpers.push(props.values.newTarget);
+                              arrayHelpers.push(props.values.newTarget);
+                              props.setFieldValue('newTarget.symbol', {});
                             }}
                             disabled={
                               !props.isValid ||
