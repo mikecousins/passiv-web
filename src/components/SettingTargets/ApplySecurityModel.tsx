@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { ErrorMessage, FieldArray, Formik } from 'formik';
 import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
-// import { GreyBox } from './SelectGroup';
 import {
   selectCurrentGroup,
   selectCurrentGroupCash,
