@@ -16,11 +16,16 @@ import {
 import { loadGroup, loadModelPortfolios } from '../actions';
 import { toast } from 'react-toastify';
 
-export const GreyBox = styled.div`
+const GreyBox = styled.div`
   background: #f1f1f1;
   padding: 20px;
   margin-bottom: 20px;
   line-height: 2rem;
+  cursor: pointer;
+  :hover {
+    box-shadow: 4px 6px 12px 0 rgb(107 110 115 / 40%);
+    border: 1px solid #023ca2;
+  }
   @media (max-width: 900px) {
     padding: 15px;
   }
@@ -55,11 +60,11 @@ const SettingTargets = () => {
       });
   };
 
+  let usingModel: any;
   let filteredGroups: any;
   if (currentModelId && groupsUsingByModel[currentModelId]) {
-    filteredGroups =
-      currentModelId && groupsUsingByModel[currentModelId].groups;
-    filteredGroups = filteredGroups
+    usingModel = currentModelId && groupsUsingByModel[currentModelId].groups;
+    filteredGroups = usingModel
       ?.map((gp: any) => {
         return groups?.filter((g: any) => gp.id !== g.id);
       })
@@ -76,40 +81,54 @@ const SettingTargets = () => {
           const targetByAssetClass =
             groupInfo[group.id].data?.settings.rebalance_by_asset_class;
           return (
-            <GreyBox key={group.id}>
-              <Grid columns="3fr 1fr 1fr 10px">
-                <H2 style={{ fontWeight: 400 }}>{group.name}</H2>{' '}
-                <span style={{ fontWeight: 600 }}>
-                  ({group.accounts.length} Account)
-                </span>
-                <div>
-                  <span style={{ fontWeight: 600 }}>Target By:</span>{' '}
-                  {targetByAssetClass ? 'Asset Class' : 'Securities'}
+            <GreyBox
+              key={group.id}
+              onClick={() => applyModel(group.id, group.name)}
+            >
+              <Grid columns={group.setupComplete ? '3fr 1fr 10px' : '3fr 10px'}>
+                <div style={{ display: 'flex' }}>
+                  <H2 style={{ fontWeight: 400, marginRight: '20px' }}>
+                    {group.name}
+                  </H2>
+                  <span style={{ fontWeight: 600 }}>
+                    ({group.accounts.length} Account)
+                  </span>
                 </div>
-                <FontAwesomeIcon
+                {group.setupComplete && (
+                  <div>
+                    <span style={{ fontWeight: 600 }}>Target By:</span>{' '}
+                    {targetByAssetClass ? 'Asset Class' : 'Securities'}
+                  </div>
+                )}
+                {/* <FontAwesomeIcon
                   icon={faAngleRight}
                   size="2x"
                   color="var(--brand-blue)"
                   cursor="pointer"
                   onClick={() => applyModel(group.id, group.name)}
-                />
+                /> */}
               </Grid>
             </GreyBox>
           );
         })}
-      {/* <GroupsUsingModel>
-        <H3>
-          "{currentModelId && groupsUsingByModel[currentModelId].model.name}" is
-          already being used by:
-        </H3>
-        <br />
-        <ul style={{ padding: '0px 10px' }}>
-          {filteredGroups &&
-            filteredGroups.map((gp: any) => {
-              return <li style={{ marginBottom: '10px' }}>{gp.name}</li>;
-            })}
-        </ul>
-      </GroupsUsingModel> */}
+      {usingModel && usingModel.length > 0 && (
+        <GroupsUsingModel>
+          <H3>
+            "
+            {currentModelId &&
+              groupsUsingByModel[currentModelId] &&
+              groupsUsingByModel[currentModelId].model.name}
+            " is already being used by:
+          </H3>
+          <br />
+          <ul style={{ padding: '0px 10px' }}>
+            {usingModel &&
+              usingModel.map((gp: any) => {
+                return <li style={{ marginBottom: '10px' }}>{gp.name}</li>;
+              })}
+          </ul>
+        </GroupsUsingModel>
+      )}
     </ShadowBox>
   );
 };
