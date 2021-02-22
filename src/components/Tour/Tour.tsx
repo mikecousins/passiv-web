@@ -26,8 +26,7 @@ const Tour = ({ steps, name }: Props) => {
   const handleJoyrideCallback = (data: any) => {
     if (
       data.lifecycle === 'complete' &&
-      ((hideAccounts && data.action === 'close') ||
-        data.action === 'skip' ||
+      (data.action === 'skip' ||
         (data.action === 'next' && data.status === 'finished'))
     ) {
       if (messages?.includes('tour-popup')) {
@@ -72,13 +71,13 @@ const Tour = ({ steps, name }: Props) => {
           callback={handleJoyrideCallback}
           steps={steps}
           showProgress
-          continuous={hideAccounts ? false : true}
+          continuous={true}
           showSkipButton={true}
           disableScrolling
           locale={{
-            last: 'Hide tour',
+            last: hideAccounts ? 'Hide' : 'Hide tour',
             skip: 'Hide tour',
-            close: hideAccounts ? 'Hide' : 'Hide tour',
+            // close: hideAccounts ? 'Hide' : '',
           }}
           styles={{
             tooltip: {

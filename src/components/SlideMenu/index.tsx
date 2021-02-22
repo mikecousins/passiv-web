@@ -40,7 +40,7 @@ const TOUR_STEPS = [
         </div>
       </>
     ),
-    placement: 'top',
+    placement: 'top-end',
   },
 ];
 export const SlideMenu = () => {
