@@ -17,7 +17,29 @@ const StyledSlideMenu = styled.div`
 const TOUR_STEPS = [
   {
     target: '.tour-hide_accounts',
-    content: '',
+    content: (
+      <>
+        <div>
+          You can{' '}
+          <a
+            href="https://passiv.com/help/tutorials/how-to-set-up-multi-account-portfolios/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            combine several accounts
+          </a>{' '}
+          into a single group, or just{' '}
+          <a
+            href="https://passiv.com/help/tutorials/how-to-hide-accounts-in-passiv/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            hide accounts
+          </a>{' '}
+          that you don't want to see.
+        </div>
+      </>
+    ),
     placement: 'top',
   },
 ];
