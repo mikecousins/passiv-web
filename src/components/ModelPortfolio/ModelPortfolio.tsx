@@ -30,8 +30,7 @@ import {
 import { toast } from 'react-toastify';
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
-import { SmallButton } from '../../styled/Button';
-import { H3 } from '../../styled/GlobalElements';
+import { A, H3 } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
@@ -39,6 +38,13 @@ import {
   ReadOnlyInput,
   IconBox,
 } from '../SettingsManager/APIAccessSettings';
+import Dialog from '@reach/dialog';
+import {
+  ActionContainer,
+  H2Margin,
+  DeleteBtn,
+} from '../ModelAssetClass/AssetClass';
+import { Button } from '../../styled/Button';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -344,35 +350,32 @@ const ModelPortfolio = () => {
 
             {!sharedModel && (
               <DeleteContainer>
-                {deleteDialog ? (
-                  <>
-                    <SmallButton
-                      onClick={handleDeleteModel}
-                      style={{
-                        backgroundColor: 'transparent',
-                        color: 'black',
-                        fontWeight: 600,
-                      }}
-                    >
-                      Delete
-                    </SmallButton>
-                    <SmallButton
-                      onClick={() => setDeleteDialog(false)}
-                      style={{ fontWeight: 600 }}
-                    >
-                      Cancel
-                    </SmallButton>
-                  </>
-                ) : (
-                  <button onClick={() => setDeleteDialog(true)}>
-                    <FontAwesomeIcon icon={faTrashAlt} /> Delete{' '}
-                    <span style={{ fontWeight: 600 }}>
-                      {currentModelPortfolio!.model_portfolio.name}
-                    </span>
-                  </button>
-                )}
+                <button onClick={() => setDeleteDialog(true)}>
+                  <FontAwesomeIcon icon={faTrashAlt} /> Delete
+                </button>
               </DeleteContainer>
             )}
+            <Dialog
+              isOpen={deleteDialog}
+              onDismiss={() => setDeleteDialog(false)}
+              aria-labelledby="dialog1Title"
+              aria-describedby="dialog1Desc"
+            >
+              <H2Margin>
+                Are you sure you want to delete{' '}
+                <span style={{ fontWeight: 'bold' }}>
+                  {currentModelPortfolio!.model_portfolio.name} *
+                </span>{' '}
+                ?
+              </H2Margin>
+              <p style={{ fontSize: '0.9rem', textAlign: 'center' }}>
+                * All groups using this model will get reset
+              </p>
+              <ActionContainer>
+                <DeleteBtn onClick={handleDeleteModel}>Delete</DeleteBtn>
+                <Button onClick={() => setDeleteDialog(false)}>Cancel</Button>
+              </ActionContainer>
+            </Dialog>
           </>
         )
       )}
