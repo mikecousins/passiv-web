@@ -118,10 +118,7 @@ const SideBarLink = ({
 
   const link = (
     <>
-      <PreLoadLink
-        path={linkPath}
-        className={name === 'Goals' ? 'tour-goals-feature' : ''}
-      >
+      <PreLoadLink path={linkPath}>
         {indicator}
         {indent ? name : <strong>{name}</strong>}
         {beta && <BetaTag>BETA</BetaTag>}

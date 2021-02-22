@@ -7,9 +7,12 @@ import styled from '@emotion/styled';
 import { postData } from '../api';
 import { toast } from 'react-toastify';
 
+const ButtonContainer = styled.div`
+  text-align: right;
+`;
+
 const PaddedButton = styled(Button)`
   margin-right: 10px;
-  float: right;
 `;
 
 type Props = {
@@ -20,21 +23,23 @@ type Props = {
 export const HideButton = ({ name }: Props) => {
   const dispatch = useDispatch();
   return (
-    <PaddedButton
-      onClick={() => {
-        postData(`/api/v1/contextualMessages`, {
-          name: [name],
-        })
-          .then((response) => {
-            dispatch(loadSettings());
+    <ButtonContainer>
+      <PaddedButton
+        onClick={() => {
+          postData(`/api/v1/contextualMessages`, {
+            name: [name],
           })
-          .catch((error) => {
-            toast.error(`Failed to hide contextual message "${name}".`);
-          });
-      }}
-    >
-      Hide
-    </PaddedButton>
+            .then((response) => {
+              dispatch(loadSettings());
+            })
+            .catch((error) => {
+              toast.error(`Failed to hide contextual message "${name}".`);
+            });
+        }}
+      >
+        Hide
+      </PaddedButton>
+    </ButtonContainer>
   );
 };
 

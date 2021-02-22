@@ -71,7 +71,10 @@ const RebalanceWidget = ({
   const wealthicaAccounts = groupAccounts.filter(
     (acc: any) => acc.meta.institution_name === 'Wealthica',
   );
-  if (wealthicaAccounts?.length === groupAccounts.length) {
+  if (
+    wealthicaAccounts?.length > 0 &&
+    wealthicaAccounts?.length === groupAccounts.length
+  ) {
     onlyWealthica = true;
   }
 

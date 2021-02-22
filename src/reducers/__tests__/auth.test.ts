@@ -13,6 +13,10 @@ describe('auth reducer', () => {
         },
       }),
     ).toEqual({
+      device: {
+        expiry: null,
+        token: null,
+      },
       token: token,
       error: null,
     });
@@ -31,6 +35,10 @@ describe('auth reducer', () => {
         payload: error,
       }),
     ).toEqual({
+      device: {
+        expiry: null,
+        token: null,
+      },
       token: null,
       error: error,
     });
