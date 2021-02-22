@@ -119,14 +119,18 @@ const MyModelPortfoliosPage = () => {
       postData(
         `api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`,
         {},
-      ).then((res) => {
-        dispatch(loadGroups()); // need to load groups to have update list of groups using a model in my models page
-        dispatch(loadModelPortfolios());
-        toast.success(
-          `"${model.model_portfolio.name}" applied to "${groupInfo?.name}"`,
-        );
-        history.push(`/app/group/${groupId}`);
-      });
+      )
+        .then((res) => {
+          dispatch(loadGroups()); // need to load groups to have update list of groups using a model in my models page
+          dispatch(loadModelPortfolios());
+          toast.success(
+            `"${model.model_portfolio.name}" applied to "${groupInfo?.name}"`,
+          );
+          history.push(`/app/group/${groupId}`);
+        })
+        .catch((err) => {
+          toast.error(err.response.data.detail);
+        });
     } else {
       history.replace(`model-portfolio/${modelId}`);
     }

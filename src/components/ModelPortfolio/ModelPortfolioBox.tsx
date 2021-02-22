@@ -182,7 +182,7 @@ const ModelPortoflioBox = ({
         history.push(`/app/group/${groupId}`);
       })
       .catch((err) => {
-        toast.success(`${err.message}`);
+        toast.error(`${err.message}`);
       });
   };
   return (
