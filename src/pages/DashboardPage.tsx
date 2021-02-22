@@ -12,8 +12,15 @@ import DashboardReporting, {
 import HelpLinks from '../components/Dashboard/HelpLinks';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
 import WelcomeVideo from '../components/WelcomeVideo/WelcomeVideo';
-import { ContextualMessageWrapper } from '../components/ContextualMessageWrapper';
-import { selectHasQuestradeConnection } from '../selectors';
+import ConnectQuestrade from '../components/ConnectQuestrade';
+import {
+  ContextualMessageMultiWrapper,
+  Message,
+} from '../components/ContextualMessageMultiWrapper';
+import {
+  selectHasQuestradeConnection,
+  selectDisplayQuestradeConnectPrompt,
+} from '../selectors';
 import TotalHoldings from '../components/TotalHoldings';
 import DashboardConfig from '../components/Performance/Dashboard/DashboardConfig';
 import { DashboardGoalWidgets } from '../components/Goals/DashboardGoalWidgets';
@@ -22,6 +29,10 @@ export const DashboardPage = () => {
   const authorized = useSelector(selectIsAuthorized);
   const groups = useSelector(selectDashboardGroups);
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
+  const displayQuestradeConnectPrompt = useSelector(
+    selectDisplayQuestradeConnectPrompt,
+  );
+
   const [configMode, setConfigMode] = useState(false);
 
   if (authorized === undefined) {
@@ -42,32 +53,43 @@ export const DashboardPage = () => {
     );
   }
 
-  let anySetupRemaining = false;
   let anyTargets = true;
 
   if (groups) {
     let groupsSetupStatus = groups.map((group) => group.setupComplete);
-    const verifyAnyFalse = (currentValue: any) => currentValue === false;
     const verifyAnyTrue = (currentValue: any) => currentValue === true;
 
-    anySetupRemaining = groupsSetupStatus.some(verifyAnyFalse);
     anyTargets = !groupsSetupStatus.some(verifyAnyTrue);
   }
 
-  return (
-    <React.Fragment>
-      {anySetupRemaining && (
-        <ContextualMessageWrapper name={'setup_prompt'}>
-          <WelcomeVideo />
-        </ContextualMessageWrapper>
-      )}
-      {hasQuestradeConnection && (
+  const messages: Message[] = [
+    {
+      name: 'connect_questrade',
+      content: <ConnectQuestrade />,
+      visible: displayQuestradeConnectPrompt,
+    },
+    {
+      name: 'setup_prompt',
+      content: <WelcomeVideo />,
+      visible: true,
+    },
+    {
+      name: 'customize_dashboard',
+      content: (
         <CustomizeDashContainer>
           <CustomizeDashBtn onClick={() => setConfigMode(!configMode)}>
             <FontAwesomeIcon icon={faCogs} /> Customize Dashboard
           </CustomizeDashBtn>
         </CustomizeDashContainer>
-      )}
+      ),
+      visible: hasQuestradeConnection,
+    },
+  ];
+
+  return (
+    <React.Fragment>
+      <ContextualMessageMultiWrapper messages={messages} />
+
       {configMode && <DashboardConfig />}
       {hasQuestradeConnection && !anyTargets && <DashboardReporting />}
       {!hasQuestradeConnection && <TotalHoldings smaller={false} />}
