@@ -13,7 +13,6 @@ import HelpLinks from '../components/Dashboard/HelpLinks';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
 import WelcomeVideo from '../components/WelcomeVideo/WelcomeVideo';
 import ConnectQuestrade from '../components/ConnectQuestrade';
-import { ContextualMessageWrapper } from '../components/ContextualMessageWrapper';
 import {
   ContextualMessageMultiWrapper,
   Message,
@@ -25,7 +24,6 @@ import {
 import TotalHoldings from '../components/TotalHoldings';
 import DashboardConfig from '../components/Performance/Dashboard/DashboardConfig';
 import { DashboardGoalWidgets } from '../components/Goals/DashboardGoalWidgets';
-import { P } from '../styled/GlobalElements';
 
 export const DashboardPage = () => {
   const authorized = useSelector(selectIsAuthorized);
@@ -55,19 +53,14 @@ export const DashboardPage = () => {
     );
   }
 
-  let anySetupRemaining = false;
   let anyTargets = true;
 
   if (groups) {
     let groupsSetupStatus = groups.map((group) => group.setupComplete);
-    const verifyAnyFalse = (currentValue: any) => currentValue === false;
     const verifyAnyTrue = (currentValue: any) => currentValue === true;
 
-    anySetupRemaining = groupsSetupStatus.some(verifyAnyFalse);
     anyTargets = !groupsSetupStatus.some(verifyAnyTrue);
   }
-
-  const prompts = null;
 
   const messages: Message[] = [
     {
@@ -92,28 +85,6 @@ export const DashboardPage = () => {
       visible: hasQuestradeConnection,
     },
   ];
-
-  // if (displayQuestradeConnectPrompt) {
-  //   prompts = (
-  //     <ContextualMessageWrapper name={'questrade_connect'}>
-  //       hello!
-  //     </ContextualMessageWrapper>
-  //   )
-  // }
-
-  // {anySetupRemaining && (
-  //   <ContextualMessageWrapper name={'setup_prompt'}>
-  //     <WelcomeVideo />
-  //   </ContextualMessageWrapper>
-  // )}
-  // {hasQuestradeConnection && (
-  // <CustomizeDashContainer>
-  //   <CustomizeDashBtn onClick={() => setConfigMode(!configMode)}>
-  //     <FontAwesomeIcon icon={faCogs} /> Customize Dashboard
-  //   </CustomizeDashBtn>
-  // </CustomizeDashContainer>
-  // )}
-  // {prompts}
 
   return (
     <React.Fragment>
