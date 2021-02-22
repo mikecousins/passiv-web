@@ -131,16 +131,8 @@ export const PortfolioGroupTrades = ({
   ) {
     const tradeRender = (trade: any) => {
       let accountName = '';
-      let isWealthica = false;
-      if (accounts) {
-        const account = accounts.find((a) => a.id === trade.account);
-        if (account) {
-          accountName = account.name;
-          if (account.institution_name === 'Wealthica') {
-            isWealthica = true;
-          }
-        }
-      }
+      const allowsTrading =
+        trade.account.brokerage_authorization.brokerage.allows_trading;
       return (
         <TradeRow key={trade.id}>
           <ColumnPrice>
@@ -157,13 +149,13 @@ export const PortfolioGroupTrades = ({
             <Title>Units</Title>
             <div>{trade.units}</div>
           </ColumnUnits>
-          {trade.symbol_in_target && !isWealthica ? (
+          {trade.symbol_in_target && allowsTrading ? (
             <ColumnSymbol>
               <Title>{trade.universal_symbol.description}</Title>
               <Symbol>{trade.universal_symbol.symbol}</Symbol>
             </ColumnSymbol>
           ) : (
-            !isWealthica && (
+            allowsTrading && (
               <React.Fragment>
                 <ColumnSymbolWarning>
                   <Title>{trade.universal_symbol.description}</Title>
@@ -187,7 +179,7 @@ export const PortfolioGroupTrades = ({
               </React.Fragment>
             )
           )}
-          {isWealthica && (
+          {!allowsTrading && (
             <React.Fragment>
               <ColumnSymbolWarning>
                 <Title>{trade.universal_symbol.description}</Title>

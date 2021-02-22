@@ -47,6 +47,7 @@ export type ExcludedPosition = {
 };
 
 export type Trade = {
+  account: Account;
   action: string;
   skip_trade: boolean;
   symbol_in_target: boolean;
