@@ -49,6 +49,12 @@ export const ActionContainer = styled.div`
   }
 `;
 
+export const DeleteBtn = styled(Button)`
+  background-color: transparent;
+  color: var(--brand-blue);
+  border: 1px solid var(--brand-blue);
+`;
+
 type Props = {
   assetClass: ModelAssetClassDetailsType;
 };
@@ -132,7 +138,7 @@ const AssetClasses = ({ assetClass }: Props) => {
           * All securities under this asset class would get deleted.
         </p>
         <ActionContainer>
-          <A onClick={handleDeleteAssetClass}>Delete</A>
+          <DeleteBtn onClick={handleDeleteAssetClass}>Delete</DeleteBtn>
           <Button onClick={close}>Cancel</Button>
         </ActionContainer>
       </Dialog>
