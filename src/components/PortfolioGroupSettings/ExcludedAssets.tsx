@@ -10,7 +10,7 @@ import {
   selectCurrentGroupPositionsNotInTargetOrExcluded,
   selectCurrentGroupSetupComplete,
 } from '../../selectors/groups';
-import { H2 } from '../../styled/GlobalElements';
+import { H2, P } from '../../styled/GlobalElements';
 import { ToggleButton } from '../../styled/ToggleButton';
 import { ToggleText } from './SettingsToggle';
 
@@ -35,6 +35,11 @@ const Symbol = styled.span`
   + span {
     font-size: 18px;
   }
+`;
+
+const NoExcludedAssets = styled(P)`
+  text-align: center;
+  margin: 20px 0;
 `;
 
 const ExcludedAssets = () => {
@@ -87,7 +92,7 @@ const ExcludedAssets = () => {
           })}
         </ul>
       ) : (
-        <small>No excluded assets</small>
+        <NoExcludedAssets>No excluded assets</NoExcludedAssets>
       )}
     </Container>
   );
