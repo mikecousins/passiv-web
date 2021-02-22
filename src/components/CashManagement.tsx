@@ -24,9 +24,10 @@ import styled from '@emotion/styled';
 import { Form } from '../styled/Form';
 
 const CashManagementBox = styled.div`
-  margin: 30px 43px 35px 43px;
-  padding: 17px;
+  margin-top: 50px;
+  margin-bottom: 35px;
   border: 1px solid;
+  padding: 20px;
 `;
 
 const CashForm = styled(Form)`
@@ -315,32 +316,7 @@ const CashManagement = () => {
           <ColumnDelete></ColumnDelete>
         </CashRow>
       )}
-      <div style={{ display: 'flex' }}>
-        {cashRestrictionsContent}
-        {editing ? (
-          <div>
-            <CancelButton
-              onClick={() => {
-                cancelEditing();
-              }}
-            >
-              Cancel
-            </CancelButton>
-          </div>
-        ) : (
-          <div style={{ marginLeft: '30px' }}>
-            <A
-              onClick={() => {
-                startEditing();
-              }}
-              disabled={!canManageCash()}
-            >
-              Add Rule
-            </A>
-          </div>
-        )}
-      </div>
-
+      {cashRestrictionsContent}
       {editing ? form : null}
     </CashRestrictionBox>
   );
@@ -349,6 +325,28 @@ const CashManagement = () => {
     <CashManagementBox className="tour-cash-management">
       <H2>Cash Management</H2>
       {cashRestrictionsRendered}
+      {editing ? (
+        <div>
+          <CancelButton
+            onClick={() => {
+              cancelEditing();
+            }}
+          >
+            Cancel
+          </CancelButton>
+        </div>
+      ) : (
+        <div>
+          <Button
+            onClick={() => {
+              startEditing();
+            }}
+            disabled={!canManageCash()}
+          >
+            Add Rule
+          </Button>
+        </div>
+      )}
     </CashManagementBox>
   );
 };
