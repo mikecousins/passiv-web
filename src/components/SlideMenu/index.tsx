@@ -5,6 +5,7 @@ import MenuButton from './MenuButton';
 import Menu from './Menu';
 import { selectIsMobile } from '../../selectors/browser';
 import { selectPathname } from '../../selectors/router';
+import Tour from '../Tour/Tour';
 
 const StyledSlideMenu = styled.div`
   position: relative;
@@ -13,7 +14,13 @@ const StyledSlideMenu = styled.div`
   z-index: 5;
   min-height: 100vh;
 `;
-
+const TOUR_STEPS = [
+  {
+    target: '.tour-hide_accounts',
+    content: '',
+    placement: 'top',
+  },
+];
 export const SlideMenu = () => {
   const isMobile = useSelector(selectIsMobile);
   const pathname = useSelector(selectPathname);
@@ -34,6 +41,7 @@ export const SlideMenu = () => {
 
   return (
     <StyledSlideMenu>
+      {visible && <Tour steps={TOUR_STEPS} name="hide_accounts_indicator" />}
       <MenuButton
         menuVisibility={visible}
         handleMouseDown={() => setVisible(!visible)}
