@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { replace } from 'connected-react-router';
 import { useHistory } from 'react-router-dom';
-import { postData } from '../api';
+import { getData, postData } from '../api';
 import {
   selectCurrentGroup,
   selectCurrentGroupId,
@@ -21,6 +21,15 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { loadGroup } from '../actions';
 import { toast } from 'react-toastify';
+import { selectModelPortfolioFeature } from '../selectors/features';
+import {
+  selectModelPortfolios,
+  selectModelUseByOtherGroups,
+} from '../selectors/modelPortfolios';
+import {
+  ModelPortfolio,
+  ModelPortfolioDetailsType,
+} from '../types/modelPortfolio';
 
 type Props = {
   targets: any;
@@ -56,6 +65,8 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
   const currentTargets = useSelector(selectCurrentGroupTarget);
   const settings = useSelector(selectCurrentGroupSettings);
   const currentGroupId = useSelector(selectCurrentGroupId);
+  const modelUseByOtherGroups = useSelector(selectModelUseByOtherGroups);
+  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
   const handleAddTarget = (target: any, exclude: boolean) => {
     setLoading(true);
@@ -100,6 +111,35 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
       });
   };
 
+  const handleAddToModel = (target: any) => {
+    getData(`/api/v1/modelPortfolio/${currentGroup?.model_portfolio}`)
+      .then((res) => {
+        let modelPortfolio: ModelPortfolioDetailsType = res.data;
+        const newTarget = {
+          symbol: target.symbol,
+          percent: '0',
+        };
+        modelPortfolio.model_portfolio_security = [
+          ...modelPortfolio.model_portfolio_security,
+          newTarget,
+        ];
+        postData(
+          `/api/v1/modelPortfolio/${currentGroup?.model_portfolio}`,
+          modelPortfolio,
+        ).then((res) => {
+          toast.success(
+            `'${newTarget.symbol.symbol}' got added to '${modelPortfolio.model_portfolio.name}'`,
+          );
+        });
+      })
+      .catch((err) => {
+        // dispatch(loadModelPortfolios());
+        if (err.response) {
+          toast.error(err.response.data.detail);
+        }
+      });
+  };
+
   if (!settings?.show_warning_for_new_assets_detected) {
     return <></>;
   } else {
@@ -126,11 +166,20 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
                       </span>{' '}
                       {target.symbol.description}
                     </div>
-                    <MaxHeightSmallBtn
-                      onClick={() => handleAddTarget(target, false)}
-                    >
-                      Add to Target
-                    </MaxHeightSmallBtn>
+                    {((modelPortfolioFeature && !modelUseByOtherGroups) ||
+                      !modelPortfolioFeature) && (
+                      <MaxHeightSmallBtn
+                        onClick={() => {
+                          if (modelPortfolioFeature) {
+                            handleAddToModel(target);
+                          } else {
+                            handleAddTarget(target, false);
+                          }
+                        }}
+                      >
+                        Add to Target
+                      </MaxHeightSmallBtn>
+                    )}
                     <MaxHeightSmallBtn
                       style={{
                         background: 'transparent',
