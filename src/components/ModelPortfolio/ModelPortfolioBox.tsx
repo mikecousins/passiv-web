@@ -180,9 +180,15 @@ const ModelPortoflioBox = ({
       .then((res) => {
         dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page
         dispatch(loadModelPortfolios());
-        toast.success(
-          `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
-        );
+        if (editMode) {
+          toast.success(
+            `Changes are saved for "${modelPortfolio.model_portfolio.name}"`,
+          );
+        } else {
+          toast.success(
+            `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
+          );
+        }
         history.push(`/app/group/${groupId}`);
       })
       .catch((err) => {
