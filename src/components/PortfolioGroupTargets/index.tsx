@@ -142,7 +142,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     },
     {
       id: 'NEW_MODEL',
-      name: 'Create new model',
+      name: 'Create a new model',
       button: <Button onClick={() => newModel()}>New Model</Button>,
     },
     {

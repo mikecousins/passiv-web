@@ -130,7 +130,9 @@ const MyModelPortfoliosPage = () => {
           history.push(`/app/group/${groupId}`);
         })
         .catch((err) => {
-          toast.error(err.response.data.detail);
+          if (err.response) {
+            toast.error(err.response.data.detail);
+          }
         });
     } else {
       history.replace(`model-portfolio/${modelId}`);

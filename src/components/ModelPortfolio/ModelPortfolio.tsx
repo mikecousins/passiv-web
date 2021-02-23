@@ -22,6 +22,7 @@ import {
   faAngleLeft,
   faClipboard,
   faClipboardCheck,
+  faExclamationTriangle,
   faSpinner,
   faToggleOff,
   faToggleOn,
@@ -369,8 +370,9 @@ const ModelPortfolio = () => {
                 </span>{' '}
                 ?
               </H2Margin>
-              <p style={{ fontSize: '0.9rem', textAlign: 'center' }}>
-                * All groups using this model will get reset
+              <p style={{ fontSize: '1.1rem', textAlign: 'center' }}>
+                <FontAwesomeIcon icon={faExclamationTriangle} /> All groups
+                using this model will get reset
               </p>
               <ActionContainer>
                 <DeleteBtn onClick={handleDeleteModel}>Delete</DeleteBtn>

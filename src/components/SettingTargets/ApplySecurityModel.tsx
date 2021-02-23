@@ -76,7 +76,6 @@ const ApplySecurityModel = ({ model }: Props) => {
   const [showDialog, setShowDialog] = useState(false);
   const [overWriteModel, setOverWriteModel] = useState(true);
   const currentGroup = useSelector(selectCurrentGroup);
-  console.log(`model`, model);
 
   // const setSymbol = (target: any, symbol: any) => {
   //   target.fullSymbol = symbol;
@@ -109,8 +108,6 @@ const ApplySecurityModel = ({ model }: Props) => {
             return errors;
           }}
           onSubmit={(values, actions) => {
-            console.log(values);
-
             // const newArrayOfObj = values?.targets.map(
             //   //@ts-ignore
             //   ({ fullSymbol: symbol, ...rest }) => ({

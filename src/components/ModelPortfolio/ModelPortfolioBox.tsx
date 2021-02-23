@@ -186,7 +186,11 @@ const ModelPortoflioBox = ({
         history.push(`/app/group/${groupId}`);
       })
       .catch((err) => {
-        toast.error(`${err.message}`);
+        if (err.response) {
+          toast.error(err.response.data.detail);
+        } else {
+          toast.error('Cannot apply model');
+        }
       });
   };
   return (
@@ -252,9 +256,15 @@ const ModelPortoflioBox = ({
             postData(`/api/v1/modelPortfolio/${modelId}`, modelPortfolio)
               .then(() => {
                 dispatch(loadModelPortfolios());
+                if (groupId && editMode) {
+                  applyModel();
+                }
               })
-              .catch(() => {
+              .catch((err) => {
                 dispatch(loadModelPortfolios());
+                if (err.response) {
+                  toast.error(err.response.data.detail);
+                }
               });
             actions.resetForm();
             actions.setSubmitting(false);
@@ -405,7 +415,7 @@ const ModelPortoflioBox = ({
                                       symbol,
                                     );
                                   }}
-                                  groupId={groupInfo ? groupInfo.groupId : ''}
+                                  groupId={groupId ? groupId : ''}
                                   forModelSecurity={true}
                                 />
                               ) : (
