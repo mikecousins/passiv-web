@@ -5,6 +5,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectLoggedIn, selectHasQuestradeConnection } from '../../selectors';
 import {
   selectGoalsPageFeature,
+  selectModelPortfolioFeature,
   selectPerformancePageFeature,
 } from '../../selectors/features';
 import { selectGroups } from '../../selectors/groups';
@@ -93,6 +94,7 @@ const SideBar = () => {
   const goalsPageFeatureActive = useSelector(selectGoalsPageFeature);
 
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
+  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
   let groupList: JSX.Element | JSX.Element[] = (
     <FontAwesomeIcon icon={faSpinner} spin />
@@ -135,7 +137,13 @@ const SideBar = () => {
           {groups && groups.length > 0 && (
             <GroupContainer>{groupList}</GroupContainer>
           )}
-          <SideBarLink name="My Models" linkPath={`/app/models`} beta={true} />
+          {modelPortfolioFeature && (
+            <SideBarLink
+              name="My Models"
+              linkPath={`/app/models`}
+              beta={true}
+            />
+          )}
           {performancePageFeatureActive && hasQuestradeConnection && (
             <SideBarLink name="Reporting" linkPath={REPORTING_PATH} />
           )}

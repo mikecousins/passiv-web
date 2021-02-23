@@ -32,6 +32,7 @@ import { replace } from 'connected-react-router';
 import Grid from '../../styled/Grid';
 import { toast } from 'react-toastify';
 import { selectModelPortfolios } from '../../selectors/modelPortfolios';
+import { selectModelPortfolioFeature } from '../../selectors/features';
 
 const TOUR_STEPS = [
   {
@@ -112,6 +113,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   const groups = useSelector(selectGroupedAccounts);
   const groupInfo = useSelector(selectCurrentGroupInfo);
   const modelPortfolios = useSelector(selectModelPortfolios);
+  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
   const dispatch = useDispatch();
 
@@ -346,8 +348,10 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     <OverlayContainer>
       <ShadowBox>
         <TargetContainer>
-          <H2>Model Portfolio</H2>
-          {groupInfo?.model_portfolio !== null && (
+          <H2>
+            {modelPortfolioFeature ? 'Model Portfolio' : 'Target Portfolio'}
+          </H2>
+          {modelPortfolioFeature && groupInfo?.model_portfolio !== null && (
             <small>
               <span style={{ fontWeight: 700 }}>
                 {groupInfo?.model_portfolio.name}

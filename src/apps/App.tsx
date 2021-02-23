@@ -29,7 +29,10 @@ import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GoalDetailPage from '../pages/GoalDetailPage';
-import { selectGoalsPageFeature } from '../selectors/features';
+import {
+  selectGoalsPageFeature,
+  selectModelPortfolioFeature,
+} from '../selectors/features';
 import {
   LOGIN_PATH,
   REGISTER_PATH,
@@ -282,7 +285,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   const queryParams = useSelector(selectQueryTokens);
-
+  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
   let updateQuery = false;
 
   // extract referral code (if any) and make available on registration page
@@ -569,7 +572,7 @@ const App = () => {
                 component={ModelAssetClassPage}
               />
             )} */}
-            {showSecureApp && (
+            {showSecureApp && modelPortfolioFeature && (
               <Route
                 path={prefixPath('/models')}
                 component={MyModelPortfoliosPage}

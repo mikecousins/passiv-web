@@ -24,6 +24,7 @@ import { deleteData, postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
 import { selectModelPortfolios } from '../../selectors/modelPortfolios';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
+import { selectModelPortfolioFeature } from '../../selectors/features';
 
 const ButtonBox = styled.div`
   display: flex;
@@ -141,6 +142,12 @@ const ButtonLinks = styled.div`
   }
 `;
 
+const ApplyNewModelBtn = styled(Button)`
+  background-color: transparent;
+  color: var(--brand-blue);
+  border: 1px solid var(--brand-blue);
+`;
+
 type Props = {
   lockable: boolean;
   target: TargetPosition[] | null;
@@ -159,6 +166,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const currentGroupInfo = useSelector(selectCurrentGroupInfo);
   const modelPortfolios = useSelector(selectModelPortfolios);
   const modelId = currentGroupInfo?.model_portfolio?.id;
+  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
   if (!target || cash === null || cash === undefined) {
     return null;
@@ -185,9 +193,11 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
     }
   };
 
-  const resetTargets = (resetForm: () => void) => {
-    onReset();
-    toggleEditMode();
+  const resetTargets = (resetForm?: () => void) => {
+    if (!modelPortfolioFeature) {
+      onReset();
+      toggleEditMode();
+    }
     deleteData(`/api/v1/portfolioGroups/${groupId}/targets/`)
       .then(() => {
         dispatch(loadGroups()); // need to load groups to have update list of groups using a model in my models page
@@ -202,7 +212,9 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
         );
         toggleEditMode();
         // reset the form
-        resetForm();
+        if (resetForm) {
+          resetForm();
+        }
       });
   };
 
@@ -548,17 +560,32 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                       </ActionsContainer>
                     </React.Fragment>
                   ) : (
+                    !modelPortfolioFeature && (
+                      <ButtonBox>
+                        <div>
+                          <Button
+                            type="button"
+                            onClick={() => toggleEditMode()}
+                            className="tour-edit-targets"
+                          >
+                            <FontAwesomeIcon icon={faLock} />
+                            Edit Targets
+                          </Button>
+                        </div>
+                        <div>
+                          <A
+                            href={portfolioVisualizerURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Portfolio Visualizer
+                          </A>
+                        </div>
+                      </ButtonBox>
+                    )
+                  )}
+                  {modelPortfolioFeature && (
                     <ButtonBox>
-                      <div>
-                        <Button
-                          type="button"
-                          onClick={() => toggleEditMode()}
-                          className="tour-edit-targets"
-                        >
-                          <FontAwesomeIcon icon={faLock} />
-                          Edit Targets
-                        </Button>
-                      </div>
                       <div>
                         <Button
                           type="button"
@@ -574,18 +601,19 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                         >
                           Edit Model
                         </Button>
-                      </div>
-                      <div>
-                        <Button
+                        <ApplyNewModelBtn
                           type="button"
                           onClick={() => {
                             dispatch(push(`/app/models/group/${groupId}`));
                           }}
                         >
                           Apply New Model
-                        </Button>
+                        </ApplyNewModelBtn>
                       </div>
                       <div>
+                        <A type="button" onClick={() => resetTargets()}>
+                          Reset
+                        </A>{' '}
                         <A
                           href={portfolioVisualizerURL}
                           target="_blank"

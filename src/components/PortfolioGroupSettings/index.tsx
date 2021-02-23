@@ -11,7 +11,10 @@ import {
   selectCurrentGroupSettings,
   selectCurrentGroupId,
 } from '../../selectors/groups';
-import { selectCashManagementFeature } from '../../selectors/features';
+import {
+  selectCashManagementFeature,
+  selectModelPortfolioFeature,
+} from '../../selectors/features';
 import { putData } from '../../api';
 import { loadGroup } from '../../actions';
 import { toast } from 'react-toastify';
@@ -70,10 +73,11 @@ const TOUR_STEPS = [
 ];
 
 export const PortfolioGroupSettings = () => {
+  const dispatch = useDispatch();
   const settings = useSelector(selectCurrentGroupSettings);
   const groupId = useSelector(selectCurrentGroupId);
   const featureCashManagement = useSelector(selectCashManagementFeature);
-  const dispatch = useDispatch();
+  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
   const updateSettings = () => {
     if (settings) {
@@ -90,7 +94,7 @@ export const PortfolioGroupSettings = () => {
   return (
     <ShadowBox>
       <Tour steps={TOUR_STEPS} name="group_settings_tour" />
-      <ExcludedAssets />
+      {modelPortfolioFeature && <ExcludedAssets />}
       <H2>General</H2>
       {settings ? (
         <React.Fragment>
