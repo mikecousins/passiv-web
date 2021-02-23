@@ -5,7 +5,11 @@ import { selectLoggedIn, selectAppTime, selectRouter } from './index';
 import { AppState } from '../store';
 import { RouterState } from 'connected-react-router';
 import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
-import { selectGroupedAccounts, selectGroups } from './groups';
+import {
+  selectCurrentGroupInfo,
+  selectGroupedAccounts,
+  selectGroups,
+} from './groups';
 
 export const selectModelPortfoliosRaw = (state: AppState) => {
   return state.modelPortfolios;
@@ -107,6 +111,22 @@ export const selectGroupsUsingAModel = createSelector(
     });
 
     return models;
+  },
+);
+
+export const selectModelUseByOtherGroups = createSelector(
+  selectModelPortfolios,
+  selectCurrentGroupInfo,
+  (modelPortfolios, currentGroupInfo) => {
+    const modelId = currentGroupInfo?.model_portfolio?.id;
+    let modelUseByOtherGroups = false;
+    modelPortfolios.forEach((model: ModelPortfolioDetailsType) => {
+      if (modelId && model.model_portfolio.id === modelId) {
+        modelUseByOtherGroups =
+          model.model_portfolio.total_assigned_portfolio_groups > 1;
+      }
+    });
+    return modelUseByOtherGroups;
   },
 );
 

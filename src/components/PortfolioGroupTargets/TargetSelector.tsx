@@ -22,8 +22,7 @@ import { Button } from '../../styled/Button';
 import { A } from '../../styled/GlobalElements';
 import { deleteData, postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
-import { selectModelPortfolios } from '../../selectors/modelPortfolios';
-import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
+import { selectModelUseByOtherGroups } from '../../selectors/modelPortfolios';
 import { selectModelPortfolioFeature } from '../../selectors/features';
 
 const ButtonBox = styled.div`
@@ -164,8 +163,8 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const cash = useSelector(selectCurrentGroupCash);
   const edit = useSelector(selectIsEditMode);
   const currentGroupInfo = useSelector(selectCurrentGroupInfo);
-  const modelPortfolios = useSelector(selectModelPortfolios);
   const modelId = currentGroupInfo?.model_portfolio?.id;
+  const modelUseByOtherGroups = useSelector(selectModelUseByOtherGroups);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
   if (!target || cash === null || cash === undefined) {
@@ -275,14 +274,6 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   portfolioVisualizerURLParts.push('#analysisResults');
 
   const portfolioVisualizerURL = portfolioVisualizerURLParts.join('');
-
-  let modelUseByOtherGroups = false;
-  modelPortfolios.forEach((model: ModelPortfolioDetailsType) => {
-    if (modelId && model.model_portfolio.id === modelId) {
-      modelUseByOtherGroups =
-        model.model_portfolio.total_assigned_portfolio_groups > 1;
-    }
-  });
 
   return (
     <Formik
