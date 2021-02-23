@@ -145,6 +145,10 @@ const ModelPortoflioBox = ({
   const groupId = groupInfo?.groupId;
   const editMode = group.edit;
 
+  const canEdit =
+    (assignedPortfolioGroups <= 1 && editMode) ||
+    (assignedPortfolioGroups === 0 && !editMode);
+
   const finishEditingName = () => {
     if (
       modelPortfolioName !== modelPortfolio.model_portfolio.name &&
@@ -315,10 +319,7 @@ const ModelPortoflioBox = ({
                                       )
                                     }
                                     required
-                                    readOnly={
-                                      assignedPortfolioGroups > 1 ||
-                                      (!editMode && assignedPortfolioGroups > 0)
-                                    }
+                                    readOnly={!canEdit}
                                   />
                                   <PercentageLabel htmlFor="percentage">
                                     %
@@ -360,7 +361,7 @@ const ModelPortoflioBox = ({
 
                                 <br></br>
                               </FormContainer>
-                              {assignedPortfolioGroups === 0 && (
+                              {canEdit && (
                                 <button
                                   type="button"
                                   onClick={() => arrayHelpers.remove(index)}
@@ -376,7 +377,7 @@ const ModelPortoflioBox = ({
                           );
                         },
                       )}
-                      {assignedPortfolioGroups === 0 && (
+                      {canEdit && (
                         <Grid columns="1fr 50px" style={{ marginTop: '30px' }}>
                           <div>
                             <FormContainer>
