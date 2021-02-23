@@ -53,12 +53,15 @@ export const DashboardPage = () => {
     );
   }
 
+  let anySetupRemaining = false;
   let anyTargets = true;
 
   if (groups) {
     let groupsSetupStatus = groups.map((group) => group.setupComplete);
+    const verifyAnyFalse = (currentValue: any) => currentValue === false;
     const verifyAnyTrue = (currentValue: any) => currentValue === true;
 
+    anySetupRemaining = groupsSetupStatus.some(verifyAnyFalse);
     anyTargets = !groupsSetupStatus.some(verifyAnyTrue);
   }
 
@@ -71,7 +74,7 @@ export const DashboardPage = () => {
     {
       name: 'setup_prompt',
       content: <WelcomeVideo />,
-      visible: true,
+      visible: anySetupRemaining,
     },
     {
       name: 'customize_dashboard',
