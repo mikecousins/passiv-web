@@ -130,7 +130,7 @@ export const PortfolioGroupTrades = ({
     accounts.length > 0
   ) {
     const tradeRender = (trade: any) => {
-      let accountName = '';
+      const accountName = trade.account.name;
       const allowsTrading =
         trade.account.brokerage_authorization.brokerage.allows_trading;
       return (
