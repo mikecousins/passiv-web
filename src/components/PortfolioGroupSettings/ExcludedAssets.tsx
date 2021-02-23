@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSpinner,
+  faToggleOff,
+  faToggleOn,
+} from '@fortawesome/free-solid-svg-icons';
 import { deleteData, postData } from '../../api';
 import { loadGroup } from '../../actions';
 import {
@@ -50,19 +54,24 @@ const ExcludedAssets = () => {
   );
   const setupComplete = useSelector(selectCurrentGroupSetupComplete);
 
+  const [loading, setLoading] = useState(false);
+
   const handleToggle = (position: any) => {
+    setLoading(true);
     const positionId = position.symbol.id;
     if (position.excluded) {
       deleteData(
         `/api/v1/portfolioGroups/${groupId}/excludedassets/${positionId}`,
       ).then(() => {
         dispatch(loadGroup({ ids: [groupId] }));
+        setLoading(false);
       });
     } else {
       postData(`/api/v1/portfolioGroups/${groupId}/excludedassets/`, {
         symbol: positionId,
       }).then(() => {
         dispatch(loadGroup({ ids: [groupId] }));
+        setLoading(false);
       });
     }
   };
@@ -70,29 +79,33 @@ const ExcludedAssets = () => {
   return (
     <Container>
       <H2>Excluded securities in this portfolio</H2>
-      {positionsNotInTargetOrExcluded &&
-      setupComplete &&
-      positionsNotInTargetOrExcluded.length > 0 ? (
-        <ul>
-          {positionsNotInTargetOrExcluded.map((position) => {
-            return (
-              <Positions>
-                <ToggleButton onClick={() => handleToggle(position)}>
-                  <FontAwesomeIcon
-                    icon={position.excluded ? faToggleOn : faToggleOff}
-                  />
-                  <ToggleText>
-                    {position.excluded ? 'Excluded' : 'Not Excluded'}
-                  </ToggleText>
-                </ToggleButton>
-                <Symbol>{position.symbol.symbol}</Symbol>
-                <span>{position.symbol.description}</span>
-              </Positions>
-            );
-          })}
-        </ul>
+      {!loading ? (
+        positionsNotInTargetOrExcluded &&
+        setupComplete &&
+        positionsNotInTargetOrExcluded.length > 0 ? (
+          <ul>
+            {positionsNotInTargetOrExcluded.map((position) => {
+              return (
+                <Positions>
+                  <ToggleButton onClick={() => handleToggle(position)}>
+                    <FontAwesomeIcon
+                      icon={position.excluded ? faToggleOn : faToggleOff}
+                    />
+                    <ToggleText>
+                      {position.excluded ? 'Excluded' : 'Not Excluded'}
+                    </ToggleText>
+                  </ToggleButton>
+                  <Symbol>{position.symbol.symbol}</Symbol>
+                  <span>{position.symbol.description}</span>
+                </Positions>
+              );
+            })}
+          </ul>
+        ) : (
+          <NoExcludedAssets>No excluded assets</NoExcludedAssets>
+        )
       ) : (
-        <NoExcludedAssets>No excluded assets</NoExcludedAssets>
+        <FontAwesomeIcon icon={faSpinner} spin />
       )}
     </Container>
   );
