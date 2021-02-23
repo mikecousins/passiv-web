@@ -16,7 +16,7 @@ import {
   selectModelPortfolios,
 } from '../selectors/modelPortfolios';
 import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
-import { loadGroup, loadGroups, loadModelPortfolios } from '../actions';
+import { loadGroups, loadModelPortfolios } from '../actions';
 import { Button } from '../styled/Button';
 import { H1, H3, P, Table } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
@@ -115,6 +115,7 @@ const MyModelPortfoliosPage = () => {
 
   const handleApplyOrViewBtn = (model: any) => {
     const modelId = model.model_portfolio.id;
+    // if have a groupId, we know the Apply button got clicked
     if (groupId) {
       postData(
         `api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`,

@@ -2,8 +2,6 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { selectGroupInfo, selectGroups } from '../selectors/groups';
 import { H1, H2, H3 } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
@@ -13,7 +11,7 @@ import {
   selectCurrentModelPortfolioId,
   selectGroupsUsingAModel,
 } from '../selectors/modelPortfolios';
-import { loadGroup, loadModelPortfolios } from '../actions';
+import { loadGroups, loadModelPortfolios } from '../actions';
 import { toast } from 'react-toastify';
 
 const GreyBox = styled.div`
@@ -36,7 +34,7 @@ const GroupsUsingModel = styled.div`
   padding: 10px;
 `;
 
-const SettingTargets = () => {
+const SelectGroupPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   let groups = useSelector(selectGroups);
@@ -50,7 +48,7 @@ const SettingTargets = () => {
       {},
     )
       .then((res) => {
-        dispatch(loadGroup({ ids: [groupId] }));
+        dispatch(loadGroups());
         dispatch(loadModelPortfolios());
         history.push(`/app/group/${groupId}`);
         toast.success(`Model applied to "${groupName}"`);
@@ -133,4 +131,4 @@ const SettingTargets = () => {
   );
 };
 
-export default SettingTargets;
+export default SelectGroupPage;

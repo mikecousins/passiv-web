@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postData } from '../../api';
 import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
-import { loadGroup, loadModelPortfolios } from '../../actions';
+import { loadGroups, loadModelPortfolios } from '../../actions';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import NameInputAndEdit from '../NameInputAndEdit';
 import { ModelAssetClass } from '../../types/modelAssetClass';
@@ -174,7 +174,7 @@ const ModelPortoflioBox = ({
   const applyModel = () => {
     postData(`api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`, {})
       .then((res) => {
-        dispatch(loadGroup({ ids: [groupId] }));
+        dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page
         dispatch(loadModelPortfolios());
         toast.success(
           `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
