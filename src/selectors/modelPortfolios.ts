@@ -5,7 +5,7 @@ import { selectLoggedIn, selectAppTime, selectRouter } from './index';
 import { AppState } from '../store';
 import { RouterState } from 'connected-react-router';
 import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
-import { selectGroupedAccounts, selectGroupInfo, selectGroups } from './groups';
+import { selectGroupedAccounts, selectGroups } from './groups';
 
 export const selectModelPortfoliosRaw = (state: AppState) => {
   return state.modelPortfolios;
@@ -99,9 +99,9 @@ export const selectGroupsUsingAModel = createSelector(
       return acc;
     }, {});
     modelPortfolios.map((mdl: any) => {
-      Object.entries(models).map(([key, value]) => {
+      return Object.entries(models).map(([key, value]) => {
         if (mdl.model_portfolio.id === key) {
-          models[key].model = mdl.model_portfolio;
+          return (models[key].model = mdl.model_portfolio);
         }
       });
     });

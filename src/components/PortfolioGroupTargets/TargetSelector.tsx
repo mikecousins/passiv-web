@@ -13,7 +13,6 @@ import {
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrentGroupCash,
   selectCurrentGroupPositionsWithActualPercentage,
-  selectGroupInfo,
   selectCurrentGroupInfo,
 } from '../../selectors/groups';
 import { selectIsEditMode } from '../../selectors/router';
@@ -24,10 +23,7 @@ import { A } from '../../styled/GlobalElements';
 import { deleteData, postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
 import { selectModelPortfolios } from '../../selectors/modelPortfolios';
-import {
-  ModelPortfolio,
-  ModelPortfolioDetailsType,
-} from '../../types/modelPortfolio';
+import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 
 const ButtonBox = styled.div`
   display: flex;

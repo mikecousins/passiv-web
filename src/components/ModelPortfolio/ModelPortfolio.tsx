@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { deleteData, getData, postData } from '../../api';
+import { deleteData, postData } from '../../api';
 import {
   ModelAssetClassDetailsType,
   ModelAssetClass,
 } from '../../types/modelAssetClass';
-import { selectRouter } from '../../selectors/router';
 import { selectReferralCode } from '../../selectors';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
 import {
@@ -31,7 +30,7 @@ import {
 import { toast } from 'react-toastify';
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
-import { A, H3 } from '../../styled/GlobalElements';
+import { H3 } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
@@ -147,7 +146,6 @@ const ModelPortfolio = () => {
   );
 
   const [deleteDialog, setDeleteDialog] = useState(false);
-  const router = useSelector(selectRouter);
 
   const [copied, setCopied] = useState(false);
   const referralCode = useSelector(selectReferralCode);
@@ -169,25 +167,25 @@ const ModelPortfolio = () => {
     haveAssetsInModel = true;
   }
 
-  useEffect(() => {
-    // check if the model is a shared model
-    if (router && router.location) {
-      const path = router.location.pathname.split('/');
-      const shareId = path[5];
-      if (path[4] === 'share' && shareId) {
-        const modelId = router.location.pathname.split('/')[3];
-        getData(`/api/v1/modelPortfolio/${modelId}/share/${shareId}`)
-          .then((res) => {
-            setSharedModel(true);
-            currentModelPortfolio = res.data;
-          })
-          .catch(() => {
-            alert('Invalid Share Id');
-          });
-      }
-    }
-    // setSecurityBased(currentModelPortfolio?.model_portfolio.model_type === 0);
-  }, [router]);
+  // useEffect(() => {
+  //   // check if the model is a shared model
+  //   if (router && router.location) {
+  //     const path = router.location.pathname.split('/');
+  //     const shareId = path[5];
+  //     if (path[4] === 'share' && shareId) {
+  //       const modelId = router.location.pathname.split('/')[3];
+  //       getData(`/api/v1/modelPortfolio/${modelId}/share/${shareId}`)
+  //         .then((res) => {
+  //           setSharedModel(true);
+  //           currentModelPortfolio = res.data;
+  //         })
+  //         .catch(() => {
+  //           alert('Invalid Share Id');
+  //         });
+  //     }
+  //   }
+  //   // setSecurityBased(currentModelPortfolio?.model_portfolio.model_type === 0);
+  // }, [router]);
 
   const handleDeleteModel = () => {
     deleteData(

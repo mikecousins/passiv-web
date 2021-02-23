@@ -6,7 +6,7 @@ import NameInputAndEdit from '../NameInputAndEdit';
 import { loadModelAssetClasses, loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
-import { A, H2 } from '../../styled/GlobalElements';
+import { H2 } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Dialog } from '@reach/dialog';

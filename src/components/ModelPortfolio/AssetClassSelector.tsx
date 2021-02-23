@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { ModelAssetClass } from '../../types/modelAssetClass';
 import styled from '@emotion/styled';
 import {
   Combobox,

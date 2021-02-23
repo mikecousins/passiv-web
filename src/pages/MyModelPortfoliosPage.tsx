@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { postData } from '../api';
@@ -24,8 +24,9 @@ import { ViewBtn } from '../styled/Group';
 import ShadowBox from '../styled/ShadowBox';
 import { StyledP } from './ModelAssetClassPage';
 import Tooltip from '../components/Tooltip';
-import Dialog from '@reach/dialog';
-import SelectGroupPage from './SelectGroupPage';
+// import Dialog from '@reach/dialog';
+// import SelectGroupPage from './SelectGroupPage';
+import { selectGroups } from '../selectors/groups';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -92,14 +93,14 @@ const MyModelPortfoliosPage = () => {
   const modelPortfolios: ModelPortfolioDetailsType[] = useSelector(
     selectModelPortfolios,
   );
-
+  const allGroups = useSelector(selectGroups);
   const group = useSelector(selectGroupInfoForModelPortfolio);
   const groupsUsingModel = useSelector(selectGroupsUsingAModel);
 
   const groupInfo = group.groupInfo;
   const groupId = groupInfo?.groupId;
 
-  const [selectGroupDialog, setSelectGroupDialog] = useState(false);
+  // const [selectGroupDialog, setSelectGroupDialog] = useState(false);
 
   const handleNewModelBtn = () => {
     postData('/api/v1/modelPortfolio/', {})
@@ -213,6 +214,7 @@ const MyModelPortfoliosPage = () => {
                           )
                         // setSelectGroupDialog(true)
                       }
+                      disabled={totalAssignedGroups === allGroups?.length}
                     >
                       Apply
                     </ApplyTransparentBtn>

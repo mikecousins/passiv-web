@@ -12,11 +12,9 @@ import {
   selectCurrentGroupId,
 } from '../../selectors/groups';
 import { selectCashManagementFeature } from '../../selectors/features';
-import { selectAccounts } from '../../selectors/accounts';
 import { putData } from '../../api';
 import { loadGroup } from '../../actions';
 import { toast } from 'react-toastify';
-import TradesExplanation from '../TradesExplanation';
 import Tour from '../Tour/Tour';
 import ExcludedAssets from './ExcludedAssets';
 import UpgradeButton from '../Tour/UpgradeButton';
@@ -73,12 +71,9 @@ const TOUR_STEPS = [
 
 export const PortfolioGroupSettings = () => {
   const settings = useSelector(selectCurrentGroupSettings);
-  const accounts = useSelector(selectAccounts);
   const groupId = useSelector(selectCurrentGroupId);
   const featureCashManagement = useSelector(selectCashManagementFeature);
   const dispatch = useDispatch();
-
-  const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
   const updateSettings = () => {
     if (settings) {
