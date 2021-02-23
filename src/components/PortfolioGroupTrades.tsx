@@ -14,7 +14,12 @@ import {
   ColumnAccount,
   ColumnWarning,
 } from '../styled/Group';
-import { selectCurrentGroupSettings } from '../selectors/groups';
+import { useHistory } from 'react-router-dom';
+import { ErrorContainer } from '../styled/Group';
+import {
+  selectCurrentGroupSettings,
+  selectCurrentGroupId,
+} from '../selectors/groups';
 import Tooltip from './Tooltip';
 import Number from './Number';
 import { selectAccounts } from '../selectors/accounts';
@@ -23,12 +28,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faExclamationCircle,
   faInfoCircle,
+  faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
-import { ContextualMessageWrapper } from './ContextualMessageWrapper';
 import styled from '@emotion/styled';
 import Tour from './Tour/Tour';
 import UpgradeButton from './Tour/UpgradeButton';
 import EliteFeatureTitle from './Tour/EliteFeatureTitle';
+import {
+  ContextualMessageMultiWrapper,
+  Message,
+} from '../components/ContextualMessageMultiWrapper';
+import { HideButton } from './ContextualMessageWrapper';
+
+const HideButtonBox = styled.div`
+  margin-right: 60px;
+`;
 
 type Props = {
   trades: any;
@@ -61,6 +75,8 @@ export const PortfolioGroupTrades = ({
   const settings = useSelector(selectCurrentGroupSettings);
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
   const [tradesCache, setTradesCache] = useState(null);
+  const currentGroupId = useSelector(selectCurrentGroupId);
+  const history = useHistory();
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
@@ -238,12 +254,97 @@ export const PortfolioGroupTrades = ({
     }
   }
 
+  const messages: Message[] = [
+    {
+      name: 'route_nontradable_trades',
+      content: (
+        <ErrorContainer>
+          <H3>
+            <FontAwesomeIcon icon={faExclamationTriangle} /> Important
+            information about your blended portfolio
+            <P>
+              This group contains a mix of tradable and non-tradable accounts.
+              By default, Passiv will not recommend trades in your non-tradable
+              accounts and instead use your tradable accounts to balance as well
+              as possible.
+            </P>
+            <P>
+              If you would rather receive calculated trades for your
+              non-tradable accounts so that you can place the trades manually,
+              you can{' '}
+              <A
+                onClick={() =>
+                  history.push(`/app/group/${currentGroupId}/settings`)
+                }
+              >
+                disable this trade-routing feature in your group settings
+              </A>
+              .
+            </P>
+          </H3>
+          <HideButtonBox>
+            <HideButton
+              name={'route_nontradable_trades'}
+              text={'I Understand'}
+            />
+          </HideButtonBox>
+        </ErrorContainer>
+      ),
+      visible: settings!.prevent_trades_in_non_tradable_accounts === true,
+    },
+    {
+      name: 'no_trades',
+      content: (
+        <TradesContainer>
+          <H2>Trades</H2>
+          <NoTradesNotice>
+            <P>
+              There are currently no trades available on your account. This
+              means that this group is as close as possible to your target,
+              taking into account the rebalancing rules set for this group.
+            </P>
+            <SectionHeader>Other ways to increase accuracy</SectionHeader>
+            <AccuracyBullets>
+              <li>Deposit cash into your brokerage account.</li>
+              {settings != null && settings.buy_only && (
+                <li>
+                  Perform a full rebalance by selling overweight assets.{' '}
+                  <A
+                    href="https://passiv.com/help/tutorials/how-to-allow-selling-to-rebalance"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Learn How
+                  </A>
+                </li>
+              )}
+            </AccuracyBullets>
+          </NoTradesNotice>
+          <TradesExplanation
+            settings={settings}
+            accounts={groupAccounts}
+            container={true}
+            trades={trades!.trades}
+          />
+        </TradesContainer>
+      ),
+      visible:
+        !(
+          tradesSubmitted ||
+          (tradesToRender && tradesToRender.trades.length && !hideTrades)
+        ) &&
+        !error &&
+        !hideTrades,
+    },
+  ];
+
   if (
     tradesSubmitted ||
     (tradesToRender && tradesToRender.trades.length && !hideTrades)
   ) {
     return (
       <>
+        <ContextualMessageMultiWrapper messages={messages} />
         <Tour steps={TOUR_STEPS} name="trades_tour" />
         <TradesContainer className="tour-trades">
           <H2>Trades</H2>
@@ -266,42 +367,7 @@ export const PortfolioGroupTrades = ({
     );
   } else {
     if (!error && !hideTrades) {
-      return (
-        <ContextualMessageWrapper name={'no_trades'}>
-          <TradesContainer>
-            <H2>Trades</H2>
-            <NoTradesNotice>
-              <P>
-                There are currently no trades available on your account. This
-                means that this group is as close as possible to your target,
-                taking into account the rebalancing rules set for this group.
-              </P>
-              <SectionHeader>Other ways to increase accuracy</SectionHeader>
-              <AccuracyBullets>
-                <li>Deposit cash into your brokerage account.</li>
-                {settings != null && settings.buy_only && (
-                  <li>
-                    Perform a full rebalance by selling overweight assets.{' '}
-                    <A
-                      href="https://passiv.com/help/tutorials/how-to-allow-selling-to-rebalance"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Learn How
-                    </A>
-                  </li>
-                )}
-              </AccuracyBullets>
-            </NoTradesNotice>
-            <TradesExplanation
-              settings={settings}
-              accounts={groupAccounts}
-              container={true}
-              trades={trades!.trades}
-            />
-          </TradesContainer>
-        </ContextualMessageWrapper>
-      );
+      return <ContextualMessageMultiWrapper messages={messages} />;
     }
   }
   return null;
