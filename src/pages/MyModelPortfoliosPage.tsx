@@ -161,9 +161,9 @@ const MyModelPortfoliosPage = () => {
         {!groupId && (
           <div>
             {' '}
-            <TransparentButton onClick={() => history.replace('asset-class')}>
+            {/* <TransparentButton onClick={() => history.replace('asset-class')}>
               Edit Asset Classes
-            </TransparentButton>
+            </TransparentButton> */}
             <NewModelButton onClick={() => handleNewModelBtn()}>
               New Model
             </NewModelButton>

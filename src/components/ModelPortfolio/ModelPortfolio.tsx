@@ -273,7 +273,8 @@ const ModelPortfolio = () => {
                     <H3>Model Type</H3>
                     <ToggleModelTypeBtn
                       onClick={handleChangeModelType}
-                      disabled={haveAssetsInModel}
+                      // disabled={haveAssetsInModel}
+                      disabled={true}
                     >
                       {
                         <React.Fragment>
@@ -293,7 +294,10 @@ const ModelPortfolio = () => {
                         <H3>Share Model</H3>
                         <>
                           {' '}
-                          <ToggleShareBtn onClick={handleToggleShareBtn}>
+                          <ToggleShareBtn
+                            onClick={handleToggleShareBtn}
+                            disabled={true}
+                          >
                             {share ? (
                               <React.Fragment>
                                 <ToggleBtn icon={faToggleOn} />

@@ -168,9 +168,17 @@ const PerformancePage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "performance" */ '../pages/PerformancePage'),
 );
 
-const ModelAssetClassPage = React.lazy(() =>
+const GoalsPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "goals" */ '../pages/GoalsPage'),
+);
+// const ModelAssetClassPage = React.lazy(() =>
+//   //? webpackChunkName
+//   import(/* webpackChunkName: "...?" */ '../pages/ModelAssetClassPage'),
+// );
+
+const MyModelPortfoliosPage = React.lazy(() =>
   //? webpackChunkName
-  import(/* webpackChunkName: "...?" */ '../pages/ModelAssetClassPage'),
+  import(/* webpackChunkName: "...?" */ '../pages/MyModelPortfoliosPage'),
 );
 
 const ModelPortfolioPage = React.lazy(() =>
@@ -178,27 +186,9 @@ const ModelPortfolioPage = React.lazy(() =>
   import(/* webpackChunkName: "...?" */ '../pages/ModelPortfolioPage'),
 );
 
-const SettingTargetsPage = React.lazy(() =>
-  //? webpackChunkName
-  import(/* webpackChunkName: "...?" */ '../pages/SettingTargetsPage'),
-);
-
-const MyModelPortfoliosPage = React.lazy(() =>
-  //? webpackChunkName
-  import(/* webpackChunkName: "...?" */ '../pages/MyModelPortfoliosPage'),
-);
-
-const ModelSettingsPage = React.lazy(() =>
-  //? webpackChunkName
-  import(/* webpackChunkName: "...?" */ '../pages/ModelSettingsPage'),
-);
-
 const SelectGroupPage = React.lazy(() =>
   //? webpackChunkName
   import(/* webpackChunkName: "...?" */ '../pages/SelectGroupPage'),
-);
-const GoalsPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "goals" */ '../pages/GoalsPage'),
 );
 
 // declare global {
@@ -573,10 +563,16 @@ const App = () => {
             {showSecureApp && (
               <Route path={prefixPath('/share')} component={SharePage} />
             )}
-            {showSecureApp && (
+            {/* {showSecureApp && (
               <Route
                 path={prefixPath('/asset-class')}
                 component={ModelAssetClassPage}
+              />
+            )} */}
+            {showSecureApp && (
+              <Route
+                path={prefixPath('/models')}
+                component={MyModelPortfoliosPage}
               />
             )}
             {showSecureApp && (
@@ -595,26 +591,8 @@ const App = () => {
             )}
             {showSecureApp && (
               <Route
-                path={prefixPath('/model-portfolio/:modelId/setting/group')}
-                component={ModelSettingsPage}
-              />
-            )}
-            {showSecureApp && (
-              <Route
                 path={prefixPath('/model-portfolio/:modelId/select-group')}
                 component={SelectGroupPage}
-              />
-            )}
-            {showSecureApp && (
-              <Route
-                path={prefixPath('/model-setting')}
-                component={SettingTargetsPage}
-              />
-            )}
-            {showSecureApp && (
-              <Route
-                path={prefixPath('/models')}
-                component={MyModelPortfoliosPage}
               />
             )}
             // insecure app
