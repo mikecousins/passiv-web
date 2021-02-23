@@ -1282,8 +1282,9 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
     notInTarget = positions?.filter(
       (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
     );
+
     targets?.map((target: any) => {
-      if (target.is_excluded) {
+      if (target.is_excluded && target.is_supported) {
         excluded.push({
           excluded: target.is_excluded,
           symbol: target.fullSymbol,
