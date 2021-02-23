@@ -324,7 +324,7 @@ export const PortfolioGroupTrades = ({
             settings={settings}
             accounts={groupAccounts}
             container={true}
-            trades={trades!.trades}
+            trades={trades !== null && trades!.trades}
           />
         </TradesContainer>
       ),
