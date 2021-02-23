@@ -2,7 +2,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { loadModelPortfolios } from '../../actions';
+import { loadGroup, loadModelPortfolios } from '../../actions';
 import OrderTargetAllocations from '../PortfolioGroupSettings/OrderTargetAllocations';
 import {
   selectCurrentGroupId,
@@ -126,11 +126,22 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   const modelChoices = [
     {
       id: 'IMPORT',
-      name: 'Import your current holdings as a model',
+      name: modelPortfolioFeature
+        ? 'Import your current holdings as a model'
+        : 'Import your current holdings as a target',
       tourClass: 'tour-import-holdings',
       button: (
         <React.Fragment>
-          <Button onClick={() => importTarget()} disabled={importDisabled()}>
+          <Button
+            onClick={() => {
+              if (modelPortfolioFeature) {
+                importHoldingsAsAModel();
+              } else {
+                importTarget();
+              }
+            }}
+            disabled={importDisabled()}
+          >
             Import
           </Button>
           {importDisabled() && (
@@ -140,6 +151,21 @@ const PortfolioGroupTargets = ({ error }: Props) => {
             </DisabledBox>
           )}
         </React.Fragment>
+      ),
+    },
+    {
+      id: 'MANUAL',
+      name: 'Build your target portfolio manually',
+      tourClass: 'tour-build-portfolio',
+      button: (
+        <Button
+          onClick={() => {
+            setModel('MANUAL');
+            dispatch(replace(`/app/group/${groupId}?edit=true`));
+          }}
+        >
+          Build
+        </Button>
       ),
     },
     {
@@ -173,6 +199,19 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   }, [targetInitialized]);
 
   const importTarget = () => {
+    setLoading(true);
+    setShowImportOverlay(true);
+    postData('/api/v1/portfolioGroups/' + groupId + '/import/', {})
+      .then(() => {
+        setLoading(false);
+        dispatch(loadGroup({ ids: [groupId] }));
+      })
+      .catch(() => {
+        setLoading(false);
+        setShowImportOverlay(false);
+      });
+  };
+  const importHoldingsAsAModel = () => {
     let group: any;
     group = groups?.find((gp) => gp.groupId === groupId);
 
@@ -314,6 +353,15 @@ const PortfolioGroupTargets = ({ error }: Props) => {
               </P>
               <Grid columns="1fr 1fr 1fr">
                 {modelChoices.map((m) => {
+                  if (m.id === 'MANUAL' && modelPortfolioFeature) {
+                    return;
+                  }
+                  if (
+                    (m.id === 'USE_MODEL' || m.id === 'NEW_MODEL') &&
+                    !modelPortfolioFeature
+                  ) {
+                    return;
+                  }
                   // do not show `Use existing models` option if there're no models
                   if (m.id === 'USE_MODEL' && modelPortfolios.length === 0) {
                     return;
