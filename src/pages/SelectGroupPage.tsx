@@ -22,7 +22,7 @@ const GreyBox = styled.div`
   cursor: pointer;
   :hover {
     box-shadow: 4px 6px 12px 0 rgb(107 110 115 / 40%);
-    border: 1px solid #023ca2;
+    border: 3px solid #023ca2;
   }
   @media (max-width: 900px) {
     padding: 15px;
@@ -54,19 +54,24 @@ const SelectGroupPage = () => {
         toast.success(`Model applied to "${groupName}"`);
       })
       .catch((err) => {
-        toast.success(`${err.message}`);
+        if (err.response) {
+          toast.error(err.response.data.detail);
+        } else {
+          toast.error('Cannot apply model');
+        }
       });
   };
 
   let usingModel: any;
-  let filteredGroups: any;
-  if (currentModelId && groupsUsingByModel[currentModelId]) {
+  let filteredGroups: any = [];
+  if (currentModelId && groupsUsingByModel?.[currentModelId]) {
     usingModel = currentModelId && groupsUsingByModel[currentModelId].groups;
-    filteredGroups = usingModel
-      ?.map((gp: any) => {
-        return groups?.filter((g: any) => gp.id !== g.id);
-      })
-      .flat();
+    //Find values that are in groups but not in usingModel
+    filteredGroups = groups?.filter((group) => {
+      return !usingModel.some((gp: any) => {
+        return group.id === gp.id;
+      });
+    });
   } else {
     filteredGroups = groups;
   }
@@ -114,8 +119,7 @@ const SelectGroupPage = () => {
           <H3>
             "
             {currentModelId &&
-              groupsUsingByModel[currentModelId] &&
-              groupsUsingByModel[currentModelId].model.name}
+              groupsUsingByModel?.[currentModelId]?.model?.name}
             " is already being used by:
           </H3>
           <br />
