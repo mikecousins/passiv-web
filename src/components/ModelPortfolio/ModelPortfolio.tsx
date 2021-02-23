@@ -15,7 +15,7 @@ import {
   selectCurrentModelPortfolio,
   selectGroupInfoForModelPortfolio,
 } from '../../selectors/modelPortfolios';
-import { loadModelPortfolios } from '../../actions';
+import { loadGroups, loadModelPortfolios } from '../../actions';
 import ModelPortoflioBox from './ModelPortfolioBox';
 import AssetClassesBox from './AssetClassesBox';
 import {
@@ -193,6 +193,7 @@ const ModelPortfolio = () => {
       `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
     ).then(() => {
       dispatch(loadModelPortfolios());
+      dispatch(loadGroups());
       history.push('/app/models');
     });
   };
