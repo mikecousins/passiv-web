@@ -19,7 +19,7 @@ import {
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { loadGroup } from '../actions';
+import { loadGroup, loadModelPortfolios } from '../actions';
 import { toast } from 'react-toastify';
 import { selectModelPortfolioFeature } from '../selectors/features';
 import {
@@ -65,12 +65,14 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
   const currentTargets = useSelector(selectCurrentGroupTarget);
   const settings = useSelector(selectCurrentGroupSettings);
   const currentGroupId = useSelector(selectCurrentGroupId);
+  const modelPortfolios = useSelector(selectModelPortfolios);
   const modelUseByOtherGroups = useSelector(selectModelUseByOtherGroups);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
+  const groupId = currentGroup?.id;
+
   const handleAddTarget = (target: any, exclude: boolean) => {
     setLoading(true);
-    const groupId = currentGroup?.id;
     const newTarget = {
       symbol: target.symbol.id,
       percent: 0,
@@ -112,30 +114,46 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
   };
 
   const handleAddToModel = (target: any) => {
-    getData(`/api/v1/modelPortfolio/${currentGroup?.model_portfolio}`)
+    setLoading(true);
+    const modelId = currentGroup?.model_portfolio;
+    const model = modelPortfolios.filter(
+      (mdl) => mdl.model_portfolio.id === modelId,
+    );
+    const newTarget = {
+      symbol: target.symbol,
+      percent: '0',
+    };
+    model[0].model_portfolio_security = [
+      ...model[0].model_portfolio_security,
+      newTarget,
+    ];
+    postData(`/api/v1/modelPortfolio/${modelId}`, model[0])
       .then((res) => {
-        let modelPortfolio: ModelPortfolioDetailsType = res.data;
-        const newTarget = {
-          symbol: target.symbol,
-          percent: '0',
-        };
-        modelPortfolio.model_portfolio_security = [
-          ...modelPortfolio.model_portfolio_security,
-          newTarget,
-        ];
         postData(
-          `/api/v1/modelPortfolio/${currentGroup?.model_portfolio}`,
-          modelPortfolio,
-        ).then((res) => {
-          toast.success(
-            `'${newTarget.symbol.symbol}' got added to '${modelPortfolio.model_portfolio.name}'`,
-          );
-        });
+          `api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`,
+          {},
+        )
+          .then(() => {
+            dispatch(loadGroup({ ids: [groupId] })); // need to load all groups to have an updated list of groups using a model in my models page
+            dispatch(loadModelPortfolios());
+            toast.success(
+              `'${newTarget.symbol.symbol}' got added to '${model[0].model_portfolio.name}'`,
+            );
+            setLoading(false);
+          })
+          .catch((err) => {
+            if (err.response) {
+              toast.error(err.response.data.detail);
+            } else {
+              toast.error('Cannot add target to model');
+            }
+          });
       })
       .catch((err) => {
-        // dispatch(loadModelPortfolios());
         if (err.response) {
           toast.error(err.response.data.detail);
+        } else {
+          toast.error('Cannot add target to model');
         }
       });
   };
@@ -177,7 +195,9 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
                           }
                         }}
                       >
-                        Add to Target
+                        {modelPortfolioFeature
+                          ? 'Add to Model'
+                          : 'Add to Target'}
                       </MaxHeightSmallBtn>
                     )}
                     <MaxHeightSmallBtn
