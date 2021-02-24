@@ -308,7 +308,22 @@ const ModelPortoflioBox = ({
                       (ast) => !usedAssetClasses.includes(ast.id),
                     );
                   }
-
+                  const handleKeyPress = (event: any) => {
+                    if (
+                      event.key === 'Enter' &&
+                      ((props.isValid &&
+                        securityBased &&
+                        Object.entries(props.values.newTarget.symbol).length !==
+                          0) ||
+                        (!securityBased &&
+                          Object.entries(
+                            props.values.newTarget.model_asset_class,
+                          ).length !== 0))
+                    ) {
+                      arrayHelpers.push(props.values.newTarget);
+                      props.setFieldValue('newTarget.symbol', {});
+                    }
+                  };
                   return (
                     <>
                       <div>
@@ -407,6 +422,7 @@ const ModelPortoflioBox = ({
                                   type="number"
                                   onChange={props.handleChange}
                                   value={props.values.newTarget.percent}
+                                  onKeyPress={(e: any) => handleKeyPress(e)}
                                   required
                                 />
                                 <PercentageLabel htmlFor="percentage">
@@ -424,6 +440,7 @@ const ModelPortoflioBox = ({
                                       symbol,
                                     );
                                   }}
+                                  onKeyPress={(e: any) => handleKeyPress(e)}
                                   groupId={groupId ? groupId : ''}
                                   forModelSecurity={true}
                                 />

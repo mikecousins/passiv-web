@@ -55,6 +55,7 @@ type Props = {
   name?: string;
   id?: string;
   onSelect: (symbol: any) => void;
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
 const useDebouncedEffect = (callback: any, delay: number, deps: any[] = []) => {
@@ -81,6 +82,7 @@ const SymbolSelector = ({
   name,
   id,
   onSelect,
+  onKeyPress,
 }: Props) => {
   // const groupId = useSelector(selectCurrentGroupId);
   const dispatch = useDispatch();
@@ -150,6 +152,7 @@ const SymbolSelector = ({
         <StyledComboboxInput
           value={value}
           onChange={onChange}
+          onKeyPress={onKeyPress}
           placeholder="Search for security..."
           name={name}
           id={id}
