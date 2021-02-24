@@ -229,7 +229,9 @@ const ModelPortoflioBox = ({
           initialStatus={{ submitted: false }}
           validate={(values) => {
             const errors: any = {};
-            const total = values.targets.reduce((sum: string, target: any) => {
+
+            const targets = [...values.targets, values.newTarget];
+            const total = targets.reduce((sum: string, target: any) => {
               if (target.percent) {
                 return (+sum + +target.percent).toFixed(3);
               }
@@ -282,15 +284,16 @@ const ModelPortoflioBox = ({
               <FieldArray
                 name="targets"
                 render={(arrayHelpers) => {
-                  const total = props.values.targets.reduce(
-                    (sum: string, target: any) => {
-                      if (target.percent) {
-                        return (+sum + +target.percent).toFixed(3);
-                      }
-                      return sum;
-                    },
-                    '0',
-                  );
+                  const targets = [
+                    ...props.values.targets,
+                    props.values.newTarget,
+                  ];
+                  const total = targets.reduce((sum: string, target: any) => {
+                    if (target.percent) {
+                      return (+sum + +target.percent).toFixed(3);
+                    }
+                    return sum;
+                  }, '0');
 
                   const cashPercentage = (100 - +total).toFixed(3);
                   let availableAssetClasses: any = [];
