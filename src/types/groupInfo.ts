@@ -1,6 +1,5 @@
 import { Currency } from './currency';
 import { Account } from './account';
-import { Brokerage } from './brokerage';
 import { Authorization } from './authorization';
 
 export type Symbol = {
