@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postData } from '../../api';
 import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
-import { loadGroups, loadModelPortfolios } from '../../actions';
+import { loadGroupInfo, loadGroups, loadModelPortfolios } from '../../actions';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import NameInputAndEdit from '../NameInputAndEdit';
 import { ModelAssetClass } from '../../types/modelAssetClass';
@@ -161,6 +161,7 @@ const ModelPortoflioBox = ({
       )
         .then(() => {
           dispatch(loadModelPortfolios());
+          dispatch(loadGroupInfo());
         })
         .catch(() => {
           dispatch(loadModelPortfolios());
@@ -217,7 +218,6 @@ const ModelPortoflioBox = ({
         <Formik
           initialValues={{
             targets: model,
-            newModelName: '',
             newTarget: {
               percent: 0,
               symbol: {},
