@@ -158,17 +158,15 @@ const MyModelPortfoliosPage = () => {
           A model portfolio is a group of assets and target allocations that are
           designed to meet a particular investing goal.
         </StyledP>
-        {!groupId && (
-          <div>
-            {' '}
-            {/* <TransparentButton onClick={() => history.replace('asset-class')}>
+        <div>
+          {' '}
+          {/* <TransparentButton onClick={() => history.replace('asset-class')}>
               Edit Asset Classes
             </TransparentButton> */}
-            <NewModelButton onClick={() => handleNewModelBtn()}>
-              New Model
-            </NewModelButton>
-          </div>
-        )}
+          <NewModelButton onClick={() => handleNewModelBtn()}>
+            New Model
+          </NewModelButton>
+        </div>
       </Table>
       <div style={{ marginTop: '50px' }}>
         {modelPortfolios.length > 0 ? (
