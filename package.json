@@ -46,7 +46,7 @@
     "@stripe/react-stripe-js": "1.1.2",
     "@stripe/stripe-js": "1.8.0",
     "@types/react-stripe-elements": "^6.0.4",
-    "axios": "0.19.2",
+    "axios": "0.21.1",
     "connected-react-router": "6.8.0",
     "date-fns": "2.15.0",
     "formik": "2.1.5",

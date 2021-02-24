@@ -32,8 +32,8 @@ const WelcomeVideo = () => {
           If you want to make Passiv ignore one of your accounts, go to{' '}
           <ADarkStyle href="/app/settings">Settings</ADarkStyle>, scroll down to
           Accounts, and move the account to the Hidden Account section.
-          <HideButton name={'setup_prompt'} />
         </PDarkStyle>
+        <HideButton name={'setup_prompt'} />
       </ShadowBox>
     </React.Fragment>
   );

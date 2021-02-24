@@ -55,13 +55,25 @@ const Number = (props: Props) => {
   };
   if (props.currency !== undefined && props.currency !== null) {
     numberProps.style = 'currency';
-    numberProps.currencyDisplay = 'symbol';
+    numberProps.currencyDisplay = 'narrowSymbol';
     numberProps.currency = props.currency;
   }
+  let formattedNumber = null;
+  try {
+    formattedNumber = new Intl.NumberFormat(language, numberProps).format(
+      props.value,
+    );
+  } catch (e) {
+    numberProps.currencyDisplay = 'symbol';
+    formattedNumber = new Intl.NumberFormat(language, numberProps).format(
+      props.value,
+    );
+  }
+
   return (
     <React.Fragment>
       {prefix}
-      {new Intl.NumberFormat(language, numberProps).format(props.value)}
+      {formattedNumber}
       {postfix}
     </React.Fragment>
   );

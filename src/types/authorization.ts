@@ -1,4 +1,4 @@
-import { Brokerage } from './groupInfo';
+import { Brokerage } from './brokerage';
 
 export type Authorization = {
   id: string;
@@ -8,4 +8,5 @@ export type Authorization = {
   type: 'read' | 'trade';
   disabled: boolean;
   disabled_date: string;
+  meta: any;
 };

@@ -198,6 +198,25 @@ export const selectAuthorizations = createSelector(
   },
 );
 
+export const selectDisplayQuestradeConnectPrompt = createSelector(
+  selectAuthorizations,
+  (authorizations) => {
+    let result = false;
+    if (authorizations) {
+      const hasQuestradeConnection: boolean = authorizations.some(
+        (a) => a.brokerage.slug === 'QUESTRADE',
+      );
+      const skippedQuestradeConnection: boolean = authorizations.some(
+        (a) => a.meta.has_questrade === true,
+      );
+      if (!hasQuestradeConnection && skippedQuestradeConnection) {
+        result = true;
+      }
+    }
+    return result;
+  },
+);
+
 export const selectDisabledAuthorizations = createSelector(
   selectAuthorizations,
   (authorizations) => {

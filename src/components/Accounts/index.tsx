@@ -15,7 +15,12 @@ import AccountRow from './AccountRow';
 import AccountGroup from './AccountGroup';
 import { deleteData, putData, postData } from '../../api';
 import { H2, A, Edit, H3, P } from '../../styled/GlobalElements';
-import { loadAccountList, loadGroup, loadGroupsList } from '../../actions';
+import {
+  loadAccountList,
+  loadGroup,
+  loadGroupsList,
+  loadSettings,
+} from '../../actions';
 
 export const Header = styled.form`
   h2 {
@@ -111,12 +116,14 @@ const Accounts = () => {
         destList.accounts.splice(result.destination.index, 0, moved);
         putData(`/api/v1/accounts/${moved.id}`, newAccount)
           .then(() => {
+            dispatch(loadSettings());
             dispatch(loadAccountList());
             dispatch(loadGroupsList());
             dispatch(loadGroup({ ids: affectedGroupIds }));
             toast.success('Moved the account successfully');
           })
           .catch(() => {
+            dispatch(loadSettings());
             dispatch(loadAccountList());
             dispatch(loadGroupsList());
             dispatch(loadGroup({ ids: affectedGroupIds }));
@@ -129,12 +136,14 @@ const Accounts = () => {
             newAccount.portfolio_group = newGroup.data[0].id;
             putData(`/api/v1/accounts/${moved.id}`, newAccount)
               .then(() => {
+                dispatch(loadSettings());
                 dispatch(loadAccountList());
                 dispatch(loadGroupsList());
                 dispatch(loadGroup({ ids: affectedGroupIds }));
                 toast.success('Moved the account successfully');
               })
               .catch(() => {
+                dispatch(loadSettings());
                 dispatch(loadAccountList());
                 dispatch(loadGroupsList());
                 dispatch(loadGroup({ ids: affectedGroupIds }));

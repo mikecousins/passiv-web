@@ -21,6 +21,8 @@ const Tour = ({ steps, name }: Props) => {
   const [showMessage, setShowMessage] = useState(false);
   const isMobile = useSelector(selectIsMobile);
 
+  const hideAccounts = name === 'hide_accounts_indicator';
+
   const handleJoyrideCallback = (data: any) => {
     if (
       data.lifecycle === 'complete' &&
@@ -28,7 +30,7 @@ const Tour = ({ steps, name }: Props) => {
         (data.action === 'next' && data.status === 'finished'))
     ) {
       if (messages?.includes('tour-popup')) {
-        toast.info('You can reset or turn the tours off in Settings page.', {
+        toast.info('You can reset or disable tours on the Help page.', {
           position: 'top-center',
           autoClose: false,
         });
@@ -62,8 +64,9 @@ const Tour = ({ steps, name }: Props) => {
   return (
     <>
       {/* show tour if: user have access to this feature, the message hasn't been
-      acknowledged, and the tour is not off OR show the goals feature*/}
-      {!isMobile && showInAppTour && showTour && showMessage && (
+      acknowledged, the tour is for hiding accounts, AND the tour is not off*/}
+      {((!isMobile && showInAppTour && showTour && showMessage) ||
+        (hideAccounts && showMessage)) && (
         <JoyRide
           callback={handleJoyrideCallback}
           steps={steps}
@@ -72,9 +75,9 @@ const Tour = ({ steps, name }: Props) => {
           showSkipButton={true}
           disableScrolling
           locale={{
-            last: 'Hide tour',
+            last: hideAccounts ? 'Hide' : 'Hide tour',
             skip: 'Hide tour',
-            close: 'Hide tour',
+            // close: hideAccounts ? 'Hide' : '',
           }}
           styles={{
             tooltip: {
