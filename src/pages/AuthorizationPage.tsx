@@ -104,9 +104,15 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: connectionType,
-        }).then((response) => {
-          window.location = response.data.url;
-        });
+        })
+          .then((response) => {
+            window.location = response.data.url;
+          })
+          .catch((error) => {
+            toast.error(
+              `${brokerage.name} is currently experiencing connection issues and cannot establish new connections at this time. Please try again later.`,
+            );
+          });
       }
     }
   };

@@ -5,7 +5,6 @@ import MenuButton from './MenuButton';
 import Menu from './Menu';
 import { selectIsMobile } from '../../selectors/browser';
 import { selectPathname } from '../../selectors/router';
-import Tour from '../Tour/Tour';
 
 const StyledSlideMenu = styled.div`
   position: relative;
@@ -14,35 +13,7 @@ const StyledSlideMenu = styled.div`
   z-index: 5;
   min-height: 100vh;
 `;
-const TOUR_STEPS = [
-  {
-    target: '.tour-hide_accounts',
-    content: (
-      <>
-        <div>
-          You can{' '}
-          <a
-            href="https://passiv.com/help/tutorials/how-to-set-up-multi-account-portfolios/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            combine several accounts
-          </a>{' '}
-          into a single group, or just{' '}
-          <a
-            href="https://passiv.com/help/tutorials/how-to-hide-accounts-in-passiv/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            hide accounts
-          </a>{' '}
-          that you don't want to see.
-        </div>
-      </>
-    ),
-    placement: 'top-end',
-  },
-];
+
 export const SlideMenu = () => {
   const isMobile = useSelector(selectIsMobile);
   const pathname = useSelector(selectPathname);
@@ -63,7 +34,6 @@ export const SlideMenu = () => {
 
   return (
     <StyledSlideMenu>
-      {visible && <Tour steps={TOUR_STEPS} name="hide_accounts_indicator" />}
       <MenuButton
         menuVisibility={visible}
         handleMouseDown={() => setVisible(!visible)}

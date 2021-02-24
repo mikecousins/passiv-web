@@ -17,10 +17,11 @@ const PaddedButton = styled(Button)`
 
 type Props = {
   name: string;
+  text?: string;
   children?: any;
 };
 
-export const HideButton = ({ name }: Props) => {
+export const HideButton = ({ name, text }: Props) => {
   const dispatch = useDispatch();
   return (
     <ButtonContainer>
@@ -37,7 +38,7 @@ export const HideButton = ({ name }: Props) => {
             });
         }}
       >
-        Hide
+        {text !== undefined ? text : 'Hide'}
       </PaddedButton>
     </ButtonContainer>
   );

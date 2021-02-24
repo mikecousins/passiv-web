@@ -57,10 +57,17 @@ const LoginPage = () => {
             }
           })
           .catch((error) => {
-            actions.setErrors({
-              password:
-                error.response.data.non_field_errors || 'Failed to login.',
-            });
+            if (error.response) {
+              actions.setErrors({
+                password:
+                  error.response.data.non_field_errors || 'Failed to login.',
+              });
+            } else {
+              actions.setErrors({
+                password: 'Failed to login.',
+              });
+            }
+
             actions.setSubmitting(false);
           });
       }}
