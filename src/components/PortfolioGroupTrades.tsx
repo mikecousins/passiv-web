@@ -290,7 +290,9 @@ export const PortfolioGroupTrades = ({
           </HideButtonBox>
         </ErrorContainer>
       ),
-      visible: settings!.prevent_trades_in_non_tradable_accounts === true,
+      visible:
+        settings !== null &&
+        settings!.prevent_trades_in_non_tradable_accounts === true,
     },
     {
       name: 'no_trades',
