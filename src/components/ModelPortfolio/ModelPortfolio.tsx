@@ -13,6 +13,7 @@ import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
 import {
   selectCurrentModelPortfolio,
   selectGroupInfoForModelPortfolio,
+  selectGroupsUsingAModel,
 } from '../../selectors/modelPortfolios';
 import { loadGroups, loadModelPortfolios } from '../../actions';
 import ModelPortoflioBox from './ModelPortfolioBox';
@@ -107,6 +108,18 @@ const DeleteContainer = styled.div`
   float: right;
 `;
 
+const DeleteModelExplanation = styled.div`
+  font-size: 1.2rem;
+  text-align: center;
+  ul {
+    margin-top: 20px;
+    list-style: circle;
+    li {
+      margin-bottom: 10px;
+    }
+  }
+`;
+
 const SetShareModelContainer = styled.div`
   margin-top: 20px;
 `;
@@ -134,6 +147,10 @@ const ModelPortfolio = () => {
 
   const group = useSelector(selectGroupInfoForModelPortfolio);
   const groupInfo = group.groupInfo;
+
+  const groupsUsingModel = useSelector(selectGroupsUsingAModel)?.[
+    currentModelPortfolio?.model_portfolio?.id
+  ]?.groups;
 
   const [sharedModel, setSharedModel] = useState(false);
   const [share, setShare] = useState(
@@ -368,14 +385,22 @@ const ModelPortfolio = () => {
               <H2Margin>
                 Are you sure you want to delete{' '}
                 <span style={{ fontWeight: 'bold' }}>
-                  {currentModelPortfolio!.model_portfolio.name} *
+                  {currentModelPortfolio!.model_portfolio.name}
                 </span>{' '}
                 ?
               </H2Margin>
-              <p style={{ fontSize: '1.1rem', textAlign: 'center' }}>
-                <FontAwesomeIcon icon={faExclamationTriangle} /> All groups
-                using this model will get reset
-              </p>
+              {groupsUsingModel?.length > 0 && (
+                <DeleteModelExplanation>
+                  <FontAwesomeIcon icon={faExclamationTriangle} />
+                  The following groups are using this model and would get reset:
+                  <ul>
+                    {groupsUsingModel.map((group: any) => {
+                      return <li key={group.id}>{group.name}</li>;
+                    })}
+                  </ul>
+                </DeleteModelExplanation>
+              )}
+
               <ActionContainer>
                 <DeleteBtn onClick={handleDeleteModel}>Delete</DeleteBtn>
                 <Button onClick={() => setDeleteDialog(false)}>Cancel</Button>
