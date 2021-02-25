@@ -84,11 +84,13 @@ export const Performance = () => {
 
   return (
     <React.Fragment>
-      <div style={{ margin: '5px' }}>
-        <FontAwesomeIcon icon={faExclamationTriangle} />
-        &nbsp;Reporting data may be temporarily inaccurate due to issues with
-        our data provider
-      </div>
+      {false && (
+        <div style={{ margin: '5px' }}>
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+          &nbsp;Reporting data may be temporarily inaccurate due to issues with
+          our data provider
+        </div>
+      )}
 
       <TimeframePicker />
       <Grid>
