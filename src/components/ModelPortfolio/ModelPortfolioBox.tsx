@@ -339,7 +339,7 @@ const ModelPortoflioBox = ({
                       {props.values.targets.map(
                         (target: any, index: number) => {
                           return (
-                            <Grid columns="1fr 50px">
+                            <Grid columns="1fr 50px" key={index}>
                               <FormContainer style={{ borderColor: 'black' }}>
                                 <Percentage>
                                   <PercentageInput

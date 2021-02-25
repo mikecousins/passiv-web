@@ -86,7 +86,7 @@ const ExcludedAssets = () => {
           <ul>
             {positionsNotInTargetOrExcluded.map((position) => {
               return (
-                <Positions>
+                <Positions key={position.symbol.id}>
                   <ToggleButton onClick={() => handleToggle(position)}>
                     <FontAwesomeIcon
                       icon={position.excluded ? faToggleOn : faToggleOff}

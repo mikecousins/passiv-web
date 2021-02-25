@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { replace } from 'connected-react-router';
 import { useHistory } from 'react-router-dom';
-import { getData, postData } from '../api';
+import { postData } from '../api';
 import {
   selectCurrentGroup,
   selectCurrentGroupId,
@@ -26,10 +26,6 @@ import {
   selectModelPortfolios,
   selectModelUseByOtherGroups,
 } from '../selectors/modelPortfolios';
-import {
-  ModelPortfolio,
-  ModelPortfolioDetailsType,
-} from '../types/modelPortfolio';
 
 type Props = {
   targets: any;
