@@ -241,7 +241,7 @@ const ModelPortoflioBox = ({
             const cashPercentage = (100 - +total).toFixed(3);
             const roundedCashPercentage =
               Math.round(+cashPercentage * 1000) / 1000;
-            if (roundedCashPercentage < -0) {
+            if (roundedCashPercentage < -0 || roundedCashPercentage > 100) {
               errors.cash = 'The cash percentage should be between 0 and 100';
             }
 
