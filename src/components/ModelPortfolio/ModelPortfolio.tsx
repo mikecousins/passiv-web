@@ -23,7 +23,6 @@ import {
   faClipboard,
   faClipboardCheck,
   faExclamationTriangle,
-  faHourglass,
   faSpinner,
   faStopwatch,
   faToggleOff,
@@ -33,7 +32,7 @@ import {
 import { toast } from 'react-toastify';
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
-import { H3, P } from '../../styled/GlobalElements';
+import { H3 } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
@@ -131,25 +130,6 @@ const ShareLinkContainer = styled.div`
   justify-content: space-between;
   margin-top: 10px;
   margin-left: 5px;
-`;
-
-const ComingSoonBanner = styled.span`
-  border: 2px solid orange;
-  border-radius: 10px;
-  padding: 12px 20px;
-  font-weight: 900;
-  font-size: 32px;
-  display: inline-block;
-  position: relative;
-  top: 120px;
-  right: 50px;
-  left: 10px;
-  /* opacity: 0.8; */
-  color: orange;
-  /* margin: 0 50px 10px 50px; */
-  rotate: 30deg;
-  background-color: rgba(219, 214, 214, 0.2);
-  z-index: 3;
 `;
 
 const ComingSoonTag = styled.div`
@@ -314,7 +294,6 @@ const ModelPortfolio = () => {
                   sharedModel={sharedModel}
                 />
                 <div>
-                  {/* <ComingSoonBanner>Coming Soon</ComingSoonBanner> */}
                   <ComingSoonTag>
                     <FontAwesomeIcon icon={faStopwatch} size="sm" /> Coming Soon
                     ...
