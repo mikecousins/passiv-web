@@ -53,7 +53,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const brokerages = useSelector(selectBrokerages);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const showProgressFeature = useSelector(selectShowProgressFeature);
-  const { brokerage } = useParams();
+  const { openBrokerage } = useParams();
   const [confirmConnection, setConfirmConnection] = useState('');
 
   const checkBrokerageMaintenance = (brokerage: BrokerageType) => {
@@ -75,8 +75,14 @@ const AuthorizationPage = ({ onboarding }: Props) => {
 
   const startConfirmConnection = (brokerageName: string) => {
     const options = getBrokerageOptions(brokerageName);
+    const brokerage =
+      brokerages &&
+      brokerages.find((brokerage) => brokerage.name === brokerageName);
     if (options) {
-      if (checkBrokerageMaintenance(brokerage) === true) {
+      if (
+        brokerage !== undefined &&
+        checkBrokerageMaintenance(brokerage) === true
+      ) {
         toast.error(
           `${brokerage.name} is currently undergoing maintenance and cannot establish new connections at this time. Please try again later.`,
         );
@@ -291,17 +297,20 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       <React.Fragment>
         <Container2Column>
           {brokerageOptions.map((brokerage: any) => {
-            let contents = (
-              <AuthBox
-                key={brokerage.id}
-                onClick={() => startConfirmConnection(brokerage.name)}
-              >
-                <LogoContainer>
-                  <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
-                </LogoContainer>
-                <AuthLink>Connect {brokerage.displayName}</AuthLink>
-              </AuthBox>
-            );
+            let contents = null;
+            if (brokerages.some((b) => b.name === brokerage.name)) {
+              contents = (
+                <AuthBox
+                  key={brokerage.id}
+                  onClick={() => startConfirmConnection(brokerage.name)}
+                >
+                  <LogoContainer>
+                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                  </LogoContainer>
+                  <AuthLink>Connect {brokerage.displayName}</AuthLink>
+                </AuthBox>
+              );
+            }
             return contents;
           })}
         </Container2Column>
@@ -334,7 +343,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       </React.Fragment>
     );
   } else {
-    if (brokerage === 'open') {
+    if (openBrokerage === 'open') {
       output = (
         <React.Fragment>
           <H1DarkStyle>Setup</H1DarkStyle>
