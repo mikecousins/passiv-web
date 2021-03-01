@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postData } from '../../api';
 import styled from '@emotion/styled';
@@ -12,7 +12,7 @@ import { selectGroupInfoForModelPortfolio } from '../../selectors/modelPortfolio
 import { FieldArray, Form, Formik } from 'formik';
 import Grid from '../../styled/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusSquare, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import { Button } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
@@ -107,12 +107,6 @@ const StyledName = styled.span`
   font-size: 30px;
 `;
 
-const AddButton = styled.button`
-  :disabled {
-    display: none;
-  }
-`;
-
 type Props = {
   modelPortfolio: ModelPortfolioDetailsType;
   assetClasses: ModelAssetClass[];
@@ -128,11 +122,13 @@ const ModelPortoflioBox = ({
 }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+
   const [modelPortfolioName, setModelPortfolioName] = useState(
     modelPortfolio.model_portfolio.name,
   );
   const [editName, setEditName] = useState(false);
   const [clearInputSelector, setClearInputSelector] = useState(0);
+  const [symbolError, setSymbolError] = useState('');
 
   let model: any = modelPortfolio.model_portfolio_asset_class;
   if (securityBased) {
@@ -151,6 +147,14 @@ const ModelPortoflioBox = ({
   const canEdit =
     (assignedPortfolioGroups <= 1 && editMode) ||
     (assignedPortfolioGroups === 0 && !editMode);
+
+  const toggleEditMode = () => {
+    if (editMode) {
+      history.replace(`/app/model-portfolio/${modelId}`);
+    } else {
+      history.replace(`/app/model-portfolio/${modelId}?edit=true`);
+    }
+  };
 
   const finishEditingName = () => {
     if (
@@ -259,6 +263,7 @@ const ModelPortoflioBox = ({
             return errors;
           }}
           onSubmit={(values, actions) => {
+            toggleEditMode();
             if (securityBased) {
               modelPortfolio.model_portfolio_security = values.targets;
             } else {
@@ -311,22 +316,28 @@ const ModelPortoflioBox = ({
                       (ast) => !usedAssetClasses.includes(ast.id),
                     );
                   }
+
+                  const invalidSymbol =
+                    (securityBased &&
+                      Object.entries(props.values.newTarget.symbol).length ===
+                        0) ||
+                    (!securityBased &&
+                      Object.entries(props.values.newTarget.model_asset_class)
+                        .length === 0);
+
                   const handleKeyPress = (event: any) => {
-                    if (
-                      event.key === 'Enter' &&
-                      ((props.isValid &&
-                        securityBased &&
-                        Object.entries(props.values.newTarget.symbol).length !==
-                          0) ||
-                        (!securityBased &&
-                          Object.entries(
-                            props.values.newTarget.model_asset_class,
-                          ).length !== 0))
-                    ) {
-                      arrayHelpers.push(props.values.newTarget);
-                      props.setFieldValue('newTarget.symbol', {});
-                      props.setFieldValue('newTarget.percent', 0);
-                      setClearInputSelector(clearInputSelector + 1);
+                    if (event.key === 'Enter') {
+                      if (invalidSymbol) {
+                        setSymbolError(
+                          'Please select a supported symbol from the dropdown ',
+                        );
+                        setTimeout(() => setSymbolError(''), 2000);
+                      } else {
+                        arrayHelpers.push(props.values.newTarget);
+                        props.setFieldValue('newTarget.symbol', {});
+                        props.setFieldValue('newTarget.percent', 0);
+                        setClearInputSelector(clearInputSelector + 1);
+                      }
                     }
                   };
                   return (
@@ -343,30 +354,49 @@ const ModelPortoflioBox = ({
                       </div>
                       {props.values.targets.map(
                         (target: any, index: number) => {
-                          return (
-                            <Grid columns="1fr 50px" key={index}>
-                              <FormContainer style={{ borderColor: 'black' }}>
-                                <Percentage>
-                                  <PercentageInput
-                                    type="number"
-                                    name={`targets.${index}`}
-                                    value={props.values.targets[index].percent}
-                                    onChange={(e) =>
-                                      props.setFieldValue(
-                                        `targets.${index}.percent` as 'targets',
-                                        parseFloat(e.target.value),
-                                      )
-                                    }
-                                    required
-                                    readOnly={!canEdit}
-                                  />
-                                  <PercentageLabel htmlFor="percentage">
-                                    %
-                                  </PercentageLabel>
-                                </Percentage>
-                                <Symbol>
-                                  {securityBased ? (
-                                    <>
+                          if (editMode) {
+                            return (
+                              <Grid columns="1fr 50px" key={index}>
+                                <FormContainer style={{ borderColor: 'black' }}>
+                                  <Percentage>
+                                    <PercentageInput
+                                      type="number"
+                                      name={`targets.${index}`}
+                                      value={
+                                        props.values.targets[index].percent
+                                      }
+                                      onChange={(e) =>
+                                        props.setFieldValue(
+                                          `targets.${index}.percent` as 'targets',
+                                          parseFloat(e.target.value),
+                                        )
+                                      }
+                                      required
+                                    />
+                                    <PercentageLabel htmlFor="percentage">
+                                      %
+                                    </PercentageLabel>
+                                  </Percentage>
+                                  <Symbol>
+                                    {securityBased ? (
+                                      <>
+                                        <span
+                                          style={{
+                                            fontWeight: 600,
+                                            marginRight: '20px',
+                                          }}
+                                        >
+                                          {
+                                            props.values.targets[index].symbol
+                                              ?.symbol
+                                          }
+                                        </span>
+                                        {
+                                          props.values.targets[index].symbol
+                                            ?.description
+                                        }
+                                      </>
+                                    ) : (
                                       <span
                                         style={{
                                           fontWeight: 600,
@@ -374,49 +404,44 @@ const ModelPortoflioBox = ({
                                         }}
                                       >
                                         {
-                                          props.values.targets[index].symbol
-                                            ?.symbol
+                                          props.values.targets[index]
+                                            .model_asset_class.name
                                         }
                                       </span>
-                                      {
-                                        props.values.targets[index].symbol
-                                          ?.description
-                                      }
-                                    </>
-                                  ) : (
-                                    <span
-                                      style={{
-                                        fontWeight: 600,
-                                        marginRight: '20px',
-                                      }}
-                                    >
-                                      {
-                                        props.values.targets[index]
-                                          .model_asset_class.name
-                                      }
-                                    </span>
-                                  )}
-                                </Symbol>
+                                    )}
+                                  </Symbol>
 
-                                <br></br>
-                              </FormContainer>
-                              {canEdit && (
-                                <button
-                                  type="button"
-                                  onClick={() => arrayHelpers.remove(index)}
-                                >
-                                  <FontAwesomeIcon
-                                    icon={faTimes}
-                                    size="lg"
-                                    color="var(--grey-darkest)"
-                                  />
-                                </button>
-                              )}
-                            </Grid>
-                          );
+                                  <br></br>
+                                </FormContainer>
+                                {editMode && (
+                                  <button
+                                    type="button"
+                                    onClick={() => arrayHelpers.remove(index)}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={faTimes}
+                                      size="lg"
+                                      color="var(--grey-darkest)"
+                                    />
+                                  </button>
+                                )}
+                              </Grid>
+                            );
+                          } else {
+                            return (
+                              <Cash key={index}>
+                                <CashPercentage style={{ fontWeight: 500 }}>
+                                  {target.percent}%{' '}
+                                  {securityBased
+                                    ? target.symbol.symbol
+                                    : target.model_asset_class.name}
+                                </CashPercentage>
+                              </Cash>
+                            );
+                          }
                         },
                       )}
-                      {canEdit && (
+                      {editMode && (
                         <Grid columns="1fr 50px" style={{ marginTop: '30px' }}>
                           <div>
                             <FormContainer>
@@ -464,35 +489,21 @@ const ModelPortoflioBox = ({
                                 />
                               )}
                             </FormContainer>
-                            {props.errors.newTarget && (
-                              <ErroMsg>{props.errors.newTarget}</ErroMsg>
-                            )}
+                            <div>
+                              <ul>
+                                <li>
+                                  {props.errors.newTarget && (
+                                    <ErroMsg>{props.errors.newTarget}</ErroMsg>
+                                  )}
+                                </li>
+                                <li>
+                                  {symbolError !== '' && (
+                                    <ErroMsg>{symbolError}</ErroMsg>
+                                  )}
+                                </li>
+                              </ul>
+                            </div>
                           </div>
-                          <AddButton
-                            type="button"
-                            onClick={() => {
-                              arrayHelpers.push(props.values.newTarget);
-                              props.setFieldValue('newTarget.symbol', {});
-                              props.setFieldValue('newTarget.percent', 0);
-                              setClearInputSelector(clearInputSelector + 1);
-                            }}
-                            disabled={
-                              !props.isValid ||
-                              (securityBased &&
-                                Object.entries(props.values.newTarget.symbol)
-                                  .length === 0) ||
-                              (!securityBased &&
-                                Object.entries(
-                                  props.values.newTarget.model_asset_class,
-                                ).length === 0)
-                            }
-                          >
-                            <FontAwesomeIcon
-                              icon={faPlusSquare}
-                              color="var(--grey-darkest)"
-                              size="lg"
-                            />
-                          </AddButton>
                         </Grid>
                       )}
                     </>
@@ -523,6 +534,7 @@ const ModelPortoflioBox = ({
             </Form>
           )}
         </Formik>
+        {!editMode && <Button onClick={toggleEditMode}>Edit Model</Button>}
       </MainContainer>
     </Box>
   );
