@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postData } from '../../api';
 import styled from '@emotion/styled';
@@ -17,6 +17,7 @@ import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import { Button } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
 import { P } from '../../styled/GlobalElements';
+import RouteLeavingGuard from '../RouteLeavingPrompt';
 
 const Box = styled.div`
   border: 1px solid #bfb6b6;
@@ -62,6 +63,7 @@ const PercentageInput = styled.input`
   color: var(--brand-blue);
   font-weight: 600;
   font-size: 26px;
+  text-align: right;
 `;
 
 const PercentageLabel = styled.label`
@@ -130,6 +132,7 @@ const ModelPortoflioBox = ({
     modelPortfolio.model_portfolio.name,
   );
   const [editName, setEditName] = useState(false);
+  const [clearInputSelector, setClearInputSelector] = useState(0);
 
   let model: any = modelPortfolio.model_portfolio_asset_class;
   if (securityBased) {
@@ -322,6 +325,8 @@ const ModelPortoflioBox = ({
                     ) {
                       arrayHelpers.push(props.values.newTarget);
                       props.setFieldValue('newTarget.symbol', {});
+                      props.setFieldValue('newTarget.percent', 0);
+                      setClearInputSelector(clearInputSelector + 1);
                     }
                   };
                   return (
@@ -440,6 +445,7 @@ const ModelPortoflioBox = ({
                                       symbol,
                                     );
                                   }}
+                                  clearInput={clearInputSelector}
                                   onKeyPress={(e: any) => handleKeyPress(e)}
                                   groupId={groupId ? groupId : ''}
                                   forModelSecurity={true}
@@ -467,6 +473,8 @@ const ModelPortoflioBox = ({
                             onClick={() => {
                               arrayHelpers.push(props.values.newTarget);
                               props.setFieldValue('newTarget.symbol', {});
+                              props.setFieldValue('newTarget.percent', 0);
+                              setClearInputSelector(clearInputSelector + 1);
                             }}
                             disabled={
                               !props.isValid ||
@@ -508,6 +516,10 @@ const ModelPortoflioBox = ({
                   </ApplyModelBtn>
                 )}
               </ButtonContainer>
+              <RouteLeavingGuard
+                when={props.dirty}
+                navigate={(path) => history.push(path)}
+              />
             </Form>
           )}
         </Formik>

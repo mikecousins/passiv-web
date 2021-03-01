@@ -52,6 +52,7 @@ type Props = {
   value: any;
   groupId?: string;
   forModelSecurity?: boolean;
+  clearInput?: number;
   name?: string;
   id?: string;
   onSelect: (symbol: any) => void;
@@ -81,13 +82,14 @@ const SymbolSelector = ({
   forModelSecurity,
   name,
   id,
+  clearInput,
   onSelect,
   onKeyPress,
 }: Props) => {
   // const groupId = useSelector(selectCurrentGroupId);
   const dispatch = useDispatch();
   const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(value);
   const [loading, setLoading] = useState(false);
   const [confirmTicker, setConfirmTicker] = useState('');
 
@@ -112,7 +114,12 @@ const SymbolSelector = ({
       });
   };
 
+  useEffect(() => {
+    setInput('');
+  }, [clearInput]);
+
   const handleSelectByTicker = (ticker: string) => {
+    setInput(ticker);
     if (!matchingSymbols) {
       return;
     }
@@ -150,7 +157,7 @@ const SymbolSelector = ({
     <StyledCombobox onSelect={handleSelectByTicker}>
       {forModelSecurity ? (
         <StyledComboboxInput
-          value={value}
+          value={input}
           onChange={onChange}
           onKeyPress={onKeyPress}
           placeholder="Search for security..."
