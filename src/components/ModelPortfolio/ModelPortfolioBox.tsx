@@ -149,10 +149,6 @@ const ModelPortoflioBox = ({
   const assignedPortfolioGroups =
     modelPortfolio.model_portfolio.total_assigned_portfolio_groups;
 
-  const canEdit =
-    (assignedPortfolioGroups <= 1 && editMode) ||
-    (assignedPortfolioGroups === 0 && !editMode);
-
   const toggleEditMode = () => {
     if (editMode) {
       history.replace(`/app/model-portfolio/${modelId}`);
