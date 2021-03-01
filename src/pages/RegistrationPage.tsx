@@ -97,6 +97,8 @@ const RegistrationPage = ({ location }: Props) => {
               email: values.email,
               password: values.password,
               referralCode: values.referralCode,
+              hearAboutUs: values.hearAboutUs,
+              other: values.other,
             })
               .then((response) => {
                 // login
