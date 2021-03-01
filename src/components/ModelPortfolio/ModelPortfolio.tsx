@@ -218,7 +218,7 @@ const ModelPortfolio = () => {
     ).then(() => {
       dispatch(loadModelPortfolios());
       dispatch(loadGroups());
-      history.push('/app/models');
+      history.replace('/app/models');
     });
   };
 
