@@ -27,7 +27,7 @@ const RouteLeavingPrompt = ({ when, navigate }: Props) => {
   }, [confirm, lastLocation]);
 
   const handleBlockedNavigation = (nextLocation: any, action: any) => {
-    if (!confirm) {
+    if (!confirm && action !== 'REPLACE') {
       setDialog(true);
       setLastLocation(nextLocation);
       return false;
