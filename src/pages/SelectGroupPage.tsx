@@ -4,13 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { selectGroupInfo, selectGroups } from '../selectors/groups';
 import { H1, H2, H3 } from '../styled/GlobalElements';
-import ShadowBox from '../styled/ShadowBox';
 import Grid from '../styled/Grid';
 import { postData } from '../api';
-import {
-  selectCurrentModelPortfolioId,
-  selectGroupsUsingAModel,
-} from '../selectors/modelPortfolios';
+import { selectGroupsUsingAModel } from '../selectors/modelPortfolios';
 import { loadGroups, loadModelPortfolios } from '../actions';
 import { toast } from 'react-toastify';
 
@@ -34,19 +30,19 @@ const GroupsUsingModel = styled.div`
   padding: 10px;
 `;
 
-const SelectGroupPage = () => {
+type Props = {
+  modelId: string;
+};
+
+const SelectGroupPage = ({ modelId }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   let groups = useSelector(selectGroups);
   const groupInfo = useSelector(selectGroupInfo);
-  const currentModelId = useSelector(selectCurrentModelPortfolioId);
   const groupsUsingByModel = useSelector(selectGroupsUsingAModel);
 
   const applyModel = (groupId: string, groupName: string) => {
-    postData(
-      `api/v1/portfolioGroups/${groupId}/modelPortfolio/${currentModelId}`,
-      {},
-    )
+    postData(`api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`, {})
       .then((res) => {
         dispatch(loadGroups());
         dispatch(loadModelPortfolios());
@@ -64,8 +60,8 @@ const SelectGroupPage = () => {
 
   let usingModel: any;
   let filteredGroups: any = [];
-  if (currentModelId && groupsUsingByModel?.[currentModelId]) {
-    usingModel = currentModelId && groupsUsingByModel[currentModelId].groups;
+  if (modelId && groupsUsingByModel?.[modelId]) {
+    usingModel = modelId && groupsUsingByModel[modelId].groups;
     //Find values that are in groups but not in usingModel
     filteredGroups = groups?.filter((group) => {
       return !usingModel.some((gp: any) => {
@@ -77,7 +73,7 @@ const SelectGroupPage = () => {
   }
 
   return (
-    <ShadowBox>
+    <>
       <H1 style={{ marginBottom: '20px' }}>Select Portfolio Group</H1>
       {filteredGroups &&
         filteredGroups.map((group: any) => {
@@ -103,13 +99,6 @@ const SelectGroupPage = () => {
                     {targetByAssetClass ? 'Asset Class' : 'Securities'}
                   </div>
                 )}
-                {/* <FontAwesomeIcon
-                  icon={faAngleRight}
-                  size="2x"
-                  color="var(--brand-blue)"
-                  cursor="pointer"
-                  onClick={() => applyModel(group.id, group.name)}
-                /> */}
               </Grid>
             </GreyBox>
           );
@@ -117,10 +106,8 @@ const SelectGroupPage = () => {
       {usingModel && usingModel.length > 0 && (
         <GroupsUsingModel>
           <H3>
-            "
-            {currentModelId &&
-              groupsUsingByModel?.[currentModelId]?.model?.name}
-            " is already being used by:
+            "{groupsUsingByModel?.[modelId]?.model?.name}" is already being used
+            by:
           </H3>
           <br />
           <ul style={{ padding: '0px 10px' }}>
@@ -131,7 +118,7 @@ const SelectGroupPage = () => {
           </ul>
         </GroupsUsingModel>
       )}
-    </ShadowBox>
+    </>
   );
 };
 

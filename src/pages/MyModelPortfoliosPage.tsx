@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { postData } from '../api';
@@ -8,6 +8,7 @@ import {
   faAngleRight,
   faCheck,
   faInfoCircle,
+  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
@@ -24,9 +25,9 @@ import { ViewBtn } from '../styled/Group';
 import ShadowBox from '../styled/ShadowBox';
 import { StyledP } from './ModelAssetClassPage';
 import Tooltip from '../components/Tooltip';
-// import Dialog from '@reach/dialog';
-// import SelectGroupPage from './SelectGroupPage';
 import { selectGroups } from '../selectors/groups';
+import Dialog from '@reach/dialog';
+import SelectGroupPage from './SelectGroupPage';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -100,7 +101,8 @@ const MyModelPortfoliosPage = () => {
   const groupInfo = group.groupInfo;
   const groupId = groupInfo?.groupId;
 
-  // const [selectGroupDialog, setSelectGroupDialog] = useState(false);
+  const [selectGroupDialog, setSelectGroupDialog] = useState(false);
+  const [selectedModelId, setSelectedModelId] = useState<string | undefined>();
 
   const handleNewModelBtn = () => {
     postData('/api/v1/modelPortfolio/', {})
@@ -204,14 +206,10 @@ const MyModelPortfoliosPage = () => {
                   {/* display Apply button only when there is a group id  */}
                   {!groupId && (
                     <ApplyTransparentBtn
-                      // this should be link to "choose group" first and then "group-settings" page
-                      onClick={
-                        () =>
-                          history.push(
-                            `/app/model-portfolio/${mdl.model_portfolio.id}/select-group`,
-                          )
-                        // setSelectGroupDialog(true)
-                      }
+                      onClick={() => {
+                        setSelectGroupDialog(true);
+                        setSelectedModelId(mdl?.model_portfolio?.id);
+                      }}
                       disabled={totalAssignedGroups === allGroups?.length}
                     >
                       Apply
@@ -239,16 +237,22 @@ const MyModelPortfoliosPage = () => {
           </ShadowBox>
         )}
       </div>
-      {/* {selectGroupDialog && (
+      {selectGroupDialog && (
         <Dialog
           isOpen={selectGroupDialog}
           onDismiss={() => setSelectGroupDialog(false)}
           aria-labelledby="dialog1Title"
           aria-describedby="dialog1Desc"
         >
-          <SelectGroupPage />
+          <button
+            onClick={() => setSelectGroupDialog(false)}
+            style={{ float: 'right' }}
+          >
+            <FontAwesomeIcon icon={faTimes} size="lg" />
+          </button>
+          {selectedModelId && <SelectGroupPage modelId={selectedModelId} />}
         </Dialog>
-      )} */}
+      )}
     </React.Fragment>
   );
 };
