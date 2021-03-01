@@ -119,7 +119,7 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
             <ListOfAssets>
               {targets!.map((target: any) => {
                 return (
-                  <StyledGrid columns="1fr 200px 200px">
+                  <StyledGrid key={target.symbol.id} columns="1fr 200px 200px">
                     <div>
                       <span style={{ fontWeight: 600, marginRight: '20px' }}>
                         {target.symbol.symbol}
