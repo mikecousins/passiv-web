@@ -8,7 +8,10 @@ import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import NameInputAndEdit from '../NameInputAndEdit';
 import { ModelAssetClass } from '../../types/modelAssetClass';
 import { useHistory } from 'react-router';
-import { selectGroupInfoForModelPortfolio } from '../../selectors/modelPortfolios';
+import {
+  selectGroupInfoForModelPortfolio,
+  selectGroupsUsingAModel,
+} from '../../selectors/modelPortfolios';
 import { FieldArray, Form, Formik } from 'formik';
 import Grid from '../../styled/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -130,19 +133,21 @@ const ModelPortoflioBox = ({
   const [clearInputSelector, setClearInputSelector] = useState(0);
   const [symbolError, setSymbolError] = useState('');
 
+  const group = useSelector(selectGroupInfoForModelPortfolio);
+  const groupsUsingModel = useSelector(selectGroupsUsingAModel);
+
+  const groupInfo = group.groupInfo;
+  const groupId = groupInfo?.groupId;
+  const editMode = group.edit;
+  const applyMode = group.apply;
+
   let model: any = modelPortfolio.model_portfolio_asset_class;
   if (securityBased) {
     model = modelPortfolio.model_portfolio_security;
   }
-
   const modelId = modelPortfolio.model_portfolio.id;
   const assignedPortfolioGroups =
     modelPortfolio.model_portfolio.total_assigned_portfolio_groups;
-
-  const group = useSelector(selectGroupInfoForModelPortfolio);
-  const groupInfo = group.groupInfo;
-  const groupId = groupInfo?.groupId;
-  const editMode = group.edit;
 
   const canEdit =
     (assignedPortfolioGroups <= 1 && editMode) ||
@@ -184,7 +189,11 @@ const ModelPortoflioBox = ({
   };
 
   const applyModel = () => {
-    postData(`api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`, {})
+    let gpId = groupId;
+    if (modelId && !groupId) {
+      gpId = groupsUsingModel?.[modelId]?.groups[0].id;
+    }
+    postData(`api/v1/portfolioGroups/${gpId}/modelPortfolio/${modelId}`, {})
       .then((res) => {
         dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page
         dispatch(loadModelPortfolios());
@@ -197,7 +206,7 @@ const ModelPortoflioBox = ({
             `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
           );
         }
-        history.push(`/app/group/${groupId}`);
+        history.push(`/app/group/${gpId}`);
       })
       .catch((err) => {
         if (err.response) {
@@ -263,7 +272,9 @@ const ModelPortoflioBox = ({
             return errors;
           }}
           onSubmit={(values, actions) => {
-            toggleEditMode();
+            if (editMode) {
+              toggleEditMode();
+            }
             if (securityBased) {
               modelPortfolio.model_portfolio_security = values.targets;
             } else {
@@ -272,7 +283,7 @@ const ModelPortoflioBox = ({
             postData(`/api/v1/modelPortfolio/${modelId}`, modelPortfolio)
               .then(() => {
                 dispatch(loadModelPortfolios());
-                if (groupId && editMode) {
+                if (editMode && assignedPortfolioGroups > 0) {
                   applyModel();
                 }
               })
@@ -354,7 +365,7 @@ const ModelPortoflioBox = ({
                       </div>
                       {props.values.targets.map(
                         (target: any, index: number) => {
-                          if (editMode) {
+                          if (editMode || applyMode) {
                             return (
                               <Grid columns="1fr 50px" key={index}>
                                 <FormContainer style={{ borderColor: 'black' }}>
@@ -413,7 +424,7 @@ const ModelPortoflioBox = ({
 
                                   <br></br>
                                 </FormContainer>
-                                {editMode && (
+                                {(editMode || applyMode) && (
                                   <button
                                     type="button"
                                     onClick={() => arrayHelpers.remove(index)}
@@ -441,7 +452,7 @@ const ModelPortoflioBox = ({
                           }
                         },
                       )}
-                      {editMode && (
+                      {(editMode || applyMode) && (
                         <Grid columns="1fr 50px" style={{ marginTop: '30px' }}>
                           <div>
                             <FormContainer>
@@ -521,7 +532,7 @@ const ModelPortoflioBox = ({
                     Save Model
                   </Button>
                 )}
-                {groupId && !props.dirty && !editMode && (
+                {!props.dirty && applyMode && (
                   <ApplyModelBtn onClick={applyModel}>
                     Apply to {groupInfo?.name}
                   </ApplyModelBtn>
@@ -534,7 +545,14 @@ const ModelPortoflioBox = ({
             </Form>
           )}
         </Formik>
-        {!editMode && <Button onClick={toggleEditMode}>Edit Model</Button>}
+        {!editMode && !applyMode && (
+          <Button
+            onClick={toggleEditMode}
+            disabled={assignedPortfolioGroups > 1}
+          >
+            Edit Model
+          </Button>
+        )}
       </MainContainer>
     </Box>
   );

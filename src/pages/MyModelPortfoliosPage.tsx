@@ -109,7 +109,7 @@ const MyModelPortfoliosPage = () => {
       .then((res: any) => {
         dispatch(loadModelPortfolios());
         const id = res.data.model_portfolio.id;
-        history.replace(`model-portfolio/${id}`);
+        history.replace(`model-portfolio/${id}?edit=true`);
       })
       .catch(() => {
         toast.error('Failed to create a new model.');

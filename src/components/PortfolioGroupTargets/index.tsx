@@ -235,7 +235,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
             dispatch(loadModelPortfolios());
             dispatch(
               replace(
-                `/app/model-portfolio/${modelId}/group/${groupId}?edit=true`,
+                `/app/model-portfolio/${modelId}/group/${groupId}?apply=true`,
               ),
             );
           })
@@ -258,7 +258,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         dispatch(loadModelPortfolios());
         dispatch(
           replace(
-            `/app/model-portfolio/${res.data.model_portfolio.id}/group/${groupId}?edit=true`,
+            `/app/model-portfolio/${res.data.model_portfolio.id}/group/${groupId}?apply=true`,
           ),
         );
       })

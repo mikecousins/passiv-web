@@ -80,8 +80,14 @@ export const selectGroupInfoForModelPortfolio = createSelector(
       }
       groupInfo = groups?.find((gp) => gp.groupId === groupId);
     }
-    //@ts-ignore
-    return { groupInfo, edit: router.location.query.edit };
+
+    return {
+      groupInfo,
+      //@ts-ignore
+      edit: router.location.query.edit,
+      //@ts-ignore
+      apply: router.location.query.apply,
+    };
   },
 );
 
