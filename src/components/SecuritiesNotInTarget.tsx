@@ -161,12 +161,21 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
       <ErrorContainer>
         <H3>
           <FontAwesomeIcon icon={faExclamationTriangle} /> New Assets Detected
-          <P>
-            We noticed that you added the following securities in your account
-            and since these assets are not included in your target portfolio,
-            they may impact your portfolio accuracy or trade calculations. You
-            can either add them to your target portfolio* or exclude them.
-          </P>
+          {modelPortfolioFeature ? (
+            <P>
+              We noticed that you added the following securities in your account
+              and since these assets are not included in your model portfolio,
+              they may impact your portfolio accuracy or trade calculations. You
+              can either add them to your model portfolio* or exclude them.
+            </P>
+          ) : (
+            <P>
+              We noticed that you added the following securities in your account
+              and since these assets are not included in your target portfolio,
+              they may impact your portfolio accuracy or trade calculations. You
+              can either add them to your target portfolio* or exclude them.
+            </P>
+          )}
           {loading ? (
             <FontAwesomeIcon icon={faSpinner} spin />
           ) : (
@@ -212,11 +221,20 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
             </ListOfAssets>
           )}
         </H3>
-        <small>
-          * The securities get added with{' '}
-          <span style={{ fontWeight: 900 }}>0%</span> but you can go to the
-          bottom and change them.
-        </small>
+        {modelPortfolioFeature ? (
+          <small>
+            * The securities get added with{' '}
+            <span style={{ fontWeight: 900 }}>0%</span>. Scroll down and click
+            Edit Model to change their allocation.
+          </small>
+        ) : (
+          <small>
+            * The securities get added with{' '}
+            <span style={{ fontWeight: 900 }}>0%</span> but you can go to the
+            bottom and change them.
+          </small>
+        )}
+
         <DontShowBtn>
           <A
             onClick={() =>

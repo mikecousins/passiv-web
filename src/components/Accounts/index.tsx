@@ -16,6 +16,7 @@ import AccountGroup from './AccountGroup';
 import { deleteData, putData, postData } from '../../api';
 import { H2, A, Edit, H3, P } from '../../styled/GlobalElements';
 import { loadAccountList, loadGroup, loadGroupsList } from '../../actions';
+import { selectModelPortfolioFeature } from '../../selectors/features';
 
 export const Header = styled.form`
   h2 {
@@ -43,6 +44,7 @@ const Accounts = () => {
   const accounts = useSelector(selectGroupedAccounts);
   const [localAccounts, setLocalAccounts] = useState(accounts);
   const [isEditing, setIsEditing] = useState(false);
+  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
   const dispatch = useDispatch();
 
   // when we get new accounts back from the server, reset our accounts
@@ -172,8 +174,9 @@ const Accounts = () => {
       </Header>
       <PaddedP>
         Passiv lets you organize your investment accounts into groups, where
-        each group has its own target portfolio. By default, each account gets
-        its own group. Drag and drop to reorganize.
+        each group has its own{' '}
+        {modelPortfolioFeature ? 'model portfolio' : 'target portfolio'}. By
+        default, each account gets its own group. Drag and drop to reorganize.
       </PaddedP>
       <DragDropContext onDragEnd={onDragEnd}>
         {localAccounts.map((group) => (
