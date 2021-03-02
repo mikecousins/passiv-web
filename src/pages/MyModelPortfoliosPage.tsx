@@ -161,10 +161,9 @@ const MyModelPortfoliosPage = () => {
           designed to meet a particular investing goal.
         </StyledP>
         <div>
-          {' '}
-          {/* <TransparentButton onClick={() => history.replace('asset-class')}>
-              Edit Asset Classes
-            </TransparentButton> */}
+          <TransparentButton onClick={() => history.replace('asset-class')}>
+            Edit Asset Classes
+          </TransparentButton>
           <NewModelButton onClick={() => handleNewModelBtn()}>
             New Model
           </NewModelButton>

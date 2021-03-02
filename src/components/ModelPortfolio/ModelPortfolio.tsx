@@ -75,7 +75,7 @@ export const BackButton = styled.div`
 `;
 
 const ToggleBtn = styled(FontAwesomeIcon)`
-  color: grey;
+  color: var(--brand-blue);
   font-size: 30px;
 `;
 
@@ -302,8 +302,7 @@ const ModelPortfolio = () => {
                     <H3>Model Type</H3>
                     <ToggleModelTypeBtn
                       onClick={handleChangeModelType}
-                      // disabled={haveAssetsInModel}
-                      disabled={true}
+                      disabled={haveAssetsInModel}
                     >
                       {
                         <React.Fragment>
@@ -323,10 +322,7 @@ const ModelPortfolio = () => {
                         <H3>Share Model</H3>
                         <>
                           {' '}
-                          <ToggleShareBtn
-                            onClick={handleToggleShareBtn}
-                            disabled={true}
-                          >
+                          <ToggleShareBtn onClick={handleToggleShareBtn}>
                             {share ? (
                               <React.Fragment>
                                 <ToggleBtn icon={faToggleOn} />

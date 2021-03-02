@@ -174,10 +174,10 @@ const PerformancePage = ReactLazyPreload(() =>
 const GoalsPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "goals" */ '../pages/GoalsPage'),
 );
-// const ModelAssetClassPage = React.lazy(() =>
-//   //? webpackChunkName
-//   import(/* webpackChunkName: "...?" */ '../pages/ModelAssetClassPage'),
-// );
+const ModelAssetClassPage = React.lazy(() =>
+  //? webpackChunkName
+  import(/* webpackChunkName: "...?" */ '../pages/ModelAssetClassPage'),
+);
 
 const MyModelPortfoliosPage = React.lazy(() =>
   //? webpackChunkName
@@ -566,12 +566,12 @@ const App = () => {
             {showSecureApp && (
               <Route path={prefixPath('/share')} component={SharePage} />
             )}
-            {/* {showSecureApp && (
+            {showSecureApp && (
               <Route
                 path={prefixPath('/asset-class')}
                 component={ModelAssetClassPage}
               />
-            )} */}
+            )}
             {showSecureApp && modelPortfolioFeature && (
               <Route
                 path={prefixPath('/models')}
