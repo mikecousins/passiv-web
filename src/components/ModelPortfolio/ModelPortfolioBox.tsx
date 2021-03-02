@@ -15,12 +15,13 @@ import {
 import { FieldArray, Form, Formik } from 'formik';
 import Grid from '../../styled/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import { Button } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
 import { P } from '../../styled/GlobalElements';
 import RouteLeavingGuard from '../RouteLeavingPrompt';
+import Tooltip from '../Tooltip';
 
 const Box = styled.div`
   border: 1px solid #bfb6b6;
@@ -51,6 +52,7 @@ const CashPercentage = styled.div`
 const FormContainer = styled.div`
   border-bottom: 1px solid var(--brand-blue);
   margin-top: 20px;
+  max-width: 700px;
 `;
 
 const Percentage = styled.div`
@@ -454,7 +456,58 @@ const ModelPortoflioBox = ({
                         },
                       )}
                       {(editMode || applyMode) && (
-                        <Grid columns="1fr 50px" style={{ marginTop: '30px' }}>
+                        <div style={{ marginTop: '30px' }}>
+                          <FormContainer>
+                            <Percentage>
+                              <PercentageInput
+                                id="percent"
+                                name="newTarget.percent"
+                                type="number"
+                                onChange={props.handleChange}
+                                value={props.values.newTarget.percent}
+                                onKeyPress={(e: any) => handleKeyPress(e)}
+                                required
+                              />
+                              <PercentageLabel htmlFor="percentage">
+                                %
+                              </PercentageLabel>
+                            </Percentage>
+                            {securityBased ? (
+                              <SymbolSelector
+                                name="newTarget.symbol"
+                                id="symbol"
+                                value={null}
+                                onSelect={(symbol) => {
+                                  props.setFieldValue(
+                                    'newTarget.symbol',
+                                    symbol,
+                                  );
+                                }}
+                                clearInput={clearInputSelector}
+                                onKeyPress={(e: any) => handleKeyPress(e)}
+                                groupId={groupId ? groupId : ''}
+                                forModelSecurity={true}
+                              />
+                            ) : (
+                              <AssetClassSelector
+                                name="newTarget.model_asset_class"
+                                id="symbol"
+                                availableAssetClasses={availableAssetClasses}
+                                onSelect={(symbol: any) => {
+                                  props.setFieldValue(
+                                    'newTarget.model_asset_class',
+                                    symbol,
+                                  );
+                                }}
+                              />
+                            )}
+                            <Tooltip label="Enter to add">
+                              <FontAwesomeIcon
+                                icon={faInfoCircle}
+                                color="var(--brand-grey)"
+                              />
+                            </Tooltip>
+                          </FormContainer>
                           <div>
                             <FormContainer>
                               <Percentage>
@@ -517,8 +570,20 @@ const ModelPortoflioBox = ({
                                 </li>
                               </ul>
                             </div>
+                            <ul>
+                              <li>
+                                {props.errors.newTarget && (
+                                  <ErroMsg>{props.errors.newTarget}</ErroMsg>
+                                )}
+                              </li>
+                              <li>
+                                {symbolError !== '' && (
+                                  <ErroMsg>{symbolError}</ErroMsg>
+                                )}
+                              </li>
+                            </ul>
                           </div>
-                        </Grid>
+                        </div>
                       )}
                     </>
                   );

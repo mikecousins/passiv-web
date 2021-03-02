@@ -134,7 +134,11 @@ export const PortfolioGroupSettings = () => {
             name="Notify me about new detected assets"
             explanation={
               settings.show_warning_for_new_assets_detected
-                ? 'Passiv will show you a message for new holding assets that are not part of your target protfolio.'
+                ? `Passiv will show you a message for new holding assets that are not part of your ${
+                    modelPortfolioFeature
+                      ? 'model portfolio'
+                      : 'target portfolio'
+                  }.`
                 : ''
             }
             value={settings.show_warning_for_new_assets_detected}
