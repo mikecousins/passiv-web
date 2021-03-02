@@ -204,7 +204,9 @@ const ModelPortoflioBox = ({
             `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
           );
         }
-        history.push(`/app/group/${gpId}`);
+        if (groupId) {
+          history.push(`/app/group/${gpId}`);
+        }
       })
       .catch((err) => {
         if (err.response) {
@@ -335,7 +337,7 @@ const ModelPortoflioBox = ({
                         .length === 0);
 
                   const handleKeyPress = (event: any) => {
-                    if (event.key === 'Enter') {
+                    if (event.key === 'Enter' && props.isValid) {
                       if (invalidSymbol) {
                         securityBased
                           ? setSymbolError(
@@ -493,12 +495,14 @@ const ModelPortoflioBox = ({
                                 name="newTarget.model_asset_class"
                                 id="symbol"
                                 availableAssetClasses={availableAssetClasses}
+                                clearInput={clearInputSelector}
                                 onSelect={(symbol: any) => {
                                   props.setFieldValue(
                                     'newTarget.model_asset_class',
                                     symbol,
                                   );
                                 }}
+                                onKeyPress={(e: any) => handleKeyPress(e)}
                               />
                             )}
                             <Tooltip label="Enter to add">
@@ -509,67 +513,6 @@ const ModelPortoflioBox = ({
                             </Tooltip>
                           </FormContainer>
                           <div>
-                            <FormContainer>
-                              <Percentage>
-                                <PercentageInput
-                                  id="percent"
-                                  name="newTarget.percent"
-                                  type="number"
-                                  onChange={props.handleChange}
-                                  value={props.values.newTarget.percent}
-                                  onKeyPress={(e: any) => handleKeyPress(e)}
-                                  required
-                                />
-                                <PercentageLabel htmlFor="percentage">
-                                  %
-                                </PercentageLabel>
-                              </Percentage>
-                              {securityBased ? (
-                                <SymbolSelector
-                                  name="newTarget.symbol"
-                                  id="symbol"
-                                  value={null}
-                                  onSelect={(symbol) => {
-                                    props.setFieldValue(
-                                      'newTarget.symbol',
-                                      symbol,
-                                    );
-                                  }}
-                                  clearInput={clearInputSelector}
-                                  onKeyPress={(e: any) => handleKeyPress(e)}
-                                  groupId={groupId ? groupId : ''}
-                                  forModelSecurity={true}
-                                />
-                              ) : (
-                                <AssetClassSelector
-                                  name="newTarget.model_asset_class"
-                                  id="symbol"
-                                  availableAssetClasses={availableAssetClasses}
-                                  clearInput={clearInputSelector}
-                                  onSelect={(symbol: any) => {
-                                    props.setFieldValue(
-                                      'newTarget.model_asset_class',
-                                      symbol,
-                                    );
-                                  }}
-                                  onKeyPress={(e: any) => handleKeyPress(e)}
-                                />
-                              )}
-                            </FormContainer>
-                            <div>
-                              <ul>
-                                <li>
-                                  {props.errors.newTarget && (
-                                    <ErroMsg>{props.errors.newTarget}</ErroMsg>
-                                  )}
-                                </li>
-                                <li>
-                                  {symbolError !== '' && (
-                                    <ErroMsg>{symbolError}</ErroMsg>
-                                  )}
-                                </li>
-                              </ul>
-                            </div>
                             <ul>
                               <li>
                                 {props.errors.newTarget && (
