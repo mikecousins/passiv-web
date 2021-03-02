@@ -335,13 +335,18 @@ const ModelPortoflioBox = ({
                   const handleKeyPress = (event: any) => {
                     if (event.key === 'Enter') {
                       if (invalidSymbol) {
-                        setSymbolError(
-                          'Please select a supported symbol from the dropdown ',
-                        );
+                        securityBased
+                          ? setSymbolError(
+                              'Please select a supported symbol from the dropdown ',
+                            )
+                          : setSymbolError(
+                              'Please select an asset class from the dropdown ',
+                            );
                         setTimeout(() => setSymbolError(''), 2000);
                       } else {
                         arrayHelpers.push(props.values.newTarget);
                         props.setFieldValue('newTarget.symbol', {});
+                        props.setFieldValue('newTarget.model_asset_class', {});
                         props.setFieldValue('newTarget.percent', 0);
                         setClearInputSelector(clearInputSelector + 1);
                       }
@@ -487,12 +492,14 @@ const ModelPortoflioBox = ({
                                   name="newTarget.model_asset_class"
                                   id="symbol"
                                   availableAssetClasses={availableAssetClasses}
+                                  clearInput={clearInputSelector}
                                   onSelect={(symbol: any) => {
                                     props.setFieldValue(
                                       'newTarget.model_asset_class',
                                       symbol,
                                     );
                                   }}
+                                  onKeyPress={(e: any) => handleKeyPress(e)}
                                 />
                               )}
                             </FormContainer>

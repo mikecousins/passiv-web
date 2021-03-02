@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
 import {
@@ -45,7 +45,7 @@ const StyledComboboxPopover = styled(ComboboxPopover)`
 export const StyledComboboxList = styled(ComboboxList)`
   box-sizing: border-box;
   width: 553px;
-  padding: 10px !important; //? why this style wouldn't get applied without !important
+  padding: 10px;
   border: 1px solid var(--brand-blue);
   background: #f2f3fd;
   line-height: 30px;
@@ -55,9 +55,7 @@ export const StyledComboboxList = styled(ComboboxList)`
 
 export const StyledComboboxOption = styled(ComboboxOption)`
   &:hover {
-    background: var(
-      --brand-green
-    ) !important; //? why this style wouldn't get applied without !important
+    background: var(--brand-green);
   }
 `;
 
@@ -71,31 +69,51 @@ type Props = {
   name: string;
   id: string;
   availableAssetClasses: any[];
+  clearInput?: number;
   onSelect: any;
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
 const AssetClassSelector = ({
   name,
   id,
   availableAssetClasses,
+  clearInput,
   onSelect,
+  onKeyPress,
 }: Props) => {
   const [backToAssetClass, setBackToAssetClass] = useState(false);
+  const [input, setInput] = useState('');
+  useEffect(() => {
+    setInput('');
+  }, [clearInput]);
 
   if (backToAssetClass) {
     return <Redirect exact to="/app/asset-class" />;
   }
 
+  const onChange = (event: any) => {
+    setInput(event.target.value);
+  };
+
   const handleSelect = (id: string) => {
     const assetClass = availableAssetClasses.find((astCls) => id === astCls.id);
     if (assetClass) {
+      setInput(assetClass.name);
       onSelect(assetClass);
     }
   };
 
   return (
     <StyledCombobox onSelect={handleSelect}>
-      <StyledComboboxInput placeholder="Pick Asset Class" name={name} id={id} />
+      <StyledComboboxInput
+        value={input}
+        placeholder="Pick Asset Class"
+        name={name}
+        id={id}
+        onChange={onChange}
+        onKeyPress={onKeyPress}
+      />
       <StyledComboboxPopover>
         <StyledComboboxList>
           {availableAssetClasses.map((option, index) => {
