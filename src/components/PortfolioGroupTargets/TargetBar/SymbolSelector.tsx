@@ -18,6 +18,7 @@ import {
   StyledComboboxList,
   StyledComboboxOption,
 } from '../../ModelPortfolio/AssetClassSelector';
+import { isValueObject } from 'immutable';
 
 const StyledCombobox = styled(Combobox)`
   width: 494px;
@@ -122,6 +123,10 @@ const SymbolSelector = ({
 
   const handleSelectByTicker = (ticker: string) => {
     setInput(ticker);
+
+    if (forModelSecurity) {
+      ticker = ticker.split(',')[0];
+    }
     if (!matchingSymbols) {
       return;
     }
@@ -187,8 +192,9 @@ const SymbolSelector = ({
             {forModelSecurity ? (
               <StyledComboboxList>
                 {matchingSymbols.map((option: any, index) => {
+                  const value = `${option.symbol}, ${option.description}`;
                   return (
-                    <StyledComboboxOption key={index} value={option.symbol}>
+                    <StyledComboboxOption key={index} value={value}>
                       <span>
                         {option.symbol} ({option.description})
                       </span>
