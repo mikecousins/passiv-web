@@ -56,7 +56,7 @@ const MaxHeightSmallBtn = styled(SmallButton)`
 const SecuritiesNotInTarget = ({ targets }: Props) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const [loadingId, setLoadingId] = useState('');
   const currentGroup = useSelector(selectCurrentGroup);
   const currentTargets = useSelector(selectCurrentGroupTarget);
   const settings = useSelector(selectCurrentGroupSettings);
@@ -68,7 +68,7 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
   const groupId = currentGroup?.id;
 
   const handleAddTarget = (target: any, exclude: boolean) => {
-    setLoading(true);
+    setLoadingId(target.symbol.id);
     const newTarget = {
       symbol: target.symbol.id,
       percent: 0,
@@ -92,7 +92,7 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
             });
           }, 1500);
         }
-        setTimeout(() => setLoading(false), 1500);
+
         toast.success(
           `'${newTarget.fullSymbol.symbol}' got ${
             exclude ? 'excluded from your target' : 'added to your target'
@@ -105,12 +105,11 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
             error.response && error.response.data.detail
           }`,
         );
-        setLoading(false);
       });
   };
 
   const handleAddToModel = (target: any) => {
-    setLoading(true);
+    setLoadingId(target.symbol.id);
     const modelId = currentGroup?.model_portfolio;
     const model = modelPortfolios.filter(
       (mdl) => mdl.model_portfolio.id === modelId,
@@ -135,7 +134,6 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
             toast.success(
               `'${newTarget.symbol.symbol}' got added to '${model[0].model_portfolio.name}'`,
             );
-            setLoading(false);
           })
           .catch((err) => {
             if (err.response) {
@@ -176,50 +174,47 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
               can either add them to your target portfolio* or exclude them.
             </P>
           )}
-          {loading ? (
-            <FontAwesomeIcon icon={faSpinner} spin />
-          ) : (
-            <ListOfAssets>
-              {targets!.map((target: any) => {
-                return (
-                  <StyledGrid columns="1fr 200px 200px">
-                    <div>
-                      <span style={{ fontWeight: 600, marginRight: '20px' }}>
-                        {target.symbol.symbol}
-                      </span>{' '}
-                      {target.symbol.description}
-                    </div>
-                    {((modelPortfolioFeature && !modelUseByOtherGroups) ||
-                      !modelPortfolioFeature) && (
-                      <MaxHeightSmallBtn
-                        onClick={() => {
-                          if (modelPortfolioFeature) {
-                            handleAddToModel(target);
-                          } else {
-                            handleAddTarget(target, false);
-                          }
-                        }}
-                      >
-                        {modelPortfolioFeature
-                          ? 'Add to Model'
-                          : 'Add to Target'}
-                      </MaxHeightSmallBtn>
-                    )}
+          <ListOfAssets>
+            {targets!.map((target: any) => {
+              if (target.symbol.id === loadingId) {
+                return <FontAwesomeIcon icon={faSpinner} spin />;
+              }
+              return (
+                <StyledGrid columns="1fr 200px 200px">
+                  <div>
+                    <span style={{ fontWeight: 600, marginRight: '20px' }}>
+                      {target.symbol.symbol}
+                    </span>{' '}
+                    {target.symbol.description}
+                  </div>
+                  {((modelPortfolioFeature && !modelUseByOtherGroups) ||
+                    !modelPortfolioFeature) && (
                     <MaxHeightSmallBtn
-                      style={{
-                        background: 'transparent',
-                        border: '1px solid var(--brand-blue)',
-                        color: 'var(--brand-blue)',
+                      onClick={() => {
+                        if (modelPortfolioFeature) {
+                          handleAddToModel(target);
+                        } else {
+                          handleAddTarget(target, false);
+                        }
                       }}
-                      onClick={() => handleAddTarget(target, true)}
                     >
-                      Exclude
+                      {modelPortfolioFeature ? 'Add to Model' : 'Add to Target'}
                     </MaxHeightSmallBtn>
-                  </StyledGrid>
-                );
-              })}
-            </ListOfAssets>
-          )}
+                  )}
+                  <MaxHeightSmallBtn
+                    style={{
+                      background: 'transparent',
+                      border: '1px solid var(--brand-blue)',
+                      color: 'var(--brand-blue)',
+                    }}
+                    onClick={() => handleAddTarget(target, true)}
+                  >
+                    Exclude
+                  </MaxHeightSmallBtn>
+                </StyledGrid>
+              );
+            })}
+          </ListOfAssets>
         </H3>
         {modelPortfolioFeature ? (
           <small>
