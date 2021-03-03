@@ -13,18 +13,21 @@ import { P } from '../../styled/GlobalElements';
 
 export const ToggleText = styled(StateText)`
   font-size: 20px;
-  font-weight: 200;
+  font-weight: 500;
+  width: 30px;
+  display: inline-block;
 `;
 
 const Name = styled.span`
   font-size: 20px;
-  margin-left: 26px;
+  margin-left: 14px;
+  vertical-align: middle;
 `;
 
 const Explanation = styled(P)`
   font-weight: 200;
   font-size: 16px;
-  margin-left: 87px;
+  margin: 0px 0 20px 75px;
 `;
 
 type Props = {

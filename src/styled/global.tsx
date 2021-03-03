@@ -221,7 +221,7 @@ export const GlobalStyle = () => (
         --lg: 992px;
         --xl: 1200px;
 
-        --box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+        --box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
       }
 
       /* Global Structure */
