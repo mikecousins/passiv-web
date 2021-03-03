@@ -365,7 +365,7 @@ const ModelPortoflioBox = ({
                         .length === 0);
 
                   const handleKeyPress = (event: any) => {
-                    if (event.key === 'Enter') {
+                    if (event.key === 'Enter' && props.isValid) {
                       if (invalidSymbol) {
                         setSymbolError(
                           'Please select a supported symbol from the dropdown ',
@@ -528,7 +528,13 @@ const ModelPortoflioBox = ({
                                 }}
                               />
                             )}
-                            <Enter>Press Enter</Enter>
+                            {/* Only display "Press Enter" when a symbol/asset class selected */}
+                            {(Object.keys(props.values.newTarget.symbol)
+                              .length !== 0 ||
+                              Object.keys(
+                                props.values.newTarget.model_asset_class,
+                              ).length !== 0) &&
+                              props.isValid && <Enter>Press Enter</Enter>}
                           </FormContainer>
                           <div>
                             <ul>
