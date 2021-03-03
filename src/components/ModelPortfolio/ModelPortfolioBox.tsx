@@ -234,7 +234,9 @@ const ModelPortoflioBox = ({
             `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
           );
         }
-        history.push(`/app/group/${gpId}`);
+        if (groupId) {
+          history.push(`/app/group/${gpId}`);
+        }
       })
       .catch((err) => {
         if (err.response) {
