@@ -151,6 +151,18 @@ export const GlobalStyle = () => (
         border-spacing: 0;
       }
 
+      /* Remove Arrows/Spinners */
+      /* Chrome, Safari, Edge, Opera */
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+         margin: 0;
+      }
+      /* Firefox */
+      input[type=number] {
+        -moz-appearance: textfield;
+      }
+
       /* Fonts */
       @font-face {
         font-family: 'cooper';

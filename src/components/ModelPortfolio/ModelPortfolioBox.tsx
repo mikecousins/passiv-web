@@ -19,7 +19,7 @@ import { faInfoCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import { Button } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
-import { P } from '../../styled/GlobalElements';
+import { A, P } from '../../styled/GlobalElements';
 import RouteLeavingGuard from '../RouteLeavingPrompt';
 import Tooltip from '../Tooltip';
 
@@ -84,13 +84,17 @@ const Symbol = styled.span`
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 50px;
 `;
 
 const ApplyModelBtn = styled(Button)`
   background-color: transparent;
   color: var(--brand-blue);
   border: 1px solid var(--brand-blue);
+`;
+
+const CancelButton = styled(A)`
+  margin-left: 20px;
 `;
 
 const ErroMsg = styled(P)`
@@ -533,15 +537,26 @@ const ModelPortoflioBox = ({
                 }}
               />
               <ButtonContainer>
-                {props.dirty && props.isValid && (
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      props.handleSubmit();
-                    }}
-                  >
-                    Save Model
-                  </Button>
+                {editMode && (
+                  <>
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        props.handleSubmit();
+                      }}
+                      disabled={!props.dirty || !props.isValid}
+                    >
+                      Save Model
+                    </Button>
+                    <CancelButton
+                      onClick={() => {
+                        toggleEditMode();
+                        props.handleReset();
+                      }}
+                    >
+                      Cancel
+                    </CancelButton>
+                  </>
                 )}
                 {!props.dirty && applyMode && (
                   <ApplyModelBtn onClick={applyModel}>
