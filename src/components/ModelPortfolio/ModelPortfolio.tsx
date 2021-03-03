@@ -114,7 +114,7 @@ const DeleteModelExplanation = styled.div`
   text-align: center;
   ul {
     margin-top: 20px;
-    list-style: circle;
+    /* list-style: circle; */
     li {
       margin-bottom: 10px;
     }
