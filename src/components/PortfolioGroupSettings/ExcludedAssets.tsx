@@ -42,7 +42,6 @@ const Symbol = styled.span`
 `;
 
 const NoExcludedAssets = styled(P)`
-  text-align: center;
   margin: 20px 0;
 `;
 

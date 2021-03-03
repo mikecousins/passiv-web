@@ -25,7 +25,6 @@ import Tooltip from '../Tooltip';
 
 const Box = styled.div`
   border: 1px solid #bfb6b6;
-  margin-right: 50px;
   padding: 10px;
   margin-bottom: 20px;
   @media (max-width: 900px) {
@@ -45,37 +44,50 @@ const Cash = styled.div`
 `;
 
 const CashPercentage = styled.div`
-  font-size: 26px;
+  font-size: 20px;
   font-weight: 900;
 `;
 
 const FormContainer = styled.div`
   border-bottom: 1px solid var(--brand-blue);
   margin-top: 20px;
-  max-width: 700px;
+  position: relative;
+  display: flex;
 `;
 
 const Percentage = styled.div`
-  display: inline-block;
+  position: relative;
   border-right: 1px solid var(--brand-blue);
+  padding-bottom: 8px;
+  width: 111px;
+  display: flex;
   @media (max-width: 740px) {
     margin-bottom: 10px;
   }
 `;
 
 const PercentageInput = styled.input`
-  max-width: 100px;
   color: var(--brand-blue);
   font-weight: 600;
-  font-size: 26px;
+  font-size: 20px;
   text-align: right;
+  width: 100%;
+  padding-right: 22px;
+  -webkit-appearance: none;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 const PercentageLabel = styled.label`
   color: var(--brand-blue);
   font-weight: 600;
-  font-size: 26px;
-  margin-right: 10px;
+  font-size: 20px;
+  position: absolute;
+  right: 2px;
+  top: 2px;
 `;
 
 const Symbol = styled.span`
@@ -110,6 +122,20 @@ const StyledContainer = styled.div`
 const StyledName = styled.span`
   font-weight: 600;
   font-size: 30px;
+`;
+
+const Enter = styled.span`
+  font-weight: 600;
+  font-size: 16px;
+  position: absolute;
+  top: 0px;
+  border: 1px solid #666b71;
+  border-radius: 25px;
+  padding: 3px 5px;
+  color: #666b71;
+  width: 96px;
+  right: 0;
+  text-align: center;
 `;
 
 type Props = {
@@ -366,7 +392,9 @@ const ModelPortoflioBox = ({
                           if (editMode || applyMode) {
                             return (
                               <Grid columns="1fr 50px" key={index}>
-                                <FormContainer style={{ borderColor: 'black' }}>
+                                <FormContainer
+                                  style={{ borderColor: '#beb6b6' }}
+                                >
                                   <Percentage>
                                     <PercentageInput
                                       type="number"
@@ -392,7 +420,7 @@ const ModelPortoflioBox = ({
                                         <span
                                           style={{
                                             fontWeight: 600,
-                                            marginRight: '20px',
+                                            marginRight: '8px',
                                           }}
                                         >
                                           {
@@ -409,7 +437,7 @@ const ModelPortoflioBox = ({
                                       <span
                                         style={{
                                           fontWeight: 600,
-                                          marginRight: '20px',
+                                          marginRight: '8px',
                                         }}
                                       >
                                         {
@@ -496,12 +524,7 @@ const ModelPortoflioBox = ({
                                 }}
                               />
                             )}
-                            <Tooltip label="Enter to add">
-                              <FontAwesomeIcon
-                                icon={faInfoCircle}
-                                color="var(--brand-grey)"
-                              />
-                            </Tooltip>
+                            <Enter>Press Enter</Enter>
                           </FormContainer>
                           <div>
                             <ul>

@@ -35,12 +35,11 @@ const CashForm = styled(Form)`
 `;
 
 export const CashRestrictionBox = styled.div`
-  padding: 12px 0 5px;
+  padding: 12px 0 25px;
 `;
 
 export const CashRow = styled.div`
   text-align: left;
-  padding-bottom: 10px;
   @media (min-width: 900px) {
     display: flex;
   }
@@ -127,7 +126,7 @@ const CancelButton = styled(A)`
 `;
 
 const Title = styled.div`
-  text-align: center;
+  text-align: left;
   font-weight: 600;
 `;
 

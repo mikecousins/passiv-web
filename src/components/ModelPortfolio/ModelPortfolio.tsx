@@ -56,10 +56,10 @@ export const BackButton = styled.div`
     font-size: 20px;
     font-weight: 900;
     line-height: 0.95;
-    letter-spacing: 2px;
     color: #033ebc;
     display: block;
     text-decoration: none;
+    letter-spacing: 0.05rem;
   }
   @media (max-width: 900px) {
     margin-bottom: 50px;
@@ -135,8 +135,25 @@ const ShareLinkContainer = styled.div`
 const ComingSoonTag = styled.div`
   font-weight: 900;
   font-size: 30px;
-  color: rgba(255, 165, 0, 0.7);
-  margin-bottom: 10px;
+  color: rgb(4 163 134);
+  vertical-align: top;
+  background: #dbfcf6;
+  padding: 22px 0 0 18px;
+  border-radius: 4px 4px 0 0;
+  svg {
+    vertical-align: top;
+  }
+`;
+
+const ModelType = styled.div`
+  background: #dbfcf6;
+  padding: 18px 20px 16px 20px;
+  border-radius: 0 0 4px 4px;
+  button:disabled svg,
+  button,
+  h3 {
+    color: #07a485;
+  }
 `;
 
 const ModelPortfolio = () => {
@@ -298,7 +315,7 @@ const ModelPortfolio = () => {
                     <FontAwesomeIcon icon={faStopwatch} size="sm" /> Coming Soon
                     ...
                   </ComingSoonTag>
-                  <div>
+                  <ModelType>
                     <H3>Model Type</H3>
                     <ToggleModelTypeBtn
                       onClick={handleChangeModelType}
@@ -316,7 +333,7 @@ const ModelPortfolio = () => {
                         </React.Fragment>
                       }
                     </ToggleModelTypeBtn>
-                  </div>
+                  </ModelType>
                   {securityBased && (
                     <>
                       <SetShareModelContainer>

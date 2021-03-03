@@ -20,10 +20,11 @@ import {
 } from '../../ModelPortfolio/AssetClassSelector';
 
 const StyledCombobox = styled(Combobox)`
-  width: 500px;
+  width: 494px;
   position: relative;
   z-index: 5;
   display: inline-block;
+
   @media (max-width: 900px) {
     width: auto;
     margin-bottom: 20px;
@@ -31,9 +32,10 @@ const StyledCombobox = styled(Combobox)`
 `;
 
 const StyledInput = styled(ComboboxInput)`
-  width: 500px;
+  width: 494px;
   border: 1px solid;
-  padding: 10px;
+  padding: 11px 10px;
+
   @media (max-width: 900px) {
     width: auto;
     margin-bottom: 20px;
