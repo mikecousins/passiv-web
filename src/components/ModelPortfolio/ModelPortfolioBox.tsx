@@ -150,6 +150,7 @@ const ApplyModelBtn = styled(Button)`
   background-color: transparent;
   color: var(--brand-blue);
   border: 1px solid var(--brand-blue);
+  float: right;
 `;
 
 const CancelButton = styled(A)`
@@ -600,7 +601,7 @@ const ModelPortoflioBox = ({
                 }}
               />
               <ButtonContainer>
-                {editMode && (
+                {(editMode || applyMode) && (
                   <>
                     <Button
                       type="button"
