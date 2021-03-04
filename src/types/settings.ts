@@ -35,4 +35,5 @@ export type Settings = {
   contextual_messages: ContextualMessage[];
   affiliate_bonus_amount: number;
   take_passiv_tour: boolean;
+  model_portfolios_enabled: boolean;
 };
