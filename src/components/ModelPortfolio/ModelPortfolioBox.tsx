@@ -151,6 +151,10 @@ const ApplyModelBtn = styled(Button)`
   color: var(--brand-blue);
   border: 1px solid var(--brand-blue);
   float: right;
+  @media (max-width: 900px) {
+    float: none;
+    margin-top: 20px;
+  }
 `;
 
 const CancelButton = styled(A)`

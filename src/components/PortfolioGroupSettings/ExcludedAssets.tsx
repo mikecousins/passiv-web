@@ -41,6 +41,12 @@ const Symbol = styled.span`
   }
 `;
 
+const Description = styled.span`
+  @media (max-width: 900px) {
+    display: none;
+  }
+`;
+
 const NoExcludedAssets = styled(P)`
   margin: 20px 0;
 `;
@@ -86,7 +92,10 @@ const ExcludedAssets = () => {
             {positionsNotInTargetOrExcluded.map((position) => {
               return (
                 <Positions key={position.symbol.id}>
-                  <ToggleButton onClick={() => handleToggle(position)}>
+                  <ToggleButton
+                    onClick={() => handleToggle(position)}
+                    style={{ marginRight: '20px' }}
+                  >
                     <FontAwesomeIcon
                       icon={position.excluded ? faToggleOn : faToggleOff}
                     />
@@ -95,7 +104,7 @@ const ExcludedAssets = () => {
                     </ToggleText>
                   </ToggleButton>
                   <Symbol>{position.symbol.symbol}</Symbol>
-                  <span>{position.symbol.description}</span>
+                  <Description>{position.symbol.description}</Description>
                 </Positions>
               );
             })}
