@@ -25,7 +25,7 @@ import {
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
-import SecuritiesNotInTarget from './SecuritiesNotInTarget';
+import NewAssetsDetected from './NewAssetsDetected';
 
 const TOUR_STEPS = [
   {
@@ -149,7 +149,7 @@ const OverviewTab = () => {
       {setupComplete &&
         positionsNotInTargets &&
         positionsNotInTargets.length > 0 && (
-          <SecuritiesNotInTarget targets={positionsNotInTargets} />
+          <NewAssetsDetected targets={positionsNotInTargets} />
         )}
       {tradeDisplay}
 
