@@ -50,10 +50,11 @@ const DontShowBtn = styled.div`
 `;
 
 const MaxHeightSmallBtn = styled(SmallButton)`
+  padding: 11px;
   max-height: 40px;
 `;
 
-const SecuritiesNotInTarget = ({ targets }: Props) => {
+const NewAssetsDetected = ({ targets }: Props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [loadingId, setLoadingId] = useState('');
@@ -245,4 +246,4 @@ const SecuritiesNotInTarget = ({ targets }: Props) => {
   }
 };
 
-export default SecuritiesNotInTarget;
+export default NewAssetsDetected;
