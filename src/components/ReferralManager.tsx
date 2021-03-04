@@ -8,6 +8,7 @@ import {
   selectReferralValue,
   selectReferralCurrency,
 } from '../selectors/referrals';
+import { selectReferralCharity } from '../selectors/features';
 import { getData, postData, putData } from '../api';
 import { Chart } from 'react-charts';
 import {
@@ -33,7 +34,7 @@ import Grid from '../styled/Grid';
 import { Button } from '../styled/Button';
 import { selectSettings } from '../selectors';
 import NameInputAndEdit from './NameInputAndEdit';
-import { loadSettings } from '../actions';
+import { loadSettings, reloadEverything } from '../actions';
 import { Field, Form, Formik } from 'formik';
 import { StyledSelect } from '../components/PortfolioGroupSettings/OrderTargetAllocations';
 
@@ -220,6 +221,7 @@ const ReferralManager = () => {
   const referralCode = useSelector(selectReferralCode);
   const referralValue = useSelector(selectReferralValue);
   const referralCurrency = useSelector(selectReferralCurrency);
+  const referralCharity = useSelector(selectReferralCharity);
   const settings = useSelector(selectSettings);
 
   const referralURL = 'https://passiv.com?ref=' + referralCode;
@@ -486,171 +488,177 @@ const ReferralManager = () => {
         </div>
       )}
 
-      <InvoiceCharityBox columns="1fr 1fr">
-        <div>
-          <SubHeading>Payment Options</SubHeading>
-          <ShadowBox>
-            <Formik
-              initialValues={{
-                payment: selectedPayment,
-                selectedCharity: settings?.affiliate_charity
-                  ? settings?.affiliate_charity.charity_name
-                  : '',
-              }}
-              onSubmit={(values, actions) => {
-                if (values.payment !== selectedPayment && settings) {
-                  let newSettings = { ...settings };
-                  let charity;
-                  if (values.payment === 'eTransfer') {
-                    newSettings.affiliate_charity = null;
-                  }
-                  if (
-                    values.payment === 'charity' &&
-                    values.selectedCharity !== ''
-                  ) {
-                    charity = {
-                      charity_name: values.selectedCharity,
-                    };
-                    newSettings.e_transfer_email = null;
-                    postData('/api/v1/charities/', charity);
-                  }
+      {referralCharity ? (
+        <InvoiceCharityBox columns="1fr 1fr">
+          <div>
+            <SubHeading>Payment Options</SubHeading>
+            <ShadowBox>
+              <Formik
+                initialValues={{
+                  payment: selectedPayment,
+                  selectedCharity: settings?.affiliate_charity
+                    ? settings?.affiliate_charity.charity_name
+                    : '',
+                }}
+                onSubmit={(values, actions) => {
+                  if (values.payment !== selectedPayment && settings) {
+                    let newSettings = { ...settings };
+                    let charity;
+                    if (values.payment === 'eTransfer') {
+                      newSettings.affiliate_charity = null;
+                    }
+                    if (
+                      values.payment === 'charity' &&
+                      values.selectedCharity !== ''
+                    ) {
+                      charity = {
+                        charity_name: values.selectedCharity,
+                      };
+                      newSettings.e_transfer_email = null;
+                      postData('/api/v1/charities/', charity);
+                    }
 
-                  putData('/api/v1/settings/', newSettings)
-                    .then(() => {
-                      dispatch(loadSettings());
-                      actions.resetForm();
-                      // setEditingEmail(false);
-                    })
-                    .catch((error) => {});
-                }
-              }}
-            >
-              {({ values, dirty }) => (
-                <Form>
-                  <P id="my-radio-group">
-                    Choose one option. You can change your payment option each
-                    quarter.
-                  </P>
-                  <RadioGroup role="group" aria-labelledby="my-radio-group">
-                    <label>
-                      <Field type="radio" name="payment" value="eTransfer" />
-                      Email Transfer
-                    </label>
-                    <label>
-                      <Field type="radio" name="payment" value="charity" />
-                      Charity
-                    </label>
-                  </RadioGroup>
-                  {values.payment === 'eTransfer' ? (
-                    <>
-                      <EtransferEmail>
-                        <OptionsTitle>e-Transfer Email:</OptionsTitle>
-                        <NameInputAndEdit
-                          value={email}
-                          edit={editingEmail}
-                          allowEdit={true}
-                          editBtnTxt={'Edit'}
-                          onChange={(e: any) => setEmail(e.target.value)}
-                          onKeyPress={(e: any) =>
-                            e.key === 'Enter' && finishEditingEmail()
-                          }
-                          onClickDone={() => finishEditingEmail()}
-                          onClickEdit={() => setEditingEmail(true)}
-                          onClickCancel={cancelEditingEmail}
-                          cancelButton={true}
-                          StyledInput={StyledInput}
-                        />
-                      </EtransferEmail>
-                      <P color="red">{emailError}</P>
-                    </>
-                  ) : (
-                    <>
-                      {values.selectedCharity !== '' && (
-                        <SelectedCharity>
-                          <OptionsTitle>Selected Charity:</OptionsTitle>
-                          {values.selectedCharity}
-                        </SelectedCharity>
-                      )}
-                      <StyledSelect as="select" name="selectedCharity">
-                        {<option value="" label="Select a charity" />}
-                        {charities.map((charity: any) => (
-                          <option
-                            value={charity.charity_name}
-                            key={charity.charity_name}
-                          >
-                            {charity.charity_name}
-                          </option>
-                        ))}
-                      </StyledSelect>
-                    </>
-                  )}
-                  <div style={{ marginTop: '20px' }}>
-                    {dirty && <Button>Save</Button>}
-                  </div>
-                </Form>
-              )}
-            </Formik>
-            <PaymentExplanation>
-              <ul>
-                <li>
-                  The option selected on the last day of the referral quarter
-                  (Feb. 28/29, May. 31, Aug 31, Nov 30) will be applied.
-                </li>
-
-                {selectedPayment === 'eTransfer' ? (
-                  <li>
-                    Email transfers are made through{' '}
-                    <span style={{ fontWeight: 600 }}>TransferWise</span>. Click{' '}
-                    <a
-                      href="https://transferwise.com/invite/u/brendanl130"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      here
-                    </a>{' '}
-                    to create an account.
-                  </li>
-                ) : (
-                  <li></li>
-                )}
-              </ul>
-            </PaymentExplanation>
-          </ShadowBox>
-        </div>
-        <div>
-          {invoices.length > 0 ? (
-            <>
-              <SubHeading>Invoices</SubHeading>
-              <ShadowBox>
-                {loading ? (
-                  <FontAwesomeIcon icon={faSpinner} spin />
-                ) : (
-                  <Grid columns="1fr 1fr 1fr">
-                    {invoices.map((inv: any) => {
-                      return (
-                        <div style={{ marginBottom: '30px', padding: '5px' }}>
-                          <FontAwesomeIcon
-                            icon={faFileInvoice}
-                            size="lg"
-                            style={{ marginRight: '10px' }}
+                    putData('/api/v1/settings/', newSettings)
+                      .then(() => {
+                        dispatch(reloadEverything());
+                        dispatch(loadSettings());
+                        actions.resetForm();
+                        // setEditingEmail(false);
+                      })
+                      .catch((error) => {});
+                  }
+                }}
+              >
+                {({ values, dirty }) => (
+                  <Form>
+                    <P id="my-radio-group">
+                      Choose one option. You can change your payment option each
+                      quarter.
+                    </P>
+                    <RadioGroup role="group" aria-labelledby="my-radio-group">
+                      <label>
+                        <Field type="radio" name="payment" value="eTransfer" />
+                        Email Transfer
+                      </label>
+                      <label>
+                        <Field type="radio" name="payment" value="charity" />
+                        Charity
+                      </label>
+                    </RadioGroup>
+                    {values.payment === 'eTransfer' ? (
+                      <>
+                        <EtransferEmail>
+                          <OptionsTitle>e-Transfer Email:</OptionsTitle>
+                          <NameInputAndEdit
+                            value={email}
+                            edit={editingEmail}
+                            allowEdit={true}
+                            editBtnTxt={'Edit'}
+                            onChange={(e: any) => setEmail(e.target.value)}
+                            onKeyPress={(e: any) =>
+                              e.key === 'Enter' && finishEditingEmail()
+                            }
+                            onClickDone={() => finishEditingEmail()}
+                            onClickEdit={() => setEditingEmail(true)}
+                            onClickCancel={cancelEditingEmail}
+                            cancelButton={true}
+                            StyledInput={StyledInput}
                           />
-                          <a
-                            href={inv.pdf_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {inv.end_date}
-                          </a>
-                        </div>
-                      );
-                    })}
-                  </Grid>
+                        </EtransferEmail>
+                        <P color="red">{emailError}</P>
+                      </>
+                    ) : (
+                      <>
+                        {values.selectedCharity !== '' && (
+                          <SelectedCharity>
+                            <OptionsTitle>Selected Charity:</OptionsTitle>
+                            {values.selectedCharity}
+                          </SelectedCharity>
+                        )}
+                        <StyledSelect as="select" name="selectedCharity">
+                          {<option value="" label="Select a charity" />}
+                          {charities.map((charity: any) => (
+                            <option
+                              value={charity.charity_name}
+                              key={charity.charity_name}
+                            >
+                              {charity.charity_name}
+                            </option>
+                          ))}
+                        </StyledSelect>
+                      </>
+                    )}
+                    <div style={{ marginTop: '20px' }}>
+                      {dirty && <Button>Save</Button>}
+                    </div>
+                  </Form>
                 )}
-              </ShadowBox>
-            </>
-          ) : null}
-        </div>
-      </InvoiceCharityBox>
+              </Formik>
+              <PaymentExplanation>
+                <ul>
+                  <li>
+                    The option selected on the last day of the referral quarter
+                    (Feb. 28/29, May. 31, Aug 31, Nov 30) will be applied.
+                  </li>
+
+                  {selectedPayment === 'eTransfer' ? (
+                    <li>
+                      Email transfers are made through{' '}
+                      <span style={{ fontWeight: 600 }}>TransferWise</span>.
+                      Click{' '}
+                      <a
+                        href="https://transferwise.com/invite/u/brendanl130"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        here
+                      </a>{' '}
+                      to create an account.
+                    </li>
+                  ) : (
+                    <li></li>
+                  )}
+                </ul>
+              </PaymentExplanation>
+            </ShadowBox>
+          </div>
+          <div>
+            {invoices.length > 0 ? (
+              <>
+                <SubHeading>Invoices</SubHeading>
+                <ShadowBox>
+                  {loading ? (
+                    <FontAwesomeIcon icon={faSpinner} spin />
+                  ) : (
+                    <Grid columns="1fr 1fr 1fr">
+                      {invoices.map((inv: any) => {
+                        return (
+                          <div style={{ marginBottom: '30px', padding: '5px' }}>
+                            <FontAwesomeIcon
+                              icon={faFileInvoice}
+                              size="lg"
+                              style={{ marginRight: '10px' }}
+                            />
+                            <a
+                              href={inv.pdf_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {inv.end_date}
+                            </a>
+                          </div>
+                        );
+                      })}
+                    </Grid>
+                  )}
+                </ShadowBox>
+              </>
+            ) : null}
+          </div>
+        </InvoiceCharityBox>
+      ) : (
+        <br></br>
+      )}
 
       <SubHeading>The Fine Print</SubHeading>
       <ReferralBulletUL>
