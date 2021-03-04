@@ -73,7 +73,8 @@ export const Container2Column = styled.div`
 const H3LowProfile = styled(H3)`
   line-height: 1.3em;
   height: 3em;
-  font-size: 30px;
+  font-weight: 300;
+  font-size: 24px;
 `;
 
 const CenteredDiv = styled.div`
@@ -96,10 +97,12 @@ const pDarkStyle = {
 };
 
 const BorderBox = styled.div`
-  border: 3px solid #1b1d23;
   text-align: center;
   padding: 20px;
   margin-top: 30px;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #04a386;
 `;
 
 type Props = {

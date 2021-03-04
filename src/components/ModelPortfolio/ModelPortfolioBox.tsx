@@ -23,17 +23,41 @@ import { A, P } from '../../styled/GlobalElements';
 import RouteLeavingGuard from '../RouteLeavingPrompt';
 import Tooltip from '../Tooltip';
 
+const NameInputAndEditStyle = styled(NameInputAndEdit)`
+  @media (max-width: 900px) {
+    padding: 0;
+  }
+`;
+const GridStyle = styled(Grid)`
+  @media (max-width: 900px) {
+    background: #edf0f3;
+    padding: 12px 10px;
+    position: relative;
+    margin-bottom: 14px;
+  }
+`;
+const Delete = styled.button`
+  @media (max-width: 900px) {
+    position: absolute;
+    right: 2px;
+    top: 4px;
+  }
+`;
 const Box = styled.div`
   border: 1px solid #bfb6b6;
   padding: 10px;
   margin-bottom: 20px;
   @media (max-width: 900px) {
     margin-right: 0;
+    padding: 0;
+    border: none;
   }
 `;
 
 const MainContainer = styled.div`
-  margin: 10px;
+  @media (min-width: 900px) {
+    margin: 10px;
+  }
 `;
 
 const Cash = styled.div`
@@ -49,31 +73,37 @@ const CashPercentage = styled.div`
 `;
 
 const FormContainer = styled.div`
-  border-bottom: 1px solid var(--brand-blue);
-  margin-top: 20px;
   position: relative;
-  display: flex;
+  @media (min-width: 900px) {
+    display: flex;
+    border-bottom: 1px solid var(--brand-blue);
+    margin-top: 20px;
+  }
 `;
 
 const Percentage = styled.div`
   position: relative;
   border-right: 1px solid var(--brand-blue);
-  padding-bottom: 8px;
+  padding: 9px 0 6px;
   width: 111px;
   display: flex;
-  @media (max-width: 740px) {
-    margin-bottom: 10px;
+  @media (max-width: 900px) {
+    border: none;
+    border-bottom: 1px solid #023ca2;
   }
 `;
 
 const PercentageInput = styled.input`
   color: var(--brand-blue);
   font-weight: 600;
-  font-size: 20px;
+  font-size: 18px;
   text-align: right;
   width: 100%;
-  padding-right: 22px;
+  padding-right: 24px;
   -webkit-appearance: none;
+  @media (max-width: 900px) {
+    font-size: 24px;
+  }
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -84,15 +114,32 @@ const PercentageInput = styled.input`
 const PercentageLabel = styled.label`
   color: var(--brand-blue);
   font-weight: 600;
-  font-size: 20px;
+  font-size: 18px;
   position: absolute;
-  right: 2px;
-  top: 2px;
+  right: 3px;
+  top: 10px;
 `;
 
 const Symbol = styled.span`
-  font-size: 18px;
+  font-size: 16px;
   margin-left: 10px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-top: 13px;
+  span {
+    padding: 1px 3px;
+    border: 1px solid #2a2e33;
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  @media (max-width: 900px) {
+    text-align: left;
+    display: inline-block;
+    margin-left: 0;
+    white-space: inherit;
+    line-height: 1.5;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -119,8 +166,10 @@ const StyledContainer = styled.div`
   display: inline-block;
   position: relative;
   top: -24px;
-  padding: 0 15px;
   margin-bottom: -7px;
+  @media (min-width: 900px) {
+    padding: 0 15px;
+  }
 `;
 
 const StyledName = styled.span`
@@ -246,7 +295,7 @@ const ModelPortoflioBox = ({
   };
   return (
     <Box>
-      <NameInputAndEdit
+      <NameInputAndEditStyle
         value={modelPortfolioName}
         edit={editName}
         allowEdit={!sharedModel}
@@ -395,7 +444,7 @@ const ModelPortoflioBox = ({
                         (target: any, index: number) => {
                           if (editMode || applyMode) {
                             return (
-                              <Grid columns="1fr 50px" key={index}>
+                              <GridStyle columns="1fr 50px" key={index}>
                                 <FormContainer
                                   style={{ borderColor: '#beb6b6' }}
                                 >
@@ -421,12 +470,7 @@ const ModelPortoflioBox = ({
                                   <Symbol>
                                     {securityBased ? (
                                       <>
-                                        <span
-                                          style={{
-                                            fontWeight: 600,
-                                            marginRight: '8px',
-                                          }}
-                                        >
+                                        <span>
                                           {
                                             props.values.targets[index].symbol
                                               ?.symbol
@@ -438,12 +482,7 @@ const ModelPortoflioBox = ({
                                         }
                                       </>
                                     ) : (
-                                      <span
-                                        style={{
-                                          fontWeight: 600,
-                                          marginRight: '8px',
-                                        }}
-                                      >
+                                      <span>
                                         {
                                           props.values.targets[index]
                                             .model_asset_class.name
@@ -455,18 +494,20 @@ const ModelPortoflioBox = ({
                                   <br></br>
                                 </FormContainer>
                                 {(editMode || applyMode) && (
-                                  <button
+                                  <Delete
                                     type="button"
                                     onClick={() => arrayHelpers.remove(index)}
+                                    title="remove"
+                                    aria-label="remove"
                                   >
                                     <FontAwesomeIcon
                                       icon={faTimes}
                                       size="lg"
                                       color="var(--grey-darkest)"
                                     />
-                                  </button>
+                                  </Delete>
                                 )}
-                              </Grid>
+                              </GridStyle>
                             );
                           } else {
                             return (

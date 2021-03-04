@@ -25,10 +25,16 @@ const StyledCombobox = styled(Combobox)`
   position: relative;
   z-index: 5;
   display: inline-block;
-
+  input {
+    width: 100%;
+    padding: 10px;
+  }
   @media (max-width: 900px) {
-    width: auto;
+    width: 100%;
     margin-bottom: 20px;
+    border-bottom: 1px solid #023ca2;
+    padding-bottom: 5px;
+    margin-top: 16px;
   }
 `;
 
@@ -36,7 +42,6 @@ const StyledInput = styled(ComboboxInput)`
   width: 494px;
   border: 1px solid;
   padding: 11px 10px;
-
   @media (max-width: 900px) {
     width: auto;
     margin-bottom: 20px;
@@ -44,7 +49,7 @@ const StyledInput = styled(ComboboxInput)`
 `;
 
 const StyledPopover = styled(ComboboxPopover)`
-  z-index: 5;SymbolSelec
+  z-index: 5;
 `;
 
 const StyledOption = styled(ComboboxOption)`

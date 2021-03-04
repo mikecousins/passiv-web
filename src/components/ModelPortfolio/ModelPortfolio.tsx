@@ -122,7 +122,14 @@ const DeleteModelExplanation = styled.div`
 `;
 
 const SetShareModelContainer = styled.div`
-  margin-top: 20px;
+  padding: 0px 20px 15px;
+  background: #dafcf6;
+  border-radius: 0 0 4px 4px;
+  button,
+  svg,
+  h3 {
+    color: #07a485;
+  }
 `;
 
 const ShareLinkContainer = styled.div`
