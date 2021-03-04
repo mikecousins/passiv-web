@@ -107,6 +107,7 @@ const ToggleShareBtn = styled(ToggleButton)`
 
 const DeleteContainer = styled.div`
   float: right;
+  font-size: 18px;
 `;
 
 const DeleteModelExplanation = styled.div`
@@ -114,7 +115,6 @@ const DeleteModelExplanation = styled.div`
   text-align: center;
   ul {
     margin-top: 20px;
-    /* list-style: circle; */
     li {
       margin-bottom: 10px;
     }
@@ -417,6 +417,7 @@ const ModelPortfolio = () => {
               onDismiss={() => setDeleteDialog(false)}
               aria-labelledby="dialog1Title"
               aria-describedby="dialog1Desc"
+              style={{ borderRadius: '4px' }}
             >
               <H2Margin>
                 Are you sure you want to delete{' '}

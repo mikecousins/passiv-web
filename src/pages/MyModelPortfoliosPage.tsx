@@ -243,6 +243,7 @@ const MyModelPortfoliosPage = () => {
           onDismiss={() => setSelectGroupDialog(false)}
           aria-labelledby="dialog1Title"
           aria-describedby="dialog1Desc"
+          style={{ borderRadius: '4px' }}
         >
           <button
             onClick={() => setSelectGroupDialog(false)}
