@@ -18,7 +18,6 @@ import {
   StyledComboboxList,
   StyledComboboxOption,
 } from '../../ModelPortfolio/AssetClassSelector';
-import { isValueObject } from 'immutable';
 
 const StyledCombobox = styled(Combobox)`
   width: 494px;
