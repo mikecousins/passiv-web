@@ -15,13 +15,13 @@ import {
 import { FieldArray, Form, Formik } from 'formik';
 import Grid from '../../styled/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
-import { Button } from '../../styled/Button';
+import { Button, SmallButton } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
 import { A, P } from '../../styled/GlobalElements';
 import RouteLeavingGuard from '../RouteLeavingPrompt';
-import Tooltip from '../Tooltip';
+import { selectIsMobile } from '../../selectors/browser';
 
 const NameInputAndEditStyle = styled(NameInputAndEdit)`
   @media (max-width: 900px) {
@@ -221,6 +221,7 @@ const ModelPortoflioBox = ({
 
   const group = useSelector(selectGroupInfoForModelPortfolio);
   const groupsUsingModel = useSelector(selectGroupsUsingAModel);
+  const isMobile = useSelector(selectIsMobile);
 
   const groupInfo = group.groupInfo;
   const groupId = groupInfo?.groupId;
@@ -420,8 +421,8 @@ const ModelPortoflioBox = ({
                       Object.entries(props.values.newTarget.model_asset_class)
                         .length === 0);
 
-                  const handleKeyPress = (event: any) => {
-                    if (event.key === 'Enter' && props.isValid) {
+                  const handleAddToModel = () => {
+                    if (props.isValid) {
                       if (invalidSymbol) {
                         setSymbolError(
                           'Please select a supported symbol from the dropdown ',
@@ -540,7 +541,9 @@ const ModelPortoflioBox = ({
                                 type="number"
                                 onChange={props.handleChange}
                                 value={props.values.newTarget.percent}
-                                onKeyPress={(e: any) => handleKeyPress(e)}
+                                onKeyPress={(event: any) =>
+                                  event.key === 'Enter' && handleAddToModel()
+                                }
                                 required
                               />
                               <PercentageLabel htmlFor="percentage">
@@ -559,7 +562,9 @@ const ModelPortoflioBox = ({
                                   );
                                 }}
                                 clearInput={clearInputSelector}
-                                onKeyPress={(e: any) => handleKeyPress(e)}
+                                onKeyPress={(event: any) =>
+                                  event.key === 'Enter' && handleAddToModel()
+                                }
                                 groupId={groupId ? groupId : ''}
                                 forModelSecurity={true}
                               />
@@ -576,13 +581,18 @@ const ModelPortoflioBox = ({
                                 }}
                               />
                             )}
-                            {/* Only display "Press Enter" when a symbol/asset class selected */}
-                            {(Object.keys(props.values.newTarget.symbol)
-                              .length !== 0 ||
-                              Object.keys(
-                                props.values.newTarget.model_asset_class,
-                              ).length !== 0) &&
-                              props.isValid && <Enter>Press Enter</Enter>}
+                            {isMobile ? (
+                              <SmallButton
+                                onClick={handleAddToModel}
+                                style={{ width: '100%' }}
+                                disabled={invalidSymbol || !props.isValid}
+                              >
+                                Add
+                              </SmallButton>
+                            ) : (
+                              !invalidSymbol &&
+                              props.isValid && <Enter>Press Enter</Enter>
+                            )}
                           </FormContainer>
                           <div>
                             <ul>
