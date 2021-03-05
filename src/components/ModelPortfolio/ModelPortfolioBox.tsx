@@ -626,15 +626,17 @@ const ModelPortoflioBox = ({
                     >
                       Save Model
                     </Button>
-                    <CancelButton
-                      onClick={() => {
-                        toggleEditMode();
-                        props.handleReset();
-                      }}
-                    >
-                      Cancel
-                    </CancelButton>
                   </>
+                )}
+                {editMode && (
+                  <CancelButton
+                    onClick={() => {
+                      toggleEditMode();
+                      props.handleReset();
+                    }}
+                  >
+                    Cancel
+                  </CancelButton>
                 )}
                 {!props.dirty && applyMode && (
                   <ApplyModelBtn onClick={applyModel}>
