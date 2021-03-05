@@ -39,8 +39,6 @@ const OrderImpacts = ({ impacts }: Props) => {
     impactsByAccount.push(filteredImpact);
   });
 
-  console.log(impactsByAccount);
-
   return (
     <React.Fragment>
       <Title>Estimated results</Title>

@@ -135,6 +135,8 @@ const TargetBar = ({
     symbol,
   } = target;
 
+  console.log(target);
+
   let renderActualPercentage = null;
   if (actualPercentage === undefined) {
     renderActualPercentage = 0;
@@ -212,7 +214,11 @@ const TargetBar = ({
               forModelSecurity={false}
             />
           ) : is_supported ? (
-            <SymbolDetail symbol={fullSymbol} />
+            target.rebalance_by_asset_class ? (
+              <SymbolDetail symbol={target.name} assetClass={true} />
+            ) : (
+              <SymbolDetail symbol={fullSymbol} assetClass={false} />
+            )
           ) : (
             <Disabled>{fullSymbol.symbol}</Disabled>
           )}

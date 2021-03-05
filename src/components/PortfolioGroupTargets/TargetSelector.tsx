@@ -243,33 +243,33 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const portfolioVisualizerURLParts = [];
   portfolioVisualizerURLParts.push(portfolioVisualizerBaseURL);
 
-  let iValue = 0;
-  target
-    .filter((target) => target.is_supported && !target.is_excluded)
-    .map((target: any, index: number) => {
-      iValue = index + 1;
-      let ticker = formatTicker(target.fullSymbol.symbol);
-      portfolioVisualizerURLParts.push(
-        `&symbol${iValue}=${ticker}&allocation${iValue}_1=${target.percent}`,
-      );
-      return null;
-    });
-  let cashPercentage =
-    100 -
-    target
-      .filter((target) => target.is_supported && !target.is_excluded)
-      .reduce((total: number, target: any) => {
-        if (!target.deleted && target.percent && target.is_supported) {
-          return total + parseFloat(target.percent);
-        }
-        return total;
-      }, 0);
-  if (cashPercentage > 0) {
-    iValue += 1;
-    portfolioVisualizerURLParts.push(
-      `&symbol${iValue}=CASHX&allocation${iValue}_1=${cashPercentage}`,
-    );
-  }
+  // let iValue = 0;
+  // target
+  //   .filter((target) => target.is_supported && !target.is_excluded)
+  //   .map((target: any, index: number) => {
+  //     iValue = index + 1;
+  //     let ticker = formatTicker(target.fullSymbol.symbol);
+  //     portfolioVisualizerURLParts.push(
+  //       `&symbol${iValue}=${ticker}&allocation${iValue}_1=${target.percent}`,
+  //     );
+  //     return null;
+  //   });
+  // let cashPercentage =
+  //   100 -
+  //   target
+  //     .filter((target) => target.is_supported && !target.is_excluded)
+  //     .reduce((total: number, target: any) => {
+  //       if (!target.deleted && target.percent && target.is_supported) {
+  //         return total + parseFloat(target.percent);
+  //       }
+  //       return total;
+  //     }, 0);
+  // if (cashPercentage > 0) {
+  //   iValue += 1;
+  //   portfolioVisualizerURLParts.push(
+  //     `&symbol${iValue}=CASHX&allocation${iValue}_1=${cashPercentage}`,
+  //   );
+  // }
 
   portfolioVisualizerURLParts.push('#analysisResults');
 

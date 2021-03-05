@@ -150,8 +150,6 @@ const ApplyTarget = () => {
     }
   }
 
-  console.log(model);
-
   const currentGroup = useSelector(selectCurrentGroup);
   const currentGroupInfo = useSelector(selectCurrentGroupInfo);
 

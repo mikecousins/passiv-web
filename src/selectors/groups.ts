@@ -789,6 +789,7 @@ export const selectCurrentGroupTarget = createSelector(
     const currentTargetRaw = groupInfo.asset_classes_details;
 
     let currentTarget: TargetPosition[] = [];
+    let currentAssetClass: any[] = [];
 
     currentTargetRaw.forEach((targetRaw) => {
       if (rebalance_by_asset_class === false) {
@@ -848,6 +849,45 @@ export const selectCurrentGroupTarget = createSelector(
           }
           currentTarget.push(target);
         });
+      } else {
+        if (
+          !targetRaw.asset_class.exclude_asset_class &&
+          targetRaw.asset_class.name !== 'Empty Class'
+        ) {
+          const assetClass: any = {
+            rebalance_by_asset_class: true,
+            symbol: '',
+            id: targetRaw.asset_class.id,
+            name: targetRaw.asset_class.name,
+            percent: targetRaw.asset_class.percent,
+            // meta: {},
+            fullSymbols: undefined,
+            actualPercentage: 0,
+            is_excluded: targetRaw.asset_class.exclude_asset_class,
+            is_supported: true,
+          };
+
+          const fullSymbols = targetRaw.symbols.map((symbol: any) => {
+            const position = groupInfo.positions.find(
+              (p) => p.symbol.id === symbol.symbol,
+            );
+            return position;
+          });
+          assetClass.fullSymbols = fullSymbols;
+
+          assetClass.actualPercentage = fullSymbols.reduce(
+            (acc: any, symbol) => {
+              if (symbol?.actualPercentage) {
+                acc = acc + symbol?.actualPercentage;
+                return acc;
+              } else {
+                return acc;
+              }
+            },
+            0,
+          );
+          currentAssetClass.push(assetClass);
+        }
       }
     });
 
@@ -941,8 +981,11 @@ export const selectCurrentGroupTarget = createSelector(
         });
         break;
     }
-
-    return currentTarget;
+    if (rebalance_by_asset_class) {
+      return currentAssetClass;
+    } else {
+      return currentTarget;
+    }
   },
 );
 
