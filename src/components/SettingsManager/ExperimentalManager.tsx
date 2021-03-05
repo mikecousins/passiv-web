@@ -1,22 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { push } from 'connected-react-router';
 import { selectSettings } from '../../selectors';
-import {
-  faToggleOn,
-  faToggleOff,
-  faClipboard,
-  faClipboardCheck,
-  faRedoAlt,
-} from '@fortawesome/free-solid-svg-icons';
+import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import { H2, P, OptionsTitle } from '../../styled/GlobalElements';
 import { ToggleButton, StateText } from '../../styled/ToggleButton';
 import { Settings } from '../../types/settings';
 import { putData } from '../../api';
-import { loadSettings } from '../../actions';
+import { reloadEverything } from '../../actions';
 
 const ExperimentalManager = () => {
   // const authorizations = useSelector(selectAuthorizations);
@@ -32,10 +24,10 @@ const ExperimentalManager = () => {
     newSettings.model_portfolios_enabled = !settings.model_portfolios_enabled;
     putData('/api/v1/settings/', newSettings)
       .then(() => {
-        dispatch(loadSettings());
+        dispatch(reloadEverything());
       })
       .catch(() => {
-        dispatch(loadSettings());
+        dispatch(reloadEverything());
       });
   };
 
