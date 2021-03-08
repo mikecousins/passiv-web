@@ -56,6 +56,8 @@ const RegistrationPage = ({ location }: Props) => {
     'Google',
     'Reddit',
     'YouTube',
+    'Podcast',
+    'Brokerage',
     'Word of mouth',
     'Other',
   ];
