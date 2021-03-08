@@ -157,12 +157,18 @@ const ApplyNewModelBtn = styled(Button)`
 `;
 
 type Props = {
+  isAssetClassBased: boolean;
   lockable: boolean;
   target: TargetPosition[] | null;
   onReset: () => void;
 };
 
-export const TargetSelector = ({ lockable, target, onReset }: Props) => {
+export const TargetSelector = ({
+  isAssetClassBased,
+  lockable,
+  target,
+  onReset,
+}: Props) => {
   const dispatch = useDispatch();
   const groupId = useSelector(selectCurrentGroupId);
   const positions = useSelector(
@@ -183,10 +189,12 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const canEdit = edit || !lockable;
 
   const setSymbol = (target: any, symbol: any) => {
-    target.fullSymbol = symbol;
-    target.symbol = symbol.id;
-    // TODO hack to add is_supported flag
-    target.is_supported = true;
+    if (!isAssetClassBased) {
+      target.fullSymbol = symbol;
+      target.symbol = symbol.id;
+      // TODO hack to add is_supported flag
+      target.is_supported = true;
+    }
   };
 
   const formatTicker = (ticker: string) => {
@@ -252,33 +260,35 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const portfolioVisualizerURLParts = [];
   portfolioVisualizerURLParts.push(portfolioVisualizerBaseURL);
 
-  // let iValue = 0;
-  // target
-  //   .filter((target) => target.is_supported && !target.is_excluded)
-  //   .map((target: any, index: number) => {
-  //     iValue = index + 1;
-  //     let ticker = formatTicker(target.fullSymbol.symbol);
-  //     portfolioVisualizerURLParts.push(
-  //       `&symbol${iValue}=${ticker}&allocation${iValue}_1=${target.percent}`,
-  //     );
-  //     return null;
-  //   });
-  // let cashPercentage =
-  //   100 -
-  //   target
-  //     .filter((target) => target.is_supported && !target.is_excluded)
-  //     .reduce((total: number, target: any) => {
-  //       if (!target.deleted && target.percent && target.is_supported) {
-  //         return total + parseFloat(target.percent);
-  //       }
-  //       return total;
-  //     }, 0);
-  // if (cashPercentage > 0) {
-  //   iValue += 1;
-  //   portfolioVisualizerURLParts.push(
-  //     `&symbol${iValue}=CASHX&allocation${iValue}_1=${cashPercentage}`,
-  //   );
-  // }
+  let iValue = 0;
+  if (!isAssetClassBased) {
+    target
+      .filter((target) => target.is_supported && !target.is_excluded)
+      .map((target: any, index: number) => {
+        iValue = index + 1;
+        let ticker = formatTicker(target.fullSymbol.symbol);
+        portfolioVisualizerURLParts.push(
+          `&symbol${iValue}=${ticker}&allocation${iValue}_1=${target.percent}`,
+        );
+        return null;
+      });
+    let cashPercentage =
+      100 -
+      target
+        .filter((target) => target.is_supported && !target.is_excluded)
+        .reduce((total: number, target: any) => {
+          if (!target.deleted && target.percent && target.is_supported) {
+            return total + parseFloat(target.percent);
+          }
+          return total;
+        }, 0);
+    if (cashPercentage > 0) {
+      iValue += 1;
+      portfolioVisualizerURLParts.push(
+        `&symbol${iValue}=CASHX&allocation${iValue}_1=${cashPercentage}`,
+      );
+    }
+  }
 
   portfolioVisualizerURLParts.push('#analysisResults');
 
@@ -412,6 +422,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                       <div key={t.key}>
                         <TargetBar
                           key={t.symbol}
+                          isAssetClassBased={isAssetClassBased}
                           target={t}
                           edit={canEdit}
                           tour={index === 0 ? true : false}

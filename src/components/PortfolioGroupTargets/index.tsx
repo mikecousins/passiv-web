@@ -134,6 +134,15 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     );
   };
 
+  const isAssetClassBased = target?.isAssetClassBased;
+
+  let targets: any;
+  if (isAssetClassBased) {
+    targets = target?.currentAssetClass;
+  } else {
+    targets = target?.currentTarget;
+  }
+
   const modelChoices = [
     {
       id: 'IMPORT',
@@ -202,7 +211,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
 
   useEffect(() => {
     setModel(undefined);
-  }, [groupId, target, targetInitialized, error]);
+  }, [groupId, targets, targetInitialized, error]);
 
   useEffect(() => {
     setShowImportOverlay(false);
@@ -277,18 +286,22 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   };
 
   const generateTargetForm = (lockable: boolean) => {
-    let form = (
-      <TargetSelector
-        target={target}
-        lockable={lockable}
-        onReset={() => setShowResetOverlay(true)}
-      />
-    );
+    let form;
+    if (isAssetClassBased !== undefined) {
+      form = (
+        <TargetSelector
+          isAssetClassBased={isAssetClassBased}
+          target={targets}
+          lockable={lockable}
+          onReset={() => setShowResetOverlay(true)}
+        />
+      );
+    }
     if (
       !targetInitialized ||
       (!loading &&
         target &&
-        target.filter((t) => t.is_supported === true).length === 0)
+        targets.filter((t: any) => t.is_supported === true).length === 0)
     ) {
       form = <ShadowBox>{form}</ShadowBox>;
     }
@@ -339,11 +352,12 @@ const PortfolioGroupTargets = ({ error }: Props) => {
 
   // help them set a target if they don't have one yet
   if (
-    !(targetInitialized && target) &&
+    !(targetInitialized && targets) &&
     !loading &&
-    ((target &&
-      target.filter((t) => t.is_supported === true && t.is_excluded === false)
-        .length === 0) ||
+    ((targets &&
+      targets.filter(
+        (t: any) => t.is_supported === true && t.is_excluded === false,
+      ).length === 0) ||
       !target)
   ) {
     return (

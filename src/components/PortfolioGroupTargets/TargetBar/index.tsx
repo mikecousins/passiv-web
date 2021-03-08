@@ -107,6 +107,7 @@ const ActualBox = styled.div`
 `;
 
 type Props = {
+  isAssetClassBased: boolean;
   target: any;
   children: JSX.Element;
   setSymbol: (symbol: any) => void;
@@ -117,6 +118,7 @@ type Props = {
 };
 
 const TargetBar = ({
+  isAssetClassBased,
   target,
   children,
   setSymbol,
@@ -212,7 +214,7 @@ const TargetBar = ({
               forModelSecurity={false}
             />
           ) : is_supported ? (
-            target.rebalance_by_asset_class ? (
+            isAssetClassBased ? (
               <SymbolDetail symbol={target.name} assetClass={true} />
             ) : (
               <SymbolDetail symbol={fullSymbol} assetClass={false} />

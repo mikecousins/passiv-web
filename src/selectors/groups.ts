@@ -981,9 +981,9 @@ export const selectCurrentGroupTarget = createSelector(
         break;
     }
     if (rebalance_by_asset_class) {
-      return { currentAssetClass, assetClass: true };
+      return { currentAssetClass, isAssetClassBased: true };
     } else {
-      return { currentTarget, assetClass: false };
+      return { currentTarget, isAssetClassBased: false };
     }
   },
 );
@@ -1305,7 +1305,7 @@ export const selectCurrentGroupPositionsNotInTarget = createSelector(
   selectCurrentGroupTarget,
   (positions, targets) => {
     let notInTarget = null;
-    if (targets?.assetClass) {
+    if (targets?.isAssetClassBased) {
     } else {
       const targetIds = targets?.currentTarget?.map(
         (target: any) => target.fullSymbol.id,
@@ -1324,12 +1324,15 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
   (positions, targets) => {
     let notInTarget: any = [];
     let excluded: any = [];
-    const targetIds = targets?.map((target: any) => target.fullSymbol.id);
-    notInTarget = positions?.filter(
-      (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
-    );
-    if (targets?.assetClass) {
+    if (targets?.isAssetClassBased) {
+      return;
     } else {
+      const targetIds = targets?.currentTarget?.map(
+        (target: any) => target.fullSymbol.id,
+      );
+      notInTarget = positions?.filter(
+        (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+      );
       targets?.currentTarget?.map((target: any) => {
         if (target.is_excluded && target.is_supported) {
           excluded.push({

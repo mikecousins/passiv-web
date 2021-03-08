@@ -20,7 +20,6 @@ import {
   selectCurrentGroup,
   selectCurrentGroupInfo,
   selectCurrentGroupPositionsWithActualPercentage,
-  selectCurrentGroupTarget,
   selectCurrentGroupTrades,
   selectGroupedAccounts,
 } from '../../selectors/groups';
