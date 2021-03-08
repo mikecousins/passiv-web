@@ -583,6 +583,7 @@ const ModelPortoflioBox = ({
                             )}
                             {isMobile ? (
                               <SmallButton
+                                type="button"
                                 onClick={handleAddToModel}
                                 style={{ width: '100%' }}
                                 disabled={invalidSymbol || !props.isValid}
@@ -630,6 +631,7 @@ const ModelPortoflioBox = ({
                 )}
                 {editMode && (
                   <CancelButton
+                    type="button"
                     onClick={() => {
                       toggleEditMode();
                       props.handleReset();
@@ -639,7 +641,7 @@ const ModelPortoflioBox = ({
                   </CancelButton>
                 )}
                 {!props.dirty && applyMode && (
-                  <ApplyModelBtn onClick={applyModel}>
+                  <ApplyModelBtn onClick={applyModel} type="button">
                     Apply to {groupInfo?.name}
                   </ApplyModelBtn>
                 )}
@@ -653,6 +655,7 @@ const ModelPortoflioBox = ({
         </Formik>
         {!editMode && !applyMode && (
           <Button
+            type="button"
             onClick={toggleEditMode}
             disabled={assignedPortfolioGroups > 1}
           >
