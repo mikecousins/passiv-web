@@ -855,16 +855,15 @@ export const selectCurrentGroupTarget = createSelector(
           targetRaw.asset_class.name !== 'Empty Class'
         ) {
           const assetClass: any = {
-            rebalance_by_asset_class: true,
-            symbol: '',
+            symbol: '', //! don't need this
             id: targetRaw.asset_class.id,
             name: targetRaw.asset_class.name,
             percent: targetRaw.asset_class.percent,
-            // meta: {},
+            meta: {},
             fullSymbols: undefined,
             actualPercentage: 0,
             is_excluded: targetRaw.asset_class.exclude_asset_class,
-            is_supported: true,
+            is_supported: true, //! not sure how to properly set this
           };
 
           const fullSymbols = targetRaw.symbols.map((symbol: any) => {
@@ -982,9 +981,9 @@ export const selectCurrentGroupTarget = createSelector(
         break;
     }
     if (rebalance_by_asset_class) {
-      return currentAssetClass;
+      return { currentAssetClass, assetClass: true };
     } else {
-      return currentTarget;
+      return { currentTarget, assetClass: false };
     }
   },
 );
@@ -1306,11 +1305,15 @@ export const selectCurrentGroupPositionsNotInTarget = createSelector(
   selectCurrentGroupTarget,
   (positions, targets) => {
     let notInTarget = null;
-    const targetIds = targets?.map((target: any) => target.fullSymbol.id);
-    notInTarget = positions?.filter(
-      (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
-    );
-
+    if (targets?.assetClass) {
+    } else {
+      const targetIds = targets?.currentTarget?.map(
+        (target: any) => target.fullSymbol.id,
+      );
+      notInTarget = positions?.filter(
+        (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+      );
+    }
     return notInTarget;
   },
 );
@@ -1325,15 +1328,17 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
     notInTarget = positions?.filter(
       (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
     );
-
-    targets?.map((target: any) => {
-      if (target.is_excluded && target.is_supported) {
-        excluded.push({
-          excluded: target.is_excluded,
-          symbol: target.fullSymbol,
-        });
-      }
-    });
+    if (targets?.assetClass) {
+    } else {
+      targets?.currentTarget?.map((target: any) => {
+        if (target.is_excluded && target.is_supported) {
+          excluded.push({
+            excluded: target.is_excluded,
+            symbol: target.fullSymbol,
+          });
+        }
+      });
+    }
 
     return [...notInTarget, ...excluded];
   },

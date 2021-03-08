@@ -135,8 +135,6 @@ const TargetBar = ({
     symbol,
   } = target;
 
-  console.log(target);
-
   let renderActualPercentage = null;
   if (actualPercentage === undefined) {
     renderActualPercentage = 0;
