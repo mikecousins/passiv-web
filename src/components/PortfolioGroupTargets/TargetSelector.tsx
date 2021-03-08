@@ -38,6 +38,15 @@ const ButtonBox = styled.div`
   a {
     margin-right: 8px;
   }
+  @media (max-width: 900px) {
+    button {
+      margin-bottom: 20px;
+    }
+    a {
+      display: flex;
+      margin-bottom: 20px;
+    }
+  }
 `;
 export const Th = styled.div`
   text-align: right;

@@ -151,18 +151,6 @@ export const GlobalStyle = () => (
         border-spacing: 0;
       }
 
-      /* Remove Arrows/Spinners */
-      /* Chrome, Safari, Edge, Opera */
-      input::-webkit-outer-spin-button,
-      input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-         margin: 0;
-      }
-      /* Firefox */
-      input[type=number] {
-        -moz-appearance: textfield;
-      }
-
       /* Fonts */
       @font-face {
         font-family: 'cooper';
@@ -221,7 +209,7 @@ export const GlobalStyle = () => (
         --lg: 992px;
         --xl: 1200px;
 
-        --box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+        --box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
       }
 
       /* Global Structure */
@@ -290,27 +278,14 @@ export const GlobalStyle = () => (
         outline: 0;
       }
 
-<<<<<<< HEAD
-      [data-reach-dialog-content] {
-        border-radius: 5px;
-        @media (max-width: 500px) {
-          margin-top: 150px;
-          width: 250px;
-        }
-      }
       [data-reach-dialog-overlay] {
-        z-index: 4;
-      }
-=======
-      [data-reach-dialog-overlay] {
-        z-index: 4;
+        z-index: 10;
       }
       [data-reach-dialog-content] {
         @media (max-width: 900px) {
           width: 95vw;
         }
       }
->>>>>>> integrations
     `}
   />
 );

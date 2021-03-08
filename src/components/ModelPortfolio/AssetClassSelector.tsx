@@ -23,8 +23,7 @@ const StyledCombobox = styled(Combobox)`
 
 export const StyledComboboxInput = styled(ComboboxInput)`
   width: 500px;
-  padding: 0 10px;
-  /* border-left: 1px solid var(--brand-blue); */
+  padding: 12px 10px 8px;
   color: var(--brand-blue);
   font-weight: 600;
   font-size: 18px;

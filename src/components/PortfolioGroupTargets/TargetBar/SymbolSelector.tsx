@@ -20,20 +20,27 @@ import {
 } from '../../ModelPortfolio/AssetClassSelector';
 
 const StyledCombobox = styled(Combobox)`
-  width: 500px;
+  width: 494px;
   position: relative;
   z-index: 5;
   display: inline-block;
+  input {
+    width: 100%;
+    padding: 10px;
+  }
   @media (max-width: 900px) {
-    width: auto;
+    width: 100%;
     margin-bottom: 20px;
+    border-bottom: 1px solid #023ca2;
+    padding-bottom: 5px;
+    margin-top: 16px;
   }
 `;
 
 const StyledInput = styled(ComboboxInput)`
-  width: 500px;
+  width: 494px;
   border: 1px solid;
-  padding: 10px;
+  padding: 11px 10px;
   @media (max-width: 900px) {
     width: auto;
     margin-bottom: 20px;
@@ -41,7 +48,7 @@ const StyledInput = styled(ComboboxInput)`
 `;
 
 const StyledPopover = styled(ComboboxPopover)`
-  z-index: 5;SymbolSelec
+  z-index: 5;
 `;
 
 const StyledOption = styled(ComboboxOption)`
@@ -120,6 +127,10 @@ const SymbolSelector = ({
 
   const handleSelectByTicker = (ticker: string) => {
     setInput(ticker);
+
+    if (forModelSecurity) {
+      ticker = ticker.split(',')[0];
+    }
     if (!matchingSymbols) {
       return;
     }
@@ -185,8 +196,9 @@ const SymbolSelector = ({
             {forModelSecurity ? (
               <StyledComboboxList>
                 {matchingSymbols.map((option: any, index) => {
+                  const value = `${option.symbol}, ${option.description}`;
                   return (
-                    <StyledComboboxOption key={index} value={option.symbol}>
+                    <StyledComboboxOption key={index} value={value}>
                       <span>
                         {option.symbol} ({option.description})
                       </span>

@@ -25,7 +25,7 @@ import {
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
-import SecuritiesNotInTarget from './SecuritiesNotInTarget';
+import NewAssetsDetected from './NewAssetsDetected';
 
 const TOUR_STEPS = [
   {
@@ -85,9 +85,9 @@ const OverviewTab = () => {
   const loading = useSelector(selectGroupsLoading);
   const error = useSelector(selectCurrentGroupInfoError);
   const preferredCurrency = useSelector(selectPreferredCurrency);
-  // const positionsNotInTargets = useSelector(
-  //   selectCurrentGroupPositionsNotInTarget,
-  // );
+  const positionsNotInTargets = useSelector(
+    selectCurrentGroupPositionsNotInTarget,
+  );
 
   // if we don't have our group yet, show a spinner
   if (group === undefined) {
@@ -146,11 +146,11 @@ const OverviewTab = () => {
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
-      {/* {setupComplete &&
+      {setupComplete &&
         positionsNotInTargets &&
         positionsNotInTargets.length > 0 && (
-          <SecuritiesNotInTarget targets={positionsNotInTargets} />
-        )} */}
+          <NewAssetsDetected targets={positionsNotInTargets} />
+        )}
       {tradeDisplay}
 
       <PortfolioGroupTargets error={error} />
