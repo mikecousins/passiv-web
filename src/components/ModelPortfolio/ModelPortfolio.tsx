@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { deleteData, postData } from '../../api';
+import { deleteData, getData, postData } from '../../api';
 import {
   ModelAssetClassDetailsType,
   ModelAssetClass,
 } from '../../types/modelAssetClass';
-import { selectReferralCode } from '../../selectors';
+import { selectReferralCode } from '../../selectors/referrals';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
 import {
   selectCurrentModelPortfolio,
@@ -32,7 +32,7 @@ import {
 import { toast } from 'react-toastify';
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
-import { H3 } from '../../styled/GlobalElements';
+import { A, H3 } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
@@ -47,6 +47,7 @@ import {
   DeleteBtn,
 } from '../ModelAssetClass/AssetClass';
 import { Button } from '../../styled/Button';
+import { selectRouter } from '../../selectors/router';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -167,6 +168,8 @@ const ModelPortfolio = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const router = useSelector(selectRouter);
+
   let currentModelPortfolio: any = useSelector(selectCurrentModelPortfolio);
 
   const modelAssetClasses: ModelAssetClassDetailsType[] = useSelector(
@@ -184,7 +187,9 @@ const ModelPortfolio = () => {
     currentModelPortfolio?.model_portfolio?.id
   ]?.groups;
 
-  const [sharedModel, setSharedModel] = useState(false);
+  const [isSharedModel, setIsSharedModel] = useState(false);
+  const [sharedModel, setSharedModel] = useState();
+
   const [share, setShare] = useState(
     currentModelPortfolio?.model_portfolio.share_portfolio,
   );
@@ -216,25 +221,23 @@ const ModelPortfolio = () => {
     haveAssetsInModel = true;
   }
 
-  // useEffect(() => {
-  //   // check if the model is a shared model
-  //   if (router && router.location) {
-  //     const path = router.location.pathname.split('/');
-  //     const shareId = path[5];
-  //     if (path[4] === 'share' && shareId) {
-  //       const modelId = router.location.pathname.split('/')[3];
-  //       getData(`/api/v1/modelPortfolio/${modelId}/share/${shareId}`)
-  //         .then((res) => {
-  //           setSharedModel(true);
-  //           currentModelPortfolio = res.data;
-  //         })
-  //         .catch(() => {
-  //           alert('Invalid Share Id');
-  //         });
-  //     }
-  //   }
-  //   // setSecurityBased(currentModelPortfolio?.model_portfolio.model_type === 0);
-  // }, [router]);
+  const path = router?.location?.pathname.split('/');
+  let shareId = path[5];
+  const modelId = router.location.pathname.split('/')[3];
+  useEffect(() => {
+    // check if the model is a shared model
+    if (path[4] === 'share' && shareId) {
+      getData(`/api/v1/modelPortfolio/${modelId}/share/${shareId}`)
+        .then((res) => {
+          setIsSharedModel(true);
+          setSharedModel(res.data);
+        })
+        .catch(() => {
+          setIsSharedModel(false);
+          toast.error('Invalid Share Id');
+        });
+    }
+  }, []);
 
   const handleDeleteModel = () => {
     deleteData(
@@ -289,13 +292,15 @@ const ModelPortfolio = () => {
 
   return (
     <>
-      {currentModelPortfolio === null ? (
+      {!isSharedModel && currentModelPortfolio === null ? (
         <FontAwesomeIcon icon={faSpinner} spin />
       ) : (
-        currentModelPortfolio && (
+        (currentModelPortfolio || (isSharedModel && sharedModel)) && (
           <>
             <ShadowBox>
-              {!sharedModel && (
+              {isSharedModel ? (
+                <div style={{ marginTop: '30px' }}></div>
+              ) : (
                 <BackButton>
                   <Link
                     to={
@@ -312,137 +317,161 @@ const ModelPortfolio = () => {
 
               <ResponsiveGrid columns="4fr 2fr">
                 <ModelPortoflioBox
-                  modelPortfolio={currentModelPortfolio}
+                  modelPortfolio={
+                    isSharedModel && sharedModel
+                      ? sharedModel
+                      : currentModelPortfolio
+                  }
                   assetClasses={assetClasses}
                   securityBased={securityBased}
-                  sharedModel={sharedModel}
+                  isSharedModel={isSharedModel}
                 />
-                <div>
-                  <ComingSoonTag>
-                    <FontAwesomeIcon icon={faStopwatch} size="sm" /> Coming Soon
-                    ...
-                  </ComingSoonTag>
-                  <ModelType>
-                    <H3>Model Type</H3>
-                    <ToggleModelTypeBtn
-                      onClick={handleChangeModelType}
-                      // disabled={haveAssetsInModel}
-                      disabled={true}
+
+                {isSharedModel ? (
+                  <div>
+                    <BackButton>
+                      <Link to={`/app/register?ref=${shareId}`}>
+                        Click here to sign up for Passiv and build your own
+                        portfolio!
+                      </Link>
+                    </BackButton>
+
+                    <Link
+                      to={`/app/login?next=/app/model-portfolio/${modelId}/share/${shareId}`}
                     >
-                      {
-                        <React.Fragment>
-                          <Text>Security</Text>
-                          <ToggleBtn
-                            icon={securityBased ? faToggleOff : faToggleOn}
-                            style={{ margin: '0 10px' }}
-                          />
-                          <Text>Asset Class</Text>
-                        </React.Fragment>
-                      }
-                    </ToggleModelTypeBtn>
-                  </ModelType>
-                  {securityBased && (
-                    <>
-                      <SetShareModelContainer>
-                        <H3>Share Model</H3>
-                        <>
-                          {' '}
-                          <ToggleShareBtn
-                            onClick={handleToggleShareBtn}
-                            disabled={true}
-                          >
-                            {share ? (
-                              <React.Fragment>
-                                <ToggleBtn icon={faToggleOn} />
-                              </React.Fragment>
-                            ) : (
-                              <React.Fragment>
-                                <ToggleBtn icon={faToggleOff} />
-                              </React.Fragment>
+                      Already a user? Login to clone this model.
+                    </Link>
+                  </div>
+                ) : (
+                  <div>
+                    <ComingSoonTag>
+                      <FontAwesomeIcon icon={faStopwatch} size="sm" /> Coming
+                      Soon ...
+                    </ComingSoonTag>
+                    <ModelType>
+                      <H3>Model Type</H3>
+                      <ToggleModelTypeBtn
+                        onClick={handleChangeModelType}
+                        // disabled={haveAssetsInModel}
+                        disabled={true}
+                      >
+                        {
+                          <React.Fragment>
+                            <Text>Security</Text>
+                            <ToggleBtn
+                              icon={securityBased ? faToggleOff : faToggleOn}
+                              style={{ margin: '0 10px' }}
+                            />
+                            <Text>Asset Class</Text>
+                          </React.Fragment>
+                        }
+                      </ToggleModelTypeBtn>
+                    </ModelType>
+                    {securityBased && (
+                      <>
+                        <SetShareModelContainer>
+                          <H3>Share Model</H3>
+                          <>
+                            {' '}
+                            <ToggleShareBtn onClick={handleToggleShareBtn}>
+                              {share ? (
+                                <React.Fragment>
+                                  <ToggleBtn icon={faToggleOn} />
+                                </React.Fragment>
+                              ) : (
+                                <React.Fragment>
+                                  <ToggleBtn icon={faToggleOff} />
+                                </React.Fragment>
+                              )}
+                              {share ? ' On' : ' Off'}
+                            </ToggleShareBtn>
+                            <br />
+                            {share && (
+                              <ShareLinkContainer>
+                                <InputBox>
+                                  <ReadOnlyInput
+                                    value={SHARE_URL}
+                                    readOnly={true}
+                                  />
+                                </InputBox>
+                                <IconBox>
+                                  <CopyToClipboard
+                                    text={SHARE_URL}
+                                    onCopy={() => {
+                                      setCopied(true);
+                                    }}
+                                  >
+                                    {copied ? (
+                                      <FontAwesomeIcon
+                                        icon={faClipboardCheck}
+                                        size="lg"
+                                      />
+                                    ) : (
+                                      <FontAwesomeIcon
+                                        icon={faClipboard}
+                                        size="lg"
+                                      />
+                                    )}
+                                  </CopyToClipboard>
+                                </IconBox>
+                              </ShareLinkContainer>
                             )}
-                            {share ? ' On' : ' Off'}
-                          </ToggleShareBtn>
-                          <br />
-                          {share && (
-                            <ShareLinkContainer>
-                              <InputBox>
-                                <ReadOnlyInput
-                                  value={SHARE_URL}
-                                  readOnly={true}
-                                />
-                              </InputBox>
-                              <IconBox>
-                                <CopyToClipboard
-                                  text={SHARE_URL}
-                                  onCopy={() => {
-                                    setCopied(true);
-                                  }}
-                                >
-                                  {copied ? (
-                                    <FontAwesomeIcon
-                                      icon={faClipboardCheck}
-                                      size="lg"
-                                    />
-                                  ) : (
-                                    <FontAwesomeIcon
-                                      icon={faClipboard}
-                                      size="lg"
-                                    />
-                                  )}
-                                </CopyToClipboard>
-                              </IconBox>
-                            </ShareLinkContainer>
-                          )}
-                          <br />
-                        </>
-                      </SetShareModelContainer>
-                    </>
-                  )}
-                  {!securityBased && (
-                    <AssetClassesBox assetClasses={modelAssetClasses} />
-                  )}
-                </div>
+                            <br />
+                          </>
+                        </SetShareModelContainer>
+                      </>
+                    )}
+                    {!securityBased && (
+                      <AssetClassesBox assetClasses={modelAssetClasses} />
+                    )}
+                  </div>
+                )}
               </ResponsiveGrid>
             </ShadowBox>
 
-            {!sharedModel && (
-              <DeleteContainer>
-                <button onClick={() => setDeleteDialog(true)}>
-                  <FontAwesomeIcon icon={faTrashAlt} /> Delete
-                </button>
-              </DeleteContainer>
-            )}
-            <Dialog
-              isOpen={deleteDialog}
-              onDismiss={() => setDeleteDialog(false)}
-              aria-labelledby="dialog1Title"
-              aria-describedby="dialog1Desc"
-              style={{ borderRadius: '4px' }}
-            >
-              <H2Margin>
-                Are you sure you want to delete{' '}
-                <span style={{ fontWeight: 'bold' }}>
-                  {currentModelPortfolio!.model_portfolio.name}
-                </span>{' '}
-                ?
-              </H2Margin>
-              {groupsUsingModel?.length > 0 && (
-                <DeleteModelExplanation>
-                  <FontAwesomeIcon icon={faExclamationTriangle} />
-                  The following groups are using this model and would get reset:
-                  <ul>
-                    {groupsUsingModel.map((group: any) => {
-                      return <li key={group.id}>{group.name}</li>;
-                    })}
-                  </ul>
-                </DeleteModelExplanation>
-              )}
+            {!isSharedModel && (
+              <>
+                <DeleteContainer>
+                  <button onClick={() => setDeleteDialog(true)}>
+                    <FontAwesomeIcon icon={faTrashAlt} /> Delete
+                  </button>
+                </DeleteContainer>
+                <Dialog
+                  isOpen={deleteDialog}
+                  onDismiss={() => setDeleteDialog(false)}
+                  aria-labelledby="dialog1Title"
+                  aria-describedby="dialog1Desc"
+                  style={{ borderRadius: '4px' }}
+                >
+                  <H2Margin>
+                    Are you sure you want to delete{' '}
+                    <span style={{ fontWeight: 'bold' }}>
+                      {currentModelPortfolio!.model_portfolio.name}
+                    </span>{' '}
+                    ?
+                  </H2Margin>
+                  {groupsUsingModel?.length > 0 && (
+                    <DeleteModelExplanation>
+                      <FontAwesomeIcon icon={faExclamationTriangle} />
+                      The following groups are using this model and would get
+                      reset:
+                      <ul>
+                        {groupsUsingModel.map((group: any) => {
+                          return <li key={group.id}>{group.name}</li>;
+                        })}
+                      </ul>
+                    </DeleteModelExplanation>
+                  )}
 
-              <ActionContainer>
-                <DeleteBtn onClick={handleDeleteModel}>Delete</DeleteBtn>
-                <Button onClick={() => setDeleteDialog(false)}>Cancel</Button>
-              </ActionContainer>
-            </Dialog>
+                  <ActionContainer>
+                    <DeleteBtn onClick={handleDeleteModel}>Delete</DeleteBtn>
+                    <Button onClick={() => setDeleteDialog(false)}>
+                      Cancel
+                    </Button>
+                  </ActionContainer>
+                </Dialog>
+              </>
+            )}
           </>
         )
       )}

@@ -197,17 +197,17 @@ const Enter = styled.span`
 `;
 
 type Props = {
-  modelPortfolio: ModelPortfolioDetailsType;
+  modelPortfolio: any;
   assetClasses: ModelAssetClass[];
   securityBased: boolean;
-  sharedModel: boolean;
+  isSharedModel: boolean;
 };
 
 const ModelPortoflioBox = ({
   modelPortfolio,
   assetClasses,
   securityBased,
-  sharedModel,
+  isSharedModel,
 }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -306,7 +306,7 @@ const ModelPortoflioBox = ({
       <NameInputAndEditStyle
         value={modelPortfolioName}
         edit={editName}
-        allowEdit={!sharedModel}
+        allowEdit={!isSharedModel}
         editBtnTxt={'Edit Name'}
         onChange={(e: any) => setModelPortfolioName(e.target.value)}
         onKeyPress={(e: any) => e.key === 'Enter' && finishEditingName()}
@@ -653,7 +653,7 @@ const ModelPortoflioBox = ({
             </Form>
           )}
         </Formik>
-        {!editMode && !applyMode && (
+        {!editMode && !applyMode && !isSharedModel && (
           <Button
             type="button"
             onClick={toggleEditMode}
