@@ -18,12 +18,18 @@ import { postData } from '../../api';
 import { loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
 
+const ListOfSecurities = styled.div`
+  margin: 20px;
+  @media (max-width: 900px) {
+    margin: 10px;
+  }
+`;
+
 const Security = styled.div`
   border-right: 5px solid ${(props) => props.color};
   line-height: 30px;
   padding: 10px;
   margin-bottom: 20px;
-  width: 180px;
   height: 35px;
 `;
 
@@ -43,6 +49,7 @@ const ActionBox = styled.div`
   box-sizing: border-box;
   border-radius: 4px;
   padding: 15px;
+  max-height: 300px;
 `;
 
 const Questrade = styled.div`
@@ -95,7 +102,7 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
     })
     .join(', ');
 
-  const colors = ['#008F77', '#2A2D34', '#033EBC', '#5f5252', '#E38627'];
+  const colors = ['#0A6167', '#008F77', '#033EBC', '#002B3E', '#002668'];
 
   const coloredSecurity = firstTenSecuirty.map((security: any, index) => {
     security.color = colors[index];
@@ -113,7 +120,7 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
   pieChartData.push({
     title: othersList,
     value: otherSecuritiesTotal,
-    color: 'purple',
+    color: '#2A2D34',
   });
 
   const cloneModel = () => {
@@ -139,23 +146,20 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
   return (
     <>
       <ShadowBox>
-        <ResponsiveGrid
-          columns={showSecureApp ? '' : '4fr 2fr'}
-          style={{ marginTop: '20px' }}
-        >
+        <ResponsiveGrid columns={'4fr 2fr'} style={{ marginTop: '20px' }}>
           <Box>
             <StyledContainer>
               <StyledName>{model.model_portfolio.name}</StyledName>
             </StyledContainer>
-            <Grid columns="auto 200px">
+            <Grid columns="auto 300px">
               <PieChart
                 data={pieChartData}
-                style={{ height: '230px' }}
+                style={{ height: '270px', maxWidth: '350px' }}
                 lineWidth={40}
                 paddingAngle={2}
                 animate
               />
-              <div>
+              <ListOfSecurities>
                 {coloredSecurity.map((security) => {
                   return (
                     <Security key={security.symbol.id} color={security.color}>
@@ -166,7 +170,7 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
                     </Security>
                   );
                 })}
-                <Security key="other" color="purple">
+                <Security key="other" color="#2A2D34">
                   <div>
                     <Symbol>Other</Symbol>
                     <Percent>{otherSecuritiesTotal}%</Percent>
@@ -183,7 +187,7 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
                     </Tooltip>
                   </div>
                 </Security>
-              </div>
+              </ListOfSecurities>
             </Grid>
             {showSecureApp && <Button onClick={cloneModel}>Clone Model</Button>}
           </Box>
@@ -227,7 +231,9 @@ const OtherSecurities = ({ securities }: Prop) => {
         return (
           <li style={{ margin: '5px' }}>
             {security.symbol.symbol}:{' '}
-            <span style={{ fontWeight: 700 }}>{security.percent}</span>
+            <span style={{ fontWeight: 700, float: 'right' }}>
+              {security.percent}
+            </span>
           </li>
         );
       })}
