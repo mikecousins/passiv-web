@@ -43,7 +43,7 @@ const Delete = styled.button`
     top: 4px;
   }
 `;
-const Box = styled.div`
+export const Box = styled.div`
   border: 1px solid #bfb6b6;
   padding: 10px;
   margin-bottom: 20px;
@@ -60,14 +60,14 @@ const MainContainer = styled.div`
   }
 `;
 
-const Cash = styled.div`
+export const Cash = styled.div`
   border-left: 5px solid var(--brand-green);
   line-height: 30px;
   padding: 10px;
   margin-bottom: 20px;
 `;
 
-const CashPercentage = styled.div`
+export const CashPercentage = styled.div`
   font-size: 20px;
   font-weight: 900;
 `;
@@ -166,7 +166,7 @@ const ErroMsg = styled(P)`
   margin-top: 5px;
 `;
 
-const StyledContainer = styled.div`
+export const StyledContainer = styled.div`
   background: #fff;
   display: inline-block;
   position: relative;
@@ -177,7 +177,7 @@ const StyledContainer = styled.div`
   }
 `;
 
-const StyledName = styled.span`
+export const StyledName = styled.span`
   font-weight: 600;
   font-size: 30px;
 `;
@@ -200,14 +200,12 @@ type Props = {
   modelPortfolio: any;
   assetClasses: ModelAssetClass[];
   securityBased: boolean;
-  isSharedModel: boolean;
 };
 
 const ModelPortoflioBox = ({
   modelPortfolio,
   assetClasses,
   securityBased,
-  isSharedModel,
 }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -306,7 +304,7 @@ const ModelPortoflioBox = ({
       <NameInputAndEditStyle
         value={modelPortfolioName}
         edit={editName}
-        allowEdit={!isSharedModel}
+        allowEdit={true}
         editBtnTxt={'Edit Name'}
         onChange={(e: any) => setModelPortfolioName(e.target.value)}
         onKeyPress={(e: any) => e.key === 'Enter' && finishEditingName()}
@@ -653,7 +651,7 @@ const ModelPortoflioBox = ({
             </Form>
           )}
         </Formik>
-        {!editMode && !applyMode && !isSharedModel && (
+        {!editMode && !applyMode && (
           <Button
             type="button"
             onClick={toggleEditMode}
