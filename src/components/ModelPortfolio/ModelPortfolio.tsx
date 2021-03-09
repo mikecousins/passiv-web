@@ -8,7 +8,7 @@ import {
   ModelAssetClassDetailsType,
   ModelAssetClass,
 } from '../../types/modelAssetClass';
-import { selectReferralCode } from '../../selectors';
+import { selectReferralCode } from '../../selectors/referrals';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
 import {
   selectCurrentModelPortfolio,
@@ -123,13 +123,8 @@ const DeleteModelExplanation = styled.div`
 
 const SetShareModelContainer = styled.div`
   padding: 0px 20px 15px;
-  background: #dafcf6;
   border-radius: 0 0 4px 4px;
-  button,
-  svg,
-  h3 {
-    color: #07a485;
-  }
+  margin-top: 10px;
 `;
 
 const ShareLinkContainer = styled.div`
@@ -323,10 +318,7 @@ const ModelPortfolio = () => {
                         <H3>Share Model</H3>
                         <>
                           {' '}
-                          <ToggleShareBtn
-                            onClick={handleToggleShareBtn}
-                            disabled={true}
-                          >
+                          <ToggleShareBtn onClick={handleToggleShareBtn}>
                             {share ? (
                               <React.Fragment>
                                 <ToggleBtn icon={faToggleOn} />
