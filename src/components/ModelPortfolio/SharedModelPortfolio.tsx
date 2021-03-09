@@ -12,6 +12,11 @@ import { Link, useHistory } from 'react-router-dom';
 import Tooltip from '../Tooltip';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { selectShowSecureApp } from '../../selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { postData } from '../../api';
+import { loadModelPortfolios } from '../../actions';
+import { toast } from 'react-toastify';
 
 const Security = styled.div`
   border-right: 5px solid ${(props) => props.color};
@@ -63,7 +68,10 @@ type Props = {
   shareId: string;
 };
 const SharedModelPortfolio = ({ model, shareId }: Props) => {
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  const showSecureApp = useSelector(selectShowSecureApp);
 
   const orderedSecurities = model.model_portfolio_security.sort(
     (a, b) => +b.percent - +a.percent,
@@ -108,10 +116,33 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
     color: 'purple',
   });
 
+  const cloneModel = () => {
+    // create a new model
+    postData('api/v1/modelPortfolio', {})
+      .then((res) => {
+        const modelId = res.data.model_portfolio.id;
+        model.model_portfolio.share_portfolio = false;
+        model.model_portfolio.total_assigned_portfolio_groups = 0;
+        // post new data to it
+        postData(`api/v1/modelPortfolio/${modelId}`, model)
+          .then(() => {
+            dispatch(loadModelPortfolios());
+            history.push(`/app/models`);
+          })
+          .catch((err) => {
+            toast.error('Unable to clone model.');
+          });
+      })
+      .catch(() => toast.error('Unable to clone model.'));
+  };
+
   return (
     <>
       <ShadowBox>
-        <ResponsiveGrid columns="4fr 2fr" style={{ marginTop: '20px' }}>
+        <ResponsiveGrid
+          columns={showSecureApp ? '' : '4fr 2fr'}
+          style={{ marginTop: '20px' }}
+        >
           <Box>
             <StyledContainer>
               <StyledName>{model.model_portfolio.name}</StyledName>
@@ -154,27 +185,30 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
                 </Security>
               </div>
             </Grid>
+            {showSecureApp && <Button onClick={cloneModel}>Clone Model</Button>}
           </Box>
-          <ActionBox>
-            <H3 style={{ fontSize: '20px' }}>
-              Sign up for Passiv and build your own model portfolio!
-            </H3>
-            <Questrade>
-              Something about Questrade users getting Elite on Questrade.
-            </Questrade>
-            <SignUpBtn
-              onClick={() => history.push(`/app/register?ref=${shareId}`)}
-            >
-              Free Sign Up
-            </SignUpBtn>
-            <Clone>
-              <Link
-                to={`/app/login?next=/app/model-portfolio/${model.model_portfolio.id}/share/${shareId}`}
+          {!showSecureApp && (
+            <ActionBox>
+              <H3 style={{ fontSize: '20px' }}>
+                Sign up for Passiv and build your own model portfolio!
+              </H3>
+              <Questrade>
+                Something about Questrade users getting Elite on Questrade.
+              </Questrade>
+              <SignUpBtn
+                onClick={() => history.push(`/app/register?ref=${shareId}`)}
               >
-                Already a user? Login & Clone.
-              </Link>
-            </Clone>
-          </ActionBox>
+                Free Sign Up
+              </SignUpBtn>
+              <Clone>
+                <Link
+                  to={`/app/login?next=/app/model-portfolio/${model.model_portfolio.id}/share/${shareId}`}
+                >
+                  Already a user? Login & Clone.
+                </Link>
+              </Clone>
+            </ActionBox>
+          )}
         </ResponsiveGrid>
       </ShadowBox>
     </>
