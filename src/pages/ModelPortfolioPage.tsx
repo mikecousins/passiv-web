@@ -38,18 +38,20 @@ const ModelPortfolioPage = () => {
 
   return (
     <React.Fragment>
-      <H1>{isSharedModel ? 'Shared Model' : 'Model Portfolio'}</H1>
-      <StyledP>
-        Create a model portfolio by using asset classes you define. Once you're
-        done you can apply it to one of your portfolio groups, share with your
-        friends or use later.
-      </StyledP>
       {isSharedModel ? (
         sharedModel !== undefined && (
           <SharedModelPortfolio model={sharedModel} shareId={shareId} />
         )
       ) : (
-        <ModelPortfolio />
+        <>
+          <H1>Model Portfolio</H1>
+          <StyledP>
+            Create a model portfolio by using asset classes you define. Once
+            you're done you can apply it to one of your portfolio groups, share
+            with your friends or use later.
+          </StyledP>
+          <ModelPortfolio />
+        </>
       )}
     </React.Fragment>
   );
