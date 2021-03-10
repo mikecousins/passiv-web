@@ -6,7 +6,7 @@ import { ResponsiveGrid } from './ModelPortfolio';
 import { Box, StyledContainer, StyledName } from './ModelPortfolioBox';
 import Grid from '../../styled/Grid';
 import { PieChart } from 'react-minimal-pie-chart';
-import { H3 } from '../../styled/GlobalElements';
+import { H1, H3 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import { Link, useHistory } from 'react-router-dom';
 import Tooltip from '../Tooltip';
@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postData } from '../../api';
 import { loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
+import { StyledP } from '../../pages/ModelAssetClassPage';
 
 const ListOfSecurities = styled.div`
   margin: 20px;
@@ -49,12 +50,13 @@ const ActionBox = styled.div`
   box-sizing: border-box;
   border-radius: 4px;
   padding: 15px;
-  max-height: 300px;
+  max-height: 350px;
 `;
 
-const Questrade = styled.div`
+const AboutPassiv = styled.div`
   margin: 20px 0;
   font-size: 18px;
+  line-height: 21px;
 `;
 
 const SignUpBtn = styled(Button)`
@@ -84,17 +86,16 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
     (a, b) => +b.percent - +a.percent,
   );
 
-  const firstTenSecuirty = orderedSecurities.slice(0, 5);
+  const firstFive = orderedSecurities.slice(0, 5);
 
   const otherSecurities = orderedSecurities.slice(5);
 
-  const otherSecuritiesTotal = otherSecurities.reduce(
-    (add: number, security) => {
+  const otherSecuritiesTotal = otherSecurities
+    .reduce((add: number, security) => {
       add = add + +security.percent;
       return add;
-    },
-    0,
-  );
+    }, 0)
+    .toFixed(3);
 
   const othersList = otherSecurities
     .map((security) => {
@@ -104,7 +105,7 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
 
   const colors = ['#0A6167', '#008F77', '#033EBC', '#002B3E', '#002668'];
 
-  const coloredSecurity = firstTenSecuirty.map((security: any, index) => {
+  const coloredSecurity = firstFive.map((security: any, index) => {
     security.color = colors[index];
     return security;
   });
@@ -119,7 +120,7 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
 
   pieChartData.push({
     title: othersList,
-    value: otherSecuritiesTotal,
+    value: +otherSecuritiesTotal,
     color: '#2A2D34',
   });
 
@@ -145,6 +146,11 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
 
   return (
     <>
+      <H1>Shared Model *</H1>
+      <StyledP>
+        A model portfolio is a group of assets and target allocations that are
+        designed to meet a particular investing goal.
+      </StyledP>
       <ShadowBox>
         <ResponsiveGrid columns={'4fr 2fr'} style={{ marginTop: '20px' }}>
           <Box>
@@ -172,7 +178,7 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
                 })}
                 <Security key="other" color="#2A2D34">
                   <div>
-                    <Symbol>Other</Symbol>
+                    <Symbol>Other</Symbol>{' '}
                     <Percent>{otherSecuritiesTotal}%</Percent>
                     <Tooltip
                       label="Other Securities: "
@@ -180,10 +186,7 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
                         <OtherSecurities securities={otherSecurities} />
                       }
                     >
-                      <FontAwesomeIcon
-                        icon={faInfoCircle}
-                        style={{ fontSize: 12 }}
-                      />
+                      <FontAwesomeIcon icon={faInfoCircle} size="sm" />
                     </Tooltip>
                   </div>
                 </Security>
@@ -194,11 +197,20 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
           {!showSecureApp && (
             <ActionBox>
               <H3 style={{ fontSize: '20px' }}>
-                Sign up for Passiv and build your own model portfolio!
+                Build your own model portfolio!
               </H3>
-              <Questrade>
-                Something about Questrade users getting Elite on Questrade.
-              </Questrade>
+              <AboutPassiv>
+                Passiv makes investing easier at online brokerages. Passiv helps
+                you maintain your portfolio’s allocation, manage multiple
+                accounts, and rebalance at the click of a button.{' '}
+                <a
+                  href="https://passiv.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Learn more
+                </a>
+              </AboutPassiv>
               <SignUpBtn
                 onClick={() => history.push(`/app/register?ref=${shareId}`)}
               >
@@ -215,6 +227,14 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
           )}
         </ResponsiveGrid>
       </ShadowBox>
+      <small>
+        * Disclaimer: The content of this page is for informational purposes
+        only and is not intended to provide financial advice, and shall not be
+        relied upon by you in that regard. Investments or trading strategies
+        should be evaluated relative to each individual's objectives and risk
+        tolerance. The views and opinions expressed in this page are those of
+        the user only and do not reflect the position of Passiv.
+      </small>
     </>
   );
 };
@@ -229,10 +249,10 @@ const OtherSecurities = ({ securities }: Prop) => {
     <ul>
       {securities.map((security: any) => {
         return (
-          <li style={{ margin: '5px' }}>
-            {security.symbol.symbol}:{' '}
+          <li style={{ margin: '7px' }}>
+            {security.symbol.symbol}:
             <span style={{ fontWeight: 700, float: 'right' }}>
-              {security.percent}
+              {security.percent} %
             </span>
           </li>
         );
