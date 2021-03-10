@@ -4,7 +4,6 @@ import { postData } from '../../api';
 import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
 import { loadGroupInfo, loadGroups, loadModelPortfolios } from '../../actions';
-import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import NameInputAndEdit from '../NameInputAndEdit';
 import { ModelAssetClass } from '../../types/modelAssetClass';
 import { useHistory } from 'react-router';
