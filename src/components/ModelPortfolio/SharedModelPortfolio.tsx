@@ -19,6 +19,13 @@ import { loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
 import { StyledP } from '../../pages/ModelAssetClassPage';
 
+import shareModelImage from '../../assets/images/shareModelImage.png';
+
+const ImageContainer = styled.div`
+  background: url(${shareModelImage}) no-repeat;
+  background-size: contain;
+`;
+
 const ListOfSecurities = styled.div`
   margin: 20px;
   @media (max-width: 900px) {
@@ -50,7 +57,7 @@ const ActionBox = styled.div`
   box-sizing: border-box;
   border-radius: 4px;
   padding: 15px;
-  max-height: 350px;
+  max-height: 370px;
 `;
 
 const AboutPassiv = styled.div`
@@ -195,35 +202,38 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
             {showSecureApp && <Button onClick={cloneModel}>Clone Model</Button>}
           </Box>
           {!showSecureApp && (
-            <ActionBox>
-              <H3 style={{ fontSize: '20px' }}>
-                Build your own model portfolio!
-              </H3>
-              <AboutPassiv>
-                Passiv makes investing easier at online brokerages. Passiv helps
-                you maintain your portfolio’s allocation, manage multiple
-                accounts, and rebalance at the click of a button.{' '}
-                <a
-                  href="https://passiv.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+            <>
+              <ActionBox>
+                <H3 style={{ fontSize: '20px' }}>
+                  Build your own model portfolio!
+                </H3>
+                <AboutPassiv>
+                  Passiv makes investing easier at online brokerages. Passiv
+                  helps you maintain your portfolio’s allocation, manage
+                  multiple accounts, and rebalance at the click of a button.{' '}
+                  <a
+                    href="https://passiv.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Learn more
+                  </a>
+                </AboutPassiv>
+                <SignUpBtn
+                  onClick={() => history.push(`/app/register?ref=${shareId}`)}
                 >
-                  Learn more
-                </a>
-              </AboutPassiv>
-              <SignUpBtn
-                onClick={() => history.push(`/app/register?ref=${shareId}`)}
-              >
-                Free Sign Up
-              </SignUpBtn>
-              <Clone>
-                <Link
-                  to={`/app/login?next=/app/model-portfolio/${model.model_portfolio.id}/share/${shareId}`}
-                >
-                  Already a user? Login & Clone.
-                </Link>
-              </Clone>
-            </ActionBox>
+                  Free Sign Up
+                </SignUpBtn>
+                <Clone>
+                  <Link
+                    to={`/app/login?next=/app/model-portfolio/${model.model_portfolio.id}/share/${shareId}`}
+                  >
+                    Already a user? Login & Clone.
+                  </Link>
+                </Clone>
+              </ActionBox>
+              <ImageContainer></ImageContainer>
+            </>
           )}
         </ResponsiveGrid>
       </ShadowBox>
