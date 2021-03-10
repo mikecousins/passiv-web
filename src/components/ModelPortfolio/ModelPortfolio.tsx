@@ -23,6 +23,7 @@ import {
   faClipboard,
   faClipboardCheck,
   faExclamationTriangle,
+  faInfoCircle,
   faSpinner,
   faStopwatch,
   faToggleOff,
@@ -47,6 +48,7 @@ import {
   DeleteBtn,
 } from '../ModelAssetClass/AssetClass';
 import { Button } from '../../styled/Button';
+import Tooltip from '../Tooltip';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -103,6 +105,9 @@ const Text = styled(StateText)`
 
 const ToggleShareBtn = styled(ToggleButton)`
   margin-top: 10px;
+  svg {
+    color: var(--brand-blue);
+  }
 `;
 
 const DeleteContainer = styled.div`
@@ -315,7 +320,12 @@ const ModelPortfolio = () => {
                   {securityBased && (
                     <>
                       <SetShareModelContainer>
-                        <H3>Share Model</H3>
+                        <H3>
+                          Share Model{' '}
+                          <Tooltip label="Share your model portfolio link with your friends and earn cash when they upgrade to Elite.">
+                            <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+                          </Tooltip>
+                        </H3>
                         <>
                           {' '}
                           <ToggleShareBtn onClick={handleToggleShareBtn}>
