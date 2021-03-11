@@ -183,20 +183,22 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
                     </Security>
                   );
                 })}
-                <Security key="other" color="#2A2D34">
-                  <div>
-                    <Symbol>Other</Symbol>{' '}
-                    <Percent>{otherSecuritiesTotal}%</Percent>
-                    <Tooltip
-                      label="Other Securities: "
-                      additionalComponent={
-                        <OtherSecurities securities={otherSecurities} />
-                      }
-                    >
-                      <FontAwesomeIcon icon={faInfoCircle} size="sm" />
-                    </Tooltip>
-                  </div>
-                </Security>
+                {otherSecurities.length > 0 && (
+                  <Security key="other" color="#2A2D34">
+                    <div>
+                      <Symbol>Other</Symbol>{' '}
+                      <Percent>{otherSecuritiesTotal}%</Percent>
+                      <Tooltip
+                        label="Other Securities: "
+                        additionalComponent={
+                          <OtherSecurities securities={otherSecurities} />
+                        }
+                      >
+                        <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+                      </Tooltip>
+                    </div>
+                  </Security>
+                )}
               </ListOfSecurities>
             </Grid>
             {showSecureApp && <Button onClick={cloneModel}>Clone Model</Button>}
