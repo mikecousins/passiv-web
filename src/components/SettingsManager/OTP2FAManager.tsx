@@ -250,7 +250,7 @@ const OTP2FAManager = () => {
             )}
             <P>
               Now enter the 6-digit code provided by your authenticator app to
-              finalize the activation of 2FA on your account.
+              finalize the activation of MFA on your account.
             </P>
             <MiniInputNonFormik
               value={verificationCode}
