@@ -101,6 +101,9 @@ const SymbolSelector = ({
   const [confirmTicker, setConfirmTicker] = useState('');
 
   const loadOptions = () => {
+    if (input.trim() === '') {
+      return;
+    }
     setLoading(true);
     let symbolsURL = '';
     if (groupId) {
