@@ -92,6 +92,12 @@ const OTP2FAManager = () => {
   //   setError2FA(null);
   // };
 
+  const onEnterConfirm = (event: any) => {
+    if (event.which === 13) {
+      submitCode();
+    }
+  };
+
   const toggleShowQR = () => {
     setShowQR(!showQR);
   };
@@ -256,6 +262,8 @@ const OTP2FAManager = () => {
               value={verificationCode}
               placeholder={'Your verification code'}
               onChange={(e) => setVerificationCode(e.target.value)}
+              onKeyUp={onEnterConfirm}
+              autoFocus={true}
             />
             {error2FA}
             <Edit
