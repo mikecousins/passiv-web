@@ -60,10 +60,7 @@ type Props = {
   groupId?: string;
   forModelSecurity?: boolean;
   clearInput?: number;
-  name?: string;
-  id?: string;
   onSelect: (symbol: any) => void;
-  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
 const useDebouncedEffect = (callback: any, delay: number, deps: any[] = []) => {
@@ -87,18 +84,13 @@ const SymbolSelector = ({
   value,
   groupId,
   forModelSecurity,
-  name,
-  id,
   clearInput,
   onSelect,
-  onKeyPress,
 }: Props) => {
-  // const groupId = useSelector(selectCurrentGroupId);
   const dispatch = useDispatch();
   const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
-  const [input, setInput] = useState(value);
+  const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [confirmTicker, setConfirmTicker] = useState('');
 
   const loadOptions = () => {
     if (input.trim() === '') {
@@ -129,8 +121,6 @@ const SymbolSelector = ({
   }, [clearInput]);
 
   const handleSelectByTicker = (ticker: string) => {
-    setInput(ticker);
-
     if (forModelSecurity) {
       ticker = ticker.split(',')[0];
     }
@@ -157,32 +147,24 @@ const SymbolSelector = ({
     setInput(event.target.value);
   };
 
-  const onEnter = (event: any) => {
-    if (event.which === 13) {
-      setConfirmTicker(event.target.value);
-    }
-  };
-
-  if (confirmTicker !== '') {
-    handleSelectByTicker(confirmTicker);
-  }
-
   return (
     <StyledCombobox onSelect={handleSelectByTicker}>
       {forModelSecurity ? (
         <StyledComboboxInput
           value={input}
           onChange={onChange}
-          onKeyPress={onKeyPress}
+          onKeyPress={(event: any) =>
+            event.key === 'Enter' && handleSelectByTicker(event.target.value)
+          }
           placeholder="Search for security..."
-          name={name}
-          id={id}
         />
       ) : (
         <StyledInput
           value={value}
           onChange={onChange}
-          onKeyUp={onEnter}
+          onKeyPress={(event: any) =>
+            event.key === 'Enter' && handleSelectByTicker(event.target.value)
+          }
           placeholder="Search for security..."
         />
       )}
