@@ -357,9 +357,6 @@ const ModelPortoflioBox = ({
             return errors;
           }}
           onSubmit={(values, actions) => {
-            if (editMode) {
-              toggleEditMode();
-            }
             if (securityBased) {
               modelPortfolio.model_portfolio_security = values.targets;
             } else {
@@ -371,6 +368,12 @@ const ModelPortoflioBox = ({
                 if (editMode && assignedPortfolioGroups > 0) {
                   applyModel();
                 }
+                actions.resetForm();
+                actions.setSubmitting(false);
+                actions.setStatus({ submitted: true });
+                if (editMode) {
+                  toggleEditMode();
+                }
               })
               .catch((err) => {
                 dispatch(loadModelPortfolios());
@@ -378,9 +381,6 @@ const ModelPortoflioBox = ({
                   toast.error(err.response.data.detail);
                 }
               });
-            actions.resetForm();
-            actions.setSubmitting(false);
-            actions.setStatus({ submitted: true });
           }}
         >
           {(props) => (
