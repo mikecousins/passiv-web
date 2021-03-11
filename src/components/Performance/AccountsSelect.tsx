@@ -49,9 +49,9 @@ const Submit = styled.input`
 
 export const AccountsSelect = () => {
   const dispatch = useDispatch();
-  const accounts = useSelector(selectAccounts).filter(
-    (a) => a.institution_name === 'Questrade',
-  );
+  const accounts = useSelector(selectAccounts)
+    .filter((a) => a.institution_name === 'Questrade')
+    .filter((a) => a.portfolio_group !== null);
   const startDate = useSelector(selectStartDate);
   const endDate = useSelector(selectEndDate);
   const selectedAccounts = useSelector(selectSelectedAccounts);
