@@ -39,4 +39,5 @@ export type Settings = {
   affiliate_charity: {
     charity_name: string;
   } | null;
+  login_emails_enabled: boolean;
 };

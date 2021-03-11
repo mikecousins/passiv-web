@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import LoginNotificationSettings from './LoginNotificationSettings';
 import CashNotificationSettings from './CashNotificationSettings';
 import DriftNotificationSettings from './DriftNotificationSettings';
 import NewSymbolNotificationSettings from './NewSymbolNotificationSettings';
@@ -23,6 +24,9 @@ const DriftGroup = styled.div`
 const NotificationsManager = () => (
   <ShadowBox>
     <H2>Notifications</H2>
+    <InputContainer>
+      <LoginNotificationSettings />
+    </InputContainer>
     <InputContainer>
       <CashNotificationSettings />
     </InputContainer>
