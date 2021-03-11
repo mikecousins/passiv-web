@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import ShadowBox from '../../styled/ShadowBox';
@@ -14,12 +14,13 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { selectShowSecureApp } from '../../selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { postData } from '../../api';
+import { getData, postData } from '../../api';
 import { loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
 import { StyledP } from '../../pages/ModelAssetClassPage';
 
 import shareModelImage from '../../assets/images/shareModelImage.png';
+import { selectRouter } from '../../selectors/router';
 
 const ImageContainer = styled.div`
   background: url(${shareModelImage}) no-repeat;
@@ -83,13 +84,43 @@ type Props = {
   model: ModelPortfolioDetailsType;
   shareId: string;
 };
-const SharedModelPortfolio = ({ model, shareId }: Props) => {
+const SharedModelPortfolio = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const router = useSelector(selectRouter);
+
+  const [isSharedModel, setIsSharedModel] = useState(false);
+  const [sharedModel, setSharedModel] = useState<ModelPortfolioDetailsType>();
+
+  //@ts-ignore
+  let shareId = router?.location?.query?.share;
+  const modelId = router.location.pathname.split('/')[3];
+
+  useEffect(() => {
+    // check if the model is a shared model
+    if (shareId) {
+      getData(`/api/v1/modelPortfolio/${modelId}/share/${shareId}`)
+        .then((res) => {
+          setIsSharedModel(true);
+          setSharedModel(res.data);
+        })
+        .catch((err) => {
+          setIsSharedModel(false);
+          history.replace('/app/login');
+        });
+    } else {
+      setIsSharedModel(false);
+      history.replace('/app/login');
+    }
+  }, []);
+
   const showSecureApp = useSelector(selectShowSecureApp);
 
-  const orderedSecurities = model.model_portfolio_security.sort(
+  if (!sharedModel || !isSharedModel) {
+    return <div></div>;
+  }
+  const orderedSecurities = sharedModel.model_portfolio_security.sort(
     (a, b) => +b.percent - +a.percent,
   );
 
@@ -136,10 +167,10 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
     postData('api/v1/modelPortfolio', {})
       .then((res) => {
         const modelId = res.data.model_portfolio.id;
-        model.model_portfolio.share_portfolio = false;
-        model.model_portfolio.total_assigned_portfolio_groups = 0;
+        sharedModel.model_portfolio.share_portfolio = false;
+        sharedModel.model_portfolio.total_assigned_portfolio_groups = 0;
         // post new data to it
-        postData(`api/v1/modelPortfolio/${modelId}`, model)
+        postData(`api/v1/modelPortfolio/${modelId}`, sharedModel)
           .then(() => {
             dispatch(loadModelPortfolios());
             history.push(`/app/models`);
@@ -162,7 +193,7 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
         <ResponsiveGrid columns={'4fr 2fr'} style={{ marginTop: '20px' }}>
           <Box>
             <StyledContainer>
-              <StyledName>{model.model_portfolio.name}</StyledName>
+              <StyledName>{sharedModel.model_portfolio.name}</StyledName>
             </StyledContainer>
             <Grid columns="auto 300px">
               <PieChart
@@ -228,7 +259,7 @@ const SharedModelPortfolio = ({ model, shareId }: Props) => {
                 </SignUpBtn>
                 <Clone>
                   <Link
-                    to={`/app/login?next=/app/model-portfolio/${model.model_portfolio.id}/share/${shareId}`}
+                    to={`/app/login?next=/app/shared-model-portfolio/${sharedModel.model_portfolio.id}?share=${shareId}`}
                   >
                     Already a user? Login & Clone.
                   </Link>

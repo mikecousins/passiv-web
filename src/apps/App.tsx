@@ -189,6 +189,13 @@ const ModelPortfolioPage = React.lazy(() =>
   import(/* webpackChunkName: "...?" */ '../pages/ModelPortfolioPage'),
 );
 
+const SharedModelPortfolio = React.lazy(() =>
+  //? webpackChunkName
+  import(
+    /* webpackChunkName: "...?" */ '../components/ModelPortfolio/SharedModelPortfolio'
+  ),
+);
+
 const SelectGroupPage = React.lazy(() =>
   //? webpackChunkName
   import(/* webpackChunkName: "...?" */ '../pages/SelectGroupPage'),
@@ -270,6 +277,11 @@ const tdAmeritradeOauthRedirect = () => {
 const wealthicaOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/wealthica?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
+const sharedModelRedirect = () => {
+  let newPath = '/app/shared-model-portfolio?share=';
   return <Redirect to={newPath} />;
 };
 
@@ -382,8 +394,9 @@ const App = () => {
             />
             <Route path={prefixPath('/demo')} component={DemoLoginPage} />
             <Route
-              path={prefixPath('/model-portfolio/:modelId/share/:shareId')}
-              component={ModelPortfolioPage}
+              path={prefixPath('/shared-model-portfolio')}
+              component={SharedModelPortfolio}
+              render={() => sharedModelRedirect()}
             />
             // oauth routes
             {loggedIn && (
