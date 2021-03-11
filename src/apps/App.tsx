@@ -189,11 +189,6 @@ const ModelPortfolioPage = React.lazy(() =>
   import(/* webpackChunkName: "...?" */ '../pages/ModelPortfolioPage'),
 );
 
-const SelectGroupPage = React.lazy(() =>
-  //? webpackChunkName
-  import(/* webpackChunkName: "...?" */ '../pages/SelectGroupPage'),
-);
-
 // declare global {
 //   interface Window {
 //     Stripe: any;
@@ -590,12 +585,6 @@ const App = () => {
                 exact
                 path={prefixPath('/model-portfolio/:modelId/group/:groupId')}
                 component={ModelPortfolioPage}
-              />
-            )}
-            {showSecureApp && (
-              <Route
-                path={prefixPath('/model-portfolio/:modelId/select-group')}
-                component={SelectGroupPage}
               />
             )}
             // insecure app

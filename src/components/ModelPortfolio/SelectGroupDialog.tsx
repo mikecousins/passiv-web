@@ -2,13 +2,14 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { selectGroupInfo, selectGroups } from '../selectors/groups';
-import { H1, H2, H3 } from '../styled/GlobalElements';
-import Grid from '../styled/Grid';
-import { postData } from '../api';
-import { selectGroupsUsingAModel } from '../selectors/modelPortfolios';
-import { loadGroups, loadModelPortfolios } from '../actions';
+import { selectGroupInfo, selectGroups } from '../../selectors/groups';
+import { H1, H2, H3 } from '../../styled/GlobalElements';
+import Grid from '../../styled/Grid';
+import { postData } from '../../api';
+import { selectGroupsUsingAModel } from '../../selectors/modelPortfolios';
+import { loadGroups, loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
+import { ModelPortfolio } from '../../types/modelPortfolio';
 
 const GreyBox = styled.div`
   background: #f1f1f1;
@@ -31,15 +32,19 @@ const GroupsUsingModel = styled.div`
 `;
 
 type Props = {
-  modelId: string;
+  model: ModelPortfolio;
 };
 
-const SelectGroupPage = ({ modelId }: Props) => {
+const SelectGroupDialog = ({ model }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+
   let groups = useSelector(selectGroups);
   const groupInfo = useSelector(selectGroupInfo);
   const groupsUsingByModel = useSelector(selectGroupsUsingAModel);
+
+  const modelId = model.id;
+  const modelName = model.name;
 
   const applyModel = (groupId: string, groupName: string) => {
     postData(`api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`, {})
@@ -73,8 +78,10 @@ const SelectGroupPage = ({ modelId }: Props) => {
   }
 
   return (
-    <>
-      <H1 style={{ marginBottom: '20px' }}>Select Portfolio Group</H1>
+    <div>
+      <H1 style={{ marginBottom: '20px' }}>
+        Apply <span style={{ fontWeight: 600 }}>"{modelName}"</span> to:
+      </H1>
       {filteredGroups &&
         filteredGroups.map((group: any) => {
           const targetByAssetClass =
@@ -105,10 +112,7 @@ const SelectGroupPage = ({ modelId }: Props) => {
         })}
       {usingModel && usingModel.length > 0 && (
         <GroupsUsingModel>
-          <H3>
-            "{groupsUsingByModel?.[modelId]?.model?.name}" is already being used
-            by:
-          </H3>
+          <H3>"{modelName}" is already being used by:</H3>
           <br />
           <ul style={{ padding: '0px 10px' }}>
             {usingModel &&
@@ -118,8 +122,8 @@ const SelectGroupPage = ({ modelId }: Props) => {
           </ul>
         </GroupsUsingModel>
       )}
-    </>
+    </div>
   );
 };
 
-export default SelectGroupPage;
+export default SelectGroupDialog;
