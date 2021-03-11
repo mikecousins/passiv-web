@@ -478,7 +478,7 @@ const App = () => {
             )}
             // onboarding app
             {showOnboardingApp && (
-              <Route path={prefixPath('/connect/:brokerage?')}>
+              <Route path={prefixPath('/connect/:openBrokerage?')}>
                 <AuthorizationPage onboarding={true} />
               </Route>
             )}
@@ -488,7 +488,7 @@ const App = () => {
               </Route>
             )}
             {(showSecureApp || showOnboardingApp) && (
-              <Route path={prefixPath('/settings/connect/:brokerage?')}>
+              <Route path={prefixPath('/settings/connect/:openBrokerage?')}>
                 <AuthorizationPage onboarding={false} />
               </Route>
             )}
