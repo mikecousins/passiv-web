@@ -183,19 +183,19 @@ export const StyledName = styled.span`
   font-size: 30px;
 `;
 
-const Enter = styled.span`
-  font-weight: 600;
-  font-size: 16px;
-  position: absolute;
-  top: 0px;
-  border: 1px solid #666b71;
-  border-radius: 25px;
-  padding: 3px 5px;
-  color: #666b71;
-  width: 96px;
-  right: 0;
-  text-align: center;
-`;
+// const Enter = styled.span`
+//   font-weight: 600;
+//   font-size: 16px;
+//   position: absolute;
+//   top: 0px;
+//   border: 1px solid #666b71;
+//   border-radius: 25px;
+//   padding: 3px 5px;
+//   color: #666b71;
+//   width: 96px;
+//   right: 0;
+//   text-align: center;
+// `;
 
 type Props = {
   modelPortfolio: any;

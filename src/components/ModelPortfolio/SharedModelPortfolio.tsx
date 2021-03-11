@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
+import { selectRouter } from '../../selectors/router';
 import ShadowBox from '../../styled/ShadowBox';
 import { ResponsiveGrid } from './ModelPortfolio';
 import { Box, StyledContainer, StyledName } from './ModelPortfolioBox';
@@ -8,7 +10,6 @@ import Grid from '../../styled/Grid';
 import { PieChart } from 'react-minimal-pie-chart';
 import { H1, H3 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
-import { Link, useHistory } from 'react-router-dom';
 import Tooltip from '../Tooltip';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,7 +21,6 @@ import { toast } from 'react-toastify';
 import { StyledP } from '../../pages/ModelAssetClassPage';
 
 import shareModelImage from '../../assets/images/shareModelImage.png';
-import { selectRouter } from '../../selectors/router';
 
 const ImageContainer = styled.div`
   background: url(${shareModelImage}) no-repeat;
@@ -80,15 +80,13 @@ const Clone = styled.div`
   }
 `;
 
-type Props = {
-  model: ModelPortfolioDetailsType;
-  shareId: string;
-};
 const SharedModelPortfolio = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const router = useSelector(selectRouter);
+
+  const showSecureApp = useSelector(selectShowSecureApp);
 
   const [isSharedModel, setIsSharedModel] = useState(false);
   const [sharedModel, setSharedModel] = useState<ModelPortfolioDetailsType>();
@@ -114,8 +112,6 @@ const SharedModelPortfolio = () => {
       history.replace('/app/login');
     }
   }, []);
-
-  const showSecureApp = useSelector(selectShowSecureApp);
 
   if (!sharedModel || !isSharedModel) {
     return <div></div>;
