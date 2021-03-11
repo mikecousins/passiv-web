@@ -63,8 +63,11 @@ const LoginPage = () => {
         postData('/api/v1/auth/login/', body)
           .then((response) => {
             actions.setSubmitting(false);
-            if (response.data.token === null && response.data.mfa_required) {
-              setStateMFA(response.data.mfa_required);
+            if (
+              response.data.token === null &&
+              response.data.mfa_required_multi
+            ) {
+              setStateMFA(response.data.mfa_required_multi);
             } else {
               dispatch(loginSucceeded(response));
             }
