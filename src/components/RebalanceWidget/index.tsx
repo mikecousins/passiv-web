@@ -155,7 +155,9 @@ const RebalanceWidget = ({
   }, [onClose, tradesUntrigger]);
 
   useEffect(() => {
-    closeWidget();
+    if (currentGroupId !== null) {
+      closeWidget();
+    }
   }, [currentGroupId, closeWidget]);
 
   const handleHideTrades = () => {
