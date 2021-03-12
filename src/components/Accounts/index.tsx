@@ -21,6 +21,8 @@ import {
   loadGroupsList,
   loadSettings,
 } from '../../actions';
+import { loadPerformanceAll } from '../../actions/performance';
+import { selectSelectedAccounts } from '../../selectors/performance';
 
 export const Header = styled.form`
   h2 {
@@ -49,6 +51,9 @@ const Accounts = () => {
   const [localAccounts, setLocalAccounts] = useState(accounts);
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
+  const [numHidden, setNumHidden] = useState(
+    accounts?.find((a) => a.groupId === 'hidden')?.accounts.length,
+  );
 
   // when we get new accounts back from the server, reset our accounts
   useEffect(() => setLocalAccounts(accounts), [accounts]);
@@ -161,12 +166,23 @@ const Accounts = () => {
     return null;
   }
 
+  const finishEditing = () => {
+    setIsEditing(false);
+    const newNumHidden = accounts?.find((a) => a.groupId === 'hidden')?.accounts
+      .length;
+    if (newNumHidden !== numHidden) {
+      const selectedAccounts = dispatch(selectSelectedAccounts);
+      setNumHidden(newNumHidden);
+      dispatch(loadPerformanceAll(selectedAccounts));
+    }
+  };
+
   return (
     <React.Fragment>
       <Header>
         <H2>Accounts</H2>
         {isEditing ? (
-          <A onClick={() => setIsEditing(false)}>
+          <A onClick={() => finishEditing()}>
             <FontAwesomeIcon icon={faCheck} />
             Done
           </A>
