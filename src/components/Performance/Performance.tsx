@@ -100,7 +100,7 @@ export const Performance = () => {
 
   return (
     <React.Fragment>
-      {true && (
+      {false && (
         <div style={{ margin: '5px' }}>
           <FontAwesomeIcon icon={faExclamationTriangle} />
           &nbsp;Reporting data may be temporarily inaccurate due to issues with
