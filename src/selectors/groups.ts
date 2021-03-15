@@ -422,7 +422,11 @@ export const selectCurrentGroupBalancedEquity = createSelector(
         preferredCurrency &&
         position.symbol.currency.id === preferredCurrency.id
       ) {
-        total += position.units * position.price;
+        if (position.units === null) {
+          total += position.fractional_units * position.price;
+        } else {
+          total += position.units * position.price;
+        }
       } else {
         const conversionRate = rates.find(
           (rate) =>
@@ -433,7 +437,15 @@ export const selectCurrentGroupBalancedEquity = createSelector(
         if (!conversionRate) {
           return;
         }
-        total += position.units * position.price * conversionRate.exchange_rate;
+        if (position.units === null) {
+          total +=
+            position.fractional_units *
+            position.price *
+            conversionRate.exchange_rate;
+        } else {
+          total +=
+            position.units * position.price * conversionRate.exchange_rate;
+        }
       }
     });
     return total;
