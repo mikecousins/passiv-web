@@ -1236,9 +1236,16 @@ export const selectCurrentGroupPositionsWithActualPercentage = createSelector(
         preferredCurrency &&
         position.symbol.currency.id === preferredCurrency.id
       ) {
-        position.actualPercentage =
-          ((position.price * position.units) / totalHoldingsExcludedRemoved) *
-          100;
+        if (position.units === null) {
+          position.actualPercentage =
+            ((position.price * position.fractional_units) /
+              totalHoldingsExcludedRemoved) *
+            100;
+        } else {
+          position.actualPercentage =
+            ((position.price * position.units) / totalHoldingsExcludedRemoved) *
+            100;
+        }
       } else {
         const conversionRate = rates?.find(
           (rate: any) =>
@@ -1247,10 +1254,19 @@ export const selectCurrentGroupPositionsWithActualPercentage = createSelector(
             rate.dst.id === preferredCurrency.id,
         );
         if (conversionRate) {
-          position.actualPercentage =
-            ((position.price * position.units) / totalHoldingsExcludedRemoved) *
-            100 *
-            conversionRate.exchange_rate;
+          if (position.units === null) {
+            position.actualPercentage =
+              ((position.price * position.fractional_units) /
+                totalHoldingsExcludedRemoved) *
+              100 *
+              conversionRate.exchange_rate;
+          } else {
+            position.actualPercentage =
+              ((position.price * position.units) /
+                totalHoldingsExcludedRemoved) *
+              100 *
+              conversionRate.exchange_rate;
+          }
         }
       }
     });
