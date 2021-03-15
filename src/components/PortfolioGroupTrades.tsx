@@ -163,7 +163,11 @@ export const PortfolioGroupTrades = ({
           </ColumnPrice>
           <ColumnUnits>
             <Title>Units</Title>
-            <div>{trade.units}</div>
+            {trade.fractional_units ? (
+              <div>{trade.fractional_units}</div>
+            ) : (
+              <div>{trade.units}</div>
+            )}
           </ColumnUnits>
           {trade.symbol_in_target && allowsTrading ? (
             <ColumnSymbol>
