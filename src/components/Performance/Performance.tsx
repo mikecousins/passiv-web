@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectSelectedTimeframe } from '../../selectors/performance';
 import PerformanceChange from './PerformanceChange';
@@ -18,7 +18,16 @@ import ShadowBox from '../../styled/ShadowBox';
 import TimeframePicker from './TimeframePicker';
 import { P, A } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCogs,
+  faExclamationTriangle,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+  CustomizeDashBtn,
+  CustomizeDashContainer,
+} from './Dashboard/DashboardReporting';
+import PerformanceSettings from './PerformanceSettings';
+import { selectSettings } from '../../selectors';
 
 const Grid = styled.div`
   @media (min-width: 900px) {
@@ -79,18 +88,32 @@ const BetaBanner = styled(P)`
   color: #555555;
 `;
 
+const Settings = styled(CustomizeDashContainer)`
+  margin: 20px 0;
+`;
+
 export const Performance = () => {
   let currentTimeframe = useSelector(selectSelectedTimeframe);
+  const settings = useSelector(selectSettings);
+
+  const [showSettings, setShowSettings] = useState(false);
 
   return (
     <React.Fragment>
-      {false && (
+      {true && (
         <div style={{ margin: '5px' }}>
           <FontAwesomeIcon icon={faExclamationTriangle} />
           &nbsp;Reporting data may be temporarily inaccurate due to issues with
           our data provider
         </div>
       )}
+
+      <Settings>
+        <CustomizeDashBtn onClick={() => setShowSettings(!showSettings)}>
+          <FontAwesomeIcon icon={faCogs} /> Settings
+        </CustomizeDashBtn>
+      </Settings>
+      {showSettings && <PerformanceSettings />}
 
       <TimeframePicker />
       <Grid>
@@ -119,32 +142,37 @@ export const Performance = () => {
           </ShadowBox>
         </Tiles>
       </Grid>
-      <Grid>
-        <ShadowBox>
-          <PerformanceDividendTimelineChart />
-        </ShadowBox>
-        <Tiles>
-          <ShadowBox>
-            <PerformanceMonthlyDividends />
-          </ShadowBox>
-          <ShadowBox>
-            <PerformanceFees />
-          </ShadowBox>
-        </Tiles>
-      </Grid>
-      <Grid>
-        <ShadowBox>
-          <PerformanceDividendChart />
-        </ShadowBox>
-        <Tiles>
-          <ShadowBox>
-            <PerformanceFeeSavings />
-          </ShadowBox>
-          <ShadowBox>
-            <PerformanceDividendIncome />
-          </ShadowBox>
-        </Tiles>
-      </Grid>
+      {settings?.show_dividends && (
+        <>
+          {' '}
+          <Grid>
+            <ShadowBox>
+              <PerformanceDividendTimelineChart />
+            </ShadowBox>
+            <Tiles>
+              <ShadowBox>
+                <PerformanceMonthlyDividends />
+              </ShadowBox>
+              <ShadowBox>
+                <PerformanceFees />
+              </ShadowBox>
+            </Tiles>
+          </Grid>
+          <Grid>
+            <ShadowBox>
+              <PerformanceDividendChart />
+            </ShadowBox>
+            <Tiles>
+              <ShadowBox>
+                <PerformanceFeeSavings />
+              </ShadowBox>
+              <ShadowBox>
+                <PerformanceDividendIncome />
+              </ShadowBox>
+            </Tiles>
+          </Grid>
+        </>
+      )}
       <BetaBanner>
         Open Beta: Help us improve our tools by{' '}
         <A href="mailto:reporting@passiv.com">sharing feedback</A>

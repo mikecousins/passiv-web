@@ -40,4 +40,6 @@ export type Settings = {
     charity_name: string;
   } | null;
   login_emails_enabled: boolean;
+  show_dividends: boolean;
+  roi_net_in_percentage: boolean;
 };

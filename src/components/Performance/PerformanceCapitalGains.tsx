@@ -16,6 +16,7 @@ import {
 } from '../../selectors/performance';
 import { PastValue } from '../../types/performance';
 import Tooltip from '../Tooltip';
+import { selectSettings } from '../../selectors';
 
 const MarginBottom = styled.div`
   margin-bottom: 25px;
@@ -25,6 +26,10 @@ export const PerformanceCapitalGain = () => {
   const equityData: PastValue[] | undefined = useSelector(
     selectTotalEquityTimeframe,
   );
+
+  const settings = useSelector(selectSettings);
+  const showInPercentage = settings?.roi_net_in_percentage;
+
   equityData?.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
   const contributionData: PastValue[] | undefined = useSelector(
     selectContributionTimeframeCumulative,
@@ -47,7 +52,21 @@ export const PerformanceCapitalGain = () => {
       contributionData[contributionData.length - 1].value -
       contributionData[0].value;
     capitalGains = changeInEquity - changeInContributions;
-    capitalGainsString = toDollarString(capitalGains);
+    if (showInPercentage) {
+      const firstNonZeroContribution = contributionData.find(
+        (data) => data.value > 0,
+      );
+      if (firstNonZeroContribution) {
+        capitalGainsString = (
+          (capitalGains / firstNonZeroContribution.value) *
+          100
+        ).toFixed(1);
+      } else {
+        capitalGainsString = '';
+      }
+    } else {
+      capitalGainsString = toDollarString(capitalGains);
+    }
   }
 
   let positive = !(capitalGainsString[0] === '-');
@@ -71,12 +90,15 @@ export const PerformanceCapitalGain = () => {
           <CashReturn className={positive ? 'positive' : 'negative'}>
             {positive ? (
               <span>
-                {'$'}
-                {capitalGainsString} <FontAwesomeIcon icon={faCaretUp} />
+                {!showInPercentage && '$'}
+                {capitalGainsString}
+                {showInPercentage && '%'} <FontAwesomeIcon icon={faCaretUp} />
               </span>
             ) : (
               <span>
-                {'-'}${capitalGainsString.substr(1)}{' '}
+                {'-'}
+                {!showInPercentage && '$'}
+                {capitalGainsString.substr(1)} {showInPercentage && '%'}{' '}
                 <FontAwesomeIcon icon={faCaretDown} />
               </span>
             )}

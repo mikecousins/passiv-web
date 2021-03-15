@@ -11,6 +11,7 @@ import { CashReturn, SubHeader, toDollarString } from './Performance';
 import { useSelector } from 'react-redux';
 import { selectTotalEquityTimeframe } from '../../selectors/performance';
 import Tooltip from '../Tooltip';
+import { selectSettings } from '../../selectors';
 
 const MarginBottom = styled.div`
   margin-bottom: 25px;
@@ -18,6 +19,9 @@ const MarginBottom = styled.div`
 
 export const PerformanceChange = () => {
   const equityData = useSelector(selectTotalEquityTimeframe);
+  const settings = useSelector(selectSettings);
+  const showInPercentage = settings?.roi_net_in_percentage;
+
   equityData?.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
 
   if (!equityData) {
@@ -28,9 +32,21 @@ export const PerformanceChange = () => {
     );
   }
 
-  const change = toDollarString(
-    equityData[equityData.length - 1].value - equityData[0].value,
-  );
+  const equityChange =
+    equityData[equityData.length - 1].value - equityData[0].value;
+
+  let change = 'loading';
+
+  if (showInPercentage) {
+    const firstNonZeroEquity = equityData.find((data) => data.value > 0);
+    if (firstNonZeroEquity) {
+      change = ((equityChange / firstNonZeroEquity.value) * 100).toFixed(1);
+    } else {
+      change = '';
+    }
+  } else {
+    change = toDollarString(equityChange);
+  }
 
   const positive = !(change[0] === '-');
 
@@ -43,7 +59,9 @@ export const PerformanceChange = () => {
             <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 12 }} />
           </SubHeader>
           <CashReturn className={positive ? 'positive' : 'negative'}>
-            ${change}{' '}
+            {!showInPercentage && '$'}
+            {change}
+            {showInPercentage && '%'}{' '}
             {positive ? (
               <FontAwesomeIcon icon={faCaretUp} />
             ) : (
