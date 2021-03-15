@@ -718,7 +718,11 @@ export const selectCurrentGroupExcludedEquity = createSelector(
           preferredCurrency &&
           position.symbol.currency.id === preferredCurrency.id
         ) {
-          excludedEquity += position.units * position.price;
+          if (position.fractional_units === null) {
+            excludedEquity += position.fractional_units * position.price;
+          } else {
+            excludedEquity += position.units * position.price;
+          }
         } else {
           const conversionRate = rates.find(
             (rate) =>
@@ -729,8 +733,15 @@ export const selectCurrentGroupExcludedEquity = createSelector(
           if (!conversionRate) {
             return;
           }
-          excludedEquity +=
-            position.units * position.price * conversionRate.exchange_rate;
+          if (position.fractional_units === null) {
+            excludedEquity +=
+              position.fractional_units *
+              position.price *
+              conversionRate.exchange_rate;
+          } else {
+            excludedEquity +=
+              position.units * position.price * conversionRate.exchange_rate;
+          }
         }
       }
     });
