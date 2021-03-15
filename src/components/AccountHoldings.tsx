@@ -275,7 +275,11 @@ export const AccountHoldings = ({ holdings }: Props) => {
           <td>
             <SymbolDetail symbol={position.symbol.symbol} />
           </td>
-          <td data-label="Units">{position.units}</td>
+          <td data-label="Units">
+            {position.fractional_units
+              ? position.fractional_units
+              : position.units}
+          </td>
           <td data-label="Price">
             <Number
               value={position.price}
