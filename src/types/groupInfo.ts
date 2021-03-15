@@ -19,6 +19,7 @@ export type Position = {
   symbol: Symbol;
   price: number;
   units: number;
+  fractional_units: number;
   excluded: boolean;
   quotable: boolean;
   uniformEquity: number;
