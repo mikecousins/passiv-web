@@ -501,7 +501,7 @@ const ReferralManager = () => {
                     : '',
                 }}
                 onSubmit={(values, actions) => {
-                  if (values.payment !== selectedPayment && settings) {
+                  if (settings) {
                     let newSettings = { ...settings };
                     let charity;
                     if (values.payment === 'eTransfer') {
@@ -515,7 +515,7 @@ const ReferralManager = () => {
                         charity_name: values.selectedCharity,
                       };
                       newSettings.e_transfer_email = null;
-                      postData('/api/v1/charities/', charity);
+                      newSettings.affiliate_charity = charity;
                     }
 
                     putData('/api/v1/settings/', newSettings)
@@ -523,9 +523,10 @@ const ReferralManager = () => {
                         dispatch(reloadEverything());
                         dispatch(loadSettings());
                         actions.resetForm();
-                        // setEditingEmail(false);
                       })
-                      .catch((error) => {});
+                      .catch((error) => {
+                        console.log(error);
+                      });
                   }
                 }}
               >
