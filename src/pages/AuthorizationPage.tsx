@@ -10,7 +10,7 @@ import {
 
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { P, BulletUL, Li } from '../styled/GlobalElements';
+import { A, P, BulletUL, Li } from '../styled/GlobalElements';
 import { postData } from '../api';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
@@ -53,7 +53,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const brokerages = useSelector(selectBrokerages);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const showProgressFeature = useSelector(selectShowProgressFeature);
-  const { brokerage } = useParams();
+  const { openBrokerage } = useParams();
   const [confirmConnection, setConfirmConnection] = useState('');
 
   const checkBrokerageMaintenance = (brokerage: BrokerageType) => {
@@ -75,8 +75,14 @@ const AuthorizationPage = ({ onboarding }: Props) => {
 
   const startConfirmConnection = (brokerageName: string) => {
     const options = getBrokerageOptions(brokerageName);
+    const brokerage =
+      brokerages &&
+      brokerages.find((brokerage) => brokerage.name === brokerageName);
     if (options) {
-      if (checkBrokerageMaintenance(brokerage) === true) {
+      if (
+        brokerage !== undefined &&
+        checkBrokerageMaintenance(brokerage) === true
+      ) {
         toast.error(
           `${brokerage.name} is currently undergoing maintenance and cannot establish new connections at this time. Please try again later.`,
         );
@@ -102,9 +108,15 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: connectionType,
-        }).then((response) => {
-          window.location = response.data.url;
-        });
+        })
+          .then((response) => {
+            window.location = response.data.url;
+          })
+          .catch((error) => {
+            toast.error(
+              `${brokerage.name} is currently experiencing connection issues and cannot establish new connections at this time. Please try again later.`,
+            );
+          });
       }
     }
   };
@@ -113,6 +125,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'questrade',
       name: 'Questrade',
+      displayName: 'Questrade',
       connect: () => {
         startConnection('Questrade', 'read');
       },
@@ -133,6 +146,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'alpaca',
       name: 'Alpaca',
+      displayName: 'Alpaca',
       connect: () => {
         startConnection('Alpaca', 'trade');
       },
@@ -150,7 +164,8 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     },
     {
       id: 'interactivebrokers',
-      name: 'IBKR',
+      name: 'Interactive Brokers',
+      displayName: 'IBKR',
       connect: () => {
         startConnection('Interactive Brokers', 'trade');
       },
@@ -170,6 +185,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'tdameritrade',
       name: 'TD Ameritrade',
+      displayName: 'TD Ameritrade',
       connect: () => {
         startConnection('TD Ameritrade', 'trade');
       },
@@ -188,6 +204,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'tradier',
       name: 'Tradier',
+      displayName: 'Tradier',
       connect: () => {
         startConnection('Tradier', 'trade');
       },
@@ -206,6 +223,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'wealthica',
       name: 'Wealthica',
+      displayName: 'Wealthica',
       connect: () => {
         startConnection('Wealthica', 'read');
       },
@@ -240,6 +258,17 @@ const AuthorizationPage = ({ onboarding }: Props) => {
               </Li>
             </BulletUL>
           </VerticalPadding>
+          <P>
+            Read more about these limitations in our{' '}
+            <A
+              href="https://passiv.com/help/tutorials/how-to-view-holdings-outside-passiv-brokerage-partners/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Wealthica Guide
+            </A>
+            .
+          </P>
           <P>By connecting, I understand and agree to these limitations.</P>
         </ShadowBox>
       ),
@@ -268,17 +297,20 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       <React.Fragment>
         <Container2Column>
           {brokerageOptions.map((brokerage: any) => {
-            let contents = (
-              <AuthBox
-                key={brokerage.id}
-                onClick={() => startConfirmConnection(brokerage.name)}
-              >
-                <LogoContainer>
-                  <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
-                </LogoContainer>
-                <AuthLink>Connect {brokerage.name}</AuthLink>
-              </AuthBox>
-            );
+            let contents = null;
+            if (brokerages.some((b) => b.name === brokerage.name)) {
+              contents = (
+                <AuthBox
+                  key={brokerage.id}
+                  onClick={() => startConfirmConnection(brokerage.name)}
+                >
+                  <LogoContainer>
+                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                  </LogoContainer>
+                  <AuthLink>Connect {brokerage.displayName}</AuthLink>
+                </AuthBox>
+              );
+            }
             return contents;
           })}
         </Container2Column>
@@ -311,7 +343,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       </React.Fragment>
     );
   } else {
-    if (brokerage === 'open') {
+    if (openBrokerage === 'open') {
       output = (
         <React.Fragment>
           <H1DarkStyle>Setup</H1DarkStyle>

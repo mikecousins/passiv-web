@@ -36,7 +36,9 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
     if (!group || !group.brokerage_authorizations) {
       return;
     }
-    return group.brokerage_authorizations.find((a) => a.type === 'read');
+    return group.brokerage_authorizations.find(
+      (a) => a.type === 'read' && a.brokerage.allows_trading === true,
+    );
   };
   switch (error.code) {
     case '1014':

@@ -1,6 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectAccountBalances } from '../../selectors/accounts';
+import {
+  selectAccounts,
+  selectAccountBalances,
+} from '../../selectors/accounts';
+import { selectAuthorizations } from '../../selectors';
 import OrderImpact from './OrderImpact';
 import { Title } from '../../styled/GlobalElements';
 
@@ -11,21 +15,30 @@ type Props = {
 const OrderImpacts = ({ impacts }: Props) => {
   const accountBalances = useSelector(selectAccountBalances);
   let filteredAccountIds: string[] = [];
+  const accounts = useSelector(selectAccounts);
+  const authorizations = useSelector(selectAuthorizations);
 
   impacts.forEach((impact) => {
-    let accountBalanceData = accountBalances[impact.account]['data'];
-    let filteredAccountBalance = accountBalanceData!.filter(
-      (data) => data.currency.id === impact.currency,
+    const account = accounts.find((account) => account.id === impact.account);
+    const authorization = authorizations!.find(
+      (authorization) => authorization.id === account!.brokerage_authorization,
     );
 
-    if (
-      filteredAccountBalance.length > 0 &&
-      (filteredAccountBalance[0].cash !== impact.remaining_cash ||
-        impact.estimated_commissions > 0 ||
-        impact.forex_fees > 0)
-    ) {
-      if (!filteredAccountIds.includes(impact.account)) {
-        filteredAccountIds.push(impact.account);
+    if (authorization && authorization.brokerage.allows_trading) {
+      let accountBalanceData = accountBalances[impact.account]['data'];
+      let filteredAccountBalance = accountBalanceData!.filter(
+        (data) => data.currency.id === impact.currency,
+      );
+
+      if (
+        filteredAccountBalance.length > 0 &&
+        (filteredAccountBalance[0].cash !== impact.remaining_cash ||
+          impact.estimated_commissions > 0 ||
+          impact.forex_fees > 0)
+      ) {
+        if (!filteredAccountIds.includes(impact.account)) {
+          filteredAccountIds.push(impact.account);
+        }
       }
     }
   });
@@ -38,8 +51,6 @@ const OrderImpacts = ({ impacts }: Props) => {
     );
     impactsByAccount.push(filteredImpact);
   });
-
-  console.log(impactsByAccount);
 
   return (
     <React.Fragment>

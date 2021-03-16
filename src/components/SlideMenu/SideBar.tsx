@@ -135,7 +135,11 @@ const SideBar = () => {
         <StyledAside>
           <SideBarLink name="Dashboard" linkPath={DASHBOARD_PATH} />
           {groups && groups.length > 0 && (
-            <GroupContainer>{groupList}</GroupContainer>
+            <GroupContainer
+              className={groups.length > 2 ? 'tour-hide_accounts' : ''}
+            >
+              {groupList}
+            </GroupContainer>
           )}
           {modelPortfolioFeature && (
             <SideBarLink
@@ -148,7 +152,7 @@ const SideBar = () => {
             <SideBarLink name="Reporting" linkPath={REPORTING_PATH} />
           )}
           {goalsPageFeatureActive && (
-            <SideBarLink name="Goals" linkPath={GOALS_PATH} beta={true} />
+            <SideBarLink name="Goals" linkPath={GOALS_PATH} />
           )}
           <SideBarLink name="Refer a Friend" linkPath={REFERRALS_PATH} />
           <SideBarLink name="Settings" linkPath={SETTINGS_PATH} />

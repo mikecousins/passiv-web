@@ -110,7 +110,7 @@ export const AccountRow = ({ account }: Props) => {
         </Name>
         <Number>
           <H3>Number</H3>
-          <P> {account.number} </P>
+          <P> {account.number.slice(0).replace(/.(?=..)/g, 'x')} </P>
         </Number>
         <Type>
           <H3>Type</H3>

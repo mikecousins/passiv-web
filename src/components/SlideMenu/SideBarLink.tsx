@@ -54,7 +54,16 @@ const SideBarLink = ({
   indent,
   beta = false,
 }: Props) => {
-  const pathname = useSelector(selectPathname);
+  const pathnameFull = useSelector(selectPathname);
+
+  const fixPathname = (pathname: string): string => {
+    if (pathname[pathname.length - 1] === '/') {
+      return pathname.slice(0, pathname.length - 1);
+    }
+    return pathname;
+  };
+
+  const pathname: string = fixPathname(pathnameFull);
 
   if (spinnerLoading === undefined) {
     spinnerLoading = false;
@@ -62,7 +71,6 @@ const SideBarLink = ({
   if (hideArrow === undefined) {
     hideArrow = false;
   }
-  // let selected = pathname.startsWith(linkPath);
   let selected = pathname === linkPath;
   if (
     pathname.startsWith(linkPath) &&
@@ -118,10 +126,7 @@ const SideBarLink = ({
 
   const link = (
     <>
-      <PreLoadLink
-        path={linkPath}
-        className={name === 'Goals' ? 'tour-goals-feature' : ''}
-      >
+      <PreLoadLink path={linkPath}>
         {indicator}
         {indent ? name : <strong>{name}</strong>}
         {beta && <BetaTag>BETA</BetaTag>}
