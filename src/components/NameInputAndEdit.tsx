@@ -33,7 +33,7 @@ const Name = styled.span`
 type Props = {
   value: string;
   edit: boolean;
-  cancelButton: boolean;
+  cancelButton?: boolean;
   allowEdit: boolean;
   doneBtnTxt?: string;
   editBtnTxt?: string;
@@ -41,7 +41,7 @@ type Props = {
   onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onClickDone: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onClickEdit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  onClickCancel: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClickCancel?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 
   //TODO: replace Style components' types with correct types
   StyledContainer?: any;
