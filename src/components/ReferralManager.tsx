@@ -9,7 +9,7 @@ import {
   selectReferralCurrency,
 } from '../selectors/referrals';
 import { selectReferralCharity } from '../selectors/features';
-import { getData, postData, putData } from '../api';
+import { getData, putData } from '../api';
 import { Chart } from 'react-charts';
 import {
   faSpinner,
@@ -488,7 +488,7 @@ const ReferralManager = () => {
         </div>
       )}
 
-      {referralCharity ? (
+      {!referralCharity ? (
         <InvoiceCharityBox columns="1fr 1fr">
           <div>
             <SubHeading>Payment Options</SubHeading>
@@ -497,22 +497,23 @@ const ReferralManager = () => {
                 initialValues={{
                   payment: selectedPayment,
                   selectedCharity: settings?.affiliate_charity
-                    ? settings?.affiliate_charity.charity_name
-                    : '',
+                    ? settings?.affiliate_charity.id
+                    : null,
                 }}
                 onSubmit={(values, actions) => {
                   if (settings) {
                     let newSettings = { ...settings };
-                    let charity;
+
                     if (values.payment === 'eTransfer') {
                       newSettings.affiliate_charity = null;
+                      newSettings.e_transfer_email = settings.email;
                     }
                     if (
                       values.payment === 'charity' &&
-                      values.selectedCharity !== ''
+                      values.selectedCharity !== null
                     ) {
-                      charity = {
-                        charity_name: values.selectedCharity,
+                      const charity = {
+                        id: values.selectedCharity,
                       };
                       newSettings.e_transfer_email = null;
                       newSettings.affiliate_charity = charity;
@@ -570,19 +571,16 @@ const ReferralManager = () => {
                       </>
                     ) : (
                       <>
-                        {values.selectedCharity !== '' && (
+                        {values.selectedCharity && (
                           <SelectedCharity>
                             <OptionsTitle>Selected Charity:</OptionsTitle>
-                            {values.selectedCharity}
+                            {settings?.affiliate_charity?.charity_name}
                           </SelectedCharity>
                         )}
                         <StyledSelect as="select" name="selectedCharity">
                           {<option value="" label="Select a charity" />}
                           {charities.map((charity: any) => (
-                            <option
-                              value={charity.charity_name}
-                              key={charity.charity_name}
-                            >
+                            <option value={charity.id} key={charity.id}>
                               {charity.charity_name}
                             </option>
                           ))}
