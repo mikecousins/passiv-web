@@ -29,7 +29,7 @@ import { ViewBtn } from '../styled/Group';
 import ShadowBox from '../styled/ShadowBox';
 import { StyledP } from './ModelAssetClassPage';
 import Tooltip from '../components/Tooltip';
-import { selectGroups } from '../selectors/groups';
+import { selectGroupInfo, selectGroups } from '../selectors/groups';
 import Dialog from '@reach/dialog';
 import SelectGroupDialog from '../components/ModelPortfolio/SelectGroupDialog';
 import { BackButton } from '../components/ModelPortfolio/ModelPortfolio';
@@ -103,16 +103,21 @@ const MyModelPortfoliosPage = () => {
   const group = useSelector(selectGroupInfoForModelPortfolio);
   const groupsUsingModel = useSelector(selectGroupsUsingAModel);
 
-  const groupInfo = group.groupInfo;
-  const groupId = groupInfo?.groupId;
-  const groupName = groupInfo?.name;
+  const groupInfo = useSelector(selectGroupInfo);
 
-  // const modelUseByCurrentGroup =
+  const groupData = group.groupInfo;
+  const groupId = groupData?.groupId;
+  const groupName = groupData?.name;
 
   const [selectGroupDialog, setSelectGroupDialog] = useState(false);
   const [selectedModel, setSelectedModel] = useState<
     ModelPortfolio | undefined
   >();
+
+  let modelIdUseByGroup: string = '';
+  if (groupId && groupInfo[groupId].data?.model_portfolio) {
+    modelIdUseByGroup = groupInfo[groupId].data?.model_portfolio.id;
+  }
 
   const handleNewModelBtn = () => {
     postData('/api/v1/modelPortfolio/', {})
@@ -158,20 +163,24 @@ const MyModelPortfoliosPage = () => {
     }
   };
 
-  let labelList: string[] = [];
-
-  const isModelUseByCurrentGroup = (modelId: any) => {
-    let foundGroup = false;
+  const makeLabel = (modelId: any) => {
+    let labelList: string[] = [];
     if (groupsUsingModel[modelId]) {
-      groupsUsingModel[modelId].groups.map((group: any) => {
-        if (groupId && group.id === groupId) {
-          foundGroup = true;
-        }
-        labelList.push(group.name);
-      });
+      groupsUsingModel[modelId].groups.map((model: any) =>
+        labelList.push(model.name),
+      );
     }
-    return foundGroup;
+    const label = labelList.join(', ');
+    return label;
   };
+
+  const noModelAvailable = (
+    <ShadowBox>
+      <P style={{ textAlign: 'center' }}>
+        There are no model portfolios available.
+      </P>
+    </ShadowBox>
+  );
 
   return (
     <React.Fragment>
@@ -207,75 +216,73 @@ const MyModelPortfoliosPage = () => {
         </div>
       </Table>
       <div style={{ marginTop: '50px' }}>
-        {modelPortfolios.length > 0 ? (
-          modelPortfolios.map((mdl) => {
-            const totalAssignedGroups =
-              mdl.model_portfolio.total_assigned_portfolio_groups;
-            const modelInUse = isModelUseByCurrentGroup(mdl.model_portfolio.id);
-            if (modelInUse) {
-              return;
-            }
-            return (
-              <ShadowBox key={mdl.model_portfolio.id}>
-                <Grid
-                  columns={groupId ? '2fr 1fr 250px' : '2fr 1fr 150px 150px'}
-                >
-                  <ModelName>{mdl.model_portfolio.name}</ModelName>
-                  <InUseDiv>
-                    {totalAssignedGroups > 0 && (
-                      <>
-                        <FontAwesomeIcon
-                          icon={faCheck}
-                          size="lg"
-                          style={{
-                            marginRight: '8px',
-                            color: 'var(--brand-green)',
-                          }}
-                        />
-                        <InUse>In Use</InUse> |{' '}
-                        <span style={{ marginRight: '10px' }}>
-                          {totalAssignedGroups} Group
-                          {totalAssignedGroups > 1 && 's'}
-                        </span>
-                        <Tooltip label={labelList.join(', ')}>
-                          <FontAwesomeIcon icon={faInfoCircle} size="sm" />
-                        </Tooltip>
-                      </>
+        {modelPortfolios.length > 0
+          ? modelPortfolios.map((mdl) => {
+              const totalAssignedGroups =
+                mdl.model_portfolio.total_assigned_portfolio_groups;
+
+              if (modelIdUseByGroup === mdl.model_portfolio.id) {
+                if (modelPortfolios.length === 1) {
+                  return noModelAvailable;
+                }
+                return;
+              }
+              return (
+                <ShadowBox key={mdl.model_portfolio.id}>
+                  <Grid
+                    columns={groupId ? '2fr 1fr 250px' : '2fr 1fr 150px 150px'}
+                  >
+                    <ModelName>{mdl.model_portfolio.name}</ModelName>
+                    <InUseDiv>
+                      {totalAssignedGroups > 0 && (
+                        <>
+                          <FontAwesomeIcon
+                            icon={faCheck}
+                            size="lg"
+                            style={{
+                              marginRight: '8px',
+                              color: 'var(--brand-green)',
+                            }}
+                          />
+                          <InUse>In Use</InUse> |{' '}
+                          <span style={{ marginRight: '10px' }}>
+                            {totalAssignedGroups} Group
+                            {totalAssignedGroups > 1 && 's'}
+                          </span>
+                          <Tooltip label={makeLabel(mdl.model_portfolio.id)}>
+                            <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+                          </Tooltip>
+                        </>
+                      )}
+                    </InUseDiv>
+                    {/* display Apply button only when there is a group id  */}
+                    {!groupId && (
+                      <ApplyTransparentBtn
+                        onClick={() => {
+                          setSelectGroupDialog(true);
+                          setSelectedModel(mdl?.model_portfolio);
+                        }}
+                        disabled={totalAssignedGroups === allGroups?.length}
+                      >
+                        Apply
+                      </ApplyTransparentBtn>
                     )}
-                  </InUseDiv>
-                  {/* display Apply button only when there is a group id  */}
-                  {!groupId && (
-                    <ApplyTransparentBtn
-                      onClick={() => {
-                        setSelectGroupDialog(true);
-                        setSelectedModel(mdl?.model_portfolio);
-                      }}
-                      disabled={totalAssignedGroups === allGroups?.length}
-                    >
-                      Apply
-                    </ApplyTransparentBtn>
-                  )}
-                  <StyledViewBtn>
-                    <button onClick={() => handleApplyOrViewBtn(mdl)}>
-                      {groupId ? 'Apply Model' : 'View'}
-                    </button>
-                    <FontAwesomeIcon
-                      icon={faAngleRight}
-                      size="lg"
-                      color="var(--brand-blue)"
-                    />
-                  </StyledViewBtn>
-                </Grid>
-              </ShadowBox>
-            );
-          })
-        ) : (
-          <ShadowBox>
-            <P style={{ textAlign: 'center' }}>
-              There are no model portfolios available.
-            </P>
-          </ShadowBox>
-        )}
+                    {}
+                    <StyledViewBtn>
+                      <button onClick={() => handleApplyOrViewBtn(mdl)}>
+                        {groupId ? 'Apply Model' : 'View'}
+                      </button>
+                      <FontAwesomeIcon
+                        icon={faAngleRight}
+                        size="lg"
+                        color="var(--brand-blue)"
+                      />
+                    </StyledViewBtn>
+                  </Grid>
+                </ShadowBox>
+              );
+            })
+          : noModelAvailable}
       </div>
       {selectGroupDialog && (
         <Dialog
