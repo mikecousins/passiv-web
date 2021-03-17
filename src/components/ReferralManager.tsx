@@ -326,7 +326,6 @@ const ReferralManager = () => {
               .then(() => {
                 dispatch(loadSettings());
                 setEditingEmail(false);
-                console.log('hekejasdfj');
               })
               .catch((error) => {
                 if (error.response.data.errors.email) {
@@ -519,7 +518,6 @@ const ReferralManager = () => {
                       .then(() => {
                         dispatch(loadSettings());
                         actions.resetForm();
-                        console.log('her');
                       })
                       .catch((error) => {
                         console.log(error);
