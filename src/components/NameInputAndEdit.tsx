@@ -82,7 +82,7 @@ const NameInputAndEdit = ({
             onChange={onChange}
             onKeyPress={onKeyPress}
           />
-          <StyledDoneButton onClick={onClickDone}>
+          <StyledDoneButton onClick={onClickDone} type="button">
             {doneBtnTxt}
           </StyledDoneButton>
           {cancelButton && (
