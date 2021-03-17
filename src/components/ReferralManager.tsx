@@ -34,7 +34,7 @@ import Grid from '../styled/Grid';
 import { Button } from '../styled/Button';
 import { selectSettings } from '../selectors';
 import NameInputAndEdit from './NameInputAndEdit';
-import { loadSettings, reloadEverything } from '../actions';
+import { loadSettings } from '../actions';
 import { Field, Form, Formik } from 'formik';
 import { StyledSelect } from '../components/PortfolioGroupSettings/OrderTargetAllocations';
 
@@ -248,7 +248,9 @@ const ReferralManager = () => {
     if (settings) {
       if (settings.e_transfer_email) {
         setEmail(settings.e_transfer_email);
-      } else {
+        setSelectedPayment('eTransfer');
+      } else if (settings?.affiliate_charity) {
+        setSelectedPayment('charity');
         setEmail(settings.email);
       }
     }
@@ -296,15 +298,6 @@ const ReferralManager = () => {
         }
         console.log(err);
       });
-
-    if (settings?.e_transfer_email) {
-      setSelectedPayment('eTransfer');
-    } else if (settings?.affiliate_charity) {
-      setSelectedPayment('charity');
-    } else {
-      setSelectedPayment('eTransfer');
-    }
-
     getData('/api/v1/charities').then((res) => {
       setCharities(res.data);
       setLoading(false);
@@ -333,6 +326,7 @@ const ReferralManager = () => {
               .then(() => {
                 dispatch(loadSettings());
                 setEditingEmail(false);
+                console.log('hekejasdfj');
               })
               .catch((error) => {
                 if (error.response.data.errors.email) {
@@ -501,6 +495,7 @@ const ReferralManager = () => {
                     ? settings?.affiliate_charity.id
                     : null,
                 }}
+                enableReinitialize
                 onSubmit={(values, actions) => {
                   if (settings) {
                     let newSettings = { ...settings };
@@ -522,9 +517,9 @@ const ReferralManager = () => {
 
                     putData('/api/v1/settings/', newSettings)
                       .then(() => {
-                        dispatch(reloadEverything());
                         dispatch(loadSettings());
                         actions.resetForm();
+                        console.log('her');
                       })
                       .catch((error) => {
                         console.log(error);
