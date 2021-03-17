@@ -38,7 +38,7 @@ type Props = {
   doneBtnTxt?: string;
   editBtnTxt?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onClickDone: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onClickEdit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onClickCancel: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -86,7 +86,7 @@ const NameInputAndEdit = ({
             {doneBtnTxt}
           </StyledDoneButton>
           {cancelButton && (
-            <StyledCancelButton onClick={onClickCancel}>
+            <StyledCancelButton onClick={onClickCancel} type="button">
               Cancel
             </StyledCancelButton>
           )}
@@ -95,7 +95,7 @@ const NameInputAndEdit = ({
         <StyledContainer>
           <StyledName>{value}</StyledName>
           {allowEdit && (
-            <StyledEditButton onClick={onClickEdit}>
+            <StyledEditButton onClick={onClickEdit} type="button">
               <FontAwesomeIcon icon={faPen} />
               {editBtnTxt}
             </StyledEditButton>

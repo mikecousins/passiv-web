@@ -37,6 +37,7 @@ import NameInputAndEdit from './NameInputAndEdit';
 import { loadSettings } from '../actions';
 import { Field, Form, Formik } from 'formik';
 import { StyledSelect } from '../components/PortfolioGroupSettings/OrderTargetAllocations';
+import { toast } from 'react-toastify';
 
 interface Referral {
   created_date: Date;
@@ -252,6 +253,9 @@ const ReferralManager = () => {
       } else if (settings?.affiliate_charity) {
         setSelectedPayment('charity');
         setEmail(settings.email);
+      } else {
+        setEmail(settings.email);
+        setSelectedPayment('eTransfer');
       }
     }
   }, [settings]);
@@ -325,7 +329,6 @@ const ReferralManager = () => {
               .then(() => {
                 dispatch(loadSettings());
                 setEditingEmail(false);
-                console.log('hekejasdfj');
               })
               .catch((error) => {
                 if (error.response.data.errors.email) {
@@ -495,13 +498,23 @@ const ReferralManager = () => {
                     : null,
                 }}
                 enableReinitialize
+                validate={(values) => {
+                  const errors: any = {};
+                  if (
+                    values.payment === 'charity' &&
+                    values.selectedCharity === null
+                  ) {
+                    errors.payment = 'Select a charity from dropdown.';
+                  }
+                  return errors;
+                }}
                 onSubmit={(values, actions) => {
                   if (settings) {
                     let newSettings = { ...settings };
-
                     if (values.payment === 'eTransfer') {
                       newSettings.affiliate_charity = null;
-                      newSettings.e_transfer_email = settings.email;
+
+                      newSettings.e_transfer_email = email;
                     }
                     if (
                       values.payment === 'charity' &&
@@ -513,20 +526,21 @@ const ReferralManager = () => {
                       newSettings.e_transfer_email = null;
                       newSettings.affiliate_charity = charity;
                     }
-
                     putData('/api/v1/settings/', newSettings)
                       .then(() => {
                         dispatch(loadSettings());
+                        setEditingEmail(false);
                         actions.resetForm();
-                        console.log('her');
                       })
                       .catch((error) => {
-                        console.log(error);
+                        toast.error(
+                          'Failed to update the payment method. Please try again!',
+                        );
                       });
                   }
                 }}
               >
-                {({ values, dirty }) => (
+                {({ values, dirty, isValid, handleSubmit }) => (
                   <Form>
                     <P id="my-radio-group">
                       Choose one option. You can change your payment option each
@@ -552,9 +566,6 @@ const ReferralManager = () => {
                             allowEdit={true}
                             editBtnTxt={'Edit'}
                             onChange={(e: any) => setEmail(e.target.value)}
-                            onKeyPress={(e: any) =>
-                              e.key === 'Enter' && finishEditingEmail()
-                            }
                             onClickDone={() => finishEditingEmail()}
                             onClickEdit={() => setEditingEmail(true)}
                             onClickCancel={cancelEditingEmail}
@@ -583,7 +594,11 @@ const ReferralManager = () => {
                       </>
                     )}
                     <div style={{ marginTop: '20px' }}>
-                      {dirty && <Button>Save</Button>}
+                      {dirty && isValid && (
+                        <Button type="button" onClick={() => handleSubmit()}>
+                          Save
+                        </Button>
+                      )}
                     </div>
                   </Form>
                 )}
