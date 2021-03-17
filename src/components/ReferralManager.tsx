@@ -482,7 +482,7 @@ const ReferralManager = () => {
         </div>
       )}
 
-      {!referralCharity ? (
+      {referralCharity ? (
         <InvoiceCharityBox columns="1fr 1fr">
           <div>
             <SubHeading>Payment Options</SubHeading>
