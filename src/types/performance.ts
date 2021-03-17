@@ -55,6 +55,7 @@ export type PerformanceData = {
   feeSavings1Y: number;
   feeSavingsYTD: number;
   feeSavingsALL: number;
+  rateOfReturn: number;
   badTickers: string[];
 };
 
