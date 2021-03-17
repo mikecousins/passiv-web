@@ -30,6 +30,9 @@ const ImageContainer = styled.div`
   position: absolute;
   right: 0;
   bottom: -83px;
+  @media (max-width: 900px) {
+    bottom: -300px;
+  }
 `;
 
 const ListOfSecurities = styled.div`
