@@ -8,7 +8,7 @@ import { ResponsiveGrid } from './ModelPortfolio';
 import { Box, StyledContainer, StyledName } from './ModelPortfolioBox';
 import Grid from '../../styled/Grid';
 import { PieChart } from 'react-minimal-pie-chart';
-import { H1, H3 } from '../../styled/GlobalElements';
+import { H1, H3, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import Tooltip from '../Tooltip';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
@@ -25,6 +25,11 @@ import shareModelImage from '../../assets/images/shareModelImage.png';
 const ImageContainer = styled.div`
   background: url(${shareModelImage}) no-repeat;
   background-size: contain;
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  right: 0;
+  bottom: -83px;
 `;
 
 const ListOfSecurities = styled.div`
@@ -58,13 +63,14 @@ const ActionBox = styled.div`
   box-sizing: border-box;
   border-radius: 4px;
   padding: 15px;
-  max-height: 370px;
+  margin-bottom: 231px;
+  padding: 20px;
 `;
 
-const AboutPassiv = styled.div`
-  margin: 20px 0;
+const AboutPassiv = styled(P)`
+  margin: 10px 0 20px;
   font-size: 18px;
-  line-height: 21px;
+  line-height: 1.3;
 `;
 
 const SignUpBtn = styled(Button)`
@@ -78,6 +84,15 @@ const Clone = styled.div`
     color: #003ba2;
     font-weight: 700;
   }
+`;
+const Disclaimer = styled.small`
+  max-width: 860px;
+  line-height: 1.3;
+  font-size: 16px;
+  display: inline-block;
+  margin-top: 50px;
+  margin-bottom: 40px;
+  color: #717171;
 `;
 
 const SharedModelPortfolio = () => {
@@ -186,7 +201,10 @@ const SharedModelPortfolio = () => {
         designed to meet a particular investing goal.
       </StyledP>
       <ShadowBox>
-        <ResponsiveGrid columns={'4fr 2fr'} style={{ marginTop: '20px' }}>
+        <ResponsiveGrid
+          columns={'4fr 2fr'}
+          style={{ marginTop: '20px', position: 'relative' }}
+        >
           <Box>
             <StyledContainer>
               <StyledName>{sharedModel.model_portfolio.name}</StyledName>
@@ -233,7 +251,7 @@ const SharedModelPortfolio = () => {
           {!showSecureApp && (
             <>
               <ActionBox>
-                <H3 style={{ fontSize: '20px' }}>
+                <H3 style={{ fontSize: '18px', lineHeight: '1.2' }}>
                   Build your own model portfolio!
                 </H3>
                 <AboutPassiv>
@@ -266,14 +284,14 @@ const SharedModelPortfolio = () => {
           )}
         </ResponsiveGrid>
       </ShadowBox>
-      <small>
+      <Disclaimer>
         * Disclaimer: The content of this page is for informational purposes
         only and is not intended to provide financial advice, and shall not be
         relied upon by you in that regard. Investments or trading strategies
         should be evaluated relative to each individual's objectives and risk
         tolerance. The views and opinions expressed in this page are those of
         the user only and do not reflect the position of Passiv.
-      </small>
+      </Disclaimer>
     </>
   );
 };
