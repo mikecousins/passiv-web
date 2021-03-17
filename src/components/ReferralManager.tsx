@@ -328,6 +328,7 @@ const ReferralManager = () => {
           if (valid) {
             let newSettings = { ...settings };
             newSettings.e_transfer_email = email;
+            newSettings.affiliate_charity = null;
             putData('/api/v1/settings/', newSettings)
               .then(() => {
                 dispatch(loadSettings());
