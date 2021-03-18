@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
-import * as Yup from 'yup';
 import {
   selectReferralCode,
   selectReferralValue,
@@ -166,7 +165,7 @@ const PaymentExplanation = styled.div`
   ul {
     list-style-type: none;
     li {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
   }
 `;
@@ -238,6 +237,7 @@ const ReferralManager = () => {
 
   const [invoices, setInvoices] = useState([]);
 
+  const [updatingPayment, setUpdatingPayment] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState('');
   const [charities, setCharities] = useState([]);
 
@@ -307,43 +307,6 @@ const ReferralManager = () => {
       setLoading(false);
     });
   }
-
-  let schema = Yup.object().shape({
-    email: Yup.string().email().required(),
-  });
-
-  const finishEditingEmail = () => {
-    if (!settings) {
-      return;
-    }
-    if (email !== settings.e_transfer_email) {
-      schema
-        .isValid({
-          email,
-        })
-        .then((valid) => {
-          if (valid) {
-            let newSettings = { ...settings };
-            newSettings.e_transfer_email = email;
-            newSettings.affiliate_charity = null;
-            putData('/api/v1/settings/', newSettings)
-              .then(() => {
-                dispatch(loadSettings());
-                setEditingEmail(false);
-              })
-              .catch((error) => {
-                if (error.response.data.errors.email) {
-                  setEmailError(error.response.data.errors.email.join(' '));
-                }
-              });
-          } else {
-            setEmailError('Must be a valid email.');
-          }
-        });
-    } else {
-      setEditingEmail(false);
-    }
-  };
 
   const cancelEditingEmail = () => {
     setEditingEmail(false);
@@ -487,7 +450,7 @@ const ReferralManager = () => {
       )}
 
       {referralCharity ? (
-        <InvoiceCharityBox columns="1fr 1fr">
+        <InvoiceCharityBox columns={invoices.length > 0 ? '1fr 1fr' : '1fr'}>
           <div>
             <SubHeading>Payment Options</SubHeading>
             <ShadowBox>
@@ -503,18 +466,25 @@ const ReferralManager = () => {
                   const errors: any = {};
                   if (
                     values.payment === 'charity' &&
-                    values.selectedCharity === null
+                    (values.selectedCharity === null ||
+                      values.selectedCharity === '')
                   ) {
                     errors.payment = 'Select a charity from dropdown.';
+                  }
+                  if (
+                    values.payment === 'eTransfer' &&
+                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
+                  ) {
+                    errors.payment = 'Must be a valid email.';
                   }
                   return errors;
                 }}
                 onSubmit={(values, actions) => {
                   if (settings) {
+                    setUpdatingPayment(true);
                     let newSettings = { ...settings };
                     if (values.payment === 'eTransfer') {
                       newSettings.affiliate_charity = null;
-
                       newSettings.e_transfer_email = email;
                     }
                     if (
@@ -529,78 +499,115 @@ const ReferralManager = () => {
                     }
                     putData('/api/v1/settings/', newSettings)
                       .then(() => {
-                        dispatch(loadSettings());
                         setEditingEmail(false);
-                        actions.resetForm();
+                        dispatch(loadSettings());
+                        setTimeout(() => {
+                          setUpdatingPayment(false);
+                          toast.success(
+                            'Your payment info updated successfully!',
+                          );
+                        }, 250);
                       })
                       .catch((error) => {
+                        setUpdatingPayment(false);
                         toast.error(
                           'Failed to update the payment method. Please try again!',
                         );
                       });
+                    actions.resetForm();
                   }
                 }}
               >
-                {({ values, dirty, isValid, handleSubmit }) => (
+                {({
+                  values,
+                  errors,
+                  dirty,
+                  isValid,
+                  handleSubmit,
+                  resetForm,
+                }) => (
                   <Form>
-                    <P id="my-radio-group">
-                      Choose one option. You can change your payment option each
-                      quarter.
-                    </P>
-                    <RadioGroup role="group" aria-labelledby="my-radio-group">
-                      <label>
-                        <Field type="radio" name="payment" value="eTransfer" />
-                        Email Transfer
-                      </label>
-                      <label>
-                        <Field type="radio" name="payment" value="charity" />
-                        Charity
-                      </label>
-                    </RadioGroup>
-                    {values.payment === 'eTransfer' ? (
-                      <>
-                        <EtransferEmail>
-                          <OptionsTitle>e-Transfer Email:</OptionsTitle>
-                          <NameInputAndEdit
-                            value={email}
-                            edit={editingEmail}
-                            allowEdit={true}
-                            editBtnTxt={'Edit'}
-                            onChange={(e: any) => setEmail(e.target.value)}
-                            onClickDone={() => finishEditingEmail()}
-                            onClickEdit={() => setEditingEmail(true)}
-                            onClickCancel={cancelEditingEmail}
-                            cancelButton={true}
-                            StyledInput={StyledInput}
-                          />
-                        </EtransferEmail>
-                        <P color="red">{emailError}</P>
-                      </>
+                    {updatingPayment ? (
+                      <FontAwesomeIcon icon={faSpinner} spin />
                     ) : (
                       <>
-                        {values.selectedCharity && (
-                          <SelectedCharity>
-                            <OptionsTitle>Selected Charity:</OptionsTitle>
-                            {settings?.affiliate_charity?.charity_name}
-                          </SelectedCharity>
+                        <P id="my-radio-group">
+                          Choose one option. You can change your payment option
+                          each quarter.
+                        </P>
+                        <RadioGroup
+                          role="group"
+                          aria-labelledby="my-radio-group"
+                        >
+                          <label>
+                            <Field
+                              type="radio"
+                              name="payment"
+                              value="eTransfer"
+                            />
+                            Email Transfer
+                          </label>
+                          <label>
+                            <Field
+                              type="radio"
+                              name="payment"
+                              value="charity"
+                            />
+                            Charity
+                          </label>
+                        </RadioGroup>
+                        {values.payment === 'eTransfer' ? (
+                          <>
+                            <EtransferEmail>
+                              <OptionsTitle>e-Transfer Email:</OptionsTitle>
+                              <NameInputAndEdit
+                                value={email}
+                                edit={editingEmail}
+                                allowEdit={true}
+                                editBtnTxt={'Edit'}
+                                onChange={(e: any) => setEmail(e.target.value)}
+                                onClickDone={() => handleSubmit()}
+                                onClickEdit={() => setEditingEmail(true)}
+                                onClickCancel={() => {
+                                  cancelEditingEmail();
+                                  resetForm();
+                                }}
+                                cancelButton={true}
+                                StyledInput={StyledInput}
+                              />
+                            </EtransferEmail>
+                            <P color="red">{errors.payment}</P>
+                          </>
+                        ) : (
+                          <>
+                            {settings?.affiliate_charity?.charity_name && (
+                              <SelectedCharity>
+                                <OptionsTitle>Selected Charity:</OptionsTitle>
+                                {settings?.affiliate_charity?.charity_name}
+                              </SelectedCharity>
+                            )}
+                            <StyledSelect as="select" name="selectedCharity">
+                              {<option value="" label="Select a charity" />}
+                              {charities.map((charity: any) => (
+                                <option value={charity.id} key={charity.id}>
+                                  {charity.charity_name}
+                                </option>
+                              ))}
+                            </StyledSelect>
+                          </>
                         )}
-                        <StyledSelect as="select" name="selectedCharity">
-                          {<option value="" label="Select a charity" />}
-                          {charities.map((charity: any) => (
-                            <option value={charity.id} key={charity.id}>
-                              {charity.charity_name}
-                            </option>
-                          ))}
-                        </StyledSelect>
+                        <div style={{ marginTop: '20px' }}>
+                          {dirty && isValid && (
+                            <Button
+                              type="button"
+                              onClick={() => handleSubmit()}
+                            >
+                              Update
+                            </Button>
+                          )}
+                        </div>
                       </>
                     )}
-                    <div style={{ marginTop: '20px' }}>
-                      {dirty && isValid && (
-                        <Button type="button" onClick={() => handleSubmit()}>
-                          Save
-                        </Button>
-                      )}
-                    </div>
                   </Form>
                 )}
               </Formik>

@@ -19,7 +19,7 @@ const InlineDiv = styled.div`
 `;
 
 const StyledFieldBase = styled(Field)`
-  width: 50%;
+  max-width: 50%;
 `;
 
 export const StyledSelect = styled(StyledFieldBase)`
