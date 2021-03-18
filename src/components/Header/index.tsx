@@ -13,7 +13,6 @@ import { selectIsOnline } from '../../selectors/online';
 import { selectIsDemo } from '../../selectors';
 import { LogoutButton } from '../LogoutButton';
 import WSB from '../WSB';
-import { selectCurrentGroup } from '../../selectors/groups';
 
 type StyledHeaderProps = {
   isOnline: boolean;
@@ -50,7 +49,6 @@ export const Header = () => {
   const name = useSelector(selectName);
   const isOnline = useSelector(selectIsOnline);
   const isDemo = useSelector(selectIsDemo);
-  const currentGroup = useSelector(selectCurrentGroup);
   return (
     <StyledHeader isOnline={isOnline}>
       <nav>
@@ -65,7 +63,7 @@ export const Header = () => {
             </object>
           </Link>
         </Logo>
-        {loggedIn && currentGroup && <WSB group={currentGroup} />}
+        {loggedIn && <WSB />}
         {isOnline && isDemo && <Demo />}
         {!isOnline && <Offline />}
         {loggedIn && <Hello name={name} />}
