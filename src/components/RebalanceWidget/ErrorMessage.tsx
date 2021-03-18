@@ -36,9 +36,7 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
     if (!group || !group.brokerage_authorizations) {
       return;
     }
-    return group.brokerage_authorizations.find(
-      (a) => a.type === 'read' && a.brokerage.allows_trading === true,
-    );
+    return group.brokerage_authorizations.find((a) => a.type === 'read');
   };
   switch (error.code) {
     case '1014':
@@ -184,7 +182,9 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
         <OrderContainer>
           <H2>Order cannot be Processed</H2>
           <P>
-            Oops, you've encountered a bug! Please try again later or{' '}
+            We are sorry but we are having difficulties processing your order at
+            this time. We ask that you click refresh in the bottom left of the
+            app and please wait a moment to try again or{' '}
             <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
             persists.
           </P>
@@ -198,7 +198,9 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
         <OrderContainer>
           <H2>Order cannot be Processed</H2>
           <P>
-            Oops, you've encountered a bug! Please try again later or{' '}
+            We are sorry but we are having difficulties processing your order at
+            this time. We ask that you click refresh in the bottom left of the
+            app and please wait a moment to try again or{' '}
             <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
             persists.
           </P>
