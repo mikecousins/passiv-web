@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import {
   selectSelectedTimeframe,
   selectRateOfReturn,
+  selectContributions,
 } from '../../selectors/performance';
 import PerformanceChange from './PerformanceChange';
 import PerformanceCapitalGains from './PerformanceCapitalGains';
@@ -85,6 +86,8 @@ const BetaBanner = styled(P)`
 
 export const Performance = () => {
   let currentTimeframe = useSelector(selectSelectedTimeframe);
+  // We can hide charts if user is on custom timeframe and hasn't yet fetched data (can check this if contributions are undefined)
+  const contributions = useSelector(selectContributions);
   let rateOfReturn = useSelector(selectRateOfReturn);
 
   return (
@@ -98,67 +101,79 @@ export const Performance = () => {
       )}
 
       <TimeframePicker />
-      <Grid>
-        <ShadowBox>
-          <PerformanceContributionChart />
-        </ShadowBox>
-        <Tiles>
-          <ShadowBox>
-            <PerformanceContributions selectedTimeframe={currentTimeframe} />
-          </ShadowBox>
-          <ShadowBox>
-            <PerformanceContributionStreak />
-          </ShadowBox>
-        </Tiles>
-      </Grid>
-      <Grid>
-        <ShadowBox>
-          <PerformanceTotalValueChart />
-        </ShadowBox>
-        <Tiles>
-          <ShadowBox>
-            <PerformanceChange />
-          </ShadowBox>
-          {rateOfReturn && (
+      {currentTimeframe === 'CST' && contributions === undefined && (
+        <>
+          Select a timeframe and click "Apply" to load a custom reporting
+          snapshot
+        </>
+      )}
+      {(currentTimeframe !== 'CST' || contributions !== undefined) && (
+        <React.Fragment>
+          <Grid>
             <ShadowBox>
-              <PerformanceRateOfReturn />
+              <PerformanceContributionChart />
             </ShadowBox>
-          )}
-          <ShadowBox>
-            <PerformanceCapitalGains />
-          </ShadowBox>
-        </Tiles>
-      </Grid>
-      <Grid>
-        <ShadowBox>
-          <PerformanceDividendTimelineChart />
-        </ShadowBox>
-        <Tiles>
-          <ShadowBox>
-            <PerformanceMonthlyDividends />
-          </ShadowBox>
-          <ShadowBox>
-            <PerformanceFees />
-          </ShadowBox>
-        </Tiles>
-      </Grid>
-      <Grid>
-        <ShadowBox>
-          <PerformanceDividendChart />
-        </ShadowBox>
-        <Tiles>
-          <ShadowBox>
-            <PerformanceFeeSavings />
-          </ShadowBox>
-          <ShadowBox>
-            <PerformanceDividendIncome />
-          </ShadowBox>
-        </Tiles>
-      </Grid>
-      <BetaBanner>
-        Open Beta: Help us improve our tools by{' '}
-        <A href="mailto:reporting@passiv.com">sharing feedback</A>
-      </BetaBanner>
+            <Tiles>
+              <ShadowBox>
+                <PerformanceContributions
+                  selectedTimeframe={currentTimeframe}
+                />
+              </ShadowBox>
+              <ShadowBox>
+                <PerformanceContributionStreak />
+              </ShadowBox>
+            </Tiles>
+          </Grid>
+          <Grid>
+            <ShadowBox>
+              <PerformanceTotalValueChart />
+            </ShadowBox>
+            <Tiles>
+              <ShadowBox>
+                <PerformanceChange />
+              </ShadowBox>
+              {rateOfReturn && (
+                <ShadowBox>
+                  <PerformanceRateOfReturn />
+                </ShadowBox>
+              )}
+              <ShadowBox>
+                <PerformanceCapitalGains />
+              </ShadowBox>
+            </Tiles>
+          </Grid>
+          <Grid>
+            <ShadowBox>
+              <PerformanceDividendTimelineChart />
+            </ShadowBox>
+            <Tiles>
+              <ShadowBox>
+                <PerformanceMonthlyDividends />
+              </ShadowBox>
+              <ShadowBox>
+                <PerformanceFees />
+              </ShadowBox>
+            </Tiles>
+          </Grid>
+          <Grid>
+            <ShadowBox>
+              <PerformanceDividendChart />
+            </ShadowBox>
+            <Tiles>
+              <ShadowBox>
+                <PerformanceFeeSavings />
+              </ShadowBox>
+              <ShadowBox>
+                <PerformanceDividendIncome />
+              </ShadowBox>
+            </Tiles>
+          </Grid>
+          <BetaBanner>
+            Open Beta: Help us improve our tools by{' '}
+            <A href="mailto:reporting@passiv.com">sharing feedback</A>
+          </BetaBanner>
+        </React.Fragment>
+      )}
     </React.Fragment>
   );
 };
