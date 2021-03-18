@@ -183,8 +183,7 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <H2>Order cannot be Processed</H2>
           <P>
             We are sorry but we are having difficulties processing your order at
-            this time. We ask that you click refresh in the bottom left of the
-            app and please wait a moment to try again or{' '}
+            this time. Please wait a moment and try again or{' '}
             <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
             persists.
           </P>
@@ -199,8 +198,7 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <H2>Order cannot be Processed</H2>
           <P>
             We are sorry but we are having difficulties processing your order at
-            this time. We ask that you click refresh in the bottom left of the
-            app and please wait a moment to try again or{' '}
+            this time. Please wait a moment and try again or{' '}
             <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
             persists.
           </P>
