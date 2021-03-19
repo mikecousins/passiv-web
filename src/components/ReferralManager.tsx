@@ -487,9 +487,8 @@ const ReferralManager = () => {
           <Chart data={data} axes={axes} series={series} tooltip />
         </div>
       )}
-
-      {referralCharity ? (
-        <InvoiceCharityBox columns="1fr 1fr">
+      <InvoiceCharityBox columns="1fr 1fr">
+        {referralCharity && (
           <div>
             <SubHeading>Payment Options</SubHeading>
             <ShadowBox>
@@ -622,44 +621,41 @@ const ReferralManager = () => {
               </PaymentExplanation>
             </ShadowBox>
           </div>
-          <div>
-            {invoices.length > 0 ? (
-              <>
-                <SubHeading>Invoices</SubHeading>
-                <ShadowBox>
-                  {loading ? (
-                    <FontAwesomeIcon icon={faSpinner} spin />
-                  ) : (
-                    <Grid columns="1fr 1fr 1fr">
-                      {invoices.map((inv: any) => {
-                        return (
-                          <div style={{ marginBottom: '30px', padding: '5px' }}>
-                            <FontAwesomeIcon
-                              icon={faFileInvoice}
-                              size="lg"
-                              style={{ marginRight: '10px' }}
-                            />
-                            <a
-                              href={inv.pdf_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {inv.end_date}
-                            </a>
-                          </div>
-                        );
-                      })}
-                    </Grid>
-                  )}
-                </ShadowBox>
-              </>
-            ) : null}
-          </div>
-        </InvoiceCharityBox>
-      ) : (
-        <br></br>
-      )}
-
+        )}
+        <div>
+          {invoices.length > 0 ? (
+            <>
+              <SubHeading>Invoices</SubHeading>
+              <ShadowBox>
+                {loading ? (
+                  <FontAwesomeIcon icon={faSpinner} spin />
+                ) : (
+                  <Grid columns="1fr 1fr 1fr">
+                    {invoices.map((inv: any) => {
+                      return (
+                        <div style={{ marginBottom: '30px', padding: '5px' }}>
+                          <FontAwesomeIcon
+                            icon={faFileInvoice}
+                            size="lg"
+                            style={{ marginRight: '10px' }}
+                          />
+                          <a
+                            href={inv.pdf_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {inv.end_date}
+                          </a>
+                        </div>
+                      );
+                    })}
+                  </Grid>
+                )}
+              </ShadowBox>
+            </>
+          ) : null}
+        </div>
+      </InvoiceCharityBox>
       <SubHeading>The Fine Print</SubHeading>
       <ReferralBulletUL>
         <li>
