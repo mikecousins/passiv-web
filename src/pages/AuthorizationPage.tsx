@@ -173,7 +173,47 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       openURL: 'https://www.interactivebrokers.com/en/home.php',
       major: true,
       logo: InteractiveBrokersLogo,
-      confirmPrompt: null,
+      confirmPrompt: (
+        <ShadowBox>
+          <P>
+            Due to the nature of Interactive's API, some features are limited
+            when connecting.
+          </P>
+          <P>These features include:</P>
+          <VerticalPadding>
+            <BulletUL>
+              <Li>
+                Interactive takes between 24 to 48 hours to fully connect and
+                load in data to Passiv. If you have still not loaded in data
+                after 48 hours then please contact support
+              </Li>
+              <Li>Only IBKR Pro accounts are supported by Passiv.</Li>
+              <Li>
+                Certain features, such as One-Click Trades, are not available
+                through IBKR Canada, other countries are unaffected.
+              </Li>
+              <Li>
+                Certain assets, such as mutual funds and GICs, are not supported
+                by Passiv and may not appear in your account positions.
+                Non-investment accounts, such as credit cards or chequing
+                accounts, will also not be shown.
+              </Li>
+              <Li>
+                Interactive Brokers is an international brokerage and thus has
+                limited time to do maintenance. If you are trying to connect
+                outside of standard market hours (930am ET to 530pm ET) please
+                wait and attempt to connect during market hours. Many brokerages
+                typically do maintenance in the evenings and weekends making it
+                difficult to successfully connect. If you find you are having
+                issues connecting during this time frame, please contact
+                support.
+              </Li>
+            </BulletUL>
+          </VerticalPadding>
+
+          <P>By connecting, I understand and agree to these limitations.</P>
+        </ShadowBox>
+      ),
       description: (
         <P>
           Interactive Brokers is a brokerage that operates in 200+ countries.
