@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { selectTotalGroupHoldings } from '../selectors/groups';
 import { Button } from '../styled/Button';
 import { A, H2, P } from '../styled/GlobalElements';
+import CountDownTimer from './CountDownTimer';
 import { StyledSelect } from './PortfolioGroupSettings/OrderTargetAllocations';
 
 const Container = styled.div`
@@ -19,26 +20,39 @@ const YoloBtn = styled.button`
   border: 2px solid var(--brand-green);
   border-radius: 8px;
   font-weight: 700;
-  font-size: 20px;
-  transition: all 0.5s ease-Out;
+  font-size: 22px;
+  transition: all 0.3s ease-Out;
   :hover {
     color: white;
-    background-color: orange;
-    border: 2px solid orange;
+    background-color: rgb(255, 196, 0);
+    border: 2px solid rgb(255, 196, 0);
+  }
+  @media (max-width: 900px) {
+    padding: 2px 14px;
   }
 `;
+const Select = styled.div`
+  width: 61%;
+  @media (max-width: 900px) {
+    width: 100%;
+  }
+`;
+
 const Toggle = styled.div`
-  margin: 20px;
+  margin: 20px 0;
   .btn {
     border: 3px solid grey;
     border-radius: 4px;
+    width: 30%;
     display: inline-block;
     padding: 10px;
     position: relative;
     text-align: center;
     transition: background 600ms ease, color 600ms ease;
-    font-size: 50px;
-    width: 30%;
+    font-size: 40px;
+    @media (max-width: 900px) {
+      width: 50%;
+    }
   }
 
   input[type='radio'].toggle {
@@ -62,7 +76,6 @@ const Toggle = styled.div`
       }
     }
     &.toggle-left + label {
-      /* border-right: 0; */
       &:after {
         left: 100%;
       }
@@ -84,21 +97,33 @@ const Toggle = styled.div`
   }
 `;
 
+const Disclaimer = styled.small`
+  max-width: 860px;
+  line-height: 1.3;
+  font-size: 16px;
+  display: inline-block;
+  margin-top: 20px;
+  color: #717171;
+`;
+
 const ConfirmBtn = styled(Button)`
   padding: 10px 30px;
   font-weight: 700;
 `;
 
 const WSB = () => {
+  const totalEquity = useSelector(selectTotalGroupHoldings);
   const [showDialog, setShowDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState(false);
-  const totalEquity = useSelector(selectTotalGroupHoldings);
+
+  const [showCountDown, setShowCountDown] = useState(false);
+  const [cancel, setCancel] = useState(false);
 
   // const tickers = ['GME', 'AMC', 'NOK', 'NOW', 'BB', 'REAL', 'TELL'];
   const tickers = [
     {
-      symbol: 'GMC',
+      symbol: 'GME',
       price: 202,
     },
     {
@@ -146,20 +171,24 @@ const WSB = () => {
           setLoadingMsg(true);
           setTimeout(() => {
             setLoadingMsg(false);
-          }, 1);
+          }, 3000);
           setTimeout(() => {
             setLoading(false);
-          }, 1);
+          }, 5000);
         }}
       >
         YOLO{' '}
         <span role="img" aria-label="emoji">
-          😎{' '}
+          💎👐
         </span>
       </YoloBtn>
       <Dialog
         isOpen={showDialog}
-        onDismiss={() => setShowDialog(false)}
+        onDismiss={() => {
+          setShowDialog(false);
+          setShowCountDown(false);
+          setCancel(false);
+        }}
         style={{ borderRadius: '4px' }}
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
@@ -177,20 +206,47 @@ const WSB = () => {
               />
             </H2>
           </>
+        ) : showCountDown ? (
+          <CountDownTimer />
+        ) : cancel ? (
+          <>
+            <div
+              style={{
+                width: '100%',
+                height: '0',
+                paddingBottom: '56%',
+                position: 'relative',
+              }}
+            >
+              <iframe
+                src="https://giphy.com/embed/ifQpYUXKQNwZuns26g"
+                title="giphy1"
+                width="100%"
+                height="100%"
+                style={{ position: 'absolute' }}
+                frameBorder="0"
+                className="giphy-embed"
+                allowFullScreen
+              ></iframe>
+            </div>
+            <small>
+              <a href="https://giphy.com/gifs/adultswim-whew-avoided-that-could-have-been-bad-ifQpYUXKQNwZuns26g">
+                via GIPHY
+              </a>
+            </small>
+          </>
         ) : (
           <Formik
             initialValues={{
               ticker: '',
               mode: '',
             }}
-            onSubmit={(values) => {
-              console.log(values);
-            }}
+            onSubmit={() => {}}
           >
-            {({ values, errors, dirty, isValid, handleSubmit, resetForm }) => (
+            {({ values }) => (
               <Form>
-                <P>Choose your YOLO stock :</P>
-                <div style={{ width: '50%' }}>
+                <P>Choose a trending MEME stock:</P>
+                <Select>
                   <StyledSelect as="select" name="ticker">
                     {<option value="" label="Select a stock" />}
                     {tickers.map((ticker) => {
@@ -201,32 +257,36 @@ const WSB = () => {
                       );
                     })}
                   </StyledSelect>
-                </div>
+                </Select>
                 {values.ticker !== '' && (
                   <Toggle role="group" aria-labelledby="my-radio-group">
                     <Field
                       id="toggle-on"
                       className="toggle toggle-left"
                       name="mode"
-                      value="bear"
+                      value="rocket"
                       type="radio"
                     />
                     <label htmlFor="toggle-on" className="btn">
-                      <span role="img" aria-label="emoji">
+                      <span
+                        role="img"
+                        aria-label="emoji"
+                        style={{ width: '100px', height: '100px' }}
+                      >
                         {' '}
-                        🐻
+                        🚀
                       </span>
                     </label>
                     <Field
                       id="toggle-off"
                       className="toggle toggle-right"
                       name="mode"
-                      value="bull"
+                      value="bear"
                       type="radio"
                     />
                     <label htmlFor="toggle-off" className="btn">
                       <span role="img" aria-label="emoji">
-                        🐂
+                        🐻
                       </span>
                     </label>
                   </Toggle>
@@ -234,15 +294,35 @@ const WSB = () => {
                 {values.mode !== '' && values.ticker !== '' && (
                   <>
                     <P>
-                      Close all positions (total:{' '}
+                      This will liquidate all of your positions across all
+                      accounts (Total:{' '}
                       <span style={{ fontWeight: 700 }}>
                         ${totalEquity.toFixed(2)}
                       </span>
-                      ) and buy {calc(values.ticker)} shares of{' '}
+                      ) and bets it all on OTM{' '}
+                      {values.mode === 'rocket' ? 'Calls' : 'Puts'} of{' '}
+                      {calc(values.ticker)} shares of{' '}
                       <span style={{ fontWeight: 700 }}>{values.ticker}</span>?{' '}
                     </P>
-                    <ConfirmBtn>Yolo</ConfirmBtn>{' '}
-                    <A style={{ marginLeft: '20px' }}>Cancel</A>
+                    <div>
+                      {' '}
+                      <ConfirmBtn onClick={() => setShowCountDown(true)}>
+                        Yolo
+                      </ConfirmBtn>{' '}
+                      <A
+                        style={{ marginLeft: '20px' }}
+                        onClick={() => setCancel(true)}
+                      >
+                        Cancel
+                      </A>
+                    </div>
+
+                    <br />
+                    <Disclaimer>
+                      Disclaimer: This is not meant to be financial advice, you
+                      just {values.mode === 'rocket' ? 'like' : 'hate'} the
+                      stock.
+                    </Disclaimer>
                   </>
                 )}
               </Form>
