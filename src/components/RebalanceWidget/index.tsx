@@ -68,11 +68,13 @@ const RebalanceWidget = ({
   const groupSettings = useSelector(selectCurrentGroupSettings);
   const currentGroupId = useSelector(selectCurrentGroupId);
 
-  const hasOnlyNonTradableTrades = trades.trades.every((trade: any) => {
-    return (
-      trade.account.brokerage_authorization.brokerage.allows_trading === false
-    );
-  });
+  const hasOnlyNonTradableTrades =
+    trades.trades &&
+    trades.trades.every((trade: any) => {
+      return (
+        trade.account.brokerage_authorization.brokerage.allows_trading === false
+      );
+    });
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
