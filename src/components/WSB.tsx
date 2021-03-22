@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Dialog from '@reach/dialog';
 import { Field, Form, Formik } from 'formik';
@@ -28,13 +28,16 @@ const YoloBtn = styled.button`
     border: 2px solid rgb(255, 196, 0);
   }
   @media (max-width: 900px) {
-    padding: 2px 14px;
+    padding: 2px 10px;
+    span {
+      display: none;
+    }
   }
 `;
 const Select = styled.div`
   width: 61%;
   @media (max-width: 900px) {
-    width: 100%;
+    width: 150%;
   }
 `;
 
@@ -162,6 +165,12 @@ const WSB = () => {
     return total.toFixed(0);
   };
 
+  const closeDialog = () => {
+    setShowDialog(false);
+    setShowCountDown(false);
+    setCancel(false);
+  };
+
   return (
     <Container>
       <YoloBtn
@@ -184,20 +193,22 @@ const WSB = () => {
       </YoloBtn>
       <Dialog
         isOpen={showDialog}
-        onDismiss={() => {
-          setShowDialog(false);
-          setShowCountDown(false);
-          setCancel(false);
-        }}
+        onDismiss={closeDialog}
         style={{ borderRadius: '4px' }}
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
       >
+        <FontAwesomeIcon
+          icon={faTimes}
+          style={{ float: 'right', cursor: 'pointer' }}
+          onClick={closeDialog}
+        />
+        <br />
         {loading ? (
           <>
             <H2>
               {loadingMsg
-                ? 'Loading meme stocks from WSB Hedge Fund '
+                ? 'Crawling r/WallStreetBets for trending stocks'
                 : 'Identified 7 meme stocks - Calculating'}{' '}
               <FontAwesomeIcon
                 icon={faSpinner}
@@ -301,7 +312,7 @@ const WSB = () => {
                       </span>
                       ) and bets it all on OTM{' '}
                       {values.mode === 'rocket' ? 'Calls' : 'Puts'} of{' '}
-                      {calc(values.ticker)} shares of{' '}
+                      {calc(values.ticker)} contracts of{' '}
                       <span style={{ fontWeight: 700 }}>{values.ticker}</span>?{' '}
                     </P>
                     <div>
