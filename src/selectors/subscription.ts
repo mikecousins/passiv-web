@@ -110,3 +110,10 @@ export const selectShowQuestradeOffer = createSelector(
     return showOffer;
   },
 );
+
+export const selectShowInvestingCourse = createSelector(
+  selectIsDemo,
+  (isDemo) => {
+    return !isDemo;
+  },
+);
