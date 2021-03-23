@@ -8,7 +8,7 @@ import {
   ModelAssetClassDetailsType,
   ModelAssetClass,
 } from '../../types/modelAssetClass';
-import { selectReferralCode } from '../../selectors';
+import { selectReferralCode } from '../../selectors/referrals';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
 import {
   selectCurrentModelPortfolio,
@@ -23,6 +23,7 @@ import {
   faClipboard,
   faClipboardCheck,
   faExclamationTriangle,
+  faInfoCircle,
   faSpinner,
   faStopwatch,
   faToggleOff,
@@ -47,6 +48,7 @@ import {
   DeleteBtn,
 } from '../ModelAssetClass/AssetClass';
 import { Button } from '../../styled/Button';
+import Tooltip from '../Tooltip';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -79,7 +81,7 @@ const ToggleBtn = styled(FontAwesomeIcon)`
   font-size: 30px;
 `;
 
-const ResponsiveGrid = styled(Grid)`
+export const ResponsiveGrid = styled(Grid)`
   @media (max-width: 900px) {
     grid-template-columns: 1fr 1fr;
   }
@@ -103,6 +105,9 @@ const Text = styled(StateText)`
 
 const ToggleShareBtn = styled(ToggleButton)`
   margin-top: 10px;
+  svg {
+    color: var(--brand-blue);
+  }
 `;
 
 const DeleteContainer = styled.div`
@@ -123,13 +128,8 @@ const DeleteModelExplanation = styled.div`
 
 const SetShareModelContainer = styled.div`
   padding: 0px 20px 15px;
-  background: #dafcf6;
   border-radius: 0 0 4px 4px;
-  button,
-  svg,
-  h3 {
-    color: #07a485;
-  }
+  margin-top: 10px;
 `;
 
 const ShareLinkContainer = styled.div`
@@ -184,7 +184,6 @@ const ModelPortfolio = () => {
     currentModelPortfolio?.model_portfolio?.id
   ]?.groups;
 
-  const [sharedModel, setSharedModel] = useState(false);
   const [share, setShare] = useState(
     currentModelPortfolio?.model_portfolio.share_portfolio,
   );
@@ -199,9 +198,9 @@ const ModelPortfolio = () => {
   const [copied, setCopied] = useState(false);
   const referralCode = useSelector(selectReferralCode);
 
-  const SHARE_URL = `https://passiv.com/app/model-portfolio/${
+  const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${
     currentModelPortfolio!?.model_portfolio.id
-  }/share/${referralCode}`;
+  }?share=${referralCode}`;
 
   let haveAssetsInModel = false;
   if (
@@ -215,26 +214,6 @@ const ModelPortfolio = () => {
   ) {
     haveAssetsInModel = true;
   }
-
-  // useEffect(() => {
-  //   // check if the model is a shared model
-  //   if (router && router.location) {
-  //     const path = router.location.pathname.split('/');
-  //     const shareId = path[5];
-  //     if (path[4] === 'share' && shareId) {
-  //       const modelId = router.location.pathname.split('/')[3];
-  //       getData(`/api/v1/modelPortfolio/${modelId}/share/${shareId}`)
-  //         .then((res) => {
-  //           setSharedModel(true);
-  //           currentModelPortfolio = res.data;
-  //         })
-  //         .catch(() => {
-  //           alert('Invalid Share Id');
-  //         });
-  //     }
-  //   }
-  //   // setSecurityBased(currentModelPortfolio?.model_portfolio.model_type === 0);
-  // }, [router]);
 
   const handleDeleteModel = () => {
     deleteData(
@@ -295,27 +274,24 @@ const ModelPortfolio = () => {
         currentModelPortfolio && (
           <>
             <ShadowBox>
-              {!sharedModel && (
-                <BackButton>
-                  <Link
-                    to={
-                      groupInfo
-                        ? `/app/group/${groupInfo.groupId}`
-                        : '/app/models'
-                    }
-                  >
-                    <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to{' '}
-                    {groupInfo ? groupInfo.name : 'My Models'}
-                  </Link>
-                </BackButton>
-              )}
+              <BackButton>
+                <Link
+                  to={
+                    groupInfo
+                      ? `/app/group/${groupInfo.groupId}`
+                      : '/app/models'
+                  }
+                >
+                  <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to{' '}
+                  {groupInfo ? groupInfo.name : 'My Models'}
+                </Link>
+              </BackButton>
 
               <ResponsiveGrid columns="4fr 2fr">
                 <ModelPortoflioBox
                   modelPortfolio={currentModelPortfolio}
                   assetClasses={assetClasses}
                   securityBased={securityBased}
-                  sharedModel={sharedModel}
                 />
                 <div>
                   <ComingSoonTag>
@@ -343,7 +319,12 @@ const ModelPortfolio = () => {
                   {securityBased && (
                     <>
                       <SetShareModelContainer>
-                        <H3>Share Model</H3>
+                        <H3>
+                          Share Model{' '}
+                          <Tooltip label="Share your model portfolio link with your friends and earn cash when they upgrade to Elite.">
+                            <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+                          </Tooltip>
+                        </H3>
                         <>
                           {' '}
                           <ToggleShareBtn onClick={handleToggleShareBtn}>
@@ -401,13 +382,12 @@ const ModelPortfolio = () => {
               </ResponsiveGrid>
             </ShadowBox>
 
-            {!sharedModel && (
-              <DeleteContainer>
-                <button onClick={() => setDeleteDialog(true)}>
-                  <FontAwesomeIcon icon={faTrashAlt} /> Delete
-                </button>
-              </DeleteContainer>
-            )}
+            <DeleteContainer>
+              <button onClick={() => setDeleteDialog(true)}>
+                <FontAwesomeIcon icon={faTrashAlt} /> Delete
+              </button>
+            </DeleteContainer>
+
             <Dialog
               isOpen={deleteDialog}
               onDismiss={() => setDeleteDialog(false)}

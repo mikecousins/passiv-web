@@ -14,7 +14,7 @@ import { Button } from '../../styled/Button';
 import InjectedCheckoutForm from '../CheckoutForm';
 import InjectedUpdatePaymentForm from '../UpdatePaymentCheckoutForm';
 import { loadSubscription } from '../../actions';
-import { deleteData } from '../../api';
+import { deleteData, putData } from '../../api';
 import SubscriptionCoupon from '../SubscriptionCoupon';
 import SubscriptionPlans from '../SubscriptionPlans';
 import styled from '@emotion/styled';
@@ -59,6 +59,9 @@ const SubscriptionManager = () => {
   const [updatingPayment, setUpdatingPayment] = useState(false);
   const [loading, setLoading] = useState(false);
   const [cancellingSubscription, setCancellingSubscription] = useState(false);
+  const [reactivatingSubscription, setReactivatingSubscription] = useState(
+    false,
+  );
 
   const subscription = useSelector(selectSubscription);
   const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
@@ -83,6 +86,19 @@ const SubscriptionManager = () => {
       .catch(() => {
         dispatch(loadSubscription());
         setCancellingSubscription(false);
+      });
+  };
+
+  const reactivateSubscription = () => {
+    setReactivatingSubscription(true);
+    putData(`/api/v1/subscriptions`, {})
+      .then(() => {
+        dispatch(loadSubscription());
+        setReactivatingSubscription(false);
+      })
+      .catch(() => {
+        dispatch(loadSubscription());
+        setReactivatingSubscription(false);
       });
   };
 
@@ -179,10 +195,10 @@ const SubscriptionManager = () => {
     } else if (subscription.type === 'paid') {
       subscriptionBody = (
         <React.Fragment>
-          {cancellingSubscription ? (
+          {cancellingSubscription || reactivatingSubscription ? (
             <P>
-              Canceling your subscription...{' '}
-              <FontAwesomeIcon icon={faSpinner} spin />
+              {reactivatingSubscription ? 'Reactivating' : 'Canceling'} your
+              subscription... <FontAwesomeIcon icon={faSpinner} spin />
             </P>
           ) : updatingPayment ? (
             <React.Fragment>
@@ -233,6 +249,9 @@ const SubscriptionManager = () => {
                       .
                     </strong>
                   </P>
+                  <Button onClick={() => reactivateSubscription()}>
+                    Reactivate Subscription
+                  </Button>
                 </React.Fragment>
               ) : (
                 <ActionContainer>

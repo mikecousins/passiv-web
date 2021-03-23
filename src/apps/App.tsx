@@ -189,9 +189,11 @@ const ModelPortfolioPage = React.lazy(() =>
   import(/* webpackChunkName: "...?" */ '../pages/ModelPortfolioPage'),
 );
 
-const SelectGroupPage = React.lazy(() =>
+const SharedModelPortfolio = React.lazy(() =>
   //? webpackChunkName
-  import(/* webpackChunkName: "...?" */ '../pages/SelectGroupPage'),
+  import(
+    /* webpackChunkName: "...?" */ '../components/ModelPortfolio/SharedModelPortfolio'
+  ),
 );
 
 // declare global {
@@ -270,6 +272,11 @@ const tdAmeritradeOauthRedirect = () => {
 const wealthicaOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/wealthica?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
+const sharedModelRedirect = () => {
+  let newPath = '/app/shared-model-portfolio?share=';
   return <Redirect to={newPath} />;
 };
 
@@ -382,8 +389,9 @@ const App = () => {
             />
             <Route path={prefixPath('/demo')} component={DemoLoginPage} />
             <Route
-              path={prefixPath('/model-portfolio/:modelId/share/:shareId')}
-              component={ModelPortfolioPage}
+              path={prefixPath('/shared-model-portfolio')}
+              component={SharedModelPortfolio}
+              render={() => sharedModelRedirect()}
             />
             // oauth routes
             {loggedIn && (
@@ -473,7 +481,7 @@ const App = () => {
             )}
             // onboarding app
             {showOnboardingApp && (
-              <Route path={prefixPath('/connect/:brokerage?')}>
+              <Route path={prefixPath('/connect/:openBrokerage?')}>
                 <AuthorizationPage onboarding={true} />
               </Route>
             )}
@@ -483,7 +491,7 @@ const App = () => {
               </Route>
             )}
             {(showSecureApp || showOnboardingApp) && (
-              <Route path={prefixPath('/settings/connect/:brokerage?')}>
+              <Route path={prefixPath('/settings/connect/:openBrokerage?')}>
                 <AuthorizationPage onboarding={false} />
               </Route>
             )}
@@ -590,12 +598,6 @@ const App = () => {
                 exact
                 path={prefixPath('/model-portfolio/:modelId/group/:groupId')}
                 component={ModelPortfolioPage}
-              />
-            )}
-            {showSecureApp && (
-              <Route
-                path={prefixPath('/model-portfolio/:modelId/select-group')}
-                component={SelectGroupPage}
               />
             )}
             // insecure app

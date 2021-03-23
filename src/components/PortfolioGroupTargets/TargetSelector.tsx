@@ -618,7 +618,7 @@ export const TargetSelector = ({
                             dispatch(push(`/app/models/group/${groupId}`));
                           }}
                         >
-                          Apply New Model
+                          Apply Another Model
                         </ApplyNewModelBtn>
                       </div>
                       <div>

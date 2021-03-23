@@ -22,12 +22,12 @@ import shouldUpdate from '../reactors/should-update';
 import { AppState } from '../store';
 import {
   CalculatedTrades,
-  BrokerageAuthorization,
   GroupInfoData,
   Settings,
   Balance,
   TargetPosition,
 } from '../types/groupInfo';
+import { Authorization } from '../types/authorization';
 import { createMatchSelector, RouterState } from 'connected-react-router';
 import { GroupData } from '../types/group';
 import { SimpleState } from '../types/common';
@@ -1000,7 +1000,7 @@ export type DashboardGroup = {
   hasAccounts?: boolean;
   hasSells?: boolean;
   trades?: CalculatedTrades;
-  brokerage_authorizations?: BrokerageAuthorization[];
+  brokerage_authorizations?: Authorization[];
   preferredCurrency?: Currency | null;
 };
 

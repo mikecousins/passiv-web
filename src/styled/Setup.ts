@@ -87,6 +87,10 @@ export const PDarkStyle = styled(P)`
   color: #04a287;
   font-size: 18px;
   padding-bottom: 10px;
+
+  &:last-of-type {
+    padding-bottom: 0;
+  }
 `;
 
 export const ADarkStyle = styled(A)`

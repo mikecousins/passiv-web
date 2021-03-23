@@ -26,6 +26,8 @@ import {
 import { ToggleButton } from '../../../styled/ToggleButton';
 import Tooltip from '../../Tooltip';
 import Tour from '../../Tour/Tour';
+import { useSelector } from 'react-redux';
+import { selectCurrentGroupId } from '../../../selectors/groups';
 
 const TOUR_STEPS = [
   {
@@ -137,6 +139,8 @@ const TargetBar = ({
     symbol,
   } = target;
 
+  const currentGroupId = useSelector(selectCurrentGroupId);
+
   let renderActualPercentage = null;
   if (actualPercentage === undefined) {
     renderActualPercentage = 0;
@@ -212,6 +216,7 @@ const TargetBar = ({
               value={fullSymbol}
               onSelect={setSymbol}
               forModelSecurity={false}
+              groupId={currentGroupId ? currentGroupId : ''}
             />
           ) : is_supported ? (
             isAssetClassBased ? (

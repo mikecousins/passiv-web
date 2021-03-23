@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { postData } from '../api';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faAngleLeft,
   faAngleRight,
   faCheck,
   faInfoCircle,
@@ -16,7 +17,10 @@ import {
   selectGroupsUsingAModel,
   selectModelPortfolios,
 } from '../selectors/modelPortfolios';
-import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
+import {
+  ModelPortfolio,
+  ModelPortfolioDetailsType,
+} from '../types/modelPortfolio';
 import { loadGroups, loadModelPortfolios } from '../actions';
 import { Button } from '../styled/Button';
 import { H1, H3, P, Table } from '../styled/GlobalElements';
@@ -25,9 +29,10 @@ import { ViewBtn } from '../styled/Group';
 import ShadowBox from '../styled/ShadowBox';
 import { StyledP } from './ModelAssetClassPage';
 import Tooltip from '../components/Tooltip';
-import { selectGroups } from '../selectors/groups';
+import { selectGroupInfo, selectGroups } from '../selectors/groups';
 import Dialog from '@reach/dialog';
-import SelectGroupPage from './SelectGroupPage';
+import SelectGroupDialog from '../components/ModelPortfolio/SelectGroupDialog';
+import { BackButton } from '../components/ModelPortfolio/ModelPortfolio';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -98,11 +103,21 @@ const MyModelPortfoliosPage = () => {
   const group = useSelector(selectGroupInfoForModelPortfolio);
   const groupsUsingModel = useSelector(selectGroupsUsingAModel);
 
-  const groupInfo = group.groupInfo;
-  const groupId = groupInfo?.groupId;
+  const groupInfo = useSelector(selectGroupInfo);
+
+  const groupData = group.groupInfo;
+  const groupId = groupData?.groupId;
+  const groupName = groupData?.name;
 
   const [selectGroupDialog, setSelectGroupDialog] = useState(false);
-  const [selectedModelId, setSelectedModelId] = useState<string | undefined>();
+  const [selectedModel, setSelectedModel] = useState<
+    ModelPortfolio | undefined
+  >();
+
+  let modelIdUseByGroup: string = '';
+  if (groupId && groupInfo[groupId].data?.model_portfolio) {
+    modelIdUseByGroup = groupInfo[groupId].data?.model_portfolio.id;
+  }
 
   const handleNewModelBtn = () => {
     postData('/api/v1/modelPortfolio/', {})
@@ -147,6 +162,7 @@ const MyModelPortfoliosPage = () => {
       history.replace(`model-portfolio/${modelId}`);
     }
   };
+
   const makeLabel = (modelId: any) => {
     let labelList: string[] = [];
     if (groupsUsingModel[modelId]) {
@@ -155,17 +171,40 @@ const MyModelPortfoliosPage = () => {
       );
     }
     const label = labelList.join(', ');
-
     return label;
   };
+
+  const noModelAvailable = (
+    <ShadowBox>
+      <P style={{ textAlign: 'center' }}>
+        There are no model portfolios available.
+      </P>
+    </ShadowBox>
+  );
+
   return (
     <React.Fragment>
-      <H1>Model Portfolios</H1>
+      {groupId ? (
+        <BackButton>
+          <Link to={`/app/group/${groupId}`}>
+            <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to {groupName}
+          </Link>
+        </BackButton>
+      ) : (
+        <H1>Model Portfolios</H1>
+      )}
       <Table>
-        <StyledP>
-          A model portfolio is a group of assets and target allocations that are
-          designed to meet a particular investing goal.
-        </StyledP>
+        {groupId ? (
+          <H1>
+            Choose a model to apply to{' '}
+            <span style={{ fontWeight: 600 }}>"{groupName}"</span> group:
+          </H1>
+        ) : (
+          <StyledP>
+            A model portfolio is a group of assets and target allocations that
+            are designed to meet a particular investing goal.
+          </StyledP>
+        )}
         <div>
           <TransparentButton onClick={() => history.replace('asset-class')}>
             Edit Asset Classes
@@ -176,71 +215,73 @@ const MyModelPortfoliosPage = () => {
         </div>
       </Table>
       <div style={{ marginTop: '50px' }}>
-        {modelPortfolios.length > 0 ? (
-          modelPortfolios.map((mdl) => {
-            const totalAssignedGroups =
-              mdl.model_portfolio.total_assigned_portfolio_groups;
-            return (
-              <ShadowBox key={mdl.model_portfolio.id}>
-                <Grid
-                  columns={groupId ? '2fr 1fr 250px' : '2fr 1fr 150px 150px'}
-                >
-                  <ModelName>{mdl.model_portfolio.name}</ModelName>
-                  <InUseDiv>
-                    {totalAssignedGroups > 0 && (
-                      <>
-                        <FontAwesomeIcon
-                          icon={faCheck}
-                          size="lg"
-                          style={{
-                            marginRight: '8px',
-                            color: 'var(--brand-green)',
-                          }}
-                        />
-                        <InUse>In Use</InUse> |{' '}
-                        <span style={{ marginRight: '10px' }}>
-                          {totalAssignedGroups} Group
-                          {totalAssignedGroups > 1 && 's'}
-                        </span>
-                        <Tooltip label={makeLabel(mdl.model_portfolio.id)}>
-                          <FontAwesomeIcon icon={faInfoCircle} size="sm" />
-                        </Tooltip>
-                      </>
+        {modelPortfolios.length > 0
+          ? modelPortfolios.map((mdl) => {
+              const totalAssignedGroups =
+                mdl.model_portfolio.total_assigned_portfolio_groups;
+
+              if (modelIdUseByGroup === mdl.model_portfolio.id) {
+                if (modelPortfolios.length === 1) {
+                  return noModelAvailable;
+                }
+                return;
+              }
+              return (
+                <ShadowBox key={mdl.model_portfolio.id}>
+                  <Grid
+                    columns={groupId ? '2fr 1fr 250px' : '2fr 1fr 150px 150px'}
+                  >
+                    <ModelName>{mdl.model_portfolio.name}</ModelName>
+                    <InUseDiv>
+                      {totalAssignedGroups > 0 && (
+                        <>
+                          <FontAwesomeIcon
+                            icon={faCheck}
+                            size="lg"
+                            style={{
+                              marginRight: '8px',
+                              color: 'var(--brand-green)',
+                            }}
+                          />
+                          <InUse>In Use</InUse> |{' '}
+                          <span style={{ marginRight: '10px' }}>
+                            {totalAssignedGroups} Group
+                            {totalAssignedGroups > 1 && 's'}
+                          </span>
+                          <Tooltip label={makeLabel(mdl.model_portfolio.id)}>
+                            <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+                          </Tooltip>
+                        </>
+                      )}
+                    </InUseDiv>
+                    {/* display Apply button only when there is a group id  */}
+                    {!groupId && (
+                      <ApplyTransparentBtn
+                        onClick={() => {
+                          setSelectGroupDialog(true);
+                          setSelectedModel(mdl?.model_portfolio);
+                        }}
+                        disabled={totalAssignedGroups === allGroups?.length}
+                      >
+                        Apply
+                      </ApplyTransparentBtn>
                     )}
-                  </InUseDiv>
-                  {/* display Apply button only when there is a group id  */}
-                  {!groupId && (
-                    <ApplyTransparentBtn
-                      onClick={() => {
-                        setSelectGroupDialog(true);
-                        setSelectedModelId(mdl?.model_portfolio?.id);
-                      }}
-                      disabled={totalAssignedGroups === allGroups?.length}
-                    >
-                      Apply
-                    </ApplyTransparentBtn>
-                  )}
-                  <StyledViewBtn>
-                    <button onClick={() => handleApplyOrViewBtn(mdl)}>
-                      {groupId ? 'Apply Model' : 'View'}
-                    </button>
-                    <FontAwesomeIcon
-                      icon={faAngleRight}
-                      size="lg"
-                      color="var(--brand-blue)"
-                    />
-                  </StyledViewBtn>
-                </Grid>
-              </ShadowBox>
-            );
-          })
-        ) : (
-          <ShadowBox>
-            <P style={{ textAlign: 'center' }}>
-              There are no model portfolios available.
-            </P>
-          </ShadowBox>
-        )}
+                    {}
+                    <StyledViewBtn>
+                      <button onClick={() => handleApplyOrViewBtn(mdl)}>
+                        {groupId ? 'Apply Model' : 'View'}
+                      </button>
+                      <FontAwesomeIcon
+                        icon={faAngleRight}
+                        size="lg"
+                        color="var(--brand-blue)"
+                      />
+                    </StyledViewBtn>
+                  </Grid>
+                </ShadowBox>
+              );
+            })
+          : noModelAvailable}
       </div>
       {selectGroupDialog && (
         <Dialog
@@ -256,7 +297,7 @@ const MyModelPortfoliosPage = () => {
           >
             <FontAwesomeIcon icon={faTimes} size="lg" />
           </button>
-          {selectedModelId && <SelectGroupPage modelId={selectedModelId} />}
+          {selectedModel && <SelectGroupDialog model={selectedModel} />}
         </Dialog>
       )}
     </React.Fragment>

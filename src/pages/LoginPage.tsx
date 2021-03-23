@@ -6,20 +6,33 @@ import { loginSucceeded } from '../actions';
 import { postData, putData } from '../api';
 import LoginLinks from '../components/LoginLinks';
 import { Form, Input, Label } from '../styled/Form';
-import { H1, P } from '../styled/GlobalElements';
+import { H1, P, BulletUL, Li } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import PasswordField from '../components/PasswordField';
 import { selectDevice } from '../selectors/index';
 import styled from '@emotion/styled';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Tooltip from '../components/Tooltip';
 
 const RememberMe = styled(Field)`
   margin-bottom: 20px;
+`;
+
+const InfoIcon = styled(FontAwesomeIcon)`
+  padding-top: 3px;
+  padding-bottom: 3px;
 `;
 
 const LoginPage = () => {
   const [stateMFA, setStateMFA] = useState<any>(null);
   const device: any = useSelector(selectDevice);
   const dispatch = useDispatch();
+  let state = '';
+
+  const isArray = (a: any): boolean => {
+    return !!a && a.constructor === Array;
+  };
 
   if (Date.parse(device?.expiry) <= Date.now()) {
     device.token = null;
@@ -50,17 +63,27 @@ const LoginPage = () => {
         postData('/api/v1/auth/login/', body)
           .then((response) => {
             actions.setSubmitting(false);
-            if (response.data.token === null && response.data.mfa_required) {
-              setStateMFA(response.data.mfa_required);
+            if (
+              response.data.token === null &&
+              response.data.mfa_required_multi
+            ) {
+              setStateMFA(response.data.mfa_required_multi);
             } else {
               dispatch(loginSucceeded(response));
             }
           })
           .catch((error) => {
-            actions.setErrors({
-              password:
-                error.response.data.non_field_errors || 'Failed to login.',
-            });
+            if (error.response) {
+              actions.setErrors({
+                password:
+                  error.response.data.non_field_errors || 'Failed to login.',
+              });
+            } else {
+              actions.setErrors({
+                password: 'Failed to login.',
+              });
+            }
+
             actions.setSubmitting(false);
           });
       }}
@@ -101,6 +124,7 @@ const LoginPage = () => {
         key={'2fa'}
         initialValues={{
           token: '',
+          state: '',
           remember: [],
         }}
         validationSchema={Yup.object().shape({
@@ -114,7 +138,7 @@ const LoginPage = () => {
 
           putData('/api/v1/auth/login/', {
             token: values.token,
-            state: stateMFA && stateMFA.state,
+            state: state,
             remember_device: remember,
           })
             .then((response) => {
@@ -128,46 +152,81 @@ const LoginPage = () => {
               actions.setSubmitting(false);
             });
         }}
-        render={(props) => (
-          <Form onSubmit={props.handleSubmit}>
-            <Label htmlFor="token">Verification Code</Label>
-            {stateMFA.type === 'OTP_TOKEN' ? (
-              <P>
-                Enter the 6-digit security code from your authenticator app.
-              </P>
-            ) : (
-              <P>
-                A text message with a 6-digit verification code was just sent to{' '}
-                {stateMFA.phone_number.slice(0).replace(/.(?=..)/g, '*')}.
-              </P>
-            )}
+        render={(props) => {
+          let mfaTypes = null;
+          const listMFA = [];
 
-            <Input
-              name="token"
-              placeholder="Code"
-              autoComplete="one-time-code"
-              autoFocus
-            />
+          if (isArray(stateMFA)) {
+            stateMFA.map((s: any) => listMFA.push(s));
+          } else {
+            listMFA.push(stateMFA);
+          }
+          mfaTypes = listMFA.map((s) => {
+            if (s.type === 'OTP_TOKEN') {
+              state = s.state;
+              return (
+                <Li>Enter the 6-digit code from your authenticator app.</Li>
+              );
+            } else if (s.type === 'SMS_TOKEN') {
+              state = s.state;
+              return (
+                <Li>
+                  Enter the 6-digit code that was sent via SMS to{' '}
+                  {s.phone_number.slice(0).replace(/.(?=....)/g, '*')}.
+                </Li>
+              );
+            }
+            return null;
+          });
 
-            <P>
-              <ErrorMessage name="token" />
-            </P>
-            <label>
-              <RememberMe type="checkbox" name="remember" value="true" />{' '}
-              Remember this device for 60 days
-            </label>
-            <div>
-              <Button
-                type="submit"
-                disabled={!props.isValid || props.isSubmitting}
-                data-cy="login-button"
-              >
-                Submit
-              </Button>
-              <LoginLinks page="login" />
-            </div>
-          </Form>
-        )}
+          return (
+            <Form onSubmit={props.handleSubmit}>
+              <Label htmlFor="token">Verification Code</Label>
+              {listMFA.length > 1 ? (
+                <P>
+                  You have several MFA options enabled on your account. You can
+                  either:
+                </P>
+              ) : (
+                <P>
+                  You have{' '}
+                  <Tooltip label="Multi-factor authentication is a security feature that requires a user to authenticate with a one-time code in addition to the account password.">
+                    <>
+                      MFA <InfoIcon icon={faQuestionCircle} />
+                    </>
+                  </Tooltip>{' '}
+                  enabled on your account:
+                </P>
+              )}
+              <BulletUL>{mfaTypes}</BulletUL>
+
+              <Input
+                name="token"
+                placeholder="Code"
+                autoComplete="one-time-code"
+                autoFocus
+              />
+
+              <P>
+                <ErrorMessage name="token" />
+              </P>
+              <label>
+                <RememberMe type="checkbox" name="remember" value="true" />{' '}
+                Remember this device for 60 days
+              </label>
+              <div>
+                <Button
+                  type="submit"
+                  disabled={!props.isValid || props.isSubmitting}
+                  data-cy="login-button"
+                >
+                  Submit
+                </Button>
+                <LoginLinks page="login" />
+              </div>
+            </Form>
+          );
+        }}
       />
     );
   }

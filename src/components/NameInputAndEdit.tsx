@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { Edit } from '../styled/GlobalElements';
+import { A, Edit } from '../styled/GlobalElements';
 import { SmallButton } from '../styled/Button';
 
 const Input = styled.input`
@@ -20,6 +20,10 @@ const SmallDoneButton = styled(SmallButton)`
   margin-left: 10px;
 `;
 
+const CancelButton = styled(A)`
+  margin-left: 15px;
+`;
+
 const Container = styled.div``;
 
 const Name = styled.span`
@@ -29,6 +33,7 @@ const Name = styled.span`
 type Props = {
   value: string;
   edit: boolean;
+  cancelButton?: boolean;
   allowEdit: boolean;
   doneBtnTxt?: string;
   editBtnTxt?: string;
@@ -36,6 +41,7 @@ type Props = {
   onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onClickDone: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onClickEdit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClickCancel?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 
   //TODO: replace Style components' types with correct types
   StyledContainer?: any;
@@ -43,11 +49,13 @@ type Props = {
   StyledDoneButton?: any;
   StyledName?: any;
   StyledEditButton?: any;
+  StyledCancelButton?: any;
 };
 
 const NameInputAndEdit = ({
   value,
   edit,
+  cancelButton,
   allowEdit,
   doneBtnTxt = 'Done',
   editBtnTxt = 'Edit',
@@ -55,11 +63,13 @@ const NameInputAndEdit = ({
   onKeyPress,
   onClickDone,
   onClickEdit,
+  onClickCancel,
   StyledContainer = Container,
   StyledInput = Input,
   StyledDoneButton = SmallDoneButton,
   StyledName = Name,
   StyledEditButton = Edit,
+  StyledCancelButton = CancelButton,
 }: Props) => {
   return (
     <Fragment>
@@ -75,6 +85,11 @@ const NameInputAndEdit = ({
           <StyledDoneButton onClick={onClickDone}>
             {doneBtnTxt}
           </StyledDoneButton>
+          {cancelButton && (
+            <StyledCancelButton onClick={onClickCancel}>
+              Cancel
+            </StyledCancelButton>
+          )}
         </StyledContainer>
       ) : (
         <StyledContainer>

@@ -4,7 +4,6 @@ import { postData } from '../../api';
 import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
 import { loadGroupInfo, loadGroups, loadModelPortfolios } from '../../actions';
-import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import NameInputAndEdit from '../NameInputAndEdit';
 import { ModelAssetClass } from '../../types/modelAssetClass';
 import { useHistory } from 'react-router';
@@ -17,11 +16,10 @@ import Grid from '../../styled/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
-import { Button, SmallButton } from '../../styled/Button';
+import { Button } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
-import { A, P } from '../../styled/GlobalElements';
+import { A } from '../../styled/GlobalElements';
 import RouteLeavingGuard from '../RouteLeavingPrompt';
-import { selectIsMobile } from '../../selectors/browser';
 
 const NameInputAndEditStyle = styled(NameInputAndEdit)`
   @media (max-width: 900px) {
@@ -43,7 +41,7 @@ const Delete = styled.button`
     top: 4px;
   }
 `;
-const Box = styled.div`
+export const Box = styled.div`
   border: 1px solid #bfb6b6;
   padding: 10px;
   margin-bottom: 20px;
@@ -60,14 +58,14 @@ const MainContainer = styled.div`
   }
 `;
 
-const Cash = styled.div`
+export const Cash = styled.div`
   border-left: 5px solid var(--brand-green);
   line-height: 30px;
   padding: 10px;
   margin-bottom: 20px;
 `;
 
-const CashPercentage = styled.div`
+export const CashPercentage = styled.div`
   font-size: 20px;
   font-weight: 900;
 `;
@@ -161,12 +159,15 @@ const CancelButton = styled(A)`
   margin-left: 20px;
 `;
 
-const ErroMsg = styled(P)`
-  color: red;
-  margin-top: 5px;
+const ErroMsg = styled.ul`
+  li {
+    margin-top: 15px;
+    padding-left: 10px;
+    color: red;
+  }
 `;
 
-const StyledContainer = styled.div`
+export const StyledContainer = styled.div`
   background: #fff;
   display: inline-block;
   position: relative;
@@ -177,37 +178,35 @@ const StyledContainer = styled.div`
   }
 `;
 
-const StyledName = styled.span`
+export const StyledName = styled.span`
   font-weight: 600;
   font-size: 30px;
 `;
 
-const Enter = styled.span`
-  font-weight: 600;
-  font-size: 16px;
-  position: absolute;
-  top: 0px;
-  border: 1px solid #666b71;
-  border-radius: 25px;
-  padding: 3px 5px;
-  color: #666b71;
-  width: 96px;
-  right: 0;
-  text-align: center;
-`;
+// const Enter = styled.span`
+//   font-weight: 600;
+//   font-size: 16px;
+//   position: absolute;
+//   top: 0px;
+//   border: 1px solid #666b71;
+//   border-radius: 25px;
+//   padding: 3px 5px;
+//   color: #666b71;
+//   width: 96px;
+//   right: 0;
+//   text-align: center;
+// `;
 
 type Props = {
-  modelPortfolio: ModelPortfolioDetailsType;
+  modelPortfolio: any;
   assetClasses: ModelAssetClass[];
   securityBased: boolean;
-  sharedModel: boolean;
 };
 
 const ModelPortoflioBox = ({
   modelPortfolio,
   assetClasses,
   securityBased,
-  sharedModel,
 }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -217,11 +216,9 @@ const ModelPortoflioBox = ({
   );
   const [editName, setEditName] = useState(false);
   const [clearInputSelector, setClearInputSelector] = useState(0);
-  const [symbolError, setSymbolError] = useState('');
 
   const group = useSelector(selectGroupInfoForModelPortfolio);
   const groupsUsingModel = useSelector(selectGroupsUsingAModel);
-  const isMobile = useSelector(selectIsMobile);
 
   const groupInfo = group.groupInfo;
   const groupId = groupInfo?.groupId;
@@ -306,7 +303,7 @@ const ModelPortoflioBox = ({
       <NameInputAndEditStyle
         value={modelPortfolioName}
         edit={editName}
-        allowEdit={!sharedModel}
+        allowEdit={true}
         editBtnTxt={'Edit Name'}
         onChange={(e: any) => setModelPortfolioName(e.target.value)}
         onKeyPress={(e: any) => e.key === 'Enter' && finishEditingName()}
@@ -319,47 +316,36 @@ const ModelPortoflioBox = ({
         <Formik
           initialValues={{
             targets: model,
-            newTarget: {
-              percent: 0,
-              symbol: {},
-              model_asset_class: {},
-            },
+            newTargetPercent: 0,
             cash: 0,
           }}
           enableReinitialize
           initialStatus={{ submitted: false }}
           validate={(values) => {
             const errors: any = {};
-
-            const targets = [...values.targets, values.newTarget];
-            const total = targets.reduce((sum: string, target: any) => {
+            const total = values.targets.reduce((sum: string, target: any) => {
               if (target.percent) {
                 return (+sum + +target.percent).toFixed(3);
               }
               return sum;
-            }, '0');
+            }, values.newTargetPercent);
 
             const cashPercentage = (100 - +total).toFixed(3);
             const roundedCashPercentage =
               Math.round(+cashPercentage * 1000) / 1000;
             if (roundedCashPercentage < -0 || roundedCashPercentage > 100) {
-              errors.cash = 'The cash percentage should be between 0 and 100';
+              errors.cash = 'Cash percentage should be between 0 and 100';
             }
 
-            if (
-              values.newTarget.percent < 0 ||
-              values.newTarget.percent > 100
-            ) {
-              errors.newTarget = 'Percentage should be between 0 and 100';
-            } else if (typeof values.newTarget.percent === 'string') {
-              errors.newTarget = 'Percentage should be a number';
+            if (values.newTargetPercent < 0 || values.newTargetPercent > 100) {
+              errors.newTargetPercent =
+                'Percentage should be between 0 and 100';
+            } else if (typeof values.newTargetPercent === 'string') {
+              errors.newTargetPercent = 'Percentage should be a number';
             }
             return errors;
           }}
           onSubmit={(values, actions) => {
-            if (editMode) {
-              toggleEditMode();
-            }
             if (securityBased) {
               modelPortfolio.model_portfolio_security = values.targets;
             } else {
@@ -371,6 +357,12 @@ const ModelPortoflioBox = ({
                 if (editMode && assignedPortfolioGroups > 0) {
                   applyModel();
                 }
+                actions.resetForm();
+                actions.setSubmitting(false);
+                actions.setStatus({ submitted: true });
+                if (editMode) {
+                  toggleEditMode();
+                }
               })
               .catch((err) => {
                 dispatch(loadModelPortfolios());
@@ -378,9 +370,6 @@ const ModelPortoflioBox = ({
                   toast.error(err.response.data.detail);
                 }
               });
-            actions.resetForm();
-            actions.setSubmitting(false);
-            actions.setStatus({ submitted: true });
           }}
         >
           {(props) => (
@@ -388,18 +377,17 @@ const ModelPortoflioBox = ({
               <FieldArray
                 name="targets"
                 render={(arrayHelpers) => {
-                  const targets = [
-                    ...props.values.targets,
-                    props.values.newTarget,
-                  ];
-                  const total = targets.reduce((sum: string, target: any) => {
-                    if (target.percent) {
-                      return (+sum + +target.percent).toFixed(3);
-                    }
-                    return sum;
-                  }, '0');
-
+                  const total = props.values.targets.reduce(
+                    (sum: string, target: any) => {
+                      if (target.percent) {
+                        return (+sum + +target.percent).toFixed(3);
+                      }
+                      return sum;
+                    },
+                    props.values.newTargetPercent,
+                  );
                   const cashPercentage = (100 - +total).toFixed(3);
+
                   let availableAssetClasses: any = [];
                   if (!securityBased) {
                     const usedAssetClasses = props.values.targets.map(
@@ -413,40 +401,20 @@ const ModelPortoflioBox = ({
                     );
                   }
 
-                  const invalidSymbol =
-                    (securityBased &&
-                      Object.entries(props.values.newTarget.symbol).length ===
-                        0) ||
-                    (!securityBased &&
-                      Object.entries(props.values.newTarget.model_asset_class)
-                        .length === 0);
-
-                  const handleAddToModel = () => {
+                  const handleAddToModel = (symbol: any) => {
                     if (props.isValid) {
-                      if (invalidSymbol) {
-                        securityBased
-                          ? setSymbolError(
-                              'Please select a supported symbol from the dropdown ',
-                            )
-                          : setSymbolError(
-                              'Please select an asset class from the dropdown ',
-                            );
-                        setTimeout(() => setSymbolError(''), 2000);
-                      } else {
-                        arrayHelpers.push(props.values.newTarget);
-                        props.setFieldValue('newTarget.symbol', {});
-                        props.setFieldValue('newTarget.model_asset_class', {});
-                        props.setFieldValue('newTarget.percent', 0);
-                        setClearInputSelector(clearInputSelector + 1);
-                      }
+                      arrayHelpers.push({
+                        symbol,
+                        percent: props.values.newTargetPercent,
+                      });
+                      props.setFieldValue('newTargetPercent', 0);
+                      setClearInputSelector(clearInputSelector + 1);
                     }
                   };
+
                   return (
                     <>
                       <div>
-                        {props.errors.cash && (
-                          <ErroMsg>{props.errors.cash}</ErroMsg>
-                        )}
                         <Cash key="cash">
                           <CashPercentage>
                             {cashPercentage}% Cash
@@ -542,13 +510,10 @@ const ModelPortoflioBox = ({
                             <Percentage>
                               <PercentageInput
                                 id="percent"
-                                name="newTarget.percent"
+                                name="newTargetPercent"
                                 type="number"
                                 onChange={props.handleChange}
-                                value={props.values.newTarget.percent}
-                                onKeyPress={(event: any) =>
-                                  event.key === 'Enter' && handleAddToModel()
-                                }
+                                value={props.values.newTargetPercent}
                                 required
                               />
                               <PercentageLabel htmlFor="percentage">
@@ -557,19 +522,11 @@ const ModelPortoflioBox = ({
                             </Percentage>
                             {securityBased ? (
                               <SymbolSelector
-                                name="newTarget.symbol"
-                                id="symbol"
                                 value={null}
                                 onSelect={(symbol) => {
-                                  props.setFieldValue(
-                                    'newTarget.symbol',
-                                    symbol,
-                                  );
+                                  handleAddToModel(symbol);
                                 }}
                                 clearInput={clearInputSelector}
-                                onKeyPress={(event: any) =>
-                                  event.key === 'Enter' && handleAddToModel()
-                                }
                                 groupId={groupId ? groupId : ''}
                                 forModelSecurity={true}
                               />
@@ -590,34 +547,25 @@ const ModelPortoflioBox = ({
                                 }
                               />
                             )}
-                            {isMobile ? (
+                            {/* {isMobile ? (
                               <SmallButton
                                 type="button"
                                 onClick={handleAddToModel}
                                 style={{ width: '100%' }}
-                                disabled={invalidSymbol || !props.isValid}
+                                disabled={!props.isValid}
                               >
                                 Add
                               </SmallButton>
                             ) : (
-                              !invalidSymbol &&
                               props.isValid && <Enter>Press Enter</Enter>
-                            )}
+                            )} */}
                           </FormContainer>
-                          <div>
-                            <ul>
-                              <li>
-                                {props.errors.newTarget && (
-                                  <ErroMsg>{props.errors.newTarget}</ErroMsg>
-                                )}
-                              </li>
-                              <li>
-                                {symbolError !== '' && (
-                                  <ErroMsg>{symbolError}</ErroMsg>
-                                )}
-                              </li>
-                            </ul>
-                          </div>
+                          <ErroMsg>
+                            {props.errors.newTargetPercent && (
+                              <li>{props.errors.newTargetPercent}</li>
+                            )}
+                            {props.errors.cash && <li>{props.errors.cash}</li>}
+                          </ErroMsg>
                         </div>
                       )}
                     </>
