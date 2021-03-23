@@ -70,7 +70,6 @@ type Props = {
   availableAssetClasses: any[];
   clearInput?: number;
   onSelect: any;
-  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
 const AssetClassSelector = ({
@@ -79,7 +78,6 @@ const AssetClassSelector = ({
   availableAssetClasses,
   clearInput,
   onSelect,
-  onKeyPress,
 }: Props) => {
   const [backToAssetClass, setBackToAssetClass] = useState(false);
   const [input, setInput] = useState('');
@@ -111,7 +109,9 @@ const AssetClassSelector = ({
         name={name}
         id={id}
         onChange={onChange}
-        onKeyPress={onKeyPress}
+        onKeyPress={(event: any) =>
+          event.key === 'Enter' && handleSelect(event.target.value)
+        }
       />
       <StyledComboboxPopover>
         <StyledComboboxList>

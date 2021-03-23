@@ -403,10 +403,17 @@ const ModelPortoflioBox = ({
 
                   const handleAddToModel = (symbol: any) => {
                     if (props.isValid) {
-                      arrayHelpers.push({
-                        symbol,
-                        percent: props.values.newTargetPercent,
-                      });
+                      if (securityBased) {
+                        arrayHelpers.push({
+                          symbol,
+                          percent: props.values.newTargetPercent,
+                        });
+                      } else {
+                        arrayHelpers.push({
+                          model_asset_class: symbol,
+                          percent: props.values.newTargetPercent,
+                        });
+                      }
                       props.setFieldValue('newTargetPercent', 0);
                       setClearInputSelector(clearInputSelector + 1);
                     }
@@ -531,20 +538,15 @@ const ModelPortoflioBox = ({
                                 forModelSecurity={true}
                               />
                             ) : (
+                              //TODO: the component needs some changes (make on enter work properly, only show matched options based on what typed, and show asset class name instead of its id)
                               <AssetClassSelector
                                 name="newTarget.model_asset_class"
                                 id="symbol"
                                 availableAssetClasses={availableAssetClasses}
                                 clearInput={clearInputSelector}
                                 onSelect={(symbol: any) => {
-                                  props.setFieldValue(
-                                    'newTarget.model_asset_class',
-                                    symbol,
-                                  );
+                                  handleAddToModel(symbol);
                                 }}
-                                onKeyPress={(event: any) =>
-                                  event.key === 'Enter' && handleAddToModel()
-                                }
                               />
                             )}
                             {/* {isMobile ? (
