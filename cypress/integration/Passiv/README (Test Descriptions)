@@ -1,42 +1,62 @@
-Hello! Here are the various automated tests for Passiv! 
+Hello! Here are the various automated tests for Passiv!
 
 Cypress lets you choose tests or groups of tests individually or you can open the App and pick exactly what test you would like to run:
         --> To run all tests "npm cypress run"
-        --> To open the app "npx cypress open" 
+        --> To open the app "npx cypress open"
+
+I recommend using Open as their are a bunch of tests.
 
 *** FIXTURE NOTES ***
 
 IMPORTANT READ HERE FOR USABILITY
 
-- credentials:          
+- credentials:
          is where you put in credentials to test the app. Each test calls the credentials from this file so you only have to edit them in one location! Some tests, such as deployment suite are more particularly tailored to my credentials specifically.
         This is because some of the elements (ie. Selecting the assets when editing portfolio are variable for each user.
 
-- testdomain: 
+        When you are using credentials:
+
+        - Duplicate the file "credentials"
+
+        - Rename credentials as "my_credentials"
+
+        - Add to the gitignore
+
+        This will allow you to add whatever credentials you want to use and it wont be uploaded to github.
+
+- testdomain:
         This is where you modify which domain the tests take place, again, each should be directed to this domain automatically. Typically they would be localhost, app.passiv.com/app, beta.getpassiv.com/app
         **** DONT ADD THE SUFFIX TO THE END FOR SPECIFIC PAGES, EACH TEST CONCATENATES IT AUTOMATICALLY ****
 
-- user: 
-        This is the file where the mock stub is registered too. When you test the mock api calls, they will save the registered user in this file, then you can call the user data from the file for the login. 
+- user:
+        This is the file where the mock stub is registered too. When you test the mock api calls, they will save the registered user in this file, then you can call the user data from the file for the login.
 
 - api_v1.json is the timestamp to be fed to the api mocks so it thinks it is online
 
 
-Here I will breakdown the test folders and the caveats for each. 
+Here I will breakdown the test folders and the caveats for each.
 
-    --> Beta Features: 
-            these features are currently in beta testing, that indicates they are on the prod server or are given to a limited number of Passiv.com  users. Any of the tests in this folder will require the tester to enter active account info in order to log in. 
+    --> Beta Features:
+            these features are currently in beta testing, that indicates they are on the prod server or are given to a limited number of Passiv.com  users. Any of the tests in this folder will require the tester to enter active account info in order to log in.
 
     --> Deployment Suite
             These tests are aiming to test components immediately following deployment, it is to be supplemented with the checklist of components to assess.
 
+            ** Test File is meant to be used to test individual components before adding to test suite; basically a unit test bench ** 
+
     --> Mock API Tests:
-            These tests are meant to test 2 main features, login and registration, without actually touching the API and posting.    
-     
+            These tests are meant to test 2 main features, login and registration, without actually touching the API and posting.
+
     --> Unit Tests :
             These are tests which can be run individually for each component. Essentially they are a carve out of the deployment suite. Goals, Asset classes and model portfolio.
-           
+
     --> Testing Bench:
             These are tests using different features or new features in Cypress. It also includes deprecated and legacy tests in case I need to reference something. Eseentially an archive
 
-Last updated Dec 4th, 2020 by Alex Sutherland 
+Last updated Jan 19th, 2021 by Alex Sutherland
+
+Path extensions for stubbing for the info, balances and positions json
+https://api.passiv.com/api/v1/portfolioGroups/e0430f9b-54d8-4263-b45d-3ee33bb997c6/info/
+https://api.passiv.com/api/v1/accounts/6ce8a0e1-17e2-4435-82ea-a30f74a79f3c/balances/
+https://api.passiv.com/api/v1/accounts/6ce8a0e1-17e2-4435-82ea-a30f74a79f3c/positions/
+

@@ -1,0 +1,915 @@
+{
+	"totalEquityTimeframe1Y": [
+		{
+			"date": "2021-01-19T07:35:03.430421Z",
+			"value": 11007.97461333836,
+			"currency": "CAD"
+		},
+		{
+			"date": "2021-01-01T07:35:03.430421Z",
+			"value": 9002.61305673836,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-12-01T07:35:03.430421Z",
+			"value": 6640.96660353836,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-11-01T07:35:03.430421Z",
+			"value": 2328.42295713836,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-10-01T07:35:03.430421Z",
+			"value": 1088.12047373836,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-09-01T07:35:03.430421Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-08-01T07:35:03.430421Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-07-01T07:35:03.430421Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-06-01T07:35:03.430421Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-05-01T07:35:03.430421Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-04-01T07:35:03.430421Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-03-01T07:35:03.430421Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-02-01T07:35:03.430421Z",
+			"value": 0,
+			"currency": "CAD"
+		}
+	],
+	"totalEquityTimeframeYTD": [
+		{
+			"date": "2021-01-19T07:35:05.256197Z",
+			"value": 11007.97461333836,
+			"currency": "CAD"
+		},
+		{
+			"date": "2021-01-15T05:00:00Z",
+			"value": 10335.32577453836,
+			"currency": "CAD"
+		},
+		{
+			"date": "2021-01-08T05:00:00Z",
+			"value": 10345.14562053836,
+			"currency": "CAD"
+		},
+		{
+			"date": "2021-01-01T05:00:00Z",
+			"value": 9002.61305673836,
+			"currency": "CAD"
+		}
+	],
+	"totalEquityTimeframeALL": [
+		{
+			"date": "2021-01-19T07:35:05.504554Z",
+			"value": 11007.97461333836,
+			"currency": "CAD"
+		},
+		{
+			"date": "2021-01-01T04:00:00Z",
+			"value": 9002.61305673836,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-12-01T04:00:00Z",
+			"value": 6640.96660353836,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-11-01T04:00:00Z",
+			"value": 2328.42295713836,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-10-01T04:00:00Z",
+			"value": 1088.12047373836,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-09-20T04:00:00Z",
+			"value": 0,
+			"currency": "CAD"
+		}
+	],
+	"contributions1Y": {
+		"contributions": 10648.25,
+		"date": "2020-01-20T07:35:05.693362Z",
+		"currency": "CAD"
+	},
+	"contributionsYTD": {
+		"contributions": 1950,
+		"date": "2021-01-19T07:35:05.693878Z",
+		"currency": "CAD"
+	},
+	"contributionsALL": {
+		"contributions": 10648.25,
+		"date": "2021-01-19T07:35:05.694481Z",
+		"currency": "CAD"
+	},
+	"contributionTimeframe1Y": [
+		{
+			"date": "2021-01-01T07:35:05.695211Z",
+			"value": 1950,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-12-01T07:35:05.695211Z",
+			"value": 2100,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-11-01T07:35:05.695211Z",
+			"value": 3900,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-10-01T07:35:05.695211Z",
+			"value": 1698.25,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-09-01T07:35:05.695211Z",
+			"value": 2000,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-08-01T07:35:05.695211Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-07-01T07:35:05.695211Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-06-01T07:35:05.695211Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-05-01T07:35:05.695211Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-04-01T07:35:05.695211Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-03-01T07:35:05.695211Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-02-01T07:35:05.695211Z",
+			"value": 0,
+			"currency": "CAD"
+		}
+	],
+	"contributionTimeframeYTD": [
+		{
+			"date": "2021-01-01T07:35:05.700751Z",
+			"value": 1950,
+			"currency": "CAD"
+		}
+	],
+	"contributionTimeframeALL": [
+		{
+			"date": "2021-01-01T07:35:05.701185Z",
+			"value": 1950,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-01-01T07:35:05.701185Z",
+			"value": 9698.25,
+			"currency": "CAD"
+		}
+	],
+	"contributionTimeframeCumulative1Y": [
+		{
+			"date": "2021-01-19T07:35:05.704686Z",
+			"value": 10648.25,
+			"currency": "CAD"
+		},
+		{
+			"date": "2021-01-01T07:35:05.704686Z",
+			"value": 8698.25,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-12-01T07:35:05.704686Z",
+			"value": 6598.25,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-11-01T07:35:05.704686Z",
+			"value": 2698.25,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-10-01T07:35:05.704686Z",
+			"value": 1000,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-09-01T07:35:05.704686Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-08-01T07:35:05.704686Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-07-01T07:35:05.704686Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-06-01T07:35:05.704686Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-05-01T07:35:05.704686Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-04-01T07:35:05.704686Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-03-01T07:35:05.704686Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-02-01T07:35:05.704686Z",
+			"value": 0,
+			"currency": "CAD"
+		}
+	],
+	"contributionTimeframeCumulativeYTD": [
+		{
+			"date": "2021-01-19T07:35:05.710064Z",
+			"value": 10648.25,
+			"currency": "CAD"
+		},
+		{
+			"date": "2021-01-15T05:00:00Z",
+			"value": 10048.25,
+			"currency": "CAD"
+		},
+		{
+			"date": "2021-01-08T05:00:00Z",
+			"value": 9648.25,
+			"currency": "CAD"
+		},
+		{
+			"date": "2021-01-01T05:00:00Z",
+			"value": 8698.25,
+			"currency": "CAD"
+		}
+	],
+	"contributionTimeframeCumulativeALL": [
+		{
+			"date": "2021-01-19T07:35:05.713044Z",
+			"value": 10648.25,
+			"currency": "CAD"
+		},
+		{
+			"date": "2021-01-01T04:00:00Z",
+			"value": 8698.25,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-12-01T04:00:00Z",
+			"value": 6598.25,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-11-01T04:00:00Z",
+			"value": 2698.25,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-10-01T04:00:00Z",
+			"value": 1000,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-09-20T04:00:00Z",
+			"value": 0,
+			"currency": "CAD"
+		}
+	],
+	"withdrawalTimeframe1Y": [
+		{
+			"date": "2021-01-01T07:35:05.716273Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-12-01T07:35:05.716273Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-11-01T07:35:05.716273Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-10-01T07:35:05.716273Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-09-01T07:35:05.716273Z",
+			"value": -1000,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-08-01T07:35:05.716273Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-07-01T07:35:05.716273Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-06-01T07:35:05.716273Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-05-01T07:35:05.716273Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-04-01T07:35:05.716273Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-03-01T07:35:05.716273Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-02-01T07:35:05.716273Z",
+			"value": 0,
+			"currency": "CAD"
+		}
+	],
+	"withdrawalTimeframeYTD": [
+		{
+			"date": "2021-01-01T07:35:05.719473Z",
+			"value": 0,
+			"currency": "CAD"
+		}
+	],
+	"withdrawalTimeframeALL": [
+		{
+			"date": "2021-01-01T07:35:05.721648Z",
+			"value": 0,
+			"currency": "CAD"
+		},
+		{
+			"date": "2020-01-01T07:35:05.721648Z",
+			"value": -1000,
+			"currency": "CAD"
+		}
+	],
+	"contributionStreak1Y": 5,
+	"contributionMonthsContributed1Y": 5,
+	"contributionTotalMonths1Y": 12,
+	"contributionStreakYTD": 1,
+	"contributionMonthsContributedYTD": 1,
+	"contributionTotalMonthsYTD": 1,
+	"contributionStreakALL": 5,
+	"contributionMonthsContributedALL": 5,
+	"contributionTotalMonthsALL": 5,
+	"dividends1Y": [
+		{
+			"symbol": {
+				"id": "cb194cd5-9986-4383-9991-0d329c0801d7",
+				"symbol": "VGRO.TO",
+				"description": "Vanguard Investments Canada Inc - Vanguard Growth ETF Portfolio (the U",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"amount": 0.91,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "4b813287-06f4-465a-a032-e85d5b14db44",
+				"symbol": "XGD.TO",
+				"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"amount": 0.65,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "6257a5db-bea1-409e-b8f3-9d7695d7feff",
+				"symbol": "XMA.TO",
+				"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"amount": 0.35,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "0b19f77c-d6be-4881-a093-432825ae7202",
+				"symbol": "XRE.TO",
+				"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"amount": 2.6,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "31c4cbec-742e-4fe6-86a6-497fe24c2019",
+				"symbol": "ARKF",
+				"description": "ARK Fintech Innovation ETF",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"amount": 0.5989398,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "e4b0e85a-b549-4af4-ac36-1e71df399e7a",
+				"symbol": "WWE",
+				"description": "World Wrestling Entertainment, Inc. - Class A",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"amount": 0.6499134,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "d3c46e32-73e8-4418-aed9-7f42cc68b46c",
+				"symbol": "HD",
+				"description": "Home Depot, Inc.",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"amount": 1.6311552,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "5563d000-af45-47ba-a2ec-7be565340077",
+				"symbol": "MSFT",
+				"description": "Microsoft Corporation",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"amount": 0.6116832,
+			"currency": "<Currency: CAD>"
+		}
+	],
+	"dividendsALL": [
+		{
+			"symbol": {
+				"id": "cb194cd5-9986-4383-9991-0d329c0801d7",
+				"symbol": "VGRO.TO",
+				"description": "Vanguard Investments Canada Inc - Vanguard Growth ETF Portfolio (the U",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"amount": 0.91,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "4b813287-06f4-465a-a032-e85d5b14db44",
+				"symbol": "XGD.TO",
+				"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"amount": 0.65,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "6257a5db-bea1-409e-b8f3-9d7695d7feff",
+				"symbol": "XMA.TO",
+				"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"amount": 0.35,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "0b19f77c-d6be-4881-a093-432825ae7202",
+				"symbol": "XRE.TO",
+				"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"amount": 2.6,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "31c4cbec-742e-4fe6-86a6-497fe24c2019",
+				"symbol": "ARKF",
+				"description": "ARK Fintech Innovation ETF",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"amount": 0.5989398,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "e4b0e85a-b549-4af4-ac36-1e71df399e7a",
+				"symbol": "WWE",
+				"description": "World Wrestling Entertainment, Inc. - Class A",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"amount": 0.6499134,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "d3c46e32-73e8-4418-aed9-7f42cc68b46c",
+				"symbol": "HD",
+				"description": "Home Depot, Inc.",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"amount": 1.6311552,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "5563d000-af45-47ba-a2ec-7be565340077",
+				"symbol": "MSFT",
+				"description": "Microsoft Corporation",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"amount": 0.6116832,
+			"currency": "<Currency: CAD>"
+		}
+	],
+	"dividendsYTD": [
+		{
+			"symbol": {
+				"id": "cb194cd5-9986-4383-9991-0d329c0801d7",
+				"symbol": "VGRO.TO",
+				"description": "Vanguard Investments Canada Inc - Vanguard Growth ETF Portfolio (the U",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"amount": 0.91,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "4b813287-06f4-465a-a032-e85d5b14db44",
+				"symbol": "XGD.TO",
+				"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"amount": 0.65,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "6257a5db-bea1-409e-b8f3-9d7695d7feff",
+				"symbol": "XMA.TO",
+				"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"amount": 0.35,
+			"currency": "<Currency: CAD>"
+		},
+		{
+			"symbol": {
+				"id": "0b19f77c-d6be-4881-a093-432825ae7202",
+				"symbol": "XRE.TO",
+				"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"amount": 1.3,
+			"currency": "<Currency: CAD>"
+		}
+	],
+	"dividendIncome1Y": 8.001691600000001,
+	"dividendIncomeALL": 8.001691600000001,
+	"dividendIncomeYTD": 3.21,
+	"monthlyDividends1Y": 0.6668076333333334,
+	"monthlyDividendsYTD": 3.21,
+	"monthlyDividendsALL": 2.0004229000000002,
+	"badTickers": [],
+	"dividendTimeline1Y": [
+		{
+			"date": "2021-01-01T02:35:05.764743-05:00",
+			"dividends": [
+				{
+					"symbol": "VGRO.TO",
+					"amount": 0.91,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "XGD.TO",
+					"amount": 0.65,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "XMA.TO",
+					"amount": 0.35,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "XRE.TO",
+					"amount": 1.3,
+					"currency": "CAD"
+				}
+			]
+		},
+		{
+			"date": "2020-12-01T02:35:05.764743-05:00",
+			"dividends": [
+				{
+					"symbol": "ARKF",
+					"amount": 0.5989398,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "WWE",
+					"amount": 0.6499134,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "HD",
+					"amount": 1.6311552,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "MSFT",
+					"amount": 0.6116832,
+					"currency": "CAD"
+				}
+			]
+		},
+		{
+			"date": "2020-11-01T02:35:05.764743-05:00",
+			"dividends": [
+				{
+					"symbol": "XRE.TO",
+					"amount": 1.3,
+					"currency": "CAD"
+				}
+			]
+		},
+		{
+			"date": "2020-10-01T02:35:05.764743-05:00",
+			"dividends": []
+		},
+		{
+			"date": "2020-09-01T02:35:05.764743-05:00",
+			"dividends": []
+		},
+		{
+			"date": "2020-08-01T02:35:05.764743-05:00",
+			"dividends": []
+		},
+		{
+			"date": "2020-07-01T02:35:05.764743-05:00",
+			"dividends": []
+		},
+		{
+			"date": "2020-06-01T02:35:05.764743-05:00",
+			"dividends": []
+		},
+		{
+			"date": "2020-05-01T02:35:05.764743-05:00",
+			"dividends": []
+		},
+		{
+			"date": "2020-04-01T02:35:05.764743-05:00",
+			"dividends": []
+		},
+		{
+			"date": "2020-03-01T02:35:05.764743-05:00",
+			"dividends": []
+		},
+		{
+			"date": "2020-02-01T02:35:05.764743-05:00",
+			"dividends": []
+		},
+		{
+			"date": "2020-01-01T02:35:05.764743-05:00",
+			"dividends": []
+		}
+	],
+	"dividendTimelineYTD": [
+		{
+			"date": "2021-01-01T02:35:05.766057-05:00",
+			"dividends": [
+				{
+					"symbol": "VGRO.TO",
+					"amount": 0.91,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "XGD.TO",
+					"amount": 0.65,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "XMA.TO",
+					"amount": 0.35,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "XRE.TO",
+					"amount": 1.3,
+					"currency": "CAD"
+				}
+			]
+		}
+	],
+	"dividendTimelineALL": [
+		{
+			"date": "2021-01-01T02:35:05.766316-05:00",
+			"dividends": [
+				{
+					"symbol": "VGRO.TO",
+					"amount": 0.91,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "XGD.TO",
+					"amount": 0.65,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "XMA.TO",
+					"amount": 0.35,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "XRE.TO",
+					"amount": 1.3,
+					"currency": "CAD"
+				}
+			]
+		},
+		{
+			"date": "2020-01-01T02:35:05.766316-05:00",
+			"dividends": [
+				{
+					"symbol": "ARKF",
+					"amount": 0.5989398,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "WWE",
+					"amount": 0.6499134,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "HD",
+					"amount": 1.6311552,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "MSFT",
+					"amount": 0.6116832,
+					"currency": "CAD"
+				},
+				{
+					"symbol": "XRE.TO",
+					"amount": 1.3,
+					"currency": "CAD"
+				}
+			]
+		}
+	],
+	"fees1Y": -108.3565224,
+	"feesYTD": -17.645966,
+	"feesALL": -108.3565224,
+	"feeSavings1Y": 45,
+	"feeSavingsYTD": 20,
+	"feeSavingsALL": 45
+}

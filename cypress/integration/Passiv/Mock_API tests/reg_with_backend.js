@@ -1,18 +1,19 @@
 
 describe('Database test', () => {
         it('Data is stored in correct format in JSON file', () => {
-    
-            cy.fixture('testDomain').as('login')
-            cy.get('@login').then(domain => {
-            cy.visit((domain.test).concat('/login')) })
-
-    // the variable for the info that will be stored in the JSON db
-    let body 
-
-        cy.intercept('GET', '/api/v1', { fixture: 'api_v1.json' })
+            cy.intercept('GET', '/api/v1', { fixture: 'api_v1.json' })
             .as('API poke')
 
-    
+
+            cy.fixture('testDomain').as('login')
+            cy.get('@login').then(domain => {
+            cy.visit((domain.test).concat('/register')) })
+
+    // the variable for the info that will be stored in the JSON db
+    let body
+
+
+
 
         cy.intercept('POST', '/api/v1/auth/register/', req => {
                     console.log('POST user info', req)
@@ -20,7 +21,7 @@ describe('Database test', () => {
                 }).as('Save')
 
 
-                //cons values 
+                //cons values
                 const  name = 'Alex Sutherland'
                 const  email = 'testemail@passiv.com'
                 const  pass = 'testpass12345@'
@@ -39,7 +40,7 @@ describe('Database test', () => {
                 .wait('@Save')
                 .then(() => {
                     cy.writeFile('cypress/fixtures/user.json', JSON.stringify (body, null, 2))
-                })       
+                })
             })
 
         it('Add Auth Token', () => {
@@ -52,9 +53,18 @@ describe('Database test', () => {
 
 describe('Registration Test', () => {
         it('Registration works but does not create a new user', () => {
-            
-        cy.visit('localhost:3000/app/register')       
-            
+
+
+            cy.intercept('GET', '/api/v1', { fixture: 'api_v1.json' })
+            .as('API poke')
+
+
+            cy.fixture('testDomain').as('login')
+            cy.get('@login').then(domain => {
+            cy.visit((domain.test).concat('/register')) })
+
+
+
 
         cy.intercept('POST', '/api/v1/auth/register/', { fixture: 'user.json'})
         .as('Success')
@@ -82,8 +92,8 @@ describe('Registration Test', () => {
         cy.readFile('cypress/fixtures/user.json').then( obj => {
             cy.writeFile('cypress/fixtures/user.json', Object.assign(obj, {token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MDcxLCJ1c2VybmFtZSI6IjRiVVRHWlBpZFROSDlIWW5PYjdGbXlIcDZaVXRCQiIsImV4cCI6MTYwNzk2NjI5MywiZW1haWwiOiJhc3V0aGVybGFuZDgyMTlAZ21haWwuY29tIiwib3JpZ19pYXQiOjE2MDc1MzQyOTN9.FeoVWnIHnCTNhQ9sT3Tt4al62UXTrNtmyjitqSq2JbE"}))
         })
-    })   
-             
+    })
+
 })
 
 })
