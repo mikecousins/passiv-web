@@ -32,3 +32,28 @@ export type ModelAssetClassWithPercentage = {
   model_asset_class: ModelAssetClass;
   percent: string;
 };
+
+export type TradePriority = {
+  symbol_id: string;
+  allow_buy: boolean;
+  sell_priority: number;
+};
+
+export type AccountPriorities = {
+  account: {
+    id: string;
+    number: string;
+    name: string;
+  };
+  trade_priority: TradePriority[];
+};
+
+export type AssetClassPriorities = {
+  asset_class: {
+    id: string;
+    name: string;
+    percent: string;
+    exclude_asset_class: boolean;
+  };
+  accounts_priorities: AccountPriorities[];
+};

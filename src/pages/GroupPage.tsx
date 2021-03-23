@@ -8,6 +8,7 @@ import AccountTab from '../components/AccountTab';
 import GroupSettingsTab from '../components/GroupSettingsTab';
 import styled from '@emotion/styled';
 import { selectPathname } from '../selectors/router';
+import Prioritization from '../components/ModelPortfolio/Prioritization';
 
 export const SubNav = styled.div`
   border-bottom: 1px solid #e5e5e5;
@@ -99,6 +100,9 @@ const GroupPage = () => {
           >
             Group Settings
           </Link>
+          <Link to={`/app/group/${groupId}/prioritization`}>
+            Prioritization
+          </Link>
         </NavContainer>
       </SubNav>
       <Route path="/app/group/:groupId" exact component={OverviewTab} />
@@ -107,6 +111,11 @@ const GroupPage = () => {
         component={AccountTab}
       />
       <Route path="/app/group/:groupId/settings" component={GroupSettingsTab} />
+      <Route
+        path="/app/group/:groupId/prioritization"
+        exact
+        component={Prioritization}
+      />
     </React.Fragment>
   );
 };
