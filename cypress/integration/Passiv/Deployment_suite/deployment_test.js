@@ -411,7 +411,7 @@ describe('Add goals', () => {
         .click()
     })
 
-    it('Enter goal ammount', () => {
+    it('Enter goal amount', () => {
         cy.get('div').find('label').contains('I want to reach $').next()   
         .click({multiple:true})
         .type(goalnumber)
@@ -529,7 +529,7 @@ describe('Add goals', () => {
     // })
 
 
-    it('Enter goal ammount', () => {
+    it('Enter goal amount', () => {
         cy.get('div').find('label').contains('I want to reach $').next()   
         .click({multiple:true})
         .type(goalnumber)
