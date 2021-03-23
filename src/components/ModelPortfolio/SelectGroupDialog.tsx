@@ -11,7 +11,7 @@ import { loadGroups, loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
 import { ModelPortfolio } from '../../types/modelPortfolio';
 
-const GreyBox = styled.div`
+export const GreyBox = styled.div`
   background: #f1f1f1;
   padding: 20px;
   margin-bottom: 20px;

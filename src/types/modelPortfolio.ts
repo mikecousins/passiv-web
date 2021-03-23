@@ -37,6 +37,7 @@ export type TradePriority = {
   symbol_id: string;
   allow_buy: boolean;
   sell_priority: number;
+  unsupported_symbols: any; //TODO: use an actual type
 };
 
 export type AccountPriorities = {
