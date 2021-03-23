@@ -143,7 +143,7 @@ const SideBar = () => {
             <SideBarLink name="Reporting" linkPath={REPORTING_PATH} />
           )}
           {goalsPageFeatureActive && (
-            <SideBarLink name="Goals" linkPath={GOALS_PATH} beta={true} />
+            <SideBarLink name="Goals" linkPath={GOALS_PATH} />
           )}
           <SideBarLink name="Refer a Friend" linkPath={REFERRALS_PATH} />
           <SideBarLink name="Settings" linkPath={SETTINGS_PATH} />

@@ -23,6 +23,7 @@ import {
 import Tooltip from './Tooltip';
 import Number from './Number';
 import { selectAccounts } from '../selectors/accounts';
+import { selectAuthorizations } from '../selectors';
 import TradesExplanation from './TradesExplanation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -72,6 +73,7 @@ export const PortfolioGroupTrades = ({
   onClose,
 }: Props) => {
   const accounts = useSelector(selectAccounts);
+  const authorizations = useSelector(selectAuthorizations);
   const settings = useSelector(selectCurrentGroupSettings);
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
   const [tradesCache, setTradesCache] = useState(null);
@@ -79,6 +81,25 @@ export const PortfolioGroupTrades = ({
   const history = useHistory();
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
+
+  let isBlendedAccount = false;
+
+  const brokerages = groupAccounts.map((account) => {
+    if (authorizations !== undefined) {
+      const authorization =
+        authorizations &&
+        authorizations.find(
+          (authorization) =>
+            authorization.id === account.brokerage_authorization,
+        );
+      return authorization && authorization.brokerage;
+    }
+    return null;
+  });
+
+  isBlendedAccount =
+    brokerages.some((brokerage: any) => brokerage.allows_trading === true) &&
+    brokerages.some((brokerage: any) => brokerage.allows_trading === false);
 
   const triggerTradesSubmitted = () => {
     setTradesSubmitted(true);
@@ -292,7 +313,8 @@ export const PortfolioGroupTrades = ({
       ),
       visible:
         settings !== null &&
-        settings!.prevent_trades_in_non_tradable_accounts === true,
+        settings!.prevent_trades_in_non_tradable_accounts === true &&
+        isBlendedAccount,
     },
     {
       name: 'no_trades',

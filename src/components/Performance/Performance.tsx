@@ -1,7 +1,10 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectSelectedTimeframe } from '../../selectors/performance';
+import {
+  selectSelectedTimeframe,
+  selectRateOfReturn,
+} from '../../selectors/performance';
 import PerformanceChange from './PerformanceChange';
 import PerformanceCapitalGains from './PerformanceCapitalGains';
 import PerformanceContributions from './PerformanceContributions';
@@ -19,6 +22,7 @@ import TimeframePicker from './TimeframePicker';
 import { P, A } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import PerformanceRateOfReturn from './PerformanceRateOfReturn';
 
 const Grid = styled.div`
   @media (min-width: 900px) {
@@ -81,14 +85,17 @@ const BetaBanner = styled(P)`
 
 export const Performance = () => {
   let currentTimeframe = useSelector(selectSelectedTimeframe);
+  let rateOfReturn = useSelector(selectRateOfReturn);
 
   return (
     <React.Fragment>
-      <div style={{ margin: '5px' }}>
-        <FontAwesomeIcon icon={faExclamationTriangle} />
-        &nbsp;Reporting data may be temporarily inaccurate due to issues with
-        our data provider
-      </div>
+      {false && (
+        <div style={{ margin: '5px' }}>
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+          &nbsp;Reporting data may be temporarily inaccurate due to issues with
+          our data provider
+        </div>
+      )}
 
       <TimeframePicker />
       <Grid>
@@ -112,6 +119,11 @@ export const Performance = () => {
           <ShadowBox>
             <PerformanceChange />
           </ShadowBox>
+          {rateOfReturn && (
+            <ShadowBox>
+              <PerformanceRateOfReturn />
+            </ShadowBox>
+          )}
           <ShadowBox>
             <PerformanceCapitalGains />
           </ShadowBox>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -28,7 +28,10 @@ import { selectLimitOrdersFeature } from '../../selectors/features';
 import PreLoadLink from '../PreLoadLink';
 import { SETTINGS_PATH } from '../../apps/Paths';
 import { selectAccounts } from '../../selectors/accounts';
-import { selectCurrentGroupSettings } from '../../selectors/groups';
+import {
+  selectCurrentGroupSettings,
+  selectCurrentGroupId,
+} from '../../selectors/groups';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import { TradeType, TradeBasketType } from '../../types/tradeBasket';
@@ -66,12 +69,15 @@ const RebalanceWidget = ({
   const [error, setError] = useState<any>();
   const groupSettings = useSelector(selectCurrentGroupSettings);
   const authorizations = useSelector(selectAuthorizations);
+  const currentGroupId = useSelector(selectCurrentGroupId);
 
-  const hasOnlyNonTradableTrades = trades.trades.every((trade: any) => {
-    return (
-      trade.account.brokerage_authorization.brokerage.allows_trading === false
-    );
-  });
+  const hasOnlyNonTradableTrades =
+    trades.trades &&
+    trades.trades.every((trade: any) => {
+      return (
+        trade.account.brokerage_authorization.brokerage.allows_trading === false
+      );
+    });
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
@@ -165,7 +171,7 @@ const RebalanceWidget = ({
     setError(null);
   };
 
-  const closeWidget = () => {
+  const closeWidget = useCallback(() => {
     setPlacingOrders(false);
     setValidatingOrders(false);
     setOrderSummary(null);
@@ -177,7 +183,13 @@ const RebalanceWidget = ({
     if (onClose) {
       onClose();
     }
-  };
+  }, [onClose, tradesUntrigger]);
+
+  useEffect(() => {
+    if (currentGroupId !== null) {
+      closeWidget();
+    }
+  }, [currentGroupId, closeWidget]);
 
   const handleHideTrades = () => {
     let today = new Date();

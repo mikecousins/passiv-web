@@ -206,8 +206,8 @@ const UpgradeOfferPage = () => {
       <ModifiedShadowBox background="#04a287">
         <H1>Questrade Elite Upgrade</H1>
         <P>
-          You're good to go! Questrade has given you <Bold>free</Bold> access to
-          Passiv Elite for one year.
+          You're good to go! You will have <Bold>free</Bold> access to Passiv
+          Elite as long as your Questrade account is connected to Passiv.
         </P>
         <P>
           Spread the good news and tell your friends about this offer. Share

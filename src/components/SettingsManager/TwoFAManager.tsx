@@ -14,10 +14,10 @@ const TwoFAManager = () => {
   if (Is2FAFeatureEnabled === true) {
     return (
       <InputContainer>
-        <OptionsTitle>Two-Factor Authentication</OptionsTitle>
+        <OptionsTitle>Multi-Factor Authentication</OptionsTitle>
         <DisabledBox>
-          Protect your account by enabling 2-factor authentication. You can use
-          an authenticator app or SMS on your phone.
+          Protect your account by enabling multi-factor authentication (MFA).
+          You can use an authenticator app or SMS on your phone.
         </DisabledBox>
         <OTP2FAManager />
         <SMS2FAManager />

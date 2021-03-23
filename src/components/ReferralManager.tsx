@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import {
@@ -7,7 +7,8 @@ import {
   selectReferralValue,
   selectReferralCurrency,
 } from '../selectors/referrals';
-import { getData } from '../api';
+import { selectReferralCharity } from '../selectors/features';
+import { getData, putData } from '../api';
 import { Chart } from 'react-charts';
 import {
   faSpinner,
@@ -27,8 +28,15 @@ import {
   Title,
 } from '../styled/PortfolioGroupDetails';
 
-import { A, P, BulletUL } from '../styled/GlobalElements';
+import { A, P, BulletUL, OptionsTitle } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
+import { Button } from '../styled/Button';
+import { selectSettings } from '../selectors';
+import NameInputAndEdit from './NameInputAndEdit';
+import { loadSettings } from '../actions';
+import { Field, Form, Formik } from 'formik';
+import { StyledSelect } from '../components/PortfolioGroupSettings/OrderTargetAllocations';
+import { toast } from 'react-toastify';
 
 interface Referral {
   created_date: Date;
@@ -135,6 +143,48 @@ const ReferralA = styled(A)`
   font-size: inherit;
 `;
 
+const InvoiceCharityBox = styled(Grid)``;
+
+const EtransferEmail = styled.div`
+  display: flex;
+  * {
+    font-size: 18px;
+  }
+`;
+
+const StyledInput = styled.input`
+  width: fit-content;
+  border-bottom: 1px solid;
+  @media (max-width: 900px) {
+    max-width: 50%;
+  }
+`;
+const PaymentExplanation = styled.div`
+  margin-top: 40px;
+  font-size: 18px;
+  ul {
+    list-style-type: none;
+    li {
+      margin-bottom: 20px;
+    }
+  }
+`;
+
+const SelectedCharity = styled.div`
+  margin-bottom: 20px;
+`;
+
+const RadioGroup = styled.div`
+  margin: 25px 0;
+  label {
+    font-size: 18px;
+    margin-right: 10px;
+  }
+  input {
+    margin-right: 10px;
+  }
+`;
+
 const ReferralMetric = ({
   title,
   value,
@@ -167,9 +217,12 @@ const ReferralMetric = ({
 };
 
 const ReferralManager = () => {
+  const dispatch = useDispatch();
   const referralCode = useSelector(selectReferralCode);
   const referralValue = useSelector(selectReferralValue);
   const referralCurrency = useSelector(selectReferralCurrency);
+  const referralCharity = useSelector(selectReferralCharity);
+  const settings = useSelector(selectSettings);
 
   const referralURL = 'https://passiv.com?ref=' + referralCode;
   const [referrals, setReferrals] = useState<Referral[]>([]);
@@ -183,6 +236,33 @@ const ReferralManager = () => {
   const [copied, setCopied] = useState(false);
 
   const [invoices, setInvoices] = useState([]);
+
+  const [updatingPayment, setUpdatingPayment] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState('');
+  const [charities, setCharities] = useState([]);
+
+  const [editingEmail, setEditingEmail] = useState(false);
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+
+  useEffect(() => {
+    if (settings) {
+      if (settings.e_transfer_email) {
+        setEmail(settings.e_transfer_email);
+        setSelectedPayment('eTransfer');
+      } else if (settings?.affiliate_charity) {
+        setSelectedPayment('charity');
+        setEmail(settings.email);
+      } else {
+        setEmail(settings.email);
+        setSelectedPayment('eTransfer');
+      }
+    }
+  }, [settings]);
+
+  useEffect(() => {
+    setTimeout(() => setEmailError(''), 5000);
+  }, [emailError]);
 
   let earnings = 0;
   const validatedReferrals = referrals.filter((r) => r.validated === true);
@@ -222,7 +302,16 @@ const ReferralManager = () => {
         }
         console.log(err);
       });
+    getData('/api/v1/charities').then((res) => {
+      setCharities(res.data);
+      setLoading(false);
+    });
   }
+
+  const cancelEditingEmail = () => {
+    setEditingEmail(false);
+    dispatch(loadSettings());
+  };
 
   const eliteUpgrades = referrals.filter((x, i) => x.validated).length;
   const numberOfSignups = referrals.length;
@@ -360,31 +449,231 @@ const ReferralManager = () => {
         </div>
       )}
 
-      {invoices.length > 0 ? (
-        <>
-          <SubHeading>Invoices</SubHeading>
-          <ShadowBox>
-            {loading ? (
-              <FontAwesomeIcon icon={faSpinner} spin />
-            ) : (
-              <Grid columns="1fr 1fr 1fr 1fr">
-                {invoices.map((inv: any) => {
-                  return (
-                    <div style={{ marginBottom: '30px', padding: '5px' }}>
-                      <FontAwesomeIcon
-                        icon={faFileInvoice}
-                        size="lg"
-                        style={{ marginRight: '10px' }}
-                      />
-                      <a href={inv.pdf_url}>{inv.end_date}</a>
-                    </div>
-                  );
-                })}
-              </Grid>
-            )}
-          </ShadowBox>
-        </>
-      ) : null}
+      <InvoiceCharityBox columns={invoices.length > 0 ? '1fr 1fr' : '1fr'}>
+        {referralCharity && (
+          <div>
+            <SubHeading>Payment Options</SubHeading>
+            <ShadowBox>
+              <Formik
+                initialValues={{
+                  payment: selectedPayment,
+                  selectedCharity: settings?.affiliate_charity
+                    ? settings?.affiliate_charity.id
+                    : null,
+                }}
+                enableReinitialize
+                validate={(values) => {
+                  const errors: any = {};
+                  if (
+                    values.payment === 'charity' &&
+                    (values.selectedCharity === null ||
+                      values.selectedCharity === '')
+                  ) {
+                    errors.payment = 'Select a charity from dropdown.';
+                  }
+                  if (
+                    values.payment === 'eTransfer' &&
+                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
+                  ) {
+                    errors.payment = 'Must be a valid email.';
+                  }
+                  return errors;
+                }}
+                onSubmit={(values, actions) => {
+                  if (settings) {
+                    setUpdatingPayment(true);
+                    let newSettings = { ...settings };
+                    if (values.payment === 'eTransfer') {
+                      newSettings.affiliate_charity = null;
+                      newSettings.e_transfer_email = email;
+                    }
+                    if (
+                      values.payment === 'charity' &&
+                      values.selectedCharity !== null
+                    ) {
+                      const charity = {
+                        id: values.selectedCharity,
+                      };
+                      newSettings.e_transfer_email = null;
+                      newSettings.affiliate_charity = charity;
+                    }
+                    putData('/api/v1/settings/', newSettings)
+                      .then(() => {
+                        setEditingEmail(false);
+                        dispatch(loadSettings());
+                        setTimeout(() => {
+                          setUpdatingPayment(false);
+                          toast.success(
+                            'Your payment info updated successfully!',
+                          );
+                        }, 250);
+                      })
+                      .catch((error) => {
+                        setUpdatingPayment(false);
+                        toast.error(
+                          'Failed to update the payment method. Please try again!',
+                        );
+                      });
+                    actions.resetForm();
+                  }
+                }}
+              >
+                {({
+                  values,
+                  errors,
+                  dirty,
+                  isValid,
+                  handleSubmit,
+                  resetForm,
+                }) => (
+                  <Form>
+                    {updatingPayment ? (
+                      <FontAwesomeIcon icon={faSpinner} spin />
+                    ) : (
+                      <>
+                        <P id="my-radio-group">
+                          Choose one option. You can change your payment option
+                          each quarter.
+                        </P>
+                        <RadioGroup
+                          role="group"
+                          aria-labelledby="my-radio-group"
+                        >
+                          <label>
+                            <Field
+                              type="radio"
+                              name="payment"
+                              value="eTransfer"
+                            />
+                            Email Transfer
+                          </label>
+                          <label>
+                            <Field
+                              type="radio"
+                              name="payment"
+                              value="charity"
+                            />
+                            Charity
+                          </label>
+                        </RadioGroup>
+                        {values.payment === 'eTransfer' ? (
+                          <>
+                            <EtransferEmail>
+                              <OptionsTitle>e-Transfer Email:</OptionsTitle>
+                              <NameInputAndEdit
+                                value={email}
+                                edit={editingEmail}
+                                allowEdit={true}
+                                editBtnTxt={'Edit'}
+                                onChange={(e: any) => setEmail(e.target.value)}
+                                onClickDone={() => handleSubmit()}
+                                onClickEdit={() => setEditingEmail(true)}
+                                onClickCancel={() => {
+                                  cancelEditingEmail();
+                                  resetForm();
+                                }}
+                                cancelButton={true}
+                                StyledInput={StyledInput}
+                              />
+                            </EtransferEmail>
+                            <P color="red">{errors.payment}</P>
+                          </>
+                        ) : (
+                          <>
+                            {settings?.affiliate_charity?.charity_name && (
+                              <SelectedCharity>
+                                <OptionsTitle>Selected Charity:</OptionsTitle>
+                                {settings?.affiliate_charity?.charity_name}
+                              </SelectedCharity>
+                            )}
+                            <StyledSelect as="select" name="selectedCharity">
+                              {<option value="" label="Select a charity" />}
+                              {charities.map((charity: any) => (
+                                <option value={charity.id} key={charity.id}>
+                                  {charity.charity_name}
+                                </option>
+                              ))}
+                            </StyledSelect>
+                          </>
+                        )}
+                        <div style={{ marginTop: '20px' }}>
+                          {dirty && isValid && (
+                            <Button
+                              type="button"
+                              onClick={() => handleSubmit()}
+                            >
+                              Update
+                            </Button>
+                          )}
+                        </div>
+                      </>
+                    )}
+                  </Form>
+                )}
+              </Formik>
+              <PaymentExplanation>
+                <ul>
+                  <li>
+                    The option selected on the last day of the referral quarter
+                    (Feb. 28/29, May. 31, Aug 31, Nov 30) will be applied.
+                  </li>
+
+                  {selectedPayment === 'eTransfer' ? (
+                    <li>
+                      Email transfers are made through{' '}
+                      <span style={{ fontWeight: 600 }}>TransferWise</span>.
+                      Click{' '}
+                      <a
+                        href="https://transferwise.com/invite/u/brendanl130"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        here
+                      </a>{' '}
+                      to create an account.
+                    </li>
+                  ) : (
+                    <li></li>
+                  )}
+                </ul>
+              </PaymentExplanation>
+            </ShadowBox>
+          </div>
+        )}
+        <div>
+          {invoices.length > 0 ? (
+            <>
+              <SubHeading>Invoices</SubHeading>
+              <ShadowBox>
+                {loading ? (
+                  <FontAwesomeIcon icon={faSpinner} spin />
+                ) : (
+                  <Grid columns="1fr 1fr 1fr">
+                    {invoices.map((inv: any) => {
+                      return (
+                        <div style={{ marginBottom: '30px', padding: '5px' }}>
+                          <FontAwesomeIcon
+                            icon={faFileInvoice}
+                            size="lg"
+                            style={{ marginRight: '10px' }}
+                          />
+                          <a
+                            href={inv.pdf_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {inv.end_date}
+                          </a>
+                        </div>
+                      );
+                    })}
+                  </Grid>
+                )}
+              </ShadowBox>
+            </>
+          ) : null}
+        </div>
+      </InvoiceCharityBox>
 
       <SubHeading>The Fine Print</SubHeading>
       <ReferralBulletUL>
