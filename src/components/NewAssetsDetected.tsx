@@ -51,7 +51,7 @@ const DontShowBtn = styled.div`
 
 const MaxHeightSmallBtn = styled(SmallButton)`
   padding: 11px;
-  max-height: 40px;
+  max-height: 45px;
 `;
 
 const NewAssetsDetected = ({ targets }: Props) => {
