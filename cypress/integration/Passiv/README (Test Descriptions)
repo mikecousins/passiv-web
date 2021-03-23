@@ -1,7 +1,7 @@
 Hello! Here are the various automated tests for Passiv!
 
 Cypress lets you choose tests or groups of tests individually or you can open the App and pick exactly what test you would like to run:
-        --> To run all tests "npm cypress run"
+        --> To run all tests "npx cypress run"
         --> To open the app "npx cypress open"
 
 I recommend using Open as their are a bunch of tests.
