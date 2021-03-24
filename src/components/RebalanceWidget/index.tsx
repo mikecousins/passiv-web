@@ -120,7 +120,7 @@ const RebalanceWidget = ({
       (trade: TradeType) => {
         return {
           variety: 'regular',
-          tradingsymbol: trade.universal_symbol.description,
+          tradingsymbol: trade.universal_symbol.symbol,
           exchange: 'NSE',
           transaction_type: trade.action,
           quantity: trade.units,
