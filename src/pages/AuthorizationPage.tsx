@@ -20,6 +20,7 @@ import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 import TDAmeritradeLogo from '../assets/images/tda-logo.png';
 import TradierLogo from '../assets/images/tradier-logo.png';
 import WealthicaLogo from '../assets/images/wealthica-logo.png';
+import ZerodhaLogo from '../assets/images/zerodha-logo.png';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
 import { Button } from '../styled/Button';
@@ -316,6 +317,25 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         <P>
           Wealthica is a 3rd party account aggregator for your brokerage
           account.
+        </P>
+      ),
+    },
+    {
+      id: 'zerodha',
+      name: 'Zerodha',
+      displayName: 'Zerodha',
+      connect: () => {
+        startConnection('Zerodha', 'trade');
+      },
+      confirmPrompt: null,
+      defaultConnectionType: 'trade',
+      openURL: 'https://kite.trade/connect/login?api_key=pnriechdkzx5ipvq&v=3',
+      major: true,
+      logo: ZerodhaLogo,
+      description: (
+        <P>
+          Zerodha is the largest stock brokerage firm in India with more than 4
+          million clients.
         </P>
       ),
     },

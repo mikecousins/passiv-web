@@ -1,4 +1,3 @@
-
 // Sidebar_test_live
 describe('Sidebar individual component test', () => {
 
@@ -155,16 +154,13 @@ describe('Login individual component test', () => {
           cy.get('[name=email]').first().type(user.username)
           cy.get('[placeholder=Password]').type(user.password)
       
-        
+          })
       
       // Verify the sign in button is enabled//
         cy.get('[data-cy=login-button]').should('not.be.disabled')
       .click({multiple:true})
       
         })
-
-    })
-
       
         it('Add Alpaca', () => {
       
@@ -274,7 +270,6 @@ describe('Login and Adjust portfolio', () => {
     cy.get('[data-cy=login-button]').should('not.be.disabled')
     .click({multiple:true})
     }) 
-
         cy.contains('test').click()
         cy.contains('Portfolio').click().wait(8000)
         cy.scrollTo('bottom')
@@ -564,41 +559,10 @@ describe('Add goals', () => {
 })
 
 
-describe('Change name and test auth signal and allocate button', () => { 
+describe('Change name and add connections', () => { 
     it('Change name', () => {
         cy.get('div').contains('Settings').click().wait(8000)
         cy.get('button').contains('Edit').first().click()
         cy.get('input').clear().type('tesla').type('{enter}')
     })
-
-    it('test auth', () => {
-        cy.intercept('/api/v1/auth/otp/**', (req) => {
-            req.reply({fixture: 'login_stubs/otp.json'})
-        }).as('otp')
-        
-        cy.get('button').contains('Enable').click()
-    })
-
-    it('test sms', () => {
-        cy.intercept('/api/v1/auth/sms/**', (req) => {
-            req.reply({fixture: 'login_stubs/otp.json'})
-        }).as('otp')
-        
-        cy.get('button').contains('Enable').last().click()
-        cy.get('input').type('506-304-0908')
-        cy.get('button').contains('Submit')
-    })
-
-    it('Test Allocate button', () => {
-        cy.fixture('testDomain').as('login')
-          cy.get('@login').then(domain => {
-          cy.visit((domain.test).concat('/login')) })
-      
-        cy.get('div').contains('Dashboard').click().wait(8000)
-          
-        cy.get('div').contains('Allocate').click().as('allocate')
-          cy.contains('Trades').should('be.visible')
-    
-      })    
   
-})
