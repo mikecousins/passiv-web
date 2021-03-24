@@ -177,21 +177,21 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       confirmPrompt: (
         <ShadowBox>
           <P>
-            Due to the nature of Interactive's API, some features are limited
-            when connecting.
+            Due to the nature of Interactive Broker's API, some features are
+            limited when connecting.
           </P>
           <P>These features include:</P>
           <VerticalPadding>
             <BulletUL>
               <Li>
-                Interactive takes between 24 to 48 hours to fully connect and
-                load in data to Passiv. If you have still not loaded in data
-                after 48 hours then please contact support
+                IBKR takes between 24 to 48 hours to fully connect and load in
+                data to Passiv. If you have still not loaded in data after 48
+                hours then please contact support.
               </Li>
               <Li>Only IBKR Pro accounts are supported by Passiv.</Li>
               <Li>
                 Certain features, such as One-Click Trades, are not available
-                through IBKR Canada, other countries are unaffected.
+                through IBKR Canada. Other countries should work fine.
               </Li>
               <Li>
                 Certain assets, such as mutual funds and GICs, are not supported
@@ -202,12 +202,12 @@ const AuthorizationPage = ({ onboarding }: Props) => {
               <Li>
                 Interactive Brokers is an international brokerage and thus has
                 limited time to do maintenance. If you are trying to connect
-                outside of standard market hours (930am ET to 530pm ET) please
+                outside of standard market hours (9:30am ET to 5:30pm ET) please
                 wait and attempt to connect during market hours. Many brokerages
-                typically do maintenance in the evenings and weekends making it
-                difficult to successfully connect. If you find you are having
-                issues connecting during this time frame, please contact
-                support.
+                typically do maintenance in the evenings and weekends, making it
+                difficult to successfully connect during those times. If you
+                find you are having issues connecting during this time frame,
+                please contact support.
               </Li>
             </BulletUL>
           </VerticalPadding>
