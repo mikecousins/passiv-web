@@ -69,7 +69,7 @@ const RebalanceWidget = ({
   const currentGroupId = useSelector(selectCurrentGroupId);
 
   const hasOnlyNonTradableTrades = trades.trades.every((trade: any) => {
-    //!! comment this out before prod deploy
+    //TODO comment this out before prod deploy
     return trade;
     // return (
     //   trade.account.brokerage_authorization.brokerage.allows_trading === false
@@ -188,7 +188,7 @@ const RebalanceWidget = ({
   );
 
   // if the group has only Wealthica accounts, then don't show the Preview Order button and instead show the hide trades for 48 hours button
-  //!! change this back to  if (onlyWealthica || hasOnlyNonTradableTrades) before prod deploy
+  //TODO change this back to  if (onlyWealthica || hasOnlyNonTradableTrades) before prod deploy
   if (onlyWealthica || hasOnlyNonTradableTrades) {
     orderValidation = (
       <div>
