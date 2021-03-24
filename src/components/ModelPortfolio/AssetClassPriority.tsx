@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { symbol } from 'prop-types';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectSymbols } from '../../selectors/symbols';
@@ -90,11 +91,13 @@ type Props = {
   assetClass: AssetClassPriorities;
 };
 
-const Box = ({ assetClass }: Props) => {
+const AssetClassPriority = ({ assetClass }: Props) => {
+  const allSymbols = useSelector(selectSymbols);
   const [showDetails, setShowDetails] = useState(false);
   const [assetClassPriorities, setAssetClassPriorities] = useState(assetClass);
+  const [changed, setChanged] = useState({ symbolId: '', accountId: '' });
+  // const changed = assetClassPriorities !== assetClass;
 
-  const allSymbols = useSelector(selectSymbols);
   const symbols = allSymbols.reduce((acc: any, symbol) => {
     acc[symbol.id] = {
       symbol: symbol.symbol,
@@ -110,13 +113,15 @@ const Box = ({ assetClass }: Props) => {
     up: boolean,
   ) => {
     let priority = sellPriority;
+    setChanged({ symbolId, accountId });
+    setTimeout(() => {
+      setChanged({ symbolId: '', accountId: '' });
+    }, 200);
     if (up) {
       priority = priority + 1;
     } else {
       priority = priority - 1;
     }
-    console.log('priority', sellPriority, 'now', priority);
-
     let assetClassPrioritiesCopy = JSON.parse(
       JSON.stringify(assetClassPriorities),
     );
@@ -140,6 +145,7 @@ const Box = ({ assetClass }: Props) => {
       }
     });
     setAssetClassPriorities(assetClassPrioritiesCopy);
+    // setChanged('');
   };
 
   return (
@@ -175,7 +181,7 @@ const Box = ({ assetClass }: Props) => {
                     .map((priority, index) => {
                       return (
                         <Security
-                          columns="150px 300px 100px"
+                          columns="150px 5fr 100px"
                           style={{
                             border:
                               priority.sell_priority ===
@@ -183,6 +189,11 @@ const Box = ({ assetClass }: Props) => {
                                 ? '1px dashed #2A2D34'
                                 : 'none',
                             padding: '10px',
+                            background:
+                              changed.symbolId === priority.symbol_id &&
+                              changed.accountId === account.account.id
+                                ? ' #0CEBC5'
+                                : '',
                           }}
                         >
                           <Symbol>{symbols[priority.symbol_id].symbol} </Symbol>
@@ -232,4 +243,4 @@ const Box = ({ assetClass }: Props) => {
   );
 };
 
-export default Box;
+export default AssetClassPriority;
