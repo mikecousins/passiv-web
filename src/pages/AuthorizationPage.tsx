@@ -323,6 +323,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'zerodha',
       name: 'Zerodha',
+      displayName: 'Zerodha',
       connect: () => {
         startConnection('Zerodha', 'trade');
       },
