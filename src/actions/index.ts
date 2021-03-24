@@ -4,7 +4,6 @@ import { ThunkAction } from 'redux-thunk';
 import {
   setSelectedTimeframe,
   loadPerformanceAll,
-  loadPerformanceCustom,
   setStartDate,
   setEndDate,
 } from './performance';
@@ -462,7 +461,6 @@ export const reloadEverything: ActionCreator<ThunkAction<
     const endDate = formattedToday();
     dispatch(setStartDate(startDate));
     dispatch(setEndDate(endDate));
-    dispatch(loadPerformanceCustom(selectedAccounts, startDate, endDate));
     dispatch(loadGoals());
   };
 };

@@ -448,7 +448,6 @@ const ReferralManager = () => {
           <Chart data={data} axes={axes} series={series} tooltip />
         </div>
       )}
-
       <InvoiceCharityBox columns={invoices.length > 0 ? '1fr 1fr' : '1fr'}>
         {referralCharity && (
           <div>
@@ -674,7 +673,6 @@ const ReferralManager = () => {
           ) : null}
         </div>
       </InvoiceCharityBox>
-
       <SubHeading>The Fine Print</SubHeading>
       <ReferralBulletUL>
         <li>

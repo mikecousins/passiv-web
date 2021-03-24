@@ -364,14 +364,14 @@ export const selectRateOfReturn = createSelector<
   number | undefined
 >(selectState, selectSelectedTimeframe, (state, timeframe) => {
   if (timeframe === '1Y') {
-    return state.performanceAll?.data?.rateOfReturn;
+    return state.performanceAll?.data?.rateOfReturn1Y;
   } else if (timeframe === 'YTD') {
-    return state.performanceAll?.data?.rateOfReturn;
+    return state.performanceAll?.data?.rateOfReturnYTD;
   } else if (timeframe === 'ALL') {
-    return state.performanceAll?.data?.rateOfReturn;
+    return state.performanceAll?.data?.rateOfReturnALL;
   } else if (timeframe === 'CST') {
-    return state.performanceAll?.data?.rateOfReturn;
+    return state.performanceAll?.data?.rateOfReturn1Y;
   } else {
-    return state.performanceAll?.data?.rateOfReturn;
+    return state.performanceAll?.data?.rateOfReturn1Y;
   }
 });

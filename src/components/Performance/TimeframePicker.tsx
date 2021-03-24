@@ -53,6 +53,7 @@ const Flex = styled.div`
   @media (min-width: 900px) {
     display: flex;
     justify-content: space-between;
+    z-index: 4;
   }
 `;
 
@@ -105,22 +106,22 @@ export const TimeframePicker = () => {
         <TimespanSelector
           timeframe={'1Y'}
           selectedTimeframe={selectedTimeframe}
-          setTimeframe={t => dispatch(setSelectedTimeframe(t))}
+          setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
         />
         <TimespanSelector
           timeframe={'YTD'}
           selectedTimeframe={selectedTimeframe}
-          setTimeframe={t => dispatch(setSelectedTimeframe(t))}
+          setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
         />
         <TimespanSelector
           timeframe={'ALL'}
           selectedTimeframe={selectedTimeframe}
-          setTimeframe={t => dispatch(setSelectedTimeframe(t))}
+          setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
         />
         <TimespanSelector
           timeframe={'CST'}
           selectedTimeframe={selectedTimeframe}
-          setTimeframe={t => dispatch(setSelectedTimeframe(t))}
+          setTimeframe={(t) => dispatch(setSelectedTimeframe(t))}
         />
         {showDatePickers && <DatePickers />}
       </TimeContainer>

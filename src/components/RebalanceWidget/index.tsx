@@ -189,7 +189,7 @@ const RebalanceWidget = ({
     if (currentGroupId !== null) {
       closeWidget();
     }
-  }, [currentGroupId, closeWidget]);
+  }, [currentGroupId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleHideTrades = () => {
     let today = new Date();
