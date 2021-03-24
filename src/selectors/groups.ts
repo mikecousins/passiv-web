@@ -422,7 +422,11 @@ export const selectCurrentGroupBalancedEquity = createSelector(
         preferredCurrency &&
         position.symbol.currency.id === preferredCurrency.id
       ) {
-        total += position.units * position.price;
+        if (position.units === null) {
+          total += position.fractional_units * position.price;
+        } else {
+          total += position.units * position.price;
+        }
       } else {
         const conversionRate = rates.find(
           (rate) =>
@@ -433,7 +437,15 @@ export const selectCurrentGroupBalancedEquity = createSelector(
         if (!conversionRate) {
           return;
         }
-        total += position.units * position.price * conversionRate.exchange_rate;
+        if (position.units === null) {
+          total +=
+            position.fractional_units *
+            position.price *
+            conversionRate.exchange_rate;
+        } else {
+          total +=
+            position.units * position.price * conversionRate.exchange_rate;
+        }
       }
     });
     return total;
@@ -706,7 +718,11 @@ export const selectCurrentGroupExcludedEquity = createSelector(
           preferredCurrency &&
           position.symbol.currency.id === preferredCurrency.id
         ) {
-          excludedEquity += position.units * position.price;
+          if (position.fractional_units === null) {
+            excludedEquity += position.fractional_units * position.price;
+          } else {
+            excludedEquity += position.units * position.price;
+          }
         } else {
           const conversionRate = rates.find(
             (rate) =>
@@ -717,8 +733,15 @@ export const selectCurrentGroupExcludedEquity = createSelector(
           if (!conversionRate) {
             return;
           }
-          excludedEquity +=
-            position.units * position.price * conversionRate.exchange_rate;
+          if (position.fractional_units === null) {
+            excludedEquity +=
+              position.fractional_units *
+              position.price *
+              conversionRate.exchange_rate;
+          } else {
+            excludedEquity +=
+              position.units * position.price * conversionRate.exchange_rate;
+          }
         }
       }
     });
@@ -1236,9 +1259,16 @@ export const selectCurrentGroupPositionsWithActualPercentage = createSelector(
         preferredCurrency &&
         position.symbol.currency.id === preferredCurrency.id
       ) {
-        position.actualPercentage =
-          ((position.price * position.units) / totalHoldingsExcludedRemoved) *
-          100;
+        if (position.units === null) {
+          position.actualPercentage =
+            ((position.price * position.fractional_units) /
+              totalHoldingsExcludedRemoved) *
+            100;
+        } else {
+          position.actualPercentage =
+            ((position.price * position.units) / totalHoldingsExcludedRemoved) *
+            100;
+        }
       } else {
         const conversionRate = rates?.find(
           (rate: any) =>
@@ -1247,10 +1277,19 @@ export const selectCurrentGroupPositionsWithActualPercentage = createSelector(
             rate.dst.id === preferredCurrency.id,
         );
         if (conversionRate) {
-          position.actualPercentage =
-            ((position.price * position.units) / totalHoldingsExcludedRemoved) *
-            100 *
-            conversionRate.exchange_rate;
+          if (position.units === null) {
+            position.actualPercentage =
+              ((position.price * position.fractional_units) /
+                totalHoldingsExcludedRemoved) *
+              100 *
+              conversionRate.exchange_rate;
+          } else {
+            position.actualPercentage =
+              ((position.price * position.units) /
+                totalHoldingsExcludedRemoved) *
+              100 *
+              conversionRate.exchange_rate;
+          }
         }
       }
     });

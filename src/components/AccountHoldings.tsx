@@ -275,7 +275,11 @@ export const AccountHoldings = ({ holdings }: Props) => {
           <td>
             <SymbolDetail symbol={position.symbol.symbol} />
           </td>
-          <td data-label="Units">{position.units}</td>
+          <td data-label="Units">
+            {position.fractional_units
+              ? position.fractional_units
+              : position.units}
+          </td>
           <td data-label="Price">
             <Number
               value={position.price}
@@ -284,7 +288,12 @@ export const AccountHoldings = ({ holdings }: Props) => {
           </td>
           <td data-label="Value">
             <Number
-              value={position.price * position.units}
+              value={
+                position.price *
+                (position.fractional_units
+                  ? position.fractional_units
+                  : position.units)
+              }
               currency={currency ? currency.code : undefined}
             />
           </td>

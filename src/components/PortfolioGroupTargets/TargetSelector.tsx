@@ -326,7 +326,11 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
             render={(arrayHelpers) => {
               // calculate any new targets actual percentages
               props.values.targets
-                .filter((target) => target.actualPercentage === undefined)
+                .filter(
+                  (target) =>
+                    target.actualPercentage === undefined ||
+                    target.actualPercentage === 0,
+                )
                 .forEach((target) => {
                   if (
                     positions &&
@@ -342,7 +346,6 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                     }
                   }
                 });
-
               // calculate the desired cash percentage
               const cashPercentage =
                 100 -
