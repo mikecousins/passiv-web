@@ -41,6 +41,7 @@ export type TradePriority = {
 };
 
 export type AccountPriorities = {
+  account_id?: string;
   account: {
     id: string;
     number: string;
