@@ -283,6 +283,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'unocoin',
       name: 'Unocoin',
+      displayName: 'Unocoin',
       connect: () => {
         startConnection('Unocoin', 'trade');
       },
