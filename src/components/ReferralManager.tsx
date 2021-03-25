@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
-import * as Yup from 'yup';
 import {
   selectReferralCode,
   selectReferralValue,
   selectReferralCurrency,
 } from '../selectors/referrals';
 import { selectReferralCharity } from '../selectors/features';
-import { getData, postData, putData } from '../api';
+import { getData, putData } from '../api';
 import { Chart } from 'react-charts';
 import {
   faSpinner,
@@ -34,9 +33,10 @@ import Grid from '../styled/Grid';
 import { Button } from '../styled/Button';
 import { selectSettings } from '../selectors';
 import NameInputAndEdit from './NameInputAndEdit';
-import { loadSettings, reloadEverything } from '../actions';
+import { loadSettings } from '../actions';
 import { Field, Form, Formik } from 'formik';
 import { StyledSelect } from '../components/PortfolioGroupSettings/OrderTargetAllocations';
+import { toast } from 'react-toastify';
 
 interface Referral {
   created_date: Date;
@@ -165,7 +165,7 @@ const PaymentExplanation = styled.div`
   ul {
     list-style-type: none;
     li {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
   }
 `;
@@ -237,6 +237,7 @@ const ReferralManager = () => {
 
   const [invoices, setInvoices] = useState([]);
 
+  const [updatingPayment, setUpdatingPayment] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState('');
   const [charities, setCharities] = useState([]);
 
@@ -248,8 +249,13 @@ const ReferralManager = () => {
     if (settings) {
       if (settings.e_transfer_email) {
         setEmail(settings.e_transfer_email);
+        setSelectedPayment('eTransfer');
+      } else if (settings?.affiliate_charity) {
+        setSelectedPayment('charity');
+        setEmail(settings.email);
       } else {
         setEmail(settings.email);
+        setSelectedPayment('eTransfer');
       }
     }
   }, [settings]);
@@ -296,56 +302,11 @@ const ReferralManager = () => {
         }
         console.log(err);
       });
-
-    if (settings?.e_transfer_email) {
-      setSelectedPayment('eTransfer');
-    } else if (settings?.affiliate_charity) {
-      setSelectedPayment('charity');
-    } else {
-      setSelectedPayment('eTransfer');
-    }
-
     getData('/api/v1/charities').then((res) => {
       setCharities(res.data);
       setLoading(false);
     });
   }
-
-  let schema = Yup.object().shape({
-    email: Yup.string().email().required(),
-  });
-
-  const finishEditingEmail = () => {
-    if (!settings) {
-      return;
-    }
-    if (email !== settings.e_transfer_email) {
-      schema
-        .isValid({
-          email,
-        })
-        .then((valid) => {
-          if (valid) {
-            let newSettings = { ...settings };
-            newSettings.e_transfer_email = email;
-            putData('/api/v1/settings/', newSettings)
-              .then(() => {
-                dispatch(loadSettings());
-                setEditingEmail(false);
-              })
-              .catch((error) => {
-                if (error.response.data.errors.email) {
-                  setEmailError(error.response.data.errors.email.join(' '));
-                }
-              });
-          } else {
-            setEmailError('Must be a valid email.');
-          }
-        });
-    } else {
-      setEditingEmail(false);
-    }
-  };
 
   const cancelEditingEmail = () => {
     setEditingEmail(false);
@@ -487,7 +448,7 @@ const ReferralManager = () => {
           <Chart data={data} axes={axes} series={series} tooltip />
         </div>
       )}
-      <InvoiceCharityBox columns="1fr 1fr">
+      <InvoiceCharityBox columns={invoices.length > 0 ? '1fr 1fr' : '1fr'}>
         {referralCharity && (
           <div>
             <SubHeading>Payment Options</SubHeading>
@@ -496,100 +457,156 @@ const ReferralManager = () => {
                 initialValues={{
                   payment: selectedPayment,
                   selectedCharity: settings?.affiliate_charity
-                    ? settings?.affiliate_charity.charity_name
-                    : '',
+                    ? settings?.affiliate_charity.id
+                    : null,
+                }}
+                enableReinitialize
+                validate={(values) => {
+                  const errors: any = {};
+                  if (
+                    values.payment === 'charity' &&
+                    (values.selectedCharity === null ||
+                      values.selectedCharity === '')
+                  ) {
+                    errors.payment = 'Select a charity from dropdown.';
+                  }
+                  if (
+                    values.payment === 'eTransfer' &&
+                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
+                  ) {
+                    errors.payment = 'Must be a valid email.';
+                  }
+                  return errors;
                 }}
                 onSubmit={(values, actions) => {
-                  if (values.payment !== selectedPayment && settings) {
+                  if (settings) {
+                    setUpdatingPayment(true);
                     let newSettings = { ...settings };
-                    let charity;
                     if (values.payment === 'eTransfer') {
                       newSettings.affiliate_charity = null;
+                      newSettings.e_transfer_email = email;
                     }
                     if (
                       values.payment === 'charity' &&
-                      values.selectedCharity !== ''
+                      values.selectedCharity !== null
                     ) {
-                      charity = {
-                        charity_name: values.selectedCharity,
+                      const charity = {
+                        id: values.selectedCharity,
                       };
                       newSettings.e_transfer_email = null;
-                      postData('/api/v1/charities/', charity);
+                      newSettings.affiliate_charity = charity;
                     }
-
                     putData('/api/v1/settings/', newSettings)
                       .then(() => {
-                        dispatch(reloadEverything());
+                        setEditingEmail(false);
                         dispatch(loadSettings());
-                        actions.resetForm();
-                        // setEditingEmail(false);
+                        setTimeout(() => {
+                          setUpdatingPayment(false);
+                          toast.success(
+                            'Your payment info updated successfully!',
+                          );
+                        }, 250);
                       })
-                      .catch((error) => {});
+                      .catch((error) => {
+                        setUpdatingPayment(false);
+                        toast.error(
+                          'Failed to update the payment method. Please try again!',
+                        );
+                      });
+                    actions.resetForm();
                   }
                 }}
               >
-                {({ values, dirty }) => (
+                {({
+                  values,
+                  errors,
+                  dirty,
+                  isValid,
+                  handleSubmit,
+                  resetForm,
+                }) => (
                   <Form>
-                    <P id="my-radio-group">
-                      Choose one option. You can change your payment option each
-                      quarter.
-                    </P>
-                    <RadioGroup role="group" aria-labelledby="my-radio-group">
-                      <label>
-                        <Field type="radio" name="payment" value="eTransfer" />
-                        Email Transfer
-                      </label>
-                      <label>
-                        <Field type="radio" name="payment" value="charity" />
-                        Charity
-                      </label>
-                    </RadioGroup>
-                    {values.payment === 'eTransfer' ? (
-                      <>
-                        <EtransferEmail>
-                          <OptionsTitle>e-Transfer Email:</OptionsTitle>
-                          <NameInputAndEdit
-                            value={email}
-                            edit={editingEmail}
-                            allowEdit={true}
-                            editBtnTxt={'Edit'}
-                            onChange={(e: any) => setEmail(e.target.value)}
-                            onKeyPress={(e: any) =>
-                              e.key === 'Enter' && finishEditingEmail()
-                            }
-                            onClickDone={() => finishEditingEmail()}
-                            onClickEdit={() => setEditingEmail(true)}
-                            onClickCancel={cancelEditingEmail}
-                            cancelButton={true}
-                            StyledInput={StyledInput}
-                          />
-                        </EtransferEmail>
-                        <P color="red">{emailError}</P>
-                      </>
+                    {updatingPayment ? (
+                      <FontAwesomeIcon icon={faSpinner} spin />
                     ) : (
                       <>
-                        {values.selectedCharity !== '' && (
-                          <SelectedCharity>
-                            <OptionsTitle>Selected Charity:</OptionsTitle>
-                            {values.selectedCharity}
-                          </SelectedCharity>
+                        <P id="my-radio-group">
+                          Choose one option. You can change your payment option
+                          each quarter.
+                        </P>
+                        <RadioGroup
+                          role="group"
+                          aria-labelledby="my-radio-group"
+                        >
+                          <label>
+                            <Field
+                              type="radio"
+                              name="payment"
+                              value="eTransfer"
+                            />
+                            Email Transfer
+                          </label>
+                          <label>
+                            <Field
+                              type="radio"
+                              name="payment"
+                              value="charity"
+                            />
+                            Charity
+                          </label>
+                        </RadioGroup>
+                        {values.payment === 'eTransfer' ? (
+                          <>
+                            <EtransferEmail>
+                              <OptionsTitle>e-Transfer Email:</OptionsTitle>
+                              <NameInputAndEdit
+                                value={email}
+                                edit={editingEmail}
+                                allowEdit={true}
+                                editBtnTxt={'Edit'}
+                                onChange={(e: any) => setEmail(e.target.value)}
+                                onClickDone={() => handleSubmit()}
+                                onClickEdit={() => setEditingEmail(true)}
+                                onClickCancel={() => {
+                                  cancelEditingEmail();
+                                  resetForm();
+                                }}
+                                cancelButton={true}
+                                StyledInput={StyledInput}
+                              />
+                            </EtransferEmail>
+                            <P color="red">{errors.payment}</P>
+                          </>
+                        ) : (
+                          <>
+                            {settings?.affiliate_charity?.charity_name && (
+                              <SelectedCharity>
+                                <OptionsTitle>Selected Charity:</OptionsTitle>
+                                {settings?.affiliate_charity?.charity_name}
+                              </SelectedCharity>
+                            )}
+                            <StyledSelect as="select" name="selectedCharity">
+                              {<option value="" label="Select a charity" />}
+                              {charities.map((charity: any) => (
+                                <option value={charity.id} key={charity.id}>
+                                  {charity.charity_name}
+                                </option>
+                              ))}
+                            </StyledSelect>
+                          </>
                         )}
-                        <StyledSelect as="select" name="selectedCharity">
-                          {<option value="" label="Select a charity" />}
-                          {charities.map((charity: any) => (
-                            <option
-                              value={charity.charity_name}
-                              key={charity.charity_name}
+                        <div style={{ marginTop: '20px' }}>
+                          {dirty && isValid && (
+                            <Button
+                              type="button"
+                              onClick={() => handleSubmit()}
                             >
-                              {charity.charity_name}
-                            </option>
-                          ))}
-                        </StyledSelect>
+                              Update
+                            </Button>
+                          )}
+                        </div>
                       </>
                     )}
-                    <div style={{ marginTop: '20px' }}>
-                      {dirty && <Button>Save</Button>}
-                    </div>
                   </Form>
                 )}
               </Formik>

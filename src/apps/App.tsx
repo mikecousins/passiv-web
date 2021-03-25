@@ -125,6 +125,10 @@ const KrakenOauthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "kraken-oauth" */ '../pages/KrakenOauthPage'),
 );
 
+const ZerodhaOauthPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "zerodha-oauth" */ '../pages/ZerodhaOauthPage'),
+);
+
 const WealthicaOauthPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/WealthicaOauthPage'
@@ -253,6 +257,12 @@ const interactiveBrokersOauthRedirect = () => {
 const tdAmeritradeOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/td?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
+const zerodhaOauthRedirect = () => {
+  let urlParams = new URLSearchParams(window.location.search);
+  let newPath = '/app/oauth/zerodha?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
@@ -461,6 +471,19 @@ const App = () => {
                 exact
                 path="/oauth/td"
                 render={() => tdAmeritradeOauthRedirect()}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                path={prefixPath('/oauth/zerodha')}
+                component={ZerodhaOauthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/zerodha"
+                render={() => zerodhaOauthRedirect()}
               />
             )}
             {loggedIn && (
