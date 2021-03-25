@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { symbol } from 'prop-types';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectSymbols } from '../../selectors/symbols';
@@ -89,9 +88,10 @@ const DownButton = styled.button`
 
 type Props = {
   assetClass: AssetClassPriorities;
+  editing: boolean;
 };
 
-const AssetClassPriority = ({ assetClass }: Props) => {
+const AssetClassPriority = ({ assetClass, editing }: Props) => {
   const allSymbols = useSelector(selectSymbols);
   const [showDetails, setShowDetails] = useState(false);
   const [assetClassPriorities, setAssetClassPriorities] = useState(assetClass);
@@ -200,36 +200,41 @@ const AssetClassPriority = ({ assetClass }: Props) => {
                           <Description>
                             {symbols[priority.symbol_id].description}
                           </Description>
-                          <EditPriorityContainer>
-                            <UpButton
-                              hidden={index === 0}
-                              onClick={() =>
-                                handleUpButton(
-                                  account.account.id,
-                                  priority.symbol_id,
-                                  priority.sell_priority,
-                                  true,
-                                )
-                              }
-                            >
-                              <FontAwesomeIcon icon={faChevronUp} size="lg" />
-                            </UpButton>
-                            <DownButton
-                              hidden={
-                                index === account.trade_priority.length - 1
-                              }
-                              onClick={() =>
-                                handleUpButton(
-                                  account.account.id,
-                                  priority.symbol_id,
-                                  priority.sell_priority,
-                                  false,
-                                )
-                              }
-                            >
-                              <FontAwesomeIcon icon={faChevronDown} size="lg" />
-                            </DownButton>
-                          </EditPriorityContainer>
+                          {editing && (
+                            <EditPriorityContainer>
+                              <UpButton
+                                hidden={index === 0}
+                                onClick={() =>
+                                  handleUpButton(
+                                    account.account.id,
+                                    priority.symbol_id,
+                                    priority.sell_priority,
+                                    true,
+                                  )
+                                }
+                              >
+                                <FontAwesomeIcon icon={faChevronUp} size="lg" />
+                              </UpButton>
+                              <DownButton
+                                hidden={
+                                  index === account.trade_priority.length - 1
+                                }
+                                onClick={() =>
+                                  handleUpButton(
+                                    account.account.id,
+                                    priority.symbol_id,
+                                    priority.sell_priority,
+                                    false,
+                                  )
+                                }
+                              >
+                                <FontAwesomeIcon
+                                  icon={faChevronDown}
+                                  size="lg"
+                                />
+                              </DownButton>
+                            </EditPriorityContainer>
+                          )}
                         </Security>
                       );
                     })}

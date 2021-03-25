@@ -100,9 +100,6 @@ const GroupPage = () => {
           >
             Group Settings
           </Link>
-          <Link to={`/app/group/${groupId}/prioritization`}>
-            Prioritization
-          </Link>
         </NavContainer>
       </SubNav>
       <Route path="/app/group/:groupId" exact component={OverviewTab} />

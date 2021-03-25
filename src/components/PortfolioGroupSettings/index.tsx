@@ -22,6 +22,7 @@ import Tour from '../Tour/Tour';
 import ExcludedAssets from './ExcludedAssets';
 import UpgradeButton from '../Tour/UpgradeButton';
 import EliteFeatureTitle from '../Tour/EliteFeatureTitle';
+import Prioritization from '../ModelPortfolio/Prioritization';
 
 const TOUR_STEPS = [
   {
@@ -174,6 +175,7 @@ export const PortfolioGroupSettings = () => {
         </React.Fragment>
       )}
       {featureCashManagement && <CashManagement />}
+      {<Prioritization />}
       {/* <TradesExplanation settings={settings} accounts={groupAccounts} /> */}
     </ShadowBox>
   );
