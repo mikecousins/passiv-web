@@ -273,6 +273,8 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       openURL: 'https://passiv.com/app/connect/kraken',
       major: true,
       logo: KrakenLogo,
+      defaultConnectionType: 'trade',
+      confirmPrompt: null,
       description: (
         <P>
           Kraken is a US-based cryptocurrency exchange that allows users to
