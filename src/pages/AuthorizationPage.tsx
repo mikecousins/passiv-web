@@ -266,6 +266,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'kraken',
       name: 'Kraken',
+      displayName: 'Kraken',
       connect: () => {
         startConnection('Kraken', 'trade');
       },
