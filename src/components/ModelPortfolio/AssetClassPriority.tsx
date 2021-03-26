@@ -89,14 +89,18 @@ const DownButton = styled.button`
 type Props = {
   assetClass: AssetClassPriorities;
   editing: boolean;
+  changed: any;
+  handleBtn: any;
 };
 
-const AssetClassPriority = ({ assetClass, editing }: Props) => {
+const AssetClassPriority = ({
+  assetClass,
+  editing,
+  changed,
+  handleBtn,
+}: Props) => {
   const allSymbols = useSelector(selectSymbols);
   const [showDetails, setShowDetails] = useState(false);
-  const [assetClassPriorities, setAssetClassPriorities] = useState(assetClass);
-  const [changed, setChanged] = useState({ symbolId: '', accountId: '' });
-  // const changed = assetClassPriorities !== assetClass;
 
   const symbols = allSymbols.reduce((acc: any, symbol) => {
     acc[symbol.id] = {
@@ -106,56 +110,12 @@ const AssetClassPriority = ({ assetClass, editing }: Props) => {
     return acc;
   }, {});
 
-  const handleUpButton = (
-    accountId: string,
-    symbolId: string,
-    sellPriority: number,
-    up: boolean,
-  ) => {
-    let priority = sellPriority;
-    setChanged({ symbolId, accountId });
-    setTimeout(() => {
-      setChanged({ symbolId: '', accountId: '' });
-    }, 200);
-    if (up) {
-      priority = priority + 1;
-    } else {
-      priority = priority - 1;
-    }
-    let assetClassPrioritiesCopy = JSON.parse(
-      JSON.stringify(assetClassPriorities),
-    );
-    assetClassPrioritiesCopy.accounts_priorities.forEach((account: any) => {
-      if (account.account.id === accountId) {
-        account.trade_priority.forEach((security: any) => {
-          if (security.symbol_id === symbolId) {
-            security.sell_priority = priority;
-          }
-          if (
-            security.sell_priority === priority &&
-            security.symbol_id !== symbolId
-          ) {
-            if (up) {
-              security.sell_priority = priority - 1;
-            } else {
-              security.sell_priority = priority + 1;
-            }
-          }
-        });
-      }
-    });
-    setAssetClassPriorities(assetClassPrioritiesCopy);
-    // setChanged('');
-  };
-
   return (
     <MainContainer color={showDetails ? '#04A287;' : ''}>
       <AssetClassBox color={showDetails ? 'var(--brand-green)' : '#f1f1f1'}>
         <Head columns="5fr 1fr 100px" color={showDetails ? 'white' : 'black'}>
-          <AssetClassName>
-            {assetClassPriorities.asset_class.name}
-          </AssetClassName>
-          <Percent>{assetClassPriorities.asset_class.percent}%</Percent>
+          <AssetClassName>{assetClass.asset_class.name}</AssetClassName>
+          <Percent>{assetClass.asset_class.percent}%</Percent>
           <ChevronBtn
             onClick={() => {
               setShowDetails(!showDetails);
@@ -171,7 +131,7 @@ const AssetClassPriority = ({ assetClass, editing }: Props) => {
       </AssetClassBox>
       {showDetails && (
         <AssetClassDetails>
-          {assetClassPriorities.accounts_priorities.map((account) => {
+          {assetClass.accounts_priorities.map((account) => {
             return (
               <AccountSection>
                 <AccountName>Account: {account.account.name}</AccountName>
@@ -205,7 +165,8 @@ const AssetClassPriority = ({ assetClass, editing }: Props) => {
                               <UpButton
                                 hidden={index === 0}
                                 onClick={() =>
-                                  handleUpButton(
+                                  handleBtn(
+                                    assetClass.asset_class.id,
                                     account.account.id,
                                     priority.symbol_id,
                                     priority.sell_priority,
@@ -220,7 +181,8 @@ const AssetClassPriority = ({ assetClass, editing }: Props) => {
                                   index === account.trade_priority.length - 1
                                 }
                                 onClick={() =>
-                                  handleUpButton(
+                                  handleBtn(
+                                    assetClass.asset_class.id,
                                     account.account.id,
                                     priority.symbol_id,
                                     priority.sell_priority,
