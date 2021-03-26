@@ -10,6 +10,7 @@ import CashManagement from '../CashManagement';
 import {
   selectCurrentGroupSettings,
   selectCurrentGroupId,
+  selectCurrentGroupInfo,
 } from '../../selectors/groups';
 import {
   selectCashManagementFeature,
@@ -79,6 +80,9 @@ export const PortfolioGroupSettings = () => {
   const groupId = useSelector(selectCurrentGroupId);
   const featureCashManagement = useSelector(selectCashManagementFeature);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
+  const groupInfo = useSelector(selectCurrentGroupInfo);
+
+  const modelType = groupInfo?.model_portfolio.model_type;
 
   const updateSettings = () => {
     if (settings) {
@@ -175,7 +179,8 @@ export const PortfolioGroupSettings = () => {
         </React.Fragment>
       )}
       {featureCashManagement && <CashManagement />}
-      {<Prioritization />}
+      {/* if group using asset class based model show prioritization */}
+      {modelType === 1 && <Prioritization />}
       {/* <TradesExplanation settings={settings} accounts={groupAccounts} /> */}
     </ShadowBox>
   );
