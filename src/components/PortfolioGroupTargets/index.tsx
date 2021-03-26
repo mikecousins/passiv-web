@@ -82,20 +82,6 @@ const CenteredDiv = styled.div`
   padding-top: 10px;
 `;
 
-const h2DarkStyle = {
-  color: 'white',
-  paddingBottom: '20px',
-};
-
-const h3DarkStyle = {
-  color: 'white',
-  paddingBottom: '10px',
-};
-
-const pDarkStyle = {
-  color: 'white',
-};
-
 const BorderBox = styled.div`
   text-align: center;
   padding: 20px;
