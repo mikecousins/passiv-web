@@ -82,20 +82,6 @@ const CenteredDiv = styled.div`
   padding-top: 10px;
 `;
 
-const h2DarkStyle = {
-  color: 'white',
-  paddingBottom: '20px',
-};
-
-const h3DarkStyle = {
-  color: 'white',
-  paddingBottom: '10px',
-};
-
-const pDarkStyle = {
-  color: 'white',
-};
-
 const BorderBox = styled.div`
   text-align: center;
   padding: 20px;
@@ -339,7 +325,9 @@ const PortfolioGroupTargets = ({ error }: Props) => {
       <OverlayContainer>
         <ShadowBox>
           <TargetContainer>
-            <H2>Target Portfolio</H2>
+            <H2>
+              {modelPortfolioFeature ? 'Model Portfolio' : 'Target Portfolio'}
+            </H2>
             <span>
               <FontAwesomeIcon icon={faSpinner} spin />
             </span>
@@ -363,20 +351,29 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     return (
       <OverlayContainer>
         <ShadowBox background="#DBFCF6">
-          <H2>Target Portfolio</H2>
+          <H2>
+            {' '}
+            {modelPortfolioFeature ? 'Model Portfolio' : 'Target Portfolio'}
+          </H2>
           {!model ? (
             <React.Fragment>
               <Tour steps={TOUR_STEPS} name="setup_portfolio_tour" />
               <P>
-                A target portfolio is how you tell Passiv what you want. You
-                will need to choose which securities you want to hold and how
-                you want your assets divided across those securities. Passiv
-                will perform calculations to figure out what trades need to be
-                made in order to follow your target portfolio.
+                A{' '}
+                {modelPortfolioFeature ? 'model Portfolio' : 'target Portfolio'}{' '}
+                is how you tell Passiv what you want. You will need to choose
+                which securities you want to hold and how you want your assets
+                divided across those securities. Passiv will perform
+                calculations to figure out what trades need to be made in order
+                to follow your{' '}
+                {modelPortfolioFeature ? 'model Portfolio' : 'target Portfolio'}
+                .
               </P>
               <P>
-                There is no target portfolio set for this account. Please choose
-                one of the following options:
+                There is no{' '}
+                {modelPortfolioFeature ? 'model Portfolio' : 'target Portfolio'}{' '}
+                set for this account. Please choose one of the following
+                options:
               </P>
               <Grid columns="1fr 1fr 1fr">
                 {modelChoices.map((m) => {

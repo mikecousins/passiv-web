@@ -17,31 +17,31 @@ import {
 import { H2, P } from '../../styled/GlobalElements';
 import { ToggleButton } from '../../styled/ToggleButton';
 import { ToggleText } from './SettingsToggle';
+import Grid from '../../styled/Grid';
 
 const Container = styled.div`
   margin-bottom: 37px;
   border-bottom: 1px solid #2a2d34;
   h2 {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
   }
   ul {
     margin-bottom: 37px;
   }
 `;
-const Positions = styled.li`
+const Positions = styled(Grid)`
   margin-bottom: 10px;
+  align-items: center;
 `;
 
 const Symbol = styled.span`
   font-size: 18px;
   font-weight: 600;
   margin: 0 50px;
-  + span {
-    font-size: 18px;
-  }
 `;
 
 const Description = styled.span`
+  font-size: 18px;
   @media (max-width: 900px) {
     display: none;
   }
@@ -88,10 +88,10 @@ const ExcludedAssets = () => {
         positionsNotInTargetOrExcluded &&
         setupComplete &&
         positionsNotInTargetOrExcluded.length > 0 ? (
-          <ul>
+          <>
             {positionsNotInTargetOrExcluded.map((position) => {
               return (
-                <Positions key={position.symbol.id}>
+                <Positions key={position.symbol.id} columns="90px 180px auto">
                   <ToggleButton
                     onClick={() => handleToggle(position)}
                     style={{ marginRight: '20px' }}
@@ -108,7 +108,7 @@ const ExcludedAssets = () => {
                 </Positions>
               );
             })}
-          </ul>
+          </>
         ) : (
           <NoExcludedAssets>No excluded assets</NoExcludedAssets>
         )

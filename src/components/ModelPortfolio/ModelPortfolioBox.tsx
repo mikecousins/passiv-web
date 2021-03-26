@@ -534,7 +534,11 @@ const ModelPortoflioBox = ({
                                   handleAddToModel(symbol);
                                 }}
                                 clearInput={clearInputSelector}
-                                groupId={groupId ? groupId : ''}
+                                groupId={
+                                  groupId
+                                    ? groupId
+                                    : groupsUsingModel?.[modelId]?.groups[0].id
+                                }
                                 forModelSecurity={true}
                               />
                             ) : (

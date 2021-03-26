@@ -39,10 +39,23 @@ const ListOfAssets = styled.ul`
 
 const StyledGrid = styled(Grid)`
   margin-bottom: 15px;
+  align-items: center;
   @media (max-width: 900px) {
     margin-bottom: 30px;
   }
 `;
+
+const SymbolGrid = styled(Grid)`
+  @media (max-width: 900px) {
+    margin-bottom: 10px;
+  }
+`;
+
+const Symbol = styled.div`
+  font-weight: 600;
+`;
+
+const Description = styled.div``;
 
 const DontShowBtn = styled.div`
   text-align: left;
@@ -51,7 +64,7 @@ const DontShowBtn = styled.div`
 
 const MaxHeightSmallBtn = styled(SmallButton)`
   padding: 11px;
-  max-height: 40px;
+  max-height: 45px;
 `;
 
 const NewAssetsDetected = ({ targets }: Props) => {
@@ -160,63 +173,62 @@ const NewAssetsDetected = ({ targets }: Props) => {
       <ErrorContainer>
         <H3>
           <FontAwesomeIcon icon={faExclamationTriangle} /> New Assets Detected
-          {modelPortfolioFeature ? (
-            <P>
-              We noticed that you added the following securities in your account
-              and since these assets are not included in your model portfolio,
-              they may impact your portfolio accuracy or trade calculations. You
-              can either add them to your model portfolio* or exclude them.
-            </P>
-          ) : (
-            <P>
-              We noticed that you added the following securities in your account
-              and since these assets are not included in your target portfolio,
-              they may impact your portfolio accuracy or trade calculations. You
-              can either add them to your target portfolio* or exclude them.
-            </P>
-          )}
-          <ListOfAssets>
-            {targets!.map((target: any) => {
-              if (target.symbol.id === loadingId) {
-                return <FontAwesomeIcon icon={faSpinner} spin />;
-              }
-              return (
-                <StyledGrid columns="1fr 200px 200px">
-                  <div>
-                    <span style={{ fontWeight: 600, marginRight: '20px' }}>
-                      {target.symbol.symbol}
-                    </span>{' '}
-                    {target.symbol.description}
-                  </div>
-                  {((modelPortfolioFeature && !modelUseByOtherGroups) ||
-                    !modelPortfolioFeature) && (
-                    <MaxHeightSmallBtn
-                      onClick={() => {
-                        if (modelPortfolioFeature) {
-                          handleAddToModel(target);
-                        } else {
-                          handleAddTarget(target, false);
-                        }
-                      }}
-                    >
-                      {modelPortfolioFeature ? 'Add to Model' : 'Add to Target'}
-                    </MaxHeightSmallBtn>
-                  )}
-                  <MaxHeightSmallBtn
-                    style={{
-                      background: 'transparent',
-                      border: '1px solid var(--brand-blue)',
-                      color: 'var(--brand-blue)',
-                    }}
-                    onClick={() => handleAddTarget(target, true)}
-                  >
-                    Exclude
-                  </MaxHeightSmallBtn>
-                </StyledGrid>
-              );
-            })}
-          </ListOfAssets>
         </H3>
+        {modelPortfolioFeature ? (
+          <P>
+            We noticed that you added the following securities in your account
+            and since these assets are not included in your model portfolio,
+            they may impact your portfolio accuracy or trade calculations. You
+            can either add them to your model portfolio* or exclude them.
+          </P>
+        ) : (
+          <P>
+            We noticed that you added the following securities in your account
+            and since these assets are not included in your target portfolio,
+            they may impact your portfolio accuracy or trade calculations. You
+            can either add them to your target portfolio* or exclude them.
+          </P>
+        )}
+        <ListOfAssets>
+          {targets!.map((target: any) => {
+            if (target.symbol.id === loadingId) {
+              return <FontAwesomeIcon icon={faSpinner} spin />;
+            }
+            return (
+              <StyledGrid columns="1fr 180px 200px">
+                <SymbolGrid columns="180px auto">
+                  <Symbol>{target.symbol.symbol}</Symbol>{' '}
+                  <Description>{target.symbol.description}</Description>
+                </SymbolGrid>
+                {((modelPortfolioFeature && !modelUseByOtherGroups) ||
+                  !modelPortfolioFeature) && (
+                  <MaxHeightSmallBtn
+                    onClick={() => {
+                      if (modelPortfolioFeature) {
+                        handleAddToModel(target);
+                      } else {
+                        handleAddTarget(target, false);
+                      }
+                    }}
+                  >
+                    {modelPortfolioFeature ? 'Add to Model' : 'Add to Target'}
+                  </MaxHeightSmallBtn>
+                )}
+                <MaxHeightSmallBtn
+                  style={{
+                    background: 'transparent',
+                    border: '1px solid var(--brand-blue)',
+                    color: 'var(--brand-blue)',
+                  }}
+                  onClick={() => handleAddTarget(target, true)}
+                >
+                  Exclude
+                </MaxHeightSmallBtn>
+              </StyledGrid>
+            );
+          })}
+        </ListOfAssets>
+
         {modelPortfolioFeature ? (
           <small>
             * The securities get added with{' '}
