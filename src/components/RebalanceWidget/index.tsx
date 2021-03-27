@@ -34,6 +34,8 @@ import {
 } from '../../selectors/groups';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
+import { TradeType, TradeBasketType } from '../../types/tradeBasket';
+import { selectAuthorizations } from '../../selectors';
 
 type Props = {
   groupId: string;
@@ -51,6 +53,7 @@ const RebalanceWidget = ({
   tradesTrigger,
   tradesUntrigger,
 }: Props) => {
+  const accounts = useSelector(selectAccounts);
   const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
   const showLimitOrdersFeature = useSelector(selectLimitOrdersFeature);
 
@@ -64,17 +67,17 @@ const RebalanceWidget = ({
   const [orderSummary, setOrderSummary] = useState<any>();
   const [orderResults, setOrderResults] = useState<any>();
   const [error, setError] = useState<any>();
-  const accounts = useSelector(selectAccounts);
   const groupSettings = useSelector(selectCurrentGroupSettings);
+  const authorizations = useSelector(selectAuthorizations);
   const currentGroupId = useSelector(selectCurrentGroupId);
 
-  const hasOnlyNonTradableTrades = trades.trades.every((trade: any) => {
-    //!! comment this out before prod deploy
-    return trade;
-    // return (
-    //   trade.account.brokerage_authorization.brokerage.allows_trading === false
-    // );
-  });
+  const hasOnlyNonTradableTrades =
+    trades.trades &&
+    trades.trades.every((trade: any) => {
+      return (
+        trade.account.brokerage_authorization.brokerage.allows_trading === false
+      );
+    });
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
@@ -110,6 +113,32 @@ const RebalanceWidget = ({
         setOrderSummary(null);
         setError(error.response.data);
       });
+  };
+
+  const calculateZerodhaTrades = () => {
+    const zerodhaTradeBasket: TradeBasketType = trades.trades.map(
+      (trade: TradeType) => {
+        return {
+          variety: 'regular',
+          tradingsymbol: trade.universal_symbol.symbol,
+          exchange: 'NSE',
+          transaction_type: trade.action,
+          quantity: trade.units,
+          order_type: 'LIMIT',
+          price: trade.price,
+        };
+      },
+    );
+
+    return zerodhaTradeBasket;
+  };
+
+  const executeZerodhaTrades = () => {
+    const zerodhaTrades = calculateZerodhaTrades();
+    postData(
+      `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/starttrades/`,
+      zerodhaTrades,
+    );
   };
 
   const confirmOrders = () => {
@@ -160,7 +189,7 @@ const RebalanceWidget = ({
     if (currentGroupId !== null) {
       closeWidget();
     }
-  }, [currentGroupId, closeWidget]);
+  }, [currentGroupId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleHideTrades = () => {
     let today = new Date();
@@ -186,6 +215,57 @@ const RebalanceWidget = ({
       </Button>
     </div>
   );
+
+  var hasZerodhaAccount = false;
+
+  groupAccounts.map((acc: any) => {
+    //find the authorization associated with this account
+    if (authorizations === undefined) {
+      return false;
+    }
+    const authorization = authorizations.find(
+      (authorization) => authorization.id === acc.brokerage_authorization,
+    );
+
+    //test whether this is a Zerodha authorization
+    if (authorization === undefined) {
+      return false;
+    }
+    const isZerodhaConnection = authorization.brokerage.name === 'Zerodha';
+
+    //If so, marks the `hasZerodhaAccount` variable as `true`
+    if (isZerodhaConnection) {
+      hasZerodhaAccount = true;
+      return true;
+    }
+    return false;
+  });
+
+  if (hasZerodhaAccount) {
+    orderValidation = (
+      <div>
+        <form
+          method="post"
+          id="basket-form"
+          action="https://kite.zerodha.com/connect/basket"
+        >
+          <input type="hidden" name="api_key" value="pnriechdkzx5ipvq" />
+          <input
+            type="hidden"
+            id="basket"
+            name="data"
+            value={JSON.stringify(calculateZerodhaTrades())}
+          />
+          <Button
+            onClick={executeZerodhaTrades}
+            className="tour-one-click-trade"
+          >
+            Place Trades on Zerodha
+          </Button>
+        </form>
+      </div>
+    );
+  }
 
   // if the group has only Wealthica accounts, then don't show the Preview Order button and instead show the hide trades for 48 hours button
   //!! change this back to  if (onlyWealthica || hasOnlyNonTradableTrades) before prod deploy

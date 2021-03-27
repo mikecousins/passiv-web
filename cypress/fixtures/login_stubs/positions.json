@@ -1,0 +1,461 @@
+[
+	{
+		"symbol": {
+			"id": "84bafc60-8511-496b-9fd8-6fdb9ddca731",
+			"description": "",
+			"symbol": {
+				"id": "5d454af6-6e6b-43c7-a80e-5e084a474a67",
+				"symbol": "L.TO",
+				"security_type": "Stock",
+				"name": "Loblaw Cos. Ltd.",
+				"iex_source": true,
+				"exchange": "77de8509-63ff-4c73-8d92-98c9fd3e207f",
+				"currency": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"type": "515c27d1-8471-4dec-a234-af12184c51d4",
+				"exchanges": [
+					"77de8509-63ff-4c73-8d92-98c9fd3e207f"
+				]
+			},
+			"local_id": "25859",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 63.5,
+		"units": 3,
+		"open_pnl": -1.44
+	},
+	{
+		"symbol": {
+			"id": "8fbc6bc0-d586-4edf-8f61-9bd622e6ffff",
+			"description": "",
+			"symbol": {
+				"id": "5563d000-af45-47ba-a2ec-7be565340077",
+				"symbol": "MSFT",
+				"security_type": "Stock",
+				"name": "Microsoft Corporation",
+				"iex_source": true,
+				"exchange": "ff4b2ffc-5a0e-4471-9cf5-95c0c30cdedd",
+				"currency": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"type": "515c27d1-8471-4dec-a234-af12184c51d4",
+				"exchanges": [
+					"ff4b2ffc-5a0e-4471-9cf5-95c0c30cdedd"
+				]
+			},
+			"local_id": "27426",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 225.02,
+		"units": 1,
+		"open_pnl": 16.75
+	},
+	{
+		"symbol": {
+			"id": "156cb421-a206-4ad7-a74d-6d586800ab2a",
+			"description": "",
+			"symbol": {
+				"id": "c4a34730-b867-4e3b-8d86-64c124a222a6",
+				"symbol": "PNG.VN",
+				"security_type": "Stock",
+				"name": "Kraken Robotics Inc",
+				"iex_source": true,
+				"exchange": "a62d4c60-d22d-4a06-b665-543ca1e6c882",
+				"currency": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"type": "515c27d1-8471-4dec-a234-af12184c51d4",
+				"exchanges": [
+					"a62d4c60-d22d-4a06-b665-543ca1e6c882"
+				]
+			},
+			"local_id": "18980925",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 0.64,
+		"units": 655,
+		"open_pnl": 27.2997
+	},
+	{
+		"symbol": {
+			"id": "032b10db-794a-4e43-8b82-ea5266fec222",
+			"description": "",
+			"symbol": {
+				"id": "31c4cbec-742e-4fe6-86a6-497fe24c2019",
+				"symbol": "ARKF",
+				"security_type": "Stock",
+				"name": "ARK Fintech Innovation ETF",
+				"iex_source": true,
+				"exchange": "9f3ea556-15c5-4321-8983-ad4033ff802b",
+				"currency": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"type": "8057ceb7-e073-4c77-8635-a1c9bc6442cb",
+				"exchanges": [
+					"9f3ea556-15c5-4321-8983-ad4033ff802b"
+				]
+			},
+			"local_id": "24670548",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 53.81,
+		"units": 3,
+		"open_pnl": 30.36
+	},
+	{
+		"symbol": {
+			"id": "1d57d95a-39ba-40e5-b005-f8770815975b",
+			"description": "",
+			"symbol": {
+				"id": "c15a817e-7171-4940-9ae7-f7b4a95408ee",
+				"symbol": "AAPL",
+				"security_type": "Stock",
+				"name": "Apple Inc",
+				"iex_source": true,
+				"exchange": "ff4b2ffc-5a0e-4471-9cf5-95c0c30cdedd",
+				"currency": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"type": "515c27d1-8471-4dec-a234-af12184c51d4",
+				"exchanges": [
+					"ff4b2ffc-5a0e-4471-9cf5-95c0c30cdedd"
+				]
+			},
+			"local_id": "8049",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 135.8,
+		"units": 20,
+		"open_pnl": 350.7777
+	},
+	{
+		"symbol": {
+			"id": "76a8e95a-ccbe-4a76-8fab-c1a53ca3cc67",
+			"description": "",
+			"symbol": {
+				"id": "5083dc2e-da17-49c3-b8cf-075454b281bd",
+				"symbol": "CRSR",
+				"security_type": null,
+				"name": "Corsair Gaming Inc",
+				"iex_source": true,
+				"exchange": "ff4b2ffc-5a0e-4471-9cf5-95c0c30cdedd",
+				"currency": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"type": "515c27d1-8471-4dec-a234-af12184c51d4",
+				"exchanges": [
+					"ff4b2ffc-5a0e-4471-9cf5-95c0c30cdedd"
+				]
+			},
+			"local_id": "32385149",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 35.76,
+		"units": 5,
+		"open_pnl": -20.7945
+	},
+	{
+		"symbol": {
+			"id": "97d8bc27-9b91-49b1-a6dd-e20f689996e9",
+			"description": "",
+			"symbol": {
+				"id": "4b813287-06f4-465a-a032-e85d5b14db44",
+				"symbol": "XGD.TO",
+				"security_type": "Stock",
+				"name": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"iex_source": true,
+				"exchange": "77de8509-63ff-4c73-8d92-98c9fd3e207f",
+				"currency": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"type": "8057ceb7-e073-4c77-8635-a1c9bc6442cb",
+				"exchanges": [
+					"77de8509-63ff-4c73-8d92-98c9fd3e207f"
+				]
+			},
+			"local_id": "23966",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 19.4,
+		"units": 20,
+		"open_pnl": -42
+	},
+	{
+		"symbol": {
+			"id": "ee2bbc78-2dab-4e99-a44d-923c191603ca",
+			"description": "",
+			"symbol": {
+				"id": "e4b0e85a-b549-4af4-ac36-1e71df399e7a",
+				"symbol": "WWE",
+				"security_type": "Stock",
+				"name": "World Wrestling Entertainment, Inc. - Class A",
+				"iex_source": true,
+				"exchange": "ebd63029-461e-4bed-bd4a-d0595f880b52",
+				"currency": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"type": "515c27d1-8471-4dec-a234-af12184c51d4",
+				"exchanges": [
+					"ebd63029-461e-4bed-bd4a-d0595f880b52"
+				]
+			},
+			"local_id": "42156",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 51.31,
+		"units": 5,
+		"open_pnl": 54.15
+	},
+	{
+		"symbol": {
+			"id": "ba614c6c-76b1-4e06-9790-ec686e4c370e",
+			"description": "",
+			"symbol": {
+				"id": "fc10821f-7e4a-4967-9b47-97b90d84cf1c",
+				"symbol": "F",
+				"security_type": "Stock",
+				"name": "Ford Motor Co.",
+				"iex_source": true,
+				"exchange": "ebd63029-461e-4bed-bd4a-d0595f880b52",
+				"currency": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"type": "515c27d1-8471-4dec-a234-af12184c51d4",
+				"exchanges": [
+					"ebd63029-461e-4bed-bd4a-d0595f880b52"
+				]
+			},
+			"local_id": "19117",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 11.63,
+		"units": 75,
+		"open_pnl": 217.25
+	},
+	{
+		"symbol": {
+			"id": "505fe71d-8863-4c07-824f-ba5f724cfd21",
+			"description": "",
+			"symbol": {
+				"id": "d3c46e32-73e8-4418-aed9-7f42cc68b46c",
+				"symbol": "HD",
+				"security_type": "Stock",
+				"name": "Home Depot, Inc.",
+				"iex_source": true,
+				"exchange": "ebd63029-461e-4bed-bd4a-d0595f880b52",
+				"currency": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"type": "515c27d1-8471-4dec-a234-af12184c51d4",
+				"exchanges": [
+					"ebd63029-461e-4bed-bd4a-d0595f880b52"
+				]
+			},
+			"local_id": "21941",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 279.63,
+		"units": 1,
+		"open_pnl": 1.7
+	},
+	{
+		"symbol": {
+			"id": "b2ca2533-8055-4fdb-9c67-f51ab8a8d970",
+			"description": "",
+			"symbol": {
+				"id": "cb194cd5-9986-4383-9991-0d329c0801d7",
+				"symbol": "VGRO.TO",
+				"security_type": "Stock",
+				"name": "Vanguard Investments Canada Inc - Vanguard Growth ETF Portfolio (the U",
+				"iex_source": true,
+				"exchange": "77de8509-63ff-4c73-8d92-98c9fd3e207f",
+				"currency": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"type": "8057ceb7-e073-4c77-8635-a1c9bc6442cb",
+				"exchanges": [
+					"77de8509-63ff-4c73-8d92-98c9fd3e207f"
+				]
+			},
+			"local_id": "20364222",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 29.56,
+		"units": 23,
+		"open_pnl": 12.69
+	},
+	{
+		"symbol": {
+			"id": "1ac3da09-ce3a-44bb-bd71-6b0407d4f01e",
+			"description": "",
+			"symbol": {
+				"id": "0b19f77c-d6be-4881-a093-432825ae7202",
+				"symbol": "XRE.TO",
+				"security_type": "Stock",
+				"name": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"iex_source": true,
+				"exchange": "77de8509-63ff-4c73-8d92-98c9fd3e207f",
+				"currency": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"type": "8057ceb7-e073-4c77-8635-a1c9bc6442cb",
+				"exchanges": [
+					"77de8509-63ff-4c73-8d92-98c9fd3e207f"
+				]
+			},
+			"local_id": "24016",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 16.37,
+		"units": 42,
+		"open_pnl": 4.22
+	},
+	{
+		"symbol": {
+			"id": "cbea4c9b-24a8-4229-851f-d75da0c53863",
+			"description": "",
+			"symbol": {
+				"id": "6257a5db-bea1-409e-b8f3-9d7695d7feff",
+				"symbol": "XMA.TO",
+				"security_type": "Stock",
+				"name": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"iex_source": true,
+				"exchange": "77de8509-63ff-4c73-8d92-98c9fd3e207f",
+				"currency": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"type": "8057ceb7-e073-4c77-8635-a1c9bc6442cb",
+				"exchanges": [
+					"77de8509-63ff-4c73-8d92-98c9fd3e207f"
+				]
+			},
+			"local_id": "24018",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 17.6,
+		"units": 29,
+		"open_pnl": 1.99
+	},
+	{
+		"symbol": {
+			"id": "75208d18-4f7c-437b-bca4-2c829dbbfae2",
+			"description": "",
+			"symbol": {
+				"id": "eab8c9bc-e26a-44da-a138-e974991e1966",
+				"symbol": "WELL.TO",
+				"security_type": null,
+				"name": "WELL Health Technologies Corp",
+				"iex_source": true,
+				"exchange": "77de8509-63ff-4c73-8d92-98c9fd3e207f",
+				"currency": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"type": "515c27d1-8471-4dec-a234-af12184c51d4",
+				"exchanges": [
+					"77de8509-63ff-4c73-8d92-98c9fd3e207f"
+				]
+			},
+			"local_id": "22238179",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 8.01,
+		"units": 28,
+		"open_pnl": 14.56
+	},
+	{
+		"symbol": {
+			"id": "e8a318d3-7649-4a53-9796-87eee34642bf",
+			"description": "",
+			"symbol": {
+				"id": "90348157-e83c-4147-b1ef-2c4aa42831a6",
+				"symbol": "U",
+				"security_type": null,
+				"name": "Unity Software Inc",
+				"iex_source": true,
+				"exchange": "ebd63029-461e-4bed-bd4a-d0595f880b52",
+				"currency": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"type": "515c27d1-8471-4dec-a234-af12184c51d4",
+				"exchanges": [
+					"ebd63029-461e-4bed-bd4a-d0595f880b52"
+				]
+			},
+			"local_id": "32220649",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 145.13,
+		"units": 5,
+		"open_pnl": 239.5
+	},
+	{
+		"symbol": {
+			"id": "baa09bbe-b4b2-4a88-81be-d73cd5bd0206",
+			"description": "",
+			"symbol": {
+				"id": "b66f8663-4135-4c17-87a6-713a88d214cd",
+				"symbol": "BP",
+				"security_type": "Stock",
+				"name": "BP plc - ADR",
+				"iex_source": true,
+				"exchange": "ebd63029-461e-4bed-bd4a-d0595f880b52",
+				"currency": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"type": "24482255-2c04-46f3-baed-7d7d452a1a83",
+				"exchanges": [
+					"ebd63029-461e-4bed-bd4a-d0595f880b52"
+				]
+			},
+			"local_id": "8952",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 23.97,
+		"units": 14,
+		"open_pnl": -7.42
+	},
+	{
+		"symbol": {
+			"id": "098c5fcd-430e-4881-8bb1-fa97674ea6c4",
+			"description": "",
+			"symbol": {
+				"id": "de812f1a-2859-4e8c-b7d6-2bdf8b56fa02",
+				"symbol": "BUD",
+				"security_type": "Stock",
+				"name": "Anheuser-Busch In Bev SA/NV - ADR",
+				"iex_source": true,
+				"exchange": "ebd63029-461e-4bed-bd4a-d0595f880b52",
+				"currency": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"type": "24482255-2c04-46f3-baed-7d7d452a1a83",
+				"exchanges": [
+					"ebd63029-461e-4bed-bd4a-d0595f880b52"
+				]
+			},
+			"local_id": "7934",
+			"security_type": "",
+			"listing_exchange": "",
+			"is_quotable": true,
+			"is_tradable": true
+		},
+		"price": 67.38,
+		"units": 11,
+		"open_pnl": -25.41
+	}
+]

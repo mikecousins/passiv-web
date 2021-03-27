@@ -38,7 +38,8 @@ export type Settings = {
   model_portfolios_enabled: boolean;
   e_transfer_email: string | null;
   affiliate_charity: {
-    charity_name: string;
+    charity_name?: string;
+    id: string;
   } | null;
   login_emails_enabled: boolean;
 };
