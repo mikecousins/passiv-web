@@ -193,6 +193,7 @@ export const GlobalStyle = () => (
         --brand-blue: #003ba2;
         --brand-blue-hover: #033ebc;
         --brand-grey: #2a2d34;
+        --brand-black: #01010a;
 
         --black: #22292f;
         --grey-darkest: #3d4852;
