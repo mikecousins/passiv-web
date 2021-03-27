@@ -62,7 +62,7 @@ const Prioritization = () => {
     setChanged({ symbolId, accountId });
     setTimeout(() => {
       setChanged({ symbolId: '', accountId: '' });
-    }, 500);
+    }, 300);
     if (up) {
       priority = priority + 1;
     } else {

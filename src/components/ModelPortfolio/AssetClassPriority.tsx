@@ -59,8 +59,26 @@ const TradePriority = styled.div`
   margin: 25px 0px;
 `;
 
-const Security = styled(Grid)`
+type SecurityProps = {
+  isChanged: boolean;
+  allowBuy: boolean;
+};
+
+const Security = styled(Grid)<SecurityProps>`
   margin-bottom: 20px;
+  padding: 10px;
+  border: ${(props) => (props.allowBuy ? '1px dashed #2A2D34' : 'none')};
+  background: ${(props) => (props.isChanged ? '#0CEBC5' : '')};
+  > h2 {
+    background: #dbfcf6;
+    display: inline-block;
+    position: relative;
+    top: -20px;
+    padding: 0 0px;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+  }
 `;
 
 const Symbol = styled(H3)``;
@@ -70,20 +88,18 @@ const Description = styled(H3)`
   text-align: left;
 `;
 
-const EditPriorityContainer = styled.div`
-  /* border: 1px solid; */
-`;
+const EditPriorityContainer = styled.div``;
 
-const UpButton = styled.button`
-  background-color: #f2fffd;
+type UpDownBtnProps = {
+  isHidden: boolean;
+};
+const UpDownButton = styled.button<UpDownBtnProps>`
+  background-color: ${(props) => (props.isHidden ? 'transparent' : '#f2fffd')};
   padding: 10px 12px;
-  border: 1px solid #2a2d34;
-`;
-
-const DownButton = styled.button`
-  background-color: #f2fffd;
-  padding: 10px 12px;
-  border: 1px solid #2a2d34;
+  border: 1px solid ${(props) => (props.isHidden ? '#bbbdc2' : '#2a2d34')};
+  svg {
+    color: ${(props) => props.isHidden && 'transparent'};
+  }
 `;
 
 type Props = {
@@ -111,7 +127,7 @@ const AssetClassPriority = ({
   }, {});
 
   return (
-    <MainContainer color={showDetails ? '#04A287;' : ''}>
+    <MainContainer color={showDetails ? '#04A287' : ''}>
       <AssetClassBox color={showDetails ? 'var(--brand-green)' : '#f1f1f1'}>
         <Head columns="5fr 1fr 100px" color={showDetails ? 'white' : 'black'}>
           <AssetClassName>{assetClass.asset_class.name}</AssetClassName>
@@ -139,22 +155,19 @@ const AssetClassPriority = ({
                   {account.trade_priority
                     .sort((a, b) => b.sell_priority - a.sell_priority)
                     .map((priority, index) => {
+                      const allowBuy =
+                        priority.sell_priority ===
+                        account.trade_priority.length;
                       return (
                         <Security
-                          columns="150px 5fr 100px"
-                          style={{
-                            border:
-                              priority.sell_priority ===
-                              account.trade_priority.length
-                                ? '1px dashed #2A2D34'
-                                : 'none',
-                            padding: '10px',
-                            background:
-                              changed.symbolId === priority.symbol_id &&
-                              changed.accountId === account.account.id
-                                ? ' #0CEBC5'
-                                : '',
-                          }}
+                          columns={
+                            allowBuy ? '150px 5fr 100px' : '150px 5fr 100px 0px'
+                          }
+                          isChanged={
+                            changed.symbolId === priority.symbol_id &&
+                            changed.accountId === account.account.id
+                          }
+                          allowBuy={allowBuy}
                         >
                           <Symbol>{symbols[priority.symbol_id].symbol} </Symbol>
                           <Description>
@@ -162,8 +175,9 @@ const AssetClassPriority = ({
                           </Description>
                           {editing && (
                             <EditPriorityContainer>
-                              <UpButton
-                                hidden={index === 0}
+                              <UpDownButton
+                                isHidden={index === 0}
+                                disabled={index === 0}
                                 onClick={() =>
                                   handleBtn(
                                     assetClass.asset_class.id,
@@ -175,9 +189,12 @@ const AssetClassPriority = ({
                                 }
                               >
                                 <FontAwesomeIcon icon={faChevronUp} size="lg" />
-                              </UpButton>
-                              <DownButton
-                                hidden={
+                              </UpDownButton>
+                              <UpDownButton
+                                isHidden={
+                                  index === account.trade_priority.length - 1
+                                }
+                                disabled={
                                   index === account.trade_priority.length - 1
                                 }
                                 onClick={() =>
@@ -194,9 +211,10 @@ const AssetClassPriority = ({
                                   icon={faChevronDown}
                                   size="lg"
                                 />
-                              </DownButton>
+                              </UpDownButton>
                             </EditPriorityContainer>
                           )}
+                          {allowBuy && <H2>Buy</H2>}
                         </Security>
                       );
                     })}
