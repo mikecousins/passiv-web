@@ -1,26 +1,12 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import SideBarLink from './SideBarLink';
 import { useSelector } from 'react-redux';
-
-import RefreshButton from './../RefreshButton';
 import styled from '@emotion/styled';
-import { HELP_PATH } from '../../apps/Paths';
-import PreLoadLink from '../PreLoadLink';
 import { selectGroups } from '../../selectors/groups';
 
-import {
-  DASHBOARD_PATH,
-  GOALS_PATH,
-  GROUP_PATH,
-  LOGIN_PATH,
-  REFERRALS_PATH,
-  REGISTER_PATH,
-  REPORTING_PATH,
-  RESET_PASSWORD_PATH,
-  SETTINGS_PATH,
-} from '../../apps/Paths';
+import { GROUP_PATH } from '../../apps/Paths';
 
 export const SubMenu = styled.div`
   position: absolute;

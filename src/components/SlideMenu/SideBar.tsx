@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectLoggedIn, selectHasQuestradeConnection } from '../../selectors';
 import {
   selectGoalsPageFeature,
@@ -19,7 +17,6 @@ import styled from '@emotion/styled';
 import {
   DASHBOARD_PATH,
   GOALS_PATH,
-  GROUP_PATH,
   LOGIN_PATH,
   REFERRALS_PATH,
   REGISTER_PATH,
@@ -109,7 +106,13 @@ const SideBar = () => {
             />
             <SideBarSubMenu menuVisibility={!visible} />
           </SubMenu>
-
+          {modelPortfolioFeature && (
+            <SideBarLink
+              name="My Models"
+              linkPath={`/app/models`}
+              beta={true}
+            />
+          )}
           {performancePageFeatureActive && hasQuestradeConnection && (
             <SideBarLink name="Reporting" linkPath={REPORTING_PATH} />
           )}
