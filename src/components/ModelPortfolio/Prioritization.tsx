@@ -28,6 +28,14 @@ const Divider = styled.hr`
 `;
 
 const Done = styled(Edit)``;
+const Cancel = styled(Edit)``;
+
+const Description = styled.div`
+  font-size: 18px;
+  line-height: 21px;
+  letter-spacing: 0.18px;
+  margin-bottom: 50px;
+`;
 
 const Prioritization = () => {
   const groupId = useSelector(selectCurrentGroupId);
@@ -49,6 +57,7 @@ const Prioritization = () => {
 
   useEffect(() => {
     fetchPriorities();
+    // eslint-disable-next-line
   }, []);
 
   const handleUpDownBtn = (
@@ -71,7 +80,7 @@ const Prioritization = () => {
     let assetClassPrioritiesCopy = JSON.parse(
       JSON.stringify(assetClassPriorities),
     );
-    assetClassPrioritiesCopy.map((assetClass: any) => {
+    assetClassPrioritiesCopy.forEach((assetClass: any) => {
       if (assetClass.asset_class.id === assetClassId) {
         assetClass.accounts_priorities.forEach((account: any) => {
           if (account.account.id === accountId) {
@@ -120,15 +129,23 @@ const Prioritization = () => {
     }
   };
 
+  const handleCancel = () => {
+    fetchPriorities();
+    setEditing(false);
+  };
+
   return (
     <Priorities>
       <Divider></Divider>
       <H2>Asset Class Priorities</H2>
       {editing ? (
-        <Done onClick={handleSaveChanges}>
-          <FontAwesomeIcon icon={faCheck} />
-          Save changes
-        </Done>
+        <>
+          <Done onClick={handleSaveChanges}>
+            <FontAwesomeIcon icon={faCheck} />
+            Save changes
+          </Done>
+          <Cancel onClick={handleCancel}>Cancel</Cancel>
+        </>
       ) : (
         <Edit onClick={() => setEditing(true)}>
           <FontAwesomeIcon icon={faPen} />
@@ -141,16 +158,24 @@ const Prioritization = () => {
           <FontAwesomeIcon icon={faSpinner} spin size="lg" />
         </div>
       ) : (
-        assetClassPriorities?.map((assetClass) => {
-          return (
-            <AssetClassPriority
-              assetClass={assetClass}
-              editing={editing}
-              changed={changed}
-              handleBtn={handleUpDownBtn}
-            />
-          );
-        })
+        <div>
+          <Description>
+            Define the order in which securities will be bought and sold in each
+            account. Top priority will be bought first and bottom priorities
+            will be sold first.
+          </Description>
+
+          {assetClassPriorities?.map((assetClass) => {
+            return (
+              <AssetClassPriority
+                assetClass={assetClass}
+                editing={editing}
+                changed={changed}
+                handleBtn={handleUpDownBtn}
+              />
+            );
+          })}
+        </div>
       )}
     </Priorities>
   );
