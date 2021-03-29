@@ -21,7 +21,6 @@ import {
 import {
   selectHasQuestradeConnection,
   selectDisplayQuestradeConnectPrompt,
-  selectIsDemo,
 } from '../selectors';
 import TotalHoldings from '../components/TotalHoldings';
 import DashboardConfig from '../components/Performance/Dashboard/DashboardConfig';
@@ -36,7 +35,6 @@ export const DashboardPage = () => {
     selectDisplayQuestradeConnectPrompt,
   );
   const showInvestingCourse = useSelector(selectShowInvestingCourse);
-  const isDemo = useSelector(selectIsDemo);
 
   const [configMode, setConfigMode] = useState(false);
 
@@ -69,8 +67,6 @@ export const DashboardPage = () => {
     anySetupRemaining = groupsSetupStatus.some(verifyAnyFalse);
     anyTargets = !groupsSetupStatus.some(verifyAnyTrue);
   }
-
-  console.log('showInvestingCourse', showInvestingCourse, '--> isDemo', isDemo);
 
   const messages: Message[] = [
     {
