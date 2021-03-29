@@ -194,7 +194,7 @@ const WSB = () => {
       <Dialog
         isOpen={showDialog}
         onDismiss={closeDialog}
-        style={{ borderRadius: '4px' }}
+        style={{ borderRadius: '4px', marginTop: '150px' }}
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
       >
