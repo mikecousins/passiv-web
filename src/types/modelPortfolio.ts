@@ -48,6 +48,7 @@ export type AccountPriorities = {
     name: string;
   };
   trade_priority: TradePriority[];
+  unsupported_symbols: Symbol[];
 };
 
 export type AssetClassPriorities = {

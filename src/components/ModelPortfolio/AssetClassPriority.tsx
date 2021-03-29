@@ -71,13 +71,13 @@ const SellOrder = styled.div`
   writing-mode: vertical-rl;
   text-align: center;
   span {
-    letter-spacing: 1px;
     font-weight: 600;
+    letter-spacing: 0.16px;
   }
 `;
 
 const TradePriority = styled.div`
-  margin: 25px 0px;
+  margin: 25px 0px 0px 0px;
 `;
 
 type SecurityProps = {
@@ -95,9 +95,8 @@ const Security = styled(Grid)<SecurityProps>`
     display: inline-block;
     position: relative;
     top: -20px;
-    padding: 0 0px;
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 600;
     text-align: center;
   }
 `;
@@ -135,6 +134,13 @@ const UpDownButton = styled.button<UpDownBtnProps>`
   }
 `;
 
+const NotSupported = styled.div`
+  margin: 25px 0px;
+  ul {
+    padding: 10px;
+  }
+`;
+
 type Props = {
   assetClass: AssetClassPriorities;
   editing: boolean;
@@ -152,6 +158,9 @@ const AssetClassPriority = ({
   const currentGroupPositions = useSelector(selectCurrentGroupPositions);
   const [showDetails, setShowDetails] = useState(false);
 
+  if (assetClass.asset_class.name === 'Excluded Assets') {
+    return <></>;
+  }
   const symbols = allSymbols.reduce((acc: any, symbol) => {
     acc[symbol.id] = {
       symbol: symbol.symbol,
@@ -282,6 +291,16 @@ const AssetClassPriority = ({
                     <FontAwesomeIcon icon={faLongArrowAltDown} />
                   </SellOrder>
                 </Grid>
+                {account.unsupported_symbols.length > 0 && (
+                  <NotSupported>
+                    <H3>Unsupported Securities:</H3>
+                    <ul>
+                      {account.unsupported_symbols.map((symbol: any) => {
+                        return <li>{symbol.symbol}</li>;
+                      })}
+                    </ul>
+                  </NotSupported>
+                )}
               </AccountSection>
             );
           })}
