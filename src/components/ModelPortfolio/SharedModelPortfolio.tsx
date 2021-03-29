@@ -129,6 +129,7 @@ const SharedModelPortfolio = () => {
       setIsSharedModel(false);
       history.replace('/app/login');
     }
+    // eslint-disable-next-line
   }, []);
 
   if (!sharedModel || !isSharedModel) {

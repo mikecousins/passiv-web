@@ -219,12 +219,11 @@ const MyModelPortfoliosPage = () => {
           ? modelPortfolios.map((mdl) => {
               const totalAssignedGroups =
                 mdl.model_portfolio.total_assigned_portfolio_groups;
-
-              if (modelIdUseByGroup === mdl.model_portfolio.id) {
-                if (modelPortfolios.length === 1) {
-                  return noModelAvailable;
-                }
-                return;
+              if (
+                modelIdUseByGroup === mdl.model_portfolio.id &&
+                modelPortfolios.length === 1
+              ) {
+                return noModelAvailable;
               }
               return (
                 <ShadowBox key={mdl.model_portfolio.id}>

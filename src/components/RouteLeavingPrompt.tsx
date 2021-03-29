@@ -24,6 +24,7 @@ const RouteLeavingPrompt = ({ when, navigate }: Props) => {
       // Navigate to the previous blocked location
       navigate(lastLocation.pathname);
     }
+    // eslint-disable-next-line
   }, [confirm, lastLocation]);
 
   const handleBlockedNavigation = (nextLocation: any, action: any) => {
