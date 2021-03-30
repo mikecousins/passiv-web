@@ -1,0 +1,4448 @@
+[
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.7847199334557496
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 1.0203491664682662
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.6475067731562159
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.6977808120281871
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 81.5339705259193
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.5761230578867089
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 58.73526688324936
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 5.429712635560368
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 6.083329409733666
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 909.4119308818683
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 3.198989280725709
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 1.0434028595194376
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 1.1002494790608084
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 2.7189839446301614
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 23.523549445203006
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 10773.655382394023
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 2.9442691903259726
+	},
+	{
+		"src": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 15.42291696093664
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 1.27434
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 1.3002717567971707
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.8251437813038922
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.88921
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 103.902
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.7341766575873487
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 74.8487
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 6.9193
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 7.75223
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 1158.9
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 4.0766
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 1.32965
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 1.4020919211463505
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 3.46491
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 29.977
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 13729.3
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 3.752
+	},
+	{
+		"src": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 19.65404
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.9800566638000001
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.76907
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.6345933278873844
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.6838647347
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 79.90791114000001
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.5646332420507023
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 57.563889708999994
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 5.321426051
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 5.9620075261
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 891.2752230000001
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 3.135190762
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 1.0225939255
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 1.0783068337960238
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 2.6647583337
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 23.054411390000002
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 10558.792750999999
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 2.88555064
+	},
+	{
+		"src": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 15.1153325428
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 1.5443853894000001
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 1.21191
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 1.575812344780059
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 1.0776424911
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 125.91987282000001
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.8897560330966838
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 90.709888017
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 8.385568863
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 9.3950050593
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 1404.4824990000002
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 4.940472306
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 1.6114161315
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 1.6992092201564737
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 4.1991590781
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 36.329426070000004
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 16638.675963
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 4.54708632
+	},
+	{
+		"src": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 23.8189276164
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 1.433114787283094
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 1.1245937405112403
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 1.4622774786576518
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.927951531476133
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 116.84753882659889
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.8256504735521967
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 84.17437950540368
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 7.781401468719426
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 8.718109333003452
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 1303.2916858784765
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 4.584518842568123
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 1.4953160670707708
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 1.5767837981425654
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 3.8966160974348023
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 33.71194655930545
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 15439.884841600971
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 4.219475714398174
+	},
+	{
+		"src": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 22.102810359757537
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.012264826471097766
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.009624453812246156
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 0.012514405466662533
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.007941558211621453
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.008558160574387403
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.007066049330978698
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 0.7203778560566687
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 0.06659448326307482
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 0.07461097957690901
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 11.15377952301207
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 0.03923504841100268
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 0.0127971550114531
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 0.013494368935596529
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 0.03334786625858983
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 0.288512251929703
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 132.13701372447113
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 0.03611095070354757
+	},
+	{
+		"src": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 0.1891594002040384
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 1.7357402838
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 1.36207
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 1.771061151780722
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 1.1239035902005923
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 1.2111662646999999
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 141.52179714
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 101.94916880899999
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 9.424570951
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 10.5590799161
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 1578.502923
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 5.552614562
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 1.8110763755
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 1.9097473430358094
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 4.7194499637
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 40.83077239
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 18700.267651
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 5.1104866399999995
+	},
+	{
+		"src": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 26.770178262799995
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.017025546201871244
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.013360285482580192
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 0.017372001875746283
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.011024156482395716
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.011880099453965133
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 1.3881603822110473
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.009808809740013505
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 0.09244382333961712
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 0.10357200592662265
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 15.483234845762187
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 0.054464539798286415
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 0.017764503591912752
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 0.01873234833933456
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 0.04629218677144694
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 0.40050127791130646
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 183.42736747598823
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 0.05012779113064088
+	},
+	{
+		"src": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 0.2625835852860504
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.1841718092870666
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.14452328992817193
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 0.18791955209301095
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.1192524939378105
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.12851155463702976
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 15.01625887011692
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.10610562594299261
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 10.817380370846761
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 1.1203777838798723
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 167.48804069775846
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 0.5891636437211857
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 0.1921653924529938
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 0.2026349372257816
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 0.5007601925050222
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 4.33237466217681
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 1984.2036044108509
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 0.5422513838105011
+	},
+	{
+		"src": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 2.840466521179888
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.16438366766723897
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.12899514075304783
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 0.1677287382852638
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.10643953821079769
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.11470376910901765
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 13.402853114523175
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.09470522128308226
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 9.655118591682651
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 0.8925560774125638
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 149.49246861870714
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 0.5258615907938748
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 0.17151838890229004
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 0.18086304471698472
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 0.446956553146643
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 3.866887334354115
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 1771.0129859408196
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 0.4839897681054354
+	},
+	{
+		"src": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 2.535275656166032
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.001099611700750712
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.0008628872206402623
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 0.0011219878822997416
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.0007120060240779119
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.0007672879454655276
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 0.08965570799896452
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.0006335116555245048
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 0.06458598671153679
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 0.005970575545776166
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 0.00668930019846406
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 0.003517646043662093
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 0.0011473379929243248
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 0.0012098472009201401
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 0.0029898265596686514
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 0.02586677021313314
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 11.846837518336352
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 0.0032375528518422637
+	},
+	{
+		"src": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 0.016959219949952538
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.3125987342393171
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.24530245793062846
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 0.31895985792012227
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.2024097977000177
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.21812539861649413
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 25.48741598390816
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.18009533866147004
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 18.36057008291223
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 1.6973212971593974
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 1.9016410734435558
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 284.28101849580537
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 0.32616641318746015
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 0.3439365945018767
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 0.8499509395084139
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 7.353431781386449
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 3367.831035666977
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 0.920374822155718
+	},
+	{
+		"src": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 4.821184320266888
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.9584025871469936
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.7520776144098071
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 0.9779052809364649
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.6205721665881188
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.6687549355093445
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 78.14236829240778
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.5521578291936591
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 56.29203173767532
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 5.203850637385778
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 5.830278644756139
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 871.5827473395256
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 3.0659196029030196
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 1.0544819472390106
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 2.605881246944685
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 22.545030647162786
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 10325.499191516565
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 2.8217952092655962
+	},
+	{
+		"src": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 14.781363516714924
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.9088847748
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.71322
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 0.9273798223828779
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.5885090477015619
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.6342023561999999
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 74.10498444
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.5236294757244488
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 53.38358981399999
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 4.9349831459999995
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 5.5290454806
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 826.550658
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 2.907512652
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 0.9483329729999999
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 2.4712431101999996
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 21.380195939999997
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 9792.011346
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 2.6760014399999994
+	},
+	{
+		"src": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 14.017654408799997
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.3677844446176091
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.28860778490639005
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 0.3752685515055717
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.23814291895139905
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.25663292841661106
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 29.986926067343738
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.21188909887626192
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 21.601917510122917
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 1.9969638461027845
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 2.2373539283848642
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 334.46756192801547
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 1.1765384959493896
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 0.3837473412007815
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 0.4046546435971931
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 8.651595568138855
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 3962.382861315301
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 1.0828564089687753
+	},
+	{
+		"src": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 5.672308948861586
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.04251059145344764
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.033358908496513996
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 0.04337564655559831
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.027525895896984093
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.029663075024185206
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 3.466057310604797
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.02449133194073285
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 2.496870934383027
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 0.23082029555992928
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 0.25860593121393066
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 38.65963905661007
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 0.13599092637688895
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 0.04435567268238983
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 0.04677225610122262
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 0.11558561563865631
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 457.99446242118955
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 0.1251626246789205
+	},
+	{
+		"src": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 0.6556373219468259
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.0000928190075240544
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.0000728369254077047
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 0.00009470779695958064
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.00006010093604946299
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.00006476732244178509
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 0.007567902223711333
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.00005347517044476767
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 0.005451749178763666
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 0.0005039805379735311
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 0.0005646485982533705
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 0.08441071285498898
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 0.00029692701011704896
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 0.00009684761786835455
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 0.0001021240646752821
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 0.00025237339121441006
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 0.0021834325129467635
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 0.000273284144129708
+	},
+	{
+		"src": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 0.0014315398454400443
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.3396428571428572
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.26652452025586354
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 0.3465543061826148
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.21992105045412905
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.2369962686567164
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 27.692430703624737
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.19567608144652152
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 19.949013859275052
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 1.8441631130063967
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 2.066159381663113
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 308.87526652452027
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 1.0865138592750534
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 0.354384328358209
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 0.3736918766381531
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 0.9234834754797442
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 7.989605543710022
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 3659.195095948827
+	},
+	{
+		"src": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"dst": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"exchange_rate": 5.238283582089552
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"exchange_rate": 0.06483857771735481
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"exchange_rate": 0.050880124391728114
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "eacceb50-d427-4986-92e2-1201029c8b44",
+			"name": "Australian Dollar",
+			"code": "AUD"
+		},
+		"exchange_rate": 0.06615798872889089
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "50aa5641-1ac2-44bc-8dde-08b8a8faa3f3",
+			"name": "Euro",
+			"code": "EUR"
+		},
+		"exchange_rate": 0.04198341823380294
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "ffb9d4f2-4094-462b-bd91-a14e88ef6e17",
+			"name": "Swiss Franc",
+			"code": "CHF"
+		},
+		"exchange_rate": 0.04524311541036856
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "a5b3d875-8c1e-4349-9416-754cb0610403",
+			"name": "Japanese Yen",
+			"code": "JPY"
+		},
+		"exchange_rate": 5.286546684549335
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "eebf7cc3-24a4-4e99-8599-824079270af7",
+			"name": "Great British Pound",
+			"code": "GBP"
+		},
+		"exchange_rate": 0.03735499966354748
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "0ab1a4b8-9d3c-47c5-a087-5ecba022766c",
+			"name": "Indian Rupee",
+			"code": "INR"
+		},
+		"exchange_rate": 3.80831116655914
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "0394043d-d054-4d1c-8c87-6ad36c41a6ab",
+			"name": "Chinese Yuan",
+			"code": "CNY"
+		},
+		"exchange_rate": 0.35205484470368437
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "2e444ccf-e15b-448b-9b97-5c53654ec8cd",
+			"name": "Hong Kong Dollar",
+			"code": "HKD"
+		},
+		"exchange_rate": 0.39443442671328643
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "7ada77d4-39cd-4645-9edc-17005f919f4d",
+			"name": "South Korean won",
+			"code": "KRW"
+		},
+		"exchange_rate": 58.96497615757372
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "d27e80f3-4201-47cf-9265-5de784a0a81e",
+			"name": "Malaysian Ringgit",
+			"code": "MYR"
+		},
+		"exchange_rate": 0.20741791509531884
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "28e69322-95d4-418e-879d-1494d0b5457f",
+			"name": "Singapore Dollar",
+			"code": "SGD"
+		},
+		"exchange_rate": 0.0676527573974613
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "cfe486d6-e921-47dd-a988-927a95d53d78",
+			"name": "New Zealand Dollar",
+			"code": "NZD"
+		},
+		"exchange_rate": 0.07133861135656336
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "27a9ce25-a9d7-4630-a0be-36b5a2b7709a",
+			"name": "Israeli New Shekel",
+			"code": "ILS"
+		},
+		"exchange_rate": 0.1762950518061427
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "b1a05eab-c000-4df5-8063-49539285caab",
+			"name": "New Taiwan Dollar",
+			"code": "TWD"
+		},
+		"exchange_rate": 1.5252334888908339
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "194f30e5-dcfc-410c-986d-304bda5437a8",
+			"name": "Indonesian Rupiah",
+			"code": "IDR"
+		},
+		"exchange_rate": 698.5484918113528
+	},
+	{
+		"src": {
+			"id": "61826cb4-d1c2-438d-9932-eccc887bc232",
+			"name": "Mexican Peso",
+			"code": "MXN"
+		},
+		"dst": {
+			"id": "2677593a-f864-4685-a7ed-e35c7bba3705",
+			"name": "Saudi Riyal",
+			"code": "SAR"
+		},
+		"exchange_rate": 0.19090222671776388
+	}
+]

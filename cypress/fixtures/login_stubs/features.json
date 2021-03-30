@@ -1,0 +1,35 @@
+[
+	{
+		"name": "in-app-tour"
+	},
+	{
+		"name": "goals_page"
+	},
+	{
+		"name": "sms_2fa"
+	},
+	{
+		"name": "connect_interactive_brokers"
+	},
+	{
+		"name": "limit_orders"
+	},
+	{
+		"name": "questrade_downtime"
+	},
+	{
+		"name": "performance_page"
+	},
+	{
+		"name": "cash_management"
+	},
+	{
+		"name": "2fa"
+	},
+	{
+		"name": "otp_2fa"
+	},
+	{
+		"name": "questrade_offer"
+	}
+]

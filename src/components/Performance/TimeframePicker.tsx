@@ -53,6 +53,7 @@ const Flex = styled.div`
   @media (min-width: 900px) {
     display: flex;
     justify-content: space-between;
+    z-index: 4;
   }
 `;
 

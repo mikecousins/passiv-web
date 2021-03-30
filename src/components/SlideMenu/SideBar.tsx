@@ -1,30 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectLoggedIn, selectHasQuestradeConnection } from '../../selectors';
 import {
   selectGoalsPageFeature,
   selectModelPortfolioFeature,
   selectPerformancePageFeature,
 } from '../../selectors/features';
-import { selectGroups } from '../../selectors/groups';
+import { selectIsMobile } from '../../selectors/browser';
 import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
+import SideBarSubMenu from './SideBarSubMenu';
+
+import SubMenuButton from './SubMenuButton';
 import styled from '@emotion/styled';
 import {
   DASHBOARD_PATH,
   GOALS_PATH,
-  GROUP_PATH,
   LOGIN_PATH,
   REFERRALS_PATH,
   REGISTER_PATH,
   REPORTING_PATH,
   RESET_PASSWORD_PATH,
   SETTINGS_PATH,
+  HELP_PATH,
 } from '../../apps/Paths';
 
+const SubMenu = styled.div`
+  overflow: visible;
+`;
 const StyledAside = styled.aside`
   background-color: var(--brand-grey);
   color: #fff;
@@ -34,9 +38,14 @@ const StyledAside = styled.aside`
   font-weight: 700;
   position: fixed;
   transition: 0.25s all;
-  overflow-y: auto;
-  overflow-x: hidden;
   padding-bottom: 36px;
+  z-index: 3;
+
+  @media (max-width: 900px) {
+    width: 100vw;
+    text-align: center;
+    position: absolute;
+  }
 
   a {
     color: #fff;
@@ -55,6 +64,7 @@ const StyledAside = styled.aside`
       color: var(--brand-green);
     }
   }
+
   .active {
     background: var(--brand-green);
     box-shadow: -1px 2px 3px 0 rgba(0, 0, 0, 0.27);
@@ -69,25 +79,11 @@ const StyledAside = styled.aside`
     }
   }
 `;
-const GroupContainer = styled.div`
-  border-top: 1px solid rgba(255, 255, 255, 0.23);
-  padding-top: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.23);
-  margin-bottom: 10px;
-  text-transform: none;
-  font-weight: 500;
-  a {
-    font-size: 16px;
-    padding: 10px 15px 10px 20px;
-    margin: 3px 0 3px;
-    font-weight: 300;
-  }
-`;
 
 const SideBar = () => {
   const loggedIn = useSelector(selectLoggedIn);
-  const groups = useSelector(selectGroups);
+  const isMobile = useSelector(selectIsMobile);
+
   const performancePageFeatureActive = useSelector(
     selectPerformancePageFeature,
   );
@@ -96,51 +92,20 @@ const SideBar = () => {
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
-  let groupList: JSX.Element | JSX.Element[] = (
-    <FontAwesomeIcon icon={faSpinner} spin />
-  );
+  const [visible, setVisible] = useState(!isMobile);
 
-  if (groups) {
-    groupList = groups.map((group) => {
-      return (
-        <React.Fragment key={group.id}>
-          <SideBarLink
-            key={group.id}
-            name={group.name}
-            linkPath={`${GROUP_PATH}/${group.id}`}
-            rebalance={!!group.rebalance}
-            hasAccounts={group.hasAccounts}
-            loading={group.loading}
-            setupComplete={group.setupComplete}
-            spinnerLoading={true}
-            hideArrow={true}
-          />
-          {group.hasAccounts &&
-            group.accounts.map((account) => (
-              <SideBarLink
-                key={account.id}
-                name={account.name}
-                linkPath={`${GROUP_PATH}/${group.id}/account/${account.id}`}
-                hideArrow={true}
-                indent={true}
-              />
-            ))}
-        </React.Fragment>
-      );
-    });
-  }
   if (loggedIn) {
     return (
       <>
         <StyledAside>
           <SideBarLink name="Dashboard" linkPath={DASHBOARD_PATH} />
-          {groups && groups.length > 0 && (
-            <GroupContainer
-              className={groups.length > 2 ? 'tour-hide_accounts' : ''}
-            >
-              {groupList}
-            </GroupContainer>
-          )}
+          <SubMenu>
+            <SubMenuButton
+              menuVisibility={!visible}
+              handleMouseDown={() => setVisible(!visible)}
+            />
+            <SideBarSubMenu menuVisibility={!visible} />
+          </SubMenu>
           {modelPortfolioFeature && (
             <SideBarLink
               name="My Models"
@@ -154,8 +119,9 @@ const SideBar = () => {
           {goalsPageFeatureActive && (
             <SideBarLink name="Goals" linkPath={GOALS_PATH} />
           )}
-          <SideBarLink name="Refer a Friend" linkPath={REFERRALS_PATH} />
           <SideBarLink name="Settings" linkPath={SETTINGS_PATH} />
+          <SideBarLink name="Refer a Friend" linkPath={REFERRALS_PATH} />
+          <SideBarLink name="Help" linkPath={HELP_PATH} />
         </StyledAside>
         <SideBarFooter />
       </>

@@ -14,6 +14,13 @@ const FlyOut = styled.div`
   overflow: scroll;
   z-index: 3;
   transition: all 0.25s;
+
+  @media (max-width: 900px) {
+    width: 100vw;
+    text-align: center;
+    position: absolute;
+  }
+
   &.hide {
     width: 0px;
     overflow: hidden;

@@ -13,6 +13,7 @@ import HelpLinks from '../components/Dashboard/HelpLinks';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
 import WelcomeVideo from '../components/WelcomeVideo/WelcomeVideo';
 import ConnectQuestrade from '../components/ConnectQuestrade';
+import InvestingCourse from '../components/InvestingCourse';
 import {
   ContextualMessageMultiWrapper,
   Message,
@@ -20,10 +21,12 @@ import {
 import {
   selectHasQuestradeConnection,
   selectDisplayQuestradeConnectPrompt,
+  selectIsDemo,
 } from '../selectors';
 import TotalHoldings from '../components/TotalHoldings';
 import DashboardConfig from '../components/Performance/Dashboard/DashboardConfig';
 import { DashboardGoalWidgets } from '../components/Goals/DashboardGoalWidgets';
+import { selectShowInvestingCourse } from '../selectors/subscription';
 
 export const DashboardPage = () => {
   const authorized = useSelector(selectIsAuthorized);
@@ -32,6 +35,8 @@ export const DashboardPage = () => {
   const displayQuestradeConnectPrompt = useSelector(
     selectDisplayQuestradeConnectPrompt,
   );
+  const showInvestingCourse = useSelector(selectShowInvestingCourse);
+  const isDemo = useSelector(selectIsDemo);
 
   const [configMode, setConfigMode] = useState(false);
 
@@ -65,6 +70,8 @@ export const DashboardPage = () => {
     anyTargets = !groupsSetupStatus.some(verifyAnyTrue);
   }
 
+  console.log('showInvestingCourse', showInvestingCourse, '--> isDemo', isDemo);
+
   const messages: Message[] = [
     {
       name: 'connect_questrade',
@@ -75,6 +82,11 @@ export const DashboardPage = () => {
       name: 'setup_prompt',
       content: <WelcomeVideo />,
       visible: anySetupRemaining,
+    },
+    {
+      name: 'investing_course',
+      content: <InvestingCourse />,
+      visible: showInvestingCourse,
     },
     {
       name: 'customize_dashboard',

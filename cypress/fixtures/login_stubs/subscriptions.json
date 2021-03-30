@@ -1,0 +1,32 @@
+{
+	"type": "paid",
+	"details": {
+		"period": "year",
+		"price": 79,
+		"tax": 15,
+		"period_end": "2021-09-28T16:17:38Z",
+		"canceled": false
+	},
+	"cardState": "NONE",
+	"coupon": {
+		"amount_off": null,
+		"currency": "",
+		"duration": null,
+		"duration_in_months": null,
+		"percent_off": null,
+		"redeem_by": null,
+		"code": ""
+	},
+	"cardDetails": null,
+	"permissions": [
+		"can_change_account_portfolio_group",
+		"can_add_multiple_connections",
+		"can_place_orders",
+		"can_create_portfolio_group",
+		"can_delete_portfolio_group",
+		"can_exclude_assets",
+		"can_separate_currencies",
+		"can_receive_drift_notifications",
+		"can_use_api"
+	]
+}
