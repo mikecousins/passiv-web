@@ -34,7 +34,7 @@ const CountDownTimer = () => {
             }}
           >
             <iframe
-              src="https://giphy.com/embed/kgfsk3rCQBKzzTqkUf"
+              src="https://giphy.com/embed/ygzdQq98HgcLBCacep"
               title="giphy2"
               width="100%"
               height="100%"
@@ -45,9 +45,7 @@ const CountDownTimer = () => {
             ></iframe>
           </div>
           <small>
-            <a href="https://giphy.com/gifs/adultswim-whew-avoided-that-could-have-been-bad-ifQpYUXKQNwZuns26g">
-              via GIPHY
-            </a>
+            <a href="https://gph.is/g/ZdxQzPw">via GIPHY</a>
           </small>
         </>
       ) : (

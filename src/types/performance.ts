@@ -77,6 +77,7 @@ export type PerformanceCustomData = {
   feeSavings: number;
   fees: number;
   badTickers: string[];
+  rateOfReturn: number;
 };
 
 export type DividendsAtDate = {

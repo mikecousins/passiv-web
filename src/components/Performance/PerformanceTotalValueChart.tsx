@@ -37,7 +37,7 @@ const BadTickers = styled.span`
 export const PerformanceTotalValueChart = () => {
   let totalEquityData = useSelector(selectTotalEquityTimeframe);
   let showPoints = true;
-  if (totalEquityData !== undefined && totalEquityData?.length > 20) {
+  if (totalEquityData !== undefined && totalEquityData?.length > 30) {
     showPoints = false;
   }
   let contributionCumulativeData = useSelector(
