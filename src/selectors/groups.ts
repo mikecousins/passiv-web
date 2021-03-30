@@ -876,12 +876,34 @@ export const selectCurrentGroupTarget = createSelector(
 
           assetClass.actualPercentage = fullSymbols.reduce(
             (acc: any, symbol) => {
-              if (symbol?.actualPercentage) {
-                acc = acc + symbol?.actualPercentage;
-                return acc;
-              } else {
-                return acc;
+              if (symbol) {
+                let actualPercentage;
+                if (
+                  preferredCurrency &&
+                  symbol.symbol.currency.id === preferredCurrency.id
+                ) {
+                  actualPercentage =
+                    ((symbol.price * symbol.units) /
+                      totalHoldingsExcludedRemoved) *
+                    100;
+                } else {
+                  const conversionRate = rates.find(
+                    (rate: any) =>
+                      preferredCurrency &&
+                      rate.src.id === symbol.symbol.currency.id &&
+                      rate.dst.id === preferredCurrency.id,
+                  );
+                  if (conversionRate) {
+                    actualPercentage =
+                      ((symbol.price * symbol.units) /
+                        totalHoldingsExcludedRemoved) *
+                      100 *
+                      conversionRate.exchange_rate;
+                  }
+                }
+                acc = acc + actualPercentage;
               }
+              return acc;
             },
             0,
           );
