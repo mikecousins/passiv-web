@@ -268,7 +268,6 @@ const RebalanceWidget = ({
   }
 
   // if the group has only Wealthica accounts, then don't show the Preview Order button and instead show the hide trades for 48 hours button
-  //TODO change this back to  if (onlyWealthica || hasOnlyNonTradableTrades) before prod deploy
   if (onlyWealthica || hasOnlyNonTradableTrades) {
     orderValidation = (
       <div>

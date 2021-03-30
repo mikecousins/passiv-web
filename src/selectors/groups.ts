@@ -390,7 +390,6 @@ export const selectCurrentGroupPositions = createSelector(
         .flat();
 
       positions.map((position) => {
-        // TODO set this properly
         if (excludedPositionsSymbolsIds.includes(position.symbol.id)) {
           position.excluded = true;
         } else {
@@ -1322,20 +1321,29 @@ export const selectCurrentGroupPositionsWithActualPercentage = createSelector(
   },
 );
 
+// TODO: these two selectors could possibly get combined
+
 export const selectCurrentGroupPositionsNotInTarget = createSelector(
   selectCurrentGroupPositions,
   selectCurrentGroupTarget,
   (positions, targets) => {
     let notInTarget = null;
+    let targetIds: any;
     if (targets?.isAssetClassBased) {
+      targets.currentAssetClass?.forEach((assetClass) => {
+        targetIds += assetClass.fullSymbols.map(
+          (target: any) => target?.symbol.id,
+        );
+      });
     } else {
-      const targetIds = targets?.currentTarget?.map(
+      targetIds = targets?.currentTarget?.map(
         (target: any) => target.fullSymbol.id,
       );
-      notInTarget = positions?.filter(
-        (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
-      );
     }
+
+    notInTarget = positions?.filter(
+      (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+    );
     return notInTarget;
   },
 );
@@ -1346,14 +1354,22 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
   (positions, targets) => {
     let notInTarget: any = [];
     let excluded: any = [];
+    let targetIds: any;
     if (targets?.isAssetClassBased) {
-      return;
+      targets.currentAssetClass?.forEach((assetClass) => {
+        targetIds += assetClass.fullSymbols.map((target: any) => {
+          // if (target.excluded) {
+          //   excluded.push({
+          //     excluded: target.excluded,
+          //     symbol: target.symbol,
+          //   });
+          // }
+          return target?.symbol.id;
+        });
+      });
     } else {
-      const targetIds = targets?.currentTarget?.map(
+      targetIds = targets?.currentTarget?.map(
         (target: any) => target.fullSymbol.id,
-      );
-      notInTarget = positions?.filter(
-        (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
       );
       targets?.currentTarget?.map((target: any) => {
         if (target.is_excluded && target.is_supported) {
@@ -1364,7 +1380,9 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
         }
       });
     }
-
+    notInTarget = positions?.filter(
+      (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+    );
     return [...notInTarget, ...excluded];
   },
 );
