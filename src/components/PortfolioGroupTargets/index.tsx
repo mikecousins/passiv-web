@@ -378,17 +378,17 @@ const PortfolioGroupTargets = ({ error }: Props) => {
               <Grid columns="1fr 1fr 1fr">
                 {modelChoices.map((m) => {
                   if (m.id === 'MANUAL' && modelPortfolioFeature) {
-                    return;
+                    return <></>;
                   }
                   if (
                     (m.id === 'USE_MODEL' || m.id === 'NEW_MODEL') &&
                     !modelPortfolioFeature
                   ) {
-                    return;
+                    return <></>;
                   }
                   // do not show `Use existing models` option if there're no models
                   if (m.id === 'USE_MODEL' && modelPortfolios.length === 0) {
-                    return;
+                    return <></>;
                   }
                   return (
                     <BorderBox key={m.id}>

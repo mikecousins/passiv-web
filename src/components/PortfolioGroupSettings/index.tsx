@@ -82,7 +82,7 @@ export const PortfolioGroupSettings = () => {
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
   const groupInfo = useSelector(selectCurrentGroupInfo);
 
-  const modelType = groupInfo?.model_portfolio.model_type;
+  const modelType = groupInfo?.model_portfolio?.model_type;
 
   const updateSettings = () => {
     if (settings) {

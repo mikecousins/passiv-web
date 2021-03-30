@@ -172,6 +172,7 @@ const Prioritization = () => {
                 editing={editing}
                 changed={changed}
                 handleBtn={handleUpDownBtn}
+                key={assetClass.asset_class.id}
               />
             );
           })}
