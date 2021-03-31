@@ -135,26 +135,29 @@ export const PortfolioGroupSettings = () => {
             }}
             invert={false}
           />
-          <SettingsToggle
-            name="Notify me about new detected assets"
-            explanation={
-              settings.show_warning_for_new_assets_detected
-                ? `Passiv will show you a message for new holding assets that are not part of your ${
-                    modelPortfolioFeature
-                      ? 'model portfolio'
-                      : 'target portfolio'
-                  }.`
-                : ''
-            }
-            value={settings.show_warning_for_new_assets_detected}
-            onChange={() => {
-              if (settings) {
-                settings.show_warning_for_new_assets_detected = !settings.show_warning_for_new_assets_detected;
-                updateSettings();
+          {modelType !== 1 && (
+            <SettingsToggle
+              name="Notify me about new detected assets"
+              explanation={
+                settings.show_warning_for_new_assets_detected
+                  ? `Passiv will show you a message for new holding assets that are not part of your ${
+                      modelPortfolioFeature
+                        ? 'model portfolio'
+                        : 'target portfolio'
+                    }.`
+                  : ''
               }
-            }}
-            invert={false}
-          />
+              value={settings.show_warning_for_new_assets_detected}
+              onChange={() => {
+                if (settings) {
+                  settings.show_warning_for_new_assets_detected = !settings.show_warning_for_new_assets_detected;
+                  updateSettings();
+                }
+              }}
+              invert={false}
+            />
+          )}
+
           <CurrencySeparation
             preventConversion={settings.prevent_currency_conversion}
             onChangePreventConversion={() => {
