@@ -11,6 +11,7 @@ import { deleteData, postData } from '../../api';
 import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
+  selectCurrentGroupModelType,
   selectCurrentGroupPositionsNotInTargetOrExcluded,
   selectCurrentGroupSetupComplete,
 } from '../../selectors/groups';
@@ -54,6 +55,7 @@ const NoExcludedAssets = styled(P)`
 const ExcludedAssets = () => {
   const dispatch = useDispatch();
   const groupId = useSelector(selectCurrentGroupId);
+  const currentGroupModelType = useSelector(selectCurrentGroupModelType);
   const positionsNotInTargetOrExcluded = useSelector(
     selectCurrentGroupPositionsNotInTargetOrExcluded,
   );
@@ -64,20 +66,45 @@ const ExcludedAssets = () => {
   const handleToggle = (position: any) => {
     setLoading(true);
     const positionId = position.symbol.id;
-    if (position.excluded) {
-      deleteData(
-        `/api/v1/portfolioGroups/${groupId}/excludedassets/${positionId}`,
+    if (currentGroupModelType === 1) {
+      let excluded = positionsNotInTargetOrExcluded
+        .map((position) => {
+          if (position.excluded) {
+            return position.symbol.id;
+          }
+          return false;
+        })
+        .filter((id) => typeof id === 'string');
+
+      if (position.excluded) {
+        excluded = excluded.filter((id) => id !== positionId);
+      } else {
+        excluded.push(positionId);
+      }
+
+      postData(
+        `/api/v1/portfolioGroups/${groupId}/assetClassExcludeAssets`,
+        excluded,
       ).then(() => {
         dispatch(loadGroup({ ids: [groupId] }));
         setLoading(false);
       });
     } else {
-      postData(`/api/v1/portfolioGroups/${groupId}/excludedassets/`, {
-        symbol: positionId,
-      }).then(() => {
-        dispatch(loadGroup({ ids: [groupId] }));
-        setLoading(false);
-      });
+      if (position.excluded) {
+        deleteData(
+          `/api/v1/portfolioGroups/${groupId}/excludedassets/${positionId}`,
+        ).then(() => {
+          dispatch(loadGroup({ ids: [groupId] }));
+          setLoading(false);
+        });
+      } else {
+        postData(`/api/v1/portfolioGroups/${groupId}/excludedassets/`, {
+          symbol: positionId,
+        }).then(() => {
+          dispatch(loadGroup({ ids: [groupId] }));
+          setLoading(false);
+        });
+      }
     }
   };
 
