@@ -1321,33 +1321,6 @@ export const selectCurrentGroupPositionsWithActualPercentage = createSelector(
   },
 );
 
-// TODO: these two selectors could possibly get combined
-
-export const selectCurrentGroupPositionsNotInTarget = createSelector(
-  selectCurrentGroupPositions,
-  selectCurrentGroupTarget,
-  (positions, targets) => {
-    let notInTarget = null;
-    let targetIds: any;
-    if (targets?.isAssetClassBased) {
-      targets.currentAssetClass?.forEach((assetClass) => {
-        targetIds += assetClass.fullSymbols.map(
-          (target: any) => target?.symbol.id,
-        );
-      });
-    } else {
-      targetIds = targets?.currentTarget?.map(
-        (target: any) => target.fullSymbol.id,
-      );
-    }
-
-    notInTarget = positions?.filter(
-      (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
-    );
-    return notInTarget;
-  },
-);
-
 export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
   selectCurrentGroupPositions,
   selectCurrentGroupTarget,
@@ -1357,14 +1330,15 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
     let targetIds: any;
     if (targets?.isAssetClassBased) {
       targets.currentAssetClass?.forEach((assetClass) => {
-        targetIds += assetClass.fullSymbols.map((target: any) => {
-          // if (target.excluded) {
-          //   excluded.push({
-          //     excluded: target.excluded,
-          //     symbol: target.symbol,
-          //   });
-          // }
-          return target?.symbol.id;
+        targetIds += assetClass?.fullSymbols?.map((target: any) => {
+          if (target?.excluded) {
+            excluded.push({
+              excluded: target?.excluded,
+              symbol: target?.symbol,
+            });
+          } else {
+            return target?.symbol.id;
+          }
         });
       });
     } else {
@@ -1380,9 +1354,20 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
         }
       });
     }
-    notInTarget = positions?.filter(
-      (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
-    );
+    if (positions) {
+      notInTarget = positions.filter(
+        (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+      );
+    }
+    console.log(notInTarget, excluded);
+
     return [...notInTarget, ...excluded];
+  },
+);
+
+export const selectCurrentGroupModelType = createSelector(
+  selectCurrentGroupInfo,
+  (groupInfo) => {
+    return groupInfo?.model_portfolio.model_type;
   },
 );
