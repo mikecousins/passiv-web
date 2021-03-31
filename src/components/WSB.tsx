@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 import { selectTotalGroupHoldings } from '../selectors/groups';
 import { Button } from '../styled/Button';
 import { A, H2, P, BulletUL } from '../styled/GlobalElements';
-import CountDownTimer from './CountDownTimer';
 import { StyledSelect } from './PortfolioGroupSettings/OrderTargetAllocations';
 import { SymbolDetail } from './SymbolDetail';
 import { selectGlobalPreferredCurrency } from '../selectors/groups';
@@ -39,6 +38,10 @@ const YoloBtn = styled.button`
 `;
 const SelectContainer = styled.div`
   width: 100%;
+`;
+
+const ButtonContainer = styled.div`
+  padding-top: 20px;
 `;
 
 const Toggle = styled.div`
@@ -257,7 +260,7 @@ const WSB = () => {
           }, 3000);
           setTimeout(() => {
             setLoading(false);
-          }, 8000);
+          }, 6000);
         }}
       >
         YOLO{' '}
@@ -295,16 +298,41 @@ const WSB = () => {
             </LoadingContainer>
             <SpinnerContainer>
               <IconBox>
-                <FontAwesomeIcon
-                  icon={faSpinner}
-                  spin
-                  // style={{ marginLeft: '10px' }}
-                />
+                <FontAwesomeIcon icon={faSpinner} spin />
               </IconBox>
             </SpinnerContainer>
           </>
         ) : showCountDown ? (
-          <CountDownTimer />
+          <>
+            <SpacedH2>GUH, you actually did it!</SpacedH2>
+            <P>That was a risky click if there ever was one.</P>
+            <P>
+              Your portfolio has NOT been liquidated, but you clearly need to
+              take a break from the markets.
+            </P>
+            <div
+              style={{
+                width: '100%',
+                height: '0',
+                paddingBottom: '56%',
+                position: 'relative',
+              }}
+            >
+              <iframe
+                src="https://giphy.com/embed/ygzdQq98HgcLBCacep"
+                title="giphy2"
+                width="100%"
+                height="100%"
+                style={{ position: 'absolute' }}
+                frameBorder="0"
+                className="giphy-embed"
+                allowFullScreen
+              ></iframe>
+            </div>
+            <ButtonContainer>
+              <Button onClick={closeDialog}>Close</Button>
+            </ButtonContainer>
+          </>
         ) : cancel ? (
           <>
             <SpacedH2>Whew, that was close!</SpacedH2>
@@ -330,11 +358,9 @@ const WSB = () => {
                 allowFullScreen
               ></iframe>
             </div>
-            <small>
-              <a href="https://giphy.com/gifs/adultswim-whew-avoided-that-could-have-been-bad-ifQpYUXKQNwZuns26g">
-                via GIPHY
-              </a>
-            </small>
+            <ButtonContainer>
+              <Button onClick={closeDialog}>Close</Button>
+            </ButtonContainer>
           </>
         ) : (
           <Formik
