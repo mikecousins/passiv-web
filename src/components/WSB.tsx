@@ -307,6 +307,10 @@ const WSB = () => {
           <CountDownTimer />
         ) : cancel ? (
           <>
+            <SpacedH2>Whew, that was close!</SpacedH2>
+            <P>
+              Nice job on doing the responsible thing and sticking to your plan.
+            </P>
             <div
               style={{
                 width: '100%',
