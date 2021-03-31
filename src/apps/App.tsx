@@ -320,6 +320,9 @@ const App = () => {
       redirectPath = params.next as string;
       queryParams.next = redirectPath;
     }
+    if (params.code) {
+      queryParams.code = params.code;
+    }
   }
 
   if (updateQuery) {
