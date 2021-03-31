@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import { postData } from '../api';
 import {
   selectCurrentGroup,
-  selectCurrentGroupId,
   selectCurrentGroupSettings,
   selectCurrentGroupTarget,
 } from '../selectors/groups';
@@ -74,7 +73,6 @@ const NewAssetsDetected = ({ targets }: Props) => {
   const currentGroup = useSelector(selectCurrentGroup);
   const currentTargets = useSelector(selectCurrentGroupTarget);
   const settings = useSelector(selectCurrentGroupSettings);
-  const currentGroupId = useSelector(selectCurrentGroupId);
   const modelPortfolios = useSelector(selectModelPortfolios);
   const modelUseByOtherGroups = useSelector(selectModelUseByOtherGroups);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
@@ -90,11 +88,18 @@ const NewAssetsDetected = ({ targets }: Props) => {
       is_supported: true,
       is_excluded: exclude,
     };
-    const targets = currentTargets;
-    //@ts-ignore
-    targets?.push(newTarget);
 
-    postData(`/api/v1/portfolioGroups/${groupId}/targets/`, targets!)
+    const targets = currentTargets;
+    let newTargets: any;
+    if (targets?.isAssetClassBased) {
+      newTargets = targets.currentAssetClass;
+    } else {
+      newTargets = targets?.currentTarget;
+    }
+    //@ts-ignore
+    newTargets?.push(newTarget);
+
+    postData(`/api/v1/portfolioGroups/${groupId}/targets/`, newTargets!)
       .then(() => {
         dispatch(loadGroup({ ids: [groupId] }));
         if (!exclude) {
@@ -190,7 +195,10 @@ const NewAssetsDetected = ({ targets }: Props) => {
           </P>
         )}
         <ListOfAssets>
-          {targets!.map((target: any) => {
+          {targets?.map((target: any) => {
+            if (target.excluded) {
+              return;
+            }
             if (target.symbol.id === loadingId) {
               return <FontAwesomeIcon icon={faSpinner} spin />;
             }
@@ -244,11 +252,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
         )}
 
         <DontShowBtn>
-          <A
-            onClick={() =>
-              history.push(`/app/group/${currentGroupId}/settings`)
-            }
-          >
+          <A onClick={() => history.push(`/app/group/${groupId}/settings`)}>
             Do not want to see this message again? Turn it off in your group
             settings.
           </A>
