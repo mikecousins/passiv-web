@@ -7,9 +7,12 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectTotalGroupHoldings } from '../selectors/groups';
 import { Button } from '../styled/Button';
-import { A, H2, P } from '../styled/GlobalElements';
+import { A, H2, P, BulletUL } from '../styled/GlobalElements';
 import CountDownTimer from './CountDownTimer';
 import { StyledSelect } from './PortfolioGroupSettings/OrderTargetAllocations';
+import { SymbolDetail } from './SymbolDetail';
+import { selectGlobalPreferredCurrency } from '../selectors/groups';
+import Number from './Number';
 
 const Container = styled.div`
   margin: 10px 30px;
@@ -34,11 +37,8 @@ const YoloBtn = styled.button`
     }
   }
 `;
-const Select = styled.div`
-  width: 61%;
-  @media (max-width: 900px) {
-    width: 150%;
-  }
+const SelectContainer = styled.div`
+  width: 100%;
 `;
 
 const Toggle = styled.div`
@@ -100,6 +100,51 @@ const Toggle = styled.div`
   }
 `;
 
+const LoadingContainer = styled.div`
+  width: 100%;
+`;
+
+const FormContainer = styled.div`
+  padding-top: 40px;
+`;
+
+const SpinnerContainer = styled.div`
+  width: 100%;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+`;
+
+const IconBox = styled.div`
+  width: 100%;
+  font-size: 3em;
+`;
+
+const SpacedH2 = styled(H2)`
+  line-height: 1.3;
+  padding-bottom: 20px;
+`;
+
+const ExtraSpacedH2 = styled(SpacedH2)`
+  padding-top: 20px;
+`;
+
+const BottomSpacedH2 = styled(ExtraSpacedH2)`
+  padding-bottom: 0;
+`;
+
+const CloseButtonBox = styled.div`
+  font-size: 1.5em;
+`;
+
+const LargeStyledSelect = styled(StyledSelect)`
+  padding: 11px 82px 10px 14px;
+  font-size: 1.5em;
+  background-position: calc(100% - 27px) calc(1em - 1px),
+    calc(100% - 22px) calc(1em - 1px), 100% 0;
+  max-width: 80%;
+`;
+
 const Disclaimer = styled.small`
   max-width: 860px;
   line-height: 1.3;
@@ -114,6 +159,13 @@ const ConfirmBtn = styled(Button)`
   font-weight: 700;
 `;
 
+const SmallBulletUL = styled(BulletUL)`
+  li {
+    line-height: 1.5;
+    margin: 0;
+  }
+`;
+
 const WSB = () => {
   const totalEquity = useSelector(selectTotalGroupHoldings);
   const [showDialog, setShowDialog] = useState(false);
@@ -123,46 +175,68 @@ const WSB = () => {
   const [showCountDown, setShowCountDown] = useState(false);
   const [cancel, setCancel] = useState(false);
 
+  const preferredCurrency = useSelector(selectGlobalPreferredCurrency);
+
   // const tickers = ['GME', 'AMC', 'NOK', 'NOW', 'BB', 'REAL', 'TELL'];
   const tickers = [
     {
       symbol: 'GME',
+      name: 'GameStop Corp.',
+      description:
+        "An impeccible investment in the future of America's strip malls.",
       price: 202,
     },
     {
       symbol: 'AMC',
+      name: 'AMC Entertainment Holdings, Inc.',
+      description: 'A longterm bet against comfortable livingrooms.',
       price: 14,
     },
     {
       symbol: 'NOK',
+      name: 'Nokia Corporation',
+      description: 'A conservative pick for the return of simpler times.',
       price: 4,
     },
     {
       symbol: 'NOW',
+      name: 'ServiceNow, Inc.',
+      description: 'A boring business is the best business.',
       price: 467,
     },
     {
       symbol: 'BB',
+      name: 'BlackBerry Limited',
+      description: 'A bold wager for the return of the king of the north.',
       price: 11,
     },
     {
       symbol: 'REAL',
+      name: 'The RealReal, Inc.',
+      description:
+        'A confident statement that diamond hands need fancy handbags.',
       price: 24,
     },
     {
       symbol: 'TELL',
+      name: 'Tellurian Inc.',
+      description:
+        'A courageous stake to bring tropical weather to the entire world.',
       price: 2.5,
     },
   ];
 
+  const getStockByTicker = (ticker: string) => {
+    return tickers.find((t) => t.symbol === ticker);
+  };
+
   const calc = (ticker: string) => {
     let total = 0;
-    tickers.forEach((t) => {
-      if (t.symbol === ticker) {
-        total = totalEquity / t.price;
-      }
-    });
-    return total.toFixed(0);
+    const stock = getStockByTicker(ticker);
+    if (stock !== undefined) {
+      total = totalEquity / stock.price;
+    }
+    return Math.round(total);
   };
 
   const closeDialog = () => {
@@ -183,7 +257,7 @@ const WSB = () => {
           }, 3000);
           setTimeout(() => {
             setLoading(false);
-          }, 5000);
+          }, 8000);
         }}
       >
         YOLO{' '}
@@ -194,28 +268,40 @@ const WSB = () => {
       <Dialog
         isOpen={showDialog}
         onDismiss={closeDialog}
-        style={{ borderRadius: '4px' }}
+        style={{ borderRadius: '4px', marginTop: '150px' }}
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
       >
-        <FontAwesomeIcon
-          icon={faTimes}
-          style={{ float: 'right', cursor: 'pointer' }}
-          onClick={closeDialog}
-        />
-        <br />
+        <CloseButtonBox>
+          <FontAwesomeIcon
+            icon={faTimes}
+            style={{ float: 'right', cursor: 'pointer' }}
+            onClick={closeDialog}
+          />
+        </CloseButtonBox>
         {loading ? (
           <>
-            <H2>
-              {loadingMsg
-                ? 'Crawling r/WallStreetBets for trending stocks'
-                : 'Identified 7 meme stocks - Calculating'}{' '}
-              <FontAwesomeIcon
-                icon={faSpinner}
-                spin
-                style={{ marginLeft: '10px' }}
-              />
-            </H2>
+            <LoadingContainer>
+              {loadingMsg ? (
+                <SpacedH2>
+                  Crawling WallStreetBets for trending stocks ...
+                </SpacedH2>
+              ) : (
+                <>
+                  <SpacedH2>Identified {tickers.length} meme stocks.</SpacedH2>
+                  <P>Ranking by probability of tendies ...</P>
+                </>
+              )}
+            </LoadingContainer>
+            <SpinnerContainer>
+              <IconBox>
+                <FontAwesomeIcon
+                  icon={faSpinner}
+                  spin
+                  // style={{ marginLeft: '10px' }}
+                />
+              </IconBox>
+            </SpinnerContainer>
           </>
         ) : showCountDown ? (
           <CountDownTimer />
@@ -254,90 +340,134 @@ const WSB = () => {
             }}
             onSubmit={() => {}}
           >
-            {({ values }) => (
-              <Form>
-                <P>Choose a trending MEME stock:</P>
-                <Select>
-                  <StyledSelect as="select" name="ticker">
-                    {<option value="" label="Select a stock" />}
-                    {tickers.map((ticker) => {
-                      return (
-                        <option value={ticker.symbol} key={ticker.symbol}>
-                          {ticker.symbol}
-                        </option>
-                      );
-                    })}
-                  </StyledSelect>
-                </Select>
-                {values.ticker !== '' && (
-                  <Toggle role="group" aria-labelledby="my-radio-group">
-                    <Field
-                      id="toggle-on"
-                      className="toggle toggle-left"
-                      name="mode"
-                      value="rocket"
-                      type="radio"
-                    />
-                    <label htmlFor="toggle-on" className="btn">
-                      <span
-                        role="img"
-                        aria-label="emoji"
-                        style={{ width: '100px', height: '100px' }}
-                      >
-                        {' '}
-                        🚀
-                      </span>
-                    </label>
-                    <Field
-                      id="toggle-off"
-                      className="toggle toggle-right"
-                      name="mode"
-                      value="bear"
-                      type="radio"
-                    />
-                    <label htmlFor="toggle-off" className="btn">
-                      <span role="img" aria-label="emoji">
-                        🐻
-                      </span>
-                    </label>
-                  </Toggle>
-                )}
-                {values.mode !== '' && values.ticker !== '' && (
-                  <>
-                    <P>
-                      This will liquidate all of your positions across all
-                      accounts (Total:{' '}
-                      <span style={{ fontWeight: 700 }}>
-                        ${totalEquity.toFixed(2)}
-                      </span>
-                      ) and bets it all on OTM{' '}
-                      {values.mode === 'rocket' ? 'Calls' : 'Puts'} of{' '}
-                      {calc(values.ticker)} contracts of{' '}
-                      <span style={{ fontWeight: 700 }}>{values.ticker}</span>?{' '}
-                    </P>
-                    <div>
-                      {' '}
-                      <ConfirmBtn onClick={() => setShowCountDown(true)}>
-                        Yolo
-                      </ConfirmBtn>{' '}
-                      <A
-                        style={{ marginLeft: '20px' }}
-                        onClick={() => setCancel(true)}
-                      >
-                        Cancel
-                      </A>
-                    </div>
+            {({ values }) => {
+              const stock = getStockByTicker(values.ticker);
+              return (
+                <Form>
+                  <SpacedH2>Select your YOLO stock:</SpacedH2>
+                  <SelectContainer>
+                    <LargeStyledSelect as="select" name="ticker">
+                      {<option value="" label="Choose ..." />}
+                      {tickers.map((ticker) => {
+                        return (
+                          <option value={ticker.symbol} key={ticker.symbol}>
+                            {ticker.symbol}
+                          </option>
+                        );
+                      })}
+                    </LargeStyledSelect>
+                  </SelectContainer>
+                  {stock !== undefined && (
+                    <FormContainer>
+                      <P>
+                        <SymbolDetail symbol={stock} hideName={true} />{' '}
+                        {stock.name}
+                      </P>
+                      <P>DD: {stock.description}</P>
+                      <BottomSpacedH2>Are you a bull or a bear?</BottomSpacedH2>
+                      <Toggle role="group" aria-labelledby="my-radio-group">
+                        <Field
+                          id="toggle-on"
+                          className="toggle toggle-left"
+                          name="mode"
+                          value="rocket"
+                          type="radio"
+                        />
+                        <label htmlFor="toggle-on" className="btn">
+                          <span
+                            role="img"
+                            aria-label="emoji"
+                            style={{ width: '100px', height: '100px' }}
+                          >
+                            {' '}
+                            🚀
+                          </span>
+                        </label>
+                        <Field
+                          id="toggle-off"
+                          className="toggle toggle-right"
+                          name="mode"
+                          value="bear"
+                          type="radio"
+                        />
+                        <label htmlFor="toggle-off" className="btn">
+                          <span role="img" aria-label="emoji">
+                            🐻
+                          </span>
+                        </label>
+                      </Toggle>
+                    </FormContainer>
+                  )}
+                  {values.mode !== '' && values.ticker !== '' && (
+                    <>
+                      <ExtraSpacedH2>
+                        Liquidate all positions and YOLO?
+                      </ExtraSpacedH2>
+                      <P>
+                        You have{' '}
+                        <Number
+                          value={totalEquity}
+                          currency={
+                            preferredCurrency
+                              ? preferredCurrency.code
+                              : undefined
+                          }
+                        />{' '}
+                        of investible assets at your disposal.
+                      </P>
 
-                    <br />
-                    <Disclaimer>
-                      Disclaimer: This is not meant to be financial advice, you
-                      just {values.mode === 'rocket' ? 'like' : 'hate'} the
-                      stock.
-                    </Disclaimer>
-                  </>
-                )}
-              </Form>
-            )}
+                      {values.mode === 'rocket' ? (
+                        <P>
+                          Confirm to close all positions and buy{' '}
+                          <Number
+                            value={calc(values.ticker)}
+                            decimalPlaces={0}
+                          />{' '}
+                          shares of{' '}
+                          <SymbolDetail symbol={stock} hideName={true} />
+                        </P>
+                      ) : (
+                        <P>
+                          Confirm to close all positions and short{' '}
+                          <Number
+                            value={calc(values.ticker)}
+                            decimalPlaces={0}
+                          />{' '}
+                          shares of{' '}
+                          <SymbolDetail symbol={stock} hideName={true} />
+                        </P>
+                      )}
+                      <div>
+                        <ConfirmBtn onClick={() => setShowCountDown(true)}>
+                          Execute YOLO
+                        </ConfirmBtn>{' '}
+                        <A
+                          style={{ marginLeft: '20px' }}
+                          onClick={() => setCancel(true)}
+                        >
+                          Cancel
+                        </A>
+                      </div>
+                      <Disclaimer>
+                        Disclaimers:
+                        <SmallBulletUL>
+                          <li>This is not financial advice.</li>
+                          <li>
+                            This will not actually liquidate your holdings
+                            because that's insane.
+                          </li>
+                          <li>
+                            You just{' '}
+                            {values.mode === 'rocket' ? 'like' : 'hate'} the
+                            stock, right?
+                          </li>
+                        </SmallBulletUL>
+                      </Disclaimer>
+                    </>
+                  )}
+                </Form>
+              );
+            }}
           </Formik>
         )}
       </Dialog>

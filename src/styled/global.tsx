@@ -279,11 +279,12 @@ export const GlobalStyle = () => (
       }
 
       [data-reach-dialog-overlay] {
-        z-index: 4;
+        z-index: 10;
       }
       [data-reach-dialog-content] {
         @media (max-width: 900px) {
           width: 95vw;
+          margin-top: 60px;
         }
       }
     `}

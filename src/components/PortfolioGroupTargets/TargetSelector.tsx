@@ -21,6 +21,7 @@ import { Button } from '../../styled/Button';
 import { A } from '../../styled/GlobalElements';
 import { postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
+import { selectAuthorizations } from '../../selectors';
 
 const ButtonBox = styled.div`
   display: flex;
@@ -145,6 +146,17 @@ type Props = {
 };
 
 export const TargetSelector = ({ lockable, target, onReset }: Props) => {
+  const authorizations = useSelector(selectAuthorizations);
+  let hasZerodhaConnection = false;
+  if (authorizations) {
+    authorizations.forEach((authorization) => {
+      if (authorization.brokerage.name === 'Zerodha') {
+        hasZerodhaConnection = true;
+      }
+    });
+  }
+  console.log(authorizations);
+
   const groupId = useSelector(selectCurrentGroupId);
   const positions = useSelector(
     selectCurrentGroupPositionsWithActualPercentage,
@@ -550,15 +562,19 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                           Edit Targets
                         </Button>
                       </div>
-                      <div>
-                        <A
-                          href={portfolioVisualizerURL}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Portfolio Visualizer
-                        </A>
-                      </div>
+                      {hasZerodhaConnection ? (
+                        ''
+                      ) : (
+                        <div>
+                          <A
+                            href={portfolioVisualizerURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Portfolio Visualizer
+                          </A>
+                        </div>
+                      )}
                     </ButtonBox>
                   )}
                 </React.Fragment>

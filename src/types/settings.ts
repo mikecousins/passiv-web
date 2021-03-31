@@ -36,9 +36,6 @@ export type Settings = {
   affiliate_bonus_amount: number;
   take_passiv_tour: boolean;
   e_transfer_email: string | null;
-  affiliate_charity: {
-    charity_name?: string;
-    id: string;
-  } | null;
+  affiliate_charity: string | null;
   login_emails_enabled: boolean;
 };
