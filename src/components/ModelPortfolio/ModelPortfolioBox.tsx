@@ -286,8 +286,11 @@ const ModelPortoflioBox = ({
             `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
           );
         }
-        if (groupId) {
+        if (securityBased && groupId) {
           history.push(`/app/group/${gpId}`);
+        }
+        if (!securityBased && gpId) {
+          history.push(`/app/priorities/${gpId}`);
         }
       })
       .catch((err) => {

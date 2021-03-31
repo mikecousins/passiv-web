@@ -1368,6 +1368,6 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
 export const selectCurrentGroupModelType = createSelector(
   selectCurrentGroupInfo,
   (groupInfo) => {
-    return groupInfo?.model_portfolio.model_type;
+    return groupInfo?.model_portfolio?.model_type;
   },
 );

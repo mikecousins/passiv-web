@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getData, postData } from '../../api';
-import { faCheck, faPen, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { selectCurrentGroupId } from '../../selectors/groups';
+import {
+  faAngleLeft,
+  faCheck,
+  faPen,
+  faSpinner,
+} from '@fortawesome/free-solid-svg-icons';
+import { selectCurrentGroup } from '../../selectors/groups';
 import { AssetClassPriorities } from '../../types/modelPortfolio';
 import AssetClassPriority from './AssetClassPriority';
 import { Edit, H2 } from '../../styled/GlobalElements';
+import ShadowBox from '../../styled/ShadowBox';
+import { Button } from '../../styled/Button';
+import { BackButton } from './ModelPortfolio';
+import { Link } from 'react-router-dom';
 
 const Priorities = styled.div`
   > h2 {
@@ -36,18 +46,38 @@ const Description = styled.div`
   letter-spacing: 0.18px;
   margin-bottom: 50px;
 `;
+const GroupName = styled(H2)`
+  font-size: 32px;
+  font-weight: 400;
+  margin-bottom: 37px;
+`;
+const SaveButton = styled.div`
+  text-align: right;
+  margin: 50px 0 0 0;
+  button {
+    padding: 13px 60px;
+    font-weight: 600;
+    font-size: 18px;
+  }
+`;
 
-const Prioritization = () => {
-  const groupId = useSelector(selectCurrentGroupId);
+type Props = {
+  onSettingsPage: boolean;
+};
+
+const Prioritization = ({ onSettingsPage }: Props) => {
+  const history = useHistory();
+
+  const group = useSelector(selectCurrentGroup);
   const [assetClassPriorities, setAssetClassPriorities] = useState<
     AssetClassPriorities[]
   >();
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(onSettingsPage ? false : true);
   const [changed, setChanged] = useState({ symbolId: '', accountId: '' });
 
   const fetchPriorities = () => {
-    getData(`/api/v1/portfolioGroups/${groupId}/assetClassPriorities`).then(
+    getData(`/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`).then(
       (res) => {
         setAssetClassPriorities(res.data);
         setLoading(false);
@@ -120,11 +150,15 @@ const Prioritization = () => {
         });
       });
       postData(
-        `/api/v1/portfolioGroups/${groupId}/assetClassPriorities`,
+        `/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`,
         assetClassPriorities,
       ).then(() => {
+        if (onSettingsPage) {
+          setEditing(false);
+        } else {
+          history.push(`/app/group/${group?.id}`);
+        }
         fetchPriorities();
-        setEditing(false);
       });
     }
   };
@@ -134,24 +168,41 @@ const Prioritization = () => {
     setEditing(false);
   };
 
+  const priorities = assetClassPriorities?.map((assetClass) => {
+    if (assetClass.asset_class.name === 'Excluded Securities') {
+      return;
+    }
+    return (
+      <AssetClassPriority
+        assetClass={assetClass}
+        editing={editing}
+        changed={changed}
+        handleBtn={handleUpDownBtn}
+        key={assetClass.asset_class.id}
+      />
+    );
+  });
+
   return (
     <Priorities>
-      <Divider></Divider>
+      {onSettingsPage && <Divider></Divider>}
+
       <H2>Asset Class Priorities</H2>
-      {editing ? (
-        <>
-          <Done onClick={handleSaveChanges}>
-            <FontAwesomeIcon icon={faCheck} />
-            Save changes
-          </Done>
-          <Cancel onClick={handleCancel}>Cancel</Cancel>
-        </>
-      ) : (
-        <Edit onClick={() => setEditing(true)}>
-          <FontAwesomeIcon icon={faPen} />
-          Edit Priorities
-        </Edit>
-      )}
+      {onSettingsPage &&
+        (editing ? (
+          <>
+            <Done onClick={handleSaveChanges}>
+              <FontAwesomeIcon icon={faCheck} />
+              Save changes
+            </Done>
+            <Cancel onClick={handleCancel}>Cancel</Cancel>
+          </>
+        ) : (
+          <Edit onClick={() => setEditing(true)}>
+            <FontAwesomeIcon icon={faPen} />
+            Edit Priorities
+          </Edit>
+        ))}
 
       {loading ? (
         <div>
@@ -164,21 +215,23 @@ const Prioritization = () => {
             account. Top priority will be bought first and bottom priorities
             will be sold first.
           </Description>
-
-          {assetClassPriorities?.map((assetClass) => {
-            if (assetClass.asset_class.name === 'Excluded Securities') {
-              return;
-            }
-            return (
-              <AssetClassPriority
-                assetClass={assetClass}
-                editing={editing}
-                changed={changed}
-                handleBtn={handleUpDownBtn}
-                key={assetClass.asset_class.id}
-              />
-            );
-          })}
+          {onSettingsPage ? (
+            priorities
+          ) : (
+            <ShadowBox>
+              <BackButton>
+                {' '}
+                <Link to={'/app/models'}>
+                  <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to Model
+                </Link>
+              </BackButton>
+              <GroupName>{group?.name}</GroupName>
+              {priorities}
+              <SaveButton>
+                <Button onClick={handleSaveChanges}>Save</Button>
+              </SaveButton>
+            </ShadowBox>
+          )}
         </div>
       )}
     </Priorities>

@@ -45,6 +45,7 @@ import {
   REPORTING_PATH,
   GOALS_PATH,
 } from './Paths';
+import Prioritization from '../components/ModelPortfolio/Prioritization';
 
 // preload pages
 const ReactLazyPreload = (importStatement: any) => {
@@ -621,6 +622,13 @@ const App = () => {
                 exact
                 path={prefixPath('/model-portfolio/:modelId/group/:groupId')}
                 component={ModelPortfolioPage}
+              />
+            )}
+            {showSecureApp && (
+              <Route
+                exact
+                path={prefixPath('/priorities/:groupId')}
+                component={() => <Prioritization onSettingsPage={false} />}
               />
             )}
             // insecure app

@@ -183,7 +183,7 @@ export const PortfolioGroupSettings = () => {
       )}
       {featureCashManagement && <CashManagement />}
       {/* if group using asset class based model show prioritization */}
-      {modelType === 1 && <Prioritization />}
+      {modelType === 1 && <Prioritization onSettingsPage={true} />}
       {/* <TradesExplanation settings={settings} accounts={groupAccounts} /> */}
     </ShadowBox>
   );
