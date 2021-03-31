@@ -166,6 +166,9 @@ const Prioritization = () => {
           </Description>
 
           {assetClassPriorities?.map((assetClass) => {
+            if (assetClass.asset_class.name === 'Excluded Securities') {
+              return;
+            }
             return (
               <AssetClassPriority
                 assetClass={assetClass}
