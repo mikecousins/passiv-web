@@ -49,67 +49,67 @@ export default DefaultChart;
 const simpleExample = [
   {
     date: '2021-03-31T07:51:09.315141Z',
-    value: 124255.33914355,
+    value: 124255,
     currency: 'CAD',
   },
   {
     date: '2021-03-01T07:51:09.315141Z',
-    value: 119659.75383435,
+    value: 119659,
     currency: 'CAD',
   },
   {
     date: '2021-02-01T07:51:09.315141Z',
-    value: 113596.54599745,
+    value: 113596,
     currency: 'CAD',
   },
   {
     date: '2021-01-01T07:51:09.315141Z',
-    value: 103649.82232135,
+    value: 103649,
     currency: 'CAD',
   },
   {
     date: '2020-12-01T07:51:09.315141Z',
-    value: 103000.39107045,
+    value: 103000,
     currency: 'CAD',
   },
   {
     date: '2020-11-01T07:51:09.315141Z',
-    value: 89331.44246015,
+    value: 89331,
     currency: 'CAD',
   },
   {
     date: '2020-10-01T07:51:09.315141Z',
-    value: 88828.94363095,
+    value: 88828,
     currency: 'CAD',
   },
   {
     date: '2020-09-01T07:51:09.315141Z',
-    value: 87555.49929365,
+    value: 87555,
     currency: 'CAD',
   },
   {
     date: '2020-08-01T07:51:09.315141Z',
-    value: 82389.31225715,
+    value: 82389,
     currency: 'CAD',
   },
   {
     date: '2020-07-01T07:51:09.315141Z',
-    value: 76584.23334575,
+    value: 76584,
     currency: 'CAD',
   },
   {
     date: '2020-06-01T07:51:09.315141Z',
-    value: 72422.77632635,
+    value: 72422,
     currency: 'CAD',
   },
   {
     date: '2020-05-01T07:51:09.315141Z',
-    value: 64858.15299975,
+    value: 64858,
     currency: 'CAD',
   },
   {
     date: '2020-04-01T07:51:09.315141Z',
-    value: 54565.69594355,
+    value: 54565,
     currency: 'CAD',
   },
 ];

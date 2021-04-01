@@ -111,5 +111,7 @@ export type ReportingSymbol = {
 };
 
 export type ReportingSettings = {
-  detailedView: boolean;
+  detailed_view: boolean;
+  show_dividend_data: boolean;
+  show_return_rate: boolean;
 };
