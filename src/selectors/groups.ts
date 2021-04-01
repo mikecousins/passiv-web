@@ -1155,7 +1155,13 @@ export const selectCurrentAccountBalancedEquity = createSelector(
         if (!conversionRate) {
           return;
         }
-        total += position.units * position.price * conversionRate.exchange_rate;
+        position.fractional_units
+          ? (total +=
+              position.fractional_units *
+              position.price *
+              conversionRate.exchange_rate)
+          : (total +=
+              position.units * position.price * conversionRate.exchange_rate);
       }
     });
     return total;
