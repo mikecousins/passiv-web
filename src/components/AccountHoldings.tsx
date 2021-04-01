@@ -227,24 +227,27 @@ export const AccountHoldings = ({ holdings }: Props) => {
         if (a.fractional_units && b.fractional_units) {
           const aPreferred =
             convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
-            a.units;
+            a.fractional_units;
           const bPreferred =
             convertCurrencyToPreferred(b.price, b.symbol.symbol.currency) *
-            b.units;
+            b.fractional_units;
+          return multiplier * (bPreferred - aPreferred);
         } else if (a.fractional_units) {
           const aPreferred =
             convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
-            a.units;
+            a.fractional_units;
           const bPreferred =
             convertCurrencyToPreferred(b.price, b.symbol.symbol.currency) *
             b.units;
+          return multiplier * (bPreferred - aPreferred);
         } else if (b.fractional_units) {
           const aPreferred =
             convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
             a.units;
           const bPreferred =
             convertCurrencyToPreferred(b.price, b.symbol.symbol.currency) *
-            b.units;
+            b.fractional_units;
+          return multiplier * (bPreferred - aPreferred);
         } else {
           const aPreferred =
             convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
@@ -252,9 +255,8 @@ export const AccountHoldings = ({ holdings }: Props) => {
           const bPreferred =
             convertCurrencyToPreferred(b.price, b.symbol.symbol.currency) *
             b.units;
+          return multiplier * (bPreferred - aPreferred);
         }
-
-        return multiplier * (bPreferred - aPreferred);
       },
     },
     {
