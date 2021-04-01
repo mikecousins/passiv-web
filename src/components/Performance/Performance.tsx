@@ -19,11 +19,11 @@ import PerformanceDividendIncome from './PerformanceDividendIncome';
 import PerformanceFees from './PerformanceFees';
 import PerformanceFeeSavings from './PerformanceFeeSavings';
 import ShadowBox from '../../styled/ShadowBox';
-import TimeframePicker from './TimeframePicker';
 import { P, A } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import PerformanceRateOfReturn from './PerformanceRateOfReturn';
+import Settings from './SettingsComponents/Settings';
 
 const Grid = styled.div`
   @media (min-width: 900px) {
@@ -100,7 +100,7 @@ export const Performance = () => {
         </div>
       )}
 
-      <TimeframePicker />
+      <Settings />
       {currentTimeframe === 'CST' && contributions === undefined && (
         <>
           Select a timeframe and click "Apply" to load a custom reporting

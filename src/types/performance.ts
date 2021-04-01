@@ -109,3 +109,7 @@ export type ReportingSymbol = {
   description: string;
   currency: Currency;
 };
+
+export type ReportingSettings = {
+  detailedView: boolean;
+};
