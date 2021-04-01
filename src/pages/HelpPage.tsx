@@ -13,8 +13,8 @@ const HelpPage = () => {
       <HelpHeader />
       <Grid columns="2fr 1fr">
         <SearchBar />
-        <AlgoliaSearch />
-        <Tutorial />
+        {/* <AlgoliaSearch /> */}
+        {/* <Tutorial /> */}
       </Grid>
     </>
   );

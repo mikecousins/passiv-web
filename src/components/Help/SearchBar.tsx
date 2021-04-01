@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
-import { A, H3, P } from '../../styled/GlobalElements';
+import React, { useEffect, useState } from 'react';
+import { A, H2, H3, P } from '../../styled/GlobalElements';
 import { InputPrimary } from '../../styled/Form';
 import faq from './faq.json';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import ContactForm from './ContactForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronRight,
+  faTimes,
+  faTimesCircle,
+} from '@fortawesome/free-solid-svg-icons';
+import algoliasearch from 'algoliasearch/lite';
 
 type faqObj = {
   question: string;
@@ -41,30 +46,56 @@ const SearchContainer = styled.div`
   }
 `;
 
+const Type = styled(H3)`
+  color: white;
+  background-color: var(--brand-green);
+  width: 100px;
+  text-align: center;
+  border-radius: 3rem;
+  font-size: 18px;
+  margin-bottom: 20px;
+`;
+
 const SearchBar = () => {
   const [search, setSearch] = useState('');
+  const [hits, setHits] = useState([]);
 
-  const renderFaq = (faq: faqObj) => {
-    if (search === '') {
-      return null;
+  const searchClient = algoliasearch(
+    'GV9J4Z0TDF',
+    '437b4b0bb132ef0b0b0273484f35fd94',
+  );
+  const index = searchClient.initIndex('faq');
+
+  const searchIt = async (val: string) => {
+    setSearch(val);
+    const result = await index?.search(search);
+    if (result?.hits) {
+      //@ts-ignore
+      setHits(result.hits);
     }
-
-    return (
-      <div>
-        <ShadowBox>
-          <H3 title={faq.question} style={{ marginBottom: '10px' }}>
-            {faq.question.substring(0, 100)}
-          </H3>
-          <P>{faq.resolution}</P>
-          {faq.link.trim() !== '' && <a href={faq.link}> Learn more </a>}
-        </ShadowBox>
-      </div>
-    );
   };
 
-  const filteredFaq = faq.filter((faq: any) => {
-    return faq.question.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-  });
+  // const renderFaq = (faq: faqObj) => {
+  //   if (search === '') {
+  //     return null;
+  //   }
+
+  //   return (
+  //     <div>
+  // <ShadowBox>
+  //   <H3 title={faq.question} style={{ marginBottom: '10px' }}>
+  //     {faq.question.substring(0, 100)}
+  //   </H3>
+  //   <P>{faq.resolution}</P>
+  //   {faq.link.trim() !== '' && <a href={faq.link}> Learn more </a>}
+  // </ShadowBox>
+  //     </div>
+  //   );
+  // };
+
+  // const filteredFaq = faq.filter((faq: any) => {
+  //   return faq.question.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+  // });
 
   return (
     <div>
@@ -73,15 +104,23 @@ const SearchBar = () => {
           type="search"
           placeholder="Type keywords to search our site"
           value={search}
-          onChange={(e: any) => setSearch(e.target.value)}
+          onChange={(e: any) => {
+            searchIt(e.target.value);
+          }}
         />
         {search.length > 0 && (
-          <button type="submit" onClick={() => setSearch('')}>
-            <FontAwesomeIcon icon={faTimes} />
+          <button
+            type="submit"
+            onClick={() => {
+              setSearch('');
+              setHits([]);
+            }}
+          >
+            <FontAwesomeIcon icon={faTimesCircle} />
           </button>
         )}
       </SearchContainer>
-      <div>
+      {/* <div>
         <div>
           {filteredFaq.map((faq) => {
             return renderFaq(faq);
@@ -94,7 +133,42 @@ const SearchBar = () => {
             </A>
           )}
         </div>
-      </div>
+      </div> */}
+      {hits.length > 0 &&
+        hits.map((hit: any) => {
+          return (
+            <div>
+              <ShadowBox>
+                <Type>{hit.type}</Type>
+                <a
+                  href={
+                    hit.type === 'blog'
+                      ? `https://passiv.com/blog/${hit.slug}`
+                      : `https://passiv.com/help/tutorials/${hit.slug}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: 'none' }}
+                >
+                  <div>
+                    <H2 style={{ marginBottom: '10px', fontSize: '25px' }}>
+                      {hit.title}{' '}
+                      <span>
+                        <FontAwesomeIcon
+                          icon={faChevronRight}
+                          color="var(--brand-green)"
+                          style={{ marginLeft: '10px' }}
+                        />
+                      </span>
+                    </H2>
+                  </div>
+                </a>
+                {/* <P>{faq.resolution}</P>
+                {faq.link.trim() !== '' && <a href={faq.link}> Learn more </a>} */}
+              </ShadowBox>
+            </div>
+          );
+        })}
     </div>
   );
 };
