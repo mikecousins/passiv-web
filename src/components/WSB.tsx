@@ -180,52 +180,51 @@ const WSB = () => {
 
   const preferredCurrency = useSelector(selectGlobalPreferredCurrency);
 
-  // const tickers = ['GME', 'AMC', 'NOK', 'NOW', 'BB', 'REAL', 'TELL'];
   const tickers = [
     {
       symbol: 'GME',
       name: 'GameStop Corp.',
       description:
         "An impeccible investment in the future of America's strip malls.",
-      price: 202,
+      price: 194.42,
     },
     {
       symbol: 'AMC',
       name: 'AMC Entertainment Holdings, Inc.',
       description: 'A longterm bet against comfortable livingrooms.',
-      price: 14,
+      price: 10.25,
     },
     {
       symbol: 'NOK',
       name: 'Nokia Corporation',
       description: 'A conservative pick for the return of simpler times.',
-      price: 4,
+      price: 3.99,
     },
     {
       symbol: 'NOW',
       name: 'ServiceNow, Inc.',
       description: 'A boring business is the best business.',
-      price: 467,
+      price: 505.8,
     },
     {
       symbol: 'BB',
       name: 'BlackBerry Limited',
       description: 'A bold wager for the return of the king of the north.',
-      price: 11,
+      price: 8.55,
     },
     {
       symbol: 'REAL',
       name: 'The RealReal, Inc.',
       description:
         'A confident statement that diamond hands need fancy handbags.',
-      price: 24,
+      price: 22.63,
     },
     {
       symbol: 'TELL',
       name: 'Tellurian Inc.',
       description:
         'A courageous stake to bring tropical weather to the entire world.',
-      price: 2.5,
+      price: 2.39,
     },
   ];
 
