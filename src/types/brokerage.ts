@@ -9,6 +9,7 @@ export type Brokerage = {
     | 'Zerodha'
     | 'Unocoin'
     | 'Kraken'
+    | 'Coinbase'
     | 'Wealthica';
   url: 'https://questrade.com';
   slug: string;
