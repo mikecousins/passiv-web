@@ -44,9 +44,6 @@ const Settings = () => {
     );
   };
   const handleDividendToggle = () => {
-    console.log(showReturnRate);
-    console.log(showDividendData);
-    console.log(detailedMode);
     const oldValue = showDividendData;
     setShowDividendData(!showDividendData);
     dispatch(
