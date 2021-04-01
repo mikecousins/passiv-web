@@ -1051,8 +1051,15 @@ export const selectDashboardGroups = createSelector(
             if (!conversionRate) {
               return;
             }
-            group.totalHoldings +=
-              position.units * position.price * conversionRate.exchange_rate;
+            position.fractional_units
+              ? (group.totalHoldings +=
+                  position.fractional_units *
+                  position.price *
+                  conversionRate.exchange_rate)
+              : (group.totalHoldings +=
+                  position.units *
+                  position.price *
+                  conversionRate.exchange_rate);
           }
         });
         group.accuracy = groupData.accuracy;
