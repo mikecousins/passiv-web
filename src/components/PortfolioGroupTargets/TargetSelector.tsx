@@ -148,10 +148,14 @@ type Props = {
 export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const authorizations = useSelector(selectAuthorizations);
   let hasZerodhaConnection = false;
+  let hasUnocoinConnection = false;
   if (authorizations) {
     authorizations.forEach((authorization) => {
       if (authorization.brokerage.name === 'Zerodha') {
         hasZerodhaConnection = true;
+      }
+      if (authorization.brokerage.name === 'Unocoin') {
+        hasUnocoinConnection = true;
       }
     });
   }
@@ -562,7 +566,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                           Edit Targets
                         </Button>
                       </div>
-                      {hasZerodhaConnection ? (
+                      {hasZerodhaConnection || hasUnocoinConnection ? (
                         ''
                       ) : (
                         <div>
