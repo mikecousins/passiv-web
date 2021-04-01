@@ -30,6 +30,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GoalDetailPage from '../pages/GoalDetailPage';
 import {
+  selectAssetClassFeature,
   selectGoalsPageFeature,
   selectModelPortfolioFeature,
 } from '../selectors/features';
@@ -304,6 +305,7 @@ const App = () => {
 
   const queryParams = useSelector(selectQueryTokens);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
+  const assetClassFeature = useSelector(selectAssetClassFeature);
   let updateQuery = false;
 
   // extract referral code (if any) and make available on registration page
@@ -598,7 +600,7 @@ const App = () => {
             {showSecureApp && (
               <Route path={prefixPath('/share')} component={SharePage} />
             )}
-            {showSecureApp && (
+            {showSecureApp && assetClassFeature && (
               <Route
                 path={prefixPath('/asset-class')}
                 component={ModelAssetClassPage}
@@ -624,7 +626,7 @@ const App = () => {
                 component={ModelPortfolioPage}
               />
             )}
-            {showSecureApp && (
+            {showSecureApp && assetClassFeature && (
               <Route
                 exact
                 path={prefixPath('/priorities/:groupId')}

@@ -22,6 +22,7 @@ import {
   faAngleLeft,
   faClipboard,
   faClipboardCheck,
+  faExclamationCircle,
   faExclamationTriangle,
   faInfoCircle,
   faSpinner,
@@ -49,6 +50,7 @@ import {
 } from '../ModelAssetClass/AssetClass';
 import { Button } from '../../styled/Button';
 import Tooltip from '../Tooltip';
+import { selectAssetClassFeature } from '../../selectors/features';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -151,15 +153,17 @@ const ComingSoonTag = styled.div`
     vertical-align: top;
   }
 `;
-
-const ModelType = styled.div`
-  background: #dbfcf6;
+type ModelTypeProps = {
+  assetClassFeature: boolean;
+};
+const ModelType = styled.div<ModelTypeProps>`
+  background: ${(props) => !props.assetClassFeature && '#dbfcf6'};
   padding: 18px 20px 16px 20px;
   border-radius: 0 0 4px 4px;
   button:disabled svg,
   button,
   h3 {
-    color: #07a485;
+    color: ${(props) => !props.assetClassFeature && '#07a485'};
   }
 `;
 
@@ -178,7 +182,10 @@ const ModelPortfolio = () => {
   });
 
   const group = useSelector(selectGroupInfoForModelPortfolio);
+
   const groupInfo = group.groupInfo;
+  const editMode = group.edit;
+  const applyMode = group.apply;
 
   const groupsUsingModel = useSelector(selectGroupsUsingAModel)?.[
     currentModelPortfolio?.model_portfolio?.id
@@ -198,6 +205,8 @@ const ModelPortfolio = () => {
   const [copied, setCopied] = useState(false);
   const referralCode = useSelector(selectReferralCode);
 
+  const assetClassFeature = useSelector(selectAssetClassFeature);
+
   const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${
     currentModelPortfolio!?.model_portfolio.id
   }?share=${referralCode}`;
@@ -214,6 +223,8 @@ const ModelPortfolio = () => {
   ) {
     haveAssetsInModel = true;
   }
+
+  const modelTypeToggleDisabled = haveAssetsInModel || editMode || applyMode;
 
   const handleDeleteModel = () => {
     deleteData(
@@ -294,15 +305,28 @@ const ModelPortfolio = () => {
                   securityBased={securityBased}
                 />
                 <div>
-                  <ComingSoonTag>
-                    <FontAwesomeIcon icon={faStopwatch} size="sm" /> Coming Soon
-                    ...
-                  </ComingSoonTag>
-                  <ModelType>
-                    <H3>Model Type</H3>
+                  {!assetClassFeature && (
+                    <ComingSoonTag>
+                      <FontAwesomeIcon icon={faStopwatch} size="sm" /> Coming
+                      Soon ...
+                    </ComingSoonTag>
+                  )}
+
+                  <ModelType assetClassFeature={assetClassFeature}>
+                    <H3>
+                      Model Type{' '}
+                      {modelTypeToggleDisabled && assetClassFeature && (
+                        <Tooltip label="This setting is disabled if you already have securities in this model or on edit mode.">
+                          <FontAwesomeIcon
+                            icon={faExclamationCircle}
+                            size="sm"
+                          />
+                        </Tooltip>
+                      )}
+                    </H3>
                     <ToggleModelTypeBtn
                       onClick={handleChangeModelType}
-                      disabled={haveAssetsInModel}
+                      disabled={modelTypeToggleDisabled || !assetClassFeature}
                     >
                       {
                         <React.Fragment>

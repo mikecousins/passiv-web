@@ -33,6 +33,7 @@ import { selectGroupInfo, selectGroups } from '../selectors/groups';
 import Dialog from '@reach/dialog';
 import SelectGroupDialog from '../components/ModelPortfolio/SelectGroupDialog';
 import { BackButton } from '../components/ModelPortfolio/ModelPortfolio';
+import { selectAssetClassFeature } from '../selectors/features';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -118,6 +119,8 @@ const MyModelPortfoliosPage = () => {
   if (groupId && groupInfo[groupId].data?.model_portfolio) {
     modelIdUseByGroup = groupInfo[groupId].data?.model_portfolio.id;
   }
+
+  const assetClassFeature = useSelector(selectAssetClassFeature);
 
   const handleNewModelBtn = () => {
     postData('/api/v1/modelPortfolio/', {})
@@ -206,9 +209,11 @@ const MyModelPortfoliosPage = () => {
           </StyledP>
         )}
         <div>
-          <TransparentButton onClick={() => history.replace('asset-class')}>
-            Edit Asset Classes
-          </TransparentButton>
+          {assetClassFeature && (
+            <TransparentButton onClick={() => history.replace('asset-class')}>
+              Edit Asset Classes
+            </TransparentButton>
+          )}
           <NewModelButton onClick={() => handleNewModelBtn()}>
             New Model
           </NewModelButton>
