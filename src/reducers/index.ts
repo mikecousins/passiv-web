@@ -27,6 +27,7 @@ import {
   PerformanceData,
   PerformanceCustomData,
   AdjustedCostBasis,
+  ReportingSettings,
 } from '../types/performance';
 import {
   selectedTimeframe,
@@ -123,6 +124,10 @@ export default (history: any) =>
     }),
     performanceCustom: simple<PerformanceCustomData>({
       baseType: 'FETCH_PERFORMANCE_CUSTOM',
+      userData: true,
+    }),
+    reportingSettings: simple<ReportingSettings>({
+      baseType: 'FETCH_REPORTING_SETTINGS',
       userData: true,
     }),
     performanceACB: simple<AdjustedCostBasis[]>({

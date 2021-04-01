@@ -6,6 +6,7 @@ import {
   loadPerformanceAll,
   setStartDate,
   setEndDate,
+  loadReportingSettings,
 } from './performance';
 import {
   formattedToday,
@@ -462,6 +463,7 @@ export const reloadEverything: ActionCreator<ThunkAction<
     dispatch(setStartDate(startDate));
     dispatch(setEndDate(endDate));
     dispatch(loadGoals());
+    dispatch(loadReportingSettings());
   };
 };
 
