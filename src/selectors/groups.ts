@@ -1142,7 +1142,9 @@ export const selectCurrentAccountBalancedEquity = createSelector(
         preferredCurrency &&
         position.symbol.symbol.currency === preferredCurrency.id
       ) {
-        total += position.units * position.price;
+        position.fractional_units
+          ? (total += position.fractional_units * position.price)
+          : (total += position.units * position.price);
       } else {
         const conversionRate = rates.find(
           (rate) =>
