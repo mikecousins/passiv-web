@@ -224,39 +224,40 @@ export const AccountHoldings = ({ holdings }: Props) => {
       show: true,
       sortable: true,
       sortFunc: (a: Position, b: Position): number => {
+        let aPreferred = 0;
+        let bPreferred = 0;
+
         if (a.fractional_units && b.fractional_units) {
-          const aPreferred =
+          aPreferred =
             convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
             a.fractional_units;
-          const bPreferred =
+          bPreferred =
             convertCurrencyToPreferred(b.price, b.symbol.symbol.currency) *
             b.fractional_units;
-          return multiplier * (bPreferred - aPreferred);
         } else if (a.fractional_units) {
-          const aPreferred =
+          aPreferred =
             convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
             a.fractional_units;
-          const bPreferred =
+          bPreferred =
             convertCurrencyToPreferred(b.price, b.symbol.symbol.currency) *
             b.units;
-          return multiplier * (bPreferred - aPreferred);
         } else if (b.fractional_units) {
-          const aPreferred =
+          aPreferred =
             convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
             a.units;
-          const bPreferred =
+          bPreferred =
             convertCurrencyToPreferred(b.price, b.symbol.symbol.currency) *
             b.fractional_units;
-          return multiplier * (bPreferred - aPreferred);
         } else {
-          const aPreferred =
+          aPreferred =
             convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
             a.units;
-          const bPreferred =
+          bPreferred =
             convertCurrencyToPreferred(b.price, b.symbol.symbol.currency) *
             b.units;
-          return multiplier * (bPreferred - aPreferred);
         }
+
+        return multiplier * (bPreferred - aPreferred);
       },
     },
     {
