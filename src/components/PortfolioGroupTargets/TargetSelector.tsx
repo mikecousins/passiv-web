@@ -148,10 +148,18 @@ type Props = {
 export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const authorizations = useSelector(selectAuthorizations);
   let hasZerodhaConnection = false;
+  let hasUnocoinConnection = false;
+  let hasKrakenConnection = false;
   if (authorizations) {
     authorizations.forEach((authorization) => {
       if (authorization.brokerage.name === 'Zerodha') {
         hasZerodhaConnection = true;
+      }
+      if (authorization.brokerage.name === 'Unocoin') {
+        hasUnocoinConnection = true;
+      }
+      if (authorization.brokerage.name === 'Kraken') {
+        hasKrakenConnection = true;
       }
     });
   }
@@ -338,7 +346,11 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
             render={(arrayHelpers) => {
               // calculate any new targets actual percentages
               props.values.targets
-                .filter((target) => target.actualPercentage === undefined)
+                .filter(
+                  (target) =>
+                    target.actualPercentage === undefined ||
+                    target.actualPercentage === 0,
+                )
                 .forEach((target) => {
                   if (
                     positions &&
@@ -354,7 +366,6 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                     }
                   }
                 });
-
               // calculate the desired cash percentage
               const cashPercentage =
                 100 -
@@ -559,7 +570,9 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                           Edit Targets
                         </Button>
                       </div>
-                      {hasZerodhaConnection ? (
+                      {hasZerodhaConnection ||
+                      hasUnocoinConnection ||
+                      hasKrakenConnection ? (
                         ''
                       ) : (
                         <div>

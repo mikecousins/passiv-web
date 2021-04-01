@@ -113,6 +113,18 @@ const TDAmeritradeOauthPage = ReactLazyPreload(() =>
   ),
 );
 
+const KrakenAuthPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "kraken-oauth" */ '../pages/KrakenAuthPage'),
+);
+
+const UnocoinAuthPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "kraken-oauth" */ '../pages/UnocoinAuthPage'),
+);
+
+const KrakenOauthPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "kraken-oauth" */ '../pages/KrakenOauthPage'),
+);
+
 const ZerodhaOauthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "zerodha-oauth" */ '../pages/ZerodhaOauthPage'),
 );
@@ -403,6 +415,26 @@ const App = () => {
               <Route
                 path={prefixPath('/oauth/tradier')}
                 component={TradierOauthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/connect/kraken')}
+                component={KrakenAuthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/connect/unocoin')}
+                component={UnocoinAuthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                path={prefixPath('/oauth/kraken')}
+                component={KrakenOauthPage}
               />
             )}
             {loggedIn && (
