@@ -4,20 +4,14 @@ import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getData, postData } from '../../api';
-import {
-  faAngleLeft,
-  faCheck,
-  faPen,
-  faSpinner,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faPen, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectCurrentGroup } from '../../selectors/groups';
 import { AssetClassPriorities } from '../../types/modelPortfolio';
 import AssetClassPriority from './AssetClassPriority';
 import { Edit, H2 } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
 import { Button } from '../../styled/Button';
-import { BackButton } from './ModelPortfolio';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Priorities = styled.div`
   > h2 {
@@ -158,6 +152,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
         } else {
           history.push(`/app/group/${group?.id}`);
         }
+        toast.success('Saved the prioritization changes successfully');
         fetchPriorities();
       });
     }
@@ -219,12 +214,13 @@ const Prioritization = ({ onSettingsPage }: Props) => {
             priorities
           ) : (
             <ShadowBox>
-              <BackButton>
+              {/* <BackButton>
                 {' '}
                 <Link to={'/app/models'}>
-                  <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to Model
+                  <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to My
+                  Models
                 </Link>
-              </BackButton>
+              </BackButton> */}
               <GroupName>{group?.name}</GroupName>
               {priorities}
               <SaveButton>
