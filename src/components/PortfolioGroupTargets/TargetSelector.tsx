@@ -149,6 +149,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const authorizations = useSelector(selectAuthorizations);
   let hasZerodhaConnection = false;
   let hasUnocoinConnection = false;
+  let hasKrakenConnection = false;
   if (authorizations) {
     authorizations.forEach((authorization) => {
       if (authorization.brokerage.name === 'Zerodha') {
@@ -156,6 +157,9 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
       }
       if (authorization.brokerage.name === 'Unocoin') {
         hasUnocoinConnection = true;
+      }
+      if (authorization.brokerage.name === 'Kraken') {
+        hasKrakenConnection = true;
       }
     });
   }
@@ -566,7 +570,9 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                           Edit Targets
                         </Button>
                       </div>
-                      {hasZerodhaConnection || hasUnocoinConnection ? (
+                      {hasZerodhaConnection ||
+                      hasUnocoinConnection ||
+                      hasKrakenConnection ? (
                         ''
                       ) : (
                         <div>
