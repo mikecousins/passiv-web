@@ -1037,7 +1037,10 @@ export const selectDashboardGroups = createSelector(
             group.preferredCurrency &&
             position.symbol.currency.id === group.preferredCurrency.id
           ) {
-            group.totalHoldings += position.units * position.price;
+            position.fractional_units
+              ? (group.totalHoldings +=
+                  position.fractional_units * position.price)
+              : (group.totalHoldings += position.units * position.price);
           } else {
             const conversionRate = rates.find(
               (rate) =>
