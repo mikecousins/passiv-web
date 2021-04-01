@@ -190,7 +190,15 @@ export const AccountHoldings = ({ holdings }: Props) => {
       show: true,
       sortable: true,
       sortFunc: (a: Position, b: Position): number => {
-        return multiplier * (b.units - a.units);
+        if (a.fractional_units && b.fractional_units) {
+          return multiplier * (b.fractional_units - a.fractional_units);
+        } else if (a.fractional_units) {
+          return multiplier * (b.units - a.fractional_units);
+        } else if (b.fractional_units) {
+          return multiplier * (b.fractional_units - a.units);
+        } else {
+          return multiplier * (b.units - a.units);
+        }
       },
     },
     {
