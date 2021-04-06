@@ -25,7 +25,6 @@ const MiniInputNonFormik = styled(InputNonFormik)`
 const UnocoinCredentialsManager = () => {
   const settings = useSelector(selectSettings);
   const [APIKey, setAPIKey] = useState('');
-  const [error, setError] = useState<Error>();
 
   useEffect(() => {
     if (settings) {
@@ -50,8 +49,7 @@ const UnocoinCredentialsManager = () => {
         }, 1000);
       })
       .catch((error) => {
-        console.log(error);
-        setError(error.response.data);
+        //Error handling here if required
       });
   };
 
