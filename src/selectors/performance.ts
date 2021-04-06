@@ -375,3 +375,6 @@ export const selectRateOfReturn = createSelector<
     return state.performanceAll?.data?.rateOfReturn1Y;
   }
 });
+
+export const selectReportingSettings = (state: AppState) =>
+  state.reportingSettings;

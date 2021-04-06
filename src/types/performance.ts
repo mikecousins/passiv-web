@@ -109,3 +109,9 @@ export type ReportingSymbol = {
   description: string;
   currency: Currency;
 };
+
+export type ReportingSettings = {
+  detailed_view: boolean;
+  show_dividend_data: boolean;
+  show_return_rate: boolean;
+};
