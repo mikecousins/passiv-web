@@ -22,8 +22,10 @@ import { Button } from '../../styled/Button';
 import { A } from '../../styled/GlobalElements';
 import { deleteData, postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
+
 import { selectModelUseByOtherGroups } from '../../selectors/modelPortfolios';
 import { selectModelPortfolioFeature } from '../../selectors/features';
+import { selectAuthorizations } from '../../selectors';
 
 const ButtonBox = styled.div`
   display: flex;
@@ -170,6 +172,25 @@ export const TargetSelector = ({
   onReset,
 }: Props) => {
   const dispatch = useDispatch();
+
+  const authorizations = useSelector(selectAuthorizations);
+  let hasZerodhaConnection = false;
+  let hasUnocoinConnection = false;
+  let hasKrakenConnection = false;
+  if (authorizations) {
+    authorizations.forEach((authorization) => {
+      if (authorization.brokerage.name === 'Zerodha') {
+        hasZerodhaConnection = true;
+      }
+      if (authorization.brokerage.name === 'Unocoin') {
+        hasUnocoinConnection = true;
+      }
+      if (authorization.brokerage.name === 'Kraken') {
+        hasKrakenConnection = true;
+      }
+    });
+  }
+
   const groupId = useSelector(selectCurrentGroupId);
   const positions = useSelector(
     selectCurrentGroupPositionsWithActualPercentage,
@@ -360,7 +381,11 @@ export const TargetSelector = ({
             render={(arrayHelpers) => {
               // calculate any new targets actual percentages
               props.values.targets
-                .filter((target) => target.actualPercentage === undefined)
+                .filter(
+                  (target) =>
+                    target.actualPercentage === undefined ||
+                    target.actualPercentage === 0,
+                )
                 .forEach((target) => {
                   if (
                     positions &&
@@ -376,7 +401,6 @@ export const TargetSelector = ({
                     }
                   }
                 });
-
               // calculate the desired cash percentage
               const cashPercentage =
                 100 -
@@ -621,18 +645,21 @@ export const TargetSelector = ({
                           Apply Another Model
                         </ApplyNewModelBtn>
                       </div>
-                      <div>
-                        <A type="button" onClick={() => resetTargets()}>
-                          Reset
-                        </A>{' '}
-                        <A
-                          href={portfolioVisualizerURL}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Portfolio Visualizer
-                        </A>
-                      </div>
+                      {hasZerodhaConnection ||
+                      hasUnocoinConnection ||
+                      hasKrakenConnection ? (
+                        ''
+                      ) : (
+                        <div>
+                          <A
+                            href={portfolioVisualizerURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Portfolio Visualizer
+                          </A>
+                        </div>
+                      )}
                     </ButtonBox>
                   )}
                 </React.Fragment>

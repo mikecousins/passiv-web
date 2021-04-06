@@ -239,11 +239,15 @@ const ReferralManager = () => {
 
   const [updatingPayment, setUpdatingPayment] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState('');
-  const [charities, setCharities] = useState([]);
+  const [charities, setCharities] = useState<any[]>([]);
 
   const [editingEmail, setEditingEmail] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
+
+  const getCharityById = (id: string): any => {
+    return charities.find((charity) => charity.id === id);
+  };
 
   useEffect(() => {
     if (settings) {
@@ -456,9 +460,7 @@ const ReferralManager = () => {
               <Formik
                 initialValues={{
                   payment: selectedPayment,
-                  selectedCharity: settings?.affiliate_charity
-                    ? settings?.affiliate_charity.id
-                    : null,
+                  selectedCharity: settings?.affiliate_charity,
                 }}
                 enableReinitialize
                 validate={(values) => {
@@ -490,11 +492,11 @@ const ReferralManager = () => {
                       values.payment === 'charity' &&
                       values.selectedCharity !== null
                     ) {
-                      const charity = {
-                        id: values.selectedCharity,
-                      };
                       newSettings.e_transfer_email = null;
-                      newSettings.affiliate_charity = charity;
+                      newSettings.affiliate_charity =
+                        values.selectedCharity !== undefined
+                          ? values.selectedCharity
+                          : null;
                     }
                     putData('/api/v1/settings/', newSettings)
                       .then(() => {
@@ -579,10 +581,13 @@ const ReferralManager = () => {
                           </>
                         ) : (
                           <>
-                            {settings?.affiliate_charity?.charity_name && (
+                            {settings?.affiliate_charity && (
                               <SelectedCharity>
                                 <OptionsTitle>Selected Charity:</OptionsTitle>
-                                {settings?.affiliate_charity?.charity_name}
+                                {getCharityById(settings.affiliate_charity) !==
+                                  undefined &&
+                                  getCharityById(settings.affiliate_charity)
+                                    .charity_name}
                               </SelectedCharity>
                             )}
                             <StyledSelect as="select" name="selectedCharity">

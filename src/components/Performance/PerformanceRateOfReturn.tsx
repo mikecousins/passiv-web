@@ -31,7 +31,7 @@ export const PerformanceRateOfReturn = () => {
 
   return (
     <React.Fragment>
-      <Tooltip label="Annualized rate of return for your portfolio">
+      <Tooltip label="Time Weighted Rate of Return for your Portfolio (Annualized over periods > 1 year)">
         <div>
           <SubHeader>
             Rate of Return{' '}

@@ -370,8 +370,11 @@ export const selectRateOfReturn = createSelector<
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.rateOfReturnALL;
   } else if (timeframe === 'CST') {
-    return state.performanceAll?.data?.rateOfReturn1Y;
+    return state.performanceCustom?.data?.rateOfReturn;
   } else {
     return state.performanceAll?.data?.rateOfReturn1Y;
   }
 });
+
+export const selectReportingSettings = (state: AppState) =>
+  state.reportingSettings;

@@ -77,6 +77,7 @@ export type PerformanceCustomData = {
   feeSavings: number;
   fees: number;
   badTickers: string[];
+  rateOfReturn: number;
 };
 
 export type DividendsAtDate = {
@@ -107,4 +108,10 @@ export type ReportingSymbol = {
   symbol: string;
   description: string;
   currency: Currency;
+};
+
+export type ReportingSettings = {
+  detailed_view: boolean;
+  show_dividend_data: boolean;
+  show_return_rate: boolean;
 };

@@ -285,6 +285,7 @@ export const GlobalStyle = () => (
       [data-reach-dialog-content] {
         @media (max-width: 900px) {
           width: 95vw;
+          margin-top: 60px;
         }
       }
     `}
