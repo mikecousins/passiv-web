@@ -390,11 +390,10 @@ export const selectCurrentGroupPositions = createSelector(
         .flat();
 
       positions.map((position) => {
-        // TODO set this properly
         if (excludedPositionsSymbolsIds.includes(position.symbol.id)) {
-          position.excluded = false;
-        } else {
           position.excluded = true;
+        } else {
+          position.excluded = false;
         }
 
         position.quotable = quotableSymbols.some(
@@ -812,6 +811,7 @@ export const selectCurrentGroupTarget = createSelector(
     const currentTargetRaw = groupInfo.asset_classes_details;
 
     let currentTarget: TargetPosition[] = [];
+    let currentAssetClass: any[] = [];
 
     currentTargetRaw.forEach((targetRaw) => {
       if (rebalance_by_asset_class === false) {
@@ -871,6 +871,66 @@ export const selectCurrentGroupTarget = createSelector(
           }
           currentTarget.push(target);
         });
+      } else {
+        if (
+          !targetRaw.asset_class.exclude_asset_class &&
+          targetRaw.asset_class.name !== 'Empty Class'
+        ) {
+          const assetClass: any = {
+            symbol: '', //! don't need this
+            id: targetRaw.asset_class.id,
+            name: targetRaw.asset_class.name,
+            percent: targetRaw.asset_class.percent,
+            meta: {},
+            fullSymbols: undefined,
+            actualPercentage: 0,
+            is_excluded: targetRaw.asset_class.exclude_asset_class,
+            is_supported: true, //! not sure how to properly set this
+          };
+
+          const fullSymbols = targetRaw.symbols.map((symbol: any) => {
+            const position = groupInfo.positions.find(
+              (p) => p.symbol.id === symbol.symbol,
+            );
+            return position;
+          });
+          assetClass.fullSymbols = fullSymbols;
+
+          assetClass.actualPercentage = fullSymbols.reduce(
+            (acc: any, symbol) => {
+              if (symbol) {
+                let actualPercentage;
+                if (
+                  preferredCurrency &&
+                  symbol.symbol.currency.id === preferredCurrency.id
+                ) {
+                  actualPercentage =
+                    ((symbol.price * symbol.units) /
+                      totalHoldingsExcludedRemoved) *
+                    100;
+                } else {
+                  const conversionRate = rates.find(
+                    (rate: any) =>
+                      preferredCurrency &&
+                      rate.src.id === symbol.symbol.currency.id &&
+                      rate.dst.id === preferredCurrency.id,
+                  );
+                  if (conversionRate) {
+                    actualPercentage =
+                      ((symbol.price * symbol.units) /
+                        totalHoldingsExcludedRemoved) *
+                      100 *
+                      conversionRate.exchange_rate;
+                  }
+                }
+                acc = acc + actualPercentage;
+              }
+              return acc;
+            },
+            0,
+          );
+          currentAssetClass.push(assetClass);
+        }
       }
     });
 
@@ -964,8 +1024,11 @@ export const selectCurrentGroupTarget = createSelector(
         });
         break;
     }
-
-    return currentTarget;
+    if (rebalance_by_asset_class) {
+      return { currentAssetClass, isAssetClassBased: true };
+    } else {
+      return { currentTarget, isAssetClassBased: false };
+    }
   },
 );
 
@@ -1315,15 +1378,53 @@ export const selectCurrentGroupPositionsWithActualPercentage = createSelector(
   },
 );
 
-export const selectCurrentGroupPositionsNotInTarget = createSelector(
+export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
   selectCurrentGroupPositions,
   selectCurrentGroupTarget,
   (positions, targets) => {
-    let notInTarget = null;
-    const targetIds = targets?.map((target: any) => target.fullSymbol.id);
-    notInTarget = positions?.filter(
-      (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
-    );
-    return notInTarget;
+    let notInTarget: any = [];
+    let excluded: any = [];
+    let targetIds: any;
+    if (targets?.isAssetClassBased) {
+      targets.currentAssetClass?.forEach((assetClass) => {
+        targetIds += assetClass?.fullSymbols?.map((target: any) => {
+          if (target?.excluded) {
+            excluded.push({
+              excluded: target?.excluded,
+              symbol: target?.symbol,
+            });
+          } else {
+            return target?.symbol.id;
+          }
+        });
+      });
+    } else {
+      targetIds = targets?.currentTarget?.map(
+        (target: any) => target.fullSymbol.id,
+      );
+      targets?.currentTarget?.map((target: any) => {
+        if (target.is_excluded && target.is_supported) {
+          excluded.push({
+            excluded: target.is_excluded,
+            symbol: target.fullSymbol,
+          });
+        }
+      });
+    }
+    if (positions) {
+      notInTarget = positions.filter(
+        (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+      );
+    }
+    console.log(notInTarget, excluded);
+
+    return [...notInTarget, ...excluded];
+  },
+);
+
+export const selectCurrentGroupModelType = createSelector(
+  selectCurrentGroupInfo,
+  (groupInfo) => {
+    return groupInfo?.model_portfolio?.model_type;
   },
 );

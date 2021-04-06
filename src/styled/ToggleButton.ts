@@ -5,7 +5,7 @@ export const ToggleButton = styled.button`
   vertical-align: middle;
   padding: 0;
   margin-left: 3px;
-  margin-top: -5px;
+  margin-top: 1px;
 `;
 
 export const DisabledToggleButton = styled(ToggleButton)`
@@ -19,9 +19,8 @@ export const StateText = styled.span`
   padding: 0 0 5px 5px;
   font-size: 12pt;
   font-weight: 800;
-  vertical-align: middle;
 `;
 
 export const Row = styled.div`
-  margin-top: 12px;
+  margin-top: 18px;
 `;

@@ -370,6 +370,42 @@ export const loadGroupAndAccounts: ActionCreator<ThunkAction<
   };
 };
 
+export const loadModelAssetClasses: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
+  return (dispatch) => {
+    dispatch(fetchAssetClassesStart());
+    getData('/api/v1/modelAssetClass/')
+      .then((response) => {
+        dispatch(fetchAssetClassesSuccess(response));
+      })
+      .catch((error) => {
+        dispatch(fetchAssetClassesError(error));
+      });
+  };
+};
+
+export const loadModelPortfolios: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
+  return (dispatch) => {
+    dispatch(fetchModelPortfoliosStart());
+    getData('/api/v1/modelPortfolio/')
+      .then((response) => {
+        dispatch(fetchModelPortfoliosSuccess(response));
+      })
+      .catch((error) => {
+        dispatch(fetchModelPortfoliosError(error));
+      });
+  };
+};
+
 export const reloadEverything: ActionCreator<ThunkAction<
   void,
   any,
@@ -455,6 +491,24 @@ export const reloadEverything: ActionCreator<ThunkAction<
         return dispatch(fetchAccountsSuccess(response));
       })
       .catch((error) => dispatch(fetchAccountsError(error)));
+
+    dispatch(fetchAssetClassesStart());
+    getData('/api/v1/modelAssetClass/')
+      .then((response) => {
+        dispatch(fetchAssetClassesSuccess(response));
+      })
+      .catch((error) => {
+        dispatch(fetchAssetClassesError(error));
+      });
+
+    dispatch(fetchModelPortfoliosStart());
+    getData('/api/v1/modelPortfolio')
+      .then((response) => {
+        dispatch(fetchModelPortfoliosSuccess(response));
+      })
+      .catch((error) => {
+        dispatch(fetchModelPortfoliosError(error));
+      });
 
     dispatch(setSelectedTimeframe('1Y'));
     dispatch(loadPerformanceAll(selectedAccounts));
@@ -724,6 +778,34 @@ export const importTargetStart: ActionCreator<Action> = (payload) => ({
 export const importTargetSuccess: ActionCreator<Action> = (payload) => ({
   type: 'IMPORT_TARGET_SUCCESS',
   payload,
+});
+
+export const fetchAssetClassesStart: ActionCreator<Action> = () => ({
+  type: 'FETCH_MODEL_ASSET_CLASSES_START',
+});
+export const fetchAssetClassesSuccess: ActionCreator<Action> = (payload) => {
+  return {
+    type: 'FETCH_MODEL_ASSET_CLASSES_SUCCESS',
+    payload,
+  };
+};
+export const fetchAssetClassesError: ActionCreator<Action> = (payload) => ({
+  type: 'FETCH_MODEL_ASSET_CLASSES_ERROR',
+  data: payload,
+});
+export const fetchModelPortfoliosStart: ActionCreator<Action> = () => ({
+  type: 'FETCH_MODEL_PORTFOLIOS_START',
+});
+
+export const fetchModelPortfoliosSuccess: ActionCreator<Action> = (payload) => {
+  return {
+    type: 'FETCH_MODEL_PORTFOLIOS_SUCCESS',
+    payload,
+  };
+};
+export const fetchModelPortfoliosError: ActionCreator<Action> = (payload) => ({
+  type: 'FETCH_MODEL_PORTFOLIOS_ERROR',
+  data: payload,
 });
 
 export const importTargetError: ActionCreator<Action> = (payload) => ({

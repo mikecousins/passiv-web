@@ -12,6 +12,8 @@ import {
   loadHelpArticles,
   loadFeatures,
   loadIncentives,
+  loadModelAssetClasses,
+  loadModelPortfolios,
 } from '../actions';
 import {
   loadPerformanceAll,
@@ -28,10 +30,13 @@ import {
   selectIncentivesNeedData,
 } from '../selectors';
 import { selectAccountsNeedData } from '../selectors/accounts';
+import { selectModelAssetClassesNeedData } from '../selectors/modelAssetClasses';
+import { selectModelPortfoliosNeedData } from '../selectors/modelPortfolios';
 import {
   selectGroupsNeedData,
   selectGroupInfoNeedsData,
 } from '../selectors/groups';
+
 import { selectSubscriptionNeedData } from '../selectors/subscription';
 import { selectShouldCheckIfOnline } from '../selectors/online';
 import {
@@ -110,6 +115,14 @@ export const effects = [
   {
     selector: selectShouldCheckIfOnline,
     actionCreator: checkIfOnline,
+  },
+  {
+    selector: selectModelAssetClassesNeedData,
+    actionCreator: loadModelAssetClasses,
+  },
+  {
+    selector: selectModelPortfoliosNeedData,
+    actionCreator: loadModelPortfolios,
   },
   {
     selector: selectGoalsNeedData,

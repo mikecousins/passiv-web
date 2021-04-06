@@ -10,16 +10,20 @@ import CashManagement from '../CashManagement';
 import {
   selectCurrentGroupSettings,
   selectCurrentGroupId,
+  selectCurrentGroupInfo,
 } from '../../selectors/groups';
-import { selectCashManagementFeature } from '../../selectors/features';
-import { selectAccounts } from '../../selectors/accounts';
+import {
+  selectCashManagementFeature,
+  selectModelPortfolioFeature,
+} from '../../selectors/features';
 import { putData } from '../../api';
 import { loadGroup } from '../../actions';
 import { toast } from 'react-toastify';
-import TradesExplanation from '../TradesExplanation';
 import Tour from '../Tour/Tour';
+import ExcludedAssets from './ExcludedAssets';
 import UpgradeButton from '../Tour/UpgradeButton';
 import EliteFeatureTitle from '../Tour/EliteFeatureTitle';
+import Prioritization from '../ModelPortfolio/Prioritization';
 
 const TOUR_STEPS = [
   {
@@ -71,13 +75,14 @@ const TOUR_STEPS = [
 ];
 
 export const PortfolioGroupSettings = () => {
+  const dispatch = useDispatch();
   const settings = useSelector(selectCurrentGroupSettings);
-  const accounts = useSelector(selectAccounts);
   const groupId = useSelector(selectCurrentGroupId);
   const featureCashManagement = useSelector(selectCashManagementFeature);
-  const dispatch = useDispatch();
+  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
+  const groupInfo = useSelector(selectCurrentGroupInfo);
 
-  const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
+  const modelType = groupInfo?.model_portfolio?.model_type;
 
   const updateSettings = () => {
     if (settings) {
@@ -94,11 +99,17 @@ export const PortfolioGroupSettings = () => {
   return (
     <ShadowBox>
       <Tour steps={TOUR_STEPS} name="group_settings_tour" />
+      {modelPortfolioFeature && <ExcludedAssets />}
       <H2>General</H2>
       {settings ? (
         <React.Fragment>
           <SettingsToggle
             name="Allow selling to rebalance"
+            explanation={
+              settings.buy_only
+                ? 'Passiv will use available cash to purchase the most underweight assets in your portfolio. Sell orders are not permitted.'
+                : 'Passiv will buy and sell assets to get as close to 100% accuracy as possible.'
+            }
             value={settings.buy_only}
             onChange={() => {
               if (settings) {
@@ -110,6 +121,11 @@ export const PortfolioGroupSettings = () => {
           />
           <SettingsToggle
             name="Prevent trades in non-tradable accounts"
+            explanation={
+              settings.prevent_trades_in_non_tradable_accounts
+                ? 'Passiv will attempt to route your trades through brokers with One-Click Trade support.'
+                : ''
+            }
             value={settings.prevent_trades_in_non_tradable_accounts}
             onChange={() => {
               if (settings) {
@@ -119,17 +135,29 @@ export const PortfolioGroupSettings = () => {
             }}
             invert={false}
           />
-          <SettingsToggle
-            name="Notify me about new detected assets"
-            value={settings.show_warning_for_new_assets_detected}
-            onChange={() => {
-              if (settings) {
-                settings.show_warning_for_new_assets_detected = !settings.show_warning_for_new_assets_detected;
-                updateSettings();
+          {modelType !== 1 && (
+            <SettingsToggle
+              name="Notify me about new detected assets"
+              explanation={
+                settings.show_warning_for_new_assets_detected
+                  ? `Passiv will show you a message for new holding assets that are not part of your ${
+                      modelPortfolioFeature
+                        ? 'model portfolio'
+                        : 'target portfolio'
+                    }.`
+                  : ''
               }
-            }}
-            invert={false}
-          />
+              value={settings.show_warning_for_new_assets_detected}
+              onChange={() => {
+                if (settings) {
+                  settings.show_warning_for_new_assets_detected = !settings.show_warning_for_new_assets_detected;
+                  updateSettings();
+                }
+              }}
+              invert={false}
+            />
+          )}
+
           <CurrencySeparation
             preventConversion={settings.prevent_currency_conversion}
             onChangePreventConversion={() => {
@@ -154,7 +182,9 @@ export const PortfolioGroupSettings = () => {
         </React.Fragment>
       )}
       {featureCashManagement && <CashManagement />}
-      <TradesExplanation settings={settings} accounts={groupAccounts} />
+      {/* if group using asset class based model show prioritization */}
+      {modelType === 1 && <Prioritization onSettingsPage={true} />}
+      {/* <TradesExplanation settings={settings} accounts={groupAccounts} /> */}
     </ShadowBox>
   );
 };

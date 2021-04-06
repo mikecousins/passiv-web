@@ -12,8 +12,6 @@ import Demo from './Demo';
 import { selectIsOnline } from '../../selectors/online';
 import { selectIsDemo } from '../../selectors';
 import { LogoutButton } from '../LogoutButton';
-import WSB from '../WSB';
-import { selectAprilFools2021 } from '../../selectors/features';
 
 type StyledHeaderProps = {
   isOnline: boolean;
@@ -51,8 +49,6 @@ export const Header = () => {
   const isOnline = useSelector(selectIsOnline);
   const isDemo = useSelector(selectIsDemo);
 
-  const aprilFoolsFeature = useSelector(selectAprilFools2021);
-
   return (
     <StyledHeader isOnline={isOnline}>
       <nav>
@@ -67,7 +63,6 @@ export const Header = () => {
             </object>
           </Link>
         </Logo>
-        {loggedIn && aprilFoolsFeature && <WSB />}
         {isOnline && isDemo && <Demo />}
         {!isOnline && <Offline />}
         {loggedIn && <Hello name={name} />}

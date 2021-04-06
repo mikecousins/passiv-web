@@ -8,7 +8,7 @@ export const selectCurrenciesRaw = (state: AppState) => state.currencies;
 
 export const selectCurrencies = createSelector(
   selectCurrenciesRaw,
-  rawCurrencies => {
+  (rawCurrencies) => {
     if (rawCurrencies.data) {
       return rawCurrencies.data;
     }

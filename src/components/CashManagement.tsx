@@ -24,8 +24,10 @@ import styled from '@emotion/styled';
 import { Form } from '../styled/Form';
 
 const CashManagementBox = styled.div`
-  margin-top: 30px;
+  margin-top: 50px;
   margin-bottom: 35px;
+  border: 1px solid;
+  padding: 20px;
 `;
 
 const CashForm = styled(Form)`
@@ -33,12 +35,11 @@ const CashForm = styled(Form)`
 `;
 
 export const CashRestrictionBox = styled.div`
-  padding: 12px 0 5px;
+  padding: 12px 0 25px;
 `;
 
 export const CashRow = styled.div`
   text-align: left;
-  padding-bottom: 10px;
   @media (min-width: 900px) {
     display: flex;
   }
@@ -125,7 +126,7 @@ const CancelButton = styled(A)`
 `;
 
 const Title = styled.div`
-  text-align: center;
+  text-align: left;
   font-weight: 600;
 `;
 
