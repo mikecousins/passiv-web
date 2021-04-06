@@ -3,115 +3,115 @@
     "title": "What is considered an active account?",
     "resolution": "Most brokerages consider an account to be active when it’s open and fully funded. For example, Questrade considers your account fully funded when there is a minimum of $1,000 CAD in your account. Note that as with any bank transfer, there may be a delay between your deposit and the time the funds are in your account.",
     "slug": "",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "Why do I see different account total values in Passiv and in my brokerage? ",
     "resolution": "Passiv uses real-time data passed through your broker's API and should be correct as long as your brokerage connection is active. Some brokerage dashboards show a daily account summary rather than real-time data. This is often the case for reports and account statements. If you make a change in your brokerage account directly instead of through Passiv, such as manually placing an order or depositing more funds, it may take a few minutes for Passiv to sync the latest data from your account.",
     "slug": "",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "How do I delete my account?",
     "resolution": "If you want to delete your account, please send a request to our support team through the form above or at support@passiv.com. If you don’t mind taking an extra minute to explain why you’re leaving, we’d really appreciate your feedback.",
     "slug": "",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "Why can’t I access my data at night or on weekends?",
     "resolution": "Brokerages usually do maintenance on their site outside of market hours. If your brokerage is in maintenance mode, Passiv may not be able to access your data.",
     "slug": "",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "I can’t add another brokerage connection",
     "resolution": "If you have issues connecting a new brokerage connection, it may be because you’re logged in with another account in your brokerage. Please try going to your brokerage site and log out of your account. Then you should be able to go back to Passiv and add the new connection.",
     "slug": "",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "How do I add a second account?",
     "resolution": "Additional accounts may be added by using the add connections button. Then you will log into your respective account, authorize and Passiv will add it to available accounts.",
     "slug": "",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "I don't have access to my phone anymore and can't log in, what do i do?",
     "resolution": "Email support@passiv.com. Your account will need to be deleted but you can re-register and any elite status you had will carry over. Unfortunately you lose your target portfolio and any goals you had.",
 
     "slug": "",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "Does Passiv take into account Forex fees and transaction fees when doing calculations?",
     "resolution": "Yes. Passiv does not however, try and optimize the transaction fee by not recommending to purchase. Ex. buy 1 share of a stock at 0.07c with a $4.95 comission.",
     "slug": "",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "What is an Authenticator app?",
     "resolution": "An authenticator app is a third party application that generates randomized codes to be used as a verification code upon logging in. If you don’t have an authenticator app, you can use SMS two-factor authentication instead. Two-factor authentication settings are optional and can be found in the Settings page.",
     "slug": "",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "Why isn’t my brokerage supported by Passiv?",
     "resolution": "We’re constantly working on adding more brokerage partners. If you don’t see your brokerage, keep an eye on our monthly newsletter for updates.",
     "slug": "",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "Does Passiv store my brokerage login credentials?",
     "resolution": "No, Passiv does not ask for or store users’ login credentials. To slug your account to Passiv, Passiv sends you over to your broker's website with a secure request for account access. When you approve Passiv's access request, Passiv receives an access token to read your account information.",
     "slug": "https://passiv.com/security/",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "Is Passiv a robo-advisor?",
     "resolution": "No, Passiv is a software tool that helps DIY investors determine what trades are needed to allocate new cash and rebalance their portfolios. If you’ve given Passiv trading access, it can also execute the trades on your behalf with just one click.",
     "slug": "",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "Will Passiv recommend a portfolio for me to follow?",
     "resolution": "No, you must know which equities you’d like to hold and your target allocation for each. Passiv is not qualified to give investment advice.",
     "slug": "",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "Will Passiv place trades automatically?",
     "resolution": "No, for regulatory reasons, Passiv will not place trades automatically. Once you review the calculated trades, you can place them at the click of a button. Read More.",
     "slug": "https://passiv.com/help/tutorials/how-to-use-one-click-trades/",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "What assets are supported by Passiv?",
     "resolution": "Passiv only supports ETFs and stocks. Other types of assets, such as mutual funds, options, warrants, and commodities are not supported by Passiv. If you hold these assets, they may not show in your portfolio allocation.",
     "slug": "",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "Can I edit my cash allocation?",
     "resolution": "If your target percentages don’t add up to 100%, Passiv assumes the remainder is intended to be held as cash. For example, if you want 10% of your portfolio as cash, then the sum of your assets’ allocation should be 90%. You can also add account-specific rules for cash management, which allows you to set a limit on how much new cash to invest in a given set of trades, or to tell Passiv that you want to keep a certain amount of cash uninvested.",
     "slug": "https://passiv.com/help/tutorials/how-to-use-cash-management/",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "How do I add more acounts?",
     "resolution": "If you’re an Elite subscriber, you can have more than one brokerage connection simultaneously in Passiv. For example, you can add and manage your family’s brokerage accounts. Go to Settings and click Add Connection in the Connection box.",
     "slug": "https://passiv.com/help/tutorials/how-to-manage-your-brokerage-connections/",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "Why do you need trade access?",
     "resolution": "Trade access is needed if you’d like to use the One-Click Trades feature, where Passiv places orders on your behalf with the click of one button. If you do not want to use this feature, you can disable trade access from your Settings page under Connections.",
     "slug": "https://passiv.com/help/tutorials/how-to-use-one-click-trades/",
-    "type": "faq"
+    "type": "general"
   },
   {
     "title": "Why can’t I place trades in pre/post market hours?",
     "resolution": "Passiv can only place trades during normal market hours where market orders are allowed. This is to make sure that orders are executed quickly and to minimize problems with liquidity.",
     "slug": "",
-    "type": "faq"
+    "type": "general"
   }
 ]

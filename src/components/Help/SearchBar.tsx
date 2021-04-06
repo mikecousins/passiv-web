@@ -1,24 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { A, H2, H3, P } from '../../styled/GlobalElements';
 import { InputPrimary } from '../../styled/Form';
-import faq from './faq.json';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import ContactForm from './ContactForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faChevronRight,
-  faTimes,
-  faTimesCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import algoliasearch from 'algoliasearch/lite';
-
-type faqObj = {
-  question: string;
-  resolution: string;
-  keyword: string;
-  link: string;
-};
+import Grid from '../../styled/Grid';
 
 const SearchContainer = styled.div`
   width: 100%;
@@ -46,12 +35,31 @@ const SearchContainer = styled.div`
   }
 `;
 
-const Type = styled(H3)`
-  color: white;
-  background-color: var(--brand-green);
-  width: 100px;
-  text-align: center;
+const Filter = styled(Grid)`
+  margin-bottom: 40px;
+  margin-left: 20px;
+`;
+
+type FilterItemType = {
+  active: boolean;
+};
+
+const FilterItem = styled.button<FilterItemType>`
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: capitalize;
+  background-color: ${(props) =>
+    props.active ? 'var(--brand-green)' : 'transparent'};
+  color: ${(props) => (props.active ? 'white' : 'var(--brand-green)')};
+  border: ${(props) =>
+    props.active ? 'none' : '1px solid var(--brand-green)'};
   border-radius: 3rem;
+  padding: 5px;
+`;
+
+const Type = styled(H3)`
+  color: grey;
+  text-transform: capitalize;
   font-size: 18px;
   margin-bottom: 20px;
 `;
@@ -59,43 +67,51 @@ const Type = styled(H3)`
 const SearchBar = () => {
   const [search, setSearch] = useState('');
   const [hits, setHits] = useState([]);
+  const [indices, setIndices] = useState([
+    { type: 'general', active: true },
+    { type: 'blogs', active: true },
+    { type: 'tutorials', active: true },
+  ]);
 
   const searchClient = algoliasearch(
     'GV9J4Z0TDF',
     '437b4b0bb132ef0b0b0273484f35fd94',
   );
-  const index = searchClient.initIndex('faq');
 
   const searchIt = async (val: string) => {
     setSearch(val);
-    const result = await index?.search(search);
-    if (result?.hits) {
-      //@ts-ignore
-      setHits(result.hits);
-    }
+    let queries = [];
+    queries = indices
+      .map((index) => {
+        if (index.active) {
+          return {
+            indexName: index.type,
+            query: search,
+          };
+        }
+      })
+      .filter((query) => query !== undefined);
+
+    let combinedHits = [];
+    //@ts-ignore
+    searchClient.multipleQueries(queries).then(({ results }) => {
+      combinedHits = results.map((result: any) => {
+        return result.hits;
+      });
+      setHits(combinedHits.flat());
+    });
   };
 
-  // const renderFaq = (faq: faqObj) => {
-  //   if (search === '') {
-  //     return null;
-  //   }
-
-  //   return (
-  //     <div>
-  // <ShadowBox>
-  //   <H3 title={faq.question} style={{ marginBottom: '10px' }}>
-  //     {faq.question.substring(0, 100)}
-  //   </H3>
-  //   <P>{faq.resolution}</P>
-  //   {faq.link.trim() !== '' && <a href={faq.link}> Learn more </a>}
-  // </ShadowBox>
-  //     </div>
-  //   );
-  // };
-
-  // const filteredFaq = faq.filter((faq: any) => {
-  //   return faq.question.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-  // });
+  const handleChangeFilter = (index: string) => {
+    let indicesCopy = [...indices];
+    indicesCopy = indices.map((element) => {
+      if (element.type === index) {
+        return { type: index, active: !element.active };
+      }
+      return element;
+    });
+    setIndices(indicesCopy);
+  };
 
   return (
     <div>
@@ -120,55 +136,70 @@ const SearchBar = () => {
           </button>
         )}
       </SearchContainer>
-      {/* <div>
-        <div>
-          {filteredFaq.map((faq) => {
-            return renderFaq(faq);
-          })}
-          {filteredFaq.length === 0 || search.length === 0 ? (
-            <ContactForm />
-          ) : (
-            <A onClick={() => setSearch('')}>
-              Cannot find what you're looking for? Send us a message!
-            </A>
-          )}
-        </div>
-      </div> */}
-      {hits.length > 0 &&
+      <Filter columns="100px 100px 100px">
+        {indices.map((index) => {
+          return (
+            <FilterItem
+              onClick={() => handleChangeFilter(index.type)}
+              active={index.active}
+            >
+              {index.type}
+            </FilterItem>
+          );
+        })}
+      </Filter>
+      {hits.length > 0 ? (
         hits.map((hit: any) => {
           return (
             <div>
               <ShadowBox>
                 <Type>{hit.type}</Type>
-                <a
-                  href={
-                    hit.type === 'blog'
-                      ? `https://passiv.com/blog/${hit.slug}`
-                      : `https://passiv.com/help/tutorials/${hit.slug}`
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ textDecoration: 'none' }}
-                >
-                  <div>
-                    <H2 style={{ marginBottom: '10px', fontSize: '25px' }}>
-                      {hit.title}{' '}
-                      <span>
-                        <FontAwesomeIcon
-                          icon={faChevronRight}
-                          color="var(--brand-green)"
-                          style={{ marginLeft: '10px' }}
-                        />
-                      </span>
-                    </H2>
-                  </div>
-                </a>
-                {/* <P>{faq.resolution}</P>
-                {faq.link.trim() !== '' && <a href={faq.link}> Learn more </a>} */}
+                <div>
+                  <H2 style={{ marginBottom: '10px', fontSize: '25px' }}>
+                    {hit.title}{' '}
+                  </H2>
+                </div>
+                <P>{hit.resolution}</P>
+                {hit.type === 'general' ? (
+                  hit.slug.trim() !== '' && (
+                    <a
+                      href={hit.slug}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        textDecoration: 'none',
+                        color: 'var(--brand-green)',
+                        fontWeight: 600,
+                      }}
+                    >
+                      Learn More
+                    </a>
+                  )
+                ) : (
+                  <a
+                    href={
+                      hit.type === 'blog'
+                        ? `https://passiv.com/blog/${hit.slug}`
+                        : `https://passiv.com/help/tutorials/${hit.slug}`
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      textDecoration: 'none',
+                      color: 'var(--brand-green)',
+                      fontWeight: 600,
+                    }}
+                  >
+                    Read More
+                  </a>
+                )}
               </ShadowBox>
             </div>
           );
-        })}
+        })
+      ) : (
+        <ContactForm />
+      )}
     </div>
   );
 };

@@ -5,16 +5,14 @@ import HelpHeader from '../components/Help/HelpHeader';
 import SearchBar from '../components/Help/SearchBar';
 
 import Grid from '../styled/Grid';
-import AlgoliaSearch from '../components/Help/AlgoliaSearch';
 
 const HelpPage = () => {
   return (
     <>
       <HelpHeader />
-      <Grid columns="2fr 1fr">
+      <Grid columns="4fr 2fr">
         <SearchBar />
-        {/* <AlgoliaSearch /> */}
-        {/* <Tutorial /> */}
+        <Tutorial />
       </Grid>
     </>
   );
