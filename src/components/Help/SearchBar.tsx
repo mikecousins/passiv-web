@@ -5,9 +5,11 @@ import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import ContactForm from './ContactForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import algoliasearch from 'algoliasearch/lite';
 import Grid from '../../styled/Grid';
+import algoliaLogo from '../../assets/images/search-by-algolia-light-background.svg';
+import { useDebouncedEffect } from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 
 const SearchContainer = styled.div`
   width: 100%;
@@ -35,9 +37,25 @@ const SearchContainer = styled.div`
   }
 `;
 
-const Filter = styled(Grid)`
+const AlgoliaLogo = styled.div`
+  background: url(${algoliaLogo}) no-repeat;
+  background-size: contain;
+  width: 100px;
+  height: 20px;
+  margin: 0 0 10px auto;
+  display: block;
+`;
+
+const Options = styled.div`
+  background-color: #f1f1f1;
+  padding: 20px;
   margin-bottom: 40px;
-  margin-left: 20px;
+`;
+
+const NumOfResults = styled(P)``;
+
+const Filter = styled(Grid)`
+  margin-top: 10px;
 `;
 
 type FilterItemType = {
@@ -64,22 +82,51 @@ const Type = styled(H3)`
   margin-bottom: 20px;
 `;
 
+const Title = styled(H2)`
+  margin-bottom: 10px;
+  font-size: 25px;
+`;
+
+const ReadMore = styled(A)`
+  text-decoration: none;
+  color: var(--brand-green);
+  font-weight: 600;
+`;
+
 const SearchBar = () => {
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(false);
   const [hits, setHits] = useState([]);
   const [indices, setIndices] = useState([
+    { type: 'tutorials', active: true },
     { type: 'general', active: true },
     { type: 'blogs', active: true },
-    { type: 'tutorials', active: true },
   ]);
+
+  const [active, setActive] = useState(['tutorial', 'general', 'blog']);
 
   const searchClient = algoliasearch(
     'GV9J4Z0TDF',
     '437b4b0bb132ef0b0b0273484f35fd94',
   );
 
-  const searchIt = async (val: string) => {
-    setSearch(val);
+  // useEffect(() => {
+  //   searchIt();
+  // }, [indices]);
+
+  useDebouncedEffect(
+    () => {
+      searchIt();
+    },
+    500,
+    [search],
+  );
+
+  const searchIt = async () => {
+    if (search.trim() === '') {
+      setHits([]);
+      return;
+    }
     let queries = [];
     queries = indices
       .map((index) => {
@@ -88,6 +135,8 @@ const SearchBar = () => {
             indexName: index.type,
             query: search,
           };
+        } else {
+          return;
         }
       })
       .filter((query) => query !== undefined);
@@ -100,17 +149,26 @@ const SearchBar = () => {
       });
       setHits(combinedHits.flat());
     });
+    setLoading(false);
   };
 
   const handleChangeFilter = (index: string) => {
-    let indicesCopy = [...indices];
-    indicesCopy = indices.map((element) => {
-      if (element.type === index) {
-        return { type: index, active: !element.active };
-      }
-      return element;
-    });
-    setIndices(indicesCopy);
+    // let indicesCopy = [...indices];
+    // indicesCopy = indices.map((element) => {
+    //   if (element.type === index) {
+    //     return { type: index, active: !element.active };
+    //   }
+    //   return element;
+    // });
+    // setIndices(indicesCopy);
+    let activeCopy = [...active];
+    const position = activeCopy.indexOf(index);
+    if (position !== -1) {
+      activeCopy.splice(position, 1);
+    } else {
+      activeCopy.push(index);
+    }
+    setActive(activeCopy);
   };
 
   return (
@@ -121,7 +179,8 @@ const SearchBar = () => {
           placeholder="Type keywords to search our site"
           value={search}
           onChange={(e: any) => {
-            searchIt(e.target.value);
+            setLoading(true);
+            setSearch(e.target.value);
           }}
         />
         {search.length > 0 && (
@@ -136,47 +195,57 @@ const SearchBar = () => {
           </button>
         )}
       </SearchContainer>
-      <Filter columns="100px 100px 100px">
-        {indices.map((index) => {
-          return (
-            <FilterItem
-              onClick={() => handleChangeFilter(index.type)}
-              active={index.active}
-            >
-              {index.type}
-            </FilterItem>
-          );
-        })}
-      </Filter>
+
+      <AlgoliaLogo></AlgoliaLogo>
+
+      <Options>
+        {search.trim() !== '' && (
+          <NumOfResults>{hits.length} results</NumOfResults>
+        )}
+        <div>
+          <H3>Filter By:</H3>
+          <Filter columns="100px 100px 100px">
+            {indices.map((index) => {
+              return (
+                <FilterItem
+                  onClick={() => handleChangeFilter(index.type)}
+                  active={index.active}
+                >
+                  {index.type}
+                </FilterItem>
+              );
+            })}
+          </Filter>
+        </div>
+      </Options>
+      {loading && search.trim() !== '' && (
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <FontAwesomeIcon icon={faSpinner} spin size="2x" />
+        </div>
+      )}
       {hits.length > 0 ? (
         hits.map((hit: any) => {
+          if (!active.includes(hit.type)) {
+            return;
+          }
           return (
             <div>
               <ShadowBox>
                 <Type>{hit.type}</Type>
-                <div>
-                  <H2 style={{ marginBottom: '10px', fontSize: '25px' }}>
-                    {hit.title}{' '}
-                  </H2>
-                </div>
+                <Title>{hit.title} </Title>
                 <P>{hit.resolution}</P>
                 {hit.type === 'general' ? (
                   hit.slug.trim() !== '' && (
-                    <a
+                    <ReadMore
                       href={hit.slug}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{
-                        textDecoration: 'none',
-                        color: 'var(--brand-green)',
-                        fontWeight: 600,
-                      }}
                     >
                       Learn More
-                    </a>
+                    </ReadMore>
                   )
                 ) : (
-                  <a
+                  <ReadMore
                     href={
                       hit.type === 'blog'
                         ? `https://passiv.com/blog/${hit.slug}`
@@ -184,19 +253,22 @@ const SearchBar = () => {
                     }
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{
-                      textDecoration: 'none',
-                      color: 'var(--brand-green)',
-                      fontWeight: 600,
-                    }}
                   >
                     Read More
-                  </a>
+                  </ReadMore>
                 )}
               </ShadowBox>
             </div>
           );
         })
+      ) : search.trim() !== '' ? (
+        <ShadowBox>
+          <H2 style={{ marginBottom: '10px', fontSize: '25px' }}>No results</H2>
+          <P>
+            Please try another term or{' '}
+            <A onClick={() => setSearch('')}>send us a message.</A>
+          </P>
+        </ShadowBox>
       ) : (
         <ContactForm />
       )}

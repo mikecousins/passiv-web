@@ -48,7 +48,11 @@ type Props = {
   onSelect: (symbol: any) => void;
 };
 
-const useDebouncedEffect = (callback: any, delay: number, deps: any[] = []) => {
+export const useDebouncedEffect = (
+  callback: any,
+  delay: number,
+  deps: any[] = [],
+) => {
   const firstUpdate = useRef(true);
   useEffect(() => {
     if (firstUpdate.current) {
