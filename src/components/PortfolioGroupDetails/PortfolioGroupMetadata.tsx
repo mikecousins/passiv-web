@@ -33,7 +33,11 @@ const PortfolioGroupMetadata = ({ account }: Props) => {
       <MetaHorizontal>
         <TruncatedText>
           <span>Account #: </span>
-          {account ? account.number : <FontAwesomeIcon icon={faSpinner} spin />}
+          {account ? (
+            account.number.slice(0).replace(/.(?=..)/g, 'x')
+          ) : (
+            <FontAwesomeIcon icon={faSpinner} spin />
+          )}
         </TruncatedText>
         <TruncatedText>
           <span>Type: </span>

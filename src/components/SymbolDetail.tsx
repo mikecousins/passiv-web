@@ -17,16 +17,21 @@ const SymbolNameBox = styled.span`
 
 type Props = {
   symbol: any;
+  hideName?: boolean;
 };
 
-export const SymbolDetail = ({ symbol }: Props) => {
+export const SymbolDetail = ({ symbol, hideName }: Props) => {
   var ticker = symbol.symbol;
+  let hideNameBox = false;
+  if (hideName === true) {
+    hideNameBox = true;
+  }
   var name =
     symbol.description !== undefined ? symbol.description : symbol.name;
   return (
     <span title={`${ticker} (${name})`}>
       <Symbol>{ticker}</Symbol>
-      <SymbolNameBox>{name}</SymbolNameBox>
+      {!hideNameBox && <SymbolNameBox>{name}</SymbolNameBox>}
     </span>
   );
 };

@@ -65,9 +65,15 @@ export const BulletUL = styled.ul`
   margin-left: 20px;
   list-style-type: disc;
   li {
-    margin-bottom: 10px;
-    line-height: 1.3;
+    margin-bottom: 12px;
+    line-height: 1.5;
   }
+`;
+
+export const Li = styled.li`
+  font-size: 18px;
+  font-weight: 500;
+  ${dynamicStyle};
 `;
 
 type SpaceAroundProps = {
@@ -132,7 +138,7 @@ export const AButton = styled.a`
 export const Edit = styled.button`
   color: var(--brand-blue);
   margin-left: 10px;
-  opacity: ${props => (props.disabled ? '.7' : '1')};
+  opacity: ${(props) => (props.disabled ? '.7' : '1')};
   svg {
     padding-right: 3px;
   }
@@ -142,6 +148,7 @@ export const Edit = styled.button`
 
 //subsetting
 export const SubSetting = styled.div`
+  margin-left: 20px;
   margin-top: 14px;
   margin-bottom: 10px;
 `;

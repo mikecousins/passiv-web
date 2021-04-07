@@ -55,6 +55,9 @@ export type PerformanceData = {
   feeSavings1Y: number;
   feeSavingsYTD: number;
   feeSavingsALL: number;
+  rateOfReturn1Y: number;
+  rateOfReturnALL: number;
+  rateOfReturnYTD: number;
   badTickers: string[];
 };
 
@@ -74,6 +77,7 @@ export type PerformanceCustomData = {
   feeSavings: number;
   fees: number;
   badTickers: string[];
+  rateOfReturn: number;
 };
 
 export type DividendsAtDate = {

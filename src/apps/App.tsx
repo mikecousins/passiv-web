@@ -113,6 +113,10 @@ const TDAmeritradeOauthPage = ReactLazyPreload(() =>
   ),
 );
 
+const ZerodhaOauthPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "zerodha-oauth" */ '../pages/ZerodhaOauthPage'),
+);
+
 const WealthicaOauthPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/WealthicaOauthPage'
@@ -244,6 +248,12 @@ const tdAmeritradeOauthRedirect = () => {
   return <Redirect to={newPath} />;
 };
 
+const zerodhaOauthRedirect = () => {
+  let urlParams = new URLSearchParams(window.location.search);
+  let newPath = '/app/oauth/zerodha?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
 const wealthicaOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/wealthica?' + urlParams;
@@ -309,6 +319,9 @@ const App = () => {
     if (params.next) {
       redirectPath = params.next as string;
       queryParams.next = redirectPath;
+    }
+    if (params.code) {
+      queryParams.code = params.code;
     }
   }
 
@@ -433,6 +446,19 @@ const App = () => {
             )}
             {loggedIn && (
               <Route
+                path={prefixPath('/oauth/zerodha')}
+                component={ZerodhaOauthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/zerodha"
+                render={() => zerodhaOauthRedirect()}
+              />
+            )}
+            {loggedIn && (
+              <Route
                 path={prefixPath('/oauth/wealthica')}
                 component={WealthicaOauthPage}
               />
@@ -446,7 +472,7 @@ const App = () => {
             )}
             // onboarding app
             {showOnboardingApp && (
-              <Route path={prefixPath('/connect/:brokerage?')}>
+              <Route path={prefixPath('/connect/:openBrokerage?')}>
                 <AuthorizationPage onboarding={true} />
               </Route>
             )}
@@ -456,7 +482,7 @@ const App = () => {
               </Route>
             )}
             {(showSecureApp || showOnboardingApp) && (
-              <Route path={prefixPath('/settings/connect/:brokerage?')}>
+              <Route path={prefixPath('/settings/connect/:openBrokerage?')}>
                 <AuthorizationPage onboarding={false} />
               </Route>
             )}

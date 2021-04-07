@@ -11,14 +11,15 @@ describe('Create a new User', function () {
             cy.intercept('get', '/api/v1/auth/register', 
                 req.reply({
                     statusCode: 606
-                }).as('register')
+                })).as('register')
+        
 
             cy.intercept('POST', '/api/v1/auth/login', {
                 statusCode: 202,
                 response: {
                 key: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MDcxLCJ1c2VybmFtZSI6IjRiVVRHWlBpZFROSDlIWW5PYjdGbXlIcDZaVXRCQiIsImV4cCI6MTYwNzk2NjI5MywiZW1haWwiOiJhc3V0aGVybGFuZDgyMTlAZ21haWwuY29tIiwib3JpZ19pYXQiOjE2MDc1MzQyOTN9.FeoVWnIHnCTNhQ9sT3Tt4al62UXTrNtmyjitqSq2JbE' }
             }).as('login')            
-            
+        
             cy.visit('/app/register')
 
             cy.get('[name=name]').type('Alex')
@@ -36,10 +37,7 @@ describe('Create a new User', function () {
         })
     })
 
-})
-
-})
-})
+})})
 
 
 

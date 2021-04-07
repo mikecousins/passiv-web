@@ -33,27 +33,18 @@ const SubscriptionPlans = () => {
     <React.Fragment>
       {showQuestradeOffer ? (
         <React.Fragment>
-          <H3White>Congratulations!</H3White>
           <P>
             You're eligible for a <strong>free</strong> upgrade to{' '}
             <strong>Passiv Elite</strong>! You can access{' '}
             <AWhite href="/pricing" target="_blank" rel="noopener noreferrer">
               all features
             </AWhite>{' '}
-            just by accepting this offer.
+            just by upgrading now.
           </P>
           <P>
-            <strong>Questrade</strong> has offered to pay for your subscription
-            for one year (normal price of{' '}
-            <strong>
-              <Number
-                value={parseInt(plans[0].amount)}
-                decimalPlaces={0}
-                currency
-              />
-              /year
-            </strong>
-            ), with no commitment on your part.
+            <strong>Questrade</strong> offers Passiv Elite as a free tool for
+            Questrade customers. It's available as long as you keep your
+            Questrade account connected to Passiv.
           </P>
         </React.Fragment>
       ) : (
@@ -69,7 +60,7 @@ const SubscriptionPlans = () => {
               <Number
                 value={parseInt(plans[0].amount)}
                 decimalPlaces={0}
-                currency
+                currency={'USD'}
               />
               /year
             </strong>{' '}

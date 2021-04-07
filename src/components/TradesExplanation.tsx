@@ -93,6 +93,11 @@ const TradesExplanation = ({
       'Currency exchange is allowed, which may result in foreign exchange transactions if there is a currency imbalance.',
     );
   }
+  if (settings.prevent_trades_in_non_tradable_accounts) {
+    summary.push(
+      'Passiv will attempt to route your trades through brokers with One-Click Trade support.',
+    );
+  }
 
   accounts.map((a) =>
     a.cash_restrictions.map((cr) => {
@@ -103,10 +108,17 @@ const TradesExplanation = ({
       const cashRestrictionType = getType(cr.type);
       const currency = getCurrency(cr.currency);
 
+      if (currency === null) {
+        return null;
+      }
+
       let explainText = (
         <React.Fragment>
           {a.name} must keep at least the equivalent of{' '}
-          <Number value={cr.amount} currency />{' '}
+          <Number
+            value={cr.amount}
+            currency={currency !== undefined ? currency.code : undefined}
+          />{' '}
           {currency != null && currency.code} as cash.
         </React.Fragment>
       );
@@ -118,7 +130,10 @@ const TradesExplanation = ({
         explainText = (
           <React.Fragment>
             {a.name} will use at most the equivalent of{' '}
-            <Number value={cr.amount} currency />{' '}
+            <Number
+              value={cr.amount}
+              currency={currency !== undefined ? currency.code : undefined}
+            />{' '}
             {currency != null && currency.code} to purchase new assets.
           </React.Fragment>
         );
@@ -131,7 +146,7 @@ const TradesExplanation = ({
 
   if (hasCashRestriction) {
     summary.push(
-      'Note: If you have multiple cash rule of the same type in different currencies on the same account. It will use the total value of all the cash restrictions.',
+      'Note: If you have multiple cash rule of the same type in different currencies on the same account, it will use the total value of all the cash restrictions.',
     );
   }
 

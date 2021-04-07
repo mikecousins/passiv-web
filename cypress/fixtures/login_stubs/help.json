@@ -1,0 +1,92 @@
+[
+	{
+		"title": "How to Set Up Multi-Account Portfolios",
+		"content": "This video shows you how to combine multiple accounts into one global portfolio. Head to Settings and scroll down to the Accounts box. Click Add Portfolio Group then name and save your new group. On the right-hand side, under Portfolio Groups, click Edit and select your new portfolio group from the drop-down menu and then click Update to save. Repeat this step for all accounts you want to add to that portfolio group. Now when you go to your dashboard, you'll see the new portfolio group has a Setup button. Click that and set up your target portfolio by either importing your current holdings or building it from scratch. You're all set! Passiv will now perform calculations based on your combined target portfolio.",
+		"description": "This video shows you how to combine multiple accounts into one global portfolio. Follow along with the video to see how.",
+		"slug": "multi-account-portfolios",
+		"video_url": "https://player.vimeo.com/video/345012655",
+		"published": true,
+		"created_date": "2019-06-28T13:06:15.457327Z",
+		"updated_date": "2019-06-28T13:15:45.447484Z"
+	},
+	{
+		"title": "3 Ways to Get the Most Out of Passiv",
+		"content": "Warren Buffet, one of the richest men in the world, once wisely said, “Price is what you pay, value is what you get.” After months of interacting with our early users, we put together this cheat sheet of sorts to help you get as much value from Passiv as possible. So without further ado, here are 3 ways you can get the most out of Passiv.\r\n\r\n## Manage as many accounts as possible\r\nThe most obvious way to get as much value from using Passiv is to use it to manage more than one account. Do you have a kid? If so, you could open a Registered Education Savings Plan (RESP) account with Questrade to take advantage of free money from the government. Here’s [more information on RESPs](https://getpassiv.com/blog/save-for-your-childs-future/). Do you have a significant other? Does she/he have a Questrade account? If so, you could [seamlessly manage your spouse’s account](https://getpassiv.com/blog/seamlessly-manage-your-spouses-account/) with Passiv. The idea is to get the most out of Passiv by using it to manage your entire household’s investments. Let’s pretend that both you and your partner have an RRSP and TFSA, and you’ve set up an RESP for your kid. That’s 5 accounts for the price of one! Not bad, eh?\r\n\r\n\r\n## Set up recurring contributions & reinvest those dividends\r\nWhy leave your money sitting on the sidelines when it could be working hard for you? Pay yourself first by setting up recurring transfers into your brokerage account via pre-authorized deposits or online banking bill payments. It may take a day or two for the money to enter your account, but don’t worry — we’ll let you know when the money arrives. Not only will you get more out of Passiv by setting up automated contributions but you’ll also have one less item on your to-do list. [Here](https://questrade-support.secure.force.com/mylearning/view/h/Account/Funding+your+account) is more information on how to set up recurring transfers.  \r\n\r\nSaving for retirement is all about forming positive investing habits. One of these habits is to reinvest your dividends while in the accumulation phase. Whenever Passiv notifies you of dividend payments, don’t hesitate to put that money back to work for you. When you log in, Passiv will have already calculated the trades for you. By consistently and quickly reinvesting dividends, you'll grow your portfolio and reach your retirement goals faster. \r\n\r\n## Use One-click trades to save time and money\r\nCongratulations, you’ve made your future self over 30% wealthier by not investing in high-fee mutual funds. However, it shouldn’t have to come at the cost of taking shorter lunches and spending your precious free time making trades and updating spreadsheets. Compared to other options out there, Passiv’s one-click trades feature will save you a ton of money and time, especially if you’re managing more than one investment account. Once you’re set up with Passiv, you can make progress toward your financial goals with just one click each month. Easy, huh? Get started by clicking [here](https://getpassiv.com/app/register).",
+		"description": "Whether you're a new or long-time Passiv user, this article will give you a few tips on how you can get the most value out of  Passiv.",
+		"slug": "3-ways-most-passiv",
+		"video_url": "",
+		"published": true,
+		"created_date": "2019-06-11T19:47:15.133092Z",
+		"updated_date": "2019-06-11T20:16:14.854007Z"
+	},
+	{
+		"title": "How to Allow Selling to Rebalance",
+		"content": "You can’t control the stock market’s movements, but you have some control over the fees you pay to make trades. Since you may be charged commissions to buy and sell assets, you can save on commission fees by only selling when you absolutely have to. If you’re contributing to your investment account regularly, then you may be able to keep your portfolio on target simply by buying the underweight assets with new cash deposits. Even better, Questrade clients don’t pay commission to buy ETFs, so a buy-only strategy can mean you pay nearly nothing in commissions.\r\n\r\nHowever, if you want to turn on selling to rebalance for any reason, it’s simple to do. Click on an account, scroll down to the Controls box, and turn on the toggle switch next to Allow selling to rebalance. That’s it!",
+		"description": "Want to sell assets to rebalance? Here's how to turn on Sell calculations.",
+		"slug": "allow-selling-to-rebalance",
+		"video_url": "https://player.vimeo.com/video/338692702",
+		"published": true,
+		"created_date": "2019-06-11T19:43:58.906324Z",
+		"updated_date": "2019-06-11T20:16:49.289127Z"
+	},
+	{
+		"title": "How to Connect Multiple Brokerage Accounts",
+		"content": "This video shows you how to connect multiple brokerage accounts to your Passiv account. Note that this is an Elite feature. Click on Settings in the sidebar, then scroll down to the Connections box. Click Add another connection. Choose the type of access you want to give: read-only or trading access. You’ll be sent over to Questrade’s site to log in to that account and authorize the API connection, just like you did with your first account. You’ll now see the new account(s) in your Passiv dashboard. Set up target portfolios for the new account(s) and you’re all set!",
+		"description": "Do you manage someone else's portfolio? Here's how to manage multiple accounts with one Passiv account.",
+		"slug": "connect-multiple-brokerage-accounts",
+		"video_url": "https://player.vimeo.com/video/338692684",
+		"published": true,
+		"created_date": "2019-06-11T19:42:00.150493Z",
+		"updated_date": "2019-06-11T20:16:54.098275Z"
+	},
+	{
+		"title": "How to Exclude Stock Picks from Your Portfolio",
+		"content": "This video shows you how to exclude stock picks (or any asset class) from your portfolio. Note this is an Elite feature. First, remove the asset from your Target Portfolio by clicking Edit Targets and then clicking the x you see on the left side. Once the asset is gone, click Save. Now scroll down to the Current Portfolio box and click on that asset’s toggle switch under the Exclude column. That’s it! Passiv now knows that you want it to exclude that asset from its calculations.",
+		"description": "Passiv makes it easy to exclude your \"fun money\" portfolio picks from your target portfolio.",
+		"slug": "asset-exclusion",
+		"video_url": "https://player.vimeo.com/video/338692653",
+		"published": true,
+		"created_date": "2019-06-11T19:38:19.194056Z",
+		"updated_date": "2019-06-28T13:06:48.451633Z"
+	},
+	{
+		"title": "How to Manually Build a Target Portfolio",
+		"content": "If you'd like to build your target portfolio from scratch, you can do just that in a few steps. Select Build then click on the search bar and type in the ticker symbol of the asset you want to add to your target. Repeat this for each asset you want in your target portfolio. Save this target when you’re satisfied with it.",
+		"description": "Want to build your target portfolio from scratch? We got you.",
+		"slug": "manually-build-target-portfolio",
+		"video_url": "https://player.vimeo.com/video/338692620",
+		"published": true,
+		"created_date": "2019-06-11T19:35:12.554068Z",
+		"updated_date": "2019-06-11T20:17:01.914760Z"
+	},
+	{
+		"title": "How to Set Up a Target Portfolio",
+		"content": "This video shows you how to import your current holdings as your target. You may want to further tweak weightings of your assets. To do this, click Edit Targets and when you’re happy with your target percentages, click Save. Easy peasy.",
+		"description": "It's easy to import your current portfolio as your target. Here's how.",
+		"slug": "set-up-target-portfolio",
+		"video_url": "https://player.vimeo.com/video/338692595",
+		"published": true,
+		"created_date": "2019-06-11T19:32:41.679514Z",
+		"updated_date": "2019-06-11T20:17:08.466844Z"
+	},
+	{
+		"title": "How to Connect Questrade to Passiv",
+		"content": "This video shows you how to connect your Passiv account to your brokerage account. Once you’ve created your Passiv account, the setup wizard will send you to Questrade’s website to authorize Passiv to use Questrade’s API to display your accounts and holdings in Passiv. This means Passiv never sees your Questrade credentials.",
+		"description": "Learn how simple it is to connect your Questrade account to Passiv.",
+		"slug": "connect-questrade-passiv",
+		"video_url": "https://player.vimeo.com/video/338692584",
+		"published": true,
+		"created_date": "2019-06-11T19:28:59.351226Z",
+		"updated_date": "2019-06-11T20:17:11.941435Z"
+	},
+	{
+		"title": "How to Use One-Click Trades",
+		"content": "Entering your orders can be tedious and time-consuming when you have multiple orders to place. Passiv makes cash allocation a breeze by letting you sync your portfolio at the click of a button. Note this is an Elite feature.\r\n\r\nRather than having to log in to your brokerage and individually place, say, 5 orders, Passiv will place all calculated trades in sequence at once. Click Validate to see an Order Summary including estimated commissions and remaining cash, then click Confirm to execute the orders. It couldn’t be easier to keep your account in line with your target!",
+		"description": "One Click Trades is the easiest way to keep your holdings in sync with your target. Instead of manually entering trades with your broker, Passiv can place all your trades in a batch and receive order confirmation in seconds.",
+		"slug": "how-to-use-one-click-trades",
+		"video_url": "https://player.vimeo.com/video/338692638",
+		"published": true,
+		"created_date": "2019-05-27T19:46:40.411416Z",
+		"updated_date": "2019-06-11T19:01:49.654480Z"
+	}
+]

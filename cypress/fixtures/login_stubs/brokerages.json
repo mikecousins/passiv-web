@@ -1,0 +1,196 @@
+[
+	{
+		"id": "797126b0-cb87-463c-8a96-4e73a9dfea26",
+		"name": "Alpaca",
+		"slug": "ALPACA",
+		"url": "https://alpaca.markets/",
+		"authorization_types": [
+			{
+				"type": "trade",
+				"auth_type": "OAUTH"
+			}
+		],
+		"enabled": true,
+		"maintenance_mode": false,
+		"maintenance_windows": []
+	},
+	{
+		"id": "ff3b5ae7-200e-4a87-8e14-6877979d4941",
+		"name": "Alpaca Paper",
+		"slug": "ALPACA-PAPER",
+		"url": "https://alpaca.markets/",
+		"authorization_types": [
+			{
+				"type": "trade",
+				"auth_type": "OAUTH"
+			}
+		],
+		"enabled": false,
+		"maintenance_mode": false,
+		"maintenance_windows": []
+	},
+	{
+		"id": "d3c676c5-4eb1-4d4c-8bcd-25f9f43cd48a",
+		"name": "Passiv Manual",
+		"slug": "PASSIV-MANUAL",
+		"url": "https://getpassiv.com/",
+		"authorization_types": [
+			{
+				"type": "read",
+				"auth_type": "OAUTH"
+			}
+		],
+		"enabled": false,
+		"maintenance_mode": false,
+		"maintenance_windows": []
+	},
+	{
+		"id": "17841050-e07e-4463-8603-9072cfffc69d",
+		"name": "Plaid",
+		"slug": "PLAID",
+		"url": "https://plaid.com/",
+		"authorization_types": [
+			{
+				"type": "read",
+				"auth_type": "OAUTH"
+			}
+		],
+		"enabled": true,
+		"maintenance_mode": false,
+		"maintenance_windows": []
+	},
+	{
+		"id": "087bcb38-42c9-4fa2-ac84-aa2d0b7e5fbb",
+		"name": "TD Ameritrade",
+		"slug": "TD-AMERITRADE",
+		"url": "https://www.tdameritrade.com/",
+		"authorization_types": [
+			{
+				"type": "trade",
+				"auth_type": "OAUTH"
+			}
+		],
+		"enabled": true,
+		"maintenance_mode": false,
+		"maintenance_windows": []
+	},
+	{
+		"id": "da24d4f9-a922-4e68-b059-3918c9a0166e",
+		"name": "Interactive Brokers",
+		"slug": "INTERACTIVE-BROKERS",
+		"url": "https://www.interactivebrokers.com/",
+		"authorization_types": [
+			{
+				"type": "trade",
+				"auth_type": "OAUTH"
+			}
+		],
+		"enabled": true,
+		"maintenance_mode": false,
+		"maintenance_windows": []
+	},
+	{
+		"id": "6df187ad-f89d-4f18-9bc3-c8b3f91e32ee",
+		"name": "Wealthica",
+		"slug": "WEALTHICA",
+		"url": "https://wealthica.com/",
+		"authorization_types": [
+			{
+				"type": "read",
+				"auth_type": "OAUTH"
+			}
+		],
+		"enabled": true,
+		"maintenance_mode": false,
+		"maintenance_windows": []
+	},
+	{
+		"id": "76e6660e-09ce-4197-a1a0-c14bf5f20f69",
+		"name": "Questrade",
+		"slug": "QUESTRADE",
+		"url": "https://www.questrade.com/",
+		"authorization_types": [
+			{
+				"type": "read",
+				"auth_type": "OAUTH"
+			},
+			{
+				"type": "trade",
+				"auth_type": "OAUTH"
+			}
+		],
+		"enabled": true,
+		"maintenance_mode": false,
+		"maintenance_windows": [
+			{
+				"start": "2021-01-19T07:00:00Z",
+				"end": "2021-01-19T10:00:00Z",
+				"weekdays": "0,1,2,3,4,5,6"
+			}
+		]
+	},
+	{
+		"id": "af80a5d6-0b30-4fcd-888d-a907af373232",
+		"name": "Tradier",
+		"slug": "TRADIER",
+		"url": "https://tradier.com/",
+		"authorization_types": [
+			{
+				"type": "read",
+				"auth_type": "OAUTH"
+			},
+			{
+				"type": "trade",
+				"auth_type": "OAUTH"
+			}
+		],
+		"enabled": true,
+		"maintenance_mode": false,
+		"maintenance_windows": []
+	},
+	{
+		"id": "58fdf1c7-744a-429d-9075-53d0350f31db",
+		"name": "Zerodha",
+		"slug": "ZERODHA",
+		"url": "https://zerodha.com/",
+		"authorization_types": [
+			{
+				"type": "trade",
+				"auth_type": "OAUTH"
+			}
+		],
+		"enabled": false,
+		"maintenance_mode": false,
+		"maintenance_windows": []
+	},
+	{
+		"id": "0aa9e333-b667-4680-bc72-f9f34521a2a1",
+		"name": "Coinbase",
+		"slug": "COINBASE",
+		"url": "https://www.coinbase.com/",
+		"authorization_types": [
+			{
+				"type": "trade",
+				"auth_type": "OAUTH"
+			}
+		],
+		"enabled": false,
+		"maintenance_mode": false,
+		"maintenance_windows": []
+	},
+	{
+		"id": "189e7950-9165-4147-83f7-b2135c150200",
+		"name": "Kraken",
+		"slug": "KRAKEN",
+		"url": "https://www.kraken.com/",
+		"authorization_types": [
+			{
+				"type": "trade",
+				"auth_type": "TOKEN"
+			}
+		],
+		"enabled": false,
+		"maintenance_mode": false,
+		"maintenance_windows": []
+	}
+]

@@ -134,7 +134,6 @@ export const AccountHoldings = ({ holdings }: Props) => {
   const currencyRates = useSelector(selectCurrencyRates);
   const [sortKey, setSortKey] = useState<string>('value');
   const [sortAsc, setSortAsc] = useState<boolean>(false);
-
   const convertCurrencyToPreferred = (value: number, src: string): number => {
     const conversionRate =
       currencyRates &&
@@ -278,14 +277,23 @@ export const AccountHoldings = ({ holdings }: Props) => {
           </td>
           <td data-label="Units">{position.units}</td>
           <td data-label="Price">
-            <Number value={position.price} currency />
+            <Number
+              value={position.price}
+              currency={currency ? currency.code : undefined}
+            />
           </td>
           <td data-label="Value">
-            <Number value={position.price * position.units} currency />
+            <Number
+              value={position.price * position.units}
+              currency={currency ? currency.code : undefined}
+            />
           </td>
           {hasOpenPnl && (
             <td data-label="Open P&L">
-              <Number value={position.open_pnl} currency />
+              <Number
+                value={position.open_pnl}
+                currency={currency ? currency.code : undefined}
+              />
             </td>
           )}
           <td data-label="Currency">

@@ -182,7 +182,8 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
         <OrderContainer>
           <H2>Order cannot be Processed</H2>
           <P>
-            Oops, you've encountered a bug! Please try again later or{' '}
+            We are sorry but we are having difficulties processing your order at
+            this time. Please wait a moment and try again or{' '}
             <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
             persists.
           </P>
@@ -196,7 +197,8 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
         <OrderContainer>
           <H2>Order cannot be Processed</H2>
           <P>
-            Oops, you've encountered a bug! Please try again later or{' '}
+            We are sorry but we are having difficulties processing your order at
+            this time. Please wait a moment and try again or{' '}
             <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
             persists.
           </P>

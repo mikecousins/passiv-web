@@ -4,7 +4,6 @@ import { ThunkAction } from 'redux-thunk';
 import {
   setSelectedTimeframe,
   loadPerformanceAll,
-  loadPerformanceCustom,
   setStartDate,
   setEndDate,
 } from './performance';
@@ -289,6 +288,22 @@ export const loadAccounts: ActionCreator<ThunkAction<
   };
 };
 
+export const loadAccountList: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = () => {
+  return (dispatch) => {
+    dispatch(fetchAccountsStart());
+    getData('/api/v1/accounts/')
+      .then((response) => {
+        return dispatch(fetchAccountsSuccess(response));
+      })
+      .catch((error) => dispatch(fetchAccountsError(error)));
+  };
+};
+
 export const loadGroupDetails: ActionCreator<ThunkAction<
   void,
   any,
@@ -446,7 +461,6 @@ export const reloadEverything: ActionCreator<ThunkAction<
     const endDate = formattedToday();
     dispatch(setStartDate(startDate));
     dispatch(setEndDate(endDate));
-    dispatch(loadPerformanceCustom(selectedAccounts, startDate, endDate));
     dispatch(loadGoals());
   };
 };

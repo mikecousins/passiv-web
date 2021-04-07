@@ -14,9 +14,15 @@ import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
 import AccountGroup from './AccountGroup';
 import { deleteData, putData, postData } from '../../api';
-import { H2, A, Edit, H3, P, DisabledBox } from '../../styled/GlobalElements';
-import { selectCanCrossAccountBalance } from '../../selectors/subscription';
-import { loadAccounts, loadGroups } from '../../actions';
+import { H2, A, Edit, H3, P } from '../../styled/GlobalElements';
+import {
+  loadAccountList,
+  loadGroup,
+  loadGroupsList,
+  loadSettings,
+} from '../../actions';
+import { loadPerformanceAll } from '../../actions/performance';
+import { selectSelectedAccounts } from '../../selectors/performance';
 
 export const Header = styled.form`
   h2 {
@@ -44,8 +50,10 @@ const Accounts = () => {
   const accounts = useSelector(selectGroupedAccounts);
   const [localAccounts, setLocalAccounts] = useState(accounts);
   const [isEditing, setIsEditing] = useState(false);
-  const canCrossAccountBalance = useSelector(selectCanCrossAccountBalance);
   const dispatch = useDispatch();
+  const [numHidden, setNumHidden] = useState(
+    accounts?.find((a) => a.groupId === 'hidden')?.accounts.length,
+  );
 
   // when we get new accounts back from the server, reset our accounts
   useEffect(() => setLocalAccounts(accounts), [accounts]);
@@ -88,10 +96,10 @@ const Accounts = () => {
 
     const newList: Group[] = Array.from(localAccounts);
     const sourceList = newList.find(
-      group => group.groupId === result.source.droppableId,
+      (group) => group.groupId === result.source.droppableId,
     );
     const destList = newList.find(
-      group => group.groupId === result.destination!.droppableId,
+      (group) => group.groupId === result.destination!.droppableId,
     );
 
     if (sourceList) {
@@ -101,32 +109,49 @@ const Accounts = () => {
         portfolio_group: result.destination!.droppableId,
       };
 
+      let affectedGroupIds = [
+        moved.portfolio_group,
+        newAccount.portfolio_group,
+      ].filter(
+        (groupId) =>
+          groupId !== 'hidden' && groupId !== 'new' && groupId !== null,
+      );
+
       if (destList) {
         destList.accounts.splice(result.destination.index, 0, moved);
         putData(`/api/v1/accounts/${moved.id}`, newAccount)
           .then(() => {
-            dispatch(loadAccounts());
-            dispatch(loadGroups());
+            dispatch(loadSettings());
+            dispatch(loadAccountList());
+            dispatch(loadGroupsList());
+            dispatch(loadGroup({ ids: affectedGroupIds }));
             toast.success('Moved the account successfully');
           })
           .catch(() => {
-            dispatch(loadAccounts());
-            dispatch(loadGroups());
+            dispatch(loadSettings());
+            dispatch(loadAccountList());
+            dispatch(loadGroupsList());
+            dispatch(loadGroup({ ids: affectedGroupIds }));
             toast.error('Failed to move the account');
           });
       } else if (result.destination.droppableId === 'new') {
         postData('/api/v1/portfolioGroups', { name: 'New Group' }).then(
-          newGroup => {
+          (newGroup) => {
+            affectedGroupIds.push(newGroup.data[0].id);
             newAccount.portfolio_group = newGroup.data[0].id;
             putData(`/api/v1/accounts/${moved.id}`, newAccount)
               .then(() => {
-                dispatch(loadAccounts());
-                dispatch(loadGroups());
+                dispatch(loadSettings());
+                dispatch(loadAccountList());
+                dispatch(loadGroupsList());
+                dispatch(loadGroup({ ids: affectedGroupIds }));
                 toast.success('Moved the account successfully');
               })
               .catch(() => {
-                dispatch(loadAccounts());
-                dispatch(loadGroups());
+                dispatch(loadSettings());
+                dispatch(loadAccountList());
+                dispatch(loadGroupsList());
+                dispatch(loadGroup({ ids: affectedGroupIds }));
                 toast.error('Failed to move the account');
               });
           },
@@ -141,30 +166,32 @@ const Accounts = () => {
     return null;
   }
 
+  const finishEditing = () => {
+    setIsEditing(false);
+    const newNumHidden = accounts?.find((a) => a.groupId === 'hidden')?.accounts
+      .length;
+    if (newNumHidden !== numHidden) {
+      const selectedAccounts = dispatch(selectSelectedAccounts);
+      setNumHidden(newNumHidden);
+      dispatch(loadPerformanceAll(selectedAccounts));
+    }
+  };
+
   return (
     <React.Fragment>
       <Header>
         <H2>Accounts</H2>
         {isEditing ? (
-          <A onClick={() => setIsEditing(false)}>
+          <A onClick={() => finishEditing()}>
             <FontAwesomeIcon icon={faCheck} />
             Done
           </A>
         ) : (
           <React.Fragment>
-            <Edit
-              onClick={() => setIsEditing(true)}
-              disabled={!canCrossAccountBalance}
-            >
+            <Edit onClick={() => setIsEditing(true)}>
               <FontAwesomeIcon icon={faPen} />
               Edit Groups
             </Edit>
-            {!canCrossAccountBalance && (
-              <DisabledBox>
-                Editing account groups is an Elite feature, subscribe to access
-                it!
-              </DisabledBox>
-            )}
           </React.Fragment>
         )}
       </Header>
@@ -174,7 +201,7 @@ const Accounts = () => {
         its own group. Drag and drop to reorganize.
       </PaddedP>
       <DragDropContext onDragEnd={onDragEnd}>
-        {localAccounts.map(group => (
+        {localAccounts.map((group) => (
           <Droppable droppableId={group.groupId} key={group.groupId}>
             {(provided, snapshot) => (
               <div
@@ -220,10 +247,7 @@ const Accounts = () => {
                             </GroupNote>
                           ) : (
                             <GroupNote>
-                              <Edit
-                                onClick={() => setIsEditing(true)}
-                                disabled={!canCrossAccountBalance}
-                              >
+                              <Edit onClick={() => setIsEditing(true)}>
                                 <FontAwesomeIcon icon={faPen} />
                                 Edit Groups
                               </Edit>{' '}
@@ -240,10 +264,10 @@ const Accounts = () => {
                                 `/api/v1/portfolioGroups/${group.groupId}`,
                               )
                                 .then(() => {
-                                  dispatch(loadGroups());
+                                  dispatch(loadGroupsList());
                                 })
                                 .catch(() => {
-                                  dispatch(loadGroups());
+                                  dispatch(loadGroupsList());
                                 });
                             }}
                           >

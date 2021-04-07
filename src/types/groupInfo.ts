@@ -1,24 +1,6 @@
 import { Currency } from './currency';
 import { Account } from './account';
-
-// export type Account = {
-//   id: string;
-//   number: string;
-// };
-
-export type Brokerage = {
-  id: string;
-  name: string;
-  url: string;
-};
-
-export type BrokerageAuthorization = {
-  id: string;
-  created_date: string;
-  brokerage: Brokerage;
-  name: string;
-  type: string;
-};
+import { Authorization } from './authorization';
 
 export type Symbol = {
   id: string;
@@ -64,6 +46,7 @@ export type ExcludedPosition = {
 };
 
 export type Trade = {
+  account: Account;
   action: string;
   skip_trade: boolean;
   symbol_in_target: boolean;
@@ -86,7 +69,9 @@ export type Settings = {
   target_initialized: boolean;
   order_targets_by: number;
   rebalance_by_asset_class: boolean;
-  new_assets_detected: boolean;
+  show_warning_for_new_assets_detected: boolean;
+  hide_trades_until: string | null;
+  prevent_trades_in_non_tradable_accounts: boolean;
 };
 
 export type Error = {
@@ -117,7 +102,7 @@ export type AssetClassesDetails = {
 export type GroupInfoData = {
   asset_classes_details: AssetClassesDetails[];
   accounts: Account[];
-  brokerage_authorizations: BrokerageAuthorization[];
+  brokerage_authorizations: Authorization[];
   symbols: Symbol[];
   quotable_symbols: Symbol[];
   balances: Balance[];

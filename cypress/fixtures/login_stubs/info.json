@@ -1,0 +1,922 @@
+{
+	"asset_classes_details": [
+		{
+			"asset_class": {
+				"id": "4f63c359-1d92-48ed-9e19-a1ae36bf064b",
+				"name": "AAPL",
+				"percent": 31.3,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "c15a817e-7171-4940-9ae7-f7b4a95408ee",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "6bffd3b4-0cb4-4588-9619-c7de71966ab3",
+				"name": "ARKF",
+				"percent": 1.9,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "31c4cbec-742e-4fe6-86a6-497fe24c2019",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "a45fc177-1468-4275-91f8-1e3a5b44db45",
+				"name": "BUD",
+				"percent": 9.3,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "de812f1a-2859-4e8c-b7d6-2bdf8b56fa02",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "a636af54-0709-4754-80f2-1102deca9111",
+				"name": "CRSR",
+				"percent": 2.3,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "5083dc2e-da17-49c3-b8cf-075454b281bd",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "88667993-95db-44f4-b815-ac2cdd3b2e24",
+				"name": "F",
+				"percent": 9.1,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "fc10821f-7e4a-4967-9b47-97b90d84cf1c",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "7caa3f2c-d62c-4344-a8d2-eb01fdf3b9bd",
+				"name": "HD",
+				"percent": 3.4,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "d3c46e32-73e8-4418-aed9-7f42cc68b46c",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "2c7ceb3c-43aa-495e-91c1-ebd426e5b5e0",
+				"name": "L.TO",
+				"percent": 1.9,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "5d454af6-6e6b-43c7-a80e-5e084a474a67",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "cc3c74f9-05e2-4a55-bdc5-0a26371d40df",
+				"name": "MSFT",
+				"percent": 2.6,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "5563d000-af45-47ba-a2ec-7be565340077",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "784e0e82-7924-4066-bf0e-a8a8edeedc5d",
+				"name": "PNG.VN",
+				"percent": 3.5,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "c4a34730-b867-4e3b-8d86-64c124a222a6",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "dda7b41e-94f1-49ee-81ae-2a71552b6b2b",
+				"name": "U",
+				"percent": 9.2,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "90348157-e83c-4147-b1ef-2c4aa42831a6",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "5757e747-764a-48cc-bfc4-382843c7399d",
+				"name": "VGRO.TO",
+				"percent": 6.6,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "cb194cd5-9986-4383-9991-0d329c0801d7",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "12384a0c-89ff-4a56-8f0c-4f2ea84aae30",
+				"name": "WELL.TO",
+				"percent": 2.1,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "eab8c9bc-e26a-44da-a138-e974991e1966",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "2ca28b25-bde1-4b56-b9eb-5426c3b2b6f6",
+				"name": "WWE",
+				"percent": 3.1,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "e4b0e85a-b549-4af4-ac36-1e71df399e7a",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "fc5bcabb-d453-44cb-bd4d-917348c189cd",
+				"name": "XGD.TO",
+				"percent": 3.7,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "4b813287-06f4-465a-a032-e85d5b14db44",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "f1013fae-cb35-4c18-a239-abf2652c8656",
+				"name": "XMA.TO",
+				"percent": 3.4,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "6257a5db-bea1-409e-b8f3-9d7695d7feff",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "aa706d95-9af9-4ca7-b47f-5f5c05cc2cc4",
+				"name": "XRE.TO",
+				"percent": 6.6,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "0b19f77c-d6be-4881-a093-432825ae7202",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": true
+		},
+		{
+			"asset_class": {
+				"id": "66b30bd1-9e4a-43fd-9b42-fa070d6990ef",
+				"name": "<UniversalSymbol: BP, <Currency: USD>>",
+				"percent": 0,
+				"exclude_asset_class": false
+			},
+			"symbols": [
+				{
+					"symbol": "b66f8663-4135-4c17-87a6-713a88d214cd",
+					"accounts": []
+				}
+			],
+			"asset_class_in_targets": false
+		}
+	],
+	"accounts": [
+		{
+			"id": "6ce8a0e1-17e2-4435-82ea-a30f74a79f3c",
+			"number": "52249933",
+			"name": "Individual TFSA"
+		}
+	],
+	"brokerage_authorizations": [
+		{
+			"id": "d0d32467-2d45-4134-b931-194e938589e8",
+			"created_date": "2021-01-18T01:30:32.172098Z",
+			"brokerage": {
+				"id": "76e6660e-09ce-4197-a1a0-c14bf5f20f69",
+				"name": "Questrade",
+				"slug": "QUESTRADE",
+				"url": "https://www.questrade.com/",
+				"enabled": true,
+				"maintenance_mode": false,
+				"allows_fractional_units": false,
+				"default_currency": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"exchanges": [
+					"a62d4c60-d22d-4a06-b665-543ca1e6c882",
+					"3826f8a5-9e53-4752-82fb-ae3efb54a855",
+					"59afea32-67ba-43fb-946d-217c1fc70bcb",
+					"ebd63029-461e-4bed-bd4a-d0595f880b52",
+					"2b702dcb-b566-4fe9-a832-f4f4ddd6dca3",
+					"4bf909f2-4a1c-4469-8054-e1db8bd9f5f9",
+					"087da9ca-8de8-41c0-a643-10127b8d4f8f",
+					"26c6aa2d-7733-4808-a29b-8fe6750c6d70",
+					"8f638e11-3576-4779-be5b-ab417094be33",
+					"ff4b2ffc-5a0e-4471-9cf5-95c0c30cdedd",
+					"9f3ea556-15c5-4321-8983-ad4033ff802b",
+					"b4dc9dbc-7f74-424b-a322-0ec53c4557b9",
+					"77de8509-63ff-4c73-8d92-98c9fd3e207f"
+				]
+			},
+			"name": "Connection-1",
+			"type": "trade",
+			"disabled": false,
+			"disabled_date": null
+		}
+	],
+	"symbols": [
+		{
+			"id": "5563d000-af45-47ba-a2ec-7be565340077",
+			"symbol": "MSFT",
+			"description": "Microsoft Corporation",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "c15a817e-7171-4940-9ae7-f7b4a95408ee",
+			"symbol": "AAPL",
+			"description": "Apple Inc",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "d3c46e32-73e8-4418-aed9-7f42cc68b46c",
+			"symbol": "HD",
+			"description": "Home Depot, Inc.",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "cb194cd5-9986-4383-9991-0d329c0801d7",
+			"symbol": "VGRO.TO",
+			"description": "Vanguard Investments Canada Inc - Vanguard Growth ETF Portfolio (the U",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "90348157-e83c-4147-b1ef-2c4aa42831a6",
+			"symbol": "U",
+			"description": "Unity Software Inc",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "4b813287-06f4-465a-a032-e85d5b14db44",
+			"symbol": "XGD.TO",
+			"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "6257a5db-bea1-409e-b8f3-9d7695d7feff",
+			"symbol": "XMA.TO",
+			"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "5083dc2e-da17-49c3-b8cf-075454b281bd",
+			"symbol": "CRSR",
+			"description": "Corsair Gaming Inc",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "0b19f77c-d6be-4881-a093-432825ae7202",
+			"symbol": "XRE.TO",
+			"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "c4a34730-b867-4e3b-8d86-64c124a222a6",
+			"symbol": "PNG.VN",
+			"description": "Kraken Robotics Inc",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "eab8c9bc-e26a-44da-a138-e974991e1966",
+			"symbol": "WELL.TO",
+			"description": "WELL Health Technologies Corp",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "b66f8663-4135-4c17-87a6-713a88d214cd",
+			"symbol": "BP",
+			"description": "BP plc - ADR",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "fc10821f-7e4a-4967-9b47-97b90d84cf1c",
+			"symbol": "F",
+			"description": "Ford Motor Co.",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "e4b0e85a-b549-4af4-ac36-1e71df399e7a",
+			"symbol": "WWE",
+			"description": "World Wrestling Entertainment, Inc. - Class A",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "31c4cbec-742e-4fe6-86a6-497fe24c2019",
+			"symbol": "ARKF",
+			"description": "ARK Fintech Innovation ETF",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "5d454af6-6e6b-43c7-a80e-5e084a474a67",
+			"symbol": "L.TO",
+			"description": "Loblaw Cos. Ltd.",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "de812f1a-2859-4e8c-b7d6-2bdf8b56fa02",
+			"symbol": "BUD",
+			"description": "Anheuser-Busch In Bev SA/NV - ADR",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		}
+	],
+	"quotable_symbols": [
+		{
+			"id": "5563d000-af45-47ba-a2ec-7be565340077",
+			"symbol": "MSFT",
+			"description": "Microsoft Corporation",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "c15a817e-7171-4940-9ae7-f7b4a95408ee",
+			"symbol": "AAPL",
+			"description": "Apple Inc",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "d3c46e32-73e8-4418-aed9-7f42cc68b46c",
+			"symbol": "HD",
+			"description": "Home Depot, Inc.",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "cb194cd5-9986-4383-9991-0d329c0801d7",
+			"symbol": "VGRO.TO",
+			"description": "Vanguard Investments Canada Inc - Vanguard Growth ETF Portfolio (the U",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "90348157-e83c-4147-b1ef-2c4aa42831a6",
+			"symbol": "U",
+			"description": "Unity Software Inc",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "4b813287-06f4-465a-a032-e85d5b14db44",
+			"symbol": "XGD.TO",
+			"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "6257a5db-bea1-409e-b8f3-9d7695d7feff",
+			"symbol": "XMA.TO",
+			"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "5083dc2e-da17-49c3-b8cf-075454b281bd",
+			"symbol": "CRSR",
+			"description": "Corsair Gaming Inc",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "0b19f77c-d6be-4881-a093-432825ae7202",
+			"symbol": "XRE.TO",
+			"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "c4a34730-b867-4e3b-8d86-64c124a222a6",
+			"symbol": "PNG.VN",
+			"description": "Kraken Robotics Inc",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "eab8c9bc-e26a-44da-a138-e974991e1966",
+			"symbol": "WELL.TO",
+			"description": "WELL Health Technologies Corp",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "b66f8663-4135-4c17-87a6-713a88d214cd",
+			"symbol": "BP",
+			"description": "BP plc - ADR",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "fc10821f-7e4a-4967-9b47-97b90d84cf1c",
+			"symbol": "F",
+			"description": "Ford Motor Co.",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "e4b0e85a-b549-4af4-ac36-1e71df399e7a",
+			"symbol": "WWE",
+			"description": "World Wrestling Entertainment, Inc. - Class A",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "31c4cbec-742e-4fe6-86a6-497fe24c2019",
+			"symbol": "ARKF",
+			"description": "ARK Fintech Innovation ETF",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		},
+		{
+			"id": "5d454af6-6e6b-43c7-a80e-5e084a474a67",
+			"symbol": "L.TO",
+			"description": "Loblaw Cos. Ltd.",
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"code": "CAD",
+				"name": "Canadian Dollar"
+			}
+		},
+		{
+			"id": "de812f1a-2859-4e8c-b7d6-2bdf8b56fa02",
+			"symbol": "BUD",
+			"description": "Anheuser-Busch In Bev SA/NV - ADR",
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"code": "USD",
+				"name": "US Dollar"
+			}
+		}
+	],
+	"balances": [
+		{
+			"currency": {
+				"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+				"name": "US Dollar",
+				"code": "USD"
+			},
+			"cash": -347.9513
+		},
+		{
+			"currency": {
+				"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+				"name": "Canadian Dollar",
+				"code": "CAD"
+			},
+			"cash": 454.307
+		}
+	],
+	"positions": [
+		{
+			"symbol": {
+				"id": "5d454af6-6e6b-43c7-a80e-5e084a474a67",
+				"symbol": "L.TO",
+				"description": "Loblaw Cos. Ltd.",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"price": 63.64,
+			"units": 3
+		},
+		{
+			"symbol": {
+				"id": "5563d000-af45-47ba-a2ec-7be565340077",
+				"symbol": "MSFT",
+				"description": "Microsoft Corporation",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"price": 215.21,
+			"units": 1
+		},
+		{
+			"symbol": {
+				"id": "c4a34730-b867-4e3b-8d86-64c124a222a6",
+				"symbol": "PNG.VN",
+				"description": "Kraken Robotics Inc",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"price": 0.57,
+			"units": 655
+		},
+		{
+			"symbol": {
+				"id": "31c4cbec-742e-4fe6-86a6-497fe24c2019",
+				"symbol": "ARKF",
+				"description": "ARK Fintech Innovation ETF",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"price": 52.8,
+			"units": 3
+		},
+		{
+			"symbol": {
+				"id": "c15a817e-7171-4940-9ae7-f7b4a95408ee",
+				"symbol": "AAPL",
+				"description": "Apple Inc",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"price": 128.09,
+			"units": 20
+		},
+		{
+			"symbol": {
+				"id": "5083dc2e-da17-49c3-b8cf-075454b281bd",
+				"symbol": "CRSR",
+				"description": "Corsair Gaming Inc",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"price": 36.6,
+			"units": 5
+		},
+		{
+			"symbol": {
+				"id": "4b813287-06f4-465a-a032-e85d5b14db44",
+				"symbol": "XGD.TO",
+				"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"price": 19.21,
+			"units": 20
+		},
+		{
+			"symbol": {
+				"id": "e4b0e85a-b549-4af4-ac36-1e71df399e7a",
+				"symbol": "WWE",
+				"description": "World Wrestling Entertainment, Inc. - Class A",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"price": 53.11,
+			"units": 5
+		},
+		{
+			"symbol": {
+				"id": "fc10821f-7e4a-4967-9b47-97b90d84cf1c",
+				"symbol": "F",
+				"description": "Ford Motor Co.",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"price": 10.08,
+			"units": 75
+		},
+		{
+			"symbol": {
+				"id": "d3c46e32-73e8-4418-aed9-7f42cc68b46c",
+				"symbol": "HD",
+				"description": "Home Depot, Inc.",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"price": 274.94,
+			"units": 1
+		},
+		{
+			"symbol": {
+				"id": "cb194cd5-9986-4383-9991-0d329c0801d7",
+				"symbol": "VGRO.TO",
+				"description": "Vanguard Investments Canada Inc - Vanguard Growth ETF Portfolio (the U",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"price": 29.57,
+			"units": 23
+		},
+		{
+			"symbol": {
+				"id": "0b19f77c-d6be-4881-a093-432825ae7202",
+				"symbol": "XRE.TO",
+				"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"price": 16.41,
+			"units": 42
+		},
+		{
+			"symbol": {
+				"id": "6257a5db-bea1-409e-b8f3-9d7695d7feff",
+				"symbol": "XMA.TO",
+				"description": "BlackRock Asset Management Canada Ltd - BlackRock Canada iShares S&P/T",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"price": 17.52,
+			"units": 29
+		},
+		{
+			"symbol": {
+				"id": "eab8c9bc-e26a-44da-a138-e974991e1966",
+				"symbol": "WELL.TO",
+				"description": "WELL Health Technologies Corp",
+				"currency": {
+					"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+					"code": "CAD",
+					"name": "Canadian Dollar"
+				}
+			},
+			"price": 7.89,
+			"units": 28
+		},
+		{
+			"symbol": {
+				"id": "90348157-e83c-4147-b1ef-2c4aa42831a6",
+				"symbol": "U",
+				"description": "Unity Software Inc",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"price": 145.61,
+			"units": 5
+		},
+		{
+			"symbol": {
+				"id": "b66f8663-4135-4c17-87a6-713a88d214cd",
+				"symbol": "BP",
+				"description": "BP plc - ADR",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"price": 24.63,
+			"units": 14
+		},
+		{
+			"symbol": {
+				"id": "de812f1a-2859-4e8c-b7d6-2bdf8b56fa02",
+				"symbol": "BUD",
+				"description": "Anheuser-Busch In Bev SA/NV - ADR",
+				"currency": {
+					"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+					"code": "USD",
+					"name": "US Dollar"
+				}
+			},
+			"price": 68.27,
+			"units": 11
+		}
+	],
+	"calculated_trades": {
+		"id": "80e7b016-288a-430a-8b26-4e966051366e",
+		"trades": []
+	},
+	"accuracy": 94.69356809320271,
+	"settings": {
+		"buy_only": true,
+		"hard_currency_separation": false,
+		"prevent_currency_conversion": false,
+		"cash_optimizer": false,
+		"notify_frequency": "7 00:00:00",
+		"drift_threshold": "90.0000",
+		"preferred_currency": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+		"target_initialized": true,
+		"rebalance_by_asset_class": false,
+		"order_targets_by": 0
+	},
+	"model_portfolio": null,
+	"error": null
+}
