@@ -22,6 +22,8 @@ import Number from '../Number';
 import PortfolioGroupTrades from '../PortfolioGroupTrades';
 import { GROUP_PATH } from '../../apps/Paths';
 import PreLoadLink from '../PreLoadLink';
+import { selectGroupInfo } from '../../selectors/groups';
+import { useSelector } from 'react-redux';
 
 type Props = {
   group: any;
@@ -29,6 +31,17 @@ type Props = {
 
 export const Group = ({ group }: Props) => {
   const [expanded, setExpanded] = useState(false);
+  const groupInfo = useSelector(selectGroupInfo);
+
+  let hideTrades = false;
+  const currentGroupSettings =
+    groupInfo[group.id] &&
+    groupInfo[group.id].data &&
+    groupInfo[group.id].data!.settings;
+  if (currentGroupSettings && currentGroupSettings.hide_trades_until !== null) {
+    hideTrades =
+      Date.parse(currentGroupSettings.hide_trades_until) > Date.now();
+  }
 
   if (!group) {
     return <div>Loading...</div>;
@@ -54,13 +67,23 @@ export const Group = ({ group }: Props) => {
   let cash = <FontAwesomeIcon icon={faSpinner} spin />;
 
   if (group.totalCash !== null && group.setupComplete !== undefined) {
-    cash = <Number value={group.totalCash} currency />;
+    cash = (
+      <Number
+        value={group.totalCash}
+        currency={group.preferredCurrency && group.preferredCurrency.code}
+      />
+    );
   }
 
   let totalValue = <FontAwesomeIcon icon={faSpinner} spin />;
 
   if (group.totalValue !== null && group.setupComplete !== undefined) {
-    totalValue = <Number value={group.totalValue} currency />;
+    totalValue = (
+      <Number
+        value={group.totalValue}
+        currency={group.preferredCurrency && group.preferredCurrency.code}
+      />
+    );
   }
 
   let viewButton = null;
@@ -112,7 +135,7 @@ export const Group = ({ group }: Props) => {
               {totalValue}
             </div>
             {viewButton}
-            {group.setupComplete && group.rebalance && (
+            {group.setupComplete && group.rebalance && !hideTrades && (
               <AllocateBtn onClick={() => setExpanded(!expanded)}>
                 {group.hasSells ? 'Rebalance' : 'Allocate'}
                 &nbsp;
@@ -126,7 +149,7 @@ export const Group = ({ group }: Props) => {
           </Table>
         </DashboardRow>
       </ShadowBox>
-      {expanded && (
+      {expanded && !hideTrades && (
         <PortfolioGroupTrades
           trades={group.trades}
           groupId={group.id}

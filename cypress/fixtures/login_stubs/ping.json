@@ -1,0 +1,22 @@
+{
+	"appCodeName": "Mozilla",
+	"clientTimestamp": "2021-01-20T13:26:45.370Z",
+	"clientTimezoneOffset": 240,
+	"language": "en-US",
+	"platform": "Linux x86_64",
+	"ref": "",
+	"referrer": null,
+	"uid": "ohbQmGdAje",
+	"url": {
+		"hash": "",
+		"host": "app.passiv.com",
+		"hostname": "app.passiv.com",
+		"href": "https://app.passiv.com/app/group/5f1e9dea-45a3-4ed0-b1a6-e84f24cf4e67/account/ba8d578c-d8bc-4a7a-9833-c7d339898565",
+		"origin": "https://app.passiv.com",
+		"pathname": "/app/group/5f1e9dea-45a3-4ed0-b1a6-e84f24cf4e67/account/ba8d578c-d8bc-4a7a-9833-c7d339898565",
+		"port": "",
+		"protocol": "https:",
+		"search": ""
+	},
+	"userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0"
+}

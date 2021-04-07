@@ -33,7 +33,7 @@ const PortfolioGroupCash = ({ balances, error, tourClass }: Props) => (
                 </span>
               </CashType>
               <CashType>
-                <Number value={balance.cash} currency />
+                <Number value={balance.cash} currency={balance.currency.code} />
               </CashType>
             </CashGroup>
           ))

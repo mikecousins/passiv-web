@@ -20,7 +20,7 @@
 
 ## Introduction
 
-This is the front-end app for [Passiv](https://getpassiv.com). We're big proponents of open source software and would love for people to audit our code for security reasons so we've made this fully available on Github. Follow along with us as we try to change the face of investing.
+This is the front-end app for [Passiv](https://passiv.com). We're big proponents of open source software and would love for people to audit our code for security reasons so we've made this fully available on Github. Follow along with us as we try to change the face of investing.
 
 ## Major Components
 

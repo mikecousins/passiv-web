@@ -296,7 +296,7 @@ export const selectContributions1Y = createSelector<
   AppState,
   string,
   Contributions | undefined
->(selectState, selectSelectedTimeframe, state => {
+>(selectState, selectSelectedTimeframe, (state) => {
   return state.performanceAll?.data?.contributions1Y;
 });
 
@@ -354,5 +354,24 @@ export const selectContributionMonthsTotal = createSelector<
     return state.performanceCustom?.data?.contributionTotalMonths;
   } else {
     return state.performanceAll?.data?.contributionTotalMonths1Y;
+  }
+});
+
+export const selectRateOfReturn = createSelector<
+  AppState,
+  AppState,
+  string,
+  number | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.rateOfReturn1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.rateOfReturnYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.rateOfReturnALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.rateOfReturn;
+  } else {
+    return state.performanceAll?.data?.rateOfReturn1Y;
   }
 });

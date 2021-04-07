@@ -1,19 +1,16 @@
-import { useSelector, useDispatch } from 'react-redux';
-import React from 'react';
-import { push } from 'connected-react-router';
+import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   selectIsAuthorized,
   selectBrokerages,
-  selectAuthorizations,
   selectMaintenanceBrokerages,
 } from '../selectors';
-import { selectUserPermissions } from '../selectors/subscription';
 
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { P } from '../styled/GlobalElements';
+import { A, P, BulletUL, Li } from '../styled/GlobalElements';
 import { postData } from '../api';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
@@ -23,8 +20,10 @@ import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 import TDAmeritradeLogo from '../assets/images/tda-logo.png';
 import TradierLogo from '../assets/images/tradier-logo.png';
 import WealthicaLogo from '../assets/images/wealthica-logo.png';
+import ZerodhaLogo from '../assets/images/zerodha-logo.png';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
+import { Button } from '../styled/Button';
 
 import {
   aDarkStyle,
@@ -53,35 +52,10 @@ type Props = {
 const AuthorizationPage = ({ onboarding }: Props) => {
   const authorized = useSelector(selectIsAuthorized);
   const brokerages = useSelector(selectBrokerages);
-  const userPermissions = useSelector(selectUserPermissions);
-  const authorizations = useSelector(selectAuthorizations);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const showProgressFeature = useSelector(selectShowProgressFeature);
-  const { brokerage } = useParams();
-  const dispatch = useDispatch();
-
-  const canAddMultipleConnections = () => {
-    if (userPermissions === null) {
-      return false;
-    }
-    let filtered_permissions = userPermissions.filter(
-      (permission) => permission === 'can_add_multiple_connections',
-    );
-
-    if (filtered_permissions.length > 0) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  if (
-    authorizations &&
-    authorizations.length > 0 &&
-    !canAddMultipleConnections()
-  ) {
-    dispatch(push('/app/settings'));
-  }
+  const { openBrokerage } = useParams();
+  const [confirmConnection, setConfirmConnection] = useState('');
 
   const checkBrokerageMaintenance = (brokerage: BrokerageType) => {
     if (
@@ -90,6 +64,36 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       return true;
     } else {
       return false;
+    }
+  };
+
+  const getBrokerageOptions = (brokerageName: string) => {
+    return (
+      brokerageOptions &&
+      brokerageOptions.find((brokerage) => brokerage.name === brokerageName)
+    );
+  };
+
+  const startConfirmConnection = (brokerageName: string) => {
+    const options = getBrokerageOptions(brokerageName);
+    const brokerage =
+      brokerages &&
+      brokerages.find((brokerage) => brokerage.name === brokerageName);
+    if (options) {
+      if (
+        brokerage !== undefined &&
+        checkBrokerageMaintenance(brokerage) === true
+      ) {
+        toast.error(
+          `${brokerage.name} is currently undergoing maintenance and cannot establish new connections at this time. Please try again later.`,
+        );
+      } else {
+        if (options.confirmPrompt !== null) {
+          setConfirmConnection(brokerageName);
+        } else {
+          startConnection(brokerageName, options.defaultConnectionType);
+        }
+      }
     }
   };
 
@@ -105,9 +109,15 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: connectionType,
-        }).then((response) => {
-          window.location = response.data.url;
-        });
+        })
+          .then((response) => {
+            window.location = response.data.url;
+          })
+          .catch((error) => {
+            toast.error(
+              `${brokerage.name} is currently experiencing connection issues and cannot establish new connections at this time. Please try again later.`,
+            );
+          });
       }
     }
   };
@@ -116,12 +126,15 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'questrade',
       name: 'Questrade',
+      displayName: 'Questrade',
       connect: () => {
         startConnection('Questrade', 'read');
       },
+      defaultConnectionType: 'read',
       openURL: 'https://www.questrade.com/account-selection?oaa_promo=passiv',
       major: true,
       logo: QuestradeLogo,
+      confirmPrompt: null,
       description: (
         <P>
           Rated as Canada's best online brokerage by MoneySense in 2019,
@@ -134,12 +147,15 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'alpaca',
       name: 'Alpaca',
+      displayName: 'Alpaca',
       connect: () => {
         startConnection('Alpaca', 'trade');
       },
+      defaultConnectionType: 'trade',
       openURL: 'https://app.alpaca.markets/signup',
       major: true,
       logo: AlpacaLogo,
+      confirmPrompt: null,
       description: (
         <P>
           Alpaca is a commission-free API-first brokerage servicing the USA and
@@ -149,13 +165,56 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     },
     {
       id: 'interactivebrokers',
-      name: 'IBKR',
+      name: 'Interactive Brokers',
+      displayName: 'IBKR',
       connect: () => {
         startConnection('Interactive Brokers', 'trade');
       },
+      defaultConnectionType: 'trade',
       openURL: 'https://www.interactivebrokers.com/en/home.php',
       major: true,
       logo: InteractiveBrokersLogo,
+      confirmPrompt: (
+        <ShadowBox>
+          <P>
+            Due to the nature of Interactive Broker's API, some features are
+            limited when connecting.
+          </P>
+          <P>These features include:</P>
+          <VerticalPadding>
+            <BulletUL>
+              <Li>
+                IBKR takes between 24 to 48 hours to fully connect and load in
+                data to Passiv. If you have still not loaded in data after 48
+                hours then please contact support.
+              </Li>
+              <Li>Only IBKR Pro accounts are supported by Passiv.</Li>
+              <Li>
+                Certain features, such as One-Click Trades, are not available
+                through IBKR Canada. Other countries should work fine.
+              </Li>
+              <Li>
+                Certain assets, such as mutual funds and GICs, are not supported
+                by Passiv and may not appear in your account positions.
+                Non-investment accounts, such as credit cards or chequing
+                accounts, will also not be shown.
+              </Li>
+              <Li>
+                Interactive Brokers is an international brokerage and thus has
+                limited time to do maintenance. If you are trying to connect
+                outside of standard market hours (9:30am ET to 5:30pm ET) please
+                wait and attempt to connect during market hours. Many brokerages
+                typically do maintenance in the evenings and weekends, making it
+                difficult to successfully connect during those times. If you
+                find you are having issues connecting during this time frame,
+                please contact support.
+              </Li>
+            </BulletUL>
+          </VerticalPadding>
+
+          <P>By connecting, I understand and agree to these limitations.</P>
+        </ShadowBox>
+      ),
       description: (
         <P>
           Interactive Brokers is a brokerage that operates in 200+ countries.
@@ -167,12 +226,15 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'tdameritrade',
       name: 'TD Ameritrade',
+      displayName: 'TD Ameritrade',
       connect: () => {
         startConnection('TD Ameritrade', 'trade');
       },
+      defaultConnectionType: 'trade',
       openURL: 'https://www.tdameritrade.com/home.page',
       major: true,
       logo: TDAmeritradeLogo,
+      confirmPrompt: null,
       description: (
         <P>
           TD Ameritrade is one of the largest discount brokerages in the U.S.
@@ -183,12 +245,15 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'tradier',
       name: 'Tradier',
+      displayName: 'Tradier',
       connect: () => {
         startConnection('Tradier', 'trade');
       },
+      defaultConnectionType: 'trade',
       openURL: 'https://brokerage.tradier.com/signup?platform=109',
       major: true,
       logo: TradierLogo,
+      confirmPrompt: null,
       description: (
         <P>
           Tradier is a REST-based, open, and secure API for investors, advisors,
@@ -199,16 +264,78 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     {
       id: 'wealthica',
       name: 'Wealthica',
+      displayName: 'Wealthica',
       connect: () => {
         startConnection('Wealthica', 'read');
       },
+      defaultConnectionType: 'read',
       openURL: 'https://wealthica.com/',
       major: true,
       logo: WealthicaLogo,
+      confirmPrompt: (
+        <ShadowBox>
+          <P>
+            Due to the nature of Wealthica's aggregation service, certain Passiv
+            features will be limited on accounts linked through Wealthica.
+          </P>
+          <P>These features include:</P>
+          <VerticalPadding>
+            <BulletUL>
+              <Li>
+                Data from Wealthica is not a real-time representation of your
+                investment account. This may affect the accuracy of your
+                calculated trades, account balances, and positions in Passiv.
+              </Li>
+              <Li>
+                Certain features, such as One-Click Trades, are not available
+                through Wealthica. To get the best Passiv experience, move your
+                investments to one of our brokerage partners.
+              </Li>
+              <Li>
+                Certain assets, such as mutual funds and GICs, are not supported
+                by Passiv and may not appear in your account positions.
+                Non-investment accounts, such as credit cards or chequing
+                accounts, will also not be shown.
+              </Li>
+            </BulletUL>
+          </VerticalPadding>
+          <P>
+            Read more about these limitations in our{' '}
+            <A
+              href="https://passiv.com/help/tutorials/how-to-view-holdings-outside-passiv-brokerage-partners/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Wealthica Guide
+            </A>
+            .
+          </P>
+          <P>By connecting, I understand and agree to these limitations.</P>
+        </ShadowBox>
+      ),
       description: (
         <P>
           Wealthica is a 3rd party account aggregator for your brokerage
           account.
+        </P>
+      ),
+    },
+    {
+      id: 'zerodha',
+      name: 'Zerodha',
+      displayName: 'Zerodha',
+      connect: () => {
+        startConnection('Zerodha', 'trade');
+      },
+      confirmPrompt: null,
+      defaultConnectionType: 'trade',
+      openURL: 'https://kite.trade/connect/login?api_key=pnriechdkzx5ipvq&v=3',
+      major: true,
+      logo: ZerodhaLogo,
+      description: (
+        <P>
+          Zerodha is the largest stock brokerage firm in India with more than 4
+          million clients.
         </P>
       ),
     },
@@ -230,14 +357,20 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       <React.Fragment>
         <Container2Column>
           {brokerageOptions.map((brokerage: any) => {
-            let contents = (
-              <AuthBox key={brokerage.id} onClick={brokerage.connect}>
-                <LogoContainer>
-                  <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
-                </LogoContainer>
-                <AuthLink>Connect {brokerage.name}</AuthLink>
-              </AuthBox>
-            );
+            let contents = null;
+            if (brokerages.some((b) => b.name === brokerage.name)) {
+              contents = (
+                <AuthBox
+                  key={brokerage.id}
+                  onClick={() => startConfirmConnection(brokerage.name)}
+                >
+                  <LogoContainer>
+                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                  </LogoContainer>
+                  <AuthLink>Connect {brokerage.displayName}</AuthLink>
+                </AuthBox>
+              );
+            }
             return contents;
           })}
         </Container2Column>
@@ -246,81 +379,109 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   );
 
   var output = null;
-  if (brokerage === 'open') {
+  if (confirmConnection) {
+    const options = getBrokerageOptions(confirmConnection);
     output = (
       <React.Fragment>
         <H1DarkStyle>Setup</H1DarkStyle>
-        <H2DarkStyle>Open a brokerage account</H2DarkStyle>
+        <H2DarkStyle>Connect {options.name}</H2DarkStyle>
         <AuthP>
-          Passiv is a service that helps you manage your portfolio in a
-          brokerage account. Since Passiv is not a brokerage firm, you will need
-          your own brokerage account in order to use Passiv. We partner with
-          select brokerage firms in order to provide the best experience.
+          Please read and understand the following information before connecting
+          to {options.name}.
         </AuthP>
-        <AuthP>
-          Follow a link below to create a brokerage account with one of our
-          partners.
-        </AuthP>
-        {brokerageOptions.map((brokerage: any) => {
-          return (
-            <Brokerage>
-              <Container1Column>
-                <OpenBox
-                  onClick={() => {
-                    window.location = brokerage.openURL;
-                  }}
-                >
-                  <LogoContainer>
-                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
-                  </LogoContainer>
-                  <AuthLink>
-                    Open
-                    {'aeiou'.includes(brokerage.name[0].toLowerCase())}{' '}
-                    {brokerage.name} Account
-                  </AuthLink>
-                </OpenBox>
-                <GrowBox>{brokerage.description}</GrowBox>
-              </Container1Column>
-            </Brokerage>
-          );
-        })}
+        {options.confirmPrompt}
         <LinkContainer>
-          <Link style={aDarkStyle} to="/app/connect">
-            Back
-          </Link>
+          <Button
+            onClick={() =>
+              startConnection(options.name, options.defaultConnectionType)
+            }
+          >
+            Connect
+          </Button>
+          <Button onClick={() => setConfirmConnection('')}>Cancel</Button>
         </LinkContainer>
       </React.Fragment>
     );
   } else {
-    output = (
-      <React.Fragment>
-        {contents}
+    if (openBrokerage === 'open') {
+      output = (
         <React.Fragment>
-          {onboarding ? (
-            <LinkContainer>
-              <VerticalPadding>
-                <Link style={aDarkStyle} to="/app/connect/open">
-                  I don't have a brokerage account.
-                </Link>
-              </VerticalPadding>
-              <VerticalPadding>
-                <Link style={aDarkStyle} to="/app/welcome">
-                  Back
-                </Link>
-              </VerticalPadding>
-            </LinkContainer>
-          ) : (
-            <LinkContainer>
-              <VerticalPadding>
-                <Link style={aDarkStyle} to="/app/settings">
-                  Back
-                </Link>
-              </VerticalPadding>
-            </LinkContainer>
-          )}
+          <H1DarkStyle>Setup</H1DarkStyle>
+          <H2DarkStyle>Open a brokerage account</H2DarkStyle>
+          <AuthP>
+            Passiv is a service that helps you manage your portfolio in a
+            brokerage account. Since Passiv is not a brokerage firm, you will
+            need your own brokerage account in order to use Passiv. We partner
+            with select brokerage firms in order to provide the best experience.
+          </AuthP>
+          <AuthP>
+            Follow a link below to create a brokerage account with one of our
+            partners.
+          </AuthP>
+          {brokerageOptions.map((brokerage: any) => {
+            return (
+              <Brokerage>
+                <Container1Column>
+                  <OpenBox
+                    onClick={() => {
+                      window.location = brokerage.openURL;
+                    }}
+                  >
+                    <LogoContainer>
+                      <img
+                        src={brokerage.logo}
+                        alt={`${brokerage.name} Logo`}
+                      />
+                    </LogoContainer>
+                    <AuthLink>
+                      Open
+                      {'aeiou'.includes(brokerage.name[0].toLowerCase())}{' '}
+                      {brokerage.name} Account
+                    </AuthLink>
+                  </OpenBox>
+                  <GrowBox>{brokerage.description}</GrowBox>
+                </Container1Column>
+              </Brokerage>
+            );
+          })}
+          <LinkContainer>
+            <Link style={aDarkStyle} to="/app/connect">
+              Back
+            </Link>
+          </LinkContainer>
         </React.Fragment>
-      </React.Fragment>
-    );
+      );
+    } else {
+      output = (
+        <React.Fragment>
+          {contents}
+          <React.Fragment>
+            {onboarding ? (
+              <LinkContainer>
+                <VerticalPadding>
+                  <Link style={aDarkStyle} to="/app/connect/open">
+                    I don't have a brokerage account.
+                  </Link>
+                </VerticalPadding>
+                <VerticalPadding>
+                  <Link style={aDarkStyle} to="/app/welcome">
+                    Back
+                  </Link>
+                </VerticalPadding>
+              </LinkContainer>
+            ) : (
+              <LinkContainer>
+                <VerticalPadding>
+                  <Link style={aDarkStyle} to="/app/settings">
+                    Back
+                  </Link>
+                </VerticalPadding>
+              </LinkContainer>
+            )}
+          </React.Fragment>
+        </React.Fragment>
+      );
+    }
   }
 
   return (

@@ -22,6 +22,7 @@ export type Settings = {
   referral_code: string;
   referral_value: number;
   cash_email_threshold: string;
+  apply_cash_email_threshold_to_summary_email: boolean;
   referral_currency: Currency;
   sms_2fa_enabled: boolean;
   phone_number: string | null;
@@ -34,4 +35,7 @@ export type Settings = {
   contextual_messages: ContextualMessage[];
   affiliate_bonus_amount: number;
   take_passiv_tour: boolean;
+  e_transfer_email: string | null;
+  affiliate_charity: string | null;
+  login_emails_enabled: boolean;
 };

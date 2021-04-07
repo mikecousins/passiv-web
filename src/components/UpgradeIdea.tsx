@@ -63,16 +63,27 @@ const UpgradeIdea = ({ showSkipLink, skipLocation }: Props) => {
 
       <DetailRow>
         <PSmall>
-          Questrade is offering free subscriptions for one year, with no
-          commitment on your part. We don't even need your credit card!
+          <ASmall
+            href="https://www.questrade.com/self-directed-investing/tools/partners/passiv"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Questrade
+          </ASmall>{' '}
+          offers Passiv Elite as a free tool for Questrade customers. It's
+          available for free as long as you keep your Questrade account
+          connected to Passiv.
         </PSmall>
         <PSmall>
-          After upgrading, you'll be able to place all your trades through
-          Passiv in a single click. You can access{' '}
-          <ASmall href="/pricing" target="_blank" rel="noopener noreferrer">
-            all features
+          You’ll get access to all basic features plus the option to{' '}
+          <ASmall
+            href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            place orders through Passiv
           </ASmall>{' '}
-          just by accepting this offer.
+          in just one click.
         </PSmall>
         <Button onClick={() => dispatch(push('/app/questrade-offer'))}>
           Upgrade Now

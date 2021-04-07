@@ -1,0 +1,19 @@
+[
+	{
+		"id": "ba8d578c-d8bc-4a7a-9833-c7d339898565",
+		"brokerage_authorization": "d0d32467-2d45-4134-b931-194e938589e8",
+		"portfolio_group": "5f1e9dea-45a3-4ed0-b1a6-e84f24cf4e67",
+		"name": "Individual TFSA",
+		"number": "52249933",
+		"institution_name": "Questrade",
+		"meta": {
+			"type": "TFSA",
+			"status": "Active",
+			"is_billing": false,
+			"is_primary": false,
+			"institution_name": "Questrade",
+			"client_account_type": "Individual"
+		},
+		"cash_restrictions": []
+	}
+]

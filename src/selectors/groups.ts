@@ -22,12 +22,12 @@ import shouldUpdate from '../reactors/should-update';
 import { AppState } from '../store';
 import {
   CalculatedTrades,
-  BrokerageAuthorization,
   GroupInfoData,
   Settings,
   Balance,
   TargetPosition,
 } from '../types/groupInfo';
+import { Authorization } from '../types/authorization';
 import { createMatchSelector, RouterState } from 'connected-react-router';
 import { GroupData } from '../types/group';
 import { SimpleState } from '../types/common';
@@ -35,7 +35,7 @@ import { CurrencyRate } from '../types/currencyRate';
 import { SimpleListState } from '../reducers/simpleList';
 import { Currency } from '../types/currency';
 import { Position, Account } from '../types/account';
-import { selectCurrencies } from './currencies';
+import { selectCurrencies } from '../selectors/currencies';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 
@@ -958,7 +958,7 @@ export type DashboardGroup = {
   hasAccounts?: boolean;
   hasSells?: boolean;
   trades?: CalculatedTrades;
-  brokerage_authorizations?: BrokerageAuthorization[];
+  brokerage_authorizations?: Authorization[];
   preferredCurrency?: Currency | null;
 };
 

@@ -19,10 +19,10 @@ const InlineDiv = styled.div`
 `;
 
 const StyledFieldBase = styled(Field)`
-  width: 50%;
+  max-width: 50%;
 `;
 
-const StyledSelect = styled(StyledFieldBase)`
+export const StyledSelect = styled(StyledFieldBase)`
   padding: 11px 52px 10px 14px;
   display: inline-block;
   background-color: #fff;
@@ -93,9 +93,9 @@ const OrderTargetAllocations = ({ edit }: Props) => {
           }}
           onSubmit={() => {}}
         >
-          <Form onChange={e => handleChange(e)}>
+          <Form onChange={(e) => handleChange(e)}>
             <StyledSelect as="select" name="orderBy">
-              {orderByOptionsEntries.map(entry => (
+              {orderByOptionsEntries.map((entry) => (
                 <option value={entry[1]} key={entry[0].split(' ').join('')}>
                   {entry[0]}
                 </option>
