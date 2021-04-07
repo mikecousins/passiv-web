@@ -27,5 +27,5 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           browser: chrome
-          start: yarn
+          start: yarn start 
           spec: cypress/integration/Passiv/Deployment_suite/Mock_API_tests
