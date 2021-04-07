@@ -173,6 +173,8 @@ const ModelPortfolio = () => {
 
   let currentModelPortfolio: any = useSelector(selectCurrentModelPortfolio);
 
+  const modelId = currentModelPortfolio!?.model_portfolio.id;
+
   const modelAssetClasses: ModelAssetClassDetailsType[] = useSelector(
     selectModelAssetClasses,
   );
@@ -207,9 +209,7 @@ const ModelPortfolio = () => {
 
   const assetClassFeature = useSelector(selectAssetClassFeature);
 
-  const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${
-    currentModelPortfolio!?.model_portfolio.id
-  }?share=${referralCode}`;
+  const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${modelId}?share=${referralCode}`;
 
   let haveAssetsInModel = false;
   if (
@@ -227,9 +227,7 @@ const ModelPortfolio = () => {
   const modelTypeToggleDisabled = haveAssetsInModel || editMode || applyMode;
 
   const handleDeleteModel = () => {
-    deleteData(
-      `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
-    ).then(() => {
+    deleteData(`/api/v1/modelPortfolio/${modelId}`).then(() => {
       dispatch(loadModelPortfolios());
       dispatch(loadGroups());
       history.replace('/app/models');
@@ -244,10 +242,7 @@ const ModelPortfolio = () => {
         currentModelPortfolio.model_portfolio.model_type = 0;
       }
     }
-    postData(
-      `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
-      currentModelPortfolio!,
-    )
+    postData(`/api/v1/modelPortfolio/${modelId}`, currentModelPortfolio!)
       .then(() => {
         dispatch(loadModelPortfolios());
         setSecurityBased(!securityBased);
@@ -263,10 +258,7 @@ const ModelPortfolio = () => {
     if (currentModelPortfolio !== null) {
       currentModelPortfolio.model_portfolio.share_portfolio = !share;
     }
-    postData(
-      `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
-      currentModelPortfolio!,
-    )
+    postData(`/api/v1/modelPortfolio/${modelId}`, currentModelPortfolio!)
       .then(() => {
         setShare(!share);
         dispatch(loadModelPortfolios());
@@ -400,7 +392,10 @@ const ModelPortfolio = () => {
                     </>
                   )}
                   {!securityBased && (
-                    <AssetClassesBox assetClasses={modelAssetClasses} />
+                    <AssetClassesBox
+                      assetClasses={modelAssetClasses}
+                      modelId={modelId}
+                    />
                   )}
                 </div>
               </ResponsiveGrid>

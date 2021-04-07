@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import AssetClass from './AssetClass';
 import Target from './Target';
+import { selectRouter } from '../../selectors/router';
 
 const AssetBox = styled.div`
   border: 1px solid #bfb6b6;
@@ -39,6 +40,10 @@ const BackButton = styled(Button)`
 const ModelAssetClass = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const router = useSelector(selectRouter);
+  //@ts-ignore
+  const back = router.location.query.back;
+  console.log(back);
 
   const assetClasses: ModelAssetClassDetailsType[] = useSelector(
     selectModelAssetClasses,
@@ -80,8 +85,11 @@ const ModelAssetClass = () => {
           />{' '}
           Add Asset Class
         </Button>
-        <BackButton onClick={() => history.push('/')}>
-          Back to Model Portfolio
+
+        <BackButton
+          onClick={() => history.push(back ? `/app${back}` : '/app/models')}
+        >
+          Back to {back ? 'Model Portfolio' : 'Model Portfolios'}
         </BackButton>
       </div>
     </ShadowBox>
