@@ -55,7 +55,7 @@ const Settings = () => {
             </React.Fragment>
           )}
         </ToggleButton>
-        <OptionsTitle>Show Dividends Related Data</OptionsTitle>
+        <OptionsTitle>Show Dividend Information</OptionsTitle>
       </Option>
       <Option>
         <ToggleButton onClick={() => handleReturnRateToggle()}>
