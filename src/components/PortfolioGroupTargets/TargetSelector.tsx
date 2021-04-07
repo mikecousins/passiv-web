@@ -647,7 +647,8 @@ export const TargetSelector = ({
                       </div>
                       {hasZerodhaConnection ||
                       hasUnocoinConnection ||
-                      hasKrakenConnection ? (
+                      hasKrakenConnection ||
+                      currentGroupInfo?.model_portfolio?.model_type === 1 ? (
                         ''
                       ) : (
                         <div>
