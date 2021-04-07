@@ -37,9 +37,6 @@ export type Settings = {
   take_passiv_tour: boolean;
   model_portfolios_enabled: boolean;
   e_transfer_email: string | null;
-  affiliate_charity: {
-    charity_name?: string;
-    id: string;
-  } | null;
+  affiliate_charity: string | null;
   login_emails_enabled: boolean;
 };
