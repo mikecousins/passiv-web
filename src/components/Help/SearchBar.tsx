@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { A, H2, H3, P } from '../../styled/GlobalElements';
 import { InputPrimary } from '../../styled/Form';
 import styled from '@emotion/styled';
@@ -97,22 +97,14 @@ const SearchBar = () => {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [hits, setHits] = useState([]);
-  const [indices, setIndices] = useState([
-    { type: 'tutorials', active: true },
-    { type: 'general', active: true },
-    { type: 'blogs', active: true },
-  ]);
 
-  const [active, setActive] = useState(['tutorial', 'general', 'blog']);
+  const allIndices = ['tutorial', 'general', 'blog'];
+  const [active, setActive] = useState(allIndices);
 
   const searchClient = algoliasearch(
     'GV9J4Z0TDF',
     '437b4b0bb132ef0b0b0273484f35fd94',
   );
-
-  // useEffect(() => {
-  //   searchIt();
-  // }, [indices]);
 
   useDebouncedEffect(
     () => {
@@ -128,18 +120,12 @@ const SearchBar = () => {
       return;
     }
     let queries = [];
-    queries = indices
-      .map((index) => {
-        if (index.active) {
-          return {
-            indexName: index.type,
-            query: search,
-          };
-        } else {
-          return;
-        }
-      })
-      .filter((query) => query !== undefined);
+    queries = allIndices.map((index) => {
+      return {
+        indexName: index,
+        query: search,
+      };
+    });
 
     let combinedHits = [];
     //@ts-ignore
@@ -153,14 +139,6 @@ const SearchBar = () => {
   };
 
   const handleChangeFilter = (index: string) => {
-    // let indicesCopy = [...indices];
-    // indicesCopy = indices.map((element) => {
-    //   if (element.type === index) {
-    //     return { type: index, active: !element.active };
-    //   }
-    //   return element;
-    // });
-    // setIndices(indicesCopy);
     let activeCopy = [...active];
     const position = activeCopy.indexOf(index);
     if (position !== -1) {
@@ -170,6 +148,8 @@ const SearchBar = () => {
     }
     setActive(activeCopy);
   };
+
+  const filteredHits = hits.filter((hit: any) => active.includes(hit.type));
 
   return (
     <div>
@@ -200,18 +180,18 @@ const SearchBar = () => {
 
       <Options>
         {search.trim() !== '' && (
-          <NumOfResults>{hits.length} results</NumOfResults>
+          <NumOfResults>{filteredHits.length} results</NumOfResults>
         )}
         <div>
           <H3>Filter By:</H3>
           <Filter columns="100px 100px 100px">
-            {indices.map((index) => {
+            {allIndices.map((index) => {
               return (
                 <FilterItem
-                  onClick={() => handleChangeFilter(index.type)}
-                  active={index.active}
+                  onClick={() => handleChangeFilter(index)}
+                  active={active.includes(index)}
                 >
-                  {index.type}
+                  {index}
                 </FilterItem>
               );
             })}
@@ -223,10 +203,10 @@ const SearchBar = () => {
           <FontAwesomeIcon icon={faSpinner} spin size="2x" />
         </div>
       )}
-      {hits.length > 0 ? (
-        hits.map((hit: any) => {
+      {filteredHits.length > 0 ? (
+        filteredHits.map((hit: any) => {
           if (!active.includes(hit.type)) {
-            return;
+            return false;
           }
           return (
             <div>
