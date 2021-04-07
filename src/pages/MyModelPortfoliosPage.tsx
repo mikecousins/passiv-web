@@ -227,8 +227,9 @@ const MyModelPortfoliosPage = () => {
               if (modelIdUseByGroup === mdl.model_portfolio.id) {
                 if (modelPortfolios.length === 1) {
                   return noModelAvailable;
+                } else {
+                  return false;
                 }
-                return;
               }
               return (
                 <ShadowBox key={mdl.model_portfolio.id}>
