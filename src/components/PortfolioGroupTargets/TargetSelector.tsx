@@ -151,12 +151,6 @@ const ButtonLinks = styled.div`
   }
 `;
 
-const ApplyNewModelBtn = styled(Button)`
-  background-color: transparent;
-  color: var(--brand-blue);
-  border: 1px solid var(--brand-blue);
-`;
-
 type Props = {
   isAssetClassBased: boolean;
   lockable: boolean;
