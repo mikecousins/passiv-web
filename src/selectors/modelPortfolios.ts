@@ -108,8 +108,8 @@ export const selectGroupsUsingAModel = createSelector(
       }
       return acc;
     }, {});
-    modelPortfolios.map((mdl: any) => {
-      return Object.entries(models).map(([key, value]) => {
+    modelPortfolios.forEach((mdl: any) => {
+      Object.entries(models).forEach(([key, value]) => {
         if (mdl.model_portfolio.id === key) {
           return (models[key].model = mdl.model_portfolio);
         }
