@@ -29,5 +29,5 @@ jobs:
           browser: chrome
           start: yarn start
           spec: |
-            cypress/integration/Passiv/Deployment_suite/Mock_API_tests/log_with_backend.js
-            cypress/integration/Passiv/Deployment_suite/Mock_API_tests/reg_with_backend.js
+            cypress/integration/Passiv/Deployment_suite/Mock_API_tests/log_with_backend.spec.js
+            cypress/integration/Passiv/Deployment_suite/Mock_API_tests/reg_with_backend.specjs
