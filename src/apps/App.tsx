@@ -25,7 +25,6 @@ import {
 import { generateTrackingCode } from '../seo';
 import { setReferralCode, setTrackingId } from '../actions';
 import { selectQueryTokens } from '../selectors/router';
-import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GoalDetailPage from '../pages/GoalDetailPage';
@@ -360,7 +359,7 @@ const App = () => {
   }
 
   // redirect path for secure app
-  let redirectPath = prefixPath('/dashboard');
+  let redirectPath = '/dashboard';
   if (location && location.search) {
     const params = qs.parse(location.search, {
       ignoreQueryPrefix: true,
@@ -403,25 +402,25 @@ const App = () => {
           <Switch>
             // common routes
             <Route
-              path={prefixPath('/help/topic/:slug')}
+              path="/help/topic/:slug"
               component={HelpArticlePage}
             />
-            <Route path={prefixPath('/help')} component={HelpPage} />
+            <Route path="/help" component={HelpPage} />
             <Route
-              path={prefixPath('/reset-password')}
+              path="/reset-password"
               component={ResetPasswordPage}
             />
             <Route
-              path={prefixPath('/reset-password-confirm/:token')}
+              path="/reset-password-confirm/:token"
               component={ResetPasswordConfirmPage}
             />
             <Route
-              path={prefixPath('/set-new-password/:token')}
+              path="/set-new-password/:token"
               component={SetNewPasswordPage}
             />
-            <Route path={prefixPath('/demo')} component={DemoLoginPage} />
+            <Route path="/demo" component={DemoLoginPage} />
             <Route
-              path={prefixPath('/shared-model-portfolio')}
+              path="/shared-model-portfolio"
               component={SharedModelPortfolio}
               render={() => sharedModelRedirect()}
             />
@@ -442,7 +441,7 @@ const App = () => {
             )}
             {loggedIn && (
               <Route
-                path={prefixPath('/oauth/questrade')}
+                path="/oauth/questrade"
                 component={QuestradeOauthPage}
               />
             )}
@@ -455,33 +454,33 @@ const App = () => {
             )}
             {loggedIn && (
               <Route
-                path={prefixPath('/oauth/tradier')}
+                path="/oauth/tradier"
                 component={TradierOauthPage}
               />
             )}
             {loggedIn && (
               <Route
                 exact
-                path={prefixPath('/connect/kraken')}
+                path="/connect/kraken"
                 component={KrakenAuthPage}
               />
             )}
             {loggedIn && (
               <Route
                 exact
-                path={prefixPath('/connect/unocoin')}
+                path="/connect/unocoin"
                 component={UnocoinAuthPage}
               />
             )}
             {loggedIn && (
               <Route
-                path={prefixPath('/oauth/kraken')}
+                path="/oauth/kraken"
                 component={KrakenOauthPage}
               />
             )}
             {loggedIn && (
               <Route
-                path={prefixPath('/oauth/alpaca')}
+                path="/oauth/alpaca"
                 component={AlpacaOauthPage}
               />
             )}
@@ -494,7 +493,7 @@ const App = () => {
             )}
             {loggedIn && (
               <Route
-                path={prefixPath('/oauth/interactivebrokers')}
+                path="/oauth/interactivebrokers"
                 component={InteractiveBrokersOauthPage}
               />
             )}
@@ -507,7 +506,7 @@ const App = () => {
             )}
             {loggedIn && (
               <Route
-                path={prefixPath('/oauth/td')}
+                path="/oauth/td"
                 component={TDAmeritradeOauthPage}
               />
             )}
@@ -520,7 +519,7 @@ const App = () => {
             )}
             {loggedIn && (
               <Route
-                path={prefixPath('/oauth/zerodha')}
+                path="/oauth/zerodha"
                 component={ZerodhaOauthPage}
               />
             )}
@@ -533,7 +532,7 @@ const App = () => {
             )}
             {loggedIn && (
               <Route
-                path={prefixPath('/oauth/wealthica')}
+                path="/oauth/wealthica"
                 component={WealthicaOauthPage}
               />
             )}
@@ -546,69 +545,69 @@ const App = () => {
             )}
             // onboarding app
             {showOnboardingApp && (
-              <Route path={prefixPath('/connect/:openBrokerage?')}>
+              <Route path="/connect/:openBrokerage?">
                 <AuthorizationPage onboarding={true} />
               </Route>
             )}
             {showOnboardingApp && (
-              <Route path={prefixPath('/welcome')}>
+              <Route path="/welcome">
                 <WelcomePage />
               </Route>
             )}
             {(showSecureApp || showOnboardingApp) && (
-              <Route path={prefixPath('/settings/connect/:openBrokerage?')}>
+              <Route path="/settings/connect/:openBrokerage?">
                 <AuthorizationPage onboarding={false} />
               </Route>
             )}
             {(showSecureApp || showOnboardingApp) && (
-              <Route path={prefixPath('/settings')} component={SettingsPage} />
+              <Route path="/settings" component={SettingsPage} />
             )}
             {(showSecureApp || showOnboardingApp) && (
-              <Route path={prefixPath('/referrals')} component={ReferralPage} />
+              <Route path="/referrals" component={ReferralPage} />
             )}
             {(showSecureApp || showOnboardingApp) && (
-              <Route path={prefixPath('/upgrade')} component={UpgradePage} />
+              <Route path="/upgrade" component={UpgradePage} />
             )}
             {(showSecureApp || showOnboardingApp) && (
-              <Route path={prefixPath('/coupon')} component={CouponPage} />
+              <Route path="/coupon" component={CouponPage} />
             )}
             {showOnboardingApp && (
               <Route path="*">
-                <Redirect to={prefixPath('/welcome')} />
+                <Redirect to="/welcome" />
               </Route>
             )}
             // secure app
             {showSecureApp && (
               <Route
-                path={prefixPath('/reporting')}
+                path="/reporting"
                 component={PerformancePage}
               />
             )}
             {showSecureApp && goalsPageFeatureActive && (
-              <Route path={prefixPath('/goals')} component={GoalsPage} />
+              <Route path="/goals" component={GoalsPage} />
             )}
             {showSecureApp && goalsPageFeatureActive && (
               <Route
-                path={prefixPath('/goal/:goalId')}
+                path="/goal/:goalId"
                 component={GoalDetailPage}
               />
             )}
             {showSecureApp && (
-              <Route path={prefixPath('/performance')}>
-                <Redirect to={prefixPath(`/reporting`)} />
+              <Route path="/performance">
+                <Redirect to="/reporting" />
               </Route>
             )}
             {loggedIn && (
               <Route
                 exact
-                path={prefixPath('/questrade-offer')}
+                path="/questrade-offer"
                 component={UpgradeOfferPage}
               />
             )}
             {loggedIn && (
               <Route
                 exact
-                path={prefixPath('/loading')}
+                path="/loading"
                 render={(props) => (
                   <LoginLoadingPage {...props} redirectPath={redirectPath} />
                 )}
@@ -616,69 +615,69 @@ const App = () => {
             )}
             {showSecureApp && (
               <Route path="/" exact>
-                <Redirect to={prefixPath('/dashboard')} />
+                <Redirect to="/dashboard" />
               </Route>
             )}
             {showSecureApp && (
-              <Route path={prefixPath('/')} exact>
-                <Redirect to={prefixPath('/dashboard')} />
+              <Route path="/" exact>
+                <Redirect to="/dashboard" />
               </Route>
             )}
             {showSecureApp && (
               <Route
-                path={prefixPath('/dashboard')}
+                path="/dashboard"
                 component={DashboardPage}
               />
             )}
             {showSecureApp && (
               <Route
-                path={prefixPath('/group/:groupId')}
+                path="/group/:groupId"
                 component={GroupPage}
               />
             )}
             {showSecureApp && (
-              <Route path={prefixPath('/share')} component={SharePage} />
+              <Route path="/share" component={SharePage} />
             )}
             {showSecureApp && assetClassFeature && (
               <Route
-                path={prefixPath('/asset-class')}
+                path="/asset-class"
                 component={ModelAssetClassPage}
               />
             )}
             {showSecureApp && modelPortfolioFeature && (
               <Route
-                path={prefixPath('/models')}
+                path="/models"
                 component={MyModelPortfoliosPage}
               />
             )}
             {showSecureApp && (
               <Route
                 exact
-                path={prefixPath('/model-portfolio/:modelId')}
+                path="/model-portfolio/:modelId"
                 component={ModelPortfolioPage}
               />
             )}
             {showSecureApp && (
               <Route
                 exact
-                path={prefixPath('/model-portfolio/:modelId/group/:groupId')}
+                path="/model-portfolio/:modelId/group/:groupId"
                 component={ModelPortfolioPage}
               />
             )}
             {showSecureApp && assetClassFeature && (
               <Route
                 exact
-                path={prefixPath('/priorities/:groupId')}
+                path="/priorities/:groupId"
                 component={() => <Prioritization onSettingsPage={false} />}
               />
             )}
             // insecure app
             {showInsecureApp && (
-              <Route path={prefixPath('/login')} component={LoginPage} />
+              <Route path="/login" component={LoginPage} />
             )}
             {showInsecureApp && (
               <Route
-                path={prefixPath('/register')}
+                path="/register"
                 component={RegistrationPage}
               />
             )}
@@ -694,9 +693,7 @@ const App = () => {
             {showInsecureApp && (
               <Route path="*">
                 <Redirect
-                  to={prefixPath(
-                    `/login?next=${location.pathname}${appendParams}`,
-                  )}
+                  to={`/login?next=${location.pathname}${appendParams}`}
                 />
               </Route>
             )}
