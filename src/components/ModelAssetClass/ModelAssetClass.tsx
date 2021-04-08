@@ -43,7 +43,6 @@ const ModelAssetClass = () => {
   const router = useSelector(selectRouter);
   //@ts-ignore
   const back = router.location.query.back;
-  console.log(back);
 
   const assetClasses: ModelAssetClassDetailsType[] = useSelector(
     selectModelAssetClasses,
