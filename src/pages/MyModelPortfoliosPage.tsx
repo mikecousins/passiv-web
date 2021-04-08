@@ -213,11 +213,6 @@ const MyModelPortfoliosPage = () => {
           </StyledP>
         )}
         <div>
-          {assetClassFeature && (
-            <TransparentButton onClick={() => history.replace('asset-class')}>
-              Edit Asset Classes
-            </TransparentButton>
-          )}
           <NewModelButton onClick={() => handleNewModelBtn()}>
             New Model
           </NewModelButton>
