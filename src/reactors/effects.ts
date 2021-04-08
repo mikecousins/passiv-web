@@ -18,6 +18,7 @@ import {
 import {
   loadPerformanceAll,
   loadAdjustedCostBasis,
+  loadReportingSettings,
 } from '../actions/performance';
 import { checkIfOnline } from '../actions/online';
 import {
@@ -42,6 +43,7 @@ import { selectShouldCheckIfOnline } from '../selectors/online';
 import {
   selectPerformanceNeedData,
   selectACBNeedData,
+  selectReportingSettingsNeedData,
 } from '../selectors/performance';
 import { selectGoalsNeedData } from '../selectors/goals';
 import { loadGoals } from '../actions/goals';
@@ -107,6 +109,10 @@ export const effects = [
   {
     selector: selectPerformanceNeedData,
     actionCreator: loadPerformanceAll,
+  },
+  {
+    selector: selectReportingSettingsNeedData,
+    actionCreator: loadReportingSettings,
   },
   {
     selector: selectACBNeedData,
