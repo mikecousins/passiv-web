@@ -1,9 +1,5 @@
 name: Cypress tests without API
-on:
-  push:
-    branches: [ automated_tests ]
-  pull_request:
-    branches: [ automated_tests ]
+on: [push]
 jobs:
   cypress-run:
     runs-on: ubuntu-20.04
