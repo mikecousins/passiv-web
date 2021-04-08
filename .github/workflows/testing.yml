@@ -1,21 +1,10 @@
 name: Cypress tests without API
-on: [push]
+on:
+  push:
+    branches: [ automated_tests ]
+  pull_request:
+    branches: [ automated_tests ]
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '14'
-    - name: yarn install, lint, test and build
-      run: |
-        yarn install --no-lockfile
-        yarn lint
-        yarn test --coverage
-        yarn build
-      env:
-        CI: true
   cypress-run:
     runs-on: ubuntu-20.04
     # let's make sure our tests pass on Chrome browser
