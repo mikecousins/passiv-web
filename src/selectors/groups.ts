@@ -1416,7 +1416,6 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
         (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
       );
     }
-    console.log(notInTarget, excluded);
 
     return [...notInTarget, ...excluded];
   },
