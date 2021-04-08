@@ -69,11 +69,16 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(onSettingsPage ? false : true);
   const [changed, setChanged] = useState({ symbolId: '', accountId: '' });
+  const [needToConfirm, setNeedToConfirm] = useState<string[]>([]);
 
   const fetchPriorities = () => {
     getData(`/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`).then(
       (res) => {
         setAssetClassPriorities(res.data);
+        const assetClassIds = res.data.map(
+          (assetClass: any) => assetClass.asset_class.id,
+        );
+        setNeedToConfirm(assetClassIds);
         setLoading(false);
       },
     );
@@ -163,17 +168,29 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     setEditing(false);
   };
 
+  const handleConfirm = (assetClass: any) => {
+    let needToConfirmCopy = [...needToConfirm];
+    let index = needToConfirmCopy?.indexOf(assetClass.asset_class.id);
+    if (index !== -1) {
+      needToConfirmCopy.splice(index, 1);
+    }
+    toast.success(`Set priorities for "${assetClass.asset_class.name}".`);
+    setNeedToConfirm(needToConfirmCopy);
+  };
+
   const priorities = assetClassPriorities?.map((assetClass) => {
     if (assetClass.asset_class.name === 'Excluded Securities') {
       return;
     }
     return (
       <AssetClassPriority
+        key={assetClass.asset_class.id}
         assetClass={assetClass}
         editing={editing}
         changed={changed}
         handleBtn={handleUpDownBtn}
-        key={assetClass.asset_class.id}
+        onSettingsPage={onSettingsPage}
+        confirm={() => handleConfirm(assetClass)}
       />
     );
   });
@@ -223,8 +240,14 @@ const Prioritization = ({ onSettingsPage }: Props) => {
               </BackButton> */}
               <GroupName>{group?.name}</GroupName>
               {priorities}
+
               <SaveButton>
-                <Button onClick={handleSaveChanges}>Save</Button>
+                <Button
+                  onClick={handleSaveChanges}
+                  disabled={needToConfirm.length !== 0}
+                >
+                  Save
+                </Button>
               </SaveButton>
             </ShadowBox>
           )}
