@@ -26,6 +26,8 @@ import {
 import { ToggleButton } from '../../../styled/ToggleButton';
 import Tooltip from '../../Tooltip';
 import Tour from '../../Tour/Tour';
+import { useSelector } from 'react-redux';
+import { selectCurrentGroupId } from '../../../selectors/groups';
 
 const TOUR_STEPS = [
   {
@@ -107,6 +109,7 @@ const ActualBox = styled.div`
 `;
 
 type Props = {
+  isAssetClassBased: boolean;
   target: any;
   children: JSX.Element;
   setSymbol: (symbol: any) => void;
@@ -117,6 +120,7 @@ type Props = {
 };
 
 const TargetBar = ({
+  isAssetClassBased,
   target,
   children,
   setSymbol,
@@ -134,6 +138,8 @@ const TargetBar = ({
     percent,
     symbol,
   } = target;
+
+  const currentGroupId = useSelector(selectCurrentGroupId);
 
   let renderActualPercentage = null;
   if (actualPercentage === undefined) {
@@ -206,9 +212,18 @@ const TargetBar = ({
       <TargetRow style={{ flexWrap: 'wrap' }}>
         <Symbol>
           {!(typeof symbol == 'string') && !is_excluded ? (
-            <SymbolSelector value={fullSymbol} onSelect={setSymbol} />
+            <SymbolSelector
+              value={fullSymbol}
+              onSelect={setSymbol}
+              forModelSecurity={false}
+              groupId={currentGroupId ? currentGroupId : ''}
+            />
           ) : is_supported ? (
-            <SymbolDetail symbol={fullSymbol} />
+            isAssetClassBased ? (
+              <SymbolDetail symbol={target.name} assetClass={true} />
+            ) : (
+              <SymbolDetail symbol={fullSymbol} assetClass={false} />
+            )
           ) : (
             <Disabled>{fullSymbol.symbol}</Disabled>
           )}

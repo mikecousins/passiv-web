@@ -168,8 +168,10 @@ export const PortfolioGroupTrades = ({
   ) {
     const tradeRender = (trade: any) => {
       const accountName = trade.account.name;
-      const allowsTrading =
-        trade.account.brokerage_authorization.brokerage.allows_trading;
+      //!! comment this out before prod deploy
+      // const allowsTrading =
+      //   trade.account.brokerage_authorization.brokerage.allows_trading;
+      const allowsTrading = true;
       return (
         <TradeRow key={trade.id}>
           <ColumnPrice>
@@ -184,7 +186,11 @@ export const PortfolioGroupTrades = ({
           </ColumnPrice>
           <ColumnUnits>
             <Title>Units</Title>
-            <div>{trade.units}</div>
+            {trade.fractional_units ? (
+              <div>{trade.fractional_units}</div>
+            ) : (
+              <div>{trade.units}</div>
+            )}
           </ColumnUnits>
           {trade.symbol_in_target && allowsTrading ? (
             <ColumnSymbol>

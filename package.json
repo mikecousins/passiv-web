@@ -69,6 +69,7 @@
     "react-instantsearch-dom": "^6.10.3",
     "react-joyride": "^2.3.0",
     "react-markdown": "4.3.1",
+    "react-minimal-pie-chart": "^8.1.0",
     "react-multi-select-component": "^2.0.8",
     "react-plaid-link": "1.5.1",
     "react-redux": "7.1.3",

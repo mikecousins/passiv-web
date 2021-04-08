@@ -193,6 +193,7 @@ export const GlobalStyle = () => (
         --brand-blue: #003ba2;
         --brand-blue-hover: #033ebc;
         --brand-grey: #2a2d34;
+        --brand-black: #01010a;
 
         --black: #22292f;
         --grey-darkest: #3d4852;
@@ -209,7 +210,7 @@ export const GlobalStyle = () => (
         --lg: 992px;
         --xl: 1200px;
 
-        --box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+        --box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
       }
 
       /* Global Structure */

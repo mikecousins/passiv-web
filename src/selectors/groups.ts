@@ -390,11 +390,10 @@ export const selectCurrentGroupPositions = createSelector(
         .flat();
 
       positions.map((position) => {
-        // TODO set this properly
         if (excludedPositionsSymbolsIds.includes(position.symbol.id)) {
-          position.excluded = false;
-        } else {
           position.excluded = true;
+        } else {
+          position.excluded = false;
         }
 
         position.quotable = quotableSymbols.some(
@@ -422,7 +421,11 @@ export const selectCurrentGroupBalancedEquity = createSelector(
         preferredCurrency &&
         position.symbol.currency.id === preferredCurrency.id
       ) {
-        total += position.units * position.price;
+        if (position.units === null) {
+          total += position.fractional_units * position.price;
+        } else {
+          total += position.units * position.price;
+        }
       } else {
         const conversionRate = rates.find(
           (rate) =>
@@ -433,7 +436,15 @@ export const selectCurrentGroupBalancedEquity = createSelector(
         if (!conversionRate) {
           return;
         }
-        total += position.units * position.price * conversionRate.exchange_rate;
+        if (position.units === null) {
+          total +=
+            position.fractional_units *
+            position.price *
+            conversionRate.exchange_rate;
+        } else {
+          total +=
+            position.units * position.price * conversionRate.exchange_rate;
+        }
       }
     });
     return total;
@@ -706,7 +717,11 @@ export const selectCurrentGroupExcludedEquity = createSelector(
           preferredCurrency &&
           position.symbol.currency.id === preferredCurrency.id
         ) {
-          excludedEquity += position.units * position.price;
+          if (position.fractional_units === null) {
+            excludedEquity += position.fractional_units * position.price;
+          } else {
+            excludedEquity += position.units * position.price;
+          }
         } else {
           const conversionRate = rates.find(
             (rate) =>
@@ -717,8 +732,15 @@ export const selectCurrentGroupExcludedEquity = createSelector(
           if (!conversionRate) {
             return;
           }
-          excludedEquity +=
-            position.units * position.price * conversionRate.exchange_rate;
+          if (position.fractional_units === null) {
+            excludedEquity +=
+              position.fractional_units *
+              position.price *
+              conversionRate.exchange_rate;
+          } else {
+            excludedEquity +=
+              position.units * position.price * conversionRate.exchange_rate;
+          }
         }
       }
     });
@@ -789,6 +811,7 @@ export const selectCurrentGroupTarget = createSelector(
     const currentTargetRaw = groupInfo.asset_classes_details;
 
     let currentTarget: TargetPosition[] = [];
+    let currentAssetClass: any[] = [];
 
     currentTargetRaw.forEach((targetRaw) => {
       if (rebalance_by_asset_class === false) {
@@ -848,6 +871,66 @@ export const selectCurrentGroupTarget = createSelector(
           }
           currentTarget.push(target);
         });
+      } else {
+        if (
+          !targetRaw.asset_class.exclude_asset_class &&
+          targetRaw.asset_class.name !== 'Empty Class'
+        ) {
+          const assetClass: any = {
+            symbol: '', //! don't need this
+            id: targetRaw.asset_class.id,
+            name: targetRaw.asset_class.name,
+            percent: targetRaw.asset_class.percent,
+            meta: {},
+            fullSymbols: undefined,
+            actualPercentage: 0,
+            is_excluded: targetRaw.asset_class.exclude_asset_class,
+            is_supported: true, //! not sure how to properly set this
+          };
+
+          const fullSymbols = targetRaw.symbols.map((symbol: any) => {
+            const position = groupInfo.positions.find(
+              (p) => p.symbol.id === symbol.symbol,
+            );
+            return position;
+          });
+          assetClass.fullSymbols = fullSymbols;
+
+          assetClass.actualPercentage = fullSymbols.reduce(
+            (acc: any, symbol) => {
+              if (symbol) {
+                let actualPercentage;
+                if (
+                  preferredCurrency &&
+                  symbol.symbol.currency.id === preferredCurrency.id
+                ) {
+                  actualPercentage =
+                    ((symbol.price * symbol.units) /
+                      totalHoldingsExcludedRemoved) *
+                    100;
+                } else {
+                  const conversionRate = rates.find(
+                    (rate: any) =>
+                      preferredCurrency &&
+                      rate.src.id === symbol.symbol.currency.id &&
+                      rate.dst.id === preferredCurrency.id,
+                  );
+                  if (conversionRate) {
+                    actualPercentage =
+                      ((symbol.price * symbol.units) /
+                        totalHoldingsExcludedRemoved) *
+                      100 *
+                      conversionRate.exchange_rate;
+                  }
+                }
+                acc = acc + actualPercentage;
+              }
+              return acc;
+            },
+            0,
+          );
+          currentAssetClass.push(assetClass);
+        }
       }
     });
 
@@ -941,8 +1024,11 @@ export const selectCurrentGroupTarget = createSelector(
         });
         break;
     }
-
-    return currentTarget;
+    if (rebalance_by_asset_class) {
+      return { currentAssetClass, isAssetClassBased: true };
+    } else {
+      return { currentTarget, isAssetClassBased: false };
+    }
   },
 );
 
@@ -1014,7 +1100,10 @@ export const selectDashboardGroups = createSelector(
             group.preferredCurrency &&
             position.symbol.currency.id === group.preferredCurrency.id
           ) {
-            group.totalHoldings += position.units * position.price;
+            position.fractional_units
+              ? (group.totalHoldings +=
+                  position.fractional_units * position.price)
+              : (group.totalHoldings += position.units * position.price);
           } else {
             const conversionRate = rates.find(
               (rate) =>
@@ -1025,8 +1114,15 @@ export const selectDashboardGroups = createSelector(
             if (!conversionRate) {
               return;
             }
-            group.totalHoldings +=
-              position.units * position.price * conversionRate.exchange_rate;
+            position.fractional_units
+              ? (group.totalHoldings +=
+                  position.fractional_units *
+                  position.price *
+                  conversionRate.exchange_rate)
+              : (group.totalHoldings +=
+                  position.units *
+                  position.price *
+                  conversionRate.exchange_rate);
           }
         });
         group.accuracy = groupData.accuracy;
@@ -1119,7 +1215,9 @@ export const selectCurrentAccountBalancedEquity = createSelector(
         preferredCurrency &&
         position.symbol.symbol.currency === preferredCurrency.id
       ) {
-        total += position.units * position.price;
+        position.fractional_units
+          ? (total += position.fractional_units * position.price)
+          : (total += position.units * position.price);
       } else {
         const conversionRate = rates.find(
           (rate) =>
@@ -1130,7 +1228,13 @@ export const selectCurrentAccountBalancedEquity = createSelector(
         if (!conversionRate) {
           return;
         }
-        total += position.units * position.price * conversionRate.exchange_rate;
+        position.fractional_units
+          ? (total +=
+              position.fractional_units *
+              position.price *
+              conversionRate.exchange_rate)
+          : (total +=
+              position.units * position.price * conversionRate.exchange_rate);
       }
     });
     return total;
@@ -1236,9 +1340,16 @@ export const selectCurrentGroupPositionsWithActualPercentage = createSelector(
         preferredCurrency &&
         position.symbol.currency.id === preferredCurrency.id
       ) {
-        position.actualPercentage =
-          ((position.price * position.units) / totalHoldingsExcludedRemoved) *
-          100;
+        if (position.units === null) {
+          position.actualPercentage =
+            ((position.price * position.fractional_units) /
+              totalHoldingsExcludedRemoved) *
+            100;
+        } else {
+          position.actualPercentage =
+            ((position.price * position.units) / totalHoldingsExcludedRemoved) *
+            100;
+        }
       } else {
         const conversionRate = rates?.find(
           (rate: any) =>
@@ -1247,10 +1358,19 @@ export const selectCurrentGroupPositionsWithActualPercentage = createSelector(
             rate.dst.id === preferredCurrency.id,
         );
         if (conversionRate) {
-          position.actualPercentage =
-            ((position.price * position.units) / totalHoldingsExcludedRemoved) *
-            100 *
-            conversionRate.exchange_rate;
+          if (position.units === null) {
+            position.actualPercentage =
+              ((position.price * position.fractional_units) /
+                totalHoldingsExcludedRemoved) *
+              100 *
+              conversionRate.exchange_rate;
+          } else {
+            position.actualPercentage =
+              ((position.price * position.units) /
+                totalHoldingsExcludedRemoved) *
+              100 *
+              conversionRate.exchange_rate;
+          }
         }
       }
     });
@@ -1258,15 +1378,53 @@ export const selectCurrentGroupPositionsWithActualPercentage = createSelector(
   },
 );
 
-export const selectCurrentGroupPositionsNotInTarget = createSelector(
+export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
   selectCurrentGroupPositions,
   selectCurrentGroupTarget,
   (positions, targets) => {
-    let notInTarget = null;
-    const targetIds = targets?.map((target: any) => target.fullSymbol.id);
-    notInTarget = positions?.filter(
-      (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
-    );
-    return notInTarget;
+    let notInTarget: any = [];
+    let excluded: any = [];
+    let targetIds: any;
+    if (targets?.isAssetClassBased) {
+      targets.currentAssetClass?.forEach((assetClass) => {
+        targetIds += assetClass?.fullSymbols?.map((target: any) => {
+          if (target?.excluded) {
+            excluded.push({
+              excluded: target?.excluded,
+              symbol: target?.symbol,
+            });
+          } else {
+            return target?.symbol.id;
+          }
+        });
+      });
+    } else {
+      targetIds = targets?.currentTarget?.map(
+        (target: any) => target.fullSymbol.id,
+      );
+      targets?.currentTarget?.map((target: any) => {
+        if (target.is_excluded && target.is_supported) {
+          excluded.push({
+            excluded: target.is_excluded,
+            symbol: target.fullSymbol,
+          });
+        }
+      });
+    }
+    if (positions) {
+      notInTarget = positions.filter(
+        (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+      );
+    }
+    console.log(notInTarget, excluded);
+
+    return [...notInTarget, ...excluded];
+  },
+);
+
+export const selectCurrentGroupModelType = createSelector(
+  selectCurrentGroupInfo,
+  (groupInfo) => {
+    return groupInfo?.model_portfolio?.model_type;
   },
 );

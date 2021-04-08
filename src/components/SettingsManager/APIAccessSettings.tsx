@@ -34,18 +34,18 @@ const SecretBox = styled.div`
   display: flex;
 `;
 
-const InputBox = styled.div`
+export const InputBox = styled.div`
   flex-grow: 1;
 `;
 
-const IconBox = styled.div`
+export const IconBox = styled.div`
   width: 20px;
   padding-top: 5px;
   margin-right: 20px;
   margin-left: 10px;
 `;
 
-const ReadOnlyInput = styled(InputTarget)`
+export const ReadOnlyInput = styled(InputTarget)`
   padding: 18px 15px 18px 15px;
   width: 100%;
   text-align: center;
@@ -78,7 +78,7 @@ const APIAccessSettings = () => {
 
   const newToken = () => {
     postData('/api/v1/auth/token', {})
-      .then(response => {
+      .then((response) => {
         setToken(response.data.token);
         dispatch(loadSettings());
       })

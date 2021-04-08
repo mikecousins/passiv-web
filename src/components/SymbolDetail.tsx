@@ -17,23 +17,27 @@ const SymbolNameBox = styled.span`
 
 type Props = {
   symbol: any;
-  hideName?: boolean;
+  assetClass?: boolean;
 };
 
-export const SymbolDetail = ({ symbol, hideName }: Props) => {
-  var ticker = symbol.symbol;
-  let hideNameBox = false;
-  if (hideName === true) {
-    hideNameBox = true;
+export const SymbolDetail = ({ symbol, assetClass = false }: Props) => {
+  if (assetClass) {
+    return (
+      <span title={`${symbol}`}>
+        <SymbolNameBox>{symbol}</SymbolNameBox>
+      </span>
+    );
+  } else {
+    var ticker = symbol.symbol;
+    var name =
+      symbol.description !== undefined ? symbol.description : symbol.name;
+    return (
+      <span title={`${ticker} (${name})`}>
+        <Symbol>{ticker}</Symbol>
+        <SymbolNameBox>{name}</SymbolNameBox>
+      </span>
+    );
   }
-  var name =
-    symbol.description !== undefined ? symbol.description : symbol.name;
-  return (
-    <span title={`${ticker} (${name})`}>
-      <Symbol>{ticker}</Symbol>
-      {!hideNameBox && <SymbolNameBox>{name}</SymbolNameBox>}
-    </span>
-  );
 };
 
 export default SymbolDetail;

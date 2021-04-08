@@ -5,23 +5,26 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Formik, FieldArray, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
-import { replace } from 'connected-react-router';
+import { push, replace } from 'connected-react-router';
 import styled from '@emotion/styled';
-import { loadGroup } from '../../actions';
+import { loadGroup, loadGroups, loadModelPortfolios } from '../../actions';
 import {
   selectCurrentGroupId,
   selectCurrentGroupTotalEquityExcludedRemoved,
   selectCurrentGroupCash,
   selectCurrentGroupPositionsWithActualPercentage,
+  selectCurrentGroupInfo,
 } from '../../selectors/groups';
 import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
 import { Button } from '../../styled/Button';
 import { A } from '../../styled/GlobalElements';
-import { postData } from '../../api';
+import { deleteData, postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
 import { selectAuthorizations } from '../../selectors';
+import { selectModelUseByOtherGroups } from '../../selectors/modelPortfolios';
+import { selectModelPortfolioFeature } from '../../selectors/features';
 
 const ButtonBox = styled.div`
   display: flex;
@@ -36,11 +39,20 @@ const ButtonBox = styled.div`
   a {
     margin-right: 8px;
   }
+  @media (max-width: 900px) {
+    button {
+      margin-bottom: 20px;
+    }
+    a {
+      display: flex;
+      margin-bottom: 20px;
+    }
+  }
 `;
-const Th = styled.div`
+export const Th = styled.div`
   text-align: right;
 `;
-const Legend = styled.div`
+export const Legend = styled.div`
   display: inline-block;
   margin: 0 5px 0 auto;
   padding: 11px 16px;
@@ -66,13 +78,13 @@ const BaseLegendTitle = styled.span`
     top: 2px;
   }
 `;
-const ActualTitle = styled(BaseLegendTitle)`
+export const ActualTitle = styled(BaseLegendTitle)`
   color: var(--brand-green);
   &:before {
     background: var(--brand-green);
   }
 `;
-const TargetTitle = styled(BaseLegendTitle)`
+export const TargetTitle = styled(BaseLegendTitle)`
   margin-left: 5px;
   color: var(--brand-blue);
   &:before {
@@ -140,22 +152,37 @@ const ButtonLinks = styled.div`
 `;
 
 type Props = {
+  isAssetClassBased: boolean;
   lockable: boolean;
   target: TargetPosition[] | null;
   onReset: () => void;
 };
 
-export const TargetSelector = ({ lockable, target, onReset }: Props) => {
+export const TargetSelector = ({
+  isAssetClassBased,
+  lockable,
+  target,
+  onReset,
+}: Props) => {
+  const dispatch = useDispatch();
+
   const authorizations = useSelector(selectAuthorizations);
   let hasZerodhaConnection = false;
+  let hasUnocoinConnection = false;
+  let hasKrakenConnection = false;
   if (authorizations) {
     authorizations.forEach((authorization) => {
       if (authorization.brokerage.name === 'Zerodha') {
         hasZerodhaConnection = true;
       }
+      if (authorization.brokerage.name === 'Unocoin') {
+        hasUnocoinConnection = true;
+      }
+      if (authorization.brokerage.name === 'Kraken') {
+        hasKrakenConnection = true;
+      }
     });
   }
-  console.log(authorizations);
 
   const groupId = useSelector(selectCurrentGroupId);
   const positions = useSelector(
@@ -164,8 +191,10 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const totalEquity = useSelector(selectCurrentGroupTotalEquityExcludedRemoved);
   const cash = useSelector(selectCurrentGroupCash);
   const edit = useSelector(selectIsEditMode);
-
-  const dispatch = useDispatch();
+  const currentGroupInfo = useSelector(selectCurrentGroupInfo);
+  const modelId = currentGroupInfo?.model_portfolio?.id;
+  const modelUseByOtherGroups = useSelector(selectModelUseByOtherGroups);
+  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
   if (!target || cash === null || cash === undefined) {
     return null;
@@ -174,10 +203,12 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   const canEdit = edit || !lockable;
 
   const setSymbol = (target: any, symbol: any) => {
-    target.fullSymbol = symbol;
-    target.symbol = symbol.id;
-    // TODO hack to add is_supported flag
-    target.is_supported = true;
+    if (!isAssetClassBased) {
+      target.fullSymbol = symbol;
+      target.symbol = symbol.id;
+      // TODO hack to add is_supported flag
+      target.is_supported = true;
+    }
   };
 
   const formatTicker = (ticker: string) => {
@@ -192,14 +223,15 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
     }
   };
 
-  const resetTargets = (resetForm: () => void) => {
-    onReset();
-    toggleEditMode();
-    postData(`/api/v1/portfolioGroups/${groupId}/targets/`, [])
+  const resetTargets = (resetForm?: () => void) => {
+    if (!modelPortfolioFeature) {
+      onReset();
+      toggleEditMode();
+    }
+    deleteData(`/api/v1/portfolioGroups/${groupId}/targets/`)
       .then(() => {
-        // once we're done refresh the groups
-
-        dispatch(loadGroup({ ids: [groupId] }));
+        dispatch(loadGroups()); // need to load groups to have update list of groups using a model in my models page
+        dispatch(loadModelPortfolios());
       })
       .catch((error) => {
         // display our error
@@ -210,7 +242,9 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
         );
         toggleEditMode();
         // reset the form
-        resetForm();
+        if (resetForm) {
+          resetForm();
+        }
       });
   };
 
@@ -241,31 +275,33 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
   portfolioVisualizerURLParts.push(portfolioVisualizerBaseURL);
 
   let iValue = 0;
-  target
-    .filter((target) => target.is_supported && !target.is_excluded)
-    .map((target: any, index: number) => {
-      iValue = index + 1;
-      let ticker = formatTicker(target.fullSymbol.symbol);
-      portfolioVisualizerURLParts.push(
-        `&symbol${iValue}=${ticker}&allocation${iValue}_1=${target.percent}`,
-      );
-      return null;
-    });
-  let cashPercentage =
-    100 -
+  if (!isAssetClassBased) {
     target
       .filter((target) => target.is_supported && !target.is_excluded)
-      .reduce((total: number, target: any) => {
-        if (!target.deleted && target.percent && target.is_supported) {
-          return total + parseFloat(target.percent);
-        }
-        return total;
-      }, 0);
-  if (cashPercentage > 0) {
-    iValue += 1;
-    portfolioVisualizerURLParts.push(
-      `&symbol${iValue}=CASHX&allocation${iValue}_1=${cashPercentage}`,
-    );
+      .map((target: any, index: number) => {
+        iValue = index + 1;
+        let ticker = formatTicker(target.fullSymbol.symbol);
+        portfolioVisualizerURLParts.push(
+          `&symbol${iValue}=${ticker}&allocation${iValue}_1=${target.percent}`,
+        );
+        return null;
+      });
+    let cashPercentage =
+      100 -
+      target
+        .filter((target) => target.is_supported && !target.is_excluded)
+        .reduce((total: number, target: any) => {
+          if (!target.deleted && target.percent && target.is_supported) {
+            return total + parseFloat(target.percent);
+          }
+          return total;
+        }, 0);
+    if (cashPercentage > 0) {
+      iValue += 1;
+      portfolioVisualizerURLParts.push(
+        `&symbol${iValue}=CASHX&allocation${iValue}_1=${cashPercentage}`,
+      );
+    }
   }
 
   portfolioVisualizerURLParts.push('#analysisResults');
@@ -338,7 +374,11 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
             render={(arrayHelpers) => {
               // calculate any new targets actual percentages
               props.values.targets
-                .filter((target) => target.actualPercentage === undefined)
+                .filter(
+                  (target) =>
+                    target.actualPercentage === undefined ||
+                    target.actualPercentage === 0,
+                )
                 .forEach((target) => {
                   if (
                     positions &&
@@ -354,7 +394,6 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                     }
                   }
                 });
-
               // calculate the desired cash percentage
               const cashPercentage =
                 100 -
@@ -400,6 +439,7 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                       <div key={t.key}>
                         <TargetBar
                           key={t.symbol}
+                          isAssetClassBased={isAssetClassBased}
                           target={t}
                           edit={canEdit}
                           tour={index === 0 ? true : false}
@@ -548,18 +588,51 @@ export const TargetSelector = ({ lockable, target, onReset }: Props) => {
                       </ActionsContainer>
                     </React.Fragment>
                   ) : (
+                    !modelPortfolioFeature && (
+                      <ButtonBox>
+                        <div>
+                          <Button
+                            type="button"
+                            onClick={() => toggleEditMode()}
+                            className="tour-edit-targets"
+                          >
+                            <FontAwesomeIcon icon={faLock} />
+                            Edit Targets
+                          </Button>
+                        </div>
+                        <div>
+                          <A
+                            href={portfolioVisualizerURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Portfolio Visualizer
+                          </A>
+                        </div>
+                      </ButtonBox>
+                    )
+                  )}
+                  {modelPortfolioFeature && (
                     <ButtonBox>
                       <div>
                         <Button
                           type="button"
-                          onClick={() => toggleEditMode()}
-                          className="tour-edit-targets"
+                          onClick={() => {
+                            // link to edit model page
+                            dispatch(
+                              push(
+                                `/app/model-portfolio/${modelId}/group/${groupId}?edit=true`,
+                              ),
+                            );
+                          }}
+                          disabled={modelUseByOtherGroups}
                         >
-                          <FontAwesomeIcon icon={faLock} />
-                          Edit Targets
+                          Edit Model
                         </Button>
                       </div>
-                      {hasZerodhaConnection ? (
+                      {hasZerodhaConnection ||
+                      hasUnocoinConnection ||
+                      hasKrakenConnection ? (
                         ''
                       ) : (
                         <div>
