@@ -154,7 +154,11 @@ const MyModelPortfoliosPage = () => {
           toast.success(
             `"${model.model_portfolio.name}" applied to "${groupInfo?.name}"`,
           );
-          history.push(`/app/group/${groupId}`);
+          if (model.model_portfolio.model_type === 1) {
+            history.push(`/app/priorities/${groupId}`);
+          } else {
+            history.push(`/app/group/${groupId}`);
+          }
         })
         .catch((err) => {
           if (err.response) {
