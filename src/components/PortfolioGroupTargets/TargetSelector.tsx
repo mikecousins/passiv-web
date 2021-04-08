@@ -645,13 +645,16 @@ export const TargetSelector = ({
                           Apply Another Model
                         </ApplyNewModelBtn>
                       </div>
-                      {hasZerodhaConnection ||
-                      hasUnocoinConnection ||
-                      hasKrakenConnection ||
-                      currentGroupInfo?.model_portfolio?.model_type === 1 ? (
-                        ''
-                      ) : (
-                        <div>
+                      <div>
+                        <A type="button" onClick={() => resetTargets()}>
+                          Reset
+                        </A>{' '}
+                        {hasZerodhaConnection ||
+                        hasUnocoinConnection ||
+                        hasKrakenConnection ||
+                        currentGroupInfo?.model_portfolio?.model_type === 1 ? (
+                          ''
+                        ) : (
                           <A
                             href={portfolioVisualizerURL}
                             target="_blank"
@@ -659,8 +662,8 @@ export const TargetSelector = ({
                           >
                             Portfolio Visualizer
                           </A>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </ButtonBox>
                   )}
                 </React.Fragment>
