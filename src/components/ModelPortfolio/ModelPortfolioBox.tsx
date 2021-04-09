@@ -289,7 +289,7 @@ const ModelPortoflioBox = ({
         if (securityBased && groupId) {
           history.push(`/app/group/${gpId}`);
         }
-        if ((!securityBased && gpId) || applyMode) {
+        if (!securityBased && (gpId || applyMode)) {
           history.push(`/app/priorities/${gpId}`);
         }
       })
