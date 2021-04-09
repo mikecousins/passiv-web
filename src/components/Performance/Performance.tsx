@@ -105,6 +105,14 @@ export const Performance = () => {
   let rateOfReturn = useSelector(selectRateOfReturn);
   const useNewReporting = useSelector(selectNewReportingFeature);
   const settings = useSelector(selectReportingSettings).data;
+  let showRateOfReturn = true;
+  let showDividendData = true;
+  if (settings?.show_return_rate !== undefined) {
+    showRateOfReturn = settings?.show_return_rate;
+  }
+  if (settings?.show_dividend_data !== undefined) {
+    showDividendData = settings?.show_return_rate;
+  }
 
   const [showSettings, setShowSettings] = useState(false);
 
@@ -161,7 +169,7 @@ export const Performance = () => {
               <ShadowBox>
                 <PerformanceChange />
               </ShadowBox>
-              {rateOfReturn && settings?.show_return_rate && (
+              {rateOfReturn && showRateOfReturn && (
                 <ShadowBox>
                   <PerformanceRateOfReturn />
                 </ShadowBox>
@@ -171,7 +179,7 @@ export const Performance = () => {
               </ShadowBox>
             </Tiles>
           </Grid>
-          {settings?.show_dividend_data && (
+          {showDividendData && (
             <>
               <Grid>
                 <ShadowBox>
