@@ -74,10 +74,23 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   const fetchPriorities = () => {
     getData(`/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`).then(
       (res) => {
-        setAssetClassPriorities(res.data);
-        const assetClassIds = res.data.map(
+        let priorities: AssetClassPriorities[] = res.data;
+        if (!onSettingsPage) {
+          priorities?.forEach((assetClass) => {
+            assetClass.accounts_priorities.forEach((account) => {
+              account.trade_priority.forEach((p, index) => {
+                p.sell_priority = index + 1;
+              });
+            });
+          });
+        }
+        priorities = priorities.filter(
+          (priority) => priority.asset_class.name !== 'Excluded Assets',
+        );
+        const assetClassIds = priorities.map(
           (assetClass: any) => assetClass.asset_class.id,
         );
+        setAssetClassPriorities(priorities);
         setNeedToConfirm(assetClassIds);
         setLoading(false);
       },
@@ -179,9 +192,6 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   };
 
   const priorities = assetClassPriorities?.map((assetClass) => {
-    if (assetClass.asset_class.name === 'Excluded Securities') {
-      return;
-    }
     return (
       <AssetClassPriority
         key={assetClass.asset_class.id}
