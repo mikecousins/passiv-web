@@ -38,6 +38,9 @@ export const selectAdjustedCostBasis = (state: AppState) =>
 export const selectBadTickers = (state: AppState) =>
   state.performanceAll?.data?.badTickers;
 
+export const selectPerformanceCurrentDetailedMode = (state: AppState) =>
+  state.performanceAll?.data?.detailedMode;
+
 export const selectPerformanceNeedData = createSelector<
   AppState,
   boolean,
