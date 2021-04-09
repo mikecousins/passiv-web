@@ -30,7 +30,7 @@ const TOUR_STEPS = [
     target: '.tour-allow-selling',
     content:
       'By default, Passiv is set to only allocate cash to your underweight targets. To do a full rebalance, you can enable Sell.',
-    placement: 'top',
+    placement: 'right',
   },
   {
     target: '.tour-currency-separation',
@@ -52,7 +52,7 @@ const TOUR_STEPS = [
         <UpgradeButton />
       </>
     ),
-    placement: 'top',
+    placement: 'right',
   },
   {
     target: '.tour-cash-management',
@@ -103,22 +103,24 @@ export const PortfolioGroupSettings = () => {
       <H2>General</H2>
       {settings ? (
         <React.Fragment>
-          <SettingsToggle
-            name="Allow selling to rebalance"
-            explanation={
-              settings.buy_only
-                ? 'Passiv will use available cash to purchase the most underweight assets in your portfolio. Sell orders are not permitted.'
-                : 'Passiv will buy and sell assets to get as close to 100% accuracy as possible.'
-            }
-            value={settings.buy_only}
-            onChange={() => {
-              if (settings) {
-                settings.buy_only = !settings.buy_only;
-                updateSettings();
+          <div className="tour-allow-selling">
+            <SettingsToggle
+              name="Allow selling to rebalance"
+              explanation={
+                settings.buy_only
+                  ? 'Passiv will use available cash to purchase the most underweight assets in your portfolio. Sell orders are not permitted.'
+                  : 'Passiv will buy and sell assets to get as close to 100% accuracy as possible.'
               }
-            }}
-            invert={true}
-          />
+              value={settings.buy_only}
+              onChange={() => {
+                if (settings) {
+                  settings.buy_only = !settings.buy_only;
+                  updateSettings();
+                }
+              }}
+              invert={true}
+            />
+          </div>
           <SettingsToggle
             name="Prevent trades in non-tradable accounts"
             explanation={
