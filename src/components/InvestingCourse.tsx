@@ -4,7 +4,7 @@ import ShadowBox from '../styled/ShadowBox';
 import { H2, P, A } from '../styled/GlobalElements';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { HideButton } from './ContextualMessageWrapper';
+import { HideButtonX } from './ContextualMessageWrapper';
 import { selectIsPaid } from '../selectors/subscription';
 import styled from '@emotion/styled';
 
@@ -38,8 +38,9 @@ const ShadowBoxwImage = styled(ShadowBox)`
   background: url(${courseGraphic}) no-repeat 98% bottom #9bd8ce;
   background-size: 300px;
   padding: 40px;
+  position: relative;
   @media (max-width: 900px) {
-    padding-bottom: 120px;
+    padding-bottom: 110px;
   }
 `;
 
@@ -80,7 +81,7 @@ const InvestingCourse = () => {
             Take the Course <FontAwesomeIcon icon={faExternalLinkAlt} />
           </TakeCourse>
         </Pstyled>
-        <HideButton name={'investing_course'} text={'Skip'} />
+        <HideButtonX name={'investing_course'} text={''} />
       </ShadowBoxwImage>
     </React.Fragment>
   );

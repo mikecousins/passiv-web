@@ -7,6 +7,31 @@ import styled from '@emotion/styled';
 import { postData } from '../api';
 import { toast } from 'react-toastify';
 
+const XButton = styled.button`
+  right: 20px;
+  top: 20px;
+  position: absolute;
+  height: 48px;
+  width: 48px;
+  font-size: 50px;
+  &:after {
+    content: '';
+    height: 48px;
+    border-left: 8px solid #1b1c23;
+    position: absolute;
+    transform: rotate(45deg);
+    top: 0;
+  }
+  &:before {
+    content: '';
+    height: 48px;
+    border-left: 8px solid #1b1c23;
+    position: absolute;
+    transform: rotate(-45deg);
+    top: 0;
+  }
+`;
+
 const ButtonContainer = styled.div`
   text-align: right;
 `;
@@ -41,6 +66,27 @@ export const HideButton = ({ name, text }: Props) => {
         {text !== undefined ? text : 'Hide'}
       </PaddedButton>
     </ButtonContainer>
+  );
+};
+
+export const HideButtonX = ({ name, text }: Props) => {
+  const dispatch = useDispatch();
+  return (
+    <XButton
+      onClick={() => {
+        postData(`/api/v1/contextualMessages`, {
+          name: [name],
+        })
+          .then((response) => {
+            dispatch(loadSettings());
+          })
+          .catch((error) => {
+            toast.error(`Failed to hide contextual message "${name}".`);
+          });
+      }}
+    >
+      {text !== undefined ? text : 'Hide'}
+    </XButton>
   );
 };
 
