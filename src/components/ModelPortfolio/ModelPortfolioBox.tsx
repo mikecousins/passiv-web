@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postData } from '../../api';
 import styled from '@emotion/styled';
@@ -201,12 +201,14 @@ type Props = {
   modelPortfolio: any;
   assetClasses: ModelAssetClass[];
   securityBased: boolean;
+  modelTypeChanged: boolean;
 };
 
 const ModelPortoflioBox = ({
   modelPortfolio,
   assetClasses,
   securityBased,
+  modelTypeChanged,
 }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -395,7 +397,7 @@ const ModelPortoflioBox = ({
                   if (!securityBased) {
                     const usedAssetClasses = props.values.targets.map(
                       (astCls: any) => {
-                        return astCls.model_asset_class.id;
+                        return astCls.model_asset_class?.id;
                       },
                     );
                     // filter out the asset classes that have been already added
@@ -476,7 +478,7 @@ const ModelPortoflioBox = ({
                                       <span>
                                         {
                                           props.values.targets[index]
-                                            .model_asset_class.name
+                                            .model_asset_class?.name
                                         }
                                       </span>
                                     )}
@@ -591,7 +593,7 @@ const ModelPortoflioBox = ({
                       }}
                       disabled={!props.dirty || !props.isValid}
                     >
-                      Save Model
+                      Save Changes
                     </Button>
                   </>
                 )}

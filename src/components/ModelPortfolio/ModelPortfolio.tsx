@@ -209,6 +209,8 @@ const ModelPortfolio = () => {
 
   const assetClassFeature = useSelector(selectAssetClassFeature);
 
+  const [modelTypeChanged, setModelTypeChanged] = useState(false);
+
   const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${modelId}?share=${referralCode}`;
 
   let haveAssetsInModel = false;
@@ -223,8 +225,6 @@ const ModelPortfolio = () => {
   ) {
     haveAssetsInModel = true;
   }
-
-  const modelTypeToggleDisabled = haveAssetsInModel || editMode || applyMode;
 
   const handleDeleteModel = () => {
     deleteData(`/api/v1/modelPortfolio/${modelId}`).then(() => {
@@ -242,13 +242,16 @@ const ModelPortfolio = () => {
         currentModelPortfolio.model_portfolio.model_type = 0;
       }
     }
-    postData(`/api/v1/modelPortfolio/${modelId}`, currentModelPortfolio!)
+    postData(`/api/v1/modelPortfolio/${modelId}`, currentModelPortfolio)
       .then(() => {
-        dispatch(loadModelPortfolios());
         setSecurityBased(!securityBased);
+        toast.success('Model type changed successfully', {
+          autoClose: 3000,
+        });
+        dispatch(loadModelPortfolios());
       })
       .catch(() => {
-        toast.error('Unable to change the model', {
+        toast.error('Unable to change the model type', {
           autoClose: 3000,
         });
       });
@@ -295,6 +298,7 @@ const ModelPortfolio = () => {
                   modelPortfolio={currentModelPortfolio}
                   assetClasses={assetClasses}
                   securityBased={securityBased}
+                  modelTypeChanged={modelTypeChanged}
                 />
                 <div>
                   {!assetClassFeature && (
@@ -307,8 +311,8 @@ const ModelPortfolio = () => {
                   <ModelType assetClassFeature={assetClassFeature}>
                     <H3>
                       Model Type{' '}
-                      {modelTypeToggleDisabled && assetClassFeature && (
-                        <Tooltip label="This setting is disabled if you already have securities in this model or on edit mode.">
+                      {haveAssetsInModel && assetClassFeature && (
+                        <Tooltip label="This setting is disabled if you already have securities in this model.">
                           <FontAwesomeIcon
                             icon={faExclamationCircle}
                             size="sm"
@@ -317,8 +321,14 @@ const ModelPortfolio = () => {
                       )}
                     </H3>
                     <ToggleModelTypeBtn
-                      onClick={handleChangeModelType}
-                      disabled={modelTypeToggleDisabled || !assetClassFeature}
+                      onClick={() => {
+                        if (editMode) {
+                          setModelTypeChanged(true);
+                        } else {
+                          handleChangeModelType();
+                        }
+                      }}
+                      disabled={haveAssetsInModel || !assetClassFeature}
                     >
                       {
                         <React.Fragment>
@@ -436,6 +446,30 @@ const ModelPortfolio = () => {
               <ActionContainer>
                 <DeleteBtn onClick={handleDeleteModel}>Delete</DeleteBtn>
                 <Button onClick={() => setDeleteDialog(false)}>Cancel</Button>
+              </ActionContainer>
+            </Dialog>
+            <Dialog
+              isOpen={modelTypeChanged}
+              onDismiss={() => setModelTypeChanged(false)}
+              aria-labelledby="dialog1Title"
+              aria-describedby="dialog1Desc"
+              style={{ borderRadius: '4px' }}
+            >
+              <H2Margin>
+                Are you sure you want to change the model type ?
+              </H2Margin>
+              <ActionContainer>
+                <DeleteBtn
+                  onClick={() => {
+                    handleChangeModelType();
+                    setModelTypeChanged(false);
+                  }}
+                >
+                  OK
+                </DeleteBtn>
+                <Button onClick={() => setModelTypeChanged(false)}>
+                  Cancel
+                </Button>
               </ActionContainer>
             </Dialog>
           </>

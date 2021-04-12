@@ -285,7 +285,7 @@ const AssetClassPriority = ({
                               key={priority.symbol_id}
                             >
                               <Symbol>
-                                {symbols[priority.symbol_id].symbol}{' '}
+                                {symbols[priority.symbol_id]?.symbol}{' '}
                               </Symbol>
                               <Description>
                                 <span>
