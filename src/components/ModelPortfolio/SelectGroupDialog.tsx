@@ -51,7 +51,11 @@ const SelectGroupDialog = ({ model }: Props) => {
       .then((res) => {
         dispatch(loadGroups());
         dispatch(loadModelPortfolios());
-        history.push(`/app/group/${groupId}`);
+        if (model.model_type === 1) {
+          history.push(`/app/priorities/${groupId}`);
+        } else {
+          history.push(`/app/group/${groupId}`);
+        }
         toast.success(`Model applied to "${groupName}"`);
       })
       .catch((err) => {
