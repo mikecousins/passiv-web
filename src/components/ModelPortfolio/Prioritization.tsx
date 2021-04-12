@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,6 +12,7 @@ import { Edit, H2 } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
 import { Button } from '../../styled/Button';
 import { toast } from 'react-toastify';
+import { loadGroupInfo } from '../../actions';
 
 const Priorities = styled.div`
   > h2 {
@@ -61,6 +62,7 @@ type Props = {
 
 const Prioritization = ({ onSettingsPage }: Props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const group = useSelector(selectCurrentGroup);
   const [assetClassPriorities, setAssetClassPriorities] = useState<
@@ -172,6 +174,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
         }
         toast.success('Saved the prioritization changes successfully');
         fetchPriorities();
+        dispatch(loadGroupInfo());
       });
     }
   };
