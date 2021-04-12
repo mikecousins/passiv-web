@@ -29,6 +29,7 @@ const AssetClassBox = styled.div`
 `;
 
 const Head = styled(Grid)`
+  cursor: pointer;
   H2 {
     color: ${(p) => p.color};
   }
@@ -199,6 +200,9 @@ const AssetClassPriority = ({
         <Head
           columns={onSettingsPage ? '5fr 1fr 100px' : 'auto 5fr 1fr 100px'}
           color={showDetails ? 'white' : 'black'}
+          onClick={() => {
+            setShowDetails(!showDetails);
+          }}
         >
           {!onSettingsPage && (
             <Status>
@@ -225,11 +229,7 @@ const AssetClassPriority = ({
           )}
           <AssetClassName>{assetClass.asset_class.name}</AssetClassName>
           <Percent>{assetClass.asset_class.percent}%</Percent>
-          <ChevronBtn
-            onClick={() => {
-              setShowDetails(!showDetails);
-            }}
-          >
+          <ChevronBtn>
             <FontAwesomeIcon
               icon={showDetails ? faChevronUp : faChevronDown}
               color={showDetails ? 'white' : 'var(--brand-blue)'}
