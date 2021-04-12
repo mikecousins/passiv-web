@@ -1412,9 +1412,11 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
       });
     }
     if (positions) {
-      notInTarget = positions.filter(
-        (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
-      );
+      notInTarget = positions.filter((position: any) => {
+        if (position.quotable) {
+          return targetIds?.indexOf(position.symbol.id) === -1;
+        }
+      });
     }
 
     return [...notInTarget, ...excluded];
