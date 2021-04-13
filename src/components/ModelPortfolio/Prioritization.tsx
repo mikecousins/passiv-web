@@ -77,6 +77,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     getData(`/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`).then(
       (res) => {
         let priorities: AssetClassPriorities[] = res.data;
+        // if not on settings page (on priorities page = the first time user have to set priority), we need to assign a "fake" sell priority to assets , because they all initially set to 0
         if (!onSettingsPage) {
           priorities?.forEach((assetClass) => {
             assetClass.accounts_priorities.forEach((account) => {
@@ -86,9 +87,11 @@ const Prioritization = ({ onSettingsPage }: Props) => {
             });
           });
         }
+        // filter out "Excluded Assets" asset class for now
         priorities = priorities.filter(
           (priority) => priority.asset_class.name !== 'Excluded Assets',
         );
+        // collect all the asset class ids to keep track of asset classes need to have priorities confirmed for them
         const assetClassIds = priorities.map(
           (assetClass: any) => assetClass.asset_class.id,
         );
@@ -99,11 +102,13 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     );
   };
 
+  // fetch priorities on page load
   useEffect(() => {
     fetchPriorities();
     // eslint-disable-next-line
   }, []);
 
+  // this function handles the up and down arrows which changes the priority for an asset class
   const handleUpDownBtn = (
     assetClassId: string,
     accountId: string,
@@ -112,6 +117,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     up: boolean,
   ) => {
     let priority = sellPriority;
+    // keep track of what symbol on what account has changes so we can highlight it using css
     setChanged({ symbolId, accountId });
     setTimeout(() => {
       setChanged({ symbolId: '', accountId: '' });
@@ -147,6 +153,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
         });
       }
     });
+
     setAssetClassPriorities(assetClassPrioritiesCopy);
   };
 
@@ -156,11 +163,17 @@ const Prioritization = ({ onSettingsPage }: Props) => {
       assetClassPriorities.forEach((assetClass) => {
         assetClass.accounts_priorities.forEach((account) => {
           account.account_id = account.account.id;
-          let newPriority: any = [];
+          let newPriority: any[] = [];
+          let buyPriority: string[] = [];
           account.trade_priority.forEach((priority) => {
             newPriority.push(priority.symbol_id);
+            if (priority.allow_buy && buyPriority.length === 0) {
+              buyPriority.push(priority.symbol_id);
+            }
           });
-          account.trade_priority = newPriority;
+          account.sell_priority = newPriority;
+          account.buy_priority = buyPriority;
+          account.unassigned = [];
         });
       });
       postData(
