@@ -352,7 +352,6 @@ const AssetClassPriority = ({
                     <SellOrder>
                       <FontAwesomeIcon icon={faLongArrowAltUp} />{' '}
                       <span>Sell Order</span>
-                      <FontAwesomeIcon icon={faLongArrowAltDown} />
                     </SellOrder>
                   )}
                 </Grid>
@@ -361,7 +360,7 @@ const AssetClassPriority = ({
                     <H3>Unsupported Securities:</H3>
                     <ul>
                       {account.unsupported_symbols.map((symbol: any) => {
-                        return <li>{symbol.symbol}</li>;
+                        return <li key={symbol.id}>{symbol.symbol}</li>;
                       })}
                     </ul>
                   </NotSupported>
