@@ -16,25 +16,21 @@ describe('Database test', () => {
           })
           .as('Help')
 
+          cy.intercept('POST', '/api/v1/auth/register/', req => {
+            console.log('POST user info', req)
+            body = req.body
+        }).as('Save')
 
 
 
-            cy.fixture('testDomain').as('login')
+
+
+            cy.fixture('localhost').as('login')
             cy.get('@login').then(domain => {
             cy.visit((domain.test).concat('/register')) })
 
     // the variable for the info that will be stored in the JSON db
     let body
-
-
-
-
-        cy.intercept('POST', '/api/v1/auth/register/', req => {
-                    console.log('POST user info', req)
-                    body = req.body
-                }).as('Save')
-
-
                 //cons values
                 const  name = 'Alex Sutherland'
                 const  email = 'testemail@passiv.com'
@@ -52,48 +48,35 @@ describe('Database test', () => {
                 .get('form').submit()
                 .then(() => {
                     cy.writeFile('cypress/fixtures/user.json', JSON.stringify (body, null, 2))
-                })
             })
+          })
 
         it('Add Auth Token', () => {
-            cy.readFile('cypress/fixtures/user.json').then( obj => {
-                cy.writeFile('cypress/fixtures/user.json', Object.assign(obj, {token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MDcxLCJ1c2VybmFtZSI6IjRiVVRHWlBpZFROSDlIWW5PYjdGbXlIcDZaVXRCQiIsImV4cCI6MTYwNzk2NjI5MywiZW1haWwiOiJhc3V0aGVybGFuZDgyMTlAZ21haWwuY29tIiwib3JpZ19pYXQiOjE2MDc1MzQyOTN9.FeoVWnIHnCTNhQ9sT3Tt4al62UXTrNtmyjitqSq2JbE"}))
-            })
+
+
+          cy.intercept('/api/v1/ping', (req) => { req.reply((res) => { res.send({  fixture: '/login_stubs/ping.json'})
         })
-    })
+        })
+        .as('Ping')
+
+        cy.intercept('get','v1', (req) => { req.reply({ fixture: '/login_stubs/v1.json' })
+        })
+        .as('V1')
+
+        cy.intercept('/api/v1/help/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/help.json' })
+        })
+        })
+        .as('Help')
+
+        cy.intercept('/api/v1/auth/register/', (req) => { req.reply((res) => { res.send({ fixture: 'user.json' })
+          })
+        })
 
 
-describe('Registration Test', () => {
-        it('Registration works but does not create a new user', () => {
 
-
-            cy.intercept('GET', '/api/v1', { fixture: 'api_v1.json' })
-            .as('API poke')
-
-            cy.intercept('POST', '/api/v1/auth/register/', { fixture: 'user.json'})
-            .as('Success')
-
-            cy.intercept('GET', '/api/v1', { fixture: 'api_v1.json' })
-            .as('API poke')
-
-
-            cy.fixture('testDomain').as('login')
-            cy.get('@login').then(domain => {
-            cy.visit((domain.test).concat('/register')) })
-
-                cy.fixture('user').as('userFixture')
-                cy.get('@userFixture').then(user => {
-                cy.get('[name=name]').type(user.name)
-                cy.get('[name=email]').first().type(user.email)
-                cy.get('[placeholder=Password]').type(user.password)
-                .get('form').submit()
-
-            cy.wait('@Success')
-            .then(({request, response}) => {
-            expect(response.statusCode).to.eq(200)
-            expect(request.body).to.have.property('email', user.email)
-            expect(request.body).to.have.property('password', user.password)
-            expect(request.method).to.eq('POST')
+          cy.fixture('user').as('userFixture')
+          cy.get('@userFixture').as('Save')
+          .get('form').submit()
 
         // Upon successful registration a token is assigned and stored in the json data base "user.json"
 
@@ -101,9 +84,6 @@ describe('Registration Test', () => {
             cy.writeFile('cypress/fixtures/user.json', Object.assign(obj, {token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MDcxLCJ1c2VybmFtZSI6IjRiVVRHWlBpZFROSDlIWW5PYjdGbXlIcDZaVXRCQiIsImV4cCI6MTYwNzk2NjI5MywiZW1haWwiOiJhc3V0aGVybGFuZDgyMTlAZ21haWwuY29tIiwib3JpZ19pYXQiOjE2MDc1MzQyOTN9.FeoVWnIHnCTNhQ9sT3Tt4al62UXTrNtmyjitqSq2JbE"}))
         })
     })
+  })
 
-})
 
-})
-
-})

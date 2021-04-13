@@ -32,6 +32,4 @@ cy.intercept('/api/v1/help/', (req) => { req.reply((res) => { res.send({ fixture
 
 
 
-
-
 })
