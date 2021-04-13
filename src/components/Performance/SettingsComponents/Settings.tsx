@@ -7,6 +7,10 @@ import {
   loadPerformanceCustom,
   updateReportingSettings,
 } from '../../../actions/performance';
+import {
+  selectHasQuestradeConnection,
+  selectHasWealthicaConnection,
+} from '../../../selectors';
 import { selectNewReportingFeature } from '../../../selectors/features';
 import {
   selectEndDate,
@@ -32,10 +36,18 @@ const Settings = () => {
   const [showDividendData, setShowDividendData] = useState(
     settings?.show_dividend_data,
   );
+  const [includeQuestrade, setIncludeQuestrade] = useState(
+    settings?.include_questrade,
+  );
+  const [includeWealthica, setIncludeWealthica] = useState(
+    settings?.include_wealthica,
+  );
   const [showReturnRate, setShowReturnRate] = useState(
     settings?.show_return_rate,
   );
   const useNewReporting = useSelector(selectNewReportingFeature);
+  const hasQuestradeAccount = useSelector(selectHasQuestradeConnection);
+  const hasWealthicaAccount = useSelector(selectHasWealthicaConnection);
   const startDate = useSelector(selectStartDate);
   const endDate = useSelector(selectEndDate);
   const accountNumbers = useSelector(selectSelectedAccounts);
@@ -85,6 +97,37 @@ const Settings = () => {
       }),
     );
   };
+  const handleIncludeQuestradeToggle = () => {
+    const oldValue = includeQuestrade;
+    setIncludeQuestrade(!includeQuestrade);
+    dispatch(
+      updateReportingSettings({
+        detailedView: detailedMode,
+        showReturnRate: showReturnRate,
+        showDividendData: showDividendData,
+        includeQuestrade: !oldValue,
+        includeWealthica: includeWealthica,
+      }),
+    );
+  };
+  const handleIncludeWealthicaToggle = () => {
+    const oldValue = includeWealthica;
+    setIncludeWealthica(!includeWealthica);
+    dispatch(
+      updateReportingSettings({
+        detailedView: detailedMode,
+        showReturnRate: !oldValue,
+        showDividendData: showDividendData,
+        includeQuestrade: includeQuestrade,
+        includeWealthica: !oldValue,
+      }),
+    );
+  };
+
+  const needsDataRefresh = () => {
+    const detailedModeNeedsUpdate = currentlyDetailedMode !== detailedMode;
+    return detailedModeNeedsUpdate;
+  };
   const repullData = () => {
     if (timeframe !== 'CST') {
       dispatch(loadPerformanceAll(accountNumbers));
@@ -128,6 +171,43 @@ const Settings = () => {
         </ToggleButton>
         <OptionsTitle>Show Rate of Return</OptionsTitle>
       </Option>
+      {hasQuestradeAccount && hasWealthicaAccount && (
+        <>
+          <Option>
+            <ToggleButton onClick={() => handleIncludeQuestradeToggle()}>
+              {includeQuestrade ? (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOn} />
+                  <StateText>on</StateText>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOff} />
+                  <StateText>off</StateText>
+                </React.Fragment>
+              )}
+            </ToggleButton>
+            <OptionsTitle>Include Questrade Accounts</OptionsTitle>
+          </Option>
+          <Option>
+            <ToggleButton onClick={() => handleIncludeWealthicaToggle()}>
+              {includeWealthica ? (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOn} />
+                  <StateText>on</StateText>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOff} />
+                  <StateText>off</StateText>
+                </React.Fragment>
+              )}
+            </ToggleButton>
+            <OptionsTitle>Include Wealthica Accounts</OptionsTitle>
+          </Option>
+        </>
+      )}
+
       {useNewReporting && (
         <Option>
           <div>
@@ -138,17 +218,13 @@ const Settings = () => {
               <DetailedChart selected={detailedMode} />
             </span>
           </div>
-          {currentlyDetailedMode !== detailedMode && (
-            <>
-              <br></br>
-              <Button onClick={() => repullData()}>
-                Save and refresh data
-              </Button>
-            </>
-          )}
-
-          <br></br>
         </Option>
+      )}
+      {needsDataRefresh() && (
+        <>
+          <br></br>
+          <Button onClick={() => repullData()}>Save and refresh data</Button>
+        </>
       )}
     </ShadowBox>
   );
