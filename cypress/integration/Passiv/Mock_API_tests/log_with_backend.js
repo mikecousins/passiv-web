@@ -4,8 +4,8 @@
 
 describe('Login using created data from registration', () => {
     it('Log in Success', () => {
-      
-      
+
+
         cy.intercept( '/api/v1/auth/login/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/put_auth.json'})
       })
     })
@@ -21,10 +21,10 @@ describe('Login using created data from registration', () => {
       })
     })
       .as('Incentives')
-      
+
         cy.intercept('/api/v1/features/', (req) => { req.reply((res) => { res.send({  fixture: '/login_stubs/features.json' })
       })
-    })  
+    })
       .as('Features')
 
         cy.intercept('/api/v1/currencies/rates/', (req) => { req.reply((res) => { res.send({  fixture: '/login_stubs/currencies.json' })
@@ -38,13 +38,13 @@ describe('Login using created data from registration', () => {
       .as('Subscriptions')
 
         cy.intercept('/api/v1/accounts/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/accounts.json' })
-      })  
+      })
     })
       .as('Accounts')
 
         cy.intercept('/api/v1/portfolioGroups/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/portfolioGroups.json' })
       })
-    })    
+    })
       .as('PG[]')
 
       cy.intercept('/api/v1/settings/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/settings.json' })
@@ -62,10 +62,10 @@ describe('Login using created data from registration', () => {
     })
       .as('Goals')
 
-    
+
       cy.intercept('/api/v1/help/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/help.json' })
       })
-    }) 
+    })
       .as('Help')
 
       cy.intercept('/api/v1/brokerages/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/brokerages.json' })
@@ -85,7 +85,7 @@ describe('Login using created data from registration', () => {
       .as('Perf')
 
         cy.intercept('OPTIONS', '/api/v1/accounts/**/balances/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/balances.json' })
-      })    
+      })
     })
       .as('Balances_option')
 
@@ -96,7 +96,7 @@ describe('Login using created data from registration', () => {
 
       cy.intercept('OPTIONS', '/api/v1/portfolioGroups/**/info/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/info.json' })
       })
-    }) 
+    })
       .as('Info_options')
 
 
@@ -112,16 +112,16 @@ describe('Login using created data from registration', () => {
     cy.location('pathname').should('equal', '/app/login')
 
     // enter valid username and password
-    cy.fixture('credentials').as('userFixture')
+    cy.fixture('user').as('userFixture')
     cy.get('@userFixture').then(user => {
-    cy.get('[name=email]').first().type(user.username)
+    cy.get('[name=email]').first().type(user.email)
     cy.get('[placeholder=Password]').type(user.password)
     .get('form').submit()
- 
 
 
 
-  
+
+
   })
 })
 })

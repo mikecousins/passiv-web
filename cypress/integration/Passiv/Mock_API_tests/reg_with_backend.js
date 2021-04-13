@@ -1,8 +1,22 @@
 
 describe('Database test', () => {
         it('Data is stored in correct format in JSON file', () => {
-            cy.intercept('GET', '/api/v1', { fixture: 'api_v1.json' })
-            .as('API poke')
+
+            cy.intercept('/api/v1/ping', (req) => { req.reply((res) => { res.send({  fixture: '/login_stubs/ping.json'})
+          })
+          })
+          .as('Ping')
+
+          cy.intercept('get','v1', (req) => { req.reply({ fixture: '/login_stubs/v1.json' })
+          })
+          .as('V1')
+
+          cy.intercept('/api/v1/help/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/help.json' })
+          })
+          })
+          .as('Help')
+
+
 
 
             cy.fixture('testDomain').as('login')
@@ -24,7 +38,7 @@ describe('Database test', () => {
                 //cons values
                 const  name = 'Alex Sutherland'
                 const  email = 'testemail@passiv.com'
-                const  pass = 'testpass12345@'
+                const  pass = 'passivtestpass'
 
                 cy
                 .get('[name=name]')
@@ -58,19 +72,16 @@ describe('Registration Test', () => {
             cy.intercept('GET', '/api/v1', { fixture: 'api_v1.json' })
             .as('API poke')
 
+            cy.intercept('POST', '/api/v1/auth/register/', { fixture: 'user.json'})
+            .as('Success')
+
+            cy.intercept('GET', '/api/v1', { fixture: 'api_v1.json' })
+            .as('API poke')
+
 
             cy.fixture('testDomain').as('login')
             cy.get('@login').then(domain => {
             cy.visit((domain.test).concat('/register')) })
-
-
-
-
-        cy.intercept('POST', '/api/v1/auth/register/', { fixture: 'user.json'})
-        .as('Success')
-
-        cy.intercept('GET', '/api/v1', { fixture: 'api_v1.json' })
-        .as('API poke')
 
                 cy.fixture('user').as('userFixture')
                 cy.get('@userFixture').then(user => {
