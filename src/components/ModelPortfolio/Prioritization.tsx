@@ -77,24 +77,22 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     getData(`/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`).then(
       (res) => {
         let priorities: AssetClassPriorities[] = res.data;
-        // if not on settings page (on priorities page = the first time user have to set priority), we need to assign a "fake" sell priority to assets , because they all initially set to 0
-        if (!onSettingsPage) {
-          priorities?.forEach((assetClass) => {
+        let assetClassIds: string[] = [];
+        priorities?.forEach((assetClass) => {
+          // filter out "Excluded Assets" asset class for now
+          if (assetClass.asset_class.name !== 'Excluded Assets') {
+            // collect all the asset class ids to keep track of asset classes need to have priorities confirmed for them
+            assetClassIds.push(assetClass.asset_class.id);
             assetClass.accounts_priorities.forEach((account) => {
               account.trade_priority.forEach((p, index) => {
-                p.sell_priority = index + 1;
+                // if not on settings page (on priorities page = the first time user have to set priority), we need to assign a "fake" sell priority to assets , because they all initially set to 0
+                if (!onSettingsPage) {
+                  p.sell_priority = index + 1;
+                }
               });
             });
-          });
-        }
-        // filter out "Excluded Assets" asset class for now
-        priorities = priorities.filter(
-          (priority) => priority.asset_class.name !== 'Excluded Assets',
-        );
-        // collect all the asset class ids to keep track of asset classes need to have priorities confirmed for them
-        const assetClassIds = priorities.map(
-          (assetClass: any) => assetClass.asset_class.id,
-        );
+          }
+        });
         setAssetClassPriorities(priorities);
         setNeedToConfirm(assetClassIds);
         setLoading(false);
@@ -117,16 +115,19 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     up: boolean,
   ) => {
     let priority = sellPriority;
+
     // keep track of what symbol on what account has changes so we can highlight it using css
     setChanged({ symbolId, accountId });
     setTimeout(() => {
       setChanged({ symbolId: '', accountId: '' });
     }, 300);
+
     if (up) {
       priority = priority + 1;
     } else {
       priority = priority - 1;
     }
+
     let assetClassPrioritiesCopy = JSON.parse(
       JSON.stringify(assetClassPriorities),
     );
@@ -137,6 +138,8 @@ const Prioritization = ({ onSettingsPage }: Props) => {
             account.trade_priority.forEach((security: any) => {
               if (security.symbol_id === symbolId) {
                 security.sell_priority = priority;
+                // security.allow_buy = buy;
+                // security.allow_sell = sell;
               }
               if (
                 security.sell_priority === priority &&
