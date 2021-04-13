@@ -1415,6 +1415,8 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
       notInTarget = positions.filter((position: any) => {
         if (position.quotable) {
           return targetIds?.indexOf(position.symbol.id) === -1;
+        } else {
+          return false;
         }
       });
     }

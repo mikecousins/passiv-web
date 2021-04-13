@@ -322,7 +322,7 @@ const ModelPortfolio = () => {
                     </H3>
                     <ToggleModelTypeBtn
                       onClick={() => {
-                        if (editMode) {
+                        if (editMode || applyMode) {
                           setModelTypeChanged(true);
                         } else {
                           handleChangeModelType();
