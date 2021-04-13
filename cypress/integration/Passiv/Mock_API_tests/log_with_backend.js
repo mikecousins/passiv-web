@@ -116,12 +116,13 @@ describe('Login using created data from registration', () => {
     cy.get('@userFixture').then(user => {
     cy.get('[name=email]').first().type(user.email)
     cy.get('[placeholder=Password]').type(user.password)
-    .get('form').submit()
+    })
+    cy.get('form').submit()
 
 
 
 
 
-  })
+
 })
 })
