@@ -133,7 +133,7 @@ const RebalanceWidget = ({
     return zerodhaTradeBasket;
   };
 
-  const executeZerodhaTrades = (e: any) => {
+  const executeZerodhaTrades = () => {
     const zerodhaTrades = calculateZerodhaTrades();
     postData(
       `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/starttrades/`,
