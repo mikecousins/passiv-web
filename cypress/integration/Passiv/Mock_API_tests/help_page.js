@@ -13,7 +13,7 @@
         body: 'it worked!'
       }).as('api poke')
 
-      
+
       cy.fixture('localhost').as('server')
       cy.get('@server').then(domain => {
       cy.visit((domain.test).concat('/help')) })
@@ -22,8 +22,7 @@
           cy.get('[name=le]').first().type(user.email)
           cy.get('[name=lm]').first().type("test")
       cy.get('button').contains('Submit').click()
-      cy.wait('@email')
-
+      
 
       })
     })

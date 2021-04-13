@@ -50,8 +50,6 @@ describe('Database test', () => {
                     .type(pass)
                     .should('have.value', pass)
                 .get('form').submit()
-
-                .wait('@Save')
                 .then(() => {
                     cy.writeFile('cypress/fixtures/user.json', JSON.stringify (body, null, 2))
                 })

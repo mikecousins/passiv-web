@@ -29,7 +29,7 @@ cy.intercept('/api/v1/help/', (req) => { req.reply((res) => { res.send({ fixture
   cy.visit((domain.test).concat('/reset-password')) })
   cy.get('input').click({multiple:true}).type('asutherland8219@gmail.com')
   cy.get('button').contains('Reset').click()
-  cy.wait('@Reset')
+
 
 
 
