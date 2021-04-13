@@ -133,12 +133,14 @@ const RebalanceWidget = ({
     return zerodhaTradeBasket;
   };
 
-  const executeZerodhaTrades = () => {
+  const executeZerodhaTrades = (e: any) => {
     const zerodhaTrades = calculateZerodhaTrades();
     postData(
       `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/starttrades/`,
       zerodhaTrades,
-    );
+    ).then(() => {
+      return true;
+    });
   };
 
   const confirmOrders = () => {
@@ -248,6 +250,7 @@ const RebalanceWidget = ({
           method="post"
           id="basket-form"
           action="https://kite.zerodha.com/connect/basket"
+          onSubmit={executeZerodhaTrades}
         >
           <input type="hidden" name="api_key" value="pnriechdkzx5ipvq" />
           <input
@@ -256,10 +259,7 @@ const RebalanceWidget = ({
             name="data"
             value={JSON.stringify(calculateZerodhaTrades())}
           />
-          <Button
-            onClick={executeZerodhaTrades}
-            className="tour-one-click-trade"
-          >
+          <Button className="tour-one-click-trade">
             Place Trades on Zerodha
           </Button>
         </form>
