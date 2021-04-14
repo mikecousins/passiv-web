@@ -1,4 +1,7 @@
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCheckCircle,
   faChevronDown,
@@ -6,10 +9,6 @@ import {
   faExclamationCircle,
   faLongArrowAltUp,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { number } from 'prop-types';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { selectCurrentGroupPositions } from '../../selectors/groups';
 import { selectSymbols } from '../../selectors/symbols';
 import { Button } from '../../styled/Button';
