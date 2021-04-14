@@ -85,7 +85,6 @@ describe('Registration Test', () => {
             expect(request.body).to.have.property('email', user.email)
             expect(request.body).to.have.property('password', user.password)
             expect(request.method).to.eq('POST')
-        window.alert('Successfully registered! Welcome to passiv!')
 
         // Upon successful registration a token is assigned and stored in the json data base "user.json"
 

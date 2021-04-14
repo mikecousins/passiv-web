@@ -22,10 +22,9 @@ import { Button } from '../../styled/Button';
 import { A } from '../../styled/GlobalElements';
 import { deleteData, postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
-
+import { selectAuthorizations } from '../../selectors';
 import { selectModelUseByOtherGroups } from '../../selectors/modelPortfolios';
 import { selectModelPortfolioFeature } from '../../selectors/features';
-import { selectAuthorizations } from '../../selectors';
 
 const ButtonBox = styled.div`
   display: flex;
@@ -150,12 +149,6 @@ const ButtonLinks = styled.div`
       padding-right: 0;
     }
   }
-`;
-
-const ApplyNewModelBtn = styled(Button)`
-  background-color: transparent;
-  color: var(--brand-blue);
-  border: 1px solid var(--brand-blue);
 `;
 
 type Props = {
@@ -508,16 +501,16 @@ export const TargetSelector = ({
                                 parseFloat(e.target.value),
                               )
                             }
-                            onBlur={() => {
-                              props.setFieldValue(
-                                `targets.${index}.percent` as 'targets',
-                                parseFloat(
-                                  props.values.targets[index].percent.toFixed(
-                                    4,
-                                  ),
-                                ),
-                              );
-                            }}
+                            // onBlur={() => {
+                            //   props.setFieldValue(
+                            //     `targets.${index}.percent` as 'targets',
+                            //     parseFloat(
+                            //       props.values.targets[index].percent.toFixed(
+                            //         4,
+                            //       ),
+                            //     ),
+                            //   );
+                            // }}
                             readOnly={!canEdit}
                           />
                         </TargetBar>
@@ -636,14 +629,6 @@ export const TargetSelector = ({
                         >
                           Edit Model
                         </Button>
-                        <ApplyNewModelBtn
-                          type="button"
-                          onClick={() => {
-                            dispatch(push(`/app/models/group/${groupId}`));
-                          }}
-                        >
-                          Apply Another Model
-                        </ApplyNewModelBtn>
                       </div>
                       <div>
                         <A type="button" onClick={() => resetTargets()}>

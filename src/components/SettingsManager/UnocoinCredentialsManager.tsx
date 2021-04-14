@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectSettings } from '../../selectors';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../../styled/Form';
 import { H2, A, P } from '../../styled/GlobalElements';
@@ -23,14 +22,7 @@ const MiniInputNonFormik = styled(InputNonFormik)`
 `;
 
 const UnocoinCredentialsManager = () => {
-  const settings = useSelector(selectSettings);
   const [APIKey, setAPIKey] = useState('');
-
-  useEffect(() => {
-    if (settings) {
-      // setAPIKey(settings.APIKey);
-    }
-  }, [settings]);
 
   const generateTokenString = () => {
     let token_string = '';
@@ -72,7 +64,7 @@ const UnocoinCredentialsManager = () => {
 
       <P>
         If you're stuck, read our{' '}
-        <A href="#">
+        <A href="https://passiv.com/help/tutorials/connect-unocoin-to-passiv/">
           tutorial on how to connect your Unocoin account to Passiv.
         </A>
       </P>
