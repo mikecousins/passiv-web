@@ -72,7 +72,7 @@ const UnocoinCredentialsManager = () => {
 
       <P>
         If you're stuck, read our{' '}
-        <A href="#">
+        <A href="https://passiv.com/help/tutorials/connect-unocoin-to-passiv/">
           tutorial on how to connect your Unocoin account to Passiv.
         </A>
       </P>
