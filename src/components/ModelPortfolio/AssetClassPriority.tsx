@@ -7,6 +7,7 @@ import {
   faLongArrowAltUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { number } from 'prop-types';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentGroupPositions } from '../../selectors/groups';
@@ -241,6 +242,9 @@ const AssetClassPriority = ({
         <AssetClassDetails>
           {assetClass.accounts_priorities.map((account, index) => {
             const numberOfSecurities = account.trade_priority.length;
+            const numberOfAssignedPriorities = account.trade_priority.filter(
+              (priority) => priority.allow_sell,
+            );
             return (
               <AccountSection
                 last={index === assetClass.accounts_priorities.length - 1}
@@ -266,14 +270,15 @@ const AssetClassPriority = ({
                       {account.trade_priority
                         .sort((a, b) => b.sell_priority - a.sell_priority)
                         .map((priority, index) => {
-                          const allowBuy =
-                            priority.sell_priority === numberOfSecurities;
+                          const allowBuy = priority.allow_buy;
 
                           return (
                             <Security
                               columns={
                                 allowBuy && editing
-                                  ? '100px 5fr 100px 100px'
+                                  ? 'auto 100px 5fr 100px 100px'
+                                  : editing
+                                  ? 'auto 100px 5fr 100px'
                                   : '100px 5fr 100px'
                               }
                               isChanged={
@@ -283,6 +288,25 @@ const AssetClassPriority = ({
                               allowBuy={allowBuy}
                               key={priority.symbol_id}
                             >
+                              {editing && (
+                                <input
+                                  type="checkbox"
+                                  checked={!priority.allow_sell}
+                                  onChange={() => {
+                                    handleBtn(
+                                      assetClass.asset_class.id,
+                                      account.account.id,
+                                      priority.symbol_id,
+                                      priority.sell_priority,
+                                      false,
+                                      true,
+                                      priority.allow_sell,
+                                      numberOfAssignedPriorities.length,
+                                    );
+                                  }}
+                                />
+                              )}
+
                               <Symbol>
                                 {symbols[priority.symbol_id]?.symbol}{' '}
                               </Symbol>
@@ -296,52 +320,68 @@ const AssetClassPriority = ({
                                 ) && <NewSecurity>New</NewSecurity>}
                               </Description>
                               {allowBuy && <H2>Buy</H2>}
-                              {editing && numberOfSecurities !== 1 && (
-                                <EditPriorityContainer>
-                                  <UpDownButton
-                                    isHidden={index === 0}
-                                    disabled={index === 0}
-                                    onClick={() =>
-                                      handleBtn(
-                                        assetClass.asset_class.id,
-                                        account.account.id,
-                                        priority.symbol_id,
-                                        priority.sell_priority,
-                                        true,
-                                      )
-                                    }
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={faChevronUp}
-                                      size="lg"
-                                    />
-                                  </UpDownButton>
-                                  <UpDownButton
-                                    isHidden={
-                                      index ===
-                                      account.trade_priority.length - 1
-                                    }
-                                    disabled={
-                                      index ===
-                                      account.trade_priority.length - 1
-                                    }
-                                    onClick={() =>
-                                      handleBtn(
-                                        assetClass.asset_class.id,
-                                        account.account.id,
-                                        priority.symbol_id,
-                                        priority.sell_priority,
-                                        false,
-                                      )
-                                    }
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={faChevronDown}
-                                      size="lg"
-                                    />
-                                  </UpDownButton>
-                                </EditPriorityContainer>
-                              )}
+                              {editing &&
+                                numberOfAssignedPriorities.length > 1 &&
+                                (index !== numberOfSecurities - 1 ||
+                                  priority.allow_sell) &&
+                                (index !== 0 || priority.allow_sell) && (
+                                  <EditPriorityContainer>
+                                    <UpDownButton
+                                      isHidden={
+                                        index === 0 || !priority.allow_sell
+                                      }
+                                      disabled={
+                                        index === 0 || !priority.allow_sell
+                                      }
+                                      onClick={() =>
+                                        handleBtn(
+                                          assetClass.asset_class.id,
+                                          account.account.id,
+                                          priority.symbol_id,
+                                          priority.sell_priority,
+                                          true,
+                                          false,
+                                          priority.allow_sell,
+                                          numberOfAssignedPriorities.length,
+                                        )
+                                      }
+                                    >
+                                      <FontAwesomeIcon
+                                        icon={faChevronUp}
+                                        size="lg"
+                                      />
+                                    </UpDownButton>
+                                    <UpDownButton
+                                      isHidden={
+                                        index ===
+                                          numberOfAssignedPriorities.length -
+                                            1 || !priority.allow_sell
+                                      }
+                                      disabled={
+                                        index ===
+                                          numberOfAssignedPriorities.length -
+                                            1 || !priority.allow_sell
+                                      }
+                                      onClick={() =>
+                                        handleBtn(
+                                          assetClass.asset_class.id,
+                                          account.account.id,
+                                          priority.symbol_id,
+                                          priority.sell_priority,
+                                          false,
+                                          false,
+                                          priority.allow_sell,
+                                          numberOfAssignedPriorities.length,
+                                        )
+                                      }
+                                    >
+                                      <FontAwesomeIcon
+                                        icon={faChevronDown}
+                                        size="lg"
+                                      />
+                                    </UpDownButton>
+                                  </EditPriorityContainer>
+                                )}
                             </Security>
                           );
                         })}

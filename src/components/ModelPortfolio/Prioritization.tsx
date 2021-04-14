@@ -113,8 +113,22 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     symbolId: string,
     sellPriority: number,
     up: boolean,
+    doNothing: boolean,
+    allowSell: boolean,
+    assignedPrioritiesLength: number,
   ) => {
     let priority = sellPriority;
+    let sell = allowSell;
+    let len = assignedPrioritiesLength;
+
+    if (doNothing) {
+      sell = !sell;
+      if (sell) {
+        priority = len + 1;
+      } else {
+        priority = 0;
+      }
+    }
 
     // keep track of what symbol on what account has changes so we can highlight it using css
     setChanged({ symbolId, accountId });
@@ -122,10 +136,12 @@ const Prioritization = ({ onSettingsPage }: Props) => {
       setChanged({ symbolId: '', accountId: '' });
     }, 300);
 
-    if (up) {
-      priority = priority + 1;
-    } else {
-      priority = priority - 1;
+    if (!doNothing) {
+      if (up) {
+        priority = priority + 1;
+      } else {
+        priority = priority - 1;
+      }
     }
 
     let assetClassPrioritiesCopy = JSON.parse(
@@ -139,11 +155,12 @@ const Prioritization = ({ onSettingsPage }: Props) => {
               if (security.symbol_id === symbolId) {
                 security.sell_priority = priority;
                 // security.allow_buy = buy;
-                // security.allow_sell = sell;
+                security.allow_sell = sell;
               }
               if (
                 security.sell_priority === priority &&
-                security.symbol_id !== symbolId
+                security.symbol_id !== symbolId &&
+                !doNothing
               ) {
                 if (up) {
                   security.sell_priority = priority - 1;
@@ -168,15 +185,20 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           account.account_id = account.account.id;
           let newPriority: any[] = [];
           let buyPriority: string[] = [];
+          let unassigned: string[] = [];
           account.trade_priority.forEach((priority) => {
-            newPriority.push(priority.symbol_id);
-            if (priority.allow_buy && buyPriority.length === 0) {
-              buyPriority.push(priority.symbol_id);
+            if (!priority.allow_sell) {
+              unassigned.push(priority.symbol_id);
+            } else {
+              newPriority.push(priority.symbol_id);
+              if (priority.allow_buy && buyPriority.length === 0) {
+                buyPriority.push(priority.symbol_id);
+              }
             }
           });
           account.sell_priority = newPriority;
           account.buy_priority = buyPriority;
-          account.unassigned = [];
+          account.unassigned = unassigned;
         });
       });
       postData(
