@@ -135,12 +135,18 @@ const RebalanceWidget = ({
 
   const executeZerodhaTrades = () => {
     const zerodhaTrades = calculateZerodhaTrades();
+    let status = false;
     postData(
       `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/starttrades/`,
       zerodhaTrades,
-    ).then(() => {
-      return true;
-    });
+    )
+      .then(() => {
+        status = true;
+      })
+      .catch(() => {
+        status = false;
+      });
+    return status;
   };
 
   const confirmOrders = () => {
