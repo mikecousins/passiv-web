@@ -217,7 +217,7 @@ const RebalanceWidget = ({
   );
 
   var hasZerodhaAccount = false;
-
+  var hasNonZerodhaAccount = false;
   groupAccounts.map((acc: any) => {
     //find the authorization associated with this account
     if (authorizations === undefined) {
@@ -238,10 +238,14 @@ const RebalanceWidget = ({
       hasZerodhaAccount = true;
       return true;
     }
+    if (!isZerodhaConnection) {
+      hasNonZerodhaAccount = true;
+      return true;
+    }
     return false;
   });
 
-  if (hasZerodhaAccount) {
+  if (hasZerodhaAccount && !hasNonZerodhaAccount) {
     orderValidation = (
       <div>
         <form
@@ -264,6 +268,28 @@ const RebalanceWidget = ({
           </Button>
         </form>
       </div>
+    );
+  }
+
+  if (hasZerodhaAccount && hasNonZerodhaAccount) {
+    orderValidation = (
+      <>
+        <div>
+          At this time, we do not support one-click trades for portfolio groups
+          that contain both Zerodha accounts and non-Zerodha accounts.
+        </div>
+        <br></br>
+        <div>
+          This feature is on our product roadmap. For now, you can separate your
+          brokerage accounts into distinct portfolio groups to access our
+          one-click trade functionality.
+        </div>
+        <br></br>
+        <div>
+          Please <a href="mailto:support@passiv.com">contact support</a> if you
+          have any questions!
+        </div>
+      </>
     );
   }
 
