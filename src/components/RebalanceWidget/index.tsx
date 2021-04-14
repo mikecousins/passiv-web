@@ -220,6 +220,7 @@ const RebalanceWidget = ({
 
   var hasZerodhaAccount = false;
   var hasNonZerodhaAccount = false;
+  var hasUnocoinAccount = false;
   groupAccounts.map((acc: any) => {
     //find the authorization associated with this account
     if (authorizations === undefined) {
@@ -234,7 +235,11 @@ const RebalanceWidget = ({
       return false;
     }
     const isZerodhaConnection = authorization.brokerage.name === 'Zerodha';
-
+    const isUnocoinConnection = authorization.brokerage.name === 'Unocoin';
+    if (isUnocoinConnection) {
+      hasUnocoinAccount = true;
+      return true;
+    }
     //If so, marks the `hasZerodhaAccount` variable as `true`
     if (isZerodhaConnection) {
       hasZerodhaAccount = true;
@@ -463,7 +468,21 @@ const RebalanceWidget = ({
     }
   }
 
-  return <SummaryContainer>{orderValidation}</SummaryContainer>;
+  return (
+    <SummaryContainer>
+      {orderValidation}
+      <br></br>
+      <div>
+        Note - Unocoin only allows users to trade 3 cryptocurrencies using its
+        API: BTC, ETH, and USDT.
+      </div>
+      <br></br>
+      <div>
+        To trade other coins within your Unocoin account, please login to their
+        website at <a href="www.unocoin.com">www.unocoin.com</a>.
+      </div>
+    </SummaryContainer>
+  );
 };
 
 export default RebalanceWidget;
