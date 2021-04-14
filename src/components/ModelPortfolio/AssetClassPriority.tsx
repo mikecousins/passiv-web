@@ -270,6 +270,7 @@ const AssetClassPriority = ({
                       {account.trade_priority
                         .sort((a, b) => b.sell_priority - a.sell_priority)
                         .map((priority, index) => {
+                          const allowSell = priority.allow_sell;
                           const allowBuy = priority.allow_buy;
 
                           return (
@@ -291,7 +292,7 @@ const AssetClassPriority = ({
                               {editing && (
                                 <input
                                   type="checkbox"
-                                  checked={!priority.allow_sell}
+                                  checked={!allowSell}
                                   onChange={() => {
                                     handleBtn(
                                       assetClass.asset_class.id,
@@ -300,7 +301,7 @@ const AssetClassPriority = ({
                                       priority.sell_priority,
                                       false,
                                       true,
-                                      priority.allow_sell,
+                                      allowSell,
                                       numberOfAssignedPriorities.length,
                                     );
                                   }}
@@ -323,16 +324,12 @@ const AssetClassPriority = ({
                               {editing &&
                                 numberOfAssignedPriorities.length > 1 &&
                                 (index !== numberOfSecurities - 1 ||
-                                  priority.allow_sell) &&
-                                (index !== 0 || priority.allow_sell) && (
+                                  allowSell) &&
+                                (index !== 0 || allowSell) && (
                                   <EditPriorityContainer>
                                     <UpDownButton
-                                      isHidden={
-                                        index === 0 || !priority.allow_sell
-                                      }
-                                      disabled={
-                                        index === 0 || !priority.allow_sell
-                                      }
+                                      isHidden={index === 0 || !allowSell}
+                                      disabled={index === 0 || !allowSell}
                                       onClick={() =>
                                         handleBtn(
                                           assetClass.asset_class.id,
@@ -341,7 +338,7 @@ const AssetClassPriority = ({
                                           priority.sell_priority,
                                           true,
                                           false,
-                                          priority.allow_sell,
+                                          allowSell,
                                           numberOfAssignedPriorities.length,
                                         )
                                       }
@@ -355,12 +352,12 @@ const AssetClassPriority = ({
                                       isHidden={
                                         index ===
                                           numberOfAssignedPriorities.length -
-                                            1 || !priority.allow_sell
+                                            1 || !allowSell
                                       }
                                       disabled={
                                         index ===
                                           numberOfAssignedPriorities.length -
-                                            1 || !priority.allow_sell
+                                            1 || !allowSell
                                       }
                                       onClick={() =>
                                         handleBtn(
@@ -370,7 +367,7 @@ const AssetClassPriority = ({
                                           priority.sell_priority,
                                           false,
                                           false,
-                                          priority.allow_sell,
+                                          allowSell,
                                           numberOfAssignedPriorities.length,
                                         )
                                       }

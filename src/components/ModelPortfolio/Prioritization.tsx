@@ -183,22 +183,24 @@ const Prioritization = ({ onSettingsPage }: Props) => {
       assetClassPriorities.forEach((assetClass) => {
         assetClass.accounts_priorities.forEach((account) => {
           account.account_id = account.account.id;
-          let newPriority: any[] = [];
+          let sellPriority: any[] = [];
           let buyPriority: string[] = [];
           let unassigned: string[] = [];
           account.trade_priority.forEach((priority) => {
             if (!priority.allow_sell) {
               unassigned.push(priority.symbol_id);
-            } else {
-              newPriority.push(priority.symbol_id);
-              if (priority.allow_buy && buyPriority.length === 0) {
-                buyPriority.push(priority.symbol_id);
-              }
+            }
+            if (priority.allow_buy && buyPriority.length === 0) {
+              buyPriority.push(priority.symbol_id);
+            }
+            if (priority.allow_sell && !priority.allow_buy) {
+              sellPriority.push(priority.symbol_id);
             }
           });
-          account.sell_priority = newPriority;
+          account.sell_priority = sellPriority;
           account.buy_priority = buyPriority;
           account.unassigned = unassigned;
+          account.trade_priority = [];
         });
       });
       postData(
