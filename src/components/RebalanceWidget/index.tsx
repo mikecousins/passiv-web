@@ -471,16 +471,20 @@ const RebalanceWidget = ({
   return (
     <SummaryContainer>
       {orderValidation}
-      <br></br>
-      <div>
-        Note - Unocoin only allows users to trade 3 cryptocurrencies using its
-        API: BTC, ETH, and USDT.
-      </div>
-      <br></br>
-      <div>
-        To trade other coins within your Unocoin account, please login to their
-        website at <a href="www.unocoin.com">www.unocoin.com</a>.
-      </div>
+      {hasUnocoinAccount && (
+        <>
+          <br></br>
+          <div>
+            Note - Unocoin only allows users to trade 3 cryptocurrencies using
+            its API: BTC, ETH, and USDT.
+          </div>
+          <br></br>
+          <div>
+            To trade other coins within your Unocoin account, please login to
+            their website at <a href="www.unocoin.com">www.unocoin.com</a>.
+          </div>
+        </>
+      )}
     </SummaryContainer>
   );
 };
