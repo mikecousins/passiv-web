@@ -209,11 +209,11 @@ export const AccountHoldings = ({ holdings }: Props) => {
       sortFunc: (a: Position, b: Position): number => {
         const aPreferred = convertCurrencyToPreferred(
           a.price,
-          a.symbol.symbol.currency,
+          a.currency ? a.currency.id : a.symbol.symbol.currency,
         );
         const bPreferred = convertCurrencyToPreferred(
           b.price,
-          b.symbol.symbol.currency,
+          b.currency ? b.currency.id : b.symbol.symbol.currency,
         );
         return multiplier * (bPreferred - aPreferred);
       },
@@ -229,32 +229,48 @@ export const AccountHoldings = ({ holdings }: Props) => {
 
         if (a.fractional_units && b.fractional_units) {
           aPreferred =
-            convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
-            a.fractional_units;
+            convertCurrencyToPreferred(
+              a.price,
+              a.currency ? a.currency.id : a.symbol.symbol.currency,
+            ) * a.fractional_units;
           bPreferred =
-            convertCurrencyToPreferred(b.price, b.symbol.symbol.currency) *
-            b.fractional_units;
+            convertCurrencyToPreferred(
+              b.price,
+              b.currency ? b.currency.id : b.symbol.symbol.currency,
+            ) * b.fractional_units;
         } else if (a.fractional_units) {
           aPreferred =
-            convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
-            a.fractional_units;
+            convertCurrencyToPreferred(
+              a.price,
+              a.currency ? a.currency.id : a.symbol.symbol.currency,
+            ) * a.fractional_units;
           bPreferred =
-            convertCurrencyToPreferred(b.price, b.symbol.symbol.currency) *
-            b.units;
+            convertCurrencyToPreferred(
+              b.price,
+              b.currency ? b.currency.id : b.symbol.symbol.currency,
+            ) * b.units;
         } else if (b.fractional_units) {
           aPreferred =
-            convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
-            a.units;
+            convertCurrencyToPreferred(
+              a.price,
+              a.currency ? a.currency.id : a.symbol.symbol.currency,
+            ) * a.units;
           bPreferred =
-            convertCurrencyToPreferred(b.price, b.symbol.symbol.currency) *
-            b.fractional_units;
+            convertCurrencyToPreferred(
+              b.price,
+              b.currency ? b.currency.id : b.symbol.symbol.currency,
+            ) * b.fractional_units;
         } else {
           aPreferred =
-            convertCurrencyToPreferred(a.price, a.symbol.symbol.currency) *
-            a.units;
+            convertCurrencyToPreferred(
+              a.price,
+              a.currency ? a.currency.id : a.symbol.symbol.currency,
+            ) * a.units;
           bPreferred =
-            convertCurrencyToPreferred(b.price, b.symbol.symbol.currency) *
-            b.units;
+            convertCurrencyToPreferred(
+              b.price,
+              b.currency ? b.currency.id : b.symbol.symbol.currency,
+            ) * b.units;
         }
 
         return multiplier * (bPreferred - aPreferred);
@@ -268,11 +284,11 @@ export const AccountHoldings = ({ holdings }: Props) => {
       sortFunc: (a: Position, b: Position): number => {
         const aPreferred = convertCurrencyToPreferred(
           a.open_pnl,
-          a.symbol.symbol.currency,
+          a.currency ? a.currency.id : a.symbol.symbol.currency,
         );
         const bPreferred = convertCurrencyToPreferred(
           b.open_pnl,
-          b.symbol.symbol.currency,
+          b.currency ? b.currency.id : b.symbol.symbol.currency,
         );
         return multiplier * (bPreferred - aPreferred);
       },
@@ -304,7 +320,11 @@ export const AccountHoldings = ({ holdings }: Props) => {
   const renderedPositions =
     sortedPositions &&
     sortedPositions.map((position: any) => {
-      const currency = getCurrencyById(position.symbol.symbol.currency);
+      const currency = getCurrencyById(
+        position.currency
+          ? position.currency.id
+          : position.symbol.symbol.currency,
+      );
       return (
         <tr key={position.symbol.id}>
           <td>
