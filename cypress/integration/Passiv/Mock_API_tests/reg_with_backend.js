@@ -26,7 +26,7 @@ describe('Database test', () => {
 
 
             cy.fixture('localhost').as('login')
-            cy.visit('/register')
+            cy.visit('/app/register', { responseTimeout: 31000 })
 
     // the variable for the info that will be stored in the JSON db
     let body
@@ -75,7 +75,7 @@ describe('Database test', () => {
 
           cy.fixture('user').as('userFixture')
           cy.get('@userFixture').as('Save')
-          .get('form').submit()
+          cy.get('form').submit()
 
         // Upon successful registration a token is assigned and stored in the json data base "user.json"
 

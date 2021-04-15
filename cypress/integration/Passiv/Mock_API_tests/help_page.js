@@ -16,13 +16,13 @@
 
       cy.fixture('localhost').as('server')
       cy.get('@server').then(domain => {
-      cy.visit((domain.test).concat('/help')) })
+      cy.visit((domain.test).concat('/help'), { responseTimeout: 31000 }) })
 
       cy.fixture('user').as('userFixture')
       cy.get('@userFixture').then(user => {
           cy.get('[name=le]').first().type(user.email)
           cy.get('[name=lm]').first().type("test")
       })
-      
+
       cy.get('button').contains('Submit').click()
     })
