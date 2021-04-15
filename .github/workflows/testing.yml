@@ -6,7 +6,6 @@ on:
     branches: [ automated_tests ]
 jobs:
   job_one:
-    name: register
     runs-on: ubuntu-20.04
     # let's make sure our tests pass on Chrome browser
     name: API-less tests on Chrome
@@ -24,7 +23,6 @@ jobs:
 
   job_two:
     needs: [job_one]
-    name: login
     runs-on: ubuntu-20.04
     # let's make sure our tests pass on Chrome browser
     name: API-less tests on Chrome
