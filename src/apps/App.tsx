@@ -120,11 +120,11 @@ const TDAmeritradeOauthPage = ReactLazyPreload(() =>
 );
 
 const KrakenAuthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "kraken-auth" */ '../pages/KrakenAuthPage'),
+  import(/* webpackChunkName: "kraken-oauth" */ '../pages/KrakenAuthPage'),
 );
 
 const UnocoinAuthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "unocoin-oauth" */ '../pages/UnocoinAuthPage'),
+  import(/* webpackChunkName: "kraken-oauth" */ '../pages/UnocoinAuthPage'),
 );
 
 const KrakenOauthPage = ReactLazyPreload(() =>
@@ -194,27 +194,23 @@ const GoalsPage = ReactLazyPreload(() =>
 );
 const ModelAssetClassPage = React.lazy(() =>
   //? webpackChunkName
-  import(/* webpackChunkName: "asset-class" */ '../pages/ModelAssetClassPage'),
+  import(/* webpackChunkName: "...?" */ '../pages/ModelAssetClassPage'),
 );
 
 const MyModelPortfoliosPage = React.lazy(() =>
   //? webpackChunkName
-  import(
-    /* webpackChunkName: "model-portfolios" */ '../pages/MyModelPortfoliosPage'
-  ),
+  import(/* webpackChunkName: "...?" */ '../pages/MyModelPortfoliosPage'),
 );
 
 const ModelPortfolioPage = React.lazy(() =>
   //? webpackChunkName
-  import(
-    /* webpackChunkName: "model-portfolio" */ '../pages/ModelPortfolioPage'
-  ),
+  import(/* webpackChunkName: "...?" */ '../pages/ModelPortfolioPage'),
 );
 
 const SharedModelPortfolio = React.lazy(() =>
   //? webpackChunkName
   import(
-    /* webpackChunkName: "shared-model-portfolio" */ '../components/ModelPortfolio/SharedModelPortfolio'
+    /* webpackChunkName: "...?" */ '../components/ModelPortfolio/SharedModelPortfolio'
   ),
 );
 

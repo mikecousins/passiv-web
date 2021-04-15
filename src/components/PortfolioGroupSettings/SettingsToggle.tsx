@@ -53,7 +53,7 @@ const SettingsToggle = ({
     value = !value;
   }
   let toggleButton = (
-    <ToggleButton onClick={onChange}>
+    <ToggleButton onClick={onChange} className="tour-allow-selling">
       <Tooltip label={tip}>
         <FontAwesomeIcon icon={value ? faToggleOn : faToggleOff} />
       </Tooltip>

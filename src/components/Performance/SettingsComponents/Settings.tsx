@@ -2,25 +2,9 @@ import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  loadPerformanceAll,
-  loadPerformanceCustom,
-  updateReportingSettings,
-} from '../../../actions/performance';
-import {
-  selectHasQuestradeConnection,
-  selectHasWealthicaConnection,
-} from '../../../selectors';
-import { selectNewReportingFeature } from '../../../selectors/features';
-import {
-  selectEndDate,
-  selectPerformanceCurrentDetailedMode,
-  selectReportingSettings,
-  selectSelectedAccounts,
-  selectSelectedTimeframe,
-  selectStartDate,
-} from '../../../selectors/performance';
-import { Button } from '../../../styled/Button';
+import { updateReportingSettings } from '../../../actions/performance';
+import { selectFeatures } from '../../../selectors/features';
+import { selectReportingSettings } from '../../../selectors/performance';
 import { OptionsTitle } from '../../../styled/GlobalElements';
 import ShadowBox from '../../../styled/ShadowBox';
 import { StateText, ToggleButton } from '../../../styled/ToggleButton';
@@ -29,31 +13,15 @@ import DefaultChart from './DefaultChart';
 import DetailedChart from './DetailedChart';
 
 const Settings = () => {
+  const flags = useSelector(selectFeatures);
   const dispatch = useDispatch();
-  const timeframe = useSelector(selectSelectedTimeframe);
   const settings = useSelector(selectReportingSettings)?.data;
   const [detailedMode, setDetailedMode] = useState(settings?.detailed_view);
   const [showDividendData, setShowDividendData] = useState(
     settings?.show_dividend_data,
   );
-  const [includeQuestrade, setIncludeQuestrade] = useState(
-    settings?.include_questrade,
-  );
-  const [includeWealthica, setIncludeWealthica] = useState(
-    settings?.include_wealthica,
-  );
   const [showReturnRate, setShowReturnRate] = useState(
     settings?.show_return_rate,
-  );
-  const useNewReporting = useSelector(selectNewReportingFeature);
-  const hasQuestradeAccount = useSelector(selectHasQuestradeConnection);
-  const hasWealthicaAccount = useSelector(selectHasWealthicaConnection);
-  const startDate = useSelector(selectStartDate);
-  const endDate = useSelector(selectEndDate);
-  const accountNumbers = useSelector(selectSelectedAccounts);
-
-  const currentlyDetailedMode = useSelector(
-    selectPerformanceCurrentDetailedMode,
   );
   const enableDetailedMode = () => {
     setDetailedMode(true);
@@ -97,45 +65,6 @@ const Settings = () => {
       }),
     );
   };
-  const handleIncludeQuestradeToggle = () => {
-    const oldValue = includeQuestrade;
-    setIncludeQuestrade(!includeQuestrade);
-    dispatch(
-      updateReportingSettings({
-        detailedView: detailedMode,
-        showReturnRate: showReturnRate,
-        showDividendData: showDividendData,
-        includeQuestrade: !oldValue,
-        includeWealthica: includeWealthica,
-      }),
-    );
-  };
-  const handleIncludeWealthicaToggle = () => {
-    const oldValue = includeWealthica;
-    setIncludeWealthica(!includeWealthica);
-    dispatch(
-      updateReportingSettings({
-        detailedView: detailedMode,
-        showReturnRate: !oldValue,
-        showDividendData: showDividendData,
-        includeQuestrade: includeQuestrade,
-        includeWealthica: !oldValue,
-      }),
-    );
-  };
-
-  const needsDataRefresh = () => {
-    const detailedModeNeedsUpdate = currentlyDetailedMode !== detailedMode;
-    return detailedModeNeedsUpdate;
-  };
-  const repullData = () => {
-    if (timeframe !== 'CST') {
-      dispatch(loadPerformanceAll(accountNumbers));
-    } else {
-      dispatch(loadPerformanceAll(accountNumbers));
-      dispatch(loadPerformanceCustom(accountNumbers, startDate, endDate));
-    }
-  };
 
   return (
     <ShadowBox>
@@ -153,7 +82,7 @@ const Settings = () => {
             </React.Fragment>
           )}
         </ToggleButton>
-        <OptionsTitle>Show Dividend Information</OptionsTitle>
+        <OptionsTitle>Show Dividends Related Data</OptionsTitle>
       </Option>
       <Option>
         <ToggleButton onClick={() => handleReturnRateToggle()}>
@@ -171,44 +100,7 @@ const Settings = () => {
         </ToggleButton>
         <OptionsTitle>Show Rate of Return</OptionsTitle>
       </Option>
-      {hasQuestradeAccount && hasWealthicaAccount && (
-        <>
-          <Option>
-            <ToggleButton onClick={() => handleIncludeQuestradeToggle()}>
-              {includeQuestrade ? (
-                <React.Fragment>
-                  <FontAwesomeIcon icon={faToggleOn} />
-                  <StateText>on</StateText>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <FontAwesomeIcon icon={faToggleOff} />
-                  <StateText>off</StateText>
-                </React.Fragment>
-              )}
-            </ToggleButton>
-            <OptionsTitle>Include Questrade Accounts</OptionsTitle>
-          </Option>
-          <Option>
-            <ToggleButton onClick={() => handleIncludeWealthicaToggle()}>
-              {includeWealthica ? (
-                <React.Fragment>
-                  <FontAwesomeIcon icon={faToggleOn} />
-                  <StateText>on</StateText>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <FontAwesomeIcon icon={faToggleOff} />
-                  <StateText>off</StateText>
-                </React.Fragment>
-              )}
-            </ToggleButton>
-            <OptionsTitle>Include Wealthica Accounts</OptionsTitle>
-          </Option>
-        </>
-      )}
-
-      {useNewReporting && (
+      {flags?.includes('reporting2') && (
         <Option>
           <div>
             <span onClick={() => disableDetailedMode()}>
@@ -218,13 +110,8 @@ const Settings = () => {
               <DetailedChart selected={detailedMode} />
             </span>
           </div>
-        </Option>
-      )}
-      {needsDataRefresh() && (
-        <>
           <br></br>
-          <Button onClick={() => repullData()}>Save and refresh data</Button>
-        </>
+        </Option>
       )}
     </ShadowBox>
   );

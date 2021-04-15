@@ -77,22 +77,24 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     getData(`/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`).then(
       (res) => {
         let priorities: AssetClassPriorities[] = res.data;
-        let assetClassIds: string[] = [];
-        priorities?.forEach((assetClass) => {
-          // filter out "Excluded Assets" asset class for now
-          if (assetClass.asset_class.name !== 'Excluded Assets') {
-            // collect all the asset class ids to keep track of asset classes need to have priorities confirmed for them
-            assetClassIds.push(assetClass.asset_class.id);
+        // if not on settings page (on priorities page = the first time user have to set priority), we need to assign a "fake" sell priority to assets , because they all initially set to 0
+        if (!onSettingsPage) {
+          priorities?.forEach((assetClass) => {
             assetClass.accounts_priorities.forEach((account) => {
               account.trade_priority.forEach((p, index) => {
-                // if not on settings page (on priorities page = the first time user have to set priority), we need to assign a "fake" sell priority to assets , because they all initially set to 0
-                if (!onSettingsPage) {
-                  p.sell_priority = index + 1;
-                }
+                p.sell_priority = index + 1;
               });
             });
-          }
-        });
+          });
+        }
+        // filter out "Excluded Assets" asset class for now
+        priorities = priorities.filter(
+          (priority) => priority.asset_class.name !== 'Excluded Assets',
+        );
+        // collect all the asset class ids to keep track of asset classes need to have priorities confirmed for them
+        const assetClassIds = priorities.map(
+          (assetClass: any) => assetClass.asset_class.id,
+        );
         setAssetClassPriorities(priorities);
         setNeedToConfirm(assetClassIds);
         setLoading(false);
@@ -113,37 +115,18 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     symbolId: string,
     sellPriority: number,
     up: boolean,
-    doNothing: boolean,
-    allowSell: boolean,
-    assignedPrioritiesLength: number,
   ) => {
     let priority = sellPriority;
-    let sell = allowSell;
-    let len = assignedPrioritiesLength;
-
-    if (doNothing) {
-      sell = !sell;
-      if (sell) {
-        priority = len + 1;
-      } else {
-        priority = 0;
-      }
-    }
-
     // keep track of what symbol on what account has changes so we can highlight it using css
     setChanged({ symbolId, accountId });
     setTimeout(() => {
       setChanged({ symbolId: '', accountId: '' });
     }, 300);
-
-    if (!doNothing) {
-      if (up) {
-        priority = priority + 1;
-      } else {
-        priority = priority - 1;
-      }
+    if (up) {
+      priority = priority + 1;
+    } else {
+      priority = priority - 1;
     }
-
     let assetClassPrioritiesCopy = JSON.parse(
       JSON.stringify(assetClassPriorities),
     );
@@ -154,13 +137,10 @@ const Prioritization = ({ onSettingsPage }: Props) => {
             account.trade_priority.forEach((security: any) => {
               if (security.symbol_id === symbolId) {
                 security.sell_priority = priority;
-                // security.allow_buy = buy;
-                security.allow_sell = sell;
               }
               if (
                 security.sell_priority === priority &&
-                security.symbol_id !== symbolId &&
-                !doNothing
+                security.symbol_id !== symbolId
               ) {
                 if (up) {
                   security.sell_priority = priority - 1;
@@ -183,24 +163,17 @@ const Prioritization = ({ onSettingsPage }: Props) => {
       assetClassPriorities.forEach((assetClass) => {
         assetClass.accounts_priorities.forEach((account) => {
           account.account_id = account.account.id;
-          let sellPriority: any[] = [];
+          let newPriority: any[] = [];
           let buyPriority: string[] = [];
-          let unassigned: string[] = [];
           account.trade_priority.forEach((priority) => {
-            if (!priority.allow_sell) {
-              unassigned.push(priority.symbol_id);
-            }
+            newPriority.push(priority.symbol_id);
             if (priority.allow_buy && buyPriority.length === 0) {
               buyPriority.push(priority.symbol_id);
             }
-            if (priority.allow_sell && !priority.allow_buy) {
-              sellPriority.push(priority.symbol_id);
-            }
           });
-          account.sell_priority = sellPriority;
+          account.sell_priority = newPriority;
           account.buy_priority = buyPriority;
-          account.unassigned = unassigned;
-          account.trade_priority = [];
+          account.unassigned = [];
         });
       });
       postData(

@@ -294,17 +294,6 @@ export const selectHasQuestradeConnection = createSelector(
   },
 );
 
-export const selectHasWealthicaConnection = createSelector(
-  selectAuthorizations,
-  (authorizations) => {
-    if (authorizations) {
-      return authorizations.some((a) => a.brokerage.name === 'Wealthica');
-    } else {
-      return false;
-    }
-  },
-);
-
 export const selectAuthorizationsNeedData = createSelector(
   selectLoggedIn,
   selectAuthorizationsRaw,

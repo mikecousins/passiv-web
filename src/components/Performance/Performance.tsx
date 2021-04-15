@@ -33,7 +33,7 @@ import {
 import PerformanceRateOfReturn from './PerformanceRateOfReturn';
 import Settings from './SettingsComponents/Settings';
 import TimeframePicker from './TimeframePicker';
-import { selectNewReportingFeature } from '../../selectors/features';
+import { selectFeatures } from '../../selectors/features';
 
 const Grid = styled.div`
   @media (min-width: 900px) {
@@ -103,16 +103,8 @@ export const Performance = () => {
   // We can hide charts if user is on custom timeframe and hasn't yet fetched data (can check this if contributions are undefined)
   const contributions = useSelector(selectContributions);
   let rateOfReturn = useSelector(selectRateOfReturn);
-  const useNewReporting = useSelector(selectNewReportingFeature);
+  const flags = useSelector(selectFeatures);
   const settings = useSelector(selectReportingSettings).data;
-  let showRateOfReturn = true;
-  let showDividendData = true;
-  if (settings?.show_return_rate !== undefined) {
-    showRateOfReturn = settings?.show_return_rate;
-  }
-  if (settings?.show_dividend_data !== undefined) {
-    showDividendData = settings?.show_return_rate;
-  }
 
   const [showSettings, setShowSettings] = useState(false);
 
@@ -126,7 +118,7 @@ export const Performance = () => {
         </div>
       )}
 
-      {useNewReporting && (
+      {flags?.includes('reporting2') && (
         <>
           <SettingsBox>
             <CustomizeDashBtn onClick={() => setShowSettings(!showSettings)}>
@@ -169,7 +161,7 @@ export const Performance = () => {
               <ShadowBox>
                 <PerformanceChange />
               </ShadowBox>
-              {rateOfReturn && showRateOfReturn && (
+              {rateOfReturn && settings?.show_return_rate && (
                 <ShadowBox>
                   <PerformanceRateOfReturn />
                 </ShadowBox>
@@ -179,7 +171,7 @@ export const Performance = () => {
               </ShadowBox>
             </Tiles>
           </Grid>
-          {showDividendData && (
+          {settings?.show_dividend_data && (
             <>
               <Grid>
                 <ShadowBox>

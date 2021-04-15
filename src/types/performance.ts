@@ -59,7 +59,6 @@ export type PerformanceData = {
   rateOfReturnALL: number;
   rateOfReturnYTD: number;
   badTickers: string[];
-  detailedMode: boolean;
 };
 
 export type PerformanceCustomData = {
@@ -79,7 +78,6 @@ export type PerformanceCustomData = {
   fees: number;
   badTickers: string[];
   rateOfReturn: number;
-  detailedMode: boolean;
 };
 
 export type DividendsAtDate = {
@@ -116,6 +114,4 @@ export type ReportingSettings = {
   detailed_view: boolean;
   show_dividend_data: boolean;
   show_return_rate: boolean;
-  include_questrade: boolean;
-  include_wealthica: boolean;
 };

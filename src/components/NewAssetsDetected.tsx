@@ -203,7 +203,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
               return <FontAwesomeIcon icon={faSpinner} spin />;
             }
             return (
-              <StyledGrid columns="1fr 180px 200px" key={target.symbol.id}>
+              <StyledGrid columns="1fr 180px 200px">
                 <SymbolGrid columns="180px auto">
                   <Symbol>{target.symbol.symbol}</Symbol>{' '}
                   <Description>{target.symbol.description}</Description>

@@ -31,21 +31,6 @@ const ExperimentalManager = () => {
       });
   };
 
-  const updateNewReporting = () => {
-    if (!settings) {
-      return;
-    }
-    let newSettings: Settings = { ...settings };
-    newSettings.new_reporting_enabled = !settings.new_reporting_enabled;
-    putData('/api/v1/settings/', newSettings)
-      .then(() => {
-        dispatch(reloadEverything());
-      })
-      .catch(() => {
-        dispatch(reloadEverything());
-      });
-  };
-
   if (!settings) {
     return null;
   }
@@ -58,22 +43,6 @@ const ExperimentalManager = () => {
         <OptionsTitle>Model Portfolios:</OptionsTitle>
         <ToggleButton onClick={updateModelPortfolio}>
           {settings.model_portfolios_enabled ? (
-            <React.Fragment>
-              <FontAwesomeIcon icon={faToggleOn} />
-              <StateText>on</StateText>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <FontAwesomeIcon icon={faToggleOff} />
-              <StateText>off</StateText>
-            </React.Fragment>
-          )}
-        </ToggleButton>
-      </div>
-      <div>
-        <OptionsTitle>Advanced Reporting:</OptionsTitle>
-        <ToggleButton onClick={updateNewReporting}>
-          {settings.new_reporting_enabled ? (
             <React.Fragment>
               <FontAwesomeIcon icon={faToggleOn} />
               <StateText>on</StateText>
