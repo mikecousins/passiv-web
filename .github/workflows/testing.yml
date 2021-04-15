@@ -5,7 +5,26 @@ on:
   pull_request:
     branches: [ automated_tests ]
 jobs:
-  cypress-run:
+  job_one:
+    name: register
+    runs-on: ubuntu-20.04
+    # let's make sure our tests pass on Chrome browser
+    name: API-less tests on Chrome
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup kernel for react, increase watchers
+        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          start: yarn start
+          spec: cypress/integration/Passiv/Mock_API_tests/reg_with_backend.js
+
+  job_two:
+    needs: [job_one]
+    name: login
     runs-on: ubuntu-20.04
     # let's make sure our tests pass on Chrome browser
     name: API-less tests on Chrome
@@ -20,8 +39,8 @@ jobs:
           browser: chrome
           start: yarn start
           spec: |
-            cypress/integration/Passiv/Mock_API_tests/reg_with_backend.js
             cypress/integration/Passiv/Mock_API_tests/log_with_backend.js
             cypress/integration/Passiv/Mock_API_tests/help_page.js
             cypress/integration/Passiv/Mock_API_tests/reset_pass.js
+            cypress/integration/Passiv/Mock_API_tests/sideBar_API.js
 
