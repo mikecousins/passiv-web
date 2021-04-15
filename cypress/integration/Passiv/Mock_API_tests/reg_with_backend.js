@@ -40,18 +40,7 @@ describe('Database test', () => {
                     .type(pass)
                     .should('have.value', pass)
                 .get('form').submit()
-                .then(() => {
-                    cy.writeFile('cypress/fixtures/user.json', JSON.stringify (body, null, 2))
-                })
-
-          cy.fixture('user').as('userFixture')
-
-
-        // Upon successful registration a token is assigned and stored in the json data base "user.json"
-
-        cy.readFile('cypress/fixtures/user.json').then( obj => {
-            cy.writeFile('cypress/fixtures/user.json', Object.assign(obj, {token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MDcxLCJ1c2VybmFtZSI6IjRiVVRHWlBpZFROSDlIWW5PYjdGbXlIcDZaVXRCQiIsImV4cCI6MTYwNzk2NjI5MywiZW1haWwiOiJhc3V0aGVybGFuZDgyMTlAZ21haWwuY29tIiwib3JpZ19pYXQiOjE2MDc1MzQyOTN9.FeoVWnIHnCTNhQ9sT3Tt4al62UXTrNtmyjitqSq2JbE"}))
-        })
+          
     })
   })
 
