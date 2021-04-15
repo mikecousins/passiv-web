@@ -715,8 +715,11 @@ export const selectCurrentGroupExcludedEquity = createSelector(
     allPositions.forEach((position) => {
       if (excludedPositionsIds.includes(position.symbol.id)) {
         if (
-          preferredCurrency &&
-          position.symbol.currency.id === preferredCurrency.id
+          (preferredCurrency &&
+            position.symbol.currency.id === preferredCurrency.id) ||
+          (preferredCurrency &&
+            position.currency &&
+            position.currency.id === preferredCurrency.id)
         ) {
           if (position.fractional_units === null) {
             excludedEquity += position.units * position.price;
@@ -1341,8 +1344,11 @@ export const selectCurrentGroupPositionsWithActualPercentage = createSelector(
   (positions, totalHoldingsExcludedRemoved, rates, preferredCurrency) => {
     positions?.forEach((position) => {
       if (
-        preferredCurrency &&
-        position.symbol.currency.id === preferredCurrency.id
+        (preferredCurrency &&
+          position.symbol.currency.id === preferredCurrency.id) ||
+        (preferredCurrency &&
+          position.currency &&
+          position.currency.id === preferredCurrency.id)
       ) {
         if (position.units === null) {
           position.actualPercentage =
