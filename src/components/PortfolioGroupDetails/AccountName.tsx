@@ -1,15 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faPen } from '@fortawesome/free-solid-svg-icons';
 import { putData } from '../../api';
 import { selectCurrentAccount } from '../../selectors/groups';
 import styled from '@emotion/styled';
-import { Table, Edit } from '../../styled/GlobalElements';
-import { InputNonFormik } from '../../styled/Form';
-import { Button } from '../../styled/Button';
+import { Table } from '../../styled/GlobalElements';
 import { toast } from 'react-toastify';
 import { Account } from '../../types/account';
+import NameInputAndEdit from '../NameInputAndEdit';
 import { loadAccounts } from '../../actions';
 
 const MetaContainer = styled.div`
@@ -69,7 +66,7 @@ const AccountName = ({ name }: Props) => {
   }, [editing, inputEl]);
 
   const finishEditingName = () => {
-    if (account && newName !== name) {
+    if (account && newName !== name && newName.trim().length > 0) {
       const newAccount: Account = { ...account };
       newAccount.name = newName;
       putData(`/api/v1/accounts/${newAccount.id}/`, newAccount)
@@ -78,7 +75,11 @@ const AccountName = ({ name }: Props) => {
         })
         .catch(() => {
           toast.error('Failed to edit group name');
+          setNewName(name);
         });
+    } else if (newName.trim().length === 0) {
+      toast.error('Failed to edit group name');
+      setNewName(name);
     }
     setEditing(false);
   };
@@ -86,31 +87,16 @@ const AccountName = ({ name }: Props) => {
   return (
     <MetaContainer>
       <Table>
-        {editing ? (
-          <NameContainer>
-            <InputNonFormik
-              value={newName}
-              onChange={(event) => {
-                setNewName(event.target.value);
-              }}
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                  finishEditingName();
-                }
-              }}
-              ref={inputEl}
-            />
-            <Button onClick={() => finishEditingName()}>Done</Button>
-          </NameContainer>
-        ) : (
-          <NameContainer>
-            {newName ? newName : <FontAwesomeIcon icon={faSpinner} spin />}
-            <Edit onClick={() => setEditing(true)}>
-              <FontAwesomeIcon icon={faPen} />
-              Edit
-            </Edit>
-          </NameContainer>
-        )}
+        <NameInputAndEdit
+          value={newName}
+          edit={editing}
+          allowEdit={true}
+          StyledContainer={NameContainer}
+          onChange={(event: any) => setNewName(event.target.value)}
+          onKeyPress={(e: any) => e.key === 'Enter' && finishEditingName()}
+          onClickDone={() => finishEditingName()}
+          onClickEdit={() => setEditing(true)}
+        />
       </Table>
     </MetaContainer>
   );

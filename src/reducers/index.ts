@@ -23,6 +23,7 @@ import { Authorization } from '../types/authorization';
 import { Brokerage } from '../types/brokerage';
 import { Position } from '../types/account';
 import { Settings } from '../types/settings';
+import { ModelAssetClassDetailsType } from '../types/modelAssetClass';
 import {
   PerformanceData,
   PerformanceCustomData,
@@ -35,6 +36,7 @@ import {
   reportingStartDate,
   reportingEndDate,
 } from './performance';
+import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
 import { Goal } from '../types/goals';
 
 export default (history: any) =>
@@ -132,6 +134,14 @@ export default (history: any) =>
     }),
     performanceACB: simple<AdjustedCostBasis[]>({
       baseType: 'FETCH_ACB',
+      userData: true,
+    }),
+    modelAssetClasses: simple<ModelAssetClassDetailsType[]>({
+      baseType: 'FETCH_MODEL_ASSET_CLASSES',
+      userData: true,
+    }),
+    modelPortfolios: simple<ModelPortfolioDetailsType[]>({
+      baseType: 'FETCH_MODEL_PORTFOLIOS',
       userData: true,
     }),
   });

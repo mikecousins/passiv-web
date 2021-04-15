@@ -32,6 +32,15 @@ const CurrencySeparation = ({
       <div className="tour-currency-separation">
         <SettingsToggle
           name="Keep currencies separate"
+          explanation={
+            settings.prevent_currency_conversion &&
+            !settings.hard_currency_separation
+              ? 'Currency exchange is not allowed and excess currency will be retained as cash so that it can be manually exchanged.'
+              : settings.prevent_currency_conversion &&
+                settings.hard_currency_separation
+              ? 'Currency exchange is not allowed and excess currency will be allocated to existing assets in the same currency.'
+              : 'Currency exchange is allowed, which may result in foreign exchange transactions if there is a currency imbalance.'
+          }
           value={preventConversion}
           onChange={onChangePreventConversion}
         />

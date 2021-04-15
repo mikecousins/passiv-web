@@ -2,7 +2,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { loadGroup } from '../../actions';
+import { loadGroup, loadModelPortfolios } from '../../actions';
 import OrderTargetAllocations from '../PortfolioGroupSettings/OrderTargetAllocations';
 import {
   selectCurrentGroupId,
@@ -10,6 +10,8 @@ import {
   selectCurrentGroupPositions,
   selectCurrentGroupInfoLoading,
   selectCurrentGroupTarget,
+  selectGroupedAccounts,
+  selectCurrentGroupInfo,
 } from '../../selectors/groups';
 import { Button } from '../../styled/Button';
 import {
@@ -19,7 +21,7 @@ import {
   OverlayContainer,
   DisabledBox,
 } from '../../styled/GlobalElements';
-import { postData } from '../../api';
+import { getData, postData } from '../../api';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import LoadingOverlay from '../LoadingOverlay';
@@ -27,6 +29,10 @@ import TargetSelector from './TargetSelector';
 import { selectIsEditMode } from '../../selectors/router';
 import Tour from '../Tour/Tour';
 import { replace } from 'connected-react-router';
+import Grid from '../../styled/Grid';
+import { toast } from 'react-toastify';
+import { selectModelPortfolios } from '../../selectors/modelPortfolios';
+import { selectModelPortfolioFeature } from '../../selectors/features';
 
 const TOUR_STEPS = [
   {
@@ -67,6 +73,8 @@ export const Container2Column = styled.div`
 const H3LowProfile = styled(H3)`
   line-height: 1.3em;
   height: 3em;
+  font-weight: 300;
+  font-size: 24px;
 `;
 
 const CenteredDiv = styled.div`
@@ -74,19 +82,14 @@ const CenteredDiv = styled.div`
   padding-top: 10px;
 `;
 
-const h2DarkStyle = {
-  color: 'white',
-  paddingBottom: '20px',
-};
-
-const h3DarkStyle = {
-  color: 'white',
-  paddingBottom: '10px',
-};
-
-const pDarkStyle = {
-  color: 'white',
-};
+const BorderBox = styled.div`
+  text-align: center;
+  padding: 20px;
+  margin-top: 30px;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #04a386;
+`;
 
 type Props = {
   error: any | null;
@@ -104,6 +107,10 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   const positions = useSelector(selectCurrentGroupPositions);
   const loadingGroupInfo = useSelector(selectCurrentGroupInfoLoading);
   const edit = useSelector(selectIsEditMode);
+  const groups = useSelector(selectGroupedAccounts);
+  const groupInfo = useSelector(selectCurrentGroupInfo);
+  const modelPortfolios = useSelector(selectModelPortfolios);
+  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
   const dispatch = useDispatch();
 
@@ -113,14 +120,34 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     );
   };
 
+  const isAssetClassBased = target?.isAssetClassBased;
+
+  let targets: any;
+  if (isAssetClassBased) {
+    targets = target?.currentAssetClass;
+  } else {
+    targets = target?.currentTarget;
+  }
+
   const modelChoices = [
     {
       id: 'IMPORT',
-      name: 'Import your current holdings as a target',
+      name: modelPortfolioFeature
+        ? 'Import your current holdings as a model'
+        : 'Import your current holdings as a target',
       tourClass: 'tour-import-holdings',
       button: (
         <React.Fragment>
-          <Button onClick={() => importTarget()} disabled={importDisabled()}>
+          <Button
+            onClick={() => {
+              if (modelPortfolioFeature) {
+                importHoldingsAsAModel();
+              } else {
+                importTarget();
+              }
+            }}
+            disabled={importDisabled()}
+          >
             Import
           </Button>
           {importDisabled() && (
@@ -147,11 +174,30 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         </Button>
       ),
     },
+    {
+      id: 'NEW_MODEL',
+      name: 'Create a new model',
+      button: <Button onClick={() => newModel()}>New Model</Button>,
+    },
+    {
+      id: 'USE_MODEL',
+      name: 'Use one of the existing models',
+      button: (
+        <Button
+          onClick={() => {
+            setModel('USE_MODEL');
+            dispatch(replace(`/app/models/group/${groupId}`));
+          }}
+        >
+          Models
+        </Button>
+      ),
+    },
   ];
 
   useEffect(() => {
     setModel(undefined);
-  }, [groupId, target, targetInitialized, error]);
+  }, [groupId, targets, targetInitialized, error]);
 
   useEffect(() => {
     setShowImportOverlay(false);
@@ -171,20 +217,77 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         setShowImportOverlay(false);
       });
   };
+  const importHoldingsAsAModel = () => {
+    let group: any;
+    group = groups?.find((gp) => gp.groupId === groupId);
+
+    setLoading(true);
+    setShowImportOverlay(true);
+    const importing = getData(
+      '/api/v1/portfolioGroups/' + groupId + '/import/',
+    );
+    const createNewModel = postData('api/v1/modelPortfolio', {});
+
+    Promise.all([importing, createNewModel])
+      .then((responses) => {
+        const holdings = responses[0].data;
+        const model = responses[1].data;
+        const modelId = model.model_portfolio.id;
+        model.model_portfolio.name = `${group?.name} - Model Portfolio`;
+        model.model_portfolio_security = holdings;
+
+        postData(`api/v1/modelPortfolio/${modelId}`, model)
+          .then(() => {
+            dispatch(loadModelPortfolios());
+            dispatch(
+              replace(
+                `/app/model-portfolio/${modelId}/group/${groupId}?apply=true`,
+              ),
+            );
+          })
+          .catch(() => {
+            toast.error('Unable to import holdings.');
+            setLoading(false);
+            setShowImportOverlay(false);
+          });
+      })
+      .catch(() => {
+        toast.error('Unable to import holdings.');
+        setLoading(false);
+        setShowImportOverlay(false);
+      });
+  };
+
+  const newModel = () => {
+    postData('api/v1/modelPortfolio', {})
+      .then((res) => {
+        dispatch(loadModelPortfolios());
+        dispatch(
+          replace(
+            `/app/model-portfolio/${res.data.model_portfolio.id}/group/${groupId}?apply=true`,
+          ),
+        );
+      })
+      .catch(() => toast.error('Unable to create new model.'));
+  };
 
   const generateTargetForm = (lockable: boolean) => {
-    let form = (
-      <TargetSelector
-        target={target}
-        lockable={lockable}
-        onReset={() => setShowResetOverlay(true)}
-      />
-    );
+    let form;
+    if (isAssetClassBased !== undefined) {
+      form = (
+        <TargetSelector
+          isAssetClassBased={isAssetClassBased}
+          target={targets}
+          lockable={lockable}
+          onReset={() => setShowResetOverlay(true)}
+        />
+      );
+    }
     if (
       !targetInitialized ||
       (!loading &&
         target &&
-        target.filter((t) => t.is_supported === true).length === 0)
+        targets.filter((t: any) => t.is_supported === true).length === 0)
     ) {
       form = <ShadowBox>{form}</ShadowBox>;
     }
@@ -222,7 +325,9 @@ const PortfolioGroupTargets = ({ error }: Props) => {
       <OverlayContainer>
         <ShadowBox>
           <TargetContainer>
-            <H2>Target Portfolio</H2>
+            <H2>
+              {modelPortfolioFeature ? 'Model Portfolio' : 'Target Portfolio'}
+            </H2>
             <span>
               <FontAwesomeIcon icon={faSpinner} spin />
             </span>
@@ -235,47 +340,70 @@ const PortfolioGroupTargets = ({ error }: Props) => {
 
   // help them set a target if they don't have one yet
   if (
-    !(targetInitialized && target) &&
+    !(targetInitialized && targets) &&
     !loading &&
-    ((target &&
-      target.filter((t) => t.is_supported === true && t.is_excluded === false)
-        .length === 0) ||
+    ((targets &&
+      targets.filter(
+        (t: any) => t.is_supported === true && t.is_excluded === false,
+      ).length === 0) ||
       !target)
   ) {
     return (
       <OverlayContainer>
-        <ShadowBox background="#2a2d34">
-          <H2 style={h2DarkStyle}>Target Portfolio</H2>
+        <ShadowBox background="#DBFCF6">
+          <H2>
+            {' '}
+            {modelPortfolioFeature ? 'Model Portfolio' : 'Target Portfolio'}
+          </H2>
           {!model ? (
             <React.Fragment>
               <Tour steps={TOUR_STEPS} name="setup_portfolio_tour" />
-              <P style={pDarkStyle}>
-                A target portfolio is how you tell Passiv what you want. You
-                will need to choose which securities you want to hold and how
-                you want your assets divided across those securities. Passiv
-                will perform calculations to figure out what trades need to be
-                made in order to follow your target portfolio.
+              <P>
+                A{' '}
+                {modelPortfolioFeature ? 'model Portfolio' : 'target Portfolio'}{' '}
+                is how you tell Passiv what you want. You will need to choose
+                which securities you want to hold and how you want your assets
+                divided across those securities. Passiv will perform
+                calculations to figure out what trades need to be made in order
+                to follow your{' '}
+                {modelPortfolioFeature ? 'model Portfolio' : 'target Portfolio'}
+                .
               </P>
-              <P style={pDarkStyle}>
-                There is no target portfolio set for this account. Please choose
-                one of the following options:
+              <P>
+                There is no{' '}
+                {modelPortfolioFeature ? 'model Portfolio' : 'target Portfolio'}{' '}
+                set for this account. Please choose one of the following
+                options:
               </P>
-              <Container2Column>
-                {modelChoices.map((m) => (
-                  <ShadowBox key={m.id}>
-                    <H3LowProfile className={m.tourClass}>
-                      {m.name}
-                    </H3LowProfile>
-                    <CenteredDiv>{m.button}</CenteredDiv>
-                  </ShadowBox>
-                ))}
-              </Container2Column>
+              <Grid columns="1fr 1fr 1fr">
+                {modelChoices.map((m) => {
+                  if (m.id === 'MANUAL' && modelPortfolioFeature) {
+                    return <></>;
+                  }
+                  if (
+                    (m.id === 'USE_MODEL' || m.id === 'NEW_MODEL') &&
+                    !modelPortfolioFeature
+                  ) {
+                    return <></>;
+                  }
+                  // do not show `Use existing models` option if there're no models
+                  if (m.id === 'USE_MODEL' && modelPortfolios.length === 0) {
+                    return <></>;
+                  }
+                  return (
+                    <BorderBox key={m.id}>
+                      <H3LowProfile className={m.tourClass}>
+                        {m.name}
+                      </H3LowProfile>
+                      <CenteredDiv>{m.button}</CenteredDiv>
+                    </BorderBox>
+                  );
+                })}
+              </Grid>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <H3 style={h3DarkStyle}>
-                {modelChoices.find((m: any) => m.id === model)!.name}
-              </H3>
+              <H3>{modelChoices.find((m: any) => m.id === model)!.name}</H3>
               {renderTargetChooser()}
               <Button onClick={() => setModel(undefined)}>Back</Button>
             </React.Fragment>
@@ -290,7 +418,21 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     <OverlayContainer>
       <ShadowBox>
         <TargetContainer>
-          <H2>Target Portfolio</H2>
+          <H2>
+            {modelPortfolioFeature ? 'Model Portfolio' : 'Target Portfolio'}
+          </H2>
+          {modelPortfolioFeature && groupInfo?.model_portfolio !== null && (
+            <small>
+              <span style={{ fontWeight: 700 }}>
+                {groupInfo?.model_portfolio.name}
+              </span>{' '}
+              (
+              {groupInfo?.model_portfolio.model_type === 0
+                ? 'Security Based Model'
+                : 'Asset Class Based Model'}
+              )
+            </small>
+          )}
           <OrderTargetAllocations edit={edit} />
           {loading ? (
             <P>

@@ -21,11 +21,12 @@ import {
   selectCurrentGroupSetupComplete,
   selectGroupsLoading,
   selectPreferredCurrency,
-  selectCurrentGroupPositionsNotInTarget,
+  selectCurrentGroupPositionsNotInTargetOrExcluded,
+  selectCurrentGroupModelType,
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
-import SecuritiesNotInTarget from './SecuritiesNotInTarget';
+import NewAssetsDetected from './NewAssetsDetected';
 
 const TOUR_STEPS = [
   {
@@ -77,6 +78,7 @@ export const Container6040Column = styled.div`
 
 const OverviewTab = () => {
   const group = useSelector(selectCurrentGroup);
+  const currentGroupModelType = useSelector(selectCurrentGroupModelType);
   const balances = useSelector(selectCurrentGroupBalances);
   const equity = useSelector(selectCurrentGroupTotalEquity);
   const accuracy = useSelector(selectCurrentGroupAccuracy);
@@ -85,8 +87,12 @@ const OverviewTab = () => {
   const loading = useSelector(selectGroupsLoading);
   const error = useSelector(selectCurrentGroupInfoError);
   const preferredCurrency = useSelector(selectPreferredCurrency);
-  const positionsNotInTargets = useSelector(
-    selectCurrentGroupPositionsNotInTarget,
+  const positionsNotInTargetsOrExcluded = useSelector(
+    selectCurrentGroupPositionsNotInTargetOrExcluded,
+  );
+
+  const positionsNotInTarget = positionsNotInTargetsOrExcluded?.filter(
+    (position) => !position.excluded,
   );
 
   // if we don't have our group yet, show a spinner
@@ -147,9 +153,10 @@ const OverviewTab = () => {
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
       {setupComplete &&
-        positionsNotInTargets &&
-        positionsNotInTargets.length > 0 && (
-          <SecuritiesNotInTarget targets={positionsNotInTargets} />
+        positionsNotInTarget &&
+        positionsNotInTarget.length > 0 &&
+        currentGroupModelType !== 1 && (
+          <NewAssetsDetected targets={positionsNotInTarget} />
         )}
       {tradeDisplay}
 

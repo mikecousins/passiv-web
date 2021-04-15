@@ -189,6 +189,9 @@ export const OptionsTitle = styled.span`
 
 export const OverlayContainer = styled.div`
   position: relative;
+  h2 {
+    margin-bottom: 20px;
+  }
 `;
 
 export const TruncatedText = styled.div`
