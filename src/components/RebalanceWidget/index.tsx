@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -59,6 +59,7 @@ const RebalanceWidget = ({
 
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
+  const formEl = useRef();
 
   let hasFreeOneClicks = false;
 
@@ -135,18 +136,18 @@ const RebalanceWidget = ({
 
   const executeZerodhaTrades = () => {
     const zerodhaTrades = calculateZerodhaTrades();
-    let status = false;
     postData(
       `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/starttrades/`,
       zerodhaTrades,
     )
-      .then(() => {
-        status = true;
+      .then((res) => {
+        //@ts-ignore
+        formEl.current.submit();
+        toast.success('Redirecting you to Zerodha to process the trade ...');
       })
       .catch(() => {
-        status = false;
+        toast.error('Failed to place trades');
       });
-    return status;
   };
 
   const confirmOrders = () => {
@@ -259,8 +260,9 @@ const RebalanceWidget = ({
         <form
           method="post"
           id="basket-form"
+          // @ts-ignore
+          ref={formEl}
           action="https://kite.zerodha.com/connect/basket"
-          onSubmit={executeZerodhaTrades}
         >
           <input type="hidden" name="api_key" value="pnriechdkzx5ipvq" />
           <input
@@ -269,7 +271,11 @@ const RebalanceWidget = ({
             name="data"
             value={JSON.stringify(calculateZerodhaTrades())}
           />
-          <Button className="tour-one-click-trade">
+          <Button
+            className="tour-one-click-trade"
+            type="button"
+            onClick={executeZerodhaTrades}
+          >
             Place Trades on Zerodha
           </Button>
         </form>
