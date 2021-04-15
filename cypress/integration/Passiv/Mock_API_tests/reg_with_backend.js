@@ -26,8 +26,7 @@ describe('Database test', () => {
 
 
             cy.fixture('localhost').as('login')
-            cy.get('@login').then(domain => {
-            cy.visit((domain.test).concat('/register')) })
+            cy.visit('/register')
 
     // the variable for the info that will be stored in the JSON db
     let body

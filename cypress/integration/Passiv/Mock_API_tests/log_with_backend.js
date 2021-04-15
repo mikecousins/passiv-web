@@ -107,8 +107,7 @@ describe('Login using created data from registration', () => {
 
 
       cy.fixture('localhost').as('login')
-      cy.get('@login').then(domain => {
-      cy.visit((domain.test).concat('/login')) })
+      cy.visit('/login') 
     cy.location('pathname').should('equal', '/app/login')
 
     // enter valid username and password
