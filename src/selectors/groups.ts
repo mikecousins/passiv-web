@@ -420,7 +420,9 @@ export const selectCurrentGroupBalancedEquity = createSelector(
       if (
         (preferredCurrency &&
           position.symbol.currency.id === preferredCurrency.id) ||
-        (preferredCurrency && position.currency.id === preferredCurrency.id)
+        (preferredCurrency &&
+          position.currency &&
+          position.currency.id === preferredCurrency.id)
       ) {
         if (position.units === null) {
           total += position.fractional_units * position.price;
@@ -1101,6 +1103,7 @@ export const selectDashboardGroups = createSelector(
             (group.preferredCurrency &&
               position.symbol.currency.id === group.preferredCurrency.id) ||
             (group.preferredCurrency &&
+              position.currency &&
               position.currency.id === group.preferredCurrency.id)
           ) {
             position.fractional_units
@@ -1217,7 +1220,9 @@ export const selectCurrentAccountBalancedEquity = createSelector(
       if (
         (preferredCurrency &&
           position.symbol.symbol.currency === preferredCurrency.id) ||
-        (preferredCurrency && position.currency.id === preferredCurrency.id)
+        (preferredCurrency &&
+          position.currency &&
+          position.currency.id === preferredCurrency.id)
       ) {
         position.fractional_units
           ? (total += position.fractional_units * position.price)
