@@ -7,7 +7,7 @@ describe('Database test', () => {
           })
           .as('Ping')
 
-          cy.intercept('get','v1', (req) => { req.reply({ fixture: '/login_stubs/v1.json' })
+          cy.intercept('GET','v1', (req) => { req.reply({ fixture: '/login_stubs/v1.json' })
           })
           .as('V1')
 
@@ -42,35 +42,10 @@ describe('Database test', () => {
                 .get('form').submit()
                 .then(() => {
                     cy.writeFile('cypress/fixtures/user.json', JSON.stringify (body, null, 2))
-            })
-          })
-
-        it('Add Auth Token', () => {
-
-
-          cy.intercept('/api/v1/ping', (req) => { req.reply((res) => { res.send({  fixture: '/login_stubs/ping.json'})
-        })
-        })
-        .as('Ping')
-
-        cy.intercept('get','v1', (req) => { req.reply({ fixture: '/login_stubs/v1.json' })
-        })
-        .as('V1')
-
-        cy.intercept('/api/v1/help/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/help.json' })
-        })
-        })
-        .as('Help')
-
-        cy.intercept('/api/v1/auth/register/', (req) => { req.reply((res) => { res.send({ fixture: 'user.json' })
-          })
-        })
-
-
+                })
 
           cy.fixture('user').as('userFixture')
-          cy.get('@userFixture').as('Save')
-          cy.get('button').contains('Register').click()
+
 
         // Upon successful registration a token is assigned and stored in the json data base "user.json"
 
