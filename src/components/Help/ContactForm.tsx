@@ -79,9 +79,8 @@ const ContactForm = () => {
               actions.setSubmitting(false);
             });
         }}
-      >
-        {(props) => (
-          <Form>
+        render={(props) => (
+          <Form onSubmit={props.handleSubmit}>
             <legend>
               <H2>Send us a Message</H2>
             </legend>
@@ -159,7 +158,7 @@ const ContactForm = () => {
             )}
           </Form>
         )}
-      </Formik>
+      />
     </GreenBox>
   );
 };

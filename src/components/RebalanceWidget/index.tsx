@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -25,6 +25,7 @@ import ErrorMessage from './ErrorMessage';
 import { Button } from '../../styled/Button';
 import UpgradeIdea from '../UpgradeIdea';
 import { selectLimitOrdersFeature } from '../../selectors/features';
+import { selectIsPaid } from '../../selectors/subscription';
 import PreLoadLink from '../PreLoadLink';
 import { SETTINGS_PATH } from '../../apps/Paths';
 import { selectAccounts } from '../../selectors/accounts';
@@ -59,6 +60,7 @@ const RebalanceWidget = ({
 
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
+  const formEl = useRef();
 
   let hasFreeOneClicks = false;
 
@@ -70,6 +72,7 @@ const RebalanceWidget = ({
   const groupSettings = useSelector(selectCurrentGroupSettings);
   const authorizations = useSelector(selectAuthorizations);
   const currentGroupId = useSelector(selectCurrentGroupId);
+  const isPaid = useSelector(selectIsPaid);
 
   const hasOnlyNonTradableTrades =
     trades.trades &&
@@ -138,7 +141,15 @@ const RebalanceWidget = ({
     postData(
       `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/starttrades/`,
       zerodhaTrades,
-    );
+    )
+      .then((res) => {
+        //@ts-ignore
+        formEl.current.submit();
+        toast.success('Redirecting you to Zerodha to process the trade ...');
+      })
+      .catch(() => {
+        toast.error('Failed to place trades');
+      });
   };
 
   const confirmOrders = () => {
@@ -217,7 +228,7 @@ const RebalanceWidget = ({
   );
 
   var hasZerodhaAccount = false;
-
+  var hasNonZerodhaAccount = false;
   groupAccounts.map((acc: any) => {
     //find the authorization associated with this account
     if (authorizations === undefined) {
@@ -238,15 +249,21 @@ const RebalanceWidget = ({
       hasZerodhaAccount = true;
       return true;
     }
+    if (!isZerodhaConnection) {
+      hasNonZerodhaAccount = true;
+      return true;
+    }
     return false;
   });
 
-  if (hasZerodhaAccount) {
+  if (hasZerodhaAccount && !hasNonZerodhaAccount && isPaid) {
     orderValidation = (
       <div>
         <form
           method="post"
           id="basket-form"
+          // @ts-ignore
+          ref={formEl}
           action="https://kite.zerodha.com/connect/basket"
         >
           <input type="hidden" name="api_key" value="pnriechdkzx5ipvq" />
@@ -257,13 +274,36 @@ const RebalanceWidget = ({
             value={JSON.stringify(calculateZerodhaTrades())}
           />
           <Button
-            onClick={executeZerodhaTrades}
             className="tour-one-click-trade"
+            type="button"
+            onClick={executeZerodhaTrades}
           >
             Place Trades on Zerodha
           </Button>
         </form>
       </div>
+    );
+  }
+
+  if (hasZerodhaAccount && hasNonZerodhaAccount) {
+    orderValidation = (
+      <>
+        <div>
+          At this time, we do not support one-click trades for portfolio groups
+          that contain both Zerodha accounts and non-Zerodha accounts.
+        </div>
+        <br></br>
+        <div>
+          This feature is on our product roadmap. For now, you can separate your
+          brokerage accounts into distinct portfolio groups to access our
+          one-click trade functionality.
+        </div>
+        <br></br>
+        <div>
+          Please <a href="mailto:support@passiv.com">contact support</a> if you
+          have any questions!
+        </div>
+      </>
     );
   }
 

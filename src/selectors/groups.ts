@@ -418,8 +418,9 @@ export const selectCurrentGroupBalancedEquity = createSelector(
     let total = 0;
     positions.forEach((position) => {
       if (
-        preferredCurrency &&
-        position.symbol.currency.id === preferredCurrency.id
+        (preferredCurrency &&
+          position.symbol.currency.id === preferredCurrency.id) ||
+        (preferredCurrency && position.currency?.id === preferredCurrency.id)
       ) {
         if (position.units === null) {
           total += position.fractional_units * position.price;
@@ -718,9 +719,9 @@ export const selectCurrentGroupExcludedEquity = createSelector(
           position.symbol.currency.id === preferredCurrency.id
         ) {
           if (position.fractional_units === null) {
-            excludedEquity += position.fractional_units * position.price;
-          } else {
             excludedEquity += position.units * position.price;
+          } else {
+            excludedEquity += position.fractional_units * position.price;
           }
         } else {
           const conversionRate = rates.find(
@@ -734,12 +735,12 @@ export const selectCurrentGroupExcludedEquity = createSelector(
           }
           if (position.fractional_units === null) {
             excludedEquity +=
+              position.units * position.price * conversionRate.exchange_rate;
+          } else {
+            excludedEquity +=
               position.fractional_units *
               position.price *
               conversionRate.exchange_rate;
-          } else {
-            excludedEquity +=
-              position.units * position.price * conversionRate.exchange_rate;
           }
         }
       }
@@ -1097,8 +1098,10 @@ export const selectDashboardGroups = createSelector(
         });
         groupData.positions.forEach((position) => {
           if (
-            group.preferredCurrency &&
-            position.symbol.currency.id === group.preferredCurrency.id
+            (group.preferredCurrency &&
+              position.symbol.currency.id === group.preferredCurrency.id) ||
+            (group.preferredCurrency &&
+              position.currency?.id === group.preferredCurrency.id)
           ) {
             position.fractional_units
               ? (group.totalHoldings +=
@@ -1212,8 +1215,9 @@ export const selectCurrentAccountBalancedEquity = createSelector(
     let total = 0;
     positions.forEach((position) => {
       if (
-        preferredCurrency &&
-        position.symbol.symbol.currency === preferredCurrency.id
+        (preferredCurrency &&
+          position.symbol.symbol.currency === preferredCurrency.id) ||
+        (preferredCurrency && position.currency?.id === preferredCurrency.id)
       ) {
         position.fractional_units
           ? (total += position.fractional_units * position.price)
@@ -1412,13 +1416,9 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
       });
     }
     if (positions) {
-      notInTarget = positions.filter((position: any) => {
-        if (position.quotable) {
-          return targetIds?.indexOf(position.symbol.id) === -1;
-        } else {
-          return false;
-        }
-      });
+      notInTarget = positions.filter(
+        (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+      );
     }
 
     return [...notInTarget, ...excluded];

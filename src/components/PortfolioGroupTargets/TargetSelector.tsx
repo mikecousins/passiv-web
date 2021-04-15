@@ -508,16 +508,16 @@ export const TargetSelector = ({
                                 parseFloat(e.target.value),
                               )
                             }
-                            onBlur={() => {
-                              props.setFieldValue(
-                                `targets.${index}.percent` as 'targets',
-                                parseFloat(
-                                  props.values.targets[index].percent.toFixed(
-                                    4,
-                                  ),
-                                ),
-                              );
-                            }}
+                            // onBlur={() => {
+                            //   props.setFieldValue(
+                            //     `targets.${index}.percent` as 'targets',
+                            //     parseFloat(
+                            //       props.values.targets[index].percent.toFixed(
+                            //         4,
+                            //       ),
+                            //     ),
+                            //   );
+                            // }}
                             readOnly={!canEdit}
                           />
                         </TargetBar>
