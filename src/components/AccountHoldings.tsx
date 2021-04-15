@@ -304,7 +304,11 @@ export const AccountHoldings = ({ holdings }: Props) => {
   const renderedPositions =
     sortedPositions &&
     sortedPositions.map((position: any) => {
-      const currency = getCurrencyById(position.symbol.symbol.currency);
+      const currency = getCurrencyById(
+        position.currency
+          ? position.currency.id
+          : position.symbol.symbol.currency,
+      );
       return (
         <tr key={position.symbol.id}>
           <td>
