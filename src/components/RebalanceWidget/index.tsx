@@ -25,6 +25,7 @@ import ErrorMessage from './ErrorMessage';
 import { Button } from '../../styled/Button';
 import UpgradeIdea from '../UpgradeIdea';
 import { selectLimitOrdersFeature } from '../../selectors/features';
+import { selectIsPaid } from '../../selectors/subscription';
 import PreLoadLink from '../PreLoadLink';
 import { SETTINGS_PATH } from '../../apps/Paths';
 import { selectAccounts } from '../../selectors/accounts';
@@ -70,6 +71,7 @@ const RebalanceWidget = ({
   const groupSettings = useSelector(selectCurrentGroupSettings);
   const authorizations = useSelector(selectAuthorizations);
   const currentGroupId = useSelector(selectCurrentGroupId);
+  const isPaid = useSelector(selectIsPaid);
 
   const hasOnlyNonTradableTrades =
     trades.trades &&
@@ -252,7 +254,7 @@ const RebalanceWidget = ({
     return false;
   });
 
-  if (hasZerodhaAccount && !hasNonZerodhaAccount) {
+  if (hasZerodhaAccount && !hasNonZerodhaAccount && isPaid) {
     orderValidation = (
       <div>
         <form
