@@ -1,6 +1,5 @@
-
-describe('Database test', () => {
-        it('Data is stored in correct format in JSON file', () => {
+describe('Testing registration fields, button and signal sending', () => {
+        it('Registration works and a signal is sent ', () => {
 
             cy.intercept('/api/v1/ping', (req) => { req.reply((res) => { res.send({  fixture: '/login_stubs/ping.json'})
           })
@@ -25,23 +24,25 @@ describe('Database test', () => {
 
     // the variable for the info that will be stored in the JSON db
     let body
-                //cons values
-                const  name = 'Alex Sutherland'
-                const  email = 'testemail@passiv.com'
-                const  pass = 'passivtestpass'
 
-                cy
-                .get('[name=name]')
-                    .type(name)
-                .get('[name=email]')
-                    .type(email)
-                    .should('have.value', email)
-                .get('[name=password]')
-                    .type(pass)
-                    .should('have.value', pass)
+
+                cy.fixture('user').as('userFixture')
+                cy.get('@userFixture').then(user => {
+                cy.get('[name=name]').type(user.name)
+                cy.get('[name=email]').first().type(user.email)
+                cy.get('[placeholder=Password]').type(user.password)
                 .get('form').submit()
-          
+
+            cy.wait('@Save')
+            .then(({request, response}) => {
+            expect(response.statusCode).to.eq(400)
+            expect(request.body).to.have.property('email', user.email)
+            expect(request.body).to.have.property('password', user.password)
+            expect(request.method).to.eq('POST')
+
+
     })
   })
 
-
+})
+})
