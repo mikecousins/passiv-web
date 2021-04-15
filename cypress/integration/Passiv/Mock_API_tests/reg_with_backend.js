@@ -26,7 +26,7 @@ describe('Database test', () => {
 
 
             cy.fixture('localhost').as('login')
-            cy.visit('/app/register', { responseTimeout: 31000 })
+            cy.visit('/app/register', { responseTimeout: 310000 })
 
     // the variable for the info that will be stored in the JSON db
     let body

@@ -107,7 +107,7 @@ describe('Login using created data from registration', () => {
 
 
       cy.fixture('localhost').as('login')
-      cy.visit('/app/login', { responseTimeout: 31000 })
+      cy.visit('/app/login', { responseTimeout: 310000 })
     cy.location('pathname').should('equal', '/app/login')
 
     // enter valid username and password

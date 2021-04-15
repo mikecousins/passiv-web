@@ -25,7 +25,7 @@ cy.intercept('/api/v1/help/', (req) => { req.reply((res) => { res.send({ fixture
 
   cy.intercept('api.passiv.com/api/v1/auth/resetPassword/').as('redirect')
   cy.fixture('localhost').as('server')
-  cy.visit('/app/reset-password', { responseTimeout: 31000 })
+  cy.visit('/app/reset-password', { responseTimeout: 310000 })
   cy.get('input').type("asutherland8219@gmail.com")
   cy.get('button').contains('Reset').click()
 

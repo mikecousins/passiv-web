@@ -16,7 +16,7 @@
 
       cy.fixture('localhost').as('server')
       cy.get('@server').then(domain => {
-      cy.visit((domain.test).concat('/help'), { responseTimeout: 31000 }) })
+      cy.visit((domain.test).concat('/help'), { responseTimeout: 310000 }) })
 
       cy.fixture('user').as('userFixture')
       cy.get('@userFixture').then(user => {
