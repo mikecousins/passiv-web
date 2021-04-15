@@ -7,11 +7,13 @@ import {
   AdjustedCostBasis,
   Dividends,
   DividendsAtDate,
+  ReportingSettings,
 } from '../types/performance';
 import { selectState } from '.';
 import {
   selectPerformancePageFeature,
   selectAdjustedCostBasisFeature,
+  selectNewReportingFeature,
 } from './features';
 import { selectLoggedIn, selectAppTime } from './index';
 import { SimpleState } from '../types/common';
@@ -35,6 +37,9 @@ export const selectAdjustedCostBasis = (state: AppState) =>
 
 export const selectBadTickers = (state: AppState) =>
   state.performanceAll?.data?.badTickers;
+
+export const selectPerformanceCurrentDetailedMode = (state: AppState) =>
+  state.performanceAll?.data?.detailedMode;
 
 export const selectPerformanceNeedData = createSelector<
   AppState,
@@ -378,3 +383,26 @@ export const selectRateOfReturn = createSelector<
 
 export const selectReportingSettings = (state: AppState) =>
   state.reportingSettings;
+
+export const selectReportingSettingsNeedData = createSelector<
+  AppState,
+  boolean,
+  SimpleState<ReportingSettings>,
+  boolean,
+  number,
+  boolean
+>(
+  selectLoggedIn,
+  selectReportingSettings,
+  selectNewReportingFeature,
+  selectAppTime,
+  (loggedIn, reportingSettings, newReportingFeature, time) => {
+    if (!loggedIn || !newReportingFeature) {
+      return false;
+    }
+    return shouldUpdate(reportingSettings, {
+      staleTime: ms.days(1),
+      now: time,
+    });
+  },
+);

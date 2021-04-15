@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { StripeProvider } from 'react-stripe-elements';
 import '@reach/menu-button/styles.css';
+import '@reach/dialog/styles.css';
 import {
   selectLoggedIn,
   selectReferralCode,
@@ -28,7 +29,11 @@ import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GoalDetailPage from '../pages/GoalDetailPage';
-import { selectGoalsPageFeature } from '../selectors/features';
+import {
+  selectAssetClassFeature,
+  selectGoalsPageFeature,
+  selectModelPortfolioFeature,
+} from '../selectors/features';
 import {
   LOGIN_PATH,
   REGISTER_PATH,
@@ -41,6 +46,7 @@ import {
   REPORTING_PATH,
   GOALS_PATH,
 } from './Paths';
+import Prioritization from '../components/ModelPortfolio/Prioritization';
 
 // preload pages
 const ReactLazyPreload = (importStatement: any) => {
@@ -114,11 +120,11 @@ const TDAmeritradeOauthPage = ReactLazyPreload(() =>
 );
 
 const KrakenAuthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "kraken-oauth" */ '../pages/KrakenAuthPage'),
+  import(/* webpackChunkName: "kraken-auth" */ '../pages/KrakenAuthPage'),
 );
 
 const UnocoinAuthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "kraken-oauth" */ '../pages/UnocoinAuthPage'),
+  import(/* webpackChunkName: "unocoin-oauth" */ '../pages/UnocoinAuthPage'),
 );
 
 const KrakenOauthPage = ReactLazyPreload(() =>
@@ -185,6 +191,31 @@ const PerformancePage = ReactLazyPreload(() =>
 
 const GoalsPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "goals" */ '../pages/GoalsPage'),
+);
+const ModelAssetClassPage = React.lazy(() =>
+  //? webpackChunkName
+  import(/* webpackChunkName: "asset-class" */ '../pages/ModelAssetClassPage'),
+);
+
+const MyModelPortfoliosPage = React.lazy(() =>
+  //? webpackChunkName
+  import(
+    /* webpackChunkName: "model-portfolios" */ '../pages/MyModelPortfoliosPage'
+  ),
+);
+
+const ModelPortfolioPage = React.lazy(() =>
+  //? webpackChunkName
+  import(
+    /* webpackChunkName: "model-portfolio" */ '../pages/ModelPortfolioPage'
+  ),
+);
+
+const SharedModelPortfolio = React.lazy(() =>
+  //? webpackChunkName
+  import(
+    /* webpackChunkName: "shared-model-portfolio" */ '../components/ModelPortfolio/SharedModelPortfolio'
+  ),
 );
 
 // declare global {
@@ -272,6 +303,11 @@ const wealthicaOauthRedirect = () => {
   return <Redirect to={newPath} />;
 };
 
+const sharedModelRedirect = () => {
+  let newPath = '/app/shared-model-portfolio?share=';
+  return <Redirect to={newPath} />;
+};
+
 const App = () => {
   const showInsecureApp = useSelector(selectShowInsecureApp);
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
@@ -284,7 +320,8 @@ const App = () => {
   const dispatch = useDispatch();
 
   const queryParams = useSelector(selectQueryTokens);
-
+  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
+  const assetClassFeature = useSelector(selectAssetClassFeature);
   let updateQuery = false;
 
   // extract referral code (if any) and make available on registration page
@@ -383,6 +420,11 @@ const App = () => {
               component={SetNewPasswordPage}
             />
             <Route path={prefixPath('/demo')} component={DemoLoginPage} />
+            <Route
+              path={prefixPath('/shared-model-portfolio')}
+              component={SharedModelPortfolio}
+              render={() => sharedModelRedirect()}
+            />
             // oauth routes
             {loggedIn && (
               <Route
@@ -596,6 +638,39 @@ const App = () => {
             )}
             {showSecureApp && (
               <Route path={prefixPath('/share')} component={SharePage} />
+            )}
+            {showSecureApp && assetClassFeature && (
+              <Route
+                path={prefixPath('/asset-class')}
+                component={ModelAssetClassPage}
+              />
+            )}
+            {showSecureApp && modelPortfolioFeature && (
+              <Route
+                path={prefixPath('/models')}
+                component={MyModelPortfoliosPage}
+              />
+            )}
+            {showSecureApp && (
+              <Route
+                exact
+                path={prefixPath('/model-portfolio/:modelId')}
+                component={ModelPortfolioPage}
+              />
+            )}
+            {showSecureApp && (
+              <Route
+                exact
+                path={prefixPath('/model-portfolio/:modelId/group/:groupId')}
+                component={ModelPortfolioPage}
+              />
+            )}
+            {showSecureApp && assetClassFeature && (
+              <Route
+                exact
+                path={prefixPath('/priorities/:groupId')}
+                component={() => <Prioritization onSettingsPage={false} />}
+              />
             )}
             // insecure app
             {showInsecureApp && (

@@ -6,6 +6,7 @@ import SubscriptionManager from '../components/SettingsManager/SubscriptionManag
 import ConnectionsManager from '../components/SettingsManager/ConnectionsManager';
 import NotificationsManager from '../components/SettingsManager/NotificationsManager';
 import AccountsManager from '../components/SettingsManager/AccountsManager';
+import ExperimentalManager from '../components/SettingsManager/ExperimentalManager';
 import DemoNotes from '../components/DemoNotes';
 import { selectIsDemo } from '../selectors';
 import { useSelector } from 'react-redux';
@@ -99,6 +100,7 @@ const SettingsPage = () => {
       </Flex>
       <ConnectionsManager />
       <AccountsManager />
+      <ExperimentalManager />
     </React.Fragment>
   );
 };

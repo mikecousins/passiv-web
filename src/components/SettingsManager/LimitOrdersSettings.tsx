@@ -131,8 +131,8 @@ const LimitOrdersSettings = () => {
               <React.Fragment>
                 <NumericTextInput
                   value={priceLimitThreshold}
-                  onChange={e => setPriceLimitThreshold(e.target.value)}
-                  onKeyPress={e => {
+                  onChange={(e) => setPriceLimitThreshold(e.target.value)}
+                  onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                       finishEditingThreshold();
                     }
