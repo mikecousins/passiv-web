@@ -60,8 +60,6 @@ const Settings = () => {
     dispatch(
       updateReportingSettings({
         detailedView: true,
-        showReturnRate: showReturnRate,
-        showDividendData: showDividendData,
       }),
     );
   };
@@ -70,8 +68,6 @@ const Settings = () => {
     dispatch(
       updateReportingSettings({
         detailedView: false,
-        showReturnRate: showReturnRate,
-        showDividendData: showDividendData,
       }),
     );
   };
@@ -80,8 +76,6 @@ const Settings = () => {
     setShowDividendData(!showDividendData);
     dispatch(
       updateReportingSettings({
-        detailedView: detailedMode,
-        showReturnRate: showReturnRate,
         showDividendData: !oldValue,
       }),
     );
@@ -91,9 +85,7 @@ const Settings = () => {
     setShowReturnRate(!showReturnRate);
     dispatch(
       updateReportingSettings({
-        detailedView: detailedMode,
         showReturnRate: !oldValue,
-        showDividendData: showDividendData,
       }),
     );
   };
@@ -102,11 +94,7 @@ const Settings = () => {
     setIncludeQuestrade(!includeQuestrade);
     dispatch(
       updateReportingSettings({
-        detailedView: detailedMode,
-        showReturnRate: showReturnRate,
-        showDividendData: showDividendData,
         includeQuestrade: !oldValue,
-        includeWealthica: includeWealthica,
       }),
     );
   };
@@ -115,10 +103,6 @@ const Settings = () => {
     setIncludeWealthica(!includeWealthica);
     dispatch(
       updateReportingSettings({
-        detailedView: detailedMode,
-        showReturnRate: !oldValue,
-        showDividendData: showDividendData,
-        includeQuestrade: includeQuestrade,
         includeWealthica: !oldValue,
       }),
     );
