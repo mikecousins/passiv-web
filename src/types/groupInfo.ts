@@ -24,6 +24,7 @@ export type Position = {
   quotable: boolean;
   uniformEquity: number;
   actualPercentage: number;
+  currency: Currency;
 };
 
 export type TargetPosition = {

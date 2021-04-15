@@ -31,15 +31,10 @@ const PortfolioGroupMetadata = ({ account }: Props) => {
   return (
     <div>
       <MetaHorizontal>
-        {console.log(account)}
         <TruncatedText>
           <span>Account #: </span>
           {account ? (
-            account.institution_name === 'Kraken' ? (
-              account.number
-            ) : (
-              account.number.slice(0).replace(/.(?=..)/g, 'x')
-            )
+            account.number.slice(0).replace(/.(?=..)/g, 'x')
           ) : (
             <FontAwesomeIcon icon={faSpinner} spin />
           )}
