@@ -40,7 +40,6 @@ describe('Testing registration fields, button and signal sending', () => {
             expect(request.body).to.have.property('password', user.password)
             expect(request.method).to.eq('POST')
 
-
     })
   })
 

@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import {
+  faCheckCircle,
   faChevronDown,
   faChevronUp,
-  faLongArrowAltDown,
+  faExclamationCircle,
   faLongArrowAltUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,9 +11,11 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentGroupPositions } from '../../selectors/groups';
 import { selectSymbols } from '../../selectors/symbols';
+import { Button } from '../../styled/Button';
 import { P, H2, H3 } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
 import { AssetClassPriorities } from '../../types/modelPortfolio';
+import Tooltip from '../Tooltip';
 
 const MainContainer = styled.div`
   border: ${(p) => (p.color ? `2px solid ${p.color}` : 'none')};
@@ -25,6 +28,7 @@ const AssetClassBox = styled.div`
 `;
 
 const Head = styled(Grid)`
+  cursor: pointer;
   H2 {
     color: ${(p) => p.color};
   }
@@ -44,6 +48,12 @@ const Percent = styled(H2)`
 const ChevronBtn = styled.div`
   svg {
     cursor: pointer;
+  }
+`;
+
+const Status = styled.div`
+  svg {
+    text-align: center;
   }
 `;
 
@@ -150,6 +160,8 @@ type Props = {
   editing: boolean;
   changed: any;
   handleBtn: any;
+  onSettingsPage: boolean;
+  confirm: any;
 };
 
 const AssetClassPriority = ({
@@ -157,10 +169,14 @@ const AssetClassPriority = ({
   editing,
   changed,
   handleBtn,
+  onSettingsPage,
+  confirm,
 }: Props) => {
   const allSymbols = useSelector(selectSymbols);
   const currentGroupPositions = useSelector(selectCurrentGroupPositions);
+
   const [showDetails, setShowDetails] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
 
   if (assetClass.asset_class.name === 'Excluded Assets') {
     return <></>;
@@ -180,14 +196,39 @@ const AssetClassPriority = ({
   return (
     <MainContainer color={showDetails ? '#04A287' : ''}>
       <AssetClassBox color={showDetails ? 'var(--brand-green)' : '#f1f1f1'}>
-        <Head columns="5fr 1fr 100px" color={showDetails ? 'white' : 'black'}>
+        <Head
+          columns={onSettingsPage ? '5fr 1fr 100px' : 'auto 5fr 1fr 100px'}
+          color={showDetails ? 'white' : 'black'}
+          onClick={() => {
+            setShowDetails(!showDetails);
+          }}
+        >
+          {!onSettingsPage && (
+            <Status>
+              <Tooltip
+                label={`Priorities ${
+                  !confirmed ? 'not' : ''
+                } set for this asset class.`}
+              >
+                {confirmed ? (
+                  <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    size="lg"
+                    color={showDetails ? 'white' : 'var(--brand-green)'}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faExclamationCircle}
+                    size="lg"
+                    color="orange"
+                  />
+                )}
+              </Tooltip>
+            </Status>
+          )}
           <AssetClassName>{assetClass.asset_class.name}</AssetClassName>
           <Percent>{assetClass.asset_class.percent}%</Percent>
-          <ChevronBtn
-            onClick={() => {
-              setShowDetails(!showDetails);
-            }}
-          >
+          <ChevronBtn>
             <FontAwesomeIcon
               icon={showDetails ? faChevronUp : faChevronDown}
               color={showDetails ? 'white' : 'var(--brand-blue)'}
@@ -207,7 +248,12 @@ const AssetClassPriority = ({
               >
                 <AccountName>Account: {account.account.name}</AccountName>
                 {numberOfSecurities > 1 && (
-                  <H3 style={{ textAlign: 'right', marginRight: '25px' }}>
+                  <H3
+                    style={{
+                      textAlign: 'right',
+                      marginRight: '25px',
+                    }}
+                  >
                     Order by Priority
                   </H3>
                 )}
@@ -238,7 +284,7 @@ const AssetClassPriority = ({
                               key={priority.symbol_id}
                             >
                               <Symbol>
-                                {symbols[priority.symbol_id].symbol}{' '}
+                                {symbols[priority.symbol_id]?.symbol}{' '}
                               </Symbol>
                               <Description>
                                 <span>
@@ -305,7 +351,6 @@ const AssetClassPriority = ({
                     <SellOrder>
                       <FontAwesomeIcon icon={faLongArrowAltUp} />{' '}
                       <span>Sell Order</span>
-                      <FontAwesomeIcon icon={faLongArrowAltDown} />
                     </SellOrder>
                   )}
                 </Grid>
@@ -314,7 +359,7 @@ const AssetClassPriority = ({
                     <H3>Unsupported Securities:</H3>
                     <ul>
                       {account.unsupported_symbols.map((symbol: any) => {
-                        return <li>{symbol.symbol}</li>;
+                        return <li key={symbol.id}>{symbol.symbol}</li>;
                       })}
                     </ul>
                   </NotSupported>
@@ -322,6 +367,16 @@ const AssetClassPriority = ({
               </AccountSection>
             );
           })}
+          {!onSettingsPage && (
+            <Button
+              onClick={() => {
+                setConfirmed(true);
+                confirm();
+              }}
+            >
+              Confirm Priorities
+            </Button>
+          )}
         </AssetClassDetails>
       )}
     </MainContainer>

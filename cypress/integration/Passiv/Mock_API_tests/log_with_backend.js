@@ -1,7 +1,3 @@
-
-
-
-
 describe('Login using created data from registration', () => {
     it('Log in Success', () => {
 

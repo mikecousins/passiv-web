@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import {
   Combobox,
@@ -10,6 +10,9 @@ import {
 } from '@reach/combobox';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useFindMatch } from './utils/utils';
+import { selectCurrentModelPortfolioId } from '../../selectors/modelPortfolios';
+import { useSelector } from 'react-redux';
 
 const StyledCombobox = styled(Combobox)`
   width: 500px;
@@ -44,7 +47,7 @@ const StyledComboboxPopover = styled(ComboboxPopover)`
 export const StyledComboboxList = styled(ComboboxList)`
   box-sizing: border-box;
   width: 553px;
-  padding: 10px;
+  padding: 10px !important;
   border: 1px solid var(--brand-blue);
   background: #f2f3fd;
   line-height: 30px;
@@ -54,7 +57,7 @@ export const StyledComboboxList = styled(ComboboxList)`
 
 export const StyledComboboxOption = styled(ComboboxOption)`
   &:hover {
-    background: var(--brand-green);
+    background: var(--brand-green) !important;
   }
 `;
 
@@ -62,6 +65,9 @@ const AddAssetClassBtn = styled.li`
   cursor: pointer;
   color: var(--brand-blue);
   margin-top: 20px;
+  &:hover {
+    background: var(--brand-green);
+  }
 `;
 
 type Props = {
@@ -79,15 +85,15 @@ const AssetClassSelector = ({
   clearInput,
   onSelect,
 }: Props) => {
-  const [backToAssetClass, setBackToAssetClass] = useState(false);
+  const history = useHistory();
+
+  const modelId = useSelector(selectCurrentModelPortfolioId);
   const [input, setInput] = useState('');
+  let results = useFindMatch(input, availableAssetClasses, ['name']);
+
   useEffect(() => {
     setInput('');
   }, [clearInput]);
-
-  if (backToAssetClass) {
-    return <Redirect exact to="/app/asset-class" />;
-  }
 
   const onChange = (event: any) => {
     setInput(event.target.value);
@@ -115,15 +121,23 @@ const AssetClassSelector = ({
       />
       <StyledComboboxPopover>
         <StyledComboboxList>
-          {availableAssetClasses.map((option, index) => {
-            return (
-              <StyledComboboxOption key={index} value={option.id}>
-                {option.name}
-              </StyledComboboxOption>
-            );
-          })}
-          <AddAssetClassBtn onClick={() => setBackToAssetClass(true)}>
-            <FontAwesomeIcon icon={faPlus} size="sm" /> New Asset Class
+          {results && results.length > 0 ? (
+            results.map((option: any, index: number) => {
+              return (
+                <StyledComboboxOption key={index} value={option.id}>
+                  {option.name}
+                </StyledComboboxOption>
+              );
+            })
+          ) : (
+            <div>No results found</div>
+          )}
+          <AddAssetClassBtn
+            onClick={() =>
+              history.push(`/app/asset-class?back=/model-portfolio/${modelId}`)
+            }
+          >
+            <FontAwesomeIcon icon={faPlus} /> New Asset Class
           </AddAssetClassBtn>
         </StyledComboboxList>
       </StyledComboboxPopover>

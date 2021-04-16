@@ -183,24 +183,11 @@ export const StyledName = styled.span`
   font-size: 30px;
 `;
 
-// const Enter = styled.span`
-//   font-weight: 600;
-//   font-size: 16px;
-//   position: absolute;
-//   top: 0px;
-//   border: 1px solid #666b71;
-//   border-radius: 25px;
-//   padding: 3px 5px;
-//   color: #666b71;
-//   width: 96px;
-//   right: 0;
-//   text-align: center;
-// `;
-
 type Props = {
   modelPortfolio: any;
   assetClasses: ModelAssetClass[];
   securityBased: boolean;
+  modelTypeChanged: boolean;
 };
 
 const ModelPortoflioBox = ({
@@ -289,7 +276,7 @@ const ModelPortoflioBox = ({
         if (securityBased && groupId) {
           history.push(`/app/group/${gpId}`);
         }
-        if (!securityBased && gpId) {
+        if (!securityBased && (gpId || applyMode)) {
           history.push(`/app/priorities/${gpId}`);
         }
       })
@@ -395,7 +382,7 @@ const ModelPortoflioBox = ({
                   if (!securityBased) {
                     const usedAssetClasses = props.values.targets.map(
                       (astCls: any) => {
-                        return astCls.model_asset_class.id;
+                        return astCls.model_asset_class?.id;
                       },
                     );
                     // filter out the asset classes that have been already added
@@ -476,7 +463,7 @@ const ModelPortoflioBox = ({
                                       <span>
                                         {
                                           props.values.targets[index]
-                                            .model_asset_class.name
+                                            .model_asset_class?.name
                                         }
                                       </span>
                                     )}
@@ -556,18 +543,6 @@ const ModelPortoflioBox = ({
                                 }}
                               />
                             )}
-                            {/* {isMobile ? (
-                              <SmallButton
-                                type="button"
-                                onClick={handleAddToModel}
-                                style={{ width: '100%' }}
-                                disabled={!props.isValid}
-                              >
-                                Add
-                              </SmallButton>
-                            ) : (
-                              props.isValid && <Enter>Press Enter</Enter>
-                            )} */}
                           </FormContainer>
                           <ErroMsg>
                             {props.errors.newTargetPercent && (
@@ -591,7 +566,7 @@ const ModelPortoflioBox = ({
                       }}
                       disabled={!props.dirty || !props.isValid}
                     >
-                      Save Model
+                      Save Changes
                     </Button>
                   </>
                 )}

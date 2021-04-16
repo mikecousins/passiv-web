@@ -20,8 +20,7 @@ import ModelPortoflioBox from './ModelPortfolioBox';
 import AssetClassesBox from './AssetClassesBox';
 import {
   faAngleLeft,
-  faClipboard,
-  faClipboardCheck,
+  faCheckCircle,
   faExclamationCircle,
   faExclamationTriangle,
   faInfoCircle,
@@ -37,11 +36,7 @@ import Grid from '../../styled/Grid';
 import { H3 } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import {
-  InputBox,
-  ReadOnlyInput,
-  IconBox,
-} from '../SettingsManager/APIAccessSettings';
+import { InputBox, ReadOnlyInput } from '../SettingsManager/APIAccessSettings';
 import Dialog from '@reach/dialog';
 import {
   ActionContainer,
@@ -51,6 +46,7 @@ import {
 import { Button } from '../../styled/Button';
 import Tooltip from '../Tooltip';
 import { selectAssetClassFeature } from '../../selectors/features';
+import { CopyButton } from './MoreOptions';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -134,7 +130,7 @@ const SetShareModelContainer = styled.div`
   margin-top: 10px;
 `;
 
-const ShareLinkContainer = styled.div`
+const ShareLinkContainer = styled(Grid)`
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
@@ -173,6 +169,8 @@ const ModelPortfolio = () => {
 
   let currentModelPortfolio: any = useSelector(selectCurrentModelPortfolio);
 
+  const modelId = currentModelPortfolio!?.model_portfolio.id;
+
   const modelAssetClasses: ModelAssetClassDetailsType[] = useSelector(
     selectModelAssetClasses,
   );
@@ -207,9 +205,9 @@ const ModelPortfolio = () => {
 
   const assetClassFeature = useSelector(selectAssetClassFeature);
 
-  const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${
-    currentModelPortfolio!?.model_portfolio.id
-  }?share=${referralCode}`;
+  const [modelTypeChanged, setModelTypeChanged] = useState(false);
+
+  const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${modelId}?share=${referralCode}`;
 
   let haveAssetsInModel = false;
   if (
@@ -224,12 +222,8 @@ const ModelPortfolio = () => {
     haveAssetsInModel = true;
   }
 
-  const modelTypeToggleDisabled = haveAssetsInModel || editMode || applyMode;
-
   const handleDeleteModel = () => {
-    deleteData(
-      `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
-    ).then(() => {
+    deleteData(`/api/v1/modelPortfolio/${modelId}`).then(() => {
       dispatch(loadModelPortfolios());
       dispatch(loadGroups());
       history.replace('/app/models');
@@ -244,16 +238,16 @@ const ModelPortfolio = () => {
         currentModelPortfolio.model_portfolio.model_type = 0;
       }
     }
-    postData(
-      `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
-      currentModelPortfolio!,
-    )
+    postData(`/api/v1/modelPortfolio/${modelId}`, currentModelPortfolio)
       .then(() => {
-        dispatch(loadModelPortfolios());
         setSecurityBased(!securityBased);
+        toast.success('Model type changed successfully', {
+          autoClose: 3000,
+        });
+        dispatch(loadModelPortfolios());
       })
       .catch(() => {
-        toast.error('Unable to change the model', {
+        toast.error('Unable to change the model type', {
           autoClose: 3000,
         });
       });
@@ -263,10 +257,7 @@ const ModelPortfolio = () => {
     if (currentModelPortfolio !== null) {
       currentModelPortfolio.model_portfolio.share_portfolio = !share;
     }
-    postData(
-      `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
-      currentModelPortfolio!,
-    )
+    postData(`/api/v1/modelPortfolio/${modelId}`, currentModelPortfolio!)
       .then(() => {
         setShare(!share);
         dispatch(loadModelPortfolios());
@@ -303,6 +294,7 @@ const ModelPortfolio = () => {
                   modelPortfolio={currentModelPortfolio}
                   assetClasses={assetClasses}
                   securityBased={securityBased}
+                  modelTypeChanged={modelTypeChanged}
                 />
                 <div>
                   {!assetClassFeature && (
@@ -315,8 +307,8 @@ const ModelPortfolio = () => {
                   <ModelType assetClassFeature={assetClassFeature}>
                     <H3>
                       Model Type{' '}
-                      {modelTypeToggleDisabled && assetClassFeature && (
-                        <Tooltip label="This setting is disabled if you already have securities in this model or on edit mode.">
+                      {haveAssetsInModel && assetClassFeature && (
+                        <Tooltip label="This setting is disabled if you already have securities in this model.">
                           <FontAwesomeIcon
                             icon={faExclamationCircle}
                             size="sm"
@@ -325,8 +317,14 @@ const ModelPortfolio = () => {
                       )}
                     </H3>
                     <ToggleModelTypeBtn
-                      onClick={handleChangeModelType}
-                      disabled={modelTypeToggleDisabled || !assetClassFeature}
+                      onClick={() => {
+                        if (editMode || applyMode) {
+                          setModelTypeChanged(true);
+                        } else {
+                          handleChangeModelType();
+                        }
+                      }}
+                      disabled={haveAssetsInModel || !assetClassFeature}
                     >
                       {
                         <React.Fragment>
@@ -365,33 +363,30 @@ const ModelPortfolio = () => {
                           </ToggleShareBtn>
                           <br />
                           {share && (
-                            <ShareLinkContainer>
+                            <ShareLinkContainer columns="4fr 2fr">
                               <InputBox>
                                 <ReadOnlyInput
                                   value={SHARE_URL}
                                   readOnly={true}
                                 />
                               </InputBox>
-                              <IconBox>
+                              <div>
                                 <CopyToClipboard
                                   text={SHARE_URL}
                                   onCopy={() => {
                                     setCopied(true);
                                   }}
                                 >
-                                  {copied ? (
-                                    <FontAwesomeIcon
-                                      icon={faClipboardCheck}
-                                      size="lg"
-                                    />
-                                  ) : (
-                                    <FontAwesomeIcon
-                                      icon={faClipboard}
-                                      size="lg"
-                                    />
-                                  )}
+                                  <div>
+                                    <CopyButton copied={copied}>
+                                      {copied ? 'Copied' : 'Copy'}{' '}
+                                      {copied && (
+                                        <FontAwesomeIcon icon={faCheckCircle} />
+                                      )}
+                                    </CopyButton>
+                                  </div>
                                 </CopyToClipboard>
-                              </IconBox>
+                              </div>
                             </ShareLinkContainer>
                           )}
                           <br />
@@ -400,7 +395,10 @@ const ModelPortfolio = () => {
                     </>
                   )}
                   {!securityBased && (
-                    <AssetClassesBox assetClasses={modelAssetClasses} />
+                    <AssetClassesBox
+                      assetClasses={modelAssetClasses}
+                      modelId={modelId}
+                    />
                   )}
                 </div>
               </ResponsiveGrid>
@@ -441,6 +439,30 @@ const ModelPortfolio = () => {
               <ActionContainer>
                 <DeleteBtn onClick={handleDeleteModel}>Delete</DeleteBtn>
                 <Button onClick={() => setDeleteDialog(false)}>Cancel</Button>
+              </ActionContainer>
+            </Dialog>
+            <Dialog
+              isOpen={modelTypeChanged}
+              onDismiss={() => setModelTypeChanged(false)}
+              aria-labelledby="dialog1Title"
+              aria-describedby="dialog1Desc"
+              style={{ borderRadius: '4px' }}
+            >
+              <H2Margin>
+                Are you sure you want to change the model type?
+              </H2Margin>
+              <ActionContainer>
+                <DeleteBtn
+                  onClick={() => {
+                    handleChangeModelType();
+                    setModelTypeChanged(false);
+                  }}
+                >
+                  OK
+                </DeleteBtn>
+                <Button onClick={() => setModelTypeChanged(false)}>
+                  Cancel
+                </Button>
               </ActionContainer>
             </Dialog>
           </>

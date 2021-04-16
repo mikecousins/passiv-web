@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React from 'react';
+import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
 import Tooltip from '../Tooltip';
@@ -39,16 +39,17 @@ const ResponsiveGrid = styled(Grid)`
   }
 `;
 
+const GoToAssetClasses = styled(Button)`
+  margin-top: 30px;
+`;
+
 type Props = {
   assetClasses: ModelAssetClassDetailsType[];
+  modelId: string;
 };
 
-const AssetClassesBox = ({ assetClasses }: Props) => {
-  const [backToAssetClass, setBackToAssetClass] = useState(false);
-
-  if (backToAssetClass) {
-    return <Redirect exact to="/app/asset-class" />;
-  }
+const AssetClassesBox = ({ assetClasses, modelId }: Props) => {
+  const history = useHistory();
 
   const makeLabel = (target: Target[]) => {
     let labelList: string[] = [];
@@ -94,22 +95,24 @@ const AssetClassesBox = ({ assetClasses }: Props) => {
               );
             })}
           </ResponsiveGrid>
-          <Button
-            style={{ marginTop: '30px' }}
-            onClick={() => setBackToAssetClass(true)}
+          <GoToAssetClasses
+            onClick={() =>
+              history.push(`/app/asset-class?back=/model-portfolio/${modelId}`)
+            }
           >
             Edit Asset Classes
-          </Button>
+          </GoToAssetClasses>
         </>
       ) : (
         <>
           <p>You still need to define your asset classes. </p>
-          <Button
-            style={{ marginTop: '30px' }}
-            onClick={() => setBackToAssetClass(true)}
+          <GoToAssetClasses
+            onClick={() =>
+              history.push(`/app/asset-class?back=/model-portfolio/${modelId}`)
+            }
           >
             Add Asset Classes
-          </Button>
+          </GoToAssetClasses>
         </>
       )}
     </Box>
