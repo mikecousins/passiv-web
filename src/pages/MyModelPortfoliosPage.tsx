@@ -90,7 +90,11 @@ const ApplyTransparentBtn = styled(TransparentButton)`
   padding: 12px;
   width: 100px;
   &:hover {
-    border: 1px solid var(--brand-blue);
+    :disabled {
+      background: transparent;
+      color: var(--brand-blue);
+    }
+
     background: var(--brand-blue);
     color: #fff;
   }
