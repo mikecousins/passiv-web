@@ -1,3 +1,4 @@
+//TODO break down this to two components
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -33,6 +34,7 @@ import { selectGroupInfo, selectGroups } from '../selectors/groups';
 import Dialog from '@reach/dialog';
 import SelectGroupDialog from '../components/ModelPortfolio/SelectGroupDialog';
 import { BackButton } from '../components/ModelPortfolio/ModelPortfolio';
+import MoreOptions from '../components/ModelPortfolio/MoreOptions';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -87,6 +89,11 @@ const InUse = styled.span`
 const ApplyTransparentBtn = styled(TransparentButton)`
   padding: 12px;
   width: 100px;
+  &:hover {
+    border: 1px solid var(--brand-blue);
+    background: var(--brand-blue);
+    color: #fff;
+  }
   @media (max-width: 900px) {
     width: 100%;
   }
@@ -230,8 +237,16 @@ const MyModelPortfoliosPage = () => {
               return (
                 <ShadowBox key={mdl.model_portfolio.id}>
                   <Grid
-                    columns={groupId ? '2fr 1fr 250px' : '2fr 1fr 150px 150px'}
+                    columns={
+                      groupId
+                        ? '50px 2fr 1fr 250px'
+                        : '50px 2fr 1fr 150px 150px'
+                    }
                   >
+                    <MoreOptions
+                      modelId={mdl.model_portfolio.id}
+                      shareModel={mdl.model_portfolio.share_portfolio}
+                    />
                     <ModelName>{mdl.model_portfolio.name}</ModelName>
                     <InUseDiv>
                       {totalAssignedGroups > 0 && (

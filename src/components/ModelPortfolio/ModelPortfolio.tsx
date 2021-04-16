@@ -20,8 +20,7 @@ import ModelPortoflioBox from './ModelPortfolioBox';
 import AssetClassesBox from './AssetClassesBox';
 import {
   faAngleLeft,
-  faClipboard,
-  faClipboardCheck,
+  faCheckCircle,
   faExclamationCircle,
   faExclamationTriangle,
   faInfoCircle,
@@ -37,11 +36,7 @@ import Grid from '../../styled/Grid';
 import { H3 } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import {
-  InputBox,
-  ReadOnlyInput,
-  IconBox,
-} from '../SettingsManager/APIAccessSettings';
+import { InputBox, ReadOnlyInput } from '../SettingsManager/APIAccessSettings';
 import Dialog from '@reach/dialog';
 import {
   ActionContainer,
@@ -51,6 +46,7 @@ import {
 import { Button } from '../../styled/Button';
 import Tooltip from '../Tooltip';
 import { selectAssetClassFeature } from '../../selectors/features';
+import { CopyButton } from './MoreOptions';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -134,7 +130,7 @@ const SetShareModelContainer = styled.div`
   margin-top: 10px;
 `;
 
-const ShareLinkContainer = styled.div`
+const ShareLinkContainer = styled(Grid)`
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
@@ -367,33 +363,30 @@ const ModelPortfolio = () => {
                           </ToggleShareBtn>
                           <br />
                           {share && (
-                            <ShareLinkContainer>
+                            <ShareLinkContainer columns="4fr 2fr">
                               <InputBox>
                                 <ReadOnlyInput
                                   value={SHARE_URL}
                                   readOnly={true}
                                 />
                               </InputBox>
-                              <IconBox>
+                              <div>
                                 <CopyToClipboard
                                   text={SHARE_URL}
                                   onCopy={() => {
                                     setCopied(true);
                                   }}
                                 >
-                                  {copied ? (
-                                    <FontAwesomeIcon
-                                      icon={faClipboardCheck}
-                                      size="lg"
-                                    />
-                                  ) : (
-                                    <FontAwesomeIcon
-                                      icon={faClipboard}
-                                      size="lg"
-                                    />
-                                  )}
+                                  <div>
+                                    <CopyButton copied={copied}>
+                                      {copied ? 'Copied' : 'Copy'}{' '}
+                                      {copied && (
+                                        <FontAwesomeIcon icon={faCheckCircle} />
+                                      )}
+                                    </CopyButton>
+                                  </div>
                                 </CopyToClipboard>
-                              </IconBox>
+                              </div>
                             </ShareLinkContainer>
                           )}
                           <br />
