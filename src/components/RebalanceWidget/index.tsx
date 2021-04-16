@@ -354,7 +354,11 @@ const RebalanceWidget = ({
                   </ColumnAction>
                   <ColumnUnits>
                     <Title>Units</Title>
-                    <div>{results.filled_units}</div>
+                    {results.filled_fractional_units ? (
+                      <div>{results.filled_fractional_units}</div>
+                    ) : (
+                      <div>{results.filled_units}</div>
+                    )}
                   </ColumnUnits>
                   <ColumnSymbolSmall>
                     <Title>Symbol</Title>
