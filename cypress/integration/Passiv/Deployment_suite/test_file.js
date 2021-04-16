@@ -1,14 +1,7 @@
+describe('Login and Adjust portfolio', () => {
 
-  it('Add Alpaca', () => {
-      cy.intercept('POST', '/app/settings/connect/', {
-          statusCode: 200,
-          body: 'it worked!'
-      }).as('connect')
-      cy.intercept('POST', 'https://app.alpaca.markets/connect', {
-          statusCode: 200,
-          body: 'Llama'
-      }).as('Alpaca')
-
+  // Re-login
+  it('Login test 2', () => {
       cy.fixture('testDomain').as('login')
       cy.get('@login').then(domain => {
       cy.visit((domain.test).concat('/login')) })
@@ -17,77 +10,193 @@
       cy.get('[name=email]').first().type(user.username)
       cy.get('[placeholder=Password]').type(user.password)
 
-      cy.get('[data-cy=login-button]').should('not.be.disabled')
-    .click({multiple:true})
-  
-      })
-
-  })
-  
   // Verify the sign in button is enabled//
-  it('Test Allocate button', () => {
-    cy.fixture('testDomain').as('login')
-      cy.get('@login').then(domain => {
-      cy.visit((domain.test).concat('/login')) })
-  
-    cy.get('div').contains('Dashboard').click().wait(8000)
-      
-    cy.get('div').contains('Allocate').click().as('allocate')
-      cy.contains('Trades').should('be.visible')
+  cy.get('[data-cy=login-button]').should('not.be.disabled')
+  .click({multiple:true})
+  })
 
-  })    
-    
+})
 
-  
-  // it('Add Questrade', () => {
-  //     cy.get('div').contains('Settings').click().wait(8000)
-  //     cy.get('button').contains('Add').first().click()
-  //     cy.get('div').contains('Questrade').click()
 
-  //     cy.location().should((loc => {
-  //       expect(loc.href).to.eq('https://login.questrade.com/Account/Login?ReturnUrl=%2Fconnect%2Fauthorize%2Fcallback%3Fresponse_type%3Dcode%26client_id%3D8060ad5d-48fb-414d-b212-5b686c31a7d1%26redirect_uri%3Dhttps%253A%252F%252Flogin.questrade.com%252FOAuth2%252Foidc-callback%26scope%3Dopenid%26state%3DAQAAANCMnd8BFdERjHoAwE_Cl-sBAAAALh2ttvVaS0G2bcOpVrXx9QQAAAACAAAAAAAQZgAAAAEAACAAAABgKSRb3uPbdkyOU8baSeG61kqkES_UQkO4SbU8k_dppgAAAAAOgAAAAAIAACAAAADMZ0G4F8fwbc5K9Dy5ia6QQsf3SeZ3ACoImHxXfwR0w6AAAABJoHzaIZgc-D44rTE1fdhWwQx_wMpdAIcXz7cQ516p6HDa434kgZ73yDyBzaGMJ5oyd2ib4OXkb11lAu0G1AuZfgF6jxV3238B_Qe3YE2dxU86H594MVocYrVD-DIKDKd7vJfGdoltWaQ65ckiJ8HWzDSntM28E8dje1Nb3z_iUrwQ882yrWuwOS1QvcV-zPTqrkHiEQ-pmonEmCokBqyKQAAAAAyGx8H7O79HbTcYvwjj-D1UQYD1L-yIiFric0eChKoEbfpZHbAczT93MJ36JbkHft-VlqNzL1-lW08grZLqn7k')
-  //     }))
-  //   })
 
-  // it('Add IBKR', () => {
-  //     cy.get('div').contains('Settings').click().wait(8000)
-  //     cy.get('button').contains('Add').first().click()
-  //     cy.get('div').contains('IBKR').click()
+describe('Add goals', () => {
+  it('Goals Test', () => {
+          cy.contains('Goals').click()
+          .should('have.attr', 'href', '/app/goals')
+  })
 
-  //     cy.location().should((loc => {
-  //       expect(loc.href).to.eq('https://www.interactivebrokers.com/authorize/')
-  //     }))
-  //   })
 
-  // it('Add Alpaca', () => {
-  //     cy.get('div').contains('Settings').click().wait(8000)
-  //     cy.get('button').contains('Add').first().click()
-  //     cy.get('div').contains('Alpaca').click()
+  //these are the values for the goal
+  const goal1 = "Get the bag"
+  const goalnumber = "1000000"
+  const month = "July"
+  const year = "2050"
 
-  //     cy.location().should((loc => {
-  //       expect(loc.href).to.eq('https://app.alpaca.markets/connect')
-  //     }))
-  //   })
+  const goal2 = "Get the bread"
+  const goalnumber2 = "10000000"
 
-  // it('Add Tradier', () => {
-  //     cy.get('div').contains('Settings').click().wait(8000)
-  //     cy.get('button').contains('Add').first().click()
-  //     cy.get('div').contains('Tradier').click()
 
-  //     cy.location().should((loc => {
-  //       expect(loc.href).to.eq('https://brokerage.tradier.com/user/login')
-  //     }))
-  //   })
 
-  // it('Add TD Ameritrade', () => {
-  //     cy.get('div').contains('Settings').click().wait(8000)
-  //     cy.get('button').contains('Add').first().click()
-  //     cy.get('div').contains('TD Ameritrade').click()
+  it('Create a goal name', () => {
+      cy.get('[id=goalname]')
+      .clear()
+      .type(goal1)
+      .should('have.value', goal1)
+  })
 
-  //     cy.location().should((loc => {
-  //       expect(loc.href).to.eq('https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=https%3A%2F%2Fgetpassiv.com%2Foauth%2Ftd&client_id=COZMSAFYLVJWJND7FPF9XEHAYKENERQY%40AMER.OAUTHAP')}
-  //       )
-  //     )
-  //   })
+  it('Next' , () => {
+      cy.get('div').find('button').contains('Next')
+      .click()
+  })
+
+
+  it('Optional Account Selection ' , () => {
+      cy.get('div').find('button').contains('All Accounts')
+      .click()
+  })
+
+//     // This is the block for no account@class='css-jm466k']
+
+  // it('Pick portfolio Account ' , () => {
+  //     cy.get('div').find('button').contains('Retirement TFSA')
+  //     .click()
   // })
 
+  it('Next' , () => {
+      cy.get('div').find('button').contains('Next')
+      .click()
+  })
+
+  it('Enter goal ammount', () => {
+      cy.get('div').find('label').contains('I want to reach $').next()
+      .click({multiple:true})
+      .type(goalnumber)
+      .should('have.value', goalnumber)
+  })
+
+  it('Enter Year', () => {
+      cy.get('div').find('label').contains('By').next().next()
+      .clear()
+      .type(year)
+      .should('have.value', year)
+  })
+
+  it('Confirm Goal', () => {
+      cy.get('button').contains('Start Saving!').click()
+      cy.get('button').contains('Refresh').click().wait(4000)
+
+  })
+
+  it('Return to Dashboard  Page', () => {
+      cy.fixture('testDomain').as('login')
+
+      cy.get('@login').then(domain => {
+      cy.visit((domain.test).concat('/dashboard')) })
+      cy.get('button').contains('Refresh').click().wait(4000)
+  })
+
+
+  it('Return to Goals Page', () => {
+      cy.fixture('testDomain').as('login')
+
+      cy.get('@login').then(domain => {
+      cy.visit((domain.test).concat('/goals')) })
+      cy.get('button').contains('Refresh').click()
+  })
+
+
+  it('Edit Goal', () => {
+      cy.contains('Goals').click()
+      cy.get('div').contains(goal1).next()
+      .click({multiple:true})
+  })
+
+  it('Update the target amount', () => {
+      cy.get('button').contains('Edit Target').click()
+      .get('div').find('input').last()
+      .clear()
+      .type(goalnumber2)
+      .get('button').contains('Update').click()
+
+  })
+
+  it('Return to Dashboard  Page', () => {
+      cy.fixture('testDomain').as('login')
+
+      cy.get('@login').then(domain => {
+      cy.visit((domain.test).concat('/dashboard')) })
+      cy.get('button').contains('Refresh').click()
+  })
+
+  it('Return to Goals Page and add 2nd goal', () => {
+      cy.fixture('testDomain').as('login')
+      cy.get('@login').then(domain => {
+      cy.visit((domain.test).concat('/goals')) })
+      cy.get('button').contains('Refresh').click()
+      .get('button').contains('Add Goal').click()
+
+  })
+
+  // This is where  the 2nd goal is added to confirm it iterates correctly if the same name is entered
+
+
+  it('Create a goal name', () => {
+      cy.get('[id=goalname]')
+      .clear()
+      .type(goal1)
+      .should('have.value', goal1)
+  })
+
+  it('Optional Account Selection ' , () => {
+      cy.get('div').find('button').contains('Next')
+      .click()
+  })
+
+  // This is the block for no account
+
+  it('Pick no account' , () => {
+      cy.get('div').find('button').contains('Next')
+      .click()
+  })
+
+  // it('Pick portfolio Account ' , () => {
+  //     cy.get('div').find('button').contains('Retirement TFSA')
+  //     .click()
+  // })
+
+
+  it('Enter goal ammount', () => {
+      cy.get('div').find('label').contains('I want to reach $').next()
+      .click({multiple:true})
+      .type(goalnumber)
+      .should('have.value', goalnumber)
+  })
+
+
+  it('Enter Year', () => {
+      cy.get('div').find('label').contains('By').next().next()
+      .clear()
+      .type(year)
+      .should('have.value', year)
+  })
+
+  it('Confirm Goal', () => {
+      cy.get('button').contains('Start Saving!').click()
+  })
+
+  it('Reset to Dashboard', () => {
+      cy.fixture('testDomain').as('login')
+      cy.get('@login').then(domain => {
+      cy.visit((domain.test).concat('/Dashboard')) })
+  })
+
+  it('View all Goals', () => {
+          cy.fixture('testDomain').as('login')
+
+          cy.get('@login').then(domain => {
+          cy.visit((domain.test).concat('/goals')) })
+  })
+
+})
+
+})
