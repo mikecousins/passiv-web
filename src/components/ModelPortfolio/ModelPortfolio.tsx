@@ -456,7 +456,7 @@ const ModelPortfolio = () => {
               style={{ borderRadius: '4px' }}
             >
               <H2Margin>
-                Are you sure you want to change the model type ?
+                Are you sure you want to change the model type?
               </H2Margin>
               <ActionContainer>
                 <DeleteBtn
