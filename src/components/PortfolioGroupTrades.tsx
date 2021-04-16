@@ -179,7 +179,12 @@ export const PortfolioGroupTrades = ({
             <div>
               <Number
                 value={trade.price}
-                currency={trade.universal_symbol.currency.code}
+                currency={
+                  trade.account.brokerage_authorization.brokerage.name ===
+                  'Unocoin'
+                    ? 'INR'
+                    : trade.universal_symbol.currency.code
+                }
                 isTrade={true}
               />
             </div>
