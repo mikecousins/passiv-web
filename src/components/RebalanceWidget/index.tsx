@@ -228,6 +228,7 @@ const RebalanceWidget = ({
   );
 
   var hasZerodhaAccount = false;
+  var hasKrakenAccount = false;
   var hasNonZerodhaAccount = false;
   var hasUnocoinAccount = false;
   groupAccounts.map((acc: any) => {
@@ -245,8 +246,13 @@ const RebalanceWidget = ({
     }
     const isZerodhaConnection = authorization.brokerage.name === 'Zerodha';
     const isUnocoinConnection = authorization.brokerage.name === 'Unocoin';
+    const isKrakenConnection = authorization.brokerage.name === 'Kraken';
     if (isUnocoinConnection) {
       hasUnocoinAccount = true;
+      return true;
+    }
+    if (isKrakenConnection) {
+      hasKrakenAccount = true;
       return true;
     }
     //If so, marks the `hasZerodhaAccount` variable as `true`
@@ -307,6 +313,19 @@ const RebalanceWidget = ({
         <div>
           Please <a href="mailto:support@passiv.com">contact support</a> if you
           have any questions!
+        </div>
+      </>
+    );
+  }
+
+  if (hasKrakenAccount) {
+    orderValidation = (
+      <>
+        <div>
+          Kraken is a read-only integration at this time. We are actively
+          working to build a trading integration with Kraken. Please visit
+          <a href="www.kraken.com">www.kraken.com</a> to execute the trades
+          listed above and keep your crypto portfolio balanced.
         </div>
       </>
     );
