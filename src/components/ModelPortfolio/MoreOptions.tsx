@@ -20,7 +20,6 @@ import { selectReferralCode } from '../../selectors/referrals';
 import Grid from '../../styled/Grid';
 import {
   faFacebook,
-  faLinkedinIn,
   faReddit,
   faTwitter,
 } from '@fortawesome/free-brands-svg-icons';
@@ -81,9 +80,11 @@ const URLInput = styled(ReadOnlyInput)`
   font-size: 20px;
 `;
 
-const SocialMedia = styled.button`
-  a {
-    color: var(--brand-green);
+const SocialMedia = styled(Grid)`
+  svg {
+    &:hover {
+      color: var(--brand-green);
+    }
   }
 `;
 
@@ -179,47 +180,55 @@ const MoreOptions = ({ modelId, shareModel }: Props) => {
         </button>
         <div>
           <H2 style={{ marginTop: '30px' }}>Share Model</H2>
-          <Grid
+          <SocialMedia
             columns="100px 100px 100px 100px"
             style={{ margin: '30px auto' }}
           >
-            <SocialMedia>
+            <button>
               <a
                 target="_blank"
                 href={`https://twitter.com/intent/tweet/?text=${title}&url=${SHARE_URL}`}
                 rel="noopener noreferrer"
+                className="twitter"
               >
-                <FontAwesomeIcon icon={faTwitter} size="3x" />
+                <FontAwesomeIcon icon={faTwitter} size="3x" color="#1DA1F2" />
               </a>
-            </SocialMedia>
-            <SocialMedia>
+            </button>
+            <button>
               <a
                 target="_blank"
                 href={`https://www.facebook.com/sharer/sharer.php?u=${SHARE_URL}`}
                 rel="noopener noreferrer"
+                className="fb"
               >
-                <FontAwesomeIcon icon={faFacebook} size="3x" />
+                <FontAwesomeIcon icon={faFacebook} size="3x" color="#4267B2" />
               </a>
-            </SocialMedia>
-            <SocialMedia>
+            </button>
+            {/* <button>
               <a
                 target="_blank"
-                href={`https://www.linkedin.com/shareArticle?mini=true&url=${SHARE_URL}&title=${title}&source=${title}`}
+                href={`https://www.linkedin.com/shareArticle?mini=true&url=${SHARE_URL}&title=hey`}
                 rel="noopener noreferrer"
+                className="linkedin"
               >
-                <FontAwesomeIcon icon={faLinkedinIn} size="3x" />
+                <FontAwesomeIcon
+                  icon={faLinkedinIn}
+                  size="3x"
+                  color="#2867b2"
+                />
               </a>
-            </SocialMedia>
-            <SocialMedia>
+            </button> */}
+            <button>
               <a
                 target="_blank"
                 href={`https://www.reddit.com/submit?url=${SHARE_URL}&title=${title}`}
                 rel="noopener noreferrer"
+                className="reddit"
               >
-                <FontAwesomeIcon icon={faReddit} size="3x" />
+                <FontAwesomeIcon icon={faReddit} size="3x" color="#ff4500" />
               </a>
-            </SocialMedia>
-          </Grid>
+            </button>
+          </SocialMedia>
           <Grid columns="5fr 1fr">
             <InputBox>
               <URLInput value={SHARE_URL} readOnly={true} />
