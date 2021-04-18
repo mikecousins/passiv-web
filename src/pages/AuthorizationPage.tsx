@@ -20,6 +20,7 @@ import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 import TDAmeritradeLogo from '../assets/images/tda-logo.png';
 import TradierLogo from '../assets/images/tradier-logo.png';
 import KrakenLogo from '../assets/images/kraken-logo.png';
+import BitbuyLogo from '../assets/images/bitbuy-logo.png';
 import UnocoinLogo from '../assets/images/unocoin-logo.png';
 import WealthicaLogo from '../assets/images/wealthica-logo.png';
 import WealthsimpleTradeLogo from '../assets/images/wealthsimple-logo.png';
@@ -395,6 +396,20 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       major: true,
       logo: WealthsimpleTradeLogo,
       description: <P>Wealthsimple is a Canadian discount brokerage.</P>,
+    },
+    {
+      id: 'bitbuy',
+      name: 'Bitbuy',
+      displayName: 'Bitbuy',
+      connect: () => {
+        startConnection('Bitbuy', 'trade');
+      },
+      confirmPrompt: null,
+      defaultConnectionType: 'trade',
+      openURL: '',
+      major: true,
+      logo: BitbuyLogo,
+      description: <P>Bitbuy is a Canadian cryptocurrency exchange.</P>,
     },
   ];
 
