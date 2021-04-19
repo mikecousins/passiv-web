@@ -283,6 +283,8 @@ export const GlobalStyle = () => (
         z-index: 10;
       }
       [data-reach-dialog-content] {
+        max-width: 900px;
+        border-radius: 5px;
         @media (max-width: 900px) {
           width: 95vw;
           margin-top: 60px;

@@ -167,7 +167,6 @@ const MoreOptions = ({ modelId, shareModel }: Props) => {
         }}
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
-        style={{ borderRadius: '4px' }}
       >
         <button
           onClick={() => {
@@ -229,7 +228,7 @@ const MoreOptions = ({ modelId, shareModel }: Props) => {
               </a>
             </button>
           </SocialMedia>
-          <Grid columns="5fr 1fr">
+          <Grid columns="4fr auto">
             <InputBox>
               <URLInput value={SHARE_URL} readOnly={true} />
             </InputBox>

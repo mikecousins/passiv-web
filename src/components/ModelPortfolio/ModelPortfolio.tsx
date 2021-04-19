@@ -131,10 +131,7 @@ const SetShareModelContainer = styled.div`
 `;
 
 const ShareLinkContainer = styled(Grid)`
-  display: flex;
-  justify-content: space-between;
   margin-top: 10px;
-  margin-left: 5px;
 `;
 
 const ComingSoonTag = styled.div`
@@ -363,7 +360,7 @@ const ModelPortfolio = () => {
                           </ToggleShareBtn>
                           <br />
                           {share && (
-                            <ShareLinkContainer columns="4fr 2fr">
+                            <ShareLinkContainer columns="4fr auto">
                               <InputBox>
                                 <ReadOnlyInput
                                   value={SHARE_URL}
@@ -415,7 +412,6 @@ const ModelPortfolio = () => {
               onDismiss={() => setDeleteDialog(false)}
               aria-labelledby="dialog1Title"
               aria-describedby="dialog1Desc"
-              style={{ borderRadius: '4px' }}
             >
               <H2Margin>
                 Are you sure you want to delete{' '}
@@ -446,7 +442,6 @@ const ModelPortfolio = () => {
               onDismiss={() => setModelTypeChanged(false)}
               aria-labelledby="dialog1Title"
               aria-describedby="dialog1Desc"
-              style={{ borderRadius: '4px' }}
             >
               <H2Margin>
                 Are you sure you want to change the model type?

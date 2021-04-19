@@ -354,7 +354,6 @@ const ApplySecurityModel = ({ model }: Props) => {
                         onDismiss={() => setShowDialog(false)}
                         aria-labelledby="dialog1Title"
                         aria-describedby="dialog1Desc"
-                        style={{ borderRadius: '4px' }}
                       >
                         <H2Margin>
                           This Model is being used by{' '}

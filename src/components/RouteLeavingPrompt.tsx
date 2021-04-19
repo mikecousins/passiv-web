@@ -48,7 +48,6 @@ const RouteLeavingPrompt = ({ when, navigate }: Props) => {
         onDismiss={() => setDialog(false)}
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
-        style={{ borderRadius: '4px' }}
       >
         <H2Margin>
           You have unsaved changes. Are you sure you want to leave this page
