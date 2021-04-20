@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { selectCurrentGroupPositions } from '../../../selectors/groups';
-import { selectSymbols } from '../../../selectors/symbols';
 import { H3 } from '../../../styled/GlobalElements';
 import Grid from '../../../styled/Grid';
 
@@ -63,7 +62,9 @@ const UpDownButton = styled.button<UpDownBtnProps>`
 `;
 
 type Props = {
-  priority: any;
+  symbolId: string;
+  symbolName: string;
+  symbolDesc: string;
   changed: any;
   account: any;
   numberOfSecurities: number;
@@ -73,7 +74,9 @@ type Props = {
   priorityKind: string;
 };
 const SecurityPriority = ({
-  priority,
+  symbolId,
+  symbolName,
+  symbolDesc,
   changed,
   account,
   numberOfSecurities,
@@ -82,16 +85,7 @@ const SecurityPriority = ({
   handleBtn,
   priorityKind,
 }: Props) => {
-  const allSymbols = useSelector(selectSymbols);
   const currentGroupPositions = useSelector(selectCurrentGroupPositions);
-
-  const symbols = allSymbols.reduce((acc: any, symbol) => {
-    acc[symbol.id] = {
-      symbol: symbol.symbol,
-      description: symbol.description,
-    };
-    return acc;
-  }, {});
 
   const groupPositionsId = currentGroupPositions?.map((position) => {
     return position.symbol.id;
@@ -108,11 +102,11 @@ const SecurityPriority = ({
             : 'auto 100px 5fr 100px'
         }
         isChanged={
-          changed.symbolId === priority.id &&
+          changed.symbolId === symbolId &&
           changed.accountId === account.account.id
         }
         allowBuy={priorityKind === 'buy' ? true : false}
-        key={priority.id}
+        key={symbolId}
       >
         {priorityKind !== 'buy' && (
           <input
@@ -124,7 +118,7 @@ const SecurityPriority = ({
                 index,
                 assetClassId,
                 account.account.id,
-                priority,
+                symbolId,
                 false,
                 true,
                 priorityKind === 'none',
@@ -133,15 +127,15 @@ const SecurityPriority = ({
           />
         )}
 
-        <Symbol>{priority.symbol}</Symbol>
+        <Symbol>{symbolName}</Symbol>
         <Description>
-          <span> {symbols?.[priority.id]?.description}</span>
-          {priority.id && !groupPositionsId?.includes(priority.id) && (
+          <span> {symbolDesc}</span>
+          {symbolId && !groupPositionsId?.includes(symbolId) && (
             <NewSecurity>New</NewSecurity>
           )}
         </Description>
 
-        {numberOfSecurities > 0 && priority.id && priorityKind !== 'none' && (
+        {numberOfSecurities > 0 && symbolId && priorityKind !== 'none' && (
           <EditPriorityContainer>
             <UpDownButton
               isHidden={priorityKind === 'buy'}
@@ -152,7 +146,7 @@ const SecurityPriority = ({
                   index,
                   assetClassId,
                   account.account.id,
-                  priority,
+                  symbolId,
                   priorityKind === 'buy' && true,
                   false,
                 )
@@ -175,7 +169,7 @@ const SecurityPriority = ({
                   index,
                   assetClassId,
                   account.account.id,
-                  priority,
+                  symbolId,
                   priorityKind === 'buy' && true,
                   false,
                 )

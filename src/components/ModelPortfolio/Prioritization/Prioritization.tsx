@@ -4,11 +4,11 @@ import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getData, postData } from '../../../api';
-import { faCheck, faPen, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { selectCurrentGroup } from '../../../selectors/groups';
 import { AssetClassPriorities } from '../../../types/modelPortfolio';
 import AssetClassPriority from './AssetClassPriority';
-import { Edit, H2 } from '../../../styled/GlobalElements';
+import { H2 } from '../../../styled/GlobalElements';
 import ShadowBox from '../../../styled/ShadowBox';
 import { Button } from '../../../styled/Button';
 import { toast } from 'react-toastify';
@@ -32,8 +32,21 @@ const Divider = styled.hr`
   border-top: 1px solid #2a2d34;
 `;
 
-const Done = styled(Edit)``;
-const Cancel = styled(Edit)``;
+const ActionContainer = styled.div`
+  margin-bottom: 20px;
+`;
+
+const Cancel = styled(Button)`
+  padding: 13px 18px 13px;
+  background-color: transparent;
+  border: 2px solid var(--brand-blue);
+  color: var(--brand-blue);
+  font-weight: 600;
+`;
+
+const Save = styled(Button)`
+  font-weight: 600;
+`;
 
 const Description = styled.div`
   font-size: 18px;
@@ -49,6 +62,7 @@ const GroupName = styled(H2)`
 const SaveButton = styled.div`
   text-align: right;
   margin: 50px 0 0 0;
+  font-weight: 600;
   button {
     padding: 13px 60px;
     font-weight: 600;
@@ -85,14 +99,13 @@ const Prioritization = ({ onSettingsPage }: Props) => {
             // collect all the asset class ids to keep track of asset classes need to have priorities confirmed for them
             assetClassIds.push(priority.asset_class.id);
             // if not on settings page (user is setting priorities for the first time), just to make it easier, we put all securities in the sell priority array
-            if (!onSettingsPage) {
-              priority.accounts_priorities.forEach((account) => {
-                if (account.unassigned.length > 0) {
-                  account.sell_priority = account.unassigned;
-                }
+            priority.accounts_priorities.forEach((account) => {
+              if (!onSettingsPage && account.unassigned.length > 0) {
+                account.sell_priority = account.unassigned;
+              } else {
                 account.sell_priority.reverse();
-              });
-            }
+              }
+            });
           }
         });
         setAssetClassPriorities(priorities);
@@ -114,16 +127,18 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     index: number,
     assetClassId: string,
     accountId: string,
-    symbol: any,
+    symbolId: string,
     inBuyBox: boolean,
     checkBoxClicked: boolean,
     isNoTrade: boolean,
   ) => {
-    const symbolId = symbol.id;
     setChanged({ symbolId, accountId });
     setTimeout(() => {
       setChanged({ symbolId: '', accountId: '' });
     }, 300);
+    if (onSettingsPage && !editing) {
+      setEditing(true);
+    }
 
     let assetClassPrioritiesCopy = JSON.parse(
       JSON.stringify(assetClassPriorities),
@@ -139,18 +154,18 @@ const Prioritization = ({ onSettingsPage }: Props) => {
               // if index is zero, it means that we want to move the security to the buy box
               if (index === 0) {
                 // if there's already a security in buy priority, we need to replace it with the new symbol and move the old one to sell priorities
-                if (account.buy_priority[0].id) {
+                if (account.buy_priority[0]) {
                   account.sell_priority.unshift(account.buy_priority[0]);
                   account.sell_priority.splice(index + 1, 1);
                 } else {
                   account.sell_priority.splice(index, 1);
                 }
-                account.buy_priority = [symbol];
+                account.buy_priority = [symbolId];
               }
               // otherwise, we just need to swap securities in the sell priority array
               else {
                 let temp = account.sell_priority[index - 1];
-                account.sell_priority[index - 1] = symbol;
+                account.sell_priority[index - 1] = symbolId;
                 account.sell_priority[index] = temp;
               }
             }
@@ -159,12 +174,12 @@ const Prioritization = ({ onSettingsPage }: Props) => {
               // if the clicked security is in the buy box, we need to remove it and push it to the sell priority array
               if (inBuyBox) {
                 account.sell_priority.unshift(account.buy_priority[0]);
-                account.buy_priority = [{ id: '', symbol: 'None' }];
+                account.buy_priority = [];
               }
               // otherwise, we just need to swap securities in the sell priority array
               else {
                 let temp = account.sell_priority[index + 1];
-                account.sell_priority[index + 1] = symbol;
+                account.sell_priority[index + 1] = symbolId;
                 account.sell_priority[index] = temp;
               }
             }
@@ -173,12 +188,12 @@ const Prioritization = ({ onSettingsPage }: Props) => {
               // if check box was already checked, means the security needs to be removed from do_not_trade array and be pushed to sell priority array
               if (isNoTrade) {
                 account.do_not_trade.splice(index, 1);
-                account.sell_priority.push(symbol);
+                account.sell_priority.push(symbolId);
               }
               // otherwise, need to push security to do_not_trade array and remove it from sell priority array
               else {
                 account.sell_priority.splice(index, 1);
-                account.do_not_trade.push(symbol);
+                account.do_not_trade.push(symbolId);
               }
             }
           }
@@ -192,6 +207,16 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   const handleSaveChanges = () => {
     setLoading(true);
     if (assetClassPriorities) {
+      let assetClassPrioritiesCopy = JSON.parse(
+        JSON.stringify(assetClassPriorities),
+      );
+      // reverse back the sell priority array
+      assetClassPrioritiesCopy.forEach((assetClass: AssetClassPriorities) => {
+        assetClass.accounts_priorities.forEach((account) => {
+          account.sell_priority.reverse();
+        });
+      });
+      setAssetClassPriorities(assetClassPrioritiesCopy);
       postData(
         `/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`,
         assetClassPriorities,
@@ -201,7 +226,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
         } else {
           history.push(`/app/group/${group?.id}`);
         }
-        toast.success('Saved the prioritization changes successfully');
+        toast.success('Saved prioritization successfully');
         fetchPriorities();
         dispatch(loadGroupInfo());
       });
@@ -228,7 +253,6 @@ const Prioritization = ({ onSettingsPage }: Props) => {
       <AssetClassPriority
         key={priority.asset_class.id}
         priority={priority}
-        editing={true}
         changed={changed}
         handleBtn={handleUpDownBtn}
         onSettingsPage={onSettingsPage}
@@ -242,22 +266,6 @@ const Prioritization = ({ onSettingsPage }: Props) => {
       {onSettingsPage && <Divider></Divider>}
 
       <H2>Asset Class Priorities</H2>
-      {onSettingsPage &&
-        (editing ? (
-          <>
-            <Done onClick={handleSaveChanges}>
-              <FontAwesomeIcon icon={faCheck} />
-              Save changes
-            </Done>
-            <Cancel onClick={handleCancel}>Cancel</Cancel>
-          </>
-        ) : (
-          <Edit onClick={() => setEditing(true)}>
-            <FontAwesomeIcon icon={faPen} />
-            Edit Priorities
-          </Edit>
-        ))}
-
       {loading ? (
         <div>
           <FontAwesomeIcon icon={faSpinner} spin size="lg" />
@@ -269,6 +277,14 @@ const Prioritization = ({ onSettingsPage }: Props) => {
             account. Top priority will be bought first and bottom priorities
             will be sold first.
           </Description>
+          {onSettingsPage && editing && (
+            <ActionContainer>
+              <Save onClick={handleSaveChanges}>Save changes</Save>
+              <Cancel onClick={handleCancel}>
+                <FontAwesomeIcon icon={faUndo} size="sm" /> Undo changes
+              </Cancel>
+            </ActionContainer>
+          )}
           {onSettingsPage ? (
             priorities
           ) : (

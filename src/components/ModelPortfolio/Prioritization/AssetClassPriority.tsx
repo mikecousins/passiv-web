@@ -14,6 +14,8 @@ import Grid from '../../../styled/Grid';
 import { AssetClassPriorities } from '../../../types/modelPortfolio';
 import Tooltip from '../../Tooltip';
 import SecurityPriority from './SecurityPriority';
+import { useSelector } from 'react-redux';
+import { selectSymbols } from '../../../selectors/symbols';
 
 const MainContainer = styled.div`
   border: ${(p) => (p.color ? `2px solid ${p.color}` : 'none')};
@@ -101,7 +103,6 @@ const NotSupported = styled.div`
 
 type Props = {
   priority: AssetClassPriorities;
-  editing: boolean;
   changed: any;
   handleBtn: any;
   onSettingsPage: boolean;
@@ -110,7 +111,6 @@ type Props = {
 
 const AssetClassPriority = ({
   priority,
-  editing,
   changed,
   handleBtn,
   onSettingsPage,
@@ -118,6 +118,15 @@ const AssetClassPriority = ({
 }: Props) => {
   const [showDetails, setShowDetails] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
+
+  const allSymbols = useSelector(selectSymbols);
+  const symbols = allSymbols.reduce((acc: any, symbol) => {
+    acc[symbol.id] = {
+      symbol: symbol.symbol,
+      description: symbol.description,
+    };
+    return acc;
+  }, {});
 
   if (priority.asset_class.name === 'Excluded Assets') {
     return <></>;
@@ -136,7 +145,7 @@ const AssetClassPriority = ({
           {!onSettingsPage && (
             <Status>
               <Tooltip
-                label={`Priorities ${
+                label={`Priorities are ${
                   !confirmed ? 'not' : ''
                 } set for this asset class.`}
               >
@@ -197,13 +206,14 @@ const AssetClassPriority = ({
                     <NoSecurities>No Securities</NoSecurities>
                   ) : (
                     <TradePriority>
-                      {account.buy_priority.length === 0 &&
-                        account.buy_priority.push({
-                          id: '',
-                          symbol: 'None',
-                        })}
+                      {/* {account.buy_priority.length === 0 &&
+                        account.buy_priority.push()} */}
                       <SecurityPriority
-                        priority={account.buy_priority[0]}
+                        symbolId={account.buy_priority[0]}
+                        symbolName={symbols?.[account.buy_priority[0]]?.symbol}
+                        symbolDesc={
+                          symbols?.[account.buy_priority[0]]?.description
+                        }
                         changed={changed}
                         account={account}
                         numberOfSecurities={numberOfSecurities}
@@ -215,7 +225,9 @@ const AssetClassPriority = ({
                       {account.sell_priority.map((sellPriority, index) => {
                         return (
                           <SecurityPriority
-                            priority={sellPriority}
+                            symbolId={sellPriority}
+                            symbolName={symbols?.[sellPriority]?.symbol}
+                            symbolDesc={symbols?.[sellPriority]?.description}
                             changed={changed}
                             account={account}
                             numberOfSecurities={numberOfSecurities}
@@ -229,7 +241,9 @@ const AssetClassPriority = ({
                       {account.do_not_trade.map((noTrade, index) => {
                         return (
                           <SecurityPriority
-                            priority={noTrade}
+                            symbolId={noTrade}
+                            symbolName={symbols?.[noTrade]?.symbol}
+                            symbolDesc={symbols?.[noTrade]?.description}
                             changed={changed}
                             account={account}
                             numberOfSecurities={numberOfSecurities}
@@ -253,8 +267,12 @@ const AssetClassPriority = ({
                   <NotSupported>
                     <H3>Unsupported Securities:</H3>
                     <ul>
-                      {account.unsupported_symbols.map((symbol: any) => {
-                        return <li key={symbol.id}>{symbol.symbol}</li>;
+                      {account.unsupported_symbols.map((symbolId: string) => {
+                        return (
+                          <li key={symbolId} style={{ marginBottom: '10px' }}>
+                            {symbols?.[symbolId]?.symbol}
+                          </li>
+                        );
                       })}
                     </ul>
                   </NotSupported>
