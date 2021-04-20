@@ -29,8 +29,17 @@ const Security = styled(Grid)<SecurityProps>`
   }
 `;
 
-const Symbol = styled(H3)``;
-const Description = styled(H3)`
+type SymbolProps = {
+  noTrade: boolean;
+};
+const Symbol = styled(H3)<SymbolProps>`
+  color: ${(props) => (props.noTrade ? 'grey' : 'black')};
+`;
+type DescriptionProps = {
+  noTrade: boolean;
+};
+const Description = styled(H3)<DescriptionProps>`
+  color: ${(props) => (props.noTrade ? 'grey' : 'black')};
   font-weight: 400;
   margin-left: 10px;
   text-align: left;
@@ -128,8 +137,8 @@ const SecurityPriority = ({
           />
         )}
 
-        <Symbol>{symbolName}</Symbol>
-        <Description>
+        <Symbol noTrade={priorityKind === 'none'}>{symbolName}</Symbol>
+        <Description noTrade={priorityKind === 'none'}>
           <span> {symbolDesc}</span>
           {symbolId && !groupPositionsId?.includes(symbolId) && (
             <NewSecurity>New</NewSecurity>
