@@ -19,7 +19,7 @@ import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import { Button } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
 import { A } from '../../styled/GlobalElements';
-import RouteLeavingGuard from '../RouteLeavingPrompt';
+import RouteLeavingPrompt from '../RouteLeavingPrompt';
 
 const NameInputAndEditStyle = styled(NameInputAndEdit)`
   @media (max-width: 900px) {
@@ -587,7 +587,7 @@ const ModelPortoflioBox = ({
                   </ApplyModelBtn>
                 )}
               </ButtonContainer>
-              <RouteLeavingGuard
+              <RouteLeavingPrompt
                 when={props.dirty}
                 navigate={(path) => history.push(path)}
               />

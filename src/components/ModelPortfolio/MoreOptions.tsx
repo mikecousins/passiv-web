@@ -50,7 +50,7 @@ const Options = styled.ul`
   padding: 22px 20px 24px;
   background: #c3e7ff;
   margin: 10px 16px;
-  width: 15%;
+  width: 12%;
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   z-index: 1;
@@ -190,14 +190,14 @@ const MoreOptions = ({ model, shareModel }: Props) => {
         <Options>
           <li>
             <button onClick={handleCloneModel}>
-              <FontAwesomeIcon icon={faClone} /> Clone Model
+              <FontAwesomeIcon icon={faClone} /> Duplicate
             </button>
           </li>
           {shareModel && (
             <li>
               <button onClick={() => setShowShareDialog(true)}>
                 <FontAwesomeIcon icon={faShareSquare} />
-                Share Model
+                Share
               </button>
             </li>
           )}
