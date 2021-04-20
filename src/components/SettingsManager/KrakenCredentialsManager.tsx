@@ -8,6 +8,15 @@ import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
 import { reloadEverything } from '../../actions';
 import { replace } from 'connected-react-router';
+import KrakenAPIPermissions from '../../assets/images/kraken-api-permissions.png';
+
+const LogoContainer = styled.div`
+  padding: 6% 8%;
+  img {
+    max-width: 100%;
+  }
+`;
+
 const InputContainer = styled.div`
   padding-top: 10px;
   padding-bottom: 5px;
@@ -57,6 +66,10 @@ const UnocoinCredentialsManager = () => {
         and enter your credentials below.
       </P>
 
+      <P>An example of the API permission that Passiv needs are below:</P>
+      <LogoContainer>
+        <img src={KrakenAPIPermissions} alt="Kraken API Permissions"></img>
+      </LogoContainer>
       <InputContainer>
         <MiniInputNonFormik
           value={APIKey === null ? '' : APIKey}
