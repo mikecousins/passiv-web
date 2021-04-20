@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../../styled/Form';
@@ -8,6 +9,7 @@ import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
 import { reloadEverything } from '../../actions';
 import { replace } from 'connected-react-router';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 const InputContainer = styled.div`
   padding-top: 10px;
   padding-bottom: 5px;
@@ -23,6 +25,7 @@ const MiniInputNonFormik = styled(InputNonFormik)`
 
 const UnocoinCredentialsManager = () => {
   const [APIKey, setAPIKey] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const generateTokenString = () => {
     let token_string = '';
@@ -32,6 +35,7 @@ const UnocoinCredentialsManager = () => {
 
   const dispatch = useDispatch();
   const handleSubmit = () => {
+    setLoading(true);
     let token = generateTokenString();
     postData('/api/v1/brokerages/authComplete/', { token: token })
       .then(() => {
@@ -59,7 +63,11 @@ const UnocoinCredentialsManager = () => {
           onChange={(e) => setAPIKey(e.target.value)}
           placeholder={'API Key'}
         />
-        <Button onClick={handleSubmit}>Done</Button>
+        {loading ? (
+          <FontAwesomeIcon icon={faSpinner} spin />
+        ) : (
+          <Button onClick={handleSubmit}>Done</Button>
+        )}
       </InputContainer>
 
       <P>
