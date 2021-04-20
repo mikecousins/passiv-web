@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { selectCurrentGroupPositions } from '../../../selectors/groups';
-import { H3 } from '../../../styled/GlobalElements';
+import { H2, H3 } from '../../../styled/GlobalElements';
 import Grid from '../../../styled/Grid';
 
 type SecurityProps = {
@@ -25,6 +25,7 @@ const Security = styled(Grid)<SecurityProps>`
     font-size: 18px;
     font-weight: 600;
     text-align: center;
+    padding: 0px 20px;
   }
 `;
 
@@ -98,7 +99,7 @@ const SecurityPriority = ({
           priorityKind === 'none'
             ? 'auto 100px 5fr'
             : priorityKind === 'buy'
-            ? '100px 5fr 100px'
+            ? '100px 5fr auto 100px'
             : 'auto 100px 5fr 100px'
         }
         isChanged={
@@ -134,7 +135,7 @@ const SecurityPriority = ({
             <NewSecurity>New</NewSecurity>
           )}
         </Description>
-
+        {priorityKind === 'buy' && <H2>Buy</H2>}
         {numberOfSecurities > 0 && symbolId && priorityKind !== 'none' && (
           <EditPriorityContainer>
             <UpDownButton
