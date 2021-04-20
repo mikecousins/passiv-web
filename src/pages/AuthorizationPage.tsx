@@ -111,10 +111,12 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         toast.error(
           `${brokerage.name} is currently undergoing maintenance and cannot establish new connections at this time. Please try again later.`,
         );
-      } else if (brokerage.name === 'Kraken') {
-        window.location.href = 'https://getpassiv.com/app/connect/kraken';
-      } else if (brokerage.name === 'Unocoin') {
-        window.location.href = 'https://getpassiv.com/app/connect/unocoin';
+      } else if (brokerage.authorization_types[0].auth_type === 'TOKEN') {
+        postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+          type: connectionType,
+        }).then((response) => {
+          window.location.href = `https://getpassiv.com/app/connect/${brokerage.name.toLowerCase()}`;
+        });
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: connectionType,
@@ -483,7 +485,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
                 </AuthBox>
               );
             }
-            console.log(brokerage.name);
             if (brokerage.type === 'crypto') {
               return contents;
             } else {
@@ -508,7 +509,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
                 </AuthBox>
               );
             }
-            console.log(brokerage.name);
             if (brokerage.type === 'aggregator') {
               return contents;
             } else {
