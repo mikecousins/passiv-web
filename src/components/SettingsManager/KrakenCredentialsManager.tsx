@@ -50,8 +50,11 @@ const UnocoinCredentialsManager = () => {
     <ShadowBox>
       <H2>Connect to Kraken</H2>
       <P>
-        To connect your Kraken account to Passiv, you'll need to generate a new
-        Kraken API key and enter your credentials below.
+        To connect your Kraken account to Passiv, you'll need to{' '}
+        <a href="https://www.kraken.com/u/security/api">
+          generate a new Kraken API key
+        </a>{' '}
+        and enter your credentials below.
       </P>
 
       <InputContainer>
