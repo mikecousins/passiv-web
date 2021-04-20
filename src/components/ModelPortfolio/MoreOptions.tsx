@@ -26,6 +26,7 @@ import {
   faTwitter,
 } from '@fortawesome/free-brands-svg-icons';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
+import DeleteModelDialog from './DeleteModelDialog';
 
 const EllipsisButton = styled.button`
   align-items: center;
@@ -119,6 +120,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
   const referralCode = useSelector(selectReferralCode);
   const [showOptions, setShowOptions] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const modelId = model.model_portfolio.id;
@@ -200,7 +202,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
             </li>
           )}
           <li>
-            <Delete onClick={handleDeleteModel}>
+            <Delete onClick={() => setDeleteDialog(true)}>
               <FontAwesomeIcon icon={faTrashAlt} /> Delete
             </Delete>
           </li>
@@ -298,6 +300,13 @@ const MoreOptions = ({ model, shareModel }: Props) => {
           </Grid>
         </div>
       </Dialog>
+
+      <DeleteModelDialog
+        model={model}
+        open={deleteDialog}
+        hideDialog={() => setDeleteDialog(false)}
+        deleteModel={handleDeleteModel}
+      />
     </div>
   );
 };
