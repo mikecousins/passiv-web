@@ -80,6 +80,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
 
   const startConfirmConnection = (brokerageName: string) => {
     const options = getBrokerageOptions(brokerageName);
+
     const brokerage =
       brokerages &&
       brokerages.find((brokerage) => brokerage.name === brokerageName);
@@ -110,12 +111,15 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         toast.error(
           `${brokerage.name} is currently undergoing maintenance and cannot establish new connections at this time. Please try again later.`,
         );
+      } else if (brokerage.name === 'Kraken') {
+        window.location.href = 'https://getpassiv.com/app/connect/kraken';
+      } else if (brokerage.name === 'Unocoin') {
+        window.location.href = 'https://getpassiv.com/app/connect/unocoin';
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: connectionType,
         })
           .then((response) => {
-            console.log(response.data);
             window.location = response.data.url;
           })
           .catch((error) => {
