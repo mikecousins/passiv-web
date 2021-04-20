@@ -1,6 +1,9 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 import {
   faCheckCircle,
+  faClone,
   faEllipsisV,
   faShareSquare,
   faTimes,
@@ -8,11 +11,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Dialog from '@reach/dialog';
-import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { loadGroups, loadModelPortfolios } from '../../actions';
-import { deleteData } from '../../api';
+import { deleteData, postData } from '../../api';
 import { H2 } from '../../styled/GlobalElements';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { InputBox, ReadOnlyInput } from '../SettingsManager/APIAccessSettings';
@@ -23,6 +25,7 @@ import {
   faReddit,
   faTwitter,
 } from '@fortawesome/free-brands-svg-icons';
+import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 
 const EllipsisButton = styled.button`
   align-items: center;
@@ -63,7 +66,7 @@ const Options = styled.ul`
     }
   }
   @media (max-width: 900px) {
-    width: 50%;
+    width: fit-content;
   }
 `;
 
@@ -104,22 +107,63 @@ export const CopyButton = styled.button<CopyButtonProps>`
 `;
 
 type Props = {
-  modelId: string | undefined;
+  model: ModelPortfolioDetailsType;
   shareModel: boolean;
 };
 
-const MoreOptions = ({ modelId, shareModel }: Props) => {
+const MoreOptions = ({ model, shareModel }: Props) => {
   const dispatch = useDispatch();
-  const referralCode = useSelector(selectReferralCode);
+  const history = useHistory();
+  const node: any = useRef(null);
 
+  const referralCode = useSelector(selectReferralCode);
   const [showOptions, setShowOptions] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  const modelId = model.model_portfolio.id;
+
+  const handleClick = (e: Event) => {
+    if (node?.current?.contains(e.target)) {
+      return;
+    }
+    setShowOptions(false);
+  };
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, []);
 
   const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${modelId}?share=${referralCode}`;
   if (!modelId) {
     return <div></div>;
   }
+
+  const handleCloneModel = () => {
+    // create a new model
+    postData('api/v1/modelPortfolio', {})
+      .then((res) => {
+        const modelId = res.data.model_portfolio.id;
+        model.model_portfolio.name += '(Cloned)';
+        model.model_portfolio.share_portfolio = false;
+        model.model_portfolio.total_assigned_portfolio_groups = 0;
+
+        // post cloned model data to it
+        postData(`api/v1/modelPortfolio/${modelId}`, model)
+          .then(() => {
+            dispatch(loadModelPortfolios());
+            history.push(`/app/models`);
+            toast.success('Model cloned successfully.');
+          })
+          .catch((err) => {
+            toast.error('Unable to clone model.');
+          });
+      })
+      .catch(() => toast.error('Unable to clone model.'));
+  };
 
   const handleDeleteModel = () => {
     deleteData(`/api/v1/modelPortfolio/${modelId}`)
@@ -136,17 +180,16 @@ const MoreOptions = ({ modelId, shareModel }: Props) => {
   const title = 'Check out my model portfolio on Passiv.com';
 
   return (
-    <div>
+    <div ref={node}>
       <EllipsisButton onClick={() => setShowOptions(!showOptions)}>
         <FontAwesomeIcon icon={faEllipsisV} />
       </EllipsisButton>
       {showOptions && (
         <Options>
           <li>
-            <Delete onClick={handleDeleteModel}>
-              <FontAwesomeIcon icon={faTrashAlt} />
-              Delete Model
-            </Delete>
+            <button onClick={handleCloneModel}>
+              <FontAwesomeIcon icon={faClone} /> Clone Model
+            </button>
           </li>
           {shareModel && (
             <li>
@@ -156,6 +199,11 @@ const MoreOptions = ({ modelId, shareModel }: Props) => {
               </button>
             </li>
           )}
+          <li>
+            <Delete onClick={handleDeleteModel}>
+              <FontAwesomeIcon icon={faTrashAlt} /> Delete
+            </Delete>
+          </li>
         </Options>
       )}
 

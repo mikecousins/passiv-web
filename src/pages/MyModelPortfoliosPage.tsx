@@ -248,7 +248,7 @@ const MyModelPortfoliosPage = () => {
                     }
                   >
                     <MoreOptions
-                      modelId={mdl.model_portfolio.id}
+                      model={mdl}
                       shareModel={mdl.model_portfolio.share_portfolio}
                     />
                     <ModelName>{mdl.model_portfolio.name}</ModelName>
