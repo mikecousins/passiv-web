@@ -3,16 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getData, postData } from '../../api';
+import { getData, postData } from '../../../api';
 import { faCheck, faPen, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { selectCurrentGroup } from '../../selectors/groups';
-import { AssetClassPriorities } from '../../types/modelPortfolio';
+import { selectCurrentGroup } from '../../../selectors/groups';
+import { AssetClassPriorities } from '../../../types/modelPortfolio';
 import AssetClassPriority from './AssetClassPriority';
-import { Edit, H2 } from '../../styled/GlobalElements';
-import ShadowBox from '../../styled/ShadowBox';
-import { Button } from '../../styled/Button';
+import { Edit, H2 } from '../../../styled/GlobalElements';
+import ShadowBox from '../../../styled/ShadowBox';
+import { Button } from '../../../styled/Button';
 import { toast } from 'react-toastify';
-import { loadGroupInfo } from '../../actions';
+import { loadGroupInfo } from '../../../actions';
 
 const Priorities = styled.div`
   > h2 {
@@ -77,24 +77,24 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     getData(`/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`).then(
       (res) => {
         let priorities: AssetClassPriorities[] = res.data;
-        // if not on settings page (on priorities page = the first time user have to set priority), we need to assign a "fake" sell priority to assets , because they all initially set to 0
-        if (!onSettingsPage) {
-          priorities?.forEach((assetClass) => {
-            assetClass.accounts_priorities.forEach((account) => {
-              account.trade_priority.forEach((p, index) => {
-                p.sell_priority = index + 1;
+        let assetClassIds: string[] = [];
+
+        priorities.forEach((priority) => {
+          // filter out "Excluded Assets" asset class for now
+          if (priority.asset_class.name !== 'Excluded Assets') {
+            // collect all the asset class ids to keep track of asset classes need to have priorities confirmed for them
+            assetClassIds.push(priority.asset_class.id);
+            // if not on settings page (user is setting priorities for the first time), just to make it easier, we put all securities in the sell priority array
+            if (!onSettingsPage) {
+              priority.accounts_priorities.forEach((account) => {
+                if (account.unassigned.length > 0) {
+                  account.sell_priority = account.unassigned;
+                }
+                account.sell_priority.reverse();
               });
-            });
-          });
-        }
-        // filter out "Excluded Assets" asset class for now
-        priorities = priorities.filter(
-          (priority) => priority.asset_class.name !== 'Excluded Assets',
-        );
-        // collect all the asset class ids to keep track of asset classes need to have priorities confirmed for them
-        const assetClassIds = priorities.map(
-          (assetClass: any) => assetClass.asset_class.id,
-        );
+            }
+          }
+        });
         setAssetClassPriorities(priorities);
         setNeedToConfirm(assetClassIds);
         setLoading(false);
@@ -110,45 +110,77 @@ const Prioritization = ({ onSettingsPage }: Props) => {
 
   // this function handles the up and down arrows which changes the priority for an asset class
   const handleUpDownBtn = (
+    upButtonClicked: boolean,
+    index: number,
     assetClassId: string,
     accountId: string,
-    symbolId: string,
-    sellPriority: number,
-    up: boolean,
+    symbol: any,
+    inBuyBox: boolean,
+    checkBoxClicked: boolean,
+    isNoTrade: boolean,
   ) => {
-    let priority = sellPriority;
-    // keep track of what symbol on what account has changes so we can highlight it using css
+    const symbolId = symbol.id;
     setChanged({ symbolId, accountId });
     setTimeout(() => {
       setChanged({ symbolId: '', accountId: '' });
     }, 300);
-    if (up) {
-      priority = priority + 1;
-    } else {
-      priority = priority - 1;
-    }
+
     let assetClassPrioritiesCopy = JSON.parse(
       JSON.stringify(assetClassPriorities),
     );
-    assetClassPrioritiesCopy.forEach((assetClass: any) => {
+    assetClassPrioritiesCopy.forEach((assetClass: AssetClassPriorities) => {
+      // find a targeted asset class
       if (assetClass.asset_class.id === assetClassId) {
-        assetClass.accounts_priorities.forEach((account: any) => {
+        assetClass.accounts_priorities.forEach((account) => {
+          // find a targeted account
           if (account.account.id === accountId) {
-            account.trade_priority.forEach((security: any) => {
-              if (security.symbol_id === symbolId) {
-                security.sell_priority = priority;
-              }
-              if (
-                security.sell_priority === priority &&
-                security.symbol_id !== symbolId
-              ) {
-                if (up) {
-                  security.sell_priority = priority - 1;
+            // if up button clicked
+            if (upButtonClicked) {
+              // if index is zero, it means that we want to move the security to the buy box
+              if (index === 0) {
+                // if there's already a security in buy priority, we need to replace it with the new symbol and move the old one to sell priorities
+                if (account.buy_priority[0].id) {
+                  account.sell_priority.unshift(account.buy_priority[0]);
+                  account.sell_priority.splice(index + 1, 1);
                 } else {
-                  security.sell_priority = priority + 1;
+                  account.sell_priority.splice(index, 1);
                 }
+                account.buy_priority = [symbol];
               }
-            });
+              // otherwise, we just need to swap securities in the sell priority array
+              else {
+                let temp = account.sell_priority[index - 1];
+                account.sell_priority[index - 1] = symbol;
+                account.sell_priority[index] = temp;
+              }
+            }
+            // if down button clicked
+            else if (!checkBoxClicked && !upButtonClicked) {
+              // if the clicked security is in the buy box, we need to remove it and push it to the sell priority array
+              if (inBuyBox) {
+                account.sell_priority.unshift(account.buy_priority[0]);
+                account.buy_priority = [{ id: '', symbol: 'None' }];
+              }
+              // otherwise, we just need to swap securities in the sell priority array
+              else {
+                let temp = account.sell_priority[index + 1];
+                account.sell_priority[index + 1] = symbol;
+                account.sell_priority[index] = temp;
+              }
+            }
+            // if check box clicked
+            else if (checkBoxClicked) {
+              // if check box was already checked, means the security needs to be removed from do_not_trade array and be pushed to sell priority array
+              if (isNoTrade) {
+                account.do_not_trade.splice(index, 1);
+                account.sell_priority.push(symbol);
+              }
+              // otherwise, need to push security to do_not_trade array and remove it from sell priority array
+              else {
+                account.sell_priority.splice(index, 1);
+                account.do_not_trade.push(symbol);
+              }
+            }
           }
         });
       }
@@ -160,22 +192,6 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   const handleSaveChanges = () => {
     setLoading(true);
     if (assetClassPriorities) {
-      assetClassPriorities.forEach((assetClass) => {
-        assetClass.accounts_priorities.forEach((account) => {
-          account.account_id = account.account.id;
-          let newPriority: any[] = [];
-          let buyPriority: string[] = [];
-          account.trade_priority.forEach((priority) => {
-            newPriority.push(priority.symbol_id);
-            if (priority.allow_buy && buyPriority.length === 0) {
-              buyPriority.push(priority.symbol_id);
-            }
-          });
-          account.sell_priority = newPriority;
-          account.buy_priority = buyPriority;
-          account.unassigned = [];
-        });
-      });
       postData(
         `/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`,
         assetClassPriorities,
@@ -197,26 +213,26 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     setEditing(false);
   };
 
-  const handleConfirm = (assetClass: any) => {
+  const handleConfirm = (priority: any) => {
     let needToConfirmCopy = [...needToConfirm];
-    let index = needToConfirmCopy?.indexOf(assetClass.asset_class.id);
+    let index = needToConfirmCopy?.indexOf(priority.asset_class.id);
     if (index !== -1) {
       needToConfirmCopy.splice(index, 1);
     }
-    toast.success(`Set priorities for "${assetClass.asset_class.name}".`);
+    toast.success(`Set priorities for "${priority.asset_class.name}".`);
     setNeedToConfirm(needToConfirmCopy);
   };
 
-  const priorities = assetClassPriorities?.map((assetClass) => {
+  const priorities = assetClassPriorities?.map((priority) => {
     return (
       <AssetClassPriority
-        key={assetClass.asset_class.id}
-        assetClass={assetClass}
-        editing={editing}
+        key={priority.asset_class.id}
+        priority={priority}
+        editing={true}
         changed={changed}
         handleBtn={handleUpDownBtn}
         onSettingsPage={onSettingsPage}
-        confirm={() => handleConfirm(assetClass)}
+        confirm={() => handleConfirm(priority)}
       />
     );
   });

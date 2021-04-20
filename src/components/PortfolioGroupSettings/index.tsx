@@ -23,7 +23,7 @@ import Tour from '../Tour/Tour';
 import ExcludedAssets from './ExcludedAssets';
 import UpgradeButton from '../Tour/UpgradeButton';
 import EliteFeatureTitle from '../Tour/EliteFeatureTitle';
-import Prioritization from '../ModelPortfolio/Prioritization';
+import Prioritization from '../ModelPortfolio/Prioritization/Prioritization';
 
 const TOUR_STEPS = [
   {
