@@ -197,6 +197,26 @@ export const PortfolioGroupTrades = ({
               <div>{trade.units}</div>
             )}
           </ColumnUnits>
+          <ColumnPrice>
+            <Title>Amount</Title>
+            <div>
+              <Number
+                value={parseFloat(
+                  (trade.fractional_units
+                    ? trade.fractional_units * trade.price
+                    : trade.units * trade.price
+                  ).toFixed(2),
+                )}
+                currency={
+                  trade.account.brokerage_authorization.brokerage.name ===
+                  'Unocoin'
+                    ? 'INR'
+                    : trade.universal_symbol.currency.code
+                }
+                isTrade={true}
+              />
+            </div>
+          </ColumnPrice>
           {trade.symbol_in_target && allowsTrading ? (
             <ColumnSymbol>
               <Title>{trade.universal_symbol.description}</Title>

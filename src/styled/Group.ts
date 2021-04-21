@@ -200,7 +200,7 @@ export const Heading = styled.div`
 `;
 
 export const ColumnSymbol = styled.div`
-  min-width: 58%;
+  min-width: 45%;
   color: var(--brand-grey);
   @media (max-width: 900px) {
     line-height: 1.2;

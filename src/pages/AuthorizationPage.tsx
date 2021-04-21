@@ -80,6 +80,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
 
   const startConfirmConnection = (brokerageName: string) => {
     const options = getBrokerageOptions(brokerageName);
+
     const brokerage =
       brokerages &&
       brokerages.find((brokerage) => brokerage.name === brokerageName);
@@ -110,12 +111,17 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         toast.error(
           `${brokerage.name} is currently undergoing maintenance and cannot establish new connections at this time. Please try again later.`,
         );
+      } else if (brokerage.authorization_types[0].auth_type === 'TOKEN') {
+        postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+          type: connectionType,
+        }).then((response) => {
+          window.location.href = `https://getpassiv.com/app/connect/${brokerage.name.toLowerCase()}`;
+        });
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: connectionType,
         })
           .then((response) => {
-            console.log(response.data);
             window.location = response.data.url;
           })
           .catch((error) => {
@@ -148,6 +154,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           cover your account transfer costs up to $150.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'alpaca',
@@ -167,6 +174,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           beyond.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'interactivebrokers',
@@ -227,6 +235,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           new.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'tdameritrade',
@@ -246,6 +255,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           with over $1.3 trillion in client assets.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'tradier',
@@ -265,6 +275,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           and traders.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'kraken',
@@ -284,6 +295,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           trade more than 40 cryptocurrencies.
         </P>
       ),
+      type: 'crypto',
     },
     {
       id: 'unocoin',
@@ -304,6 +316,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           country.
         </P>
       ),
+      type: 'crypto',
     },
     {
       id: 'wealthica',
@@ -363,6 +376,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           account.
         </P>
       ),
+      type: 'aggregator',
     },
     {
       id: 'zerodha',
@@ -382,6 +396,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           million clients.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'wealthsimple',
@@ -396,6 +411,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       major: true,
       logo: WealthsimpleTradeLogo,
       description: <P>Wealthsimple is a Canadian discount brokerage.</P>,
+      type: 'traditional',
     },
     {
       id: 'bitbuy',
@@ -410,6 +426,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       major: true,
       logo: BitbuyLogo,
       description: <P>Bitbuy is a Canadian cryptocurrency exchange.</P>,
+      type: 'crypto',
     },
   ];
 
@@ -426,6 +443,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         your brokerage account. Connecting your account does not allow Passiv to
         see your login information.
       </AuthP>
+      <H2DarkStyle>Traditional</H2DarkStyle>
       <React.Fragment>
         <Container2Column>
           {brokerageOptions.map((brokerage: any) => {
@@ -443,7 +461,59 @@ const AuthorizationPage = ({ onboarding }: Props) => {
                 </AuthBox>
               );
             }
-            return contents;
+            if (brokerage.type === 'traditional') {
+              return contents;
+            } else {
+              return null;
+            }
+          })}
+        </Container2Column>
+        <H2DarkStyle>Crypto</H2DarkStyle>
+        <Container2Column>
+          {brokerageOptions.map((brokerage: any) => {
+            let contents = null;
+            if (brokerages.some((b) => b.name === brokerage.name)) {
+              contents = (
+                <AuthBox
+                  key={brokerage.id}
+                  onClick={() => startConfirmConnection(brokerage.name)}
+                >
+                  <LogoContainer>
+                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                  </LogoContainer>
+                  <AuthLink>Connect {brokerage.displayName}</AuthLink>
+                </AuthBox>
+              );
+            }
+            if (brokerage.type === 'crypto') {
+              return contents;
+            } else {
+              return null;
+            }
+          })}
+        </Container2Column>
+        <H2DarkStyle>Aggregators</H2DarkStyle>
+        <Container2Column>
+          {brokerageOptions.map((brokerage: any) => {
+            let contents = null;
+            if (brokerages.some((b) => b.name === brokerage.name)) {
+              contents = (
+                <AuthBox
+                  key={brokerage.id}
+                  onClick={() => startConfirmConnection(brokerage.name)}
+                >
+                  <LogoContainer>
+                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                  </LogoContainer>
+                  <AuthLink>Connect {brokerage.displayName}</AuthLink>
+                </AuthBox>
+              );
+            }
+            if (brokerage.type === 'aggregator') {
+              return contents;
+            } else {
+              return null;
+            }
           })}
         </Container2Column>
       </React.Fragment>
