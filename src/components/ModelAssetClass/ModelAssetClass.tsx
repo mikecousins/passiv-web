@@ -79,7 +79,7 @@ const ModelAssetClass = () => {
 
   return (
     <ShadowBox>
-      {assetClasses.length > 4 ? (
+      {assetClasses.length > 0 ? (
         assetClassBox
       ) : (
         <P style={{ textAlign: 'center', marginTop: '40px' }}>
