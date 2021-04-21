@@ -1,4 +1,4 @@
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -156,6 +156,7 @@ const ApplyNewModelBtn = styled(Button)`
   background-color: transparent;
   color: var(--brand-blue);
   border: 1px solid var(--brand-blue);
+  font-weight: 600;
 `;
 
 type Props = {
@@ -624,8 +625,8 @@ export const TargetSelector = ({
                       <div>
                         <Button
                           type="button"
+                          style={{ fontWeight: 600 }}
                           onClick={() => {
-                            // link to edit model page
                             dispatch(
                               push(
                                 `/app/model-portfolio/${modelId}/group/${groupId}?edit=true`,
@@ -646,8 +647,12 @@ export const TargetSelector = ({
                         </ApplyNewModelBtn>
                       </div>
                       <div>
-                        <A type="button" onClick={() => resetTargets()}>
-                          Reset
+                        <A
+                          type="button"
+                          onClick={() => resetTargets()}
+                          style={{ fontWeight: 600, marginRight: '20px' }}
+                        >
+                          <FontAwesomeIcon icon={faUndo} size="sm" /> Reset
                         </A>{' '}
                         {hasZerodhaConnection ||
                         hasUnocoinConnection ||
@@ -659,6 +664,7 @@ export const TargetSelector = ({
                             href={portfolioVisualizerURL}
                             target="_blank"
                             rel="noopener noreferrer"
+                            style={{ fontWeight: 600, marginRight: '20px' }}
                           >
                             Portfolio Visualizer
                           </A>

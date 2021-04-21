@@ -160,7 +160,7 @@ const MyModelPortfoliosPage = () => {
           dispatch(loadGroups()); // need to load groups to have update list of groups using a model in my models page
           dispatch(loadModelPortfolios());
           toast.success(
-            `"${model.model_portfolio.name}" applied to "${groupInfo?.name}"`,
+            `"${model.model_portfolio.name}" applied to group successfully`,
           );
           if (model.model_portfolio.model_type === 1) {
             history.push(`/app/priorities/${groupId}`);
