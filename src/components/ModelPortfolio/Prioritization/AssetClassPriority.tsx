@@ -179,7 +179,6 @@ const AssetClassPriority = ({
       {showDetails && (
         <AssetClassDetails>
           {priority.accounts_priorities.map((account, index) => {
-            //TODO change this - shouldn't need to use '!'
             const numberOfSecurities =
               account.buy_priority.length +
               account.sell_priority.length +
@@ -191,14 +190,10 @@ const AssetClassPriority = ({
               >
                 <AccountName>Account: {account.account.name}</AccountName>
                 {numberOfSecurities > 1 && (
-                  <H3
-                    style={{
-                      textAlign: 'right',
-                      marginRight: '25px',
-                    }}
-                  >
-                    Order by Priority
-                  </H3>
+                  <Grid columns="5fr 180px" style={{ marginTop: '30px' }}>
+                    <H3>Do Not Trade</H3>
+                    <H3>Order by Priority</H3>
+                  </Grid>
                 )}
 
                 <Grid columns="5fr 10px">
@@ -206,8 +201,6 @@ const AssetClassPriority = ({
                     <NoSecurities>No Securities</NoSecurities>
                   ) : (
                     <TradePriority>
-                      {/* {account.buy_priority.length === 0 &&
-                        account.buy_priority.push()} */}
                       <SecurityPriority
                         symbolId={account.buy_priority[0]}
                         symbolName={symbols?.[account.buy_priority[0]]?.symbol}
@@ -225,6 +218,7 @@ const AssetClassPriority = ({
                       {account.sell_priority.map((sellPriority, index) => {
                         return (
                           <SecurityPriority
+                            key={sellPriority}
                             symbolId={sellPriority}
                             symbolName={symbols?.[sellPriority]?.symbol}
                             symbolDesc={symbols?.[sellPriority]?.description}
@@ -241,6 +235,7 @@ const AssetClassPriority = ({
                       {account.do_not_trade.map((noTrade, index) => {
                         return (
                           <SecurityPriority
+                            key={noTrade}
                             symbolId={noTrade}
                             symbolName={symbols?.[noTrade]?.symbol}
                             symbolDesc={symbols?.[noTrade]?.description}

@@ -29,6 +29,10 @@ const Security = styled(Grid)<SecurityProps>`
   }
 `;
 
+const CheckBox = styled.input`
+  max-width: 20px;
+`;
+
 type SymbolProps = {
   noTrade: boolean;
 };
@@ -106,10 +110,10 @@ const SecurityPriority = ({
       <Security
         columns={
           priorityKind === 'none'
-            ? 'auto 100px 5fr'
+            ? '80px 100px 5fr'
             : priorityKind === 'buy'
             ? '100px 5fr auto 100px'
-            : 'auto 100px 5fr 100px'
+            : '80px 100px 5fr 100px'
         }
         isChanged={
           changed.symbolId === symbolId &&
@@ -119,7 +123,7 @@ const SecurityPriority = ({
         key={symbolId}
       >
         {priorityKind !== 'buy' && (
-          <input
+          <CheckBox
             type="checkbox"
             checked={priorityKind === 'none'}
             onChange={() =>
