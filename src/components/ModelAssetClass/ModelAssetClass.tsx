@@ -13,6 +13,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import AssetClass from './AssetClass';
 import Target from './Target';
 import { selectRouter } from '../../selectors/router';
+import { P } from '../../styled/GlobalElements';
 
 const AssetBox = styled.div`
   border: 1px solid #bfb6b6;
@@ -28,10 +29,15 @@ const AssetBox = styled.div`
   }
 `;
 
+const NewAssetClassBtn = styled(Button)`
+  font-weight: 600;
+`;
+
 const BackButton = styled(Button)`
   background: transparent;
   border: 1px solid var(--brand-blue);
   color: var(--brand-blue);
+  font-weight: 600;
   @media (max-width: 900px) {
     margin-top: 10px;
   }
@@ -73,17 +79,24 @@ const ModelAssetClass = () => {
 
   return (
     <ShadowBox>
-      {assetClassBox}
-      <div style={{ marginTop: '30px' }}>
-        <Button onClick={handleAddAssetClass}>
+      {assetClasses.length > 4 ? (
+        assetClassBox
+      ) : (
+        <P style={{ textAlign: 'center', marginTop: '40px' }}>
+          There are no asset classes available.
+        </P>
+      )}
+
+      <div style={{ marginTop: '40px' }}>
+        <NewAssetClassBtn onClick={handleAddAssetClass}>
           {' '}
           <FontAwesomeIcon
             icon={faPlus}
             size="sm"
             style={{ position: 'relative' }}
           />{' '}
-          Add Asset Class
-        </Button>
+          New Asset Class
+        </NewAssetClassBtn>
 
         <BackButton
           onClick={() => history.push(back ? `/app${back}` : '/app/models')}

@@ -110,6 +110,15 @@ const ToggleShareBtn = styled(ToggleButton)`
 const DeleteContainer = styled.div`
   float: right;
   font-size: 18px;
+  &:hover {
+    color: red !important;
+    * {
+      color: red !important;
+    }
+  }
+  > button {
+    font-weight: 400;
+  }
 `;
 
 const SetShareModelContainer = styled.div`

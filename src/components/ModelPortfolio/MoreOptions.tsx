@@ -62,6 +62,7 @@ const Options = styled.ul`
     margin-bottom: 10px;
   }
   button {
+    font-weight: 400;
     &:hover {
       color: #003ba2;
     }
@@ -105,6 +106,10 @@ export const CopyButton = styled.button<CopyButtonProps>`
   background-color: ${(props) =>
     props.copied ? 'var(--brand-green)' : 'transparent'};
   color: ${(props) => (props.copied ? 'white' : 'var(--brand-green)')};
+  &:hover {
+    background-color: var(--brand-green);
+    color: white;
+  }
 `;
 
 type Props = {
@@ -190,20 +195,22 @@ const MoreOptions = ({ model, shareModel }: Props) => {
         <Options>
           <li>
             <button onClick={handleCloneModel}>
-              <FontAwesomeIcon icon={faClone} /> Duplicate
+              <FontAwesomeIcon icon={faClone} />
+              <span>Duplicate</span>
             </button>
           </li>
           {shareModel && (
             <li>
               <button onClick={() => setShowShareDialog(true)}>
                 <FontAwesomeIcon icon={faShareSquare} />
-                Share
+                <span>Share</span>
               </button>
             </li>
           )}
           <li>
             <Delete onClick={() => setDeleteDialog(true)}>
-              <FontAwesomeIcon icon={faTrashAlt} /> Delete
+              <FontAwesomeIcon icon={faTrashAlt} />
+              <span>Delete</span>
             </Delete>
           </li>
         </Options>

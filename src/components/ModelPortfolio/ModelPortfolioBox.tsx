@@ -145,6 +145,7 @@ const ButtonContainer = styled.div`
 `;
 
 const ApplyModelBtn = styled(Button)`
+  font-weight: 600;
   background-color: transparent;
   color: var(--brand-blue);
   border: 1px solid var(--brand-blue);
@@ -157,6 +158,7 @@ const ApplyModelBtn = styled(Button)`
 
 const CancelButton = styled(A)`
   margin-left: 20px;
+  font-weight: 600;
 `;
 
 const ErroMsg = styled.ul`
@@ -181,6 +183,10 @@ export const StyledContainer = styled.div`
 export const StyledName = styled.span`
   font-weight: 600;
   font-size: 30px;
+`;
+
+const EditModel = styled(Button)`
+  font-weight: 600;
 `;
 
 type Props = {
@@ -559,7 +565,7 @@ const ModelPortoflioBox = ({
               <ButtonContainer>
                 {(editMode || applyMode) && (
                   <>
-                    <Button
+                    <EditModel
                       type="button"
                       onClick={() => {
                         props.handleSubmit();
@@ -567,7 +573,7 @@ const ModelPortoflioBox = ({
                       disabled={!props.dirty || !props.isValid}
                     >
                       Save Changes
-                    </Button>
+                    </EditModel>
                   </>
                 )}
                 {editMode && (
@@ -595,13 +601,13 @@ const ModelPortoflioBox = ({
           )}
         </Formik>
         {!editMode && !applyMode && (
-          <Button
+          <EditModel
             type="button"
             onClick={toggleEditMode}
             disabled={assignedPortfolioGroups > 1}
           >
             Edit Model
-          </Button>
+          </EditModel>
         )}
       </MainContainer>
     </Box>
