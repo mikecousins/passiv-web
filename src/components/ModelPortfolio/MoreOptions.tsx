@@ -149,7 +149,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
     postData('api/v1/modelPortfolio', {})
       .then((res) => {
         const modelId = res.data.model_portfolio.id;
-        model.model_portfolio.name += '(Cloned)';
+        model.model_portfolio.name += '(Copy)';
         model.model_portfolio.share_portfolio = false;
         model.model_portfolio.total_assigned_portfolio_groups = 0;
 
@@ -158,13 +158,13 @@ const MoreOptions = ({ model, shareModel }: Props) => {
           .then(() => {
             dispatch(loadModelPortfolios());
             history.push(`/app/models`);
-            toast.success('Model cloned successfully.');
+            toast.success('Duplicated model successfully.');
           })
           .catch((err) => {
-            toast.error('Unable to clone model.');
+            toast.error('Unable to duplicate model.');
           });
       })
-      .catch(() => toast.error('Unable to clone model.'));
+      .catch(() => toast.error('Unable to duplicate model.'));
   };
 
   const handleDeleteModel = () => {
