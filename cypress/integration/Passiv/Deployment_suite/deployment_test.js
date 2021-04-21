@@ -298,7 +298,8 @@ describe('Login and Adjust portfolio', () => {
   cy.get('input').eq(0).click().clear().type(15)
 
 // add TSLA at 1% portfolio
-  cy.contains('Add').click()
+  cy.contains('Save').click()
+  cy.get('button').contains('Edit Model').wait(4000).click()
   cy.scrollTo('bottom')
       cy.get('input').last().wait(3000).click().clear().type('1')
       cy.get('input').eq(3)
@@ -307,6 +308,7 @@ describe('Login and Adjust portfolio', () => {
 
 //save portfolio
   cy.get('button').contains('Save').click()
+  cy.get('button').contains('Edit Model').wait(4000).click()
   cy.get('button').contains('Refresh').click()
   cy.fixture('testDomain').as('login')
       cy.get('@login').then(domain => {
@@ -340,17 +342,17 @@ describe('Reset and build portfolio manually', () => {
       .click().type('TSLA').type('{enter}')
 
 // add Amazon to portfolio at 5%
-  cy.contains('Add').click()
+  cy.contains('Save').click()
   cy.scrollTo('bottom')
       cy.get('input').last().wait(3000).click().clear().type('5')
       cy.get('input').eq(1).click().type('AMZN').type('{enter}')
 
-  cy.contains('Add').click()
+  cy.contains('Save').click()
   cy.scrollTo('bottom')
       cy.get('input').last().wait(3000).click().clear().type('5')
       cy.get('input').eq(2).click().type('VGRO.TO').type('{enter}')
 
-  cy.contains('Add').click()
+  cy.contains('Save').click()
   cy.scrollTo('bottom')
       cy.get('input').last().wait(3000).click().clear().type('5')
       cy.get('input').eq(3).click().type('AAPL').type('{enter}')
