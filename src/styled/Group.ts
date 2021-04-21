@@ -225,14 +225,14 @@ export const ColumnSymbolSmall = styled.div`
 `;
 
 export const ColumnUnits = styled.div`
-  min-width: 12%;
+  min-width: 10%;
   color: var(--brand-grey);
   @media (max-width: 900px) {
     margin-bottom: 16px;
   }
 `;
 export const ColumnPrice = styled.div`
-  min-width: 12%;
+  min-width: 10%;
   color: var(--brand-grey);
   @media (max-width: 900px) {
     margin-bottom: 16px;
@@ -248,7 +248,7 @@ export const ColumnAction = styled.div`
 `;
 
 export const ColumnWarning = styled.div`
-  min-width: 12%;
+  min-width: 10%;
   text-align: center;
   padding: 10px;
   @media (max-width: 900px) {
