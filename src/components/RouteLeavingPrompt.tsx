@@ -9,7 +9,7 @@ import { Location } from 'history';
 import React, { useEffect, useState } from 'react';
 import { Prompt } from 'react-router-dom';
 import { Button } from '../styled/Button';
-import { H2 } from '../styled/GlobalElements';
+import { H1 } from '../styled/GlobalElements';
 import {
   ActionContainer,
   DeleteBtn,
@@ -17,7 +17,10 @@ import {
 } from './ModelAssetClass/AssetClass';
 
 const Warning = styled.div`
-  margin: 15px 0px;
+  margin: 5px 0px;
+  h1 {
+    text-align: center;
+  }
   svg {
     color: orange;
   }
@@ -77,9 +80,9 @@ const RouteLeavingPrompt = ({ when, navigate, prioritiesPage }: Props) => {
         <br />
         {prioritiesPage && (
           <Warning>
-            <H2>
+            <H1>
               <FontAwesomeIcon icon={faExclamationTriangle} /> Warning
-            </H2>
+            </H1>
           </Warning>
         )}
         <H2Margin>

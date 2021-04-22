@@ -116,6 +116,8 @@ export const PortfolioGroupTrades = ({
     hideTrades = Date.parse(settings.hide_trades_until) > Date.now();
   }
 
+  //TODO: if priorities not set yet (unassigned length > 0 || model_portfolio_changed is true) hide trades and show a warning message
+
   const TOUR_STEPS = [
     {
       target: '.tour-trades',

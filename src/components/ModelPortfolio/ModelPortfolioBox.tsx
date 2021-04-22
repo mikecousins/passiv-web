@@ -538,7 +538,6 @@ const ModelPortoflioBox = ({
                                 forModelSecurity={true}
                               />
                             ) : (
-                              //TODO: the component needs some changes (make on enter work properly, only show matched options based on what typed, and show asset class name instead of its id)
                               <AssetClassSelector
                                 name="newTarget.model_asset_class"
                                 id="symbol"
