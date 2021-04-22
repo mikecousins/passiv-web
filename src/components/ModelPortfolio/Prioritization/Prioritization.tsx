@@ -13,6 +13,7 @@ import ShadowBox from '../../../styled/ShadowBox';
 import { Button } from '../../../styled/Button';
 import { toast } from 'react-toastify';
 import { loadGroupInfo } from '../../../actions';
+import RouteLeavingPrompt from '../../RouteLeavingPrompt';
 
 const Priorities = styled.div`
   > h2 {
@@ -86,6 +87,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   const [editing, setEditing] = useState(onSettingsPage ? false : true);
   const [changed, setChanged] = useState({ symbolId: '', accountId: '' });
   const [needToConfirm, setNeedToConfirm] = useState<string[]>([]);
+  const [saved, setSaved] = useState(false);
 
   const fetchPriorities = () => {
     getData(`/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`).then(
@@ -220,16 +222,21 @@ const Prioritization = ({ onSettingsPage }: Props) => {
       postData(
         `/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`,
         assetClassPriorities,
-      ).then(() => {
-        if (onSettingsPage) {
-          setEditing(false);
-        } else {
-          history.push(`/app/group/${group?.id}`);
-        }
-        toast.success('Saved prioritization successfully');
-        fetchPriorities();
-        dispatch(loadGroupInfo());
-      });
+      )
+        .then(() => {
+          setSaved(true);
+          if (onSettingsPage) {
+            setEditing(false);
+          } else {
+            history.push(`/app/group/${group?.id}`);
+          }
+          toast.success('Saved prioritization successfully');
+          fetchPriorities();
+          dispatch(loadGroupInfo());
+        })
+        .catch(() => {
+          toast.success('Unable to save prioritization. Please try again');
+        });
     }
   };
 
@@ -311,6 +318,11 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           )}
         </div>
       )}
+      <RouteLeavingPrompt
+        when={!saved}
+        navigate={(path) => history.push(path)}
+        prioritiesPage={true}
+      />
     </Priorities>
   );
 };

@@ -314,7 +314,7 @@ const MyModelPortfoliosPage = () => {
             onClick={() => setSelectGroupDialog(false)}
             style={{ float: 'right' }}
           >
-            <FontAwesomeIcon icon={faTimes} size="lg" />
+            <FontAwesomeIcon icon={faTimes} size="2x" />
           </button>
           {selectedModel && <SelectGroupDialog model={selectedModel} />}
         </Dialog>

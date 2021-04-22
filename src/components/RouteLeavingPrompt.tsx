@@ -1,20 +1,34 @@
+import styled from '@emotion/styled';
+import {
+  faExclamationTriangle,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Dialog from '@reach/dialog';
 import { Location } from 'history';
 import React, { useEffect, useState } from 'react';
 import { Prompt } from 'react-router-dom';
 import { Button } from '../styled/Button';
+import { H2 } from '../styled/GlobalElements';
 import {
   ActionContainer,
   DeleteBtn,
   H2Margin,
 } from './ModelAssetClass/AssetClass';
 
+const Warning = styled.div`
+  margin: 15px 0px;
+  svg {
+    color: orange;
+  }
+`;
 interface Props {
   when?: boolean | undefined;
   navigate: (path: string) => void;
+  prioritiesPage?: boolean;
 }
 
-const RouteLeavingPrompt = ({ when, navigate }: Props) => {
+const RouteLeavingPrompt = ({ when, navigate, prioritiesPage }: Props) => {
   const [dialog, setDialog] = useState(false);
   const [lastLocation, setLastLocation] = useState<Location | null>(null);
   const [confirm, setConfirm] = useState(false);
@@ -40,6 +54,9 @@ const RouteLeavingPrompt = ({ when, navigate }: Props) => {
     setConfirm(true);
   };
 
+  const warningMessage =
+    ' You have unsaved changes. Are you sure you want to leave this page without saving?';
+
   return (
     <>
       <Prompt when={when} message={handleBlockedNavigation} />{' '}
@@ -49,14 +66,35 @@ const RouteLeavingPrompt = ({ when, navigate }: Props) => {
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
       >
+        <button
+          onClick={() => {
+            setDialog(false);
+          }}
+          style={{ float: 'right' }}
+        >
+          <FontAwesomeIcon icon={faTimes} size="2x" />
+        </button>
+        <br />
+        {prioritiesPage && (
+          <Warning>
+            <H2>
+              <FontAwesomeIcon icon={faExclamationTriangle} /> Warning
+            </H2>
+          </Warning>
+        )}
         <H2Margin>
-          You have unsaved changes. Are you sure you want to leave this page
-          without saving?{' '}
+          {prioritiesPage
+            ? 'You have to set priorities for asset classes in order for Passiv to show you trades calculations!'
+            : warningMessage}{' '}
         </H2Margin>
-        <ActionContainer>
-          <DeleteBtn onClick={handleConfirmNavigationClick}>Confirm</DeleteBtn>
-          <Button onClick={() => setDialog(false)}>Cancel</Button>
-        </ActionContainer>
+        {!prioritiesPage && (
+          <ActionContainer>
+            <DeleteBtn onClick={handleConfirmNavigationClick}>
+              Confirm
+            </DeleteBtn>
+            <Button onClick={() => setDialog(false)}>Cancel</Button>
+          </ActionContainer>
+        )}
       </Dialog>
     </>
   );
