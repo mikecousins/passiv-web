@@ -9,6 +9,8 @@ import { postData } from '../../api';
 import { reloadEverything } from '../../actions';
 import { replace } from 'connected-react-router';
 import KrakenAPIPermissions from '../../assets/images/kraken-api-permissions.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const LogoContainer = styled.div`
   padding: 6% 8%;
@@ -33,6 +35,7 @@ const MiniInputNonFormik = styled(InputNonFormik)`
 const UnocoinCredentialsManager = () => {
   const [APIKey, setAPIKey] = useState('');
   const [PrivateKey, setPrivateKey] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const generateTokenString = () => {
     let token_string = '';
@@ -42,6 +45,7 @@ const UnocoinCredentialsManager = () => {
 
   const dispatch = useDispatch();
   const handleSubmit = () => {
+    setLoading(true);
     let token = generateTokenString();
     postData('/api/v1/brokerages/authComplete/', { token: token })
       .then(() => {
@@ -81,7 +85,11 @@ const UnocoinCredentialsManager = () => {
           onChange={(e) => setPrivateKey(e.target.value)}
           placeholder={'Private Key'}
         />
-        <Button onClick={handleSubmit}>Done</Button>
+        {loading ? (
+          <FontAwesomeIcon icon={faSpinner} spin />
+        ) : (
+          <Button onClick={handleSubmit}>Done</Button>
+        )}
       </InputContainer>
 
       <P>
