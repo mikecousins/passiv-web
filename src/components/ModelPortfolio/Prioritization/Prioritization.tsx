@@ -87,7 +87,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   const [editing, setEditing] = useState(onSettingsPage ? false : true);
   const [changed, setChanged] = useState({ symbolId: '', accountId: '' });
   const [needToConfirm, setNeedToConfirm] = useState<string[]>([]);
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(onSettingsPage);
 
   const fetchPriorities = () => {
     getData(`/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`).then(
@@ -102,7 +102,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
             assetClassIds.push(priority.asset_class.id);
             // if not on settings page (user is setting priorities for the first time), just to make it easier, we put all securities in the sell priority array
             priority.accounts_priorities.forEach((account) => {
-              if (!onSettingsPage && account.unassigned.length > 0) {
+              if (account.unassigned.length > 0) {
                 account.sell_priority = account.unassigned;
               } else {
                 account.sell_priority.reverse();
