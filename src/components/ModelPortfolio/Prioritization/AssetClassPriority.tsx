@@ -279,6 +279,7 @@ const AssetClassPriority = ({
             <Button
               onClick={() => {
                 setConfirmed(true);
+                setShowDetails(false);
                 confirm();
               }}
             >
