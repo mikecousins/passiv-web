@@ -48,11 +48,11 @@ export type AccountPriorities = {
     number: string;
     name: string;
   };
-  trade_priority: TradePriority[];
-  unsupported_symbols: Symbol[];
-  sell_priority?: string[];
-  buy_priority?: string[];
-  unassigned?: string[];
+  unsupported_symbols: string[];
+  sell_priority: string[];
+  buy_priority: string[];
+  unassigned: string[];
+  do_not_trade: string[];
 };
 
 export type AssetClassPriorities = {

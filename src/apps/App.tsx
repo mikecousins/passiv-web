@@ -46,7 +46,7 @@ import {
   REPORTING_PATH,
   GOALS_PATH,
 } from './Paths';
-import Prioritization from '../components/ModelPortfolio/Prioritization';
+import Prioritization from '../components/ModelPortfolio/Prioritization/Prioritization';
 
 // preload pages
 const ReactLazyPreload = (importStatement: any) => {

@@ -7,13 +7,7 @@ import { getData, postData, putData } from '../../api';
 import { selectSettings } from '../../selectors';
 import { selectShowQuestradeOffer } from '../../selectors/subscription';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
-import {
-  Symbol,
-  ColumnSymbolSmall,
-  ColumnUnits,
-  ColumnAction,
-  ColumnStatus,
-} from '../../styled/Group';
+import { Symbol, ColumnSymbolSmall, ColumnTrades } from '../../styled/Group';
 import OrderImpacts from './OrderImpacts';
 import {
   ConfirmContainer,
@@ -367,26 +361,26 @@ const RebalanceWidget = ({
             {orderResults.map((results: any) => {
               return (
                 <ModifiedTradeRow key={results.trade}>
-                  <ColumnAction>
+                  <ColumnTrades>
                     <Title>Action</Title>
                     <div>{results.action}</div>
-                  </ColumnAction>
-                  <ColumnUnits>
+                  </ColumnTrades>
+                  <ColumnTrades>
                     <Title>Units</Title>
                     {results.filled_fractional_units ? (
                       <div>{results.filled_fractional_units}</div>
                     ) : (
                       <div>{results.filled_units}</div>
                     )}
-                  </ColumnUnits>
+                  </ColumnTrades>
                   <ColumnSymbolSmall>
                     <Title>Symbol</Title>
                     <Symbol>{results.universal_symbol.symbol}</Symbol>
                   </ColumnSymbolSmall>
-                  <ColumnStatus>
+                  <ColumnTrades>
                     <Title>Status</Title>
                     <div>{results.state}</div>
-                  </ColumnStatus>
+                  </ColumnTrades>
                 </ModifiedTradeRow>
               );
             })}

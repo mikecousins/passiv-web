@@ -28,9 +28,14 @@ export const SymbolDetail = ({ symbol, assetClass = false }: Props) => {
       </span>
     );
   } else {
-    var ticker = symbol.symbol;
-    var name =
-      symbol.description !== undefined ? symbol.description : symbol.name;
+    let ticker: string = '';
+    let name: string = '';
+    if (symbol) {
+      ticker = symbol.symbol;
+      name =
+        symbol.description !== undefined ? symbol.description : symbol.name;
+    }
+
     return (
       <span title={`${ticker} (${name})`}>
         <Symbol>{ticker}</Symbol>

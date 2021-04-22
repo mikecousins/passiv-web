@@ -13,7 +13,6 @@ import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
 import {
   selectCurrentModelPortfolio,
   selectGroupInfoForModelPortfolio,
-  selectGroupsUsingAModel,
 } from '../../selectors/modelPortfolios';
 import { loadGroups, loadModelPortfolios } from '../../actions';
 import ModelPortoflioBox from './ModelPortfolioBox';
@@ -22,7 +21,6 @@ import {
   faAngleLeft,
   faCheckCircle,
   faExclamationCircle,
-  faExclamationTriangle,
   faInfoCircle,
   faSpinner,
   faStopwatch,
@@ -47,6 +45,7 @@ import { Button } from '../../styled/Button';
 import Tooltip from '../Tooltip';
 import { selectAssetClassFeature } from '../../selectors/features';
 import { CopyButton } from './MoreOptions';
+import DeleteModelDialog from './DeleteModelDialog';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -111,16 +110,14 @@ const ToggleShareBtn = styled(ToggleButton)`
 const DeleteContainer = styled.div`
   float: right;
   font-size: 18px;
-`;
-
-const DeleteModelExplanation = styled.div`
-  font-size: 1.2rem;
-  text-align: center;
-  ul {
-    margin-top: 20px;
-    li {
-      margin-bottom: 10px;
+  &:hover {
+    color: red !important;
+    * {
+      color: red !important;
     }
+  }
+  > button {
+    font-weight: 400;
   }
 `;
 
@@ -131,10 +128,7 @@ const SetShareModelContainer = styled.div`
 `;
 
 const ShareLinkContainer = styled(Grid)`
-  display: flex;
-  justify-content: space-between;
   margin-top: 10px;
-  margin-left: 5px;
 `;
 
 const ComingSoonTag = styled.div`
@@ -184,10 +178,6 @@ const ModelPortfolio = () => {
   const groupInfo = group.groupInfo;
   const editMode = group.edit;
   const applyMode = group.apply;
-
-  const groupsUsingModel = useSelector(selectGroupsUsingAModel)?.[
-    currentModelPortfolio?.model_portfolio?.id
-  ]?.groups;
 
   const [share, setShare] = useState(
     currentModelPortfolio?.model_portfolio.share_portfolio,
@@ -363,7 +353,7 @@ const ModelPortfolio = () => {
                           </ToggleShareBtn>
                           <br />
                           {share && (
-                            <ShareLinkContainer columns="4fr 2fr">
+                            <ShareLinkContainer columns="4fr auto">
                               <InputBox>
                                 <ReadOnlyInput
                                   value={SHARE_URL}
@@ -410,43 +400,17 @@ const ModelPortfolio = () => {
               </button>
             </DeleteContainer>
 
-            <Dialog
-              isOpen={deleteDialog}
-              onDismiss={() => setDeleteDialog(false)}
-              aria-labelledby="dialog1Title"
-              aria-describedby="dialog1Desc"
-              style={{ borderRadius: '4px' }}
-            >
-              <H2Margin>
-                Are you sure you want to delete{' '}
-                <span style={{ fontWeight: 'bold' }}>
-                  {currentModelPortfolio!.model_portfolio.name}
-                </span>{' '}
-                ?
-              </H2Margin>
-              {groupsUsingModel?.length > 0 && (
-                <DeleteModelExplanation>
-                  <FontAwesomeIcon icon={faExclamationTriangle} />
-                  The following groups are using this model and would get reset:
-                  <ul>
-                    {groupsUsingModel.map((group: any) => {
-                      return <li key={group.id}>{group.name}</li>;
-                    })}
-                  </ul>
-                </DeleteModelExplanation>
-              )}
-
-              <ActionContainer>
-                <DeleteBtn onClick={handleDeleteModel}>Delete</DeleteBtn>
-                <Button onClick={() => setDeleteDialog(false)}>Cancel</Button>
-              </ActionContainer>
-            </Dialog>
+            <DeleteModelDialog
+              model={currentModelPortfolio}
+              open={deleteDialog}
+              hideDialog={() => setDeleteDialog(false)}
+              deleteModel={handleDeleteModel}
+            />
             <Dialog
               isOpen={modelTypeChanged}
               onDismiss={() => setModelTypeChanged(false)}
               aria-labelledby="dialog1Title"
               aria-describedby="dialog1Desc"
-              style={{ borderRadius: '4px' }}
             >
               <H2Margin>
                 Are you sure you want to change the model type?
