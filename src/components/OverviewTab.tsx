@@ -1,8 +1,11 @@
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import {
+  faExclamationTriangle,
+  faSpinner,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import PortfolioGroupName from './PortfolioGroupDetails/PortfolioGroupName';
 import PortfolioGroupAccuracy from './PortfolioGroupDetails/PortfolioGroupAccuracy';
@@ -23,10 +26,15 @@ import {
   selectPreferredCurrency,
   selectCurrentGroupPositionsNotInTargetOrExcluded,
   selectCurrentGroupModelType,
+  selectCurrentGroupSettings,
 } from '../selectors/groups';
-import { P } from '../styled/GlobalElements';
+import { H3, P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
 import NewAssetsDetected from './NewAssetsDetected';
+import { ErrorContainer } from '../styled/Group';
+import { Button } from '../styled/Button';
+import { postData } from '../api';
+import { toast } from 'react-toastify';
 
 const TOUR_STEPS = [
   {
@@ -76,7 +84,17 @@ export const Container6040Column = styled.div`
   }
 `;
 
+const List = styled.ul`
+  margin: 20px;
+  list-style: circle;
+  > li {
+    margin-bottom: 5px;
+  }
+`;
+
 const OverviewTab = () => {
+  const history = useHistory();
+
   const group = useSelector(selectCurrentGroup);
   const currentGroupModelType = useSelector(selectCurrentGroupModelType);
   const balances = useSelector(selectCurrentGroupBalances);
@@ -90,6 +108,7 @@ const OverviewTab = () => {
   const positionsNotInTargetsOrExcluded = useSelector(
     selectCurrentGroupPositionsNotInTargetOrExcluded,
   );
+  const settings = useSelector(selectCurrentGroupSettings);
 
   const positionsNotInTarget = positionsNotInTargetsOrExcluded?.filter(
     (position) => !position.excluded,
@@ -128,6 +147,19 @@ const OverviewTab = () => {
     );
   }
 
+  const handleTakeToPriorities = () => {
+    const modelId = group.model_portfolio;
+    postData(`api/v1/portfolioGroups/${group.id}/modelPortfolio/${modelId}`, {})
+      .then(() => {
+        history.push(`/app/priorities/${group.id}`);
+      })
+      .catch((err) => {
+        if (err.response) {
+          toast.error(err.response.data.detail);
+        }
+      });
+  };
+
   return (
     <React.Fragment>
       {setupComplete && <Tour steps={TOUR_STEPS} name="overview_tab_tour" />}
@@ -152,6 +184,36 @@ const OverviewTab = () => {
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
+      {settings?.model_portfolio_changed && (
+        <ErrorContainer>
+          <H3>
+            <FontAwesomeIcon icon={faExclamationTriangle} /> Need to confirm
+            priorities
+          </H3>
+          <P style={{ fontSize: '20px' }}>
+            We noticed that you made changes to the asset class model using by
+            this group and in order to show you accurate trades, Passiv needs
+            you to confirm priorities for this asset class.
+          </P>
+          <br />
+          <P>
+            <span style={{ fontWeight: 600 }}>Prioritization</span> needs to be
+            confirmed after doing any of the following actions:
+            <List>
+              <li>Adding and Deleting a symbol in an asset class.</li>
+              <li>Adding an account to the portfolio group.</li>
+              <li>
+                Adding an asset class to the model portfolio linked to a
+                portfolio group.
+              </li>
+            </List>
+          </P>
+
+          <Button onClick={handleTakeToPriorities} style={{ fontWeight: 600 }}>
+            Take me to Priorities
+          </Button>
+        </ErrorContainer>
+      )}
       {setupComplete &&
         positionsNotInTarget &&
         positionsNotInTarget.length > 0 &&

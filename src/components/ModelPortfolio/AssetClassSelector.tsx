@@ -111,7 +111,7 @@ const AssetClassSelector = ({
     <StyledCombobox onSelect={handleSelect}>
       <StyledComboboxInput
         value={input}
-        placeholder="Pick Asset Class"
+        placeholder="Type Asset Class Name"
         name={name}
         id={id}
         onChange={onChange}

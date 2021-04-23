@@ -115,6 +115,9 @@ export const PortfolioGroupTrades = ({
   if (settings && settings.hide_trades_until !== null) {
     hideTrades = Date.parse(settings.hide_trades_until) > Date.now();
   }
+  if (settings?.model_portfolio_changed) {
+    hideTrades = true;
+  }
 
   //TODO: if priorities not set yet (unassigned length > 0 || model_portfolio_changed is true) hide trades and show a warning message
 
