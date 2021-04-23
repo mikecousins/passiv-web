@@ -1413,7 +1413,7 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
         (target: any) => target.fullSymbol.id,
       );
       targets?.currentTarget?.map((target: any) => {
-        if (target.is_excluded && target.is_supported) {
+        if (target.is_excluded) {
           excluded.push({
             excluded: target.is_excluded,
             symbol: target.fullSymbol,
