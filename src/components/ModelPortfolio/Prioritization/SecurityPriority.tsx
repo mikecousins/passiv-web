@@ -49,7 +49,7 @@ const Description = styled(H3)<DescriptionProps>`
   text-align: left;
 `;
 
-const NewSecurity = styled.span`
+const NotHolding = styled.span`
   margin-left: 10px;
   padding: 2px 10px;
   font-weight: 600;
@@ -58,6 +58,9 @@ const NewSecurity = styled.span`
   letter-spacing: 0.18px;
   color: #ffffff;
   background-color: #04a287;
+`;
+const NewSecurity = styled(NotHolding)`
+  background-color: orange;
 `;
 
 const EditPriorityContainer = styled.div``;
@@ -86,6 +89,7 @@ type Props = {
   assetClassId: string;
   handleBtn: any;
   priorityKind: string;
+  newAsset: boolean;
 };
 const SecurityPriority = ({
   symbolId,
@@ -98,6 +102,7 @@ const SecurityPriority = ({
   assetClassId,
   handleBtn,
   priorityKind,
+  newAsset,
 }: Props) => {
   const currentGroupPositions = useSelector(selectCurrentGroupPositions);
 
@@ -145,8 +150,9 @@ const SecurityPriority = ({
         <Description noTrade={priorityKind === 'none'}>
           <span> {symbolDesc}</span>
           {symbolId && !groupPositionsId?.includes(symbolId) && (
-            <NewSecurity>New</NewSecurity>
+            <NotHolding>Not holding</NotHolding>
           )}
+          {newAsset && <NewSecurity>New</NewSecurity>}
         </Description>
         {priorityKind === 'buy' && <H2>Buy</H2>}
         {numberOfSecurities > 0 && symbolId && priorityKind !== 'none' && (

@@ -106,7 +106,9 @@ type Props = {
   changed: any;
   handleBtn: any;
   onSettingsPage: boolean;
-  confirm: any;
+  needToConfirm: string[];
+  newAssets: string[];
+  confirm: () => void;
 };
 
 const AssetClassPriority = ({
@@ -114,10 +116,11 @@ const AssetClassPriority = ({
   changed,
   handleBtn,
   onSettingsPage,
+  needToConfirm,
+  newAssets,
   confirm,
 }: Props) => {
   const [showDetails, setShowDetails] = useState(false);
-  const [confirmed, setConfirmed] = useState(false);
 
   const allSymbols = useSelector(selectSymbols);
   const symbols = allSymbols.reduce((acc: any, symbol) => {
@@ -145,11 +148,11 @@ const AssetClassPriority = ({
           {!onSettingsPage && (
             <Status>
               <Tooltip
-                label={`Priorities are ${
-                  !confirmed ? 'not' : ''
-                } set for this asset class.`}
+                label={`Prioritization is ${
+                  needToConfirm.includes(priority.asset_class.id) ? 'not' : ''
+                } confirmed for this asset class.`}
               >
-                {confirmed ? (
+                {!needToConfirm.includes(priority.asset_class.id) ? (
                   <FontAwesomeIcon
                     icon={faCheckCircle}
                     size="lg"
@@ -214,6 +217,7 @@ const AssetClassPriority = ({
                         assetClassId={priority.asset_class.id}
                         handleBtn={handleBtn}
                         priorityKind="buy"
+                        newAsset={false}
                       />
                       {account.sell_priority.map((sellPriority, index) => {
                         return (
@@ -229,6 +233,7 @@ const AssetClassPriority = ({
                             assetClassId={priority.asset_class.id}
                             handleBtn={handleBtn}
                             priorityKind="sell"
+                            newAsset={newAssets.includes(sellPriority)}
                           />
                         );
                       })}{' '}
@@ -246,6 +251,7 @@ const AssetClassPriority = ({
                             assetClassId={priority.asset_class.id}
                             handleBtn={handleBtn}
                             priorityKind="none"
+                            newAsset={false}
                           />
                         );
                       })}{' '}
@@ -278,7 +284,6 @@ const AssetClassPriority = ({
           {!onSettingsPage && (
             <Button
               onClick={() => {
-                setConfirmed(true);
                 setShowDetails(false);
                 confirm();
               }}

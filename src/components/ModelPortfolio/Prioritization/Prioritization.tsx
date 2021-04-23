@@ -87,6 +87,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   const [editing, setEditing] = useState(onSettingsPage ? false : true);
   const [changed, setChanged] = useState({ symbolId: '', accountId: '' });
   const [needToConfirm, setNeedToConfirm] = useState<string[]>([]);
+  const [newAssets, setNewAssets] = useState<string[]>([]);
   const [saved, setSaved] = useState(onSettingsPage);
 
   const fetchPriorities = () => {
@@ -94,16 +95,32 @@ const Prioritization = ({ onSettingsPage }: Props) => {
       (res) => {
         let priorities: AssetClassPriorities[] = res.data;
         let assetClassIds: string[] = [];
-
+        let newSecurities: string[] = [];
         priorities.forEach((priority) => {
           // filter out "Excluded Assets" asset class for now
           if (priority.asset_class.name !== 'Excluded Assets') {
-            // collect all the asset class ids to keep track of asset classes need to have priorities confirmed for them
-            assetClassIds.push(priority.asset_class.id);
             // if not on settings page (user is setting priorities for the first time), just to make it easier, we put all securities in the sell priority array
             priority.accounts_priorities.forEach((account) => {
-              if (account.unassigned.length > 0) {
+              if (
+                account.unassigned.length > 0 &&
+                account.sell_priority.length === 0 &&
+                account.buy_priority.length === 0 &&
+                account.do_not_trade.length === 0
+              ) {
                 account.sell_priority = account.unassigned;
+                assetClassIds.push(priority.asset_class.id);
+              } else if (
+                account.unassigned.length > 0 &&
+                (account.sell_priority.length !== 0 ||
+                  account.buy_priority.length !== 0 ||
+                  account.do_not_trade.length !== 0)
+              ) {
+                newSecurities = newSecurities.concat(account.unassigned);
+                account.sell_priority = account.sell_priority.concat(
+                  account.unassigned,
+                );
+                account.sell_priority.reverse();
+                assetClassIds.push(priority.asset_class.id);
               } else {
                 account.sell_priority.reverse();
               }
@@ -111,7 +128,16 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           }
         });
         setAssetClassPriorities(priorities);
-        setNeedToConfirm(assetClassIds);
+        setNeedToConfirm(
+          assetClassIds.filter(
+            (value, index, array) => array.indexOf(value) === index,
+          ),
+        );
+        setNewAssets(
+          newSecurities.filter(
+            (value, index, array) => array.indexOf(value) === index,
+          ),
+        );
         setLoading(false);
       },
     );
@@ -263,6 +289,8 @@ const Prioritization = ({ onSettingsPage }: Props) => {
         changed={changed}
         handleBtn={handleUpDownBtn}
         onSettingsPage={onSettingsPage}
+        needToConfirm={needToConfirm}
+        newAssets={newAssets}
         confirm={() => handleConfirm(priority)}
       />
     );
@@ -309,7 +337,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
               <SaveButton>
                 <Button
                   onClick={handleSaveChanges}
-                  disabled={needToConfirm.length !== 0}
+                  disabled={needToConfirm.length > 0}
                 >
                   Save
                 </Button>
