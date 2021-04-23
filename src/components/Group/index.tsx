@@ -47,6 +47,9 @@ export const Group = ({ group }: Props) => {
     return <div>Loading...</div>;
   }
 
+  const isPrioritizationSet = !groupInfo[group.id].data?.settings
+    .model_portfolio_changed;
+
   let accuracy = <FontAwesomeIcon icon={faSpinner} spin />;
   if (group.setupComplete !== undefined) {
     if (group.setupComplete === false) {
@@ -87,7 +90,10 @@ export const Group = ({ group }: Props) => {
   }
 
   let viewButton = null;
-  if (group.setupComplete === undefined || group.setupComplete === true) {
+  if (
+    (group.setupComplete === undefined || group.setupComplete === true) &&
+    isPrioritizationSet
+  ) {
     viewButton = (
       <ViewBtn>
         <PreLoadLink path={`${GROUP_PATH}/${group.id}`}>
