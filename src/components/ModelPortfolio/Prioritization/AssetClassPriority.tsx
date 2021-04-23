@@ -192,7 +192,7 @@ const AssetClassPriority = ({
                 key={account.account.id}
               >
                 <AccountName>Account: {account.account.name}</AccountName>
-                {numberOfSecurities > 1 && (
+                {numberOfSecurities > 0 && (
                   <Grid columns="5fr 180px" style={{ marginTop: '30px' }}>
                     <H3>Do Not Trade</H3>
                     <H3>Order by Priority</H3>
