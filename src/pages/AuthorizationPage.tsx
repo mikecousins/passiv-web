@@ -202,6 +202,11 @@ const AuthorizationPage = ({ onboarding }: Props) => {
                 hours then please contact support.
               </Li>
               <Li>Only IBKR Pro accounts are supported by Passiv.</Li>
+              <Li></Li>
+              <Li>
+                Due to limitations in IBKR's API, Passiv is unable to support
+                fractional share units.
+              </Li>
               <Li>
                 Certain features, such as One-Click Trades, are not available
                 through IBKR Canada. Other countries should work fine.
