@@ -1401,8 +1401,9 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
         targetIds += assetClass?.fullSymbols?.map((target: any) => {
           if (target?.excluded) {
             excluded.push({
-              excluded: target?.excluded,
-              symbol: target?.symbol,
+              excluded: target.excluded,
+              symbol: target.symbol,
+              quotable: target.quotable,
             });
           } else {
             return target?.symbol.id;
@@ -1418,6 +1419,7 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
           excluded.push({
             excluded: target.is_excluded,
             symbol: target.fullSymbol,
+            quotable: target.quotable,
           });
         }
       });
