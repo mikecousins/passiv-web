@@ -1474,11 +1474,10 @@ export const selectCurrentGroupAssetClassTradePriorities = createSelector(
             account.sell_priority = account.sell_priority.concat(
               account.unassigned,
             );
-            account.sell_priority.reverse();
+
             assetClassIds.push(priority.asset_class.id);
-          } else {
-            account.sell_priority.reverse();
           }
+          account.sell_priority.reverse();
         });
       }
     });

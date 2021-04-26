@@ -203,12 +203,13 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           account.sell_priority.reverse();
         });
       });
-      setAssetClassPriorities(assetClassPrioritiesCopy);
       postData(
         `/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`,
-        assetClassPriorities,
+        assetClassPrioritiesCopy,
       )
         .then(() => {
+          console.log('there');
+
           setSaved(true);
           if (onSettingsPage) {
             setEditing(false);
