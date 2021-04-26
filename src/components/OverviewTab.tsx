@@ -4,7 +4,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import PortfolioGroupName from './PortfolioGroupDetails/PortfolioGroupName';
@@ -35,6 +35,7 @@ import { ErrorContainer } from '../styled/Group';
 import { Button } from '../styled/Button';
 import { postData } from '../api';
 import { toast } from 'react-toastify';
+import { loadGroupInfo } from '../actions';
 
 const TOUR_STEPS = [
   {
@@ -94,6 +95,7 @@ const List = styled.ul`
 
 const OverviewTab = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const group = useSelector(selectCurrentGroup);
   const currentGroupModelType = useSelector(selectCurrentGroupModelType);
@@ -151,6 +153,7 @@ const OverviewTab = () => {
     const modelId = group.model_portfolio;
     postData(`api/v1/portfolioGroups/${group.id}/modelPortfolio/${modelId}`, {})
       .then(() => {
+        dispatch(loadGroupInfo());
         history.push(`/app/priorities/${group.id}`);
       })
       .catch((err) => {

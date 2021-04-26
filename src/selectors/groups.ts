@@ -36,6 +36,7 @@ import { SimpleListState } from '../reducers/simpleList';
 import { Currency } from '../types/currency';
 import { Position, Account } from '../types/account';
 import { selectCurrencies } from '../selectors/currencies';
+import { AssetClassPriorities } from '../types/modelPortfolio';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 
@@ -1435,5 +1436,58 @@ export const selectCurrentGroupModelType = createSelector(
   selectCurrentGroupInfo,
   (groupInfo) => {
     return groupInfo?.model_portfolio?.model_type;
+  },
+);
+
+export const selectCurrentGroupAssetClassTradePriorities = createSelector(
+  selectCurrentGroupInfo,
+  (groupInfo) => {
+    const tradePriorities: AssetClassPriorities[] = JSON.parse(
+      JSON.stringify(groupInfo?.asset_class_trade_priorities),
+    );
+    let assetClassIds: string[] = [];
+    let newSecurities: string[] = [];
+
+    tradePriorities?.forEach((priority) => {
+      // filter out "Excluded Assets" asset class for now
+      if (
+        priority.asset_class.name !== 'Excluded Assets' &&
+        priority.asset_class.name !== 'Excluded Securities'
+      ) {
+        // if not on settings page (user is setting priorities for the first time), just to make it easier, we put all securities in the sell priority array
+        priority.accounts_priorities.forEach((account) => {
+          if (
+            account.unassigned.length > 0 &&
+            account.sell_priority.length === 0 &&
+            account.buy_priority.length === 0 &&
+            account.do_not_trade.length === 0
+          ) {
+            account.sell_priority = account.unassigned;
+            assetClassIds.push(priority.asset_class.id);
+          } else if (
+            account.unassigned.length > 0 &&
+            (account.sell_priority.length !== 0 ||
+              account.buy_priority.length !== 0 ||
+              account.do_not_trade.length !== 0)
+          ) {
+            newSecurities = newSecurities.concat(account.unassigned);
+            account.sell_priority = account.sell_priority.concat(
+              account.unassigned,
+            );
+            account.sell_priority.reverse();
+            assetClassIds.push(priority.asset_class.id);
+          } else {
+            account.sell_priority.reverse();
+          }
+        });
+      }
+    });
+    // assetClassIds = assetClassIds.filter(
+    //   (value, index, array) => array.indexOf(value) === index,
+    // );
+    // newSecurities = newSecurities.filter(
+    //   (value, index, array) => array.indexOf(value) === index,
+    // );
+    return { tradePriorities, assetClassIds, newSecurities };
   },
 );

@@ -3,9 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getData, postData } from '../../../api';
+import { postData } from '../../../api';
 import { faSpinner, faUndo } from '@fortawesome/free-solid-svg-icons';
-import { selectCurrentGroup } from '../../../selectors/groups';
+import {
+  selectCurrentGroup,
+  selectCurrentGroupAssetClassTradePriorities,
+  selectCurrentGroupInfoLoading,
+} from '../../../selectors/groups';
 import { AssetClassPriorities } from '../../../types/modelPortfolio';
 import AssetClassPriority from './AssetClassPriority';
 import { H2 } from '../../../styled/GlobalElements';
@@ -80,74 +84,29 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   const dispatch = useDispatch();
 
   const group = useSelector(selectCurrentGroup);
+  const currentGroupInfoLoading = useSelector(selectCurrentGroupInfoLoading);
+  const assetClassTradePriorities = useSelector(
+    selectCurrentGroupAssetClassTradePriorities,
+  );
+
   const [assetClassPriorities, setAssetClassPriorities] = useState<
     AssetClassPriorities[]
-  >();
+  >([]);
+
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState(onSettingsPage ? false : true);
+  const [editing, setEditing] = useState(!onSettingsPage);
+  const [saved, setSaved] = useState(onSettingsPage);
   const [changed, setChanged] = useState({ symbolId: '', accountId: '' });
   const [needToConfirm, setNeedToConfirm] = useState<string[]>([]);
   const [newAssets, setNewAssets] = useState<string[]>([]);
-  const [saved, setSaved] = useState(onSettingsPage);
 
-  const fetchPriorities = () => {
-    getData(`/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`).then(
-      (res) => {
-        let priorities: AssetClassPriorities[] = res.data;
-        let assetClassIds: string[] = [];
-        let newSecurities: string[] = [];
-        priorities.forEach((priority) => {
-          // filter out "Excluded Assets" asset class for now
-          if (priority.asset_class.name !== 'Excluded Assets') {
-            // if not on settings page (user is setting priorities for the first time), just to make it easier, we put all securities in the sell priority array
-            priority.accounts_priorities.forEach((account) => {
-              if (
-                account.unassigned.length > 0 &&
-                account.sell_priority.length === 0 &&
-                account.buy_priority.length === 0 &&
-                account.do_not_trade.length === 0
-              ) {
-                account.sell_priority = account.unassigned;
-                assetClassIds.push(priority.asset_class.id);
-              } else if (
-                account.unassigned.length > 0 &&
-                (account.sell_priority.length !== 0 ||
-                  account.buy_priority.length !== 0 ||
-                  account.do_not_trade.length !== 0)
-              ) {
-                newSecurities = newSecurities.concat(account.unassigned);
-                account.sell_priority = account.sell_priority.concat(
-                  account.unassigned,
-                );
-                account.sell_priority.reverse();
-                assetClassIds.push(priority.asset_class.id);
-              } else {
-                account.sell_priority.reverse();
-              }
-            });
-          }
-        });
-        setAssetClassPriorities(priorities);
-        setNeedToConfirm(
-          assetClassIds.filter(
-            (value, index, array) => array.indexOf(value) === index,
-          ),
-        );
-        setNewAssets(
-          newSecurities.filter(
-            (value, index, array) => array.indexOf(value) === index,
-          ),
-        );
-        setLoading(false);
-      },
-    );
-  };
-
-  // fetch priorities on page load
   useEffect(() => {
-    fetchPriorities();
-    // eslint-disable-next-line
-  }, []);
+    setLoading(currentGroupInfoLoading);
+    setAssetClassPriorities(assetClassTradePriorities.tradePriorities);
+    setNeedToConfirm(assetClassTradePriorities.assetClassIds);
+    setNewAssets(assetClassTradePriorities.newSecurities);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentGroupInfoLoading]);
 
   // this function handles the up and down arrows which changes the priority for an asset class
   const handleUpDownBtn = (
@@ -257,7 +216,6 @@ const Prioritization = ({ onSettingsPage }: Props) => {
             history.push(`/app/group/${group?.id}`);
           }
           toast.success('Saved prioritization successfully');
-          fetchPriorities();
           dispatch(loadGroupInfo());
         })
         .catch(() => {
@@ -267,7 +225,6 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   };
 
   const handleCancel = () => {
-    fetchPriorities();
     setEditing(false);
   };
 

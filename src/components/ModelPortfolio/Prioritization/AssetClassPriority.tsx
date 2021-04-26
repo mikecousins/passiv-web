@@ -131,7 +131,10 @@ const AssetClassPriority = ({
     return acc;
   }, {});
 
-  if (priority.asset_class.name === 'Excluded Assets') {
+  if (
+    priority.asset_class.name === 'Excluded Securities' ||
+    priority.asset_class.name === 'Excluded Assets'
+  ) {
     return <></>;
   }
 
