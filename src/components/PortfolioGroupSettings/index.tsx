@@ -190,7 +190,7 @@ export const PortfolioGroupSettings = () => {
         ) : (
           <React.Fragment>
             <br />
-            <FontAwesomeIcon icon={faSpinner} spin />
+            <FontAwesomeIcon icon={faSpinner} spin size="lg" />
           </React.Fragment>
         )}
       </ShadowBox>

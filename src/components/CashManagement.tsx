@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, SmallButton } from '../styled/Button';
 import { H2, A, P } from '../styled/GlobalElements';
@@ -6,6 +6,7 @@ import { selectCurrencies } from '../selectors/currencies';
 import {
   selectPreferredCurrency,
   selectCurrentGroupAccounts,
+  selectCurrentGroupInfoLoading,
 } from '../selectors/groups';
 import { CashRestriction as CashRestrictionType } from '../types/account';
 import Number from './Number';
@@ -22,10 +23,13 @@ import { restrictionTypes } from '../common';
 import styled from '@emotion/styled';
 
 import { Form } from '../styled/Form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const CashManagementBox = styled.div`
   h2 {
     font-size: 28px;
+    margin-bottom: 20px;
   }
 `;
 
@@ -60,23 +64,7 @@ export const ColumnBase = styled.div`
   @media (max-width: 900px) {
     line-height: 1.2;
   }
-  text-align: center;
-`;
-
-export const ColumnAccount = styled(ColumnBase)``;
-
-export const ColumnType = styled(ColumnBase)``;
-
-export const ColumnCurrency = styled(ColumnBase)`
-  text-align: center;
-`;
-
-export const ColumnAmount = styled(ColumnBase)`
-  text-align: center;
-`;
-
-export const ColumnDelete = styled(ColumnBase)`
-  text-align: center;
+  text-align: left;
 `;
 
 const StyledFieldBase = styled(Field)`
@@ -124,18 +112,38 @@ const CancelButton = styled(A)`
   margin-left: 10px;
 `;
 
-const Title = styled.div`
-  text-align: left;
+const AddRuleBtn = styled(Button)`
+  padding: 10px 20px;
+  margin-bottom: 30px;
+  font-size: 16px;
   font-weight: 600;
 `;
 
+const AddRuleBtn2 = styled(A)`
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 10px;
+  text-decoration: underline;
+`;
+
+const Title = styled.div`
+  text-align: left;
+  font-weight: 900;
+  font-size: 18px;
+  text-decoration: underline;
+  text-underline-offset: 10px;
+`;
+
 const NoCashRules = styled(P)`
-  margin: 30px 0;
+  margin: 10px 0;
   text-align: center;
 `;
 
+const ActionContainer = styled.div``;
+
 const CashManagement = () => {
   const [editing, setEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const accounts = useSelector(selectCurrentGroupAccounts);
   const cashRestrictions: CashRestrictionType[] = useSelector(
@@ -144,6 +152,11 @@ const CashManagement = () => {
   const currencies = useSelector(selectCurrencies);
   const groupId = useSelector(selectCurrentGroupId);
   const preferredCurrency = useSelector(selectPreferredCurrency);
+  const groupInfoLoading = useSelector(selectCurrentGroupInfoLoading);
+
+  useEffect(() => {
+    setLoading(groupInfoLoading);
+  }, [groupInfoLoading]);
 
   const startEditing = () => {
     setEditing(true);
@@ -208,13 +221,14 @@ const CashManagement = () => {
             toast.error(
               `Failed to add cash management rule: ${error.response.data.detail}`,
             );
+
             actions.setSubmitting(false);
           });
       }}
       render={(props) => (
         <CashForm onSubmit={props.handleSubmit}>
           <CashRow>
-            <ColumnAccount>
+            <ColumnBase>
               <StyledSelect as="select" name="account">
                 {accounts &&
                   accounts.map((account) => (
@@ -223,8 +237,8 @@ const CashManagement = () => {
                     </option>
                   ))}
               </StyledSelect>
-            </ColumnAccount>
-            <ColumnType>
+            </ColumnBase>
+            <ColumnBase>
               <StyledSelect as="select" name="type">
                 {restrictionTypes.map((restrictionType) => (
                   <option value={restrictionType.id} key={restrictionType.id}>
@@ -232,8 +246,8 @@ const CashManagement = () => {
                   </option>
                 ))}
               </StyledSelect>
-            </ColumnType>
-            <ColumnCurrency>
+            </ColumnBase>
+            <ColumnBase>
               <StyledSelect as="select" name="currency">
                 {currencies &&
                   currencies.map((currency) => (
@@ -242,16 +256,16 @@ const CashManagement = () => {
                     </option>
                   ))}
               </StyledSelect>
-            </ColumnCurrency>
-            <ColumnAmount>
+            </ColumnBase>
+            <ColumnBase>
               <NumericPrefixBox>
                 <NumericPrefix>$</NumericPrefix>
                 <StyledNumeric type="number" name="amount" />
               </NumericPrefixBox>
-            </ColumnAmount>
-            <ColumnDelete>
+            </ColumnBase>
+            <ColumnBase>
               <SmallButton type="submit">Submit</SmallButton>
-            </ColumnDelete>
+            </ColumnBase>
           </CashRow>
         </CashForm>
       )}
@@ -269,24 +283,24 @@ const CashManagement = () => {
           const type = getType(cashRestriction.type);
           return (
             <CashRow key={cashRestriction.id}>
-              <ColumnAccount>{account && account.name}</ColumnAccount>
-              <ColumnType>{type && type.name}</ColumnType>
-              <ColumnCurrency>
+              <ColumnBase>{account && account.name}</ColumnBase>
+              <ColumnBase>{type && type.name}</ColumnBase>
+              <ColumnBase>
                 <span title={currency != null ? currency.name : ''}>
                   {currency && currency.code}
                 </span>
-              </ColumnCurrency>
-              <ColumnAmount>
+              </ColumnBase>
+              <ColumnBase>
                 {
                   <Number
                     value={cashRestriction.amount}
                     currency={currency ? currency.code : undefined}
                   />
                 }
-              </ColumnAmount>
-              <ColumnDelete>
+              </ColumnBase>
+              <ColumnBase>
                 <A onClick={() => deleteRestriction(cashRestriction)}>Delete</A>
-              </ColumnDelete>
+              </ColumnBase>
             </CashRow>
           );
         })}
@@ -295,7 +309,17 @@ const CashManagement = () => {
   } else {
     if (!editing) {
       cashRestrictionsContent = (
-        <NoCashRules>There are no cash rules defined.</NoCashRules>
+        <NoCashRules>
+          There are no cash rules defined.{' '}
+          <AddRuleBtn2
+            onClick={() => {
+              startEditing();
+            }}
+            disabled={!canManageCash()}
+          >
+            Add Rule
+          </AddRuleBtn2>
+        </NoCashRules>
       );
     }
   }
@@ -304,19 +328,19 @@ const CashManagement = () => {
     <CashRestrictionBox>
       {(editing || cashRestrictions.length > 0) && (
         <CashRow>
-          <ColumnAccount>
+          <ColumnBase>
             <Title>Account</Title>
-          </ColumnAccount>
-          <ColumnType>
+          </ColumnBase>
+          <ColumnBase>
             <Title>Rule</Title>
-          </ColumnType>
-          <ColumnCurrency>
+          </ColumnBase>
+          <ColumnBase>
             <Title>Currency</Title>
-          </ColumnCurrency>
-          <ColumnAmount>
+          </ColumnBase>
+          <ColumnBase>
             <Title>Amount</Title>
-          </ColumnAmount>
-          <ColumnDelete></ColumnDelete>
+          </ColumnBase>
+          <ColumnBase></ColumnBase>
         </CashRow>
       )}
       {cashRestrictionsContent}
@@ -327,28 +351,39 @@ const CashManagement = () => {
   return (
     <CashManagementBox className="tour-cash-management">
       <H2>Cash Management</H2>
-      {cashRestrictionsRendered}
-      {editing ? (
-        <div>
-          <CancelButton
-            onClick={() => {
-              cancelEditing();
-            }}
-          >
-            Cancel
-          </CancelButton>
-        </div>
+      {loading ? (
+        <FontAwesomeIcon icon={faSpinner} spin size="lg" />
       ) : (
-        <div>
-          <Button
-            onClick={() => {
-              startEditing();
-            }}
-            disabled={!canManageCash()}
-          >
-            Add Rule
-          </Button>
-        </div>
+        <>
+          <ActionContainer>
+            {editing ? (
+              <div>
+                <CancelButton
+                  onClick={() => {
+                    cancelEditing();
+                  }}
+                >
+                  Cancel
+                </CancelButton>
+              </div>
+            ) : (
+              cashRestrictions.length > 0 && (
+                <div>
+                  <AddRuleBtn
+                    onClick={() => {
+                      startEditing();
+                    }}
+                    disabled={!canManageCash()}
+                  >
+                    Add Rule
+                  </AddRuleBtn>
+                </div>
+              )
+            )}
+          </ActionContainer>
+
+          {cashRestrictionsRendered}
+        </>
       )}
     </CashManagementBox>
   );

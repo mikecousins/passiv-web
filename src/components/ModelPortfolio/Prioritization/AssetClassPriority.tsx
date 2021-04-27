@@ -97,6 +97,10 @@ const AccountName = styled(H3)`
 
 const Legend = styled(Grid)`
   margin-top: 30px;
+  h3 {
+    text-decoration: underline;
+    text-underline-offset: 10px;
+  }
   @media (max-width: 900px) {
     margin-top: 10px;
     display: grid;
