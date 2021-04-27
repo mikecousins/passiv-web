@@ -1419,7 +1419,7 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
           excluded.push({
             excluded: target.is_excluded,
             symbol: target.fullSymbol,
-            quotable: target.quotable,
+            quotable: target.is_supported,
           });
         }
       });
