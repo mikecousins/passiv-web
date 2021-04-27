@@ -47,8 +47,9 @@ export const Group = ({ group }: Props) => {
     return <div>Loading...</div>;
   }
 
-  const isPrioritizationSet = !groupInfo[group.id].data?.settings
-    .model_portfolio_changed;
+  const needToPrioritize =
+    groupInfo[group.id].data?.model_portfolio?.model_type === 1 &&
+    groupInfo[group.id].data?.settings.model_portfolio_changed;
 
   let accuracy = <FontAwesomeIcon icon={faSpinner} spin />;
   if (group.setupComplete !== undefined) {
@@ -92,7 +93,7 @@ export const Group = ({ group }: Props) => {
   let viewButton = null;
   if (
     (group.setupComplete === undefined || group.setupComplete === true) &&
-    isPrioritizationSet
+    !needToPrioritize
   ) {
     viewButton = (
       <ViewBtn>
@@ -144,7 +145,7 @@ export const Group = ({ group }: Props) => {
             {group.setupComplete &&
               group.rebalance &&
               !hideTrades &&
-              isPrioritizationSet && (
+              !needToPrioritize && (
                 <AllocateBtn onClick={() => setExpanded(!expanded)}>
                   {group.hasSells ? 'Rebalance' : 'Allocate'}
                   &nbsp;

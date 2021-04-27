@@ -218,7 +218,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           dispatch(loadGroupInfo());
         })
         .catch(() => {
-          toast.success('Unable to save prioritization. Please try again');
+          toast.error('Unable to save prioritization. Please try again');
         });
     }
   };
