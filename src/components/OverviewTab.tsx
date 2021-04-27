@@ -26,7 +26,7 @@ import {
   selectPreferredCurrency,
   selectCurrentGroupPositionsNotInTargetOrExcluded,
   selectCurrentGroupModelType,
-  selectCurrentGroupSettings,
+  selectNeedToPrioritize,
 } from '../selectors/groups';
 import { H3, P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
@@ -110,8 +110,7 @@ const OverviewTab = () => {
   const positionsNotInTargetsOrExcluded = useSelector(
     selectCurrentGroupPositionsNotInTargetOrExcluded,
   );
-  const settings = useSelector(selectCurrentGroupSettings);
-
+  const needToPrioritize = useSelector(selectNeedToPrioritize);
   const positionsNotInTarget = positionsNotInTargetsOrExcluded?.filter(
     (position) => !position.excluded,
   );
@@ -187,7 +186,7 @@ const OverviewTab = () => {
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
-      {currentGroupModelType === 1 && settings?.model_portfolio_changed && (
+      {needToPrioritize && (
         <ErrorContainer>
           <H3>
             <FontAwesomeIcon icon={faExclamationTriangle} /> Need to confirm

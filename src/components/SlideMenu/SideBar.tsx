@@ -103,6 +103,10 @@ const SideBar = () => {
 
   if (groups) {
     groupList = groups.map((group) => {
+      const needToPrioritize =
+        groupInfo[group.id].data?.model_portfolio?.model_type === 1 &&
+        groupInfo[group.id].data?.settings.model_portfolio_changed;
+
       return (
         <React.Fragment key={group.id}>
           <SideBarLink
@@ -112,10 +116,7 @@ const SideBar = () => {
             rebalance={!!group.rebalance}
             hasAccounts={group.hasAccounts}
             loading={group.loading}
-            setupComplete={
-              group.setupComplete &&
-              !groupInfo[group.id].data?.settings.model_portfolio_changed
-            }
+            setupComplete={group.setupComplete && !needToPrioritize}
             spinnerLoading={true}
             hideArrow={true}
           />

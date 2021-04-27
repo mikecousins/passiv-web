@@ -1492,3 +1492,15 @@ export const selectCurrentGroupAssetClassTradePriorities = createSelector(
     return { tradePriorities, assetClassIds, newSecurities };
   },
 );
+
+export const selectNeedToPrioritize = createSelector(
+  selectCurrentGroupSettings,
+  selectCurrentGroupModelType,
+  (settings, modelType) => {
+    let prioritize = false;
+    if (modelType === 1 && settings?.model_portfolio_changed) {
+      prioritize = true;
+    }
+    return prioritize;
+  },
+);

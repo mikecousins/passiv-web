@@ -13,6 +13,7 @@ import { ErrorContainer } from '../styled/Group';
 import {
   selectCurrentGroupSettings,
   selectCurrentGroupId,
+  selectNeedToPrioritize,
 } from '../selectors/groups';
 import Tooltip from './Tooltip';
 import Number from './Number';
@@ -73,6 +74,7 @@ export const PortfolioGroupTrades = ({
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
   const [tradesCache, setTradesCache] = useState(null);
   const currentGroupId = useSelector(selectCurrentGroupId);
+  const needToPrioritize = useSelector(selectNeedToPrioritize);
   const history = useHistory();
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
@@ -115,11 +117,9 @@ export const PortfolioGroupTrades = ({
   if (settings && settings.hide_trades_until !== null) {
     hideTrades = Date.parse(settings.hide_trades_until) > Date.now();
   }
-  if (settings?.model_portfolio_changed) {
+  if (needToPrioritize) {
     hideTrades = true;
   }
-
-  //TODO: if priorities not set yet (unassigned length > 0 || model_portfolio_changed is true) hide trades and show a warning message
 
   const TOUR_STEPS = [
     {
