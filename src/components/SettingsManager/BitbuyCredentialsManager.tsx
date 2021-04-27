@@ -8,16 +8,6 @@ import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
 import { reloadEverything } from '../../actions';
 import { replace } from 'connected-react-router';
-import KrakenAPIPermissions from '../../assets/images/kraken-api-permissions.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-
-const LogoContainer = styled.div`
-  padding: 6% 8%;
-  img {
-    max-width: 100%;
-  }
-`;
 
 const InputContainer = styled.div`
   padding-top: 10px;
@@ -32,10 +22,9 @@ const MiniInputNonFormik = styled(InputNonFormik)`
   padding: 15px 12px;
 `;
 
-const KrakenCredentialsManager = () => {
+const BitbuyCredentialsManager = () => {
   const [APIKey, setAPIKey] = useState('');
   const [PrivateKey, setPrivateKey] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const generateTokenString = () => {
     let token_string = '';
@@ -45,7 +34,6 @@ const KrakenCredentialsManager = () => {
 
   const dispatch = useDispatch();
   const handleSubmit = () => {
-    setLoading(true);
     let token = generateTokenString();
     postData('/api/v1/brokerages/authComplete/', { token: token })
       .then(() => {
@@ -61,23 +49,16 @@ const KrakenCredentialsManager = () => {
 
   return (
     <ShadowBox>
-      <H2>Connect to Kraken</H2>
+      <H2>Connect to Bitbuy</H2>
       <P>
-        To connect your Kraken account to Passiv, you'll need to{' '}
-        <a
-          href="https://www.kraken.com/u/security/api"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          generate a new Kraken API key
+        To connect your Bitbuy account to Passiv, you'll need to{' '}
+        <a href="https://www.Bitbuy.com/u/security/api">
+          generate a new Bitbuy API key
         </a>{' '}
         and enter your credentials below.
       </P>
 
       <P>An example of the API permission that Passiv needs are below:</P>
-      <LogoContainer>
-        <img src={KrakenAPIPermissions} alt="Kraken API Permissions"></img>
-      </LogoContainer>
       <InputContainer>
         <MiniInputNonFormik
           value={APIKey === null ? '' : APIKey}
@@ -89,21 +70,17 @@ const KrakenCredentialsManager = () => {
           onChange={(e) => setPrivateKey(e.target.value)}
           placeholder={'Private Key'}
         />
-        {loading ? (
-          <FontAwesomeIcon icon={faSpinner} spin />
-        ) : (
-          <Button onClick={handleSubmit}>Done</Button>
-        )}
+        <Button onClick={handleSubmit}>Done</Button>
       </InputContainer>
 
       <P>
         If you're stuck, read our{' '}
         <A href="#">
-          tutorial on how to connect your Kraken account to Passiv.
+          tutorial on how to connect your Bitbuy account to Passiv.
         </A>
       </P>
     </ShadowBox>
   );
 };
 
-export default KrakenCredentialsManager;
+export default BitbuyCredentialsManager;

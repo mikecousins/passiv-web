@@ -127,10 +127,6 @@ const UnocoinAuthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "unocoin-oauth" */ '../pages/UnocoinAuthPage'),
 );
 
-const KrakenOauthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "kraken-oauth" */ '../pages/KrakenOauthPage'),
-);
-
 const ZerodhaOauthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "zerodha-oauth" */ '../pages/ZerodhaOauthPage'),
 );
@@ -471,12 +467,6 @@ const App = () => {
                 exact
                 path={prefixPath('/connect/unocoin')}
                 component={UnocoinAuthPage}
-              />
-            )}
-            {loggedIn && (
-              <Route
-                path={prefixPath('/oauth/kraken')}
-                component={KrakenOauthPage}
               />
             )}
             {loggedIn && (

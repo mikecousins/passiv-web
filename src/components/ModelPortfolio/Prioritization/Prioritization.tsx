@@ -3,9 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getData, postData } from '../../../api';
+import { postData } from '../../../api';
 import { faSpinner, faUndo } from '@fortawesome/free-solid-svg-icons';
-import { selectCurrentGroup } from '../../../selectors/groups';
+import {
+  selectCurrentGroup,
+  selectCurrentGroupAssetClassTradePriorities,
+  selectCurrentGroupInfoLoading,
+} from '../../../selectors/groups';
 import { AssetClassPriorities } from '../../../types/modelPortfolio';
 import AssetClassPriority from './AssetClassPriority';
 import { H2 } from '../../../styled/GlobalElements';
@@ -13,6 +17,7 @@ import ShadowBox from '../../../styled/ShadowBox';
 import { Button } from '../../../styled/Button';
 import { toast } from 'react-toastify';
 import { loadGroupInfo } from '../../../actions';
+import RouteLeavingPrompt from '../../RouteLeavingPrompt';
 
 const Priorities = styled.div`
   > h2 {
@@ -79,47 +84,29 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   const dispatch = useDispatch();
 
   const group = useSelector(selectCurrentGroup);
+  const currentGroupInfoLoading = useSelector(selectCurrentGroupInfoLoading);
+  const assetClassTradePriorities = useSelector(
+    selectCurrentGroupAssetClassTradePriorities,
+  );
+
   const [assetClassPriorities, setAssetClassPriorities] = useState<
     AssetClassPriorities[]
-  >();
+  >([]);
+
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState(onSettingsPage ? false : true);
+  const [editing, setEditing] = useState(!onSettingsPage);
+  const [saved, setSaved] = useState(onSettingsPage);
   const [changed, setChanged] = useState({ symbolId: '', accountId: '' });
   const [needToConfirm, setNeedToConfirm] = useState<string[]>([]);
+  const [newAssets, setNewAssets] = useState<string[]>([]);
 
-  const fetchPriorities = () => {
-    getData(`/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`).then(
-      (res) => {
-        let priorities: AssetClassPriorities[] = res.data;
-        let assetClassIds: string[] = [];
-
-        priorities.forEach((priority) => {
-          // filter out "Excluded Assets" asset class for now
-          if (priority.asset_class.name !== 'Excluded Assets') {
-            // collect all the asset class ids to keep track of asset classes need to have priorities confirmed for them
-            assetClassIds.push(priority.asset_class.id);
-            // if not on settings page (user is setting priorities for the first time), just to make it easier, we put all securities in the sell priority array
-            priority.accounts_priorities.forEach((account) => {
-              if (!onSettingsPage && account.unassigned.length > 0) {
-                account.sell_priority = account.unassigned;
-              } else {
-                account.sell_priority.reverse();
-              }
-            });
-          }
-        });
-        setAssetClassPriorities(priorities);
-        setNeedToConfirm(assetClassIds);
-        setLoading(false);
-      },
-    );
-  };
-
-  // fetch priorities on page load
   useEffect(() => {
-    fetchPriorities();
-    // eslint-disable-next-line
-  }, []);
+    setLoading(currentGroupInfoLoading);
+    setAssetClassPriorities(assetClassTradePriorities.tradePriorities);
+    setNeedToConfirm(assetClassTradePriorities.assetClassIds);
+    setNewAssets(assetClassTradePriorities.newSecurities);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentGroupInfoLoading]);
 
   // this function handles the up and down arrows which changes the priority for an asset class
   const handleUpDownBtn = (
@@ -216,26 +203,29 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           account.sell_priority.reverse();
         });
       });
-      setAssetClassPriorities(assetClassPrioritiesCopy);
       postData(
         `/api/v1/portfolioGroups/${group?.id}/assetClassPriorities`,
-        assetClassPriorities,
-      ).then(() => {
-        if (onSettingsPage) {
-          setEditing(false);
-        } else {
-          history.push(`/app/group/${group?.id}`);
-        }
-        toast.success('Saved prioritization successfully');
-        fetchPriorities();
-        dispatch(loadGroupInfo());
-      });
+        assetClassPrioritiesCopy,
+      )
+        .then(() => {
+          setSaved(true);
+          if (onSettingsPage) {
+            setEditing(false);
+          } else {
+            history.push(`/app/group/${group?.id}`);
+          }
+          toast.success('Saved prioritization successfully');
+          dispatch(loadGroupInfo());
+        })
+        .catch(() => {
+          toast.error('Unable to save prioritization. Please try again');
+        });
     }
   };
 
   const handleCancel = () => {
-    fetchPriorities();
     setEditing(false);
+    setAssetClassPriorities(assetClassTradePriorities.tradePriorities);
   };
 
   const handleConfirm = (priority: any) => {
@@ -256,6 +246,8 @@ const Prioritization = ({ onSettingsPage }: Props) => {
         changed={changed}
         handleBtn={handleUpDownBtn}
         onSettingsPage={onSettingsPage}
+        needToConfirm={needToConfirm}
+        newAssets={newAssets}
         confirm={() => handleConfirm(priority)}
       />
     );
@@ -302,7 +294,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
               <SaveButton>
                 <Button
                   onClick={handleSaveChanges}
-                  disabled={needToConfirm.length !== 0}
+                  disabled={needToConfirm.length > 0}
                 >
                   Save
                 </Button>
@@ -311,6 +303,11 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           )}
         </div>
       )}
+      <RouteLeavingPrompt
+        when={!saved}
+        navigate={(path) => history.push(path)}
+        prioritiesPage={true}
+      />
     </Priorities>
   );
 };

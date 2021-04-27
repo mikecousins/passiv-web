@@ -1,4 +1,3 @@
-//TODO break down this to two components
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -314,7 +313,7 @@ const MyModelPortfoliosPage = () => {
             onClick={() => setSelectGroupDialog(false)}
             style={{ float: 'right' }}
           >
-            <FontAwesomeIcon icon={faTimes} size="lg" />
+            <FontAwesomeIcon icon={faTimes} size="2x" />
           </button>
           {selectedModel && <SelectGroupDialog model={selectedModel} />}
         </Dialog>
