@@ -28,7 +28,7 @@ type Props = {
 };
 
 const PortfolioGroupMetadata = ({ account }: Props) => {
-  console.log(account);
+  const isWealthica = account.institution_name === 'Wealthica';
   return (
     <div>
       <MetaHorizontal>
@@ -37,6 +37,8 @@ const PortfolioGroupMetadata = ({ account }: Props) => {
           {account ? (
             account.number === 'N/A' ? (
               account.number
+            ) : isWealthica ? (
+              account.number.split(':')[0].replace(/.(?=..)/g, 'x')
             ) : (
               account.number.slice(0).replace(/.(?=..)/g, 'x')
             )
