@@ -8,7 +8,7 @@ import {
   selectModelPortfolioFeature,
   selectPerformancePageFeature,
 } from '../../selectors/features';
-import { selectGroups } from '../../selectors/groups';
+import { selectGroupInfo, selectGroups } from '../../selectors/groups';
 import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
@@ -88,6 +88,7 @@ const GroupContainer = styled.div`
 const SideBar = () => {
   const loggedIn = useSelector(selectLoggedIn);
   const groups = useSelector(selectGroups);
+  const groupInfo = useSelector(selectGroupInfo);
   const performancePageFeatureActive = useSelector(
     selectPerformancePageFeature,
   );
@@ -111,7 +112,10 @@ const SideBar = () => {
             rebalance={!!group.rebalance}
             hasAccounts={group.hasAccounts}
             loading={group.loading}
-            setupComplete={group.setupComplete}
+            setupComplete={
+              group.setupComplete &&
+              !groupInfo[group.id].data?.settings.model_portfolio_changed
+            }
             spinnerLoading={true}
             hideArrow={true}
           />

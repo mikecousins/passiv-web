@@ -6,7 +6,7 @@ import {
   Target,
 } from '../../types/modelAssetClass';
 import { Symbol } from '../../types/groupInfo';
-import { loadModelAssetClasses } from '../../actions';
+import { loadGroupInfo, loadModelAssetClasses } from '../../actions';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
@@ -35,13 +35,13 @@ const Targets = ({ assetClass }: Props) => {
     setSearchSecurities(true);
   };
   const updateAssetClass = () => {
-    //? move this function to actions
     postData(
       `/api/v1/modelAssetClass/${assetClass.model_asset_class.id}`,
       assetClass,
     )
       .then(() => {
         dispatch(loadModelAssetClasses());
+        dispatch(loadGroupInfo());
       })
       .catch(() => {
         dispatch(loadModelAssetClasses());

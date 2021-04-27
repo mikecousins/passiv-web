@@ -15,7 +15,7 @@ import {
 const Box = styled.div`
   border-radius: 4px;
   padding: 15px;
-  border: 1px solid;
+  border: 2px solid;
   height: fit-content;
   margin-top: 20px;
 `;
@@ -41,6 +41,7 @@ const ResponsiveGrid = styled(Grid)`
 
 const GoToAssetClasses = styled(Button)`
   margin-top: 30px;
+  font-weight: 600;
 `;
 
 type Props = {

@@ -77,7 +77,6 @@ const AssetClasses = ({ assetClass }: Props) => {
     ) {
       assetClass.model_asset_class.name = assetClassName;
 
-      //? move this function to actions
       postData(
         `/api/v1/modelAssetClass/${assetClass.model_asset_class.id}`,
         assetClass,
@@ -87,7 +86,6 @@ const AssetClasses = ({ assetClass }: Props) => {
           dispatch(loadModelPortfolios());
         })
         .catch(() => {
-          // dispatch(loadModelAssetClasses()); //! when fails, the state doesn't changes to what it was
           toast.error(
             `${assetClass.model_asset_class.name} Asset Class Name Update Failed`,
             { autoClose: 3000 },
@@ -129,7 +127,6 @@ const AssetClasses = ({ assetClass }: Props) => {
         onDismiss={close}
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
-        style={{ borderRadius: '4px' }}
       >
         <H2Margin>
           Are you sure you want to delete{' '}

@@ -199,19 +199,10 @@ export const Heading = styled.div`
   }
 `;
 
-export const ColumnSymbol = styled.div`
-  min-width: 45%;
+export const ColumnTrades = styled.div`
   color: var(--brand-grey);
   @media (max-width: 900px) {
-    line-height: 1.2;
-  }
-`;
-
-export const ColumnSymbolWarning = styled.div`
-  min-width: 46%;
-  color: var(--brand-grey);
-  @media (max-width: 900px) {
-    line-height: 1.2;
+    margin-bottom: 16px;
   }
 `;
 
@@ -221,55 +212,6 @@ export const ColumnSymbolSmall = styled.div`
   @media (max-width: 900px) {
     line-height: 1.2;
     margin-bottom: 10px;
-  }
-`;
-
-export const ColumnUnits = styled.div`
-  min-width: 12%;
-  color: var(--brand-grey);
-  @media (max-width: 900px) {
-    margin-bottom: 16px;
-  }
-`;
-export const ColumnPrice = styled.div`
-  min-width: 12%;
-  color: var(--brand-grey);
-  @media (max-width: 900px) {
-    margin-bottom: 16px;
-  }
-`;
-
-export const ColumnAction = styled.div`
-  min-width: 12%;
-  color: var(--brand-grey);
-  @media (max-width: 900px) {
-    margin-bottom: 16px;
-  }
-`;
-
-export const ColumnWarning = styled.div`
-  min-width: 12%;
-  text-align: center;
-  padding: 10px;
-  @media (max-width: 900px) {
-    text-align: start;
-  }
-`;
-
-export const ColumnStatus = styled.div`
-  min-width: 12%;
-  color: var(--brand-grey);
-  @media (max-width: 900px) {
-    margin-bottom: 16px;
-  }
-`;
-
-export const ColumnAccount = styled.div`
-  min-width: 20%;
-  color: var(--brand-grey);
-  margin-top: 16px;
-  @media (max-width: 900px) {
-    line-height: 1.2;
   }
 `;
 

@@ -7,13 +7,7 @@ import { getData, postData, putData } from '../../api';
 import { selectSettings } from '../../selectors';
 import { selectShowQuestradeOffer } from '../../selectors/subscription';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
-import {
-  Symbol,
-  ColumnSymbolSmall,
-  ColumnUnits,
-  ColumnAction,
-  ColumnStatus,
-} from '../../styled/Group';
+import { Symbol, ColumnSymbolSmall, ColumnTrades } from '../../styled/Group';
 import OrderImpacts from './OrderImpacts';
 import {
   ConfirmContainer,
@@ -230,7 +224,6 @@ const RebalanceWidget = ({
   var hasZerodhaAccount = false;
   var hasKrakenAccount = false;
   var hasNonZerodhaAccount = false;
-  var hasUnocoinAccount = false;
   groupAccounts.map((acc: any) => {
     //find the authorization associated with this account
     if (authorizations === undefined) {
@@ -245,12 +238,7 @@ const RebalanceWidget = ({
       return false;
     }
     const isZerodhaConnection = authorization.brokerage.name === 'Zerodha';
-    const isUnocoinConnection = authorization.brokerage.name === 'Unocoin';
     const isKrakenConnection = authorization.brokerage.name === 'Kraken';
-    if (isUnocoinConnection) {
-      hasUnocoinAccount = true;
-      return true;
-    }
     if (isKrakenConnection) {
       hasKrakenAccount = true;
       return true;
@@ -367,26 +355,26 @@ const RebalanceWidget = ({
             {orderResults.map((results: any) => {
               return (
                 <ModifiedTradeRow key={results.trade}>
-                  <ColumnAction>
+                  <ColumnTrades>
                     <Title>Action</Title>
                     <div>{results.action}</div>
-                  </ColumnAction>
-                  <ColumnUnits>
+                  </ColumnTrades>
+                  <ColumnTrades>
                     <Title>Units</Title>
                     {results.filled_fractional_units ? (
                       <div>{results.filled_fractional_units}</div>
                     ) : (
                       <div>{results.filled_units}</div>
                     )}
-                  </ColumnUnits>
+                  </ColumnTrades>
                   <ColumnSymbolSmall>
                     <Title>Symbol</Title>
                     <Symbol>{results.universal_symbol.symbol}</Symbol>
                   </ColumnSymbolSmall>
-                  <ColumnStatus>
+                  <ColumnTrades>
                     <Title>Status</Title>
                     <div>{results.state}</div>
-                  </ColumnStatus>
+                  </ColumnTrades>
                 </ModifiedTradeRow>
               );
             })}
@@ -505,25 +493,7 @@ const RebalanceWidget = ({
     }
   }
 
-  return (
-    <SummaryContainer>
-      {orderValidation}
-      {hasUnocoinAccount && (
-        <>
-          <br></br>
-          <div>
-            Note - Unocoin only allows users to trade 3 cryptocurrencies using
-            its API: BTC, ETH, and USDT.
-          </div>
-          <br></br>
-          <div>
-            To trade other coins within your Unocoin account, please login to
-            their website at <a href="www.unocoin.com">www.unocoin.com</a>.
-          </div>
-        </>
-      )}
-    </SummaryContainer>
-  );
+  return <SummaryContainer>{orderValidation}</SummaryContainer>;
 };
 
 export default RebalanceWidget;

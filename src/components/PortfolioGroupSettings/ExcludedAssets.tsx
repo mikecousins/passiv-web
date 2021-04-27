@@ -34,15 +34,19 @@ const Positions = styled(Grid)`
   margin-bottom: 10px;
   align-items: center;
 `;
-
-const Symbol = styled.span`
+type SymbolType = {
+  disabled: boolean;
+};
+const Symbol = styled.span<SymbolType>`
   font-size: 18px;
   font-weight: 600;
   margin: 0 50px;
+  color: ${(props) => (props.disabled ? 'grey' : 'black')};
 `;
 
-const Description = styled.span`
+const Description = styled.span<SymbolType>`
   font-size: 18px;
+  color: ${(props) => (props.disabled ? 'grey' : 'black')};
   @media (max-width: 900px) {
     display: none;
   }
@@ -122,6 +126,7 @@ const ExcludedAssets = () => {
                   <ToggleButton
                     onClick={() => handleToggle(position)}
                     style={{ marginRight: '20px' }}
+                    disabled={!position.quotable}
                   >
                     <FontAwesomeIcon
                       icon={position.excluded ? faToggleOn : faToggleOff}
@@ -130,8 +135,12 @@ const ExcludedAssets = () => {
                       {position.excluded ? 'Excluded' : 'Not Excluded'}
                     </ToggleText>
                   </ToggleButton>
-                  <Symbol>{position.symbol.symbol}</Symbol>
-                  <Description>{position.symbol.description}</Description>
+                  <Symbol disabled={!position.quotable}>
+                    {position.symbol.symbol}
+                  </Symbol>
+                  <Description disabled={!position.quotable}>
+                    {position.symbol.description}
+                  </Description>
                 </Positions>
               );
             })}

@@ -19,7 +19,7 @@ import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import { Button } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
 import { A } from '../../styled/GlobalElements';
-import RouteLeavingGuard from '../RouteLeavingPrompt';
+import RouteLeavingPrompt from '../RouteLeavingPrompt';
 
 const NameInputAndEditStyle = styled(NameInputAndEdit)`
   @media (max-width: 900px) {
@@ -145,6 +145,7 @@ const ButtonContainer = styled.div`
 `;
 
 const ApplyModelBtn = styled(Button)`
+  font-weight: 600;
   background-color: transparent;
   color: var(--brand-blue);
   border: 1px solid var(--brand-blue);
@@ -157,6 +158,7 @@ const ApplyModelBtn = styled(Button)`
 
 const CancelButton = styled(A)`
   margin-left: 20px;
+  font-weight: 600;
 `;
 
 const ErroMsg = styled.ul`
@@ -181,6 +183,10 @@ export const StyledContainer = styled.div`
 export const StyledName = styled.span`
   font-weight: 600;
   font-size: 30px;
+`;
+
+const EditModel = styled(Button)`
+  font-weight: 600;
 `;
 
 type Props = {
@@ -276,7 +282,7 @@ const ModelPortoflioBox = ({
         if (securityBased && groupId) {
           history.push(`/app/group/${gpId}`);
         }
-        if (!securityBased && (gpId || applyMode)) {
+        if (!securityBased && applyMode) {
           history.push(`/app/priorities/${gpId}`);
         }
       })
@@ -532,7 +538,6 @@ const ModelPortoflioBox = ({
                                 forModelSecurity={true}
                               />
                             ) : (
-                              //TODO: the component needs some changes (make on enter work properly, only show matched options based on what typed, and show asset class name instead of its id)
                               <AssetClassSelector
                                 name="newTarget.model_asset_class"
                                 id="symbol"
@@ -559,7 +564,7 @@ const ModelPortoflioBox = ({
               <ButtonContainer>
                 {(editMode || applyMode) && (
                   <>
-                    <Button
+                    <EditModel
                       type="button"
                       onClick={() => {
                         props.handleSubmit();
@@ -567,7 +572,7 @@ const ModelPortoflioBox = ({
                       disabled={!props.dirty || !props.isValid}
                     >
                       Save Changes
-                    </Button>
+                    </EditModel>
                   </>
                 )}
                 {editMode && (
@@ -587,7 +592,7 @@ const ModelPortoflioBox = ({
                   </ApplyModelBtn>
                 )}
               </ButtonContainer>
-              <RouteLeavingGuard
+              <RouteLeavingPrompt
                 when={props.dirty}
                 navigate={(path) => history.push(path)}
               />
@@ -595,13 +600,13 @@ const ModelPortoflioBox = ({
           )}
         </Formik>
         {!editMode && !applyMode && (
-          <Button
+          <EditModel
             type="button"
             onClick={toggleEditMode}
             disabled={assignedPortfolioGroups > 1}
           >
             Edit Model
-          </Button>
+          </EditModel>
         )}
       </MainContainer>
     </Box>

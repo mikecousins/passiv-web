@@ -1,4 +1,3 @@
-//TODO break down this to two components
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -160,7 +159,7 @@ const MyModelPortfoliosPage = () => {
           dispatch(loadGroups()); // need to load groups to have update list of groups using a model in my models page
           dispatch(loadModelPortfolios());
           toast.success(
-            `"${model.model_portfolio.name}" applied to "${groupInfo?.name}"`,
+            `"${model.model_portfolio.name}" applied to group successfully`,
           );
           if (model.model_portfolio.model_type === 1) {
             history.push(`/app/priorities/${groupId}`);
@@ -248,7 +247,7 @@ const MyModelPortfoliosPage = () => {
                     }
                   >
                     <MoreOptions
-                      modelId={mdl.model_portfolio.id}
+                      model={mdl}
                       shareModel={mdl.model_portfolio.share_portfolio}
                     />
                     <ModelName>{mdl.model_portfolio.name}</ModelName>
@@ -309,13 +308,12 @@ const MyModelPortfoliosPage = () => {
           onDismiss={() => setSelectGroupDialog(false)}
           aria-labelledby="dialog1Title"
           aria-describedby="dialog1Desc"
-          style={{ borderRadius: '4px' }}
         >
           <button
             onClick={() => setSelectGroupDialog(false)}
             style={{ float: 'right' }}
           >
-            <FontAwesomeIcon icon={faTimes} size="lg" />
+            <FontAwesomeIcon icon={faTimes} size="2x" />
           </button>
           {selectedModel && <SelectGroupDialog model={selectedModel} />}
         </Dialog>
