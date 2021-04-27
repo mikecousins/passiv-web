@@ -30,7 +30,7 @@ const MiniInputNonFormik = styled(InputNonFormik)`
   padding: 15px 12px;
 `;
 
-const UnocoinCredentialsManager = () => {
+const KrakenCredentialsManager = () => {
   const [APIKey, setAPIKey] = useState('');
   const [PrivateKey, setPrivateKey] = useState('');
 
@@ -94,4 +94,4 @@ const UnocoinCredentialsManager = () => {
   );
 };
 
-export default UnocoinCredentialsManager;
+export default KrakenCredentialsManager;
