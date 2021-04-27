@@ -22,8 +22,8 @@ import Grid from '../../styled/Grid';
 
 const Container = styled.div`
   margin-bottom: 37px;
-  border-bottom: 1px solid #2a2d34;
   h2 {
+    font-size: 28px;
     margin-bottom: 25px;
   }
   ul {
@@ -53,7 +53,8 @@ const Description = styled.span<SymbolType>`
 `;
 
 const NoExcludedAssets = styled(P)`
-  margin: 20px 0;
+  margin: 30px 0;
+  text-align: center;
 `;
 
 const ExcludedAssets = () => {
@@ -146,7 +147,7 @@ const ExcludedAssets = () => {
             })}
           </>
         ) : (
-          <NoExcludedAssets>No excluded assets</NoExcludedAssets>
+          <NoExcludedAssets>There are no excluded assets.</NoExcludedAssets>
         )
       ) : (
         <FontAwesomeIcon icon={faSpinner} spin />

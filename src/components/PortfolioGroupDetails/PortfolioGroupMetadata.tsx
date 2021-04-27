@@ -28,7 +28,6 @@ type Props = {
 };
 
 const PortfolioGroupMetadata = ({ account }: Props) => {
-  console.log(account);
   return (
     <div>
       <MetaHorizontal>

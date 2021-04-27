@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, SmallButton } from '../styled/Button';
-import { H2, A } from '../styled/GlobalElements';
+import { H2, A, P } from '../styled/GlobalElements';
 import { selectCurrencies } from '../selectors/currencies';
 import {
   selectPreferredCurrency,
@@ -24,10 +24,9 @@ import styled from '@emotion/styled';
 import { Form } from '../styled/Form';
 
 const CashManagementBox = styled.div`
-  margin-top: 50px;
-  margin-bottom: 35px;
-  border: 1px solid;
-  padding: 20px;
+  h2 {
+    font-size: 28px;
+  }
 `;
 
 const CashForm = styled(Form)`
@@ -128,6 +127,11 @@ const CancelButton = styled(A)`
 const Title = styled.div`
   text-align: left;
   font-weight: 600;
+`;
+
+const NoCashRules = styled(P)`
+  margin: 30px 0;
+  text-align: center;
 `;
 
 const CashManagement = () => {
@@ -291,7 +295,7 @@ const CashManagement = () => {
   } else {
     if (!editing) {
       cashRestrictionsContent = (
-        <CashRow>There are no cash rules defined.</CashRow>
+        <NoCashRules>There are no cash rules defined.</NoCashRules>
       );
     }
   }

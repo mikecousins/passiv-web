@@ -24,6 +24,7 @@ import ExcludedAssets from './ExcludedAssets';
 import UpgradeButton from '../Tour/UpgradeButton';
 import EliteFeatureTitle from '../Tour/EliteFeatureTitle';
 import Prioritization from '../ModelPortfolio/Prioritization/Prioritization';
+import styled from '@emotion/styled';
 
 const TOUR_STEPS = [
   {
@@ -74,6 +75,10 @@ const TOUR_STEPS = [
   },
 ];
 
+const GeneralTitle = styled(H2)`
+  font-size: 28px;
+`;
+
 export const PortfolioGroupSettings = () => {
   const dispatch = useDispatch();
   const settings = useSelector(selectCurrentGroupSettings);
@@ -97,97 +102,109 @@ export const PortfolioGroupSettings = () => {
   };
 
   return (
-    <ShadowBox>
+    <div>
       <Tour steps={TOUR_STEPS} name="group_settings_tour" />
-      {modelPortfolioFeature && <ExcludedAssets />}
-      <H2>General</H2>
-      {settings ? (
-        <React.Fragment>
-          <div className="tour-allow-selling">
-            <SettingsToggle
-              name="Allow selling to rebalance"
-              explanation={
-                settings.buy_only
-                  ? 'Passiv will use available cash to purchase the most underweight assets in your portfolio. Sell orders are not permitted.'
-                  : 'Passiv will buy and sell assets to get as close to 100% accuracy as possible.'
-              }
-              value={settings.buy_only}
-              onChange={() => {
-                if (settings) {
-                  settings.buy_only = !settings.buy_only;
-                  updateSettings();
+      {modelPortfolioFeature && (
+        <ShadowBox>
+          <ExcludedAssets />
+        </ShadowBox>
+      )}
+      <ShadowBox>
+        <GeneralTitle>General</GeneralTitle>
+        {settings ? (
+          <React.Fragment>
+            <div className="tour-allow-selling">
+              <SettingsToggle
+                name="Allow selling to rebalance"
+                explanation={
+                  settings.buy_only
+                    ? 'Passiv will use available cash to purchase the most underweight assets in your portfolio. Sell orders are not permitted.'
+                    : 'Passiv will buy and sell assets to get as close to 100% accuracy as possible.'
                 }
-              }}
-              invert={true}
-            />
-          </div>
-          <SettingsToggle
-            name="Prevent trades in non-tradable accounts"
-            explanation={
-              settings.prevent_trades_in_non_tradable_accounts
-                ? 'Passiv will attempt to route your trades through brokers with One-Click Trade support.'
-                : ''
-            }
-            value={settings.prevent_trades_in_non_tradable_accounts}
-            onChange={() => {
-              if (settings) {
-                settings.prevent_trades_in_non_tradable_accounts = !settings.prevent_trades_in_non_tradable_accounts;
-                updateSettings();
-              }
-            }}
-            invert={false}
-          />
-          {modelType !== 1 && (
+                value={settings.buy_only}
+                onChange={() => {
+                  if (settings) {
+                    settings.buy_only = !settings.buy_only;
+                    updateSettings();
+                  }
+                }}
+                invert={true}
+              />
+            </div>
             <SettingsToggle
-              name="Notify me about new detected assets"
+              name="Prevent trades in non-tradable accounts"
               explanation={
-                settings.show_warning_for_new_assets_detected
-                  ? `Passiv will show you a message for new holding assets that are not part of your ${
-                      modelPortfolioFeature
-                        ? 'model portfolio'
-                        : 'target portfolio'
-                    }.`
+                settings.prevent_trades_in_non_tradable_accounts
+                  ? 'Passiv will attempt to route your trades through brokers with One-Click Trade support.'
                   : ''
               }
-              value={settings.show_warning_for_new_assets_detected}
+              value={settings.prevent_trades_in_non_tradable_accounts}
               onChange={() => {
                 if (settings) {
-                  settings.show_warning_for_new_assets_detected = !settings.show_warning_for_new_assets_detected;
+                  settings.prevent_trades_in_non_tradable_accounts = !settings.prevent_trades_in_non_tradable_accounts;
                   updateSettings();
                 }
               }}
               invert={false}
             />
-          )}
+            {modelType !== 1 && (
+              <SettingsToggle
+                name="Notify me about new detected assets"
+                explanation={
+                  settings.show_warning_for_new_assets_detected
+                    ? `Passiv will show you a message for new holding assets that are not part of your ${
+                        modelPortfolioFeature
+                          ? 'model portfolio'
+                          : 'target portfolio'
+                      }.`
+                    : ''
+                }
+                value={settings.show_warning_for_new_assets_detected}
+                onChange={() => {
+                  if (settings) {
+                    settings.show_warning_for_new_assets_detected = !settings.show_warning_for_new_assets_detected;
+                    updateSettings();
+                  }
+                }}
+                invert={false}
+              />
+            )}
 
-          <CurrencySeparation
-            preventConversion={settings.prevent_currency_conversion}
-            onChangePreventConversion={() => {
-              if (settings) {
-                settings.prevent_currency_conversion = !settings.prevent_currency_conversion;
-                updateSettings();
-              }
-            }}
-            hardSeparation={settings.hard_currency_separation}
-            onChangeHardSeparation={() => {
-              if (settings) {
-                settings.hard_currency_separation = !settings.hard_currency_separation;
-                updateSettings();
-              }
-            }}
-          />
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <br />
-          <FontAwesomeIcon icon={faSpinner} spin />
-        </React.Fragment>
+            <CurrencySeparation
+              preventConversion={settings.prevent_currency_conversion}
+              onChangePreventConversion={() => {
+                if (settings) {
+                  settings.prevent_currency_conversion = !settings.prevent_currency_conversion;
+                  updateSettings();
+                }
+              }}
+              hardSeparation={settings.hard_currency_separation}
+              onChangeHardSeparation={() => {
+                if (settings) {
+                  settings.hard_currency_separation = !settings.hard_currency_separation;
+                  updateSettings();
+                }
+              }}
+            />
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <br />
+            <FontAwesomeIcon icon={faSpinner} spin />
+          </React.Fragment>
+        )}
+      </ShadowBox>
+      {featureCashManagement && (
+        <ShadowBox>
+          <CashManagement />
+        </ShadowBox>
       )}
-      {featureCashManagement && <CashManagement />}
-      {/* if group using asset class based model show prioritization */}
-      {modelType === 1 && <Prioritization onSettingsPage={true} />}
-      {/* <TradesExplanation settings={settings} accounts={groupAccounts} /> */}
-    </ShadowBox>
+      {modelType === 1 && (
+        <ShadowBox>
+          <Prioritization onSettingsPage={true} />
+        </ShadowBox>
+      )}
+    </div>
   );
 };
 
