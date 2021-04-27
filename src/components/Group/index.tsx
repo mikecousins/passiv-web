@@ -141,17 +141,20 @@ export const Group = ({ group }: Props) => {
               {totalValue}
             </div>
             {viewButton}
-            {group.setupComplete && group.rebalance && !hideTrades && (
-              <AllocateBtn onClick={() => setExpanded(!expanded)}>
-                {group.hasSells ? 'Rebalance' : 'Allocate'}
-                &nbsp;
-                {expanded ? (
-                  <FontAwesomeIcon icon={faChevronUp} />
-                ) : (
-                  <FontAwesomeIcon icon={faChevronDown} />
-                )}
-              </AllocateBtn>
-            )}
+            {group.setupComplete &&
+              group.rebalance &&
+              !hideTrades &&
+              isPrioritizationSet && (
+                <AllocateBtn onClick={() => setExpanded(!expanded)}>
+                  {group.hasSells ? 'Rebalance' : 'Allocate'}
+                  &nbsp;
+                  {expanded ? (
+                    <FontAwesomeIcon icon={faChevronUp} />
+                  ) : (
+                    <FontAwesomeIcon icon={faChevronDown} />
+                  )}
+                </AllocateBtn>
+              )}
           </Table>
         </DashboardRow>
       </ShadowBox>

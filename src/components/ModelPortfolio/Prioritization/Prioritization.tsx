@@ -208,8 +208,6 @@ const Prioritization = ({ onSettingsPage }: Props) => {
         assetClassPrioritiesCopy,
       )
         .then(() => {
-          console.log('there');
-
           setSaved(true);
           if (onSettingsPage) {
             setEditing(false);
@@ -227,6 +225,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
 
   const handleCancel = () => {
     setEditing(false);
+    setAssetClassPriorities(assetClassTradePriorities.tradePriorities);
   };
 
   const handleConfirm = (priority: any) => {

@@ -132,11 +132,7 @@ const ExcludedAssets = () => {
                       icon={position.excluded ? faToggleOn : faToggleOff}
                     />
                     <ToggleText>
-                      {!position.quotable
-                        ? 'Not Quotable'
-                        : position.excluded
-                        ? 'Excluded'
-                        : 'Not Excluded'}
+                      {position.excluded ? 'Excluded' : 'Not Excluded'}
                     </ToggleText>
                   </ToggleButton>
                   <Symbol disabled={!position.quotable}>

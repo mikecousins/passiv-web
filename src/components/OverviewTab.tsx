@@ -187,7 +187,7 @@ const OverviewTab = () => {
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
-      {settings?.model_portfolio_changed && (
+      {currentGroupModelType === 1 && settings?.model_portfolio_changed && (
         <ErrorContainer>
           <H3>
             <FontAwesomeIcon icon={faExclamationTriangle} /> Need to confirm
