@@ -21,8 +21,9 @@ import RouteLeavingPrompt from '../../RouteLeavingPrompt';
 
 const Priorities = styled.div`
   > h2 {
-    margin: 20px 0px;
     display: inline-block;
+    font-size: 28px;
+    margin-bottom: 15px;
   }
   > button {
     font-size: 18px;
@@ -31,10 +32,6 @@ const Priorities = styled.div`
       font-size: 18px;
     }
   }
-`;
-
-const Divider = styled.hr`
-  border-top: 1px solid #2a2d34;
 `;
 
 const ActionContainer = styled.div`
@@ -255,8 +252,6 @@ const Prioritization = ({ onSettingsPage }: Props) => {
 
   return (
     <Priorities>
-      {onSettingsPage && <Divider></Divider>}
-
       <H2>Asset Class Priorities</H2>
       {loading ? (
         <div>

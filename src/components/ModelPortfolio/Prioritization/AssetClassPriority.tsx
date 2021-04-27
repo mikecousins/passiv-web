@@ -16,6 +16,7 @@ import Tooltip from '../../Tooltip';
 import SecurityPriority from './SecurityPriority';
 import { useSelector } from 'react-redux';
 import { selectSymbols } from '../../../selectors/symbols';
+import { selectIsMobile } from '../../../selectors/browser';
 
 const MainContainer = styled.div`
   border: ${(p) => (p.color ? `2px solid ${p.color}` : 'none')};
@@ -32,6 +33,11 @@ const Head = styled(Grid)`
   H2 {
     color: ${(p) => p.color};
   }
+  @media (max-width: 900px) {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 5fr 1fr 1fr;
+  }
 `;
 
 const AssetClassName = styled(H2)`
@@ -43,11 +49,18 @@ const AssetClassName = styled(H2)`
 const Percent = styled(H2)`
   font-weight: 400;
   text-align: left;
+  @media (max-width: 900px) {
+    font-size: 22px;
+  }
 `;
 
 const ChevronBtn = styled.div`
   svg {
+    font-size: 28px;
     cursor: pointer;
+    @media (max-width: 900px) {
+      font-size: 22px;
+    }
   }
 `;
 
@@ -60,6 +73,9 @@ const Status = styled.div`
 const AssetClassDetails = styled.div`
   padding: 10px 30px 20px 30px;
   background-color: #dbfcf6;
+  @media (max-width: 900px) {
+    padding: 8px;
+  }
 `;
 
 type AccountSectionProps = {
@@ -74,9 +90,26 @@ const AccountName = styled(H3)`
   font-size: 22px;
   font-weight: 600;
   margin-top: 20px;
+  @media (max-width: 900px) {
+    margin-top: 5px;
+  }
+`;
+
+const Legend = styled(Grid)`
+  margin-top: 30px;
+  @media (max-width: 900px) {
+    margin-top: 10px;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    h3 {
+      font-size: 18px;
+    }
+  }
 `;
 
 const NoSecurities = styled(P)`
+  margin-top: 20px;
   text-align: center;
 `;
 
@@ -91,7 +124,7 @@ const SellOrder = styled.div`
 `;
 
 const TradePriority = styled.div`
-  margin: 25px 0px 0px 0px;
+  margin-top: 25px;
 `;
 
 const NotSupported = styled.div`
@@ -123,6 +156,8 @@ const AssetClassPriority = ({
   const [showDetails, setShowDetails] = useState(false);
 
   const allSymbols = useSelector(selectSymbols);
+  const onMobile = useSelector(selectIsMobile);
+
   const symbols = allSymbols.reduce((acc: any, symbol) => {
     acc[symbol.id] = {
       symbol: symbol.symbol,
@@ -177,7 +212,6 @@ const AssetClassPriority = ({
             <FontAwesomeIcon
               icon={showDetails ? faChevronUp : faChevronDown}
               color={showDetails ? 'white' : 'var(--brand-blue)'}
-              size="lg"
             />
           </ChevronBtn>
         </Head>
@@ -196,15 +230,17 @@ const AssetClassPriority = ({
               >
                 <AccountName>Account: {account.account.name}</AccountName>
                 {numberOfSecurities > 0 && (
-                  <Grid columns="5fr 180px" style={{ marginTop: '30px' }}>
+                  <Legend columns="5fr 180px">
                     <H3>Do Not Trade</H3>
                     <H3>Order by Priority</H3>
-                  </Grid>
+                  </Legend>
                 )}
 
                 <Grid columns="5fr 10px">
                   {numberOfSecurities === 0 ? (
-                    <NoSecurities>No Securities</NoSecurities>
+                    <NoSecurities>
+                      There are no securities in this asset class.
+                    </NoSecurities>
                   ) : (
                     <TradePriority>
                       <SecurityPriority
@@ -260,7 +296,7 @@ const AssetClassPriority = ({
                       })}{' '}
                     </TradePriority>
                   )}
-                  {numberOfSecurities > 1 && (
+                  {numberOfSecurities > 1 && !onMobile && (
                     <SellOrder>
                       <FontAwesomeIcon icon={faLongArrowAltUp} />{' '}
                       <span>Sell Order</span>
