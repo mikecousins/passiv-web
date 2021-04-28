@@ -26,7 +26,6 @@ import { Form } from '../styled/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { DeleteContainer } from './ModelPortfolio/ModelPortfolio';
-import Grid from '../styled/Grid';
 
 const CashManagementBox = styled.div`
   h2 {

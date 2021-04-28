@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
+import Grid from '../../styled/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faCaretDown,
+  faCaretUp,
   faSpinner,
   faToggleOff,
   faToggleOn,
@@ -15,10 +18,10 @@ import {
   selectCurrentGroupPositionsNotInTargetOrExcluded,
   selectCurrentGroupSetupComplete,
 } from '../../selectors/groups';
-import { H2, P } from '../../styled/GlobalElements';
+import { A, H2, P } from '../../styled/GlobalElements';
 import { ToggleButton } from '../../styled/ToggleButton';
 import { ToggleText } from './SettingsToggle';
-import Grid from '../../styled/Grid';
+import { Description } from '../ModelPortfolio/Prioritization/Prioritization';
 
 const Container = styled.div`
   margin-bottom: 37px;
@@ -44,7 +47,7 @@ const Symbol = styled.span<SymbolType>`
   color: ${(props) => (props.disabled ? 'grey' : 'black')};
 `;
 
-const Description = styled.span<SymbolType>`
+const Name = styled.span<SymbolType>`
   font-size: 18px;
   color: ${(props) => (props.disabled ? 'grey' : 'black')};
   @media (max-width: 900px) {
@@ -53,20 +56,38 @@ const Description = styled.span<SymbolType>`
 `;
 
 const NoExcludedAssets = styled(P)`
-  margin: 30px 0;
+  margin-top: 20px;
+  text-align: center;
+`;
+
+const NumberOfExcludedAssets = styled(P)`
+  margin-top: 20px;
+  background-color: #f1f1f1;
+  max-width: max-content;
+  padding: 20px;
   text-align: center;
 `;
 
 const ExcludedAssets = () => {
   const dispatch = useDispatch();
   const groupId = useSelector(selectCurrentGroupId);
+  const [loading, setLoading] = useState(false);
   const currentGroupModelType = useSelector(selectCurrentGroupModelType);
   const positionsNotInTargetOrExcluded = useSelector(
     selectCurrentGroupPositionsNotInTargetOrExcluded,
   );
   const setupComplete = useSelector(selectCurrentGroupSetupComplete);
+  const [showAssets, setShowAssets] = useState(false);
 
-  const [loading, setLoading] = useState(false);
+  const excludedAssetsCount = positionsNotInTargetOrExcluded.reduce(
+    (acc, val) => {
+      if (val.excluded) {
+        acc++;
+      }
+      return acc;
+    },
+    0,
+  );
 
   const handleToggle = (position: any) => {
     setLoading(true);
@@ -115,37 +136,65 @@ const ExcludedAssets = () => {
 
   return (
     <Container>
-      <H2>Excluded securities in this portfolio</H2>
+      <H2>Asset Exclusions</H2>
+      <Description>
+        The assets that are held in your portfolio but are not part of your
+        model. If you do not want them to be accounted in Passiv’s calculations,
+        you can exclude them. Otherwise, Passiv will attempt to sell them, if
+        sell is enabled.
+      </Description>
+      {!loading && positionsNotInTargetOrExcluded.length > 0 && (
+        <NumberOfExcludedAssets>
+          There are{' '}
+          <span style={{ fontWeight: 800, textDecoration: 'underline' }}>
+            {positionsNotInTargetOrExcluded.length}
+          </span>{' '}
+          assets not part of your portfolio ({excludedAssetsCount} excluded).
+          <A
+            onClick={() => setShowAssets(!showAssets)}
+            style={{ marginLeft: '10px', fontWeight: 600 }}
+          >
+            {showAssets ? 'Hide' : 'Show'}{' '}
+            {showAssets ? (
+              <FontAwesomeIcon icon={faCaretUp} size="lg" />
+            ) : (
+              <FontAwesomeIcon icon={faCaretDown} size="lg" />
+            )}
+          </A>
+        </NumberOfExcludedAssets>
+      )}
       {!loading ? (
         positionsNotInTargetOrExcluded &&
         setupComplete &&
         positionsNotInTargetOrExcluded.length > 0 ? (
-          <>
-            {positionsNotInTargetOrExcluded.map((position) => {
-              return (
-                <Positions key={position.symbol.id} columns="90px 180px auto">
-                  <ToggleButton
-                    onClick={() => handleToggle(position)}
-                    style={{ marginRight: '20px' }}
-                    disabled={!position.quotable}
-                  >
-                    <FontAwesomeIcon
-                      icon={position.excluded ? faToggleOn : faToggleOff}
-                    />
-                    <ToggleText>
-                      {position.excluded ? 'Excluded' : 'Not Excluded'}
-                    </ToggleText>
-                  </ToggleButton>
-                  <Symbol disabled={!position.quotable}>
-                    {position.symbol.symbol}
-                  </Symbol>
-                  <Description disabled={!position.quotable}>
-                    {position.symbol.description}
-                  </Description>
-                </Positions>
-              );
-            })}
-          </>
+          showAssets && (
+            <>
+              {positionsNotInTargetOrExcluded.map((position) => {
+                return (
+                  <Positions key={position.symbol.id} columns="90px 180px auto">
+                    <ToggleButton
+                      onClick={() => handleToggle(position)}
+                      style={{ marginRight: '20px' }}
+                      disabled={!position.quotable}
+                    >
+                      <FontAwesomeIcon
+                        icon={position.excluded ? faToggleOn : faToggleOff}
+                      />
+                      <ToggleText>
+                        {position.excluded ? 'Excluded' : 'Not Excluded'}
+                      </ToggleText>
+                    </ToggleButton>
+                    <Symbol disabled={!position.quotable}>
+                      {position.symbol.symbol}
+                    </Symbol>
+                    <Name disabled={!position.quotable}>
+                      {position.symbol.description}
+                    </Name>
+                  </Positions>
+                );
+              })}
+            </>
+          )
         ) : (
           <NoExcludedAssets>There are no excluded assets.</NoExcludedAssets>
         )

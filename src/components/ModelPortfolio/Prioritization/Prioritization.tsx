@@ -12,7 +12,7 @@ import {
 } from '../../../selectors/groups';
 import { AssetClassPriorities } from '../../../types/modelPortfolio';
 import AssetClassPriority from './AssetClassPriority';
-import { H2 } from '../../../styled/GlobalElements';
+import { H2, P } from '../../../styled/GlobalElements';
 import ShadowBox from '../../../styled/ShadowBox';
 import { Button } from '../../../styled/Button';
 import { toast } from 'react-toastify';
@@ -50,8 +50,7 @@ const Save = styled(Button)`
   font-weight: 600;
 `;
 
-const Description = styled.div`
-  font-size: 18px;
+export const Description = styled(P)`
   line-height: 21px;
   letter-spacing: 0.18px;
   margin-bottom: 50px;
@@ -276,16 +275,8 @@ const Prioritization = ({ onSettingsPage }: Props) => {
             priorities
           ) : (
             <ShadowBox>
-              {/* <BackButton>
-                {' '}
-                <Link to={'/app/models'}>
-                  <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to My
-                  Models
-                </Link>
-              </BackButton> */}
               <GroupName>{group?.name}</GroupName>
               {priorities}
-
               <SaveButton>
                 <Button
                   onClick={handleSaveChanges}
