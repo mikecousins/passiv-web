@@ -1,5 +1,6 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import React, { useState } from 'react';
+import { replace } from 'connected-react-router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -59,6 +60,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const showProgressFeature = useSelector(selectShowProgressFeature);
   const { openBrokerage } = useParams();
+  const dispatch = useDispatch();
   const [confirmConnection, setConfirmConnection] = useState('');
 
   const checkBrokerageMaintenance = (brokerage: BrokerageType) => {
@@ -115,7 +117,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: connectionType,
         }).then((response) => {
-          window.location.href = `https://getpassiv.com/app/connect/${brokerage.name.toLowerCase()}`;
+          dispatch(replace(`/app/connect/${brokerage.name.toLowerCase()}`));
         });
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
