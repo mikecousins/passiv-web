@@ -113,7 +113,7 @@ const ToggleShareBtn = styled(ToggleButton)`
   }
 `;
 
-const DeleteContainer = styled.div`
+export const DeleteContainer = styled.div`
   float: right;
   font-size: 18px;
   &:hover {
