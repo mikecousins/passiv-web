@@ -4,7 +4,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { H2 } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
-import SettingsToggle from './SettingsToggle';
+import SettingsCheckBox from './SettingsCheckBox';
 import CurrencySeparation from './CurrencySeparation';
 import CashManagement from '../CashManagement';
 import {
@@ -114,7 +114,7 @@ export const PortfolioGroupSettings = () => {
         {settings ? (
           <React.Fragment>
             <div className="tour-allow-selling">
-              <SettingsToggle
+              <SettingsCheckBox
                 name="Allow selling to rebalance"
                 explanation={
                   settings.buy_only
@@ -131,7 +131,7 @@ export const PortfolioGroupSettings = () => {
                 invert={true}
               />
             </div>
-            <SettingsToggle
+            <SettingsCheckBox
               name="Prevent trades in non-tradable accounts"
               explanation={
                 settings.prevent_trades_in_non_tradable_accounts
@@ -148,7 +148,7 @@ export const PortfolioGroupSettings = () => {
               invert={false}
             />
             {modelType !== 1 && (
-              <SettingsToggle
+              <SettingsCheckBox
                 name="Notify me about new detected assets"
                 explanation={
                   settings.show_warning_for_new_assets_detected

@@ -181,7 +181,7 @@ const ExcludedAssets = () => {
               {positionsNotInTargetOrExcluded.map((position) => {
                 return (
                   <Positions key={position.symbol.id} columns="10px 180px auto">
-                    <CheckBox>
+                    <CheckBox disabled={!position.quotable}>
                       <label className="container">
                         <input
                           type="checkbox"
@@ -208,7 +208,7 @@ const ExcludedAssets = () => {
           <NoExcludedAssets>There are no excluded assets.</NoExcludedAssets>
         )
       ) : (
-        <FontAwesomeIcon icon={faSpinner} spin size="lg" />
+        showAssets && <FontAwesomeIcon icon={faSpinner} spin size="lg" />
       )}
     </Container>
   );

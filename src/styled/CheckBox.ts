@@ -1,12 +1,16 @@
 import styled from '@emotion/styled';
 
-export const CheckBox = styled.div`
+type CheckBoxProps = {
+  disabled?: boolean;
+};
+
+export const CheckBox = styled.div<CheckBoxProps>`
   .container {
     display: block;
     position: relative;
     padding-left: 35px;
     margin-bottom: 12px;
-    cursor: pointer;
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
     font-size: 22px;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -18,7 +22,6 @@ export const CheckBox = styled.div`
   .container input {
     position: absolute;
     opacity: 0;
-    cursor: pointer;
     height: 0;
     width: 0;
   }
@@ -31,18 +34,18 @@ export const CheckBox = styled.div`
     height: 25px;
     width: 25px;
     background-color: white;
-    border: 1.5px solid;
+    border: ${(props) => (props.disabled ? '1.5px solid grey' : '1px solid')};
     border-radius: 3px;
   }
 
   /* On mouse-over, add a grey background color */
   .container:hover input ~ .checkmark {
-    background-color: #ccc;
+    background-color: ${(props) => (props.disabled ? '' : '#ccc')};
   }
 
   /* When the checkbox is checked, add a black background */
   .container input:checked ~ .checkmark {
-    background-color: black;
+    background-color: ${(props) => (props.disabled ? 'grey' : 'black')};
   }
 
   /* Create the checkmark/indicator (hidden when not checked) */
