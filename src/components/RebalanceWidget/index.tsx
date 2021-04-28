@@ -223,6 +223,7 @@ const RebalanceWidget = ({
 
   var hasZerodhaAccount = false;
   var hasKrakenAccount = false;
+  var hasBitbuyAccount = false;
   var hasNonZerodhaAccount = false;
   groupAccounts.map((acc: any) => {
     //find the authorization associated with this account
@@ -239,10 +240,18 @@ const RebalanceWidget = ({
     }
     const isZerodhaConnection = authorization.brokerage.name === 'Zerodha';
     const isKrakenConnection = authorization.brokerage.name === 'Kraken';
+    const isBitbuyConnection = authorization.brokerage.name === 'Bitbuy';
+
     if (isKrakenConnection) {
       hasKrakenAccount = true;
       return true;
     }
+
+    if (isBitbuyConnection) {
+      hasBitbuyAccount = true;
+      return true;
+    }
+
     //If so, marks the `hasZerodhaAccount` variable as `true`
     if (isZerodhaConnection) {
       hasZerodhaAccount = true;
@@ -314,6 +323,19 @@ const RebalanceWidget = ({
           working to build a trading integration with Kraken. Please visit
           <a href="www.kraken.com">www.kraken.com</a> to execute the trades
           listed above and keep your crypto portfolio balanced.
+        </div>
+      </>
+    );
+  }
+
+  if (hasBitbuyAccount) {
+    orderValidation = (
+      <>
+        <div>
+          Bitbuy is a read-only integration at this time. We are actively
+          working to build a trading integration with Bitbuy. Please visit
+          <a href="www.bitbuy.ca">www.bitbuy.ca</a> to execute the trades listed
+          above and keep your crypto portfolio balanced.
         </div>
       </>
     );
