@@ -226,15 +226,20 @@ const ModelPortfolio = () => {
   }
 
   const handleDeleteModel = () => {
-    deleteData(`/api/v1/modelPortfolio/${modelId}`).then(() => {
-      dispatch(loadModelPortfolios());
-      dispatch(loadAccountList());
-      dispatch(loadGroupsList());
-      if (groups !== undefined) {
-        dispatch(loadGroup({ ids: groups.map((group: any) => group.id) }));
-      }
-      history.replace('/app/models');
-    });
+    deleteData(`/api/v1/modelPortfolio/${modelId}`)
+      .then(() => {
+        dispatch(loadModelPortfolios());
+        dispatch(loadAccountList());
+        dispatch(loadGroupsList());
+        if (groups !== undefined) {
+          dispatch(loadGroup({ ids: groups.map((group: any) => group.id) }));
+        }
+        toast.success('Delete the model successfully.');
+        history.replace('/app/models');
+      })
+      .catch(() => {
+        toast.error('Unable to delete the model. Please try again!');
+      });
   };
 
   const handleChangeModelType = () => {
