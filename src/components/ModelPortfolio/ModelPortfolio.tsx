@@ -13,8 +13,14 @@ import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
 import {
   selectCurrentModelPortfolio,
   selectGroupInfoForModelPortfolio,
+  selectGroupsUsingAModel,
 } from '../../selectors/modelPortfolios';
-import { loadGroups, loadModelPortfolios } from '../../actions';
+import {
+  loadModelPortfolios,
+  loadAccountList,
+  loadGroup,
+  loadGroupsList,
+} from '../../actions';
 import ModelPortoflioBox from './ModelPortfolioBox';
 import AssetClassesBox from './AssetClassesBox';
 import {
@@ -165,6 +171,8 @@ const ModelPortfolio = () => {
 
   const modelId = currentModelPortfolio!?.model_portfolio.id;
 
+  const groupsUsingModel = useSelector(selectGroupsUsingAModel);
+
   const modelAssetClasses: ModelAssetClassDetailsType[] = useSelector(
     selectModelAssetClasses,
   );
@@ -178,6 +186,11 @@ const ModelPortfolio = () => {
   const groupInfo = group.groupInfo;
   const editMode = group.edit;
   const applyMode = group.apply;
+
+  let groups: any;
+  if (modelId) {
+    groups = groupsUsingModel?.[modelId]?.groups;
+  }
 
   const [share, setShare] = useState(
     currentModelPortfolio?.model_portfolio.share_portfolio,
@@ -215,7 +228,11 @@ const ModelPortfolio = () => {
   const handleDeleteModel = () => {
     deleteData(`/api/v1/modelPortfolio/${modelId}`).then(() => {
       dispatch(loadModelPortfolios());
-      dispatch(loadGroups());
+      dispatch(loadAccountList());
+      dispatch(loadGroupsList());
+      if (groups !== undefined) {
+        dispatch(loadGroup({ ids: groups.map((group: any) => group.id) }));
+      }
       history.replace('/app/models');
     });
   };
