@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../../styled/Form';
-import { H2, A, P } from '../../styled/GlobalElements';
+import { H1, A, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
@@ -51,10 +51,17 @@ const UnocoinCredentialsManager = () => {
 
   return (
     <ShadowBox>
-      <H2>Connect to Unocoin</H2>
+      <H1>Connect to Unocoin</H1>
       <P>
-        To connect your Unocoin account to Passiv, you'll need to generate a new
-        Unocoin API key and enter your credentials below.
+        To connect your Unocoin account to Passiv, you'll need to{' '}
+        <A
+          href="https://unocoin.com/settings"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          generate a new Unocoin API key
+        </A>{' '}
+        under the Wallet Utilities section and paste it below.
       </P>
 
       <InputContainer>
@@ -72,7 +79,11 @@ const UnocoinCredentialsManager = () => {
 
       <P>
         If you're stuck, read our{' '}
-        <A href="https://passiv.com/help/tutorials/connect-unocoin-to-passiv/">
+        <A
+          href="https://passiv.com/help/tutorials/connect-unocoin-to-passiv/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           tutorial on how to connect your Unocoin account to Passiv.
         </A>
       </P>
