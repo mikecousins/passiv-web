@@ -123,6 +123,10 @@ const KrakenAuthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "kraken-auth" */ '../pages/KrakenAuthPage'),
 );
 
+const BitbuyAuthPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "bitbuy-auth" */ '../pages/BitbuyAuthPage'),
+);
+
 const UnocoinAuthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "unocoin-oauth" */ '../pages/UnocoinAuthPage'),
 );
