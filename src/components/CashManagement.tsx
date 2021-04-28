@@ -24,7 +24,9 @@ import styled from '@emotion/styled';
 
 import { Form } from '../styled/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { DeleteContainer } from './ModelPortfolio/ModelPortfolio';
+import Grid from '../styled/Grid';
 
 const CashManagementBox = styled.div`
   h2 {
@@ -43,8 +45,11 @@ export const CashRestrictionBox = styled.div`
 
 export const CashRow = styled.div`
   text-align: left;
-  @media (min-width: 900px) {
-    display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-column-gap: 10px;
+  @media (max-width: 900px) {
+    grid-template-columns: 1.5fr 1.5fr 1.5fr 1.5fr;
   }
 `;
 
@@ -58,17 +63,19 @@ export const Heading = styled.div`
 `;
 
 export const ColumnBase = styled.div`
-  min-width: 20%;
   padding: 10px;
   color: var(--brand-grey);
+  text-align: left;
   @media (max-width: 900px) {
     line-height: 1.2;
   }
-  text-align: left;
 `;
 
 const StyledFieldBase = styled(Field)`
-  width: 100%;
+  max-width: 80%;
+  @media (max-width: 900px) {
+    width: 50%;
+  }
 `;
 
 const StyledSelect = styled(StyledFieldBase)`
@@ -114,7 +121,6 @@ const CancelButton = styled(A)`
 
 const AddRuleBtn = styled(Button)`
   padding: 10px 20px;
-  margin-bottom: 30px;
   font-size: 16px;
   font-weight: 600;
 `;
@@ -131,15 +137,13 @@ const Title = styled.div`
   font-weight: 900;
   font-size: 18px;
   text-decoration: underline;
-  text-underline-offset: 10px;
+  text-underline-offset: 5px;
 `;
 
 const NoCashRules = styled(P)`
   margin: 10px 0;
   text-align: center;
 `;
-
-const ActionContainer = styled.div``;
 
 const CashManagement = () => {
   const [editing, setEditing] = useState(false);
@@ -265,6 +269,13 @@ const CashManagement = () => {
             </ColumnBase>
             <ColumnBase>
               <SmallButton type="submit">Submit</SmallButton>
+              <CancelButton
+                onClick={() => {
+                  cancelEditing();
+                }}
+              >
+                Cancel
+              </CancelButton>
             </ColumnBase>
           </CashRow>
         </CashForm>
@@ -282,7 +293,15 @@ const CashManagement = () => {
           const currency = getCurrency(cashRestriction.currency);
           const type = getType(cashRestriction.type);
           return (
-            <CashRow key={cashRestriction.id}>
+            <CashRow
+              key={cashRestriction.id}
+              style={{
+                border: '1px solid #f1f1f1',
+                padding: '10px',
+                marginBottom: '20px',
+                background: '#f1f1f1',
+              }}
+            >
               <ColumnBase>{account && account.name}</ColumnBase>
               <ColumnBase>{type && type.name}</ColumnBase>
               <ColumnBase>
@@ -299,7 +318,11 @@ const CashManagement = () => {
                 }
               </ColumnBase>
               <ColumnBase>
-                <A onClick={() => deleteRestriction(cashRestriction)}>Delete</A>
+                <DeleteContainer style={{ float: 'left' }}>
+                  <button onClick={() => deleteRestriction(cashRestriction)}>
+                    <FontAwesomeIcon icon={faTrashAlt} /> Delete
+                  </button>
+                </DeleteContainer>
               </ColumnBase>
             </CashRow>
           );
@@ -327,7 +350,7 @@ const CashManagement = () => {
   let cashRestrictionsRendered = (
     <CashRestrictionBox>
       {(editing || cashRestrictions.length > 0) && (
-        <CashRow>
+        <CashRow style={{ marginBottom: '10px' }}>
           <ColumnBase>
             <Title>Account</Title>
           </ColumnBase>
@@ -355,34 +378,19 @@ const CashManagement = () => {
         <FontAwesomeIcon icon={faSpinner} spin size="lg" />
       ) : (
         <>
-          <ActionContainer>
-            {editing ? (
-              <div>
-                <CancelButton
-                  onClick={() => {
-                    cancelEditing();
-                  }}
-                >
-                  Cancel
-                </CancelButton>
-              </div>
-            ) : (
-              cashRestrictions.length > 0 && (
-                <div>
-                  <AddRuleBtn
-                    onClick={() => {
-                      startEditing();
-                    }}
-                    disabled={!canManageCash()}
-                  >
-                    Add Rule
-                  </AddRuleBtn>
-                </div>
-              )
-            )}
-          </ActionContainer>
-
           {cashRestrictionsRendered}
+          {!editing && cashRestrictions.length > 0 && (
+            <div>
+              <AddRuleBtn
+                onClick={() => {
+                  startEditing();
+                }}
+                disabled={!canManageCash()}
+              >
+                Add Rule
+              </AddRuleBtn>
+            </div>
+          )}
         </>
       )}
     </CashManagementBox>

@@ -167,7 +167,7 @@ const SecurityPriority = ({
         {priorityKind === 'buy' && !symbolId ? (
           <>
             <div></div>
-            <NoBuy>No Securities to buy.</NoBuy>
+            <NoBuy>There is no security to buy.</NoBuy>
           </>
         ) : (
           <>
