@@ -299,7 +299,7 @@ const RebalanceWidget = ({
         </div>
         <br></br>
         <div>
-          Please <a href="mailto:support@passiv.com">contact support</a> if you
+          Please <A href="mailto:support@passiv.com">contact support</A> if you
           have any questions!
         </div>
       </>
@@ -309,12 +309,20 @@ const RebalanceWidget = ({
   if (hasKrakenAccount) {
     orderValidation = (
       <>
-        <div>
+        <P>
           Kraken is a read-only integration at this time. We are actively
-          working to build a trading integration with Kraken. Please visit
-          <a href="www.kraken.com">www.kraken.com</a> to execute the trades
-          listed above and keep your crypto portfolio balanced.
-        </div>
+          working to build a trading integration with Kraken. In the meantime,
+          please visit{' '}
+          <A
+            href="https://www.kraken.com/u/trade"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            kraken.com
+          </A>{' '}
+          to execute the trades listed above and keep your crypto portfolio
+          balanced.
+        </P>
       </>
     );
   }
