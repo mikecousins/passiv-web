@@ -171,7 +171,7 @@ export const PortfolioGroupTrades = ({
       const allowsTrading =
         trade.account.brokerage_authorization.brokerage.allows_trading;
       return (
-        <Grid columns="150px 150px 150px 400px 200px 50px" key={trade.id}>
+        <Grid columns="100px 100px 100px 2fr 1fr 100px" key={trade.id}>
           <ColumnTrades>
             <Title>Price</Title>
             <div>
