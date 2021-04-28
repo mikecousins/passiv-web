@@ -29,7 +29,6 @@ import {
   faExclamationCircle,
   faInfoCircle,
   faSpinner,
-  faStopwatch,
   faToggleOff,
   faToggleOn,
   faTrashAlt,
@@ -37,7 +36,7 @@ import {
 import { toast } from 'react-toastify';
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
-import { H3 } from '../../styled/GlobalElements';
+import { A, H3 } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { InputBox, ReadOnlyInput } from '../SettingsManager/APIAccessSettings';
@@ -49,9 +48,9 @@ import {
 } from '../ModelAssetClass/AssetClass';
 import { Button } from '../../styled/Button';
 import Tooltip from '../Tooltip';
-import { selectAssetClassFeature } from '../../selectors/features';
 import { CopyButton } from './MoreOptions';
 import DeleteModelDialog from './DeleteModelDialog';
+import { selectIsPaid } from '../../selectors/subscription';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -141,25 +140,26 @@ const ComingSoonTag = styled.div`
   font-weight: 900;
   font-size: 30px;
   color: rgb(4 163 134);
-  vertical-align: top;
   background: #dbfcf6;
   padding: 22px 0 0 18px;
   border-radius: 4px 4px 0 0;
-  svg {
-    vertical-align: top;
+  a {
+    font-weight: 900;
+    font-size: 18px;
+    text-decoration: underline;
   }
 `;
 type ModelTypeProps = {
-  assetClassFeature: boolean;
+  isElite: boolean;
 };
 const ModelType = styled.div<ModelTypeProps>`
-  background: ${(props) => !props.assetClassFeature && '#dbfcf6'};
+  background: ${(props) => !props.isElite && '#dbfcf6'};
   padding: 18px 20px 16px 20px;
   border-radius: 0 0 4px 4px;
   button:disabled svg,
   button,
   h3 {
-    color: ${(props) => !props.assetClassFeature && '#07a485'};
+    color: ${(props) => !props.isElite && '#07a485'};
   }
 `;
 
@@ -205,8 +205,7 @@ const ModelPortfolio = () => {
 
   const [copied, setCopied] = useState(false);
   const referralCode = useSelector(selectReferralCode);
-
-  const assetClassFeature = useSelector(selectAssetClassFeature);
+  const isPaid = useSelector(selectIsPaid);
 
   const [modelTypeChanged, setModelTypeChanged] = useState(false);
 
@@ -309,17 +308,22 @@ const ModelPortfolio = () => {
                   modelTypeChanged={modelTypeChanged}
                 />
                 <div>
-                  {!assetClassFeature && (
+                  {!isPaid && (
                     <ComingSoonTag>
-                      <FontAwesomeIcon icon={faStopwatch} size="sm" /> Coming
-                      Soon ...
+                      Elite Feature{' '}
+                      <A
+                        style={{ marginLeft: '10px' }}
+                        onClick={() => history.push('/app/questrade-offer')}
+                      >
+                        Upgrade Now!
+                      </A>
                     </ComingSoonTag>
                   )}
 
-                  <ModelType assetClassFeature={assetClassFeature}>
+                  <ModelType isElite={isPaid}>
                     <H3>
                       Model Type{' '}
-                      {haveAssetsInModel && assetClassFeature && (
+                      {haveAssetsInModel && isPaid && (
                         <Tooltip label="This setting is disabled if you already have securities in this model.">
                           <FontAwesomeIcon
                             icon={faExclamationCircle}
@@ -336,7 +340,7 @@ const ModelPortfolio = () => {
                           handleChangeModelType();
                         }
                       }}
-                      disabled={haveAssetsInModel || !assetClassFeature}
+                      disabled={haveAssetsInModel || !isPaid}
                     >
                       {
                         <React.Fragment>
