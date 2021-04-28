@@ -469,6 +469,13 @@ const App = () => {
             {loggedIn && (
               <Route
                 exact
+                path={prefixPath('/connect/bitbuy')}
+                component={BitbuyAuthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
                 path={prefixPath('/connect/unocoin')}
                 component={UnocoinAuthPage}
               />
