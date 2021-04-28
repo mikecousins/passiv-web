@@ -202,7 +202,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
                 hours then please contact support.
               </Li>
               <Li>Only IBKR Pro accounts are supported by Passiv.</Li>
-              <Li></Li>
               <Li>
                 Due to limitations in IBKR's API, Passiv is unable to support
                 fractional share units.
