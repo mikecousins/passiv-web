@@ -7,6 +7,7 @@ import { selectCurrentGroupPositions } from '../../../selectors/groups';
 import { H2, H3, P } from '../../../styled/GlobalElements';
 import Grid from '../../../styled/Grid';
 import { selectIsMobile } from '../../../selectors/browser';
+import { CheckBox } from '../../../styled/CheckBox';
 
 type SecurityProps = {
   isChanged: boolean;
@@ -41,9 +42,9 @@ const Security = styled(Grid)<SecurityProps>`
   }
 `;
 
-const CheckBox = styled.input`
-  max-width: 20px;
-`;
+// const CheckBox = styled.input`
+//   max-width: 20px;
+// `;
 
 const NoBuy = styled(P)`
   text-align: center;
@@ -146,22 +147,27 @@ const SecurityPriority = ({
         key={symbolId}
       >
         {priorityKind !== 'buy' && (
-          <CheckBox
-            type="checkbox"
-            checked={priorityKind === 'none'}
-            onChange={() =>
-              handleBtn(
-                false,
-                index,
-                assetClassId,
-                account.account.id,
-                symbolId,
-                false,
-                true,
-                priorityKind === 'none',
-              )
-            }
-          />
+          <CheckBox>
+            <label className="container">
+              <input
+                type="checkbox"
+                checked={priorityKind === 'none'}
+                onChange={() =>
+                  handleBtn(
+                    false,
+                    index,
+                    assetClassId,
+                    account.account.id,
+                    symbolId,
+                    false,
+                    true,
+                    priorityKind === 'none',
+                  )
+                }
+              />
+              <span className="checkmark"></span>
+            </label>
+          </CheckBox>
         )}
 
         {priorityKind === 'buy' && !symbolId ? (
