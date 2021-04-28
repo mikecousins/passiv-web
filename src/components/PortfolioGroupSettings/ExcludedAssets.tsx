@@ -143,11 +143,11 @@ const ExcludedAssets = () => {
         you can exclude them. Otherwise, Passiv will attempt to sell them, if
         sell is enabled.
       </Description>
-      {!loading && positionsNotInTargetOrExcluded.length > 0 && (
+      {setupComplete && positionsNotInTargetOrExcluded.length > 0 && (
         <NumberOfExcludedAssets>
           There are{' '}
           <span style={{ fontWeight: 800, textDecoration: 'underline' }}>
-            {positionsNotInTargetOrExcluded.length}
+            {positionsNotInTargetOrExcluded?.length}
           </span>{' '}
           assets not part of your portfolio ({excludedAssetsCount} excluded).
           <A
