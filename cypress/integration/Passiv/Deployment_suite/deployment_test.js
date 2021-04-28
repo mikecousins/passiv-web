@@ -253,35 +253,35 @@ describe('Login individual component test', () => {
 
         })
 
-      it('Add Kraken', () => {
-          cy.get('div').contains('Settings').click().wait(8000)
-          cy.get('button').contains('Add').first().click().wait(5000)
-          cy.get('div').contains('Kraken').click()
+      // it('Add Kraken', () => {
+      //     cy.get('div').contains('Settings').click().wait(8000)
+      //     cy.get('button').contains('Add').first().click().wait(5000)
+      //     cy.get('div').contains('Kraken').click()
 
-          cy.wait('@connect')
-          .its('response.statusCode').should('eq', 200)
+      //     cy.wait('@connect')
+      //     .its('response.statusCode').should('eq', 200)
 
-        })
+        // })
 
-        it('Add Zerodha', () => {
-          cy.get('div').contains('Settings').click().wait(8000)
-          cy.get('button').contains('Add').first().click().wait(5000)
-          cy.get('div').contains('Zerodha').click()
+        // it('Add Zerodha', () => {
+        //   cy.get('div').contains('Settings').click().wait(8000)
+        //   cy.get('button').contains('Add').first().click().wait(5000)
+        //   cy.get('div').contains('Zerodha').click()
 
-          cy.wait('@connect')
-          .its('response.statusCode').should('eq', 200)
+        //   cy.wait('@connect')
+        //   .its('response.statusCode').should('eq', 200)
 
-        })
+        // })
 
-        it('Add Unocoin', () => {
-          cy.get('div').contains('Settings').click().wait(8000)
-          cy.get('button').contains('Add').first().click().wait(5000)
-          cy.get('div').contains('Unocoin').click()
+        // it('Add Unocoin', () => {
+        //   cy.get('div').contains('Settings').click().wait(8000)
+        //   cy.get('button').contains('Add').first().click().wait(5000)
+        //   cy.get('div').contains('Unocoin').click()
 
-          cy.wait('@connect')
-          .its('response.statusCode').should('eq', 200)
+        //   cy.wait('@connect')
+        //   .its('response.statusCode').should('eq', 200)
 
-        })
+        // })
 
 
       it('Logout', () => {
@@ -311,6 +311,42 @@ describe('Login and Adjust portfolio', () => {
   .click({multiple:true})
   })
 
+})
+
+  it('Test Portfolio settings', () => {
+
+  cy.contains('Portfolio').click().wait(8000)
+
+  cy.get('div').contains('Group Settings').click().wait(8000)
+
+  // Test the toggles in the settings page
+      cy.get('div').contains('Allow selling to rebalance').prev().click().should('have.text', 'On')
+      cy.get('div').contains('Allow selling to rebalance').prev().click().should('have.text', 'Off')
+
+      cy.get('div').contains('Prevent trades in non-tradable accounts').prev().click().should('have.text', 'On')
+      cy.get('div').contains('Prevent trades in non-tradable accounts').prev().click().should('have.text', 'Off')
+
+      cy.get('div').contains('Notify me about new detected assets').prev().click().should('have.text', 'On')
+      cy.get('div').contains('Notify me about new detected assets').prev().click().should('have.text', 'Off')
+
+      cy.get('div').contains('Keep currencies separate').prev().click().should('have.text', 'On')
+      // outside of DOM
+      // cy.get('div').contains('Retain cash for manual exchange').prev().click().should('have.text', 'On')
+      // cy.get('div').contains('Retain cash for manual exchange').prev().click().should('have.text', 'Off')
+      cy.get('div').contains('Keep currencies separate').prev().click().should('have.text', 'Off')
+
+  })
+
+  it('Test Cash management', () => {
+    cy.get('Button').contains('Add Rule').click()
+    cy.get('input').last().type('1000')
+    cy.get('Button').contains('Submit').click()
+    cy.get('div').contains('Delete').click()
+
+  })
+
+  it('Test building portfolio', () => {
+
       cy.contains('test').click()
       cy.contains('Portfolio').click().wait(8000)
       cy.scrollTo('bottom')
@@ -323,7 +359,7 @@ describe('Login and Adjust portfolio', () => {
 
     cy.get('button').contains('Edit Model').wait(6000).click()
     cy.get('input').eq(-2).click().clear().type(5)
-    cy.get('input').last().type('MLPA').type('{enter}')
+    cy.get('input').last().type('NFLX').type('{enter}')
     cy.get('button').contains('Save').click().wait(6000)
 
     cy.get('button').contains('Edit Model').wait(4000).click()
@@ -338,9 +374,7 @@ describe('Login and Adjust portfolio', () => {
 
 })
 
-
 })
-
 
 // reset the portfiol and build a new one
 describe('Reset and build portfolio manually', () => {
@@ -348,11 +382,10 @@ describe('Reset and build portfolio manually', () => {
       cy.contains('test').click()
       cy.contains('Portfolio').click().wait(8000)
       cy.scrollTo('bottom')
-      cy.get('div').contains('Reset').click().should('have.text', 'Reset')
+      cy.get('div').contains('Reset').click()
 
       cy.contains('test').click()
       cy.contains('Portfolio').click().wait(8000)
-      cy.scrollTo('bottom')
 
 
       cy.get('button').contains('New Model').click()
@@ -373,7 +406,6 @@ describe('Reset and build portfolio manually', () => {
     cy.get('button').contains('Save').click().wait(6000)
 
 
-
 //Refreh
   cy.get('button').contains('Refresh').click()
 
@@ -381,213 +413,212 @@ describe('Reset and build portfolio manually', () => {
 
   })
 
-  })
 
 
 describe('Add goals', () => {
   it('Goals Test', () => {
-          cy.contains('Goals').click()
-          .should('have.attr', 'href', '/app/goals')
-  })
+    cy.contains('Goals').click()
+    .should('have.attr', 'href', '/app/goals')
+})
 
 
-  //these are the values for the goal
-  const goal1 = "Get the bag"
-  const goalnumber = "1000000"
-  const month = "July"
-  const year = "2050"
+//these are the values for the goal
+const goal1 = "Get the bag"
+const goalnumber = "1000000"
+const month = "July"
+const year = "2050"
 
-  const goal2 = "Get the bread"
-  const goalnumber2 = "10000000"
-
-
-
-  it('Create a goal name', () => {
-      cy.get('[id=goalname]')
-      .clear()
-      .type(goal1)
-      .should('have.value', goal1)
-  })
-
-  it('Next' , () => {
-      cy.get('div').find('button').contains('Next')
-      .click()
-  })
+const goal2 = "Get the bread"
+const goalnumber2 = "10000000"
 
 
-  it('Optional Account Selection ' , () => {
-      cy.get('div').find('button').contains('All Accounts')
-      .click()
-  })
+
+it('Create a goal name', () => {
+cy.get('[id=goalname]')
+.clear()
+.type(goal1)
+.should('have.value', goal1)
+})
+
+it('Next' , () => {
+cy.get('div').find('button').contains('Next')
+.click()
+})
+
+
+it('Optional Account Selection ' , () => {
+cy.get('div').find('button').contains('All Accounts')
+.click()
+})
 
 //     // This is the block for no account@class='css-jm466k']
 
-  // it('Pick portfolio Account ' , () => {
-  //     cy.get('div').find('button').contains('Retirement TFSA')
-  //     .click()
-  // })
+// it('Pick portfolio Account ' , () => {
+//     cy.get('div').find('button').contains('Retirement TFSA')
+//     .click()
+// })
 
-  it('Next' , () => {
-      cy.get('div').find('button').contains('Next')
-      .click()
-  })
+it('Next' , () => {
+cy.get('div').find('button').contains('Next')
+.click()
+})
 
-  it('Enter goal ammount', () => {
-      cy.get('div').find('label').contains('I want to reach $').next()
-      .click({multiple:true})
-      .type(goalnumber)
-      .should('have.value', goalnumber)
-  })
+it('Enter goal ammount', () => {
+cy.get('div').find('label').contains('I want to reach $').next()
+.click({multiple:true})
+.type(goalnumber)
+.should('have.value', goalnumber)
+})
 
-  it('Enter Year', () => {
-      cy.get('div').find('label').contains('By').next().next()
-      .clear()
-      .type(year)
-      .should('have.value', year)
-  })
+it('Enter Year', () => {
+cy.get('div').find('label').contains('By').next().next()
+.clear()
+.type(year)
+.should('have.value', year)
+})
 
-  it('Confirm Goal', () => {
-      cy.get('button').contains('Start Saving!').click()
-      cy.get('button').contains('Refresh').click().wait(4000)
+it('Confirm Goal', () => {
+cy.get('button').contains('Start Saving!').click()
+cy.get('button').contains('Refresh').click().wait(4000)
 
-  })
+})
 
-  it('Return to Dashboard  Page', () => {
-      cy.fixture('testDomain').as('login')
+it('Return to Dashboard  Page', () => {
+cy.fixture('testDomain').as('login')
 
-      cy.get('@login').then(domain => {
-      cy.visit((domain.test).concat('/dashboard')) })
-      cy.get('button').contains('Refresh').click().wait(4000)
-  })
-
-
-  it('Return to Goals Page', () => {
-      cy.fixture('testDomain').as('login')
-
-      cy.get('@login').then(domain => {
-      cy.visit((domain.test).concat('/goals')) })
-  })
-
-  //Refreh
-  it('Refresh', () => {
-
-    cy.get('button').contains('Refresh').click()
-
-  })
+cy.get('@login').then(domain => {
+cy.visit((domain.test).concat('/dashboard')) })
+cy.get('button').contains('Refresh').click().wait(4000)
+})
 
 
+it('Return to Goals Page', () => {
+cy.fixture('testDomain').as('login')
 
-  it('Edit Goal', () => {
-      cy.contains('Goals').click()
-      cy.get('div').contains(goal1).next()
-      .click({multiple:true})
-  })
+cy.get('@login').then(domain => {
+cy.visit((domain.test).concat('/goals')) })
+})
 
-  it('Change goal name', () => {
-      cy.get('div').find('div.css-ov1ktg main.css-ozbw39 div.css-875kku div.css-2lma4n div:nth-child(3) > button.css-1v6e5e8').click()
-      cy.get('button').contains('Edit Name').click({multiple: true})
-      .get('div').find('input').first()
-      .clear()
-      .type(goal2)
+//Refreh
+it('Refresh', () => {
 
-      cy.contains('Finish').click()
-  })
+cy.get('button').contains('Refresh').click()
 
-  it('Update Goal', () => {
-      cy.get('button').contains('Update Goal').click()
-
-  })
-
-  it('Update the target amount', () => {
-      cy.get('button').contains('Edit Target').click()
-      .get('div').find('input').last()
-      .clear()
-      .type(goalnumber2)
-      .get('button').contains('Update').click()
-
-  })
-
-  it('Update Goal', () => {
-      cy.get('button').contains('Update Goal').click()
-
-  })
-
-  it('Return to Dashboard  Page', () => {
-      cy.fixture('testDomain').as('login')
-
-      cy.get('@login').then(domain => {
-      cy.visit((domain.test).concat('/dashboard')) })
-      cy.get('button').contains('Refresh').click()
-  })
-
-  it('Return to Goals Page and add 2nd goal', () => {
-      cy.fixture('testDomain').as('login')
-      cy.get('@login').then(domain => {
-      cy.visit((domain.test).concat('/goals')) })
-      cy.get('button').contains('Refresh').click()
-      .get('button').contains('Add Goal').click()
-
-  })
-
-  // This is where  the 2nd goal is added to confirm it iterates correctly if the same name is entered
+})
 
 
-  it('Create a goal name', () => {
-      cy.get('[id=goalname]')
-      .clear()
-      .type(goal1)
-      .should('have.value', goal1)
-  })
 
-  it('Optional Account Selection ' , () => {
-      cy.get('div').find('button').contains('Next')
-      .click()
-  })
+it('Edit Goal', () => {
+cy.contains('Goals').click()
+cy.get('div').contains(goal1)
+.click({multiple:true})
+})
 
-  // This is the block for no account
+it('Change goal name', () => {
+cy.get('div').find('div.css-ov1ktg main.css-ozbw39 div.css-875kku div.css-2lma4n div:nth-child(3) > button.css-1v6e5e8').click()
+cy.get('button').contains('Edit Name').click({multiple: true})
+.get('div').find('input').first()
+.clear()
+.type(goal2)
 
-  it('Pick no account' , () => {
-      cy.get('div').find('button').contains('Next')
-      .click()
-  })
+cy.contains('Finish').click()
+})
 
-  // it('Pick portfolio Account ' , () => {
-  //     cy.get('div').find('button').contains('Retirement TFSA')
-  //     .click()
-  // })
+it('Update Goal', () => {
+cy.get('button').contains('Update Goal').click()
+
+})
+
+it('Update the target amount', () => {
+cy.get('button').contains('Edit Target').click()
+.get('div').find('input').last()
+.clear()
+.type(goalnumber2)
+.get('button').contains('Update').click()
+
+})
+
+it('Update Goal', () => {
+cy.get('button').contains('Update Goal').click()
+
+})
+
+it('Return to Dashboard  Page', () => {
+cy.fixture('testDomain').as('login')
+
+cy.get('@login').then(domain => {
+cy.visit((domain.test).concat('/dashboard')) })
+cy.get('button').contains('Refresh').click()
+})
+
+it('Return to Goals Page and add 2nd goal', () => {
+cy.fixture('testDomain').as('login')
+cy.get('@login').then(domain => {
+cy.visit((domain.test).concat('/goals')) })
+cy.get('button').contains('Refresh').click()
+.get('button').contains('Add Goal').click()
+
+})
+
+// This is where  the 2nd goal is added to confirm it iterates correctly if the same name is entered
 
 
-  it('Enter goal ammount', () => {
-      cy.get('div').find('label').contains('I want to reach $').next()
-      .click({multiple:true})
-      .type(goalnumber)
-      .should('have.value', goalnumber)
-  })
+it('Create a goal name', () => {
+cy.get('[id=goalname]')
+.clear()
+.type(goal1)
+.should('have.value', goal1)
+})
+
+it('Optional Account Selection ' , () => {
+cy.get('div').find('button').contains('Next')
+.click()
+})
+
+// This is the block for no account
+
+it('Pick no account' , () => {
+cy.get('div').find('button').contains('Next')
+.click()
+})
+
+// it('Pick portfolio Account ' , () => {
+//     cy.get('div').find('button').contains('Retirement TFSA')
+//     .click()
+// })
 
 
-  it('Enter Year', () => {
-      cy.get('div').find('label').contains('By').next().next()
-      .clear()
-      .type(year)
-      .should('have.value', year)
-  })
+it('Enter goal ammount', () => {
+cy.get('div').find('label').contains('I want to reach $').next()
+.click({multiple:true})
+.type(goalnumber)
+.should('have.value', goalnumber)
+})
 
-  it('Confirm Goal', () => {
-      cy.get('button').contains('Start Saving!').click()
-  })
 
-  it('Reset to Dashboard', () => {
-      cy.fixture('testDomain').as('login')
-      cy.get('@login').then(domain => {
-      cy.visit((domain.test).concat('/Dashboard')) })
-  })
+it('Enter Year', () => {
+cy.get('div').find('label').contains('By').next().next()
+.clear()
+.type(year)
+.should('have.value', year)
+})
 
-  it('View all Goals', () => {
-          cy.fixture('testDomain').as('login')
+it('Confirm Goal', () => {
+cy.get('button').contains('Start Saving!').click()
+})
 
-          cy.get('@login').then(domain => {
-          cy.visit((domain.test).concat('/goals')) })
-  })
+it('Reset to Dashboard', () => {
+cy.fixture('testDomain').as('login')
+cy.get('@login').then(domain => {
+cy.visit((domain.test).concat('/Dashboard')) })
+})
+
+it('View all Goals', () => {
+    cy.fixture('testDomain').as('login')
+
+    cy.get('@login').then(domain => {
+    cy.visit((domain.test).concat('/goals')) })
+})
 
 })
 
@@ -626,5 +657,7 @@ describe('Change name and test auth signal and allocate button', () => {
         cy.contains('Trades').should('be.visible')
 
     })
+
+})
 
 })
