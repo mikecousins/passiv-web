@@ -36,19 +36,26 @@ const CashManagementBox = styled.div`
 
 const CashForm = styled(Form)`
   max-width: 100%;
+  @media (max-width: 900px) {
+    max-width: fit-content;
+  }
 `;
 
 export const CashRestrictionBox = styled.div`
   padding: 12px 0 25px;
 `;
+type CashRowProps = {
+  form?: boolean;
+};
 
-export const CashRow = styled.div`
+export const CashRow = styled.div<CashRowProps>`
   text-align: left;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(5, 1fr);
   grid-column-gap: 10px;
   @media (max-width: 900px) {
-    grid-template-columns: 1.5fr 1.5fr 1.5fr 1.5fr;
+    grid-template-columns: ${(props) =>
+      props.form ? '1fr' : '1fr 1fr 0.5fr 0.5fr'};
   }
 `;
 
@@ -72,9 +79,6 @@ export const ColumnBase = styled.div`
 
 const StyledFieldBase = styled(Field)`
   max-width: 80%;
-  @media (max-width: 900px) {
-    width: 50%;
-  }
 `;
 
 const StyledSelect = styled(StyledFieldBase)`
@@ -137,6 +141,9 @@ const Title = styled.div`
   font-size: 18px;
   text-decoration: underline;
   text-underline-offset: 5px;
+  @media (max-width: 900px) {
+    font-size: 17px;
+  }
 `;
 
 const NoCashRules = styled(P)`
@@ -230,7 +237,7 @@ const CashManagement = () => {
       }}
       render={(props) => (
         <CashForm onSubmit={props.handleSubmit}>
-          <CashRow>
+          <CashRow form={true}>
             <ColumnBase>
               <StyledSelect as="select" name="account">
                 {accounts &&

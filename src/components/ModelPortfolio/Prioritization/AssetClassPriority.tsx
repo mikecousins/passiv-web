@@ -16,7 +16,7 @@ import Tooltip from '../../Tooltip';
 import SecurityPriority from './SecurityPriority';
 import { useSelector } from 'react-redux';
 import { selectSymbols } from '../../../selectors/symbols';
-import { selectIsMobile } from '../../../selectors/browser';
+import { selectIsMobile, selectIsTablet } from '../../../selectors/browser';
 
 const MainContainer = styled.div`
   border: ${(p) => (p.color ? `2px solid ${p.color}` : 'none')};
@@ -161,6 +161,7 @@ const AssetClassPriority = ({
 
   const allSymbols = useSelector(selectSymbols);
   const onMobile = useSelector(selectIsMobile);
+  const onTablet = useSelector(selectIsTablet);
 
   const symbols = allSymbols.reduce((acc: any, symbol) => {
     acc[symbol.id] = {
@@ -300,7 +301,7 @@ const AssetClassPriority = ({
                       })}{' '}
                     </TradePriority>
                   )}
-                  {numberOfSecurities > 1 && !onMobile && (
+                  {numberOfSecurities > 1 && !onMobile && !onTablet && (
                     <SellOrder>
                       <FontAwesomeIcon icon={faLongArrowAltUp} />{' '}
                       <span>Sell Order</span>
