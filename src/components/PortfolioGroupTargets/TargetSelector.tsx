@@ -26,6 +26,7 @@ import { TargetPosition } from '../../types/groupInfo';
 import { selectModelUseByOtherGroups } from '../../selectors/modelPortfolios';
 import { selectModelPortfolioFeature } from '../../selectors/features';
 import { selectAuthorizations } from '../../selectors';
+import Tooltip from '../Tooltip';
 
 const ButtonBox = styled.div`
   display: flex;
@@ -635,7 +636,13 @@ export const TargetSelector = ({
                           }}
                           disabled={modelUseByOtherGroups}
                         >
-                          Edit Model
+                          {modelUseByOtherGroups ? (
+                            <Tooltip label="At the moment, editing a model is disabled if the model is applied to more than one group.">
+                              <span>Edit Model *</span>
+                            </Tooltip>
+                          ) : (
+                            'Edit Model'
+                          )}
                         </Button>
                         <ApplyNewModelBtn
                           type="button"
