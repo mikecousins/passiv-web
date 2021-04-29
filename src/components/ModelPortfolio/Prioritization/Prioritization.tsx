@@ -16,7 +16,7 @@ import { H2, P } from '../../../styled/GlobalElements';
 import ShadowBox from '../../../styled/ShadowBox';
 import { Button } from '../../../styled/Button';
 import { toast } from 'react-toastify';
-import { loadGroupInfo } from '../../../actions';
+import { loadGroup } from '../../../actions';
 
 const Priorities = styled.div`
   > h2 {
@@ -208,7 +208,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
             history.push(`/app/group/${group?.id}`);
           }
           toast.success('Saved prioritization successfully');
-          dispatch(loadGroupInfo());
+          dispatch(loadGroup({ ids: [group?.id] }));
         })
         .catch(() => {
           toast.error('Unable to save prioritization. Please try again');

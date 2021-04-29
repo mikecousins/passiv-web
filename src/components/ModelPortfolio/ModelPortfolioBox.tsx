@@ -257,7 +257,6 @@ const ModelPortoflioBox = ({
         modelPortfolio,
       )
         .then(() => {
-          // dispatch(loadGroupInfo());
           dispatch(loadModelPortfolios());
           dispatch(loadAccountList());
           dispatch(loadGroupsList());
