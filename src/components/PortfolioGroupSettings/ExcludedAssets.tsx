@@ -20,6 +20,7 @@ import {
 import { A, H2, P } from '../../styled/GlobalElements';
 import { Description } from '../ModelPortfolio/Prioritization/Prioritization';
 import { CheckBox } from '../../styled/CheckBox';
+import { toast } from 'react-toastify';
 
 const Container = styled.div`
   margin-bottom: 37px;
@@ -123,22 +124,37 @@ const ExcludedAssets = () => {
       postData(
         `/api/v1/portfolioGroups/${groupId}/assetClassExcludeAssets`,
         excluded,
-      ).then(() => {
-        dispatch(loadGroupInfo());
-      });
+      )
+        .then(() => {
+          dispatch(loadGroupInfo());
+        })
+        .catch(() => {
+          toast.error('Request failed. Please try again.');
+          setLoading(false);
+        });
     } else {
       if (position.excluded) {
         deleteData(
           `/api/v1/portfolioGroups/${groupId}/excludedassets/${positionId}`,
-        ).then(() => {
-          dispatch(loadGroupInfo());
-        });
+        )
+          .then(() => {
+            dispatch(loadGroupInfo());
+          })
+          .catch(() => {
+            toast.error('Failed to unexclude the asset. Please try again.');
+            setLoading(false);
+          });
       } else {
         postData(`/api/v1/portfolioGroups/${groupId}/excludedassets/`, {
           symbol: positionId,
-        }).then(() => {
-          dispatch(loadGroupInfo());
-        });
+        })
+          .then(() => {
+            dispatch(loadGroupInfo());
+          })
+          .catch(() => {
+            toast.error('Failed to exclude the asset. Please try again.');
+            setLoading(false);
+          });
       }
     }
   };
