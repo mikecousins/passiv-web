@@ -9,12 +9,7 @@ import { selectShowQuestradeOffer } from '../../selectors/subscription';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
 import { Symbol, ColumnSymbolSmall, ColumnTrades } from '../../styled/Group';
 import OrderImpacts from './OrderImpacts';
-import {
-  ConfirmContainer,
-  OrderContainer,
-  SummaryContainer,
-  ModifiedTradeRow,
-} from './styles';
+import { ConfirmContainer, OrderContainer, SummaryContainer } from './styles';
 import ErrorMessage from './ErrorMessage';
 import { Button } from '../../styled/Button';
 import UpgradeIdea from '../UpgradeIdea';
@@ -31,6 +26,7 @@ import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import { TradeType, TradeBasketType } from '../../types/tradeBasket';
 import { selectAuthorizations } from '../../selectors';
+import Grid from '../../styled/Grid';
 
 type Props = {
   groupId: string;
@@ -384,7 +380,7 @@ const RebalanceWidget = ({
           <div>
             {orderResults.map((results: any) => {
               return (
-                <ModifiedTradeRow key={results.trade}>
+                <Grid columns="repeat(4, 0.5fr)" key={results.trade}>
                   <ColumnTrades>
                     <Title>Action</Title>
                     <div>{results.action}</div>
@@ -405,7 +401,7 @@ const RebalanceWidget = ({
                     <Title>Status</Title>
                     <div>{results.state}</div>
                   </ColumnTrades>
-                </ModifiedTradeRow>
+                </Grid>
               );
             })}
           </div>
