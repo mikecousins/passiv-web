@@ -6,6 +6,7 @@ import {
   faChevronDown,
   faChevronUp,
   faExclamationCircle,
+  faInfoCircle,
   faLongArrowAltUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '../../../styled/Button';
@@ -236,7 +237,12 @@ const AssetClassPriority = ({
                 <AccountName>Account: {account.account.name}</AccountName>
                 {numberOfSecurities > 0 && (
                   <Legend columns="5fr 180px">
-                    <H3>Do Not Trade</H3>
+                    <H3>
+                      Do Not Trade{' '}
+                      <Tooltip label="Prevent a security from being traded (buy and sell) in an account by checking the box.">
+                        <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+                      </Tooltip>
+                    </H3>
                     <H3>Order by Priority</H3>
                   </Legend>
                 )}
