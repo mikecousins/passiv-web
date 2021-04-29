@@ -3,7 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postData } from '../../api';
 import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
-import { loadGroupInfo, loadGroups, loadModelPortfolios } from '../../actions';
+import {
+  loadAccountList,
+  loadGroup,
+  loadGroups,
+  loadGroupsList,
+  loadModelPortfolios,
+} from '../../actions';
 import NameInputAndEdit from '../NameInputAndEdit';
 import { ModelAssetClass } from '../../types/modelAssetClass';
 import { useHistory } from 'react-router';
@@ -226,6 +232,11 @@ const ModelPortoflioBox = ({
   const assignedPortfolioGroups =
     modelPortfolio.model_portfolio.total_assigned_portfolio_groups;
 
+  let groups: any;
+  if (modelId) {
+    groups = groupsUsingModel?.[modelId]?.groups;
+  }
+
   const toggleEditMode = () => {
     if (editMode) {
       history.replace(`/app/model-portfolio/${modelId}`);
@@ -245,8 +256,13 @@ const ModelPortoflioBox = ({
         modelPortfolio,
       )
         .then(() => {
+          // dispatch(loadGroupInfo());
           dispatch(loadModelPortfolios());
-          dispatch(loadGroupInfo());
+          dispatch(loadAccountList());
+          dispatch(loadGroupsList());
+          if (groups !== undefined) {
+            dispatch(loadGroup({ ids: groups.map((group: any) => group.id) }));
+          }
         })
         .catch(() => {
           dispatch(loadModelPortfolios());

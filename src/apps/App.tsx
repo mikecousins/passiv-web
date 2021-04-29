@@ -30,7 +30,6 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GoalDetailPage from '../pages/GoalDetailPage';
 import {
-  selectAssetClassFeature,
   selectGoalsPageFeature,
   selectModelPortfolioFeature,
 } from '../selectors/features';
@@ -47,6 +46,7 @@ import {
   GOALS_PATH,
 } from './Paths';
 import Prioritization from '../components/ModelPortfolio/Prioritization/Prioritization';
+import { selectIsPaid } from '../selectors/subscription';
 
 // preload pages
 const ReactLazyPreload = (importStatement: any) => {
@@ -318,10 +318,9 @@ const App = () => {
   const location = useLocation();
   const goalsPageFeatureActive = useSelector(selectGoalsPageFeature);
   const dispatch = useDispatch();
-
+  const isPaid = useSelector(selectIsPaid);
   const queryParams = useSelector(selectQueryTokens);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
-  const assetClassFeature = useSelector(selectAssetClassFeature);
   let updateQuery = false;
 
   // extract referral code (if any) and make available on registration page
@@ -640,7 +639,7 @@ const App = () => {
             {showSecureApp && (
               <Route path={prefixPath('/share')} component={SharePage} />
             )}
-            {showSecureApp && assetClassFeature && (
+            {showSecureApp && isPaid && (
               <Route
                 path={prefixPath('/asset-class')}
                 component={ModelAssetClassPage}
@@ -666,7 +665,7 @@ const App = () => {
                 component={ModelPortfolioPage}
               />
             )}
-            {showSecureApp && assetClassFeature && (
+            {showSecureApp && isPaid && (
               <Route
                 exact
                 path={prefixPath('/priorities/:groupId')}
