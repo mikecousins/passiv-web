@@ -27,13 +27,6 @@ const HeaderBanner = styled(Grid)`
   }
 `;
 
-const BetaBanner = styled(P)`
-  text-align: center;
-  padding-bottom: 20px;
-  color: #555555;
-  margin-top: 50px;
-`;
-
 const AddGoalButton = styled(Button)`
   margin: 0 0 0px auto;
   display: block;
@@ -117,11 +110,6 @@ export const Goals = () => {
       {(currentMode === 'view' || currentMode === 'finishedSetup') && (
         <GoalsList goals={goals} />
       )}
-
-      <BetaBanner>
-        Open Beta: Help us improve our tools by{' '}
-        <A href="mailto:goals@passiv.com">sharing feedback</A>
-      </BetaBanner>
     </React.Fragment>
   );
 };

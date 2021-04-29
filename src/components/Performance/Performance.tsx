@@ -88,12 +88,6 @@ export const SubHeader = styled.div`
   text-align: center;
 `;
 
-const BetaBanner = styled(P)`
-  text-align: center;
-  padding-bottom: 20px;
-  color: #555555;
-`;
-
 const SettingsBox = styled(CustomizeDashContainer)`
   margin: 20px 0;
 `;
@@ -209,10 +203,6 @@ export const Performance = () => {
               </Grid>
             </>
           )}
-          <BetaBanner>
-            Open Beta: Help us improve our tools by{' '}
-            <A href="mailto:reporting@passiv.com">sharing feedback</A>
-          </BetaBanner>
         </React.Fragment>
       )}
     </React.Fragment>
