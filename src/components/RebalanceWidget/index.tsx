@@ -315,27 +315,6 @@ const RebalanceWidget = ({
     );
   }
 
-  if (hasKrakenAccount) {
-    orderValidation = (
-      <>
-        <P>
-          Kraken is a read-only integration at this time. We are actively
-          working to build a trading integration with Kraken. In the meantime,
-          please visit{' '}
-          <A
-            href="https://www.kraken.com/u/trade"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            kraken.com
-          </A>{' '}
-          to execute the trades listed above and keep your crypto portfolio
-          balanced.
-        </P>
-      </>
-    );
-  }
-
   if (hasBitbuyAccount) {
     orderValidation = (
       <>
