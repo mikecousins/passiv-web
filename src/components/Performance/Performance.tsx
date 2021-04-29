@@ -104,7 +104,7 @@ export const Performance = () => {
     showRateOfReturn = settings?.show_return_rate;
   }
   if (settings?.show_dividend_data !== undefined) {
-    showDividendData = settings?.show_return_rate;
+    showDividendData = settings?.show_dividend_data;
   }
 
   const [showSettings, setShowSettings] = useState(false);
