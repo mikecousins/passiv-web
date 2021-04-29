@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectGoals } from '../../selectors/goals';
-import { P, A, H1 } from '../../styled/GlobalElements';
+import { P, H1 } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
 import { Goal } from '../../types/goals';
 import GoalSetup from './GoalSetup';

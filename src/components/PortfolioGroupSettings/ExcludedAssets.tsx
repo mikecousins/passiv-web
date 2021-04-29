@@ -9,7 +9,7 @@ import {
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { deleteData, postData } from '../../api';
-import { loadGroupInfo } from '../../actions';
+import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
   selectCurrentGroupInfoLoading,
@@ -124,20 +124,20 @@ const ExcludedAssets = () => {
         `/api/v1/portfolioGroups/${groupId}/assetClassExcludeAssets`,
         excluded,
       ).then(() => {
-        dispatch(loadGroupInfo());
+        dispatch(loadGroup({ ids: [groupId] }));
       });
     } else {
       if (position.excluded) {
         deleteData(
           `/api/v1/portfolioGroups/${groupId}/excludedassets/${positionId}`,
         ).then(() => {
-          dispatch(loadGroupInfo());
+          dispatch(loadGroup({ ids: [groupId] }));
         });
       } else {
         postData(`/api/v1/portfolioGroups/${groupId}/excludedassets/`, {
           symbol: positionId,
         }).then(() => {
-          dispatch(loadGroupInfo());
+          dispatch(loadGroup({ ids: [groupId] }));
         });
       }
     }

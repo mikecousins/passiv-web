@@ -20,7 +20,6 @@ import PerformanceDividendIncome from './PerformanceDividendIncome';
 import PerformanceFees from './PerformanceFees';
 import PerformanceFeeSavings from './PerformanceFeeSavings';
 import ShadowBox from '../../styled/ShadowBox';
-import { P, A } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCogs,
