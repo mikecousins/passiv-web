@@ -1483,12 +1483,12 @@ export const selectCurrentGroupAssetClassTradePriorities = createSelector(
         });
       }
     });
-    // assetClassIds = assetClassIds.filter(
-    //   (value, index, array) => array.indexOf(value) === index,
-    // );
-    // newSecurities = newSecurities.filter(
-    //   (value, index, array) => array.indexOf(value) === index,
-    // );
+    assetClassIds = assetClassIds.filter(
+      (value, index, array) => array.indexOf(value) === index,
+    );
+    newSecurities = newSecurities.filter(
+      (value, index, array) => array.indexOf(value) === index,
+    );
     return { tradePriorities, assetClassIds, newSecurities };
   },
 );

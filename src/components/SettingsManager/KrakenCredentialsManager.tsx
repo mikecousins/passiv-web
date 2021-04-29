@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../../styled/Form';
-import { H2, A, P } from '../../styled/GlobalElements';
+import { H1, A, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
@@ -13,7 +13,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const LogoContainer = styled.div`
-  padding: 6% 8%;
   img {
     max-width: 100%;
   }
@@ -61,20 +60,20 @@ const KrakenCredentialsManager = () => {
 
   return (
     <ShadowBox>
-      <H2>Connect to Kraken</H2>
+      <H1>Connect to Kraken</H1>
       <P>
         To connect your Kraken account to Passiv, you'll need to{' '}
-        <a
+        <A
           href="https://www.kraken.com/u/security/api"
           target="_blank"
           rel="noopener noreferrer"
         >
-          generate a new Kraken API key
-        </a>{' '}
-        and enter your credentials below.
+          generate a set of Kraken API keys
+        </A>{' '}
+        and paste those keys in the fields below.
       </P>
 
-      <P>An example of the API permission that Passiv needs are below:</P>
+      <P>Passiv requires the following permissions:</P>
       <LogoContainer>
         <img src={KrakenAPIPermissions} alt="Kraken API Permissions"></img>
       </LogoContainer>

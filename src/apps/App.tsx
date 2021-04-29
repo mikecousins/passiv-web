@@ -30,7 +30,6 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GoalDetailPage from '../pages/GoalDetailPage';
 import {
-  selectAssetClassFeature,
   selectGoalsPageFeature,
   selectModelPortfolioFeature,
 } from '../selectors/features';
@@ -47,6 +46,7 @@ import {
   GOALS_PATH,
 } from './Paths';
 import Prioritization from '../components/ModelPortfolio/Prioritization/Prioritization';
+import { selectIsPaid } from '../selectors/subscription';
 
 // preload pages
 const ReactLazyPreload = (importStatement: any) => {
@@ -121,6 +121,10 @@ const TDAmeritradeOauthPage = ReactLazyPreload(() =>
 
 const KrakenAuthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "kraken-auth" */ '../pages/KrakenAuthPage'),
+);
+
+const BitbuyAuthPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "bitbuy-auth" */ '../pages/BitbuyAuthPage'),
 );
 
 const UnocoinAuthPage = ReactLazyPreload(() =>
@@ -314,10 +318,9 @@ const App = () => {
   const location = useLocation();
   const goalsPageFeatureActive = useSelector(selectGoalsPageFeature);
   const dispatch = useDispatch();
-
+  const isPaid = useSelector(selectIsPaid);
   const queryParams = useSelector(selectQueryTokens);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
-  const assetClassFeature = useSelector(selectAssetClassFeature);
   let updateQuery = false;
 
   // extract referral code (if any) and make available on registration page
@@ -460,6 +463,13 @@ const App = () => {
                 exact
                 path={prefixPath('/connect/kraken')}
                 component={KrakenAuthPage}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/connect/bitbuy')}
+                component={BitbuyAuthPage}
               />
             )}
             {loggedIn && (
@@ -629,7 +639,7 @@ const App = () => {
             {showSecureApp && (
               <Route path={prefixPath('/share')} component={SharePage} />
             )}
-            {showSecureApp && assetClassFeature && (
+            {showSecureApp && isPaid && (
               <Route
                 path={prefixPath('/asset-class')}
                 component={ModelAssetClassPage}
@@ -655,7 +665,7 @@ const App = () => {
                 component={ModelPortfolioPage}
               />
             )}
-            {showSecureApp && assetClassFeature && (
+            {showSecureApp && isPaid && (
               <Route
                 exact
                 path={prefixPath('/priorities/:groupId')}

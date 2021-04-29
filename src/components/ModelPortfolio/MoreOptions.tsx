@@ -13,7 +13,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Dialog from '@reach/dialog';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { loadGroups, loadModelPortfolios } from '../../actions';
+import {
+  loadAccountList,
+  loadGroup,
+  loadGroupsList,
+  loadModelPortfolios,
+} from '../../actions';
 import { deleteData, postData } from '../../api';
 import { H2 } from '../../styled/GlobalElements';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -27,6 +32,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import DeleteModelDialog from './DeleteModelDialog';
+import { selectGroupsUsingAModel } from '../../selectors/modelPortfolios';
 
 const EllipsisButton = styled.button`
   align-items: center;
@@ -123,12 +129,18 @@ const MoreOptions = ({ model, shareModel }: Props) => {
   const node: any = useRef(null);
 
   const referralCode = useSelector(selectReferralCode);
+  const groupsUsingModel = useSelector(selectGroupsUsingAModel);
   const [showOptions, setShowOptions] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const modelId = model.model_portfolio.id;
+
+  let groups: any;
+  if (modelId) {
+    groups = groupsUsingModel?.[modelId]?.groups;
+  }
 
   const handleClick = (e: Event) => {
     if (node?.current?.contains(e.target)) {
@@ -176,11 +188,16 @@ const MoreOptions = ({ model, shareModel }: Props) => {
     deleteData(`/api/v1/modelPortfolio/${modelId}`)
       .then(() => {
         dispatch(loadModelPortfolios());
-        dispatch(loadGroups());
-        toast.success('Model deleted successfully');
+        dispatch(loadAccountList());
+        dispatch(loadGroupsList());
+        if (groups !== undefined) {
+          dispatch(loadGroup({ ids: groups.map((group: any) => group.id) }));
+        }
+        toast.success('Delete the model successfully.');
+        history.replace('/app/models');
       })
       .catch(() => {
-        toast.error('Unable to delete the model. Please try again');
+        toast.error('Unable to delete the model. Please try again!');
       });
   };
 

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { P } from '../../styled/GlobalElements';
-import { TradeRow } from '../../styled/Group';
 
 export const SummaryContainer = styled.div`
   text-align: left;
@@ -26,10 +25,6 @@ export const ConfirmContainer = styled.div`
     font-weight: 700;
     text-decoration: underline;
   }
-`;
-
-export const ModifiedTradeRow = styled(TradeRow)`
-  margin-bottom: 10px;
 `;
 
 export const ErrorDetail = styled(P)`

@@ -9,12 +9,7 @@ import { selectShowQuestradeOffer } from '../../selectors/subscription';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
 import { Symbol, ColumnSymbolSmall, ColumnTrades } from '../../styled/Group';
 import OrderImpacts from './OrderImpacts';
-import {
-  ConfirmContainer,
-  OrderContainer,
-  SummaryContainer,
-  ModifiedTradeRow,
-} from './styles';
+import { ConfirmContainer, OrderContainer, SummaryContainer } from './styles';
 import ErrorMessage from './ErrorMessage';
 import { Button } from '../../styled/Button';
 import UpgradeIdea from '../UpgradeIdea';
@@ -31,6 +26,7 @@ import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import { TradeType, TradeBasketType } from '../../types/tradeBasket';
 import { selectAuthorizations } from '../../selectors';
+import Grid from '../../styled/Grid';
 
 type Props = {
   groupId: string;
@@ -223,6 +219,7 @@ const RebalanceWidget = ({
 
   var hasZerodhaAccount = false;
   var hasKrakenAccount = false;
+  var hasBitbuyAccount = false;
   var hasNonZerodhaAccount = false;
   groupAccounts.map((acc: any) => {
     //find the authorization associated with this account
@@ -239,10 +236,18 @@ const RebalanceWidget = ({
     }
     const isZerodhaConnection = authorization.brokerage.name === 'Zerodha';
     const isKrakenConnection = authorization.brokerage.name === 'Kraken';
+    const isBitbuyConnection = authorization.brokerage.name === 'Bitbuy';
+
     if (isKrakenConnection) {
       hasKrakenAccount = true;
       return true;
     }
+
+    if (isBitbuyConnection) {
+      hasBitbuyAccount = true;
+      return true;
+    }
+
     //If so, marks the `hasZerodhaAccount` variable as `true`
     if (isZerodhaConnection) {
       hasZerodhaAccount = true;
@@ -299,7 +304,7 @@ const RebalanceWidget = ({
         </div>
         <br></br>
         <div>
-          Please <a href="mailto:support@passiv.com">contact support</a> if you
+          Please <A href="mailto:support@passiv.com">contact support</A> if you
           have any questions!
         </div>
       </>
@@ -309,11 +314,32 @@ const RebalanceWidget = ({
   if (hasKrakenAccount) {
     orderValidation = (
       <>
-        <div>
+        <P>
           Kraken is a read-only integration at this time. We are actively
-          working to build a trading integration with Kraken. Please visit
-          <a href="www.kraken.com">www.kraken.com</a> to execute the trades
-          listed above and keep your crypto portfolio balanced.
+          working to build a trading integration with Kraken. In the meantime,
+          please visit{' '}
+          <A
+            href="https://www.kraken.com/u/trade"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            kraken.com
+          </A>{' '}
+          to execute the trades listed above and keep your crypto portfolio
+          balanced.
+        </P>
+      </>
+    );
+  }
+
+  if (hasBitbuyAccount) {
+    orderValidation = (
+      <>
+        <div>
+          Bitbuy is a read-only integration at this time. We are actively
+          working to build a trading integration with Bitbuy. Please visit
+          <a href="www.bitbuy.ca">www.bitbuy.ca</a> to execute the trades listed
+          above and keep your crypto portfolio balanced.
         </div>
       </>
     );
@@ -354,7 +380,7 @@ const RebalanceWidget = ({
           <div>
             {orderResults.map((results: any) => {
               return (
-                <ModifiedTradeRow key={results.trade}>
+                <Grid columns="repeat(4, 0.5fr)" key={results.trade}>
                   <ColumnTrades>
                     <Title>Action</Title>
                     <div>{results.action}</div>
@@ -375,7 +401,7 @@ const RebalanceWidget = ({
                     <Title>Status</Title>
                     <div>{results.state}</div>
                   </ColumnTrades>
-                </ModifiedTradeRow>
+                </Grid>
               );
             })}
           </div>
