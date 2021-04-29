@@ -164,44 +164,38 @@ describe('Login individual component test', () => {
 
   })
 
-      it('Test Settings', () => {
+      // it('Test Settings', () => {
 
-        cy.get('div').contains('Settings').click().wait(8000)
+      //   cy.get('div').contains('Settings').click().wait(8000)
 
-        // Test the toggles in the settings page
-            cy.get('div').contains('Login Notifications').next().click().should('have.text', 'on')
-            cy.get('div').contains('Login Notifications').next().click().should('have.text', 'off')
+      //   // Test the toggles in the settings page
+      //       cy.get('div').contains('Login Notifications').next().click().should('have.text', 'on')
+      //       cy.get('div').contains('Login Notifications').next().click().should('have.text', 'off')
 
-            cy.get('div').contains('Cash Notifications').next().click().should('have.text', 'on')
-            cy.get('div').contains('Cash Notifications').next().click().should('have.text', 'off')
+      //       cy.get('div').contains('Cash Notifications').next().click().should('have.text', 'on')
+      //       cy.get('div').contains('Cash Notifications').next().click().should('have.text', 'off')
 
-            cy.get('div').contains('Detect New Securities').next().click().should('have.text', 'on')
-            cy.get('div').contains('Detect New Securities').next().click().should('have.text', 'off')
+      //       cy.get('div').contains('Detect New Securities').next().click().should('have.text', 'on')
+      //       cy.get('div').contains('Detect New Securities').next().click().should('have.text', 'off')
 
-            cy.get('div').contains('Drift Notifications').next().click().should('have.text', 'on')
-            cy.get('div').contains('Drift Notifications').next().click().should('have.text', 'off')
+      //       cy.get('div').contains('Drift Notifications').next().click().should('have.text', 'on')
+      //       cy.get('div').contains('Drift Notifications').next().click().should('have.text', 'off')
 
-            cy.get('div').contains('Receive Account Reminders').next().click().should('have.text', 'on')
-            cy.get('div').contains('Receive Account Reminders').next().click().should('have.text', 'off')
+      //       cy.get('div').contains('Receive Account Reminders').next().click().should('have.text', 'on')
+      //       cy.get('div').contains('Receive Account Reminders').next().click().should('have.text', 'off')
 
-            cy.get('div').contains('Allow API Access').next().click().should('have.text', 'on')
-            cy.get('div').contains('Allow API Access').next().click().should('have.text', 'off')
+      //       cy.get('div').contains('Allow API Access').next().click().should('have.text', 'on')
+      //       cy.get('div').con=tains('Allow API Access').next().click().should('have.text', 'off')
 
-            cy.get('div').contains('Use Limit Orders').next().click().should('have.text', 'on')
-            cy.get('div').contains('Use Limit Orders').next().click().should('have.text', 'off')
+      //       cy.get('div').contains('Use Limit Orders').next().click().should('have.text', 'on')
+      //       cy.get('div').contains('Use Limit Orders').next().click().should('have.text', 'off')
 
-      })
+      // })
 
 
       it('Add Alpaca', () => {
-
-        cy.intercept('/api/v1/brokerages/**', (req) => {
-          req.reply({fixture: 'login_stubs/brokerages.json'})
-        }).as('connect')
-
-
-
-          cy.get('button').contains('Add').first().click().wait(5000)
+          cy.get('div').contains('Settings').click().wait(8000)
+          cy.get('button').contains('Add').first().click().wait(10000)
           cy.get('div').contains('Alpaca').click()
 
 
@@ -296,85 +290,91 @@ describe('Login individual component test', () => {
 
 describe('Login and Adjust portfolio', () => {
 
-  // Re-login
-  it('Login test 2', () => {
-      cy.fixture('testDomain').as('login')
-      cy.get('@login').then(domain => {
-      cy.visit((domain.test).concat('/login')) })
-      cy.fixture('my_credentials').as('userFixture')
-      cy.get('@userFixture').then(user => {
-      cy.get('[name=email]').first().type(user.username)
-      cy.get('[placeholder=Password]').type(user.password)
+    // Re-login
+    it('Login test 2', () => {
+        cy.fixture('testDomain').as('login')
+        cy.get('@login').then(domain => {
+        cy.visit((domain.test).concat('/login')) })
+        cy.fixture('my_credentials').as('userFixture')
+        cy.get('@userFixture').then(user => {
+        cy.get('[name=email]').first().type(user.username)
+        cy.get('[placeholder=Password]').type(user.password)
 
-  // Verify the sign in button is enabled//
-  cy.get('[data-cy=login-button]').should('not.be.disabled')
-  .click({multiple:true})
+    // Verify the sign in button is enabled//
+    cy.get('[data-cy=login-button]').should('not.be.disabled')
+    .click({multiple:true})
+    })
+
   })
-
-})
 
   it('Test Portfolio settings', () => {
 
-  cy.contains('Portfolio').click().wait(8000)
+    cy.contains('Portfolio').click().wait(8000)
 
-  cy.get('div').contains('Group Settings').click().wait(8000)
+    cy.get('div').contains('Portfolio Settings').click().wait(8000)
 
-  // Test the toggles in the settings page
-      cy.get('div').contains('Allow selling to rebalance').prev().click().should('have.text', 'On')
-      cy.get('div').contains('Allow selling to rebalance').prev().click().should('have.text', 'Off')
+    // Test the toggles in the settings page
+        cy.get('input[type="checkbox"]').eq(0).check().should('be.checked')
+        cy.get('input[type="checkbox"]').eq(0).uncheck().should('not.be.checked')
 
-      cy.get('div').contains('Prevent trades in non-tradable accounts').prev().click().should('have.text', 'On')
-      cy.get('div').contains('Prevent trades in non-tradable accounts').prev().click().should('have.text', 'Off')
+        cy.get('input[type="checkbox"]').eq(1).check().should('be.checked')
+        cy.get('input[type="checkbox"]').eq(1).uncheck().should('not.be.checked')
 
-      cy.get('div').contains('Notify me about new detected assets').prev().click().should('have.text', 'On')
-      cy.get('div').contains('Notify me about new detected assets').prev().click().should('have.text', 'Off')
 
-      cy.get('div').contains('Keep currencies separate').prev().click().should('have.text', 'On')
-      // outside of DOM
-      // cy.get('div').contains('Retain cash for manual exchange').prev().click().should('have.text', 'On')
-      // cy.get('div').contains('Retain cash for manual exchange').prev().click().should('have.text', 'Off')
-      cy.get('div').contains('Keep currencies separate').prev().click().should('have.text', 'Off')
+        cy.get('input[type="checkbox"]').eq(2).check().should('be.checked')
+        cy.get('input[type="checkbox"]').eq(2).uncheck().should('not.be.checked')
 
-  })
 
-  it('Test Cash management', () => {
-    cy.get('Button').contains('Add Rule').click()
-    cy.get('input').last().type('1000')
-    cy.get('Button').contains('Submit').click()
-    cy.get('div').contains('Delete').click()
+        cy.get('input[type="checkbox"]').eq(3).check().should('be.checked')
 
-  })
+        cy.get('input[type="checkbox"]').eq(4).check().should('be.checked')
+        cy.get('input[type="checkbox"]').eq(4).uncheck().should('not.be.checked')
 
-  it('Test building portfolio', () => {
+        cy.get('input[type="checkbox"]').eq(3).uncheck().should('not.be.checked')
 
-      cy.contains('test').click()
-      cy.contains('Portfolio').click().wait(8000)
-      cy.scrollTo('bottom')
+
+    })
+
+    it('Test Cash management', () => {
+      cy.get('div').contains('Add Rule').click()
+      cy.get('input').last().type('1000')
+      cy.get('Button').contains('Submit').click()
+      cy.get('div').contains('Delete').click()
+
+    })
+
+
+
+    it('Test building portfolio', () => {
+
+        cy.contains('test').click()
+        cy.contains('Portfolio').click().wait(8000)
+        cy.scrollTo('bottom')
+        cy.get('button').contains('Edit Model').wait(4000).click()
+
+      //adding new assets to an existing target
+      cy.get('input').eq(-2).click().clear().type(15)
+      cy.get('input').last().type('MSFT').type('{enter}')
+      cy.get('button').contains('Save').click().wait(4000)
+
+      cy.get('button').contains('Edit Model').wait(6000).click()
+      cy.get('input').eq(-2).click().clear().type(5)
+      cy.get('input').last().type('NFLX').type('{enter}')
+      cy.get('button').contains('Save').click().wait(6000)
+
       cy.get('button').contains('Edit Model').wait(4000).click()
-
-    //adding new assets to an existing target
-    cy.get('input').eq(-2).click().clear().type(15)
-    cy.get('input').last().type('MSFT').type('{enter}')
-    cy.get('button').contains('Save').click().wait(4000)
-
-    cy.get('button').contains('Edit Model').wait(6000).click()
-    cy.get('input').eq(-2).click().clear().type(5)
-    cy.get('input').last().type('NFLX').type('{enter}')
-    cy.get('button').contains('Save').click().wait(6000)
-
-    cy.get('button').contains('Edit Model').wait(4000).click()
-    cy.get('input').eq(-2).click().clear().type(5)
-    cy.get('input').last().type('PNG.VN').type('{enter}')
-    cy.get('button').contains('Save').click().wait(6000)
+      cy.get('input').eq(-2).click().clear().type(5)
+      cy.get('input').last().type('PNG.VN').type('{enter}')
+      cy.get('button').contains('Save').click().wait(6000)
 
 
 
-//Refreh
-  cy.get('button').contains('Refresh').click()
+  //Refreh
+    cy.get('button').contains('Refresh').click()
 
-})
+  })
 
-})
+  })
 
 // reset the portfiol and build a new one
 describe('Reset and build portfolio manually', () => {
