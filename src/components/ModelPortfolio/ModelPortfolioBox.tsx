@@ -260,7 +260,7 @@ const ModelPortoflioBox = ({
   const handleInputChange = (name: string) => {
     const isDuplicate = isNameDuplicate(
       name,
-      modelPortfolioName,
+      modelPortfolio.model_portfolio.name,
       listOfModelPortfoliosName,
     );
     if (isDuplicate) {
@@ -272,11 +272,13 @@ const ModelPortoflioBox = ({
   };
 
   const finishEditingName = () => {
+    const trimmedName = modelPortfolioName?.trim();
     if (
-      modelPortfolioName !== modelPortfolio.model_portfolio.name &&
-      modelPortfolioName!.trim().length > 0
+      trimmedName !== modelPortfolio.model_portfolio.name &&
+      trimmedName &&
+      trimmedName.length > 0
     ) {
-      modelPortfolio.model_portfolio.name = modelPortfolioName;
+      modelPortfolio.model_portfolio.name = trimmedName;
       postData(
         `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
         modelPortfolio,
