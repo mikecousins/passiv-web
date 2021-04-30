@@ -9,7 +9,7 @@ import {
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { deleteData, postData } from '../../api';
-import { loadGroupInfo } from '../../actions';
+import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
   selectCurrentGroupInfoLoading,
@@ -126,7 +126,7 @@ const ExcludedAssets = () => {
         excluded,
       )
         .then(() => {
-          dispatch(loadGroupInfo());
+          dispatch(loadGroup({ ids: [groupId] }));
         })
         .catch(() => {
           toast.error('Request failed. Please try again.');
@@ -138,7 +138,7 @@ const ExcludedAssets = () => {
           `/api/v1/portfolioGroups/${groupId}/excludedassets/${positionId}`,
         )
           .then(() => {
-            dispatch(loadGroupInfo());
+            dispatch(loadGroup({ ids: [groupId] }));
           })
           .catch(() => {
             toast.error('Failed to unexclude the asset. Please try again.');
@@ -149,7 +149,7 @@ const ExcludedAssets = () => {
           symbol: positionId,
         })
           .then(() => {
-            dispatch(loadGroupInfo());
+            dispatch(loadGroup({ ids: [groupId] }));
           })
           .catch(() => {
             toast.error('Failed to exclude the asset. Please try again.');

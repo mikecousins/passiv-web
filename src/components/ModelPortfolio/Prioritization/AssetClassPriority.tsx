@@ -6,6 +6,7 @@ import {
   faChevronDown,
   faChevronUp,
   faExclamationCircle,
+  faInfoCircle,
   faLongArrowAltUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '../../../styled/Button';
@@ -16,7 +17,7 @@ import Tooltip from '../../Tooltip';
 import SecurityPriority from './SecurityPriority';
 import { useSelector } from 'react-redux';
 import { selectSymbols } from '../../../selectors/symbols';
-import { selectIsMobile } from '../../../selectors/browser';
+import { selectIsMobile, selectIsTablet } from '../../../selectors/browser';
 
 const MainContainer = styled.div`
   border: ${(p) => (p.color ? `2px solid ${p.color}` : 'none')};
@@ -161,6 +162,7 @@ const AssetClassPriority = ({
 
   const allSymbols = useSelector(selectSymbols);
   const onMobile = useSelector(selectIsMobile);
+  const onTablet = useSelector(selectIsTablet);
 
   const symbols = allSymbols.reduce((acc: any, symbol) => {
     acc[symbol.id] = {
@@ -235,7 +237,12 @@ const AssetClassPriority = ({
                 <AccountName>Account: {account.account.name}</AccountName>
                 {numberOfSecurities > 0 && (
                   <Legend columns="5fr 180px">
-                    <H3>Do Not Trade</H3>
+                    <H3>
+                      Do Not Trade{' '}
+                      <Tooltip label="Prevent a security from being traded (buy and sell) in an account by checking the box.">
+                        <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+                      </Tooltip>
+                    </H3>
                     <H3>Order by Priority</H3>
                   </Legend>
                 )}
@@ -300,7 +307,7 @@ const AssetClassPriority = ({
                       })}{' '}
                     </TradePriority>
                   )}
-                  {numberOfSecurities > 1 && !onMobile && (
+                  {numberOfSecurities > 1 && !onMobile && !onTablet && (
                     <SellOrder>
                       <FontAwesomeIcon icon={faLongArrowAltUp} />{' '}
                       <span>Sell Order</span>

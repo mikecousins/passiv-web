@@ -20,7 +20,6 @@ import PerformanceDividendIncome from './PerformanceDividendIncome';
 import PerformanceFees from './PerformanceFees';
 import PerformanceFeeSavings from './PerformanceFeeSavings';
 import ShadowBox from '../../styled/ShadowBox';
-import { P, A } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCogs,
@@ -88,12 +87,6 @@ export const SubHeader = styled.div`
   text-align: center;
 `;
 
-const BetaBanner = styled(P)`
-  text-align: center;
-  padding-bottom: 20px;
-  color: #555555;
-`;
-
 const SettingsBox = styled(CustomizeDashContainer)`
   margin: 20px 0;
 `;
@@ -111,7 +104,7 @@ export const Performance = () => {
     showRateOfReturn = settings?.show_return_rate;
   }
   if (settings?.show_dividend_data !== undefined) {
-    showDividendData = settings?.show_return_rate;
+    showDividendData = settings?.show_dividend_data;
   }
 
   const [showSettings, setShowSettings] = useState(false);
@@ -209,10 +202,6 @@ export const Performance = () => {
               </Grid>
             </>
           )}
-          <BetaBanner>
-            Open Beta: Help us improve our tools by{' '}
-            <A href="mailto:reporting@passiv.com">sharing feedback</A>
-          </BetaBanner>
         </React.Fragment>
       )}
     </React.Fragment>

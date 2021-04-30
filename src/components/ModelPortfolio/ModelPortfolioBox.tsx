@@ -28,6 +28,7 @@ import AssetClassSelector from './AssetClassSelector';
 import { A } from '../../styled/GlobalElements';
 import RouteLeavingPrompt from '../RouteLeavingPrompt';
 import { isNameDuplicate } from './utils/utils';
+import Tooltip from '../Tooltip';
 
 const NameInputAndEditStyle = styled(NameInputAndEdit)`
   @media (max-width: 900px) {
@@ -281,7 +282,6 @@ const ModelPortoflioBox = ({
         modelPortfolio,
       )
         .then(() => {
-          // dispatch(loadGroupInfo());
           dispatch(loadModelPortfolios());
           dispatch(loadAccountList());
           dispatch(loadGroupsList());
@@ -655,7 +655,13 @@ const ModelPortoflioBox = ({
             onClick={toggleEditMode}
             disabled={assignedPortfolioGroups > 1}
           >
-            Edit Model
+            {assignedPortfolioGroups > 1 ? (
+              <Tooltip label="At the moment, editing a model is disabled if the model is applied to more than one group.">
+                <span>Edit Model *</span>
+              </Tooltip>
+            ) : (
+              'Edit Model'
+            )}
           </EditModel>
         )}
       </MainContainer>

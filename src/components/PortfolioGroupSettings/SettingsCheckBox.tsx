@@ -27,7 +27,7 @@ const Name = styled.span<NameProps>`
 const Explanation = styled(P)`
   font-weight: 200;
   font-size: 16px;
-  margin: 0px 0 20px 75px;
+  margin-left: 55px;
 `;
 
 type Props = {

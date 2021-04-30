@@ -78,6 +78,11 @@ const TOUR_STEPS = [
 const GeneralTitle = styled(H2)`
   font-size: 28px;
 `;
+const CashManagementShadowBox = styled(ShadowBox)`
+  @media (max-width: 900px) {
+    padding: 15px 2px;
+  }
+`;
 
 export const PortfolioGroupSettings = () => {
   const dispatch = useDispatch();
@@ -195,9 +200,9 @@ export const PortfolioGroupSettings = () => {
         )}
       </ShadowBox>
       {featureCashManagement && (
-        <ShadowBox>
+        <CashManagementShadowBox>
           <CashManagement />
-        </ShadowBox>
+        </CashManagementShadowBox>
       )}
       {modelType === 1 && (
         <ShadowBox>

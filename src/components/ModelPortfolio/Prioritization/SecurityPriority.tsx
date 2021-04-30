@@ -6,7 +6,7 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { selectCurrentGroupPositions } from '../../../selectors/groups';
 import { H2, H3, P } from '../../../styled/GlobalElements';
 import Grid from '../../../styled/Grid';
-import { selectIsMobile } from '../../../selectors/browser';
+import { selectIsMobile, selectIsTablet } from '../../../selectors/browser';
 import { CheckBox } from '../../../styled/CheckBox';
 
 type SecurityProps = {
@@ -30,21 +30,27 @@ const Security = styled(Grid)<SecurityProps>`
     text-align: center;
     padding: 0px 20px;
   }
-  @media (max-width: 900px) {
+  @media (max-width: 840px) {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: ${(props) =>
+      props.priorityKind === 'none'
+        ? '50px 1fr 2fr'
+        : props.priorityKind === 'buy'
+        ? '2fr 3fr 1fr'
+        : '50px 2fr 3fr 1fr'};
+  }
+  @media (max-width: 500px) {
     display: grid;
     grid-gap: 20px;
     grid-template-columns: ${(props) =>
       props.priorityKind === 'none'
         ? '50px 3fr'
         : props.priorityKind === 'buy'
-        ? '5fr 3fr'
+        ? 'repeat(2, auto)'
         : '50px 3fr 3fr'};
   }
 `;
-
-// const CheckBox = styled.input`
-//   max-width: 20px;
-// `;
 
 const NoBuy = styled(P)`
   text-align: center;
@@ -128,6 +134,7 @@ const SecurityPriority = ({
   });
 
   const onMobile = useSelector(selectIsMobile);
+  const onTablet = useSelector(selectIsTablet);
 
   return (
     <div>
@@ -190,7 +197,7 @@ const SecurityPriority = ({
           </>
         )}
 
-        {priorityKind === 'buy' && !onMobile && <H2>Buy</H2>}
+        {priorityKind === 'buy' && !onMobile && !onTablet && <H2>Buy</H2>}
         {numberOfSecurities > 0 && symbolId && priorityKind !== 'none' && (
           <EditPriorityContainer>
             <UpDownButton

@@ -16,8 +16,7 @@ import { H2, P } from '../../../styled/GlobalElements';
 import ShadowBox from '../../../styled/ShadowBox';
 import { Button } from '../../../styled/Button';
 import { toast } from 'react-toastify';
-import { loadGroupInfo } from '../../../actions';
-import RouteLeavingPrompt from '../../RouteLeavingPrompt';
+import { loadGroup } from '../../../actions';
 
 const Priorities = styled.div`
   > h2 {
@@ -91,7 +90,6 @@ const Prioritization = ({ onSettingsPage }: Props) => {
 
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(!onSettingsPage);
-  const [saved, setSaved] = useState(onSettingsPage);
   const [changed, setChanged] = useState({ symbolId: '', accountId: '' });
   const [needToConfirm, setNeedToConfirm] = useState<string[]>([]);
   const [newAssets, setNewAssets] = useState<string[]>([]);
@@ -204,14 +202,13 @@ const Prioritization = ({ onSettingsPage }: Props) => {
         assetClassPrioritiesCopy,
       )
         .then(() => {
-          setSaved(true);
           if (onSettingsPage) {
             setEditing(false);
           } else {
             history.push(`/app/group/${group?.id}`);
           }
           toast.success('Saved prioritization successfully');
-          dispatch(loadGroupInfo());
+          dispatch(loadGroup({ ids: [group?.id] }));
         })
         .catch(() => {
           toast.error('Unable to save prioritization. Please try again');
@@ -289,11 +286,6 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           )}
         </div>
       )}
-      <RouteLeavingPrompt
-        when={!saved}
-        navigate={(path) => history.push(path)}
-        prioritiesPage={true}
-      />
     </Priorities>
   );
 };
