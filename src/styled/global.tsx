@@ -290,6 +290,9 @@ export const GlobalStyle = () => (
           margin-top: 60px;
         }
       }
+      [data-reach-combobox-option][data-highlighted] {
+        background: var(--brand-green) !important;
+      }
     `}
   />
 );
