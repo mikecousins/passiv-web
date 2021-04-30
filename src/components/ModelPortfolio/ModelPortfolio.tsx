@@ -52,7 +52,6 @@ import { CopyButton } from './MoreOptions';
 import DeleteModelDialog from './DeleteModelDialog';
 import { selectIsPaid } from '../../selectors/subscription';
 import { BetaTag } from '../SlideMenu/SideBarLink';
-import ContactForm from '../Help/ContactForm';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
