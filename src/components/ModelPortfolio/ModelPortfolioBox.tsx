@@ -16,6 +16,7 @@ import { useHistory } from 'react-router';
 import {
   selectGroupInfoForModelPortfolio,
   selectGroupsUsingAModel,
+  selectModelPortfolios,
 } from '../../selectors/modelPortfolios';
 import { FieldArray, Form, Formik } from 'formik';
 import Grid from '../../styled/Grid';
@@ -26,6 +27,7 @@ import { Button } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
 import { A } from '../../styled/GlobalElements';
 import RouteLeavingPrompt from '../RouteLeavingPrompt';
+import { isNameDuplicate } from './utils/utils';
 
 const NameInputAndEditStyle = styled(NameInputAndEdit)`
   @media (max-width: 900px) {
@@ -195,6 +197,10 @@ const EditModel = styled(Button)`
   font-weight: 600;
 `;
 
+const Error = styled.div`
+  color: red;
+`;
+
 type Props = {
   modelPortfolio: any;
   assetClasses: ModelAssetClass[];
@@ -210,11 +216,13 @@ const ModelPortoflioBox = ({
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const modelPortfolios = useSelector(selectModelPortfolios);
   const [modelPortfolioName, setModelPortfolioName] = useState(
     modelPortfolio.model_portfolio.name,
   );
   const [editName, setEditName] = useState(false);
   const [clearInputSelector, setClearInputSelector] = useState(0);
+  const [duplicateNameError, setDuplicateNameError] = useState(false);
 
   const group = useSelector(selectGroupInfoForModelPortfolio);
   const groupsUsingModel = useSelector(selectGroupsUsingAModel);
@@ -236,6 +244,9 @@ const ModelPortoflioBox = ({
   if (modelId) {
     groups = groupsUsingModel?.[modelId]?.groups;
   }
+  const listOfModelPortfoliosName = modelPortfolios.map(
+    (mdl) => mdl.model_portfolio.name,
+  );
 
   const toggleEditMode = () => {
     if (editMode) {
@@ -243,6 +254,20 @@ const ModelPortoflioBox = ({
     } else {
       history.replace(`/app/model-portfolio/${modelId}?edit=true`);
     }
+  };
+
+  const handleInputChange = (name: string) => {
+    const isDuplicate = isNameDuplicate(
+      name,
+      modelPortfolioName,
+      listOfModelPortfoliosName,
+    );
+    if (isDuplicate) {
+      setDuplicateNameError(true);
+    } else {
+      setDuplicateNameError(false);
+    }
+    setModelPortfolioName(name);
   };
 
   const finishEditingName = () => {
@@ -316,14 +341,23 @@ const ModelPortoflioBox = ({
         value={modelPortfolioName}
         edit={editName}
         allowEdit={true}
+        saveDisabled={duplicateNameError}
         editBtnTxt={'Edit Name'}
-        onChange={(e: any) => setModelPortfolioName(e.target.value)}
-        onKeyPress={(e: any) => e.key === 'Enter' && finishEditingName()}
+        onChange={(e: any) => handleInputChange(e.target.value)}
+        onKeyPress={(e: any) =>
+          e.key === 'Enter' && !duplicateNameError && finishEditingName()
+        }
         onClickDone={() => finishEditingName()}
         onClickEdit={() => setEditName(true)}
         StyledName={StyledName}
         StyledContainer={StyledContainer}
       />
+      {duplicateNameError && (
+        <Error>
+          A model with the same name already exists. Please use a different
+          name.
+        </Error>
+      )}
       <MainContainer>
         <Formik
           initialValues={{

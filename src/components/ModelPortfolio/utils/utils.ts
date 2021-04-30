@@ -32,3 +32,20 @@ export const useThrottle = (value: any, limit: number) => {
 
   return throttledValue;
 };
+
+export const isNameDuplicate = (
+  newName: string,
+  currentName: string | undefined,
+  listOfNames: any[],
+) => {
+  let isDuplicate: boolean = false;
+  const trimmedName = newName.trim();
+  if (
+    currentName &&
+    trimmedName !== currentName &&
+    listOfNames?.includes(trimmedName)
+  ) {
+    isDuplicate = true;
+  }
+  return isDuplicate;
+};
