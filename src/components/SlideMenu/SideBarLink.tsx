@@ -16,7 +16,7 @@ const IndentColorBox = styled(ColorBox)`
   }
 `;
 
-const BetaTag = styled.span`
+export const BetaTag = styled.span`
   border: 1px solid var(--brand-green);
   border-radius: 25px;
   padding: 2px 4px 1px;
