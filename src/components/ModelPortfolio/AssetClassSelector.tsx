@@ -99,14 +99,14 @@ const AssetClassSelector = ({
     setInput(event.target.value);
   };
 
-  const handleSelect = (id: string) => {
-    const assetClass = availableAssetClasses.find((astCls) => id === astCls.id);
+  const handleSelect = (name: string) => {
+    const assetClass = availableAssetClasses.find(
+      (astCls) => name === astCls.name,
+    );
     if (assetClass) {
-      setInput(assetClass.name);
       onSelect(assetClass);
     }
   };
-
   return (
     <StyledCombobox onSelect={handleSelect}>
       <StyledComboboxInput
@@ -115,6 +115,7 @@ const AssetClassSelector = ({
         name={name}
         id={id}
         onChange={onChange}
+        autoFocus
         onKeyPress={(event: any) =>
           event.key === 'Enter' && handleSelect(event.target.value)
         }
@@ -124,7 +125,7 @@ const AssetClassSelector = ({
           {results && results.length > 0 ? (
             results.map((option: any, index: number) => {
               return (
-                <StyledComboboxOption key={index} value={option.id}>
+                <StyledComboboxOption key={index} value={option.name}>
                   {option.name}
                 </StyledComboboxOption>
               );
