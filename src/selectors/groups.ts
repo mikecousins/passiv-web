@@ -556,9 +556,12 @@ export const selectTotalGroupHoldings = createSelector(
           groupInfo[group.id].data!.positions.forEach((position) => {
             if (
               preferredCurrency &&
-              position.symbol.currency.id === preferredCurrency.id
+              (position.symbol.currency.id === preferredCurrency.id ||
+                position.currency.id === preferredCurrency.id)
             ) {
-              total += position.units * position.price;
+              position.fractional_units
+                ? (total += position.fractional_units * position.price)
+                : (total += position.units * position.price);
             } else {
               const conversionRate = rates.find(
                 (rate) =>
@@ -569,8 +572,15 @@ export const selectTotalGroupHoldings = createSelector(
               if (!conversionRate) {
                 return;
               }
-              total +=
-                position.units * position.price * conversionRate.exchange_rate;
+              position.fractional_units
+                ? (total +=
+                    position.fractional_units *
+                    position.price *
+                    conversionRate.exchange_rate)
+                : (total +=
+                    position.units *
+                    position.price *
+                    conversionRate.exchange_rate);
             }
           });
         }
