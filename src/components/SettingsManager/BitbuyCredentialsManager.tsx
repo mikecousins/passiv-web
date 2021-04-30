@@ -8,6 +8,8 @@ import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
 import { reloadEverything } from '../../actions';
 import { replace } from 'connected-react-router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const InputContainer = styled.div`
   padding-top: 10px;
@@ -25,6 +27,7 @@ const MiniInputNonFormik = styled(InputNonFormik)`
 const BitbuyCredentialsManager = () => {
   const [APIKey, setAPIKey] = useState('');
   const [PrivateKey, setPrivateKey] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const generateTokenString = () => {
     let token_string = '';
@@ -34,6 +37,7 @@ const BitbuyCredentialsManager = () => {
 
   const dispatch = useDispatch();
   const handleSubmit = () => {
+    setLoading(true);
     let token = generateTokenString();
     postData('/api/v1/brokerages/authComplete/', { token: token })
       .then(() => {
@@ -70,7 +74,11 @@ const BitbuyCredentialsManager = () => {
           onChange={(e) => setPrivateKey(e.target.value)}
           placeholder={'Private Key'}
         />
-        <Button onClick={handleSubmit}>Done</Button>
+        {loading ? (
+          <FontAwesomeIcon icon={faSpinner} spin />
+        ) : (
+          <Button onClick={handleSubmit}>Done</Button>
+        )}
       </InputContainer>
 
       <P>
