@@ -557,7 +557,7 @@ export const selectTotalGroupHoldings = createSelector(
             if (
               preferredCurrency &&
               (position.symbol.currency.id === preferredCurrency.id ||
-                position.currency.id === preferredCurrency.id)
+                position.currency?.id === preferredCurrency.id)
             ) {
               position.fractional_units
                 ? (total += position.fractional_units * position.price)
