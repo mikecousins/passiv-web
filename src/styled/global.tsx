@@ -201,6 +201,7 @@ export const GlobalStyle = () => (
 
       :root {
         --brand-green: #04a287;
+        --brand-light-green: #9bd8ce;
         --brand-blue: #003ba2;
         --brand-blue-hover: #033ebc;
         --brand-grey: #2a2d34;

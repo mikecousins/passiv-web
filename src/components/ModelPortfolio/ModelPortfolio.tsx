@@ -52,6 +52,7 @@ import { CopyButton } from './MoreOptions';
 import DeleteModelDialog from './DeleteModelDialog';
 import { selectIsPaid } from '../../selectors/subscription';
 import { BetaTag } from '../SlideMenu/SideBarLink';
+import ContactForm from '../Help/ContactForm';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -440,7 +441,7 @@ const ModelPortfolio = () => {
               {securityBased && (
                 <P style={{ textAlign: 'center' }}>
                   * Asset class is a beta feature. Help us improve this feature
-                  by <A href="mailto:support@passiv.com">sharing feedback</A>
+                  by <Link to={'/app/contact-form'}>sharing feedback</Link>
                 </P>
               )}
               <ActionContainer>

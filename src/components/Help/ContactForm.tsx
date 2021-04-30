@@ -11,18 +11,18 @@ import { postData } from '../../api';
 import { selectSettings } from '../../selectors';
 
 const GreenBox = styled.div`
-  background-color: var(--brand-green);
+  background-color: var(--brand-light-green);
   border-radius: 4px;
   box-shadow: 1px 1px 20px #949494;
   flex: 1;
   padding: 30px 30px 30px;
   margin-bottom: 20px;
-  max-width: 600px;
   h2 {
     margin-bottom: 25px;
+    text-align: center;
   }
   form {
-    max-width: 100%;
+    margin: 0 auto;
   }
 `;
 

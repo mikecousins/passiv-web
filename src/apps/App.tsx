@@ -47,6 +47,7 @@ import {
 } from './Paths';
 import Prioritization from '../components/ModelPortfolio/Prioritization/Prioritization';
 import { selectIsPaid } from '../selectors/subscription';
+import ContactForm from '../components/Help/ContactForm';
 
 // preload pages
 const ReactLazyPreload = (importStatement: any) => {
@@ -406,6 +407,7 @@ const App = () => {
               component={HelpArticlePage}
             />
             <Route path={prefixPath('/help')} component={HelpPage} />
+            <Route path={prefixPath('/contact-form')} component={ContactForm} />
             <Route
               path={prefixPath('/reset-password')}
               component={ResetPasswordPage}

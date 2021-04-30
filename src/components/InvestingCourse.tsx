@@ -35,7 +35,8 @@ const TakeCourse = styled(A)`
 `;
 
 const ShadowBoxwImage = styled(ShadowBox)`
-  background: url(${courseGraphic}) no-repeat 98% bottom #9bd8ce;
+  background: url(${courseGraphic}) no-repeat 98% bottom
+    var(--brand-light-green);
   background-size: 300px;
   padding: 40px;
   @media (max-width: 900px) {
