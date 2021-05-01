@@ -13,7 +13,6 @@ import { selectState } from '.';
 import {
   selectPerformancePageFeature,
   selectAdjustedCostBasisFeature,
-  selectNewReportingFeature,
 } from './features';
 import { selectLoggedIn, selectAppTime } from './index';
 import { SimpleState } from '../types/common';
@@ -388,16 +387,14 @@ export const selectReportingSettingsNeedData = createSelector<
   AppState,
   boolean,
   SimpleState<ReportingSettings>,
-  boolean,
   number,
   boolean
 >(
   selectLoggedIn,
   selectReportingSettings,
-  selectNewReportingFeature,
   selectAppTime,
-  (loggedIn, reportingSettings, newReportingFeature, time) => {
-    if (!loggedIn || !newReportingFeature) {
+  (loggedIn, reportingSettings, time) => {
+    if (!loggedIn) {
       return false;
     }
     return shouldUpdate(reportingSettings, {

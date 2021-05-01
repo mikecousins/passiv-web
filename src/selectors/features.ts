@@ -96,5 +96,3 @@ export const selectModelPortfolioFeature = createFeatureSelector(
 export const selectReferralCharity = createFeatureSelector('referral_charity');
 
 export const selectAprilFools2021 = createFeatureSelector('april_fools_2021');
-
-export const selectNewReportingFeature = createFeatureSelector('reporting2');

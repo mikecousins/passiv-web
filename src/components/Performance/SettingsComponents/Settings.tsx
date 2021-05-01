@@ -11,7 +11,6 @@ import {
   selectHasQuestradeConnection,
   selectHasWealthicaConnection,
 } from '../../../selectors';
-import { selectNewReportingFeature } from '../../../selectors/features';
 import {
   selectEndDate,
   selectPerformanceCurrentDetailedMode,
@@ -45,7 +44,6 @@ const Settings = () => {
   const [showReturnRate, setShowReturnRate] = useState(
     settings?.show_return_rate,
   );
-  const useNewReporting = useSelector(selectNewReportingFeature);
   const hasQuestradeAccount = useSelector(selectHasQuestradeConnection);
   const hasWealthicaAccount = useSelector(selectHasWealthicaConnection);
   const startDate = useSelector(selectStartDate);
@@ -192,18 +190,16 @@ const Settings = () => {
         </>
       )}
 
-      {useNewReporting && (
-        <Option>
-          <div>
-            <span onClick={() => disableDetailedMode()}>
-              <DefaultChart selected={!detailedMode} />
-            </span>
-            <span onClick={() => enableDetailedMode()}>
-              <DetailedChart selected={detailedMode} />
-            </span>
-          </div>
-        </Option>
-      )}
+      <Option>
+        <div>
+          <span onClick={() => disableDetailedMode()}>
+            <DefaultChart selected={!detailedMode} />
+          </span>
+          <span onClick={() => enableDetailedMode()}>
+            <DetailedChart selected={detailedMode} />
+          </span>
+        </div>
+      </Option>
       {needsDataRefresh() && (
         <>
           <br></br>

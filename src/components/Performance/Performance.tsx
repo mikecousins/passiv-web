@@ -32,7 +32,6 @@ import {
 import PerformanceRateOfReturn from './PerformanceRateOfReturn';
 import Settings from './SettingsComponents/Settings';
 import TimeframePicker from './TimeframePicker';
-import { selectNewReportingFeature } from '../../selectors/features';
 
 const Grid = styled.div`
   @media (min-width: 900px) {
@@ -96,7 +95,6 @@ export const Performance = () => {
   // We can hide charts if user is on custom timeframe and hasn't yet fetched data (can check this if contributions are undefined)
   const contributions = useSelector(selectContributions);
   let rateOfReturn = useSelector(selectRateOfReturn);
-  const useNewReporting = useSelector(selectNewReportingFeature);
   const settings = useSelector(selectReportingSettings).data;
   let showRateOfReturn = true;
   let showDividendData = true;
@@ -119,16 +117,12 @@ export const Performance = () => {
         </div>
       )}
 
-      {useNewReporting && (
-        <>
-          <SettingsBox>
-            <CustomizeDashBtn onClick={() => setShowSettings(!showSettings)}>
-              <FontAwesomeIcon icon={faCogs} /> Settings
-            </CustomizeDashBtn>
-          </SettingsBox>
-          {showSettings && <Settings />}
-        </>
-      )}
+      <SettingsBox>
+        <CustomizeDashBtn onClick={() => setShowSettings(!showSettings)}>
+          <FontAwesomeIcon icon={faCogs} /> Settings
+        </CustomizeDashBtn>
+      </SettingsBox>
+      {showSettings && <Settings />}
 
       <TimeframePicker />
       {currentTimeframe === 'CST' && contributions === undefined && (
