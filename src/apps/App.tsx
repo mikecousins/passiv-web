@@ -44,6 +44,7 @@ import {
   REFERRALS_PATH,
   REPORTING_PATH,
   GOALS_PATH,
+  MY_MODELS_PATH,
 } from './Paths';
 import Prioritization from '../components/ModelPortfolio/Prioritization/Prioritization';
 import { selectIsPaid } from '../selectors/subscription';
@@ -193,27 +194,21 @@ const PerformancePage = ReactLazyPreload(() =>
 const GoalsPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "goals" */ '../pages/GoalsPage'),
 );
-const ModelAssetClassPage = React.lazy(() =>
-  //? webpackChunkName
-  import(/* webpackChunkName: "asset-class" */ '../pages/ModelAssetClassPage'),
-);
-
-const MyModelPortfoliosPage = React.lazy(() =>
-  //? webpackChunkName
+const MyModelPortfoliosPage = ReactLazyPreload(() =>
   import(
-    /* webpackChunkName: "model-portfolios" */ '../pages/MyModelPortfoliosPage'
+    /* webpackChunkName: "my-model-portfolios" */ '../pages/MyModelPortfoliosPage'
   ),
 );
-
-const ModelPortfolioPage = React.lazy(() =>
-  //? webpackChunkName
+const ModelAssetClassPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "asset-class" */ '../pages/ModelAssetClassPage'),
+);
+const ModelPortfolioPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "model-portfolio" */ '../pages/ModelPortfolioPage'
   ),
 );
 
-const SharedModelPortfolio = React.lazy(() =>
-  //? webpackChunkName
+const SharedModelPortfolio = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "shared-model-portfolio" */ '../components/ModelPortfolio/SharedModelPortfolio'
   ),
@@ -226,6 +221,11 @@ const SharedModelPortfolio = React.lazy(() =>
 // }
 
 // list of all the routes that has any link associate with them in the app
+type RouteType = {
+  path: string;
+  exact: boolean;
+  component: any;
+};
 const routes = [
   { path: LOGIN_PATH, exact: true, component: LoginPage },
   { path: REGISTER_PATH, exact: true, component: RegistrationPage },
@@ -237,10 +237,11 @@ const routes = [
   { path: REFERRALS_PATH, exact: true, component: ReferralPage },
   { path: REPORTING_PATH, exact: true, component: PerformancePage },
   { path: GOALS_PATH, exact: true, component: GoalsPage },
+  { path: MY_MODELS_PATH, exact: true, component: MyModelPortfoliosPage },
 ];
 
-const findComponentForRoute = (path: any, routes: any) => {
-  const matchingRoute = routes.find((route: any) =>
+const findComponentForRoute = (path: string, routes: RouteType[]) => {
+  const matchingRoute = routes.find((route) =>
     matchPath(path, {
       path: route.path,
       exact: route.exact,
@@ -641,16 +642,16 @@ const App = () => {
             {showSecureApp && (
               <Route path={prefixPath('/share')} component={SharePage} />
             )}
-            {showSecureApp && isPaid && (
-              <Route
-                path={prefixPath('/asset-class')}
-                component={ModelAssetClassPage}
-              />
-            )}
             {showSecureApp && modelPortfolioFeature && (
               <Route
                 path={prefixPath('/models')}
                 component={MyModelPortfoliosPage}
+              />
+            )}
+            {showSecureApp && isPaid && (
+              <Route
+                path={prefixPath('/asset-class')}
+                component={ModelAssetClassPage}
               />
             )}
             {showSecureApp && (
