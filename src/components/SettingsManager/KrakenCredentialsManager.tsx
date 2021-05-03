@@ -97,7 +97,7 @@ const KrakenCredentialsManager = () => {
 
       <P>
         If you're stuck, read our{' '}
-        <A href="#">
+        <A href="https://passiv.com/help/tutorials/connect-kraken-to-passiv/">
           tutorial on how to connect your Kraken account to Passiv.
         </A>
       </P>
