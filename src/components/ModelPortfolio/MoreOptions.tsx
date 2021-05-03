@@ -33,6 +33,7 @@ import {
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import DeleteModelDialog from './DeleteModelDialog';
 import { selectGroupsUsingAModel } from '../../selectors/modelPortfolios';
+import { GroupData } from '../../types/group';
 
 const EllipsisButton = styled.button`
   align-items: center;
@@ -137,7 +138,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
 
   const modelId = model.model_portfolio.id;
 
-  let groups: any;
+  let groups: GroupData[] = [];
   if (modelId) {
     groups = groupsUsingModel?.[modelId]?.groups;
   }
@@ -191,7 +192,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
         dispatch(loadAccountList());
         dispatch(loadGroupsList());
         if (groups !== undefined) {
-          dispatch(loadGroup({ ids: groups.map((group: any) => group.id) }));
+          dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
         }
         toast.success('Delete the model successfully.');
         history.replace('/app/models');

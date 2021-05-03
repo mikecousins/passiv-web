@@ -6,6 +6,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectGroupsUsingAModel } from '../../selectors/modelPortfolios';
 import { Button } from '../../styled/Button';
+import { GroupData } from '../../types/group';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import {
   ActionContainer,
@@ -27,15 +28,15 @@ const DeleteModelExplanation = styled.div`
 type Props = {
   model: ModelPortfolioDetailsType;
   open: boolean;
-  hideDialog: any;
-  deleteModel: any;
+  hideDialog: () => void;
+  deleteModel: () => void;
 };
 
 const DeleteModelDialog = ({ model, open, hideDialog, deleteModel }: Props) => {
   const groupsUsingModel = useSelector(selectGroupsUsingAModel);
   const modelId = model.model_portfolio.id;
 
-  let groups: any;
+  let groups: GroupData[] = [];
   if (modelId) {
     groups = groupsUsingModel?.[modelId]?.groups;
   }
@@ -60,7 +61,7 @@ const DeleteModelDialog = ({ model, open, hideDialog, deleteModel }: Props) => {
             <FontAwesomeIcon icon={faExclamationTriangle} /> The following
             groups are using this model and would get reset:
             <ul>
-              {groups.map((group: any) => {
+              {groups.map((group) => {
                 return <li key={group.id}>{group.name}</li>;
               })}
             </ul>

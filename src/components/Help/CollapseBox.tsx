@@ -11,7 +11,7 @@ const ClickableH3 = styled(H3)`
 
 type Props = {
   title: string;
-  content: any;
+  content: React.ReactNode;
 };
 
 const CollapseBox = ({ title, content }: Props) => {

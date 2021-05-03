@@ -200,7 +200,7 @@ const ApplyTarget = () => {
   //   //   // const newArrayOfObj = model?.map(({ fullSymbol: symbol, ...rest }) => ({
   //   //   //   ...rest,
   //   //   // }));
-  //   //   // console.log(newArrayOfObj);
+  //   //
   //   //   setSelectedModelDetails(currentGroupTarget);
   //   //   setSelectedModel(currentGroupInfo?.model_portfolio);
   //   // } else if (

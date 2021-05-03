@@ -52,6 +52,7 @@ import { CopyButton } from './MoreOptions';
 import DeleteModelDialog from './DeleteModelDialog';
 import { selectIsPaid } from '../../selectors/subscription';
 import { BetaTag } from '../SlideMenu/SideBarLink';
+import { GroupData } from '../../types/group';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -186,7 +187,7 @@ const ModelPortfolio = () => {
   const editMode = group.edit;
   const applyMode = group.apply;
 
-  let groups: any;
+  let groups: GroupData[] = [];
   if (modelId) {
     groups = groupsUsingModel?.[modelId]?.groups;
   }
@@ -225,7 +226,7 @@ const ModelPortfolio = () => {
         dispatch(loadAccountList());
         dispatch(loadGroupsList());
         if (groups !== undefined) {
-          dispatch(loadGroup({ ids: groups.map((group: any) => group.id) }));
+          dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
         }
         toast.success('Delete the model successfully.');
         history.replace('/app/models');

@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFindMatch } from './utils/utils';
 import { selectCurrentModelPortfolioId } from '../../selectors/modelPortfolios';
 import { useSelector } from 'react-redux';
+import { ModelAssetClass } from '../../types/modelAssetClass';
 
 const StyledCombobox = styled(Combobox)`
   width: 500px;
@@ -73,7 +74,7 @@ const AddAssetClassBtn = styled.li`
 type Props = {
   name: string;
   id: string;
-  availableAssetClasses: any[];
+  availableAssetClasses: ModelAssetClass[];
   clearInput?: number;
   onSelect: any;
 };

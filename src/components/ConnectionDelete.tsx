@@ -6,13 +6,14 @@ import { deleteData } from '../api';
 import { DeleteButton } from '../styled/DeleteButton';
 import { Button } from '../styled/Button';
 import { H3, P } from '../styled/GlobalElements';
+import { Authorization } from '../types/authorization';
 
 const ConnectionsDelete = styled.div`
   text-align: right;
 `;
 
 type Props = {
-  authorization: any;
+  authorization: Authorization;
   isDemo: boolean;
 };
 
@@ -20,7 +21,7 @@ export const ConnectionDelete = ({ authorization, isDemo }: Props) => {
   const [deleting, setDeleting] = useState(false);
   const dispatch = useDispatch();
 
-  const confirmDelete = (authorization: any) => {
+  const confirmDelete = (authorization: Authorization) => {
     deleteData(`/api/v1/authorizations/${authorization.id}`)
       .then(() => {
         setDeleting(false);

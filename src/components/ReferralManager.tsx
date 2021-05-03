@@ -37,6 +37,7 @@ import { loadSettings } from '../actions';
 import { Field, Form, Formik } from 'formik';
 import { StyledSelect } from '../components/PortfolioGroupSettings/OrderTargetAllocations';
 import { toast } from 'react-toastify';
+import { Charity, Invoice } from '../types/referral';
 
 interface Referral {
   created_date: Date;
@@ -143,8 +144,6 @@ const ReferralA = styled(A)`
   font-size: inherit;
 `;
 
-const InvoiceCharityBox = styled(Grid)``;
-
 const EtransferEmail = styled.div`
   display: flex;
   * {
@@ -231,21 +230,20 @@ const ReferralManager = () => {
     [],
   );
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error>();
   const [success, setSuccess] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const [invoices, setInvoices] = useState([]);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
 
   const [updatingPayment, setUpdatingPayment] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState('');
-  const [charities, setCharities] = useState<any[]>([]);
+  const [charities, setCharities] = useState<Charity[]>([]);
 
   const [editingEmail, setEditingEmail] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
 
-  const getCharityById = (id: string): any => {
+  const getCharityById = (id: string) => {
     return charities.find((charity) => charity.id === id);
   };
 
@@ -289,9 +287,8 @@ const ReferralManager = () => {
       .catch((err) => {
         setLoading(false);
         if (err.response) {
-          setError(err.response.data);
+          toast.error(err.response.data);
         }
-        console.log(error);
       });
 
     getData('/api/v1/invoices')
@@ -302,14 +299,21 @@ const ReferralManager = () => {
       .catch((err) => {
         setLoading(false);
         if (err.response) {
-          setError(err.response.data);
+          toast.error(err.response.data);
         }
-        console.log(err);
       });
-    getData('/api/v1/charities').then((res) => {
-      setCharities(res.data);
-      setLoading(false);
-    });
+    getData('/api/v1/charities')
+      .then((res) => {
+        setCharities(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        if (err.response) {
+          toast.error(err.response.data);
+        }
+        toast.error('Unable to fetch charities data.');
+      });
   }
 
   const cancelEditingEmail = () => {
@@ -452,7 +456,7 @@ const ReferralManager = () => {
           <Chart data={data} axes={axes} series={series} tooltip />
         </div>
       )}
-      <InvoiceCharityBox columns={invoices.length > 0 ? '1fr 1fr' : '1fr'}>
+      <Grid columns={invoices.length > 0 ? '1fr 1fr' : '1fr'}>
         {referralCharity && (
           <div>
             <SubHeading>Payment Options</SubHeading>
@@ -587,12 +591,12 @@ const ReferralManager = () => {
                                 {getCharityById(settings.affiliate_charity) !==
                                   undefined &&
                                   getCharityById(settings.affiliate_charity)
-                                    .charity_name}
+                                    ?.charity_name}
                               </SelectedCharity>
                             )}
                             <StyledSelect as="select" name="selectedCharity">
                               {<option value="" label="Select a charity" />}
-                              {charities.map((charity: any) => (
+                              {charities.map((charity: Charity) => (
                                 <option value={charity.id} key={charity.id}>
                                   {charity.charity_name}
                                 </option>
@@ -653,7 +657,7 @@ const ReferralManager = () => {
                   <FontAwesomeIcon icon={faSpinner} spin />
                 ) : (
                   <Grid columns="1fr 1fr 1fr">
-                    {invoices.map((inv: any) => {
+                    {invoices.map((inv) => {
                       return (
                         <div style={{ marginBottom: '30px', padding: '5px' }}>
                           <FontAwesomeIcon
@@ -677,7 +681,7 @@ const ReferralManager = () => {
             </>
           ) : null}
         </div>
-      </InvoiceCharityBox>
+      </Grid>
       <SubHeading>The Fine Print</SubHeading>
       <ReferralBulletUL>
         <li>

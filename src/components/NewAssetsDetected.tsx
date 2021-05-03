@@ -25,9 +25,10 @@ import {
   selectModelPortfolios,
   selectModelUseByOtherGroups,
 } from '../selectors/modelPortfolios';
+import { Position } from '../types/groupInfo';
 
 type Props = {
-  targets: any;
+  targets: Position[];
 };
 
 const ListOfAssets = styled.ul`
@@ -79,7 +80,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
 
   const groupId = currentGroup?.id;
 
-  const handleAddTarget = (target: any, exclude: boolean) => {
+  const handleAddTarget = (target: Position, exclude: boolean) => {
     setLoadingId(target.symbol.id);
     const newTarget = {
       symbol: target.symbol.id,
@@ -96,7 +97,6 @@ const NewAssetsDetected = ({ targets }: Props) => {
     } else {
       newTargets = targets?.currentTarget;
     }
-    //@ts-ignore
     newTargets?.push(newTarget);
 
     postData(`/api/v1/portfolioGroups/${groupId}/targets/`, newTargets!)
@@ -127,7 +127,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
       });
   };
 
-  const handleAddToModel = (target: any) => {
+  const handleAddToModel = (target: Position) => {
     setLoadingId(target.symbol.id);
     const modelId = currentGroup?.model_portfolio;
     const model = modelPortfolios.filter(
@@ -195,7 +195,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
           </P>
         )}
         <ListOfAssets>
-          {targets?.map((target: any) => {
+          {targets?.map((target) => {
             if (target.excluded) {
               return;
             }

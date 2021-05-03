@@ -47,7 +47,7 @@ export const selectCurrentModelPortfolio = createSelector(
   selectCurrentModelPortfolioId,
   selectModelPortfoliosRaw,
   (modelId, models) => {
-    let currentModelPortfolio = null;
+    let currentModelPortfolio: ModelPortfolioDetailsType | null = null;
     if (modelId && models.data) {
       models.data?.map((mdl: ModelPortfolioDetailsType) => {
         if (mdl.model_portfolio.id === modelId) {
@@ -72,7 +72,7 @@ export const selectGroupInfoForModelPortfolio = createSelector(
       (pathName[2] === 'models' || pathName[2] === 'model-portfolio') &&
       (pathName[3] === 'group' || pathName[4] === 'group')
     ) {
-      let groupId: any;
+      let groupId: string;
       if (pathName[3] === 'group') {
         groupId = pathName[4];
       } else if (pathName[4] === 'group') {
@@ -108,7 +108,7 @@ export const selectGroupsUsingAModel = createSelector(
       }
       return acc;
     }, {});
-    modelPortfolios.forEach((mdl: any) => {
+    modelPortfolios.forEach((mdl: ModelPortfolioDetailsType) => {
       Object.entries(models).forEach(([key, value]) => {
         if (mdl.model_portfolio.id === key) {
           return (models[key].model = mdl.model_portfolio);

@@ -227,7 +227,6 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     if (index !== -1) {
       needToConfirmCopy.splice(index, 1);
     }
-    toast.success(`Set priorities for "${priority.asset_class.name}".`);
     setNeedToConfirm(needToConfirmCopy);
   };
 

@@ -11,7 +11,10 @@ import {
   loadModelPortfolios,
 } from '../../actions';
 import NameInputAndEdit from '../NameInputAndEdit';
-import { ModelAssetClass } from '../../types/modelAssetClass';
+import {
+  ModelAssetClass,
+  ModelAssetClassDetailsType,
+} from '../../types/modelAssetClass';
 import { useHistory } from 'react-router';
 import {
   selectGroupInfoForModelPortfolio,
@@ -29,6 +32,8 @@ import { A } from '../../styled/GlobalElements';
 import RouteLeavingPrompt from '../RouteLeavingPrompt';
 import { isNameDuplicate } from './utils/utils';
 import Tooltip from '../Tooltip';
+import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
+import { GroupData } from '../../types/group';
 
 const NameInputAndEditStyle = styled(NameInputAndEdit)`
   @media (max-width: 900px) {
@@ -203,7 +208,7 @@ const Error = styled.div`
 `;
 
 type Props = {
-  modelPortfolio: any;
+  modelPortfolio: ModelPortfolioDetailsType;
   assetClasses: ModelAssetClass[];
   securityBased: boolean;
   modelTypeChanged: boolean;
@@ -241,7 +246,7 @@ const ModelPortoflioBox = ({
   const assignedPortfolioGroups =
     modelPortfolio.model_portfolio.total_assigned_portfolio_groups;
 
-  let groups: any;
+  let groups: GroupData[] = [];
   if (modelId) {
     groups = groupsUsingModel?.[modelId]?.groups;
   }
@@ -288,7 +293,7 @@ const ModelPortoflioBox = ({
           dispatch(loadAccountList());
           dispatch(loadGroupsList());
           if (groups !== undefined) {
-            dispatch(loadGroup({ ids: groups.map((group: any) => group.id) }));
+            dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
           }
         })
         .catch(() => {
@@ -436,10 +441,10 @@ const ModelPortoflioBox = ({
                   );
                   const cashPercentage = (100 - +total).toFixed(3);
 
-                  let availableAssetClasses: any = [];
+                  let availableAssetClasses: ModelAssetClass[] = [];
                   if (!securityBased) {
                     const usedAssetClasses = props.values.targets.map(
-                      (astCls: any) => {
+                      (astCls: ModelAssetClassDetailsType) => {
                         return astCls.model_asset_class?.id;
                       },
                     );
