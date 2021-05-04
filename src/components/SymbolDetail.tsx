@@ -15,6 +15,18 @@ const SymbolNameBox = styled.span`
   }
 `;
 
+const AssetClassName = styled(SymbolNameBox)`
+  @media (min-width: 900px) {
+    padding-left: 0px;
+  }
+  @media (max-width: 900px) {
+    display: block;
+    margin-top: 0px;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+`;
+
 type Props = {
   symbol: any;
   assetClass?: boolean;
@@ -24,7 +36,7 @@ export const SymbolDetail = ({ symbol, assetClass = false }: Props) => {
   if (assetClass) {
     return (
       <span title={`${symbol}`}>
-        <SymbolNameBox>{symbol}</SymbolNameBox>
+        <AssetClassName>{symbol}</AssetClassName>
       </span>
     );
   } else {
