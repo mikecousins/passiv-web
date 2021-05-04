@@ -8,6 +8,8 @@ import { H2, H3, P } from '../../../styled/GlobalElements';
 import Grid from '../../../styled/Grid';
 import { selectIsMobile, selectIsTablet } from '../../../selectors/browser';
 import { CheckBox } from '../../../styled/CheckBox';
+import { AccountPriorities } from '../../../types/modelPortfolio';
+import { HandleBtnType } from './AssetClassPriority';
 
 type SecurityProps = {
   isChanged: boolean;
@@ -105,12 +107,15 @@ type Props = {
   symbolId: string;
   symbolName: string;
   symbolDesc: string;
-  changed: any;
-  account: any;
+  changed: {
+    symbolId: string;
+    accountId: string;
+  };
+  account: AccountPriorities;
   numberOfSecurities: number;
   index: number;
   assetClassId: string;
-  handleBtn: any;
+  handleBtn: HandleBtnType;
   priorityKind: string;
   newAsset: boolean;
 };
@@ -212,6 +217,7 @@ const SecurityPriority = ({
                   symbolId,
                   priorityKind === 'buy' && true,
                   false,
+                  false,
                 )
               }
             >
@@ -234,6 +240,7 @@ const SecurityPriority = ({
                   account.account.id,
                   symbolId,
                   priorityKind === 'buy' && true,
+                  false,
                   false,
                 )
               }

@@ -10,6 +10,7 @@ import { selectGroupsUsingAModel } from '../../selectors/modelPortfolios';
 import { loadGroups, loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
 import { ModelPortfolio } from '../../types/modelPortfolio';
+import { GroupData } from '../../types/group';
 
 export const GreyBox = styled.div`
   background: #f1f1f1;
@@ -67,13 +68,13 @@ const SelectGroupDialog = ({ model }: Props) => {
       });
   };
 
-  let usingModel: any;
-  let filteredGroups: any = [];
+  let usingModel: GroupData[] = [];
+  let filteredGroups;
   if (modelId && groupsUsingByModel?.[modelId]) {
     usingModel = modelId && groupsUsingByModel[modelId].groups;
     //Find values that are in groups but not in usingModel
     filteredGroups = groups?.filter((group) => {
-      return !usingModel.some((gp: any) => {
+      return !usingModel.some((gp) => {
         return group.id === gp.id;
       });
     });
@@ -87,7 +88,7 @@ const SelectGroupDialog = ({ model }: Props) => {
         Apply <span style={{ fontWeight: 600 }}>"{modelName}"</span> to:
       </H1>
       {filteredGroups &&
-        filteredGroups.map((group: any) => {
+        filteredGroups.map((group) => {
           const targetByAssetClass =
             groupInfo[group.id].data?.settings.rebalance_by_asset_class;
           return (
@@ -120,7 +121,7 @@ const SelectGroupDialog = ({ model }: Props) => {
           <br />
           <ul style={{ padding: '0px 10px' }}>
             {usingModel &&
-              usingModel.map((gp: any) => {
+              usingModel.map((gp) => {
                 return <li style={{ marginBottom: '10px' }}>{gp.name}</li>;
               })}
           </ul>

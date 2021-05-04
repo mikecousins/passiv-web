@@ -124,7 +124,7 @@ export const AccountsSelect = () => {
 
 export default AccountsSelect;
 
-export const validDates = (startDate: any, endDate: any) => {
+export const validDates = (startDate: string, endDate: string) => {
   if (startDate !== undefined && endDate !== undefined) {
     if (startDate < endDate) {
       return true;

@@ -3,7 +3,7 @@ import { H3, P } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
 
 type Props = {
-  assetClassesDetails: any; //! change this to an actual type
+  assetClassesDetails: any;
   assetClassId: string;
 };
 const AssetClassModelDetails = ({

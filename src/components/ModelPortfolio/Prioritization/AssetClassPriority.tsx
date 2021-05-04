@@ -141,8 +141,11 @@ const NotSupported = styled.div`
 
 type Props = {
   priority: AssetClassPriorities;
-  changed: any;
-  handleBtn: any;
+  changed: {
+    symbolId: string;
+    accountId: string;
+  };
+  handleBtn: HandleBtnType;
   onSettingsPage: boolean;
   needToConfirm: string[];
   newAssets: string[];
@@ -348,3 +351,14 @@ const AssetClassPriority = ({
 };
 
 export default AssetClassPriority;
+
+export type HandleBtnType = (
+  upButtonClicked: boolean,
+  index: number,
+  assetClassId: string,
+  accountId: string,
+  symbolId: string,
+  inBuyBox: boolean,
+  checkBoxClicked: boolean,
+  isNoTrade: boolean,
+) => void;

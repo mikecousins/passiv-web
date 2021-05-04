@@ -221,7 +221,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     setAssetClassPriorities(assetClassTradePriorities.tradePriorities);
   };
 
-  const handleConfirm = (priority: any) => {
+  const handleConfirm = (priority: AssetClassPriorities) => {
     let needToConfirmCopy = [...needToConfirm];
     let index = needToConfirmCopy?.indexOf(priority.asset_class.id);
     if (index !== -1) {

@@ -582,7 +582,7 @@ const ModelPortoflioBox = ({
                             </Percentage>
                             {securityBased ? (
                               <SymbolSelector
-                                value={null}
+                                value={undefined}
                                 onSelect={(symbol) => {
                                   handleAddToModel(symbol);
                                 }}

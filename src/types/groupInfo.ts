@@ -1,7 +1,7 @@
 import { Currency } from './currency';
 import { Account } from './account';
 import { Authorization } from './authorization';
-import { AssetClassPriorities } from './modelPortfolio';
+import { AssetClassPriorities, ModelPortfolio } from './modelPortfolio';
 
 export type Symbol = {
   id: string;
@@ -116,6 +116,6 @@ export type GroupInfoData = {
   calculated_trades: CalculatedTrades;
   accuracy: number;
   settings: Settings;
-  model_portfolio: any;
+  model_portfolio: ModelPortfolio;
   error: Error;
 };

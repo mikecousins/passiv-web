@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
+import {
+  ModelPortfolioDetailsType,
+  TargetWithPercentage,
+} from '../../types/modelPortfolio';
 import { selectRouter } from '../../selectors/router';
 import ShadowBox from '../../styled/ShadowBox';
 import { ResponsiveGrid } from './ModelPortfolio';
@@ -303,14 +306,14 @@ const SharedModelPortfolio = () => {
 export default SharedModelPortfolio;
 
 type Prop = {
-  securities: any;
+  securities: TargetWithPercentage[];
 };
 const OtherSecurities = ({ securities }: Prop) => {
   return (
     <ul>
-      {securities.map((security: any) => {
+      {securities.map((security) => {
         return (
-          <li style={{ margin: '7px' }}>
+          <li style={{ margin: '7px' }} key={security.symbol.id}>
             {security.symbol.symbol}:
             <span style={{ fontWeight: 700, float: 'right' }}>
               {security.percent} %
