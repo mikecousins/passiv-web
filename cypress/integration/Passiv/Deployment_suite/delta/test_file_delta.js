@@ -72,8 +72,8 @@ describe('Reset and build portfolio manually', () => {
     cy.get('input').eq(-2).click().clear().type(5)
     cy.get('input').last().type('PNG.VN').type('{enter}').wait(6000).type('{enter}').wait(6000)
 
-    cy.get('div').contains('Share Model').next().click().next().should('eq', 'On')
-    cy.get('div').contains('Share Model').next().click().next().should('eq', 'Off')
+    cy.get('div').contains('Share Model').next().click()
+    cy.get('div').contains('Share Model').next().click()
 
     cy.get('button').contains('Save').click().wait(6000)
 

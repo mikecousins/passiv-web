@@ -1,4 +1,4 @@
-// Sidebar_test_live
+6// Sidebar_test_live
 describe('Sidebar individual component test', () => {
 
   it('Collapse button works', () => {
