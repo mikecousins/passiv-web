@@ -83,9 +83,7 @@ export const selectGroupInfoForModelPortfolio = createSelector(
 
     return {
       groupInfo,
-      //@ts-ignore
       edit: router.location.query.edit,
-      //@ts-ignore
       apply: router.location.query.apply,
     };
   },

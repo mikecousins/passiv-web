@@ -47,7 +47,6 @@ const ModelAssetClass = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const router = useSelector(selectRouter);
-  //@ts-ignore
   const back = router.location.query.back;
 
   const assetClasses: ModelAssetClassDetailsType[] = useSelector(

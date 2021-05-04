@@ -321,7 +321,7 @@ export const PortfolioGroupTrades = ({
       ),
       visible:
         settings !== null &&
-        settings!.prevent_trades_in_non_tradable_accounts === true &&
+        settings.prevent_trades_in_non_tradable_accounts === true &&
         isBlendedAccount,
     },
     {
@@ -356,7 +356,7 @@ export const PortfolioGroupTrades = ({
             settings={settings}
             accounts={groupAccounts}
             container={true}
-            trades={trades !== null && trades!.trades}
+            trades={trades !== null && trades.trades}
           />
         </TradesContainer>
       ),

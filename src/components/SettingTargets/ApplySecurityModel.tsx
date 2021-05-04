@@ -109,7 +109,6 @@ const ApplySecurityModel = ({ model }: Props) => {
           }}
           onSubmit={(values, actions) => {
             // const newArrayOfObj = values?.targets.map(
-            //   //@ts-ignore
             //   ({ fullSymbol: symbol, ...rest }) => ({
             //     symbol,
             //     ...rest,

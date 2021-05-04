@@ -124,7 +124,7 @@ const MyModelPortfoliosPage = () => {
     ModelPortfolio | undefined
   >();
 
-  let modelIdUseByGroup: string = '';
+  let modelIdUseByGroup: string | undefined = '';
   if (groupId && groupInfo[groupId].data?.model_portfolio) {
     modelIdUseByGroup = groupInfo[groupId].data?.model_portfolio.id;
   }
@@ -230,7 +230,10 @@ const MyModelPortfoliosPage = () => {
           ? modelPortfolios.map((mdl) => {
               const totalAssignedGroups =
                 mdl.model_portfolio.total_assigned_portfolio_groups;
-              if (modelIdUseByGroup === mdl.model_portfolio.id) {
+              if (
+                modelIdUseByGroup &&
+                modelIdUseByGroup === mdl.model_portfolio.id
+              ) {
                 if (modelPortfolios.length === 1) {
                   return noModelAvailable;
                 } else {

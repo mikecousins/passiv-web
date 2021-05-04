@@ -112,7 +112,6 @@ const SharedModelPortfolio = () => {
   const [isSharedModel, setIsSharedModel] = useState(false);
   const [sharedModel, setSharedModel] = useState<ModelPortfolioDetailsType>();
 
-  //@ts-ignore
   let shareId = router?.location?.query?.share;
   const modelId = router.location.pathname.split('/')[3];
 

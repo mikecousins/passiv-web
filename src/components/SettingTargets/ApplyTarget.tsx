@@ -144,7 +144,6 @@ const ApplyTarget = () => {
       // const securitiesNotInTarget = trades?.trades.filter(
       //   (trade: any) => !trade.symbol_in_target,
       // );
-      // //@ts-ignore
       // model.securities_not_in_targets = securitiesNotInTarget;
     }
   }
@@ -169,7 +168,7 @@ const ApplyTarget = () => {
   );
 
   // const loadModelForCurrentGroup = (id: any) => {
-  //   //@ts-ignore
+
   //   model?.model_portfolio_security.map((security: any) => {
   //     const position = positions?.find(
   //       (position: any) => security.symbol.id === position.symbol.id,
@@ -179,7 +178,7 @@ const ApplyTarget = () => {
   //   const securitiesNotInTarget = trades?.trades.filter(
   //     (trade: any) => !trade.symbol_in_target,
   //   );
-  //   //@ts-ignore
+
   //   model.securities_not_in_targets = securitiesNotInTarget;
   //   const newArrayOfObj = model?.model_portfolio_security.map(
   //     ({ symbol: fullSymbol, ...rest }) => ({
