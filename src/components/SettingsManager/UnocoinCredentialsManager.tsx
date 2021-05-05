@@ -23,9 +23,15 @@ const MiniInputNonFormik = styled(InputNonFormik)`
   padding: 15px 12px;
 `;
 
+const Error = styled.p`
+  color: red;
+  margin-bottom: 10px;
+`;
+
 const UnocoinCredentialsManager = () => {
   const [APIKey, setAPIKey] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const generateTokenString = () => {
     let token_string = '';
@@ -45,7 +51,8 @@ const UnocoinCredentialsManager = () => {
         }, 1000);
       })
       .catch((error) => {
-        //Error handling here if required
+        setLoading(false);
+        setError(true);
       });
   };
 
@@ -67,16 +74,22 @@ const UnocoinCredentialsManager = () => {
       <InputContainer>
         <MiniInputNonFormik
           value={APIKey === null ? '' : APIKey}
-          onChange={(e) => setAPIKey(e.target.value)}
+          onChange={(e) => {
+            setAPIKey(e.target.value);
+            error && setError(false);
+          }}
           placeholder={'API Key'}
         />
-        {loading ? (
+        {error && (
+          <Error>The provided API key is not valid. Please try again.</Error>
+        )}
+        {!error && loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />
         ) : (
           <Button onClick={handleSubmit}>Done</Button>
         )}
       </InputContainer>
-
+      <br />
       <P>
         If you're stuck, read our{' '}
         <A
