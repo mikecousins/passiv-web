@@ -24,7 +24,7 @@ import {
 } from '../selectors/app';
 import { generateTrackingCode } from '../seo';
 import { setReferralCode, setTrackingId } from '../actions';
-import { selectQueryTokens, selectRouter } from '../selectors/router';
+import { selectQueryTokens } from '../selectors/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GoalDetailPage from '../pages/GoalDetailPage';
