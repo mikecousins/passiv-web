@@ -32,7 +32,7 @@ export const PerformanceDividendChart = () => {
         data: dividendData
           ?.sort((a, b) => b.amount - a.amount)
           .map((a) => {
-            return [a.symbol.symbol, a.amount];
+            return [a.symbol?.symbol, a.amount];
           }),
         color: '#04a286',
       },

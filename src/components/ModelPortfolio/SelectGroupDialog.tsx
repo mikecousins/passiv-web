@@ -49,9 +49,13 @@ const SelectGroupDialog = ({ model }: Props) => {
   const applyModel = (groupId: string, groupName: string) => {
     postData(`api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`, {})
       .then((res) => {
-        dispatch(loadGroups());
+        dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page
         dispatch(loadModelPortfolios());
-        history.push(`/app/group/${groupId}`);
+        if (model.model_type === 1) {
+          history.push(`/app/priorities/${groupId}`);
+        } else {
+          history.push(`/app/group/${groupId}`);
+        }
         toast.success(`Model applied to "${groupName}"`);
       })
       .catch((err) => {

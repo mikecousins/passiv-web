@@ -1,16 +1,25 @@
 import React from 'react';
 import ShadowBox from '../../styled/ShadowBox';
-import { H1, H2, P, A } from '../../styled/GlobalElements';
+import { H1, P, A } from '../../styled/GlobalElements';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { HideButton } from '../ContextualMessageWrapper';
+import { Link } from 'react-router-dom';
+import styled from '@emotion/styled';
 
-const WelcomeVideo = () => {
+const StyledP = styled(P)`
+  font-size: 22px;
+  font-weight: 600;
+`;
+
+const SetupPrompt = () => {
   return (
     <React.Fragment>
       <ShadowBox background="#DBFCF6">
         <H1>Setup Portfolios</H1>
-        <H2>Now it's time to set targets for your portfolios. Here's how:</H2>
+        <StyledP>
+          Now it's time to set targets for your portfolios. Here's how:
+        </StyledP>
         <P>
           <A
             href="https://passiv.com/help/tutorials/how-to-set-up-a-target-portfolio/"
@@ -22,8 +31,18 @@ const WelcomeVideo = () => {
           </A>
         </P>
         <P>
+          <A
+            href="https://player.vimeo.com/video/365762313"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Re-watch the get started video{' '}
+            <FontAwesomeIcon icon={faExternalLinkAlt} />
+          </A>
+        </P>
+        <P>
           If you want to make Passiv ignore one of your accounts, go to{' '}
-          <A href="/app/settings">Settings</A>, scroll down to Accounts, and
+          <Link to="/app/settings">Settings</Link>, scroll down to Accounts, and
           move the account to the Hidden Account section.
           <HideButton name={'setup_prompt'} />
         </P>
@@ -32,4 +51,4 @@ const WelcomeVideo = () => {
   );
 };
 
-export default WelcomeVideo;
+export default SetupPrompt;

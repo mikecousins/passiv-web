@@ -5,20 +5,15 @@ import { H2, H3, Title, P, BulletUL, A } from '../styled/GlobalElements';
 import {
   TradesContainer,
   TradeType,
-  TradeRow,
   Symbol,
-  ColumnSymbol,
-  ColumnSymbolWarning,
-  ColumnUnits,
-  ColumnPrice,
-  ColumnAccount,
-  ColumnWarning,
+  ColumnTrades,
 } from '../styled/Group';
 import { useHistory } from 'react-router-dom';
 import { ErrorContainer } from '../styled/Group';
 import {
   selectCurrentGroupSettings,
   selectCurrentGroupId,
+  selectNeedToPrioritize,
 } from '../selectors/groups';
 import Tooltip from './Tooltip';
 import Number from './Number';
@@ -40,6 +35,7 @@ import {
   Message,
 } from '../components/ContextualMessageMultiWrapper';
 import { HideButton } from './ContextualMessageWrapper';
+import Grid from '../styled/Grid';
 
 const HideButtonBox = styled.div`
   margin-right: 60px;
@@ -78,6 +74,7 @@ export const PortfolioGroupTrades = ({
   const [tradesSubmitted, setTradesSubmitted] = useState(false);
   const [tradesCache, setTradesCache] = useState(null);
   const currentGroupId = useSelector(selectCurrentGroupId);
+  const needToPrioritize = useSelector(selectNeedToPrioritize);
   const history = useHistory();
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
@@ -119,6 +116,9 @@ export const PortfolioGroupTrades = ({
   let hideTrades = false;
   if (settings && settings.hide_trades_until !== null) {
     hideTrades = Date.parse(settings.hide_trades_until) > Date.now();
+  }
+  if (needToPrioritize) {
+    hideTrades = true;
   }
 
   const TOUR_STEPS = [
@@ -168,88 +168,90 @@ export const PortfolioGroupTrades = ({
   ) {
     const tradeRender = (trade: any) => {
       const accountName = trade.account.name;
-      //!! comment this out before prod deploy
-      // const allowsTrading =
-      //   trade.account.brokerage_authorization.brokerage.allows_trading;
-      const allowsTrading = true;
+      const allowsTrading =
+        trade.account.brokerage_authorization.brokerage.allows_trading;
       return (
-        <TradeRow key={trade.id}>
-          <ColumnPrice>
+        <Grid columns="100px 100px 100px 2fr 1fr 100px" key={trade.id}>
+          <ColumnTrades>
             <Title>Price</Title>
             <div>
               <Number
                 value={trade.price}
-                currency={trade.universal_symbol.currency.code}
+                currency={
+                  trade.account.brokerage_authorization.brokerage.name ===
+                  'Unocoin'
+                    ? 'INR'
+                    : trade.universal_symbol.currency.code
+                }
                 isTrade={true}
               />
             </div>
-          </ColumnPrice>
-          <ColumnUnits>
+          </ColumnTrades>
+          <ColumnTrades>
             <Title>Units</Title>
             {trade.fractional_units ? (
               <div>{trade.fractional_units}</div>
             ) : (
               <div>{trade.units}</div>
             )}
-          </ColumnUnits>
-          {trade.symbol_in_target && allowsTrading ? (
-            <ColumnSymbol>
-              <Title>{trade.universal_symbol.description}</Title>
-              <Symbol>{trade.universal_symbol.symbol}</Symbol>
-            </ColumnSymbol>
-          ) : (
-            allowsTrading && (
-              <React.Fragment>
-                <ColumnSymbolWarning>
-                  <Title>{trade.universal_symbol.description}</Title>
-                  <Symbol>{trade.universal_symbol.symbol}</Symbol>
-                </ColumnSymbolWarning>
-                <ColumnWarning>
-                  <div>
-                    <Tooltip
-                      label={
-                        "Passiv is trying to sell all units of a security that is not in the target. If you actually want to keep this security but exclude it from Passiv's calculations, you can edit your target and flag this security as an excluded asset."
-                      }
-                    >
-                      <FontAwesomeIcon
-                        icon={faExclamationCircle}
-                        size="2x"
-                        color="orange"
-                      />
-                    </Tooltip>
-                  </div>
-                </ColumnWarning>
-              </React.Fragment>
-            )
-          )}
-          {!allowsTrading && (
-            <React.Fragment>
-              <ColumnSymbolWarning>
-                <Title>{trade.universal_symbol.description}</Title>
-                <Symbol>{trade.universal_symbol.symbol}</Symbol>
-              </ColumnSymbolWarning>
-              <ColumnWarning>
-                <div>
-                  <Tooltip
-                    label={
-                      "Cannot place trade for this security through Passiv because your brokerage's API does not provide the trading functionality."
-                    }
-                  >
-                    <FontAwesomeIcon
-                      icon={faInfoCircle}
-                      size="2x"
-                      color="var(--grey-darker)"
-                    />
-                  </Tooltip>
-                </div>
-              </ColumnWarning>
-            </React.Fragment>
-          )}
-          <ColumnAccount>
+          </ColumnTrades>
+          <ColumnTrades>
+            <Title>Amount</Title>
+            <div>
+              <Number
+                value={parseFloat(
+                  (trade.fractional_units
+                    ? trade.fractional_units * trade.price
+                    : trade.units * trade.price
+                  ).toFixed(2),
+                )}
+                currency={
+                  trade.account.brokerage_authorization.brokerage.name ===
+                  'Unocoin'
+                    ? 'INR'
+                    : trade.universal_symbol.currency.code
+                }
+                isTrade={true}
+              />
+            </div>
+          </ColumnTrades>
+          <ColumnTrades>
+            <Title>{trade.universal_symbol.description}</Title>
+            <Symbol>{trade.universal_symbol.symbol}</Symbol>
+          </ColumnTrades>
+          <ColumnTrades>
             <Title>Account</Title>
             <div>{accountName}</div>
-          </ColumnAccount>
-        </TradeRow>
+          </ColumnTrades>
+          <div>
+            {!trade.symbol_in_target && allowsTrading && (
+              <Tooltip
+                label={
+                  "Passiv is trying to sell all units of a security that is not in the target. If you actually want to keep this security but exclude it from Passiv's calculations, you can edit your target and flag this security as an excluded asset."
+                }
+              >
+                <FontAwesomeIcon
+                  icon={faExclamationCircle}
+                  size="2x"
+                  color="orange"
+                />
+              </Tooltip>
+            )}
+            {!allowsTrading && (
+              <Tooltip
+                label={
+                  "Cannot place trade for this security through Passiv because your brokerage's API does not provide the trading functionality."
+                }
+              >
+                <FontAwesomeIcon
+                  icon={faInfoCircle}
+                  size="2x"
+                  color="var(--grey-darker)"
+                />
+              </Tooltip>
+            )}
+          </div>
+        </Grid>
       );
     };
 
@@ -304,7 +306,7 @@ export const PortfolioGroupTrades = ({
                   history.push(`/app/group/${currentGroupId}/settings`)
                 }
               >
-                disable this trade-routing feature in your group settings
+                disable this trade-routing feature in your portfolio settings
               </A>
               .
             </P>

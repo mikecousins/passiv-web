@@ -7,7 +7,10 @@ import {
   loadPerformanceCustom,
   updateReportingSettings,
 } from '../../../actions/performance';
-import { selectNewReportingFeature } from '../../../selectors/features';
+import {
+  selectHasQuestradeConnection,
+  selectHasWealthicaConnection,
+} from '../../../selectors';
 import {
   selectEndDate,
   selectPerformanceCurrentDetailedMode,
@@ -32,10 +35,17 @@ const Settings = () => {
   const [showDividendData, setShowDividendData] = useState(
     settings?.show_dividend_data,
   );
+  const [includeQuestrade, setIncludeQuestrade] = useState(
+    settings?.include_questrade,
+  );
+  const [includeWealthica, setIncludeWealthica] = useState(
+    settings?.include_wealthica,
+  );
   const [showReturnRate, setShowReturnRate] = useState(
     settings?.show_return_rate,
   );
-  const useNewReporting = useSelector(selectNewReportingFeature);
+  const hasQuestradeAccount = useSelector(selectHasQuestradeConnection);
+  const hasWealthicaAccount = useSelector(selectHasWealthicaConnection);
   const startDate = useSelector(selectStartDate);
   const endDate = useSelector(selectEndDate);
   const accountNumbers = useSelector(selectSelectedAccounts);
@@ -48,8 +58,6 @@ const Settings = () => {
     dispatch(
       updateReportingSettings({
         detailedView: true,
-        showReturnRate: showReturnRate,
-        showDividendData: showDividendData,
       }),
     );
   };
@@ -58,8 +66,6 @@ const Settings = () => {
     dispatch(
       updateReportingSettings({
         detailedView: false,
-        showReturnRate: showReturnRate,
-        showDividendData: showDividendData,
       }),
     );
   };
@@ -68,8 +74,6 @@ const Settings = () => {
     setShowDividendData(!showDividendData);
     dispatch(
       updateReportingSettings({
-        detailedView: detailedMode,
-        showReturnRate: showReturnRate,
         showDividendData: !oldValue,
       }),
     );
@@ -79,11 +83,32 @@ const Settings = () => {
     setShowReturnRate(!showReturnRate);
     dispatch(
       updateReportingSettings({
-        detailedView: detailedMode,
         showReturnRate: !oldValue,
-        showDividendData: showDividendData,
       }),
     );
+  };
+  const handleIncludeQuestradeToggle = () => {
+    const oldValue = includeQuestrade;
+    setIncludeQuestrade(!includeQuestrade);
+    dispatch(
+      updateReportingSettings({
+        includeQuestrade: !oldValue,
+      }),
+    );
+  };
+  const handleIncludeWealthicaToggle = () => {
+    const oldValue = includeWealthica;
+    setIncludeWealthica(!includeWealthica);
+    dispatch(
+      updateReportingSettings({
+        includeWealthica: !oldValue,
+      }),
+    );
+  };
+
+  const needsDataRefresh = () => {
+    const detailedModeNeedsUpdate = currentlyDetailedMode !== detailedMode;
+    return detailedModeNeedsUpdate;
   };
   const repullData = () => {
     if (timeframe !== 'CST') {
@@ -128,27 +153,58 @@ const Settings = () => {
         </ToggleButton>
         <OptionsTitle>Show Rate of Return</OptionsTitle>
       </Option>
-      {useNewReporting && (
-        <Option>
-          <div>
-            <span onClick={() => disableDetailedMode()}>
-              <DefaultChart selected={!detailedMode} />
-            </span>
-            <span onClick={() => enableDetailedMode()}>
-              <DetailedChart selected={detailedMode} />
-            </span>
-          </div>
-          {currentlyDetailedMode !== detailedMode && (
-            <>
-              <br></br>
-              <Button onClick={() => repullData()}>
-                Save and refresh data
-              </Button>
-            </>
-          )}
+      {hasQuestradeAccount && hasWealthicaAccount && (
+        <>
+          <Option>
+            <ToggleButton onClick={() => handleIncludeQuestradeToggle()}>
+              {includeQuestrade ? (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOn} />
+                  <StateText>on</StateText>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOff} />
+                  <StateText>off</StateText>
+                </React.Fragment>
+              )}
+            </ToggleButton>
+            <OptionsTitle>Include Questrade Accounts</OptionsTitle>
+          </Option>
+          <Option>
+            <ToggleButton onClick={() => handleIncludeWealthicaToggle()}>
+              {includeWealthica ? (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOn} />
+                  <StateText>on</StateText>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <FontAwesomeIcon icon={faToggleOff} />
+                  <StateText>off</StateText>
+                </React.Fragment>
+              )}
+            </ToggleButton>
+            <OptionsTitle>Include Wealthica Accounts</OptionsTitle>
+          </Option>
+        </>
+      )}
 
+      <Option>
+        <div>
+          <span onClick={() => disableDetailedMode()}>
+            <DefaultChart selected={!detailedMode} />
+          </span>
+          <span onClick={() => enableDetailedMode()}>
+            <DetailedChart selected={detailedMode} />
+          </span>
+        </div>
+      </Option>
+      {needsDataRefresh() && (
+        <>
           <br></br>
-        </Option>
+          <Button onClick={() => repullData()}>Save and refresh data</Button>
+        </>
       )}
     </ShadowBox>
   );

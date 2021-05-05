@@ -36,6 +36,7 @@ export type ModelAssetClassWithPercentage = {
 export type TradePriority = {
   symbol_id: string;
   allow_buy: boolean;
+  allow_sell: boolean;
   sell_priority: number;
   unsupported_symbols: any; //TODO: use an actual type
 };
@@ -47,8 +48,11 @@ export type AccountPriorities = {
     number: string;
     name: string;
   };
-  trade_priority: TradePriority[];
-  unsupported_symbols: Symbol[];
+  unsupported_symbols: string[];
+  sell_priority: string[];
+  buy_priority: string[];
+  unassigned: string[];
+  do_not_trade: string[];
 };
 
 export type AssetClassPriorities = {

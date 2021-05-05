@@ -1,4 +1,4 @@
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,9 +22,11 @@ import { Button } from '../../styled/Button';
 import { A } from '../../styled/GlobalElements';
 import { deleteData, postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
-import { selectAuthorizations } from '../../selectors';
+
 import { selectModelUseByOtherGroups } from '../../selectors/modelPortfolios';
 import { selectModelPortfolioFeature } from '../../selectors/features';
+import { selectAuthorizations } from '../../selectors';
+import Tooltip from '../Tooltip';
 
 const ButtonBox = styled.div`
   display: flex;
@@ -149,6 +151,13 @@ const ButtonLinks = styled.div`
       padding-right: 0;
     }
   }
+`;
+
+const ApplyNewModelBtn = styled(Button)`
+  background-color: transparent;
+  color: var(--brand-blue);
+  border: 1px solid var(--brand-blue);
+  font-weight: 600;
 `;
 
 type Props = {
@@ -617,8 +626,8 @@ export const TargetSelector = ({
                       <div>
                         <Button
                           type="button"
+                          style={{ fontWeight: 600 }}
                           onClick={() => {
-                            // link to edit model page
                             dispatch(
                               push(
                                 `/app/model-portfolio/${modelId}/group/${groupId}?edit=true`,
@@ -627,24 +636,47 @@ export const TargetSelector = ({
                           }}
                           disabled={modelUseByOtherGroups}
                         >
-                          Edit Model
+                          {modelUseByOtherGroups ? (
+                            <Tooltip label="At the moment, editing a model is disabled if the model is applied to more than one group.">
+                              <span>Edit Model *</span>
+                            </Tooltip>
+                          ) : (
+                            'Edit Model'
+                          )}
                         </Button>
+                        <ApplyNewModelBtn
+                          type="button"
+                          onClick={() => {
+                            dispatch(push(`/app/models/group/${groupId}`));
+                          }}
+                        >
+                          Apply Another Model
+                        </ApplyNewModelBtn>
                       </div>
-                      {hasZerodhaConnection ||
-                      hasUnocoinConnection ||
-                      hasKrakenConnection ? (
-                        ''
-                      ) : (
-                        <div>
+                      <div>
+                        <A
+                          type="button"
+                          onClick={() => resetTargets()}
+                          style={{ fontWeight: 600, marginRight: '20px' }}
+                        >
+                          <FontAwesomeIcon icon={faUndo} size="sm" /> Reset
+                        </A>{' '}
+                        {hasZerodhaConnection ||
+                        hasUnocoinConnection ||
+                        hasKrakenConnection ||
+                        currentGroupInfo?.model_portfolio?.model_type === 1 ? (
+                          ''
+                        ) : (
                           <A
                             href={portfolioVisualizerURL}
                             target="_blank"
                             rel="noopener noreferrer"
+                            style={{ fontWeight: 600, marginRight: '20px' }}
                           >
                             Portfolio Visualizer
                           </A>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </ButtonBox>
                   )}
                 </React.Fragment>

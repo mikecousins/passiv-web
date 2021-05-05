@@ -15,18 +15,20 @@ import {
   selectGroupInfoForModelPortfolio,
   selectGroupsUsingAModel,
 } from '../../selectors/modelPortfolios';
-import { loadGroups, loadModelPortfolios } from '../../actions';
+import {
+  loadModelPortfolios,
+  loadAccountList,
+  loadGroup,
+  loadGroupsList,
+} from '../../actions';
 import ModelPortoflioBox from './ModelPortfolioBox';
 import AssetClassesBox from './AssetClassesBox';
 import {
   faAngleLeft,
-  faClipboard,
-  faClipboardCheck,
+  faCheckCircle,
   faExclamationCircle,
-  faExclamationTriangle,
   faInfoCircle,
   faSpinner,
-  faStopwatch,
   faToggleOff,
   faToggleOn,
   faTrashAlt,
@@ -34,14 +36,10 @@ import {
 import { toast } from 'react-toastify';
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
-import { H3 } from '../../styled/GlobalElements';
+import { A, H3, P } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import {
-  InputBox,
-  ReadOnlyInput,
-  IconBox,
-} from '../SettingsManager/APIAccessSettings';
+import { InputBox, ReadOnlyInput } from '../SettingsManager/APIAccessSettings';
 import Dialog from '@reach/dialog';
 import {
   ActionContainer,
@@ -50,7 +48,10 @@ import {
 } from '../ModelAssetClass/AssetClass';
 import { Button } from '../../styled/Button';
 import Tooltip from '../Tooltip';
-import { selectAssetClassFeature } from '../../selectors/features';
+import { CopyButton } from './MoreOptions';
+import DeleteModelDialog from './DeleteModelDialog';
+import { selectIsPaid } from '../../selectors/subscription';
+import { BetaTag } from '../SlideMenu/SideBarLink';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -112,19 +113,17 @@ const ToggleShareBtn = styled(ToggleButton)`
   }
 `;
 
-const DeleteContainer = styled.div`
+export const DeleteContainer = styled.div`
   float: right;
   font-size: 18px;
-`;
-
-const DeleteModelExplanation = styled.div`
-  font-size: 1.2rem;
-  text-align: center;
-  ul {
-    margin-top: 20px;
-    li {
-      margin-bottom: 10px;
+  &:hover {
+    color: red !important;
+    * {
+      color: red !important;
     }
+  }
+  > button {
+    font-weight: 400;
   }
 `;
 
@@ -134,36 +133,34 @@ const SetShareModelContainer = styled.div`
   margin-top: 10px;
 `;
 
-const ShareLinkContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
+const ShareLinkContainer = styled(Grid)`
   margin-top: 10px;
-  margin-left: 5px;
 `;
 
 const ComingSoonTag = styled.div`
   font-weight: 900;
   font-size: 30px;
   color: rgb(4 163 134);
-  vertical-align: top;
   background: #dbfcf6;
   padding: 22px 0 0 18px;
   border-radius: 4px 4px 0 0;
-  svg {
-    vertical-align: top;
+  a {
+    font-weight: 900;
+    font-size: 18px;
+    text-decoration: underline;
   }
 `;
 type ModelTypeProps = {
-  assetClassFeature: boolean;
+  isElite: boolean;
 };
 const ModelType = styled.div<ModelTypeProps>`
-  background: ${(props) => !props.assetClassFeature && '#dbfcf6'};
+  background: ${(props) => !props.isElite && '#dbfcf6'};
   padding: 18px 20px 16px 20px;
   border-radius: 0 0 4px 4px;
   button:disabled svg,
   button,
   h3 {
-    color: ${(props) => !props.assetClassFeature && '#07a485'};
+    color: ${(props) => !props.isElite && '#07a485'};
   }
 `;
 
@@ -172,24 +169,27 @@ const ModelPortfolio = () => {
   const history = useHistory();
 
   let currentModelPortfolio: any = useSelector(selectCurrentModelPortfolio);
-
   const modelAssetClasses: ModelAssetClassDetailsType[] = useSelector(
     selectModelAssetClasses,
   );
+  const group = useSelector(selectGroupInfoForModelPortfolio);
+  const groupsUsingModel = useSelector(selectGroupsUsingAModel);
+  const referralCode = useSelector(selectReferralCode);
+  const isPaid = useSelector(selectIsPaid);
 
+  const modelId = currentModelPortfolio!?.model_portfolio.id;
   const assetClasses: ModelAssetClass[] = modelAssetClasses.map((obj) => {
     return obj.model_asset_class;
   });
-
-  const group = useSelector(selectGroupInfoForModelPortfolio);
 
   const groupInfo = group.groupInfo;
   const editMode = group.edit;
   const applyMode = group.apply;
 
-  const groupsUsingModel = useSelector(selectGroupsUsingAModel)?.[
-    currentModelPortfolio?.model_portfolio?.id
-  ]?.groups;
+  let groups: any;
+  if (modelId) {
+    groups = groupsUsingModel?.[modelId]?.groups;
+  }
 
   const [share, setShare] = useState(
     currentModelPortfolio?.model_portfolio.share_portfolio,
@@ -199,17 +199,11 @@ const ModelPortfolio = () => {
       ? currentModelPortfolio?.model_portfolio.model_type === 0
       : true,
   );
-
   const [deleteDialog, setDeleteDialog] = useState(false);
-
   const [copied, setCopied] = useState(false);
-  const referralCode = useSelector(selectReferralCode);
+  const [modelTypeChanged, setModelTypeChanged] = useState(false);
 
-  const assetClassFeature = useSelector(selectAssetClassFeature);
-
-  const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${
-    currentModelPortfolio!?.model_portfolio.id
-  }?share=${referralCode}`;
+  const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${modelId}?share=${referralCode}`;
 
   let haveAssetsInModel = false;
   if (
@@ -224,16 +218,21 @@ const ModelPortfolio = () => {
     haveAssetsInModel = true;
   }
 
-  const modelTypeToggleDisabled = haveAssetsInModel || editMode || applyMode;
-
   const handleDeleteModel = () => {
-    deleteData(
-      `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
-    ).then(() => {
-      dispatch(loadModelPortfolios());
-      dispatch(loadGroups());
-      history.replace('/app/models');
-    });
+    deleteData(`/api/v1/modelPortfolio/${modelId}`)
+      .then(() => {
+        dispatch(loadModelPortfolios());
+        dispatch(loadAccountList());
+        dispatch(loadGroupsList());
+        if (groups !== undefined) {
+          dispatch(loadGroup({ ids: groups.map((group: any) => group.id) }));
+        }
+        toast.success('Delete the model successfully.');
+        history.replace('/app/models');
+      })
+      .catch(() => {
+        toast.error('Unable to delete the model. Please try again!');
+      });
   };
 
   const handleChangeModelType = () => {
@@ -244,16 +243,16 @@ const ModelPortfolio = () => {
         currentModelPortfolio.model_portfolio.model_type = 0;
       }
     }
-    postData(
-      `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
-      currentModelPortfolio!,
-    )
+    postData(`/api/v1/modelPortfolio/${modelId}`, currentModelPortfolio)
       .then(() => {
-        dispatch(loadModelPortfolios());
         setSecurityBased(!securityBased);
+        toast.success('Model type changed successfully', {
+          autoClose: 3000,
+        });
+        dispatch(loadModelPortfolios());
       })
       .catch(() => {
-        toast.error('Unable to change the model', {
+        toast.error('Unable to change the model type', {
           autoClose: 3000,
         });
       });
@@ -263,10 +262,7 @@ const ModelPortfolio = () => {
     if (currentModelPortfolio !== null) {
       currentModelPortfolio.model_portfolio.share_portfolio = !share;
     }
-    postData(
-      `/api/v1/modelPortfolio/${currentModelPortfolio!?.model_portfolio.id}`,
-      currentModelPortfolio!,
-    )
+    postData(`/api/v1/modelPortfolio/${modelId}`, currentModelPortfolio!)
       .then(() => {
         setShare(!share);
         dispatch(loadModelPortfolios());
@@ -303,20 +299,26 @@ const ModelPortfolio = () => {
                   modelPortfolio={currentModelPortfolio}
                   assetClasses={assetClasses}
                   securityBased={securityBased}
+                  modelTypeChanged={modelTypeChanged}
                 />
                 <div>
-                  {!assetClassFeature && (
+                  {!isPaid && (
                     <ComingSoonTag>
-                      <FontAwesomeIcon icon={faStopwatch} size="sm" /> Coming
-                      Soon ...
+                      Elite Feature{' '}
+                      <A
+                        style={{ marginLeft: '10px' }}
+                        onClick={() => history.push('/app/questrade-offer')}
+                      >
+                        Upgrade Now!
+                      </A>
                     </ComingSoonTag>
                   )}
 
-                  <ModelType assetClassFeature={assetClassFeature}>
+                  <ModelType isElite={isPaid}>
                     <H3>
                       Model Type{' '}
-                      {modelTypeToggleDisabled && assetClassFeature && (
-                        <Tooltip label="This setting is disabled if you already have securities in this model or on edit mode.">
+                      {haveAssetsInModel && isPaid && (
+                        <Tooltip label="This setting is disabled if you already have securities in this model.">
                           <FontAwesomeIcon
                             icon={faExclamationCircle}
                             size="sm"
@@ -325,8 +327,14 @@ const ModelPortfolio = () => {
                       )}
                     </H3>
                     <ToggleModelTypeBtn
-                      onClick={handleChangeModelType}
-                      disabled={modelTypeToggleDisabled || !assetClassFeature}
+                      onClick={() => {
+                        if (editMode || applyMode) {
+                          setModelTypeChanged(true);
+                        } else {
+                          handleChangeModelType();
+                        }
+                      }}
+                      disabled={haveAssetsInModel || !isPaid}
                     >
                       {
                         <React.Fragment>
@@ -335,7 +343,9 @@ const ModelPortfolio = () => {
                             icon={securityBased ? faToggleOff : faToggleOn}
                             style={{ margin: '0 10px' }}
                           />
-                          <Text>Asset Class</Text>
+                          <Text>
+                            Asset Class <BetaTag>BETA</BetaTag>
+                          </Text>
                         </React.Fragment>
                       }
                     </ToggleModelTypeBtn>
@@ -365,33 +375,30 @@ const ModelPortfolio = () => {
                           </ToggleShareBtn>
                           <br />
                           {share && (
-                            <ShareLinkContainer>
+                            <ShareLinkContainer columns="4fr auto">
                               <InputBox>
                                 <ReadOnlyInput
                                   value={SHARE_URL}
                                   readOnly={true}
                                 />
                               </InputBox>
-                              <IconBox>
+                              <div>
                                 <CopyToClipboard
                                   text={SHARE_URL}
                                   onCopy={() => {
                                     setCopied(true);
                                   }}
                                 >
-                                  {copied ? (
-                                    <FontAwesomeIcon
-                                      icon={faClipboardCheck}
-                                      size="lg"
-                                    />
-                                  ) : (
-                                    <FontAwesomeIcon
-                                      icon={faClipboard}
-                                      size="lg"
-                                    />
-                                  )}
+                                  <div>
+                                    <CopyButton copied={copied}>
+                                      {copied ? 'Copied' : 'Copy'}{' '}
+                                      {copied && (
+                                        <FontAwesomeIcon icon={faCheckCircle} />
+                                      )}
+                                    </CopyButton>
+                                  </div>
                                 </CopyToClipboard>
-                              </IconBox>
+                              </div>
                             </ShareLinkContainer>
                           )}
                           <br />
@@ -400,7 +407,10 @@ const ModelPortfolio = () => {
                     </>
                   )}
                   {!securityBased && (
-                    <AssetClassesBox assetClasses={modelAssetClasses} />
+                    <AssetClassesBox
+                      assetClasses={modelAssetClasses}
+                      modelId={modelId}
+                    />
                   )}
                 </div>
               </ResponsiveGrid>
@@ -412,35 +422,39 @@ const ModelPortfolio = () => {
               </button>
             </DeleteContainer>
 
+            <DeleteModelDialog
+              model={currentModelPortfolio}
+              open={deleteDialog}
+              hideDialog={() => setDeleteDialog(false)}
+              deleteModel={handleDeleteModel}
+            />
             <Dialog
-              isOpen={deleteDialog}
-              onDismiss={() => setDeleteDialog(false)}
+              isOpen={modelTypeChanged}
+              onDismiss={() => setModelTypeChanged(false)}
               aria-labelledby="dialog1Title"
               aria-describedby="dialog1Desc"
-              style={{ borderRadius: '4px' }}
             >
               <H2Margin>
-                Are you sure you want to delete{' '}
-                <span style={{ fontWeight: 'bold' }}>
-                  {currentModelPortfolio!.model_portfolio.name}
-                </span>{' '}
-                ?
+                Are you sure you want to change the model type?
               </H2Margin>
-              {groupsUsingModel?.length > 0 && (
-                <DeleteModelExplanation>
-                  <FontAwesomeIcon icon={faExclamationTriangle} />
-                  The following groups are using this model and would get reset:
-                  <ul>
-                    {groupsUsingModel.map((group: any) => {
-                      return <li key={group.id}>{group.name}</li>;
-                    })}
-                  </ul>
-                </DeleteModelExplanation>
+              {securityBased && (
+                <P style={{ textAlign: 'center' }}>
+                  * Asset class is a beta feature. Help us improve this feature
+                  by <Link to={'/app/contact-form'}>sharing feedback</Link>
+                </P>
               )}
-
               <ActionContainer>
-                <DeleteBtn onClick={handleDeleteModel}>Delete</DeleteBtn>
-                <Button onClick={() => setDeleteDialog(false)}>Cancel</Button>
+                <DeleteBtn
+                  onClick={() => {
+                    handleChangeModelType();
+                    setModelTypeChanged(false);
+                  }}
+                >
+                  OK
+                </DeleteBtn>
+                <Button onClick={() => setModelTypeChanged(false)}>
+                  Cancel
+                </Button>
               </ActionContainer>
             </Dialog>
           </>

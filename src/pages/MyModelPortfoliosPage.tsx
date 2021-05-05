@@ -33,7 +33,7 @@ import { selectGroupInfo, selectGroups } from '../selectors/groups';
 import Dialog from '@reach/dialog';
 import SelectGroupDialog from '../components/ModelPortfolio/SelectGroupDialog';
 import { BackButton } from '../components/ModelPortfolio/ModelPortfolio';
-import { selectAssetClassFeature } from '../selectors/features';
+import MoreOptions from '../components/ModelPortfolio/MoreOptions';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -88,6 +88,15 @@ const InUse = styled.span`
 const ApplyTransparentBtn = styled(TransparentButton)`
   padding: 12px;
   width: 100px;
+  &:hover {
+    :disabled {
+      background: transparent;
+      color: var(--brand-blue);
+    }
+
+    background: var(--brand-blue);
+    color: #fff;
+  }
   @media (max-width: 900px) {
     width: 100%;
   }
@@ -120,8 +129,6 @@ const MyModelPortfoliosPage = () => {
     modelIdUseByGroup = groupInfo[groupId].data?.model_portfolio.id;
   }
 
-  const assetClassFeature = useSelector(selectAssetClassFeature);
-
   const handleNewModelBtn = () => {
     postData('/api/v1/modelPortfolio/', {})
       .then((res: any) => {
@@ -152,9 +159,13 @@ const MyModelPortfoliosPage = () => {
           dispatch(loadGroups()); // need to load groups to have update list of groups using a model in my models page
           dispatch(loadModelPortfolios());
           toast.success(
-            `"${model.model_portfolio.name}" applied to "${groupInfo?.name}"`,
+            `"${model.model_portfolio.name}" applied to group successfully`,
           );
-          history.push(`/app/group/${groupId}`);
+          if (model.model_portfolio.model_type === 1) {
+            history.push(`/app/priorities/${groupId}`);
+          } else {
+            history.push(`/app/group/${groupId}`);
+          }
         })
         .catch((err) => {
           if (err.response) {
@@ -209,11 +220,6 @@ const MyModelPortfoliosPage = () => {
           </StyledP>
         )}
         <div>
-          {assetClassFeature && (
-            <TransparentButton onClick={() => history.replace('asset-class')}>
-              Edit Asset Classes
-            </TransparentButton>
-          )}
           <NewModelButton onClick={() => handleNewModelBtn()}>
             New Model
           </NewModelButton>
@@ -234,8 +240,16 @@ const MyModelPortfoliosPage = () => {
               return (
                 <ShadowBox key={mdl.model_portfolio.id}>
                   <Grid
-                    columns={groupId ? '2fr 1fr 250px' : '2fr 1fr 150px 150px'}
+                    columns={
+                      groupId
+                        ? '50px 2fr 1fr 250px'
+                        : '50px 2fr 1fr 150px 150px'
+                    }
                   >
+                    <MoreOptions
+                      model={mdl}
+                      shareModel={mdl.model_portfolio.share_portfolio}
+                    />
                     <ModelName>{mdl.model_portfolio.name}</ModelName>
                     <InUseDiv>
                       {totalAssignedGroups > 0 && (
@@ -294,13 +308,12 @@ const MyModelPortfoliosPage = () => {
           onDismiss={() => setSelectGroupDialog(false)}
           aria-labelledby="dialog1Title"
           aria-describedby="dialog1Desc"
-          style={{ borderRadius: '4px' }}
         >
           <button
             onClick={() => setSelectGroupDialog(false)}
             style={{ float: 'right' }}
           >
-            <FontAwesomeIcon icon={faTimes} size="lg" />
+            <FontAwesomeIcon icon={faTimes} size="2x" />
           </button>
           {selectedModel && <SelectGroupDialog model={selectedModel} />}
         </Dialog>

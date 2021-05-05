@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { postData, deleteData } from '../../api';
 import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
 import NameInputAndEdit from '../NameInputAndEdit';
 import { loadModelAssetClasses, loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
-import { H2 } from '../../styled/GlobalElements';
+import { H2, P } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Dialog } from '@reach/dialog';
 import { Button } from '../../styled/Button';
+import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
+import { isNameDuplicate } from '../ModelPortfolio/utils/utils';
 
 export const DeleteButton = styled.button`
   background: #fff;
@@ -55,29 +57,57 @@ export const DeleteBtn = styled(Button)`
   border: 1px solid var(--brand-blue);
 `;
 
+const Error = styled.div`
+  color: red;
+`;
+
 type Props = {
   assetClass: ModelAssetClassDetailsType;
 };
 const AssetClasses = ({ assetClass }: Props) => {
   const dispatch = useDispatch();
 
+  const assetClasses: ModelAssetClassDetailsType[] = useSelector(
+    selectModelAssetClasses,
+  );
+
+  const listOfAssetClassNames = assetClasses.map(
+    (astCls) => astCls.model_asset_class.name,
+  );
+
   const [assetClassName, setAssetClassName] = useState(
     assetClass.model_asset_class.name,
   );
   const [editName, setEditName] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
+  const [duplicateNameError, setDuplicateNameError] = useState(false);
 
   const open = () => setShowDialog(true);
   const close = () => setShowDialog(false);
 
-  const finishEditing = () => {
-    if (
-      assetClassName !== assetClass.model_asset_class.name &&
-      assetClassName!.trim().length > 0
-    ) {
-      assetClass.model_asset_class.name = assetClassName;
+  const handleInputChange = (name: string) => {
+    const isDuplicate = isNameDuplicate(
+      name,
+      assetClass.model_asset_class.name,
+      listOfAssetClassNames,
+    );
+    if (isDuplicate) {
+      setDuplicateNameError(true);
+    } else {
+      setDuplicateNameError(false);
+    }
+    setAssetClassName(name);
+  };
 
-      //? move this function to actions
+  const finishEditing = () => {
+    const trimmedName = assetClassName?.trim();
+    if (
+      trimmedName !== assetClass.model_asset_class.name &&
+      trimmedName &&
+      trimmedName.length > 0
+    ) {
+      assetClass.model_asset_class.name = trimmedName;
+
       postData(
         `/api/v1/modelAssetClass/${assetClass.model_asset_class.id}`,
         assetClass,
@@ -87,7 +117,6 @@ const AssetClasses = ({ assetClass }: Props) => {
           dispatch(loadModelPortfolios());
         })
         .catch(() => {
-          // dispatch(loadModelAssetClasses()); //! when fails, the state doesn't changes to what it was
           toast.error(
             `${assetClass.model_asset_class.name} Asset Class Name Update Failed`,
             { autoClose: 3000 },
@@ -129,15 +158,14 @@ const AssetClasses = ({ assetClass }: Props) => {
         onDismiss={close}
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
-        style={{ borderRadius: '4px' }}
       >
         <H2Margin>
           Are you sure you want to delete{' '}
           <span style={{ fontWeight: 'bold' }}>{assetClassName} *</span> ?
         </H2Margin>
-        <p style={{ fontSize: '0.9rem', textAlign: 'center' }}>
+        <P style={{ textAlign: 'center' }}>
           * All securities under this asset class would get deleted.
-        </p>
+        </P>
         <ActionContainer>
           <DeleteBtn onClick={handleDeleteAssetClass}>Delete</DeleteBtn>
           <Button onClick={close}>Cancel</Button>
@@ -148,13 +176,26 @@ const AssetClasses = ({ assetClass }: Props) => {
         value={assetClassName!}
         edit={editName}
         allowEdit={true}
-        onChange={(e: any) => setAssetClassName(e.target.value)}
-        onKeyPress={(e: any) => e.key === 'Enter' && finishEditing()}
-        onClickDone={() => finishEditing()}
+        saveDisabled={duplicateNameError}
+        onChange={(e: any) => {
+          handleInputChange(e.target.value);
+        }}
+        onKeyPress={(e: any) =>
+          e.key === 'Enter' && !duplicateNameError && finishEditing()
+        }
+        onClickDone={() => {
+          finishEditing();
+        }}
         onClickEdit={() => setEditName(true)}
         editBtnTxt={'Edit Name'}
         StyledName={StyledName}
       />
+      {duplicateNameError && (
+        <Error>
+          An asset class with the same name already exists. Please use a
+          different name.
+        </Error>
+      )}
     </React.Fragment>
   );
 };

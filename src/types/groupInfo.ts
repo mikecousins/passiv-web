@@ -1,6 +1,7 @@
 import { Currency } from './currency';
 import { Account } from './account';
 import { Authorization } from './authorization';
+import { AssetClassPriorities } from './modelPortfolio';
 
 export type Symbol = {
   id: string;
@@ -24,6 +25,7 @@ export type Position = {
   quotable: boolean;
   uniformEquity: number;
   actualPercentage: number;
+  currency: Currency;
 };
 
 export type TargetPosition = {
@@ -104,6 +106,7 @@ export type AssetClassesDetails = {
 
 export type GroupInfoData = {
   asset_classes_details: AssetClassesDetails[];
+  asset_class_trade_priorities: AssetClassPriorities[];
   accounts: Account[];
   brokerage_authorizations: Authorization[];
   symbols: Symbol[];

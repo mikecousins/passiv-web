@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -7,24 +7,14 @@ import { getData, postData, putData } from '../../api';
 import { selectSettings } from '../../selectors';
 import { selectShowQuestradeOffer } from '../../selectors/subscription';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
-import {
-  Symbol,
-  ColumnSymbolSmall,
-  ColumnUnits,
-  ColumnAction,
-  ColumnStatus,
-} from '../../styled/Group';
+import { Symbol, ColumnSymbolSmall, ColumnTrades } from '../../styled/Group';
 import OrderImpacts from './OrderImpacts';
-import {
-  ConfirmContainer,
-  OrderContainer,
-  SummaryContainer,
-  ModifiedTradeRow,
-} from './styles';
+import { ConfirmContainer, OrderContainer, SummaryContainer } from './styles';
 import ErrorMessage from './ErrorMessage';
 import { Button } from '../../styled/Button';
 import UpgradeIdea from '../UpgradeIdea';
 import { selectLimitOrdersFeature } from '../../selectors/features';
+import { selectIsPaid } from '../../selectors/subscription';
 import PreLoadLink from '../PreLoadLink';
 import { SETTINGS_PATH } from '../../apps/Paths';
 import { selectAccounts } from '../../selectors/accounts';
@@ -36,6 +26,7 @@ import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import { TradeType, TradeBasketType } from '../../types/tradeBasket';
 import { selectAuthorizations } from '../../selectors';
+import Grid from '../../styled/Grid';
 
 type Props = {
   groupId: string;
@@ -59,6 +50,7 @@ const RebalanceWidget = ({
 
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
+  const formEl = useRef();
 
   let hasFreeOneClicks = false;
 
@@ -70,6 +62,7 @@ const RebalanceWidget = ({
   const groupSettings = useSelector(selectCurrentGroupSettings);
   const authorizations = useSelector(selectAuthorizations);
   const currentGroupId = useSelector(selectCurrentGroupId);
+  const isPaid = useSelector(selectIsPaid);
 
   const hasOnlyNonTradableTrades =
     trades.trades &&
@@ -138,7 +131,15 @@ const RebalanceWidget = ({
     postData(
       `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/starttrades/`,
       zerodhaTrades,
-    );
+    )
+      .then((res) => {
+        //@ts-ignore
+        formEl.current.submit();
+        toast.success('Redirecting you to Zerodha to process the trade ...');
+      })
+      .catch(() => {
+        toast.error('Failed to place trades');
+      });
   };
 
   const confirmOrders = () => {
@@ -217,7 +218,7 @@ const RebalanceWidget = ({
   );
 
   var hasZerodhaAccount = false;
-
+  var hasNonZerodhaAccount = false;
   groupAccounts.map((acc: any) => {
     //find the authorization associated with this account
     if (authorizations === undefined) {
@@ -238,15 +239,21 @@ const RebalanceWidget = ({
       hasZerodhaAccount = true;
       return true;
     }
+    if (!isZerodhaConnection) {
+      hasNonZerodhaAccount = true;
+      return true;
+    }
     return false;
   });
 
-  if (hasZerodhaAccount) {
+  if (hasZerodhaAccount && !hasNonZerodhaAccount && isPaid) {
     orderValidation = (
       <div>
         <form
           method="post"
           id="basket-form"
+          // @ts-ignore
+          ref={formEl}
           action="https://kite.zerodha.com/connect/basket"
         >
           <input type="hidden" name="api_key" value="pnriechdkzx5ipvq" />
@@ -257,13 +264,36 @@ const RebalanceWidget = ({
             value={JSON.stringify(calculateZerodhaTrades())}
           />
           <Button
-            onClick={executeZerodhaTrades}
             className="tour-one-click-trade"
+            type="button"
+            onClick={executeZerodhaTrades}
           >
             Place Trades on Zerodha
           </Button>
         </form>
       </div>
+    );
+  }
+
+  if (hasZerodhaAccount && hasNonZerodhaAccount) {
+    orderValidation = (
+      <>
+        <div>
+          At this time, we do not support one-click trades for portfolio groups
+          that contain both Zerodha accounts and non-Zerodha accounts.
+        </div>
+        <br></br>
+        <div>
+          This feature is on our product roadmap. For now, you can separate your
+          brokerage accounts into distinct portfolio groups to access our
+          one-click trade functionality.
+        </div>
+        <br></br>
+        <div>
+          Please <A href="mailto:support@passiv.com">contact support</A> if you
+          have any questions!
+        </div>
+      </>
     );
   }
 
@@ -302,24 +332,28 @@ const RebalanceWidget = ({
           <div>
             {orderResults.map((results: any) => {
               return (
-                <ModifiedTradeRow key={results.trade}>
-                  <ColumnAction>
+                <Grid columns="repeat(4, 0.5fr)" key={results.trade}>
+                  <ColumnTrades>
                     <Title>Action</Title>
                     <div>{results.action}</div>
-                  </ColumnAction>
-                  <ColumnUnits>
+                  </ColumnTrades>
+                  <ColumnTrades>
                     <Title>Units</Title>
-                    <div>{results.filled_units}</div>
-                  </ColumnUnits>
+                    {results.filled_fractional_units ? (
+                      <div>{results.filled_fractional_units}</div>
+                    ) : (
+                      <div>{results.filled_units}</div>
+                    )}
+                  </ColumnTrades>
                   <ColumnSymbolSmall>
                     <Title>Symbol</Title>
                     <Symbol>{results.universal_symbol.symbol}</Symbol>
                   </ColumnSymbolSmall>
-                  <ColumnStatus>
+                  <ColumnTrades>
                     <Title>Status</Title>
                     <div>{results.state}</div>
-                  </ColumnStatus>
-                </ModifiedTradeRow>
+                  </ColumnTrades>
+                </Grid>
               );
             })}
           </div>

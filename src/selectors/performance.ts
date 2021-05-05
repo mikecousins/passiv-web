@@ -13,7 +13,6 @@ import { selectState } from '.';
 import {
   selectPerformancePageFeature,
   selectAdjustedCostBasisFeature,
-  selectNewReportingFeature,
 } from './features';
 import { selectLoggedIn, selectAppTime } from './index';
 import { SimpleState } from '../types/common';
@@ -160,6 +159,44 @@ export const selectDividendIncome = createSelector<
     return state.performanceCustom?.data?.dividendIncome;
   } else {
     return state.performanceAll?.data?.dividendIncome1Y;
+  }
+});
+
+export const selectCommissions = createSelector<
+  AppState,
+  AppState,
+  string,
+  number | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.commissions1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.commissionsYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.commissionsALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.commissions;
+  } else {
+    return state.performanceAll?.data?.commissions1Y;
+  }
+});
+
+export const selectForexFees = createSelector<
+  AppState,
+  AppState,
+  string,
+  number | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.forexFees1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.forexFeesYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.forexFeesALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.forexFees;
+  } else {
+    return state.performanceAll?.data?.forexFees1Y;
   }
 });
 
@@ -388,16 +425,14 @@ export const selectReportingSettingsNeedData = createSelector<
   AppState,
   boolean,
   SimpleState<ReportingSettings>,
-  boolean,
   number,
   boolean
 >(
   selectLoggedIn,
   selectReportingSettings,
-  selectNewReportingFeature,
   selectAppTime,
-  (loggedIn, reportingSettings, newReportingFeature, time) => {
-    if (!loggedIn || !newReportingFeature) {
+  (loggedIn, reportingSettings, time) => {
+    if (!loggedIn) {
       return false;
     }
     return shouldUpdate(reportingSettings, {

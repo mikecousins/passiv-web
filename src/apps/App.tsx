@@ -29,7 +29,6 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GoalDetailPage from '../pages/GoalDetailPage';
 import {
-  selectAssetClassFeature,
   selectGoalsPageFeature,
   selectModelPortfolioFeature,
 } from '../selectors/features';
@@ -45,7 +44,9 @@ import {
   REPORTING_PATH,
   GOALS_PATH,
 } from './Paths';
-import Prioritization from '../components/ModelPortfolio/Prioritization';
+import Prioritization from '../components/ModelPortfolio/Prioritization/Prioritization';
+import { selectIsPaid } from '../selectors/subscription';
+import ContactForm from '../components/Help/ContactForm';
 
 // preload pages
 const ReactLazyPreload = (importStatement: any) => {
@@ -122,12 +123,12 @@ const KrakenAuthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "kraken-auth" */ '../pages/KrakenAuthPage'),
 );
 
-const UnocoinAuthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "unocoin-oauth" */ '../pages/UnocoinAuthPage'),
+const BitbuyAuthPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "bitbuy-auth" */ '../pages/BitbuyAuthPage'),
 );
 
-const KrakenOauthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "kraken-oauth" */ '../pages/KrakenOauthPage'),
+const UnocoinAuthPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "unocoin-oauth" */ '../pages/UnocoinAuthPage'),
 );
 
 const ZerodhaOauthPage = ReactLazyPreload(() =>
@@ -317,10 +318,9 @@ const App = () => {
   const location = useLocation();
   const goalsPageFeatureActive = useSelector(selectGoalsPageFeature);
   const dispatch = useDispatch();
-
+  const isPaid = useSelector(selectIsPaid);
   const queryParams = useSelector(selectQueryTokens);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
-  const assetClassFeature = useSelector(selectAssetClassFeature);
   let updateQuery = false;
 
   // extract referral code (if any) and make available on registration page
@@ -401,15 +401,10 @@ const App = () => {
         <React.Suspense fallback={<FontAwesomeIcon icon={faSpinner} spin />}>
           <Switch>
             // common routes
-            <Route
-              path="/help/topic/:slug"
-              component={HelpArticlePage}
-            />
+            <Route path="/help/topic/:slug" component={HelpArticlePage} />
             <Route path="/help" component={HelpPage} />
-            <Route
-              path="/reset-password"
-              component={ResetPasswordPage}
-            />
+            <Route path="/contact-form" component={ContactForm} />
+            <Route path="/reset-password" component={ResetPasswordPage} />
             <Route
               path="/reset-password-confirm/:token"
               component={ResetPasswordConfirmPage}
@@ -440,10 +435,7 @@ const App = () => {
               />
             )}
             {loggedIn && (
-              <Route
-                path="/oauth/questrade"
-                component={QuestradeOauthPage}
-              />
+              <Route path="/oauth/questrade" component={QuestradeOauthPage} />
             )}
             {loggedIn && (
               <Route
@@ -453,36 +445,16 @@ const App = () => {
               />
             )}
             {loggedIn && (
-              <Route
-                path="/oauth/tradier"
-                component={TradierOauthPage}
-              />
+              <Route path="/oauth/tradier" component={TradierOauthPage} />
             )}
             {loggedIn && (
-              <Route
-                exact
-                path="/connect/kraken"
-                component={KrakenAuthPage}
-              />
+              <Route exact path="/connect/kraken" component={KrakenAuthPage} />
             )}
             {loggedIn && (
-              <Route
-                exact
-                path="/connect/unocoin"
-                component={UnocoinAuthPage}
-              />
+              <Route exact path="/connect/bitbuy" component={BitbuyAuthPage} />
             )}
             {loggedIn && (
-              <Route
-                path="/oauth/kraken"
-                component={KrakenOauthPage}
-              />
-            )}
-            {loggedIn && (
-              <Route
-                path="/oauth/alpaca"
-                component={AlpacaOauthPage}
-              />
+              <Route path="/oauth/alpaca" component={AlpacaOauthPage} />
             )}
             {loggedIn && (
               <Route
@@ -505,10 +477,7 @@ const App = () => {
               />
             )}
             {loggedIn && (
-              <Route
-                path="/oauth/td"
-                component={TDAmeritradeOauthPage}
-              />
+              <Route path="/oauth/td" component={TDAmeritradeOauthPage} />
             )}
             {loggedIn && (
               <Route
@@ -518,10 +487,7 @@ const App = () => {
               />
             )}
             {loggedIn && (
-              <Route
-                path="/oauth/zerodha"
-                component={ZerodhaOauthPage}
-              />
+              <Route path="/oauth/zerodha" component={ZerodhaOauthPage} />
             )}
             {loggedIn && (
               <Route
@@ -531,10 +497,7 @@ const App = () => {
               />
             )}
             {loggedIn && (
-              <Route
-                path="/oauth/wealthica"
-                component={WealthicaOauthPage}
-              />
+              <Route path="/oauth/wealthica" component={WealthicaOauthPage} />
             )}
             {loggedIn && (
               <Route
@@ -578,19 +541,13 @@ const App = () => {
             )}
             // secure app
             {showSecureApp && (
-              <Route
-                path="/reporting"
-                component={PerformancePage}
-              />
+              <Route path="/reporting" component={PerformancePage} />
             )}
             {showSecureApp && goalsPageFeatureActive && (
               <Route path="/goals" component={GoalsPage} />
             )}
             {showSecureApp && goalsPageFeatureActive && (
-              <Route
-                path="/goal/:goalId"
-                component={GoalDetailPage}
-              />
+              <Route path="/goal/:goalId" component={GoalDetailPage} />
             )}
             {showSecureApp && (
               <Route path="/performance">
@@ -624,31 +581,17 @@ const App = () => {
               </Route>
             )}
             {showSecureApp && (
-              <Route
-                path="/dashboard"
-                component={DashboardPage}
-              />
+              <Route path="/dashboard" component={DashboardPage} />
             )}
             {showSecureApp && (
-              <Route
-                path="/group/:groupId"
-                component={GroupPage}
-              />
+              <Route path="/group/:groupId" component={GroupPage} />
             )}
-            {showSecureApp && (
-              <Route path="/share" component={SharePage} />
-            )}
-            {showSecureApp && assetClassFeature && (
-              <Route
-                path="/asset-class"
-                component={ModelAssetClassPage}
-              />
+            {showSecureApp && <Route path="/share" component={SharePage} />}
+            {showSecureApp && isPaid && (
+              <Route path="/asset-class" component={ModelAssetClassPage} />
             )}
             {showSecureApp && modelPortfolioFeature && (
-              <Route
-                path="/models"
-                component={MyModelPortfoliosPage}
-              />
+              <Route path="/models" component={MyModelPortfoliosPage} />
             )}
             {showSecureApp && (
               <Route
@@ -664,7 +607,7 @@ const App = () => {
                 component={ModelPortfolioPage}
               />
             )}
-            {showSecureApp && assetClassFeature && (
+            {showSecureApp && isPaid && (
               <Route
                 exact
                 path="/priorities/:groupId"
@@ -672,14 +615,9 @@ const App = () => {
               />
             )}
             // insecure app
+            {showInsecureApp && <Route path="/login" component={LoginPage} />}
             {showInsecureApp && (
-              <Route path="/login" component={LoginPage} />
-            )}
-            {showInsecureApp && (
-              <Route
-                path="/register"
-                component={RegistrationPage}
-              />
+              <Route path="/register" component={RegistrationPage} />
             )}
             // catchalls // when logged in, catch unknown URLs and redirect to
             // dashboard or 'next' query param if defined
