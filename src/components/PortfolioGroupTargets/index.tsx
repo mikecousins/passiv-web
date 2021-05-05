@@ -167,7 +167,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         <Button
           onClick={() => {
             setModel('MANUAL');
-            dispatch(replace(`/app/group/${groupId}?edit=true`));
+            dispatch(replace(`/group/${groupId}?edit=true`));
           }}
         >
           Build
@@ -186,7 +186,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         <Button
           onClick={() => {
             setModel('USE_MODEL');
-            dispatch(replace(`/app/models/group/${groupId}`));
+            dispatch(replace(`/models/group/${groupId}`));
           }}
         >
           Models
@@ -241,7 +241,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
             dispatch(loadModelPortfolios());
             dispatch(
               replace(
-                `/app/model-portfolio/${modelId}/group/${groupId}?apply=true`,
+                `/model-portfolio/${modelId}/group/${groupId}?apply=true`,
               ),
             );
           })
@@ -264,7 +264,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         dispatch(loadModelPortfolios());
         dispatch(
           replace(
-            `/app/model-portfolio/${res.data.model_portfolio.id}/group/${groupId}?apply=true`,
+            `/model-portfolio/${res.data.model_portfolio.id}/group/${groupId}?apply=true`,
           ),
         );
       })

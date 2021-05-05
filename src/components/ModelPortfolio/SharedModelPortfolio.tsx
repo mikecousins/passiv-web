@@ -111,7 +111,7 @@ const SharedModelPortfolio = () => {
 
   //@ts-ignore
   let shareId = router?.location?.query?.share;
-  const modelId = router.location.pathname.split('/')[3];
+  const modelId = router.location.pathname.split('/')[2];
 
   useEffect(() => {
     // check if the model is a shared model
@@ -123,11 +123,11 @@ const SharedModelPortfolio = () => {
         })
         .catch((err) => {
           setIsSharedModel(false);
-          history.replace('/app/login');
+          history.replace('/login');
         });
     } else {
       setIsSharedModel(false);
-      history.replace('/app/login');
+      history.replace('/login');
     }
     // eslint-disable-next-line
   }, []);
@@ -188,7 +188,7 @@ const SharedModelPortfolio = () => {
         postData(`api/v1/modelPortfolio/${modelId}`, sharedModel)
           .then(() => {
             dispatch(loadModelPortfolios());
-            history.push(`/app/models`);
+            history.push(`/models`);
           })
           .catch((err) => {
             toast.error('Unable to clone model.');
@@ -271,13 +271,13 @@ const SharedModelPortfolio = () => {
                   </a>
                 </AboutPassiv>
                 <SignUpBtn
-                  onClick={() => history.push(`/app/register?ref=${shareId}`)}
+                  onClick={() => history.push(`/register?ref=${shareId}`)}
                 >
                   Free Sign Up
                 </SignUpBtn>
                 <Clone>
                   <Link
-                    to={`/app/login?next=/app/shared-model-portfolio/${sharedModel.model_portfolio.id}?share=${shareId}`}
+                    to={`/login?next=/shared-model-portfolio/${sharedModel.model_portfolio.id}?share=${shareId}`}
                   >
                     Already a user? Login & Clone.
                   </Link>

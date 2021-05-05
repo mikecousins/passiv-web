@@ -156,7 +156,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
     };
   }, []);
 
-  const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${modelId}?share=${referralCode}`;
+  const SHARE_URL = `https://app.passiv.com/shared-model-portfolio/${modelId}?share=${referralCode}`;
   if (!modelId) {
     return <div></div>;
   }
@@ -174,7 +174,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
         postData(`api/v1/modelPortfolio/${modelId}`, model)
           .then(() => {
             dispatch(loadModelPortfolios());
-            history.push(`/app/models`);
+            history.push(`/models`);
             toast.success('Duplicated model successfully.');
           })
           .catch((err) => {
@@ -194,7 +194,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
           dispatch(loadGroup({ ids: groups.map((group: any) => group.id) }));
         }
         toast.success('Delete the model successfully.');
-        history.replace('/app/models');
+        history.replace('/models');
       })
       .catch(() => {
         toast.error('Unable to delete the model. Please try again!');

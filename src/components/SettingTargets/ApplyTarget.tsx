@@ -249,7 +249,7 @@ const ApplyTarget = () => {
   return (
     <ShadowBox>
       <BackButton>
-        <Link to={'/app/model-setting'}>
+        <Link to={'/model-setting'}>
           <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to {group?.name}
         </Link>
       </BackButton>

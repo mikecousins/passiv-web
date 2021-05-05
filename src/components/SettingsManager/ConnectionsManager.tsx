@@ -19,7 +19,7 @@ const ConnectionsManager = () => {
       <div>
         <Button
           onClick={() => {
-            dispatch(push('/app/settings/connect'));
+            dispatch(push('/settings/connect'));
           }}
           disabled={isDemo}
           className="tour-add-more-connections"

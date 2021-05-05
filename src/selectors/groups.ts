@@ -154,9 +154,9 @@ export const selectCurrentGroupId = createSelector<
     router &&
     router.location &&
     router.location.pathname &&
-    router.location.pathname.split('/').length >= 4
+    router.location.pathname.split('/').length >= 3
   ) {
-    groupId = router.location.pathname.split('/')[3];
+    groupId = router.location.pathname.split('/')[2];
   }
   return groupId;
 });
@@ -617,7 +617,7 @@ export const selectCurrentAccountId = createSelector<
   const matchSelector = createMatchSelector<
     any,
     { groupId?: string; accountId?: string }
-  >('/app/group/:groupId/account/:accountId');
+  >('/group/:groupId/account/:accountId');
   const match = matchSelector(state);
   if (!match) {
     return undefined;

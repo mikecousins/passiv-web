@@ -15,11 +15,11 @@ const Topics = ({ articles }: Props) => {
   const dispatch = useDispatch();
   let questions = null;
   if (articles) {
-    questions = articles.map(article => (
+    questions = articles.map((article) => (
       <ShadowBox key={article.slug}>
         <H3>{article.title}</H3>
         <P>{article.description}</P>
-        <A onClick={() => dispatch(push(`/app/help/topic/${article.slug}`))}>
+        <A onClick={() => dispatch(push(`/help/topic/${article.slug}`))}>
           Read More
         </A>
       </ShadowBox>

@@ -24,12 +24,12 @@ const UpgradeButton = () => {
   return (
     <>
       {showQuestradeOffer ? (
-        <EliteUpgradeBtn to="/app/questrade-offer">
+        <EliteUpgradeBtn to="/questrade-offer">
           Upgrade to Elite
         </EliteUpgradeBtn>
       ) : (
         subscription?.type === 'free' && (
-          <EliteUpgradeBtn to="/app/settings">Upgrade to Elite</EliteUpgradeBtn>
+          <EliteUpgradeBtn to="/settings">Upgrade to Elite</EliteUpgradeBtn>
         )
       )}
     </>

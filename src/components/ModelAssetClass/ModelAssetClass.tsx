@@ -99,7 +99,7 @@ const ModelAssetClass = () => {
         </NewAssetClassBtn>
 
         <BackButton
-          onClick={() => history.push(back ? `/app${back}` : '/app/models')}
+          onClick={() => history.push(back ? `  ${back}` : '/models')}
         >
           Back to {back ? 'Model Portfolio' : 'Model Portfolios'}
         </BackButton>

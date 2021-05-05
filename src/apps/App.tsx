@@ -24,7 +24,7 @@ import {
 } from '../selectors/app';
 import { generateTrackingCode } from '../seo';
 import { setReferralCode, setTrackingId } from '../actions';
-import { selectQueryTokens } from '../selectors/router';
+import { selectQueryTokens, selectRouter } from '../selectors/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GoalDetailPage from '../pages/GoalDetailPage';
@@ -263,48 +263,48 @@ const stripePublicKey =
 
 const questradeOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/app/oauth/questrade?' + urlParams;
+  let newPath = '/oauth/questrade?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
 const tradierOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/app/oauth/tradier?' + urlParams;
+  let newPath = '/oauth/tradier?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
 const alpacaOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/app/oauth/alpaca?' + urlParams;
+  let newPath = '/oauth/alpaca?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
 const interactiveBrokersOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/app/oauth/interactivebrokers?' + urlParams;
+  let newPath = '/oauth/interactivebrokers?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
 const tdAmeritradeOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/app/oauth/td?' + urlParams;
+  let newPath = '/oauth/td?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
 const zerodhaOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/app/oauth/zerodha?' + urlParams;
+  let newPath = '/oauth/zerodha?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
 const wealthicaOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/app/oauth/wealthica?' + urlParams;
+  let newPath = '/oauth/wealthica?' + urlParams;
   return <Redirect to={newPath} />;
 };
 
 const sharedModelRedirect = () => {
-  let newPath = '/app/shared-model-portfolio?share=';
+  let newPath = '/shared-model-portfolio?share=';
   return <Redirect to={newPath} />;
 };
 
@@ -322,6 +322,11 @@ const App = () => {
   const queryParams = useSelector(selectQueryTokens);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
   let updateQuery = false;
+
+  if (location.pathname.includes('/app')) {
+    const newPath = location.pathname.replace('/app', '');
+    window.location.replace(newPath);
+  }
 
   // extract referral code (if any) and make available on registration page
   if (queryParams.ref) {
@@ -400,6 +405,7 @@ const App = () => {
       <StripeProvider stripe={stripe}>
         <React.Suspense fallback={<FontAwesomeIcon icon={faSpinner} spin />}>
           <Switch>
+            {/* <Route path="/app" render={() => oldPathRedirect()} /> */}
             // common routes
             <Route path="/help/topic/:slug" component={HelpArticlePage} />
             <Route path="/help" component={HelpPage} />
@@ -452,6 +458,13 @@ const App = () => {
             )}
             {loggedIn && (
               <Route exact path="/connect/bitbuy" component={BitbuyAuthPage} />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/connect/unocoin"
+                component={UnocoinAuthPage}
+              />
             )}
             {loggedIn && (
               <Route path="/oauth/alpaca" component={AlpacaOauthPage} />
@@ -569,11 +582,6 @@ const App = () => {
                   <LoginLoadingPage {...props} redirectPath={redirectPath} />
                 )}
               />
-            )}
-            {showSecureApp && (
-              <Route path="/" exact>
-                <Redirect to="/dashboard" />
-              </Route>
             )}
             {showSecureApp && (
               <Route path="/" exact>

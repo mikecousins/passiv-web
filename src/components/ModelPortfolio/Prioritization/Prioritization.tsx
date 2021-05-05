@@ -205,7 +205,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           if (onSettingsPage) {
             setEditing(false);
           } else {
-            history.push(`/app/group/${group?.id}`);
+            history.push(`/group/${group?.id}`);
           }
           toast.success('Saved prioritization successfully');
           dispatch(loadGroup({ ids: [group?.id] }));

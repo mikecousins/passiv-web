@@ -64,11 +64,11 @@ const RegistrationPage = ({ location }: Props) => {
 
   if (queryParams.email !== undefined) {
     formatted_email = queryParams.email;
-    window.history.replaceState({}, '', '/app/register/');
+    window.history.replaceState({}, '', '/register/');
   }
 
   if (loggedIn) {
-    let nextPath = '/app/dashboard';
+    let nextPath = '/dashboard';
     if (location && location.state && location.state.nextPathname) {
       nextPath = location.state.nextPathname;
     }

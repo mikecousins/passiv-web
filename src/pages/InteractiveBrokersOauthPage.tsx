@@ -52,7 +52,7 @@ const InteractiveBrokersOauthPage = () => {
 
   // if we're done, redirect the user to the dashboard
   if (success) {
-    return <Redirect to="/app/setup-groups" />;
+    return <Redirect to="/setup-groups" />;
   }
 
   let overrideError = false;
@@ -182,9 +182,7 @@ const InteractiveBrokersOauthPage = () => {
 
         <ShadowBox>
           {errorDisplay}
-          <Button onClick={() => dispatch(push('/app/settings'))}>
-            Settings
-          </Button>
+          <Button onClick={() => dispatch(push('/settings'))}>Settings</Button>
         </ShadowBox>
       </React.Fragment>
     );

@@ -47,7 +47,7 @@ const TradeItOauthPage = () => {
 
   // if we're done, redirect the user to the dashboard
   if (success) {
-    return <Redirect to="/app/setup-groups" />;
+    return <Redirect to="/setup-groups" />;
   }
 
   let errorDisplay = null;
@@ -126,7 +126,7 @@ const TradeItOauthPage = () => {
           <Step>Failed to establish connection :(</Step>
           <ShadowBox>
             {errorDisplay}
-            <Button onClick={() => push('/app/settings')}>Settings</Button>
+            <Button onClick={() => push('/settings')}>Settings</Button>
           </ShadowBox>
         </React.Fragment>
       )}

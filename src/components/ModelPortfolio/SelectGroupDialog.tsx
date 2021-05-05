@@ -52,9 +52,9 @@ const SelectGroupDialog = ({ model }: Props) => {
         dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page
         dispatch(loadModelPortfolios());
         if (model.model_type === 1) {
-          history.push(`/app/priorities/${groupId}`);
+          history.push(`/priorities/${groupId}`);
         } else {
-          history.push(`/app/group/${groupId}`);
+          history.push(`/group/${groupId}`);
         }
         toast.success(`Model applied to "${groupName}"`);
       })

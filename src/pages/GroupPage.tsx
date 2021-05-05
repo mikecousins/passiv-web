@@ -39,7 +39,7 @@ export const NavContainer = styled.div`
 `;
 
 const overviewSelected = (pathname: string, groupId: string | null) => {
-  if (pathname === `/app/group/${groupId}`) {
+  if (pathname === `/group/${groupId}`) {
     return 'active';
   }
 };
@@ -49,13 +49,13 @@ const accountSelected = (
   groupId: string | null,
   accountId: string | null,
 ) => {
-  if (pathname === `/app/group/${groupId}/account/${accountId}`) {
+  if (pathname === `/group/${groupId}/account/${accountId}`) {
     return 'active';
   }
 };
 
 const settingsSelected = (pathname: string, groupId: string | null) => {
-  if (pathname === `/app/group/${groupId}/settings`) {
+  if (pathname === `/group/${groupId}/settings`) {
     return 'active';
   }
 };
@@ -71,7 +71,7 @@ const GroupPage = () => {
         <NavContainer>
           <Link
             className={overviewSelected(pathname, groupId)}
-            to={`/app/group/${groupId}`}
+            to={`/group/${groupId}`}
           >
             Overview
           </Link>
@@ -81,7 +81,7 @@ const GroupPage = () => {
                 return (
                   <Link
                     className={accountSelected(pathname, groupId, account.id)}
-                    to={`/app/group/${groupId}/account/${account.id}`}
+                    to={`/group/${groupId}/account/${account.id}`}
                     key={account.id}
                   >
                     {account.name}
@@ -95,18 +95,15 @@ const GroupPage = () => {
               pathname,
               groupId,
             )} tour-group-settings`}
-            to={`/app/group/${groupId}/settings`}
+            to={`/group/${groupId}/settings`}
           >
             Portfolio Settings
           </Link>
         </NavContainer>
       </SubNav>
-      <Route path="/app/group/:groupId" exact component={OverviewTab} />
-      <Route
-        path="/app/group/:groupId/account/:accountId"
-        component={AccountTab}
-      />
-      <Route path="/app/group/:groupId/settings" component={GroupSettingsTab} />
+      <Route path="/group/:groupId" exact component={OverviewTab} />
+      <Route path="/group/:groupId/account/:accountId" component={AccountTab} />
+      <Route path="/group/:groupId/settings" component={GroupSettingsTab} />
     </React.Fragment>
   );
 };

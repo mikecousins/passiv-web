@@ -22,7 +22,7 @@ const ZerodhaOauthPage = () => {
 
   postData('/api/v1/tradesinprogress/', queryParams).then((response) => {
     if (response.data.portfolio_group) {
-      dispatch(replace(`/app/group/${response.data.portfolio_group}`));
+      dispatch(replace(`/group/${response.data.portfolio_group}`));
       dispatch(reloadEverything());
     }
   });
@@ -37,7 +37,7 @@ const ZerodhaOauthPage = () => {
         .then(() => {
           dispatch(reloadEverything());
           setTimeout(() => {
-            dispatch(replace('/app/setup-groups'));
+            dispatch(replace('/setup-groups'));
           }, 1000);
         })
         .catch((error) => {
@@ -123,7 +123,7 @@ const ZerodhaOauthPage = () => {
           <Step>Failed to establish connection :(</Step>
           <ShadowBox>
             {errorDisplay}
-            <Button onClick={() => dispatch(push('/app/settings'))}>
+            <Button onClick={() => dispatch(push('/settings'))}>
               Go to Settings
             </Button>
           </ShadowBox>

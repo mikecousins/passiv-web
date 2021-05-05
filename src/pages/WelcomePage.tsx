@@ -30,7 +30,7 @@ const WelcomePage = () => {
           allowFullScreen
         ></ScalingIFrame>
       </VerticalPadding>
-      <Button onClick={() => dispatch(push('/app/connect'))}>Continue</Button>
+      <Button onClick={() => dispatch(push('/connect'))}>Continue</Button>
       {showProgressFeature && <OnboardingProgress step={1} />}
     </ShadowBox>
   );

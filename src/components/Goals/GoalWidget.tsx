@@ -129,7 +129,7 @@ export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
     <React.Fragment>
       <UnstyledLink
         to={{
-          pathname: '/app/goal/' + goal.id,
+          pathname: '/goal/' + goal.id,
           state: {
             goal: useSelector(selectGoals)?.data?.find(
               (x: any) => x.id === goal.id,

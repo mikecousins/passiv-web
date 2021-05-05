@@ -47,7 +47,7 @@ const QuestradeOauthPage = () => {
           dispatch(reloadEverything());
           if (isPaid || !questradeOfferFeatureActive) {
             setTimeout(() => {
-              dispatch(replace('/app/setup-groups'));
+              dispatch(replace('/setup-groups'));
             }, 1000);
           } else {
             setLoading(false);
@@ -219,7 +219,7 @@ const QuestradeOauthPage = () => {
               </A>{' '}
               in just one click.
             </P>
-            <Button onClick={() => dispatch(push('/app/questrade-offer'))}>
+            <Button onClick={() => dispatch(push('/questrade-offer'))}>
               Upgrade Now
             </Button>
           </ShadowBox>
@@ -229,7 +229,7 @@ const QuestradeOauthPage = () => {
           <Step>Failed to establish connection :(</Step>
           <ShadowBox>
             {errorDisplay}
-            <Button onClick={() => dispatch(push('/app/settings'))}>
+            <Button onClick={() => dispatch(push('/settings'))}>
               Go to Settings
             </Button>
           </ShadowBox>

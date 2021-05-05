@@ -203,7 +203,7 @@ const ModelPortfolio = () => {
   const [copied, setCopied] = useState(false);
   const [modelTypeChanged, setModelTypeChanged] = useState(false);
 
-  const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${modelId}?share=${referralCode}`;
+  const SHARE_URL = `https://app.passiv.com/shared-model-portfolio/${modelId}?share=${referralCode}`;
 
   let haveAssetsInModel = false;
   if (
@@ -228,7 +228,7 @@ const ModelPortfolio = () => {
           dispatch(loadGroup({ ids: groups.map((group: any) => group.id) }));
         }
         toast.success('Delete the model successfully.');
-        history.replace('/app/models');
+        history.replace('/models');
       })
       .catch(() => {
         toast.error('Unable to delete the model. Please try again!');
@@ -283,11 +283,7 @@ const ModelPortfolio = () => {
             <ShadowBox>
               <BackButton>
                 <Link
-                  to={
-                    groupInfo
-                      ? `/app/group/${groupInfo.groupId}`
-                      : '/app/models'
-                  }
+                  to={groupInfo ? `/group/${groupInfo.groupId}` : '/models'}
                 >
                   <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to{' '}
                   {groupInfo ? groupInfo.name : 'My Models'}
@@ -307,7 +303,7 @@ const ModelPortfolio = () => {
                       Elite Feature{' '}
                       <A
                         style={{ marginLeft: '10px' }}
-                        onClick={() => history.push('/app/questrade-offer')}
+                        onClick={() => history.push('/questrade-offer')}
                       >
                         Upgrade Now!
                       </A>
@@ -440,7 +436,7 @@ const ModelPortfolio = () => {
               {securityBased && (
                 <P style={{ textAlign: 'center' }}>
                   * Asset class is a beta feature. Help us improve this feature
-                  by <Link to={'/app/contact-form'}>sharing feedback</Link>
+                  by <Link to={'/contact-form'}>sharing feedback</Link>
                 </P>
               )}
               <ActionContainer>

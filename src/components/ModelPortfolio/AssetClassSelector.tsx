@@ -135,7 +135,7 @@ const AssetClassSelector = ({
           )}
           <AddAssetClassBtn
             onClick={() =>
-              history.push(`/app/asset-class?back=/model-portfolio/${modelId}`)
+              history.push(`/asset-class?back=/model-portfolio/${modelId}`)
             }
           >
             <FontAwesomeIcon icon={faPlus} /> New Asset Class

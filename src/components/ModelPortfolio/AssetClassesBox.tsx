@@ -98,7 +98,7 @@ const AssetClassesBox = ({ assetClasses, modelId }: Props) => {
           </ResponsiveGrid>
           <GoToAssetClasses
             onClick={() =>
-              history.push(`/app/asset-class?back=/model-portfolio/${modelId}`)
+              history.push(`/asset-class?back=/model-portfolio/${modelId}`)
             }
           >
             Edit Asset Classes
@@ -109,7 +109,7 @@ const AssetClassesBox = ({ assetClasses, modelId }: Props) => {
           <p>You still need to define your asset classes. </p>
           <GoToAssetClasses
             onClick={() =>
-              history.push(`/app/asset-class?back=/model-portfolio/${modelId}`)
+              history.push(`/asset-class?back=/model-portfolio/${modelId}`)
             }
           >
             Add Asset Classes

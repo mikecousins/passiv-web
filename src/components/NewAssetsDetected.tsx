@@ -103,7 +103,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
       .then(() => {
         dispatch(loadGroup({ ids: [groupId] }));
         if (!exclude) {
-          dispatch(replace(`/app/group/${groupId}?edit=true`));
+          dispatch(replace(`/group/${groupId}?edit=true`));
           setTimeout(() => {
             window.scrollTo({
               top: document.documentElement.scrollHeight,
@@ -252,7 +252,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
         )}
 
         <DontShowBtn>
-          <A onClick={() => history.push(`/app/group/${groupId}/settings`)}>
+          <A onClick={() => history.push(`/group/${groupId}/settings`)}>
             Do not want to see this message again? Turn it off in your group
             settings.
           </A>

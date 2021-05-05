@@ -31,7 +31,7 @@ const TDAmeritradeOauthPage = () => {
         .then(() => {
           dispatch(reloadEverything());
           setTimeout(() => {
-            dispatch(replace('/app/setup-groups'));
+            dispatch(replace('/setup-groups'));
           }, 1000);
         })
         .catch((error) => {
@@ -117,7 +117,7 @@ const TDAmeritradeOauthPage = () => {
           <Step>Failed to establish connection :(</Step>
           <ShadowBox>
             {errorDisplay}
-            <Button onClick={() => dispatch(push('/app/settings'))}>
+            <Button onClick={() => dispatch(push('/settings'))}>
               Go to Settings
             </Button>
           </ShadowBox>
