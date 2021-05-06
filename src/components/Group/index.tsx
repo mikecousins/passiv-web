@@ -106,7 +106,7 @@ export const Group = ({ group }: Props) => {
   } else if (!group.hasAccounts) {
     viewButton = (
       <WarningViewBtn>
-        <Link to={`/app/group/${group.id}`}>
+        <Link to={`/group/${group.id}`}>
           Empty Group
           <FontAwesomeIcon icon={faAngleRight} />
         </Link>
@@ -115,7 +115,7 @@ export const Group = ({ group }: Props) => {
   } else {
     viewButton = (
       <WarningViewBtn>
-        <Link to={`/app/group/${group.id}`}>
+        <Link to={`/group/${group.id}`}>
           Setup
           <FontAwesomeIcon icon={faAngleRight} />
         </Link>

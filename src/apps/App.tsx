@@ -323,6 +323,7 @@ const App = () => {
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
   let updateQuery = false;
 
+  // redirect the old path name with '/app'
   if (location.pathname.includes('/app')) {
     const newPath = location.pathname.replace('/app', '');
     window.location.replace(newPath);
@@ -405,7 +406,6 @@ const App = () => {
       <StripeProvider stripe={stripe}>
         <React.Suspense fallback={<FontAwesomeIcon icon={faSpinner} spin />}>
           <Switch>
-            {/* <Route path="/app" render={() => oldPathRedirect()} /> */}
             // common routes
             <Route path="/help/topic/:slug" component={HelpArticlePage} />
             <Route path="/help" component={HelpPage} />
