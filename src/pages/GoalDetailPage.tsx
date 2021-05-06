@@ -280,7 +280,6 @@ interface LocationState {
 }
 
 const GoalDetailPage = () => {
-  // const goalsFeature = useSelector(selectGoalsFeature);
   const dispatch = useDispatch();
   const history = useHistory();
   const goalId = useSelector(selectCurrentGoalId);
