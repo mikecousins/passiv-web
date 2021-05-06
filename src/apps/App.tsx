@@ -98,19 +98,11 @@ const BrokeragesOauthPage = ReactLazyPreload(() =>
     /* webpackChunkName: "brokerage-oauth" */ '../pages/BrokeragesOauthPage'
   ),
 );
-
-const KrakenAuthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "kraken-auth" */ '../pages/KrakenAuthPage'),
+const BrokeragesAuthPage = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "brokerage-oauth" */ '../pages/BrokeragesAuthPage'
+  ),
 );
-
-const BitbuyAuthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "bitbuy-auth" */ '../pages/BitbuyAuthPage'),
-);
-
-const UnocoinAuthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "unocoin-oauth" */ '../pages/UnocoinAuthPage'),
-);
-
 const UpgradeOfferPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "upgrade-offer" */ '../pages/UpgradeOfferPage'),
 );
@@ -437,21 +429,21 @@ const App = () => {
               <Route
                 exact
                 path={prefixPath('/connect/kraken')}
-                component={KrakenAuthPage}
+                component={() => <BrokeragesAuthPage brokerageName="Kraken" />}
               />
             )}
             {loggedIn && (
               <Route
                 exact
                 path={prefixPath('/connect/bitbuy')}
-                component={BitbuyAuthPage}
+                component={() => <BrokeragesAuthPage brokerageName="BitBuy" />}
               />
             )}
             {loggedIn && (
               <Route
                 exact
                 path={prefixPath('/connect/unocoin')}
-                component={UnocoinAuthPage}
+                component={() => <BrokeragesAuthPage brokerageName="UnoCoin" />}
               />
             )}
             {loggedIn && (
