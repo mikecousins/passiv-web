@@ -93,30 +93,9 @@ const SetNewPasswordPage = ReactLazyPreload(() =>
     /* webpackChunkName: "set-new-password" */ '../pages/SetNewPasswordPage'
   ),
 );
-
-const QuestradeOauthPage = ReactLazyPreload(() =>
+const BrokeragesOauthPage = ReactLazyPreload(() =>
   import(
-    /* webpackChunkName: "questrade-oauth" */ '../pages/QuestradeOauthPage'
-  ),
-);
-
-const TradierOauthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "tradier-oauth" */ '../pages/TradierOauthPage'),
-);
-
-const AlpacaOauthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "alpaca-oauth" */ '../pages/AlpacaOauthPage'),
-);
-
-const InteractiveBrokersOauthPage = ReactLazyPreload(() =>
-  import(
-    /* webpackChunkName: "interactive-brokers-oauth" */ '../pages/InteractiveBrokersOauthPage'
-  ),
-);
-
-const TDAmeritradeOauthPage = ReactLazyPreload(() =>
-  import(
-    /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/TDAmeritradeOauthPage'
+    /* webpackChunkName: "brokerage-oauth" */ '../pages/BrokeragesOauthPage'
   ),
 );
 
@@ -130,16 +109,6 @@ const BitbuyAuthPage = ReactLazyPreload(() =>
 
 const UnocoinAuthPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "unocoin-oauth" */ '../pages/UnocoinAuthPage'),
-);
-
-const ZerodhaOauthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "zerodha-oauth" */ '../pages/ZerodhaOauthPage'),
-);
-
-const WealthicaOauthPage = ReactLazyPreload(() =>
-  import(
-    /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/WealthicaOauthPage'
-  ),
 );
 
 const UpgradeOfferPage = ReactLazyPreload(() =>
@@ -444,7 +413,9 @@ const App = () => {
             {loggedIn && (
               <Route
                 path={prefixPath('/oauth/questrade')}
-                component={QuestradeOauthPage}
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Questrade" />
+                )}
               />
             )}
             {loggedIn && (
@@ -457,7 +428,9 @@ const App = () => {
             {loggedIn && (
               <Route
                 path={prefixPath('/oauth/tradier')}
-                component={TradierOauthPage}
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Tradier" />
+                )}
               />
             )}
             {loggedIn && (
@@ -484,7 +457,7 @@ const App = () => {
             {loggedIn && (
               <Route
                 path={prefixPath('/oauth/alpaca')}
-                component={AlpacaOauthPage}
+                component={() => <BrokeragesOauthPage brokerageName="Alpaca" />}
               />
             )}
             {loggedIn && (
@@ -497,7 +470,9 @@ const App = () => {
             {loggedIn && (
               <Route
                 path={prefixPath('/oauth/interactivebrokers')}
-                component={InteractiveBrokersOauthPage}
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Interactive Brokers" />
+                )}
               />
             )}
             {loggedIn && (
@@ -510,7 +485,9 @@ const App = () => {
             {loggedIn && (
               <Route
                 path={prefixPath('/oauth/td')}
-                component={TDAmeritradeOauthPage}
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="TD Ameritrade" />
+                )}
               />
             )}
             {loggedIn && (
@@ -523,7 +500,9 @@ const App = () => {
             {loggedIn && (
               <Route
                 path={prefixPath('/oauth/zerodha')}
-                component={ZerodhaOauthPage}
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Zerodha" />
+                )}
               />
             )}
             {loggedIn && (
@@ -536,7 +515,9 @@ const App = () => {
             {loggedIn && (
               <Route
                 path={prefixPath('/oauth/wealthica')}
-                component={WealthicaOauthPage}
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Wealthica" />
+                )}
               />
             )}
             {loggedIn && (
