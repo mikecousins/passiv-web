@@ -92,55 +92,16 @@ const SetNewPasswordPage = ReactLazyPreload(() =>
     /* webpackChunkName: "set-new-password" */ '../pages/SetNewPasswordPage'
   ),
 );
-
-const QuestradeOauthPage = ReactLazyPreload(() =>
+const BrokeragesOauthPage = ReactLazyPreload(() =>
   import(
-    /* webpackChunkName: "questrade-oauth" */ '../pages/QuestradeOauthPage'
+    /* webpackChunkName: "brokerage-oauth" */ '../pages/BrokeragesOauthPage'
   ),
 );
-
-const TradierOauthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "tradier-oauth" */ '../pages/TradierOauthPage'),
-);
-
-const AlpacaOauthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "alpaca-oauth" */ '../pages/AlpacaOauthPage'),
-);
-
-const InteractiveBrokersOauthPage = ReactLazyPreload(() =>
+const BrokeragesAuthPage = ReactLazyPreload(() =>
   import(
-    /* webpackChunkName: "interactive-brokers-oauth" */ '../pages/InteractiveBrokersOauthPage'
+    /* webpackChunkName: "brokerage-oauth" */ '../pages/BrokeragesAuthPage'
   ),
 );
-
-const TDAmeritradeOauthPage = ReactLazyPreload(() =>
-  import(
-    /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/TDAmeritradeOauthPage'
-  ),
-);
-
-const KrakenAuthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "kraken-auth" */ '../pages/KrakenAuthPage'),
-);
-
-const BitbuyAuthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "bitbuy-auth" */ '../pages/BitbuyAuthPage'),
-);
-
-const UnocoinAuthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "unocoin-oauth" */ '../pages/UnocoinAuthPage'),
-);
-
-const ZerodhaOauthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "zerodha-oauth" */ '../pages/ZerodhaOauthPage'),
-);
-
-const WealthicaOauthPage = ReactLazyPreload(() =>
-  import(
-    /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/WealthicaOauthPage'
-  ),
-);
-
 const UpgradeOfferPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "upgrade-offer" */ '../pages/UpgradeOfferPage'),
 );
@@ -441,7 +402,12 @@ const App = () => {
               />
             )}
             {loggedIn && (
-              <Route path="/oauth/questrade" component={QuestradeOauthPage} />
+              <Route
+                path="/oauth/questrade"
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Questrade" />
+                )}
+              />
             )}
             {loggedIn && (
               <Route
@@ -451,23 +417,39 @@ const App = () => {
               />
             )}
             {loggedIn && (
-              <Route path="/oauth/tradier" component={TradierOauthPage} />
+              <Route
+                path="/oauth/tradier"
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Tradier" />
+                )}
+              />
             )}
             {loggedIn && (
-              <Route exact path="/connect/kraken" component={KrakenAuthPage} />
+              <Route
+                exact
+                path="/connect/kraken"
+                component={() => <BrokeragesAuthPage brokerageName="Kraken" />}
+              />
             )}
             {loggedIn && (
-              <Route exact path="/connect/bitbuy" component={BitbuyAuthPage} />
+              <Route
+                exact
+                path="/connect/bitbuy"
+                component={() => <BrokeragesAuthPage brokerageName="BitBuy" />}
+              />
             )}
             {loggedIn && (
               <Route
                 exact
                 path="/connect/unocoin"
-                component={UnocoinAuthPage}
+                component={() => <BrokeragesAuthPage brokerageName="UnoCoin" />}
               />
             )}
             {loggedIn && (
-              <Route path="/oauth/alpaca" component={AlpacaOauthPage} />
+              <Route
+                path="/oauth/alpaca"
+                component={() => <BrokeragesOauthPage brokerageName="Alpaca" />}
+              />
             )}
             {loggedIn && (
               <Route
@@ -479,7 +461,9 @@ const App = () => {
             {loggedIn && (
               <Route
                 path="/oauth/interactivebrokers"
-                component={InteractiveBrokersOauthPage}
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Interactive Brokers" />
+                )}
               />
             )}
             {loggedIn && (
@@ -490,7 +474,12 @@ const App = () => {
               />
             )}
             {loggedIn && (
-              <Route path="/oauth/td" component={TDAmeritradeOauthPage} />
+              <Route
+                path="/oauth/td"
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="TD Ameritrade" />
+                )}
+              />
             )}
             {loggedIn && (
               <Route
@@ -500,7 +489,12 @@ const App = () => {
               />
             )}
             {loggedIn && (
-              <Route path="/oauth/zerodha" component={ZerodhaOauthPage} />
+              <Route
+                path="/oauth/zerodha"
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Zerodha" />
+                )}
+              />
             )}
             {loggedIn && (
               <Route
@@ -510,7 +504,12 @@ const App = () => {
               />
             )}
             {loggedIn && (
-              <Route path="/oauth/wealthica" component={WealthicaOauthPage} />
+              <Route
+                path="/oauth/wealthica"
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Wealthica" />
+                )}
+              />
             )}
             {loggedIn && (
               <Route
