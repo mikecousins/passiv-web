@@ -232,17 +232,7 @@ const ApplyTarget = () => {
   };
 
   const handleApplyModelBtn = () => {
-    postData(
-      `api/v1/portfolioGroups/${currentGroup?.id}/modelPortfolio/${selectedModel.id}`,
-      {},
-    ).then(() => {
-      dispatch(loadGroupInfo());
-      setOriginalModel(selectedModel);
-      toast.success(
-        `'${selectedModel.name}' has applied to '${currentGroup?.name}'`,
-        { autoClose: 3000 },
-      );
-    });
+    return;
   };
 
   return (
