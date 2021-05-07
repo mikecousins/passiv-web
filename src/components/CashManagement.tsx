@@ -59,6 +59,13 @@ export const CashRow = styled.div<CashRowProps>`
   }
 `;
 
+export const GreyCashRow = styled(CashRow)`
+  border: 1px solid #f1f1f1;
+  padding: 10px;
+  margin-bottom: 20px;
+  background: #f1f1f1;
+`;
+
 export const Heading = styled.div`
   h3 {
     font-size: 40px;
@@ -299,15 +306,7 @@ const CashManagement = () => {
           const currency = getCurrency(cashRestriction.currency);
           const type = getType(cashRestriction.type);
           return (
-            <CashRow
-              key={cashRestriction.id}
-              style={{
-                border: '1px solid #f1f1f1',
-                padding: '10px',
-                marginBottom: '20px',
-                background: '#f1f1f1',
-              }}
-            >
+            <GreyCashRow key={cashRestriction.id}>
               <ColumnBase>{account && account.name}</ColumnBase>
               <ColumnBase>{type && type.name}</ColumnBase>
               <ColumnBase>
@@ -330,7 +329,7 @@ const CashManagement = () => {
                   </button>
                 </DeleteContainer>
               </ColumnBase>
-            </CashRow>
+            </GreyCashRow>
           );
         })}
       </React.Fragment>

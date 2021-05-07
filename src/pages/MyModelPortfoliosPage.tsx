@@ -76,6 +76,13 @@ const ModelName = styled(H3)`
 `;
 const InUseDiv = styled.div`
   font-size: 20px;
+  > svg {
+    margin-right: 8px;
+    color: var(--brand-green);
+  }
+  span {
+    margin-right: 10px;
+  }
   @media (max-width: 900px) {
     margin-bottom: 20px;
     text-align: center;
@@ -257,16 +264,9 @@ const MyModelPortfoliosPage = () => {
                     <InUseDiv>
                       {totalAssignedGroups > 0 && (
                         <>
-                          <FontAwesomeIcon
-                            icon={faCheck}
-                            size="lg"
-                            style={{
-                              marginRight: '8px',
-                              color: 'var(--brand-green)',
-                            }}
-                          />
+                          <FontAwesomeIcon icon={faCheck} size="lg" />
                           <InUse>In Use</InUse> |{' '}
-                          <span style={{ marginRight: '10px' }}>
+                          <span>
                             {totalAssignedGroups} Group
                             {totalAssignedGroups > 1 && 's'}
                           </span>

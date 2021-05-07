@@ -93,6 +93,7 @@ const URLInput = styled(ReadOnlyInput)`
 `;
 
 const SocialMedia = styled(Grid)`
+  margin: 30px auto;
   svg {
     &:hover {
       color: var(--brand-green);
@@ -254,10 +255,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
         </button>
         <div>
           <H2 style={{ marginTop: '30px' }}>Share Model</H2>
-          <SocialMedia
-            columns="100px 100px 100px 100px"
-            style={{ margin: '30px auto' }}
-          >
+          <SocialMedia columns="100px 100px 100px 100px">
             <button>
               <a
                 target="_blank"
@@ -278,20 +276,6 @@ const MoreOptions = ({ model, shareModel }: Props) => {
                 <FontAwesomeIcon icon={faFacebook} size="3x" color="#4267B2" />
               </a>
             </button>
-            {/* <button>
-              <a
-                target="_blank"
-                href={`https://www.linkedin.com/shareArticle?mini=true&url=${SHARE_URL}&title=hey`}
-                rel="noopener noreferrer"
-                className="linkedin"
-              >
-                <FontAwesomeIcon
-                  icon={faLinkedinIn}
-                  size="3x"
-                  color="#2867b2"
-                />
-              </a>
-            </button> */}
             <button>
               <a
                 target="_blank"

@@ -79,17 +79,11 @@ const AssetClassesBox = ({ assetClasses, modelId }: Props) => {
                   {cls.model_asset_class.name}{' '}
                   {cls.model_asset_class_target.length > 0 ? (
                     <Tooltip label={makeLabel(cls.model_asset_class_target)}>
-                      <FontAwesomeIcon
-                        icon={faInfoCircle}
-                        style={{ fontSize: 12 }}
-                      />
+                      <FontAwesomeIcon icon={faInfoCircle} size="sm" />
                     </Tooltip>
                   ) : (
-                    <Tooltip label={'No Security Added'}>
-                      <FontAwesomeIcon
-                        icon={faInfoCircle}
-                        style={{ fontSize: 12 }}
-                      />
+                    <Tooltip label={'Empty Asset Class'}>
+                      <FontAwesomeIcon icon={faInfoCircle} size="sm" />
                     </Tooltip>
                   )}
                 </SmallBox>

@@ -93,6 +93,10 @@ const List = styled.ul`
   }
 `;
 
+const Description = styled(P)`
+  font-size: 20px;
+`;
+
 const OverviewTab = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -192,11 +196,11 @@ const OverviewTab = () => {
             <FontAwesomeIcon icon={faExclamationTriangle} /> Need to confirm
             priorities
           </H3>
-          <P style={{ fontSize: '20px' }}>
+          <Description>
             We noticed that you made changes to the asset class model using by
             this group and in order to show you accurate trades, Passiv needs
             you to confirm priorities for this asset class.
-          </P>
+          </Description>
           <br />
           <P>
             <span style={{ fontWeight: 600 }}>Prioritization</span> needs to be
@@ -211,7 +215,7 @@ const OverviewTab = () => {
             </List>
           </P>
 
-          <Button onClick={handleTakeToPriorities} style={{ fontWeight: 600 }}>
+          <Button onClick={handleTakeToPriorities}>
             Take me to Priorities
           </Button>
         </ErrorContainer>

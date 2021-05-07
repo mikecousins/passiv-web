@@ -67,6 +67,16 @@ const MaxHeightSmallBtn = styled(SmallButton)`
   max-height: 45px;
 `;
 
+const ExcludeBtn = styled(MaxHeightSmallBtn)`
+  background: transparent;
+  border: 1px solid var(--brand-blue);
+  color: var(--brand-blue);
+`;
+
+const BoldSpan = styled.span`
+  font-weight: 900;
+`;
+
 const NewAssetsDetected = ({ targets }: Props) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -222,16 +232,9 @@ const NewAssetsDetected = ({ targets }: Props) => {
                     {modelPortfolioFeature ? 'Add to Model' : 'Add to Target'}
                   </MaxHeightSmallBtn>
                 )}
-                <MaxHeightSmallBtn
-                  style={{
-                    background: 'transparent',
-                    border: '1px solid var(--brand-blue)',
-                    color: 'var(--brand-blue)',
-                  }}
-                  onClick={() => handleAddTarget(target, true)}
-                >
+                <ExcludeBtn onClick={() => handleAddTarget(target, true)}>
                   Exclude
-                </MaxHeightSmallBtn>
+                </ExcludeBtn>
               </StyledGrid>
             );
           })}
@@ -239,15 +242,13 @@ const NewAssetsDetected = ({ targets }: Props) => {
 
         {modelPortfolioFeature ? (
           <small>
-            * The securities get added with{' '}
-            <span style={{ fontWeight: 900 }}>0%</span>. Scroll down and click
-            Edit Model to change their allocation.
+            * The securities get added with <BoldSpan>0%</BoldSpan>. Scroll down
+            and click Edit Model to change their allocation.
           </small>
         ) : (
           <small>
-            * The securities get added with{' '}
-            <span style={{ fontWeight: 900 }}>0%</span> but you can go to the
-            bottom and change them.
+            * The securities get added with <BoldSpan>0%</BoldSpan> but you can
+            go to the bottom and change them.
           </small>
         )}
 

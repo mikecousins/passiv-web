@@ -7,6 +7,10 @@ import styled from '@emotion/styled';
 
 const ClickableH3 = styled(H3)`
   cursor: pointer;
+  svg {
+    float: right;
+    color: var(--brand-green);
+  }
 `;
 
 type Props = {
@@ -20,10 +24,7 @@ const CollapseBox = ({ title, content }: Props) => {
     <ShadowBox>
       <ClickableH3 onClick={() => setShowContent(!showContent)}>
         {title}
-        <FontAwesomeIcon
-          icon={showContent ? faChevronUp : faChevronDown}
-          style={{ float: 'right', color: 'var(--brand-green)' }}
-        />
+        <FontAwesomeIcon icon={showContent ? faChevronUp : faChevronDown} />
       </ClickableH3>
       {showContent ? <div>{content}</div> : null}
     </ShadowBox>

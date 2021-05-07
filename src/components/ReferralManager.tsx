@@ -184,6 +184,16 @@ const RadioGroup = styled.div`
   }
 `;
 
+const ChartContainer = styled.div`
+  height: 240px;
+  margin: 5px;
+`;
+
+const InvoiceBox = styled.div`
+  margin-bottom: 30px;
+  padding: 5px;
+`;
+
 const ReferralMetric = ({
   title,
   value,
@@ -447,14 +457,9 @@ const ReferralManager = () => {
       <SubHeading>Metrics</SubHeading>
       <Container3Column>{metricsContent}</Container3Column>
       {signUpData?.length > 1 && (
-        <div
-          style={{
-            height: '240px',
-            margin: '5px',
-          }}
-        >
+        <ChartContainer>
           <Chart data={data} axes={axes} series={series} tooltip />
-        </div>
+        </ChartContainer>
       )}
       <Grid columns={invoices.length > 0 ? '1fr 1fr' : '1fr'}>
         {referralCharity && (
@@ -659,7 +664,7 @@ const ReferralManager = () => {
                   <Grid columns="1fr 1fr 1fr">
                     {invoices.map((inv) => {
                       return (
-                        <div style={{ marginBottom: '30px', padding: '5px' }}>
+                        <InvoiceBox>
                           <FontAwesomeIcon
                             icon={faFileInvoice}
                             size="lg"
@@ -672,7 +677,7 @@ const ReferralManager = () => {
                           >
                             {inv.end_date}
                           </a>
-                        </div>
+                        </InvoiceBox>
                       );
                     })}
                   </Grid>

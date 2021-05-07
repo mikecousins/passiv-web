@@ -43,6 +43,11 @@ const BackButton = styled(Button)`
   }
 `;
 
+const NoAssetClass = styled(P)`
+  text-align: center;
+  margin-top: 40px;
+`;
+
 const ModelAssetClass = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -81,20 +86,13 @@ const ModelAssetClass = () => {
       {assetClasses.length > 0 ? (
         assetClassBox
       ) : (
-        <P style={{ textAlign: 'center', marginTop: '40px' }}>
-          There are no asset classes available.
-        </P>
+        <NoAssetClass>There are no asset classes available.</NoAssetClass>
       )}
 
       <div style={{ marginTop: '40px' }}>
         <NewAssetClassBtn onClick={handleAddAssetClass}>
           {' '}
-          <FontAwesomeIcon
-            icon={faPlus}
-            size="sm"
-            style={{ position: 'relative' }}
-          />{' '}
-          New Asset Class
+          <FontAwesomeIcon icon={faPlus} size="sm" /> New Asset Class
         </NewAssetClassBtn>
 
         <BackButton

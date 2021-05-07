@@ -22,7 +22,6 @@ import { getData, postData } from '../../api';
 import { loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
 import { StyledP } from '../../pages/ModelAssetClassPage';
-
 import shareModelImage from '../../assets/images/shareModelImage.png';
 
 const ImageContainer = styled.div`
@@ -71,6 +70,11 @@ const ActionBox = styled.div`
   padding: 15px;
   margin-bottom: 231px;
   padding: 20px;
+`;
+
+const Header = styled(H3)`
+  font-size: 18px;
+  line-height: 1.2;
 `;
 
 const AboutPassiv = styled(P)`
@@ -257,9 +261,7 @@ const SharedModelPortfolio = () => {
           {!showSecureApp && (
             <>
               <ActionBox>
-                <H3 style={{ fontSize: '18px', lineHeight: '1.2' }}>
-                  Build your own model portfolio!
-                </H3>
+                <Header>Build your own model portfolio!</Header>
                 <AboutPassiv>
                   Passiv makes investing easier at online brokerages. Passiv
                   helps you maintain your portfolio’s allocation, manage

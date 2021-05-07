@@ -271,14 +271,7 @@ const ApplySecurityModel = ({ model }: Props) => {
                                 </Percent>
                               </div>
                             </Grid>
-                            <BarsContainer
-                              style={{
-                                background: 'white',
-                                width: '100%',
-                                marginTop: '20px',
-                                border: '1px solid #BBBBBB',
-                              }}
-                            >
+                            <BarsContainer>
                               {!(
                                 props.values.targets[index].actualPercentage ===
                                 undefined

@@ -137,6 +137,9 @@ const NotSupported = styled.div`
   ul {
     padding: 10px;
   }
+  li {
+    margin-bottom: 10px;
+  }
 `;
 
 type Props = {
@@ -323,9 +326,7 @@ const AssetClassPriority = ({
                     <ul>
                       {account.unsupported_symbols.map((symbolId: string) => {
                         return (
-                          <li key={symbolId} style={{ marginBottom: '10px' }}>
-                            {symbols?.[symbolId]?.symbol}
-                          </li>
+                          <li key={symbolId}>{symbols?.[symbolId]?.symbol}</li>
                         );
                       })}
                     </ul>

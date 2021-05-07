@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { selectGroupInfo, selectGroups } from '../../selectors/groups';
-import { H1, H2, H3 } from '../../styled/GlobalElements';
+import { H1, H2, P } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
 import { postData } from '../../api';
 import { selectGroupsUsingAModel } from '../../selectors/modelPortfolios';
@@ -11,6 +11,13 @@ import { loadGroups, loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
 import { ModelPortfolio } from '../../types/modelPortfolio';
 import { GroupData } from '../../types/group';
+
+const Header = styled(H1)`
+  margin-bottom: 20px;
+  span {
+    font-weight: 600;
+  }
+`;
 
 export const GreyBox = styled.div`
   background: #f1f1f1;
@@ -27,9 +34,33 @@ export const GreyBox = styled.div`
   }
 `;
 
+const GroupInfo = styled.div`
+  display: flex;
+  h2 {
+    font-weight: 400;
+    margin-right: 20px;
+  }
+  span {
+    font-weight: 600;
+  }
+`;
+
 const GroupsUsingModel = styled.div`
   border-top: 1px solid grey;
   padding: 10px;
+  P {
+    font-weight: 400;
+    span {
+      font-weight: 600;
+    }
+    margin-bottom: 10px;
+  }
+  ul {
+    padding: 0px 10px;
+  }
+  li {
+    margin-bottom: 10px;
+  }
 `;
 
 type Props = {
@@ -84,9 +115,9 @@ const SelectGroupDialog = ({ model }: Props) => {
 
   return (
     <div>
-      <H1 style={{ marginBottom: '20px' }}>
-        Apply <span style={{ fontWeight: 600 }}>"{modelName}"</span> to:
-      </H1>
+      <Header>
+        Apply <span>"{modelName}"</span> to:
+      </Header>
       {filteredGroups &&
         filteredGroups.map((group) => {
           const targetByAssetClass =
@@ -96,15 +127,11 @@ const SelectGroupDialog = ({ model }: Props) => {
               key={group.id}
               onClick={() => applyModel(group.id, group.name)}
             >
-              <Grid columns={group.setupComplete ? '3fr 1fr 10px' : '3fr 10px'}>
-                <div style={{ display: 'flex' }}>
-                  <H2 style={{ fontWeight: 400, marginRight: '20px' }}>
-                    {group.name}
-                  </H2>
-                  <span style={{ fontWeight: 600 }}>
-                    ({group.accounts.length} Account)
-                  </span>
-                </div>
+              <Grid columns={'3fr 1fr'}>
+                <GroupInfo>
+                  <H2>{group.name}</H2>
+                  <span>({group.accounts.length} Account)</span>
+                </GroupInfo>
                 {group.setupComplete && (
                   <div>
                     <span style={{ fontWeight: 600 }}>Target By:</span>{' '}
@@ -117,12 +144,13 @@ const SelectGroupDialog = ({ model }: Props) => {
         })}
       {usingModel && usingModel.length > 0 && (
         <GroupsUsingModel>
-          <H3>"{modelName}" is already being used by:</H3>
-          <br />
-          <ul style={{ padding: '0px 10px' }}>
+          <P>
+            <span>"{modelName}"</span> is applied to following groups:
+          </P>
+          <ul>
             {usingModel &&
               usingModel.map((gp) => {
-                return <li style={{ marginBottom: '10px' }}>{gp.name}</li>;
+                return <li>{gp.name}</li>;
               })}
           </ul>
         </GroupsUsingModel>

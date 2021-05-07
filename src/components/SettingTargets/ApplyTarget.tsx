@@ -260,16 +260,12 @@ const ApplyTarget = () => {
       </div>
       {selectedModelDetails?.securities_not_in_targets?.length > 0 && (
         <SecurityNotInTarget>
-          <H3 style={{ marginBottom: '20px' }}>
-            Other Securities in this Group
-          </H3>
+          <H3>Other Securities in this Group</H3>
           {selectedModelDetails?.securities_not_in_targets.map(
             (symbol: any) => {
               return (
                 <Grid columns="100px 1fr">
-                  <H3 style={{ fontSize: '16px', marginBottom: '10px' }}>
-                    {symbol.universal_symbol.symbol}
-                  </H3>
+                  <H3>{symbol.universal_symbol.symbol}</H3>
                   <P>{symbol.universal_symbol.description}</P>
                 </Grid>
               );
