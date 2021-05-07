@@ -17,7 +17,7 @@ import {
   selectCurrentGroupPositionsNotInTargetOrExcluded,
   selectCurrentGroupSetupComplete,
 } from '../../selectors/groups';
-import { A, H2, P } from '../../styled/GlobalElements';
+import { H2, P } from '../../styled/GlobalElements';
 import { Description } from '../ModelPortfolio/Prioritization/Prioritization';
 import { CheckBox } from '../../styled/CheckBox';
 import { toast } from 'react-toastify';
