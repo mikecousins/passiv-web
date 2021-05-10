@@ -46,8 +46,6 @@ const createFeatureSelector = (flagName: string) => {
   });
 };
 
-export const selectConnectPlaidFeature = createFeatureSelector('connect_plaid');
-
 export const selectQuestradeOfferFeature = createFeatureSelector(
   'questrade_offer',
 );
@@ -80,23 +78,9 @@ export const selectCashManagementFeature = createFeatureSelector(
   'cash_management',
 );
 
-export const selectQuestradeDowntimeFeature = createFeatureSelector(
-  'questrade_downtime',
-);
-
-export const selectConnectInteractiveBrokersFeature = createFeatureSelector(
-  'connect_interactive_brokers',
-);
-
 export const selectShowInAppTour = createFeatureSelector('in-app-tour');
 
 export const selectModelPortfolioFeature = createFeatureSelector(
   'model_portfolio',
 );
 export const selectReferralCharity = createFeatureSelector('referral_charity');
-
-export const selectAprilFools2021 = createFeatureSelector('april_fools_2021');
-
-export const selectAssetClassFeature = createFeatureSelector('asset-class');
-
-export const selectNewReportingFeature = createFeatureSelector('reporting2');

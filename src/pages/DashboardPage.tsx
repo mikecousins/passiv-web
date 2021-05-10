@@ -4,14 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCogs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Group from '../components/Group';
 import { selectIsAuthorized } from '../selectors';
-import { selectDashboardGroups } from '../selectors/groups';
+import {
+  selectDashboardGroups,
+  selectGroupsLoading,
+} from '../selectors/groups';
 import DashboardReporting, {
   CustomizeDashBtn,
   CustomizeDashContainer,
 } from '../components/Performance/Dashboard/DashboardReporting';
 import HelpLinks from '../components/Dashboard/HelpLinks';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
-import WelcomeVideo from '../components/WelcomeVideo/WelcomeVideo';
+import SetupPrompt from '../components/SetupPrompt/SetupPrompt';
 import ConnectQuestrade from '../components/ConnectQuestrade';
 import InvestingCourse from '../components/InvestingCourse';
 import {
@@ -35,6 +38,7 @@ export const DashboardPage = () => {
     selectDisplayQuestradeConnectPrompt,
   );
   const showInvestingCourse = useSelector(selectShowInvestingCourse);
+  const groupsLoading = useSelector(selectGroupsLoading);
 
   const [configMode, setConfigMode] = useState(false);
 
@@ -46,6 +50,8 @@ export const DashboardPage = () => {
 
   let groupDisplay = <FontAwesomeIcon icon={faSpinner} spin />;
 
+  let anySetupRemaining = false;
+  let anyTargets = true;
   if (groups) {
     groupDisplay = (
       <React.Fragment>
@@ -54,12 +60,6 @@ export const DashboardPage = () => {
         ))}
       </React.Fragment>
     );
-  }
-
-  let anySetupRemaining = false;
-  let anyTargets = true;
-
-  if (groups) {
     let groupsSetupStatus = groups.map((group) => group.setupComplete);
     const verifyAnyFalse = (currentValue: any) => currentValue === false;
     const verifyAnyTrue = (currentValue: any) => currentValue === true;
@@ -76,7 +76,7 @@ export const DashboardPage = () => {
     },
     {
       name: 'setup_prompt',
-      content: <WelcomeVideo />,
+      content: <SetupPrompt />,
       visible: anySetupRemaining,
     },
     {
@@ -99,7 +99,7 @@ export const DashboardPage = () => {
 
   return (
     <React.Fragment>
-      <ContextualMessageMultiWrapper messages={messages} />
+      {!groupsLoading && <ContextualMessageMultiWrapper messages={messages} />}
 
       {configMode && <DashboardConfig />}
       {hasQuestradeConnection && !anyTargets && <DashboardReporting />}

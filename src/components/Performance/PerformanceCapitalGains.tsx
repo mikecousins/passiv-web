@@ -62,7 +62,7 @@ export const PerformanceCapitalGain = () => {
 
   return (
     <React.Fragment>
-      <Tooltip label="How the market has affected your portfolio between now and the start of the selected timeframe">
+      <Tooltip label="How the market has affected your portfolio between now and the start of the selected timeframe (this number excludes contributions and withdrawals)">
         <div>
           <SubHeader>
             Investment Growth{' '}

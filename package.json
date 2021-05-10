@@ -55,6 +55,7 @@
     "history": "4.10.1",
     "immutable": "4.0.0-rc.12",
     "jwt-decode": "2.2.0",
+    "match-sorter": "^6.3.0",
     "milliseconds": "1.0.3",
     "prop-types": "15.7.2",
     "qrcode.react": "^1.0.0",

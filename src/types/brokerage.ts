@@ -10,6 +10,7 @@ export type Brokerage = {
     | 'Unocoin'
     | 'Kraken'
     | 'Coinbase'
+    | 'Bitbuy'
     | 'Wealthica';
   url: 'https://questrade.com';
   slug: string;
@@ -20,6 +21,7 @@ export type Brokerage = {
   authorization_types: [
     {
       type: 'read' | 'trade';
+      auth_type: 'OATH' | 'TOKEN';
     },
   ];
 };

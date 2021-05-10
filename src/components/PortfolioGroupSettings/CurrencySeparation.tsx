@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentGroupSettings } from '../../selectors/groups';
 import { SubSetting, DisabledBox } from '../../styled/GlobalElements';
-import SettingsToggle from './SettingsToggle';
+import SettingsCheckBox from './SettingsCheckBox';
 import { selectCanSeparateCurrencies } from '../../selectors/subscription';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -30,7 +30,7 @@ const CurrencySeparation = ({
   if (canSeparateCurrencies) {
     return (
       <div className="tour-currency-separation">
-        <SettingsToggle
+        <SettingsCheckBox
           name="Keep currencies separate"
           explanation={
             settings.prevent_currency_conversion &&
@@ -45,7 +45,7 @@ const CurrencySeparation = ({
           onChange={onChangePreventConversion}
         />
         <SubSetting>
-          <SettingsToggle
+          <SettingsCheckBox
             name="Retain cash for manual exchange"
             value={hardSeparation}
             onChange={onChangeHardSeparation}
@@ -60,7 +60,7 @@ const CurrencySeparation = ({
     return (
       <div className="tour-currency-separation">
         <DisabledBox>
-          <SettingsToggle
+          <SettingsCheckBox
             name="Keep currencies separate"
             value={preventConversion}
             disabled={true}
@@ -68,7 +68,7 @@ const CurrencySeparation = ({
           />
           <br />
           <SubSetting>
-            <SettingsToggle
+            <SettingsCheckBox
               name="Retain cash for manual exchange"
               value={hardSeparation}
               invert={true}

@@ -40,8 +40,9 @@ export const ConnectionDelete = ({ authorization, isDemo }: Props) => {
       {deleting ? (
         <React.Fragment>
           <P>
-            Are you sure you want to delete this connection and all its
-            accounts?
+            Are you sure you want to delete this connection? All related
+            accounts and groups associated with this connection will also be
+            removed.
           </P>
           <Button
             onClick={() => {

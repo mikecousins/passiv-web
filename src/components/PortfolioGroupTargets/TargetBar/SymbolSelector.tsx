@@ -125,17 +125,17 @@ const SymbolSelector = ({
   }, [clearInput]);
 
   const handleSelectByTicker = (ticker: string) => {
-    if (forModelSecurity) {
-      ticker = ticker.split(',')[0];
-    }
+    const tickerSplit = ticker.split(/,(.+)/);
+    let symbol = tickerSplit[0].toUpperCase().trim();
+    let desc = tickerSplit[1].trim();
     if (!matchingSymbols) {
       return;
     }
-    const symbol = matchingSymbols.find(
-      (symbol) => ticker.toUpperCase() === symbol.symbol,
+    const matchedSymbol = matchingSymbols.find(
+      (t) => symbol === t.symbol.trim() && desc === t.description.trim(),
     );
-    if (symbol) {
-      onSelect(symbol);
+    if (matchedSymbol) {
+      onSelect(matchedSymbol);
     }
   };
 
@@ -198,8 +198,9 @@ const SymbolSelector = ({
             ) : (
               <ComboboxList>
                 {matchingSymbols.map((option: any, index) => {
+                  const value = `${option.symbol}, ${option.description}`;
                   return (
-                    <StyledOption key={index} value={option.symbol}>
+                    <StyledOption key={index} value={value}>
                       <span>
                         {option.symbol} ({option.description})
                       </span>

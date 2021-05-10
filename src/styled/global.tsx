@@ -190,6 +190,7 @@ export const GlobalStyle = () => (
 
       :root {
         --brand-green: #04a287;
+        --brand-light-green: #9bd8ce;
         --brand-blue: #003ba2;
         --brand-blue-hover: #033ebc;
         --brand-grey: #2a2d34;
@@ -283,10 +284,15 @@ export const GlobalStyle = () => (
         z-index: 10;
       }
       [data-reach-dialog-content] {
+        max-width: 900px;
+        border-radius: 5px;
         @media (max-width: 900px) {
           width: 95vw;
           margin-top: 60px;
         }
+      }
+      [data-reach-combobox-option][data-highlighted] {
+        background: var(--brand-green) !important;
       }
     `}
   />

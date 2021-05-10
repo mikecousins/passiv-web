@@ -643,7 +643,6 @@ const GoalDetailPage = () => {
       <Dialog
         isOpen={showDeleteDialog}
         onDismiss={() => setShowDeleteDialog(false)}
-        style={{ borderRadius: '4px' }}
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
       >

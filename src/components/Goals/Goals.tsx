@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectGoals } from '../../selectors/goals';
-import { P, A, H1 } from '../../styled/GlobalElements';
+import { P, H1 } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
 import { Goal } from '../../types/goals';
 import GoalSetup from './GoalSetup';
@@ -25,13 +25,6 @@ const HeaderBanner = styled(Grid)`
       display: inline-block;
     }
   }
-`;
-
-const BetaBanner = styled(P)`
-  text-align: center;
-  padding-bottom: 20px;
-  color: #555555;
-  margin-top: 50px;
 `;
 
 const AddGoalButton = styled(Button)`
@@ -117,11 +110,6 @@ export const Goals = () => {
       {(currentMode === 'view' || currentMode === 'finishedSetup') && (
         <GoalsList goals={goals} />
       )}
-
-      <BetaBanner>
-        Open Beta: Help us improve our tools by{' '}
-        <A href="mailto:goals@passiv.com">sharing feedback</A>
-      </BetaBanner>
     </React.Fragment>
   );
 };

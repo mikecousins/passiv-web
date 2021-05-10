@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { selectSettings, selectIsDemo } from '../../selectors';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../../styled/Form';
-import { H2, Edit, A, OptionsTitle, P } from '../../styled/GlobalElements';
+import { H1, A, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
+import { postData } from '../../api';
+import { reloadEverything } from '../../actions';
+import { replace } from 'connected-react-router';
+import KrakenAPIPermissions from '../../assets/images/kraken-api-permissions.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+
+const LogoContainer = styled.div`
+  img {
+    max-width: 100%;
+  }
+`;
 
 const InputContainer = styled.div`
   padding-top: 10px;
@@ -23,127 +31,76 @@ const MiniInputNonFormik = styled(InputNonFormik)`
   padding: 15px 12px;
 `;
 
-const CancelBtn = styled(A)`
-  margin-left: 10px;
-`;
-
 const KrakenCredentialsManager = () => {
-  const settings = useSelector(selectSettings);
-  const isDemo = useSelector(selectIsDemo);
-
   const [APIKey, setAPIKey] = useState('');
   const [PrivateKey, setPrivateKey] = useState('');
-  const [editingAPIKey, setEditingAPIKey] = useState(false);
-  const [editingPrivateKey, setEditingPrivateKey] = useState(false);
-
-  useEffect(() => {
-    if (settings) {
-      // setAPIKey(settings.APIKey);
-      // setPrivateKey(settings.email);
-    }
-  }, [settings]);
-
-  const startEditingAPIKey = () => {
-    setEditingAPIKey(true);
-  };
-
-  const finishEditingAPIKey = () => {
-    setEditingAPIKey(false);
-  };
-
-  const finishEditingPrivateKey = () => {
-    setEditingPrivateKey(false);
-  };
-
-  const cancelEditingPrivateKey = () => {
-    setEditingPrivateKey(false);
-  };
+  const [loading, setLoading] = useState(false);
 
   const generateTokenString = () => {
     let token_string = '';
-
     token_string = `${APIKey}:${PrivateKey}`;
-
-    return window.btoa(token_string);
+    return JSON.stringify(token_string);
   };
 
+  const dispatch = useDispatch();
   const handleSubmit = () => {
-    let token_string = generateTokenString();
-    history.push(`/app/oauth/kraken?code=${token_string}`);
+    setLoading(true);
+    let token = generateTokenString();
+    postData('/api/v1/brokerages/authComplete/', { token: token })
+      .then(() => {
+        dispatch(reloadEverything());
+        setTimeout(() => {
+          dispatch(replace('/app/setup-groups'));
+        }, 1000);
+      })
+      .catch((error) => {
+        //Error handling here if required
+      });
   };
-
-  const history = useHistory();
 
   return (
     <ShadowBox>
-      <H2>Connect to Kraken</H2>
+      <H1>Connect to Kraken</H1>
       <P>
-        To connect your Kraken account to Passiv, you'll need to generate a new
-        Kraken API key and enter your credentials below.
+        To connect your Kraken account to Passiv, you'll need to{' '}
+        <A
+          href="https://www.kraken.com/u/security/api"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          generate a set of Kraken API keys
+        </A>{' '}
+        and paste those keys in the fields below.
       </P>
-      {editingAPIKey ? (
-        <InputContainer>
-          <MiniInputNonFormik
-            value={APIKey === null ? '' : APIKey}
-            onChange={(e) => setAPIKey(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                finishEditingAPIKey();
-              }
-            }}
-            placeholder={'API Key'}
-          />
-          <Button onClick={finishEditingAPIKey}>Done</Button>
-        </InputContainer>
-      ) : (
-        <InputContainer>
-          <OptionsTitle>API Key:</OptionsTitle>{' '}
-          {APIKey === null ? '[no name set]' : APIKey}
-          <Edit
-            onClick={() => !isDemo && startEditingAPIKey()}
-            disabled={isDemo}
-          >
-            <FontAwesomeIcon icon={faPen} />
-            Edit
-          </Edit>
-        </InputContainer>
-      )}
-      {editingPrivateKey ? (
-        <InputContainer>
-          <MiniInputNonFormik
-            value={PrivateKey}
-            onChange={(e) => setPrivateKey(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                finishEditingPrivateKey();
-              }
-            }}
-            placeholder={'Secret Key'}
-          />
-          <Button onClick={finishEditingPrivateKey}>Done</Button>
-          <CancelBtn onClick={() => cancelEditingPrivateKey()}>
-            Cancel
-          </CancelBtn>
-        </InputContainer>
-      ) : (
-        <InputContainer>
-          <OptionsTitle>Private key:</OptionsTitle> {PrivateKey}
-          <Edit
-            onClick={() => !isDemo && setEditingPrivateKey(true)}
-            disabled={isDemo}
-          >
-            <FontAwesomeIcon icon={faPen} />
-            Edit
-          </Edit>
-        </InputContainer>
-      )}
+
+      <P>Passiv requires the following permissions:</P>
+      <LogoContainer>
+        <img src={KrakenAPIPermissions} alt="Kraken API Permissions"></img>
+      </LogoContainer>
+      <InputContainer>
+        <MiniInputNonFormik
+          value={APIKey === null ? '' : APIKey}
+          onChange={(e) => setAPIKey(e.target.value)}
+          placeholder={'API Key'}
+        />
+        <MiniInputNonFormik
+          value={PrivateKey === null ? '' : PrivateKey}
+          onChange={(e) => setPrivateKey(e.target.value)}
+          placeholder={'Private Key'}
+        />
+        {loading ? (
+          <FontAwesomeIcon icon={faSpinner} spin />
+        ) : (
+          <Button onClick={handleSubmit}>Done</Button>
+        )}
+      </InputContainer>
+
       <P>
         If you're stuck, read our{' '}
-        <A href="#">
+        <A href="https://passiv.com/help/tutorials/connect-kraken-to-passiv/">
           tutorial on how to connect your Kraken account to Passiv.
         </A>
       </P>
-      <Button onClick={handleSubmit}>Done</Button>
     </ShadowBox>
   );
 };

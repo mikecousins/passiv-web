@@ -110,7 +110,12 @@ export const AccountRow = ({ account }: Props) => {
         </Name>
         <Number>
           <H3>Number</H3>
-          <P> {account.number.slice(0).replace(/.(?=..)/g, 'x')} </P>
+
+          <P>
+            {account.institution_name === 'Wealthica'
+              ? account.number.split(':')[0].replace(/.(?=..)/g, 'x')
+              : account.number.slice(0).replace(/.(?=..)/g, 'x')}{' '}
+          </P>
         </Number>
         <Type>
           <H3>Type</H3>
