@@ -121,6 +121,7 @@ const PercentageInput = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
+  -moz-appearance: textfield;
 `;
 
 const PercentageLabel = styled.label`
