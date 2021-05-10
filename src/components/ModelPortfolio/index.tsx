@@ -169,7 +169,7 @@ const ModelType = styled.div<ModelTypeProps>`
 const ModelPortfolio = () => {
   const dispatch = useDispatch();
 
-  let currentModelPortfolio: any = useSelector(selectCurrentModelPortfolio);
+  const currentModelPortfolio: any = useSelector(selectCurrentModelPortfolio);
   const modelAssetClasses: ModelAssetClassDetailsType[] = useSelector(
     selectModelAssetClasses,
   );

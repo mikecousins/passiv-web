@@ -8,7 +8,7 @@ import {
 } from '../../types/modelPortfolio';
 import { selectRouter } from '../../selectors/router';
 import ShadowBox from '../../styled/ShadowBox';
-import { ResponsiveGrid } from './ModelPortfolio';
+import { ResponsiveGrid } from '.';
 import { Box, StyledContainer, StyledName } from './ModelPortfolioBox';
 import Grid from '../../styled/Grid';
 import { PieChart } from 'react-minimal-pie-chart';

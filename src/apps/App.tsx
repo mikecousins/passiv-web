@@ -28,7 +28,6 @@ import { selectQueryTokens } from '../selectors/router';
 import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import GoalDetailPage from '../pages/GoalDetailPage';
 import {
   selectGoalsPageFeature,
   selectModelPortfolioFeature,
@@ -46,9 +45,7 @@ import {
   GOALS_PATH,
   MY_MODELS_PATH,
 } from './Paths';
-import Prioritization from '../components/ModelPortfolio/Prioritization/Prioritization';
 import { selectIsPaid } from '../selectors/subscription';
-import ContactForm from '../components/Help/ContactForm';
 
 // preload pages
 const ReactLazyPreload = (importStatement: any) => {
@@ -79,6 +76,12 @@ const HelpPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "help" */ '../pages/HelpPage'),
 );
 
+const ContactForm = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "contact-form" */ '../components/Help/ContactForm'
+  ),
+);
+
 const ResetPasswordPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "reset-password" */ '../pages/ResetPasswordPage'),
 );
@@ -101,7 +104,7 @@ const BrokeragesOauthPage = ReactLazyPreload(() =>
 );
 const BrokeragesAuthPage = ReactLazyPreload(() =>
   import(
-    /* webpackChunkName: "brokerage-oauth" */ '../pages/BrokeragesAuthPage'
+    /* webpackChunkName: "brokerage-auth" */ '../pages/BrokeragesAuthPage'
   ),
 );
 const UpgradeOfferPage = ReactLazyPreload(() =>
@@ -155,6 +158,11 @@ const PerformancePage = ReactLazyPreload(() =>
 const GoalsPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "goals" */ '../pages/GoalsPage'),
 );
+
+const GoalDetailPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "goals-detail" */ '../pages/GoalDetailPage'),
+);
+
 const MyModelPortfoliosPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "my-model-portfolios" */ '../pages/MyModelPortfoliosPage'
@@ -168,10 +176,14 @@ const ModelPortfolioPage = ReactLazyPreload(() =>
     /* webpackChunkName: "model-portfolio" */ '../pages/ModelPortfolioPage'
   ),
 );
-
 const SharedModelPortfolio = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "shared-model-portfolio" */ '../components/ModelPortfolio/SharedModelPortfolio'
+  ),
+);
+const Prioritization = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "prioritization" */ '../components/ModelPortfolio/Prioritization'
   ),
 );
 

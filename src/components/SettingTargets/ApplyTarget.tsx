@@ -26,7 +26,7 @@ import {
 import ShadowBox from '../../styled/ShadowBox';
 import Grid from '../../styled/Grid';
 import { H2, H3, P } from '../../styled/GlobalElements';
-import { BackButton } from '../ModelPortfolio/ModelPortfolio';
+import { BackButton } from '../ModelPortfolio';
 import { toast } from 'react-toastify';
 import { Button } from '../../styled/Button';
 import ApplySecurityModel from './ApplySecurityModel';

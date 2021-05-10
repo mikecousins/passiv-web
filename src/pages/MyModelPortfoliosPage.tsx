@@ -32,7 +32,7 @@ import Tooltip from '../components/Tooltip';
 import { selectGroupInfo, selectGroups } from '../selectors/groups';
 import Dialog from '@reach/dialog';
 import SelectGroupDialog from '../components/ModelPortfolio/SelectGroupDialog';
-import { BackButton } from '../components/ModelPortfolio/ModelPortfolio';
+import { BackButton } from '../components/ModelPortfolio';
 import MoreOptions from '../components/ModelPortfolio/MoreOptions';
 import { push, replace } from 'connected-react-router';
 

@@ -18,7 +18,7 @@ import {
   selectCurrentGroupSetupComplete,
 } from '../../selectors/groups';
 import { H2, P } from '../../styled/GlobalElements';
-import { Description } from '../ModelPortfolio/Prioritization/Prioritization';
+import { Description } from '../ModelPortfolio/Prioritization';
 import { CheckBox } from '../../styled/CheckBox';
 import { toast } from 'react-toastify';
 

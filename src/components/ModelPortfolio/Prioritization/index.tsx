@@ -137,7 +137,9 @@ const Prioritization = ({ onSettingsPage }: Props) => {
                 if (account.buy_priority[0]) {
                   account.sell_priority.unshift(account.buy_priority[0]);
                   account.sell_priority.splice(index + 1, 1);
-                } else {
+                }
+                // buy priority is empty so we simply add the symbol to buy priority and remove it from sell priority
+                else {
                   account.sell_priority.splice(index, 1);
                 }
                 account.buy_priority = [symbolId];

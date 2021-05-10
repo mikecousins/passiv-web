@@ -22,7 +22,7 @@ import { toast } from 'react-toastify';
 import Tour from '../Tour/Tour';
 import ExcludedAssets from './ExcludedAssets';
 import { GroupSettingsSteps } from '../Tour/TourSteps';
-import Prioritization from '../ModelPortfolio/Prioritization/Prioritization';
+import Prioritization from '../ModelPortfolio/Prioritization';
 import styled from '@emotion/styled';
 
 const GeneralTitle = styled(H2)`
