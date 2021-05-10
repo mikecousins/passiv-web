@@ -26,9 +26,30 @@ const GreenBox = styled.div`
   }
 `;
 
+const Header = styled(H2)`
+  line-height: 150%;
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
+`;
+
 const HiddenInput = styled(Input)`
   color: red;
   display: none;
+`;
+
+const ActionContainer = styled.div`
+  text-align: center;
+  P {
+    font-weight: 500;
+    font-size: 30px;
+  }
+  button {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 150%;
+    text-align: center;
+    letter-spacing: 0.2px;
+  }
 `;
 
 // beta key
@@ -82,7 +103,7 @@ const ContactForm = () => {
         render={(props) => (
           <Form onSubmit={props.handleSubmit}>
             <legend>
-              <H2>Send us a Message</H2>
+              <Header>Send us a Message</Header>
             </legend>
             <HiddenInput
               id="name"
@@ -136,26 +157,30 @@ const ContactForm = () => {
               sitekey={recaptchaSiteKey}
               size="invisible"
             />
-            {props.status.submitted ? (
-              <div>
-                <Button onClick={props.handleReset}>Reset</Button>
-                {props.status.submitted && "Thanks, we'll be in touch soon!"}
-              </div>
-            ) : (
-              <div>
-                <Button
-                  type="submit"
-                  disabled={
-                    !props.isValid ||
-                    props.isSubmitting ||
-                    props.status.submitted
-                  }
-                >
-                  Submit Message
-                </Button>
-                {props.status.submitted && 'Submitted!'}
-              </div>
-            )}
+            <ActionContainer>
+              {props.status.submitted ? (
+                <div>
+                  {!props.status.submitted && (
+                    <P>Thanks, we'll be in touch soon!</P>
+                  )}
+                  <Button onClick={props.handleReset}>Reset Form</Button>
+                </div>
+              ) : (
+                <div>
+                  <Button
+                    type="submit"
+                    disabled={
+                      !props.isValid ||
+                      props.isSubmitting ||
+                      props.status.submitted
+                    }
+                  >
+                    Send Message
+                  </Button>
+                  {props.status.submitted && 'Submitted!'}
+                </div>
+              )}
+            </ActionContainer>
           </Form>
         )}
       />

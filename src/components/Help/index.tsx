@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { H1, P } from '../../styled/GlobalElements';
+import SearchBar from './SearchBar';
 
 export const HeaderContainer = styled.div`
   margin-bottom: 50px;
@@ -14,11 +15,14 @@ const StyledP = styled(P)`
   }
 `;
 
-const HelpHeader = () => (
+const Help = () => (
   <HeaderContainer>
     <H1>How can we help you?</H1>
-    <StyledP>Find everything you need about Passiv.</StyledP>
+    <StyledP>
+      Search for tips, look through our learning material, or send us a message!
+    </StyledP>
+    <SearchBar />
   </HeaderContainer>
 );
 
-export default HelpHeader;
+export default Help;

@@ -10,6 +10,14 @@ import algoliasearch from 'algoliasearch/lite';
 import Grid from '../../styled/Grid';
 import algoliaLogo from '../../assets/images/search-by-algolia-light-background.svg';
 import { useDebouncedEffect } from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
+import SearchResults from './SearchResults';
+
+const Header = styled(H2)`
+  line-height: 150%;
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+`;
 
 const SearchContainer = styled.div`
   width: 100%;
@@ -46,10 +54,14 @@ const AlgoliaLogo = styled.div`
   display: block;
 `;
 
-const Options = styled.div`
+const ResultsContainer = styled.div`
   background-color: #f1f1f1;
   padding: 20px;
   margin-bottom: 40px;
+`;
+
+const Options = styled.div`
+  margin-bottom: 30px;
 `;
 
 const NumOfResults = styled(P)``;
@@ -63,34 +75,22 @@ type FilterItemType = {
 };
 
 const FilterItem = styled.button<FilterItemType>`
-  font-size: 15px;
-  font-weight: 600;
-  text-transform: capitalize;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
   background-color: ${(props) =>
     props.active ? 'var(--brand-green)' : 'transparent'};
-  color: ${(props) => (props.active ? 'white' : 'var(--brand-green)')};
+  color: ${(props) => (props.active ? 'black' : 'var(--brand-green)')};
   border: ${(props) =>
     props.active ? 'none' : '1px solid var(--brand-green)'};
   border-radius: 3rem;
-  padding: 5px;
+  padding: 10px;
 `;
 
-const Type = styled(H3)`
-  color: grey;
-  text-transform: capitalize;
-  font-size: 18px;
-  margin-bottom: 20px;
-`;
-
-const Title = styled(H2)`
-  margin-bottom: 10px;
-  font-size: 25px;
-`;
-
-const ReadMore = styled(A)`
-  text-decoration: none;
-  color: var(--brand-green);
-  font-weight: 600;
+const ResultsGrid = styled(Grid)`
+  grid-auto-flow: row;
+  overflow: hidden;
 `;
 
 const SearchBar = () => {
@@ -153,10 +153,11 @@ const SearchBar = () => {
 
   return (
     <div>
+      <Header>Search</Header>
       <SearchContainer>
         <InputPrimary
           type="search"
-          placeholder="Type keywords to search our site"
+          placeholder="Type to look for helpful resources"
           value={search}
           onChange={(e: any) => {
             setLoading(true);
@@ -178,80 +179,54 @@ const SearchBar = () => {
 
       <AlgoliaLogo></AlgoliaLogo>
 
-      <Options>
-        {search.trim() !== '' && (
-          <NumOfResults>{filteredHits.length} results</NumOfResults>
-        )}
-        <div>
-          <H3>Filter By:</H3>
-          <Filter columns="100px 100px 100px">
-            {allIndices.map((index) => {
-              return (
-                <FilterItem
-                  onClick={() => handleChangeFilter(index)}
-                  active={active.includes(index)}
-                >
-                  {index}
-                </FilterItem>
-              );
-            })}
-          </Filter>
-        </div>
-      </Options>
-      {loading && search.trim() !== '' && (
-        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <FontAwesomeIcon icon={faSpinner} spin size="2x" />
-        </div>
-      )}
-      {filteredHits.length > 0 ? (
-        filteredHits.map((hit: any) => {
-          if (!active.includes(hit.type)) {
-            return false;
-          }
-          return (
-            <div>
-              <ShadowBox>
-                <Type>{hit.type}</Type>
-                <Title>{hit.title} </Title>
-                <P>{hit.resolution}</P>
-                {hit.type === 'general' ? (
-                  hit.slug.trim() !== '' && (
-                    <ReadMore
-                      href={hit.slug}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Learn More
-                    </ReadMore>
-                  )
-                ) : (
-                  <ReadMore
-                    href={
-                      hit.type === 'blog'
-                        ? `https://passiv.com/blog/${hit.slug}`
-                        : `https://passiv.com/help/tutorials/${hit.slug}`
-                    }
-                    target="_blank"
-                    rel="noopener noreferrer"
+      <ResultsContainer>
+        <Options>
+          {search.trim() !== '' && (
+            <NumOfResults>{filteredHits.length} results</NumOfResults>
+          )}
+          <>
+            <H3>Filter By:</H3>
+            <Filter columns="200px 200px 200px">
+              {allIndices.map((index) => {
+                return (
+                  <FilterItem
+                    onClick={() => handleChangeFilter(index)}
+                    active={active.includes(index)}
                   >
-                    Read More
-                  </ReadMore>
-                )}
-              </ShadowBox>
-            </div>
-          );
-        })
-      ) : search.trim() !== '' ? (
-        <ShadowBox>
-          <H2 style={{ marginBottom: '10px', fontSize: '25px' }}>No results</H2>
-          <P>
-            Please try another term or{' '}
-            <A onClick={() => setSearch('')}>send us a message.</A>
-          </P>
-        </ShadowBox>
-      ) : (
-        <ContactForm />
-      )}
+                    {index}
+                  </FilterItem>
+                );
+              })}
+            </Filter>
+          </>
+        </Options>
+        {loading && search.trim() !== '' && (
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <FontAwesomeIcon icon={faSpinner} spin size="2x" />
+          </div>
+        )}
+        {filteredHits.length > 0 ? (
+          <ResultsGrid columns="1fr 1fr">
+            {filteredHits.map((hit: any, index: number) => {
+              if (!active.includes(hit.type)) {
+                return false;
+              }
+              return <SearchResults hit={hit} />;
+            })}
+          </ResultsGrid>
+        ) : (
+          <div></div>
+          // <ShadowBox>
+          //   <H2 style={{ marginBottom: '10px', fontSize: '25px' }}>
+          //     No results
+          //   </H2>
+          //   <P>
+          //     Please try another term or{' '}
+          //     <A onClick={() => setSearch('')}>send us a message.</A>
+          //   </P>
+          // </ShadowBox>
+        )}
+      </ResultsContainer>
     </div>
   );
 };
