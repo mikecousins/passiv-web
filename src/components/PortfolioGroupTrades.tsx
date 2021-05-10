@@ -28,8 +28,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import Tour from './Tour/Tour';
-import UpgradeButton from './Tour/UpgradeButton';
-import EliteFeatureTitle from './Tour/EliteFeatureTitle';
+import { TradesSteps } from './Tour/TourSteps';
 import {
   ContextualMessageMultiWrapper,
   Message,
@@ -120,38 +119,6 @@ export const PortfolioGroupTrades = ({
   if (needToPrioritize) {
     hideTrades = true;
   }
-
-  const TOUR_STEPS = [
-    {
-      target: '.tour-trades',
-      content:
-        ' Passiv displays the trades needed to maximize your accuracy based on your targets, current holdings, your available cash, and your settings.',
-      placement: 'right',
-    },
-    {
-      target: '.tour-one-click-trade',
-      title: <EliteFeatureTitle />,
-      content: (
-        <>
-          <div>
-            Review your recommended trades by clicking Preview Orders and click
-            Confirm to rebalance your portfolio in{' '}
-            <a
-              href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              one-click
-            </a>
-            .
-          </div>
-          <br />
-          <UpgradeButton />
-        </>
-      ),
-      placement: 'right',
-    },
-  ];
 
   let buysListRender = null;
   let sellsListRender = null;
@@ -377,7 +344,7 @@ export const PortfolioGroupTrades = ({
     return (
       <>
         <ContextualMessageMultiWrapper messages={messages} />
-        <Tour steps={TOUR_STEPS} name="trades_tour" />
+        <Tour steps={TradesSteps} name="trades_tour" />
         <TradesContainer className="tour-trades">
           <H2>Trades</H2>
           {sellsListRender}

@@ -30,32 +30,13 @@ import {
 } from '../selectors/groups';
 import { H3, P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
+import { OverviewTabSteps } from './Tour/TourSteps';
 import NewAssetsDetected from './NewAssetsDetected';
 import { ErrorContainer } from '../styled/Group';
 import { Button } from '../styled/Button';
 import { postData } from '../api';
 import { toast } from 'react-toastify';
 import { loadGroupInfo } from '../actions';
-
-const TOUR_STEPS = [
-  {
-    target: '.tour-accuracy',
-    content:
-      'Accuracy tells you how close your holdings are to your desired target. 100% indicates your holdings are perfectly on target (including cash). Accuracy changes when you adjust your targets, your settings, and when you place trades. ',
-    placement: 'right',
-  },
-  {
-    target: '.tour-cash',
-    content: 'All your available funds in your brokerage accounts’ currencies.',
-    placement: 'right',
-  },
-  {
-    target: '.tour-total-value',
-    content:
-      'Current total value of your holding plus your available cash. You can choose the currency Passiv displays your Total Value in.',
-    placement: 'right',
-  },
-];
 
 export const Container3Column = styled.div`
   @media (min-width: 900px) {
@@ -168,7 +149,9 @@ const OverviewTab = () => {
 
   return (
     <React.Fragment>
-      {setupComplete && <Tour steps={TOUR_STEPS} name="overview_tab_tour" />}
+      {setupComplete && (
+        <Tour steps={OverviewTabSteps} name="overview_tab_tour" />
+      )}
       <PortfolioGroupName name={name} />
       <Container3Column>
         <PortfolioGroupAccuracy
