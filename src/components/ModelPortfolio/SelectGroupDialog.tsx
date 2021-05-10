@@ -1,6 +1,6 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { push } from 'connected-react-router';
 import styled from '@emotion/styled';
 import { selectGroupInfo, selectGroups } from '../../selectors/groups';
 import { H1, H2, P } from '../../styled/GlobalElements';
@@ -69,7 +69,6 @@ type Props = {
 
 const SelectGroupDialog = ({ model }: Props) => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   let groups = useSelector(selectGroups);
   const groupInfo = useSelector(selectGroupInfo);
@@ -84,9 +83,9 @@ const SelectGroupDialog = ({ model }: Props) => {
         dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page
         dispatch(loadModelPortfolios());
         if (model.model_type === 1) {
-          history.push(`/app/priorities/${groupId}`);
+          dispatch(push(`/app/priorities/${groupId}`));
         } else {
-          history.push(`/app/group/${groupId}`);
+          dispatch(push(`/app/group/${groupId}`));
         }
         toast.success(`Model applied to "${groupName}"`);
       })

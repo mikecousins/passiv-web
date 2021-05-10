@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 import RebalanceWidget from './RebalanceWidget';
 import { H2, H3, Title, P, BulletUL, A } from '../styled/GlobalElements';
 import {
@@ -8,7 +9,6 @@ import {
   Symbol,
   ColumnTrades,
 } from '../styled/Group';
-import { useHistory } from 'react-router-dom';
 import { ErrorContainer } from '../styled/Group';
 import {
   selectCurrentGroupSettings,
@@ -67,6 +67,7 @@ export const PortfolioGroupTrades = ({
   error,
   onClose,
 }: Props) => {
+  const dispatch = useDispatch();
   const accounts = useSelector(selectAccounts);
   const authorizations = useSelector(selectAuthorizations);
   const settings = useSelector(selectCurrentGroupSettings);
@@ -74,7 +75,6 @@ export const PortfolioGroupTrades = ({
   const [tradesCache, setTradesCache] = useState(null);
   const currentGroupId = useSelector(selectCurrentGroupId);
   const needToPrioritize = useSelector(selectNeedToPrioritize);
-  const history = useHistory();
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
@@ -270,7 +270,7 @@ export const PortfolioGroupTrades = ({
               you can{' '}
               <A
                 onClick={() =>
-                  history.push(`/app/group/${currentGroupId}/settings`)
+                  dispatch(push(`/app/group/${currentGroupId}/settings`))
                 }
               >
                 disable this trade-routing feature in your portfolio settings

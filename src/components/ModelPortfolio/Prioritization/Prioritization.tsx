@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { postData } from '../../../api';
@@ -17,6 +16,7 @@ import ShadowBox from '../../../styled/ShadowBox';
 import { Button } from '../../../styled/Button';
 import { toast } from 'react-toastify';
 import { loadGroup } from '../../../actions';
+import { push } from 'connected-react-router';
 
 const Priorities = styled.div`
   > h2 {
@@ -75,7 +75,6 @@ type Props = {
 };
 
 const Prioritization = ({ onSettingsPage }: Props) => {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const group = useSelector(selectCurrentGroup);
@@ -205,7 +204,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           if (onSettingsPage) {
             setEditing(false);
           } else {
-            history.push(`/app/group/${group?.id}`);
+            dispatch(push(`/app/group/${group?.id}`));
           }
           toast.success('Saved prioritization successfully');
           dispatch(loadGroup({ ids: [group?.id] }));

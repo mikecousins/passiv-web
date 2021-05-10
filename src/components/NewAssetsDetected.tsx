@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { replace } from 'connected-react-router';
-import { useHistory } from 'react-router-dom';
+import { push, replace } from 'connected-react-router';
 import { postData } from '../api';
 import {
   selectCurrentGroup,
@@ -78,7 +77,6 @@ const BoldSpan = styled.span`
 `;
 
 const NewAssetsDetected = ({ targets }: Props) => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const [loadingId, setLoadingId] = useState('');
   const currentGroup = useSelector(selectCurrentGroup);
@@ -253,8 +251,8 @@ const NewAssetsDetected = ({ targets }: Props) => {
         )}
 
         <DontShowBtn>
-          <A onClick={() => history.push(`/app/group/${groupId}/settings`)}>
-            Do not want to see this message again? Turn it off in your group
+          <A onClick={() => dispatch(push(`/app/group/${groupId}/settings`))}>
+            Do not want to see this message again? Turn it off in your portfolio
             settings.
           </A>
         </DontShowBtn>

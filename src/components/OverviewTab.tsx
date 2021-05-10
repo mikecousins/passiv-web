@@ -5,7 +5,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
 import PortfolioGroupName from './PortfolioGroupDetails/PortfolioGroupName';
 import PortfolioGroupAccuracy from './PortfolioGroupDetails/PortfolioGroupAccuracy';
@@ -37,6 +37,7 @@ import { Button } from '../styled/Button';
 import { postData } from '../api';
 import { toast } from 'react-toastify';
 import { loadGroupInfo } from '../actions';
+import { push } from 'connected-react-router';
 
 export const Container3Column = styled.div`
   @media (min-width: 900px) {
@@ -79,7 +80,6 @@ const Description = styled(P)`
 `;
 
 const OverviewTab = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const group = useSelector(selectCurrentGroup);
@@ -138,7 +138,7 @@ const OverviewTab = () => {
     postData(`api/v1/portfolioGroups/${group.id}/modelPortfolio/${modelId}`, {})
       .then(() => {
         dispatch(loadGroupInfo());
-        history.push(`/app/priorities/${group.id}`);
+        dispatch(push(`/app/priorities/${group.id}`));
       })
       .catch((err) => {
         if (err.response) {

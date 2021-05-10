@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { postData } from '../api';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -34,6 +34,7 @@ import Dialog from '@reach/dialog';
 import SelectGroupDialog from '../components/ModelPortfolio/SelectGroupDialog';
 import { BackButton } from '../components/ModelPortfolio/ModelPortfolio';
 import MoreOptions from '../components/ModelPortfolio/MoreOptions';
+import { push, replace } from 'connected-react-router';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -111,7 +112,6 @@ const ApplyTransparentBtn = styled(TransparentButton)`
 
 const MyModelPortfoliosPage = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const modelPortfolios: ModelPortfolioDetailsType[] = useSelector(
     selectModelPortfolios,
@@ -142,11 +142,11 @@ const MyModelPortfoliosPage = () => {
         dispatch(loadModelPortfolios());
         const id = res.data.model_portfolio.id;
         if (groupId) {
-          history.replace(
-            `/app/model-portfolio/${id}/group/${groupId}?apply=true`,
+          dispatch(
+            replace(`/app/model-portfolio/${id}/group/${groupId}?apply=true`),
           );
         } else {
-          history.replace(`/app/model-portfolio/${id}?edit=true`);
+          dispatch(replace(`/app/model-portfolio/${id}?edit=true`));
         }
       })
       .catch(() => {
@@ -169,9 +169,9 @@ const MyModelPortfoliosPage = () => {
             `"${model.model_portfolio.name}" applied to group successfully`,
           );
           if (model.model_portfolio.model_type === 1) {
-            history.push(`/app/priorities/${groupId}`);
+            dispatch(push(`/app/priorities/${groupId}`));
           } else {
-            history.push(`/app/group/${groupId}`);
+            dispatch(push(`/app/group/${groupId}`));
           }
         })
         .catch((err) => {
@@ -180,7 +180,7 @@ const MyModelPortfoliosPage = () => {
           }
         });
     } else {
-      history.replace(`model-portfolio/${modelId}`);
+      dispatch(replace(`model-portfolio/${modelId}`));
     }
   };
 

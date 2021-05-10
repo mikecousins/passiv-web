@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { push, replace } from 'connected-react-router';
 import { postData } from '../../api';
 import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
@@ -15,7 +16,6 @@ import {
   ModelAssetClass,
   ModelAssetClassDetailsType,
 } from '../../types/modelAssetClass';
-import { useHistory } from 'react-router';
 import {
   selectGroupInfoForModelPortfolio,
   selectGroupsUsingAModel,
@@ -221,7 +221,6 @@ const ModelPortoflioBox = ({
   securityBased,
 }: Props) => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const modelPortfolios = useSelector(selectModelPortfolios);
   const [modelPortfolioName, setModelPortfolioName] = useState(
@@ -257,9 +256,9 @@ const ModelPortoflioBox = ({
 
   const toggleEditMode = () => {
     if (editMode) {
-      history.replace(`/app/model-portfolio/${modelId}`);
+      dispatch(replace(`/app/model-portfolio/${modelId}`));
     } else {
-      history.replace(`/app/model-portfolio/${modelId}?edit=true`);
+      dispatch(replace(`/app/model-portfolio/${modelId}?edit=true`));
     }
   };
 
@@ -329,10 +328,10 @@ const ModelPortoflioBox = ({
           );
         }
         if (securityBased && groupId) {
-          history.push(`/app/group/${gpId}`);
+          dispatch(push(`/app/group/${gpId}`));
         }
         if (!securityBased && applyMode) {
-          history.push(`/app/priorities/${gpId}`);
+          dispatch(push(`/app/priorities/${gpId}`));
         }
       })
       .catch((err) => {
@@ -652,7 +651,7 @@ const ModelPortoflioBox = ({
               </ButtonContainer>
               <RouteLeavingPrompt
                 when={props.dirty}
-                navigate={(path) => history.push(path)}
+                navigate={(path) => dispatch(push(path))}
               />
             </Form>
           )}

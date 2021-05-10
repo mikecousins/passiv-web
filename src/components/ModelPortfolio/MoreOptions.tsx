@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 import {
   faCheckCircle,
@@ -34,6 +33,7 @@ import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import DeleteModelDialog from './DeleteModelDialog';
 import { selectGroupsUsingAModel } from '../../selectors/modelPortfolios';
 import { GroupData } from '../../types/group';
+import { push, replace } from 'connected-react-router';
 
 const EllipsisButton = styled.button`
   align-items: center;
@@ -127,7 +127,6 @@ type Props = {
 
 const MoreOptions = ({ model, shareModel }: Props) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const node: any = useRef(null);
 
   const referralCode = useSelector(selectReferralCode);
@@ -176,7 +175,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
         postData(`api/v1/modelPortfolio/${modelId}`, model)
           .then(() => {
             dispatch(loadModelPortfolios());
-            history.push(`/app/models`);
+            dispatch(push(`/app/models`));
             toast.success('Duplicated model successfully.');
           })
           .catch((err) => {
@@ -196,7 +195,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
           dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
         }
         toast.success('Delete the model successfully.');
-        history.replace('/app/models');
+        dispatch(replace(`/app/models`));
       })
       .catch(() => {
         toast.error('Unable to delete the model. Please try again!');

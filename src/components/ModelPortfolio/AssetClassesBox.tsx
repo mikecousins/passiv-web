@@ -1,5 +1,6 @@
 import React from 'react';
-import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
 import Tooltip from '../Tooltip';
@@ -50,7 +51,7 @@ type Props = {
 };
 
 const AssetClassesBox = ({ assetClasses, modelId }: Props) => {
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   const makeLabel = (target: Target[]) => {
     let labelList: string[] = [];
@@ -92,7 +93,9 @@ const AssetClassesBox = ({ assetClasses, modelId }: Props) => {
           </ResponsiveGrid>
           <GoToAssetClasses
             onClick={() =>
-              history.push(`/app/asset-class?back=/model-portfolio/${modelId}`)
+              dispatch(
+                push(`/app/asset-class?back=/model-portfolio/${modelId}`),
+              )
             }
           >
             Edit Asset Classes
@@ -103,7 +106,9 @@ const AssetClassesBox = ({ assetClasses, modelId }: Props) => {
           <p>You still need to define your asset classes. </p>
           <GoToAssetClasses
             onClick={() =>
-              history.push(`/app/asset-class?back=/model-portfolio/${modelId}`)
+              dispatch(
+                push(`/app/asset-class?back=/model-portfolio/${modelId}`),
+              )
             }
           >
             Add Asset Classes

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { deleteData, postData } from '../../api';
@@ -53,6 +53,7 @@ import DeleteModelDialog from './DeleteModelDialog';
 import { selectIsPaid } from '../../selectors/subscription';
 import { BetaTag } from '../SlideMenu/SideBarLink';
 import { GroupData } from '../../types/group';
+import { push, replace } from 'connected-react-router';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -167,7 +168,6 @@ const ModelType = styled.div<ModelTypeProps>`
 
 const ModelPortfolio = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   let currentModelPortfolio: any = useSelector(selectCurrentModelPortfolio);
   const modelAssetClasses: ModelAssetClassDetailsType[] = useSelector(
@@ -229,7 +229,7 @@ const ModelPortfolio = () => {
           dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
         }
         toast.success('Delete the model successfully.');
-        history.replace('/app/models');
+        dispatch(replace('/app/models'));
       })
       .catch(() => {
         toast.error('Unable to delete the model. Please try again!');
@@ -308,7 +308,7 @@ const ModelPortfolio = () => {
                       Elite Feature{' '}
                       <A
                         style={{ marginLeft: '10px' }}
-                        onClick={() => history.push('/app/questrade-offer')}
+                        onClick={() => dispatch(push('/app/questrade-offer'))}
                       >
                         Upgrade Now!
                       </A>

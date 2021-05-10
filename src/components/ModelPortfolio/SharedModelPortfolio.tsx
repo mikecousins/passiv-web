@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { push, replace } from 'connected-react-router';
 import styled from '@emotion/styled';
 import {
   ModelPortfolioDetailsType,
@@ -107,7 +108,6 @@ const Disclaimer = styled.small`
 
 const SharedModelPortfolio = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const router = useSelector(selectRouter);
 
@@ -129,11 +129,11 @@ const SharedModelPortfolio = () => {
         })
         .catch((err) => {
           setIsSharedModel(false);
-          history.replace('/app/login');
+          dispatch(replace('/app/login'));
         });
     } else {
       setIsSharedModel(false);
-      history.replace('/app/login');
+      dispatch(replace('/app/login'));
     }
     // eslint-disable-next-line
   }, []);
@@ -194,7 +194,7 @@ const SharedModelPortfolio = () => {
         postData(`api/v1/modelPortfolio/${modelId}`, sharedModel)
           .then(() => {
             dispatch(loadModelPortfolios());
-            history.push(`/app/models`);
+            dispatch(push(`/app/models`));
           })
           .catch((err) => {
             toast.error('Unable to clone model.');
@@ -275,7 +275,7 @@ const SharedModelPortfolio = () => {
                   </a>
                 </AboutPassiv>
                 <SignUpBtn
-                  onClick={() => history.push(`/app/register?ref=${shareId}`)}
+                  onClick={() => dispatch(push(`/app/register?ref=${shareId}`))}
                 >
                   Free Sign Up
                 </SignUpBtn>

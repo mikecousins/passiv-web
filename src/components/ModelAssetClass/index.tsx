@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { push } from 'connected-react-router';
 import { postData } from '../../api';
 import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
@@ -50,7 +50,6 @@ const NoAssetClass = styled(P)`
 
 const ModelAssetClass = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const router = useSelector(selectRouter);
   const back = router.location.query.back;
 
@@ -95,10 +94,8 @@ const ModelAssetClass = () => {
           <FontAwesomeIcon icon={faPlus} size="sm" /> New Asset Class
         </NewAssetClassBtn>
 
-        <BackButton
-          onClick={() => history.push(back ? `/app${back}` : '/app/models')}
-        >
-          Back to {back ? 'Model Portfolio' : 'Model Portfolios'}
+        <BackButton onClick={() => dispatch(push(`/app${back}`))}>
+          Back to Model Portfolio
         </BackButton>
       </div>
     </ShadowBox>

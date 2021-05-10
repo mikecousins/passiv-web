@@ -60,8 +60,8 @@ const Targets = ({ assetClass }: Props) => {
   };
 
   const handleAddTarget = (cb: Symbol) => {
-    const sy: Target = { symbol: cb };
-    assetClass.model_asset_class_target.push(sy);
+    const symbol: Target = { symbol: cb };
+    assetClass.model_asset_class_target.push(symbol);
 
     updateAssetClass();
     setSearchSecurities(false);
