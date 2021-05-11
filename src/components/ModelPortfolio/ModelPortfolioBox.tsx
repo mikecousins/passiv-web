@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { push, replace } from 'connected-react-router';
 import { postData } from '../../api';
 import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
@@ -11,8 +12,10 @@ import {
   loadModelPortfolios,
 } from '../../actions';
 import NameInputAndEdit from '../NameInputAndEdit';
-import { ModelAssetClass } from '../../types/modelAssetClass';
-import { useHistory } from 'react-router';
+import {
+  ModelAssetClass,
+  ModelAssetClassDetailsType,
+} from '../../types/modelAssetClass';
 import {
   selectGroupInfoForModelPortfolio,
   selectGroupsUsingAModel,
@@ -29,6 +32,8 @@ import { A } from '../../styled/GlobalElements';
 import RouteLeavingPrompt from '../RouteLeavingPrompt';
 import { isNameDuplicate } from './utils/utils';
 import Tooltip from '../Tooltip';
+import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
+import { GroupData } from '../../types/group';
 
 const NameInputAndEditStyle = styled(NameInputAndEdit)`
   @media (max-width: 900px) {
@@ -204,7 +209,7 @@ const Error = styled.div`
 `;
 
 type Props = {
-  modelPortfolio: any;
+  modelPortfolio: ModelPortfolioDetailsType;
   assetClasses: ModelAssetClass[];
   securityBased: boolean;
   modelTypeChanged: boolean;
@@ -216,7 +221,6 @@ const ModelPortoflioBox = ({
   securityBased,
 }: Props) => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const modelPortfolios = useSelector(selectModelPortfolios);
   const [modelPortfolioName, setModelPortfolioName] = useState(
@@ -242,7 +246,7 @@ const ModelPortoflioBox = ({
   const assignedPortfolioGroups =
     modelPortfolio.model_portfolio.total_assigned_portfolio_groups;
 
-  let groups: any;
+  let groups: GroupData[] = [];
   if (modelId) {
     groups = groupsUsingModel?.[modelId]?.groups;
   }
@@ -252,9 +256,9 @@ const ModelPortoflioBox = ({
 
   const toggleEditMode = () => {
     if (editMode) {
-      history.replace(`/model-portfolio/${modelId}`);
+      dispatch(replace(`/model-portfolio/${modelId}`));
     } else {
-      history.replace(`/model-portfolio/${modelId}?edit=true`);
+      dispatch(replace(`/model-portfolio/${modelId}?edit=true`));
     }
   };
 
@@ -289,7 +293,7 @@ const ModelPortoflioBox = ({
           dispatch(loadAccountList());
           dispatch(loadGroupsList());
           if (groups !== undefined) {
-            dispatch(loadGroup({ ids: groups.map((group: any) => group.id) }));
+            dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
           }
         })
         .catch(() => {
@@ -324,10 +328,10 @@ const ModelPortoflioBox = ({
           );
         }
         if (securityBased && groupId) {
-          history.push(`/group/${gpId}`);
+          dispatch(push(`/group/${gpId}`));
         }
         if (!securityBased && applyMode) {
-          history.push(`/priorities/${gpId}`);
+          dispatch(push(`/priorities/${gpId}`));
         }
       })
       .catch((err) => {
@@ -437,10 +441,10 @@ const ModelPortoflioBox = ({
                   );
                   const cashPercentage = (100 - +total).toFixed(3);
 
-                  let availableAssetClasses: any = [];
+                  let availableAssetClasses: ModelAssetClass[] = [];
                   if (!securityBased) {
                     const usedAssetClasses = props.values.targets.map(
-                      (astCls: any) => {
+                      (astCls: ModelAssetClassDetailsType) => {
                         return astCls.model_asset_class?.id;
                       },
                     );
@@ -578,7 +582,7 @@ const ModelPortoflioBox = ({
                             </Percentage>
                             {securityBased ? (
                               <SymbolSelector
-                                value={null}
+                                value={undefined}
                                 onSelect={(symbol) => {
                                   handleAddToModel(symbol);
                                 }}
@@ -647,7 +651,7 @@ const ModelPortoflioBox = ({
               </ButtonContainer>
               <RouteLeavingPrompt
                 when={props.dirty}
-                navigate={(path) => history.push(path)}
+                navigate={(path) => dispatch(push(path))}
               />
             </Form>
           )}

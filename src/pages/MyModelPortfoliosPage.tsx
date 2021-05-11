@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { postData } from '../api';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -32,8 +32,9 @@ import Tooltip from '../components/Tooltip';
 import { selectGroupInfo, selectGroups } from '../selectors/groups';
 import Dialog from '@reach/dialog';
 import SelectGroupDialog from '../components/ModelPortfolio/SelectGroupDialog';
-import { BackButton } from '../components/ModelPortfolio/ModelPortfolio';
+import { BackButton } from '../components/ModelPortfolio';
 import MoreOptions from '../components/ModelPortfolio/MoreOptions';
+import { push, replace } from 'connected-react-router';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -76,6 +77,13 @@ const ModelName = styled(H3)`
 `;
 const InUseDiv = styled.div`
   font-size: 20px;
+  > svg {
+    margin-right: 8px;
+    color: var(--brand-green);
+  }
+  span {
+    margin-right: 10px;
+  }
   @media (max-width: 900px) {
     margin-bottom: 20px;
     text-align: center;
@@ -104,7 +112,6 @@ const ApplyTransparentBtn = styled(TransparentButton)`
 
 const MyModelPortfoliosPage = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const modelPortfolios: ModelPortfolioDetailsType[] = useSelector(
     selectModelPortfolios,
@@ -124,7 +131,7 @@ const MyModelPortfoliosPage = () => {
     ModelPortfolio | undefined
   >();
 
-  let modelIdUseByGroup: string = '';
+  let modelIdUseByGroup: string | undefined = '';
   if (groupId && groupInfo[groupId].data?.model_portfolio) {
     modelIdUseByGroup = groupInfo[groupId].data?.model_portfolio.id;
   }
@@ -135,9 +142,11 @@ const MyModelPortfoliosPage = () => {
         dispatch(loadModelPortfolios());
         const id = res.data.model_portfolio.id;
         if (groupId) {
-          history.replace(`/model-portfolio/${id}/group/${groupId}?apply=true`);
+          dispatch(
+            replace(`/model-portfolio/${id}/group/${groupId}?apply=true`),
+          );
         } else {
-          history.replace(`/model-portfolio/${id}?edit=true`);
+          dispatch(replace(`/model-portfolio/${id}?edit=true`));
         }
       })
       .catch(() => {
@@ -160,9 +169,9 @@ const MyModelPortfoliosPage = () => {
             `"${model.model_portfolio.name}" applied to group successfully`,
           );
           if (model.model_portfolio.model_type === 1) {
-            history.push(`/priorities/${groupId}`);
+            dispatch(push(`/priorities/${groupId}`));
           } else {
-            history.push(`/group/${groupId}`);
+            dispatch(push(`/group/${groupId}`));
           }
         })
         .catch((err) => {
@@ -171,7 +180,7 @@ const MyModelPortfoliosPage = () => {
           }
         });
     } else {
-      history.replace(`model-portfolio/${modelId}`);
+      dispatch(replace(`model-portfolio/${modelId}`));
     }
   };
 
@@ -228,7 +237,10 @@ const MyModelPortfoliosPage = () => {
           ? modelPortfolios.map((mdl) => {
               const totalAssignedGroups =
                 mdl.model_portfolio.total_assigned_portfolio_groups;
-              if (modelIdUseByGroup === mdl.model_portfolio.id) {
+              if (
+                modelIdUseByGroup &&
+                modelIdUseByGroup === mdl.model_portfolio.id
+              ) {
                 if (modelPortfolios.length === 1) {
                   return noModelAvailable;
                 } else {
@@ -252,16 +264,9 @@ const MyModelPortfoliosPage = () => {
                     <InUseDiv>
                       {totalAssignedGroups > 0 && (
                         <>
-                          <FontAwesomeIcon
-                            icon={faCheck}
-                            size="lg"
-                            style={{
-                              marginRight: '8px',
-                              color: 'var(--brand-green)',
-                            }}
-                          />
+                          <FontAwesomeIcon icon={faCheck} size="lg" />
                           <InUse>In Use</InUse> |{' '}
-                          <span style={{ marginRight: '10px' }}>
+                          <span>
                             {totalAssignedGroups} Group
                             {totalAssignedGroups > 1 && 's'}
                           </span>

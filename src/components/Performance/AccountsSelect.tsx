@@ -6,6 +6,7 @@ import {
   selectSelectedAccounts,
   selectStartDate,
   selectEndDate,
+  selectReportingSettings,
 } from '../../selectors/performance';
 import { setSelectedAccounts } from '../../actions/performance';
 import MultiSelect from 'react-multi-select-component';
@@ -49,9 +50,26 @@ const Submit = styled.input`
 
 export const AccountsSelect = () => {
   const dispatch = useDispatch();
+  const reportingSettings = useSelector(selectReportingSettings)?.data;
+  // Create list of accounts for dropdown, sort by institution name and then account name
   const accounts = useSelector(selectAccounts)
-    .filter((a) => a.institution_name === 'Questrade')
-    .filter((a) => a.portfolio_group !== null);
+    .filter(
+      (a) =>
+        (reportingSettings?.include_questrade &&
+          a.institution_name === 'Questrade') ||
+        (reportingSettings?.include_wealthica &&
+          a.institution_name === 'Wealthica'),
+    )
+    .filter((a) => a.portfolio_group !== null)
+    .sort((a, b) =>
+      a.institution_name !== b.institution_name
+        ? a.institution_name < b.institution_name
+          ? -1
+          : 1
+        : a.name < b.name
+        ? -1
+        : 1,
+    );
   const startDate = useSelector(selectStartDate);
   const endDate = useSelector(selectEndDate);
   const selectedAccounts = useSelector(selectSelectedAccounts);
@@ -124,7 +142,7 @@ export const AccountsSelect = () => {
 
 export default AccountsSelect;
 
-export const validDates = (startDate: any, endDate: any) => {
+export const validDates = (startDate: string, endDate: string) => {
   if (startDate !== undefined && endDate !== undefined) {
     if (startDate < endDate) {
       return true;

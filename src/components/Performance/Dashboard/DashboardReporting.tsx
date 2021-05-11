@@ -27,7 +27,6 @@ export const LeftAlign = styled.span`
   text-align-last: left;
 `;
 export const CustomizeDashContainer = styled.div`
-  margin-bottom: 12px;
   margin-bottom: 15px;
 `;
 export const CustomizeDashBtn = styled.span`

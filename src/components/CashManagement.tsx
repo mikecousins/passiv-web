@@ -25,7 +25,7 @@ import styled from '@emotion/styled';
 import { Form } from '../styled/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { DeleteContainer } from './ModelPortfolio/ModelPortfolio';
+import { DeleteContainer } from './ModelPortfolio';
 
 const CashManagementBox = styled.div`
   h2 {
@@ -57,6 +57,13 @@ export const CashRow = styled.div<CashRowProps>`
     grid-template-columns: ${(props) =>
       props.form ? '1fr' : '1fr 1fr 0.5fr 0.5fr'};
   }
+`;
+
+export const GreyCashRow = styled(CashRow)`
+  border: 1px solid #f1f1f1;
+  padding: 10px;
+  margin-bottom: 20px;
+  background: #f1f1f1;
 `;
 
 export const Heading = styled.div`
@@ -299,15 +306,7 @@ const CashManagement = () => {
           const currency = getCurrency(cashRestriction.currency);
           const type = getType(cashRestriction.type);
           return (
-            <CashRow
-              key={cashRestriction.id}
-              style={{
-                border: '1px solid #f1f1f1',
-                padding: '10px',
-                marginBottom: '20px',
-                background: '#f1f1f1',
-              }}
-            >
+            <GreyCashRow key={cashRestriction.id}>
               <ColumnBase>{account && account.name}</ColumnBase>
               <ColumnBase>{type && type.name}</ColumnBase>
               <ColumnBase>
@@ -330,7 +329,7 @@ const CashManagement = () => {
                   </button>
                 </DeleteContainer>
               </ColumnBase>
-            </CashRow>
+            </GreyCashRow>
           );
         })}
       </React.Fragment>

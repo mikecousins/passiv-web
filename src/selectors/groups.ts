@@ -1418,7 +1418,7 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
     let targetIds: any;
     if (targets?.isAssetClassBased) {
       targets.currentAssetClass?.forEach((assetClass) => {
-        targetIds += assetClass?.fullSymbols?.map((target: any) => {
+        targetIds += assetClass?.fullSymbols?.forEach((target: any) => {
           if (target?.excluded) {
             excluded.push({
               excluded: target.excluded,
@@ -1434,7 +1434,7 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
       targetIds = targets?.currentTarget?.map(
         (target: any) => target.fullSymbol.id,
       );
-      targets?.currentTarget?.map((target: any) => {
+      targets?.currentTarget?.forEach((target: any) => {
         if (target.is_excluded) {
           excluded.push({
             excluded: target.is_excluded,

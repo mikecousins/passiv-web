@@ -39,7 +39,7 @@ import {
 import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
 import { Goal } from '../types/goals';
 
-export default (history: any) =>
+const Reducer = (history: any) =>
   combineReducers({
     router: connectRouter(history),
     appTime: Date.now,
@@ -145,3 +145,5 @@ export default (history: any) =>
       userData: true,
     }),
   });
+
+export default Reducer;

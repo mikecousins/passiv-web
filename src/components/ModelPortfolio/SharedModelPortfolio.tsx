@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { push, replace } from 'connected-react-router';
 import styled from '@emotion/styled';
-import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
+import {
+  ModelPortfolioDetailsType,
+  TargetWithPercentage,
+} from '../../types/modelPortfolio';
 import { selectRouter } from '../../selectors/router';
 import ShadowBox from '../../styled/ShadowBox';
-import { ResponsiveGrid } from './ModelPortfolio';
+import { ResponsiveGrid } from '.';
 import { Box, StyledContainer, StyledName } from './ModelPortfolioBox';
 import Grid from '../../styled/Grid';
 import { PieChart } from 'react-minimal-pie-chart';
@@ -19,7 +23,6 @@ import { getData, postData } from '../../api';
 import { loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
 import { StyledP } from '../../pages/ModelAssetClassPage';
-
 import shareModelImage from '../../assets/images/shareModelImage.png';
 
 const ImageContainer = styled.div`
@@ -70,6 +73,11 @@ const ActionBox = styled.div`
   padding: 20px;
 `;
 
+const Header = styled(H3)`
+  font-size: 18px;
+  line-height: 1.2;
+`;
+
 const AboutPassiv = styled(P)`
   margin: 10px 0 20px;
   font-size: 18px;
@@ -100,7 +108,6 @@ const Disclaimer = styled.small`
 
 const SharedModelPortfolio = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const router = useSelector(selectRouter);
 
@@ -109,7 +116,6 @@ const SharedModelPortfolio = () => {
   const [isSharedModel, setIsSharedModel] = useState(false);
   const [sharedModel, setSharedModel] = useState<ModelPortfolioDetailsType>();
 
-  //@ts-ignore
   let shareId = router?.location?.query?.share;
   const modelId = router.location.pathname.split('/')[2];
 
@@ -123,11 +129,11 @@ const SharedModelPortfolio = () => {
         })
         .catch((err) => {
           setIsSharedModel(false);
-          history.replace('/login');
+          dispatch(replace('/login'));
         });
     } else {
       setIsSharedModel(false);
-      history.replace('/login');
+      dispatch(replace('/login'));
     }
     // eslint-disable-next-line
   }, []);
@@ -188,7 +194,7 @@ const SharedModelPortfolio = () => {
         postData(`api/v1/modelPortfolio/${modelId}`, sharedModel)
           .then(() => {
             dispatch(loadModelPortfolios());
-            history.push(`/models`);
+            dispatch(push(`/models`));
           })
           .catch((err) => {
             toast.error('Unable to clone model.');
@@ -255,9 +261,7 @@ const SharedModelPortfolio = () => {
           {!showSecureApp && (
             <>
               <ActionBox>
-                <H3 style={{ fontSize: '18px', lineHeight: '1.2' }}>
-                  Build your own model portfolio!
-                </H3>
+                <Header>Build your own model portfolio!</Header>
                 <AboutPassiv>
                   Passiv makes investing easier at online brokerages. Passiv
                   helps you maintain your portfolio’s allocation, manage
@@ -271,7 +275,7 @@ const SharedModelPortfolio = () => {
                   </a>
                 </AboutPassiv>
                 <SignUpBtn
-                  onClick={() => history.push(`/register?ref=${shareId}`)}
+                  onClick={() => dispatch(push(`/register?ref=${shareId}`))}
                 >
                   Free Sign Up
                 </SignUpBtn>
@@ -303,14 +307,14 @@ const SharedModelPortfolio = () => {
 export default SharedModelPortfolio;
 
 type Prop = {
-  securities: any;
+  securities: TargetWithPercentage[];
 };
 const OtherSecurities = ({ securities }: Prop) => {
   return (
     <ul>
-      {securities.map((security: any) => {
+      {securities.map((security) => {
         return (
-          <li style={{ margin: '7px' }}>
+          <li style={{ margin: '7px' }} key={security.symbol.id}>
             {security.symbol.symbol}:
             <span style={{ fontWeight: 700, float: 'right' }}>
               {security.percent} %

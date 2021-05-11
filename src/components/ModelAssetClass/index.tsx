@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { push } from 'connected-react-router';
 import { postData } from '../../api';
 import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
@@ -43,11 +43,14 @@ const BackButton = styled(Button)`
   }
 `;
 
+const NoAssetClass = styled(P)`
+  text-align: center;
+  margin-top: 40px;
+`;
+
 const ModelAssetClass = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const router = useSelector(selectRouter);
-  //@ts-ignore
   const back = router.location.query.back;
 
   const assetClasses: ModelAssetClassDetailsType[] = useSelector(
@@ -82,26 +85,17 @@ const ModelAssetClass = () => {
       {assetClasses.length > 0 ? (
         assetClassBox
       ) : (
-        <P style={{ textAlign: 'center', marginTop: '40px' }}>
-          There are no asset classes available.
-        </P>
+        <NoAssetClass>There are no asset classes available.</NoAssetClass>
       )}
 
       <div style={{ marginTop: '40px' }}>
         <NewAssetClassBtn onClick={handleAddAssetClass}>
           {' '}
-          <FontAwesomeIcon
-            icon={faPlus}
-            size="sm"
-            style={{ position: 'relative' }}
-          />{' '}
-          New Asset Class
+          <FontAwesomeIcon icon={faPlus} size="sm" /> New Asset Class
         </NewAssetClassBtn>
 
-        <BackButton
-          onClick={() => history.push(back ? `  ${back}` : '/models')}
-        >
-          Back to {back ? 'Model Portfolio' : 'Model Portfolios'}
+        <BackButton onClick={() => dispatch(push(`${back}`))}>
+          Back to Model Portfolio
         </BackButton>
       </div>
     </ShadowBox>

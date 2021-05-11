@@ -27,7 +27,6 @@ import { setReferralCode, setTrackingId } from '../actions';
 import { selectQueryTokens } from '../selectors/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import GoalDetailPage from '../pages/GoalDetailPage';
 import {
   selectGoalsPageFeature,
   selectModelPortfolioFeature,
@@ -43,10 +42,9 @@ import {
   REFERRALS_PATH,
   REPORTING_PATH,
   GOALS_PATH,
+  MY_MODELS_PATH,
 } from './Paths';
-import Prioritization from '../components/ModelPortfolio/Prioritization/Prioritization';
 import { selectIsPaid } from '../selectors/subscription';
-import ContactForm from '../components/Help/ContactForm';
 
 // preload pages
 const ReactLazyPreload = (importStatement: any) => {
@@ -77,6 +75,12 @@ const HelpPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "help" */ '../pages/HelpPage'),
 );
 
+const ContactForm = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "contact-form" */ '../components/Help/ContactForm'
+  ),
+);
+
 const ResetPasswordPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "reset-password" */ '../pages/ResetPasswordPage'),
 );
@@ -99,7 +103,7 @@ const BrokeragesOauthPage = ReactLazyPreload(() =>
 );
 const BrokeragesAuthPage = ReactLazyPreload(() =>
   import(
-    /* webpackChunkName: "brokerage-oauth" */ '../pages/BrokeragesAuthPage'
+    /* webpackChunkName: "brokerage-auth" */ '../pages/BrokeragesAuthPage'
   ),
 );
 const UpgradeOfferPage = ReactLazyPreload(() =>
@@ -153,29 +157,32 @@ const PerformancePage = ReactLazyPreload(() =>
 const GoalsPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "goals" */ '../pages/GoalsPage'),
 );
-const ModelAssetClassPage = React.lazy(() =>
-  //? webpackChunkName
-  import(/* webpackChunkName: "asset-class" */ '../pages/ModelAssetClassPage'),
+
+const GoalDetailPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "goals-detail" */ '../pages/GoalDetailPage'),
 );
 
-const MyModelPortfoliosPage = React.lazy(() =>
-  //? webpackChunkName
+const MyModelPortfoliosPage = ReactLazyPreload(() =>
   import(
-    /* webpackChunkName: "model-portfolios" */ '../pages/MyModelPortfoliosPage'
+    /* webpackChunkName: "my-model-portfolios" */ '../pages/MyModelPortfoliosPage'
   ),
 );
-
-const ModelPortfolioPage = React.lazy(() =>
-  //? webpackChunkName
+const ModelAssetClassPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "asset-class" */ '../pages/ModelAssetClassPage'),
+);
+const ModelPortfolioPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "model-portfolio" */ '../pages/ModelPortfolioPage'
   ),
 );
-
-const SharedModelPortfolio = React.lazy(() =>
-  //? webpackChunkName
+const SharedModelPortfolio = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "shared-model-portfolio" */ '../components/ModelPortfolio/SharedModelPortfolio'
+  ),
+);
+const Prioritization = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "prioritization" */ '../components/ModelPortfolio/Prioritization'
   ),
 );
 
@@ -186,6 +193,11 @@ const SharedModelPortfolio = React.lazy(() =>
 // }
 
 // list of all the routes that has any link associate with them in the app
+type RouteType = {
+  path: string;
+  exact: boolean;
+  component: any;
+};
 const routes = [
   { path: LOGIN_PATH, exact: true, component: LoginPage },
   { path: REGISTER_PATH, exact: true, component: RegistrationPage },
@@ -197,10 +209,11 @@ const routes = [
   { path: REFERRALS_PATH, exact: true, component: ReferralPage },
   { path: REPORTING_PATH, exact: true, component: PerformancePage },
   { path: GOALS_PATH, exact: true, component: GoalsPage },
+  { path: MY_MODELS_PATH, exact: true, component: MyModelPortfoliosPage },
 ];
 
-const findComponentForRoute = (path: any, routes: any) => {
-  const matchingRoute = routes.find((route: any) =>
+const findComponentForRoute = (path: string, routes: RouteType[]) => {
+  const matchingRoute = routes.find((route) =>
     matchPath(path, {
       path: route.path,
       exact: route.exact,
@@ -367,7 +380,7 @@ const App = () => {
       <StripeProvider stripe={stripe}>
         <React.Suspense fallback={<FontAwesomeIcon icon={faSpinner} spin />}>
           <Switch>
-            // common routes
+            {/* common routes */}
             <Route path="/help/topic/:slug" component={HelpArticlePage} />
             <Route path="/help" component={HelpPage} />
             <Route path="/contact-form" component={ContactForm} />
@@ -386,7 +399,7 @@ const App = () => {
               component={SharedModelPortfolio}
               render={() => sharedModelRedirect()}
             />
-            // oauth routes
+            {/* oauth routes */}
             {loggedIn && (
               <Route
                 exact
@@ -518,7 +531,7 @@ const App = () => {
                 render={() => wealthicaOauthRedirect()}
               />
             )}
-            // onboarding app
+            {/* onboarding app */}
             {showOnboardingApp && (
               <Route path="/connect/:openBrokerage?">
                 <AuthorizationPage onboarding={true} />
@@ -551,7 +564,7 @@ const App = () => {
                 <Redirect to="/welcome" />
               </Route>
             )}
-            // secure app
+            {/* secure app */}
             {showSecureApp && (
               <Route path="/reporting" component={PerformancePage} />
             )}
@@ -621,20 +634,20 @@ const App = () => {
                 component={() => <Prioritization onSettingsPage={false} />}
               />
             )}
-            // insecure app
+            {/* insecure app */}
             {showInsecureApp && <Route path="/login" component={LoginPage} />}
             {showInsecureApp && (
               <Route path="/register" component={RegistrationPage} />
             )}
-            // catchalls // when logged in, catch unknown URLs and redirect to
-            // dashboard or 'next' query param if defined
+            {/* catchalls // when logged in, catch unknown URLs and redirect to
+            dashboard or 'next' query param if defined */}
             {showSecureApp && (
               <Route path="*">
                 <Redirect to={redirectPath} />
               </Route>
             )}
-            // when not logged in, catch unknown URLs (such as secure paths) and
-            // login with redirect
+            {/* when not logged in, catch unknown URLs (such as secure paths) and
+            login with redirect */}
             {showInsecureApp && (
               <Route path="*">
                 <Redirect

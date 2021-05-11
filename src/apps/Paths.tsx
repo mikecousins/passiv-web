@@ -8,3 +8,4 @@ export const SETTINGS_PATH = '/settings';
 export const REFERRALS_PATH = '/referrals';
 export const REPORTING_PATH = '/reporting';
 export const GOALS_PATH = '/goals';
+export const MY_MODELS_PATH = '/models';
