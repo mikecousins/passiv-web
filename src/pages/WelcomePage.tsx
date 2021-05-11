@@ -24,7 +24,7 @@ const WelcomePage = () => {
           title="Passiv Basics"
           width="575"
           height="320"
-          src="https://player.vimeo.com/video/365762313"
+          src="https://player.vimeo.com/video/547476267"
           frameBorder="0"
           allow="autoplay; fullscreen"
           allowFullScreen
