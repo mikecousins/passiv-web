@@ -228,42 +228,6 @@ const questradeOauthRedirect = () => {
   return <Redirect to={newPath} />;
 };
 
-const tradierOauthRedirect = () => {
-  let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/oauth/tradier?' + urlParams;
-  return <Redirect to={newPath} />;
-};
-
-const alpacaOauthRedirect = () => {
-  let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/oauth/alpaca?' + urlParams;
-  return <Redirect to={newPath} />;
-};
-
-const interactiveBrokersOauthRedirect = () => {
-  let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/oauth/interactivebrokers?' + urlParams;
-  return <Redirect to={newPath} />;
-};
-
-const tdAmeritradeOauthRedirect = () => {
-  let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/oauth/td?' + urlParams;
-  return <Redirect to={newPath} />;
-};
-
-const zerodhaOauthRedirect = () => {
-  let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/oauth/zerodha?' + urlParams;
-  return <Redirect to={newPath} />;
-};
-
-const wealthicaOauthRedirect = () => {
-  let urlParams = new URLSearchParams(window.location.search);
-  let newPath = '/oauth/wealthica?' + urlParams;
-  return <Redirect to={newPath} />;
-};
-
 const sharedModelRedirect = () => {
   let newPath = '/shared-model-portfolio?share=';
   return <Redirect to={newPath} />;
@@ -390,13 +354,6 @@ const App = () => {
             {loggedIn && (
               <Route
                 exact
-                path="/oauth/questrade"
-                render={() => questradeOauthRedirect()}
-              />
-            )}
-            {loggedIn && (
-              <Route
-                exact
                 path="/oauth/questrade-trade"
                 render={() => questradeOauthRedirect()}
               />
@@ -407,13 +364,6 @@ const App = () => {
                 component={() => (
                   <BrokeragesOauthPage brokerageName="Questrade" />
                 )}
-              />
-            )}
-            {loggedIn && (
-              <Route
-                exact
-                path="/oauth/tradier"
-                render={() => tradierOauthRedirect()}
               />
             )}
             {loggedIn && (
@@ -453,24 +403,10 @@ const App = () => {
             )}
             {loggedIn && (
               <Route
-                exact
-                path="/oauth/alpaca"
-                render={() => alpacaOauthRedirect()}
-              />
-            )}
-            {loggedIn && (
-              <Route
                 path="/oauth/interactivebrokers"
                 component={() => (
                   <BrokeragesOauthPage brokerageName="Interactive Brokers" />
                 )}
-              />
-            )}
-            {loggedIn && (
-              <Route
-                exact
-                path="/oauth/interactivebrokers"
-                render={() => interactiveBrokersOauthRedirect()}
               />
             )}
             {loggedIn && (
@@ -483,13 +419,6 @@ const App = () => {
             )}
             {loggedIn && (
               <Route
-                exact
-                path="/oauth/td"
-                render={() => tdAmeritradeOauthRedirect()}
-              />
-            )}
-            {loggedIn && (
-              <Route
                 path="/oauth/zerodha"
                 component={() => (
                   <BrokeragesOauthPage brokerageName="Zerodha" />
@@ -498,24 +427,10 @@ const App = () => {
             )}
             {loggedIn && (
               <Route
-                exact
-                path="/oauth/zerodha"
-                render={() => zerodhaOauthRedirect()}
-              />
-            )}
-            {loggedIn && (
-              <Route
                 path="/oauth/wealthica"
                 component={() => (
                   <BrokeragesOauthPage brokerageName="Wealthica" />
                 )}
-              />
-            )}
-            {loggedIn && (
-              <Route
-                exact
-                path="/oauth/wealthica"
-                render={() => wealthicaOauthRedirect()}
               />
             )}
             // onboarding app
