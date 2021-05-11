@@ -16,7 +16,7 @@ const IndentColorBox = styled(ColorBox)`
   }
 `;
 
-const BetaTag = styled.span`
+export const BetaTag = styled.span`
   border: 1px solid var(--brand-green);
   border-radius: 25px;
   padding: 2px 4px 1px;
@@ -54,7 +54,16 @@ const SideBarLink = ({
   indent,
   beta = false,
 }: Props) => {
-  const pathname = useSelector(selectPathname);
+  const pathnameFull = useSelector(selectPathname);
+
+  const fixPathname = (pathname: string): string => {
+    if (pathname[pathname.length - 1] === '/') {
+      return pathname.slice(0, pathname.length - 1);
+    }
+    return pathname;
+  };
+
+  const pathname: string = fixPathname(pathnameFull);
 
   if (spinnerLoading === undefined) {
     spinnerLoading = false;
@@ -62,7 +71,6 @@ const SideBarLink = ({
   if (hideArrow === undefined) {
     hideArrow = false;
   }
-  // let selected = pathname.startsWith(linkPath);
   let selected = pathname === linkPath;
   if (
     pathname.startsWith(linkPath) &&

@@ -29,7 +29,7 @@ export const selectCurrentGoalId = createSelector<
   AppState,
   RouterState,
   string | null
->(selectRouter, router => {
+>(selectRouter, (router) => {
   let goalId = null;
   if (
     router &&

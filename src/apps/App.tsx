@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { StripeProvider } from 'react-stripe-elements';
 import '@reach/menu-button/styles.css';
+import '@reach/dialog/styles.css';
 import {
   selectLoggedIn,
   selectReferralCode,
@@ -27,8 +28,10 @@ import { selectQueryTokens } from '../selectors/router';
 import { prefixPath } from '../common';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import GoalDetailPage from '../pages/GoalDetailPage';
-import { selectGoalsPageFeature } from '../selectors/features';
+import {
+  selectGoalsPageFeature,
+  selectModelPortfolioFeature,
+} from '../selectors/features';
 import {
   LOGIN_PATH,
   REGISTER_PATH,
@@ -40,7 +43,9 @@ import {
   REFERRALS_PATH,
   REPORTING_PATH,
   GOALS_PATH,
+  MY_MODELS_PATH,
 } from './Paths';
+import { selectIsPaid } from '../selectors/subscription';
 
 // preload pages
 const ReactLazyPreload = (importStatement: any) => {
@@ -71,6 +76,12 @@ const HelpPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "help" */ '../pages/HelpPage'),
 );
 
+const ContactForm = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "contact-form" */ '../components/Help/ContactForm'
+  ),
+);
+
 const ResetPasswordPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "reset-password" */ '../pages/ResetPasswordPage'),
 );
@@ -86,39 +97,16 @@ const SetNewPasswordPage = ReactLazyPreload(() =>
     /* webpackChunkName: "set-new-password" */ '../pages/SetNewPasswordPage'
   ),
 );
-
-const QuestradeOauthPage = ReactLazyPreload(() =>
+const BrokeragesOauthPage = ReactLazyPreload(() =>
   import(
-    /* webpackChunkName: "questrade-oauth" */ '../pages/QuestradeOauthPage'
+    /* webpackChunkName: "brokerage-oauth" */ '../pages/BrokeragesOauthPage'
   ),
 );
-
-const TradierOauthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "tradier-oauth" */ '../pages/TradierOauthPage'),
-);
-
-const AlpacaOauthPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "alpaca-oauth" */ '../pages/AlpacaOauthPage'),
-);
-
-const InteractiveBrokersOauthPage = ReactLazyPreload(() =>
+const BrokeragesAuthPage = ReactLazyPreload(() =>
   import(
-    /* webpackChunkName: "interactive-brokers-oauth" */ '../pages/InteractiveBrokersOauthPage'
+    /* webpackChunkName: "brokerage-auth" */ '../pages/BrokeragesAuthPage'
   ),
 );
-
-const TDAmeritradeOauthPage = ReactLazyPreload(() =>
-  import(
-    /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/TDAmeritradeOauthPage'
-  ),
-);
-
-const WealthicaOauthPage = ReactLazyPreload(() =>
-  import(
-    /* webpackChunkName: "td-ameritrade-oauth" */ '../pages/WealthicaOauthPage'
-  ),
-);
-
 const UpgradeOfferPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "upgrade-offer" */ '../pages/UpgradeOfferPage'),
 );
@@ -171,6 +159,34 @@ const GoalsPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "goals" */ '../pages/GoalsPage'),
 );
 
+const GoalDetailPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "goals-detail" */ '../pages/GoalDetailPage'),
+);
+
+const MyModelPortfoliosPage = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "my-model-portfolios" */ '../pages/MyModelPortfoliosPage'
+  ),
+);
+const ModelAssetClassPage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "asset-class" */ '../pages/ModelAssetClassPage'),
+);
+const ModelPortfolioPage = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "model-portfolio" */ '../pages/ModelPortfolioPage'
+  ),
+);
+const SharedModelPortfolio = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "shared-model-portfolio" */ '../components/ModelPortfolio/SharedModelPortfolio'
+  ),
+);
+const Prioritization = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "prioritization" */ '../components/ModelPortfolio/Prioritization'
+  ),
+);
+
 // declare global {
 //   interface Window {
 //     Stripe: any;
@@ -178,6 +194,11 @@ const GoalsPage = ReactLazyPreload(() =>
 // }
 
 // list of all the routes that has any link associate with them in the app
+type RouteType = {
+  path: string;
+  exact: boolean;
+  component: any;
+};
 const routes = [
   { path: LOGIN_PATH, exact: true, component: LoginPage },
   { path: REGISTER_PATH, exact: true, component: RegistrationPage },
@@ -189,10 +210,11 @@ const routes = [
   { path: REFERRALS_PATH, exact: true, component: ReferralPage },
   { path: REPORTING_PATH, exact: true, component: PerformancePage },
   { path: GOALS_PATH, exact: true, component: GoalsPage },
+  { path: MY_MODELS_PATH, exact: true, component: MyModelPortfoliosPage },
 ];
 
-const findComponentForRoute = (path: any, routes: any) => {
-  const matchingRoute = routes.find((route: any) =>
+const findComponentForRoute = (path: string, routes: RouteType[]) => {
+  const matchingRoute = routes.find((route) =>
     matchPath(path, {
       path: route.path,
       exact: route.exact,
@@ -244,9 +266,20 @@ const tdAmeritradeOauthRedirect = () => {
   return <Redirect to={newPath} />;
 };
 
+const zerodhaOauthRedirect = () => {
+  let urlParams = new URLSearchParams(window.location.search);
+  let newPath = '/app/oauth/zerodha?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
 const wealthicaOauthRedirect = () => {
   let urlParams = new URLSearchParams(window.location.search);
   let newPath = '/app/oauth/wealthica?' + urlParams;
+  return <Redirect to={newPath} />;
+};
+
+const sharedModelRedirect = () => {
+  let newPath = '/app/shared-model-portfolio?share=';
   return <Redirect to={newPath} />;
 };
 
@@ -260,9 +293,9 @@ const App = () => {
   const location = useLocation();
   const goalsPageFeatureActive = useSelector(selectGoalsPageFeature);
   const dispatch = useDispatch();
-
+  const isPaid = useSelector(selectIsPaid);
   const queryParams = useSelector(selectQueryTokens);
-
+  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
   let updateQuery = false;
 
   // extract referral code (if any) and make available on registration page
@@ -310,6 +343,9 @@ const App = () => {
       redirectPath = params.next as string;
       queryParams.next = redirectPath;
     }
+    if (params.code) {
+      queryParams.code = params.code;
+    }
   }
 
   if (updateQuery) {
@@ -345,6 +381,7 @@ const App = () => {
               component={HelpArticlePage}
             />
             <Route path={prefixPath('/help')} component={HelpPage} />
+            <Route path={prefixPath('/contact-form')} component={ContactForm} />
             <Route
               path={prefixPath('/reset-password')}
               component={ResetPasswordPage}
@@ -358,6 +395,11 @@ const App = () => {
               component={SetNewPasswordPage}
             />
             <Route path={prefixPath('/demo')} component={DemoLoginPage} />
+            <Route
+              path={prefixPath('/shared-model-portfolio')}
+              component={SharedModelPortfolio}
+              render={() => sharedModelRedirect()}
+            />
             // oauth routes
             {loggedIn && (
               <Route
@@ -376,7 +418,9 @@ const App = () => {
             {loggedIn && (
               <Route
                 path={prefixPath('/oauth/questrade')}
-                component={QuestradeOauthPage}
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Questrade" />
+                )}
               />
             )}
             {loggedIn && (
@@ -389,13 +433,36 @@ const App = () => {
             {loggedIn && (
               <Route
                 path={prefixPath('/oauth/tradier')}
-                component={TradierOauthPage}
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Tradier" />
+                )}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/connect/kraken')}
+                component={() => <BrokeragesAuthPage brokerageName="Kraken" />}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/connect/bitbuy')}
+                component={() => <BrokeragesAuthPage brokerageName="BitBuy" />}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path={prefixPath('/connect/unocoin')}
+                component={() => <BrokeragesAuthPage brokerageName="UnoCoin" />}
               />
             )}
             {loggedIn && (
               <Route
                 path={prefixPath('/oauth/alpaca')}
-                component={AlpacaOauthPage}
+                component={() => <BrokeragesOauthPage brokerageName="Alpaca" />}
               />
             )}
             {loggedIn && (
@@ -408,7 +475,9 @@ const App = () => {
             {loggedIn && (
               <Route
                 path={prefixPath('/oauth/interactivebrokers')}
-                component={InteractiveBrokersOauthPage}
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Interactive Brokers" />
+                )}
               />
             )}
             {loggedIn && (
@@ -421,7 +490,9 @@ const App = () => {
             {loggedIn && (
               <Route
                 path={prefixPath('/oauth/td')}
-                component={TDAmeritradeOauthPage}
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="TD Ameritrade" />
+                )}
               />
             )}
             {loggedIn && (
@@ -433,8 +504,25 @@ const App = () => {
             )}
             {loggedIn && (
               <Route
+                path={prefixPath('/oauth/zerodha')}
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Zerodha" />
+                )}
+              />
+            )}
+            {loggedIn && (
+              <Route
+                exact
+                path="/oauth/zerodha"
+                render={() => zerodhaOauthRedirect()}
+              />
+            )}
+            {loggedIn && (
+              <Route
                 path={prefixPath('/oauth/wealthica')}
-                component={WealthicaOauthPage}
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Wealthica" />
+                )}
               />
             )}
             {loggedIn && (
@@ -538,6 +626,39 @@ const App = () => {
             )}
             {showSecureApp && (
               <Route path={prefixPath('/share')} component={SharePage} />
+            )}
+            {showSecureApp && modelPortfolioFeature && (
+              <Route
+                path={prefixPath('/models')}
+                component={MyModelPortfoliosPage}
+              />
+            )}
+            {showSecureApp && isPaid && (
+              <Route
+                path={prefixPath('/asset-class')}
+                component={ModelAssetClassPage}
+              />
+            )}
+            {showSecureApp && (
+              <Route
+                exact
+                path={prefixPath('/model-portfolio/:modelId')}
+                component={ModelPortfolioPage}
+              />
+            )}
+            {showSecureApp && (
+              <Route
+                exact
+                path={prefixPath('/model-portfolio/:modelId/group/:groupId')}
+                component={ModelPortfolioPage}
+              />
+            )}
+            {showSecureApp && isPaid && (
+              <Route
+                exact
+                path={prefixPath('/priorities/:groupId')}
+                component={() => <Prioritization onSettingsPage={false} />}
+              />
             )}
             // insecure app
             {showInsecureApp && (

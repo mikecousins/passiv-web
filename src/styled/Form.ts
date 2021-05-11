@@ -26,7 +26,7 @@ export const InputPrimary = styled.input`
 `;
 
 export const Input = styled(Field)`
-  border: ${props =>
+  border: ${(props) =>
     props.error ? '1px solid red' : '1px solid var(--brand-grey)'};
   box-sizing: border-box;
   font-size: 20px;
@@ -45,7 +45,7 @@ export const Input = styled(Field)`
 `;
 
 export const Textarea = styled(Field)`
-  border: ${props =>
+  border: ${(props) =>
     props.error ? '1px solid red' : '1px solid var(--brand-grey)'};
   box-sizing: border-box;
   font-size: 20px;

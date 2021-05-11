@@ -15,6 +15,11 @@ const StyledTooltip = styled(ReachTooltip)`
   font-size: 16px;
   line-height: 22px;
   z-index: 3;
+  background: hsla(232, 13%, 12%, 0.75);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5em 1em;
 `;
 
 export const Tooltip = ({ children, label, additionalComponent }: Props) => {
@@ -26,13 +31,6 @@ export const Tooltip = ({ children, label, additionalComponent }: Props) => {
           <span>{additionalComponent}</span>
         </>
       }
-      style={{
-        background: 'hsla(232, 13%, 12%, 0.75)',
-        color: 'white',
-        border: 'none',
-        borderRadius: '4px',
-        padding: '0.5em 1em',
-      }}
     >
       <span>{children}</span>
     </StyledTooltip>

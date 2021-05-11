@@ -103,6 +103,18 @@ const SMS2FAManager = () => {
       });
   };
 
+  const onEnterVerify = (event: any) => {
+    if (event.which === 13) {
+      verifyPhoneNumber();
+    }
+  };
+
+  const onEnterConfirm = (event: any) => {
+    if (event.which === 13) {
+      submitCode();
+    }
+  };
+
   let error2FAMessage = null;
   if (error2FA != null) {
     error2FAMessage = <ErrorMessage>{error2FA}</ErrorMessage>;
@@ -151,6 +163,8 @@ const SMS2FAManager = () => {
               value={candidatePhoneNumber}
               placeholder={'Your phone number'}
               onChange={(e) => setCandidatePhoneNumber(e.target.value)}
+              onKeyUp={onEnterVerify}
+              autoFocus={true}
             />
             {error2FA}
             <Edit
@@ -175,6 +189,8 @@ const SMS2FAManager = () => {
               value={verificationCode}
               placeholder={'Your verification code'}
               onChange={(e) => setVerificationCode(e.target.value)}
+              onKeyUp={onEnterConfirm}
+              autoFocus={true}
             />
             {error2FA}
             <Edit

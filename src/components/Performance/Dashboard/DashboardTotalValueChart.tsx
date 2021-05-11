@@ -6,12 +6,19 @@ import DashboardChart from './DashboardChart';
 export const DashboardTotalValueChart = () => {
   const performanceAll = useSelector(selectPerformanceAll);
   const totalEquityData = performanceAll.data?.totalEquityTimeframe1Y;
+  let showPoints = true;
+  if (
+    performanceAll.data?.totalEquityTimeframe1Y !== undefined &&
+    performanceAll.data?.totalEquityTimeframe1Y?.length > 20
+  ) {
+    showPoints = false;
+  }
 
   const data = React.useMemo(
     () => [
       {
         label: 'Total Value',
-        data: totalEquityData?.map(a => {
+        data: totalEquityData?.map((a) => {
           let date = new Date(Date.parse(a.date));
           return [
             new Date(date.getFullYear(), date.getMonth(), date.getDate()),
@@ -24,7 +31,10 @@ export const DashboardTotalValueChart = () => {
     [totalEquityData],
   );
 
-  const series = React.useMemo(() => ({ type: 'line' }), []);
+  const series = React.useMemo(
+    () => ({ type: 'line', showPoints: showPoints }),
+    [showPoints],
+  );
 
   const axes = React.useMemo(
     () => [

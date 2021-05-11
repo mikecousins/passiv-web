@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -7,30 +7,26 @@ import { getData, postData, putData } from '../../api';
 import { selectSettings } from '../../selectors';
 import { selectShowQuestradeOffer } from '../../selectors/subscription';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
-import {
-  Symbol,
-  ColumnSymbolSmall,
-  ColumnUnits,
-  ColumnAction,
-  ColumnStatus,
-} from '../../styled/Group';
+import { Symbol, ColumnSymbolSmall, ColumnTrades } from '../../styled/Group';
 import OrderImpacts from './OrderImpacts';
-import {
-  ConfirmContainer,
-  OrderContainer,
-  SummaryContainer,
-  ModifiedTradeRow,
-} from './styles';
+import { ConfirmContainer, OrderContainer, SummaryContainer } from './styles';
 import ErrorMessage from './ErrorMessage';
 import { Button } from '../../styled/Button';
 import UpgradeIdea from '../UpgradeIdea';
 import { selectLimitOrdersFeature } from '../../selectors/features';
+import { selectIsPaid } from '../../selectors/subscription';
 import PreLoadLink from '../PreLoadLink';
 import { SETTINGS_PATH } from '../../apps/Paths';
 import { selectAccounts } from '../../selectors/accounts';
-import { selectCurrentGroupSettings } from '../../selectors/groups';
+import {
+  selectCurrentGroupSettings,
+  selectCurrentGroupId,
+} from '../../selectors/groups';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
+import { TradeType, TradeBasketType } from '../../types/tradeBasket';
+import { selectAuthorizations } from '../../selectors';
+import Grid from '../../styled/Grid';
 
 type Props = {
   groupId: string;
@@ -48,11 +44,13 @@ const RebalanceWidget = ({
   tradesTrigger,
   tradesUntrigger,
 }: Props) => {
+  const accounts = useSelector(selectAccounts);
   const showQuestradeOffer = useSelector(selectShowQuestradeOffer);
   const showLimitOrdersFeature = useSelector(selectLimitOrdersFeature);
 
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
+  const formEl = useRef();
 
   let hasFreeOneClicks = false;
 
@@ -61,14 +59,18 @@ const RebalanceWidget = ({
   const [orderSummary, setOrderSummary] = useState<any>();
   const [orderResults, setOrderResults] = useState<any>();
   const [error, setError] = useState<any>();
-  const accounts = useSelector(selectAccounts);
   const groupSettings = useSelector(selectCurrentGroupSettings);
+  const authorizations = useSelector(selectAuthorizations);
+  const currentGroupId = useSelector(selectCurrentGroupId);
+  const isPaid = useSelector(selectIsPaid);
 
-  const hasOnlyNonTradableTrades = trades.trades.every((trade: any) => {
-    return (
-      trade.account.brokerage_authorization.brokerage.allows_trading === false
-    );
-  });
+  const hasOnlyNonTradableTrades =
+    trades.trades &&
+    trades.trades.every((trade: any) => {
+      return (
+        trade.account.brokerage_authorization.brokerage.allows_trading === false
+      );
+    });
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
@@ -106,6 +108,40 @@ const RebalanceWidget = ({
       });
   };
 
+  const calculateZerodhaTrades = () => {
+    const zerodhaTradeBasket: TradeBasketType = trades.trades.map(
+      (trade: TradeType) => {
+        return {
+          variety: 'regular',
+          tradingsymbol: trade.universal_symbol.symbol,
+          exchange: 'NSE',
+          transaction_type: trade.action,
+          quantity: trade.units,
+          order_type: 'LIMIT',
+          price: trade.price,
+        };
+      },
+    );
+
+    return zerodhaTradeBasket;
+  };
+
+  const executeZerodhaTrades = () => {
+    const zerodhaTrades = calculateZerodhaTrades();
+    postData(
+      `/api/v1/portfolioGroups/${groupId}/calculatedtrades/${trades.id}/starttrades/`,
+      zerodhaTrades,
+    )
+      .then((res) => {
+        //@ts-ignore
+        formEl.current.submit();
+        toast.success('Redirecting you to Zerodha to process the trade ...');
+      })
+      .catch(() => {
+        toast.error('Failed to place trades');
+      });
+  };
+
   const confirmOrders = () => {
     setPlacingOrders(true);
     tradesTrigger();
@@ -136,7 +172,7 @@ const RebalanceWidget = ({
     setError(null);
   };
 
-  const closeWidget = () => {
+  const closeWidget = useCallback(() => {
     setPlacingOrders(false);
     setValidatingOrders(false);
     setOrderSummary(null);
@@ -148,7 +184,13 @@ const RebalanceWidget = ({
     if (onClose) {
       onClose();
     }
-  };
+  }, [onClose, tradesUntrigger]);
+
+  useEffect(() => {
+    if (currentGroupId !== null) {
+      closeWidget();
+    }
+  }, [currentGroupId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleHideTrades = () => {
     let today = new Date();
@@ -174,6 +216,86 @@ const RebalanceWidget = ({
       </Button>
     </div>
   );
+
+  var hasZerodhaAccount = false;
+  var hasNonZerodhaAccount = false;
+  groupAccounts.map((acc: any) => {
+    //find the authorization associated with this account
+    if (authorizations === undefined) {
+      return false;
+    }
+    const authorization = authorizations.find(
+      (authorization) => authorization.id === acc.brokerage_authorization,
+    );
+
+    //test whether this is a Zerodha authorization
+    if (authorization === undefined) {
+      return false;
+    }
+    const isZerodhaConnection = authorization.brokerage.name === 'Zerodha';
+
+    //If so, marks the `hasZerodhaAccount` variable as `true`
+    if (isZerodhaConnection) {
+      hasZerodhaAccount = true;
+      return true;
+    }
+    if (!isZerodhaConnection) {
+      hasNonZerodhaAccount = true;
+      return true;
+    }
+    return false;
+  });
+
+  if (hasZerodhaAccount && !hasNonZerodhaAccount && isPaid) {
+    orderValidation = (
+      <div>
+        <form
+          method="post"
+          id="basket-form"
+          // @ts-ignore
+          ref={formEl}
+          action="https://kite.zerodha.com/connect/basket"
+        >
+          <input type="hidden" name="api_key" value="pnriechdkzx5ipvq" />
+          <input
+            type="hidden"
+            id="basket"
+            name="data"
+            value={JSON.stringify(calculateZerodhaTrades())}
+          />
+          <Button
+            className="tour-one-click-trade"
+            type="button"
+            onClick={executeZerodhaTrades}
+          >
+            Place Trades on Zerodha
+          </Button>
+        </form>
+      </div>
+    );
+  }
+
+  if (hasZerodhaAccount && hasNonZerodhaAccount) {
+    orderValidation = (
+      <>
+        <div>
+          At this time, we do not support one-click trades for portfolio groups
+          that contain both Zerodha accounts and non-Zerodha accounts.
+        </div>
+        <br></br>
+        <div>
+          This feature is on our product roadmap. For now, you can separate your
+          brokerage accounts into distinct portfolio groups to access our
+          one-click trade functionality.
+        </div>
+        <br></br>
+        <div>
+          Please <A href="mailto:support@passiv.com">contact support</A> if you
+          have any questions!
+        </div>
+      </>
+    );
+  }
 
   // if the group has only Wealthica accounts, then don't show the Preview Order button and instead show the hide trades for 48 hours button
   if (onlyWealthica || hasOnlyNonTradableTrades) {
@@ -210,24 +332,28 @@ const RebalanceWidget = ({
           <div>
             {orderResults.map((results: any) => {
               return (
-                <ModifiedTradeRow key={results.trade}>
-                  <ColumnAction>
+                <Grid columns="repeat(4, 0.5fr)" key={results.trade}>
+                  <ColumnTrades>
                     <Title>Action</Title>
                     <div>{results.action}</div>
-                  </ColumnAction>
-                  <ColumnUnits>
+                  </ColumnTrades>
+                  <ColumnTrades>
                     <Title>Units</Title>
-                    <div>{results.filled_units}</div>
-                  </ColumnUnits>
+                    {results.filled_fractional_units ? (
+                      <div>{results.filled_fractional_units}</div>
+                    ) : (
+                      <div>{results.filled_units}</div>
+                    )}
+                  </ColumnTrades>
                   <ColumnSymbolSmall>
                     <Title>Symbol</Title>
                     <Symbol>{results.universal_symbol.symbol}</Symbol>
                   </ColumnSymbolSmall>
-                  <ColumnStatus>
+                  <ColumnTrades>
                     <Title>Status</Title>
                     <div>{results.state}</div>
-                  </ColumnStatus>
-                </ModifiedTradeRow>
+                  </ColumnTrades>
+                </Grid>
               );
             })}
           </div>

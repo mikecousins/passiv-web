@@ -1,0 +1,50 @@
+{
+	"take_passiv_tour": false,
+	"cash_email_threshold": "100.00",
+	"email": "asutherland8219@gmail.com",
+	"name": "Suds",
+	"receive_cash_notifications": true,
+	"receive_drift_notifications": false,
+	"receive_new_symbol_notifications": true,
+	"user_trial_activated": false,
+	"activated_trial_date": null,
+	"drift_threshold": "90.0000",
+	"trade_with_limit_orders": true,
+	"price_limit_threshold": "0.1000",
+	"preferred_currency": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+	"demo": false,
+	"api_enabled": false,
+	"referral_code": "UBWXFNZOWQ",
+	"referral_value": 20,
+	"referral_currency": {
+		"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+		"name": "Canadian Dollar",
+		"code": "CAD"
+	},
+	"sms_2fa_enabled": false,
+	"phone_number": null,
+	"otp_2fa_enabled": false,
+	"show_total_value_chart": true,
+	"show_contribution_chart": true,
+	"show_contributions1Y": true,
+	"show_total_holdings": true,
+	"show_2columns_dashboard": true,
+	"contextual_messages": [
+		{
+			"name": "group_settings_tour"
+		},
+		{
+			"name": "trades_tour"
+		},
+		{
+			"name": "settings_page_tour"
+		},
+		{
+			"name": "target_actual_bar_tour"
+		},
+		{
+			"name": "overview_tab_tour"
+		}
+	],
+	"affiliate_bonus_amount": 0
+}

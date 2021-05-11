@@ -6,13 +6,14 @@ import { deleteData } from '../api';
 import { DeleteButton } from '../styled/DeleteButton';
 import { Button } from '../styled/Button';
 import { H3, P } from '../styled/GlobalElements';
+import { Authorization } from '../types/authorization';
 
 const ConnectionsDelete = styled.div`
   text-align: right;
 `;
 
 type Props = {
-  authorization: any;
+  authorization: Authorization;
   isDemo: boolean;
 };
 
@@ -20,7 +21,7 @@ export const ConnectionDelete = ({ authorization, isDemo }: Props) => {
   const [deleting, setDeleting] = useState(false);
   const dispatch = useDispatch();
 
-  const confirmDelete = (authorization: any) => {
+  const confirmDelete = (authorization: Authorization) => {
     deleteData(`/api/v1/authorizations/${authorization.id}`)
       .then(() => {
         setDeleting(false);
@@ -40,8 +41,9 @@ export const ConnectionDelete = ({ authorization, isDemo }: Props) => {
       {deleting ? (
         <React.Fragment>
           <P>
-            Are you sure you want to delete this connection and all its
-            accounts?
+            Are you sure you want to delete this connection? All related
+            accounts and groups associated with this connection will also be
+            removed.
           </P>
           <Button
             onClick={() => {

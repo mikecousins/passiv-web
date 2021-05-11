@@ -97,7 +97,7 @@ const GroupPage = () => {
             )} tour-group-settings`}
             to={`/app/group/${groupId}/settings`}
           >
-            Group Settings
+            Portfolio Settings
           </Link>
         </NavContainer>
       </SubNav>

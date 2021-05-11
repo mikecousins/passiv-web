@@ -1,0 +1,35 @@
+[
+	{
+		"id": "6f76bd34-bbc4-4a91-a33d-df63591a6e62",
+		"created_date": "2021-01-20T13:25:40.171265Z",
+		"brokerage": {
+			"id": "76e6660e-09ce-4197-a1a0-c14bf5f20f69",
+			"name": "Questrade",
+			"slug": "QUESTRADE",
+			"url": "https://www.questrade.com/",
+			"enabled": true,
+			"maintenance_mode": false,
+			"allows_fractional_units": false,
+			"default_currency": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"exchanges": [
+				"a62d4c60-d22d-4a06-b665-543ca1e6c882",
+				"3826f8a5-9e53-4752-82fb-ae3efb54a855",
+				"59afea32-67ba-43fb-946d-217c1fc70bcb",
+				"ebd63029-461e-4bed-bd4a-d0595f880b52",
+				"2b702dcb-b566-4fe9-a832-f4f4ddd6dca3",
+				"4bf909f2-4a1c-4469-8054-e1db8bd9f5f9",
+				"087da9ca-8de8-41c0-a643-10127b8d4f8f",
+				"26c6aa2d-7733-4808-a29b-8fe6750c6d70",
+				"8f638e11-3576-4779-be5b-ab417094be33",
+				"ff4b2ffc-5a0e-4471-9cf5-95c0c30cdedd",
+				"9f3ea556-15c5-4321-8983-ad4033ff802b",
+				"b4dc9dbc-7f74-424b-a322-0ec53c4557b9",
+				"77de8509-63ff-4c73-8d92-98c9fd3e207f"
+			]
+		},
+		"name": "Connection-1",
+		"type": "trade",
+		"disabled": false,
+		"disabled_date": null
+	}
+]

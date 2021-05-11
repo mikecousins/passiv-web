@@ -36,7 +36,7 @@ export const PerformanceChange = () => {
 
   return (
     <React.Fragment>
-      <Tooltip label="Change in portfolio value between the start of the selected timeframe and now">
+      <Tooltip label="Change in portfolio value between the start of the selected timeframe and now (this number includes contributions and withdrawals)">
         <div>
           <SubHeader>
             Net Change{' '}

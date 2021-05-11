@@ -1,7 +1,12 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectSelectedTimeframe } from '../../selectors/performance';
+import {
+  selectSelectedTimeframe,
+  selectRateOfReturn,
+  selectContributions,
+  selectReportingSettings,
+} from '../../selectors/performance';
 import PerformanceChange from './PerformanceChange';
 import PerformanceCapitalGains from './PerformanceCapitalGains';
 import PerformanceContributions from './PerformanceContributions';
@@ -15,10 +20,18 @@ import PerformanceDividendIncome from './PerformanceDividendIncome';
 import PerformanceFees from './PerformanceFees';
 import PerformanceFeeSavings from './PerformanceFeeSavings';
 import ShadowBox from '../../styled/ShadowBox';
-import TimeframePicker from './TimeframePicker';
-import { P, A } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCogs,
+  faExclamationTriangle,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+  CustomizeDashBtn,
+  CustomizeDashContainer,
+} from './Dashboard/DashboardReporting';
+import PerformanceRateOfReturn from './PerformanceRateOfReturn';
+import Settings from './SettingsComponents/Settings';
+import TimeframePicker from './TimeframePicker';
 
 const Grid = styled.div`
   @media (min-width: 900px) {
@@ -73,14 +86,22 @@ export const SubHeader = styled.div`
   text-align: center;
 `;
 
-const BetaBanner = styled(P)`
-  text-align: center;
-  padding-bottom: 20px;
-  color: #555555;
-`;
-
 export const Performance = () => {
   let currentTimeframe = useSelector(selectSelectedTimeframe);
+  // We can hide charts if user is on custom timeframe and hasn't yet fetched data (can check this if contributions are undefined)
+  const contributions = useSelector(selectContributions);
+  let rateOfReturn = useSelector(selectRateOfReturn);
+  const settings = useSelector(selectReportingSettings).data;
+  let showRateOfReturn = true;
+  let showDividendData = true;
+  if (settings?.show_return_rate !== undefined) {
+    showRateOfReturn = settings?.show_return_rate;
+  }
+  if (settings?.show_dividend_data !== undefined) {
+    showDividendData = settings?.show_dividend_data;
+  }
+
+  const [showSettings, setShowSettings] = useState(false);
 
   return (
     <React.Fragment>
@@ -92,63 +113,87 @@ export const Performance = () => {
         </div>
       )}
 
+      <CustomizeDashContainer>
+        <CustomizeDashBtn onClick={() => setShowSettings(!showSettings)}>
+          <FontAwesomeIcon icon={faCogs} /> Settings
+        </CustomizeDashBtn>
+      </CustomizeDashContainer>
+      {showSettings && <Settings />}
+
       <TimeframePicker />
-      <Grid>
-        <ShadowBox>
-          <PerformanceContributionChart />
-        </ShadowBox>
-        <Tiles>
-          <ShadowBox>
-            <PerformanceContributions selectedTimeframe={currentTimeframe} />
-          </ShadowBox>
-          <ShadowBox>
-            <PerformanceContributionStreak />
-          </ShadowBox>
-        </Tiles>
-      </Grid>
-      <Grid>
-        <ShadowBox>
-          <PerformanceTotalValueChart />
-        </ShadowBox>
-        <Tiles>
-          <ShadowBox>
-            <PerformanceChange />
-          </ShadowBox>
-          <ShadowBox>
-            <PerformanceCapitalGains />
-          </ShadowBox>
-        </Tiles>
-      </Grid>
-      <Grid>
-        <ShadowBox>
-          <PerformanceDividendTimelineChart />
-        </ShadowBox>
-        <Tiles>
-          <ShadowBox>
-            <PerformanceMonthlyDividends />
-          </ShadowBox>
-          <ShadowBox>
-            <PerformanceFees />
-          </ShadowBox>
-        </Tiles>
-      </Grid>
-      <Grid>
-        <ShadowBox>
-          <PerformanceDividendChart />
-        </ShadowBox>
-        <Tiles>
-          <ShadowBox>
-            <PerformanceFeeSavings />
-          </ShadowBox>
-          <ShadowBox>
-            <PerformanceDividendIncome />
-          </ShadowBox>
-        </Tiles>
-      </Grid>
-      <BetaBanner>
-        Open Beta: Help us improve our tools by{' '}
-        <A href="mailto:reporting@passiv.com">sharing feedback</A>
-      </BetaBanner>
+      {currentTimeframe === 'CST' && contributions === undefined && (
+        <>
+          Select a timeframe and click "Apply" to load a custom reporting
+          snapshot
+        </>
+      )}
+      {(currentTimeframe !== 'CST' || contributions !== undefined) && (
+        <React.Fragment>
+          <Grid>
+            <ShadowBox>
+              <PerformanceContributionChart />
+            </ShadowBox>
+            <Tiles>
+              <ShadowBox>
+                <PerformanceContributions
+                  selectedTimeframe={currentTimeframe}
+                />
+              </ShadowBox>
+              <ShadowBox>
+                <PerformanceContributionStreak />
+              </ShadowBox>
+            </Tiles>
+          </Grid>
+          <Grid>
+            <ShadowBox>
+              <PerformanceTotalValueChart />
+            </ShadowBox>
+            <Tiles>
+              <ShadowBox>
+                <PerformanceChange />
+              </ShadowBox>
+              {rateOfReturn && showRateOfReturn && (
+                <ShadowBox>
+                  <PerformanceRateOfReturn />
+                </ShadowBox>
+              )}
+              <ShadowBox>
+                <PerformanceCapitalGains />
+              </ShadowBox>
+            </Tiles>
+          </Grid>
+          {showDividendData && (
+            <>
+              <Grid>
+                <ShadowBox>
+                  <PerformanceDividendTimelineChart />
+                </ShadowBox>
+                <Tiles>
+                  <ShadowBox>
+                    <PerformanceMonthlyDividends />
+                  </ShadowBox>
+                  <ShadowBox>
+                    <PerformanceFees />
+                  </ShadowBox>
+                </Tiles>
+              </Grid>
+              <Grid>
+                <ShadowBox>
+                  <PerformanceDividendChart />
+                </ShadowBox>
+                <Tiles>
+                  <ShadowBox>
+                    <PerformanceFeeSavings />
+                  </ShadowBox>
+                  <ShadowBox>
+                    <PerformanceDividendIncome />
+                  </ShadowBox>
+                </Tiles>
+              </Grid>
+            </>
+          )}
+        </React.Fragment>
+      )}
     </React.Fragment>
   );
 };

@@ -1,0 +1,105 @@
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
+import { postData } from '../../api';
+import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
+import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
+import { loadModelAssetClasses } from '../../actions';
+import styled from '@emotion/styled';
+import ShadowBox from '../../styled/ShadowBox';
+import { Button } from '../../styled/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import AssetClass from './AssetClass';
+import Target from './Target';
+import { selectRouter } from '../../selectors/router';
+import { P } from '../../styled/GlobalElements';
+
+const AssetBox = styled.div`
+  border: 1px solid #bfb6b6;
+  max-width: 700px;
+  box-sizing: border-box;
+  padding: 20px;
+  margin: 10px;
+  letter-spacing: 0.28px;
+  line-height: 36px;
+  @media (max-width: 900px) {
+    margin: 0;
+    padding: 20px;
+  }
+`;
+
+const NewAssetClassBtn = styled(Button)`
+  font-weight: 600;
+`;
+
+const BackButton = styled(Button)`
+  background: transparent;
+  border: 1px solid var(--brand-blue);
+  color: var(--brand-blue);
+  font-weight: 600;
+  @media (max-width: 900px) {
+    margin-top: 10px;
+  }
+`;
+
+const NoAssetClass = styled(P)`
+  text-align: center;
+  margin-top: 40px;
+`;
+
+const ModelAssetClass = () => {
+  const dispatch = useDispatch();
+  const router = useSelector(selectRouter);
+  const back = router.location.query.back;
+
+  const assetClasses: ModelAssetClassDetailsType[] = useSelector(
+    selectModelAssetClasses,
+  );
+
+  const handleAddAssetClass = () => {
+    postData('/api/v1/modelAssetClass/', {})
+      .then(() => {
+        dispatch(loadModelAssetClasses());
+      })
+      .catch((error) => {
+        dispatch(loadModelAssetClasses());
+      });
+  };
+
+  let assetClassBox;
+
+  if (assetClasses) {
+    assetClassBox = assetClasses.map((astClass: ModelAssetClassDetailsType) => {
+      return (
+        <AssetBox key={astClass.model_asset_class.id}>
+          <AssetClass assetClass={astClass} />
+          <Target assetClass={astClass} />
+        </AssetBox>
+      );
+    });
+  }
+
+  return (
+    <ShadowBox>
+      {assetClasses.length > 0 ? (
+        assetClassBox
+      ) : (
+        <NoAssetClass>There are no asset classes available.</NoAssetClass>
+      )}
+
+      <div style={{ marginTop: '40px' }}>
+        <NewAssetClassBtn onClick={handleAddAssetClass}>
+          {' '}
+          <FontAwesomeIcon icon={faPlus} size="sm" /> New Asset Class
+        </NewAssetClassBtn>
+
+        <BackButton onClick={() => dispatch(push(`/app${back}`))}>
+          Back to Model Portfolio
+        </BackButton>
+      </div>
+    </ShadowBox>
+  );
+};
+
+export default ModelAssetClass;

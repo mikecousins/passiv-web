@@ -1,6 +1,7 @@
 import { Currency } from './currency';
 import { Account } from './account';
 import { Authorization } from './authorization';
+import { AssetClassPriorities, ModelPortfolio } from './modelPortfolio';
 
 export type Symbol = {
   id: string;
@@ -19,10 +20,12 @@ export type Position = {
   symbol: Symbol;
   price: number;
   units: number;
+  fractional_units: number;
   excluded: boolean;
   quotable: boolean;
   uniformEquity: number;
   actualPercentage: number;
+  currency: Currency;
 };
 
 export type TargetPosition = {
@@ -69,6 +72,8 @@ export type Settings = {
   target_initialized: boolean;
   order_targets_by: number;
   rebalance_by_asset_class: boolean;
+  model_portfolio_changed: boolean;
+  new_assets_detected: boolean;
   show_warning_for_new_assets_detected: boolean;
   hide_trades_until: string | null;
   prevent_trades_in_non_tradable_accounts: boolean;
@@ -101,6 +106,7 @@ export type AssetClassesDetails = {
 
 export type GroupInfoData = {
   asset_classes_details: AssetClassesDetails[];
+  asset_class_trade_priorities: AssetClassPriorities[];
   accounts: Account[];
   brokerage_authorizations: Authorization[];
   symbols: Symbol[];
@@ -110,5 +116,6 @@ export type GroupInfoData = {
   calculated_trades: CalculatedTrades;
   accuracy: number;
   settings: Settings;
+  model_portfolio: ModelPortfolio;
   error: Error;
 };

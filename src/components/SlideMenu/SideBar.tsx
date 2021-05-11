@@ -5,9 +5,10 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectLoggedIn, selectHasQuestradeConnection } from '../../selectors';
 import {
   selectGoalsPageFeature,
+  selectModelPortfolioFeature,
   selectPerformancePageFeature,
 } from '../../selectors/features';
-import { selectGroups } from '../../selectors/groups';
+import { selectGroupInfo, selectGroups } from '../../selectors/groups';
 import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
@@ -87,12 +88,14 @@ const GroupContainer = styled.div`
 const SideBar = () => {
   const loggedIn = useSelector(selectLoggedIn);
   const groups = useSelector(selectGroups);
+  const groupInfo = useSelector(selectGroupInfo);
   const performancePageFeatureActive = useSelector(
     selectPerformancePageFeature,
   );
   const goalsPageFeatureActive = useSelector(selectGoalsPageFeature);
 
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
+  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
   let groupList: JSX.Element | JSX.Element[] = (
     <FontAwesomeIcon icon={faSpinner} spin />
@@ -100,6 +103,10 @@ const SideBar = () => {
 
   if (groups) {
     groupList = groups.map((group) => {
+      const needToPrioritize =
+        groupInfo[group.id].data?.model_portfolio?.model_type === 1 &&
+        groupInfo[group.id].data?.settings.model_portfolio_changed;
+
       return (
         <React.Fragment key={group.id}>
           <SideBarLink
@@ -109,7 +116,7 @@ const SideBar = () => {
             rebalance={!!group.rebalance}
             hasAccounts={group.hasAccounts}
             loading={group.loading}
-            setupComplete={group.setupComplete}
+            setupComplete={group.setupComplete && !needToPrioritize}
             spinnerLoading={true}
             hideArrow={true}
           />
@@ -138,6 +145,9 @@ const SideBar = () => {
             >
               {groupList}
             </GroupContainer>
+          )}
+          {modelPortfolioFeature && (
+            <SideBarLink name="My Models" linkPath={`/app/models`} />
           )}
           {performancePageFeatureActive && hasQuestradeConnection && (
             <SideBarLink name="Reporting" linkPath={REPORTING_PATH} />

@@ -1,3 +1,5 @@
+import { Currency } from './currency';
+
 type Meta = {
   type: string;
   status: string;
@@ -52,5 +54,7 @@ export type Position = {
   symbol: Symbol;
   price: number;
   units: number;
+  fractional_units: number;
   open_pnl: number;
+  currency: Currency;
 };

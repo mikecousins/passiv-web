@@ -36,6 +36,10 @@ const BadTickers = styled.span`
 
 export const PerformanceTotalValueChart = () => {
   let totalEquityData = useSelector(selectTotalEquityTimeframe);
+  let showPoints = true;
+  if (totalEquityData !== undefined && totalEquityData?.length > 30) {
+    showPoints = false;
+  }
   let contributionCumulativeData = useSelector(
     selectContributionTimeframeCumulative,
   );
@@ -107,7 +111,10 @@ export const PerformanceTotalValueChart = () => {
     [totalEquityData, contributionCumulativeData],
   );
 
-  const series = React.useMemo(() => ({ type: 'line' }), []);
+  const series = React.useMemo(
+    () => ({ type: 'line', showPoints: showPoints }),
+    [showPoints],
+  );
 
   const formatAxis = (x: number) => {
     return '‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎$' + x.toString();

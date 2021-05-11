@@ -49,13 +49,23 @@ export type PerformanceData = {
   monthlyDividends1Y: number;
   monthlyDividendsYTD: number;
   monthlyDividendsALL: number;
+  commissions1Y: number;
+  commissionsYTD: number;
+  commissionsALL: number;
+  forexFees1Y: number;
+  forexFeesYTD: number;
+  forexFeesALL: number;
   fees1Y: number;
   feesYTD: number;
   feesALL: number;
   feeSavings1Y: number;
   feeSavingsYTD: number;
   feeSavingsALL: number;
+  rateOfReturn1Y: number;
+  rateOfReturnALL: number;
+  rateOfReturnYTD: number;
   badTickers: string[];
+  detailedMode: boolean;
 };
 
 export type PerformanceCustomData = {
@@ -72,8 +82,12 @@ export type PerformanceCustomData = {
   dividendTimeline: DividendsAtDate[];
   monthlyDividends: number;
   feeSavings: number;
+  commissions: number;
+  forexFees: number;
   fees: number;
   badTickers: string[];
+  rateOfReturn: number;
+  detailedMode: boolean;
 };
 
 export type DividendsAtDate = {
@@ -104,4 +118,12 @@ export type ReportingSymbol = {
   symbol: string;
   description: string;
   currency: Currency;
+};
+
+export type ReportingSettings = {
+  detailed_view: boolean;
+  show_dividend_data: boolean;
+  show_return_rate: boolean;
+  include_questrade: boolean;
+  include_wealthica: boolean;
 };

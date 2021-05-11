@@ -190,9 +190,11 @@ export const GlobalStyle = () => (
 
       :root {
         --brand-green: #04a287;
+        --brand-light-green: #9bd8ce;
         --brand-blue: #003ba2;
         --brand-blue-hover: #033ebc;
         --brand-grey: #2a2d34;
+        --brand-black: #01010a;
 
         --black: #22292f;
         --grey-darkest: #3d4852;
@@ -209,7 +211,7 @@ export const GlobalStyle = () => (
         --lg: 992px;
         --xl: 1200px;
 
-        --box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+        --box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
       }
 
       /* Global Structure */
@@ -279,12 +281,18 @@ export const GlobalStyle = () => (
       }
 
       [data-reach-dialog-overlay] {
-        z-index: 4;
+        z-index: 10;
       }
       [data-reach-dialog-content] {
+        max-width: 900px;
+        border-radius: 5px;
         @media (max-width: 900px) {
           width: 95vw;
+          margin-top: 60px;
         }
+      }
+      [data-reach-combobox-option][data-highlighted] {
+        background: var(--brand-green) !important;
       }
     `}
   />
