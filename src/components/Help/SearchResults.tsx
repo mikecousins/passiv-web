@@ -9,7 +9,7 @@ const Card = styled(ShadowBox)`
 
 const Type = styled(H3)`
   color: var(--brand-green);
-  text-transform: capitalize;
+  text-transform: uppercase;
   font-size: 18px;
   margin-bottom: 20px;
 `;
@@ -41,7 +41,7 @@ const SearchResults = ({ hit }: Props) => {
         <Type>{hit.type}</Type>
         <Title>{hit.title} </Title>
         <P>{hit.resolution}</P>
-        {hit.type === 'general' ? (
+        {hit.type === 'faq' ? (
           hit.slug.trim() !== '' && (
             <ReadMore href={hit.slug} target="_blank" rel="noopener noreferrer">
               Learn More

@@ -49,6 +49,7 @@ const ActionContainer = styled.div`
     line-height: 150%;
     text-align: center;
     letter-spacing: 0.2px;
+    padding: 10px 28px;
   }
 `;
 
@@ -160,9 +161,7 @@ const ContactForm = () => {
             <ActionContainer>
               {props.status.submitted ? (
                 <div>
-                  {!props.status.submitted && (
-                    <P>Thanks, we'll be in touch soon!</P>
-                  )}
+                  <P>Thanks, we'll be in touch soon!</P>
                   <Button onClick={props.handleReset}>Reset Form</Button>
                 </div>
               ) : (

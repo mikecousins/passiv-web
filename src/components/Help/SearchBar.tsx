@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { A, H2, H3, P } from '../../styled/GlobalElements';
+import { H2, H3, P } from '../../styled/GlobalElements';
 import { InputPrimary } from '../../styled/Form';
 import styled from '@emotion/styled';
-import ShadowBox from '../../styled/ShadowBox';
-import ContactForm from './ContactForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import algoliasearch from 'algoliasearch/lite';
@@ -11,8 +9,13 @@ import Grid from '../../styled/Grid';
 import algoliaLogo from '../../assets/images/search-by-algolia-light-background.svg';
 import { useDebouncedEffect } from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import SearchResults from './SearchResults';
+import { Button } from '../../styled/Button';
 
-const Header = styled(H2)`
+const Container = styled.div`
+  margin-bottom: 50px;
+`;
+
+export const Header = styled(H2)`
   line-height: 150%;
   letter-spacing: 3.2px;
   text-transform: uppercase;
@@ -93,12 +96,25 @@ const ResultsGrid = styled(Grid)`
   overflow: hidden;
 `;
 
+const ShowButtonContainer = styled.div`
+  text-align: right;
+  margin: 20px 0px;
+  button {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+    letter-spacing: 1px;
+    padding: 10px 28px;
+  }
+`;
+
 const SearchBar = () => {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [hits, setHits] = useState([]);
+  const [show, setShow] = useState(4);
 
-  const allIndices = ['tutorial', 'general', 'blog'];
+  const allIndices = ['tutorial', 'faq', 'blog'];
   const [active, setActive] = useState(allIndices);
 
   const searchClient = algoliasearch(
@@ -152,7 +168,7 @@ const SearchBar = () => {
   const filteredHits = hits.filter((hit: any) => active.includes(hit.type));
 
   return (
-    <div>
+    <Container>
       <Header>Search</Header>
       <SearchContainer>
         <InputPrimary
@@ -162,6 +178,7 @@ const SearchBar = () => {
           onChange={(e: any) => {
             setLoading(true);
             setSearch(e.target.value);
+            setShow(4);
           }}
         />
         {search.length > 0 && (
@@ -194,6 +211,7 @@ const SearchBar = () => {
                     active={active.includes(index)}
                   >
                     {index}
+                    {index !== 'faq' && 's'}
                   </FilterItem>
                 );
               })}
@@ -206,28 +224,40 @@ const SearchBar = () => {
           </div>
         )}
         {filteredHits.length > 0 ? (
-          <ResultsGrid columns="1fr 1fr">
-            {filteredHits.map((hit: any, index: number) => {
-              if (!active.includes(hit.type)) {
-                return false;
-              }
-              return <SearchResults hit={hit} />;
-            })}
-          </ResultsGrid>
+          <>
+            <ResultsGrid columns="1fr 1fr">
+              {filteredHits.slice(0, show).map((hit: any) => {
+                if (!active.includes(hit.type)) {
+                  return false;
+                }
+                return <SearchResults hit={hit} />;
+              })}
+            </ResultsGrid>
+            {filteredHits.length > 4 && (
+              <ShowButtonContainer>
+                {' '}
+                <Button
+                  onClick={() => setShow(show === 4 ? filteredHits.length : 4)}
+                >
+                  {show === 4 ? 'Show More' : 'Show Less'}
+                </Button>
+              </ShowButtonContainer>
+            )}
+          </>
         ) : (
           <div></div>
-          // <ShadowBox>
+          // <div>
           //   <H2 style={{ marginBottom: '10px', fontSize: '25px' }}>
           //     No results
           //   </H2>
           //   <P>
           //     Please try another term or{' '}
-          //     <A onClick={() => setSearch('')}>send us a message.</A>
+          //     {/* <A onClick={() => setSearch('')}>send us a message.</A> */}
           //   </P>
-          // </ShadowBox>
+          // </div>
         )}
       </ResultsContainer>
-    </div>
+    </Container>
   );
 };
 
