@@ -79,15 +79,14 @@ export const CashReturn = styled.span`
     color: #003ba2;
   }
 `;
+const SettingsBox = styled(CustomizeDashContainer)`
+  margin: 20px 0;
+`;
 
 export const SubHeader = styled.div`
   font-size: 18px;
   margin-bottom: 14px;
   text-align: center;
-`;
-
-const SettingsBox = styled(CustomizeDashContainer)`
-  margin: 20px 0;
 `;
 
 export const Performance = () => {
