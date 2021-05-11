@@ -1,6 +1,6 @@
 import React from 'react';
 import { H1, P } from '../styled/GlobalElements';
-import ModelAssetClass from '../components/ModelAssetClass/ModelAssetClass';
+import ModelAssetClass from '../components/ModelAssetClass';
 import styled from '@emotion/styled';
 
 export const StyledP = styled(P)`

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import AuthorizationPicker from './AuthorizationPicker';
 import { H3 } from '../styled/GlobalElements';
+import { Authorization } from '../types/authorization';
 
 export const Order = styled.div`
   text-align: center;
@@ -17,7 +18,7 @@ export const LeftOrder = styled(Order)`
 
 type Props = {
   type?: string;
-  authorization?: any;
+  authorization?: Authorization;
   align?: string;
   isDemo?: boolean;
   name?: string;
@@ -33,15 +34,15 @@ const ConnectionUpdate = ({
   hideTitle,
 }: Props) => {
   const allowSelectType = type === undefined ? true : false;
-  const defaultType = type === undefined ? authorization.type : type;
+  const defaultType = type === undefined ? authorization?.type : type;
 
   const picker = (
     <React.Fragment>
       {!hideTitle && <H3>Update/Refresh Connection</H3>}
       <AuthorizationPicker
         allowSelectBrokerage={false}
-        brokerage={authorization.brokerage.id}
-        updateBrokerageAuthorizationId={authorization.id}
+        brokerage={authorization?.brokerage.id}
+        updateBrokerageAuthorizationId={authorization?.id}
         allowSelectType={allowSelectType}
         type={defaultType}
         name={name}

@@ -6,10 +6,7 @@ import GoalsTab from './GoalsTab';
 import { Link, Route } from 'react-router-dom';
 import { SubNav, NavContainer } from '../../pages/GroupPage';
 import { selectPathname } from '../../selectors/router';
-import {
-  selectAdjustedCostBasisFeature,
-  selectGoalsFeature,
-} from '../../selectors/features';
+import { selectAdjustedCostBasisFeature } from '../../selectors/features';
 
 const performanceSelected = (pathname: string) => {
   if (pathname === `/app/reporting`) {
@@ -23,16 +20,9 @@ const acbSelected = (pathname: string) => {
   }
 };
 
-const goalsSelected = (pathname: string) => {
-  if (pathname === `/app/reporting/goals`) {
-    return 'active';
-  }
-};
-
 export const Analytics = () => {
   const pathname = useSelector(selectPathname);
   const acbFeature = useSelector(selectAdjustedCostBasisFeature);
-  const goalsFeature = useSelector(selectGoalsFeature);
 
   return (
     <React.Fragment>
@@ -44,14 +34,6 @@ export const Analytics = () => {
           {acbFeature && (
             <Link className={acbSelected(pathname)} to={`/app/reporting/acb`}>
               Adjusted Cost Basis
-            </Link>
-          )}
-          {goalsFeature && (
-            <Link
-              className={goalsSelected(pathname)}
-              to={`/app/reporting/goals`}
-            >
-              Goals
             </Link>
           )}
         </NavContainer>

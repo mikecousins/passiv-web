@@ -17,8 +17,8 @@ import {
   selectCurrentGroupPositionsNotInTargetOrExcluded,
   selectCurrentGroupSetupComplete,
 } from '../../selectors/groups';
-import { A, H2, P } from '../../styled/GlobalElements';
-import { Description } from '../ModelPortfolio/Prioritization/Prioritization';
+import { H2, P } from '../../styled/GlobalElements';
+import { Description } from '../ModelPortfolio/Prioritization';
 import { CheckBox } from '../../styled/CheckBox';
 import { toast } from 'react-toastify';
 
@@ -35,6 +35,7 @@ const Container = styled.div`
 const Positions = styled(Grid)`
   margin-bottom: 20px;
   align-items: center;
+  margin-left: 20px;
   @media (max-width: 900px) {
     display: grid;
     grid-gap: 20px;
@@ -74,6 +75,15 @@ const NumberOfExcludedAssets = styled(P)`
   max-width: max-content;
   padding: 20px;
   text-align: center;
+  span {
+    font-weight: 800;
+    text-decoration: underline;
+  }
+  button {
+    color: var(--brand-blue);
+    font-weight: 600;
+    margin-left: 10px;
+  }
 `;
 
 const ExcludedAssets = () => {
@@ -170,22 +180,18 @@ const ExcludedAssets = () => {
       </Description>
       {setupComplete && positionsNotInTargetOrExcluded.length > 0 && (
         <NumberOfExcludedAssets>
-          There are{' '}
-          <span style={{ fontWeight: 800, textDecoration: 'underline' }}>
-            {positionsNotInTargetOrExcluded?.length}
-          </span>{' '}
-          assets not part of your portfolio ({excludedAssetsCount} excluded).
-          <A
-            onClick={() => setShowAssets(!showAssets)}
-            style={{ marginLeft: '10px', fontWeight: 600 }}
-          >
+          There {positionsNotInTargetOrExcluded.length === 1 ? 'is' : 'are'}{' '}
+          <span>{positionsNotInTargetOrExcluded?.length}</span>{' '}
+          {positionsNotInTargetOrExcluded.length === 1 ? 'asset' : 'assets'} not
+          part of your portfolio ({excludedAssetsCount} excluded).
+          <button onClick={() => setShowAssets(!showAssets)}>
             {showAssets ? 'Hide' : 'Show'}{' '}
             {showAssets ? (
               <FontAwesomeIcon icon={faCaretUp} size="lg" />
             ) : (
               <FontAwesomeIcon icon={faCaretDown} size="lg" />
             )}
-          </A>
+          </button>
         </NumberOfExcludedAssets>
       )}
       {!loading ? (

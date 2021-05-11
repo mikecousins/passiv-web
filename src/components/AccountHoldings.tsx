@@ -317,57 +317,55 @@ export const AccountHoldings = ({ holdings }: Props) => {
     }
   };
 
-  const renderedPositions =
-    sortedPositions &&
-    sortedPositions.map((position: any) => {
-      const currency = getCurrencyById(
-        position.currency
-          ? position.currency.id
-          : position.symbol.symbol.currency,
-      );
-      return (
-        <tr key={position.symbol.id}>
-          <td>
-            <SymbolDetail symbol={position.symbol.symbol} />
-          </td>
-          <td data-label="Units">
-            {position.fractional_units
-              ? position.fractional_units
-              : position.units}
-          </td>
-          <td data-label="Price">
+  const renderedPositions = sortedPositions?.map((position: Position) => {
+    const currency = getCurrencyById(
+      position.currency
+        ? position.currency.id
+        : position.symbol.symbol.currency,
+    );
+    return (
+      <tr key={position.symbol.id}>
+        <td>
+          <SymbolDetail symbol={position.symbol.symbol} />
+        </td>
+        <td data-label="Units">
+          {position.fractional_units
+            ? position.fractional_units
+            : position.units}
+        </td>
+        <td data-label="Price">
+          <Number
+            value={position.price}
+            currency={currency ? currency.code : undefined}
+          />
+        </td>
+        <td data-label="Value">
+          <Number
+            value={
+              position.price *
+              (position.fractional_units
+                ? position.fractional_units
+                : position.units)
+            }
+            currency={currency ? currency.code : undefined}
+          />
+        </td>
+        {hasOpenPnl && (
+          <td data-label="Open P&L">
             <Number
-              value={position.price}
+              value={position.open_pnl}
               currency={currency ? currency.code : undefined}
             />
           </td>
-          <td data-label="Value">
-            <Number
-              value={
-                position.price *
-                (position.fractional_units
-                  ? position.fractional_units
-                  : position.units)
-              }
-              currency={currency ? currency.code : undefined}
-            />
-          </td>
-          {hasOpenPnl && (
-            <td data-label="Open P&L">
-              <Number
-                value={position.open_pnl}
-                currency={currency ? currency.code : undefined}
-              />
-            </td>
-          )}
-          <td data-label="Currency">
-            <CurrencyCodeBox title={currency ? currency.name : ''}>
-              {currency && currency.code}
-            </CurrencyCodeBox>
-          </td>
-        </tr>
-      );
-    });
+        )}
+        <td data-label="Currency">
+          <CurrencyCodeBox title={currency ? currency.name : ''}>
+            {currency && currency.code}
+          </CurrencyCodeBox>
+        </td>
+      </tr>
+    );
+  });
 
   const headersRender = (
     <HoldingsTable>
