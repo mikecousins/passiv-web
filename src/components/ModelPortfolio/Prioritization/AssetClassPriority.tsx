@@ -137,12 +137,18 @@ const NotSupported = styled.div`
   ul {
     padding: 10px;
   }
+  li {
+    margin-bottom: 10px;
+  }
 `;
 
 type Props = {
   priority: AssetClassPriorities;
-  changed: any;
-  handleBtn: any;
+  changed: {
+    symbolId: string;
+    accountId: string;
+  };
+  handleBtn: HandleBtnType;
   onSettingsPage: boolean;
   needToConfirm: string[];
   newAssets: string[];
@@ -320,9 +326,7 @@ const AssetClassPriority = ({
                     <ul>
                       {account.unsupported_symbols.map((symbolId: string) => {
                         return (
-                          <li key={symbolId} style={{ marginBottom: '10px' }}>
-                            {symbols?.[symbolId]?.symbol}
-                          </li>
+                          <li key={symbolId}>{symbols?.[symbolId]?.symbol}</li>
                         );
                       })}
                     </ul>
@@ -348,3 +352,14 @@ const AssetClassPriority = ({
 };
 
 export default AssetClassPriority;
+
+export type HandleBtnType = (
+  upButtonClicked: boolean,
+  index: number,
+  assetClassId: string,
+  accountId: string,
+  symbolId: string,
+  inBuyBox: boolean,
+  checkBoxClicked: boolean,
+  isNoTrade: boolean,
+) => void;

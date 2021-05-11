@@ -17,6 +17,7 @@ import { InputNonFormik } from '../styled/Form';
 import ConnectionAccounts from './ConnectionAccounts';
 import ConnectionUpdate from './ConnectionUpdate';
 import ConnectionDelete from './ConnectionDelete';
+import { Authorization } from '../types/authorization';
 
 const InputContainer = styled.div`
   padding-bottom: 20px;
@@ -72,7 +73,7 @@ const ConnectionActions = styled.div`
 `;
 
 type Props = {
-  authorization: any;
+  authorization: Authorization;
 };
 
 const ConnectionsAuthorization = ({ authorization }: Props) => {
@@ -123,8 +124,8 @@ const ConnectionsAuthorization = ({ authorization }: Props) => {
               <InputContainer>
                 <InputNonFormik
                   value={authorizationName}
-                  onChange={e => setAuthorizationName(e.target.value)}
-                  onKeyPress={e => {
+                  onChange={(e) => setAuthorizationName(e.target.value)}
+                  onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                       finishEditing();
                     }

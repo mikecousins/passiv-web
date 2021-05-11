@@ -18,6 +18,13 @@ const TargetList = styled.li`
   max-width: 500px;
   padding: 10px;
   margin: 10px;
+  span {
+    margin-right: 20px;
+    font-weight: 700;
+  }
+  button {
+    float: right;
+  }
 `;
 
 type Props = {
@@ -53,8 +60,8 @@ const Targets = ({ assetClass }: Props) => {
   };
 
   const handleAddTarget = (cb: Symbol) => {
-    const sy: Target = { symbol: cb };
-    assetClass.model_asset_class_target.push(sy);
+    const symbol: Target = { symbol: cb };
+    assetClass.model_asset_class_target.push(symbol);
 
     updateAssetClass();
     setSearchSecurities(false);
@@ -76,18 +83,11 @@ const Targets = ({ assetClass }: Props) => {
         {assetClass.model_asset_class_target.map((target) => {
           return (
             <TargetList key={target.symbol.id}>
-              <span style={{ marginRight: '20px', fontWeight: 700 }}>
-                {target.symbol.symbol}
-              </span>
-              <button
-                onClick={() => handleDeleteTarget(target.symbol.id)}
-                style={{ float: 'right' }}
-              >
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  size="sm"
-                  style={{ position: 'relative' }}
-                />
+              <span>{target.symbol.symbol}</span>
+              <button onClick={() => handleDeleteTarget(target.symbol.id)}>
+                <div>
+                  <FontAwesomeIcon icon={faTimes} size="sm" />
+                </div>
               </button>
               {target.symbol.description}
             </TargetList>
@@ -95,18 +95,16 @@ const Targets = ({ assetClass }: Props) => {
         })}
         {searchSecurities &&
         selectedTarget === assetClass.model_asset_class.id ? (
-          <SymbolSelector value={null} onSelect={(cb) => handleAddTarget(cb)} />
+          <SymbolSelector
+            value={undefined}
+            onSelect={(cb) => handleAddTarget(cb)}
+          />
         ) : (
           <TargetList
             style={{ cursor: 'pointer' }}
             onClick={() => handleSearchTarget(assetClass.model_asset_class.id)}
           >
-            <FontAwesomeIcon
-              icon={faPlus}
-              size="sm"
-              style={{ position: 'relative' }}
-            />{' '}
-            Add Security
+            <FontAwesomeIcon icon={faPlus} size="sm" /> Add Security
           </TargetList>
         )}
       </ul>

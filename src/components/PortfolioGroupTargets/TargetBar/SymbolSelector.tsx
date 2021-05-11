@@ -18,6 +18,7 @@ import {
   StyledComboboxList,
   StyledComboboxOption,
 } from '../../ModelPortfolio/AssetClassSelector';
+import { Symbol } from '../../../types/groupInfo';
 
 const StyledCombobox = styled(Combobox)`
   width: 494px;
@@ -56,11 +57,11 @@ const StyledOption = styled(ComboboxOption)`
 `;
 
 type Props = {
-  value: any;
+  value: string | undefined;
   groupId?: string;
   forModelSecurity?: boolean;
   clearInput?: number;
-  onSelect: (symbol: any) => void;
+  onSelect: (symbol: Symbol) => void;
 };
 
 const useDebouncedEffect = (callback: any, delay: number, deps: any[] = []) => {
@@ -88,7 +89,7 @@ const SymbolSelector = ({
   onSelect,
 }: Props) => {
   const dispatch = useDispatch();
-  const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
+  const [matchingSymbols, setMatchingSymbols] = useState<Symbol[]>();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -180,7 +181,7 @@ const SymbolSelector = ({
           <StyledPopover>
             {forModelSecurity ? (
               <StyledComboboxList>
-                {matchingSymbols.map((option: any, index) => {
+                {matchingSymbols.map((option, index) => {
                   const value = `${option.symbol}, ${option.description}`;
                   return (
                     <StyledComboboxOption key={index} value={value}>
@@ -193,7 +194,7 @@ const SymbolSelector = ({
               </StyledComboboxList>
             ) : (
               <ComboboxList>
-                {matchingSymbols.map((option: any, index) => {
+                {matchingSymbols.map((option, index) => {
                   const value = `${option.symbol}, ${option.description}`;
                   return (
                     <StyledOption key={index} value={value}>

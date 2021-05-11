@@ -8,7 +8,7 @@ export type ModelPortfolioDetailsType = {
 };
 
 export type ModelPortfolio = {
-  id?: string;
+  id: string;
   name: string;
   model_type: number;
   share_portfolio: boolean;
@@ -38,7 +38,7 @@ export type TradePriority = {
   allow_buy: boolean;
   allow_sell: boolean;
   sell_priority: number;
-  unsupported_symbols: any; //TODO: use an actual type
+  unsupported_symbols: Symbol[];
 };
 
 export type AccountPriorities = {

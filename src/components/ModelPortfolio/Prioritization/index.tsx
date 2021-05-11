@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { postData } from '../../../api';
@@ -17,6 +16,7 @@ import ShadowBox from '../../../styled/ShadowBox';
 import { Button } from '../../../styled/Button';
 import { toast } from 'react-toastify';
 import { loadGroup } from '../../../actions';
+import { push } from 'connected-react-router';
 
 const Priorities = styled.div`
   > h2 {
@@ -75,7 +75,6 @@ type Props = {
 };
 
 const Prioritization = ({ onSettingsPage }: Props) => {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const group = useSelector(selectCurrentGroup);
@@ -138,7 +137,9 @@ const Prioritization = ({ onSettingsPage }: Props) => {
                 if (account.buy_priority[0]) {
                   account.sell_priority.unshift(account.buy_priority[0]);
                   account.sell_priority.splice(index + 1, 1);
-                } else {
+                }
+                // buy priority is empty so we simply add the symbol to buy priority and remove it from sell priority
+                else {
                   account.sell_priority.splice(index, 1);
                 }
                 account.buy_priority = [symbolId];
@@ -205,7 +206,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           if (onSettingsPage) {
             setEditing(false);
           } else {
-            history.push(`/app/group/${group?.id}`);
+            dispatch(push(`/app/group/${group?.id}`));
           }
           toast.success('Saved prioritization successfully');
           dispatch(loadGroup({ ids: [group?.id] }));
@@ -221,13 +222,12 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     setAssetClassPriorities(assetClassTradePriorities.tradePriorities);
   };
 
-  const handleConfirm = (priority: any) => {
+  const handleConfirm = (priority: AssetClassPriorities) => {
     let needToConfirmCopy = [...needToConfirm];
     let index = needToConfirmCopy?.indexOf(priority.asset_class.id);
     if (index !== -1) {
       needToConfirmCopy.splice(index, 1);
     }
-    toast.success(`Set priorities for "${priority.asset_class.name}".`);
     setNeedToConfirm(needToConfirmCopy);
   };
 

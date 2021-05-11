@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 import {
   faCheckCircle,
@@ -33,6 +32,8 @@ import {
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import DeleteModelDialog from './DeleteModelDialog';
 import { selectGroupsUsingAModel } from '../../selectors/modelPortfolios';
+import { GroupData } from '../../types/group';
+import { push, replace } from 'connected-react-router';
 
 const EllipsisButton = styled.button`
   align-items: center;
@@ -92,6 +93,7 @@ const URLInput = styled(ReadOnlyInput)`
 `;
 
 const SocialMedia = styled(Grid)`
+  margin: 30px auto;
   svg {
     &:hover {
       color: var(--brand-green);
@@ -125,7 +127,6 @@ type Props = {
 
 const MoreOptions = ({ model, shareModel }: Props) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const node: any = useRef(null);
 
   const referralCode = useSelector(selectReferralCode);
@@ -137,7 +138,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
 
   const modelId = model.model_portfolio.id;
 
-  let groups: any;
+  let groups: GroupData[] = [];
   if (modelId) {
     groups = groupsUsingModel?.[modelId]?.groups;
   }
@@ -174,7 +175,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
         postData(`api/v1/modelPortfolio/${modelId}`, model)
           .then(() => {
             dispatch(loadModelPortfolios());
-            history.push(`/app/models`);
+            dispatch(push(`/app/models`));
             toast.success('Duplicated model successfully.');
           })
           .catch((err) => {
@@ -191,10 +192,10 @@ const MoreOptions = ({ model, shareModel }: Props) => {
         dispatch(loadAccountList());
         dispatch(loadGroupsList());
         if (groups !== undefined) {
-          dispatch(loadGroup({ ids: groups.map((group: any) => group.id) }));
+          dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
         }
         toast.success('Delete the model successfully.');
-        history.replace('/app/models');
+        dispatch(replace(`/app/models`));
       })
       .catch(() => {
         toast.error('Unable to delete the model. Please try again!');
@@ -253,10 +254,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
         </button>
         <div>
           <H2 style={{ marginTop: '30px' }}>Share Model</H2>
-          <SocialMedia
-            columns="100px 100px 100px 100px"
-            style={{ margin: '30px auto' }}
-          >
+          <SocialMedia columns="100px 100px 100px 100px">
             <button>
               <a
                 target="_blank"
@@ -277,20 +275,6 @@ const MoreOptions = ({ model, shareModel }: Props) => {
                 <FontAwesomeIcon icon={faFacebook} size="3x" color="#4267B2" />
               </a>
             </button>
-            {/* <button>
-              <a
-                target="_blank"
-                href={`https://www.linkedin.com/shareArticle?mini=true&url=${SHARE_URL}&title=hey`}
-                rel="noopener noreferrer"
-                className="linkedin"
-              >
-                <FontAwesomeIcon
-                  icon={faLinkedinIn}
-                  size="3x"
-                  color="#2867b2"
-                />
-              </a>
-            </button> */}
             <button>
               <a
                 target="_blank"
