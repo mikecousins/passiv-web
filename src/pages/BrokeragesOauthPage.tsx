@@ -42,7 +42,7 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   if (brokerageName === 'Zerodha') {
     postData('/api/v1/tradesinprogress/', queryParams).then((response) => {
       if (response.data.portfolio_group) {
-        dispatch(replace(`/app/group/${response.data.portfolio_group}`));
+        dispatch(replace(`/group/${response.data.portfolio_group}`));
         dispatch(reloadEverything());
       }
     });
@@ -69,14 +69,14 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
           if (brokerageName === 'Questrade') {
             if (isPaid || !questradeOfferFeatureActive) {
               setTimeout(() => {
-                dispatch(replace('/app/setup-groups'));
+                dispatch(replace('/'));
               }, 1000);
             } else {
               setLoading(false);
               setShowUpgradeOffer(true);
             }
           } else {
-            dispatch(replace('/app/setup-groups'));
+            dispatch(replace('/'));
             setTimeout(() => {
               if (brokerageName === 'Interactive Brokers') {
                 setLoading(false);
@@ -324,7 +324,7 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
               <Step>Failed to establish connection :(</Step>
               <ShadowBox>
                 {errorDisplay}
-                <Button onClick={() => dispatch(push('/app/settings'))}>
+                <Button onClick={() => dispatch(push('/settings'))}>
                   Go to Settings
                 </Button>
               </ShadowBox>
