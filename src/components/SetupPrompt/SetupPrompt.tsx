@@ -32,11 +32,11 @@ const SetupPrompt = () => {
         </P>
         <P>
           <A
-            href="https://player.vimeo.com/video/365762313"
+            href="https://player.vimeo.com/video/547476267"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Re-watch the get started video{' '}
+            Re-watch the Getting Started video{' '}
             <FontAwesomeIcon icon={faExternalLinkAlt} />
           </A>
         </P>
