@@ -11,21 +11,10 @@ import {
 } from '../../selectors/groups';
 import { BarsContainer, Bar, BarTarget, BarActual } from '../../styled/Target';
 import { A, P } from '../../styled/GlobalElements';
-import {
-  Th,
-  Legend,
-  ActualTitle,
-  TargetTitle,
-} from '../PortfolioGroupTargets/TargetSelector';
 import CashBar from '../PortfolioGroupTargets/CashBar';
 import { Button } from '../../styled/Button';
-import { postData } from '../../api';
-import { loadGroupInfo, loadModelPortfolios } from '../../actions';
 import Dialog from '@reach/dialog';
 import { H2Margin, ActionContainer } from '../ModelAssetClass/AssetClass';
-import { toast } from 'react-toastify';
-
-const StyledLegend = styled(Legend)``;
 
 const Symbol = styled.span`
   font-weight: 600;
@@ -75,13 +64,7 @@ const ApplySecurityModel = ({ model }: Props) => {
   const cash = useSelector(selectCurrentGroupCash);
   const [showDialog, setShowDialog] = useState(false);
   const [overWriteModel, setOverWriteModel] = useState(true);
-  const currentGroup = useSelector(selectCurrentGroup);
 
-  // const setSymbol = (target: any, symbol: any) => {
-  //   target.fullSymbol = symbol;
-  //   target.symbol = symbol.id;
-  //   target.is_supported = true;
-  // };
   return (
     <>
       {model?.length < 1 ? (
@@ -108,90 +91,14 @@ const ApplySecurityModel = ({ model }: Props) => {
             return errors;
           }}
           onSubmit={(values, actions) => {
-            // const newArrayOfObj = values?.targets.map(
-            //   ({ fullSymbol: symbol, ...rest }) => ({
-            //     symbol,
-            //     ...rest,
-            //   }),
-            // );
-            // const toBeSubmitted = {
-            //   model_portfolio: modelPortfolio,
-            //   model_portfolio_security: newArrayOfObj,
-            // };
-            // if (overWriteModel) {
-            //   postData(
-            //     `/api/v1/modelPortfolio/${modelPortfolio.id}`,
-            //     toBeSubmitted,
-            //   )
-            //     .then((res) => {
-            //       dispatch(loadModelPortfolios());
-            //       toast.success(
-            //         `'${toBeSubmitted.model_portfolio.name}' got overwritten.`,
-            //         { autoClose: 3000 },
-            //       );
-            //     })
-            //     .catch(() => {
-            //       toast.error('Failed to apply changes to this model.', {
-            //         autoClose: 3000,
-            //       });
-            //       actions.resetForm();
-            //     });
-            // } else {
-            //   toBeSubmitted.model_portfolio.name = `${modelPortfolio.name}(modified)`;
-            //   // create new model portfolio
-            //   postData('/api/v1/modelPortfolio/', {}).then((res) => {
-            //     // apply the details of model to the new model
-            //     postData(
-            //       `/api/v1/modelPortfolio/${res.data.model_portfolio.id}`,
-            //       toBeSubmitted,
-            //     ).then((res) => {
-            //       dispatch(loadModelPortfolios());
-            //       // apply the new model to the current group
-            //       postData(
-            //         `api/v1/portfolioGroups/${currentGroup?.id}/modelPortfolio/${res.data.model_portfolio.id}`,
-            //         {},
-            //       ).then((res) => {
-            //         dispatch(loadGroupInfo());
-            //         toast.success(
-            //           `'${toBeSubmitted.model_portfolio.name}' has applied to '${currentGroup?.name}'.`,
-            //           { autoClose: 3000 },
-            //         );
-            //       });
-            //     });
-            //   });
-            // }
+            return;
           }}
         >
           {(props) => (
             <div>
-              {/* <Th>
-                <Legend>
-                  <TargetTitle>TARGET</TargetTitle>
-                  <ActualTitle>ACTUAL</ActualTitle>
-                </Legend>
-              </Th> */}
               <FieldArray
                 name="targets"
                 render={(arrayHelpers) => {
-                  // calculate any new targets actual percentages
-                  // props.values.targets
-                  //   .filter((target) => target.actualPercentage === undefined)
-                  //   .forEach((target) => {
-                  //     if (
-                  //       positions &&
-                  //       positions.find(
-                  //         (position) => position.symbol.id === target.symbol,
-                  //       )
-                  //     ) {
-                  //       const position = positions.find(
-                  //         (position) => position.symbol.id === target.symbol,
-                  //       );
-                  //       if (position) {
-                  //         target.actualPercentage = position.actualPercentage;
-                  //       }
-                  //     }
-                  //   });
-
                   // calculate the desired cash percentage
                   const cashPercentage =
                     100 -
@@ -208,14 +115,6 @@ const ApplySecurityModel = ({ model }: Props) => {
                   // calculate the actual cash percentage
 
                   const cashActualPercentage = (cash! / totalEquity) * 100;
-
-                  // if (
-                  //   props.values.targets.filter((t) => !t.deleted).length === 0
-                  // ) {
-                  //   arrayHelpers.push(generateNewTarget());
-                  // }
-
-                  // generate the share url
 
                   var excludedAssetCount = props.values.targets.filter(
                     (target: any) => target.is_excluded === true,
@@ -260,8 +159,6 @@ const ApplySecurityModel = ({ model }: Props) => {
                                       parseFloat(e.target.value),
                                     )
                                   }
-                                  // min={'0'}
-                                  // max={'100'}
                                 />
                                 <Percent>
                                   {props.values.targets[
@@ -320,20 +217,12 @@ const ApplySecurityModel = ({ model }: Props) => {
                           edit={true}
                         />
                       </div>
-                      {/* {true && excludedAssetCount > 0 && (
-                        <ExcludedNote>
-                          And <strong>{excludedAssetCount}</strong> excluded
-                          asset
-                          {excludedAssetCount > 1 && 's'}.
-                        </ExcludedNote>
-                      )} */}
 
                       <ErrorMessage name="targets" component="div" />
                       {props.dirty && (
                         <Button
                           type="submit"
                           onClick={() => {
-                            // modelPortfolio.total_assigned_portfolio_groups > 1
                             true ? setShowDialog(true) : props.handleSubmit();
                           }}
                           disabled={!props.dirty}
@@ -348,9 +237,7 @@ const ApplySecurityModel = ({ model }: Props) => {
                         aria-describedby="dialog1Desc"
                       >
                         <H2Margin>
-                          This Model is being used by{' '}
-                          {/* {modelPortfolio.total_assigned_portfolio_groups - 1} */}
-                          groups.
+                          This Model is being used by groups.
                           <span style={{ fontWeight: 'bold' }}>*</span>?
                         </H2Margin>
                         <ActionContainer>
