@@ -12,7 +12,7 @@ const TimeContainer = styled.div`
   border: 1px solid #04a185;
   display: flex;
   box-shadow: 0 4px 12px 2px rgba(2, 2, 2, 0.26);
-  z-index: 100;
+  z-index: 1;
   margin-right: 20px;
   margin-bottom: 20px;
   flex-wrap: wrap;
@@ -49,7 +49,7 @@ const TimespanStyle = styled.span`
 const Flex = styled.div`
   position: sticky;
   top: 92px;
-  z-index: 10;
+  z-index: 1;
   @media (min-width: 900px) {
     display: flex;
     justify-content: space-between;

@@ -20,6 +20,10 @@ export const StyledFooter = styled.div`
   a {
     letter-spacing: 0;
   }
+  @media (max-width: 900px) {
+    width: inherit;
+    text-align: center;
+  }
 `;
 export const Help = styled.div`
   display: inline-block;
@@ -37,6 +41,10 @@ export const Help = styled.div`
     padding: 0;
     font-size: 16px;
     font-weight: 500;
+  }
+  @media (max-width: 900px) {
+    float: left;
+    margin-left: 3px;
   }
 `;
 

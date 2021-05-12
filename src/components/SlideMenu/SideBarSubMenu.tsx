@@ -51,14 +51,16 @@ const GroupContainer = styled.div`
   font-weight: 500;
   a {
     font-size: 16px;
-    padding: 10px 15px 10px 20px;
+    padding: 10px 20px 10px 25px;
     margin: 3px 0 3px;
     font-weight: 300;
   }
 `;
 export const Button = styled.button`
   text-align: left;
+  display: none;
   @media (max-width: 900px) {
+    display: block;
     color: #fff;
     padding: 15px 15px 30px 10px;
     width: 100%;
@@ -72,7 +74,6 @@ export const Button = styled.button`
       padding: 2.5px;
       position: absolute;
       left: 22px;
-
       transform: rotate(45deg) translateY(6px);
       -webkit-transform: rotate(45deg) translateY(6px);
     }
@@ -84,7 +85,7 @@ export const SubTitle = styled.div`
   @media (max-width: 900px) {
     visibility: visible;
     color: var(--brand-green);
-    padding: 10px 16px 10px 20px;
+    margin-bottom: 20px;
     width: 100%;
     text-transform: uppercase;
     font-weight: 700;
@@ -96,11 +97,10 @@ export const Help = styled.div`
   display: inline-block;
   padding: 80px 0;
   text-transform: none;
-
   &:hover {
     svg,
     a {
-      color: var(--brand-blue);
+      color: var(--brand-green);
     }
   }
   svg {
@@ -112,7 +112,8 @@ export const Help = styled.div`
     font-size: 16px;
     font-weight: 500;
     max-width: 270px;
-    color: var(--brand-green);
+    color: white;
+    cursor: pointer;
     span {
       position: absolute;
       left: 8px;
@@ -139,9 +140,10 @@ export const Help = styled.div`
 
 type Props = {
   menuVisibility: boolean;
+  hideMenu: () => void;
 };
 
-const SideBarSubMenu = ({ menuVisibility }: Props) => {
+const SideBarSubMenu = ({ menuVisibility, hideMenu }: Props) => {
   const groups = useSelector(selectGroups);
 
   let groupList: JSX.Element | JSX.Element[] = (
@@ -162,6 +164,7 @@ const SideBarSubMenu = ({ menuVisibility }: Props) => {
             setupComplete={group.setupComplete}
             spinnerLoading={true}
             hideArrow={true}
+            onClick={hideMenu}
           />
           {group.hasAccounts &&
             group.accounts.map((account) => (
@@ -171,6 +174,7 @@ const SideBarSubMenu = ({ menuVisibility }: Props) => {
                 linkPath={`${GROUP_PATH}/${group.id}/account/${account.id}`}
                 hideArrow={true}
                 indent={true}
+                onClick={hideMenu}
               />
             ))}
         </React.Fragment>
@@ -180,11 +184,11 @@ const SideBarSubMenu = ({ menuVisibility }: Props) => {
 
   return (
     <SubMenu className={menuVisibility ? 'show' : 'hide'}>
-      <Button type="button" role="button">
+      <Button type="button" role="button" onClick={hideMenu}>
         Back
       </Button>
       <SubTitle>
-        <h2>Portfolios</h2>
+        <h2>My Portfolios</h2>
       </SubTitle>
       {groups && groups.length > 0 && (
         <GroupContainer
@@ -194,7 +198,11 @@ const SideBarSubMenu = ({ menuVisibility }: Props) => {
         </GroupContainer>
       )}
       <Help>
-        <a>
+        <a
+          href="https://passiv.com/help/tutorials/how-to-set-up-multi-account-portfolios/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <span>i</span>Want to learn more about multi-account groups?
         </a>
       </Help>

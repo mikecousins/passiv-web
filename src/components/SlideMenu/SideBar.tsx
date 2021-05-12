@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectLoggedIn, selectHasQuestradeConnection } from '../../selectors';
 import {
@@ -23,7 +23,6 @@ import {
   REPORTING_PATH,
   RESET_PASSWORD_PATH,
   SETTINGS_PATH,
-  HELP_PATH,
 } from '../../apps/Paths';
 
 const SubMenu = styled.div`
@@ -40,13 +39,11 @@ const StyledAside = styled.aside`
   transition: 0.25s all;
   padding-bottom: 36px;
   z-index: 3;
-
   @media (max-width: 900px) {
     width: 100vw;
     text-align: center;
     position: absolute;
   }
-
   a {
     color: #fff;
     text-decoration: none;
@@ -92,19 +89,36 @@ const SideBar = () => {
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
-  const [visible, setVisible] = useState(!isMobile);
+  const [visible, setVisible] = useState(isMobile);
+  const node = useRef(null);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', (e) => {
+      //@ts-ignore
+      if (node.current.contains(e.target)) {
+        return;
+      }
+      setVisible(false);
+    });
+    return () => {
+      document.removeEventListener('mousedown', () => setVisible(true));
+    };
+  }, []);
 
   if (loggedIn) {
     return (
       <>
         <StyledAside>
           <SideBarLink name="Dashboard" linkPath={DASHBOARD_PATH} />
-          <SubMenu>
+          <SubMenu ref={node}>
             <SubMenuButton
-              menuVisibility={!visible}
+              menuVisibility={visible}
               handleMouseDown={() => setVisible(!visible)}
             />
-            <SideBarSubMenu menuVisibility={!visible} />
+            <SideBarSubMenu
+              menuVisibility={visible}
+              hideMenu={() => setVisible(false)}
+            />
           </SubMenu>
           {modelPortfolioFeature && (
             <SideBarLink name="My Models" linkPath={`/app/models`} />
@@ -117,7 +131,6 @@ const SideBar = () => {
           )}
           <SideBarLink name="Settings" linkPath={SETTINGS_PATH} />
           <SideBarLink name="Refer a Friend" linkPath={REFERRALS_PATH} />
-          <SideBarLink name="Help" linkPath={HELP_PATH} />
         </StyledAside>
         <SideBarFooter />
       </>

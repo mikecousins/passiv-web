@@ -40,6 +40,7 @@ type Props = {
   hideArrow?: boolean;
   indent?: boolean;
   beta?: boolean;
+  onClick?: () => void;
 };
 
 const SideBarLink = ({
@@ -53,6 +54,7 @@ const SideBarLink = ({
   hideArrow,
   indent,
   beta = false,
+  onClick,
 }: Props) => {
   const pathnameFull = useSelector(selectPathname);
 
@@ -125,13 +127,13 @@ const SideBarLink = ({
   }
 
   const link = (
-    <>
+    <div onClick={onClick}>
       <PreLoadLink path={linkPath}>
         {indicator}
         {indent ? name : <strong>{name}</strong>}
         {beta && <BetaTag>BETA</BetaTag>}
       </PreLoadLink>
-    </>
+    </div>
   );
 
   if (indent) {
