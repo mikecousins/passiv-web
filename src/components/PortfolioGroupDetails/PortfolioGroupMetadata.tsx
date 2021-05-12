@@ -28,13 +28,20 @@ type Props = {
 };
 
 const PortfolioGroupMetadata = ({ account }: Props) => {
+  const isWealthica = account.institution_name === 'Wealthica';
   return (
     <div>
       <MetaHorizontal>
         <TruncatedText>
           <span>Account #: </span>
           {account ? (
-            account.number.slice(0).replace(/.(?=..)/g, 'x')
+            account.number === 'N/A' ? (
+              account.number
+            ) : isWealthica ? (
+              account.number.split(':')[0].replace(/.(?=..)/g, 'x')
+            ) : (
+              account.number.slice(0).replace(/.(?=..)/g, 'x')
+            )
           ) : (
             <FontAwesomeIcon icon={faSpinner} spin />
           )}

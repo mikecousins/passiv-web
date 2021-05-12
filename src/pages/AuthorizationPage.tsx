@@ -1,5 +1,6 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import React, { useState } from 'react';
+import { replace } from 'connected-react-router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -19,7 +20,12 @@ import AlpacaLogo from '../assets/images/alpaca-logo.png';
 import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 import TDAmeritradeLogo from '../assets/images/tda-logo.png';
 import TradierLogo from '../assets/images/tradier-logo.png';
+import KrakenLogo from '../assets/images/kraken-logo.png';
+import BitbuyLogo from '../assets/images/bitbuy-logo.png';
+import UnocoinLogo from '../assets/images/unocoin-logo.png';
 import WealthicaLogo from '../assets/images/wealthica-logo.png';
+import WealthsimpleTradeLogo from '../assets/images/wealthsimple-logo.png';
+import ZerodhaLogo from '../assets/images/zerodha-logo.png';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
 import { Button } from '../styled/Button';
@@ -54,6 +60,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const showProgressFeature = useSelector(selectShowProgressFeature);
   const { openBrokerage } = useParams();
+  const dispatch = useDispatch();
   const [confirmConnection, setConfirmConnection] = useState('');
 
   const checkBrokerageMaintenance = (brokerage: BrokerageType) => {
@@ -75,6 +82,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
 
   const startConfirmConnection = (brokerageName: string) => {
     const options = getBrokerageOptions(brokerageName);
+
     const brokerage =
       brokerages &&
       brokerages.find((brokerage) => brokerage.name === brokerageName);
@@ -105,6 +113,12 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         toast.error(
           `${brokerage.name} is currently undergoing maintenance and cannot establish new connections at this time. Please try again later.`,
         );
+      } else if (brokerage.authorization_types[0].auth_type === 'TOKEN') {
+        postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+          type: connectionType,
+        }).then((response) => {
+          dispatch(replace(`/app/connect/${brokerage.name.toLowerCase()}`));
+        });
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: connectionType,
@@ -142,6 +156,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           cover your account transfer costs up to $150.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'alpaca',
@@ -161,6 +176,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           beyond.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'interactivebrokers',
@@ -173,7 +189,51 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       openURL: 'https://www.interactivebrokers.com/en/home.php',
       major: true,
       logo: InteractiveBrokersLogo,
-      confirmPrompt: null,
+      confirmPrompt: (
+        <ShadowBox>
+          <P>
+            Due to the nature of Interactive Broker's API, some features are
+            limited when connecting.
+          </P>
+          <P>These features include:</P>
+          <VerticalPadding>
+            <BulletUL>
+              <Li>
+                IBKR takes between 24 to 48 hours to fully connect and load in
+                data to Passiv. If you have still not loaded in data after 48
+                hours then please contact support.
+              </Li>
+              <Li>Only IBKR Pro accounts are supported by Passiv.</Li>
+              <Li>
+                Due to limitations in IBKR's API, Passiv is unable to support
+                fractional share units.
+              </Li>
+              <Li>
+                Certain features, such as One-Click Trades, are not available
+                through IBKR Canada. Other countries should work fine.
+              </Li>
+              <Li>
+                Certain assets, such as mutual funds and GICs, are not supported
+                by Passiv and may not appear in your account positions.
+                Non-investment accounts, such as credit cards or chequing
+                accounts, will also not be shown.
+              </Li>
+              <Li>
+                Interactive Brokers is an international brokerage and thus has
+                limited time to do maintenance. If you are trying to connect
+                outside of standard market hours (9:30am ET to 5:30pm ET) please
+                wait and attempt to connect during market hours. Many brokerages
+                typically do maintenance in the evenings and weekends, making it
+                difficult to successfully connect during those times. If you
+                find you are having issues connecting during this time frame,
+                please contact support.
+              </Li>
+            </BulletUL>
+          </VerticalPadding>
+
+          <P>By connecting, I understand and agree to these limitations.</P>
+        </ShadowBox>
+      ),
       description: (
         <P>
           Interactive Brokers is a brokerage that operates in 200+ countries.
@@ -181,6 +241,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           new.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'tdameritrade',
@@ -200,6 +261,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           with over $1.3 trillion in client assets.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'tradier',
@@ -219,6 +281,48 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           and traders.
         </P>
       ),
+      type: 'traditional',
+    },
+    {
+      id: 'kraken',
+      name: 'Kraken',
+      displayName: 'Kraken',
+      connect: () => {
+        startConnection('Kraken', 'trade');
+      },
+      openURL: 'https://passiv.com/app/connect/kraken',
+      major: true,
+      logo: KrakenLogo,
+      defaultConnectionType: 'trade',
+      confirmPrompt: null,
+      description: (
+        <P>
+          Kraken is a US-based cryptocurrency exchange that allows users to
+          trade more than 40 cryptocurrencies.
+        </P>
+      ),
+      type: 'crypto',
+    },
+    {
+      id: 'unocoin',
+      name: 'Unocoin',
+      displayName: 'Unocoin',
+      connect: () => {
+        startConnection('Unocoin', 'trade');
+      },
+      openURL: 'https://passiv.com/app/connect/unocoin',
+      major: true,
+      logo: UnocoinLogo,
+      defaultConnectionType: 'trade',
+      confirmPrompt: null,
+      description: (
+        <P>
+          Unocoin is India's most trusted place to trade Bitcoin (BTC), Ether
+          (ETH) and Tether (USDT) and the largest ecosystem of traders in the
+          country.
+        </P>
+      ),
+      type: 'crypto',
     },
     {
       id: 'wealthica',
@@ -278,6 +382,57 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           account.
         </P>
       ),
+      type: 'aggregator',
+    },
+    {
+      id: 'zerodha',
+      name: 'Zerodha',
+      displayName: 'Zerodha',
+      connect: () => {
+        startConnection('Zerodha', 'trade');
+      },
+      confirmPrompt: null,
+      defaultConnectionType: 'trade',
+      openURL: 'https://kite.trade/connect/login?api_key=pnriechdkzx5ipvq&v=3',
+      major: true,
+      logo: ZerodhaLogo,
+      description: (
+        <P>
+          Zerodha is the largest stock brokerage firm in India with more than 4
+          million clients.
+        </P>
+      ),
+      type: 'traditional',
+    },
+    {
+      id: 'wealthsimple',
+      name: 'Wealthsimple Trade',
+      displayName: 'Wealthsimple Trade',
+      connect: () => {
+        startConnection('Wealthsimple Trade', 'trade');
+      },
+      confirmPrompt: null,
+      defaultConnectionType: 'trade',
+      openURL: 'https://my.wealthsimple.com/oauth/authorize',
+      major: true,
+      logo: WealthsimpleTradeLogo,
+      description: <P>Wealthsimple is a Canadian discount brokerage.</P>,
+      type: 'traditional',
+    },
+    {
+      id: 'bitbuy',
+      name: 'Bitbuy',
+      displayName: 'Bitbuy',
+      connect: () => {
+        startConnection('Bitbuy', 'trade');
+      },
+      confirmPrompt: null,
+      defaultConnectionType: 'trade',
+      openURL: '',
+      major: true,
+      logo: BitbuyLogo,
+      description: <P>Bitbuy is a Canadian cryptocurrency exchange.</P>,
+      type: 'crypto',
     },
   ];
 
@@ -294,6 +449,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         your brokerage account. Connecting your account does not allow Passiv to
         see your login information.
       </AuthP>
+      <H2DarkStyle>Traditional</H2DarkStyle>
       <React.Fragment>
         <Container2Column>
           {brokerageOptions.map((brokerage: any) => {
@@ -311,7 +467,59 @@ const AuthorizationPage = ({ onboarding }: Props) => {
                 </AuthBox>
               );
             }
-            return contents;
+            if (brokerage.type === 'traditional') {
+              return contents;
+            } else {
+              return null;
+            }
+          })}
+        </Container2Column>
+        <H2DarkStyle>Crypto</H2DarkStyle>
+        <Container2Column>
+          {brokerageOptions.map((brokerage: any) => {
+            let contents = null;
+            if (brokerages.some((b) => b.name === brokerage.name)) {
+              contents = (
+                <AuthBox
+                  key={brokerage.id}
+                  onClick={() => startConfirmConnection(brokerage.name)}
+                >
+                  <LogoContainer>
+                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                  </LogoContainer>
+                  <AuthLink>Connect {brokerage.displayName}</AuthLink>
+                </AuthBox>
+              );
+            }
+            if (brokerage.type === 'crypto') {
+              return contents;
+            } else {
+              return null;
+            }
+          })}
+        </Container2Column>
+        <H2DarkStyle>Aggregators</H2DarkStyle>
+        <Container2Column>
+          {brokerageOptions.map((brokerage: any) => {
+            let contents = null;
+            if (brokerages.some((b) => b.name === brokerage.name)) {
+              contents = (
+                <AuthBox
+                  key={brokerage.id}
+                  onClick={() => startConfirmConnection(brokerage.name)}
+                >
+                  <LogoContainer>
+                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                  </LogoContainer>
+                  <AuthLink>Connect {brokerage.displayName}</AuthLink>
+                </AuthBox>
+              );
+            }
+            if (brokerage.type === 'aggregator') {
+              return contents;
+            } else {
+              return null;
+            }
           })}
         </Container2Column>
       </React.Fragment>

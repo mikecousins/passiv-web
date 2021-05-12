@@ -35,9 +35,9 @@ export type Settings = {
   contextual_messages: ContextualMessage[];
   affiliate_bonus_amount: number;
   take_passiv_tour: boolean;
+  model_portfolios_enabled: boolean;
+  new_reporting_enabled: boolean;
   e_transfer_email: string | null;
-  affiliate_charity: {
-    charity_name: string;
-  } | null;
+  affiliate_charity: string | null;
   login_emails_enabled: boolean;
 };

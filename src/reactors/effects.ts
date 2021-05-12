@@ -12,10 +12,13 @@ import {
   loadHelpArticles,
   loadFeatures,
   loadIncentives,
+  loadModelAssetClasses,
+  loadModelPortfolios,
 } from '../actions';
 import {
   loadPerformanceAll,
   loadAdjustedCostBasis,
+  loadReportingSettings,
 } from '../actions/performance';
 import { checkIfOnline } from '../actions/online';
 import {
@@ -28,15 +31,19 @@ import {
   selectIncentivesNeedData,
 } from '../selectors';
 import { selectAccountsNeedData } from '../selectors/accounts';
+import { selectModelAssetClassesNeedData } from '../selectors/modelAssetClasses';
+import { selectModelPortfoliosNeedData } from '../selectors/modelPortfolios';
 import {
   selectGroupsNeedData,
   selectGroupInfoNeedsData,
 } from '../selectors/groups';
+
 import { selectSubscriptionNeedData } from '../selectors/subscription';
 import { selectShouldCheckIfOnline } from '../selectors/online';
 import {
   selectPerformanceNeedData,
   selectACBNeedData,
+  selectReportingSettingsNeedData,
 } from '../selectors/performance';
 import { selectGoalsNeedData } from '../selectors/goals';
 import { loadGoals } from '../actions/goals';
@@ -104,12 +111,24 @@ export const effects = [
     actionCreator: loadPerformanceAll,
   },
   {
+    selector: selectReportingSettingsNeedData,
+    actionCreator: loadReportingSettings,
+  },
+  {
     selector: selectACBNeedData,
     actionCreator: loadAdjustedCostBasis,
   },
   {
     selector: selectShouldCheckIfOnline,
     actionCreator: checkIfOnline,
+  },
+  {
+    selector: selectModelAssetClassesNeedData,
+    actionCreator: loadModelAssetClasses,
+  },
+  {
+    selector: selectModelPortfoliosNeedData,
+    actionCreator: loadModelPortfolios,
   },
   {
     selector: selectGoalsNeedData,

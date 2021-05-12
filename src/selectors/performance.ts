@@ -7,6 +7,7 @@ import {
   AdjustedCostBasis,
   Dividends,
   DividendsAtDate,
+  ReportingSettings,
 } from '../types/performance';
 import { selectState } from '.';
 import {
@@ -35,6 +36,9 @@ export const selectAdjustedCostBasis = (state: AppState) =>
 
 export const selectBadTickers = (state: AppState) =>
   state.performanceAll?.data?.badTickers;
+
+export const selectPerformanceCurrentDetailedMode = (state: AppState) =>
+  state.performanceAll?.data?.detailedMode;
 
 export const selectPerformanceNeedData = createSelector<
   AppState,
@@ -155,6 +159,44 @@ export const selectDividendIncome = createSelector<
     return state.performanceCustom?.data?.dividendIncome;
   } else {
     return state.performanceAll?.data?.dividendIncome1Y;
+  }
+});
+
+export const selectCommissions = createSelector<
+  AppState,
+  AppState,
+  string,
+  number | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.commissions1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.commissionsYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.commissionsALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.commissions;
+  } else {
+    return state.performanceAll?.data?.commissions1Y;
+  }
+});
+
+export const selectForexFees = createSelector<
+  AppState,
+  AppState,
+  string,
+  number | undefined
+>(selectState, selectSelectedTimeframe, (state, timeframe) => {
+  if (timeframe === '1Y') {
+    return state.performanceAll?.data?.forexFees1Y;
+  } else if (timeframe === 'YTD') {
+    return state.performanceAll?.data?.forexFeesYTD;
+  } else if (timeframe === 'ALL') {
+    return state.performanceAll?.data?.forexFeesALL;
+  } else if (timeframe === 'CST') {
+    return state.performanceCustom?.data?.forexFees;
+  } else {
+    return state.performanceAll?.data?.forexFees1Y;
   }
 });
 
@@ -370,8 +412,32 @@ export const selectRateOfReturn = createSelector<
   } else if (timeframe === 'ALL') {
     return state.performanceAll?.data?.rateOfReturnALL;
   } else if (timeframe === 'CST') {
-    return state.performanceAll?.data?.rateOfReturn1Y;
+    return state.performanceCustom?.data?.rateOfReturn;
   } else {
     return state.performanceAll?.data?.rateOfReturn1Y;
   }
 });
+
+export const selectReportingSettings = (state: AppState) =>
+  state.reportingSettings;
+
+export const selectReportingSettingsNeedData = createSelector<
+  AppState,
+  boolean,
+  SimpleState<ReportingSettings>,
+  number,
+  boolean
+>(
+  selectLoggedIn,
+  selectReportingSettings,
+  selectAppTime,
+  (loggedIn, reportingSettings, time) => {
+    if (!loggedIn) {
+      return false;
+    }
+    return shouldUpdate(reportingSettings, {
+      staleTime: ms.days(1),
+      now: time,
+    });
+  },
+);

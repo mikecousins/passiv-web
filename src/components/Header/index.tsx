@@ -48,6 +48,7 @@ export const Header = () => {
   const name = useSelector(selectName);
   const isOnline = useSelector(selectIsOnline);
   const isDemo = useSelector(selectIsDemo);
+
   return (
     <StyledHeader isOnline={isOnline}>
       <nav>

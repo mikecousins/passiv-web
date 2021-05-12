@@ -1,0 +1,18 @@
+[
+	{
+		"currency": {
+			"id": "f184bfe7-dd89-4abe-9095-6767bfaec387",
+			"name": "Canadian Dollar",
+			"code": "CAD"
+		},
+		"cash": 4.337
+	},
+	{
+		"currency": {
+			"id": "57f81c53-bdda-45a7-a51f-032afd1ae41b",
+			"name": "US Dollar",
+			"code": "USD"
+		},
+		"cash": -0.0013
+	}
+]

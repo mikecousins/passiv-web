@@ -6,6 +6,7 @@ import { Button } from '../styled/Button';
 import { StepButton } from '../styled/SignupSteps';
 import { Select } from '../styled/Form';
 import styled from '@emotion/styled';
+import { toast } from 'react-toastify';
 
 export const SelectAuth = styled(Select)`
   margin-left: 6px;
@@ -40,16 +41,24 @@ const AuthorizationPicker = ({
     if (updateBrokerageAuthorizationId === null) {
       postData(`/api/v1/brokerages/${brokerage}/authorize/`, {
         type: type,
-      }).then((response) => {
-        window.location = response.data.url;
-      });
+      })
+        .then((response) => {
+          window.location = response.data.url;
+        })
+        .catch(() => {
+          toast.error('Brokerage authorization failed.');
+        });
     } else {
       postData(
         `/api/v1/brokerages/${brokerage}/authorize/${updateBrokerageAuthorizationId}`,
         { type: type },
-      ).then((response) => {
-        window.location = response.data.url;
-      });
+      )
+        .then((response) => {
+          window.location = response.data.url;
+        })
+        .catch(() => {
+          toast.error('Brokerage authorization failed.');
+        });
     }
   };
 

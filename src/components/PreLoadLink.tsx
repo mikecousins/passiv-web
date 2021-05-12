@@ -5,7 +5,7 @@ import { preloadRouteComponent } from '../apps/App';
 type Props = {
   path: string;
   className?: string;
-  children?: any;
+  children?: React.ReactNode;
 };
 const PreLoadLink = ({ path, children, className }: Props) => {
   return (

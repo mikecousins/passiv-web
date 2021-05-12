@@ -33,15 +33,16 @@ const Name = styled.span`
 type Props = {
   value: string;
   edit: boolean;
-  cancelButton: boolean;
+  saveDisabled?: boolean;
+  cancelButton?: boolean;
   allowEdit: boolean;
   doneBtnTxt?: string;
   editBtnTxt?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onClickDone: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onClickEdit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  onClickCancel: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClickCancel?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 
   //TODO: replace Style components' types with correct types
   StyledContainer?: any;
@@ -55,6 +56,7 @@ type Props = {
 const NameInputAndEdit = ({
   value,
   edit,
+  saveDisabled = false,
   cancelButton,
   allowEdit,
   doneBtnTxt = 'Done',
@@ -82,11 +84,15 @@ const NameInputAndEdit = ({
             onChange={onChange}
             onKeyPress={onKeyPress}
           />
-          <StyledDoneButton onClick={onClickDone}>
+          <StyledDoneButton
+            onClick={onClickDone}
+            type="button"
+            disabled={saveDisabled}
+          >
             {doneBtnTxt}
           </StyledDoneButton>
           {cancelButton && (
-            <StyledCancelButton onClick={onClickCancel}>
+            <StyledCancelButton onClick={onClickCancel} type="button">
               Cancel
             </StyledCancelButton>
           )}
@@ -95,7 +101,7 @@ const NameInputAndEdit = ({
         <StyledContainer>
           <StyledName>{value}</StyledName>
           {allowEdit && (
-            <StyledEditButton onClick={onClickEdit}>
+            <StyledEditButton onClick={onClickEdit} type="button">
               <FontAwesomeIcon icon={faPen} />
               {editBtnTxt}
             </StyledEditButton>

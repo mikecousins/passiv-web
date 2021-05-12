@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentGroupSettings } from '../../selectors/groups';
 import { SubSetting, DisabledBox } from '../../styled/GlobalElements';
-import SettingsToggle from './SettingsToggle';
+import SettingsCheckBox from './SettingsCheckBox';
 import { selectCanSeparateCurrencies } from '../../selectors/subscription';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -30,13 +30,22 @@ const CurrencySeparation = ({
   if (canSeparateCurrencies) {
     return (
       <div className="tour-currency-separation">
-        <SettingsToggle
+        <SettingsCheckBox
           name="Keep currencies separate"
+          explanation={
+            settings.prevent_currency_conversion &&
+            !settings.hard_currency_separation
+              ? 'Currency exchange is not allowed and excess currency will be retained as cash so that it can be manually exchanged.'
+              : settings.prevent_currency_conversion &&
+                settings.hard_currency_separation
+              ? 'Currency exchange is not allowed and excess currency will be allocated to existing assets in the same currency.'
+              : 'Currency exchange is allowed, which may result in foreign exchange transactions if there is a currency imbalance.'
+          }
           value={preventConversion}
           onChange={onChangePreventConversion}
         />
         <SubSetting>
-          <SettingsToggle
+          <SettingsCheckBox
             name="Retain cash for manual exchange"
             value={hardSeparation}
             onChange={onChangeHardSeparation}
@@ -51,7 +60,7 @@ const CurrencySeparation = ({
     return (
       <div className="tour-currency-separation">
         <DisabledBox>
-          <SettingsToggle
+          <SettingsCheckBox
             name="Keep currencies separate"
             value={preventConversion}
             disabled={true}
@@ -59,7 +68,7 @@ const CurrencySeparation = ({
           />
           <br />
           <SubSetting>
-            <SettingsToggle
+            <SettingsCheckBox
               name="Retain cash for manual exchange"
               value={hardSeparation}
               invert={true}
