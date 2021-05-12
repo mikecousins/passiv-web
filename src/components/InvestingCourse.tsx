@@ -30,7 +30,7 @@ const TakeCourse = styled(A)`
   margin-top: 35px;
   display: inline-block;
   svg {
-    margin-left: 5px;
+    margin-right: 5px;
   }
 `;
 
@@ -78,7 +78,7 @@ const InvestingCourse = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Take the Course <FontAwesomeIcon icon={faExternalLinkAlt} />
+            <FontAwesomeIcon icon={faExternalLinkAlt} /> Take the Course
           </TakeCourse>
         </Pstyled>
         <HideButton name={'investing_course'} text={'Skip'} />

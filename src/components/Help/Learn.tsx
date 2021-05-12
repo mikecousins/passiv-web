@@ -37,7 +37,7 @@ const Card = styled(ShadowBox)<CardProps>`
     svg {
       position: relative;
       bottom: 3px;
-      margin-left: 2px;
+      margin-right: 2px;
     }
   }
   div {
@@ -94,8 +94,8 @@ const Learn = () => {
               <H3>{card.title}</H3>
               <P>{card.content}</P>
               <A href={card.url} target="_blank" rel="noopener noreferrer">
-                Learn More{' '}
-                <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
+                <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" /> Learn
+                More
               </A>
               <div></div>
             </Card>

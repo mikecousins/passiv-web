@@ -26,8 +26,8 @@ const SetupPrompt = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Guide to set up a target portfolio{' '}
-            <FontAwesomeIcon icon={faExternalLinkAlt} />
+            <FontAwesomeIcon icon={faExternalLinkAlt} /> Guide to set up a
+            target portfolio
           </A>
         </P>
         <P>
@@ -36,8 +36,8 @@ const SetupPrompt = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Re-watch the get started video{' '}
-            <FontAwesomeIcon icon={faExternalLinkAlt} />
+            <FontAwesomeIcon icon={faExternalLinkAlt} /> Re-watch the get
+            started video
           </A>
         </P>
         <P>
