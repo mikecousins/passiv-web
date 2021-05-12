@@ -25,7 +25,6 @@ import {
   REPORTING_PATH,
   RESET_PASSWORD_PATH,
   SETTINGS_PATH,
-  HELP_PATH,
 } from '../../apps/Paths';
 
 const SubMenu = styled.div`
@@ -114,9 +113,8 @@ const SideBar = () => {
           {goalsPageFeatureActive && (
             <SideBarLink name="Goals" linkPath={GOALS_PATH} />
           )}
-          <SideBarLink name="Settings" linkPath={SETTINGS_PATH} />
           <SideBarLink name="Refer a Friend" linkPath={REFERRALS_PATH} />
-          <SideBarLink name="Help" linkPath={HELP_PATH} />
+          <SideBarLink name="Settings" linkPath={SETTINGS_PATH} />
         </StyledAside>
         <SideBarFooter />
       </>
