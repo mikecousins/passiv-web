@@ -5,8 +5,12 @@ import Grid from '../../styled/Grid';
 import ShadowBox from '../../styled/ShadowBox';
 import { Header } from './SearchBar';
 
-import shareModelImage from '../../assets/images/shareModelImage2.png';
+import shareModelImage from '../../assets/images/shareModelImage.png';
 import courseGraphic from '../../assets/images/courseGraphic.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSelector } from 'react-redux';
+import { selectIsPaid } from '../../selectors/subscription';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
   margin-bottom: 50px;
@@ -16,6 +20,7 @@ type CardProps = {
   image: any;
 };
 const Card = styled(ShadowBox)<CardProps>`
+  height: 300px;
   h3 {
     line-height: 32px;
     letter-spacing: 1px;
@@ -29,42 +34,54 @@ const Card = styled(ShadowBox)<CardProps>`
   a {
     text-decoration: none;
     font-weight: 600;
+    svg {
+      position: relative;
+      bottom: 3px;
+      margin-left: 2px;
+    }
   }
   div {
     background: url(${(props) => props.image}) no-repeat;
     background-size: contain;
     width: 180px;
-    height: 180px;
+    height: 200px;
     position: relative;
     float: right;
-    @media (max-width: 900px) {
-      float: none;
-    }
+  }
+  @media (max-width: 1348px) {
+    height: 400px;
+  }
+  @media (max-width: 900px) {
+    height: 300px;
   }
 `;
 
 const Learn = () => {
+  const isPaid = useSelector(selectIsPaid);
+
   const cards = [
     {
       title: 'Take a course',
       content:
         'Passiv assumes that you want to stay 100% invested but what if you wanted to do dollar-cost averaging? ',
       img: courseGraphic,
-      url: '',
+      url: isPaid
+        ? 'https://go.compoundconfidence.com/passiv-elite-discount'
+        : 'https://go.compoundconfidence.com/passiv-community-discount',
     },
     {
       title: 'Tutorials',
       content:
         'Want to know when your portfolio is out of alignment? This is where drift notifications come in.',
       img: '',
-      url: '',
+      url: 'https://passiv.com/tutorials/',
     },
     {
       title: 'Blogs',
       content:
         'Do you have Canadian and US dollars in your portfolio? You can choose how Passiv deals with multiple currencies.',
       img: shareModelImage,
-      url: '',
+      url: 'https://passiv.com/blog/',
     },
   ];
   return (
@@ -76,7 +93,10 @@ const Learn = () => {
             <Card image={card.img}>
               <H3>{card.title}</H3>
               <P>{card.content}</P>
-              <A href={card.url}>Learn More</A>
+              <A href={card.url} target="_blank" rel="noopener noreferrer">
+                Learn More{' '}
+                <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
+              </A>
               <div></div>
             </Card>
           );

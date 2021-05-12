@@ -49,7 +49,7 @@ const ActionContainer = styled.div`
     line-height: 150%;
     text-align: center;
     letter-spacing: 0.2px;
-    padding: 10px 28px;
+    padding: 10px 38px;
   }
 `;
 
