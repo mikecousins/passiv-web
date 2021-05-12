@@ -78,7 +78,8 @@ const InvestingCourse = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FontAwesomeIcon icon={faExternalLinkAlt} /> Take the Course
+            <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" /> Take the
+            Course
           </TakeCourse>
         </Pstyled>
         <HideButton name={'investing_course'} text={'Skip'} />
