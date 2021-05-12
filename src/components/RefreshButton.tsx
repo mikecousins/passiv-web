@@ -12,13 +12,14 @@ export const Button = styled.button`
   font-size: 16px;
   padding: 10px 28px 10px 10px;
   display: block;
+  float: right;
   background: none;
   text-transform: none;
   svg {
     margin-right: 5px;
   }
   &:hover {
-    color: var(--brand-blue);
+    color: var(--brand-green);
   }
 `;
 

@@ -13,6 +13,7 @@ export const StyledFooter = styled.div`
   z-index: 4;
   width: 212px;
   padding: 10px 0px 6px;
+  background: #1b1c23;
   button {
     margin-top: 2px;
   }
@@ -23,14 +24,11 @@ export const StyledFooter = styled.div`
 export const Help = styled.div`
   display: inline-block;
   margin-bottom: 8px;
-  padding: 12px 20px 12px 20px;
+  margin-left: 2px;
+  padding: 12px 20px;
   text-transform: none;
-  &:hover {
-    svg,
-    a {
-      color: var(--brand-blue);
-    }
-  }
+  background-color: var(--brand-blue);
+  border-radius: 4rem;
   svg {
     margin-right: 5px;
   }
@@ -44,6 +42,11 @@ export const Help = styled.div`
 
 export const SideBarFooter = () => (
   <StyledFooter>
+    <Help>
+      <PreLoadLink path={HELP_PATH}>
+        <FontAwesomeIcon icon={faQuestionCircle} /> Help
+      </PreLoadLink>
+    </Help>
     <RefreshButton />
   </StyledFooter>
 );

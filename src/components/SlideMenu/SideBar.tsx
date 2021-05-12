@@ -6,7 +6,6 @@ import {
   selectModelPortfolioFeature,
   selectPerformancePageFeature,
 } from '../../selectors/features';
-import { selectGroupInfo, selectGroups } from '../../selectors/groups';
 import { selectIsMobile } from '../../selectors/browser';
 import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
@@ -83,8 +82,6 @@ const StyledAside = styled.aside`
 
 const SideBar = () => {
   const loggedIn = useSelector(selectLoggedIn);
-  const groups = useSelector(selectGroups);
-  const groupInfo = useSelector(selectGroupInfo);
   const isMobile = useSelector(selectIsMobile);
 
   const performancePageFeatureActive = useSelector(
