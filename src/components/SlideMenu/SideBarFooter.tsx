@@ -13,7 +13,6 @@ export const StyledFooter = styled.div`
   z-index: 4;
   width: 212px;
   padding: 10px 0px 6px;
-  background: #1b1c23;
   button {
     margin-top: 2px;
   }
@@ -45,11 +44,6 @@ export const Help = styled.div`
 
 export const SideBarFooter = () => (
   <StyledFooter>
-    <Help>
-      <PreLoadLink path={HELP_PATH}>
-        <FontAwesomeIcon icon={faQuestionCircle} /> Help
-      </PreLoadLink>
-    </Help>
     <RefreshButton />
   </StyledFooter>
 );
