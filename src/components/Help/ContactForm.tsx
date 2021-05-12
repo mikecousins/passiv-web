@@ -53,6 +53,11 @@ const ActionContainer = styled.div`
   }
 `;
 
+const Error = styled.div`
+  color: red;
+  margin-bottom: 10px;
+`;
+
 // beta key
 let recaptchaSiteKey = '6LdAQwEaAAAAADug0rrAhrHLQ9XaVWFngK_fEPkF';
 if (
@@ -138,9 +143,9 @@ const ContactForm = () => {
               error={props.touched.email && props.errors.email}
               disabled={props.status.submitted}
             />
-            <P>
+            <Error>
               <ErrorMessage name="le" />
-            </P>
+            </Error>
             <Label htmlFor="lm">Message</Label>
             <Textarea
               component="textarea"
@@ -150,9 +155,9 @@ const ContactForm = () => {
               error={props.touched.message && props.errors.message}
               disabled={props.status.submitted}
             />
-            <P>
+            <Error>
               <ErrorMessage name="lm" />
-            </P>
+            </Error>
             <ReCAPTCHA
               ref={recaptchaRef}
               sitekey={recaptchaSiteKey}

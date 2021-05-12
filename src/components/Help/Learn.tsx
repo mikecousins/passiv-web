@@ -4,13 +4,14 @@ import { H3, P, A } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
 import ShadowBox from '../../styled/ShadowBox';
 import { Header } from './SearchBar';
-
-import shareModelImage from '../../assets/images/shareModelImage.png';
-import courseGraphic from '../../assets/images/courseGraphic.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 import { selectIsPaid } from '../../selectors/subscription';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+
+import courseGraphic from '../../assets/images/course-graphic2.png';
+import blogGraphic from '../../assets/images/blog-graphic.png';
+import tutorialsGraphic from '../../assets/images/tutorials-graphic.png';
 
 const Container = styled.div`
   margin-bottom: 50px;
@@ -43,7 +44,7 @@ const Card = styled(ShadowBox)<CardProps>`
   div {
     background: url(${(props) => props.image}) no-repeat;
     background-size: contain;
-    width: 180px;
+    width: ${(props) => (props.image === blogGraphic ? '150px' : '180px')};
     height: 200px;
     position: relative;
     float: right;
@@ -73,14 +74,14 @@ const Learn = () => {
       title: 'Tutorials',
       content:
         'Want to know when your portfolio is out of alignment? This is where drift notifications come in.',
-      img: '',
+      img: tutorialsGraphic,
       url: 'https://passiv.com/tutorials/',
     },
     {
       title: 'Blogs',
       content:
         'Do you have Canadian and US dollars in your portfolio? You can choose how Passiv deals with multiple currencies.',
-      img: shareModelImage,
+      img: blogGraphic,
       url: 'https://passiv.com/blog/',
     },
   ];
