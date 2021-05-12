@@ -77,7 +77,7 @@ export const AccountRow = ({ account }: Props) => {
     }
   }
 
-  const formatAccountType = (account: any, brokerageName: any) => {
+  const formatAccountType = (account: Account, brokerageName: string) => {
     let accountType = '';
     if (brokerageName === 'Questrade') {
       accountType = account.meta.client_account_type + ' ' + account.meta.type;

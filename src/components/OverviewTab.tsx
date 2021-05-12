@@ -5,7 +5,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
 import PortfolioGroupName from './PortfolioGroupDetails/PortfolioGroupName';
 import PortfolioGroupAccuracy from './PortfolioGroupDetails/PortfolioGroupAccuracy';
@@ -30,32 +30,14 @@ import {
 } from '../selectors/groups';
 import { H3, P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
+import { OverviewTabSteps } from './Tour/TourSteps';
 import NewAssetsDetected from './NewAssetsDetected';
 import { ErrorContainer } from '../styled/Group';
 import { Button } from '../styled/Button';
 import { postData } from '../api';
 import { toast } from 'react-toastify';
 import { loadGroupInfo } from '../actions';
-
-const TOUR_STEPS = [
-  {
-    target: '.tour-accuracy',
-    content:
-      'Accuracy tells you how close your holdings are to your desired target. 100% indicates your holdings are perfectly on target (including cash). Accuracy changes when you adjust your targets, your settings, and when you place trades. ',
-    placement: 'right',
-  },
-  {
-    target: '.tour-cash',
-    content: 'All your available funds in your brokerage accounts’ currencies.',
-    placement: 'right',
-  },
-  {
-    target: '.tour-total-value',
-    content:
-      'Current total value of your holding plus your available cash. You can choose the currency Passiv displays your Total Value in.',
-    placement: 'right',
-  },
-];
+import { push } from 'connected-react-router';
 
 export const Container3Column = styled.div`
   @media (min-width: 900px) {
@@ -93,8 +75,11 @@ const List = styled.ul`
   }
 `;
 
+const Description = styled(P)`
+  font-size: 20px;
+`;
+
 const OverviewTab = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const group = useSelector(selectCurrentGroup);
@@ -153,7 +138,7 @@ const OverviewTab = () => {
     postData(`api/v1/portfolioGroups/${group.id}/modelPortfolio/${modelId}`, {})
       .then(() => {
         dispatch(loadGroupInfo());
-        history.push(`/app/priorities/${group.id}`);
+        dispatch(push(`/app/priorities/${group.id}`));
       })
       .catch((err) => {
         if (err.response) {
@@ -164,7 +149,9 @@ const OverviewTab = () => {
 
   return (
     <React.Fragment>
-      {setupComplete && <Tour steps={TOUR_STEPS} name="overview_tab_tour" />}
+      {setupComplete && (
+        <Tour steps={OverviewTabSteps} name="overview_tab_tour" />
+      )}
       <PortfolioGroupName name={name} />
       <Container3Column>
         <PortfolioGroupAccuracy
@@ -192,11 +179,11 @@ const OverviewTab = () => {
             <FontAwesomeIcon icon={faExclamationTriangle} /> Need to confirm
             priorities
           </H3>
-          <P style={{ fontSize: '20px' }}>
+          <Description>
             We noticed that you made changes to the asset class model using by
             this group and in order to show you accurate trades, Passiv needs
             you to confirm priorities for this asset class.
-          </P>
+          </Description>
           <br />
           <P>
             <span style={{ fontWeight: 600 }}>Prioritization</span> needs to be
@@ -211,7 +198,7 @@ const OverviewTab = () => {
             </List>
           </P>
 
-          <Button onClick={handleTakeToPriorities} style={{ fontWeight: 600 }}>
+          <Button onClick={handleTakeToPriorities}>
             Take me to Priorities
           </Button>
         </ErrorContainer>

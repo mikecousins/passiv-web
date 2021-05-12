@@ -86,10 +86,6 @@ export const SubHeader = styled.div`
   text-align: center;
 `;
 
-const SettingsBox = styled(CustomizeDashContainer)`
-  margin: 20px 0;
-`;
-
 export const Performance = () => {
   let currentTimeframe = useSelector(selectSelectedTimeframe);
   // We can hide charts if user is on custom timeframe and hasn't yet fetched data (can check this if contributions are undefined)
@@ -117,11 +113,11 @@ export const Performance = () => {
         </div>
       )}
 
-      <SettingsBox>
+      <CustomizeDashContainer>
         <CustomizeDashBtn onClick={() => setShowSettings(!showSettings)}>
           <FontAwesomeIcon icon={faCogs} /> Settings
         </CustomizeDashBtn>
-      </SettingsBox>
+      </CustomizeDashContainer>
       {showSettings && <Settings />}
 
       <TimeframePicker />

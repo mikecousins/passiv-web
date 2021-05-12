@@ -3,7 +3,7 @@ import { H3, P } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
 
 type Props = {
-  assetClassesDetails: any; //! change this to an actual type
+  assetClassesDetails: any;
   assetClassId: string;
 };
 const AssetClassModelDetails = ({
@@ -24,22 +24,11 @@ const AssetClassModelDetails = ({
   let accountName;
   let assets;
   preview.map((p: any) => {
-    accountName = (
-      <H3
-        style={{
-          fontSize: '18px',
-          marginBottom: '20px',
-        }}
-      >
-        {p.account.name}
-      </H3>
-    );
+    accountName = <H3>{p.account.name}</H3>;
     assets = p.tradable_symbols.map((symbol: any) => {
       return (
         <Grid columns="100px 1fr">
-          <H3 style={{ fontSize: '16px', marginBottom: '10px' }}>
-            {symbol.symbol}
-          </H3>
+          <H3>{symbol.symbol}</H3>
           <P>{symbol.description}</P>
         </Grid>
       );

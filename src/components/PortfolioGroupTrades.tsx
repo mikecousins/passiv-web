@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 import RebalanceWidget from './RebalanceWidget';
 import { H2, H3, Title, P, BulletUL, A } from '../styled/GlobalElements';
 import {
@@ -8,7 +9,6 @@ import {
   Symbol,
   ColumnTrades,
 } from '../styled/Group';
-import { useHistory } from 'react-router-dom';
 import { ErrorContainer } from '../styled/Group';
 import {
   selectCurrentGroupSettings,
@@ -28,8 +28,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import Tour from './Tour/Tour';
-import UpgradeButton from './Tour/UpgradeButton';
-import EliteFeatureTitle from './Tour/EliteFeatureTitle';
+import { TradesSteps } from './Tour/TourSteps';
 import {
   ContextualMessageMultiWrapper,
   Message,
@@ -68,6 +67,7 @@ export const PortfolioGroupTrades = ({
   error,
   onClose,
 }: Props) => {
+  const dispatch = useDispatch();
   const accounts = useSelector(selectAccounts);
   const authorizations = useSelector(selectAuthorizations);
   const settings = useSelector(selectCurrentGroupSettings);
@@ -75,7 +75,6 @@ export const PortfolioGroupTrades = ({
   const [tradesCache, setTradesCache] = useState(null);
   const currentGroupId = useSelector(selectCurrentGroupId);
   const needToPrioritize = useSelector(selectNeedToPrioritize);
-  const history = useHistory();
 
   const groupAccounts = accounts.filter((a) => a.portfolio_group === groupId);
 
@@ -120,38 +119,6 @@ export const PortfolioGroupTrades = ({
   if (needToPrioritize) {
     hideTrades = true;
   }
-
-  const TOUR_STEPS = [
-    {
-      target: '.tour-trades',
-      content:
-        ' Passiv displays the trades needed to maximize your accuracy based on your targets, current holdings, your available cash, and your settings.',
-      placement: 'right',
-    },
-    {
-      target: '.tour-one-click-trade',
-      title: <EliteFeatureTitle />,
-      content: (
-        <>
-          <div>
-            Review your recommended trades by clicking Preview Orders and click
-            Confirm to rebalance your portfolio in{' '}
-            <a
-              href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              one-click
-            </a>
-            .
-          </div>
-          <br />
-          <UpgradeButton />
-        </>
-      ),
-      placement: 'right',
-    },
-  ];
 
   let buysListRender = null;
   let sellsListRender = null;
@@ -303,7 +270,7 @@ export const PortfolioGroupTrades = ({
               you can{' '}
               <A
                 onClick={() =>
-                  history.push(`/app/group/${currentGroupId}/settings`)
+                  dispatch(push(`/app/group/${currentGroupId}/settings`))
                 }
               >
                 disable this trade-routing feature in your portfolio settings
@@ -321,7 +288,7 @@ export const PortfolioGroupTrades = ({
       ),
       visible:
         settings !== null &&
-        settings!.prevent_trades_in_non_tradable_accounts === true &&
+        settings.prevent_trades_in_non_tradable_accounts === true &&
         isBlendedAccount,
     },
     {
@@ -356,7 +323,7 @@ export const PortfolioGroupTrades = ({
             settings={settings}
             accounts={groupAccounts}
             container={true}
-            trades={trades !== null && trades!.trades}
+            trades={trades !== null && trades.trades}
           />
         </TradesContainer>
       ),
@@ -377,7 +344,7 @@ export const PortfolioGroupTrades = ({
     return (
       <>
         <ContextualMessageMultiWrapper messages={messages} />
-        <Tour steps={TOUR_STEPS} name="trades_tour" />
+        <Tour steps={TradesSteps} name="trades_tour" />
         <TradesContainer className="tour-trades">
           <H2>Trades</H2>
           {sellsListRender}
