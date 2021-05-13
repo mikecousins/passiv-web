@@ -67,10 +67,17 @@ const Options = styled.div`
   margin-bottom: 30px;
 `;
 
-const NumOfResults = styled(P)``;
+const NumOfResults = styled(P)`
+  margin-top: 30px;
+`;
 
 const Filter = styled(Grid)`
   margin-top: 10px;
+  @media (max-width: 900px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+  }
 `;
 
 type FilterItemType = {
@@ -166,6 +173,7 @@ const SearchBar = () => {
   };
 
   const filteredHits = hits.filter((hit: any) => active.includes(hit.type));
+  const numOfResults = filteredHits.length;
 
   return (
     <Container>
@@ -198,10 +206,7 @@ const SearchBar = () => {
 
       <ResultsContainer>
         <Options>
-          {search.trim() !== '' && (
-            <NumOfResults>{filteredHits.length} results</NumOfResults>
-          )}
-          <>
+          <div>
             <H3>Filter By:</H3>
             <Filter columns="200px 200px 200px">
               {allIndices.map((index) => {
@@ -216,14 +221,19 @@ const SearchBar = () => {
                 );
               })}
             </Filter>
-          </>
+          </div>
+          {search.trim() !== '' && (
+            <NumOfResults>
+              {numOfResults} {numOfResults === 1 ? 'result' : 'results'}
+            </NumOfResults>
+          )}
         </Options>
         {loading && search.trim() !== '' && (
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <FontAwesomeIcon icon={faSpinner} spin size="2x" />
           </div>
         )}
-        {filteredHits.length > 0 ? (
+        {numOfResults > 0 ? (
           <>
             <ResultsGrid columns="1fr 1fr">
               {filteredHits.slice(0, show).map((hit: any) => {
@@ -233,13 +243,11 @@ const SearchBar = () => {
                 return <SearchResults hit={hit} />;
               })}
             </ResultsGrid>
-            {filteredHits.length > 4 && (
+            {numOfResults > 4 && (
               <ShowButtonContainer>
                 {' '}
-                <Button
-                  onClick={() => setShow(show === 4 ? filteredHits.length : 4)}
-                >
-                  {show === 4 ? 'Show More' : 'Show Less'}
+                <Button onClick={() => setShow(show === 4 ? numOfResults : 4)}>
+                  {show === 4 ? 'Show All' : 'Show Top 4'}
                 </Button>
               </ShowButtonContainer>
             )}

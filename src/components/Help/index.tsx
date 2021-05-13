@@ -5,8 +5,17 @@ import SearchBar from './SearchBar';
 import Learn from './Learn';
 import ContactForm from './ContactForm';
 
+import helpLogo from '../../assets/images/help-icon.png';
+
 export const HeaderContainer = styled.div`
   margin-bottom: 50px;
+`;
+const HelpLogo = styled.div`
+  background: url(${helpLogo}) no-repeat;
+  background-size: contain;
+  width: 102px;
+  height: 102px;
+  float: right;
 `;
 
 const StyledP = styled(P)`
@@ -20,7 +29,11 @@ const StyledP = styled(P)`
 const Help = () => (
   <>
     <HeaderContainer>
-      <H1>How can we help you?</H1>
+      <div>
+        <H1>
+          How can we help you? <HelpLogo></HelpLogo>
+        </H1>
+      </div>
       <StyledP>
         Search for tips, look through our learning material, or send us a
         message!

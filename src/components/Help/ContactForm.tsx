@@ -49,8 +49,13 @@ const ActionContainer = styled.div`
     line-height: 150%;
     text-align: center;
     letter-spacing: 0.2px;
-    padding: 10px 28px;
+    padding: 10px 38px;
   }
+`;
+
+const Error = styled.div`
+  color: red;
+  margin-bottom: 10px;
 `;
 
 // beta key
@@ -138,9 +143,9 @@ const ContactForm = () => {
               error={props.touched.email && props.errors.email}
               disabled={props.status.submitted}
             />
-            <P>
+            <Error>
               <ErrorMessage name="le" />
-            </P>
+            </Error>
             <Label htmlFor="lm">Message</Label>
             <Textarea
               component="textarea"
@@ -150,9 +155,9 @@ const ContactForm = () => {
               error={props.touched.message && props.errors.message}
               disabled={props.status.submitted}
             />
-            <P>
+            <Error>
               <ErrorMessage name="lm" />
-            </P>
+            </Error>
             <ReCAPTCHA
               ref={recaptchaRef}
               sitekey={recaptchaSiteKey}
