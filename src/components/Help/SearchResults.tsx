@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { A, P, H2, H3 } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
+import { SearchResultsType } from '../../types/help';
 
 const Card = styled(ShadowBox)`
   height: 100%;
@@ -26,12 +27,7 @@ const ReadMore = styled(A)`
 `;
 
 type Props = {
-  hit: {
-    type: string;
-    title: string;
-    resolution: string;
-    slug: string;
-  };
+  hit: SearchResultsType;
 };
 
 const SearchResults = ({ hit }: Props) => {

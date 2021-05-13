@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import algoliasearch from 'algoliasearch/lite';
 import { H2, H3, P } from '../../styled/GlobalElements';
 import { InputPrimary } from '../../styled/Form';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import algoliasearch from 'algoliasearch/lite';
 import Grid from '../../styled/Grid';
 import algoliaLogo from '../../assets/images/search-by-algolia-light-background.svg';
 import { useDebouncedEffect } from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import SearchResults from './SearchResults';
 import { Button } from '../../styled/Button';
+import { SearchResultsType } from '../../types/help';
 
 const Container = styled.div`
   margin-bottom: 50px;
@@ -67,6 +68,11 @@ const Options = styled.div`
   margin-bottom: 30px;
 `;
 
+const LoadingContainer = styled.div`
+  text-align: center;
+  margin: 20px 0px;
+`;
+
 const NumOfResults = styled(P)`
   margin-top: 30px;
 `;
@@ -118,16 +124,23 @@ const ShowButtonContainer = styled.div`
 const SearchBar = () => {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
-  const [hits, setHits] = useState([]);
+  const [hits, setHits] = useState<SearchResultsType[]>([]);
   const [show, setShow] = useState(4);
 
-  const allIndices = ['tutorial', 'faq', 'blog'];
-  const [active, setActive] = useState(allIndices);
+  const allIndices = ['faq', 'tutorial', 'blog'];
+  const defaultActive = ['faq'];
+  const [active, setActive] = useState(defaultActive);
 
   const searchClient = algoliasearch(
     'GV9J4Z0TDF',
     '437b4b0bb132ef0b0b0273484f35fd94',
   );
+
+  // do initial request in order to show FAQs
+  useEffect(() => {
+    searchIt();
+    // eslint-disable-next-line
+  }, []);
 
   useDebouncedEffect(
     () => {
@@ -138,10 +151,6 @@ const SearchBar = () => {
   );
 
   const searchIt = async () => {
-    if (search.trim() === '') {
-      setHits([]);
-      return;
-    }
     let queries = [];
     queries = allIndices.map((index) => {
       return {
@@ -172,7 +181,7 @@ const SearchBar = () => {
     setActive(activeCopy);
   };
 
-  const filteredHits = hits.filter((hit: any) => active.includes(hit.type));
+  const filteredHits = hits.filter((hit) => active.includes(hit.type));
   const numOfResults = filteredHits.length;
 
   return (
@@ -228,15 +237,15 @@ const SearchBar = () => {
             </NumOfResults>
           )}
         </Options>
-        {loading && search.trim() !== '' && (
-          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+        {loading && (
+          <LoadingContainer>
             <FontAwesomeIcon icon={faSpinner} spin size="2x" />
-          </div>
+          </LoadingContainer>
         )}
-        {numOfResults > 0 ? (
+        {numOfResults > 0 && (
           <>
             <ResultsGrid columns="1fr 1fr">
-              {filteredHits.slice(0, show).map((hit: any) => {
+              {filteredHits.slice(0, show).map((hit) => {
                 if (!active.includes(hit.type)) {
                   return false;
                 }
@@ -252,17 +261,6 @@ const SearchBar = () => {
               </ShowButtonContainer>
             )}
           </>
-        ) : (
-          <div></div>
-          // <div>
-          //   <H2 style={{ marginBottom: '10px', fontSize: '25px' }}>
-          //     No results
-          //   </H2>
-          //   <P>
-          //     Please try another term or{' '}
-          //     {/* <A onClick={() => setSearch('')}>send us a message.</A> */}
-          //   </P>
-          // </div>
         )}
       </ResultsContainer>
     </Container>

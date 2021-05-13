@@ -37,7 +37,7 @@ const Card = styled(ShadowBox)<CardProps>`
     font-weight: 600;
     svg {
       position: relative;
-      bottom: 3px;
+      bottom: 2px;
       margin-right: 2px;
     }
   }
