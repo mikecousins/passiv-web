@@ -46,7 +46,7 @@ import {
   VerticalPadding,
 } from '../styled/Setup';
 import OnboardingProgress from '../components/OnboardingProgress';
-import { selectShowProgressFeature } from '../selectors/features';
+import { selectNewOnboardingFeature } from '../selectors/features';
 
 const Brokerage = styled.div``;
 
@@ -58,7 +58,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const authorized = useSelector(selectIsAuthorized);
   const brokerages = useSelector(selectBrokerages);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
-  const showProgressFeature = useSelector(selectShowProgressFeature);
+  const showProgressFeature = useSelector(selectNewOnboardingFeature);
   const { openBrokerage } = useParams();
   const dispatch = useDispatch();
   const [confirmConnection, setConfirmConnection] = useState('');
