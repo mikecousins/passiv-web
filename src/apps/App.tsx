@@ -375,7 +375,6 @@ const App = () => {
       <StripeProvider stripe={stripe}>
         <React.Suspense fallback={<FontAwesomeIcon icon={faSpinner} spin />}>
           <Switch>
-            // common routes
             <Route
               path={prefixPath('/help/topic/:slug')}
               component={HelpArticlePage}
@@ -400,7 +399,7 @@ const App = () => {
               component={SharedModelPortfolio}
               render={() => sharedModelRedirect()}
             />
-            // oauth routes
+
             {loggedIn && (
               <Route
                 exact
@@ -532,7 +531,7 @@ const App = () => {
                 render={() => wealthicaOauthRedirect()}
               />
             )}
-            // onboarding app
+
             {showOnboardingApp && (
               <Route path={prefixPath('/connect/:openBrokerage?')}>
                 <AuthorizationPage onboarding={true} />
@@ -565,7 +564,9 @@ const App = () => {
                 <Redirect to={prefixPath('/welcome')} />
               </Route>
             )}
-            // secure app
+            {
+              // secure app
+            }
             {showSecureApp && (
               <Route
                 path={prefixPath('/reporting')}
@@ -660,7 +661,7 @@ const App = () => {
                 component={() => <Prioritization onSettingsPage={false} />}
               />
             )}
-            // insecure app
+
             {showInsecureApp && (
               <Route path={prefixPath('/login')} component={LoginPage} />
             )}
@@ -670,15 +671,19 @@ const App = () => {
                 component={RegistrationPage}
               />
             )}
-            // catchalls // when logged in, catch unknown URLs and redirect to
-            // dashboard or 'next' query param if defined
+            {
+              // catchalls // when logged in, catch unknown URLs and redirect to
+              // dashboard or 'next' query param if defined
+            }
             {showSecureApp && (
               <Route path="*">
                 <Redirect to={redirectPath} />
               </Route>
             )}
-            // when not logged in, catch unknown URLs (such as secure paths) and
-            // login with redirect
+            {
+              // when not logged in, catch unknown URLs (such as secure paths) and
+              // login with redirect
+            }
             {showInsecureApp && (
               <Route path="*">
                 <Redirect
