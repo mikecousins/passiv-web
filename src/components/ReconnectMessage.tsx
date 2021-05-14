@@ -36,7 +36,7 @@ const ReconnectMessage = () => {
   const accounts = useSelector(selectAccounts);
   const pathname = useSelector(selectPathname);
 
-  if (loggedIn && !pathname.startsWith('/app/oauth')) {
+  if (loggedIn && !pathname.startsWith('/oauth')) {
     if (disabledAuthorizations !== false && disabledAuthorizations.length > 0) {
       return (
         <ErrorContainer>
@@ -46,15 +46,15 @@ const ReconnectMessage = () => {
             apologize for the inconvenience, but it's a simple fix! Just click
             the button below to reconnect.
           </P>
-          {disabledAuthorizations.map(authorization => {
+          {disabledAuthorizations.map((authorization) => {
             let selectedAccounts = accounts.filter(
-              account => account.brokerage_authorization === authorization.id,
+              (account) => account.brokerage_authorization === authorization.id,
             );
 
             let accountString = `${
               selectedAccounts.length
             } Accounts: ${selectedAccounts
-              .map(account => account.name)
+              .map((account) => account.name)
               .join(', ')}`;
             return (
               <ReconnectContainer>

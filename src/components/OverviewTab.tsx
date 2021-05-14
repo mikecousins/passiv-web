@@ -119,7 +119,7 @@ const OverviewTab = () => {
         <PortfolioGroupName name={name} />
         <P>
           There are no accounts in this group.{' '}
-          <Link to={`/app/settings#accounts`}>Manage Groups</Link>
+          <Link to={`/settings#accounts`}>Manage Groups</Link>
         </P>
       </React.Fragment>
     );
@@ -138,7 +138,7 @@ const OverviewTab = () => {
     postData(`api/v1/portfolioGroups/${group.id}/modelPortfolio/${modelId}`, {})
       .then(() => {
         dispatch(loadGroupInfo());
-        dispatch(push(`/app/priorities/${group.id}`));
+        dispatch(push(`/priorities/${group.id}`));
       })
       .catch((err) => {
         if (err.response) {

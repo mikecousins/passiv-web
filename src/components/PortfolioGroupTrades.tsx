@@ -270,7 +270,7 @@ export const PortfolioGroupTrades = ({
               you can{' '}
               <A
                 onClick={() =>
-                  dispatch(push(`/app/group/${currentGroupId}/settings`))
+                  dispatch(push(`/group/${currentGroupId}/settings`))
                 }
               >
                 disable this trade-routing feature in your portfolio settings

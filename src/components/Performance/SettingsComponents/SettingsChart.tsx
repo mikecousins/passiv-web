@@ -41,11 +41,4 @@ export const SettingsChart: FunctionComponent<Props> = ({
   }
 };
 
-type Props2 = {
-  getStyle: any;
-  primaryAxis: any;
-  datum: any;
-  displayTotal: boolean;
-};
-
 export default SettingsChart;

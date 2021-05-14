@@ -102,7 +102,7 @@ export const DashboardReporting = () => {
       {showAccountFilterMoreDetails && (
         <AccountFilterNote>
           Certain data below may have been filtered to: {accountFilterString}.
-          Change filter on <Link to="/app/reporting">reporting page</Link>
+          Change filter on <Link to="/reporting">reporting page</Link>
         </AccountFilterNote>
       )}
       <Flex className={columns}>

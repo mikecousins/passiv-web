@@ -71,7 +71,7 @@ const CouponPage = () => {
   }
 
   if (success) {
-    return <Redirect to="/app/settings" />;
+    return <Redirect to="/settings" />;
   } else {
     return (
       <ShadowBox background="#2a2d34">
