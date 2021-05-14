@@ -24,6 +24,7 @@ import { loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
 import { StyledP } from '../../pages/ModelAssetClassPage';
 import shareModelImage from '../../assets/images/shareModelImage.png';
+import { Truncate } from '../../common';
 
 const ImageContainer = styled.div`
   background: url(${shareModelImage}) no-repeat;
@@ -49,12 +50,17 @@ const Security = styled.div`
   border-right: 5px solid ${(props) => props.color};
   line-height: 30px;
   padding: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   height: 35px;
+  small {
+    font-size: 16px;
+  }
 `;
 
 const Symbol = styled.span`
   font-size: 18px;
+  border: 1px solid;
+  padding: 2px;
 `;
 
 const Percent = styled.span`
@@ -219,12 +225,12 @@ const SharedModelPortfolio = () => {
             <StyledContainer>
               <StyledName>{sharedModel.model_portfolio.name}</StyledName>
             </StyledContainer>
-            <Grid columns="auto 300px">
+            <Grid columns="auto 500px">
               <PieChart
                 data={pieChartData}
                 style={{ height: '270px', maxWidth: '350px' }}
                 lineWidth={40}
-                paddingAngle={2}
+                paddingAngle={1}
                 animate
               />
               <ListOfSecurities>
@@ -235,13 +241,18 @@ const SharedModelPortfolio = () => {
                         <Symbol>{security.symbol.symbol}</Symbol>
                         <Percent>{security.percent}%</Percent>
                       </div>
+                      <Tooltip label={security.symbol.description}>
+                        <small>
+                          {Truncate(security.symbol.description, 45)}
+                        </small>
+                      </Tooltip>
                     </Security>
                   );
                 })}
                 {otherSecurities.length > 0 && (
                   <Security key="other" color="#2A2D34">
                     <div>
-                      <Symbol>Other</Symbol>{' '}
+                      <Symbol style={{ border: 'none' }}>Other</Symbol>{' '}
                       <Percent>{otherSecuritiesTotal}%</Percent>
                       <Tooltip
                         label="Other Securities: "
@@ -309,19 +320,28 @@ export default SharedModelPortfolio;
 type Prop = {
   securities: TargetWithPercentage[];
 };
+
+const OtherSecuritiesList = styled.ul`
+  li {
+    margin: 7px;
+  }
+  span {
+    font-weight: 700;
+    float: right;
+    margin-left: 20px;
+  }
+`;
+
 const OtherSecurities = ({ securities }: Prop) => {
   return (
-    <ul>
+    <OtherSecuritiesList>
       {securities.map((security) => {
         return (
-          <li style={{ margin: '7px' }} key={security.symbol.id}>
-            {security.symbol.symbol}:
-            <span style={{ fontWeight: 700, float: 'right' }}>
-              {security.percent} %
-            </span>
+          <li key={security.symbol.id}>
+            {security.symbol.symbol}:<span>{security.percent} %</span>
           </li>
         );
       })}
-    </ul>
+    </OtherSecuritiesList>
   );
 };
