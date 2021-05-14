@@ -2,7 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronDown,
+  faChevronUp,
+  faInfoCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { selectCurrentGroupPositions } from '../../../selectors/groups';
 import { H2, H3, P } from '../../../styled/GlobalElements';
 import Grid from '../../../styled/Grid';
@@ -10,6 +14,7 @@ import { selectIsMobile, selectIsTablet } from '../../../selectors/browser';
 import { CheckBox } from '../../../styled/CheckBox';
 import { AccountPriorities } from '../../../types/modelPortfolio';
 import { HandleBtnType } from './AssetClassPriority';
+import Tooltip from '../../Tooltip';
 
 type SecurityProps = {
   isChanged: boolean;
@@ -202,7 +207,14 @@ const SecurityPriority = ({
           </>
         )}
 
-        {priorityKind === 'buy' && !onMobile && !onTablet && <H2>Buy</H2>}
+        {priorityKind === 'buy' && !onMobile && !onTablet && (
+          <H2>
+            Buy{' '}
+            <Tooltip label="Choose ONE security to be bought in this account">
+              <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+            </Tooltip>
+          </H2>
+        )}
         {numberOfSecurities > 0 && symbolId && priorityKind !== 'none' && (
           <EditPriorityContainer>
             <UpDownButton

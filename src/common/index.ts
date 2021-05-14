@@ -15,3 +15,11 @@ export const restrictionTypes = [
     description: 'Use at most this much cash when purchasing assets',
   },
 ];
+
+export const Truncate = (name: string, truncateBy: number) => {
+  let truncatedName = name;
+  if (name.length > truncateBy) {
+    truncatedName = name.slice(0, truncateBy) + '...';
+  }
+  return truncatedName;
+};
