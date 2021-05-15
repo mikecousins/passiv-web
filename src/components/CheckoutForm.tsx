@@ -9,7 +9,7 @@ import { H2, P } from '../styled/GlobalElements';
 import Card from '../styled/Card';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import PreLoadLink from './PreLoadLink';
-import { HELP_PATH } from '../apps/Paths';
+import { CONTACT_FORM_PATH } from '../apps/Paths';
 
 type Props = {
   loading: boolean;
@@ -59,8 +59,10 @@ const CheckoutForm = ({
             <H2>Payment could not be processed</H2>
             <P>
               Check that you have entered your payment information correctly or{' '}
-              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if
-              that doesn't help.
+              <PreLoadLink path={CONTACT_FORM_PATH}>
+                contact support
+              </PreLoadLink>{' '}
+              if that doesn't help.
             </P>
           </div>
         );
@@ -71,8 +73,10 @@ const CheckoutForm = ({
             <H2>Payment could not be processed</H2>
             <P>
               Check that you have entered your payment information correctly or{' '}
-              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if
-              that doesn't help.
+              <PreLoadLink path={CONTACT_FORM_PATH}>
+                contact support
+              </PreLoadLink>{' '}
+              if that doesn't help.
             </P>
           </div>
         );
@@ -83,8 +87,10 @@ const CheckoutForm = ({
             <H2>Payment could not be processed</H2>
             <P>
               Oops, you've encountered a bug! Please try again later or{' '}
-              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if
-              this persists.
+              <PreLoadLink path={CONTACT_FORM_PATH}>
+                contact support
+              </PreLoadLink>{' '}
+              if this persists.
             </P>
           </div>
         );
@@ -95,8 +101,10 @@ const CheckoutForm = ({
             <H2>Payment could not be processed</H2>
             <P>
               Oops, you've encountered a bug! Please try again later or{' '}
-              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if
-              this persists.
+              <PreLoadLink path={CONTACT_FORM_PATH}>
+                contact support
+              </PreLoadLink>{' '}
+              if this persists.
             </P>
           </div>
         );

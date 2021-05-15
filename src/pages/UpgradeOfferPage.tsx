@@ -16,7 +16,7 @@ import { Error } from '../types/groupInfo';
 import { Button } from '../styled/Button';
 import { push } from 'connected-react-router';
 import PreLoadLink from '../components/PreLoadLink';
-import { HELP_PATH } from '../apps/Paths';
+import { CONTACT_FORM_PATH } from '../apps/Paths';
 
 const ModifiedShadowBox = styled(ShadowBox)`
   margin-bottom: 10px;
@@ -193,8 +193,8 @@ const UpgradeOfferPage = () => {
           <P>
             We hit a problem while trying to upgrade your account. Please try
             again later or{' '}
-            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
-            persists.
+            <PreLoadLink path={CONTACT_FORM_PATH}>contact support</PreLoadLink>{' '}
+            if this persists.
           </P>
         );
         break;

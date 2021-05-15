@@ -43,6 +43,7 @@ import {
   REPORTING_PATH,
   GOALS_PATH,
   MY_MODELS_PATH,
+  CONTACT_FORM_PATH,
 } from './Paths';
 import { selectIsPaid } from '../selectors/subscription';
 
@@ -75,7 +76,7 @@ const HelpPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "help" */ '../pages/HelpPage'),
 );
 
-const ContactForm = ReactLazyPreload(() =>
+const ContactFormPage = ReactLazyPreload(() =>
   import(
     /* webpackChunkName: "contact-form" */ '../components/Help/ContactForm'
   ),
@@ -202,6 +203,7 @@ const routes = [
   { path: LOGIN_PATH, exact: true, component: LoginPage },
   { path: REGISTER_PATH, exact: true, component: RegistrationPage },
   { path: HELP_PATH, exact: true, component: HelpPage },
+  { path: CONTACT_FORM_PATH, exact: true, component: ContactFormPage },
   { path: RESET_PASSWORD_PATH, exact: true, component: ResetPasswordPage },
   { path: DASHBOARD_PATH, exact: true, component: DashboardPage },
   { path: GROUP_PATH, exact: false, component: GroupPage },
@@ -347,7 +349,7 @@ const App = () => {
             {/* common routes */}
             <Route path="/help/topic/:slug" component={HelpArticlePage} />
             <Route path="/help" component={HelpPage} />
-            <Route path="/contact-form" component={ContactForm} />
+            <Route path="/contact-form" component={ContactFormPage} />
             <Route path="/reset-password" component={ResetPasswordPage} />
             <Route
               path="/reset-password-confirm/:token"

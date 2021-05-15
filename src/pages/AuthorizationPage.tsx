@@ -47,6 +47,8 @@ import {
 } from '../styled/Setup';
 import OnboardingProgress from '../components/OnboardingProgress';
 import { selectShowProgressFeature } from '../selectors/features';
+import { CONTACT_FORM_PATH } from '../apps/Paths';
+import PreLoadLink from '../components/PreLoadLink';
 
 const Brokerage = styled.div``;
 
@@ -201,7 +203,11 @@ const AuthorizationPage = ({ onboarding }: Props) => {
               <Li>
                 IBKR takes between 24 to 48 hours to fully connect and load in
                 data to Passiv. If you have still not loaded in data after 48
-                hours then please contact support.
+                hours then please{' '}
+                <PreLoadLink path={CONTACT_FORM_PATH}>
+                  contact support
+                </PreLoadLink>
+                .
               </Li>
               <Li>Only IBKR Pro accounts are supported by Passiv.</Li>
               <Li>
@@ -226,7 +232,11 @@ const AuthorizationPage = ({ onboarding }: Props) => {
                 typically do maintenance in the evenings and weekends, making it
                 difficult to successfully connect during those times. If you
                 find you are having issues connecting during this time frame,
-                please contact support.
+                please{' '}
+                <PreLoadLink path={CONTACT_FORM_PATH}>
+                  contact support
+                </PreLoadLink>
+                .
               </Li>
             </BulletUL>
           </VerticalPadding>
