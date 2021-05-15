@@ -86,7 +86,7 @@ export const createGoal: ActionCreator<ThunkAction<
           autoClose: 3000,
         });
         history.push({
-          pathname: '/app/goal/' + response.data.id,
+          pathname: '/goal/' + response.data.id,
           state: { goal: response.data },
         });
       })

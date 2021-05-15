@@ -94,9 +94,7 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
             you're already a paid subscriber and you're still receiving this
             message.
           </P>
-          <Button onClick={() => dispatch(push('/app/settings'))}>
-            Upgrade
-          </Button>
+          <Button onClick={() => dispatch(push('/settings'))}>Upgrade</Button>
         </OrderContainer>
       );
     case '1022':

@@ -19,7 +19,7 @@ const ResetPasswordPage = ({ location }: Props) => {
   const loggedIn = useSelector(selectLoggedIn);
 
   if (loggedIn) {
-    let nextPath = '/app/dashboard';
+    let nextPath = '/dashboard';
     if (location && location.state && location.state.nextPathname) {
       nextPath = location.state.nextPathname;
     }

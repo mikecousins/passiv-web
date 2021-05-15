@@ -94,7 +94,7 @@ const ModelAssetClass = () => {
           <FontAwesomeIcon icon={faPlus} size="sm" /> New Asset Class
         </NewAssetClassBtn>
 
-        <BackButton onClick={() => dispatch(push(`/app${back}`))}>
+        <BackButton onClick={() => dispatch(push(`${back}`))}>
           Back to Model Portfolio
         </BackButton>
       </div>

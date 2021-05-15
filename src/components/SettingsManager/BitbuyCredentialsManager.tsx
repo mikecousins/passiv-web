@@ -43,7 +43,7 @@ const BitbuyCredentialsManager = () => {
       .then(() => {
         dispatch(reloadEverything());
         setTimeout(() => {
-          dispatch(replace('/app/setup-groups'));
+          dispatch(replace('/setup-groups'));
         }, 1000);
       })
       .catch((error) => {

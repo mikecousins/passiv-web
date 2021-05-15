@@ -143,10 +143,10 @@ const MyModelPortfoliosPage = () => {
         const id = res.data.model_portfolio.id;
         if (groupId) {
           dispatch(
-            replace(`/app/model-portfolio/${id}/group/${groupId}?apply=true`),
+            replace(`/model-portfolio/${id}/group/${groupId}?apply=true`),
           );
         } else {
-          dispatch(replace(`/app/model-portfolio/${id}?edit=true`));
+          dispatch(replace(`/model-portfolio/${id}?edit=true`));
         }
       })
       .catch(() => {
@@ -169,9 +169,9 @@ const MyModelPortfoliosPage = () => {
             `"${model.model_portfolio.name}" applied to group successfully`,
           );
           if (model.model_portfolio.model_type === 1) {
-            dispatch(push(`/app/priorities/${groupId}`));
+            dispatch(push(`/priorities/${groupId}`));
           } else {
-            dispatch(push(`/app/group/${groupId}`));
+            dispatch(push(`/group/${groupId}`));
           }
         })
         .catch((err) => {
@@ -207,7 +207,7 @@ const MyModelPortfoliosPage = () => {
     <React.Fragment>
       {groupId ? (
         <BackButton>
-          <Link to={`/app/group/${groupId}`}>
+          <Link to={`/group/${groupId}`}>
             <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to {groupName}
           </Link>
         </BackButton>

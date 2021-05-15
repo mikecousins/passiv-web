@@ -11,7 +11,6 @@ import ErrorBoundary from './components/ErrorBoundary';
 import createRunLoop from './reactors/init-runloop';
 import { effects } from './reactors/effects';
 import store, { history } from './store';
-import * as serviceWorker from './serviceWorker';
 import { pingTracking } from './seo';
 
 if (
@@ -74,17 +73,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root'),
 );
-
-// TODO enable when we have our semver updates figured out
-/*
-const onUpdate = () => {
-  store.dispatch(updateServiceWorker());
-};
-
-registerServiceWorker(onUpdate);
-*/
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

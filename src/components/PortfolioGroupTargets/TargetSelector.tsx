@@ -226,9 +226,9 @@ export const TargetSelector = ({
 
   const toggleEditMode = () => {
     if (edit) {
-      dispatch(replace(`/app/group/${groupId}`));
+      dispatch(replace(`/group/${groupId}`));
     } else {
-      dispatch(replace(`/app/group/${groupId}?edit=true`));
+      dispatch(replace(`/group/${groupId}?edit=true`));
     }
   };
 
@@ -421,7 +421,7 @@ export const TargetSelector = ({
               }
 
               // generate the share url
-              let shareUrl = `/app/share?`;
+              let shareUrl = `/share?`;
               props.values.targets.forEach((target: any) => {
                 if (target.fullSymbol && target.fullSymbol.symbol) {
                   return (shareUrl += `symbols[]=${target.fullSymbol.symbol}&percentages[]=${target.percent}&`);
@@ -630,7 +630,7 @@ export const TargetSelector = ({
                           onClick={() => {
                             dispatch(
                               push(
-                                `/app/model-portfolio/${modelId}/group/${groupId}?edit=true`,
+                                `/model-portfolio/${modelId}/group/${groupId}?edit=true`,
                               ),
                             );
                           }}
@@ -647,7 +647,7 @@ export const TargetSelector = ({
                         <ApplyNewModelBtn
                           type="button"
                           onClick={() => {
-                            dispatch(push(`/app/models/group/${groupId}`));
+                            dispatch(push(`/models/group/${groupId}`));
                           }}
                         >
                           Apply Another Model
