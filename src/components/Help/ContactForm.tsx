@@ -72,7 +72,7 @@ const ContactForm = () => {
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   return (
-    <GreenBox>
+    <GreenBox id="contact-form">
       <Formik
         initialValues={{
           name: '',

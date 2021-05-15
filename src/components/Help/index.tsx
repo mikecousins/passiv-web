@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { H1, P } from '../../styled/GlobalElements';
+import { H1, P, A } from '../../styled/GlobalElements';
 import SearchBar from './SearchBar';
 import Learn from './Learn';
 import ContactForm from './ContactForm';
@@ -26,6 +26,10 @@ const StyledP = styled(P)`
   }
 `;
 
+const SendMessage = styled(A)`
+  font-weight: 600;
+`;
+
 const Help = () => (
   <>
     <HeaderContainer>
@@ -35,8 +39,8 @@ const Help = () => (
         </H1>
       </div>
       <StyledP>
-        Search for tips, look through our learning material, or send us a
-        message!
+        Search for tips, look through our learning material, or{' '}
+        <SendMessage href="#contact-form">send us a message!</SendMessage>
       </StyledP>
     </HeaderContainer>
     <SearchBar />
