@@ -21,6 +21,7 @@ import { H2, P } from '../../styled/GlobalElements';
 import { Description } from '../ModelPortfolio/Prioritization';
 import { CheckBox } from '../../styled/CheckBox';
 import { toast } from 'react-toastify';
+import { Truncate } from '../../common';
 
 const Container = styled.div`
   margin-bottom: 37px;
@@ -214,9 +215,8 @@ const ExcludedAssets = () => {
                         <span className="checkmark"></span>
                       </label>
                     </CheckBox>
-
                     <Symbol disabled={!position.quotable}>
-                      {position.symbol.symbol}
+                      {Truncate(position.symbol.symbol, 10)}
                     </Symbol>
                     <Name disabled={!position.quotable}>
                       {position.symbol.description}

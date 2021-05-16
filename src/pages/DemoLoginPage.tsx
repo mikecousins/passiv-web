@@ -24,11 +24,11 @@ const DemoLoginPage = ({ location }: Props) => {
     setTriggered(true);
     setSubmitting(true);
     postData('/api/v1/auth/demo/', {})
-      .then(response => {
+      .then((response) => {
         setSubmitting(false);
         dispatch(loginSucceeded(response));
       })
-      .catch(error => {
+      .catch((error) => {
         setSubmitting(false);
       });
   };
@@ -42,7 +42,7 @@ const DemoLoginPage = ({ location }: Props) => {
           <DemoNotesContent />
           <Button
             onClick={() => {
-              dispatch(push('/app/dashboard'));
+              dispatch(push('/dashboard'));
             }}
           >
             Continue

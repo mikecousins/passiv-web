@@ -17,7 +17,7 @@ const SetNewPasswordPage = () => {
   const [success, setSuccess] = useState(false);
 
   if (success) {
-    return <Redirect to="/app/setup-groups" />;
+    return <Redirect to="/setup-groups" />;
   }
 
   return (
@@ -28,7 +28,7 @@ const SetNewPasswordPage = () => {
           initialValues={{
             password: '',
           }}
-          validate={values => {
+          validate={(values) => {
             const errors: any = {};
             if (!values.password || values.password.trim() === '') {
               errors.password = 'A new password is required.';
@@ -40,12 +40,12 @@ const SetNewPasswordPage = () => {
               password: values.password,
               token,
             })
-              .then(response => {
+              .then((response) => {
                 actions.setSubmitting(false);
                 dispatch(loginSucceeded(response));
                 setSuccess(true);
               })
-              .catch(error => {
+              .catch((error) => {
                 let errors: any = {};
                 if (
                   error.response.data &&

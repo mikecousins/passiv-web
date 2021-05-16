@@ -111,7 +111,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
       .then(() => {
         dispatch(loadGroup({ ids: [groupId] }));
         if (!exclude) {
-          dispatch(replace(`/app/group/${groupId}?edit=true`));
+          dispatch(replace(`/group/${groupId}?edit=true`));
           setTimeout(() => {
             window.scrollTo({
               top: document.documentElement.scrollHeight,
@@ -205,7 +205,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
         <ListOfAssets>
           {targets?.map((target) => {
             if (target.excluded) {
-              return;
+              return false;
             }
             if (target.symbol.id === loadingId) {
               return <FontAwesomeIcon icon={faSpinner} spin />;
@@ -251,7 +251,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
         )}
 
         <DontShowBtn>
-          <A onClick={() => dispatch(push(`/app/group/${groupId}/settings`))}>
+          <A onClick={() => dispatch(push(`/group/${groupId}/settings`))}>
             Do not want to see this message again? Turn it off in your portfolio
             settings.
           </A>

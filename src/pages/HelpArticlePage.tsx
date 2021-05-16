@@ -138,7 +138,7 @@ const HelpArticlePage = () => {
 
   return (
     <React.Fragment>
-      <Back onClick={() => dispatch(push('/app/help'))}>Back to Help</Back>
+      <Back onClick={() => dispatch(push('/help'))}>Back to Help</Back>
       {article}
     </React.Fragment>
   );

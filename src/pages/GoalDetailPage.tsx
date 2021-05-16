@@ -438,7 +438,7 @@ const GoalDetailPage = () => {
   };
   const handleDelete = () => {
     dispatch(deleteGoal(goalId));
-    dispatch(push('/app/goals'));
+    dispatch(push('/goals'));
   };
   const handleSave = () => {
     const endDate = getTargetDate(year, month);
@@ -476,7 +476,7 @@ const GoalDetailPage = () => {
     <React.Fragment>
       <Grid columns="1fr 1fr">
         <HeaderBanner>
-          <BackLink to="/app/goals">
+          <BackLink to="/goals">
             <FontAwesomeIcon icon={faChevronLeft} /> View all Goals
           </BackLink>
           <GoalTitle

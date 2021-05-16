@@ -117,7 +117,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: connectionType,
         }).then((response) => {
-          dispatch(replace(`/app/connect/${brokerage.name.toLowerCase()}`));
+          dispatch(replace(`/connect/${brokerage.name.toLowerCase()}`));
         });
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
@@ -290,7 +290,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       connect: () => {
         startConnection('Kraken', 'trade');
       },
-      openURL: 'https://passiv.com/app/connect/kraken',
+      openURL: 'https://passiv.com/connect/kraken',
       major: true,
       logo: KrakenLogo,
       defaultConnectionType: 'trade',
@@ -310,7 +310,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       connect: () => {
         startConnection('Unocoin', 'trade');
       },
-      openURL: 'https://passiv.com/app/connect/unocoin',
+      openURL: 'https://passiv.com/connect/unocoin',
       major: true,
       logo: UnocoinLogo,
       defaultConnectionType: 'trade',
@@ -593,7 +593,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
             );
           })}
           <LinkContainer>
-            <Link style={aDarkStyle} to="/app/connect">
+            <Link style={aDarkStyle} to="/connect">
               Back
             </Link>
           </LinkContainer>
@@ -607,12 +607,12 @@ const AuthorizationPage = ({ onboarding }: Props) => {
             {onboarding ? (
               <LinkContainer>
                 <VerticalPadding>
-                  <Link style={aDarkStyle} to="/app/connect/open">
+                  <Link style={aDarkStyle} to="/connect/open">
                     I don't have a brokerage account.
                   </Link>
                 </VerticalPadding>
                 <VerticalPadding>
-                  <Link style={aDarkStyle} to="/app/welcome">
+                  <Link style={aDarkStyle} to="/welcome">
                     Back
                   </Link>
                 </VerticalPadding>
@@ -620,7 +620,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
             ) : (
               <LinkContainer>
                 <VerticalPadding>
-                  <Link style={aDarkStyle} to="/app/settings">
+                  <Link style={aDarkStyle} to="/settings">
                     Back
                   </Link>
                 </VerticalPadding>

@@ -19,7 +19,7 @@ const GroupsPage = () => (
     <p>Here's the account drag and drop thingy.</p>
     <AccountsManager />
     <OnboardingProgress step={3} />
-    <Link to="/app/initial-targets">Next</Link>
+    <Link to="/initial-targets">Next</Link>
   </div>
 );
 
