@@ -95,7 +95,7 @@ const SideBar = () => {
   useEffect(() => {
     document.addEventListener('mousedown', (e) => {
       //@ts-ignore
-      if (node.current.contains(e.target)) {
+      if (node?.current?.contains(e.target)) {
         return;
       }
       setVisible(false);
