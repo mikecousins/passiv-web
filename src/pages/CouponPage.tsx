@@ -11,7 +11,7 @@ import { H1, P } from '../styled/GlobalElements';
 import { Step } from '../styled/SignupSteps';
 import { Error } from '../types/groupInfo';
 import PreLoadLink from '../components/PreLoadLink';
-import { HELP_PATH } from '../apps/Paths';
+import { CONTACT_FORM_PATH } from '../apps/Paths';
 
 const BoldCode = styled.span`
   font-weight: 600;
@@ -62,7 +62,8 @@ const CouponPage = () => {
           <P>
             We encountered an unexpected error while attempting to apply the
             coupon <BoldCode>{code}</BoldCode> to your account. Please try again
-            later or <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink>{' '}
+            later or{' '}
+            <PreLoadLink path={CONTACT_FORM_PATH}>contact support</PreLoadLink>{' '}
             if this persists.
           </P>
         );

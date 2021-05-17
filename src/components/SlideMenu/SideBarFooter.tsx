@@ -24,14 +24,11 @@ export const StyledFooter = styled.div`
 export const Help = styled.div`
   display: inline-block;
   margin-bottom: 8px;
-  padding: 12px 20px 12px 20px;
+  margin-left: 2px;
+  padding: 12px 20px;
   text-transform: none;
-  &:hover {
-    svg,
-    a {
-      color: var(--brand-blue);
-    }
-  }
+  background-color: var(--brand-blue);
+  border-radius: 4rem;
   svg {
     margin-right: 5px;
   }

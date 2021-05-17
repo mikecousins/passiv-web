@@ -54,6 +54,8 @@ import { selectIsPaid } from '../../selectors/subscription';
 import { BetaTag } from '../SlideMenu/SideBarLink';
 import { GroupData } from '../../types/group';
 import { push, replace } from 'connected-react-router';
+import { CONTACT_FORM_PATH } from '../../apps/Paths';
+import PreLoadLink from '../PreLoadLink';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -437,7 +439,10 @@ const ModelPortfolio = () => {
               {securityBased && (
                 <P style={{ textAlign: 'center' }}>
                   * Asset class is a beta feature. Help us improve this feature
-                  by <Link to={'/contact-form'}>sharing feedback</Link>
+                  by{' '}
+                  <PreLoadLink path={CONTACT_FORM_PATH}>
+                    sharing feedback
+                  </PreLoadLink>
                 </P>
               )}
               <ActionContainer>
