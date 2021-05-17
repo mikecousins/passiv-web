@@ -54,15 +54,13 @@ export const PerformanceFees = () => {
       return (
         <div>
           <br />
-          Breakdown:
-          <br />
           Commissions:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$
           {toDollarStringWithCents(commissions)}
           <br />
           Forex
           Fees:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$
           {toDollarStringWithCents(forexFees)} <br />
-          Other (ADR fees)&nbsp;&nbsp;${toDollarStringWithCents(fees)} <br />
+          Other Fees:&nbsp;&nbsp;${toDollarStringWithCents(fees)} <br />
         </div>
       );
     } else {
@@ -73,7 +71,7 @@ export const PerformanceFees = () => {
   return (
     <React.Fragment>
       <Tooltip
-        label="Total fees including trade commissions, forex fees, and ADR fees"
+        label="Total fees. This includes trade commissions, forex fees, ADR fees, and others."
         additionalComponent={<TooltipBreakdown />}
       >
         <div>
