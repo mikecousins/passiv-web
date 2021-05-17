@@ -91,7 +91,7 @@ export const Performance = () => {
   // We can hide charts if user is on custom timeframe and hasn't yet fetched data (can check this if contributions are undefined)
   const contributions = useSelector(selectContributions);
   let rateOfReturn = useSelector(selectRateOfReturn);
-  const settings = useSelector(selectReportingSettings).data;
+  const settings = useSelector(selectReportingSettings)?.data;
   let showRateOfReturn = true;
   let showDividendData = true;
   if (settings?.show_return_rate !== undefined) {
