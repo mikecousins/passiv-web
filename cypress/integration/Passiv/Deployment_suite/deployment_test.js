@@ -1,4 +1,4 @@
-// Sidebar_test_live
+6// Sidebar_test_live
 describe('Sidebar individual component test', () => {
 
   it('Collapse button works', () => {
@@ -61,7 +61,7 @@ describe('Login individual component test', () => {
   })
 
 
-  // Verify the sign in button is disabled without email //
+// Verify the sign in button is disabled without email //
   it('accepts input password', () => {
       cy.fixture('testDomain').as('login')
       cy.get('@login').then(domain => {

@@ -311,7 +311,7 @@ describe('Login and Adjust portfolio', () => {
 
     cy.contains('Portfolio').click().wait(8000)
 
-    cy.get('div').contains('Group Settings').click().wait(8000)
+    cy.get('div').contains('Portfolio Settings').click().wait(8000)
 
     // Test the toggles in the settings page
         cy.get('input[type="checkbox"]').eq(0).check().should('be.checked')
