@@ -102,8 +102,8 @@ const Prioritization = ({ onSettingsPage }: Props) => {
       setAssetClassPriorities(assetClassTradePriorities.tradePriorities);
       setNeedToConfirm(assetClassTradePriorities.assetClassIds);
       setNewAssets(assetClassTradePriorities.newSecurities);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assetClassTradePriorities]);
 
   // this function handles the up and down arrows which changes the priority for an asset class
