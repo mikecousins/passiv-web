@@ -62,8 +62,8 @@ export const selectCurrentAccountId = createSelector<
   string | null
 >(selectPathname, (pathname) => {
   let accountId = null;
-  if (pathname && pathname.split('/').length >= 6) {
-    accountId = pathname.split('/')[5];
+  if (pathname && pathname.split('/').length >= 5) {
+    accountId = pathname.split('/')[4];
   }
   return accountId;
 });
@@ -82,6 +82,7 @@ export const selectCurrentAccountBalances = createSelector<
     allBalances[accountId].data
   ) {
     balances = allBalances[accountId].data;
+    console.log(balances);
   }
   return balances;
 });
