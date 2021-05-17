@@ -1444,9 +1444,9 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
         }
       });
     }
-    if (positions) {
+    if (positions && targetIds) {
       notInTarget = positions.filter(
-        (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+        (position: any) => targetIds.indexOf(position.symbol.id) === -1,
       );
     }
 
