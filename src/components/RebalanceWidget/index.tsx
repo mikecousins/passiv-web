@@ -16,7 +16,7 @@ import UpgradeIdea from '../UpgradeIdea';
 import { selectLimitOrdersFeature } from '../../selectors/features';
 import { selectIsPaid } from '../../selectors/subscription';
 import PreLoadLink from '../PreLoadLink';
-import { SETTINGS_PATH } from '../../apps/Paths';
+import { CONTACT_FORM_PATH, SETTINGS_PATH } from '../../apps/Paths';
 import { selectAccounts } from '../../selectors/accounts';
 import {
   selectCurrentGroupSettings,
@@ -290,8 +290,9 @@ const RebalanceWidget = ({
         </div>
         <br></br>
         <div>
-          Please <A href="mailto:support@passiv.com">contact support</A> if you
-          have any questions!
+          Please{' '}
+          <PreLoadLink path={CONTACT_FORM_PATH}>contact support</PreLoadLink> if
+          you have any questions!
         </div>
       </>
     );

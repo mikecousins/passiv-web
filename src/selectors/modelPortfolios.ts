@@ -65,7 +65,6 @@ export const selectGroupInfoForModelPortfolio = createSelector(
   (router, groups) => {
     let groupInfo = null;
     const pathName = router.location.pathname.split('/');
-    console.log(pathName);
 
     if (
       router &&

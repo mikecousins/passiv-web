@@ -64,7 +64,11 @@ type Props = {
   onSelect: (symbol: Symbol) => void;
 };
 
-const useDebouncedEffect = (callback: any, delay: number, deps: any[] = []) => {
+export const useDebouncedEffect = (
+  callback: any,
+  delay: number,
+  deps: any[] = [],
+) => {
   const firstUpdate = useRef(true);
   useEffect(() => {
     if (firstUpdate.current) {
@@ -152,6 +156,7 @@ const SymbolSelector = ({
     <StyledCombobox onSelect={handleSelectByTicker}>
       {forModelSecurity ? (
         <StyledComboboxInput
+          autoFocus
           value={input}
           onChange={onChange}
           onKeyPress={(event: any) =>
@@ -161,6 +166,7 @@ const SymbolSelector = ({
         />
       ) : (
         <StyledInput
+          autoFocus
           value={value}
           onChange={onChange}
           onKeyPress={(event: any) =>

@@ -180,16 +180,16 @@ const OverviewTab = () => {
             priorities
           </H3>
           <Description>
-            We noticed that you made changes to the asset class model using by
-            this group and in order to show you accurate trades, Passiv needs
-            you to confirm priorities for this asset class.
+            We noticed that you made changes to the asset class model used by
+            this group. In order to show you accurate trades, Passiv needs you
+            to confirm priorities for this model.
           </Description>
           <br />
           <P>
             <span style={{ fontWeight: 600 }}>Prioritization</span> needs to be
             confirmed after doing any of the following actions:
             <List>
-              <li>Adding and Deleting a symbol in an asset class.</li>
+              <li>Adding or Deleting a security in an asset class.</li>
               <li>Adding an account to the portfolio group.</li>
               <li>
                 Adding an asset class to the model portfolio linked to a
@@ -199,7 +199,7 @@ const OverviewTab = () => {
           </P>
 
           <Button onClick={handleTakeToPriorities}>
-            Take me to Priorities
+            Reapply & Reprioritize
           </Button>
         </ErrorContainer>
       )}

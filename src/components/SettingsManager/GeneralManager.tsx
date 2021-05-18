@@ -6,6 +6,7 @@ import APIAccessSettings from './APIAccessSettings';
 
 import { H2, BorderContainer } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
+import ResetTour from './ResetTour';
 
 const GeneralManager = () => {
   const limitOrdersEnabled = useSelector(selectLimitOrdersFeature);
@@ -21,6 +22,9 @@ const GeneralManager = () => {
           <LimitOrdersSettings />
         </BorderContainer>
       )}
+      <BorderContainer>
+        <ResetTour />
+      </BorderContainer>
     </ShadowBox>
   );
 };
