@@ -18,7 +18,7 @@ const ResetPasswordConfirmPage = () => {
       <H1>Choose a new Password</H1>
       {submitted ? (
         <P>
-          Your password has been reset. <Link to="/app/login">Login!</Link>
+          Your password has been reset. <Link to="/login">Login!</Link>
         </P>
       ) : (
         <Formik

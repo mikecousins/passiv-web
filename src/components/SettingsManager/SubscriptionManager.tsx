@@ -112,7 +112,7 @@ const SubscriptionManager = () => {
         {!creatingSubscription && (
           <div>
             {showQuestradeOffer ? (
-              <Button onClick={() => dispatch(push('/app/questrade-offer'))}>
+              <Button onClick={() => dispatch(push('/questrade-offer'))}>
                 Upgrade Now
               </Button>
             ) : (

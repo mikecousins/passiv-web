@@ -147,7 +147,7 @@ const SideBar = () => {
             </GroupContainer>
           )}
           {modelPortfolioFeature && (
-            <SideBarLink name="My Models" linkPath={`/app/models`} />
+            <SideBarLink name="My Models" linkPath={`/models`} />
           )}
           {performancePageFeatureActive && hasQuestradeConnection && (
             <SideBarLink name="Reporting" linkPath={REPORTING_PATH} />

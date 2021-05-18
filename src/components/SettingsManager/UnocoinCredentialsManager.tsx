@@ -3,13 +3,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { InputNonFormik } from '../../styled/Form';
-import { H1, A, P } from '../../styled/GlobalElements';
+import { H1, A, P, BulletUL, Li } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
 import { reloadEverything } from '../../actions';
 import { replace } from 'connected-react-router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import UnocoinAPIGenerator from '../../assets/images/unocoin-api-generation.png';
+
+const LogoContainer = styled.div`
+  img {
+    max-width: 100%;
+  }
+`;
+
 const InputContainer = styled.div`
   padding-top: 10px;
   padding-bottom: 5px;
@@ -47,7 +55,7 @@ const UnocoinCredentialsManager = () => {
       .then(() => {
         dispatch(reloadEverything());
         setTimeout(() => {
-          dispatch(replace('/app/setup-groups'));
+          dispatch(replace('/setup-groups'));
         }, 1000);
       })
       .catch((error) => {
@@ -90,6 +98,40 @@ const UnocoinCredentialsManager = () => {
         )}
       </InputContainer>
       <br />
+      <P>
+        If you're not sure how to generate a new API key for Unocoin, you can
+        follow these steps:
+      </P>
+      <BulletUL>
+        <Li>
+          Navigate to your Unocoin settings page by clicking{' '}
+          <A
+            href="https://unocoin.com/settings"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            here
+          </A>{' '}
+          (note - this requires login).
+        </Li>
+        <Li>Scroll down to your "Wallet Utilites" section.</Li>
+        <Li>
+          Under "API Access", click the button that says "Generate Token". The
+          button looks like this:
+        </Li>
+
+        <LogoContainer>
+          <img
+            src={UnocoinAPIGenerator}
+            alt="How to Generate an Unocoin API Token"
+          ></img>
+        </LogoContainer>
+
+        <Li>
+          You'll now be presented with an API token. Copy that API token to your
+          clipboard and paste it into the form above to proceed!
+        </Li>
+      </BulletUL>
       <P>
         If you're stuck, read our{' '}
         <A

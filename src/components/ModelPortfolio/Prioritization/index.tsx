@@ -82,24 +82,29 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   const assetClassTradePriorities = useSelector(
     selectCurrentGroupAssetClassTradePriorities,
   );
-
   const [assetClassPriorities, setAssetClassPriorities] = useState<
     AssetClassPriorities[]
-  >([]);
+  >(assetClassTradePriorities.tradePriorities);
 
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState(!onSettingsPage);
+  const [editing, setEditing] = useState(false);
   const [changed, setChanged] = useState({ symbolId: '', accountId: '' });
-  const [needToConfirm, setNeedToConfirm] = useState<string[]>([]);
-  const [newAssets, setNewAssets] = useState<string[]>([]);
+  const [needToConfirm, setNeedToConfirm] = useState<string[]>(
+    assetClassTradePriorities.assetClassIds,
+  );
+  const [newAssets, setNewAssets] = useState<string[]>(
+    assetClassTradePriorities.newSecurities,
+  );
 
   useEffect(() => {
-    setLoading(currentGroupInfoLoading);
-    setAssetClassPriorities(assetClassTradePriorities.tradePriorities);
-    setNeedToConfirm(assetClassTradePriorities.assetClassIds);
-    setNewAssets(assetClassTradePriorities.newSecurities);
+    if (editing === false) {
+      setLoading(currentGroupInfoLoading);
+      setAssetClassPriorities(assetClassTradePriorities.tradePriorities);
+      setNeedToConfirm(assetClassTradePriorities.assetClassIds);
+      setNewAssets(assetClassTradePriorities.newSecurities);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentGroupInfoLoading]);
+  }, [assetClassTradePriorities]);
 
   // this function handles the up and down arrows which changes the priority for an asset class
   const handleUpDownBtn = (
@@ -116,7 +121,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     setTimeout(() => {
       setChanged({ symbolId: '', accountId: '' });
     }, 300);
-    if (onSettingsPage && !editing) {
+    if (!editing) {
       setEditing(true);
     }
 
@@ -206,7 +211,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           if (onSettingsPage) {
             setEditing(false);
           } else {
-            dispatch(push(`/app/group/${group?.id}`));
+            dispatch(push(`/group/${group?.id}`));
           }
           toast.success('Saved prioritization successfully');
           dispatch(loadGroup({ ids: [group?.id] }));

@@ -51,5 +51,5 @@ export function pingTracking() {
   postData('/api/v1/ping/', collectMetadata()).catch((error) => null);
   return null;
 }
-
+// eslint-disable-next-line
 export default {};

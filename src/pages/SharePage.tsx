@@ -41,9 +41,8 @@ const SharePage = () => {
       </PortfolioContainer>
       <H2>Copy It</H2>
       <P>
-        You aren't currently logged in. Please{' '}
-        <Link to="/app/login">login</Link> or{' '}
-        <Link to="/app/register">register</Link> to try this portfolio out!
+        You aren't currently logged in. Please <Link to="/login">login</Link> or{' '}
+        <Link to="/register">register</Link> to try this portfolio out!
       </P>
     </React.Fragment>
   );

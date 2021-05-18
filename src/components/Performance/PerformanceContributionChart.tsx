@@ -99,7 +99,14 @@ export const formatDate = (
     }
   }
   if (timeframe === 'ALL' || (timeframe === 'CST' && customYearBased)) {
-    return date.getFullYear().toString();
+    if (!customYearBased) {
+      return (
+        dtfMonth.format(date) + " '" + (date.getFullYear() % 100).toString()
+      );
+      // Alternative return (date.getMonth()+1).toString() + " / '" +  date.getFullYear().toString().substring(2);
+    } else {
+      return date.getFullYear().toString();
+    }
   } else if (timeframe === 'CST') {
     return dtfMonth.format(date) + " '" + (date.getFullYear() % 100).toString();
   } else {

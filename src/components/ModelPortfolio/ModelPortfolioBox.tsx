@@ -256,9 +256,9 @@ const ModelPortoflioBox = ({
 
   const toggleEditMode = () => {
     if (editMode) {
-      dispatch(replace(`/app/model-portfolio/${modelId}`));
+      dispatch(replace(`/model-portfolio/${modelId}`));
     } else {
-      dispatch(replace(`/app/model-portfolio/${modelId}?edit=true`));
+      dispatch(replace(`/model-portfolio/${modelId}?edit=true`));
     }
   };
 
@@ -328,10 +328,10 @@ const ModelPortoflioBox = ({
           );
         }
         if (securityBased && groupId) {
-          dispatch(push(`/app/group/${gpId}`));
+          dispatch(push(`/group/${gpId}`));
         }
         if (!securityBased && applyMode) {
-          dispatch(push(`/app/priorities/${gpId}`));
+          dispatch(push(`/priorities/${gpId}`));
         }
       })
       .catch((err) => {

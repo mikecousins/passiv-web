@@ -47,6 +47,8 @@ import {
 } from '../styled/Setup';
 import OnboardingProgress from '../components/OnboardingProgress';
 import { selectNewOnboardingFeature } from '../selectors/features';
+import { CONTACT_FORM_PATH } from '../apps/Paths';
+import PreLoadLink from '../components/PreLoadLink';
 
 const Brokerage = styled.div``;
 
@@ -117,7 +119,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: connectionType,
         }).then((response) => {
-          dispatch(replace(`/app/connect/${brokerage.name.toLowerCase()}`));
+          dispatch(replace(`/connect/${brokerage.name.toLowerCase()}`));
         });
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
@@ -201,7 +203,11 @@ const AuthorizationPage = ({ onboarding }: Props) => {
               <Li>
                 IBKR takes between 24 to 48 hours to fully connect and load in
                 data to Passiv. If you have still not loaded in data after 48
-                hours then please contact support.
+                hours then please{' '}
+                <PreLoadLink path={CONTACT_FORM_PATH}>
+                  contact support
+                </PreLoadLink>
+                .
               </Li>
               <Li>Only IBKR Pro accounts are supported by Passiv.</Li>
               <Li>
@@ -226,7 +232,11 @@ const AuthorizationPage = ({ onboarding }: Props) => {
                 typically do maintenance in the evenings and weekends, making it
                 difficult to successfully connect during those times. If you
                 find you are having issues connecting during this time frame,
-                please contact support.
+                please{' '}
+                <PreLoadLink path={CONTACT_FORM_PATH}>
+                  contact support
+                </PreLoadLink>
+                .
               </Li>
             </BulletUL>
           </VerticalPadding>
@@ -290,7 +300,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       connect: () => {
         startConnection('Kraken', 'trade');
       },
-      openURL: 'https://passiv.com/app/connect/kraken',
+      openURL: 'https://passiv.com/connect/kraken',
       major: true,
       logo: KrakenLogo,
       defaultConnectionType: 'trade',
@@ -310,7 +320,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       connect: () => {
         startConnection('Unocoin', 'trade');
       },
-      openURL: 'https://passiv.com/app/connect/unocoin',
+      openURL: 'https://passiv.com/connect/unocoin',
       major: true,
       logo: UnocoinLogo,
       defaultConnectionType: 'trade',
@@ -593,7 +603,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
             );
           })}
           <LinkContainer>
-            <Link style={aDarkStyle} to="/app/connect">
+            <Link style={aDarkStyle} to="/connect">
               Back
             </Link>
           </LinkContainer>
@@ -607,12 +617,12 @@ const AuthorizationPage = ({ onboarding }: Props) => {
             {onboarding ? (
               <LinkContainer>
                 <VerticalPadding>
-                  <Link style={aDarkStyle} to="/app/connect/open">
+                  <Link style={aDarkStyle} to="/connect/open">
                     I don't have a brokerage account.
                   </Link>
                 </VerticalPadding>
                 <VerticalPadding>
-                  <Link style={aDarkStyle} to="/app/welcome">
+                  <Link style={aDarkStyle} to="/welcome">
                     Back
                   </Link>
                 </VerticalPadding>
@@ -620,7 +630,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
             ) : (
               <LinkContainer>
                 <VerticalPadding>
-                  <Link style={aDarkStyle} to="/app/settings">
+                  <Link style={aDarkStyle} to="/settings">
                     Back
                   </Link>
                 </VerticalPadding>

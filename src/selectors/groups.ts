@@ -154,9 +154,9 @@ export const selectCurrentGroupId = createSelector<
     router &&
     router.location &&
     router.location.pathname &&
-    router.location.pathname.split('/').length >= 4
+    router.location.pathname.split('/').length >= 3
   ) {
-    groupId = router.location.pathname.split('/')[3];
+    groupId = router.location.pathname.split('/')[2];
   }
   return groupId;
 });
@@ -617,7 +617,7 @@ export const selectCurrentAccountId = createSelector<
   const matchSelector = createMatchSelector<
     any,
     { groupId?: string; accountId?: string }
-  >('/app/group/:groupId/account/:accountId');
+  >('/group/:groupId/account/:accountId');
   const match = matchSelector(state);
   if (!match) {
     return undefined;
@@ -1418,7 +1418,7 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
     let targetIds: any;
     if (targets?.isAssetClassBased) {
       targets.currentAssetClass?.forEach((assetClass) => {
-        targetIds += assetClass?.fullSymbols?.map((target: any) => {
+        targetIds += assetClass?.fullSymbols?.forEach((target: any) => {
           if (target?.excluded) {
             excluded.push({
               excluded: target.excluded,
@@ -1434,7 +1434,7 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
       targetIds = targets?.currentTarget?.map(
         (target: any) => target.fullSymbol.id,
       );
-      targets?.currentTarget?.map((target: any) => {
+      targets?.currentTarget?.forEach((target: any) => {
         if (target.is_excluded) {
           excluded.push({
             excluded: target.is_excluded,
@@ -1444,9 +1444,9 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
         }
       });
     }
-    if (positions) {
+    if (positions && targetIds) {
       notInTarget = positions.filter(
-        (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+        (position: any) => targetIds.indexOf(position.symbol.id) === -1,
       );
     }
 

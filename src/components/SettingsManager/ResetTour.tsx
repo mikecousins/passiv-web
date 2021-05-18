@@ -1,6 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
-import { A, H2, P } from '../../styled/GlobalElements';
+import { A, DisabledBox, OptionsTitle } from '../../styled/GlobalElements';
 import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
@@ -9,38 +8,6 @@ import { selectSettings, selectTakeTour } from '../../selectors';
 import { postData, putData } from '../../api';
 import { loadSettings } from '../../actions';
 import { toast } from 'react-toastify';
-
-const TourContainer = styled.div`
-  flex: 1;
-  padding: 7rem 1rem 5rem;
-  text-align: center;
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  p {
-    font-size: 24px;
-    margin-bottom: 30px;
-  }
-  svg {
-    margin-left: 12px;
-    font-size: 50px;
-    color: var(--brand-green);
-  }
-  a {
-    border-radius: 4px;
-    display: inline-block;
-    margin-bottom: 8px;
-    margin-left: 30px;
-    padding: 12px 20px 12px 18px;
-    text-transform: none;
-    text-decoration: none;
-    color: var(--brand-blue);
-    background: white;
-    border: 1px solid var(--brand-blue);
-    font-weight: bold;
-  }
-`;
 
 const ResetTour = () => {
   const dispatch = useDispatch();
@@ -85,13 +52,8 @@ const ResetTour = () => {
   };
 
   return (
-    <TourContainer>
-      <H2>Passiv Tours</H2>
-      {showTour ? (
-        <P>Turn in-app tours Off or reset all the tours</P>
-      ) : (
-        <P>Need a refresher? Turn in-app tours back On </P>
-      )}
+    <>
+      <OptionsTitle>In-app Walkthroughs: </OptionsTitle>
       <ToggleButton onClick={updateTour}>
         {showTour ? (
           <React.Fragment>
@@ -105,8 +67,22 @@ const ResetTour = () => {
           </React.Fragment>
         )}
       </ToggleButton>
-      {showTour && <A onClick={() => handleResetTours()}>Reset Tours</A>}
-    </TourContainer>
+      {showTour ? (
+        <>
+          <DisabledBox>
+            Click on Reset Tours to show the tips that have been hidden or
+            disable to hide all tours.
+          </DisabledBox>
+          <div style={{ marginTop: '20px' }}>
+            <A onClick={() => handleResetTours()}>Reset Tours</A>
+          </div>
+        </>
+      ) : (
+        <DisabledBox>
+          Get a tour of Passiv. Enable to learn about features and useful tips.
+        </DisabledBox>
+      )}
+    </>
   );
 };
 

@@ -12,7 +12,7 @@ import { Step } from '../styled/SignupSteps';
 import { selectQueryTokens } from '../selectors/router';
 import { Error } from '../types/groupInfo';
 import PreLoadLink from '../components/PreLoadLink';
-import { HELP_PATH } from '../apps/Paths';
+import { CONTACT_FORM_PATH } from '../apps/Paths';
 import { selectBrokerages, selectMaintenanceBrokerages } from '../selectors';
 import { selectIsPaid } from '../selectors/subscription';
 import { selectQuestradeOfferFeature } from '../selectors/features';
@@ -42,7 +42,7 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   if (brokerageName === 'Zerodha') {
     postData('/api/v1/tradesinprogress/', queryParams).then((response) => {
       if (response.data.portfolio_group) {
-        dispatch(replace(`/app/group/${response.data.portfolio_group}`));
+        dispatch(replace(`/group/${response.data.portfolio_group}`));
         dispatch(reloadEverything());
       }
     });
@@ -60,7 +60,6 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
       token = { token: queryParams.request_token };
     }
     if (token === null) {
-      console.log('token is null', token);
       setLoading(false);
       setError({ code: '0000' });
     } else {
@@ -70,14 +69,14 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
           if (brokerageName === 'Questrade') {
             if (isPaid || !questradeOfferFeatureActive) {
               setTimeout(() => {
-                dispatch(replace('/app/setup-groups'));
+                dispatch(replace('/'));
               }, 1000);
             } else {
               setLoading(false);
               setShowUpgradeOffer(true);
             }
           } else {
-            dispatch(replace('/app/setup-groups'));
+            dispatch(replace('/'));
             setTimeout(() => {
               if (brokerageName === 'Interactive Brokers') {
                 setLoading(false);
@@ -215,7 +214,10 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
             </P>
             <P>
               If you don't receive an email within 2 days, please try again or{' '}
-              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink>.
+              <PreLoadLink path={CONTACT_FORM_PATH}>
+                contact support
+              </PreLoadLink>
+              .
             </P>
           </React.Fragment>
         );
@@ -230,8 +232,10 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
             </P>
             <P>
               If you believe you have received this message in error, please{' '}
-              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> and
-              describe your situation.
+              <PreLoadLink path={CONTACT_FORM_PATH}>
+                contact support
+              </PreLoadLink>{' '}
+              and describe your situation.
             </P>
           </React.Fragment>
         );
@@ -250,8 +254,10 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
             <P>
               We encountered an unexpected error while attempting to establish a
               connection. Please try again later or{' '}
-              <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if
-              this persists.
+              <PreLoadLink path={CONTACT_FORM_PATH}>
+                contact support
+              </PreLoadLink>{' '}
+              if this persists.
             </P>
             <P>
               Note that in order for a connection to be established, you must
@@ -309,7 +315,7 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
               </A>{' '}
               in just one click.
             </P>
-            <Button onClick={() => dispatch(push('/app/questrade-offer'))}>
+            <Button onClick={() => dispatch(push('/questrade-offer'))}>
               Upgrade Now
             </Button>
           </ShadowBox>
@@ -325,7 +331,7 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
               <Step>Failed to establish connection :(</Step>
               <ShadowBox>
                 {errorDisplay}
-                <Button onClick={() => dispatch(push('/app/settings'))}>
+                <Button onClick={() => dispatch(push('/settings'))}>
                   Go to Settings
                 </Button>
               </ShadowBox>

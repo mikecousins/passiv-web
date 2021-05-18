@@ -26,8 +26,8 @@ const SetupPrompt = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Guide to set up a target portfolio{' '}
-            <FontAwesomeIcon icon={faExternalLinkAlt} />
+            <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" /> Guide to set
+            up a target portfolio
           </A>
         </P>
         <P>
@@ -36,13 +36,13 @@ const SetupPrompt = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Re-watch the Getting Started video{' '}
-            <FontAwesomeIcon icon={faExternalLinkAlt} />
+            <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" /> Re-watch the
+            Getting Started video
           </A>
         </P>
         <P>
           If you want to make Passiv ignore one of your accounts, go to{' '}
-          <Link to="/app/settings">Settings</Link>, scroll down to Accounts, and
+          <Link to="/settings">Settings</Link>, scroll down to Accounts, and
           move the account to the Hidden Account section.
           <HideButton name={'setup_prompt'} />
         </P>

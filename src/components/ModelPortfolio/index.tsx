@@ -54,6 +54,8 @@ import { selectIsPaid } from '../../selectors/subscription';
 import { BetaTag } from '../SlideMenu/SideBarLink';
 import { GroupData } from '../../types/group';
 import { push, replace } from 'connected-react-router';
+import { CONTACT_FORM_PATH } from '../../apps/Paths';
+import PreLoadLink from '../PreLoadLink';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -204,7 +206,7 @@ const ModelPortfolio = () => {
   const [copied, setCopied] = useState(false);
   const [modelTypeChanged, setModelTypeChanged] = useState(false);
 
-  const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${modelId}?share=${referralCode}`;
+  const SHARE_URL = `https:/.passiv.com/shared-model-portfolio/${modelId}?share=${referralCode}`;
 
   let haveAssetsInModel = false;
   if (
@@ -229,7 +231,7 @@ const ModelPortfolio = () => {
           dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
         }
         toast.success('Delete the model successfully.');
-        dispatch(replace('/app/models'));
+        dispatch(replace('/models'));
       })
       .catch(() => {
         toast.error('Unable to delete the model. Please try again!');
@@ -284,11 +286,7 @@ const ModelPortfolio = () => {
             <ShadowBox>
               <BackButton>
                 <Link
-                  to={
-                    groupInfo
-                      ? `/app/group/${groupInfo.groupId}`
-                      : '/app/models'
-                  }
+                  to={groupInfo ? `/group/${groupInfo.groupId}` : '/models'}
                 >
                   <FontAwesomeIcon icon={faAngleLeft} size="lg" /> Back to{' '}
                   {groupInfo ? groupInfo.name : 'My Models'}
@@ -308,7 +306,7 @@ const ModelPortfolio = () => {
                       Elite Feature{' '}
                       <A
                         style={{ marginLeft: '10px' }}
-                        onClick={() => dispatch(push('/app/questrade-offer'))}
+                        onClick={() => dispatch(push('/questrade-offer'))}
                       >
                         Upgrade Now!
                       </A>
@@ -441,7 +439,10 @@ const ModelPortfolio = () => {
               {securityBased && (
                 <P style={{ textAlign: 'center' }}>
                   * Asset class is a beta feature. Help us improve this feature
-                  by <Link to={'/app/contact-form'}>sharing feedback</Link>
+                  by{' '}
+                  <PreLoadLink path={CONTACT_FORM_PATH}>
+                    sharing feedback
+                  </PreLoadLink>
                 </P>
               )}
               <ActionContainer>
