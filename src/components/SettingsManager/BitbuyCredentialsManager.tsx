@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from '@emotion/styled';
-import { InputNonFormik } from '../../styled/Form';
-import { H2, A, P } from '../../styled/GlobalElements';
+import {
+  H2,
+  A,
+  P,
+  BulletUL,
+  Li,
+  InputContainer,
+  MiniInputNonFormik,
+  LogoContainer,
+} from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
@@ -10,19 +17,7 @@ import { reloadEverything } from '../../actions';
 import { replace } from 'connected-react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-
-const InputContainer = styled.div`
-  padding-top: 10px;
-  padding-bottom: 5px;
-  font-size: 18px;
-`;
-
-const MiniInputNonFormik = styled(InputNonFormik)`
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-size: 1em;
-  padding: 15px 12px;
-`;
+import BitbuyAPIGenerator from '../../assets/images/bitbuy-api-generator.png';
 
 const BitbuyCredentialsManager = () => {
   const [APIKey, setAPIKey] = useState('');
@@ -82,8 +77,50 @@ const BitbuyCredentialsManager = () => {
       </InputContainer>
 
       <P>
+        If you're not sure how to generate a new API key for Bitbuy, you can
+        follow these steps:
+      </P>
+      <BulletUL>
+        <Li>
+          Navigate to your Bitbuy settings page by clicking{' '}
+          <A
+            href="https://bitbuy.ca/en/settings/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            here
+          </A>{' '}
+          (note - this requires login).
+        </Li>
+        <Li>Scroll down to your "Partner API" section.</Li>
+        <Li>
+          Under "Generate new API key", click the button that says "Generate".
+          The button looks like this:
+        </Li>
+
+        <LogoContainer>
+          <img
+            src={BitbuyAPIGenerator}
+            alt="How to Generate an Bitbuy API Token"
+          ></img>
+        </LogoContainer>
+
+        <Li>
+          You'll now be presented with pubilc and private keys for the Bitbuy
+          API.
+        </Li>
+        <Li>
+          Copy and paste these fields one-by-one into the form above to finish
+          connecting your Passiv account to Bitbuy!
+        </Li>
+      </BulletUL>
+      <P>
         If you're stuck, read our{' '}
-        <A href="#">
+        <A
+          href="https://passiv.com/help/tutorials/connect-bitbuy-to-passiv/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           tutorial on how to connect your Bitbuy account to Passiv.
         </A>
       </P>
