@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
+import { InputNonFormik } from '../styled/Form';
 
 type HProps = {
   color?: string;
@@ -213,4 +214,28 @@ export const ErrorBox = styled.div`
   color: red;
   font-size: 0.8rem;
   margin: 1rem 1rem;
+`;
+
+export const InputContainer = styled.div`
+  padding-top: 10px;
+  padding-bottom: 5px;
+  font-size: 18px;
+`;
+
+export const MiniInputNonFormik = styled(InputNonFormik)`
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 1em;
+  padding: 15px 12px;
+`;
+
+export const LogoContainer = styled.div`
+  img {
+    max-width: 100%;
+  }
+`;
+
+export const Error = styled.p`
+  color: red;
+  margin-bottom: 10px;
 `;
