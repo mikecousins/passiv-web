@@ -82,7 +82,6 @@ export const selectCurrentAccountBalances = createSelector<
     allBalances[accountId].data
   ) {
     balances = allBalances[accountId].data;
-    console.log(balances);
   }
   return balances;
 });
