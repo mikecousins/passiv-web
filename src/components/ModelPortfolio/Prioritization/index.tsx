@@ -16,7 +16,7 @@ import {
 } from '../../../selectors/groups';
 import { AssetClassPriorities } from '../../../types/modelPortfolio';
 import AssetClassPriority from './AssetClassPriority';
-import { A, H2, P } from '../../../styled/GlobalElements';
+import { H2, P } from '../../../styled/GlobalElements';
 import ShadowBox from '../../../styled/ShadowBox';
 import { Button } from '../../../styled/Button';
 import { toast } from 'react-toastify';
@@ -83,14 +83,6 @@ const NeedToPrioritize = styled.div`
     font-weight: 600;
     text-decoration: underline;
   }
-`;
-
-const Indicator = styled.span`
-  color: orange;
-  width: 8px;
-  height: 8px;
-  display: block;
-  border-radius: 50%;
 `;
 
 type Props = {
