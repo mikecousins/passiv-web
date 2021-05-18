@@ -3,19 +3,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { postData } from '../../../api';
-import { faSpinner, faUndo } from '@fortawesome/free-solid-svg-icons';
+import {
+  faExclamationTriangle,
+  faSpinner,
+  faUndo,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   selectCurrentGroup,
   selectCurrentGroupAssetClassTradePriorities,
   selectCurrentGroupInfoLoading,
+  selectNeedToPrioritize,
 } from '../../../selectors/groups';
 import { AssetClassPriorities } from '../../../types/modelPortfolio';
 import AssetClassPriority from './AssetClassPriority';
-import { H2, P } from '../../../styled/GlobalElements';
+import { A, H2, P } from '../../../styled/GlobalElements';
 import ShadowBox from '../../../styled/ShadowBox';
 import { Button } from '../../../styled/Button';
 import { toast } from 'react-toastify';
-import { loadGroup } from '../../../actions';
+import { loadGroup, loadGroupInfo } from '../../../actions';
 import { push } from 'connected-react-router';
 
 const Priorities = styled.div`
@@ -70,6 +75,24 @@ const SaveButton = styled.div`
   }
 `;
 
+const NeedToPrioritize = styled.div`
+  text-align: center;
+  button {
+    color: #1250be;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+`;
+
+const Indicator = styled.span`
+  color: orange;
+  width: 8px;
+  height: 8px;
+  display: block;
+  border-radius: 50%;
+`;
+
 type Props = {
   onSettingsPage: boolean;
 };
@@ -82,10 +105,11 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   const assetClassTradePriorities = useSelector(
     selectCurrentGroupAssetClassTradePriorities,
   );
+  const needToPrioritize = useSelector(selectNeedToPrioritize);
+
   const [assetClassPriorities, setAssetClassPriorities] = useState<
     AssetClassPriorities[]
   >(assetClassTradePriorities.tradePriorities);
-
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [changed, setChanged] = useState({ symbolId: '', accountId: '' });
@@ -236,20 +260,49 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     setNeedToConfirm(needToConfirmCopy);
   };
 
-  const priorities = assetClassPriorities?.map((priority) => {
-    return (
-      <AssetClassPriority
-        key={priority.asset_class.id}
-        priority={priority}
-        changed={changed}
-        handleBtn={handleUpDownBtn}
-        onSettingsPage={onSettingsPage}
-        needToConfirm={needToConfirm}
-        newAssets={newAssets}
-        confirm={() => handleConfirm(priority)}
-      />
+  const handleTakeToPriorities = () => {
+    postData(
+      `api/v1/portfolioGroups/${group?.id}/modelPortfolio/${group?.model_portfolio}`,
+      {},
+    )
+      .then(() => {
+        dispatch(loadGroupInfo());
+        dispatch(push(`/priorities/${group?.id}`));
+      })
+      .catch((err) => {
+        if (err.response) {
+          toast.error(err.response.data.detail);
+        }
+      });
+  };
+
+  const priorities =
+    onSettingsPage && needToPrioritize ? (
+      <NeedToPrioritize>
+        <P>
+          <FontAwesomeIcon icon={faExclamationTriangle} color="orange" /> Need
+          to
+          <button onClick={handleTakeToPriorities}>
+            Reapply and Reprioritize.
+          </button>
+        </P>
+      </NeedToPrioritize>
+    ) : (
+      assetClassPriorities?.map((priority) => {
+        return (
+          <AssetClassPriority
+            key={priority.asset_class.id}
+            priority={priority}
+            changed={changed}
+            handleBtn={handleUpDownBtn}
+            onSettingsPage={onSettingsPage}
+            needToConfirm={needToConfirm}
+            newAssets={newAssets}
+            confirm={() => handleConfirm(priority)}
+          />
+        );
+      })
     );
-  });
 
   return (
     <Priorities>
