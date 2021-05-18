@@ -8,7 +8,6 @@ import {
   Li,
   InputContainer,
   MiniInputNonFormik,
-  LogoContainer,
 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
@@ -17,7 +16,6 @@ import { reloadEverything } from '../../actions';
 import { replace } from 'connected-react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import BitbuyAPIGenerator from '../../assets/images/bitbuy-api-generator.png';
 
 const BitbuyCredentialsManager = () => {
   const [APIKey, setAPIKey] = useState('');
@@ -93,25 +91,12 @@ const BitbuyCredentialsManager = () => {
           (note - this requires login).
         </Li>
         <Li>Scroll down to your "Partner API" section.</Li>
-        <Li>
-          Under "Generate new API key", click the button that says "Generate".
-          The button looks like this:
-        </Li>
-
-        <LogoContainer>
-          <img
-            src={BitbuyAPIGenerator}
-            alt="How to Generate an Bitbuy API Token"
-          ></img>
-        </LogoContainer>
+        <Li>Under "Generate new API key", click the "Generate" button.</Li>
 
         <Li>
-          You'll now be presented with pubilc and private keys for the Bitbuy
-          API.
-        </Li>
-        <Li>
-          Copy and paste these fields one-by-one into the form above to finish
-          connecting your Passiv account to Bitbuy!
+          You'll now be presented with public and private keys for the Bitbuy
+          API. Copy and paste these fields one-by-one into the form above to
+          finish connecting your Passiv account to Bitbuy!
         </Li>
       </BulletUL>
       <P>
