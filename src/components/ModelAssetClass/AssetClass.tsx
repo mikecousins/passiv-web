@@ -164,7 +164,7 @@ const AssetClasses = ({ assetClass }: Props) => {
           <span style={{ fontWeight: 'bold' }}>{assetClassName} *</span> ?
         </H2Margin>
         <P style={{ textAlign: 'center' }}>
-          * All securities under this asset class would get deleted.
+          * All securities under this asset class will get deleted.
         </P>
         <ActionContainer>
           <DeleteBtn onClick={handleDeleteAssetClass}>Delete</DeleteBtn>
