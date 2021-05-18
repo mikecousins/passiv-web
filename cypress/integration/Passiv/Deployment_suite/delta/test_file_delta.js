@@ -47,7 +47,6 @@ describe('Reset and build portfolio manually', () => {
   it('Reset', () => {
       cy.contains('test').click()
       cy.contains('Portfolio').click().wait(8000)
-      cy.scrollTo('bottom')
       cy.get('div').contains('Reset').click()
 
       cy.contains('test').click()
@@ -61,16 +60,15 @@ describe('Reset and build portfolio manually', () => {
 
           //creating a new portfolio
     cy.get('input').eq(-2).click().clear().type(15)
-    cy.get('input').last().type('MSFT').type('{enter}').wait(5000).type('{enter}').wait(6000)
+    cy.get('input').last().type('MSFT').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(5000)
 
 
 
     cy.get('input').eq(-2).click().clear().type(5)
-    cy.get('input').last().type('MLPA').type('{enter}').wait(6000.).type('{enter}').wait(6000)
-
+    cy.get('input').last().type('MLPA').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(6000.)
 
     cy.get('input').eq(-2).click().clear().type(5)
-    cy.get('input').last().type('PNG.VN').type('{enter}').wait(6000).type('{enter}').wait(6000)
+    cy.get('input').last().type('PNG.VN').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(6000)
 
     cy.get('div').contains('Share Model').next().click()
     cy.get('div').contains('Share Model').next().click()
