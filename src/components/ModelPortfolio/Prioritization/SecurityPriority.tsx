@@ -151,10 +151,10 @@ const SecurityPriority = ({
       <Security
         columns={
           priorityKind === 'none'
-            ? '80px 100px 5fr'
+            ? '90px 100px 5fr'
             : priorityKind === 'buy'
-            ? '100px 5fr auto 100px'
-            : '80px 100px 5fr 100px'
+            ? '90px 100px 5fr auto 100px'
+            : '90px 100px 5fr 100px'
         }
         isChanged={
           changed.symbolId === symbolId &&
@@ -163,7 +163,9 @@ const SecurityPriority = ({
         priorityKind={priorityKind}
         key={symbolId}
       >
-        {priorityKind !== 'buy' && (
+        {priorityKind === 'buy' ? (
+          <div></div>
+        ) : (
           <CheckBox>
             <label className="container">
               <input
