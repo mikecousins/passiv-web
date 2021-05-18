@@ -10,11 +10,6 @@ const Container = styled.div`
   > h1 {
     line-height: 57px;
   }
-  .description {
-    font-size: 20px;
-    margin-left: 5px;
-  }
-
   button {
     margin-top: 10px;
     font-weight: 600;
@@ -27,6 +22,10 @@ const Container = styled.div`
       margin-left: 5px;
     }
   }
+`;
+
+export const Description = styled(P)`
+  font-size: 20px;
 `;
 
 type StepProps = {
@@ -52,11 +51,15 @@ const Step = styled.div<StepProps>`
   }
 `;
 
-const Intro = () => {
+type Props = {
+  handleNextStep: () => void;
+};
+
+const Intro = ({ handleNextStep }: Props) => {
   return (
     <Container>
       <H1>Welcome to Passiv</H1>
-      <P className="description">Let's get you set up!</P>
+      <Description>Let's get you set up!</Description>
       <Steps>
         {steps.map((step, index) => {
           return (
@@ -70,10 +73,8 @@ const Intro = () => {
           );
         })}
       </Steps>
-      <P className="description">
-        That’s all! Start growing your nest egg now!
-      </P>
-      <Button>
+      <Description>That’s all! Start growing your nest egg now!</Description>
+      <Button onClick={handleNextStep}>
           Get Started <FontAwesomeIcon icon={faLongArrowAltRight} />
       </Button>
       <VerticalPadding>
