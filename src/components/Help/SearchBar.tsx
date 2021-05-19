@@ -6,7 +6,6 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import Grid from '../../styled/Grid';
-import algoliaLogo from '../../assets/images/search-by-algolia-light-background.svg';
 import { useDebouncedEffect } from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import SearchResults from './SearchResults';
 import { Button } from '../../styled/Button';
@@ -47,15 +46,6 @@ const SearchContainer = styled.div`
     text-align: center;
     font-size: 20px;
   }
-`;
-
-const AlgoliaLogo = styled.div`
-  background: url(${algoliaLogo}) no-repeat;
-  background-size: contain;
-  width: 100px;
-  height: 20px;
-  margin: 0 0 10px auto;
-  display: block;
 `;
 
 const ResultsContainer = styled.div`
@@ -210,8 +200,6 @@ const SearchBar = () => {
           </button>
         )}
       </SearchContainer>
-
-      <AlgoliaLogo></AlgoliaLogo>
 
       <ResultsContainer>
         <Options>
