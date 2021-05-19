@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
-import styled from '@emotion/styled';
-import { InputNonFormik } from '../../styled/Form';
 import { H1, A, P, BulletUL, Li } from '../../styled/GlobalElements';
+import {
+  InputContainer,
+  MiniInputNonFormik,
+  Error,
+  LogoContainer,
+} from '../../styled/CredentialManagerElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
@@ -11,30 +15,6 @@ import { reloadEverything } from '../../actions';
 import { replace } from 'connected-react-router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import UnocoinAPIGenerator from '../../assets/images/unocoin-api-generation.png';
-
-const LogoContainer = styled.div`
-  img {
-    max-width: 100%;
-  }
-`;
-
-const InputContainer = styled.div`
-  padding-top: 10px;
-  padding-bottom: 5px;
-  font-size: 18px;
-`;
-
-const MiniInputNonFormik = styled(InputNonFormik)`
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-size: 1em;
-  padding: 15px 12px;
-`;
-
-const Error = styled.p`
-  color: red;
-  margin-bottom: 10px;
-`;
 
 const UnocoinCredentialsManager = () => {
   const [APIKey, setAPIKey] = useState('');
