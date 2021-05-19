@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
+import { H1, A, P, BulletUL, Li } from '../../styled/GlobalElements';
 import {
-  H1,
-  A,
-  P,
-  BulletUL,
-  Li,
   InputContainer,
   MiniInputNonFormik,
   Error,
   LogoContainer,
-} from '../../styled/GlobalElements';
+} from '../../styled/CredentialManagerElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';

@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { H2, A, P, BulletUL, Li } from '../../styled/GlobalElements';
 import {
-  H2,
-  A,
-  P,
-  BulletUL,
-  Li,
   InputContainer,
   MiniInputNonFormik,
-} from '../../styled/GlobalElements';
+} from '../../styled/CredentialManagerElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
