@@ -699,7 +699,9 @@ const ConnectBrokerage = ({ onboarding, handleLastStep }: Props) => {
             );
           })}
           <LinkContainer>
-            <Link to="/connect">Back</Link>
+            <BackBtn onClick={() => dispatch(push('/welcome'))}>
+              <FontAwesomeIcon icon={faLongArrowAltLeft} /> Go Back
+            </BackBtn>
           </LinkContainer>
         </ShadowBox>
       );
@@ -736,12 +738,13 @@ const ConnectBrokerage = ({ onboarding, handleLastStep }: Props) => {
     }
   }
 
-  // if (openBrokerage === 'open') {
-  //   return <ShadowBox>{output}</ShadowBox>;
-  // } else {
-  //   return output;
-  // }
-  return output;
+  if (!onboarding) {
+    return (
+      <ShadowBox background="var(--brand-light-green)">{output}</ShadowBox>
+    );
+  } else {
+    return output;
+  }
 };
 
 export default ConnectBrokerage;
