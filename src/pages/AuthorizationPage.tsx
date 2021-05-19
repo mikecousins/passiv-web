@@ -1,17 +1,19 @@
-import { useSelector, useDispatch } from 'react-redux';
 import React, { useState } from 'react';
-import { replace } from 'connected-react-router';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { useSelector, useDispatch } from 'react-redux';
+import { push, replace } from 'connected-react-router';
+import {
+  faLongArrowAltLeft,
+  faSpinner,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   selectIsAuthorized,
   selectBrokerages,
   selectMaintenanceBrokerages,
 } from '../selectors';
-
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { A, P, BulletUL, Li } from '../styled/GlobalElements';
+import { A, P, BulletUL, Li, H1, H2 } from '../styled/GlobalElements';
 import { postData } from '../api';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
@@ -29,38 +31,130 @@ import ZerodhaLogo from '../assets/images/zerodha-logo.png';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
 import { Button } from '../styled/Button';
-
-import {
-  aDarkStyle,
-  Container2Column,
-  Container1Column,
-  GrowBox,
-  LogoContainer,
-  LinkContainer,
-  AuthBox,
-  OpenBox,
-  AuthLink,
-  AuthP,
-  H1DarkStyle,
-  H2DarkStyle,
-  VerticalPadding,
-} from '../styled/Setup';
-import OnboardingProgress from '../components/OnboardingProgress';
-import { selectNewOnboardingFeature } from '../selectors/features';
 import { CONTACT_FORM_PATH } from '../apps/Paths';
 import PreLoadLink from '../components/PreLoadLink';
+import { Description } from '../components/Onboarding /Intro';
+import Grid from '../styled/Grid';
 
-const Brokerage = styled.div``;
+const VerticalPadding = styled.div`
+  padding-top: 10px;
+  padding-bottom: 10px;
+`;
+
+const Container3Column = styled(Grid)`
+  @media (max-width: 900px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+  }
+`;
+
+const GrowBox = styled.div`
+  flex-grow: 1;
+  padding-left: 30px;
+  display: flex;
+  align-items: center;
+`;
+
+export const LogoContainer = styled.div`
+  padding: 20px;
+  img {
+    max-width: 100%;
+    max-height: 100px;
+  }
+`;
+
+const LinkContainer = styled.div`
+  margin-top: 20px;
+  margin-bottom: 10px;
+`;
+
+const AuthBox = styled(ShadowBox)`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 30px;
+`;
+
+const OpenBox = styled(ShadowBox)`
+  min-width: 400px;
+  text-align: center;
+  padding-bottom: 30px;
+`;
+
+const AuthLink = styled(A)`
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 0;
+`;
+
+const AuthP = styled(P)`
+  max-width: 715px;
+  margin: 50px 0px 25px 0px;
+`;
+
+export const H1DarkStyle = styled(H1)`
+  color: #fff;
+`;
+
+export const H2DarkStyle = styled(H2)`
+  color: #04a287;
+  font-size: 22px;
+  padding-bottom: 20px;
+`;
+
+export const PDarkStyle = styled(P)`
+  color: #04a287;
+  font-size: 18px;
+  padding-bottom: 10px;
+
+  &:last-of-type {
+    padding-bottom: 0;
+  }
+`;
+
+const Note = styled(P)`
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.2px;
+  span {
+    font-weight: 600;
+  }
+`;
+
+const Brokerage = styled(H2)`
+  margin: 40px 0px 20px 0px;
+`;
+
+const BackBtn = styled(Button)`
+  padding: 13px 39px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;
+  text-align: center;
+  svg {
+    margin-right: 5px;
+  }
+`;
+
+const NoBrokerageLink = styled(Link)`
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  letter-spacing: 0.25px;
+  color: #003ba2;
+`;
 
 type Props = {
   onboarding?: boolean;
+  handleLastStep?: () => void;
 };
 
-const AuthorizationPage = ({ onboarding }: Props) => {
+const ConnectBrokerage = ({ onboarding, handleLastStep }: Props) => {
   const authorized = useSelector(selectIsAuthorized);
   const brokerages = useSelector(selectBrokerages);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
-  const showProgressFeature = useSelector(selectNewOnboardingFeature);
   const { openBrokerage } = useParams();
   const dispatch = useDispatch();
   const [confirmConnection, setConfirmConnection] = useState('');
@@ -452,16 +546,20 @@ const AuthorizationPage = ({ onboarding }: Props) => {
 
   let contents = (
     <React.Fragment>
-      <H1DarkStyle>Setup</H1DarkStyle>
-      <H2DarkStyle>Connect Your Brokerage</H2DarkStyle>
-      <AuthP>
+      <H1>Connect Your Brokerage</H1>
+      <Description>
         In order to help you manage your portfolio, Passiv needs to connect to
-        your brokerage account. Connecting your account does not allow Passiv to
-        see your login information.
-      </AuthP>
-      <H2DarkStyle>Traditional</H2DarkStyle>
+        your brokerage account.
+      </Description>
+      <Note>
+        <span>Important:</span> Your login details are secure with your
+        brokerage. Connecting your account does not allow Passiv to see your
+        login information.
+      </Note>
+
+      <Brokerage>Traditional</Brokerage>
       <React.Fragment>
-        <Container2Column>
+        <Container3Column columns="1.5fr 1.5fr 1.5fr 1.5fr">
           {brokerageOptions.map((brokerage: any) => {
             let contents = null;
             if (brokerages.some((b) => b.name === brokerage.name)) {
@@ -483,9 +581,9 @@ const AuthorizationPage = ({ onboarding }: Props) => {
               return null;
             }
           })}
-        </Container2Column>
-        <H2DarkStyle>Crypto</H2DarkStyle>
-        <Container2Column>
+        </Container3Column>
+        <Brokerage>Crypto</Brokerage>
+        <Container3Column columns="1.5fr 1.5fr 1.5fr 1.5fr">
           {brokerageOptions.map((brokerage: any) => {
             let contents = null;
             if (brokerages.some((b) => b.name === brokerage.name)) {
@@ -507,9 +605,9 @@ const AuthorizationPage = ({ onboarding }: Props) => {
               return null;
             }
           })}
-        </Container2Column>
-        <H2DarkStyle>Aggregators</H2DarkStyle>
-        <Container2Column>
+        </Container3Column>
+        <Brokerage>Aggregators</Brokerage>
+        <Container3Column columns="1.5fr 1.5fr 1.5fr 1.5fr">
           {brokerageOptions.map((brokerage: any) => {
             let contents = null;
             if (brokerages.some((b) => b.name === brokerage.name)) {
@@ -531,7 +629,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
               return null;
             }
           })}
-        </Container2Column>
+        </Container3Column>
       </React.Fragment>
     </React.Fragment>
   );
@@ -541,12 +639,11 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     const options = getBrokerageOptions(confirmConnection);
     output = (
       <React.Fragment>
-        <H1DarkStyle>Setup</H1DarkStyle>
-        <H2DarkStyle>Connect {options.name}</H2DarkStyle>
-        <AuthP>
+        <Brokerage>Connect {options.name}</Brokerage>
+        <Description>
           Please read and understand the following information before connecting
           to {options.name}.
-        </AuthP>
+        </Description>
         {options.confirmPrompt}
         <LinkContainer>
           <Button
@@ -563,15 +660,14 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   } else {
     if (openBrokerage === 'open') {
       output = (
-        <React.Fragment>
-          <H1DarkStyle>Setup</H1DarkStyle>
-          <H2DarkStyle>Open a brokerage account</H2DarkStyle>
-          <AuthP>
+        <ShadowBox background="var(--brand-light-green)">
+          <H1>Open a brokerage account</H1>
+          <Description>
             Passiv is a service that helps you manage your portfolio in a
             brokerage account. Since Passiv is not a brokerage firm, you will
             need your own brokerage account in order to use Passiv. We partner
             with select brokerage firms in order to provide the best experience.
-          </AuthP>
+          </Description>
           <AuthP>
             Follow a link below to create a brokerage account with one of our
             partners.
@@ -579,7 +675,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           {brokerageOptions.map((brokerage: any) => {
             return (
               <Brokerage>
-                <Container1Column>
+                <Grid columns="1fr 1fr">
                   <OpenBox
                     onClick={() => {
                       window.location = brokerage.openURL;
@@ -598,16 +694,14 @@ const AuthorizationPage = ({ onboarding }: Props) => {
                     </AuthLink>
                   </OpenBox>
                   <GrowBox>{brokerage.description}</GrowBox>
-                </Container1Column>
+                </Grid>
               </Brokerage>
             );
           })}
           <LinkContainer>
-            <Link style={aDarkStyle} to="/connect">
-              Back
-            </Link>
+            <Link to="/connect">Back</Link>
           </LinkContainer>
-        </React.Fragment>
+        </ShadowBox>
       );
     } else {
       output = (
@@ -617,22 +711,22 @@ const AuthorizationPage = ({ onboarding }: Props) => {
             {onboarding ? (
               <LinkContainer>
                 <VerticalPadding>
-                  <Link style={aDarkStyle} to="/connect/open">
+                  <NoBrokerageLink to="/connect/open">
                     I don't have a brokerage account.
-                  </Link>
+                  </NoBrokerageLink>
                 </VerticalPadding>
                 <VerticalPadding>
-                  <Link style={aDarkStyle} to="/welcome">
-                    Back
-                  </Link>
+                  <BackBtn onClick={handleLastStep}>
+                    <FontAwesomeIcon icon={faLongArrowAltLeft} /> Go Back
+                  </BackBtn>
                 </VerticalPadding>
               </LinkContainer>
             ) : (
               <LinkContainer>
                 <VerticalPadding>
-                  <Link style={aDarkStyle} to="/settings">
-                    Back
-                  </Link>
+                  <BackBtn onClick={() => dispatch(push('/settings'))}>
+                    <FontAwesomeIcon icon={faLongArrowAltLeft} /> Go Back
+                  </BackBtn>
                 </VerticalPadding>
               </LinkContainer>
             )}
@@ -642,12 +736,12 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     }
   }
 
-  return (
-    <ShadowBox background="#2a2d34">
-      {output}
-      {showProgressFeature && <OnboardingProgress step={2} />}
-    </ShadowBox>
-  );
+  // if (openBrokerage === 'open') {
+  //   return <ShadowBox>{output}</ShadowBox>;
+  // } else {
+  //   return output;
+  // }
+  return output;
 };
 
-export default AuthorizationPage;
+export default ConnectBrokerage;

@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '../../styled/Button';
 import { H1, H3, P } from '../../styled/GlobalElements';
-import { VerticalPadding } from '../../styled/Setup';
 
 const Container = styled.div`
   > h1 {
@@ -77,17 +76,15 @@ const Intro = ({ handleNextStep }: Props) => {
       <Button onClick={handleNextStep}>
           Get Started <FontAwesomeIcon icon={faLongArrowAltRight} />
       </Button>
-      <VerticalPadding>
-        <iframe
-          title="Passiv Basics"
-          width="995"
-          height="627"
-          src="https://player.vimeo.com/video/547476267"
-          frameBorder="0"
-          allow="autoplay; fullscreen"
-          allowFullScreen
-        ></iframe>
-      </VerticalPadding>
+      <iframe
+        title="Passiv Basics"
+        width="995"
+        height="627"
+        src="https://player.vimeo.com/video/547476267"
+        frameBorder="0"
+        allow="autoplay; fullscreen"
+        allowFullScreen
+      ></iframe>
     </Container>
   );
 };
