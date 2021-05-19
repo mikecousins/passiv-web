@@ -133,3 +133,10 @@ export const selectHiddenAccounts = createSelector<AppState, any[], any[]>(
     return hiddenAccounts;
   },
 );
+
+export const selectHasOnlyCryptoAccounts = createSelector(
+  selectAccounts,
+  (accounts) => {
+    return accounts.every((account) => account.meta.type === 'Crypto');
+  },
+);
