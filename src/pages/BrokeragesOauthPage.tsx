@@ -56,6 +56,12 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
         oauth_verifier: queryParams.oauth_verifier,
       };
     }
+    if (brokerageName === 'Ally') {
+      token = {
+        oauth_token: queryParams.oauth_token,
+        oauth_verifier: queryParams.oauth_verifier,
+      };
+    }
     if (brokerageName === 'Zerodha') {
       token = { token: queryParams.request_token };
     }

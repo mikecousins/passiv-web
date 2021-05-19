@@ -181,6 +181,27 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       type: 'traditional',
     },
     {
+      id: 'ally',
+      name: 'Ally',
+      displayName: 'Ally',
+      connect: () => {
+        startConnection('Ally', 'trade');
+      },
+      defaultConnectionType: 'trade',
+      openURL: 'https://www.ally.com/invest/',
+      major: true,
+      logo: 'Ally Invest',
+      confirmPrompt: null,
+      description: (
+        <P>
+          Ally aims to change the online banking landscape with innovative
+          digital experiences. It offers securities-brokerage and
+          investment-advisory services through Ally Invest.
+        </P>
+      ),
+      type: 'traditional',
+    },
+    {
       id: 'interactivebrokers',
       name: 'Interactive Brokers',
       displayName: 'IBKR',
