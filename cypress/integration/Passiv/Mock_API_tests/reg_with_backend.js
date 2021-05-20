@@ -1,97 +1,47 @@
-describe('Database test', () => {
-  it('Data is stored in correct format in JSON file', () => {
-    cy.intercept('GET', '/api/v1', { fixture: 'api_v1.json' }).as('API poke');
+describe('Testing registration fields, button and signal sending', () => {
+        it('Registration works and a signal is sent ', () => {
 
-    cy.fixture('testDomain').as('login');
-    cy.get('@login').then((domain) => {
-      cy.visit(domain.test.concat('/register'));
-    });
+            cy.intercept('/api/v1/ping', (req) => { req.reply((res) => { res.send({  fixture: '/login_stubs/ping.json'})
+          })
+          })
+          .as('Ping')
+
+          cy.intercept('GET','v1', (req) => { req.reply({ fixture: '/login_stubs/v1.json' })
+          })
+          .as('V1')
+
+          cy.intercept('/api/v1/help/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/help.json' })
+          })
+          })
+          .as('Help')
+
+
+
+            cy.visit('/app/register', { responseTimeout: 310000 })
 
     // the variable for the info that will be stored in the JSON db
-    let body;
 
-    cy.intercept('POST', '/api/v1/auth/register/', (req) => {
-      console.log('POST user info', req);
-      body = req.body;
-    }).as('Save');
 
-    //cons values
-    const name = 'Alex Sutherland';
-    const email = 'testemail@passiv.com';
-    const pass = 'testpass12345@';
 
-    cy.get('[name=name]')
-      .type(name)
-      .get('[name=email]')
-      .type(email)
-      .should('have.value', email)
-      .get('[name=password]')
-      .type(pass)
-      .should('have.value', pass)
-      .get('form')
-      .submit()
+                cy.fixture('user').as('userFixture')
+                cy.get('@userFixture').then(user => {
+                cy.get('[name=name]').type(user.name)
+                cy.get('[name=email]').first().type(user.email)
+                cy.get('[placeholder=Password]').type(user.password)
+                .get('form').submit()
 
-      .wait('@Save')
-      .then(() => {
-        cy.writeFile(
-          'cypress/fixtures/user.json',
-          JSON.stringify(body, null, 2),
-        );
-      });
-  });
+          cy.intercept('POST', '/api/v1/auth/register/', { fixture: 'user.json'})
+          .as('Success')
 
-  it('Add Auth Token', () => {
-    cy.readFile('cypress/fixtures/user.json').then((obj) => {
-      cy.writeFile(
-        'cypress/fixtures/user.json',
-        Object.assign(obj, {
-          token:
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MDcxLCJ1c2VybmFtZSI6IjRiVVRHWlBpZFROSDlIWW5PYjdGbXlIcDZaVXRCQiIsImV4cCI6MTYwNzk2NjI5MywiZW1haWwiOiJhc3V0aGVybGFuZDgyMTlAZ21haWwuY29tIiwib3JpZ19pYXQiOjE2MDc1MzQyOTN9.FeoVWnIHnCTNhQ9sT3Tt4al62UXTrNtmyjitqSq2JbE',
-        }),
-      );
-    });
-  });
-});
+            cy.wait('@Success')
+            .then(({request, response}) => {
+            expect(response.statusCode).to.eq(200)
+            expect(request.body).to.have.property('email', user.email)
+            expect(request.body).to.have.property('password', user.password)
+            expect(request.method).to.eq('POST')
 
-describe('Registration Test', () => {
-  it('Registration works but does not create a new user', () => {
-    cy.intercept('GET', '/api/v1', { fixture: 'api_v1.json' }).as('API poke');
+    })
+  })
 
-    cy.fixture('testDomain').as('login');
-    cy.get('@login').then((domain) => {
-      cy.visit(domain.test.concat('/register'));
-    });
-
-    cy.intercept('POST', '/api/v1/auth/register/', { fixture: 'user.json' }).as(
-      'Success',
-    );
-
-    cy.intercept('GET', '/api/v1', { fixture: 'api_v1.json' }).as('API poke');
-
-    cy.fixture('user').as('userFixture');
-    cy.get('@userFixture').then((user) => {
-      cy.get('[name=name]').type(user.name);
-      cy.get('[name=email]').first().type(user.email);
-      cy.get('[placeholder=Password]').type(user.password).get('form').submit();
-
-      cy.wait('@Success').then(({ request, response }) => {
-        expect(response.statusCode).to.eq(200);
-        expect(request.body).to.have.property('email', user.email);
-        expect(request.body).to.have.property('password', user.password);
-        expect(request.method).to.eq('POST');
-
-        // Upon successful registration a token is assigned and stored in the json data base "user.json"
-
-        cy.readFile('cypress/fixtures/user.json').then((obj) => {
-          cy.writeFile(
-            'cypress/fixtures/user.json',
-            Object.assign(obj, {
-              token:
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MDcxLCJ1c2VybmFtZSI6IjRiVVRHWlBpZFROSDlIWW5PYjdGbXlIcDZaVXRCQiIsImV4cCI6MTYwNzk2NjI5MywiZW1haWwiOiJhc3V0aGVybGFuZDgyMTlAZ21haWwuY29tIiwib3JpZ19pYXQiOjE2MDc1MzQyOTN9.FeoVWnIHnCTNhQ9sT3Tt4al62UXTrNtmyjitqSq2JbE',
-            }),
-          );
-        });
-      });
-    });
-  });
-});
+})
+})
