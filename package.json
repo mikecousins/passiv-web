@@ -43,7 +43,7 @@
     "@reach/menu-button": "0.15.1",
     "@reach/tooltip": "0.15.0",
     "@sentry/browser": "5.20.1",
-    "@stripe/react-stripe-js": "1.1.2",
+    "@stripe/react-stripe-js": "1.4.1",
     "@stripe/stripe-js": "1.8.0",
     "@types/algoliasearch": "^4.0.0",
     "@types/react-stripe-elements": "^6.0.4",
