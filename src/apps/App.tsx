@@ -265,7 +265,10 @@ const App = () => {
 
   // redirect the old path name with '/app'
   if (location.pathname.includes('/app')) {
-    const newPath = location.pathname.replace('/app', '');
+    let newPath = location.pathname.replace('/app', '');
+    if (newPath.length === 0) {
+      newPath = '/';
+    }
     window.location.replace(newPath);
   }
 
