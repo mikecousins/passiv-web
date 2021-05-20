@@ -61,7 +61,7 @@ describe('Login individual component test', () => {
   })
 
 
-// Verify the sign in button is disabled without email //
+  // Verify the sign in button is disabled without email //
   it('accepts input password', () => {
       cy.fixture('testDomain').as('login')
       cy.get('@login').then(domain => {
@@ -100,7 +100,7 @@ describe('Login individual component test', () => {
           statusCode: 200,
           body: 'it worked!'
       }).as('Reset')
-      cy.intercept('https://app.passiv.com/app/reset-password').as('redirect')
+      cy.intercept('https://app.delta.passiv.com/app/reset-password').as('redirect')
       cy.fixture('testDomain').as('server')
       cy.get('@server').then(domain => {
       cy.visit((domain.test).concat('/reset-password')) })
