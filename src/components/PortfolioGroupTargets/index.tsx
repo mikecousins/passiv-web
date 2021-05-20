@@ -144,7 +144,6 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     {
       id: 'MANUAL',
       name: 'Build your target portfolio manually',
-      tourClass: 'tour-build-portfolio',
       button: (
         <Button
           onClick={() => {
@@ -158,6 +157,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     },
     {
       id: 'NEW_MODEL',
+      tourClass: 'tour-build-model',
       name: 'Create a new model',
       button: <Button onClick={() => newModel()}>New Model</Button>,
     },

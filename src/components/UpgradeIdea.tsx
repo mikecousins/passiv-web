@@ -48,7 +48,7 @@ const UpgradeIdea = ({ showSkipLink, skipLocation }: Props) => {
   const dispatch = useDispatch();
 
   return (
-    <IdeaBox>
+    <IdeaBox className="tour-one-click-trade">
       <IdeaRow>
         <IconBox>
           <FontAwesomeIcon icon={faLightbulb} />
