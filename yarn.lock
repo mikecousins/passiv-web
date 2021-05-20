@@ -11417,11 +11417,6 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-load-script@0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/react-load-script/-/react-load-script-0.0.6.tgz#db6851236aaa25bb622677a2eb51dad4f8d2c258"
-  integrity sha512-aRGxDGP9VoLxcsaYvKWIW+LRrMOzz2eEcubTS4NvQPPugjk2VvMhow0wWTkSl7RxookomD1MwcP4l5UStg5ShQ==
-
 react-markdown@6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/react-markdown/-/react-markdown-6.0.2.tgz#d89be45c278b1e5f0196f851fffb11e30c69f027"
@@ -11451,12 +11446,13 @@ react-multi-select-component@^4.0.2:
   resolved "https://registry.yarnpkg.com/react-multi-select-component/-/react-multi-select-component-4.0.2.tgz#16c9844f0d222e8ba9a2cdced72f4232a201b6cc"
   integrity sha512-/GQ9y66+Hy+Y25I2il2qVe2b6ophFDnxVuaSgBUJdJCOLcyVfcDEwJ7mNM4z3kuk6luSgwY9VYPO7ngn5XCzgw==
 
-react-plaid-link@1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/react-plaid-link/-/react-plaid-link-1.5.1.tgz#075c02aba3f83db36d02c6b44e968eb5fb106241"
-  integrity sha512-54y2fXetwKHKjrV6O+T+BS2KXAKLWfbd5gFNOFxCH2u3LWbIbLJ8viSDuFbbi1vTqFnANuRZFZRhNhphh6p5DQ==
+react-plaid-link@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-plaid-link/-/react-plaid-link-3.1.0.tgz#585bda7f8d64689478ed6339c0b111643fd34066"
+  integrity sha512-jTbThGcka3YjpKntGquzmfMXpEhENdbpiGJ97W33McPcqAosdOUCdbBJmm2Ih6hE56exTrISxzpdhOpLD4/emA==
   dependencies:
-    react-load-script "0.0.6"
+    prop-types "^15.7.2"
+    react-script-hook "1.1.0"
 
 react-proptype-conditional-require@^1.0.4:
   version "1.0.4"
@@ -11539,6 +11535,11 @@ react-router@5.2.0:
     react-is "^16.6.0"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
+
+react-script-hook@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-script-hook/-/react-script-hook-1.1.0.tgz#f88bb74b1c89250d7577e6cd5472f10992190706"
+  integrity sha512-swEdGFIOgG4lfi1gdYzFNV28uKuowzbgEGb8Lwi/yp696BVa6RvvuW4a7FY9mic+SecojVlHMWcllygmAg6EJg==
 
 react-scripts@4.0.3:
   version "4.0.3"
