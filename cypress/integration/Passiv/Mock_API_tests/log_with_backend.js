@@ -2,26 +2,13 @@ describe('Login using created data from registration', () => {
     it('Log in Success', () => {
 
 
-        cy.intercept( '/api/v1/auth/login/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/put_auth.json'})
-      })
-    })
-      .as('Put')
+        cy.intercept('POST', '/api/v1/auth/login/', { fixture: '/login_stubs/login_token.json'})
+      .as('Success')
 
         cy.intercept('/api/v1/ping', (req) => { req.reply((res) => { res.send({  fixture: '/login_stubs/ping.json'})
       })
     })
       .as('Ping')
-
-
-        cy.intercept('/api/v1/incentives/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/incentives.json' })
-      })
-    })
-      .as('Incentives')
-
-        cy.intercept('/api/v1/features/', (req) => { req.reply((res) => { res.send({  fixture: '/login_stubs/features.json' })
-      })
-    })
-      .as('Features')
 
         cy.intercept('/api/v1/currencies/rates/', (req) => { req.reply((res) => { res.send({  fixture: '/login_stubs/currencies.json' })
       })
@@ -33,16 +20,6 @@ describe('Login using created data from registration', () => {
     })
       .as('Subscriptions')
 
-        cy.intercept('/api/v1/accounts/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/accounts.json' })
-      })
-    })
-      .as('Accounts')
-
-        cy.intercept('/api/v1/portfolioGroups/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/portfolioGroups.json' })
-      })
-    })
-      .as('PG[]')
-
       cy.intercept('/api/v1/settings/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/settings.json' })
       })
     })
@@ -53,52 +30,12 @@ describe('Login using created data from registration', () => {
     })
       .as('Plans')
 
-      cy.intercept('/api/v1/goals/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/goals.json' })
-      })
-    })
-      .as('Goals')
-
-
       cy.intercept('/api/v1/help/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/help.json' })
       })
     })
       .as('Help')
 
-      cy.intercept('/api/v1/brokerages/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/brokerages.json' })
-      })
-    })
-      .as('Brokerages')
-
-
-      cy.intercept('/api/v1/authorizations', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/autho.json' })
-      })
-    })
-      .as('Questrade')
-
-        cy.intercept('POST', '/api/v1/performance/all/**', (req) => { req.reply((res) =>  { res.send({  fixture: '/login_stubs/performance.json'})
-      })
-    })
-      .as('Perf')
-
-        cy.intercept('OPTIONS', '/api/v1/accounts/**/balances/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/balances.json' })
-      })
-    })
-      .as('Balances_option')
-
-      cy.intercept('OPTIONS', '/api/v1/accounts/**/positions/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/positions.json' })
-      })
-    })
-      .as('Positions_options')
-
-      cy.intercept('OPTIONS', '/api/v1/portfolioGroups/**/info/', (req) => { req.reply((res) => { res.send({ fixture: '/login_stubs/info.json' })
-      })
-    })
-      .as('Info_options')
-
-
-        cy.intercept('v1', (req) => { req.reply((res) => { res.send({  fixture: '/login_stubs/v1.json' })
-      })
-    })
+      cy.intercept('v1', {  fixture: '/login_stubs/v1.json' })
       .as('V1')
 
 
@@ -114,10 +51,19 @@ describe('Login using created data from registration', () => {
     })
     cy.get('form').submit()
 
+    cy.wait('@Success')
+    .then(({request, response}) => {
+    expect(response.statusCode).to.eq(200)
+    expect(request.body).to.have.property('email', 'testemail@passiv.com')
+    expect(request.body).to.have.property('password', 'passivtestpass')
+    expect(request.method).to.eq('POST')
 
 
 
 
+
+
+  })
 
 })
 })

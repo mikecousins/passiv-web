@@ -15,15 +15,12 @@ describe('Testing registration fields, button and signal sending', () => {
           })
           .as('Help')
 
-          cy.intercept('POST', '/api/v1/auth/register/', req => {
-            console.log('POST user info', req)
-            body = req.body
-        }).as('Save')
+
 
             cy.visit('/app/register', { responseTimeout: 310000 })
 
     // the variable for the info that will be stored in the JSON db
-    let body
+
 
 
                 cy.fixture('user').as('userFixture')
@@ -33,9 +30,12 @@ describe('Testing registration fields, button and signal sending', () => {
                 cy.get('[placeholder=Password]').type(user.password)
                 .get('form').submit()
 
-            cy.wait('@Save')
+          cy.intercept('POST', '/api/v1/auth/register/', { fixture: 'user.json'})
+          .as('Success')
+
+            cy.wait('@Success')
             .then(({request, response}) => {
-            expect(response.statusCode).to.eq(400)
+            expect(response.statusCode).to.eq(200)
             expect(request.body).to.have.property('email', user.email)
             expect(request.body).to.have.property('password', user.password)
             expect(request.method).to.eq('POST')
