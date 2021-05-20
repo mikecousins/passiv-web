@@ -398,9 +398,9 @@ export const selectPasswordResetToken = createSelector(
       router &&
       router.location &&
       router.location.pathname &&
-      router.location.pathname.split('/').length === 4
+      router.location.pathname.split('/').length === 3
     ) {
-      token = router.location.pathname.split('/')[3];
+      token = router.location.pathname.split('/')[2];
     }
     return token;
   },

@@ -156,6 +156,7 @@ const SymbolSelector = ({
     <StyledCombobox onSelect={handleSelectByTicker}>
       {forModelSecurity ? (
         <StyledComboboxInput
+          autoFocus
           value={input}
           onChange={onChange}
           onKeyPress={(event: any) =>
@@ -165,6 +166,7 @@ const SymbolSelector = ({
         />
       ) : (
         <StyledInput
+          autoFocus
           value={value}
           onChange={onChange}
           onKeyPress={(event: any) =>

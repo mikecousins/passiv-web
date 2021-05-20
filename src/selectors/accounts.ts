@@ -82,7 +82,6 @@ export const selectCurrentAccountBalances = createSelector<
     allBalances[accountId].data
   ) {
     balances = allBalances[accountId].data;
-    console.log(balances);
   }
   return balances;
 });
@@ -132,5 +131,12 @@ export const selectHiddenAccounts = createSelector<AppState, any[], any[]>(
     let hiddenAccounts = [];
     hiddenAccounts = accounts.filter((a) => a.portfolio_group === null);
     return hiddenAccounts;
+  },
+);
+
+export const selectHasOnlyCryptoAccounts = createSelector(
+  selectAccounts,
+  (accounts) => {
+    return accounts.every((account) => account.meta.type === 'Crypto');
   },
 );

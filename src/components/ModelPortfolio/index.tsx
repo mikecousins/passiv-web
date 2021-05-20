@@ -206,7 +206,7 @@ const ModelPortfolio = () => {
   const [copied, setCopied] = useState(false);
   const [modelTypeChanged, setModelTypeChanged] = useState(false);
 
-  const SHARE_URL = `https:/.passiv.com/shared-model-portfolio/${modelId}?share=${referralCode}`;
+  const SHARE_URL = `https://app.passiv.com/shared-model-portfolio/${modelId}?share=${referralCode}`;
 
   let haveAssetsInModel = false;
   if (
