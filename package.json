@@ -126,7 +126,7 @@
     "@types/uuid": "8.0.1",
     "@types/yup": "0.29.4",
     "cypress": "^6.2.1",
-    "eslint-plugin-cypress": "2.11.1",
+    "eslint-plugin-cypress": "2.11.3",
     "husky": "4.2.5",
     "jest-mock-axios": "4.2.1",
     "lint-staged": "10.2.11",
