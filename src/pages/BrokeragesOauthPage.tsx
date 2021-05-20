@@ -300,31 +300,45 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   }
   let result = null;
 
-  if (loading) {
-    result = (
-      <H1>
-        Establishing connection to {brokerageName}...{' '}
-        <FontAwesomeIcon icon={faSpinner} spin />
-      </H1>
-    );
-  } else if (connectedSuccessfully) {
+  if (error) {
     result = (
       <React.Fragment>
-        <H1>Connection Complete</H1>
-        <Description>
-          {/* //TODO do a check to see if is part of onBoarding */}
-          Thanks for connecting your {brokerageName} account! Connect another
-          brokerage or move on to the next step!
-        </Description>
+        <H1>Failed to establish connection</H1>
+        {errorDisplay}
         <ActionContainer>
-          <ConnectMore>Connect Another Account</ConnectMore>
-          <Continue>
-            Continue to Next Step
-            <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
+          <Continue onClick={() => dispatch(push('/settings'))}>
+            Go to Settings
           </Continue>
         </ActionContainer>
       </React.Fragment>
     );
+  } else {
+    if (loading) {
+      result = (
+        <H1>
+          Establishing connection to {brokerageName}...{' '}
+          <FontAwesomeIcon icon={faSpinner} spin />
+        </H1>
+      );
+    } else if (connectedSuccessfully) {
+      result = (
+        <React.Fragment>
+          <H1>Connection Complete</H1>
+          <Description>
+            {/* //TODO do a check to see if is part of onBoarding */}
+            Thanks for connecting your {brokerageName} account! Connect another
+            brokerage or move on to the next step!
+          </Description>
+          <ActionContainer>
+            <ConnectMore>Connect Another Account</ConnectMore>
+            <Continue>
+              Continue to Next Step
+              <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
+            </Continue>
+          </ActionContainer>
+        </React.Fragment>
+      );
+    }
   }
 
   return <Container>{result}</Container>;
