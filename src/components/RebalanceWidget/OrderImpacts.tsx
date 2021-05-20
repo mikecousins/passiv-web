@@ -33,8 +33,8 @@ const OrderImpacts = ({ impacts }: Props) => {
       if (
         filteredAccountBalance.length > 0 &&
         (filteredAccountBalance[0].cash !== impact.remaining_cash ||
-          impact.estimated_commissions > 0 ||
-          impact.forex_fees > 0)
+          impact.estimated_commissions >= 0 ||
+          impact.forex_fees >= 0)
       ) {
         if (!filteredAccountIds.includes(impact.account)) {
           filteredAccountIds.push(impact.account);

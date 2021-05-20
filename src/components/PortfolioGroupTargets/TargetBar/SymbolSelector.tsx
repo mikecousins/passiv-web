@@ -18,6 +18,7 @@ import {
   StyledComboboxList,
   StyledComboboxOption,
 } from '../../ModelPortfolio/AssetClassSelector';
+import { Symbol } from '../../../types/groupInfo';
 
 const StyledCombobox = styled(Combobox)`
   width: 494px;
@@ -56,14 +57,18 @@ const StyledOption = styled(ComboboxOption)`
 `;
 
 type Props = {
-  value: any;
+  value: string | undefined;
   groupId?: string;
   forModelSecurity?: boolean;
   clearInput?: number;
-  onSelect: (symbol: any) => void;
+  onSelect: (symbol: Symbol) => void;
 };
 
-const useDebouncedEffect = (callback: any, delay: number, deps: any[] = []) => {
+export const useDebouncedEffect = (
+  callback: any,
+  delay: number,
+  deps: any[] = [],
+) => {
   const firstUpdate = useRef(true);
   useEffect(() => {
     if (firstUpdate.current) {
@@ -88,7 +93,7 @@ const SymbolSelector = ({
   onSelect,
 }: Props) => {
   const dispatch = useDispatch();
-  const [matchingSymbols, setMatchingSymbols] = useState<any[]>();
+  const [matchingSymbols, setMatchingSymbols] = useState<Symbol[]>();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -121,17 +126,17 @@ const SymbolSelector = ({
   }, [clearInput]);
 
   const handleSelectByTicker = (ticker: string) => {
-    if (forModelSecurity) {
-      ticker = ticker.split(',')[0];
-    }
+    const tickerSplit = ticker.split(/,(.+)/);
+    let symbol = tickerSplit[0].toUpperCase().trim();
+    let desc = tickerSplit[1].trim();
     if (!matchingSymbols) {
       return;
     }
-    const symbol = matchingSymbols.find(
-      (symbol) => ticker.toUpperCase() === symbol.symbol,
+    const matchedSymbol = matchingSymbols.find(
+      (t) => symbol === t.symbol.trim() && desc === t.description.trim(),
     );
-    if (symbol) {
-      onSelect(symbol);
+    if (matchedSymbol) {
+      onSelect(matchedSymbol);
     }
   };
 
@@ -151,6 +156,7 @@ const SymbolSelector = ({
     <StyledCombobox onSelect={handleSelectByTicker}>
       {forModelSecurity ? (
         <StyledComboboxInput
+          autoFocus
           value={input}
           onChange={onChange}
           onKeyPress={(event: any) =>
@@ -160,6 +166,7 @@ const SymbolSelector = ({
         />
       ) : (
         <StyledInput
+          autoFocus
           value={value}
           onChange={onChange}
           onKeyPress={(event: any) =>
@@ -180,7 +187,7 @@ const SymbolSelector = ({
           <StyledPopover>
             {forModelSecurity ? (
               <StyledComboboxList>
-                {matchingSymbols.map((option: any, index) => {
+                {matchingSymbols.map((option, index) => {
                   const value = `${option.symbol}, ${option.description}`;
                   return (
                     <StyledComboboxOption key={index} value={value}>
@@ -193,9 +200,10 @@ const SymbolSelector = ({
               </StyledComboboxList>
             ) : (
               <ComboboxList>
-                {matchingSymbols.map((option: any, index) => {
+                {matchingSymbols.map((option, index) => {
+                  const value = `${option.symbol}, ${option.description}`;
                   return (
-                    <StyledOption key={index} value={option.symbol}>
+                    <StyledOption key={index} value={value}>
                       <span>
                         {option.symbol} ({option.description})
                       </span>

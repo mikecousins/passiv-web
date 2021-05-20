@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { matchSorter } from 'match-sorter';
+import { ModelAssetClass } from '../../../types/modelAssetClass';
 
-export const useFindMatch = (term: string, list: any[], keys?: string[]) => {
+export const useFindMatch = (
+  term: string,
+  list: ModelAssetClass[],
+  keys?: string[],
+) => {
   let throttledTerm = useThrottle(term, 100);
   return React.useMemo(
     () =>
@@ -15,7 +20,7 @@ export const useFindMatch = (term: string, list: any[], keys?: string[]) => {
   );
 };
 
-export const useThrottle = (value: any, limit: number) => {
+export const useThrottle = (value: string, limit: number) => {
   const [throttledValue, setThrottledValue] = React.useState(value);
   const lastRan = React.useRef(Date.now());
 
@@ -31,4 +36,21 @@ export const useThrottle = (value: any, limit: number) => {
   }, [value, limit]);
 
   return throttledValue;
+};
+
+export const isNameDuplicate = (
+  newName: string,
+  currentName: string | undefined,
+  listOfNames: any[],
+) => {
+  let isDuplicate: boolean = false;
+  const trimmedName = newName.trim();
+  if (
+    currentName &&
+    trimmedName !== currentName &&
+    listOfNames?.includes(trimmedName)
+  ) {
+    isDuplicate = true;
+  }
+  return isDuplicate;
 };

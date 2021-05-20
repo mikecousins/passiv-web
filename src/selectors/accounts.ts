@@ -62,8 +62,8 @@ export const selectCurrentAccountId = createSelector<
   string | null
 >(selectPathname, (pathname) => {
   let accountId = null;
-  if (pathname && pathname.split('/').length >= 6) {
-    accountId = pathname.split('/')[5];
+  if (pathname && pathname.split('/').length >= 5) {
+    accountId = pathname.split('/')[4];
   }
   return accountId;
 });
@@ -131,5 +131,12 @@ export const selectHiddenAccounts = createSelector<AppState, any[], any[]>(
     let hiddenAccounts = [];
     hiddenAccounts = accounts.filter((a) => a.portfolio_group === null);
     return hiddenAccounts;
+  },
+);
+
+export const selectHasOnlyCryptoAccounts = createSelector(
+  selectAccounts,
+  (accounts) => {
+    return accounts.every((account) => account.meta.type === 'Crypto');
   },
 );

@@ -11,7 +11,6 @@ import {
   selectHasQuestradeConnection,
   selectHasWealthicaConnection,
 } from '../../../selectors';
-import { selectNewReportingFeature } from '../../../selectors/features';
 import {
   selectEndDate,
   selectPerformanceCurrentDetailedMode,
@@ -45,7 +44,9 @@ const Settings = () => {
   const [showReturnRate, setShowReturnRate] = useState(
     settings?.show_return_rate,
   );
-  const useNewReporting = useSelector(selectNewReportingFeature);
+  const [contributionsByMonth, setContributionsByMonth] = useState(
+    settings?.contributions_by_month,
+  );
   const hasQuestradeAccount = useSelector(selectHasQuestradeConnection);
   const hasWealthicaAccount = useSelector(selectHasWealthicaConnection);
   const startDate = useSelector(selectStartDate);
@@ -86,6 +87,15 @@ const Settings = () => {
     dispatch(
       updateReportingSettings({
         showReturnRate: !oldValue,
+      }),
+    );
+  };
+  const handleMonthlyContributionsToggle = () => {
+    const oldValue = contributionsByMonth;
+    setContributionsByMonth(!contributionsByMonth);
+    dispatch(
+      updateReportingSettings({
+        contributionsByMonth: !oldValue,
       }),
     );
   };
@@ -155,6 +165,24 @@ const Settings = () => {
         </ToggleButton>
         <OptionsTitle>Show Rate of Return</OptionsTitle>
       </Option>
+      <Option>
+        <ToggleButton onClick={() => handleMonthlyContributionsToggle()}>
+          {contributionsByMonth ? (
+            <React.Fragment>
+              <FontAwesomeIcon icon={faToggleOn} />
+              <StateText>on</StateText>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <FontAwesomeIcon icon={faToggleOff} />
+              <StateText>off</StateText>
+            </React.Fragment>
+          )}
+        </ToggleButton>
+        <OptionsTitle>
+          Prefer showing contribution data by months (don't group by year)
+        </OptionsTitle>
+      </Option>
       {hasQuestradeAccount && hasWealthicaAccount && (
         <>
           <Option>
@@ -192,18 +220,16 @@ const Settings = () => {
         </>
       )}
 
-      {useNewReporting && (
-        <Option>
-          <div>
-            <span onClick={() => disableDetailedMode()}>
-              <DefaultChart selected={!detailedMode} />
-            </span>
-            <span onClick={() => enableDetailedMode()}>
-              <DetailedChart selected={detailedMode} />
-            </span>
-          </div>
-        </Option>
-      )}
+      <Option>
+        <div>
+          <span onClick={() => disableDetailedMode()}>
+            <DefaultChart selected={!detailedMode} />
+          </span>
+          <span onClick={() => enableDetailedMode()}>
+            <DetailedChart selected={detailedMode} />
+          </span>
+        </div>
+      </Option>
       {needsDataRefresh() && (
         <>
           <br></br>

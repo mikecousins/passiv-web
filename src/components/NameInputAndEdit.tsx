@@ -33,6 +33,7 @@ const Name = styled.span`
 type Props = {
   value: string;
   edit: boolean;
+  saveDisabled?: boolean;
   cancelButton?: boolean;
   allowEdit: boolean;
   doneBtnTxt?: string;
@@ -55,6 +56,7 @@ type Props = {
 const NameInputAndEdit = ({
   value,
   edit,
+  saveDisabled = false,
   cancelButton,
   allowEdit,
   doneBtnTxt = 'Done',
@@ -82,7 +84,11 @@ const NameInputAndEdit = ({
             onChange={onChange}
             onKeyPress={onKeyPress}
           />
-          <StyledDoneButton onClick={onClickDone} type="button">
+          <StyledDoneButton
+            onClick={onClickDone}
+            type="button"
+            disabled={saveDisabled}
+          >
             {doneBtnTxt}
           </StyledDoneButton>
           {cancelButton && (

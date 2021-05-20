@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { replace } from 'connected-react-router';
-import { useHistory } from 'react-router-dom';
+import { push, replace } from 'connected-react-router';
 import { postData } from '../api';
 import {
   selectCurrentGroup,
@@ -25,9 +24,10 @@ import {
   selectModelPortfolios,
   selectModelUseByOtherGroups,
 } from '../selectors/modelPortfolios';
+import { Position } from '../types/groupInfo';
 
 type Props = {
-  targets: any;
+  targets: Position[];
 };
 
 const ListOfAssets = styled.ul`
@@ -66,8 +66,17 @@ const MaxHeightSmallBtn = styled(SmallButton)`
   max-height: 45px;
 `;
 
+const ExcludeBtn = styled(MaxHeightSmallBtn)`
+  background: transparent;
+  border: 1px solid var(--brand-blue);
+  color: var(--brand-blue);
+`;
+
+const BoldSpan = styled.span`
+  font-weight: 900;
+`;
+
 const NewAssetsDetected = ({ targets }: Props) => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const [loadingId, setLoadingId] = useState('');
   const currentGroup = useSelector(selectCurrentGroup);
@@ -79,7 +88,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
 
   const groupId = currentGroup?.id;
 
-  const handleAddTarget = (target: any, exclude: boolean) => {
+  const handleAddTarget = (target: Position, exclude: boolean) => {
     setLoadingId(target.symbol.id);
     const newTarget = {
       symbol: target.symbol.id,
@@ -96,14 +105,13 @@ const NewAssetsDetected = ({ targets }: Props) => {
     } else {
       newTargets = targets?.currentTarget;
     }
-    //@ts-ignore
     newTargets?.push(newTarget);
 
     postData(`/api/v1/portfolioGroups/${groupId}/targets/`, newTargets!)
       .then(() => {
         dispatch(loadGroup({ ids: [groupId] }));
         if (!exclude) {
-          dispatch(replace(`/app/group/${groupId}?edit=true`));
+          dispatch(replace(`/group/${groupId}?edit=true`));
           setTimeout(() => {
             window.scrollTo({
               top: document.documentElement.scrollHeight,
@@ -127,7 +135,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
       });
   };
 
-  const handleAddToModel = (target: any) => {
+  const handleAddToModel = (target: Position) => {
     setLoadingId(target.symbol.id);
     const modelId = currentGroup?.model_portfolio;
     const model = modelPortfolios.filter(
@@ -195,9 +203,9 @@ const NewAssetsDetected = ({ targets }: Props) => {
           </P>
         )}
         <ListOfAssets>
-          {targets?.map((target: any) => {
+          {targets?.map((target) => {
             if (target.excluded) {
-              return;
+              return false;
             }
             if (target.symbol.id === loadingId) {
               return <FontAwesomeIcon icon={faSpinner} spin />;
@@ -222,16 +230,9 @@ const NewAssetsDetected = ({ targets }: Props) => {
                     {modelPortfolioFeature ? 'Add to Model' : 'Add to Target'}
                   </MaxHeightSmallBtn>
                 )}
-                <MaxHeightSmallBtn
-                  style={{
-                    background: 'transparent',
-                    border: '1px solid var(--brand-blue)',
-                    color: 'var(--brand-blue)',
-                  }}
-                  onClick={() => handleAddTarget(target, true)}
-                >
+                <ExcludeBtn onClick={() => handleAddTarget(target, true)}>
                   Exclude
-                </MaxHeightSmallBtn>
+                </ExcludeBtn>
               </StyledGrid>
             );
           })}
@@ -239,21 +240,19 @@ const NewAssetsDetected = ({ targets }: Props) => {
 
         {modelPortfolioFeature ? (
           <small>
-            * The securities get added with{' '}
-            <span style={{ fontWeight: 900 }}>0%</span>. Scroll down and click
-            Edit Model to change their allocation.
+            * The securities get added with <BoldSpan>0%</BoldSpan>. Scroll down
+            and click Edit Model to change their allocation.
           </small>
         ) : (
           <small>
-            * The securities get added with{' '}
-            <span style={{ fontWeight: 900 }}>0%</span> but you can go to the
-            bottom and change them.
+            * The securities get added with <BoldSpan>0%</BoldSpan> but you can
+            go to the bottom and change them.
           </small>
         )}
 
         <DontShowBtn>
-          <A onClick={() => history.push(`/app/group/${groupId}/settings`)}>
-            Do not want to see this message again? Turn it off in your group
+          <A onClick={() => dispatch(push(`/group/${groupId}/settings`))}>
+            Do not want to see this message again? Turn it off in your portfolio
             settings.
           </A>
         </DontShowBtn>

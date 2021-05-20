@@ -22,11 +22,11 @@ interface Props {
   actionPairs: ActionPair[];
 }
 
-export default ({ store, actionPairs }: Props) => {
+const RunDataChecks = ({ store, actionPairs }: Props) => {
   // create list of actions that pass the selector test
   actionPairs
-    .filter(item => item.selector(store.getState()))
-    .forEach(item => {
+    .filter((item) => item.selector(store.getState()))
+    .forEach((item) => {
       // we want to do this in an idle callback
       // (which falls back to `setTimeout(x, 0)`)
       // in order to avoid dispatching synchrounous actions
@@ -49,3 +49,5 @@ export default ({ store, actionPairs }: Props) => {
       );
     });
 };
+
+export default RunDataChecks;

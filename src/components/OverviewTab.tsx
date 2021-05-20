@@ -1,7 +1,10 @@
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import {
+  faExclamationTriangle,
+  faSpinner,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
 import PortfolioGroupName from './PortfolioGroupDetails/PortfolioGroupName';
@@ -23,30 +26,18 @@ import {
   selectPreferredCurrency,
   selectCurrentGroupPositionsNotInTargetOrExcluded,
   selectCurrentGroupModelType,
+  selectNeedToPrioritize,
 } from '../selectors/groups';
-import { P } from '../styled/GlobalElements';
+import { H3, P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
+import { OverviewTabSteps } from './Tour/TourSteps';
 import NewAssetsDetected from './NewAssetsDetected';
-
-const TOUR_STEPS = [
-  {
-    target: '.tour-accuracy',
-    content:
-      'Accuracy tells you how close your holdings are to your desired target. 100% indicates your holdings are perfectly on target (including cash). Accuracy changes when you adjust your targets, your settings, and when you place trades. ',
-    placement: 'right',
-  },
-  {
-    target: '.tour-cash',
-    content: 'All your available funds in your brokerage accounts’ currencies.',
-    placement: 'right',
-  },
-  {
-    target: '.tour-total-value',
-    content:
-      'Current total value of your holding plus your available cash. You can choose the currency Passiv displays your Total Value in.',
-    placement: 'right',
-  },
-];
+import { ErrorContainer } from '../styled/Group';
+import { Button } from '../styled/Button';
+import { postData } from '../api';
+import { toast } from 'react-toastify';
+import { loadGroupInfo } from '../actions';
+import { push } from 'connected-react-router';
 
 export const Container3Column = styled.div`
   @media (min-width: 900px) {
@@ -76,7 +67,21 @@ export const Container6040Column = styled.div`
   }
 `;
 
+const List = styled.ul`
+  margin: 20px;
+  list-style: circle;
+  > li {
+    margin-bottom: 5px;
+  }
+`;
+
+const Description = styled(P)`
+  font-size: 20px;
+`;
+
 const OverviewTab = () => {
+  const dispatch = useDispatch();
+
   const group = useSelector(selectCurrentGroup);
   const currentGroupModelType = useSelector(selectCurrentGroupModelType);
   const balances = useSelector(selectCurrentGroupBalances);
@@ -90,7 +95,7 @@ const OverviewTab = () => {
   const positionsNotInTargetsOrExcluded = useSelector(
     selectCurrentGroupPositionsNotInTargetOrExcluded,
   );
-
+  const needToPrioritize = useSelector(selectNeedToPrioritize);
   const positionsNotInTarget = positionsNotInTargetsOrExcluded?.filter(
     (position) => !position.excluded,
   );
@@ -114,7 +119,7 @@ const OverviewTab = () => {
         <PortfolioGroupName name={name} />
         <P>
           There are no accounts in this group.{' '}
-          <Link to={`/app/settings#accounts`}>Manage Groups</Link>
+          <Link to={`/settings#accounts`}>Manage Groups</Link>
         </P>
       </React.Fragment>
     );
@@ -128,9 +133,25 @@ const OverviewTab = () => {
     );
   }
 
+  const handleTakeToPriorities = () => {
+    const modelId = group.model_portfolio;
+    postData(`api/v1/portfolioGroups/${group.id}/modelPortfolio/${modelId}`, {})
+      .then(() => {
+        dispatch(loadGroupInfo());
+        dispatch(push(`/priorities/${group.id}`));
+      })
+      .catch((err) => {
+        if (err.response) {
+          toast.error(err.response.data.detail);
+        }
+      });
+  };
+
   return (
     <React.Fragment>
-      {setupComplete && <Tour steps={TOUR_STEPS} name="overview_tab_tour" />}
+      {setupComplete && (
+        <Tour steps={OverviewTabSteps} name="overview_tab_tour" />
+      )}
       <PortfolioGroupName name={name} />
       <Container3Column>
         <PortfolioGroupAccuracy
@@ -152,6 +173,36 @@ const OverviewTab = () => {
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
+      {needToPrioritize && (
+        <ErrorContainer>
+          <H3>
+            <FontAwesomeIcon icon={faExclamationTriangle} /> Need to confirm
+            priorities
+          </H3>
+          <Description>
+            We noticed that you made changes to the asset class model used by
+            this group. In order to show you accurate trades, Passiv needs you
+            to confirm priorities for this model.
+          </Description>
+          <br />
+          <P>
+            <span style={{ fontWeight: 600 }}>Prioritization</span> needs to be
+            confirmed after doing any of the following actions:
+            <List>
+              <li>Adding or Deleting a security in an asset class.</li>
+              <li>Adding an account to the portfolio group.</li>
+              <li>
+                Adding an asset class to the model portfolio linked to a
+                portfolio group.
+              </li>
+            </List>
+          </P>
+
+          <Button onClick={handleTakeToPriorities}>
+            Reapply & Reprioritize
+          </Button>
+        </ErrorContainer>
+      )}
       {setupComplete &&
         positionsNotInTarget &&
         positionsNotInTarget.length > 0 &&

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { push } from 'connected-react-router';
 import styled from '@emotion/styled';
 import {
   Combobox,
@@ -12,7 +13,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFindMatch } from './utils/utils';
 import { selectCurrentModelPortfolioId } from '../../selectors/modelPortfolios';
-import { useSelector } from 'react-redux';
+import { ModelAssetClass } from '../../types/modelAssetClass';
 
 const StyledCombobox = styled(Combobox)`
   width: 500px;
@@ -73,7 +74,7 @@ const AddAssetClassBtn = styled.li`
 type Props = {
   name: string;
   id: string;
-  availableAssetClasses: any[];
+  availableAssetClasses: ModelAssetClass[];
   clearInput?: number;
   onSelect: any;
 };
@@ -85,7 +86,7 @@ const AssetClassSelector = ({
   clearInput,
   onSelect,
 }: Props) => {
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   const modelId = useSelector(selectCurrentModelPortfolioId);
   const [input, setInput] = useState('');
@@ -99,22 +100,23 @@ const AssetClassSelector = ({
     setInput(event.target.value);
   };
 
-  const handleSelect = (id: string) => {
-    const assetClass = availableAssetClasses.find((astCls) => id === astCls.id);
+  const handleSelect = (name: string) => {
+    const assetClass = availableAssetClasses.find(
+      (astCls) => name === astCls.name,
+    );
     if (assetClass) {
-      setInput(assetClass.name);
       onSelect(assetClass);
     }
   };
-
   return (
     <StyledCombobox onSelect={handleSelect}>
       <StyledComboboxInput
         value={input}
-        placeholder="Pick Asset Class"
+        placeholder="Type Asset Class Name"
         name={name}
         id={id}
         onChange={onChange}
+        autoFocus
         onKeyPress={(event: any) =>
           event.key === 'Enter' && handleSelect(event.target.value)
         }
@@ -124,7 +126,7 @@ const AssetClassSelector = ({
           {results && results.length > 0 ? (
             results.map((option: any, index: number) => {
               return (
-                <StyledComboboxOption key={index} value={option.id}>
+                <StyledComboboxOption key={index} value={option.name}>
                   {option.name}
                 </StyledComboboxOption>
               );
@@ -134,7 +136,7 @@ const AssetClassSelector = ({
           )}
           <AddAssetClassBtn
             onClick={() =>
-              history.push(`/app/asset-class?back=/model-portfolio/${modelId}`)
+              dispatch(push(`/asset-class?back=/model-portfolio/${modelId}`))
             }
           >
             <FontAwesomeIcon icon={faPlus} /> New Asset Class

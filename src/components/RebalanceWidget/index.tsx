@@ -7,27 +7,16 @@ import { getData, postData, putData } from '../../api';
 import { selectSettings } from '../../selectors';
 import { selectShowQuestradeOffer } from '../../selectors/subscription';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
-import {
-  Symbol,
-  ColumnSymbolSmall,
-  ColumnUnits,
-  ColumnAction,
-  ColumnStatus,
-} from '../../styled/Group';
+import { Symbol, ColumnSymbolSmall, ColumnTrades } from '../../styled/Group';
 import OrderImpacts from './OrderImpacts';
-import {
-  ConfirmContainer,
-  OrderContainer,
-  SummaryContainer,
-  ModifiedTradeRow,
-} from './styles';
+import { ConfirmContainer, OrderContainer, SummaryContainer } from './styles';
 import ErrorMessage from './ErrorMessage';
 import { Button } from '../../styled/Button';
 import UpgradeIdea from '../UpgradeIdea';
 import { selectLimitOrdersFeature } from '../../selectors/features';
 import { selectIsPaid } from '../../selectors/subscription';
 import PreLoadLink from '../PreLoadLink';
-import { SETTINGS_PATH } from '../../apps/Paths';
+import { CONTACT_FORM_PATH, SETTINGS_PATH } from '../../apps/Paths';
 import { selectAccounts } from '../../selectors/accounts';
 import {
   selectCurrentGroupSettings,
@@ -37,6 +26,7 @@ import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import { TradeType, TradeBasketType } from '../../types/tradeBasket';
 import { selectAuthorizations } from '../../selectors';
+import Grid from '../../styled/Grid';
 
 type Props = {
   groupId: string;
@@ -229,7 +219,6 @@ const RebalanceWidget = ({
 
   var hasZerodhaAccount = false;
   var hasNonZerodhaAccount = false;
-  var hasUnocoinAccount = false;
   groupAccounts.map((acc: any) => {
     //find the authorization associated with this account
     if (authorizations === undefined) {
@@ -244,11 +233,7 @@ const RebalanceWidget = ({
       return false;
     }
     const isZerodhaConnection = authorization.brokerage.name === 'Zerodha';
-    const isUnocoinConnection = authorization.brokerage.name === 'Unocoin';
-    if (isUnocoinConnection) {
-      hasUnocoinAccount = true;
-      return true;
-    }
+
     //If so, marks the `hasZerodhaAccount` variable as `true`
     if (isZerodhaConnection) {
       hasZerodhaAccount = true;
@@ -305,8 +290,9 @@ const RebalanceWidget = ({
         </div>
         <br></br>
         <div>
-          Please <a href="mailto:support@passiv.com">contact support</a> if you
-          have any questions!
+          Please{' '}
+          <PreLoadLink path={CONTACT_FORM_PATH}>contact support</PreLoadLink> if
+          you have any questions!
         </div>
       </>
     );
@@ -347,28 +333,28 @@ const RebalanceWidget = ({
           <div>
             {orderResults.map((results: any) => {
               return (
-                <ModifiedTradeRow key={results.trade}>
-                  <ColumnAction>
+                <Grid columns="repeat(4, 0.5fr)" key={results.trade}>
+                  <ColumnTrades>
                     <Title>Action</Title>
                     <div>{results.action}</div>
-                  </ColumnAction>
-                  <ColumnUnits>
+                  </ColumnTrades>
+                  <ColumnTrades>
                     <Title>Units</Title>
                     {results.filled_fractional_units ? (
                       <div>{results.filled_fractional_units}</div>
                     ) : (
                       <div>{results.filled_units}</div>
                     )}
-                  </ColumnUnits>
+                  </ColumnTrades>
                   <ColumnSymbolSmall>
                     <Title>Symbol</Title>
                     <Symbol>{results.universal_symbol.symbol}</Symbol>
                   </ColumnSymbolSmall>
-                  <ColumnStatus>
+                  <ColumnTrades>
                     <Title>Status</Title>
                     <div>{results.state}</div>
-                  </ColumnStatus>
-                </ModifiedTradeRow>
+                  </ColumnTrades>
+                </Grid>
               );
             })}
           </div>
@@ -486,25 +472,7 @@ const RebalanceWidget = ({
     }
   }
 
-  return (
-    <SummaryContainer>
-      {orderValidation}
-      {hasUnocoinAccount && (
-        <>
-          <br></br>
-          <div>
-            Note - Unocoin only allows users to trade 3 cryptocurrencies using
-            its API: BTC, ETH, and USDT.
-          </div>
-          <br></br>
-          <div>
-            To trade other coins within your Unocoin account, please login to
-            their website at <a href="www.unocoin.com">www.unocoin.com</a>.
-          </div>
-        </>
-      )}
-    </SummaryContainer>
-  );
+  return <SummaryContainer>{orderValidation}</SummaryContainer>;
 };
 
 export default RebalanceWidget;

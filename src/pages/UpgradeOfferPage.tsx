@@ -16,7 +16,7 @@ import { Error } from '../types/groupInfo';
 import { Button } from '../styled/Button';
 import { push } from 'connected-react-router';
 import PreLoadLink from '../components/PreLoadLink';
-import { HELP_PATH } from '../apps/Paths';
+import { CONTACT_FORM_PATH } from '../apps/Paths';
 
 const ModifiedShadowBox = styled(ShadowBox)`
   margin-bottom: 10px;
@@ -67,7 +67,7 @@ const AButtonBox = styled.div`
   margin-bottom: 20px;
 `;
 
-const shareURL = 'https://passiv.com/app/questrade-offer';
+const shareURL = 'https://passiv.com/questrade-offer';
 
 const shareTwitterCopy = `Questrade is giving away Passiv Elite subscriptions for FREE! Now it's easier than ever to manage your own investments. Go here to open a Passiv account: ${shareURL}`;
 
@@ -150,7 +150,7 @@ const UpgradeOfferPage = () => {
               have a Questrade account linked to Passiv. Just connect your
               account and come back here to claim the offer!
             </P>
-            <Button onClick={() => dispatch(push('/app/settings/connect'))}>
+            <Button onClick={() => dispatch(push('/settings/connect'))}>
               Connect Questrade
             </Button>
             <AButtonBox>
@@ -182,7 +182,7 @@ const UpgradeOfferPage = () => {
               whatever you prefer!
             </P>
             {shareBox}
-            <Button onClick={() => dispatch(push('/app/dashboard'))}>
+            <Button onClick={() => dispatch(push('/dashboard'))}>
               Go to Dashboard
             </Button>
           </React.Fragment>
@@ -193,8 +193,8 @@ const UpgradeOfferPage = () => {
           <P>
             We hit a problem while trying to upgrade your account. Please try
             again later or{' '}
-            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
-            persists.
+            <PreLoadLink path={CONTACT_FORM_PATH}>contact support</PreLoadLink>{' '}
+            if this persists.
           </P>
         );
         break;
@@ -214,7 +214,7 @@ const UpgradeOfferPage = () => {
           this link using Twitter, Facebook, email, or whatever you prefer!
         </P>
         {shareBox}
-        <Button onClick={() => dispatch(push('/app/dashboard'))}>
+        <Button onClick={() => dispatch(push('/dashboard'))}>
           Go to Dashboard
         </Button>
       </ModifiedShadowBox>

@@ -36,6 +36,7 @@ import { SimpleListState } from '../reducers/simpleList';
 import { Currency } from '../types/currency';
 import { Position, Account } from '../types/account';
 import { selectCurrencies } from '../selectors/currencies';
+import { AssetClassPriorities } from '../types/modelPortfolio';
 
 export const selectGroupsRaw = (state: AppState) => state.groups;
 
@@ -153,9 +154,9 @@ export const selectCurrentGroupId = createSelector<
     router &&
     router.location &&
     router.location.pathname &&
-    router.location.pathname.split('/').length >= 4
+    router.location.pathname.split('/').length >= 3
   ) {
-    groupId = router.location.pathname.split('/')[3];
+    groupId = router.location.pathname.split('/')[2];
   }
   return groupId;
 });
@@ -194,7 +195,17 @@ export const selectCurrentGroupInfoError = createSelector(
 
 export const selectGroupsLoading = createSelector(
   selectGroupsRaw,
-  (rawGroups) => rawGroups.loading,
+  selectGroupInfo,
+  (rawGroups, groupInfo) => {
+    let isLoading = false;
+    if (
+      rawGroups.loading ||
+      Object.entries(groupInfo).find((gp) => gp[1].loading)
+    ) {
+      isLoading = true;
+    }
+    return isLoading;
+  },
 );
 
 export const selectCurrentGroupAccuracy = createSelector<
@@ -555,9 +566,12 @@ export const selectTotalGroupHoldings = createSelector(
           groupInfo[group.id].data!.positions.forEach((position) => {
             if (
               preferredCurrency &&
-              position.symbol.currency.id === preferredCurrency.id
+              (position.symbol.currency.id === preferredCurrency.id ||
+                position.currency?.id === preferredCurrency.id)
             ) {
-              total += position.units * position.price;
+              position.fractional_units
+                ? (total += position.fractional_units * position.price)
+                : (total += position.units * position.price);
             } else {
               const conversionRate = rates.find(
                 (rate) =>
@@ -568,8 +582,15 @@ export const selectTotalGroupHoldings = createSelector(
               if (!conversionRate) {
                 return;
               }
-              total +=
-                position.units * position.price * conversionRate.exchange_rate;
+              position.fractional_units
+                ? (total +=
+                    position.fractional_units *
+                    position.price *
+                    conversionRate.exchange_rate)
+                : (total +=
+                    position.units *
+                    position.price *
+                    conversionRate.exchange_rate);
             }
           });
         }
@@ -596,7 +617,7 @@ export const selectCurrentAccountId = createSelector<
   const matchSelector = createMatchSelector<
     any,
     { groupId?: string; accountId?: string }
-  >('/app/group/:groupId/account/:accountId');
+  >('/group/:groupId/account/:accountId');
   const match = matchSelector(state);
   if (!match) {
     return undefined;
@@ -1397,11 +1418,12 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
     let targetIds: any;
     if (targets?.isAssetClassBased) {
       targets.currentAssetClass?.forEach((assetClass) => {
-        targetIds += assetClass?.fullSymbols?.map((target: any) => {
+        targetIds += assetClass?.fullSymbols?.forEach((target: any) => {
           if (target?.excluded) {
             excluded.push({
-              excluded: target?.excluded,
-              symbol: target?.symbol,
+              excluded: target.excluded,
+              symbol: target.symbol,
+              quotable: target.quotable,
             });
           } else {
             return target?.symbol.id;
@@ -1412,18 +1434,19 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
       targetIds = targets?.currentTarget?.map(
         (target: any) => target.fullSymbol.id,
       );
-      targets?.currentTarget?.map((target: any) => {
-        if (target.is_excluded && target.is_supported) {
+      targets?.currentTarget?.forEach((target: any) => {
+        if (target.is_excluded) {
           excluded.push({
             excluded: target.is_excluded,
             symbol: target.fullSymbol,
+            quotable: target.is_supported,
           });
         }
       });
     }
-    if (positions) {
+    if (positions && targetIds) {
       notInTarget = positions.filter(
-        (position: any) => targetIds?.indexOf(position.symbol.id) === -1,
+        (position: any) => targetIds.indexOf(position.symbol.id) === -1,
       );
     }
 
@@ -1435,5 +1458,69 @@ export const selectCurrentGroupModelType = createSelector(
   selectCurrentGroupInfo,
   (groupInfo) => {
     return groupInfo?.model_portfolio?.model_type;
+  },
+);
+
+export const selectCurrentGroupAssetClassTradePriorities = createSelector(
+  selectCurrentGroupInfo,
+  (groupInfo) => {
+    const tradePriorities: AssetClassPriorities[] = JSON.parse(
+      JSON.stringify(groupInfo?.asset_class_trade_priorities),
+    );
+    let assetClassIds: string[] = [];
+    let newSecurities: string[] = [];
+
+    tradePriorities?.forEach((priority) => {
+      // filter out "Excluded Assets" asset class for now
+      if (
+        priority.asset_class.name !== 'Excluded Assets' &&
+        priority.asset_class.name !== 'Excluded Securities'
+      ) {
+        // if not on settings page (user is setting priorities for the first time), just to make it easier, we put all securities in the sell priority array
+        priority.accounts_priorities.forEach((account) => {
+          if (
+            account.unassigned.length > 0 &&
+            account.sell_priority.length === 0 &&
+            account.buy_priority.length === 0 &&
+            account.do_not_trade.length === 0
+          ) {
+            account.sell_priority = account.unassigned;
+            assetClassIds.push(priority.asset_class.id);
+          } else if (
+            account.unassigned.length > 0 &&
+            (account.sell_priority.length !== 0 ||
+              account.buy_priority.length !== 0 ||
+              account.do_not_trade.length !== 0)
+          ) {
+            newSecurities = newSecurities.concat(account.unassigned);
+            account.sell_priority = account.sell_priority.concat(
+              account.unassigned,
+            );
+
+            assetClassIds.push(priority.asset_class.id);
+          }
+          account.sell_priority.reverse();
+        });
+      }
+    });
+    assetClassIds = assetClassIds.filter(
+      (value, index, array) => array.indexOf(value) === index,
+    );
+    newSecurities = newSecurities.filter(
+      (value, index, array) => array.indexOf(value) === index,
+    );
+    return { tradePriorities, assetClassIds, newSecurities };
+  },
+);
+
+export const selectNeedToPrioritize = createSelector(
+  selectCurrentGroupSettings,
+  selectCurrentGroupModelType,
+  (settings, modelType) => {
+    let prioritize = false;
+    if (modelType === 1 && settings?.model_portfolio_changed) {
+      prioritize = true;
+    }
+    return prioritize;
   },
 );

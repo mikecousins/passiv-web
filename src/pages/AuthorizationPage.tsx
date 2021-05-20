@@ -1,5 +1,6 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import React, { useState } from 'react';
+import { replace } from 'connected-react-router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -20,6 +21,7 @@ import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 import TDAmeritradeLogo from '../assets/images/tda-logo.png';
 import TradierLogo from '../assets/images/tradier-logo.png';
 import KrakenLogo from '../assets/images/kraken-logo.png';
+import BitbuyLogo from '../assets/images/bitbuy-logo.png';
 import UnocoinLogo from '../assets/images/unocoin-logo.png';
 import WealthicaLogo from '../assets/images/wealthica-logo.png';
 import WealthsimpleTradeLogo from '../assets/images/wealthsimple-logo.png';
@@ -45,6 +47,8 @@ import {
 } from '../styled/Setup';
 import OnboardingProgress from '../components/OnboardingProgress';
 import { selectShowProgressFeature } from '../selectors/features';
+import { CONTACT_FORM_PATH } from '../apps/Paths';
+import PreLoadLink from '../components/PreLoadLink';
 
 const Brokerage = styled.div``;
 
@@ -58,6 +62,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const showProgressFeature = useSelector(selectShowProgressFeature);
   const { openBrokerage } = useParams();
+  const dispatch = useDispatch();
   const [confirmConnection, setConfirmConnection] = useState('');
 
   const checkBrokerageMaintenance = (brokerage: BrokerageType) => {
@@ -79,6 +84,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
 
   const startConfirmConnection = (brokerageName: string) => {
     const options = getBrokerageOptions(brokerageName);
+
     const brokerage =
       brokerages &&
       brokerages.find((brokerage) => brokerage.name === brokerageName);
@@ -109,12 +115,17 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         toast.error(
           `${brokerage.name} is currently undergoing maintenance and cannot establish new connections at this time. Please try again later.`,
         );
+      } else if (brokerage.authorization_types[0].auth_type === 'TOKEN') {
+        postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
+          type: connectionType,
+        }).then((response) => {
+          dispatch(replace(`/connect/${brokerage.name.toLowerCase()}`));
+        });
       } else {
         postData(`/api/v1/brokerages/${brokerage.id}/authorize/`, {
           type: connectionType,
         })
           .then((response) => {
-            console.log(response.data);
             window.location = response.data.url;
           })
           .catch((error) => {
@@ -147,6 +158,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           cover your account transfer costs up to $150.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'alpaca',
@@ -166,6 +178,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           beyond.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'interactivebrokers',
@@ -190,9 +203,17 @@ const AuthorizationPage = ({ onboarding }: Props) => {
               <Li>
                 IBKR takes between 24 to 48 hours to fully connect and load in
                 data to Passiv. If you have still not loaded in data after 48
-                hours then please contact support.
+                hours then please{' '}
+                <PreLoadLink path={CONTACT_FORM_PATH}>
+                  contact support
+                </PreLoadLink>
+                .
               </Li>
               <Li>Only IBKR Pro accounts are supported by Passiv.</Li>
+              <Li>
+                Due to limitations in IBKR's API, Passiv is unable to support
+                fractional share units.
+              </Li>
               <Li>
                 Certain features, such as One-Click Trades, are not available
                 through IBKR Canada. Other countries should work fine.
@@ -211,7 +232,11 @@ const AuthorizationPage = ({ onboarding }: Props) => {
                 typically do maintenance in the evenings and weekends, making it
                 difficult to successfully connect during those times. If you
                 find you are having issues connecting during this time frame,
-                please contact support.
+                please{' '}
+                <PreLoadLink path={CONTACT_FORM_PATH}>
+                  contact support
+                </PreLoadLink>
+                .
               </Li>
             </BulletUL>
           </VerticalPadding>
@@ -226,6 +251,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           new.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'tdameritrade',
@@ -245,6 +271,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           with over $1.3 trillion in client assets.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'tradier',
@@ -264,6 +291,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           and traders.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'kraken',
@@ -272,7 +300,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       connect: () => {
         startConnection('Kraken', 'trade');
       },
-      openURL: 'https://passiv.com/app/connect/kraken',
+      openURL: 'https://passiv.com/connect/kraken',
       major: true,
       logo: KrakenLogo,
       defaultConnectionType: 'trade',
@@ -283,6 +311,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           trade more than 40 cryptocurrencies.
         </P>
       ),
+      type: 'crypto',
     },
     {
       id: 'unocoin',
@@ -291,7 +320,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       connect: () => {
         startConnection('Unocoin', 'trade');
       },
-      openURL: 'https://passiv.com/app/connect/unocoin',
+      openURL: 'https://passiv.com/connect/unocoin',
       major: true,
       logo: UnocoinLogo,
       defaultConnectionType: 'trade',
@@ -303,6 +332,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           country.
         </P>
       ),
+      type: 'crypto',
     },
     {
       id: 'wealthica',
@@ -362,6 +392,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           account.
         </P>
       ),
+      type: 'aggregator',
     },
     {
       id: 'zerodha',
@@ -381,6 +412,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           million clients.
         </P>
       ),
+      type: 'traditional',
     },
     {
       id: 'wealthsimple',
@@ -395,6 +427,22 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       major: true,
       logo: WealthsimpleTradeLogo,
       description: <P>Wealthsimple is a Canadian discount brokerage.</P>,
+      type: 'traditional',
+    },
+    {
+      id: 'bitbuy',
+      name: 'Bitbuy',
+      displayName: 'Bitbuy',
+      connect: () => {
+        startConnection('Bitbuy', 'trade');
+      },
+      confirmPrompt: null,
+      defaultConnectionType: 'trade',
+      openURL: '',
+      major: true,
+      logo: BitbuyLogo,
+      description: <P>Bitbuy is a Canadian cryptocurrency exchange.</P>,
+      type: 'crypto',
     },
   ];
 
@@ -411,6 +459,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         your brokerage account. Connecting your account does not allow Passiv to
         see your login information.
       </AuthP>
+      <H2DarkStyle>Traditional</H2DarkStyle>
       <React.Fragment>
         <Container2Column>
           {brokerageOptions.map((brokerage: any) => {
@@ -428,7 +477,59 @@ const AuthorizationPage = ({ onboarding }: Props) => {
                 </AuthBox>
               );
             }
-            return contents;
+            if (brokerage.type === 'traditional') {
+              return contents;
+            } else {
+              return null;
+            }
+          })}
+        </Container2Column>
+        <H2DarkStyle>Crypto</H2DarkStyle>
+        <Container2Column>
+          {brokerageOptions.map((brokerage: any) => {
+            let contents = null;
+            if (brokerages.some((b) => b.name === brokerage.name)) {
+              contents = (
+                <AuthBox
+                  key={brokerage.id}
+                  onClick={() => startConfirmConnection(brokerage.name)}
+                >
+                  <LogoContainer>
+                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                  </LogoContainer>
+                  <AuthLink>Connect {brokerage.displayName}</AuthLink>
+                </AuthBox>
+              );
+            }
+            if (brokerage.type === 'crypto') {
+              return contents;
+            } else {
+              return null;
+            }
+          })}
+        </Container2Column>
+        <H2DarkStyle>Aggregators</H2DarkStyle>
+        <Container2Column>
+          {brokerageOptions.map((brokerage: any) => {
+            let contents = null;
+            if (brokerages.some((b) => b.name === brokerage.name)) {
+              contents = (
+                <AuthBox
+                  key={brokerage.id}
+                  onClick={() => startConfirmConnection(brokerage.name)}
+                >
+                  <LogoContainer>
+                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
+                  </LogoContainer>
+                  <AuthLink>Connect {brokerage.displayName}</AuthLink>
+                </AuthBox>
+              );
+            }
+            if (brokerage.type === 'aggregator') {
+              return contents;
+            } else {
+              return null;
+            }
           })}
         </Container2Column>
       </React.Fragment>
@@ -502,7 +603,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
             );
           })}
           <LinkContainer>
-            <Link style={aDarkStyle} to="/app/connect">
+            <Link style={aDarkStyle} to="/connect">
               Back
             </Link>
           </LinkContainer>
@@ -516,12 +617,12 @@ const AuthorizationPage = ({ onboarding }: Props) => {
             {onboarding ? (
               <LinkContainer>
                 <VerticalPadding>
-                  <Link style={aDarkStyle} to="/app/connect/open">
+                  <Link style={aDarkStyle} to="/connect/open">
                     I don't have a brokerage account.
                   </Link>
                 </VerticalPadding>
                 <VerticalPadding>
-                  <Link style={aDarkStyle} to="/app/welcome">
+                  <Link style={aDarkStyle} to="/welcome">
                     Back
                   </Link>
                 </VerticalPadding>
@@ -529,7 +630,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
             ) : (
               <LinkContainer>
                 <VerticalPadding>
-                  <Link style={aDarkStyle} to="/app/settings">
+                  <Link style={aDarkStyle} to="/settings">
                     Back
                   </Link>
                 </VerticalPadding>

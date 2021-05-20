@@ -6,6 +6,9 @@ export const ToggleButton = styled.button`
   padding: 0;
   margin-left: 3px;
   margin-top: 1px;
+  :disabled {
+    cursor: not-allowed;
+  }
 `;
 
 export const DisabledToggleButton = styled(ToggleButton)`

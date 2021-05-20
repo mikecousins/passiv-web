@@ -27,7 +27,6 @@ export const LeftAlign = styled.span`
   text-align-last: left;
 `;
 export const CustomizeDashContainer = styled.div`
-  margin-bottom: 12px;
   margin-bottom: 15px;
 `;
 export const CustomizeDashBtn = styled.span`
@@ -103,7 +102,7 @@ export const DashboardReporting = () => {
       {showAccountFilterMoreDetails && (
         <AccountFilterNote>
           Certain data below may have been filtered to: {accountFilterString}.
-          Change filter on <Link to="/app/reporting">reporting page</Link>
+          Change filter on <Link to="/reporting">reporting page</Link>
         </AccountFilterNote>
       )}
       <Flex className={columns}>

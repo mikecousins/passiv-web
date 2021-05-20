@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { push, replace } from 'connected-react-router';
 import { postData } from '../../api';
 import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
-import { loadGroupInfo, loadGroups, loadModelPortfolios } from '../../actions';
+import {
+  loadAccountList,
+  loadGroup,
+  loadGroups,
+  loadGroupsList,
+  loadModelPortfolios,
+} from '../../actions';
 import NameInputAndEdit from '../NameInputAndEdit';
-import { ModelAssetClass } from '../../types/modelAssetClass';
-import { useHistory } from 'react-router';
+import {
+  ModelAssetClass,
+  ModelAssetClassDetailsType,
+} from '../../types/modelAssetClass';
 import {
   selectGroupInfoForModelPortfolio,
   selectGroupsUsingAModel,
+  selectModelPortfolios,
 } from '../../selectors/modelPortfolios';
 import { FieldArray, Form, Formik } from 'formik';
 import Grid from '../../styled/Grid';
@@ -19,7 +29,11 @@ import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import { Button } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
 import { A } from '../../styled/GlobalElements';
-import RouteLeavingGuard from '../RouteLeavingPrompt';
+import RouteLeavingPrompt from '../RouteLeavingPrompt';
+import { isNameDuplicate } from './utils/utils';
+import Tooltip from '../Tooltip';
+import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
+import { GroupData } from '../../types/group';
 
 const NameInputAndEditStyle = styled(NameInputAndEdit)`
   @media (max-width: 900px) {
@@ -107,6 +121,7 @@ const PercentageInput = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
+  -moz-appearance: textfield;
 `;
 
 const PercentageLabel = styled.label`
@@ -145,6 +160,7 @@ const ButtonContainer = styled.div`
 `;
 
 const ApplyModelBtn = styled(Button)`
+  font-weight: 600;
   background-color: transparent;
   color: var(--brand-blue);
   border: 1px solid var(--brand-blue);
@@ -157,6 +173,7 @@ const ApplyModelBtn = styled(Button)`
 
 const CancelButton = styled(A)`
   margin-left: 20px;
+  font-weight: 600;
 `;
 
 const ErroMsg = styled.ul`
@@ -183,8 +200,16 @@ export const StyledName = styled.span`
   font-size: 30px;
 `;
 
+const EditModel = styled(Button)`
+  font-weight: 600;
+`;
+
+const Error = styled.div`
+  color: red;
+`;
+
 type Props = {
-  modelPortfolio: any;
+  modelPortfolio: ModelPortfolioDetailsType;
   assetClasses: ModelAssetClass[];
   securityBased: boolean;
   modelTypeChanged: boolean;
@@ -196,13 +221,14 @@ const ModelPortoflioBox = ({
   securityBased,
 }: Props) => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
+  const modelPortfolios = useSelector(selectModelPortfolios);
   const [modelPortfolioName, setModelPortfolioName] = useState(
     modelPortfolio.model_portfolio.name,
   );
   const [editName, setEditName] = useState(false);
   const [clearInputSelector, setClearInputSelector] = useState(0);
+  const [duplicateNameError, setDuplicateNameError] = useState(false);
 
   const group = useSelector(selectGroupInfoForModelPortfolio);
   const groupsUsingModel = useSelector(selectGroupsUsingAModel);
@@ -220,27 +246,55 @@ const ModelPortoflioBox = ({
   const assignedPortfolioGroups =
     modelPortfolio.model_portfolio.total_assigned_portfolio_groups;
 
+  let groups: GroupData[] = [];
+  if (modelId) {
+    groups = groupsUsingModel?.[modelId]?.groups;
+  }
+  const listOfModelPortfoliosName = modelPortfolios.map(
+    (mdl) => mdl.model_portfolio.name,
+  );
+
   const toggleEditMode = () => {
     if (editMode) {
-      history.replace(`/app/model-portfolio/${modelId}`);
+      dispatch(replace(`/model-portfolio/${modelId}`));
     } else {
-      history.replace(`/app/model-portfolio/${modelId}?edit=true`);
+      dispatch(replace(`/model-portfolio/${modelId}?edit=true`));
     }
   };
 
+  const handleInputChange = (name: string) => {
+    const isDuplicate = isNameDuplicate(
+      name,
+      modelPortfolio.model_portfolio.name,
+      listOfModelPortfoliosName,
+    );
+    if (isDuplicate) {
+      setDuplicateNameError(true);
+    } else {
+      setDuplicateNameError(false);
+    }
+    setModelPortfolioName(name);
+  };
+
   const finishEditingName = () => {
+    const trimmedName = modelPortfolioName?.trim();
     if (
-      modelPortfolioName !== modelPortfolio.model_portfolio.name &&
-      modelPortfolioName!.trim().length > 0
+      trimmedName !== modelPortfolio.model_portfolio.name &&
+      trimmedName &&
+      trimmedName.length > 0
     ) {
-      modelPortfolio.model_portfolio.name = modelPortfolioName;
+      modelPortfolio.model_portfolio.name = trimmedName;
       postData(
         `/api/v1/modelPortfolio/${modelPortfolio.model_portfolio.id}`,
         modelPortfolio,
       )
         .then(() => {
           dispatch(loadModelPortfolios());
-          dispatch(loadGroupInfo());
+          dispatch(loadAccountList());
+          dispatch(loadGroupsList());
+          if (groups !== undefined) {
+            dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
+          }
         })
         .catch(() => {
           dispatch(loadModelPortfolios());
@@ -274,10 +328,10 @@ const ModelPortoflioBox = ({
           );
         }
         if (securityBased && groupId) {
-          history.push(`/app/group/${gpId}`);
+          dispatch(push(`/group/${gpId}`));
         }
-        if (!securityBased && (gpId || applyMode)) {
-          history.push(`/app/priorities/${gpId}`);
+        if (!securityBased && applyMode) {
+          dispatch(push(`/priorities/${gpId}`));
         }
       })
       .catch((err) => {
@@ -294,14 +348,23 @@ const ModelPortoflioBox = ({
         value={modelPortfolioName}
         edit={editName}
         allowEdit={true}
+        saveDisabled={duplicateNameError}
         editBtnTxt={'Edit Name'}
-        onChange={(e: any) => setModelPortfolioName(e.target.value)}
-        onKeyPress={(e: any) => e.key === 'Enter' && finishEditingName()}
+        onChange={(e: any) => handleInputChange(e.target.value)}
+        onKeyPress={(e: any) =>
+          e.key === 'Enter' && !duplicateNameError && finishEditingName()
+        }
         onClickDone={() => finishEditingName()}
         onClickEdit={() => setEditName(true)}
         StyledName={StyledName}
         StyledContainer={StyledContainer}
       />
+      {duplicateNameError && (
+        <Error>
+          A model with the same name already exists. Please use a different
+          name.
+        </Error>
+      )}
       <MainContainer>
         <Formik
           initialValues={{
@@ -378,10 +441,10 @@ const ModelPortoflioBox = ({
                   );
                   const cashPercentage = (100 - +total).toFixed(3);
 
-                  let availableAssetClasses: any = [];
+                  let availableAssetClasses: ModelAssetClass[] = [];
                   if (!securityBased) {
                     const usedAssetClasses = props.values.targets.map(
-                      (astCls: any) => {
+                      (astCls: ModelAssetClassDetailsType) => {
                         return astCls.model_asset_class?.id;
                       },
                     );
@@ -519,7 +582,7 @@ const ModelPortoflioBox = ({
                             </Percentage>
                             {securityBased ? (
                               <SymbolSelector
-                                value={null}
+                                value={undefined}
                                 onSelect={(symbol) => {
                                   handleAddToModel(symbol);
                                 }}
@@ -532,7 +595,6 @@ const ModelPortoflioBox = ({
                                 forModelSecurity={true}
                               />
                             ) : (
-                              //TODO: the component needs some changes (make on enter work properly, only show matched options based on what typed, and show asset class name instead of its id)
                               <AssetClassSelector
                                 name="newTarget.model_asset_class"
                                 id="symbol"
@@ -559,7 +621,7 @@ const ModelPortoflioBox = ({
               <ButtonContainer>
                 {(editMode || applyMode) && (
                   <>
-                    <Button
+                    <EditModel
                       type="button"
                       onClick={() => {
                         props.handleSubmit();
@@ -567,7 +629,7 @@ const ModelPortoflioBox = ({
                       disabled={!props.dirty || !props.isValid}
                     >
                       Save Changes
-                    </Button>
+                    </EditModel>
                   </>
                 )}
                 {editMode && (
@@ -587,21 +649,27 @@ const ModelPortoflioBox = ({
                   </ApplyModelBtn>
                 )}
               </ButtonContainer>
-              <RouteLeavingGuard
+              <RouteLeavingPrompt
                 when={props.dirty}
-                navigate={(path) => history.push(path)}
+                navigate={(path) => dispatch(push(path))}
               />
             </Form>
           )}
         </Formik>
         {!editMode && !applyMode && (
-          <Button
+          <EditModel
             type="button"
             onClick={toggleEditMode}
             disabled={assignedPortfolioGroups > 1}
           >
-            Edit Model
-          </Button>
+            {assignedPortfolioGroups > 1 ? (
+              <Tooltip label="At the moment, editing a model is disabled if the model is applied to more than one group.">
+                <span>Edit Model *</span>
+              </Tooltip>
+            ) : (
+              'Edit Model'
+            )}
+          </EditModel>
         )}
       </MainContainer>
     </Box>

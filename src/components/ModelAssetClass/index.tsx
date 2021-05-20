@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { push } from 'connected-react-router';
 import { postData } from '../../api';
 import { ModelAssetClassDetailsType } from '../../types/modelAssetClass';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
@@ -13,6 +13,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import AssetClass from './AssetClass';
 import Target from './Target';
 import { selectRouter } from '../../selectors/router';
+import { P } from '../../styled/GlobalElements';
 
 const AssetBox = styled.div`
   border: 1px solid #bfb6b6;
@@ -28,20 +29,28 @@ const AssetBox = styled.div`
   }
 `;
 
+const NewAssetClassBtn = styled(Button)`
+  font-weight: 600;
+`;
+
 const BackButton = styled(Button)`
   background: transparent;
   border: 1px solid var(--brand-blue);
   color: var(--brand-blue);
+  font-weight: 600;
   @media (max-width: 900px) {
     margin-top: 10px;
   }
 `;
 
+const NoAssetClass = styled(P)`
+  text-align: center;
+  margin-top: 40px;
+`;
+
 const ModelAssetClass = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const router = useSelector(selectRouter);
-  //@ts-ignore
   const back = router.location.query.back;
 
   const assetClasses: ModelAssetClassDetailsType[] = useSelector(
@@ -73,22 +82,20 @@ const ModelAssetClass = () => {
 
   return (
     <ShadowBox>
-      {assetClassBox}
-      <div style={{ marginTop: '30px' }}>
-        <Button onClick={handleAddAssetClass}>
-          {' '}
-          <FontAwesomeIcon
-            icon={faPlus}
-            size="sm"
-            style={{ position: 'relative' }}
-          />{' '}
-          Add Asset Class
-        </Button>
+      {assetClasses.length > 0 ? (
+        assetClassBox
+      ) : (
+        <NoAssetClass>There are no asset classes available.</NoAssetClass>
+      )}
 
-        <BackButton
-          onClick={() => history.push(back ? `/app${back}` : '/app/models')}
-        >
-          Back to {back ? 'Model Portfolio' : 'Model Portfolios'}
+      <div style={{ marginTop: '40px' }}>
+        <NewAssetClassBtn onClick={handleAddAssetClass}>
+          {' '}
+          <FontAwesomeIcon icon={faPlus} size="sm" /> New Asset Class
+        </NewAssetClassBtn>
+
+        <BackButton onClick={() => dispatch(push(`${back}`))}>
+          Back to Model Portfolio
         </BackButton>
       </div>
     </ShadowBox>

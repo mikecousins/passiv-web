@@ -15,7 +15,7 @@ import { loadGroupAndAccounts } from '../../actions';
 import { selectDashboardGroups } from '../../selectors/groups';
 import { push } from 'connected-react-router';
 import PreLoadLink from '../PreLoadLink';
-import { HELP_PATH, SETTINGS_PATH } from '../../apps/Paths';
+import { CONTACT_FORM_PATH, SETTINGS_PATH } from '../../apps/Paths';
 
 type Props = {
   error: any;
@@ -90,13 +90,11 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <P>
             One-click Trades are only available to Elite subscribers. You can
             upgrade your account to use this feature.{' '}
-            <PreLoadLink path={HELP_PATH}>Contact support</PreLoadLink> if
-            you're already a paid subscriber and you're still receiving this
+            <PreLoadLink path={CONTACT_FORM_PATH}>Contact support</PreLoadLink>{' '}
+            if you're already a paid subscriber and you're still receiving this
             message.
           </P>
-          <Button onClick={() => dispatch(push('/app/settings'))}>
-            Upgrade
-          </Button>
+          <Button onClick={() => dispatch(push('/settings'))}>Upgrade</Button>
         </OrderContainer>
       );
     case '1022':
@@ -106,8 +104,8 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <P>
             Our records show that this order has already been placed, so Passiv
             will not attempt to place it again. Please refresh the orders or{' '}
-            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
-            persists.
+            <PreLoadLink path={CONTACT_FORM_PATH}>contact support</PreLoadLink>{' '}
+            if this persists.
           </P>
           <Button onClick={reloadGroup}>Refresh</Button>
         </OrderContainer>
@@ -157,8 +155,8 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <P>
             You can fix this by logging into your brokerage account and closing
             any open orders that you may have. If that's not the case, please{' '}
-            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> and let
-            us know!
+            <PreLoadLink path={CONTACT_FORM_PATH}>contact support</PreLoadLink>{' '}
+            and let us know!
           </P>
           <Button onClick={closeWidget}>Okay</Button>
         </OrderContainer>
@@ -171,8 +169,8 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <P>
             You can fix this by logging into your brokerage account and closing
             any open orders that you may have. If that's not the case, please{' '}
-            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> and let
-            us know!
+            <PreLoadLink path={CONTACT_FORM_PATH}>contact support</PreLoadLink>{' '}
+            and let us know!
           </P>
           <Button onClick={closeWidget}>Okay</Button>
         </OrderContainer>
@@ -184,8 +182,8 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <P>
             We are sorry but we are having difficulties processing your order at
             this time. Please wait a moment and try again or{' '}
-            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
-            persists.
+            <PreLoadLink path={CONTACT_FORM_PATH}>contact support</PreLoadLink>{' '}
+            if this persists.
           </P>
           <ConfirmContainer>
             <Button onClick={closeWidget}>Okay</Button>
@@ -199,8 +197,8 @@ const ErrorMessage = ({ error, closeWidget, groupId }: Props) => {
           <P>
             We are sorry but we are having difficulties processing your order at
             this time. Please wait a moment and try again or{' '}
-            <PreLoadLink path={HELP_PATH}>contact support</PreLoadLink> if this
-            persists.
+            <PreLoadLink path={CONTACT_FORM_PATH}>contact support</PreLoadLink>{' '}
+            if this persists.
           </P>
         </OrderContainer>
       );

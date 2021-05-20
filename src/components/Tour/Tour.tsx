@@ -36,9 +36,13 @@ const Tour = ({ steps, name }: Props) => {
         });
         postData(`/api/v1/contextualMessages`, {
           name: ['tour-popup'],
-        }).then(() => {
-          dispatch(loadSettings());
-        });
+        })
+          .then(() => {
+            dispatch(loadSettings());
+          })
+          .catch(() => {
+            toast.error('Request Failed.');
+          });
       }
       postData(`/api/v1/contextualMessages`, {
         name: [name],

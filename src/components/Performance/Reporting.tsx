@@ -6,25 +6,22 @@ import GoalsTab from './GoalsTab';
 import { Link, Route } from 'react-router-dom';
 import { SubNav, NavContainer } from '../../pages/GroupPage';
 import { selectPathname } from '../../selectors/router';
-import {
-  selectAdjustedCostBasisFeature,
-  selectGoalsFeature,
-} from '../../selectors/features';
+import { selectAdjustedCostBasisFeature } from '../../selectors/features';
 
 const performanceSelected = (pathname: string) => {
-  if (pathname === `/app/reporting`) {
+  if (pathname === `/reporting`) {
     return 'active';
   }
 };
 
 const acbSelected = (pathname: string) => {
-  if (pathname === `/app/reporting/acb`) {
+  if (pathname === `/reporting/acb`) {
     return 'active';
   }
 };
 
 const goalsSelected = (pathname: string) => {
-  if (pathname === `/app/reporting/goals`) {
+  if (pathname === `/reporting/goals`) {
     return 'active';
   }
 };
@@ -32,33 +29,27 @@ const goalsSelected = (pathname: string) => {
 export const Analytics = () => {
   const pathname = useSelector(selectPathname);
   const acbFeature = useSelector(selectAdjustedCostBasisFeature);
-  const goalsFeature = useSelector(selectGoalsFeature);
 
   return (
     <React.Fragment>
       <SubNav>
         <NavContainer>
-          <Link className={performanceSelected(pathname)} to={`/app/reporting`}>
+          <Link className={performanceSelected(pathname)} to={`/reporting`}>
             Performance
           </Link>
           {acbFeature && (
-            <Link className={acbSelected(pathname)} to={`/app/reporting/acb`}>
+            <Link className={acbSelected(pathname)} to={`/reporting/acb`}>
               Adjusted Cost Basis
             </Link>
           )}
-          {goalsFeature && (
-            <Link
-              className={goalsSelected(pathname)}
-              to={`/app/reporting/goals`}
-            >
-              Goals
-            </Link>
-          )}
+          <Link className={goalsSelected(pathname)} to={`/reporting/goals`}>
+            Goals
+          </Link>
         </NavContainer>
       </SubNav>
-      <Route path="/app/reporting" exact component={Performance} />
-      <Route path="/app/reporting/acb" exact component={AdjustedCostBasisTab} />
-      <Route path="/app/reporting/goals" exact component={GoalsTab} />
+      <Route path="/reporting" exact component={Performance} />
+      <Route path="/reporting/acb" exact component={AdjustedCostBasisTab} />
+      <Route path="/reporting/goals" exact component={GoalsTab} />
     </React.Fragment>
   );
 };

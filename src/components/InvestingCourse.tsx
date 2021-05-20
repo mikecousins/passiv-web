@@ -30,12 +30,13 @@ const TakeCourse = styled(A)`
   margin-top: 35px;
   display: inline-block;
   svg {
-    margin-left: 5px;
+    margin-right: 5px;
   }
 `;
 
 const ShadowBoxwImage = styled(ShadowBox)`
-  background: url(${courseGraphic}) no-repeat 98% bottom #9bd8ce;
+  background: url(${courseGraphic}) no-repeat 98% bottom
+    var(--brand-light-green);
   background-size: 300px;
   padding: 40px;
   @media (max-width: 900px) {
@@ -77,7 +78,8 @@ const InvestingCourse = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Take the Course <FontAwesomeIcon icon={faExternalLinkAlt} />
+            <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" /> Take the
+            Course
           </TakeCourse>
         </Pstyled>
         <HideButton name={'investing_course'} text={'Skip'} />

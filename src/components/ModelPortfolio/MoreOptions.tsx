@@ -1,6 +1,8 @@
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import {
   faCheckCircle,
+  faClone,
   faEllipsisV,
   faShareSquare,
   faTimes,
@@ -8,11 +10,15 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Dialog from '@reach/dialog';
-import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { loadGroups, loadModelPortfolios } from '../../actions';
-import { deleteData } from '../../api';
+import {
+  loadAccountList,
+  loadGroup,
+  loadGroupsList,
+  loadModelPortfolios,
+} from '../../actions';
+import { deleteData, postData } from '../../api';
 import { H2 } from '../../styled/GlobalElements';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { InputBox, ReadOnlyInput } from '../SettingsManager/APIAccessSettings';
@@ -20,10 +26,14 @@ import { selectReferralCode } from '../../selectors/referrals';
 import Grid from '../../styled/Grid';
 import {
   faFacebook,
-  faLinkedinIn,
   faReddit,
   faTwitter,
 } from '@fortawesome/free-brands-svg-icons';
+import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
+import DeleteModelDialog from './DeleteModelDialog';
+import { selectGroupsUsingAModel } from '../../selectors/modelPortfolios';
+import { GroupData } from '../../types/group';
+import { push, replace } from 'connected-react-router';
 
 const EllipsisButton = styled.button`
   align-items: center;
@@ -47,7 +57,7 @@ const Options = styled.ul`
   padding: 22px 20px 24px;
   background: #c3e7ff;
   margin: 10px 16px;
-  width: 15%;
+  width: 12%;
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   z-index: 1;
@@ -59,12 +69,13 @@ const Options = styled.ul`
     margin-bottom: 10px;
   }
   button {
+    font-weight: 400;
     &:hover {
       color: #003ba2;
     }
   }
   @media (max-width: 900px) {
-    width: 50%;
+    width: fit-content;
   }
 `;
 
@@ -81,9 +92,12 @@ const URLInput = styled(ReadOnlyInput)`
   font-size: 20px;
 `;
 
-const SocialMedia = styled.button`
-  a {
-    color: var(--brand-green);
+const SocialMedia = styled(Grid)`
+  margin: 30px auto;
+  svg {
+    &:hover {
+      color: var(--brand-green);
+    }
   }
 `;
 
@@ -100,61 +114,123 @@ export const CopyButton = styled.button<CopyButtonProps>`
   background-color: ${(props) =>
     props.copied ? 'var(--brand-green)' : 'transparent'};
   color: ${(props) => (props.copied ? 'white' : 'var(--brand-green)')};
+  &:hover {
+    background-color: var(--brand-green);
+    color: white;
+  }
 `;
 
 type Props = {
-  modelId: string | undefined;
+  model: ModelPortfolioDetailsType;
   shareModel: boolean;
 };
 
-const MoreOptions = ({ modelId, shareModel }: Props) => {
+const MoreOptions = ({ model, shareModel }: Props) => {
   const dispatch = useDispatch();
-  const referralCode = useSelector(selectReferralCode);
+  const node: any = useRef(null);
 
+  const referralCode = useSelector(selectReferralCode);
+  const groupsUsingModel = useSelector(selectGroupsUsingAModel);
   const [showOptions, setShowOptions] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const SHARE_URL = `https://passiv.com/app/shared-model-portfolio/${modelId}?share=${referralCode}`;
+  const modelId = model.model_portfolio.id;
+
+  let groups: GroupData[] = [];
+  if (modelId) {
+    groups = groupsUsingModel?.[modelId]?.groups;
+  }
+
+  const handleClick = (e: Event) => {
+    if (node?.current?.contains(e.target)) {
+      return;
+    }
+    setShowOptions(false);
+  };
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, []);
+
+  const SHARE_URL = `https://app.passiv.com/shared-model-portfolio/${modelId}?share=${referralCode}`;
   if (!modelId) {
     return <div></div>;
   }
+
+  const handleCloneModel = () => {
+    // create a new model
+    postData('api/v1/modelPortfolio', {})
+      .then((res) => {
+        const modelId = res.data.model_portfolio.id;
+        model.model_portfolio.name += '(Copy)';
+        model.model_portfolio.share_portfolio = false;
+        model.model_portfolio.total_assigned_portfolio_groups = 0;
+
+        // post cloned model data to it
+        postData(`api/v1/modelPortfolio/${modelId}`, model)
+          .then(() => {
+            dispatch(loadModelPortfolios());
+            dispatch(push(`/models`));
+            toast.success('Duplicated model successfully.');
+          })
+          .catch((err) => {
+            toast.error('Unable to duplicate model.');
+          });
+      })
+      .catch(() => toast.error('Unable to duplicate model.'));
+  };
 
   const handleDeleteModel = () => {
     deleteData(`/api/v1/modelPortfolio/${modelId}`)
       .then(() => {
         dispatch(loadModelPortfolios());
-        dispatch(loadGroups());
-        toast.success('Model deleted successfully');
+        dispatch(loadAccountList());
+        dispatch(loadGroupsList());
+        if (groups !== undefined) {
+          dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
+        }
+        toast.success('Delete the model successfully.');
+        dispatch(replace(`/models`));
       })
       .catch(() => {
-        toast.error('Unable to delete the model. Please try again');
+        toast.error('Unable to delete the model. Please try again!');
       });
   };
 
   const title = 'Check out my model portfolio on Passiv.com';
 
   return (
-    <div>
+    <div ref={node}>
       <EllipsisButton onClick={() => setShowOptions(!showOptions)}>
         <FontAwesomeIcon icon={faEllipsisV} />
       </EllipsisButton>
       {showOptions && (
         <Options>
           <li>
-            <Delete onClick={handleDeleteModel}>
-              <FontAwesomeIcon icon={faTrashAlt} />
-              Delete Model
-            </Delete>
+            <button onClick={handleCloneModel}>
+              <FontAwesomeIcon icon={faClone} />
+              <span>Duplicate</span>
+            </button>
           </li>
           {shareModel && (
             <li>
               <button onClick={() => setShowShareDialog(true)}>
                 <FontAwesomeIcon icon={faShareSquare} />
-                Share Model
+                <span>Share</span>
               </button>
             </li>
           )}
+          <li>
+            <Delete onClick={() => setDeleteDialog(true)}>
+              <FontAwesomeIcon icon={faTrashAlt} />
+              <span>Delete</span>
+            </Delete>
+          </li>
         </Options>
       )}
 
@@ -166,7 +242,6 @@ const MoreOptions = ({ modelId, shareModel }: Props) => {
         }}
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
-        style={{ borderRadius: '4px' }}
       >
         <button
           onClick={() => {
@@ -179,48 +254,39 @@ const MoreOptions = ({ modelId, shareModel }: Props) => {
         </button>
         <div>
           <H2 style={{ marginTop: '30px' }}>Share Model</H2>
-          <Grid
-            columns="100px 100px 100px 100px"
-            style={{ margin: '30px auto' }}
-          >
-            <SocialMedia>
+          <SocialMedia columns="100px 100px 100px 100px">
+            <button>
               <a
                 target="_blank"
                 href={`https://twitter.com/intent/tweet/?text=${title}&url=${SHARE_URL}`}
                 rel="noopener noreferrer"
+                className="twitter"
               >
-                <FontAwesomeIcon icon={faTwitter} size="3x" />
+                <FontAwesomeIcon icon={faTwitter} size="3x" color="#1DA1F2" />
               </a>
-            </SocialMedia>
-            <SocialMedia>
+            </button>
+            <button>
               <a
                 target="_blank"
                 href={`https://www.facebook.com/sharer/sharer.php?u=${SHARE_URL}`}
                 rel="noopener noreferrer"
+                className="fb"
               >
-                <FontAwesomeIcon icon={faFacebook} size="3x" />
+                <FontAwesomeIcon icon={faFacebook} size="3x" color="#4267B2" />
               </a>
-            </SocialMedia>
-            <SocialMedia>
-              <a
-                target="_blank"
-                href={`https://www.linkedin.com/shareArticle?mini=true&url=${SHARE_URL}&title=${title}&source=${title}`}
-                rel="noopener noreferrer"
-              >
-                <FontAwesomeIcon icon={faLinkedinIn} size="3x" />
-              </a>
-            </SocialMedia>
-            <SocialMedia>
+            </button>
+            <button>
               <a
                 target="_blank"
                 href={`https://www.reddit.com/submit?url=${SHARE_URL}&title=${title}`}
                 rel="noopener noreferrer"
+                className="reddit"
               >
-                <FontAwesomeIcon icon={faReddit} size="3x" />
+                <FontAwesomeIcon icon={faReddit} size="3x" color="#ff4500" />
               </a>
-            </SocialMedia>
-          </Grid>
-          <Grid columns="5fr 1fr">
+            </button>
+          </SocialMedia>
+          <Grid columns="4fr auto">
             <InputBox>
               <URLInput value={SHARE_URL} readOnly={true} />
             </InputBox>
@@ -242,6 +308,13 @@ const MoreOptions = ({ modelId, shareModel }: Props) => {
           </Grid>
         </div>
       </Dialog>
+
+      <DeleteModelDialog
+        model={model}
+        open={deleteDialog}
+        hideDialog={() => setDeleteDialog(false)}
+        deleteModel={handleDeleteModel}
+      />
     </div>
   );
 };

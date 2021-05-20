@@ -28,30 +28,12 @@ import LoadingOverlay from '../LoadingOverlay';
 import TargetSelector from './TargetSelector';
 import { selectIsEditMode } from '../../selectors/router';
 import Tour from '../Tour/Tour';
+import { SetupSteps } from '../Tour/TourSteps';
 import { replace } from 'connected-react-router';
 import Grid from '../../styled/Grid';
 import { toast } from 'react-toastify';
 import { selectModelPortfolios } from '../../selectors/modelPortfolios';
 import { selectModelPortfolioFeature } from '../../selectors/features';
-
-const TOUR_STEPS = [
-  {
-    target: '.tour-import-holdings',
-    content: (
-      <>
-        If you already own securities in your brokerage account, then the
-        easiest way to get started is to import your holdings as your target
-        portfolio allocation by clicking the <strong> Import button</strong>.
-        Once this is done, don’t forget to review and adjust your targets.
-      </>
-    ),
-  },
-  {
-    target: '.tour-build-portfolio',
-    content:
-      'If you don’t own any securities yet, you can build your target portfolio’s allocation from scratch by adding securities and assigning percentages to them.',
-  },
-];
 
 export const TargetContainer = styled.div`
   h2 {
@@ -167,7 +149,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         <Button
           onClick={() => {
             setModel('MANUAL');
-            dispatch(replace(`/app/group/${groupId}?edit=true`));
+            dispatch(replace(`/group/${groupId}?edit=true`));
           }}
         >
           Build
@@ -186,7 +168,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         <Button
           onClick={() => {
             setModel('USE_MODEL');
-            dispatch(replace(`/app/models/group/${groupId}`));
+            dispatch(replace(`/models/group/${groupId}`));
           }}
         >
           Models
@@ -241,7 +223,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
             dispatch(loadModelPortfolios());
             dispatch(
               replace(
-                `/app/model-portfolio/${modelId}/group/${groupId}?apply=true`,
+                `/model-portfolio/${modelId}/group/${groupId}?apply=true`,
               ),
             );
           })
@@ -264,7 +246,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
         dispatch(loadModelPortfolios());
         dispatch(
           replace(
-            `/app/model-portfolio/${res.data.model_portfolio.id}/group/${groupId}?apply=true`,
+            `/model-portfolio/${res.data.model_portfolio.id}/group/${groupId}?apply=true`,
           ),
         );
       })
@@ -357,7 +339,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
           </H2>
           {!model ? (
             <React.Fragment>
-              <Tour steps={TOUR_STEPS} name="setup_portfolio_tour" />
+              <Tour steps={SetupSteps} name="setup_portfolio_tour" />
               <P>
                 A{' '}
                 {modelPortfolioFeature ? 'model Portfolio' : 'target Portfolio'}{' '}

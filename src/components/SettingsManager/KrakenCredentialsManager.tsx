@@ -1,29 +1,24 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from '@emotion/styled';
-import { InputNonFormik } from '../../styled/Form';
-import { H2, A, P } from '../../styled/GlobalElements';
+import { H1, A, P } from '../../styled/GlobalElements';
+import {
+  LogoContainer,
+  InputContainer,
+  MiniInputNonFormik,
+} from '../../styled/CredentialManagerElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
 import { reloadEverything } from '../../actions';
 import { replace } from 'connected-react-router';
-const InputContainer = styled.div`
-  padding-top: 10px;
-  padding-bottom: 5px;
-  font-size: 18px;
-`;
+import KrakenAPIPermissions from '../../assets/images/kraken-api-permissions.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-const MiniInputNonFormik = styled(InputNonFormik)`
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-size: 1em;
-  padding: 15px 12px;
-`;
-
-const UnocoinCredentialsManager = () => {
+const KrakenCredentialsManager = () => {
   const [APIKey, setAPIKey] = useState('');
   const [PrivateKey, setPrivateKey] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const generateTokenString = () => {
     let token_string = '';
@@ -33,12 +28,13 @@ const UnocoinCredentialsManager = () => {
 
   const dispatch = useDispatch();
   const handleSubmit = () => {
+    setLoading(true);
     let token = generateTokenString();
     postData('/api/v1/brokerages/authComplete/', { token: token })
       .then(() => {
         dispatch(reloadEverything());
         setTimeout(() => {
-          dispatch(replace('/app/setup-groups'));
+          dispatch(replace('/setup-groups'));
         }, 1000);
       })
       .catch((error) => {
@@ -48,12 +44,23 @@ const UnocoinCredentialsManager = () => {
 
   return (
     <ShadowBox>
-      <H2>Connect to Kraken</H2>
+      <H1>Connect to Kraken</H1>
       <P>
-        To connect your Kraken account to Passiv, you'll need to generate a new
-        Kraken API key and enter your credentials below.
+        To connect your Kraken account to Passiv, you'll need to{' '}
+        <A
+          href="https://www.kraken.com/u/security/api"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          generate a set of Kraken API keys
+        </A>{' '}
+        and paste those keys in the fields below.
       </P>
 
+      <P>Passiv requires the following permissions:</P>
+      <LogoContainer>
+        <img src={KrakenAPIPermissions} alt="Kraken API Permissions"></img>
+      </LogoContainer>
       <InputContainer>
         <MiniInputNonFormik
           value={APIKey === null ? '' : APIKey}
@@ -65,12 +72,16 @@ const UnocoinCredentialsManager = () => {
           onChange={(e) => setPrivateKey(e.target.value)}
           placeholder={'Private Key'}
         />
-        <Button onClick={handleSubmit}>Done</Button>
+        {loading ? (
+          <FontAwesomeIcon icon={faSpinner} spin />
+        ) : (
+          <Button onClick={handleSubmit}>Done</Button>
+        )}
       </InputContainer>
 
       <P>
         If you're stuck, read our{' '}
-        <A href="#">
+        <A href="https://passiv.com/help/tutorials/connect-kraken-to-passiv/">
           tutorial on how to connect your Kraken account to Passiv.
         </A>
       </P>
@@ -78,4 +89,4 @@ const UnocoinCredentialsManager = () => {
   );
 };
 
-export default UnocoinCredentialsManager;
+export default KrakenCredentialsManager;

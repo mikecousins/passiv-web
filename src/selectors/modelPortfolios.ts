@@ -35,10 +35,10 @@ export const selectCurrentModelPortfolioId = createSelector<
     router &&
     router.location &&
     router.location.pathname &&
-    router.location.pathname.split('/')[2] === 'model-portfolio' &&
-    router.location.pathname.split('/').length >= 4
+    router.location.pathname.split('/')[1] === 'model-portfolio' &&
+    router.location.pathname.split('/').length >= 3
   ) {
-    mdlPortfolioId = router.location.pathname.split('/')[3];
+    mdlPortfolioId = router.location.pathname.split('/')[2];
   }
   return mdlPortfolioId;
 });
@@ -47,9 +47,9 @@ export const selectCurrentModelPortfolio = createSelector(
   selectCurrentModelPortfolioId,
   selectModelPortfoliosRaw,
   (modelId, models) => {
-    let currentModelPortfolio = null;
+    let currentModelPortfolio: ModelPortfolioDetailsType | null = null;
     if (modelId && models.data) {
-      models.data?.map((mdl: ModelPortfolioDetailsType) => {
+      models.data?.forEach((mdl: ModelPortfolioDetailsType) => {
         if (mdl.model_portfolio.id === modelId) {
           currentModelPortfolio = mdl;
         }
@@ -65,27 +65,26 @@ export const selectGroupInfoForModelPortfolio = createSelector(
   (router, groups) => {
     let groupInfo = null;
     const pathName = router.location.pathname.split('/');
+
     if (
       router &&
       router.location &&
       pathName &&
-      (pathName[2] === 'models' || pathName[2] === 'model-portfolio') &&
-      (pathName[3] === 'group' || pathName[4] === 'group')
+      (pathName[1] === 'models' || pathName[1] === 'model-portfolio') &&
+      (pathName[2] === 'group' || pathName[3] === 'group')
     ) {
       let groupId: any;
-      if (pathName[3] === 'group') {
+      if (pathName[2] === 'group') {
+        groupId = pathName[3];
+      } else if (pathName[3] === 'group') {
         groupId = pathName[4];
-      } else if (pathName[4] === 'group') {
-        groupId = pathName[5];
       }
       groupInfo = groups?.find((gp) => gp.groupId === groupId);
     }
 
     return {
       groupInfo,
-      //@ts-ignore
       edit: router.location.query.edit,
-      //@ts-ignore
       apply: router.location.query.apply,
     };
   },
@@ -108,7 +107,7 @@ export const selectGroupsUsingAModel = createSelector(
       }
       return acc;
     }, {});
-    modelPortfolios.forEach((mdl: any) => {
+    modelPortfolios.forEach((mdl: ModelPortfolioDetailsType) => {
       Object.entries(models).forEach(([key, value]) => {
         if (mdl.model_portfolio.id === key) {
           return (models[key].model = mdl.model_portfolio);

@@ -20,7 +20,6 @@ import PerformanceDividendIncome from './PerformanceDividendIncome';
 import PerformanceFees from './PerformanceFees';
 import PerformanceFeeSavings from './PerformanceFeeSavings';
 import ShadowBox from '../../styled/ShadowBox';
-import { P, A } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCogs,
@@ -33,7 +32,6 @@ import {
 import PerformanceRateOfReturn from './PerformanceRateOfReturn';
 import Settings from './SettingsComponents/Settings';
 import TimeframePicker from './TimeframePicker';
-import { selectNewReportingFeature } from '../../selectors/features';
 
 const Grid = styled.div`
   @media (min-width: 900px) {
@@ -88,30 +86,19 @@ export const SubHeader = styled.div`
   text-align: center;
 `;
 
-const BetaBanner = styled(P)`
-  text-align: center;
-  padding-bottom: 20px;
-  color: #555555;
-`;
-
-const SettingsBox = styled(CustomizeDashContainer)`
-  margin: 20px 0;
-`;
-
 export const Performance = () => {
   let currentTimeframe = useSelector(selectSelectedTimeframe);
   // We can hide charts if user is on custom timeframe and hasn't yet fetched data (can check this if contributions are undefined)
   const contributions = useSelector(selectContributions);
   let rateOfReturn = useSelector(selectRateOfReturn);
-  const useNewReporting = useSelector(selectNewReportingFeature);
-  const settings = useSelector(selectReportingSettings).data;
+  const settings = useSelector(selectReportingSettings)?.data;
   let showRateOfReturn = true;
   let showDividendData = true;
   if (settings?.show_return_rate !== undefined) {
     showRateOfReturn = settings?.show_return_rate;
   }
   if (settings?.show_dividend_data !== undefined) {
-    showDividendData = settings?.show_return_rate;
+    showDividendData = settings?.show_dividend_data;
   }
 
   const [showSettings, setShowSettings] = useState(false);
@@ -126,16 +113,12 @@ export const Performance = () => {
         </div>
       )}
 
-      {useNewReporting && (
-        <>
-          <SettingsBox>
-            <CustomizeDashBtn onClick={() => setShowSettings(!showSettings)}>
-              <FontAwesomeIcon icon={faCogs} /> Settings
-            </CustomizeDashBtn>
-          </SettingsBox>
-          {showSettings && <Settings />}
-        </>
-      )}
+      <CustomizeDashContainer>
+        <CustomizeDashBtn onClick={() => setShowSettings(!showSettings)}>
+          <FontAwesomeIcon icon={faCogs} /> Settings
+        </CustomizeDashBtn>
+      </CustomizeDashContainer>
+      {showSettings && <Settings />}
 
       <TimeframePicker />
       {currentTimeframe === 'CST' && contributions === undefined && (
@@ -209,10 +192,6 @@ export const Performance = () => {
               </Grid>
             </>
           )}
-          <BetaBanner>
-            Open Beta: Help us improve our tools by{' '}
-            <A href="mailto:reporting@passiv.com">sharing feedback</A>
-          </BetaBanner>
         </React.Fragment>
       )}
     </React.Fragment>

@@ -85,13 +85,13 @@ const UpgradeIdea = ({ showSkipLink, skipLocation }: Props) => {
           </ASmall>{' '}
           in just one click.
         </PSmall>
-        <Button onClick={() => dispatch(push('/app/questrade-offer'))}>
+        <Button onClick={() => dispatch(push('/questrade-offer'))}>
           Upgrade Now
         </Button>
         {showSkipLink && (
           <Edit
             onClick={() =>
-              dispatch(push(skipLocation ? skipLocation : '/app/dashboard'))
+              dispatch(push(skipLocation ? skipLocation : '/dashboard'))
             }
           >
             Skip

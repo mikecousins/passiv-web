@@ -1,5 +1,6 @@
 import React from 'react';
-import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 import styled from '@emotion/styled';
 import Grid from '../../styled/Grid';
 import Tooltip from '../Tooltip';
@@ -15,7 +16,7 @@ import {
 const Box = styled.div`
   border-radius: 4px;
   padding: 15px;
-  border: 1px solid;
+  border: 2px solid;
   height: fit-content;
   margin-top: 20px;
 `;
@@ -41,6 +42,7 @@ const ResponsiveGrid = styled(Grid)`
 
 const GoToAssetClasses = styled(Button)`
   margin-top: 30px;
+  font-weight: 600;
 `;
 
 type Props = {
@@ -49,7 +51,7 @@ type Props = {
 };
 
 const AssetClassesBox = ({ assetClasses, modelId }: Props) => {
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   const makeLabel = (target: Target[]) => {
     let labelList: string[] = [];
@@ -78,17 +80,11 @@ const AssetClassesBox = ({ assetClasses, modelId }: Props) => {
                   {cls.model_asset_class.name}{' '}
                   {cls.model_asset_class_target.length > 0 ? (
                     <Tooltip label={makeLabel(cls.model_asset_class_target)}>
-                      <FontAwesomeIcon
-                        icon={faInfoCircle}
-                        style={{ fontSize: 12 }}
-                      />
+                      <FontAwesomeIcon icon={faInfoCircle} size="sm" />
                     </Tooltip>
                   ) : (
-                    <Tooltip label={'No Security Added'}>
-                      <FontAwesomeIcon
-                        icon={faInfoCircle}
-                        style={{ fontSize: 12 }}
-                      />
+                    <Tooltip label={'Empty Asset Class'}>
+                      <FontAwesomeIcon icon={faInfoCircle} size="sm" />
                     </Tooltip>
                   )}
                 </SmallBox>
@@ -97,7 +93,7 @@ const AssetClassesBox = ({ assetClasses, modelId }: Props) => {
           </ResponsiveGrid>
           <GoToAssetClasses
             onClick={() =>
-              history.push(`/app/asset-class?back=/model-portfolio/${modelId}`)
+              dispatch(push(`/asset-class?back=/model-portfolio/${modelId}`))
             }
           >
             Edit Asset Classes
@@ -108,7 +104,7 @@ const AssetClassesBox = ({ assetClasses, modelId }: Props) => {
           <p>You still need to define your asset classes. </p>
           <GoToAssetClasses
             onClick={() =>
-              history.push(`/app/asset-class?back=/model-portfolio/${modelId}`)
+              dispatch(push(`/asset-class?back=/model-portfolio/${modelId}`))
             }
           >
             Add Asset Classes

@@ -47,6 +47,10 @@ export const Group = ({ group }: Props) => {
     return <div>Loading...</div>;
   }
 
+  const needToPrioritize =
+    groupInfo[group.id].data?.model_portfolio?.model_type === 1 &&
+    groupInfo[group.id].data?.settings.model_portfolio_changed;
+
   let accuracy = <FontAwesomeIcon icon={faSpinner} spin />;
   if (group.setupComplete !== undefined) {
     if (group.setupComplete === false) {
@@ -87,7 +91,10 @@ export const Group = ({ group }: Props) => {
   }
 
   let viewButton = null;
-  if (group.setupComplete === undefined || group.setupComplete === true) {
+  if (
+    (group.setupComplete === undefined || group.setupComplete === true) &&
+    !needToPrioritize
+  ) {
     viewButton = (
       <ViewBtn>
         <PreLoadLink path={`${GROUP_PATH}/${group.id}`}>
@@ -99,7 +106,7 @@ export const Group = ({ group }: Props) => {
   } else if (!group.hasAccounts) {
     viewButton = (
       <WarningViewBtn>
-        <Link to={`/app/group/${group.id}`}>
+        <Link to={`/group/${group.id}`}>
           Empty Group
           <FontAwesomeIcon icon={faAngleRight} />
         </Link>
@@ -108,7 +115,7 @@ export const Group = ({ group }: Props) => {
   } else {
     viewButton = (
       <WarningViewBtn>
-        <Link to={`/app/group/${group.id}`}>
+        <Link to={`/group/${group.id}`}>
           Setup
           <FontAwesomeIcon icon={faAngleRight} />
         </Link>
@@ -135,17 +142,20 @@ export const Group = ({ group }: Props) => {
               {totalValue}
             </div>
             {viewButton}
-            {group.setupComplete && group.rebalance && !hideTrades && (
-              <AllocateBtn onClick={() => setExpanded(!expanded)}>
-                {group.hasSells ? 'Rebalance' : 'Allocate'}
-                &nbsp;
-                {expanded ? (
-                  <FontAwesomeIcon icon={faChevronUp} />
-                ) : (
-                  <FontAwesomeIcon icon={faChevronDown} />
-                )}
-              </AllocateBtn>
-            )}
+            {group.setupComplete &&
+              group.rebalance &&
+              !hideTrades &&
+              !needToPrioritize && (
+                <AllocateBtn onClick={() => setExpanded(!expanded)}>
+                  {group.hasSells ? 'Rebalance' : 'Allocate'}
+                  &nbsp;
+                  {expanded ? (
+                    <FontAwesomeIcon icon={faChevronUp} />
+                  ) : (
+                    <FontAwesomeIcon icon={faChevronDown} />
+                  )}
+                </AllocateBtn>
+              )}
           </Table>
         </DashboardRow>
       </ShadowBox>

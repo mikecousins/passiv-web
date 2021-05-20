@@ -11,24 +11,51 @@ import { postData } from '../../api';
 import { selectSettings } from '../../selectors';
 
 const GreenBox = styled.div`
-  background-color: var(--brand-green);
+  background-color: var(--brand-light-green);
   border-radius: 4px;
   box-shadow: 1px 1px 20px #949494;
   flex: 1;
   padding: 30px 30px 30px;
   margin-bottom: 20px;
-  max-width: 600px;
   h2 {
     margin-bottom: 25px;
+    text-align: center;
   }
   form {
-    max-width: 100%;
+    margin: 0 auto;
   }
+`;
+
+const Header = styled(H2)`
+  line-height: 150%;
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
 `;
 
 const HiddenInput = styled(Input)`
   color: red;
   display: none;
+`;
+
+const ActionContainer = styled.div`
+  text-align: center;
+  P {
+    font-weight: 500;
+    font-size: 30px;
+  }
+  button {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 150%;
+    text-align: center;
+    letter-spacing: 0.2px;
+    padding: 10px 38px;
+  }
+`;
+
+const Error = styled.div`
+  color: red;
+  margin-bottom: 10px;
 `;
 
 // beta key
@@ -45,7 +72,7 @@ const ContactForm = () => {
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   return (
-    <GreenBox>
+    <GreenBox id="contact-form">
       <Formik
         initialValues={{
           name: '',
@@ -82,7 +109,7 @@ const ContactForm = () => {
         render={(props) => (
           <Form onSubmit={props.handleSubmit}>
             <legend>
-              <H2>Send us a Message</H2>
+              <Header>Send us a Message</Header>
             </legend>
             <HiddenInput
               id="name"
@@ -116,9 +143,9 @@ const ContactForm = () => {
               error={props.touched.email && props.errors.email}
               disabled={props.status.submitted}
             />
-            <P>
+            <Error>
               <ErrorMessage name="le" />
-            </P>
+            </Error>
             <Label htmlFor="lm">Message</Label>
             <Textarea
               component="textarea"
@@ -128,34 +155,36 @@ const ContactForm = () => {
               error={props.touched.message && props.errors.message}
               disabled={props.status.submitted}
             />
-            <P>
+            <Error>
               <ErrorMessage name="lm" />
-            </P>
+            </Error>
             <ReCAPTCHA
               ref={recaptchaRef}
               sitekey={recaptchaSiteKey}
               size="invisible"
             />
-            {props.status.submitted ? (
-              <div>
-                <Button onClick={props.handleReset}>Reset</Button>
-                {props.status.submitted && "Thanks, we'll be in touch soon!"}
-              </div>
-            ) : (
-              <div>
-                <Button
-                  type="submit"
-                  disabled={
-                    !props.isValid ||
-                    props.isSubmitting ||
-                    props.status.submitted
-                  }
-                >
-                  Submit Message
-                </Button>
-                {props.status.submitted && 'Submitted!'}
-              </div>
-            )}
+            <ActionContainer>
+              {props.status.submitted ? (
+                <div>
+                  <P>Thanks, we'll be in touch soon!</P>
+                  <Button onClick={props.handleReset}>Reset Form</Button>
+                </div>
+              ) : (
+                <div>
+                  <Button
+                    type="submit"
+                    disabled={
+                      !props.isValid ||
+                      props.isSubmitting ||
+                      props.status.submitted
+                    }
+                  >
+                    Send Message
+                  </Button>
+                  {props.status.submitted && 'Submitted!'}
+                </div>
+              )}
+            </ActionContainer>
           </Form>
         )}
       />

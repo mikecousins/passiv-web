@@ -1,7 +1,8 @@
-import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { push } from 'connected-react-router';
+import { Link, useLocation } from 'react-router-dom';
+import styled from '@emotion/styled';
 import { toDollarString } from '../components/Performance/Performance';
 import { selectCurrentGoalId, selectGoals } from '../selectors/goals';
 import {
@@ -280,9 +281,8 @@ interface LocationState {
 }
 
 const GoalDetailPage = () => {
-  // const goalsFeature = useSelector(selectGoalsFeature);
   const dispatch = useDispatch();
-  const history = useHistory();
+
   const goalId = useSelector(selectCurrentGoalId);
   const goals = useSelector(selectGoals);
   const location = useLocation<LocationState>();
@@ -438,7 +438,7 @@ const GoalDetailPage = () => {
   };
   const handleDelete = () => {
     dispatch(deleteGoal(goalId));
-    history.push('/app/goals');
+    dispatch(push('/goals'));
   };
   const handleSave = () => {
     const endDate = getTargetDate(year, month);
@@ -458,7 +458,7 @@ const GoalDetailPage = () => {
         dispatch(loadGoals());
         toast.success(`'${title}' Successfully Updated`, { autoClose: 3000 });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => toast.error('Unable to update. Please try again.'));
   };
   const handleDiscard = () => {
     setMonth(goal?.target_date.substr(5, 2));
@@ -476,7 +476,7 @@ const GoalDetailPage = () => {
     <React.Fragment>
       <Grid columns="1fr 1fr">
         <HeaderBanner>
-          <BackLink to="/app/goals">
+          <BackLink to="/goals">
             <FontAwesomeIcon icon={faChevronLeft} /> View all Goals
           </BackLink>
           <GoalTitle
@@ -643,7 +643,6 @@ const GoalDetailPage = () => {
       <Dialog
         isOpen={showDeleteDialog}
         onDismiss={() => setShowDeleteDialog(false)}
-        style={{ borderRadius: '4px' }}
         aria-labelledby="dialog1Title"
         aria-describedby="dialog1Desc"
       >
