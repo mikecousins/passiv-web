@@ -38,7 +38,7 @@
     "@fortawesome/free-brands-svg-icons": "5.14.0",
     "@fortawesome/free-solid-svg-icons": "5.14.0",
     "@fortawesome/react-fontawesome": "0.1.14",
-    "@reach/combobox": "0.10.5",
+    "@reach/combobox": "0.15.1",
     "@reach/dialog": "^0.12.0",
     "@reach/menu-button": "0.10.5",
     "@reach/tooltip": "0.10.5",
