@@ -2166,11 +2166,6 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@rooks/use-outside-click@^3.6.0":
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/@rooks/use-outside-click/-/use-outside-click-3.6.0.tgz#4189dc16b92f13c25f1c8e161c8aef6945aff486"
-  integrity sha512-DDxdcD9bDDArV2tBmh5okaJNee/7EWaC5DsPrjTxIhhvXPpUatizcn2qYLcvX7y1vYpd64Wyqvkb87E6fsIfEQ==
-
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@samverschueren/stream-to-observable/-/stream-to-observable-0.3.1.tgz#a21117b19ee9be70c379ec1877537ef2e1c63301"
@@ -6985,11 +6980,6 @@ globby@^6.1.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
-goober@^1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/goober/-/goober-1.8.0.tgz#ed97e40e87300c6d1c8304a9d4b0f1398ff7669a"
-  integrity sha512-9ZFoOkBccexjqIgcwlhq7C/eCSkgTZX0BdNUkOnBFLedrJgo3R8lp9ckd/qqtngtF/JDyXSxJzwMU98kNjZ4Mw==
-
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
@@ -11456,13 +11446,10 @@ react-minimal-pie-chart@^8.1.0:
   resolved "https://registry.yarnpkg.com/react-minimal-pie-chart/-/react-minimal-pie-chart-8.2.0.tgz#22b53af2363f040d818331721658dfa7a1ea847a"
   integrity sha512-RhrHzprJt3KfBe4L3sE0Ha6fj4kYcwQtesQgscnld9Umf64+nZnxxInycnbimKsbIjxJONv77JIZp+qRbJD+bA==
 
-react-multi-select-component@^2.0.8:
-  version "2.0.14"
-  resolved "https://registry.yarnpkg.com/react-multi-select-component/-/react-multi-select-component-2.0.14.tgz#fca1bac9fa19a64600ecb910122104a88afa7b44"
-  integrity sha512-oqDsf/EGzOMUQ0rvGWYV/3wTbsXEteZP2C19nsksj1iUkCC7IhZWqaTlj5ChjzMVmTLyrQrtMYLmzFj3Meo15w==
-  dependencies:
-    "@rooks/use-outside-click" "^3.6.0"
-    goober "^1.8.0"
+react-multi-select-component@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/react-multi-select-component/-/react-multi-select-component-4.0.2.tgz#16c9844f0d222e8ba9a2cdced72f4232a201b6cc"
+  integrity sha512-/GQ9y66+Hy+Y25I2il2qVe2b6ophFDnxVuaSgBUJdJCOLcyVfcDEwJ7mNM4z3kuk6luSgwY9VYPO7ngn5XCzgw==
 
 react-plaid-link@1.5.1:
   version "1.5.1"
