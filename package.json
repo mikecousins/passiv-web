@@ -40,7 +40,7 @@
     "@fortawesome/react-fontawesome": "0.1.14",
     "@reach/combobox": "0.15.1",
     "@reach/dialog": "^0.15.0",
-    "@reach/menu-button": "0.10.5",
+    "@reach/menu-button": "0.15.1",
     "@reach/tooltip": "0.10.5",
     "@sentry/browser": "5.20.1",
     "@stripe/react-stripe-js": "1.1.2",
