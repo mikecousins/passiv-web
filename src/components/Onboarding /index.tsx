@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { selectIsAuthorized } from '../../selectors';
 import AuthorizationPage from '../../pages/AuthorizationPage';
 import { selectRouter } from '../../selectors/router';
+import Accounts from '../Accounts/index';
 
 const Container = styled.div`
   padding: 20px 20px 0px 20px;
@@ -36,6 +37,7 @@ const Onboarding = () => {
           handleLastStep={() => setStep(step - 1)}
         />
       )}
+      {step === 3 && <Accounts />}
     </Container>
   );
 };

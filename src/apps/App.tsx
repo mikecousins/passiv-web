@@ -457,11 +457,11 @@ const App = () => {
                 <AuthorizationPage onboarding={true} />
               </Route>
             )}
-            {showOnboardingApp && (
+            {
               <Route path="/welcome">
                 <WelcomePage />
               </Route>
-            )}
+            }
             {(showSecureApp || showOnboardingApp) && (
               <Route path="/settings/connect/:openBrokerage?">
                 <AuthorizationPage onboarding={false} />

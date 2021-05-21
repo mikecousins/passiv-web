@@ -7,14 +7,19 @@ import {
   DropResult,
 } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faCheck, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPen,
+  faCheck,
+  faTrashAlt,
+  faExternalLinkAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
 import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
 import AccountGroup from './AccountGroup';
 import { deleteData, putData, postData } from '../../api';
-import { H2, A, Edit, H3, P } from '../../styled/GlobalElements';
+import { H2, A, Edit, H3, P, Table, H1 } from '../../styled/GlobalElements';
 import { selectModelPortfolioFeature } from '../../selectors/features';
 import {
   loadAccountList,
@@ -24,6 +29,7 @@ import {
 } from '../../actions';
 import { loadPerformanceAll } from '../../actions/performance';
 import { selectSelectedAccounts } from '../../selectors/performance';
+import { selectRouter } from '../../selectors/router';
 
 export const Header = styled.form`
   h2 {
@@ -47,10 +53,24 @@ export const GroupNote = styled(P)`
   padding-left: 30px;
 `;
 
+const TutorialBtn = styled.button`
+  color: white;
+  background-color: var(--brand-green);
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;
+  text-align: center;
+  letter-spacing: 0.25px;
+  margin: 10px 0px;
+`;
+
 const Accounts = () => {
   const accounts = useSelector(selectGroupedAccounts);
+  const router = useSelector(selectRouter);
+  const isOnboarding = router.location.pathname.includes('welcome');
   const [localAccounts, setLocalAccounts] = useState(accounts);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(isOnboarding ? true : false);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
   const dispatch = useDispatch();
   const [numHidden, setNumHidden] = useState(
@@ -68,8 +88,6 @@ const Accounts = () => {
 
     // change background colour if dragging
     background: isDragging ? '#b5f3e8' : '#F1F1F1',
-
-    borderRight: isEditing ? `18px solid #03a287` : `none`,
 
     // styles we need to apply on draggables
     ...draggableStyle,
@@ -182,20 +200,23 @@ const Accounts = () => {
   return (
     <React.Fragment>
       <Header>
-        <H2>Accounts</H2>
-        {isEditing ? (
-          <A onClick={() => finishEditing()}>
-            <FontAwesomeIcon icon={faCheck} />
-            Done
-          </A>
-        ) : (
-          <React.Fragment>
-            <Edit onClick={() => setIsEditing(true)}>
-              <FontAwesomeIcon icon={faPen} />
-              Edit Groups
-            </Edit>
-          </React.Fragment>
-        )}
+        {isOnboarding ? <H1>Organize your accounts</H1> : <H2>Accounts</H2>}
+
+        {!isOnboarding ? (
+          isEditing ? (
+            <A onClick={() => finishEditing()}>
+              <FontAwesomeIcon icon={faCheck} />
+              Done
+            </A>
+          ) : (
+            <React.Fragment>
+              <Edit onClick={() => setIsEditing(true)}>
+                <FontAwesomeIcon icon={faPen} />
+                Edit Groups
+              </Edit>
+            </React.Fragment>
+          )
+        ) : null}
       </Header>
       <PaddedP>
         Passiv lets you organize your investment accounts into groups, where
@@ -203,6 +224,12 @@ const Accounts = () => {
         {modelPortfolioFeature ? 'model portfolio' : 'target portfolio'}. By
         default, each account gets its own group. Drag and drop to reorganize.
       </PaddedP>
+      {isOnboarding && (
+        <TutorialBtn>
+          Learn more about model portfolios{' '}
+          <FontAwesomeIcon icon={faExternalLinkAlt} />
+        </TutorialBtn>
+      )}
       <DragDropContext onDragEnd={onDragEnd}>
         {localAccounts.map((group) => (
           <Droppable droppableId={group.groupId} key={group.groupId}>
@@ -212,9 +239,16 @@ const Accounts = () => {
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver)}
               >
-                <AccountGroup name={group.name}>
+                <AccountGroup name={group.name} isOnboarding={isOnboarding}>
                   {group.accounts.length > 0 ? (
                     <React.Fragment>
+                      <Table>
+                        <H3>Brokerage</H3>
+                        <H3>Name</H3>
+                        <H3>Account Number</H3>
+                        <H3>Type</H3>
+                        <H3></H3>
+                      </Table>
                       {group.accounts.map((account, index) => (
                         <Draggable
                           key={account.id}
@@ -232,7 +266,10 @@ const Accounts = () => {
                                 provided.draggableProps.style,
                               )}
                             >
-                              <AccountRow account={account} />
+                              <AccountRow
+                                account={account}
+                                editing={isEditing}
+                              />
                             </div>
                           )}
                         </Draggable>
@@ -295,7 +332,7 @@ const Accounts = () => {
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver, true)}
               >
-                <AccountGroup name="New Group">
+                <AccountGroup name="New Group" isOnboarding={isOnboarding}>
                   <GroupNote>
                     Drag accounts here to place them in a new group.
                   </GroupNote>

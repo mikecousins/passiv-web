@@ -2,8 +2,13 @@ import React from 'react';
 import styled from '@emotion/styled';
 import HiddenAccountsTooltip from '../HiddenAccountsTooltip';
 
-export const GroupHeading = styled.h3`
-  background: #fff;
+type GroupHeadingProps = {
+  isOnboarding: boolean;
+};
+
+export const GroupHeading = styled.h3<GroupHeadingProps>`
+  background: ${(props) =>
+    props.isOnboarding ? 'var(--brand-light-green)' : 'white'};
   display: inline-block;
   position: relative;
   top: -24px;
@@ -14,13 +19,14 @@ export const GroupHeading = styled.h3`
 
 type Props = {
   name: string;
+  isOnboarding: boolean;
   children?: JSX.Element;
 };
 
-const AccountGroup = ({ name, children }: Props) => {
+const AccountGroup = ({ name, children, isOnboarding }: Props) => {
   return (
     <>
-      <GroupHeading>
+      <GroupHeading isOnboarding={isOnboarding}>
         {name} {name === 'Hidden Accounts' && <HiddenAccountsTooltip />}
       </GroupHeading>
       {children}

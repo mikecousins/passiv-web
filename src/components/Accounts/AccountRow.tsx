@@ -15,12 +15,15 @@ import {
   Type,
 } from './styles';
 import { Account } from '../../types/account';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGripVertical } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   account: Account;
+  editing: boolean;
 };
 
-export const AccountRow = ({ account }: Props) => {
+export const AccountRow = ({ account, editing }: Props) => {
   const [groupEditing, setGroupEditing] = useState(false);
   const [newGroupId, setNewGroupId] = useState('');
   const brokerages = useSelector(selectAllBrokerages);
@@ -101,26 +104,16 @@ export const AccountRow = ({ account }: Props) => {
   return (
     <AccountContainer>
       <Table>
-        <Brokerage>
-          <BrokerageTitle>{brokerageName}</BrokerageTitle>
-        </Brokerage>
-        <Name>
-          <H3>Name</H3>
-          <P>{account.name}</P>
-        </Name>
-        <Number>
-          <H3>Number</H3>
+        <H3>{brokerageName}</H3>
+        <H3>{account.name}</H3>
+        <H3>
+          {account.institution_name === 'Wealthica'
+            ? account.number.split(':')[0].replace(/.(?=..)/g, 'x')
+            : account.number.slice(0).replace(/.(?=..)/g, 'x')}{' '}
+        </H3>
+        <H3> {formatAccountType(account, brokerageName)} </H3>
 
-          <P>
-            {account.institution_name === 'Wealthica'
-              ? account.number.split(':')[0].replace(/.(?=..)/g, 'x')
-              : account.number.slice(0).replace(/.(?=..)/g, 'x')}{' '}
-          </P>
-        </Number>
-        <Type>
-          <H3>Type</H3>
-          <P> {formatAccountType(account, brokerageName)} </P>
-        </Type>
+        {editing && <FontAwesomeIcon icon={faGripVertical} size="lg" />}
       </Table>
       {groupEditing && editingFooter}
     </AccountContainer>
