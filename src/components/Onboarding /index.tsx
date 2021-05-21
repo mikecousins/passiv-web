@@ -5,6 +5,7 @@ import Intro from './Intro';
 import { useSelector } from 'react-redux';
 import { selectIsAuthorized } from '../../selectors';
 import AuthorizationPage from '../../pages/AuthorizationPage';
+import { selectRouter } from '../../selectors/router';
 
 const Container = styled.div`
   padding: 20px 20px 0px 20px;
@@ -13,8 +14,13 @@ const Container = styled.div`
 const Onboarding = () => {
   const hasConnection = useSelector(selectIsAuthorized);
   const [step, setStep] = useState(1);
+  const router = useSelector(selectRouter);
 
   useEffect(() => {
+    const queryStep = router.location.query.step;
+    if (queryStep) {
+      setStep(+queryStep);
+    }
     if (hasConnection) {
       setStep(3);
     }
