@@ -34,6 +34,8 @@ import { isNameDuplicate } from './utils/utils';
 import Tooltip from '../Tooltip';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
 import { GroupData } from '../../types/group';
+import Tour from '../Tour/Tour';
+import { ModelPortfolioSteps } from '../Tour/TourSteps';
 
 const NameInputAndEditStyle = styled(NameInputAndEdit)`
   @media (max-width: 900px) {
@@ -661,6 +663,7 @@ const ModelPortoflioBox = ({
             type="button"
             onClick={toggleEditMode}
             disabled={assignedPortfolioGroups > 1}
+            className="tour-edit-model-button"
           >
             {assignedPortfolioGroups > 1 ? (
               <Tooltip label="At the moment, editing a model is disabled if the model is applied to more than one group.">

@@ -127,8 +127,9 @@ const SymbolSelector = ({
 
   const handleSelectByTicker = (ticker: string) => {
     const tickerSplit = ticker.split(/,(.+)/);
-    let symbol = tickerSplit[0].toUpperCase().trim();
-    let desc = tickerSplit[1].trim();
+    let symbol = tickerSplit[0]?.toUpperCase().trim();
+    let desc = tickerSplit[1]?.trim();
+
     if (!matchingSymbols) {
       return;
     }

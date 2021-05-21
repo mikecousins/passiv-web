@@ -646,6 +646,7 @@ export const TargetSelector = ({
                         </Button>
                         <ApplyNewModelBtn
                           type="button"
+                          className="tour-apply-another-model"
                           onClick={() => {
                             dispatch(push(`/models/group/${groupId}`));
                           }}

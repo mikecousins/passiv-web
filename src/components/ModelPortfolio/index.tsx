@@ -56,6 +56,8 @@ import { GroupData } from '../../types/group';
 import { push, replace } from 'connected-react-router';
 import { CONTACT_FORM_PATH } from '../../apps/Paths';
 import PreLoadLink from '../PreLoadLink';
+import Tour from '../Tour/Tour';
+import { ModelPortfolioSteps } from '../Tour/TourSteps';
 
 export const BackButton = styled.div`
   padding: 30px 10px;
@@ -278,6 +280,7 @@ const ModelPortfolio = () => {
 
   return (
     <>
+      <Tour steps={ModelPortfolioSteps} name="model_portfolio_page_tour" />
       {currentModelPortfolio === null ? (
         <FontAwesomeIcon icon={faSpinner} spin />
       ) : (
@@ -313,7 +316,7 @@ const ModelPortfolio = () => {
                     </ComingSoonTag>
                   )}
 
-                  <ModelType isElite={isPaid}>
+                  <ModelType isElite={isPaid} className="tour-model-type">
                     <H3>
                       Model Type{' '}
                       {haveAssetsInModel && isPaid && (

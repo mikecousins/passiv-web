@@ -151,18 +151,30 @@ export const GroupTargetSteps = [
     content: (
       <>
         <div>
-          Click <strong>Edit Model</strong> to adjust your target, add and
-          delete securities from your target.
+          Click <strong>Edit Model</strong> to adjust your percentage
+          allocations, add and delete items from your model.
         </div>
         <br />
-        <small style={{ marginTop: '300px' }}>
-          Note that if you delete an asset from your target portfolio, Passiv
-          will try to sell it if Selling is enabled and your accuracy will be
+        <br />
+        <small>
+          * Note: at the moment, editing a model is disabled if the model is
+          applied to more than one group.
+        </small>
+        <br />
+        <br />
+        <small>
+          * Note: if you delete an asset from your target portfolio, Passiv will
+          try to sell it if Selling is enabled and your accuracy will be
           affected until you do. If you exclude it, Passiv will simply ignore
           it.
         </small>
       </>
     ),
+    placement: 'top',
+  },
+  {
+    target: '.tour-apply-another-model',
+    content: <></>,
     placement: 'top',
   },
   {
@@ -230,5 +242,89 @@ export const SettingsPageSteps = [
       </>
     ),
     placement: 'right',
+  },
+];
+
+/* My Models Page tour steps */
+export const MyModelsPageSteps = [
+  {
+    target: '.tour-new-model-button',
+    content:
+      'Create a new model. You can choose to set your target allocation based on individual securities or on asset classes that you define.',
+    placement: 'top',
+  },
+  {
+    target: '.tour-more-options',
+    content:
+      'Click More Options icon to quickly duplicate, delete or share a model if you have it enabled.',
+    placement: 'right',
+  },
+  {
+    target: '.tour-apply-button',
+    content: 'Apply your model to your portfolio(s).',
+    placement: 'right',
+  },
+  {
+    target: '.tour-view-button',
+    content: 'View the items (securities/asset classes) under this model.',
+    placement: 'right',
+  },
+];
+
+/* Mode Portfolio tour steps */
+export const ModelPortfolioSteps = [
+  {
+    target: '.tour-edit-model-button',
+    content:
+      'Edit your percentage allocations, add and delete items from your model.',
+    placement: 'top',
+  },
+  {
+    target: '.tour-model-type',
+    content: (
+      <>
+        <div>
+          By default, model portfolios are security based, meaning your
+          allocations are assigned to securities. You can define asset classes
+          and assign allocations to classes instead.
+          <a
+            href="https://passiv.com/help/tutorials/how-to-use-asset-classes-models/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn more
+          </a>
+        </div>
+      </>
+    ),
+    placement: 'right',
+  },
+];
+
+/* Asset class box in model page tour steps */
+
+export const AssetClassBoxSteps = [
+  {
+    target: '.tour-add-asset-class',
+    content:
+      'The first step to building your asset class model is to define your asset classes. An asset class is a group of securities that you want to count towards the same percentage allocation. ',
+    placement: 'top',
+  },
+];
+
+/* Asset classes page tour steps*/
+
+export const AssetClassesSteps = [
+  {
+    target: '.tour-asset-class',
+    content: (
+      <div>
+        {' '}
+        Add your asset classes and assign securities to them. Then click{' '}
+        <span style={{ fontWeight: 600 }}>Back to Model Portfolio</span> to use
+        them in your model.{' '}
+      </div>
+    ),
+    placement: 'left',
   },
 ];

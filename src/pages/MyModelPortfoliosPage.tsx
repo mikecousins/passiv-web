@@ -35,6 +35,8 @@ import SelectGroupDialog from '../components/ModelPortfolio/SelectGroupDialog';
 import { BackButton } from '../components/ModelPortfolio';
 import MoreOptions from '../components/ModelPortfolio/MoreOptions';
 import { push, replace } from 'connected-react-router';
+import Tour from '../components/Tour/Tour';
+import { MyModelsPageSteps } from '../components/Tour/TourSteps';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -205,6 +207,10 @@ const MyModelPortfoliosPage = () => {
 
   return (
     <React.Fragment>
+      {!groupId && (
+        <Tour steps={MyModelsPageSteps} name="my_models_page_tour" />
+      )}
+
       {groupId ? (
         <BackButton>
           <Link to={`/group/${groupId}`}>
@@ -227,7 +233,10 @@ const MyModelPortfoliosPage = () => {
           </StyledP>
         )}
         <div>
-          <NewModelButton onClick={() => handleNewModelBtn()}>
+          <NewModelButton
+            onClick={() => handleNewModelBtn()}
+            className="tour-new-model-button"
+          >
             New Model
           </NewModelButton>
         </div>
@@ -284,12 +293,13 @@ const MyModelPortfoliosPage = () => {
                           setSelectedModel(mdl?.model_portfolio);
                         }}
                         disabled={totalAssignedGroups === allGroups?.length}
+                        className="tour-apply-button"
                       >
                         Apply
                       </ApplyTransparentBtn>
                     )}
                     {}
-                    <StyledViewBtn>
+                    <StyledViewBtn className="tour-view-button">
                       <button onClick={() => handleApplyOrViewBtn(mdl)}>
                         {groupId ? 'Apply Model' : 'View'}
                       </button>
