@@ -21,11 +21,12 @@ const Onboarding = () => {
     const queryStep = router.location.query.step;
     if (queryStep) {
       setStep(+queryStep);
-    }
-    if (hasConnection) {
+    } else if (hasConnection) {
       setStep(3);
     }
   }, [hasConnection]);
+
+  console.log(step);
 
   return (
     <Container>
@@ -38,6 +39,7 @@ const Onboarding = () => {
         />
       )}
       {step === 3 && <Accounts />}
+      {step === 4 && <div></div>}
     </Container>
   );
 };

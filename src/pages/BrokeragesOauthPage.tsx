@@ -32,7 +32,7 @@ const ActionContainer = styled.div`
   margin-top: 44px;
 `;
 
-const Continue = styled(Button)`
+export const Continue = styled(Button)`
   font-weight: 600;
   text-align: center;
   letter-spacing: 0.25px;

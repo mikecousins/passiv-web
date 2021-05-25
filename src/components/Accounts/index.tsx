@@ -12,6 +12,7 @@ import {
   faCheck,
   faTrashAlt,
   faExternalLinkAlt,
+  faLongArrowAltRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
@@ -19,7 +20,7 @@ import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
 import AccountGroup from './AccountGroup';
 import { deleteData, putData, postData } from '../../api';
-import { H2, A, Edit, H3, P, Table, H1 } from '../../styled/GlobalElements';
+import { H2, A, Edit, H3, P, H1 } from '../../styled/GlobalElements';
 import { selectModelPortfolioFeature } from '../../selectors/features';
 import {
   loadAccountList,
@@ -30,6 +31,8 @@ import {
 import { loadPerformanceAll } from '../../actions/performance';
 import { selectSelectedAccounts } from '../../selectors/performance';
 import { selectRouter } from '../../selectors/router';
+import { Continue } from '../../pages/BrokeragesOauthPage';
+import { push } from 'connected-react-router';
 
 export const Header = styled.form`
   h2 {
@@ -63,6 +66,10 @@ const TutorialBtn = styled.button`
   text-align: center;
   letter-spacing: 0.25px;
   margin: 10px 0px;
+`;
+
+const ButtonContainer = styled.div`
+  text-align: right;
 `;
 
 const Accounts = () => {
@@ -336,6 +343,14 @@ const Accounts = () => {
           </Droppable>
         )}
       </DragDropContext>
+      {isOnboarding && (
+        <ButtonContainer>
+          <Continue onClick={() => dispatch(push('/welcome?step=4'))}>
+            Next Step
+            <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
+          </Continue>
+        </ButtonContainer>
+      )}
     </React.Fragment>
   );
 };
