@@ -242,13 +242,6 @@ const Accounts = () => {
                 <AccountGroup name={group.name} isOnboarding={isOnboarding}>
                   {group.accounts.length > 0 ? (
                     <React.Fragment>
-                      <Table>
-                        <H3>Brokerage</H3>
-                        <H3>Name</H3>
-                        <H3>Account Number</H3>
-                        <H3>Type</H3>
-                        <H3></H3>
-                      </Table>
                       {group.accounts.map((account, index) => (
                         <Draggable
                           key={account.id}

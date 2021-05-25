@@ -104,15 +104,26 @@ export const AccountRow = ({ account, editing }: Props) => {
   return (
     <AccountContainer>
       <Table>
-        <H3>{brokerageName}</H3>
-        <H3>{account.name}</H3>
-        <H3>
-          {account.institution_name === 'Wealthica'
-            ? account.number.split(':')[0].replace(/.(?=..)/g, 'x')
-            : account.number.slice(0).replace(/.(?=..)/g, 'x')}{' '}
-        </H3>
-        <H3> {formatAccountType(account, brokerageName)} </H3>
+        <Brokerage>
+          <BrokerageTitle>{brokerageName}</BrokerageTitle>
+        </Brokerage>
+        <Name>
+          <H3>Name</H3>
+          <P>{account.name}</P>
+        </Name>
+        <Number>
+          <H3>Number</H3>
 
+          <P>
+            {account.institution_name === 'Wealthica'
+              ? account.number.split(':')[0].replace(/.(?=..)/g, 'x')
+              : account.number.slice(0).replace(/.(?=..)/g, 'x')}{' '}
+          </P>
+        </Number>
+        <Type>
+          <H3>Type</H3>
+          <P> {formatAccountType(account, brokerageName)} </P>
+        </Type>
         {editing && <FontAwesomeIcon icon={faGripVertical} size="lg" />}
       </Table>
       {groupEditing && editingFooter}
