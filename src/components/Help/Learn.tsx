@@ -31,8 +31,11 @@ const Card = styled(ShadowBox)<CardProps>`
   }
   p {
     line-height: 26px;
+    height: 75px;
   }
   a {
+    display: block;
+    margin-top: 10px;
     text-decoration: none;
     font-weight: 600;
     svg {
@@ -64,7 +67,7 @@ const Learn = () => {
     {
       title: 'Take a course',
       content:
-        'Passiv assumes that you want to stay 100% invested but what if you wanted to do dollar-cost averaging? ',
+        'Passiv has partnered with Compound Confidence to offer you a free passive investing course, and help you get started on your journey.',
       img: courseGraphic,
       url: isPaid
         ? 'https://go.compoundconfidence.com/passiv-elite-discount'
@@ -73,14 +76,14 @@ const Learn = () => {
     {
       title: 'Tutorials',
       content:
-        'Want to know when your portfolio is out of alignment? This is where drift notifications come in.',
+        'Read our tutorials to discover how you can get the most out of Passiv.',
       img: tutorialsGraphic,
       url: 'https://passiv.com/tutorials/',
     },
     {
       title: 'Blogs',
       content:
-        'Do you have Canadian and US dollars in your portfolio? You can choose how Passiv deals with multiple currencies.',
+        'Discover our articles on passive investing and personal finance.',
       img: blogGraphic,
       url: 'https://passiv.com/blog/',
     },
@@ -93,11 +96,15 @@ const Learn = () => {
           return (
             <Card image={card.img}>
               <H3>{card.title}</H3>
-              <P>{card.content}</P>
-              <A href={card.url} target="_blank" rel="noopener noreferrer">
-                Learn More{' '}
-                <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
-              </A>
+              <P>
+                {card.content}
+
+                <A href={card.url} target="_blank" rel="noopener noreferrer">
+                  Learn More{' '}
+                  <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
+                </A>
+              </P>
+
               <div></div>
             </Card>
           );
