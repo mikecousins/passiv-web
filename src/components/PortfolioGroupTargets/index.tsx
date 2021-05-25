@@ -26,7 +26,6 @@ import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
 import LoadingOverlay from '../LoadingOverlay';
 import TargetSelector from './TargetSelector';
-import { selectIsEditMode } from '../../selectors/router';
 import Tour from '../Tour/Tour';
 import { SetupSteps } from '../Tour/TourSteps';
 import { replace } from 'connected-react-router';
@@ -73,6 +72,17 @@ const BorderBox = styled.div`
   border: 1px solid #04a386;
 `;
 
+const Header = styled(Grid)`
+  margin-bottom: 30px;
+`;
+
+const OrderTargetsContainer = styled.div`
+  justify-self: end;
+  @media (max-width: 900px) {
+    margin-top: 50px;
+  }
+`;
+
 type Props = {
   error: any | null;
 };
@@ -88,7 +98,6 @@ const PortfolioGroupTargets = ({ error }: Props) => {
   const targetInitialized = useSelector(selectCurrentGroupTargetInitialized);
   const positions = useSelector(selectCurrentGroupPositions);
   const loadingGroupInfo = useSelector(selectCurrentGroupInfoLoading);
-  const edit = useSelector(selectIsEditMode);
   const groups = useSelector(selectGroupedAccounts);
   const groupInfo = useSelector(selectCurrentGroupInfo);
   const modelPortfolios = useSelector(selectModelPortfolios);
@@ -400,22 +409,31 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     <OverlayContainer>
       <ShadowBox>
         <TargetContainer>
-          <H2>
-            {modelPortfolioFeature ? 'Model Portfolio' : 'Target Portfolio'}
-          </H2>
-          {modelPortfolioFeature && groupInfo?.model_portfolio !== null && (
-            <small>
-              <span style={{ fontWeight: 700 }}>
-                {groupInfo?.model_portfolio.name}
-              </span>{' '}
-              (
-              {groupInfo?.model_portfolio.model_type === 0
-                ? 'Security Based Model'
-                : 'Asset Class Based Model'}
-              )
-            </small>
-          )}
-          <OrderTargetAllocations edit={edit} />
+          <Header columns="1fr 1fr">
+            <div>
+              <H2>
+                {modelPortfolioFeature ? 'Model Portfolio' : 'Target Portfolio'}
+              </H2>
+              {modelPortfolioFeature && groupInfo?.model_portfolio !== null && (
+                <small>
+                  <span style={{ fontWeight: 700 }}>
+                    {groupInfo?.model_portfolio.name}
+                  </span>{' '}
+                  (
+                  {groupInfo?.model_portfolio.model_type === 0
+                    ? 'Security Based Model'
+                    : 'Asset Class Based Model'}
+                  )
+                </small>
+              )}
+            </div>
+            <OrderTargetsContainer>
+              <OrderTargetAllocations
+                edit={groupInfo?.model_portfolio.model_type === 0}
+              />
+            </OrderTargetsContainer>
+          </Header>
+
           {loading ? (
             <P>
               Importing targets... <FontAwesomeIcon icon={faSpinner} spin />
