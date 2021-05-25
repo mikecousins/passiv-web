@@ -415,21 +415,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       type: 'traditional',
     },
     {
-      id: 'wealthsimple',
-      name: 'Wealthsimple Trade',
-      displayName: 'Wealthsimple Trade',
-      connect: () => {
-        startConnection('Wealthsimple Trade', 'trade');
-      },
-      confirmPrompt: null,
-      defaultConnectionType: 'trade',
-      openURL: 'https://my.wealthsimple.com/oauth/authorize',
-      major: true,
-      logo: WealthsimpleTradeLogo,
-      description: <P>Wealthsimple is a Canadian discount brokerage.</P>,
-      type: 'traditional',
-    },
-    {
       id: 'bitbuy',
       name: 'Bitbuy',
       displayName: 'Bitbuy',
