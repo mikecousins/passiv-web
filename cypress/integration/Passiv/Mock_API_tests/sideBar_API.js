@@ -10,20 +10,20 @@ describe('Sidebar individual component test', () => {
   });
 
   it('Sign up button works', () => {
-    cy.contains('Sign Up').click().should('have.attr', 'href', '/app/register');
+    cy.contains('Sign Up').click().should('have.attr', 'href', '/register');
   });
 
   it('Login button works', () => {
-    cy.contains('Login').click().should('have.attr', 'href', '/app/login');
+    cy.contains('Login').click().should('have.attr', 'href', '/login');
   });
 
   it('Help button works', () => {
-    cy.contains('Help').click().should('have.attr', 'href', '/app/help');
+    cy.contains('Help').click().should('have.attr', 'href', '/help');
   });
 
   it('Reset password button works', () => {
     cy.contains('Reset')
       .click()
-      .should('have.attr', 'href', '/app/reset-password');
+      .should('have.attr', 'href', '/reset-password');
   });
 });

@@ -1,4 +1,14 @@
 {
   "baseUrl": "http://localhost:3000",
-  "video": false
+  "video": false,
+  "pageLoadTimeout": 300000,
+
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "retries": {
+    "runMode": 2,
+    "openMode": 0
+  }
+
 }
+

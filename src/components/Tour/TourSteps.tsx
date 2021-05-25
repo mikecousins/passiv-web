@@ -113,16 +113,15 @@ export const SetupSteps = [
     content: (
       <>
         If you already own securities in your brokerage account, then the
-        easiest way to get started is to import your holdings as your target
-        portfolio allocation by clicking the <strong> Import button</strong>.
-        Once this is done, don’t forget to review and adjust your targets.
+        easiest way to get started is to import your holdings as a model by
+        clicking the <strong>Import</strong> button.
       </>
     ),
   },
   {
-    target: '.tour-build-portfolio',
+    target: '.tour-build-model',
     content:
-      'If you don’t own any securities yet, you can build your target portfolio’s allocation from scratch by adding securities and assigning percentages to them.',
+      'If you don’t own any securities yet, you can build your model portfolio from scratch by adding securities and assigning percentages to them.',
   },
 ];
 
@@ -148,21 +147,12 @@ export const GroupTargetSteps = [
     placement: 'right',
   },
   {
-    target: '.tour-edit-targets',
+    target: '.tour-edit-model',
     content: (
       <>
         <div>
-          Click <strong>Edit Targets</strong> to adjust your target, add and
-          delete securities from your target, or
-          <a
-            href="https://passiv.com/help/tutorials/how-to-exclude-stock-picks-from-your-portfolio/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {' '}
-            exclude assets
-          </a>
-          .
+          Click <strong>Edit Model</strong> to adjust your target, add and
+          delete securities from your target.
         </div>
         <br />
         <small style={{ marginTop: '300px' }}>

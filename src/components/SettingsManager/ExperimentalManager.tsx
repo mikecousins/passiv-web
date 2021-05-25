@@ -1,36 +1,20 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectSettings } from '../../selectors';
-import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ShadowBox from '../../styled/ShadowBox';
-import { H2, P, OptionsTitle } from '../../styled/GlobalElements';
-import { ToggleButton, StateText } from '../../styled/ToggleButton';
-import { Settings } from '../../types/settings';
-import { putData } from '../../api';
-import { reloadEverything } from '../../actions';
+import { H2, P } from '../../styled/GlobalElements';
+import styled from '@emotion/styled';
+
+const Description = styled(P)`
+  margin: 12px 0px;
+`;
+const NoFeature = styled.div`
+  text-align: center;
+  margin: 50px 0px;
+`;
 
 const ExperimentalManager = () => {
-  // const authorizations = useSelector(selectAuthorizations);
-  // const isDemo = useSelector(selectIsDemo);
   const settings = useSelector(selectSettings);
-  const dispatch = useDispatch();
-
-  const updateModelPortfolio = () => {
-    if (!settings) {
-      return;
-    }
-    let newSettings: Settings = { ...settings };
-    newSettings.model_portfolios_enabled = !settings.model_portfolios_enabled;
-    putData('/api/v1/settings/', newSettings)
-      .then(() => {
-        dispatch(reloadEverything());
-      })
-      .catch(() => {
-        dispatch(reloadEverything());
-      });
-  };
-
   if (!settings) {
     return null;
   }
@@ -38,23 +22,14 @@ const ExperimentalManager = () => {
   return (
     <ShadowBox>
       <H2>Experimental Features</H2>
-      <P>You can try out new Passiv features before they're fully baked!</P>
-      <div>
-        <OptionsTitle>Model Portfolios:</OptionsTitle>
-        <ToggleButton onClick={updateModelPortfolio}>
-          {settings.model_portfolios_enabled ? (
-            <React.Fragment>
-              <FontAwesomeIcon icon={faToggleOn} />
-              <StateText>on</StateText>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <FontAwesomeIcon icon={faToggleOff} />
-              <StateText>off</StateText>
-            </React.Fragment>
-          )}
-        </ToggleButton>
-      </div>
+      <Description>
+        You can try out new Passiv features before they're fully baked!
+      </Description>
+      <NoFeature>
+        <P>
+          There are currently no experimental features available for you to try.
+        </P>
+      </NoFeature>
     </ShadowBox>
   );
 };

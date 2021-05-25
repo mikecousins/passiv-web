@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from '@emotion/styled';
-import { InputNonFormik } from '../../styled/Form';
 import { H1, A, P } from '../../styled/GlobalElements';
+import {
+  LogoContainer,
+  InputContainer,
+  MiniInputNonFormik,
+} from '../../styled/CredentialManagerElements';
 import { Button } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import { postData } from '../../api';
@@ -11,25 +14,6 @@ import { replace } from 'connected-react-router';
 import KrakenAPIPermissions from '../../assets/images/kraken-api-permissions.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-
-const LogoContainer = styled.div`
-  img {
-    max-width: 100%;
-  }
-`;
-
-const InputContainer = styled.div`
-  padding-top: 10px;
-  padding-bottom: 5px;
-  font-size: 18px;
-`;
-
-const MiniInputNonFormik = styled(InputNonFormik)`
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-size: 1em;
-  padding: 15px 12px;
-`;
 
 const KrakenCredentialsManager = () => {
   const [APIKey, setAPIKey] = useState('');
