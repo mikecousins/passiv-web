@@ -95,8 +95,8 @@ const Learn = () => {
               <H3>{card.title}</H3>
               <P>{card.content}</P>
               <A href={card.url} target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" /> Learn
-                More
+                Learn More{' '}
+                <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
               </A>
               <div></div>
             </Card>

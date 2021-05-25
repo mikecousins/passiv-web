@@ -4,7 +4,6 @@ import { selectHelpArticleSlug, selectHelpArticles } from '../selectors';
 import { H1, P } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
 import { push } from 'connected-react-router';
-import ReactMarkdown from 'react-markdown';
 import styled from '@emotion/styled';
 
 // COPY-PASTED FROM GLOBALELEMENTS.JS ...
@@ -123,9 +122,7 @@ const HelpArticlePage = () => {
                 />
               </VideoContainer>
             )}
-            <MarkdownContainer>
-              <ReactMarkdown source={selectedArticle.content} />
-            </MarkdownContainer>
+            <MarkdownContainer></MarkdownContainer>
           </ShadowBox>
         </React.Fragment>
       );

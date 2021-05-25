@@ -9,6 +9,7 @@ import {
 import shouldUpdate from '../reactors/should-update';
 import { AppState } from '../store';
 import { selectQuestradeOfferFeature } from './features';
+import { selectHasOnlyCryptoAccounts } from './accounts';
 
 export const selectSubscriptionRaw = (state: AppState) => state.subscription;
 
@@ -113,7 +114,8 @@ export const selectShowQuestradeOffer = createSelector(
 
 export const selectShowInvestingCourse = createSelector(
   selectIsDemo,
-  (isDemo) => {
-    return !isDemo;
+  selectHasOnlyCryptoAccounts,
+  (isDemo, onlyCrypto) => {
+    return !isDemo && !onlyCrypto;
   },
 );

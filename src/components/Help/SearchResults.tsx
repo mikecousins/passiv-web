@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { A, P, H2, H3 } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
@@ -40,7 +42,7 @@ const SearchResults = ({ hit }: Props) => {
         {hit.type === 'faq' ? (
           hit.slug.trim() !== '' && (
             <ReadMore href={hit.slug} target="_blank" rel="noopener noreferrer">
-              Learn More
+              Learn More <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
             </ReadMore>
           )
         ) : (
@@ -53,7 +55,7 @@ const SearchResults = ({ hit }: Props) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read More
+            Read More <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
           </ReadMore>
         )}
       </Card>

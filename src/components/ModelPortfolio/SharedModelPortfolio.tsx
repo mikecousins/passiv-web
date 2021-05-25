@@ -47,11 +47,10 @@ const ListOfSecurities = styled.div`
 `;
 
 const Security = styled.div`
-  border-right: 5px solid ${(props) => props.color};
+  border-left: 5px solid ${(props) => props.color};
   line-height: 30px;
   padding: 10px;
-  margin-bottom: 50px;
-  height: 35px;
+  margin-bottom: 30px;
   small {
     font-size: 16px;
   }
@@ -66,8 +65,7 @@ const Symbol = styled.span`
 const Percent = styled.span`
   font-size: 20px;
   font-weight: 900;
-  margin-left: 12px;
-  float: right;
+  margin-right: 15px;
 `;
 
 const ActionBox = styled.div`
@@ -77,6 +75,7 @@ const ActionBox = styled.div`
   padding: 15px;
   margin-bottom: 231px;
   padding: 20px;
+  height: fit-content;
 `;
 
 const Header = styled(H3)`
@@ -194,6 +193,7 @@ const SharedModelPortfolio = () => {
     postData('api/v1/modelPortfolio', {})
       .then((res) => {
         const modelId = res.data.model_portfolio.id;
+        sharedModel.model_portfolio.name += ' (Shared)';
         sharedModel.model_portfolio.share_portfolio = false;
         sharedModel.model_portfolio.total_assigned_portfolio_groups = 0;
         // post new data to it
@@ -225,7 +225,7 @@ const SharedModelPortfolio = () => {
             <StyledContainer>
               <StyledName>{sharedModel.model_portfolio.name}</StyledName>
             </StyledContainer>
-            <Grid columns="auto 500px">
+            <Grid columns="auto 450px">
               <PieChart
                 data={pieChartData}
                 style={{ height: '270px', maxWidth: '350px' }}
@@ -238,8 +238,10 @@ const SharedModelPortfolio = () => {
                   return (
                     <Security key={security.symbol.id} color={security.color}>
                       <div>
+                        <Percent>
+                          {parseFloat(security.percent).toFixed(1)}%
+                        </Percent>
                         <Symbol>{security.symbol.symbol}</Symbol>
-                        <Percent>{security.percent}%</Percent>
                       </div>
                       <Tooltip label={security.symbol.description}>
                         <small>
@@ -253,7 +255,9 @@ const SharedModelPortfolio = () => {
                   <Security key="other" color="#2A2D34">
                     <div>
                       <Symbol style={{ border: 'none' }}>Other</Symbol>{' '}
-                      <Percent>{otherSecuritiesTotal}%</Percent>
+                      <Percent>
+                        {parseFloat(otherSecuritiesTotal).toFixed(1)}%
+                      </Percent>
                       <Tooltip
                         label="Other Securities: "
                         additionalComponent={
@@ -338,7 +342,8 @@ const OtherSecurities = ({ securities }: Prop) => {
       {securities.map((security) => {
         return (
           <li key={security.symbol.id}>
-            {security.symbol.symbol}:<span>{security.percent} %</span>
+            {security.symbol.symbol}:
+            <span>{parseFloat(security.percent).toFixed(1)} %</span>
           </li>
         );
       })}
