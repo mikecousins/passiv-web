@@ -9,9 +9,8 @@ import { push, replace } from 'connected-react-router';
 import { postData } from '../api';
 import { reloadEverything } from '../actions';
 import ShadowBox from '../styled/ShadowBox';
-import { A, H1, H2, P } from '../styled/GlobalElements';
+import { A, H1, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
-import { Step } from '../styled/SignupSteps';
 import { selectQueryTokens } from '../selectors/router';
 import { Error } from '../types/groupInfo';
 import PreLoadLink from '../components/PreLoadLink';
@@ -23,10 +22,6 @@ import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
 import { Description } from '../components/Onboarding /Intro';
-
-const H2Padded = styled(H2)`
-  padding-bottom: 20px;
-`;
 
 const ActionContainer = styled.div`
   margin-top: 44px;
@@ -64,10 +59,10 @@ type Props = {
 };
 
 const BrokeragesOauthPage = ({ brokerageName }: Props) => {
-  const [loading, setLoading] = useState(false); //TODO set this to true by default
-  const [showUpgradeOffer, setShowUpgradeOffer] = useState(true);
+  const [loading, setLoading] = useState(true); //TODO set this to true by default
+  const [showUpgradeOffer, setShowUpgradeOffer] = useState(false);
   const [error, setError] = useState<Error>();
-  const [connectedSuccessfully, setConnectedSuccessfully] = useState(true);
+  const [connectedSuccessfully, setConnectedSuccessfully] = useState(false);
   const queryParams = useSelector(selectQueryTokens);
   const isPaid = useSelector(selectIsPaid);
   const questradeOfferFeatureActive = useSelector(selectQuestradeOfferFeature);
@@ -84,41 +79,39 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
     });
   }
 
-  // useEffect(() => {
-  //   let token: any = { token: queryParams.code };
-  //   if (brokerageName === 'Interactive Brokers') {
-  //     token = {
-  //       oauth_token: queryParams.oauth_token,
-  //       oauth_verifier: queryParams.oauth_verifier,
-  //     };
-  //   }
-  //   if (brokerageName === 'Zerodha') {
-  //     token = { token: queryParams.request_token };
-  //   }
-  //   if (token === null) {
-  //     setLoading(false);
-  //     setError({ code: '0000' });
-  //   } else {
-  //     postData('/api/v1/brokerages/authComplete/', token)
-  //       .then(() => {
-  //         setLoading(false);
-  //         dispatch(reloadEverything());
-  //         if (brokerageName === 'Questrade') {
-  //           if (isPaid || !questradeOfferFeatureActive) {
-  //             setConnectedSuccessfully(true);
-  //           } else {
-  //             setShowUpgradeOffer(true);
-  //           }
-  //         } else {
-  //           setConnectedSuccessfully(true);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         setLoading(false);
-  //         setError(error.response.data);
-  //       });
-  //   }
-  // }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    let token: any = { token: queryParams.code };
+    if (brokerageName === 'Interactive Brokers') {
+      token = {
+        oauth_token: queryParams.oauth_token,
+        oauth_verifier: queryParams.oauth_verifier,
+      };
+    }
+    if (brokerageName === 'Zerodha') {
+      token = { token: queryParams.request_token };
+    }
+    if (token === null) {
+      setLoading(false);
+      setError({ code: '0000' });
+    } else {
+      postData('/api/v1/brokerages/authComplete/', token)
+        .then(() => {
+          setLoading(false);
+          dispatch(reloadEverything());
+          setConnectedSuccessfully(true);
+          if (
+            brokerageName === 'Questrade' &&
+            (!isPaid || questradeOfferFeatureActive)
+          ) {
+            setShowUpgradeOffer(true);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          setError(error.response.data);
+        });
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const checkBrokerageMaintenance = (brokerage: BrokerageType) => {
     if (
@@ -333,8 +326,8 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
           {showUpgradeOffer && (
             <div>
               <P>
-                🎉 Congratulations!! You are eligible for a FREE upgrade to
-                Passiv Elite with your Questrade account!
+                Congratulations!! You are eligible for a FREE upgrade to Passiv
+                Elite with your Questrade account!
               </P>
               <P>
                 <A

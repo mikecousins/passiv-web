@@ -148,10 +148,9 @@ const NoBrokerageLink = styled(Link)`
 
 type Props = {
   onboarding?: boolean;
-  handleLastStep?: () => void;
 };
 
-const ConnectBrokerage = ({ onboarding, handleLastStep }: Props) => {
+const ConnectBrokerage = ({ onboarding }: Props) => {
   const authorized = useSelector(selectIsAuthorized);
   const brokerages = useSelector(selectBrokerages);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
@@ -718,7 +717,7 @@ const ConnectBrokerage = ({ onboarding, handleLastStep }: Props) => {
                   </NoBrokerageLink>
                 </VerticalPadding>
                 <VerticalPadding>
-                  <BackBtn onClick={handleLastStep}>
+                  <BackBtn onClick={() => dispatch(push('/welcome?step=1'))}>
                     <FontAwesomeIcon icon={faLongArrowAltLeft} /> Go Back
                   </BackBtn>
                 </VerticalPadding>

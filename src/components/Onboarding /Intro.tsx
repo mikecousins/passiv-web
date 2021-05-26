@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '../../styled/Button';
 import { H1, H3, P } from '../../styled/GlobalElements';
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 
 const Container = styled.div`
   > h1 {
@@ -20,6 +22,9 @@ const Container = styled.div`
     svg {
       margin-left: 5px;
     }
+  }
+  iframe {
+    padding: 30px 0px;
   }
 `;
 
@@ -50,11 +55,12 @@ const Step = styled.div<StepProps>`
   }
 `;
 
-type Props = {
-  handleNextStep: () => void;
-};
+const ScalingIFrame = styled.iframe`
+  width: 100%;
+`;
 
-const Intro = ({ handleNextStep }: Props) => {
+const Intro = () => {
+  const dispatch = useDispatch();
   return (
     <Container>
       <H1>Welcome to Passiv</H1>
@@ -73,10 +79,11 @@ const Intro = ({ handleNextStep }: Props) => {
         })}
       </Steps>
       <Description>That’s all! Start growing your nest egg now!</Description>
-      <Button onClick={handleNextStep}>
+      <Button onClick={() => dispatch(push('/welcome?step=2'))}>
           Get Started <FontAwesomeIcon icon={faLongArrowAltRight} />
       </Button>
-      <iframe
+
+      <ScalingIFrame
         title="Passiv Basics"
         width="995"
         height="627"
@@ -84,7 +91,7 @@ const Intro = ({ handleNextStep }: Props) => {
         frameBorder="0"
         allow="autoplay; fullscreen"
         allowFullScreen
-      ></iframe>
+      ></ScalingIFrame>
     </Container>
   );
 };
@@ -103,9 +110,8 @@ export const steps = [
       'It’s easy! You will be redirected to login to your brokerage of choice.',
   },
   {
-    name: 'Choose Membership',
-    description:
-      'Starting at $0 for Life, choose the package that is right for you!',
+    name: 'Organize Accounts',
+    description: '???',
   },
   {
     name: 'Setup Portfolios',

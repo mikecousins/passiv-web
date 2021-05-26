@@ -29,6 +29,7 @@ import TotalHoldings from '../components/TotalHoldings';
 import DashboardConfig from '../components/Performance/Dashboard/DashboardConfig';
 import { DashboardGoalWidgets } from '../components/Goals/DashboardGoalWidgets';
 import { selectShowInvestingCourse } from '../selectors/subscription';
+import WelcomePage from './WelcomePage';
 
 export const DashboardPage = () => {
   const authorized = useSelector(selectIsAuthorized);
@@ -75,8 +76,8 @@ export const DashboardPage = () => {
       visible: displayQuestradeConnectPrompt,
     },
     {
-      name: 'setup_prompt',
-      content: <SetupPrompt />,
+      name: 'onboarding_dashboard',
+      content: <WelcomePage />,
       visible: anySetupRemaining,
     },
     {

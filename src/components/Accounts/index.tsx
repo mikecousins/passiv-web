@@ -56,7 +56,7 @@ export const GroupNote = styled(P)`
   padding-left: 30px;
 `;
 
-const TutorialBtn = styled.button`
+export const TutorialBtn = styled.button`
   color: white;
   background-color: var(--brand-green);
   padding: 10px 20px;
@@ -345,7 +345,7 @@ const Accounts = () => {
       </DragDropContext>
       {isOnboarding && (
         <ButtonContainer>
-          <Continue onClick={() => dispatch(push('/welcome?step=4'))}>
+          <Continue onClick={() => dispatch(push('/'))}>
             Next Step
             <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
           </Continue>
