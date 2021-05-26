@@ -20,8 +20,9 @@ import {
 import PreLoadLink from '../PreLoadLink';
 import { SETTINGS_PATH } from '../../apps/Paths';
 
+import onboardingTrophy from '../../assets/images/onboardingTrophy.png';
+
 const Container = styled.div`
-  padding: 100px;
   * {
     text-align: center;
   }
@@ -36,8 +37,18 @@ const Container = styled.div`
     line-height: 150%;
     letter-spacing: 0.2px;
   }
+`;
+
+const TrophyImage = styled.div`
+  background: url(${onboardingTrophy}) no-repeat;
+  background-size: contain;
+  width: 150px;
+  height: 200px;
+  margin: 0 auto;
+  margin-bottom: 20px;
   @media (max-width: 900px) {
-    padding: 0px;
+    width: 100px;
+    height: 150px;
   }
 `;
 
@@ -131,6 +142,7 @@ const OnboardingFinished = () => {
 
   return (
     <Container>
+      <TrophyImage></TrophyImage>
       <H1>Congratulations, you are ready to go!</H1>
       <P>
         Adjust your setttings to customize your experience, take a peak at some
