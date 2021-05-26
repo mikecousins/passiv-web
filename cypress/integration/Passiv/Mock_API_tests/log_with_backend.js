@@ -40,8 +40,8 @@ describe('Login using created data from registration', () => {
 
 
       cy.fixture('localhost').as('login')
-      cy.visit('/app/login', { responseTimeout: 310000 })
-    cy.location('pathname').should('equal', '/app/login')
+      cy.visit('/login', { responseTimeout: 310000 })
+    cy.location('pathname').should('equal', '/login')
 
     // enter valid username and password
     cy.fixture('user').as('userFixture')
@@ -54,7 +54,7 @@ describe('Login using created data from registration', () => {
     cy.wait('@Success')
     .then(({request, response}) => {
     expect(response.statusCode).to.eq(200)
-    expect(request.body).to.have.property('email', 'testemail@passiv.com')
+    expect(request.body).to.have.property('email', 'testemail2@passiv.com')
     expect(request.body).to.have.property('password', 'passivtestpass')
     expect(request.method).to.eq('POST')
 

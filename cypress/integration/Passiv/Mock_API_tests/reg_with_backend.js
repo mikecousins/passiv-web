@@ -17,7 +17,7 @@ describe('Testing registration fields, button and signal sending', () => {
 
 
 
-            cy.visit('/app/register', { responseTimeout: 310000 })
+            cy.visit('/register', { responseTimeout: 310000 })
 
     // the variable for the info that will be stored in the JSON db
 

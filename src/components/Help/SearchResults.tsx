@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { A, P, H2, H3 } from '../../styled/GlobalElements';
 import ShadowBox from '../../styled/ShadowBox';
@@ -6,6 +8,9 @@ import { SearchResultsType } from '../../types/help';
 
 const Card = styled(ShadowBox)`
   height: 100%;
+  p {
+    line-height: 26px;
+  }
 `;
 
 const Type = styled(H3)`
@@ -18,6 +23,7 @@ const Type = styled(H3)`
 const Title = styled(H2)`
   margin-bottom: 10px;
   font-size: 25px;
+  line-height: 27px;
 `;
 
 const ReadMore = styled(A)`
@@ -40,7 +46,7 @@ const SearchResults = ({ hit }: Props) => {
         {hit.type === 'faq' ? (
           hit.slug.trim() !== '' && (
             <ReadMore href={hit.slug} target="_blank" rel="noopener noreferrer">
-              Learn More
+              Learn More <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
             </ReadMore>
           )
         ) : (
@@ -53,7 +59,7 @@ const SearchResults = ({ hit }: Props) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read More
+            Read More <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
           </ReadMore>
         )}
       </Card>
