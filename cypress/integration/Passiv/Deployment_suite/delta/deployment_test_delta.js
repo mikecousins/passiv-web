@@ -14,28 +14,28 @@ describe('Sidebar individual component test', () => {
 
   it('Sign up button works', () => {
       cy.contains('Sign Up').click()
-      .should('have.attr', 'href', '/app/register')
+      .should('have.attr', 'href', '/register')
 
   })
 
   it('Login button works', () => {
       cy.contains('Login').click()
-      .should('have.attr', 'href', '/app/login')
+      .should('have.attr', 'href', '/login')
 
   })
 
   it('Help button works', () => {
       cy.contains('Help').click()
-      .should('have.attr', 'href', '/app/help')
+      .should('have.attr', 'href', '/help')
   })
 
   it('Reset password button works', () => {
       cy.contains('Reset').click()
-      .should('have.attr', 'href', '/app/reset-password')
+      .should('have.attr', 'href', '/reset-password')
 
   it('Login button works', () => {
       cy.contains('Login').click()
-      .should('have.attr', 'href', '/app/login')
+      .should('have.attr', 'href', '/login')
   })
 
       cy.clearCookies()
@@ -100,7 +100,7 @@ describe('Login individual component test', () => {
           statusCode: 200,
           body: 'it worked!'
       }).as('Reset')
-      cy.intercept('https://app.delta.passiv.com/app/reset-password').as('redirect')
+      cy.intercept('https://app.delta.passiv.com/reset-password').as('redirect')
       cy.fixture('testDomain').as('server')
       cy.get('@server').then(domain => {
       cy.visit((domain.test).concat('/reset-password')) })
@@ -127,7 +127,7 @@ describe('Login individual component test', () => {
       cy.get('@userFixture').then(user => {
           cy.get('[name=le]').first().type(user.username)
           cy.get('[name=lm]').first().type("test")
-      cy.get('button').contains('Submit').click()
+      cy.get('button').contains('Send Message').click()
       cy.wait('@email')
 
 
@@ -247,35 +247,35 @@ describe('Login individual component test', () => {
 
         })
 
-      // it('Add Kraken', () => {
-      //     cy.get('div').contains('Settings').click().wait(8000)
-      //     cy.get('button').contains('Add').first().click().wait(5000)
-      //     cy.get('div').contains('Kraken').click()
+      it('Add Kraken', () => {
+          cy.get('div').contains('Settings').click().wait(8000)
+          cy.get('button').contains('Add').first().click().wait(5000)
+          cy.get('div').contains('Kraken').click()
 
-      //     cy.wait('@connect')
-      //     .its('response.statusCode').should('eq', 200)
+          cy.wait('@connect')
+          .its('response.statusCode').should('eq', 200)
 
-        // })
+        })
 
-        // it('Add Zerodha', () => {
-        //   cy.get('div').contains('Settings').click().wait(8000)
-        //   cy.get('button').contains('Add').first().click().wait(5000)
-        //   cy.get('div').contains('Zerodha').click()
+        it('Add Zerodha', () => {
+          cy.get('div').contains('Settings').click().wait(8000)
+          cy.get('button').contains('Add').first().click().wait(5000)
+          cy.get('div').contains('Zerodha').click()
 
-        //   cy.wait('@connect')
-        //   .its('response.statusCode').should('eq', 200)
+          cy.wait('@connect')
+          .its('response.statusCode').should('eq', 200)
 
-        // })
+        })
 
-        // it('Add Unocoin', () => {
-        //   cy.get('div').contains('Settings').click().wait(8000)
-        //   cy.get('button').contains('Add').first().click().wait(5000)
-        //   cy.get('div').contains('Unocoin').click()
+        it('Add Unocoin', () => {
+          cy.get('div').contains('Settings').click().wait(8000)
+          cy.get('button').contains('Add').first().click().wait(5000)
+          cy.get('div').contains('Unocoin').click()
 
-        //   cy.wait('@connect')
-        //   .its('response.statusCode').should('eq', 200)
+          cy.wait('@connect')
+          .its('response.statusCode').should('eq', 200)
 
-        // })
+        })
 
 
       it('Logout', () => {
@@ -285,10 +285,13 @@ describe('Login individual component test', () => {
 
       })
 
+    })
+
 
 // Login, add to current portfolio,  reset and build from scratch **Model portfolios only***
 
-describe('Login and Adjust portfolio', () => {
+
+  describe('Login and Adjust portfolio', () => {
 
     // Re-login
     it('Login test 2', () => {
@@ -304,8 +307,8 @@ describe('Login and Adjust portfolio', () => {
     cy.get('[data-cy=login-button]').should('not.be.disabled')
     .click({multiple:true})
     })
-
   })
+
 
   it('Test Portfolio settings', () => {
 
@@ -343,30 +346,69 @@ describe('Login and Adjust portfolio', () => {
 
     })
 
+  })
 
 
-    it('Test building portfolio', () => {
+
+
+  //     cy.contains('My Models').click().wait(8000)
+
+  // })
+
+  // it('Test duplicate and delete function for models', () => {
+  //   cy.get('div').contains('tester').prev().click()
+  //   cy.get('button').contains('Duplicate').click()
+  //   cy.get('body').focus().click()
+
+  // // delete the model and duplicate again
+  //   cy.get('div').contains('tester(Copy)').prev().click()
+  //   cy.get('button').find('Delete').click()
+
+  //   cy.get('button').contains('Delete').click()
+
+  //   cy.get('div').contains('tester').prev().click()
+  //   cy.get('button').contains('Duplicate').click()
+  //   cy.get('body').focus()
+
+
+  // })
+
+  // })
+
+  // reset the portfiol and build a new one
+describe('Reset and build portfolio manually', () => {
+    it('Reset', () => {
+        cy.contains('test').click()
+        cy.contains('Portfolio').click().wait(8000)
+        cy.get('div').contains('Reset').click()
 
         cy.contains('test').click()
         cy.contains('Portfolio').click().wait(8000)
-        cy.scrollTo('bottom')
-        cy.get('button').contains('Edit Model').wait(4000).click()
 
-      //adding new assets to an existing target
+
+        cy.get('button').contains('New Model').click().wait(8000)
+        cy.get('button').contains('Edit Name').click()
+        cy.get('input').eq(0).clear().type('chips2')
+        cy.get('button').contains('Done').click()
+
+            //creating a new portfolio
       cy.get('input').eq(-2).click().clear().type(15)
-      cy.get('input').last().type('MSFT').type('{enter}')
-      cy.get('button').contains('Save').click().wait(4000)
+      cy.get('input').last().type('MSFT').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(5000)
 
-      cy.get('button').contains('Edit Model').wait(6000).click()
+
+
       cy.get('input').eq(-2).click().clear().type(5)
-      cy.get('input').last().type('NFLX').type('{enter}')
+      cy.get('input').last().type('MLPA').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(6000.)
+
+      cy.get('input').eq(-2).click().clear().type(5)
+      cy.get('input').last().type('PNG.VN').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(6000)
+
+      cy.get('div').contains('Share Model').next().click()
+      cy.get('div').contains('Share Model').next().click()
+
       cy.get('button').contains('Save').click().wait(6000)
 
-      cy.get('button').contains('Edit Model').wait(4000).click()
-      cy.get('input').eq(-2).click().clear().type(5)
-      cy.get('input').last().type('PNG.VN').type('{enter}')
-      cy.get('button').contains('Save').click().wait(6000)
-
+      cy.get('button').contains('Apply to Portfolio').click()
 
 
   //Refreh
@@ -374,52 +416,29 @@ describe('Login and Adjust portfolio', () => {
 
   })
 
+
+  it('Apply tester and delete created portfolio', () => {
+    cy.get('div').contains('My Models').click()
+
+    cy.get('div').contains('tester').next().next().click()
+    cy.get('div').contains('Portfolio').click()
+    cy.get('div').contains('My Models').click()
+
+    cy.get('div').contains('chips2').prev().click().contains('Delete').click()
+    cy.get('Button').contains('Cancel').prev().click()
+
   })
-
-// reset the portfiol and build a new one
-describe('Reset and build portfolio manually', () => {
-  it('Reset', () => {
-      cy.contains('test').click()
-      cy.contains('Portfolio').click().wait(8000)
-      cy.scrollTo('bottom')
-      cy.get('div').contains('Reset').click()
-
-      cy.contains('test').click()
-      cy.contains('Portfolio').click().wait(8000)
-
-
-      cy.get('button').contains('New Model').click()
-
-          //creating a new portfolio
-    cy.get('input').eq(-2).click().clear().type(15)
-    cy.get('input').last().type('MSFT').type('{enter}')
-    cy.get('button').contains('Save').click().wait(4000)
-
-    cy.get('button').contains('Edit Model').wait(6000).click()
-    cy.get('input').eq(-2).click().clear().type(5)
-    cy.get('input').last().type('MLPA').type('{enter}')
-    cy.get('button').contains('Save').click().wait(6000)
-
-    cy.get('button').contains('Edit Model').wait(4000).click()
-    cy.get('input').eq(-2).click().clear().type(5)
-    cy.get('input').last().type('PNG.VN').type('{enter}')
-    cy.get('button').contains('Save').click().wait(6000)
-
-
-//Refreh
-  cy.get('button').contains('Refresh').click()
-
-})
 
   })
 
 
 
 describe('Add goals', () => {
-  it('Goals Test', () => {
-    cy.contains('Goals').click()
-    .should('have.attr', 'href', '/app/goals')
-})
+
+    it('Goals Test', () => {
+      cy.contains('Goals').click()
+      .should('have.attr', 'href', '/goals')
+  })
 
 
 //these are the values for the goal
@@ -660,4 +679,3 @@ describe('Change name and test auth signal and allocate button', () => {
 
 })
 
-})
