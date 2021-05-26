@@ -78,7 +78,7 @@ export const DashboardPage = () => {
     {
       name: 'onboarding_dashboard',
       content: <WelcomePage />,
-      visible: anySetupRemaining,
+      visible: true,
     },
     {
       name: 'investing_course',

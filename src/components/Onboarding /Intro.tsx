@@ -101,20 +101,24 @@ export default Intro;
 export const steps = [
   {
     name: 'Introduction',
+    mobile: 'Intro',
     description:
       'Guess what, your already on step 1. Watch the 3 minutes video below to help you get started.',
   },
   {
     name: 'Connect Brokerage',
+    mobile: 'Connect',
     description:
       'It’s easy! You will be redirected to login to your brokerage of choice.',
   },
   {
     name: 'Organize Accounts',
+    mobile: 'Organize',
     description: '???',
   },
   {
     name: 'Setup Portfolios',
+    mobile: 'Setup',
     description: 'Not sure how? That’s ok! We will guide you.',
   },
 ];

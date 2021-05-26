@@ -10,6 +10,7 @@ import Accounts from '../Accounts/index';
 import SetupPortfolios from './SetupPortfolios';
 import OnboardingFinished from './OnboardingFinished';
 import { replace } from 'connected-react-router';
+import { selectDashboardGroups } from '../../selectors/groups';
 
 const Container = styled.div`
   padding: 20px 20px 0px 20px;
@@ -20,6 +21,14 @@ const Onboarding = () => {
   const hasConnection = useSelector(selectIsAuthorized);
   const [step, setStep] = useState(1);
   const router = useSelector(selectRouter);
+  const groups = useSelector(selectDashboardGroups);
+
+  //TODO: MAKE THIS A SELECTOR (can be use in DashboardPage.tsx as well)
+  let anySetupRemaining = false;
+  let groupsSetupStatus = groups.map((group) => group.setupComplete);
+  const verifyAnyFalse = (currentValue: any) => currentValue === false;
+
+  anySetupRemaining = groupsSetupStatus.some(verifyAnyFalse);
 
   useEffect(() => {
     const queryStep = router.location.query.step;
@@ -28,8 +37,10 @@ const Onboarding = () => {
       setStep(2);
     } else if (queryStep) {
       setStep(+queryStep);
-    } else if (hasConnection) {
+    } else if (hasConnection && anySetupRemaining) {
       setStep(4);
+    } else if (hasConnection && !anySetupRemaining) {
+      setStep(5);
     }
     // eslint-disable-next-line
   }, [hasConnection, router.location.query.step]);

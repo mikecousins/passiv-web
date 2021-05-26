@@ -5,6 +5,8 @@ import styled from '@emotion/styled';
 import { H2, H3 } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
 import { steps } from './Intro';
+import { useSelector } from 'react-redux';
+import { selectIsMobile } from '../../selectors/browser';
 
 const Container = styled.div`
   margin-bottom: 50px;
@@ -13,6 +15,9 @@ const Container = styled.div`
 
 const Steps = styled(Grid)`
   grid-gap: 0 !important;
+  @media (max-width: 900px) {
+    display: grid;
+  }
 `;
 
 type StepProps = {
@@ -45,12 +50,17 @@ const StepName = styled(H3)`
   text-align: center;
   letter-spacing: 1px;
   margin-top: 5px;
+  @media (max-width: 900px) {
+    font-size: 15px;
+  }
 `;
 
 type Props = {
   currentStep: number;
 };
 const OnboardingProgress = ({ currentStep }: Props) => {
+  const isMobile = useSelector(selectIsMobile);
+
   return (
     <Container>
       <Steps columns="1fr 1fr 1fr 1fr">
@@ -68,7 +78,7 @@ const OnboardingProgress = ({ currentStep }: Props) => {
                   <H2>{index + 1}</H2>
                 )}
               </Step>
-              <StepName>{step.name}</StepName>
+              <StepName>{isMobile ? step.mobile : step.name}</StepName>
             </div>
           );
         })}
