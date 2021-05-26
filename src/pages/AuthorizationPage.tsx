@@ -43,7 +43,7 @@ const VerticalPadding = styled.div`
 const Container3Column = styled(Grid)`
   @media (max-width: 900px) {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-gap: 20px;
   }
 `;

@@ -17,6 +17,7 @@ import {
 import { Account } from '../../types/account';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons';
+import { selectIsMobile } from '../../selectors/browser';
 
 type Props = {
   account: Account;
@@ -29,6 +30,7 @@ export const AccountRow = ({ account, editing }: Props) => {
   const brokerages = useSelector(selectAllBrokerages);
   const authorizations = useSelector(selectAuthorizations);
   const groups = useSelector(selectGroups);
+  const onMobile = useSelector(selectIsMobile);
   const dispatch = useDispatch();
 
   if (!groups) {
@@ -103,6 +105,11 @@ export const AccountRow = ({ account, editing }: Props) => {
 
   return (
     <AccountContainer>
+      {editing && onMobile && (
+        <div style={{ float: 'right' }}>
+          <FontAwesomeIcon icon={faGripVertical} size="lg" />
+        </div>
+      )}
       <Table>
         <Brokerage>
           <BrokerageTitle>{brokerageName}</BrokerageTitle>
@@ -124,7 +131,9 @@ export const AccountRow = ({ account, editing }: Props) => {
           <H3>Type</H3>
           <P> {formatAccountType(account, brokerageName)} </P>
         </Type>
-        {editing && <FontAwesomeIcon icon={faGripVertical} size="lg" />}
+        {editing && !onMobile && (
+          <FontAwesomeIcon icon={faGripVertical} size="lg" />
+        )}
       </Table>
       {groupEditing && editingFooter}
     </AccountContainer>

@@ -36,11 +36,14 @@ const Container = styled.div`
     line-height: 150%;
     letter-spacing: 0.2px;
   }
+  @media (max-width: 900px) {
+    padding: 0px;
+  }
 `;
 
 const Cards = styled(Grid)`
   margin-top: 50px;
-  div {
+  > div {
     * {
       text-align: center;
     }
@@ -60,6 +63,14 @@ const Cards = styled(Grid)`
       line-height: 150%;
       letter-spacing: 0.2px;
       margin-top: 30px;
+    }
+  }
+  @media (max-width: 900px) {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr;
+    > div {
+      padding: 8px;
     }
   }
 `;
