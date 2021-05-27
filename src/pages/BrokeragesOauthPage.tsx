@@ -24,15 +24,21 @@ import styled from '@emotion/styled';
 import { Description } from '../components/Onboarding /Intro';
 import { selectGroupsLoading } from '../selectors/groups';
 
+import goldStar from '../assets/images/gold-star.png';
+
 const ActionContainer = styled.div`
   margin-top: 44px;
+  @media (max-width: 900px) {
+    button {
+      margin: 10px auto;
+    }
+  }
 `;
 
 export const Continue = styled(Button)`
   font-weight: 600;
   text-align: center;
   letter-spacing: 0.25px;
-  padding: 15px 19px 17px;
   svg {
     margin-left: 10px;
   }
@@ -49,9 +55,23 @@ const ConnectMore = styled(Button)`
 
 const Container = styled(ShadowBox)`
   background-color: var(--brand-light-green);
-  padding: 200px;
+  padding: 50px;
   * {
     text-align: center;
+  }
+`;
+
+const Star = styled.div`
+  background: url(${goldStar}) no-repeat;
+  background-size: contain;
+  width: 75px;
+  height: 75px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  transform: rotate(18deg);
+  @media (max-width: 900px) {
+    width: 60px;
+    height: 60px;
   }
 `;
 
@@ -308,6 +328,7 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   if (!connectedSuccessfully || overrideError) {
     result = (
       <React.Fragment>
+        <Star></Star>
         <H1>Connection Complete</H1>
         <Description>
           {/* TODO do a check to see if is part of onBoarding */}
