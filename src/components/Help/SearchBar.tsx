@@ -118,15 +118,14 @@ const SearchBar = () => {
   const [show, setShow] = useState(4);
 
   const allIndices = ['faq', 'tutorial', 'blog'];
-  const defaultActive = ['faq'];
-  const [active, setActive] = useState(defaultActive);
+  const [active, setActive] = useState(allIndices);
 
   const searchClient = algoliasearch(
     'GV9J4Z0TDF',
     '437b4b0bb132ef0b0b0273484f35fd94',
   );
 
-  // do initial request in order to show FAQs
+  // do initial request
   useEffect(() => {
     searchIt();
     // eslint-disable-next-line

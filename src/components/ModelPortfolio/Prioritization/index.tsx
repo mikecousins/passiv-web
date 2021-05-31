@@ -22,6 +22,7 @@ import { Button } from '../../../styled/Button';
 import { toast } from 'react-toastify';
 import { loadGroup, loadGroupInfo } from '../../../actions';
 import { push } from 'connected-react-router';
+import RouteLeavingPrompt from '../../RouteLeavingPrompt';
 
 const Priorities = styled.div`
   > h2 {
@@ -208,6 +209,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
   };
 
   const handleSaveChanges = () => {
+    setEditing(false);
     setLoading(true);
     if (assetClassPriorities) {
       let assetClassPrioritiesCopy = JSON.parse(
@@ -335,6 +337,12 @@ const Prioritization = ({ onSettingsPage }: Props) => {
             </ShadowBox>
           )}
         </div>
+      )}
+      {!onSettingsPage && (
+        <RouteLeavingPrompt
+          when={editing}
+          navigate={(path) => dispatch(push(path))}
+        />
       )}
     </Priorities>
   );

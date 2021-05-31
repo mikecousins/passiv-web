@@ -56,6 +56,16 @@ const StyledOption = styled(ComboboxOption)`
   margin: 5px;
 `;
 
+const SecType = styled.span`
+  border: 1px solid var(--brand-green);
+  border-radius: 25px;
+  padding: 2px 10px;
+  margin-left: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--brand-green);
+`;
+
 type Props = {
   value: string | undefined;
   groupId?: string;
@@ -127,9 +137,11 @@ const SymbolSelector = ({
 
   const handleSelectByTicker = (ticker: string) => {
     const tickerSplit = ticker.split(/,(.+)/);
-    let symbol = tickerSplit[0]?.toUpperCase().trim();
-    let desc = tickerSplit[1]?.trim();
-
+    let symbol = tickerSplit[0].toUpperCase().trim();
+    let desc: string;
+    if (tickerSplit[1]) {
+      desc = tickerSplit[1].trim();
+    }
     if (!matchingSymbols) {
       return;
     }
@@ -150,6 +162,7 @@ const SymbolSelector = ({
   );
 
   const onChange = (event: any) => {
+    setMatchingSymbols([]);
     setInput(event.target.value);
   };
 
@@ -192,9 +205,10 @@ const SymbolSelector = ({
                   const value = `${option.symbol}, ${option.description}`;
                   return (
                     <StyledComboboxOption key={index} value={value}>
-                      <span>
-                        {option.symbol} ({option.description})
-                      </span>
+                      {option.symbol} ({option.description})
+                      {option.type.code === 'crypto' && (
+                        <SecType>Crypto</SecType>
+                      )}
                     </StyledComboboxOption>
                   );
                 })}
