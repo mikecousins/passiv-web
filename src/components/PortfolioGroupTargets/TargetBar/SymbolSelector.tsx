@@ -152,6 +152,7 @@ const SymbolSelector = ({
   );
 
   const onChange = (event: any) => {
+    setMatchingSymbols([]);
     setInput(event.target.value);
   };
 
