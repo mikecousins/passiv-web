@@ -1430,6 +1430,7 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
               symbol: target.symbol,
               quotable: target.quotable,
             });
+            return;
           } else {
             return target?.id;
           }
