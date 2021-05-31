@@ -280,7 +280,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
         </P>
       </NeedToPrioritize>
     ) : (
-      assetClassPriorities?.map((priority) => {
+      assetClassPriorities?.map((priority, index) => {
         return (
           <AssetClassPriority
             key={priority.asset_class.id}

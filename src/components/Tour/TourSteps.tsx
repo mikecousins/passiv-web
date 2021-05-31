@@ -1,3 +1,5 @@
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import EliteFeatureTitle from './EliteFeatureTitle';
 import UpgradeButton from './UpgradeButton';
@@ -299,6 +301,12 @@ export const ModelPortfolioSteps = [
     ),
     placement: 'right',
   },
+  {
+    target: '.tour-share-model',
+    content:
+      'Share your model with friends and earn cash when they sign up for Passiv Elite! ',
+    placement: 'right',
+  },
 ];
 
 /* Asset class box in model page tour steps */
@@ -326,5 +334,48 @@ export const AssetClassesSteps = [
       </div>
     ),
     placement: 'left',
+  },
+];
+
+/* Asset Class Priorities */
+
+export const AssetClassPrioritiesSteps = [
+  {
+    target: '.tour-priorities',
+    content: (
+      <div>
+        If Sell is enabled, the securities will be sold from the bottom up. If
+        you don't choose a Buy priority, Passiv will not make suggestions for
+        buys for this asset class.
+      </div>
+    ),
+    placement: 'right',
+  },
+  {
+    target: '.tour-priorities-buy-box',
+    content: (
+      <div>
+        You can choose ONE security to be bought in each account. Click on the
+        {'  '}
+        "<FontAwesomeIcon icon={faChevronUp} />" to move it to the top priority
+        into the Buy box.
+        <br />
+        <br />
+        The other securities in the asset class will not be bought, but will
+        count towards the asset class allocation.
+      </div>
+    ),
+    placement: 'right',
+  },
+  {
+    target: '.tour-priorities-do-not-trade',
+    content: (
+      <div>
+        You can prevent a security from being traded (buy and sell) in an
+        account by checking the{' '}
+        <span style={{ fontWeight: 600 }}>Do Not Trade</span> box.
+      </div>
+    ),
+    placement: 'right',
   },
 ];

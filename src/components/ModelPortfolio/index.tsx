@@ -354,7 +354,7 @@ const ModelPortfolio = () => {
                   </ModelType>
                   {securityBased && (
                     <>
-                      <SetShareModelContainer>
+                      <SetShareModelContainer className="tour-share-model">
                         <H3>
                           Share Model{' '}
                           <Tooltip label="Share your model portfolio link with your friends and earn cash when they upgrade to Elite.">
