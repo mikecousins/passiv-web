@@ -1420,19 +1420,18 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
   (positions, targets) => {
     let notInTarget: any = [];
     let excluded: any = [];
-    let targetIds: any;
+    let targetIds: any = [];
     if (targets?.isAssetClassBased) {
       targets.currentAssetClass?.forEach((assetClass) => {
-        targetIds += assetClass?.fullSymbols?.map((target: any) => {
+        assetClass?.fullSymbols?.forEach((target: any) => {
           if (target?.excluded) {
             excluded.push({
               excluded: target.excluded,
               symbol: target.symbol,
               quotable: target.quotable,
             });
-            return;
           } else {
-            return target?.id;
+            targetIds.push(target?.id);
           }
         });
       });
