@@ -10,6 +10,7 @@ import {
   faCheck,
   faInfoCircle,
   faTimes,
+  faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
@@ -62,7 +63,6 @@ const NewModelButton = styled(Button)`
 const StyledViewBtn = styled(ViewBtn)`
   width: 100%;
   text-align: center;
-  display: flex;
   button {
     color: var(--brand-blue);
     font-size: 20px;
@@ -129,6 +129,7 @@ const MyModelPortfoliosPage = () => {
   const groupName = groupData?.name;
 
   const [selectGroupDialog, setSelectGroupDialog] = useState(false);
+  const [hasClickedApply, setHasClickedApply] = useState<string>();
   const [selectedModel, setSelectedModel] = useState<
     ModelPortfolio | undefined
   >();
@@ -160,6 +161,8 @@ const MyModelPortfoliosPage = () => {
     const modelId = model.model_portfolio.id;
     // if have a groupId, we know the Apply button got clicked
     if (groupId) {
+      // set `hasClickedApply` to id of the model clicked on
+      setHasClickedApply(model.model_portfolio.id);
       postData(
         `api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`,
         {},
@@ -177,6 +180,7 @@ const MyModelPortfoliosPage = () => {
           }
         })
         .catch((err) => {
+          setHasClickedApply('');
           if (err.response) {
             toast.error(err.response.data.detail);
           }
@@ -298,16 +302,24 @@ const MyModelPortfoliosPage = () => {
                         Apply
                       </ApplyTransparentBtn>
                     )}
-                    {}
                     <StyledViewBtn className="tour-view-button">
-                      <button onClick={() => handleApplyOrViewBtn(mdl)}>
-                        {groupId ? 'Apply Model' : 'View'}
+                      <button
+                        onClick={() => handleApplyOrViewBtn(mdl)}
+                        disabled={hasClickedApply === mdl.model_portfolio.id}
+                      >
+                        {hasClickedApply === mdl.model_portfolio.id ? (
+                          <FontAwesomeIcon icon={faSpinner} spin />
+                        ) : (
+                          <>
+                            {groupId ? 'Apply Model' : 'View'}{' '}
+                            <FontAwesomeIcon
+                              icon={faAngleRight}
+                              size="lg"
+                              color="var(--brand-blue)"
+                            />
+                          </>
+                        )}
                       </button>
-                      <FontAwesomeIcon
-                        icon={faAngleRight}
-                        size="lg"
-                        color="var(--brand-blue)"
-                      />
                     </StyledViewBtn>
                   </Grid>
                 </ShadowBox>

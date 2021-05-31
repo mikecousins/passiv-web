@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import styled from '@emotion/styled';
@@ -11,6 +11,8 @@ import { loadGroups, loadModelPortfolios } from '../../actions';
 import { toast } from 'react-toastify';
 import { ModelPortfolio } from '../../types/modelPortfolio';
 import { GroupData } from '../../types/group';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const Header = styled(H1)`
   margin-bottom: 20px;
@@ -63,6 +65,13 @@ const GroupsUsingModel = styled.div`
   }
 `;
 
+const Loading = styled.div`
+  text-align: center;
+  svg {
+    margin-left: 10px;
+  }
+`;
+
 type Props = {
   model: ModelPortfolio;
 };
@@ -74,10 +83,13 @@ const SelectGroupDialog = ({ model }: Props) => {
   const groupInfo = useSelector(selectGroupInfo);
   const groupsUsingByModel = useSelector(selectGroupsUsingAModel);
 
+  const [loading, setLoading] = useState(false);
+
   const modelId = model.id;
   const modelName = model.name;
 
   const applyModel = (groupId: string, groupName: string) => {
+    setLoading(true);
     postData(`api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`, {})
       .then((res) => {
         dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page
@@ -90,6 +102,7 @@ const SelectGroupDialog = ({ model }: Props) => {
         toast.success(`Model applied to "${groupName}"`);
       })
       .catch((err) => {
+        setLoading(false);
         if (err.response) {
           toast.error(err.response.data.detail);
         } else {
@@ -114,45 +127,55 @@ const SelectGroupDialog = ({ model }: Props) => {
 
   return (
     <div>
-      <Header>
-        Apply <span>"{modelName}"</span> to:
-      </Header>
-      {filteredGroups &&
-        filteredGroups.map((group) => {
-          const targetByAssetClass =
-            groupInfo[group.id].data?.settings.rebalance_by_asset_class;
-          return (
-            <GreyBox
-              key={group.id}
-              onClick={() => applyModel(group.id, group.name)}
-            >
-              <Grid columns={'3fr 1fr'}>
-                <GroupInfo>
-                  <H2>{group.name}</H2>
-                  <span>({group.accounts.length} Account)</span>
-                </GroupInfo>
-                {group.setupComplete && (
-                  <div>
-                    <span style={{ fontWeight: 600 }}>Target By:</span>{' '}
-                    {targetByAssetClass ? 'Asset Class' : 'Securities'}
-                  </div>
-                )}
-              </Grid>
-            </GreyBox>
-          );
-        })}
-      {usingModel && usingModel.length > 0 && (
-        <GroupsUsingModel>
-          <P>
-            <span>"{modelName}"</span> is applied to following groups:
-          </P>
-          <ul>
-            {usingModel &&
-              usingModel.map((gp) => {
-                return <li>{gp.name}</li>;
-              })}
-          </ul>
-        </GroupsUsingModel>
+      {loading ? (
+        <Loading>
+          <H1>
+            Applying the model <FontAwesomeIcon icon={faSpinner} spin />{' '}
+          </H1>
+        </Loading>
+      ) : (
+        <>
+          <Header>
+            Apply <span>"{modelName}"</span> to:
+          </Header>
+          {filteredGroups &&
+            filteredGroups.map((group) => {
+              const targetByAssetClass =
+                groupInfo[group.id].data?.settings.rebalance_by_asset_class;
+              return (
+                <GreyBox
+                  key={group.id}
+                  onClick={() => applyModel(group.id, group.name)}
+                >
+                  <Grid columns={'3fr 1fr'}>
+                    <GroupInfo>
+                      <H2>{group.name}</H2>
+                      <span>({group.accounts.length} Account)</span>
+                    </GroupInfo>
+                    {group.setupComplete && (
+                      <div>
+                        <span style={{ fontWeight: 600 }}>Target By:</span>{' '}
+                        {targetByAssetClass ? 'Asset Class' : 'Securities'}
+                      </div>
+                    )}
+                  </Grid>
+                </GreyBox>
+              );
+            })}
+          {usingModel && usingModel.length > 0 && (
+            <GroupsUsingModel>
+              <P>
+                <span>"{modelName}"</span> is applied to following groups:
+              </P>
+              <ul>
+                {usingModel &&
+                  usingModel.map((gp) => {
+                    return <li>{gp.name}</li>;
+                  })}
+              </ul>
+            </GroupsUsingModel>
+          )}
+        </>
       )}
     </div>
   );
