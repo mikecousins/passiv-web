@@ -55,7 +55,7 @@ const PortfolioGroupTotal = ({ error, equity, tourClass }: Props) => {
       <Total>
         <Title>Total Value</Title>
         <CashGroup>
-          {!error && (
+          {equity && (
             <CashType>
               <CurrencySelector
                 value={settings.preferred_currency}
