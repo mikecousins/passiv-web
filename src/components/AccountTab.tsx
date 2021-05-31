@@ -55,11 +55,8 @@ export const AccountTab = () => {
           currency={preferredCurrency}
         />
       </Container3Column>
-      {error ? (
-        <PortfolioGroupErrors error={error} />
-      ) : (
-        <AccountHoldings holdings={account} />
-      )}
+      {error && <PortfolioGroupErrors error={error} />}
+      <AccountHoldings holdings={account} />
     </div>
   );
 };
