@@ -9,6 +9,11 @@ export type Symbol = {
   description: string;
   security_type?: string;
   currency: Currency;
+  type: {
+    id: string;
+    code: string;
+    is_supported: boolean;
+  };
 };
 
 export type Balance = {
