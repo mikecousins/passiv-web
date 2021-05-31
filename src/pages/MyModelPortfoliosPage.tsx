@@ -10,6 +10,7 @@ import {
   faCheck,
   faInfoCircle,
   faTimes,
+  faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
@@ -127,6 +128,7 @@ const MyModelPortfoliosPage = () => {
   const groupName = groupData?.name;
 
   const [selectGroupDialog, setSelectGroupDialog] = useState(false);
+  const [hasClickedApply, setHasClickedApply] = useState(false);
   const [selectedModel, setSelectedModel] = useState<
     ModelPortfolio | undefined
   >();
@@ -155,6 +157,7 @@ const MyModelPortfoliosPage = () => {
   };
 
   const handleApplyOrViewBtn = (model: any) => {
+    setHasClickedApply(true);
     const modelId = model.model_portfolio.id;
     // if have a groupId, we know the Apply button got clicked
     if (groupId) {
@@ -291,7 +294,15 @@ const MyModelPortfoliosPage = () => {
                     {}
                     <StyledViewBtn>
                       <button onClick={() => handleApplyOrViewBtn(mdl)}>
-                        {groupId ? 'Apply Model' : 'View'}
+                        {groupId ? (
+                          hasClickedApply ? (
+                            <FontAwesomeIcon icon={faSpinner} spin />
+                          ) : (
+                            'Apply Model'
+                          )
+                        ) : (
+                          'View'
+                        )}
                       </button>
                       <FontAwesomeIcon
                         icon={faAngleRight}
