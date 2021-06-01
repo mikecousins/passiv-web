@@ -422,9 +422,7 @@ export const selectShowReporting = createSelector(
   selectAuthorizations,
   (authorizations) => {
     return authorizations?.some(
-      (authorization) =>
-        authorization.brokerage.has_reporting &&
-        authorization.brokerage.name === 'Questrade',
+      (authorization) => authorization.brokerage.has_reporting,
     );
   },
 );
