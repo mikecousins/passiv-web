@@ -14,6 +14,8 @@ import AssetClass from './AssetClass';
 import Target from './Target';
 import { selectRouter } from '../../selectors/router';
 import { P } from '../../styled/GlobalElements';
+import Tour from '../Tour/Tour';
+import { AssetClassesSteps } from '../Tour/TourSteps';
 
 const AssetBox = styled.div`
   border: 1px solid #bfb6b6;
@@ -82,13 +84,14 @@ const ModelAssetClass = () => {
 
   return (
     <ShadowBox>
+      <Tour steps={AssetClassesSteps} name="asset_classes_page_tour" />
       {assetClasses.length > 0 ? (
         assetClassBox
       ) : (
         <NoAssetClass>There are no asset classes available.</NoAssetClass>
       )}
 
-      <div style={{ marginTop: '40px' }}>
+      <div style={{ marginTop: '40px' }} className="tour-asset-class">
         <NewAssetClassBtn onClick={handleAddAssetClass}>
           {' '}
           <FontAwesomeIcon icon={faPlus} size="sm" /> New Asset Class

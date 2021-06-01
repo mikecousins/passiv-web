@@ -674,6 +674,7 @@ const ModelPortoflioBox = ({
             type="button"
             onClick={toggleEditMode}
             disabled={assignedPortfolioGroups > 1}
+            className="tour-edit-model-button"
           >
             {assignedPortfolioGroups > 1 ? (
               <Tooltip label="At the moment, editing a model is disabled if the model is applied to more than one group.">
