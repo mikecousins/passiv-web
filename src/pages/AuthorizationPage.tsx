@@ -49,10 +49,7 @@ const Container3Column = styled(Grid)`
 `;
 
 const GrowBox = styled.div`
-  flex-grow: 1;
-  padding-left: 30px;
-  display: flex;
-  align-items: center;
+  margin-top: 20px;
 `;
 
 export const LogoContainer = styled.div`
@@ -80,6 +77,7 @@ const OpenBox = styled(ShadowBox)`
   min-width: 400px;
   text-align: center;
   padding-bottom: 30px;
+  height: 100%;
 `;
 
 const AuthLink = styled(A)`
@@ -132,17 +130,31 @@ const BackBtn = styled(Button)`
   font-size: 20px;
   line-height: 26px;
   text-align: center;
+  background-color: var(--brand-green);
   svg {
     margin-right: 5px;
   }
 `;
 
-const NoBrokerageLink = styled(Link)`
+const NoBrokerage = styled(Button)`
   font-weight: 600;
   font-size: 18px;
-  line-height: 23px;
+  line-height: 26px;
+  text-align: center;
   letter-spacing: 0.25px;
-  color: #003ba2;
+`;
+
+const BrokerageOptions = styled(Grid)`
+  grid-auto-flow: row;
+  overflow: hidden;
+`;
+
+const OpenAccountBtn = styled(Button)`
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;
+  text-align: center;
+  letter-spacing: 0.25px;
 `;
 
 type Props = {
@@ -655,32 +667,32 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
             Follow a link below to create a brokerage account with one of our
             partners.
           </AuthP>
-          {brokerageOptions.map((brokerage: any) => {
-            return (
-              <Brokerage>
-                <Grid columns="1fr 1fr">
-                  <OpenBox
-                    onClick={() => {
-                      window.location = brokerage.openURL;
-                    }}
-                  >
+          <BrokerageOptions columns="1fr 1fr">
+            {brokerageOptions.map((brokerage: any) => {
+              return (
+                <Brokerage>
+                  <OpenBox>
                     <LogoContainer>
                       <img
                         src={brokerage.logo}
                         alt={`${brokerage.name} Logo`}
                       />
                     </LogoContainer>
-                    <AuthLink>
+                    <GrowBox>{brokerage.description}</GrowBox>
+                    <OpenAccountBtn
+                      onClick={() => {
+                        window.location = brokerage.openURL;
+                      }}
+                    >
                       Open
                       {'aeiou'.includes(brokerage.name[0].toLowerCase())}{' '}
                       {brokerage.name} Account
-                    </AuthLink>
+                    </OpenAccountBtn>
                   </OpenBox>
-                  <GrowBox>{brokerage.description}</GrowBox>
-                </Grid>
-              </Brokerage>
-            );
-          })}
+                </Brokerage>
+              );
+            })}
+          </BrokerageOptions>
           <LinkContainer>
             <BackBtn onClick={() => dispatch(push('/welcome'))}>
               <FontAwesomeIcon icon={faLongArrowAltLeft} /> Go Back
@@ -696,12 +708,12 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
             {onboarding ? (
               <LinkContainer>
                 <VerticalPadding>
-                  <NoBrokerageLink to="/connect/open">
-                    I don't have a brokerage account.
-                  </NoBrokerageLink>
+                  <NoBrokerage onClick={() => dispatch(push('/connect/open'))}>
+                    I don't have a brokerage account
+                  </NoBrokerage>
                 </VerticalPadding>
                 <VerticalPadding>
-                  <BackBtn onClick={() => dispatch(push('/welcome?step=1'))}>
+                  <BackBtn onClick={() => dispatch(push('/welcome?step=0'))}>
                     <FontAwesomeIcon icon={faLongArrowAltLeft} /> Go Back
                   </BackBtn>
                 </VerticalPadding>

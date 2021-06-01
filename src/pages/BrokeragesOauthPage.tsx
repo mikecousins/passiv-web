@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faExclamationTriangle,
   faLongArrowAltRight,
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
@@ -45,12 +46,11 @@ export const Continue = styled(Button)`
 `;
 
 const ConnectMore = styled(Button)`
-  background-color: transparent;
-  color: var(--brand-blue);
-  border: 2px solid var(--brand-blue);
+  background-color: var(--brand-green);
   font-weight: 600;
   text-align: center;
   letter-spacing: 0.25px;
+  margin-right: 35px;
 `;
 
 const Container = styled(ShadowBox)`
@@ -75,12 +75,16 @@ const Star = styled.div`
   }
 `;
 
+const ExclamationIcon = styled.div`
+  font-size: 75px;
+`;
+
 type Props = {
   brokerageName: string;
 };
 
 const BrokeragesOauthPage = ({ brokerageName }: Props) => {
-  const [loading, setLoading] = useState(true); //TODO set this to true by default
+  const [loading, setLoading] = useState(true);
   const [showUpgradeOffer, setShowUpgradeOffer] = useState(false);
   const [error, setError] = useState<Error>();
   const [connectedSuccessfully, setConnectedSuccessfully] = useState(false);
@@ -119,15 +123,13 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
       postData('/api/v1/brokerages/authComplete/', token)
         .then(() => {
           dispatch(reloadEverything());
-          if (!groupLoading) {
-            setLoading(false);
-            setConnectedSuccessfully(true);
-            if (
-              brokerageName === 'Questrade' &&
-              (!isPaid || questradeOfferFeatureActive)
-            ) {
-              setShowUpgradeOffer(true);
-            }
+          setLoading(false);
+          setConnectedSuccessfully(true);
+          if (
+            brokerageName === 'Questrade' &&
+            (!isPaid || questradeOfferFeatureActive)
+          ) {
+            setShowUpgradeOffer(true);
           }
         })
         .catch((error) => {
@@ -325,7 +327,7 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
       </H1>
     );
   }
-  if (!connectedSuccessfully || overrideError) {
+  if (connectedSuccessfully || overrideError) {
     result = (
       <React.Fragment>
         <Star></Star>
@@ -383,7 +385,10 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   } else if (error) {
     result = (
       <React.Fragment>
-        <H1>Failed to establish connection</H1>
+        <ExclamationIcon>
+          <FontAwesomeIcon icon={faExclamationTriangle} color="orange" />
+        </ExclamationIcon>
+        <H1>Failed to establish a connection</H1>
         {errorDisplay}
         <ActionContainer>
           <Continue onClick={() => dispatch(push('/settings'))}>

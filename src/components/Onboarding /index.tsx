@@ -11,6 +11,7 @@ import SetupPortfolios from './SetupPortfolios';
 import OnboardingFinished from './OnboardingFinished';
 import { replace } from 'connected-react-router';
 import { selectDashboardGroups } from '../../selectors/groups';
+import ChooseMembership from './ChooseMembership';
 
 const Container = styled.div`
   padding: 20px 20px 0px 20px;
@@ -19,7 +20,7 @@ const Container = styled.div`
 const Onboarding = () => {
   const dispatch = useDispatch();
   const hasConnection = useSelector(selectIsAuthorized);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const router = useSelector(selectRouter);
   const groups = useSelector(selectDashboardGroups);
 
@@ -32,9 +33,9 @@ const Onboarding = () => {
 
   useEffect(() => {
     const queryStep = router.location.query.step;
-    if (!hasConnection && +queryStep > 2) {
-      dispatch(replace('/welcome?step=2'));
-      setStep(2);
+    if (!hasConnection && +queryStep > 1) {
+      dispatch(replace('/welcome?step=1'));
+      setStep(1);
       setStep(+queryStep);
     } else if (queryStep) {
       setStep(+queryStep);
@@ -49,8 +50,9 @@ const Onboarding = () => {
   return (
     <Container>
       <OnboardingProgress currentStep={step} />
-      {step === 1 && <Intro />}
-      {step === 2 && <AuthorizationPage onboarding={true} />}
+      {step === 0 && <Intro />}
+      {step === 1 && <AuthorizationPage onboarding={true} />}
+      {step === 2 && <ChooseMembership />}
       {step === 3 && <Accounts />}
       {step === 4 && <SetupPortfolios />}
       {step === 5 && <OnboardingFinished />}

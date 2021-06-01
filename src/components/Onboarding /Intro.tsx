@@ -19,9 +19,6 @@ const Container = styled.div`
     text-align: center;
     letter-spacing: 0.25px;
     padding: 11px 27px;
-    svg {
-      margin-left: 5px;
-    }
   }
   iframe {
     padding: 30px 0px;
@@ -79,8 +76,8 @@ const Intro = () => {
         })}
       </Steps>
       <Description>That’s all! Start growing your nest egg now!</Description>
-      <Button onClick={() => dispatch(push('/welcome?step=2'))}>
-          Get Started <FontAwesomeIcon icon={faLongArrowAltRight} />
+      <Button onClick={() => dispatch(push('/welcome?step=1'))}>
+          Get Started
       </Button>
 
       <ScalingIFrame
@@ -100,24 +97,25 @@ export default Intro;
 
 export const steps = [
   {
-    name: 'Introduction',
-    mobile: 'Intro',
-    description:
-      'Guess what, your already on step 1. Watch the 3 minutes video below to help you get started.',
-  },
-  {
     name: 'Connect Brokerage',
     mobile: 'Connect',
     description:
       'It’s easy! You will be redirected to login to your brokerage of choice.',
   },
   {
-    name: 'Organize Accounts',
-    mobile: 'Organize',
-    description: '???',
+    name: 'Choose Membership',
+    mobile: 'Membership',
+    description:
+      'Starting at $0 for Life, choose the package that is right for you!',
   },
   {
-    name: 'Setup Portfolios',
+    name: 'Organize Accounts',
+    mobile: 'Organize',
+    description:
+      'Group your investment accounts by dragging and dropping them into portfolios.',
+  },
+  {
+    name: 'Set Targets',
     mobile: 'Setup',
     description: 'Not sure how? That’s ok! We will guide you.',
   },
