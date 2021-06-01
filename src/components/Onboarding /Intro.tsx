@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '../../styled/Button';
 import { H1, H3, P } from '../../styled/GlobalElements';
 import { useDispatch } from 'react-redux';

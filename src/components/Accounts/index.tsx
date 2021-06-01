@@ -207,7 +207,7 @@ const Accounts = () => {
   return (
     <React.Fragment>
       <Header>
-        {isOnboarding ? <H1>Organize your accounts</H1> : <H2>Accounts</H2>}
+        {isOnboarding ? <H1>Organize your Accounts</H1> : <H2>Accounts</H2>}
 
         {!isOnboarding ? (
           isEditing ? (

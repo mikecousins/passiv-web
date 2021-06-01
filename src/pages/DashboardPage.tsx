@@ -14,7 +14,6 @@ import DashboardReporting, {
 } from '../components/Performance/Dashboard/DashboardReporting';
 import HelpLinks from '../components/Dashboard/HelpLinks';
 import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
-import SetupPrompt from '../components/SetupPrompt/SetupPrompt';
 import ConnectQuestrade from '../components/ConnectQuestrade';
 import InvestingCourse from '../components/InvestingCourse';
 import {
@@ -78,7 +77,7 @@ export const DashboardPage = () => {
     {
       name: 'onboarding_dashboard',
       content: <WelcomePage />,
-      visible: true,
+      visible: true, //TODO: this should be set dynamically
     },
     {
       name: 'investing_course',

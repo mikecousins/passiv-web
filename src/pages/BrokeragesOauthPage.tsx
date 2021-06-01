@@ -123,7 +123,9 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
       postData('/api/v1/brokerages/authComplete/', token)
         .then(() => {
           dispatch(reloadEverything());
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 10000);
           setConnectedSuccessfully(true);
           if (
             brokerageName === 'Questrade' &&
