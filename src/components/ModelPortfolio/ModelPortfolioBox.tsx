@@ -26,7 +26,7 @@ import Grid from '../../styled/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTimes } from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
-import { Button } from '../../styled/Button';
+import { Button, SmallButton } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
 import { A } from '../../styled/GlobalElements';
 import RouteLeavingPrompt from '../RouteLeavingPrompt';
@@ -174,6 +174,11 @@ const ApplyModelBtn = styled(Button)`
 const CancelButton = styled(A)`
   margin-left: 20px;
   font-weight: 600;
+`;
+
+const Equalize = styled.div`
+  display: inline-block;
+  text-align: right;
 `;
 
 const ErroMsg = styled.ul`
@@ -635,15 +640,20 @@ const ModelPortoflioBox = ({
                   </>
                 )}
                 {editMode && (
-                  <CancelButton
-                    type="button"
-                    onClick={() => {
-                      toggleEditMode();
-                      props.handleReset();
-                    }}
-                  >
-                    Cancel
-                  </CancelButton>
+                  <>
+                    <CancelButton
+                      type="button"
+                      onClick={() => {
+                        toggleEditMode();
+                        props.handleReset();
+                      }}
+                    >
+                      Cancel
+                    </CancelButton>
+                    <Equalize>
+                      <SmallButton>Equalize</SmallButton>
+                    </Equalize>
+                  </>
                 )}
                 {!props.dirty && applyMode && (
                   <ApplyModelBtn
