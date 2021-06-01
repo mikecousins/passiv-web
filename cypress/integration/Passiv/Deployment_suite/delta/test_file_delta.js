@@ -94,14 +94,6 @@ cy.visit((domain.test).concat('/dashboard')) })
 cy.get('button').contains('Refresh').click().wait(4000)
 })
 
-it('Delete Goal', () => {
-  cy.get('div').contains('Goals').click()
-  cy.get('h2').contains(goal1).click()
-  cy.get('h1').contains(goal1).prev().prev().click()
-  cy.get('Button').contains('Delete Goal').click()
-  cy.get('Button').contains('Cancel').prev().click()
-})
-
 
 it('Return to Goals Page', () => {
 cy.fixture('testDomain').as('login')
@@ -154,69 +146,17 @@ cy.get('button').contains('Update Goal').click()
 
 })
 
-it('Return to Dashboard  Page', () => {
-cy.fixture('testDomain').as('login')
-
-cy.get('@login').then(domain => {
-cy.visit((domain.test).concat('/dashboard')) })
-cy.get('button').contains('Refresh').click()
-})
-
-it('Return to Goals Page and add 2nd goal', () => {
-cy.fixture('testDomain').as('login')
-cy.get('@login').then(domain => {
-cy.visit((domain.test).concat('/goals')) })
-cy.get('button').contains('Refresh').click()
-.get('button').contains('Add Goal').click()
-
-})
-
-// This is where  the 2nd goal is added to confirm it iterates correctly if the same name is entered
-
-
-it('Create a goal name', () => {
-cy.get('[id=goalname]')
-.clear()
-.type(goal1)
-.should('have.value', goal1)
-})
-
-it('Optional Account Selection ' , () => {
-cy.get('div').find('button').contains('Next')
-.click()
-})
-
-// This is the block for no account
-
-it('Pick no account' , () => {
-cy.get('div').find('button').contains('Next')
-.click()
-})
-
-// it('Pick portfolio Account ' , () => {
-//     cy.get('div').find('button').contains('Retirement TFSA')
-//     .click()
-// })
-
-
-it('Enter goal ammount', () => {
-cy.get('div').find('label').contains('I want to reach $').next()
-.click({multiple:true})
-.type(goalnumber)
-.should('have.value', goalnumber)
+it('Delete Goal', () => {
+  cy.get('div').contains('Goals').click()
+  cy.get('h2').contains(goal1).click()
+  cy.get('div').find('div.css-ov1ktg main.css-ozbw39 div.css-875kku div.css-2lma4n div:nth-child(3) > button.css-1v6e5e8').click()
+  cy.get('button').contains('Delete Goal').click({multiple: true})
+  cy.get('div').find('div:nth-child(1) div:nth-child(1) div:nth-child(1) div.css-1y1hlfi > button.css-jm466k').click().wait(10000)
 })
 
 
-it('Enter Year', () => {
-cy.get('div').find('label').contains('By').next().next()
-.clear()
-.type(year)
-.should('have.value', year)
-})
 
-it('Confirm Goal', () => {
-cy.get('button').contains('Start Saving!').click()
-})
+
 
 it('Reset to Dashboard', () => {
 cy.fixture('testDomain').as('login')

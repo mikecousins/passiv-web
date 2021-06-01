@@ -164,34 +164,6 @@ describe('Login individual component test', () => {
 
   })
 
-      // it('Test Settings', () => {
-
-      //   cy.get('div').contains('Settings').click().wait(8000)
-
-      //   // Test the toggles in the settings page
-      //       cy.get('div').contains('Login Notifications').next().click().should('have.text', 'on')
-      //       cy.get('div').contains('Login Notifications').next().click().should('have.text', 'off')
-
-      //       cy.get('div').contains('Cash Notifications').next().click().should('have.text', 'on')
-      //       cy.get('div').contains('Cash Notifications').next().click().should('have.text', 'off')
-
-      //       cy.get('div').contains('Detect New Securities').next().click().should('have.text', 'on')
-      //       cy.get('div').contains('Detect New Securities').next().click().should('have.text', 'off')
-
-      //       cy.get('div').contains('Drift Notifications').next().click().should('have.text', 'on')
-      //       cy.get('div').contains('Drift Notifications').next().click().should('have.text', 'off')
-
-      //       cy.get('div').contains('Receive Account Reminders').next().click().should('have.text', 'on')
-      //       cy.get('div').contains('Receive Account Reminders').next().click().should('have.text', 'off')
-
-      //       cy.get('div').contains('Allow API Access').next().click().should('have.text', 'on')
-      //       cy.get('div').con=tains('Allow API Access').next().click().should('have.text', 'off')
-
-      //       cy.get('div').contains('Use Limit Orders').next().click().should('have.text', 'on')
-      //       cy.get('div').contains('Use Limit Orders').next().click().should('have.text', 'off')
-
-      // })
-
 
       it('Add Alpaca', () => {
           cy.get('div').contains('Settings').click().wait(8000)
@@ -247,35 +219,35 @@ describe('Login individual component test', () => {
 
         })
 
-      it('Add Kraken', () => {
-          cy.get('div').contains('Settings').click().wait(8000)
-          cy.get('button').contains('Add').first().click().wait(5000)
-          cy.get('div').contains('Kraken').click()
+      // it('Add Kraken', () => {
+      //     cy.get('div').contains('Settings').click().wait(8000)
+      //     cy.get('button').contains('Add').first().click().wait(5000)
+      //     cy.get('div').contains('Kraken').click()
 
-          cy.wait('@connect')
-          .its('response.statusCode').should('eq', 200)
+      //     cy.wait('@connect')
+      //     .its('response.statusCode').should('eq', 200)
 
-        })
+      //   })
 
-        it('Add Zerodha', () => {
-          cy.get('div').contains('Settings').click().wait(8000)
-          cy.get('button').contains('Add').first().click().wait(5000)
-          cy.get('div').contains('Zerodha').click()
+      //   it('Add Zerodha', () => {
+      //     cy.get('div').contains('Settings').click().wait(8000)
+      //     cy.get('button').contains('Add').first().click().wait(5000)
+      //     cy.get('div').contains('Zerodha').click()
 
-          cy.wait('@connect')
-          .its('response.statusCode').should('eq', 200)
+      //     cy.wait('@connect')
+      //     .its('response.statusCode').should('eq', 200)
 
-        })
+      //   })
 
-        it('Add Unocoin', () => {
-          cy.get('div').contains('Settings').click().wait(8000)
-          cy.get('button').contains('Add').first().click().wait(5000)
-          cy.get('div').contains('Unocoin').click()
+      //   it('Add Unocoin', () => {
+      //     cy.get('div').contains('Settings').click().wait(8000)
+      //     cy.get('button').contains('Add').first().click().wait(5000)
+      //     cy.get('div').contains('Unocoin').click()
 
-          cy.wait('@connect')
-          .its('response.statusCode').should('eq', 200)
+      //     cy.wait('@connect')
+      //     .its('response.statusCode').should('eq', 200)
 
-        })
+      //   })
 
 
       it('Logout', () => {
@@ -432,8 +404,7 @@ describe('Reset and build portfolio manually', () => {
   })
 
 
-
-describe('Add goals', () => {
+  describe('Add goals', () => {
 
     it('Goals Test', () => {
       cy.contains('Goals').click()
@@ -441,205 +412,154 @@ describe('Add goals', () => {
   })
 
 
-//these are the values for the goal
-const goal1 = "Get the bag"
-const goalnumber = "1000000"
-const month = "July"
-const year = "2050"
+  //these are the values for the goal
+  const goal1 = "Get the bag"
+  const goalnumber = "1000000"
+  const month = "July"
+  const year = "2050"
 
-const goal2 = "Get the bread"
-const goalnumber2 = "10000000"
-
-
-
-it('Create a goal name', () => {
-cy.get('[id=goalname]')
-.clear()
-.type(goal1)
-.should('have.value', goal1)
-})
-
-it('Next' , () => {
-cy.get('div').find('button').contains('Next')
-.click()
-})
-
-
-it('Optional Account Selection ' , () => {
-cy.get('div').find('button').contains('All Accounts')
-.click()
-})
-
-//     // This is the block for no account@class='css-jm466k']
-
-// it('Pick portfolio Account ' , () => {
-//     cy.get('div').find('button').contains('Retirement TFSA')
-//     .click()
-// })
-
-it('Next' , () => {
-cy.get('div').find('button').contains('Next')
-.click()
-})
-
-it('Enter goal ammount', () => {
-cy.get('div').find('label').contains('I want to reach $').next()
-.click({multiple:true})
-.type(goalnumber)
-.should('have.value', goalnumber)
-})
-
-it('Enter Year', () => {
-cy.get('div').find('label').contains('By').next().next()
-.clear()
-.type(year)
-.should('have.value', year)
-})
-
-it('Confirm Goal', () => {
-cy.get('button').contains('Start Saving!').click()
-cy.get('button').contains('Refresh').click().wait(4000)
-
-})
-
-it('Return to Dashboard  Page', () => {
-cy.fixture('testDomain').as('login')
-
-cy.get('@login').then(domain => {
-cy.visit((domain.test).concat('/dashboard')) })
-cy.get('button').contains('Refresh').click().wait(4000)
-})
-
-
-it('Return to Goals Page', () => {
-cy.fixture('testDomain').as('login')
-
-cy.get('@login').then(domain => {
-cy.visit((domain.test).concat('/goals')) })
-})
-
-//Refreh
-it('Refresh', () => {
-
-cy.get('button').contains('Refresh').click()
-
-})
+  const goal2 = "Get the bread"
+  const goalnumber2 = "10000000"
 
 
 
-it('Edit Goal', () => {
-cy.contains('Goals').click()
-cy.get('div').contains(goal1)
-.click({multiple:true})
-})
+  it('Create a goal name', () => {
+  cy.get('[id=goalname]')
+  .clear()
+  .type(goal1)
+  .should('have.value', goal1)
+  })
 
-it('Change goal name', () => {
-cy.get('div').find('div.css-ov1ktg main.css-ozbw39 div.css-875kku div.css-2lma4n div:nth-child(3) > button.css-1v6e5e8').click()
-cy.get('button').contains('Edit Name').click({multiple: true})
-.get('div').find('input').first()
-.clear()
-.type(goal2)
-
-cy.contains('Finish').click()
-})
-
-it('Update Goal', () => {
-cy.get('button').contains('Update Goal').click()
-
-})
-
-it('Update the target amount', () => {
-cy.get('button').contains('Edit Target').click()
-.get('div').find('input').last()
-.clear()
-.type(goalnumber2)
-.get('button').contains('Update').click()
-
-})
-
-it('Update Goal', () => {
-cy.get('button').contains('Update Goal').click()
-
-})
-
-it('Return to Dashboard  Page', () => {
-cy.fixture('testDomain').as('login')
-
-cy.get('@login').then(domain => {
-cy.visit((domain.test).concat('/dashboard')) })
-cy.get('button').contains('Refresh').click()
-})
-
-it('Return to Goals Page and add 2nd goal', () => {
-cy.fixture('testDomain').as('login')
-cy.get('@login').then(domain => {
-cy.visit((domain.test).concat('/goals')) })
-cy.get('button').contains('Refresh').click()
-.get('button').contains('Add Goal').click()
-
-})
-
-// This is where  the 2nd goal is added to confirm it iterates correctly if the same name is entered
+  it('Next' , () => {
+  cy.get('div').find('button').contains('Next')
+  .click()
+  })
 
 
-it('Create a goal name', () => {
-cy.get('[id=goalname]')
-.clear()
-.type(goal1)
-.should('have.value', goal1)
-})
+  it('Optional Account Selection ' , () => {
+  cy.get('div').find('button').contains('All Accounts')
+  .click()
+  })
 
-it('Optional Account Selection ' , () => {
-cy.get('div').find('button').contains('Next')
-.click()
-})
+  //     // This is the block for no account@class='css-jm466k']
 
-// This is the block for no account
+  // it('Pick portfolio Account ' , () => {
+  //     cy.get('div').find('button').contains('Retirement TFSA')
+  //     .click()
+  // })
 
-it('Pick no account' , () => {
-cy.get('div').find('button').contains('Next')
-.click()
-})
+  it('Next' , () => {
+  cy.get('div').find('button').contains('Next')
+  .click()
+  })
 
-// it('Pick portfolio Account ' , () => {
-//     cy.get('div').find('button').contains('Retirement TFSA')
-//     .click()
-// })
+  it('Enter goal ammount', () => {
+  cy.get('div').find('label').contains('I want to reach $').next()
+  .click({multiple:true})
+  .type(goalnumber)
+  .should('have.value', goalnumber)
+  })
+
+  it('Enter Year', () => {
+  cy.get('div').find('label').contains('By').next().next()
+  .clear()
+  .type(year)
+  .should('have.value', year)
+  })
+
+  it('Confirm Goal', () => {
+  cy.get('button').contains('Start Saving!').click()
+  cy.get('button').contains('Refresh').click().wait(4000)
+
+  })
+
+  it('Return to Dashboard  Page', () => {
+  cy.fixture('testDomain').as('login')
+
+  cy.get('@login').then(domain => {
+  cy.visit((domain.test).concat('/dashboard')) })
+  cy.get('button').contains('Refresh').click().wait(4000)
+  })
 
 
-it('Enter goal ammount', () => {
-cy.get('div').find('label').contains('I want to reach $').next()
-.click({multiple:true})
-.type(goalnumber)
-.should('have.value', goalnumber)
-})
+  it('Return to Goals Page', () => {
+  cy.fixture('testDomain').as('login')
+
+  cy.get('@login').then(domain => {
+  cy.visit((domain.test).concat('/goals')) })
+  })
+
+  //Refreh
+  it('Refresh', () => {
+
+  cy.get('button').contains('Refresh').click()
+
+  })
 
 
-it('Enter Year', () => {
-cy.get('div').find('label').contains('By').next().next()
-.clear()
-.type(year)
-.should('have.value', year)
-})
 
-it('Confirm Goal', () => {
-cy.get('button').contains('Start Saving!').click()
-})
+  it('Edit Goal', () => {
+  cy.contains('Goals').click()
+  cy.get('div').contains(goal1)
+  .click({multiple:true})
+  })
 
-it('Reset to Dashboard', () => {
-cy.fixture('testDomain').as('login')
-cy.get('@login').then(domain => {
-cy.visit((domain.test).concat('/Dashboard')) })
-})
+  it('Change goal name', () => {
+  cy.get('div').find('div.css-ov1ktg main.css-ozbw39 div.css-875kku div.css-2lma4n div:nth-child(3) > button.css-1v6e5e8').click()
+  cy.get('button').contains('Edit Name').click({multiple: true})
+  .get('div').find('input').first()
+  .clear()
+  .type(goal2)
 
-it('View all Goals', () => {
+  cy.contains('Finish').click()
+  })
+
+  it('Update Goal', () => {
+  cy.get('button').contains('Update Goal').click()
+
+  })
+
+  it('Update the target amount', () => {
+  cy.get('button').contains('Edit Target').click()
+  .get('div').find('input').last()
+  .clear()
+  .type(goalnumber2)
+  .get('button').contains('Update').click()
+
+  })
+
+  it('Update Goal', () => {
+  cy.get('button').contains('Update Goal').click()
+
+  })
+
+  it('Delete Goal', () => {
+    cy.get('div').contains('Goals').click()
+    cy.get('h2').contains(goal1).click()
+    cy.get('div').find('div.css-ov1ktg main.css-ozbw39 div.css-875kku div.css-2lma4n div:nth-child(3) > button.css-1v6e5e8').click()
+    cy.get('button').contains('Delete Goal').click({multiple: true})
+    cy.get('div').find('div:nth-child(1) div:nth-child(1) div:nth-child(1) div.css-1y1hlfi > button.css-jm466k').click().wait(10000)
+  })
+
+
+
+
+
+  it('Reset to Dashboard', () => {
+  cy.fixture('testDomain').as('login')
+  cy.get('@login').then(domain => {
+  cy.visit((domain.test).concat('/Dashboard')) })
+  })
+
+  it('View all Goals', () => {
     cy.fixture('testDomain').as('login')
 
     cy.get('@login').then(domain => {
     cy.visit((domain.test).concat('/goals')) })
-})
+  })
 
-})
+  })
+
 
 
 describe('Change name and test auth signal and allocate button', () => {
