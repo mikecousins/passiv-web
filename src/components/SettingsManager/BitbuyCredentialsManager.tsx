@@ -45,7 +45,7 @@ const BitbuyCredentialsManager = () => {
       <H2>Connect to Bitbuy</H2>
       <P>
         To connect your Bitbuy account to Passiv, you'll need to{' '}
-        <a href="https://www.Bitbuy.com/u/security/api">
+        <a href="https://bitbuy.ca/en/settings/">
           generate a new Bitbuy API key
         </a>{' '}
         and enter your credentials below.

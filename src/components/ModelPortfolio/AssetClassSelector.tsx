@@ -59,6 +59,10 @@ export const StyledComboboxList = styled(ComboboxList)`
 export const StyledComboboxOption = styled(ComboboxOption)`
   &:hover {
     background: var(--brand-green) !important;
+    span {
+      color: white;
+      border-color: white;
+    }
   }
 `;
 
