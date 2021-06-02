@@ -18,12 +18,10 @@ import PreLoadLink from '../components/PreLoadLink';
 import { CONTACT_FORM_PATH } from '../apps/Paths';
 import { selectBrokerages, selectMaintenanceBrokerages } from '../selectors';
 import { selectIsPaid } from '../selectors/subscription';
-import { selectQuestradeOfferFeature } from '../selectors/features';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
 import { Description } from '../components/Onboarding /Intro';
-import { selectGroupsLoading } from '../selectors/groups';
 
 import goldStar from '../assets/images/gold-star.png';
 
@@ -90,11 +88,9 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   const [connectedSuccessfully, setConnectedSuccessfully] = useState(false);
   const queryParams = useSelector(selectQueryTokens);
   const isPaid = useSelector(selectIsPaid);
-  const questradeOfferFeatureActive = useSelector(selectQuestradeOfferFeature);
   const dispatch = useDispatch();
   const brokerages = useSelector(selectBrokerages);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
-  const groupLoading = useSelector(selectGroupsLoading);
 
   if (brokerageName === 'Zerodha') {
     postData('/api/v1/tradesinprogress/', queryParams).then((response) => {
@@ -116,6 +112,9 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
     if (brokerageName === 'Zerodha') {
       token = { token: queryParams.request_token };
     }
+    if (connectedSuccessfully) {
+      return;
+    }
     if (token === null) {
       setLoading(false);
       setError({ code: '0000' });
@@ -123,20 +122,17 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
       postData('/api/v1/brokerages/authComplete/', token)
         .then(() => {
           dispatch(reloadEverything());
-          setTimeout(() => {
-            setLoading(false);
-          }, 10000);
           setConnectedSuccessfully(true);
-          if (
-            brokerageName === 'Questrade' &&
-            (!isPaid || questradeOfferFeatureActive)
-          ) {
+          setLoading(false);
+          if (brokerageName === 'Questrade' && !isPaid) {
             setShowUpgradeOffer(true);
           }
         })
         .catch((error) => {
-          setLoading(false);
-          setError(error.response.data);
+          setTimeout(() => {
+            setLoading(false);
+            setError(error.response.data);
+          }, 3000);
         });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -328,8 +324,22 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
         <FontAwesomeIcon icon={faSpinner} spin />
       </H1>
     );
-  }
-  if (connectedSuccessfully || overrideError) {
+  } else if (error && !connectedSuccessfully) {
+    result = (
+      <React.Fragment>
+        <ExclamationIcon>
+          <FontAwesomeIcon icon={faExclamationTriangle} color="orange" />
+        </ExclamationIcon>
+        <H1>Failed to establish a connection</H1>
+        {errorDisplay}
+        <ActionContainer>
+          <Continue onClick={() => dispatch(push('/settings'))}>
+            Go to Settings
+          </Continue>
+        </ActionContainer>
+      </React.Fragment>
+    );
+  } else if (connectedSuccessfully || overrideError) {
     result = (
       <React.Fragment>
         <Star></Star>
@@ -384,92 +394,9 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
         </ActionContainer>
       </React.Fragment>
     );
-  } else if (error) {
-    result = (
-      <React.Fragment>
-        <ExclamationIcon>
-          <FontAwesomeIcon icon={faExclamationTriangle} color="orange" />
-        </ExclamationIcon>
-        <H1>Failed to establish a connection</H1>
-        {errorDisplay}
-        <ActionContainer>
-          <Continue onClick={() => dispatch(push('/settings'))}>
-            Go to Settings
-          </Continue>
-        </ActionContainer>
-      </React.Fragment>
-    );
   }
 
   return <Container>{result}</Container>;
 };
 
-// if (loading === true) {
-//   result = (
-//     <React.Fragment>
-//       <Step>
-//         Establishing connection to {brokerageName}...{' '}
-//         <FontAwesomeIcon icon={faSpinner} spin />
-//       </Step>
-//     </React.Fragment>
-//   );
-// } else {
-//   if (brokerageName === 'Questrade' && showUpgradeOffer) {
-//     result = (
-//       <React.Fragment>
-//         <Step>Questrade connection established.</Step>
-//         <ShadowBox>
-//           <H2Padded>
-//             You're eligible for a <strong>free</strong> upgrade to Passiv
-//             Elite!
-//           </H2Padded>
-//           <P>
-//             <A
-//               href="https://www.questrade.com/self-directed-investing/tools/partners/passiv"
-//               target="_blank"
-//               rel="noopener noreferrer"
-//             >
-//               Questrade
-//             </A>{' '}
-//             offers Passiv Elite as a free tool for Questrade customers. It's
-//             available for free as long as you keep your Questrade account
-//             connected to Passiv.
-//           </P>
-//           <P>
-//             You’ll get access to all basic features plus the option to{' '}
-//             <A
-//               href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/"
-//               target="_blank"
-//               rel="noopener noreferrer"
-//             >
-//               place orders through Passiv
-//             </A>{' '}
-//             in just one click.
-//           </P>
-//           <Button onClick={() => dispatch(push('/questrade-offer'))}>
-//             Upgrade Now
-//           </Button>
-//         </ShadowBox>
-//       </React.Fragment>
-//     );
-//   } else {
-//     result = (
-//       <React.Fragment>
-//         {brokerageName === 'Interactive Brokers' && overrideError ? (
-//           <Step>Connection successful</Step>
-//         ) : (
-//           <React.Fragment>
-//             <Step>Failed to establish connection :(</Step>
-//             <ShadowBox>
-//               {errorDisplay}
-//               <Button onClick={() => dispatch(push('/settings'))}>
-//                 Go to Settings
-//               </Button>
-//             </ShadowBox>
-//           </React.Fragment>
-//         )}
-//       </React.Fragment>
-//     );
-//   }
-// }
 export default BrokeragesOauthPage;
