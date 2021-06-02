@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectRouter } from '../selectors/router';
 
 import goldStar from '../assets/images/gold-star.png';
-import { H1, P, A } from '../styled/GlobalElements';
+import { H1 } from '../styled/GlobalElements';
 import { Description } from '../components/Onboarding /Intro';
 import ShadowBox from '../styled/ShadowBox';
 import { Button } from '../styled/Button';
@@ -55,12 +55,11 @@ const ConnectMore = styled(Button)`
 const ConnectedBrokerage = () => {
   const dispatch = useDispatch();
   const router = useSelector(selectRouter);
-  const status = router.location.query.status;
+  // const status = router.location.query.status;
   const brokerageName = router.location.query.brokerage;
 
-  {
-    /* TODO do a check to see if is part of onBoarding */
-  }
+  /* TODO do a check to see if is part of onBoarding */
+
   let result = (
     <>
       <Star></Star>
