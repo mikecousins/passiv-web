@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { selectLoggedIn, selectHasQuestradeConnection } from '../../selectors';
+import { selectLoggedIn } from '../../selectors';
 import {
   selectGoalsPageFeature,
   selectModelPortfolioFeature,
@@ -24,6 +24,7 @@ import {
   RESET_PASSWORD_PATH,
   SETTINGS_PATH,
 } from '../../apps/Paths';
+import { selectShowReporting } from '../../selectors/performance';
 
 const StyledAside = styled.aside`
   background-color: var(--brand-grey);
@@ -94,8 +95,8 @@ const SideBar = () => {
   );
   const goalsPageFeatureActive = useSelector(selectGoalsPageFeature);
 
-  const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
+  const showReporting = useSelector(selectShowReporting);
 
   let groupList: JSX.Element | JSX.Element[] = (
     <FontAwesomeIcon icon={faSpinner} spin />
@@ -149,7 +150,7 @@ const SideBar = () => {
           {modelPortfolioFeature && (
             <SideBarLink name="My Models" linkPath={`/models`} />
           )}
-          {performancePageFeatureActive && hasQuestradeConnection && (
+          {performancePageFeatureActive && showReporting && (
             <SideBarLink name="Reporting" linkPath={REPORTING_PATH} />
           )}
           {goalsPageFeatureActive && (

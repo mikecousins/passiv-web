@@ -24,7 +24,7 @@ import {
 import { FieldArray, Form, Formik } from 'formik';
 import Grid from '../../styled/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faTimes } from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
 import { Button } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
@@ -229,6 +229,7 @@ const ModelPortoflioBox = ({
   const [editName, setEditName] = useState(false);
   const [clearInputSelector, setClearInputSelector] = useState(0);
   const [duplicateNameError, setDuplicateNameError] = useState(false);
+  const [applyingModel, setApplyingModel] = useState(false);
 
   const group = useSelector(selectGroupInfoForModelPortfolio);
   const groupsUsingModel = useSelector(selectGroupsUsingAModel);
@@ -310,6 +311,7 @@ const ModelPortoflioBox = ({
   };
 
   const applyModel = () => {
+    setApplyingModel(true);
     let gpId = groupId;
     if (modelId && !groupId) {
       gpId = groupsUsingModel?.[modelId]?.groups[0].id;
@@ -644,8 +646,19 @@ const ModelPortoflioBox = ({
                   </CancelButton>
                 )}
                 {!props.dirty && applyMode && (
-                  <ApplyModelBtn onClick={applyModel} type="button">
-                    Apply to {groupInfo?.name}
+                  <ApplyModelBtn
+                    onClick={applyModel}
+                    type="button"
+                    disabled={applyingModel}
+                  >
+                    {applyingModel ? (
+                      <>
+                        Applying the model{' '}
+                        <FontAwesomeIcon icon={faSpinner} spin />
+                      </>
+                    ) : (
+                      `Apply to ${groupInfo?.name}`
+                    )}
                   </ApplyModelBtn>
                 )}
               </ButtonContainer>
@@ -661,6 +674,7 @@ const ModelPortoflioBox = ({
             type="button"
             onClick={toggleEditMode}
             disabled={assignedPortfolioGroups > 1}
+            className="tour-edit-model-button"
           >
             {assignedPortfolioGroups > 1 ? (
               <Tooltip label="At the moment, editing a model is disabled if the model is applied to more than one group.">

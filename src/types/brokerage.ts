@@ -19,6 +19,7 @@ export type Brokerage = {
   maintenance_mode: boolean;
   allows_fractional_units: boolean;
   allows_trading: boolean;
+  has_reporting: boolean;
   authorization_types: [
     {
       type: 'read' | 'trade';

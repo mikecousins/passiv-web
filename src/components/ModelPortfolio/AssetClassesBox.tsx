@@ -12,6 +12,8 @@ import {
   ModelAssetClassDetailsType,
   Target,
 } from '../../types/modelAssetClass';
+import Tour from '../Tour/Tour';
+import { AssetClassBoxSteps } from '../Tour/TourSteps';
 
 const Box = styled.div`
   border-radius: 4px;
@@ -69,6 +71,7 @@ const AssetClassesBox = ({ assetClasses, modelId }: Props) => {
 
   return (
     <Box>
+      <Tour steps={AssetClassBoxSteps} name="asset_class_box_tour" />
       <StyledH3>Your Asset Classes</StyledH3>
       <br></br>
       {assetClasses.length > 0 ? (
@@ -106,6 +109,7 @@ const AssetClassesBox = ({ assetClasses, modelId }: Props) => {
             onClick={() =>
               dispatch(push(`/asset-class?back=/model-portfolio/${modelId}`))
             }
+            className="tour-add-asset-class"
           >
             Add Asset Classes
           </GoToAssetClasses>

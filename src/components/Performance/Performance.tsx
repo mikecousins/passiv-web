@@ -6,6 +6,7 @@ import {
   selectRateOfReturn,
   selectContributions,
   selectReportingSettings,
+  selectBrokeragesNotSupportReporting,
 } from '../../selectors/performance';
 import PerformanceChange from './PerformanceChange';
 import PerformanceCapitalGains from './PerformanceCapitalGains';
@@ -24,6 +25,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCogs,
   faExclamationTriangle,
+  faHourglassHalf,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   CustomizeDashBtn,
@@ -32,6 +34,7 @@ import {
 import PerformanceRateOfReturn from './PerformanceRateOfReturn';
 import Settings from './SettingsComponents/Settings';
 import TimeframePicker from './TimeframePicker';
+import { H2, P } from '../../styled/GlobalElements';
 
 const Grid = styled.div`
   @media (min-width: 900px) {
@@ -86,12 +89,28 @@ export const SubHeader = styled.div`
   text-align: center;
 `;
 
+const NotSupported = styled(ShadowBox)`
+  h2 {
+    margin-bottom: 20px;
+    color: var(--brand-green);
+  }
+  ul {
+    padding: 5px 20px;
+    list-style: circle;
+    li {
+      margin-bottom: 10px;
+    }
+  }
+`;
+
 export const Performance = () => {
   let currentTimeframe = useSelector(selectSelectedTimeframe);
   // We can hide charts if user is on custom timeframe and hasn't yet fetched data (can check this if contributions are undefined)
   const contributions = useSelector(selectContributions);
   let rateOfReturn = useSelector(selectRateOfReturn);
   const settings = useSelector(selectReportingSettings)?.data;
+  const notSupportReporting = useSelector(selectBrokeragesNotSupportReporting);
+
   let showRateOfReturn = true;
   let showDividendData = true;
   if (settings?.show_return_rate !== undefined) {
@@ -111,6 +130,23 @@ export const Performance = () => {
           &nbsp;Reporting data may be temporarily inaccurate due to issues with
           our data provider
         </div>
+      )}
+
+      {notSupportReporting && notSupportReporting.length > 0 && (
+        <NotSupported>
+          <H2>
+            <FontAwesomeIcon icon={faHourglassHalf} size="sm" /> Coming Soon ...
+          </H2>
+          <P>
+            At the moment, reporting is not available for the following
+            institutions, but will be supported soon.
+          </P>
+          <ul>
+            {notSupportReporting.map((brokerage) => {
+              return <li>{brokerage.brokerage.name}</li>;
+            })}
+          </ul>
+        </NotSupported>
       )}
 
       <CustomizeDashContainer>

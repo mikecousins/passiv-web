@@ -1,3 +1,5 @@
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import EliteFeatureTitle from './EliteFeatureTitle';
 import UpgradeButton from './UpgradeButton';
@@ -113,16 +115,15 @@ export const SetupSteps = [
     content: (
       <>
         If you already own securities in your brokerage account, then the
-        easiest way to get started is to import your holdings as your target
-        portfolio allocation by clicking the <strong> Import button</strong>.
-        Once this is done, don’t forget to review and adjust your targets.
+        easiest way to get started is to import your holdings as a model by
+        clicking the <strong>Import</strong> button.
       </>
     ),
   },
   {
-    target: '.tour-build-portfolio',
+    target: '.tour-build-model',
     content:
-      'If you don’t own any securities yet, you can build your target portfolio’s allocation from scratch by adding securities and assigning percentages to them.',
+      'If you don’t own any securities yet, you can build your model portfolio from scratch by adding securities and assigning percentages to them.',
   },
 ];
 
@@ -148,31 +149,34 @@ export const GroupTargetSteps = [
     placement: 'right',
   },
   {
-    target: '.tour-edit-targets',
+    target: '.tour-edit-model',
     content: (
       <>
         <div>
-          Click <strong>Edit Targets</strong> to adjust your target, add and
-          delete securities from your target, or
-          <a
-            href="https://passiv.com/help/tutorials/how-to-exclude-stock-picks-from-your-portfolio/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {' '}
-            exclude assets
-          </a>
-          .
+          Click <strong>Edit Model</strong> to adjust your percentage
+          allocations, add and delete items from your model.
         </div>
         <br />
-        <small style={{ marginTop: '300px' }}>
-          Note that if you delete an asset from your target portfolio, Passiv
-          will try to sell it if Selling is enabled and your accuracy will be
+        <br />
+        <small>
+          * Note: at the moment, editing a model is disabled if the model is
+          applied to more than one group.
+        </small>
+        <br />
+        <br />
+        <small>
+          * Note: if you delete an asset from your target portfolio, Passiv will
+          try to sell it if Selling is enabled and your accuracy will be
           affected until you do. If you exclude it, Passiv will simply ignore
           it.
         </small>
       </>
     ),
+    placement: 'top',
+  },
+  {
+    target: '.tour-apply-another-model',
+    content: <></>,
     placement: 'top',
   },
   {
@@ -238,6 +242,139 @@ export const SettingsPageSteps = [
           accounts that you don’t want to see in Passiv.
         </div>
       </>
+    ),
+    placement: 'right',
+  },
+];
+
+/* My Models Page tour steps */
+export const MyModelsPageSteps = [
+  {
+    target: '.tour-new-model-button',
+    content:
+      'Create a new model. You can choose to set your target allocation based on individual securities or on asset classes that you define.',
+    placement: 'top',
+  },
+  {
+    target: '.tour-more-options',
+    content:
+      'Click More Options icon to quickly duplicate, delete or share a model if you have it enabled.',
+    placement: 'right',
+  },
+  {
+    target: '.tour-apply-button',
+    content: 'Apply your model to your portfolio(s).',
+    placement: 'right',
+  },
+  {
+    target: '.tour-view-button',
+    content: 'View the items (securities/asset classes) under this model.',
+    placement: 'right',
+  },
+];
+
+/* Mode Portfolio tour steps */
+export const ModelPortfolioSteps = [
+  {
+    target: '.tour-edit-model-button',
+    content:
+      'Edit your percentage allocations, add and delete items from your model.',
+    placement: 'top',
+  },
+  {
+    target: '.tour-model-type',
+    content: (
+      <>
+        <div>
+          By default, model portfolios are security based, meaning your
+          allocations are assigned to securities. You can define asset classes
+          and assign allocations to classes instead.
+          <a
+            href="https://passiv.com/help/tutorials/how-to-use-asset-classes-models/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn more
+          </a>
+        </div>
+      </>
+    ),
+    placement: 'right',
+  },
+  {
+    target: '.tour-share-model',
+    content:
+      'Share your model with friends and earn cash when they sign up for Passiv Elite! ',
+    placement: 'right',
+  },
+];
+
+/* Asset class box in model page tour steps */
+
+export const AssetClassBoxSteps = [
+  {
+    target: '.tour-add-asset-class',
+    content:
+      'The first step to building your asset class model is to define your asset classes. An asset class is a group of securities that you want to count towards the same percentage allocation. ',
+    placement: 'top',
+  },
+];
+
+/* Asset classes page tour steps*/
+
+export const AssetClassesSteps = [
+  {
+    target: '.tour-asset-class',
+    content: (
+      <div>
+        {' '}
+        Add your asset classes and assign securities to them. Then click{' '}
+        <span style={{ fontWeight: 600 }}>Back to Model Portfolio</span> to use
+        them in your model.{' '}
+      </div>
+    ),
+    placement: 'left',
+  },
+];
+
+/* Asset Class Priorities */
+
+export const AssetClassPrioritiesSteps = [
+  {
+    target: '.tour-priorities',
+    content: (
+      <div>
+        If Sell is enabled, the securities will be sold from the bottom up. If
+        you don't choose a Buy priority, Passiv will not make suggestions for
+        buys for this asset class.
+      </div>
+    ),
+    placement: 'right',
+  },
+  {
+    target: '.tour-priorities-buy-box',
+    content: (
+      <div>
+        You can choose ONE security to be bought in each account. Click on the
+        {'  '}
+        "<FontAwesomeIcon icon={faChevronUp} />" to move it to the top priority
+        into the Buy box.
+        <br />
+        <br />
+        The other securities in the asset class will not be bought, but will
+        count towards the asset class allocation.
+      </div>
+    ),
+    placement: 'right',
+  },
+  {
+    target: '.tour-priorities-do-not-trade',
+    content: (
+      <div>
+        You can prevent a security from being traded (buy and sell) in an
+        account by checking the{' '}
+        <span style={{ fontWeight: 600 }}>Do Not Trade</span> box.
+      </div>
     ),
     placement: 'right',
   },

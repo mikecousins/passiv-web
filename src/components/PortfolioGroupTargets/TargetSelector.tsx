@@ -603,7 +603,6 @@ export const TargetSelector = ({
                           <Button
                             type="button"
                             onClick={() => toggleEditMode()}
-                            className="tour-edit-targets"
                           >
                             <FontAwesomeIcon icon={faLock} />
                             Edit Targets
@@ -625,6 +624,7 @@ export const TargetSelector = ({
                     <ButtonBox>
                       <div>
                         <Button
+                          className="tour-edit-model"
                           type="button"
                           style={{ fontWeight: 600 }}
                           onClick={() => {
@@ -646,6 +646,7 @@ export const TargetSelector = ({
                         </Button>
                         <ApplyNewModelBtn
                           type="button"
+                          className="tour-apply-another-model"
                           onClick={() => {
                             dispatch(push(`/models/group/${groupId}`));
                           }}

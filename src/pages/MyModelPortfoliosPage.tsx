@@ -10,6 +10,7 @@ import {
   faCheck,
   faInfoCircle,
   faTimes,
+  faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
@@ -35,6 +36,8 @@ import SelectGroupDialog from '../components/ModelPortfolio/SelectGroupDialog';
 import { BackButton } from '../components/ModelPortfolio';
 import MoreOptions from '../components/ModelPortfolio/MoreOptions';
 import { push, replace } from 'connected-react-router';
+import Tour from '../components/Tour/Tour';
+import { MyModelsPageSteps } from '../components/Tour/TourSteps';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -60,7 +63,6 @@ const NewModelButton = styled(Button)`
 const StyledViewBtn = styled(ViewBtn)`
   width: 100%;
   text-align: center;
-  display: flex;
   button {
     color: var(--brand-blue);
     font-size: 20px;
@@ -127,6 +129,7 @@ const MyModelPortfoliosPage = () => {
   const groupName = groupData?.name;
 
   const [selectGroupDialog, setSelectGroupDialog] = useState(false);
+  const [hasClickedApply, setHasClickedApply] = useState<string>();
   const [selectedModel, setSelectedModel] = useState<
     ModelPortfolio | undefined
   >();
@@ -158,6 +161,8 @@ const MyModelPortfoliosPage = () => {
     const modelId = model.model_portfolio.id;
     // if have a groupId, we know the Apply button got clicked
     if (groupId) {
+      // set `hasClickedApply` to id of the model clicked on
+      setHasClickedApply(model.model_portfolio.id);
       postData(
         `api/v1/portfolioGroups/${groupId}/modelPortfolio/${modelId}`,
         {},
@@ -175,6 +180,7 @@ const MyModelPortfoliosPage = () => {
           }
         })
         .catch((err) => {
+          setHasClickedApply('');
           if (err.response) {
             toast.error(err.response.data.detail);
           }
@@ -205,6 +211,10 @@ const MyModelPortfoliosPage = () => {
 
   return (
     <React.Fragment>
+      {!groupId && (
+        <Tour steps={MyModelsPageSteps} name="my_models_page_tour" />
+      )}
+
       {groupId ? (
         <BackButton>
           <Link to={`/group/${groupId}`}>
@@ -227,7 +237,10 @@ const MyModelPortfoliosPage = () => {
           </StyledP>
         )}
         <div>
-          <NewModelButton onClick={() => handleNewModelBtn()}>
+          <NewModelButton
+            onClick={() => handleNewModelBtn()}
+            className="tour-new-model-button"
+          >
             New Model
           </NewModelButton>
         </div>
@@ -284,20 +297,29 @@ const MyModelPortfoliosPage = () => {
                           setSelectedModel(mdl?.model_portfolio);
                         }}
                         disabled={totalAssignedGroups === allGroups?.length}
+                        className="tour-apply-button"
                       >
                         Apply
                       </ApplyTransparentBtn>
                     )}
-                    {}
-                    <StyledViewBtn>
-                      <button onClick={() => handleApplyOrViewBtn(mdl)}>
-                        {groupId ? 'Apply Model' : 'View'}
+                    <StyledViewBtn className="tour-view-button">
+                      <button
+                        onClick={() => handleApplyOrViewBtn(mdl)}
+                        disabled={hasClickedApply === mdl.model_portfolio.id}
+                      >
+                        {hasClickedApply === mdl.model_portfolio.id ? (
+                          <FontAwesomeIcon icon={faSpinner} spin />
+                        ) : (
+                          <>
+                            {groupId ? 'Apply Model' : 'View'}{' '}
+                            <FontAwesomeIcon
+                              icon={faAngleRight}
+                              size="lg"
+                              color="var(--brand-blue)"
+                            />
+                          </>
+                        )}
                       </button>
-                      <FontAwesomeIcon
-                        icon={faAngleRight}
-                        size="lg"
-                        color="var(--brand-blue)"
-                      />
                     </StyledViewBtn>
                   </Grid>
                 </ShadowBox>
