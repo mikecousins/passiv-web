@@ -3,6 +3,7 @@ import { push } from 'connected-react-router';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectHasQuestradeConnection } from '../../selectors';
+import { selectIsPaid } from '../../selectors/subscription';
 import { Button } from '../../styled/Button';
 import { H1, H2, P } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
@@ -90,6 +91,9 @@ const Skip = styled.div`
 const ChooseMembership = () => {
   const dispatch = useDispatch();
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
+  const isPaid = useSelector(selectIsPaid);
+
+  const questradeOffer = hasQuestradeConnection && !isPaid;
 
   const Features = [
     'Automated calculations',
@@ -105,12 +109,10 @@ const ChooseMembership = () => {
   return (
     <div>
       <H1>
-        {hasQuestradeConnection
-          ? 'Congratulations!!'
-          : 'Upgrade your membership'}
+        {questradeOffer ? 'Congratulations!!' : 'Upgrade your membership'}
       </H1>
       <Description>
-        {hasQuestradeConnection
+        {questradeOffer
           ? 'You are eligible for a FREE upgrade to Passiv Elite with your Questrade account!'
           : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
       </Description>
@@ -136,13 +138,13 @@ const ChooseMembership = () => {
             <P>$0 for Questrade Clients*</P>
           </Header>
           <PlanDetails>
-            {Features.map((feature, index) => {
+            {Features.map((feature) => {
               return <li>{feature}</li>;
             })}
           </PlanDetails>
           <ButtonContainer>
             <Button onClick={() => dispatch(push('/questrade-offer'))}>
-              {hasQuestradeConnection ? 'Get Elite For Free' : 'Get Elite'}
+              {questradeOffer ? 'Get Elite For Free' : 'Get Elite'}
             </Button>
           </ButtonContainer>
         </Card>

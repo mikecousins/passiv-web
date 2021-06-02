@@ -107,6 +107,13 @@ const BrokeragesAuthPage = ReactLazyPreload(() =>
     /* webpackChunkName: "brokerage-auth" */ '../pages/BrokeragesAuthPage'
   ),
 );
+
+const ConnectedBrokeragePage = ReactLazyPreload(() =>
+  import(
+    /* webpackChunkName: "connected-brokerage" */ '../pages/ConnectedBrokerage'
+  ),
+);
+
 const UpgradeOfferPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "upgrade-offer" */ '../pages/UpgradeOfferPage'),
 );
@@ -485,6 +492,12 @@ const App = () => {
               </Route>
             )}
             {/* secure app */}
+            {showSecureApp && (
+              <Route
+                path="/connected-brokerage"
+                component={ConnectedBrokeragePage}
+              />
+            )}
             {showSecureApp && (
               <Route path="/reporting" component={PerformancePage} />
             )}

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faExclamationTriangle,
-  faLongArrowAltRight,
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { push, replace } from 'connected-react-router';
@@ -21,9 +20,6 @@ import { selectIsPaid } from '../selectors/subscription';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
-import { Description } from '../components/Onboarding /Intro';
-
-import goldStar from '../assets/images/gold-star.png';
 
 const ActionContainer = styled.div`
   margin-top: 44px;
@@ -43,33 +39,11 @@ export const Continue = styled(Button)`
   }
 `;
 
-const ConnectMore = styled(Button)`
-  background-color: var(--brand-green);
-  font-weight: 600;
-  text-align: center;
-  letter-spacing: 0.25px;
-  margin-right: 35px;
-`;
-
 const Container = styled(ShadowBox)`
   background-color: var(--brand-light-green);
   padding: 50px;
   * {
     text-align: center;
-  }
-`;
-
-const Star = styled.div`
-  background: url(${goldStar}) no-repeat;
-  background-size: contain;
-  width: 75px;
-  height: 75px;
-  margin: 0 auto;
-  margin-bottom: 20px;
-  transform: rotate(18deg);
-  @media (max-width: 900px) {
-    width: 60px;
-    height: 60px;
   }
 `;
 
@@ -83,9 +57,7 @@ type Props = {
 
 const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   const [loading, setLoading] = useState(true);
-  const [showUpgradeOffer, setShowUpgradeOffer] = useState(false);
   const [error, setError] = useState<Error>();
-  const [connectedSuccessfully, setConnectedSuccessfully] = useState(false);
   const queryParams = useSelector(selectQueryTokens);
   const isPaid = useSelector(selectIsPaid);
   const dispatch = useDispatch();
@@ -112,9 +84,6 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
     if (brokerageName === 'Zerodha') {
       token = { token: queryParams.request_token };
     }
-    if (connectedSuccessfully) {
-      return;
-    }
     if (token === null) {
       setLoading(false);
       setError({ code: '0000' });
@@ -122,13 +91,35 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
       postData('/api/v1/brokerages/authComplete/', token)
         .then(() => {
           dispatch(reloadEverything());
-          setConnectedSuccessfully(true);
-          setLoading(false);
           if (brokerageName === 'Questrade' && !isPaid) {
-            setShowUpgradeOffer(true);
+            setTimeout(() => {
+              dispatch(
+                replace(
+                  `/connected-brokerage?brokerage=${brokerageName}&status=2`,
+                ),
+              );
+            }, 1000);
+          } else {
+            setTimeout(() => {
+              dispatch(
+                replace(
+                  `/connected-brokerage?brokerage=${brokerageName}&status=1`,
+                ),
+              );
+            }, 1000);
           }
         })
         .catch((error) => {
+          // if ibkr error, skip it
+          if (error.response.data.code === 1049) {
+            setTimeout(() => {
+              dispatch(
+                replace(
+                  `/connected-brokerage?brokerage=${brokerageName}&status=1`,
+                ),
+              );
+            }, 1000);
+          }
           setTimeout(() => {
             setLoading(false);
             setError(error.response.data);
@@ -167,7 +158,6 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   };
 
   let errorDisplay = null;
-  let overrideError = false; // only for IBKR
 
   if (error) {
     switch (error.code) {
@@ -246,26 +236,6 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
           </P>
         );
         break;
-      case '1049':
-        overrideError = true;
-        errorDisplay = (
-          <React.Fragment>
-            <P>
-              We have successfully connected your Interactive Brokers account,
-              but there is a 24-hour delay before your account information will
-              be available. You will receive an email letting you know when your
-              account data has been successfully synced.
-            </P>
-            <P>
-              If you don't receive an email within 2 days, please try again or
-              <PreLoadLink path={CONTACT_FORM_PATH}>
-                contact support
-              </PreLoadLink>
-              .
-            </P>
-          </React.Fragment>
-        );
-        break;
       case '1053':
         errorDisplay = (
           <React.Fragment>
@@ -324,7 +294,7 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
         <FontAwesomeIcon icon={faSpinner} spin />
       </H1>
     );
-  } else if (error && !connectedSuccessfully) {
+  } else if (error) {
     result = (
       <React.Fragment>
         <ExclamationIcon>
@@ -335,61 +305,6 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
         <ActionContainer>
           <Continue onClick={() => dispatch(push('/settings'))}>
             Go to Settings
-          </Continue>
-        </ActionContainer>
-      </React.Fragment>
-    );
-  } else if (connectedSuccessfully || overrideError) {
-    result = (
-      <React.Fragment>
-        <Star></Star>
-        <H1>Connection Complete</H1>
-        <Description>
-          {/* TODO do a check to see if is part of onBoarding */}
-          Thanks for connecting your {brokerageName} account! Connect another
-          brokerage or move on to the next step!
-        </Description>
-        {showUpgradeOffer && (
-          <div>
-            <P>
-              Congratulations!! You are eligible for a FREE upgrade to Passiv
-              Elite with your Questrade account!
-            </P>
-            <P>
-              <A
-                href="https://www.questrade.com/self-directed-investing/tools/partners/passiv"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Questrade
-              </A>{' '}
-              offers Passiv Elite as a free tool for Questrade customers. It's
-              available for free as long as you keep your Questrade account
-              connected to Passiv.
-            </P>
-            <P>
-              You’ll get access to all basic features plus the option to{' '}
-              <A
-                href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                place orders through Passiv
-              </A>{' '}
-              in just one click.
-            </P>
-            <Button onClick={() => dispatch(push('/questrade-offer'))}>
-              Upgrade Now
-            </Button>
-          </div>
-        )}
-        <ActionContainer>
-          <ConnectMore onClick={() => dispatch(push('/welcome?step=2'))}>
-            Connect Another Account
-          </ConnectMore>
-          <Continue onClick={() => dispatch(push('/welcome?step=3'))}>
-            Continue to Next Step
-            <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
           </Continue>
         </ActionContainer>
       </React.Fragment>

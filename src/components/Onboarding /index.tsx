@@ -36,7 +36,9 @@ const Onboarding = () => {
     if (!hasConnection && +queryStep > 1) {
       dispatch(replace('/welcome?step=1'));
       setStep(1);
-      setStep(+queryStep);
+    } else if (hasConnection && anySetupRemaining && +queryStep === 5) {
+      dispatch(replace('/welcome?step=4'));
+      setStep(4);
     } else if (queryStep) {
       setStep(+queryStep);
     } else if (hasConnection && anySetupRemaining) {
