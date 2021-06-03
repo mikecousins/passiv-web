@@ -175,11 +175,6 @@ export const GroupTargetSteps = [
     placement: 'top',
   },
   {
-    target: '.tour-apply-another-model',
-    content: <></>,
-    placement: 'top',
-  },
-  {
     target: '.tour-group-settings',
     content: 'Change settings for this portfolio.',
   },
