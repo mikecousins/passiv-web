@@ -43,10 +43,10 @@ export const TransparentButton = styled(Button)`
   background-color: transparent;
   color: var(--brand-blue);
   border: 3px solid var(--brand-blue);
-  padding: 20px;
   border-radius: 4px;
   font-weight: 600;
   font-size: 18px;
+  padding: 12px 25px;
   @media (max-width: 900px) {
     margin-bottom: 10px;
     width: 100%;
@@ -96,20 +96,38 @@ const InUse = styled.span`
   margin-right: 7px;
 `;
 const ApplyTransparentBtn = styled(TransparentButton)`
-  padding: 12px;
-  width: 100px;
   &:hover {
     :disabled {
       background: transparent;
       color: var(--brand-blue);
     }
-
     background: var(--brand-blue);
     color: #fff;
   }
   @media (max-width: 900px) {
     width: 100%;
   }
+`;
+
+const Badges = styled.div`
+  margin-top: 10px;
+  @media (max-width: 900px) {
+    margin-bottom: 20px;
+  }
+`;
+const TypeBadge = styled.span`
+  width: fit-content;
+  border: 1px solid var(--brand-grey);
+  border-radius: 25px;
+  padding: 3px 10px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--brand-grey);
+  margin-right: 10px;
+`;
+const UsedByBadge = styled(TypeBadge)`
+  border: 1px solid var(--brand-green);
+  color: var(--brand-green);
 `;
 
 const MyModelPortfoliosPage = () => {
@@ -264,17 +282,33 @@ const MyModelPortfoliosPage = () => {
                 <ShadowBox key={mdl.model_portfolio.id}>
                   <Grid
                     columns={
-                      groupId
-                        ? '50px 2fr 1fr 250px'
-                        : '50px 2fr 1fr 150px 150px'
+                      groupId ? '50px 3fr 250px' : '50px 3fr 120px 150px'
                     }
                   >
                     <MoreOptions
                       model={mdl}
                       shareModel={mdl.model_portfolio.share_portfolio}
                     />
-                    <ModelName>{mdl.model_portfolio.name}</ModelName>
-                    <InUseDiv>
+                    <div>
+                      <ModelName>{mdl.model_portfolio.name}</ModelName>
+                      <Badges>
+                        <TypeBadge>
+                          {mdl.model_portfolio.model_type === 0
+                            ? 'Security Based'
+                            : 'Asset Class Based'}
+                        </TypeBadge>
+                        {totalAssignedGroups > 0 && (
+                          <UsedByBadge>
+                            In Use: {totalAssignedGroups} Group
+                            {totalAssignedGroups > 1 && 's'}{' '}
+                            <Tooltip label={makeLabel(mdl.model_portfolio.id)}>
+                              <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+                            </Tooltip>
+                          </UsedByBadge>
+                        )}
+                      </Badges>
+                    </div>
+                    {/* <InUseDiv>
                       {totalAssignedGroups > 0 && (
                         <>
                           <FontAwesomeIcon icon={faCheck} size="lg" />
@@ -288,19 +322,21 @@ const MyModelPortfoliosPage = () => {
                           </Tooltip>
                         </>
                       )}
-                    </InUseDiv>
+                    </InUseDiv> */}
                     {/* display Apply button only when there is a group id  */}
                     {!groupId && (
-                      <ApplyTransparentBtn
-                        onClick={() => {
-                          setSelectGroupDialog(true);
-                          setSelectedModel(mdl?.model_portfolio);
-                        }}
-                        disabled={totalAssignedGroups === allGroups?.length}
-                        className="tour-apply-button"
-                      >
-                        Apply
-                      </ApplyTransparentBtn>
+                      <div>
+                        <ApplyTransparentBtn
+                          onClick={() => {
+                            setSelectGroupDialog(true);
+                            setSelectedModel(mdl?.model_portfolio);
+                          }}
+                          disabled={totalAssignedGroups === allGroups?.length}
+                          className="tour-apply-button"
+                        >
+                          Apply
+                        </ApplyTransparentBtn>
+                      </div>
                     )}
                     <StyledViewBtn className="tour-view-button">
                       <button
