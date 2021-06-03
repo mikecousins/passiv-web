@@ -56,7 +56,7 @@ const StyledOption = styled(ComboboxOption)`
   margin: 5px;
 `;
 
-const SecType = styled.span`
+const CryptoTag = styled.span`
   border: 1px solid var(--brand-green);
   border-radius: 25px;
   padding: 2px 10px;
@@ -207,7 +207,7 @@ const SymbolSelector = ({
                     <StyledComboboxOption key={index} value={value}>
                       {option.symbol} ({option.description})
                       {option.type.code === 'crypto' && (
-                        <SecType>Crypto</SecType>
+                        <CryptoTag>Crypto</CryptoTag>
                       )}
                     </StyledComboboxOption>
                   );
@@ -219,9 +219,14 @@ const SymbolSelector = ({
                   const value = `${option.symbol}, ${option.description}`;
                   return (
                     <StyledOption key={index} value={value}>
-                      <span>
-                        {option.symbol} ({option.description})
-                      </span>
+                      {option.symbol} ({option.description})
+                      {option.type.code === 'crypto' && (
+                        <CryptoTag
+                          style={{ fontSize: '10px', padding: '1px 15px' }}
+                        >
+                          Crypto
+                        </CryptoTag>
+                      )}
                     </StyledOption>
                   );
                 })}
