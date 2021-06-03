@@ -7,6 +7,7 @@ import {
   faCaretDown,
   faCaretUp,
   faSpinner,
+  faUndo,
 } from '@fortawesome/free-solid-svg-icons';
 import { postData } from '../../api';
 import { loadGroup } from '../../actions';
@@ -22,6 +23,11 @@ import { Description } from '../ModelPortfolio/Prioritization';
 import { CheckBox } from '../../styled/CheckBox';
 import { toast } from 'react-toastify';
 import { Truncate } from '../../common';
+import {
+  ActionContainer,
+  Cancel,
+  Save,
+} from '../ModelPortfolio/Prioritization';
 
 const Container = styled.div`
   margin-bottom: 37px;
@@ -105,6 +111,7 @@ const NumberOfExcludedAssets = styled(P)`
 const ExcludedAssets = () => {
   const dispatch = useDispatch();
   const groupId = useSelector(selectCurrentGroupId);
+  const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const currentGroupModelType = useSelector(selectCurrentGroupModelType);
   const positionsNotInTargetOrExcluded = useSelector(
@@ -114,9 +121,18 @@ const ExcludedAssets = () => {
   const setupComplete = useSelector(selectCurrentGroupSetupComplete);
   const [showAssets, setShowAssets] = useState(false);
 
-  const allExcluded = positionsNotInTargetOrExcluded.every(
-    (target) => target.excluded,
-  );
+  const excludedIds = positionsNotInTargetOrExcluded
+    .map((position) => {
+      if (position.excluded) {
+        return position.symbol.id;
+      }
+      return false;
+    })
+    .filter((id) => typeof id === 'string');
+
+  const [excluded, setExcluded] = useState(excludedIds);
+
+  const allExcluded = excluded.length === positionsNotInTargetOrExcluded.length;
 
   useEffect(() => {
     setLoading(groupInfoLoading);
@@ -135,36 +151,35 @@ const ExcludedAssets = () => {
     (target) => target.symbol.id,
   );
   const handleCheckBoxClick = (position: any, checkAll: boolean) => {
-    setLoading(true);
-    let excluded = [];
+    setEditing(true);
+    let exclu = [...excluded];
     // if check all clicked
     if (checkAll) {
       // if not all excluded, means we want to exclude all assets
       if (!allExcluded) {
-        excluded = listOfAllAssetIds;
+        exclu = listOfAllAssetIds;
+      } else {
+        exclu = [];
       }
     }
     // else, the individual checkbox clicked
     else {
       const positionId = position.symbol.id;
-      excluded = positionsNotInTargetOrExcluded
-        .map((position) => {
-          if (position.excluded) {
-            return position.symbol.id;
-          }
-          return false;
-        })
-        .filter((id) => typeof id === 'string'); // to remove undefined values
-
       // if position is already excluded, it means we want to unexclude it
-      if (position.excluded) {
-        excluded = excluded.filter((id) => id !== positionId);
+      if (exclu.includes(positionId)) {
+        exclu = excluded.filter((id) => id !== positionId);
       }
       // otherwise, add it to excluded list
       else {
-        excluded.push(positionId);
+        exclu.push(positionId);
       }
     }
+    setExcluded(exclu);
+  };
+
+  const handleSaveChanges = () => {
+    setLoading(true);
+    setEditing(false);
     /* if an asset class based model */
     if (currentGroupModelType === 1) {
       postData(
@@ -221,6 +236,20 @@ const ExcludedAssets = () => {
         positionsNotInTargetOrExcluded.length > 0 ? (
           showAssets && (
             <>
+              {editing && (
+                <ActionContainer>
+                  <Cancel
+                    onClick={() => {
+                      setExcluded(excludedIds);
+                      setEditing(false);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faUndo} size="sm" /> Undo changes
+                  </Cancel>
+                  <Save onClick={handleSaveChanges}>Save changes</Save>
+                </ActionContainer>
+              )}
+
               <CheckAll columns="10px 180px">
                 <CheckBox>
                   <label className="container">
@@ -244,7 +273,10 @@ const ExcludedAssets = () => {
                       <label className="container">
                         <input
                           type="checkbox"
-                          checked={position.excluded}
+                          checked={
+                            excluded.includes(position.symbol.id) ||
+                            !position.quotable
+                          }
                           onChange={() => handleCheckBoxClick(position, false)}
                           disabled={!position.quotable}
                         />
