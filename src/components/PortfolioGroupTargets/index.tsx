@@ -428,9 +428,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
               )}
             </div>
             <OrderTargetsContainer>
-              <OrderTargetAllocations
-                edit={groupInfo?.model_portfolio.model_type === 0}
-              />
+              <OrderTargetAllocations />
             </OrderTargetsContainer>
           </Header>
 

@@ -41,11 +41,7 @@ export const StyledSelect = styled(StyledFieldBase)`
   background-repeat: no-repeat;
 `;
 
-type Props = {
-  edit: boolean;
-};
-
-const OrderTargetAllocations = ({ edit }: Props) => {
+const OrderTargetAllocations = () => {
   const settings = useSelector(selectCurrentGroupSettings);
   const groupId = useSelector(selectCurrentGroupId);
   const dispatch = useDispatch();
@@ -78,10 +74,6 @@ const OrderTargetAllocations = ({ edit }: Props) => {
   };
 
   const orderByOptionsEntries = Object.entries(orderByOptions);
-
-  if (!edit) {
-    return null;
-  }
 
   return (
     <React.Fragment>
