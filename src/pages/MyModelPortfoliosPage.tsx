@@ -96,7 +96,7 @@ const Badges = styled.div`
     margin-bottom: 20px;
   }
 `;
-const TypeBadge = styled.span`
+export const TypeBadge = styled.span`
   width: fit-content;
   border: 1px solid var(--brand-grey);
   border-radius: 25px;
