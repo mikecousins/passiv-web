@@ -22,11 +22,11 @@ import {
   selectCurrentGroupTrades,
   selectCurrentGroupInfoError,
   selectCurrentGroupSetupComplete,
-  selectGroupsLoading,
   selectPreferredCurrency,
   selectCurrentGroupPositionsNotInTargetOrExcluded,
   selectCurrentGroupModelType,
   selectNeedToPrioritize,
+  selectGroupsLoading,
 } from '../selectors/groups';
 import { H3, P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';

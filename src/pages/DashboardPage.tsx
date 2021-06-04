@@ -6,7 +6,7 @@ import Group from '../components/Group';
 import { selectIsAuthorized } from '../selectors';
 import {
   selectDashboardGroups,
-  selectGroupsLoading,
+  selectAllGroupsLoading,
 } from '../selectors/groups';
 import DashboardReporting, {
   CustomizeDashBtn,
@@ -38,7 +38,7 @@ export const DashboardPage = () => {
     selectDisplayQuestradeConnectPrompt,
   );
   const showInvestingCourse = useSelector(selectShowInvestingCourse);
-  const groupsLoading = useSelector(selectGroupsLoading);
+  const groupsLoading = useSelector(selectAllGroupsLoading);
 
   const [configMode, setConfigMode] = useState(false);
 
