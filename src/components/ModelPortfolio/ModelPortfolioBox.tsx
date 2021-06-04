@@ -26,9 +26,9 @@ import Grid from '../../styled/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTimes } from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
-import { Button } from '../../styled/Button';
+import { Button, SmallButton } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
-import { A } from '../../styled/GlobalElements';
+import { A, Table } from '../../styled/GlobalElements';
 import RouteLeavingPrompt from '../RouteLeavingPrompt';
 import { isNameDuplicate } from './utils/utils';
 import Tooltip from '../Tooltip';
@@ -156,7 +156,7 @@ const Symbol = styled.span`
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 50px;
+  margin-top: 70px;
 `;
 
 const ApplyModelBtn = styled(Button)`
@@ -174,6 +174,23 @@ const ApplyModelBtn = styled(Button)`
 const CancelButton = styled(A)`
   margin-left: 20px;
   font-weight: 600;
+`;
+
+const Equalize = styled.div`
+  margin-top: 10px;
+  button {
+    padding: 8px 20px;
+    font-weight: 900;
+    color: var(--brand-green);
+    border: 2px solid var(--brand-green);
+    background-color: transparent;
+    :disabled {
+      cursor: not-allowed;
+    }
+  }
+  @media (max-width: 900px) {
+    margin-bottom: 20px;
+  }
 `;
 
 const ErroMsg = styled.ul`
@@ -373,6 +390,7 @@ const ModelPortoflioBox = ({
             targets: model,
             newTargetPercent: 0,
             cash: 0,
+            equalized: false, // a hacky way to set dirty to true if Equalized button clicked
           }}
           enableReinitialize
           initialStatus={{ submitted: false }}
@@ -456,6 +474,43 @@ const ModelPortoflioBox = ({
                     );
                   }
 
+                  const numberOfTargets = props.values.targets.length;
+                  const equalizedPercentage = (100 / numberOfTargets).toFixed(
+                    3,
+                  );
+
+                  const equalizedTargets = props.values.targets.filter(
+                    (target: any) =>
+                      Math.floor(target.percent) !==
+                      Math.floor(+equalizedPercentage),
+                  );
+
+                  const handleEqualize = () => {
+                    const totalAfterEqualization =
+                      +equalizedPercentage * numberOfTargets;
+                    props.values.targets.forEach(
+                      (target: any, index: number) => {
+                        target.percent = equalizedPercentage;
+                        if (index === numberOfTargets - 1) {
+                          if (totalAfterEqualization > 100) {
+                            target.percent = (
+                              +equalizedPercentage -
+                              (totalAfterEqualization - 100)
+                            ).toFixed(3);
+                          } else if (totalAfterEqualization < 100) {
+                            target.percent = (
+                              +equalizedPercentage +
+                              (100 - totalAfterEqualization)
+                            ).toFixed(3);
+                          }
+                        }
+                        return target;
+                      },
+                    );
+                    props.setTouched(props.values.targets);
+                    props.setFieldValue('equalized', true);
+                  };
+
                   const handleAddToModel = (symbol: any) => {
                     if (props.isValid) {
                       if (securityBased) {
@@ -476,13 +531,28 @@ const ModelPortoflioBox = ({
 
                   return (
                     <>
-                      <div>
+                      <Table>
                         <Cash key="cash">
                           <CashPercentage>
                             {cashPercentage}% Cash
                           </CashPercentage>
                         </Cash>
-                      </div>
+                        {(editMode || applyMode) && (
+                          <Equalize>
+                            <SmallButton
+                              onClick={handleEqualize}
+                              type="button"
+                              disabled={
+                                (equalizedTargets.length === 0 &&
+                                  +cashPercentage === 0) ||
+                                numberOfTargets === 0
+                              }
+                            >
+                              Equalize
+                            </SmallButton>
+                          </Equalize>
+                        )}
+                      </Table>
                       {props.values.targets.map(
                         (target: any, index: number) => {
                           if (editMode || applyMode) {
@@ -554,14 +624,16 @@ const ModelPortoflioBox = ({
                             );
                           } else {
                             return (
-                              <Cash key={index}>
-                                <CashPercentage style={{ fontWeight: 500 }}>
-                                  {target.percent}%{' '}
-                                  {securityBased
-                                    ? target.symbol.symbol
-                                    : target.model_asset_class.name}
-                                </CashPercentage>
-                              </Cash>
+                              <>
+                                <Cash key={index}>
+                                  <CashPercentage style={{ fontWeight: 500 }}>
+                                    {target.percent}%{' '}
+                                    {securityBased
+                                      ? target.symbol.symbol
+                                      : target.model_asset_class.name}
+                                  </CashPercentage>
+                                </Cash>
+                              </>
                             );
                           }
                         },
