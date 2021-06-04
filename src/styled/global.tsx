@@ -293,6 +293,10 @@ export const GlobalStyle = () => (
       }
       [data-reach-combobox-option][data-highlighted] {
         background: var(--brand-green) !important;
+        span {
+          color: white;
+          border-color: white;
+        }
       }
     `}
   />

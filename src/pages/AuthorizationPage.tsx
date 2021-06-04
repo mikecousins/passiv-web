@@ -24,7 +24,6 @@ import KrakenLogo from '../assets/images/kraken-logo.png';
 import BitbuyLogo from '../assets/images/bitbuy-logo.png';
 import UnocoinLogo from '../assets/images/unocoin-logo.png';
 import WealthicaLogo from '../assets/images/wealthica-logo.png';
-import WealthsimpleTradeLogo from '../assets/images/wealthsimple-logo.png';
 import ZerodhaLogo from '../assets/images/zerodha-logo.png';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
@@ -412,21 +411,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
           million clients.
         </P>
       ),
-      type: 'traditional',
-    },
-    {
-      id: 'wealthsimple',
-      name: 'Wealthsimple Trade',
-      displayName: 'Wealthsimple Trade',
-      connect: () => {
-        startConnection('Wealthsimple Trade', 'trade');
-      },
-      confirmPrompt: null,
-      defaultConnectionType: 'trade',
-      openURL: 'https://my.wealthsimple.com/oauth/authorize',
-      major: true,
-      logo: WealthsimpleTradeLogo,
-      description: <P>Wealthsimple is a Canadian discount brokerage.</P>,
       type: 'traditional',
     },
     {

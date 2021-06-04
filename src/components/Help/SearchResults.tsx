@@ -8,6 +8,9 @@ import { SearchResultsType } from '../../types/help';
 
 const Card = styled(ShadowBox)`
   height: 100%;
+  p {
+    line-height: 26px;
+  }
 `;
 
 const Type = styled(H3)`
@@ -20,6 +23,7 @@ const Type = styled(H3)`
 const Title = styled(H2)`
   margin-bottom: 10px;
   font-size: 25px;
+  line-height: 27px;
 `;
 
 const ReadMore = styled(A)`

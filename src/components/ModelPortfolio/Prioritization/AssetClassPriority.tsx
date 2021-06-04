@@ -186,7 +186,10 @@ const AssetClassPriority = ({
   }
 
   return (
-    <MainContainer color={showDetails ? '#04A287' : ''}>
+    <MainContainer
+      color={showDetails ? '#04A287' : ''}
+      className="tour-priorities"
+    >
       <AssetClassBox color={showDetails ? 'var(--brand-green)' : '#f1f1f1'}>
         <Head
           columns={onSettingsPage ? '5fr 1fr 100px' : 'auto 5fr 1fr 100px'}

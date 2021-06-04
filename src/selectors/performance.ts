@@ -9,7 +9,7 @@ import {
   DividendsAtDate,
   ReportingSettings,
 } from '../types/performance';
-import { selectState } from '.';
+import { selectAuthorizations, selectState } from '.';
 import {
   selectPerformancePageFeature,
   selectAdjustedCostBasisFeature,
@@ -417,6 +417,27 @@ export const selectRateOfReturn = createSelector<
     return state.performanceAll?.data?.rateOfReturn1Y;
   }
 });
+
+export const selectShowReporting = createSelector(
+  selectAuthorizations,
+  (authorizations) => {
+    return authorizations?.some(
+      (authorization) => authorization.brokerage.has_reporting,
+    );
+  },
+);
+
+export const selectBrokeragesNotSupportReporting = createSelector(
+  selectShowReporting,
+  selectAuthorizations,
+  (showReporting, authorizations) => {
+    if (showReporting) {
+      return authorizations?.filter(
+        (authorization) => !authorization.brokerage.has_reporting,
+      );
+    }
+  },
+);
 
 export const selectReportingSettings = (state: AppState) =>
   state.reportingSettings;

@@ -205,7 +205,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
   const title = 'Check out my model portfolio on Passiv.com';
 
   return (
-    <div ref={node}>
+    <div ref={node} className="tour-more-options">
       <EllipsisButton onClick={() => setShowOptions(!showOptions)}>
         <FontAwesomeIcon icon={faEllipsisV} />
       </EllipsisButton>
