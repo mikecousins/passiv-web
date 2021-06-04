@@ -33,6 +33,7 @@ import Grid from '../../styled/Grid';
 import { toast } from 'react-toastify';
 import { selectModelPortfolios } from '../../selectors/modelPortfolios';
 import { selectModelPortfolioFeature } from '../../selectors/features';
+import { TypeBadge } from '../../pages/MyModelPortfoliosPage';
 
 export const TargetContainer = styled.div`
   h2 {
@@ -81,6 +82,27 @@ const OrderTargetsContainer = styled.div`
   @media (max-width: 900px) {
     margin-top: 50px;
   }
+`;
+
+const PortfolioInfo = styled.div`
+  display: flex;
+  @media (max-width: 900px) {
+    margin-bottom: 30px;
+    display: inline-block;
+  }
+`;
+
+const ModelName = styled.div`
+  font-weight: 700;
+  font-size: 20px;
+  margin-right: 10px;
+  @media (max-width: 900px) {
+    margin-bottom: 10px;
+  }
+`;
+
+const TypeBadgeSmall = styled(TypeBadge)`
+  font-size: 13px;
 `;
 
 type Props = {
@@ -415,16 +437,14 @@ const PortfolioGroupTargets = ({ error }: Props) => {
                 {modelPortfolioFeature ? 'Model Portfolio' : 'Target Portfolio'}
               </H2>
               {modelPortfolioFeature && groupInfo?.model_portfolio !== null && (
-                <small>
-                  <span style={{ fontWeight: 700 }}>
-                    {groupInfo?.model_portfolio.name}
-                  </span>{' '}
-                  (
-                  {groupInfo?.model_portfolio.model_type === 0
-                    ? 'Security Based Model'
-                    : 'Asset Class Based Model'}
-                  )
-                </small>
+                <PortfolioInfo>
+                  <ModelName>{groupInfo?.model_portfolio.name}</ModelName>{' '}
+                  <TypeBadgeSmall>
+                    {groupInfo?.model_portfolio.model_type === 0
+                      ? 'Security Based Model'
+                      : 'Asset Class Based Model'}
+                  </TypeBadgeSmall>
+                </PortfolioInfo>
               )}
             </div>
             <OrderTargetsContainer>
