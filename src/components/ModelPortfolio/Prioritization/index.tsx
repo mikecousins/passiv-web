@@ -39,11 +39,11 @@ const Priorities = styled.div`
   }
 `;
 
-const ActionContainer = styled.div`
+export const ActionContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-const Cancel = styled(Button)`
+export const Cancel = styled(Button)`
   padding: 13px 18px 13px;
   background-color: transparent;
   border: 2px solid var(--brand-blue);
@@ -51,7 +51,7 @@ const Cancel = styled(Button)`
   font-weight: 600;
 `;
 
-const Save = styled(Button)`
+export const Save = styled(Button)`
   font-weight: 600;
 `;
 

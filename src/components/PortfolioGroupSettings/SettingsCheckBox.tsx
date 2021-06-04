@@ -57,7 +57,7 @@ const SettingsCheckBox = ({
       <label className="container">
         <input
           type="checkbox"
-          checked={value}
+          checked={value && !disabled}
           onChange={onChange}
           disabled={disabled}
         />
