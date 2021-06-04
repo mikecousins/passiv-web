@@ -5,7 +5,7 @@ import { selectSubscription } from './subscription';
 
 export const selectShowInsecureApp = createSelector(
   selectLoggedIn,
-  loggedIn => {
+  (loggedIn) => {
     return loggedIn === false;
   },
 );
@@ -51,9 +51,8 @@ export const selectShowOnboardingApp = createSelector(
 export const selectShowSecureApp = createSelector(
   selectShowInsecureApp,
   selectShowSpinner,
-  selectShowOnboardingApp,
-  (showInsecureApp, showSpinner, showOnboardingApp) => {
-    if (showInsecureApp || showSpinner || showOnboardingApp) {
+  (showInsecureApp, showSpinner) => {
+    if (showInsecureApp || showSpinner) {
       return false;
     }
     return true;
@@ -70,7 +69,7 @@ export const selectOnboardingPage = createSelector(
     if (
       groups &&
       groups.some(
-        group => group.setupComplete === false && group.accounts.length > 0,
+        (group) => group.setupComplete === false && group.accounts.length > 0,
       )
     ) {
       return '/initial-targets';
