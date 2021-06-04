@@ -121,6 +121,7 @@ const ExcludedAssets = () => {
   const setupComplete = useSelector(selectCurrentGroupSetupComplete);
   const [showAssets, setShowAssets] = useState(false);
 
+  // create a list of assets ids that are excluded
   const excludedIds = positionsNotInTargetOrExcluded
     .map((position) => {
       if (position.excluded) {
@@ -130,51 +131,46 @@ const ExcludedAssets = () => {
     })
     .filter((id) => typeof id === 'string');
 
+  const excludedAssetsCount = excludedIds.length;
   const [excluded, setExcluded] = useState(excludedIds);
 
+  // see if all the assets are excluded (used for have Excluded All checkbox unchecked or checked )
   const allExcluded = excluded.length === positionsNotInTargetOrExcluded.length;
 
   useEffect(() => {
     setLoading(groupInfoLoading);
+    setExcluded(excludedIds);
   }, [groupInfoLoading]);
 
-  const excludedAssetsCount = positionsNotInTargetOrExcluded.reduce(
-    (acc, val) => {
-      if (val.excluded) {
-        acc++;
-      }
-      return acc;
-    },
-    0,
-  );
+  // list of all asset ids
   const listOfAllAssetIds = positionsNotInTargetOrExcluded.map(
     (target) => target.symbol.id,
   );
   const handleCheckBoxClick = (position: any, checkAll: boolean) => {
     setEditing(true);
-    let exclu = [...excluded];
+    let excludedCopy = [...excluded];
     // if check all clicked
     if (checkAll) {
       // if not all excluded, means we want to exclude all assets
       if (!allExcluded) {
-        exclu = listOfAllAssetIds;
+        excludedCopy = listOfAllAssetIds;
       } else {
-        exclu = [];
+        excludedCopy = [];
       }
     }
     // else, the individual checkbox clicked
     else {
       const positionId = position.symbol.id;
       // if position is already excluded, it means we want to unexclude it
-      if (exclu.includes(positionId)) {
-        exclu = excluded.filter((id) => id !== positionId);
+      if (excludedCopy.includes(positionId)) {
+        excludedCopy = excluded.filter((id) => id !== positionId);
       }
       // otherwise, add it to excluded list
       else {
-        exclu.push(positionId);
+        excludedCopy.push(positionId);
       }
     }
-    setExcluded(exclu);
+    setExcluded(excludedCopy);
   };
 
   const handleSaveChanges = () => {
@@ -192,6 +188,7 @@ const ExcludedAssets = () => {
         .catch(() => {
           toast.error('Request failed. Please try again.');
           setLoading(false);
+          setExcluded(excludedIds);
         });
     } else {
       postData(`/api/v1/portfolioGroups/${groupId}/excludedassets/`, excluded)
@@ -199,8 +196,9 @@ const ExcludedAssets = () => {
           dispatch(loadGroup({ ids: [groupId] }));
         })
         .catch(() => {
-          toast.error('Failed to exclude the asset. Please try again.');
+          toast.error('Request failed. Please try again.');
           setLoading(false);
+          setExcluded(excludedIds);
         });
     }
   };
@@ -220,7 +218,15 @@ const ExcludedAssets = () => {
           <span>{positionsNotInTargetOrExcluded?.length}</span>{' '}
           {positionsNotInTargetOrExcluded.length === 1 ? 'asset' : 'assets'} not
           part of your portfolio ({excludedAssetsCount} excluded).
-          <button onClick={() => setShowAssets(!showAssets)}>
+          <button
+            onClick={() => {
+              setShowAssets(!showAssets);
+              if (!showAssets) {
+                setExcluded(excludedIds);
+                setEditing(false);
+              }
+            }}
+          >
             {showAssets ? 'Hide' : 'Show'}{' '}
             {showAssets ? (
               <FontAwesomeIcon icon={faCaretUp} size="lg" />
