@@ -39,5 +39,6 @@ export type Settings = {
   new_reporting_enabled: boolean;
   e_transfer_email: string | null;
   affiliate_charity: string | null;
+  is_affiliate: boolean;
   login_emails_enabled: boolean;
 };

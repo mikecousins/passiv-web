@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { push, replace } from 'connected-react-router';
+import { push } from 'connected-react-router';
 import { postData } from '../api';
 import { reloadEverything } from '../actions';
 import ShadowBox from '../styled/ShadowBox';
@@ -29,7 +29,7 @@ type Props = {
 };
 
 const BrokeragesOauthPage = ({ brokerageName }: Props) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showUpgradeOffer, setShowUpgradeOffer] = useState(false);
   const [error, setError] = useState<Error>();
   const queryParams = useSelector(selectQueryTokens);
@@ -38,45 +38,60 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   const dispatch = useDispatch();
   const brokerages = useSelector(selectBrokerages);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
+  const [token, setToken] = useState<any>(null);
+  const [tokenConfirmed, setTokenConfirmed] = useState<boolean>(false);
+  const [requestStarted, setRequestStarted] = useState<boolean>(false);
+
+  if (tokenConfirmed === false) {
+    if (brokerageName === 'Interactive Brokers') {
+      setToken({
+        oauth_token: queryParams.oauth_token,
+        oauth_verifier: queryParams.oauth_verifier,
+      });
+    } else if (brokerageName === 'Zerodha') {
+      setToken({
+        token: queryParams.request_token,
+      });
+    } else {
+      setToken({
+        token: queryParams.code,
+      });
+    }
+    setTokenConfirmed(true);
+  }
 
   if (brokerageName === 'Zerodha') {
     postData('/api/v1/tradesinprogress/', queryParams).then((response) => {
       if (response.data.portfolio_group) {
-        dispatch(replace(`/group/${response.data.portfolio_group}`));
+        dispatch(push(`/group/${response.data.portfolio_group}`));
         dispatch(reloadEverything());
       }
     });
   }
 
   useEffect(() => {
-    let token: any = { token: queryParams.code };
-    if (brokerageName === 'Interactive Brokers') {
-      token = {
-        oauth_token: queryParams.oauth_token,
-        oauth_verifier: queryParams.oauth_verifier,
-      };
-    }
-    if (brokerageName === 'Zerodha') {
-      token = { token: queryParams.request_token };
-    }
-    if (token === null) {
-      setLoading(false);
-      setError({ code: '0000' });
-    } else {
+    if (
+      loading === false &&
+      tokenConfirmed === true &&
+      requestStarted === false &&
+      showUpgradeOffer === false
+    ) {
+      setRequestStarted(true);
+      setLoading(true);
       postData('/api/v1/brokerages/authComplete/', token)
         .then(() => {
           dispatch(reloadEverything());
           if (brokerageName === 'Questrade') {
             if (isPaid || !questradeOfferFeatureActive) {
               setTimeout(() => {
-                dispatch(replace('/'));
+                dispatch(push('/'));
               }, 1000);
             } else {
               setLoading(false);
               setShowUpgradeOffer(true);
             }
           } else {
-            dispatch(replace('/'));
+            dispatch(push('/'));
             setTimeout(() => {
               if (brokerageName === 'Interactive Brokers') {
                 setLoading(false);

@@ -107,6 +107,13 @@ export const selectSettings = createSelector(
   },
 );
 
+export const selectIsAffiliate = createSelector(selectSettings, (settings) => {
+  if (settings) {
+    return settings.is_affiliate;
+  }
+  return false;
+});
+
 export const selectContextualMessages = createSelector(
   selectSettings,
   (settings) => {
@@ -458,28 +465,6 @@ export const selectShowInsecureApp = createSelector(
   selectLoggedIn,
   (loggedIn) => {
     return loggedIn === false;
-  },
-);
-
-export const selectShowOnboardingApp = createSelector(
-  selectShowInsecureApp,
-  selectIsAuthorized,
-  (showInsecureApp, isAuthorized) => {
-    if (showInsecureApp) {
-      return false;
-    }
-    return !isAuthorized;
-  },
-);
-
-export const selectShowSecureApp = createSelector(
-  selectShowInsecureApp,
-  selectShowOnboardingApp,
-  (showInsecureApp, showOnboardingApp) => {
-    if (showInsecureApp || showOnboardingApp) {
-      return false;
-    }
-    return true;
   },
 );
 
