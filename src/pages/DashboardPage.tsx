@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCogs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Group from '../components/Group';
-import { selectIsAuthorized } from '../selectors';
 import {
   selectDashboardGroups,
   selectGroupsLoading,
@@ -33,7 +32,6 @@ import { selectShowInvestingCourse } from '../selectors/subscription';
 
 export const DashboardPage = () => {
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
-  const authorized = useSelector(selectIsAuthorized);
   const groups = useSelector(selectDashboardGroups);
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
   const displayQuestradeConnectPrompt = useSelector(
