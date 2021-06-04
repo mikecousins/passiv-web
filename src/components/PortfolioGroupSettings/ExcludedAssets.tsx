@@ -42,7 +42,7 @@ const Container = styled.div`
 
 const CheckAll = styled(Grid)`
   border-bottom: 0.5px solid #bfb6b6;
-  width: 200px;
+  max-width: 50%;
   padding-bottom: 10px;
   margin-bottom: 10px;
   align-items: center;
@@ -51,6 +51,15 @@ const CheckAll = styled(Grid)`
   @media (max-width: 900px) {
     display: grid;
     grid-gap: 20px;
+  }
+`;
+
+const CheckAllBox = styled(CheckBox)`
+  .checkmark {
+    border-color: var(--brand-blue);
+  }
+  .container input:checked ~ .checkmark {
+    background-color: var(--brand-blue);
   }
 `;
 
@@ -75,6 +84,10 @@ const Symbol = styled.span<SymbolType>`
   @media (max-width: 900px) {
     margin-left: 30px;
   }
+`;
+
+const CheckAllLabel = styled(Symbol)`
+  color: var(--brand-blue);
 `;
 
 const Name = styled.span<SymbolType>`
@@ -121,6 +134,7 @@ const ExcludedAssets = () => {
   const setupComplete = useSelector(selectCurrentGroupSetupComplete);
   const [showAssets, setShowAssets] = useState(false);
 
+  //TODO change this to use ExcludedAssets selector
   // create a list of assets ids that are excluded
   const excludedIds = positionsNotInTargetOrExcluded
     .map((position) => {
@@ -140,6 +154,7 @@ const ExcludedAssets = () => {
   useEffect(() => {
     setLoading(groupInfoLoading);
     setExcluded(excludedIds);
+    // eslint-disable-next-line
   }, [groupInfoLoading]);
 
   // list of all asset ids
@@ -257,7 +272,7 @@ const ExcludedAssets = () => {
               )}
 
               <CheckAll columns="10px 180px">
-                <CheckBox>
+                <CheckAllBox>
                   <label className="container">
                     <input
                       type="checkbox"
@@ -266,10 +281,10 @@ const ExcludedAssets = () => {
                     />
                     <span className="checkmark"></span>
                   </label>
-                </CheckBox>
-                <Symbol disabled={false}>
+                </CheckAllBox>
+                <CheckAllLabel disabled={false}>
                   {allExcluded ? 'Unexclude all' : 'Exclude all'}
-                </Symbol>
+                </CheckAllLabel>
               </CheckAll>
 
               {positionsNotInTargetOrExcluded.map((position) => {
