@@ -7,10 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faAngleLeft,
   faAngleRight,
-  faCheck,
-  faInfoCircle,
   faTimes,
   faSpinner,
+  faChevronCircleRight,
+  faChevronCircleLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
@@ -29,7 +29,6 @@ import Grid from '../styled/Grid';
 import { ViewBtn } from '../styled/Group';
 import ShadowBox from '../styled/ShadowBox';
 import { StyledP } from './ModelAssetClassPage';
-import Tooltip from '../components/Tooltip';
 import { selectGroupInfo, selectGroups } from '../selectors/groups';
 import Dialog from '@reach/dialog';
 import SelectGroupDialog from '../components/ModelPortfolio/SelectGroupDialog';
@@ -77,24 +76,6 @@ const ModelName = styled(H3)`
     text-align: center;
   }
 `;
-const InUseDiv = styled.div`
-  font-size: 20px;
-  > svg {
-    margin-right: 8px;
-    color: var(--brand-green);
-  }
-  span {
-    margin-right: 10px;
-  }
-  @media (max-width: 900px) {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-`;
-const InUse = styled.span`
-  font-weight: 600;
-  margin-right: 7px;
-`;
 const ApplyTransparentBtn = styled(TransparentButton)`
   &:hover {
     :disabled {
@@ -128,6 +109,10 @@ const TypeBadge = styled.span`
 const UsedByBadge = styled(TypeBadge)`
   border: 1px solid var(--brand-green);
   color: var(--brand-green);
+  @media (max-width: 900px) {
+    margin-top: 10px;
+    display: flex;
+  }
 `;
 
 const MyModelPortfoliosPage = () => {
@@ -151,6 +136,7 @@ const MyModelPortfoliosPage = () => {
   const [selectedModel, setSelectedModel] = useState<
     ModelPortfolio | undefined
   >();
+  const [showGroups, setShowGroups] = useState(false);
 
   let modelIdUseByGroup: string | undefined = '';
   if (groupId && groupInfo[groupId].data?.model_portfolio) {
@@ -301,28 +287,23 @@ const MyModelPortfoliosPage = () => {
                           <UsedByBadge>
                             In Use: {totalAssignedGroups} Group
                             {totalAssignedGroups > 1 && 's'}{' '}
-                            <Tooltip label={makeLabel(mdl.model_portfolio.id)}>
-                              <FontAwesomeIcon icon={faInfoCircle} size="sm" />
-                            </Tooltip>
+                            <button onClick={() => setShowGroups(!showGroups)}>
+                              <FontAwesomeIcon
+                                icon={
+                                  showGroups
+                                    ? faChevronCircleLeft
+                                    : faChevronCircleRight
+                                }
+                                color="var(--brand-green)"
+                              />
+                            </button>{' '}
+                            {showGroups && (
+                              <span>{makeLabel(mdl.model_portfolio.id)}</span>
+                            )}
                           </UsedByBadge>
                         )}
                       </Badges>
                     </div>
-                    {/* <InUseDiv>
-                      {totalAssignedGroups > 0 && (
-                        <>
-                          <FontAwesomeIcon icon={faCheck} size="lg" />
-                          <InUse>In Use</InUse> |{' '}
-                          <span>
-                            {totalAssignedGroups} Group
-                            {totalAssignedGroups > 1 && 's'}
-                          </span>
-                          <Tooltip label={makeLabel(mdl.model_portfolio.id)}>
-                            <FontAwesomeIcon icon={faInfoCircle} size="sm" />
-                          </Tooltip>
-                        </>
-                      )}
-                    </InUseDiv> */}
                     {/* display Apply button only when there is a group id  */}
                     {!groupId && (
                       <div>
