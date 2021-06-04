@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { push, replace } from 'connected-react-router';
+import { push } from 'connected-react-router';
 import { postData } from '../api';
 import {
   selectCurrentGroup,
+  selectCurrentGroupExcludedAssets,
   selectCurrentGroupSettings,
-  selectCurrentGroupTarget,
 } from '../selectors/groups';
 import { SmallButton } from '../styled/Button';
 import { A, H3, P } from '../styled/GlobalElements';
@@ -26,9 +26,10 @@ import {
 } from '../selectors/modelPortfolios';
 import { Position } from '../types/groupInfo';
 
-type Props = {
-  targets: Position[];
-};
+const Loading = styled.div`
+  text-align: center;
+  padding: 30px;
+`;
 
 const ListOfAssets = styled.ul`
   font-size: 1.3rem;
@@ -72,69 +73,57 @@ const ExcludeBtn = styled(MaxHeightSmallBtn)`
   color: var(--brand-blue);
 `;
 
+const ExcludeAll = styled.div`
+  text-align: right;
+  margin-bottom: 20px;
+  button {
+    min-width: 200px;
+    color: var(--brand-green);
+    border-color: var(--brand-green);
+  }
+  @media (max-width: 900px) {
+    text-align: left;
+  }
+`;
+
 const BoldSpan = styled.span`
   font-weight: 900;
 `;
 
+type Props = {
+  targets: Position[];
+};
 const NewAssetsDetected = ({ targets }: Props) => {
   const dispatch = useDispatch();
   const [loadingId, setLoadingId] = useState('');
+  const [allLoading, setAllLoading] = useState(false);
   const currentGroup = useSelector(selectCurrentGroup);
-  const currentTargets = useSelector(selectCurrentGroupTarget);
   const settings = useSelector(selectCurrentGroupSettings);
   const modelPortfolios = useSelector(selectModelPortfolios);
   const modelUseByOtherGroups = useSelector(selectModelUseByOtherGroups);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
+  const excludedAssets = useSelector(selectCurrentGroupExcludedAssets);
 
   const groupId = currentGroup?.id;
 
-  const handleAddTarget = (target: Position, exclude: boolean) => {
-    setLoadingId(target.symbol.id);
-    const newTarget = {
-      symbol: target.symbol.id,
-      percent: 0,
-      fullSymbol: target.symbol,
-      is_supported: true,
-      is_excluded: exclude,
-    };
-
-    const targets = currentTargets;
-    let newTargets: any;
-    if (targets?.isAssetClassBased) {
-      newTargets = targets.currentAssetClass;
+  const handleExcludeAsset = (targetId: string, excludeAll: boolean) => {
+    let excluded: string[] = excludedAssets;
+    if (excludeAll) {
+      setAllLoading(true);
+      const allTargetIds = targets.map((target) => target.symbol.id);
+      excluded = excluded.concat(allTargetIds);
     } else {
-      newTargets = targets?.currentTarget;
+      setLoadingId(targetId);
+      excluded.push(targetId);
     }
-    newTargets?.push(newTarget);
-
-    postData(`/api/v1/portfolioGroups/${groupId}/targets/`, newTargets!)
+    postData(`/api/v1/portfolioGroups/${groupId}/excludedassets/`, excluded)
       .then(() => {
         dispatch(loadGroup({ ids: [groupId] }));
-        if (!exclude) {
-          dispatch(replace(`/group/${groupId}?edit=true`));
-          setTimeout(() => {
-            window.scrollTo({
-              top: document.documentElement.scrollHeight,
-              behavior: 'smooth',
-            });
-          }, 1500);
-        }
-
-        toast.success(
-          `'${newTarget.fullSymbol.symbol}' got ${
-            exclude ? 'excluded from your target' : 'added to your target'
-          }.`,
-        );
       })
-      .catch((error) => {
-        toast.error(
-          `Failed to edit targets: ${
-            error.response && error.response.data.detail
-          }`,
-        );
+      .catch(() => {
+        toast.error('Request failed. Please try again.');
       });
   };
-
   const handleAddToModel = (target: Position) => {
     setLoadingId(target.symbol.id);
     const modelId = currentGroup?.model_portfolio;
@@ -202,41 +191,54 @@ const NewAssetsDetected = ({ targets }: Props) => {
             can either add them to your target portfolio* or exclude them.
           </P>
         )}
-        <ListOfAssets>
-          {targets?.map((target) => {
-            if (target.excluded) {
-              return false;
-            }
-            if (target.symbol.id === loadingId) {
-              return <FontAwesomeIcon icon={faSpinner} spin />;
-            }
-            return (
-              <StyledGrid columns="1fr 180px 200px" key={target.symbol.id}>
-                <SymbolGrid columns="180px auto">
-                  <Symbol>{target.symbol.symbol}</Symbol>{' '}
-                  <Description>{target.symbol.description}</Description>
-                </SymbolGrid>
-                {((modelPortfolioFeature && !modelUseByOtherGroups) ||
-                  !modelPortfolioFeature) && (
-                  <MaxHeightSmallBtn
-                    onClick={() => {
-                      if (modelPortfolioFeature) {
-                        handleAddToModel(target);
-                      } else {
-                        handleAddTarget(target, false);
-                      }
-                    }}
+        {allLoading ? (
+          <Loading>
+            <FontAwesomeIcon icon={faSpinner} spin size="2x" />
+          </Loading>
+        ) : (
+          <ListOfAssets>
+            <ExcludeAll>
+              <ExcludeBtn onClick={() => handleExcludeAsset('', true)}>
+                Exclude All
+              </ExcludeBtn>
+            </ExcludeAll>
+            {targets?.map((target) => {
+              if (target.excluded) {
+                return false;
+              }
+              if (target.symbol.id === loadingId) {
+                return <FontAwesomeIcon icon={faSpinner} spin />;
+              }
+              return (
+                <StyledGrid columns="1fr 180px 200px" key={target.symbol.id}>
+                  <SymbolGrid columns="180px auto">
+                    <Symbol>{target.symbol.symbol}</Symbol>{' '}
+                    <Description>{target.symbol.description}</Description>
+                  </SymbolGrid>
+                  {((modelPortfolioFeature && !modelUseByOtherGroups) ||
+                    !modelPortfolioFeature) && (
+                    <MaxHeightSmallBtn
+                      onClick={() => {
+                        if (modelPortfolioFeature) {
+                          handleAddToModel(target);
+                        } else {
+                          return;
+                        }
+                      }}
+                    >
+                      {modelPortfolioFeature ? 'Add to Model' : 'Add to Target'}
+                    </MaxHeightSmallBtn>
+                  )}
+                  <ExcludeBtn
+                    onClick={() => handleExcludeAsset(target.symbol.id, false)}
                   >
-                    {modelPortfolioFeature ? 'Add to Model' : 'Add to Target'}
-                  </MaxHeightSmallBtn>
-                )}
-                <ExcludeBtn onClick={() => handleAddTarget(target, true)}>
-                  Exclude
-                </ExcludeBtn>
-              </StyledGrid>
-            );
-          })}
-        </ListOfAssets>
+                    Exclude
+                  </ExcludeBtn>
+                </StyledGrid>
+              );
+            })}
+          </ListOfAssets>
+        )}
 
         {modelPortfolioFeature ? (
           <small>

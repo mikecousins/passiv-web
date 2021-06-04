@@ -1459,6 +1459,20 @@ export const selectCurrentGroupPositionsNotInTargetOrExcluded = createSelector(
   },
 );
 
+export const selectCurrentGroupExcludedAssets = createSelector(
+  selectCurrentGroupPositionsNotInTargetOrExcluded,
+  (positionsNotInTargetOrExcluded) => {
+    return positionsNotInTargetOrExcluded
+      .map((position) => {
+        if (position.excluded) {
+          return position.symbol.id;
+        }
+        return false;
+      })
+      .filter((id) => typeof id === 'string');
+  },
+);
+
 export const selectCurrentGroupModelType = createSelector(
   selectCurrentGroupInfo,
   (groupInfo) => {

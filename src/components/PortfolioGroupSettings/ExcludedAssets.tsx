@@ -7,8 +7,9 @@ import {
   faCaretDown,
   faCaretUp,
   faSpinner,
+  faUndo,
 } from '@fortawesome/free-solid-svg-icons';
-import { deleteData, postData } from '../../api';
+import { postData } from '../../api';
 import { loadGroup } from '../../actions';
 import {
   selectCurrentGroupId,
@@ -22,6 +23,11 @@ import { Description } from '../ModelPortfolio/Prioritization';
 import { CheckBox } from '../../styled/CheckBox';
 import { toast } from 'react-toastify';
 import { Truncate } from '../../common';
+import {
+  ActionContainer,
+  Cancel,
+  Save,
+} from '../ModelPortfolio/Prioritization';
 
 const Container = styled.div`
   margin-bottom: 37px;
@@ -33,6 +39,30 @@ const Container = styled.div`
     margin-bottom: 37px;
   }
 `;
+
+const CheckAll = styled(Grid)`
+  border-bottom: 0.5px solid #bfb6b6;
+  max-width: 50%;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+  margin-left: 20px;
+  align-items: center;
+  @media (max-width: 900px) {
+    display: grid;
+    grid-gap: 20px;
+  }
+`;
+
+const CheckAllBox = styled(CheckBox)`
+  .checkmark {
+    border-color: var(--brand-blue);
+  }
+  .container input:checked ~ .checkmark {
+    background-color: var(--brand-blue);
+  }
+`;
+
 const Positions = styled(Grid)`
   margin-bottom: 20px;
   align-items: center;
@@ -54,6 +84,10 @@ const Symbol = styled.span<SymbolType>`
   @media (max-width: 900px) {
     margin-left: 30px;
   }
+`;
+
+const CheckAllLabel = styled(Symbol)`
+  color: var(--brand-blue);
 `;
 
 const Name = styled.span<SymbolType>`
@@ -90,6 +124,7 @@ const NumberOfExcludedAssets = styled(P)`
 const ExcludedAssets = () => {
   const dispatch = useDispatch();
   const groupId = useSelector(selectCurrentGroupId);
+  const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const currentGroupModelType = useSelector(selectCurrentGroupModelType);
   const positionsNotInTargetOrExcluded = useSelector(
@@ -99,39 +134,65 @@ const ExcludedAssets = () => {
   const setupComplete = useSelector(selectCurrentGroupSetupComplete);
   const [showAssets, setShowAssets] = useState(false);
 
+  //TODO change this to use ExcludedAssets selector
+  // create a list of assets ids that are excluded
+  const excludedIds = positionsNotInTargetOrExcluded
+    .map((position) => {
+      if (position.excluded) {
+        return position.symbol.id;
+      }
+      return false;
+    })
+    .filter((id) => typeof id === 'string');
+
+  const excludedAssetsCount = excludedIds.length;
+  const [excluded, setExcluded] = useState(excludedIds);
+
+  // see if all the assets are excluded (used for have Excluded All checkbox unchecked or checked )
+  const allExcluded = excluded.length === positionsNotInTargetOrExcluded.length;
+
   useEffect(() => {
     setLoading(groupInfoLoading);
+    setExcluded(excludedIds);
+    // eslint-disable-next-line
   }, [groupInfoLoading]);
 
-  const excludedAssetsCount = positionsNotInTargetOrExcluded.reduce(
-    (acc, val) => {
-      if (val.excluded) {
-        acc++;
-      }
-      return acc;
-    },
-    0,
+  // list of all asset ids
+  const listOfAllAssetIds = positionsNotInTargetOrExcluded.map(
+    (target) => target.symbol.id,
   );
-
-  const handleCheckBoxClick = (position: any) => {
-    setLoading(true);
-    const positionId = position.symbol.id;
-    if (currentGroupModelType === 1) {
-      let excluded = positionsNotInTargetOrExcluded
-        .map((position) => {
-          if (position.excluded) {
-            return position.symbol.id;
-          }
-          return false;
-        })
-        .filter((id) => typeof id === 'string');
-
-      if (position.excluded) {
-        excluded = excluded.filter((id) => id !== positionId);
+  const handleCheckBoxClick = (position: any, checkAll: boolean) => {
+    setEditing(true);
+    let excludedCopy = [...excluded];
+    // if check all clicked
+    if (checkAll) {
+      // if not all excluded, means we want to exclude all assets
+      if (!allExcluded) {
+        excludedCopy = listOfAllAssetIds;
       } else {
-        excluded.push(positionId);
+        excludedCopy = [];
       }
+    }
+    // else, the individual checkbox clicked
+    else {
+      const positionId = position.symbol.id;
+      // if position is already excluded, it means we want to unexclude it
+      if (excludedCopy.includes(positionId)) {
+        excludedCopy = excluded.filter((id) => id !== positionId);
+      }
+      // otherwise, add it to excluded list
+      else {
+        excludedCopy.push(positionId);
+      }
+    }
+    setExcluded(excludedCopy);
+  };
 
+  const handleSaveChanges = () => {
+    setLoading(true);
+    setEditing(false);
+    /* if an asset class based model */
+    if (currentGroupModelType === 1) {
       postData(
         `/api/v1/portfolioGroups/${groupId}/assetClassExcludeAssets`,
         excluded,
@@ -142,31 +203,18 @@ const ExcludedAssets = () => {
         .catch(() => {
           toast.error('Request failed. Please try again.');
           setLoading(false);
+          setExcluded(excludedIds);
         });
     } else {
-      if (position.excluded) {
-        deleteData(
-          `/api/v1/portfolioGroups/${groupId}/excludedassets/${positionId}`,
-        )
-          .then(() => {
-            dispatch(loadGroup({ ids: [groupId] }));
-          })
-          .catch(() => {
-            toast.error('Failed to unexclude the asset. Please try again.');
-            setLoading(false);
-          });
-      } else {
-        postData(`/api/v1/portfolioGroups/${groupId}/excludedassets/`, {
-          symbol: positionId,
+      postData(`/api/v1/portfolioGroups/${groupId}/excludedassets/`, excluded)
+        .then(() => {
+          dispatch(loadGroup({ ids: [groupId] }));
         })
-          .then(() => {
-            dispatch(loadGroup({ ids: [groupId] }));
-          })
-          .catch(() => {
-            toast.error('Failed to exclude the asset. Please try again.');
-            setLoading(false);
-          });
-      }
+        .catch(() => {
+          toast.error('Request failed. Please try again.');
+          setLoading(false);
+          setExcluded(excludedIds);
+        });
     }
   };
 
@@ -185,7 +233,15 @@ const ExcludedAssets = () => {
           <span>{positionsNotInTargetOrExcluded?.length}</span>{' '}
           {positionsNotInTargetOrExcluded.length === 1 ? 'asset' : 'assets'} not
           part of your portfolio ({excludedAssetsCount} excluded).
-          <button onClick={() => setShowAssets(!showAssets)}>
+          <button
+            onClick={() => {
+              setShowAssets(!showAssets);
+              if (!showAssets) {
+                setExcluded(excludedIds);
+                setEditing(false);
+              }
+            }}
+          >
             {showAssets ? 'Hide' : 'Show'}{' '}
             {showAssets ? (
               <FontAwesomeIcon icon={faCaretUp} size="lg" />
@@ -201,6 +257,36 @@ const ExcludedAssets = () => {
         positionsNotInTargetOrExcluded.length > 0 ? (
           showAssets && (
             <>
+              {editing && (
+                <ActionContainer>
+                  <Cancel
+                    onClick={() => {
+                      setExcluded(excludedIds);
+                      setEditing(false);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faUndo} size="sm" /> Undo changes
+                  </Cancel>
+                  <Save onClick={handleSaveChanges}>Save changes</Save>
+                </ActionContainer>
+              )}
+
+              <CheckAll columns="10px 180px">
+                <CheckAllBox>
+                  <label className="container">
+                    <input
+                      type="checkbox"
+                      checked={allExcluded}
+                      onChange={() => handleCheckBoxClick(0, true)}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                </CheckAllBox>
+                <CheckAllLabel disabled={false}>
+                  {allExcluded ? 'Unexclude all' : 'Exclude all'}
+                </CheckAllLabel>
+              </CheckAll>
+
               {positionsNotInTargetOrExcluded.map((position) => {
                 return (
                   <Positions key={position.symbol.id} columns="10px 180px auto">
@@ -208,8 +294,11 @@ const ExcludedAssets = () => {
                       <label className="container">
                         <input
                           type="checkbox"
-                          checked={position.excluded}
-                          onChange={() => handleCheckBoxClick(position)}
+                          checked={
+                            excluded.includes(position.symbol.id) ||
+                            !position.quotable
+                          }
+                          onChange={() => handleCheckBoxClick(position, false)}
                           disabled={!position.quotable}
                         />
                         <span className="checkmark"></span>
