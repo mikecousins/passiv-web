@@ -1490,6 +1490,9 @@ export const selectCurrentGroupAssetClassTradePriorities = createSelector(
     let newSecurities: string[] = [];
 
     tradePriorities?.forEach((priority) => {
+      if (priority.asset_class.priorities_need_verification) {
+        assetClassIds.push(priority.asset_class.id);
+      }
       // filter out "Excluded Assets" asset class for now
       if (
         priority.asset_class.name !== 'Excluded Assets' &&
@@ -1504,7 +1507,6 @@ export const selectCurrentGroupAssetClassTradePriorities = createSelector(
             account.do_not_trade.length === 0
           ) {
             account.sell_priority = account.unassigned;
-            assetClassIds.push(priority.asset_class.id);
           } else if (
             account.unassigned.length > 0 &&
             (account.sell_priority.length !== 0 ||
@@ -1515,16 +1517,11 @@ export const selectCurrentGroupAssetClassTradePriorities = createSelector(
             account.sell_priority = account.sell_priority.concat(
               account.unassigned,
             );
-
-            assetClassIds.push(priority.asset_class.id);
           }
           account.sell_priority.reverse();
         });
       }
     });
-    assetClassIds = assetClassIds.filter(
-      (value, index, array) => array.indexOf(value) === index,
-    );
     newSecurities = newSecurities.filter(
       (value, index, array) => array.indexOf(value) === index,
     );
