@@ -3,11 +3,12 @@ import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCogs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Group from '../components/Group';
-import { selectIsAuthorized } from '../selectors';
 import {
   selectDashboardGroups,
   selectGroupsLoading,
 } from '../selectors/groups';
+import { selectShowOnboardingApp } from '../selectors/app';
+import Welcome from '../components/Welcome';
 import DashboardReporting, {
   CustomizeDashBtn,
   CustomizeDashContainer,
@@ -31,7 +32,7 @@ import { selectShowInvestingCourse } from '../selectors/subscription';
 import WelcomePage from './WelcomePage';
 
 export const DashboardPage = () => {
-  const authorized = useSelector(selectIsAuthorized);
+  const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const groups = useSelector(selectDashboardGroups);
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
   const displayQuestradeConnectPrompt = useSelector(
@@ -41,12 +42,6 @@ export const DashboardPage = () => {
   const groupsLoading = useSelector(selectGroupsLoading);
 
   const [configMode, setConfigMode] = useState(false);
-
-  if (authorized === undefined) {
-    return <FontAwesomeIcon icon={faSpinner} spin />;
-  } else if (authorized === false) {
-    return <QuestradeAuthorizationPicker />;
-  }
 
   let groupDisplay = <FontAwesomeIcon icon={faSpinner} spin />;
 
@@ -96,6 +91,10 @@ export const DashboardPage = () => {
       visible: hasQuestradeConnection,
     },
   ];
+
+  if (showOnboardingApp) {
+    return <Welcome />;
+  }
 
   return (
     <React.Fragment>

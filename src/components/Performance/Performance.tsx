@@ -132,7 +132,7 @@ export const Performance = () => {
         </div>
       )}
 
-      {notSupportReporting && (
+      {notSupportReporting && notSupportReporting.length > 0 && (
         <NotSupported>
           <H2>
             <FontAwesomeIcon icon={faHourglassHalf} size="sm" /> Coming Soon ...

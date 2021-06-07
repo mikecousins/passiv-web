@@ -17,7 +17,7 @@ import { Button } from '../../styled/Button';
 import Tooltip from '../Tooltip';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { selectShowSecureApp } from '../../selectors';
+import { selectShowSecureApp } from '../../selectors/app';
 import { useDispatch, useSelector } from 'react-redux';
 import { getData, postData } from '../../api';
 import { loadModelPortfolios } from '../../actions';

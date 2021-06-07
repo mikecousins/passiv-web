@@ -15,6 +15,8 @@ import { CheckBox } from '../../../styled/CheckBox';
 import { AccountPriorities } from '../../../types/modelPortfolio';
 import { HandleBtnType } from './AssetClassPriority';
 import Tooltip from '../../Tooltip';
+import Tour from '../../Tour/Tour';
+import { AssetClassPrioritiesSteps } from '../../Tour/TourSteps';
 
 type SecurityProps = {
   isChanged: boolean;
@@ -148,6 +150,13 @@ const SecurityPriority = ({
 
   return (
     <div>
+      {index === 0 && (
+        <Tour
+          steps={AssetClassPrioritiesSteps}
+          name="asset_class_priorities_tour"
+        />
+      )}
+
       <Security
         columns={
           priorityKind === 'none'
@@ -162,11 +171,12 @@ const SecurityPriority = ({
         }
         priorityKind={priorityKind}
         key={symbolId}
+        className={priorityKind === 'buy' ? 'tour-priorities-buy-box' : ''}
       >
         {priorityKind === 'buy' ? (
           <div></div>
         ) : (
-          <CheckBox>
+          <CheckBox className="tour-priorities-do-not-trade">
             <label className="container">
               <input
                 type="checkbox"
@@ -212,7 +222,7 @@ const SecurityPriority = ({
         {priorityKind === 'buy' && !onMobile && !onTablet && (
           <H2>
             Buy{' '}
-            <Tooltip label="Choose ONE security to be bought in this account">
+            <Tooltip label="Choose ONE security to be bought in this account.">
               <FontAwesomeIcon icon={faInfoCircle} size="sm" />
             </Tooltip>
           </H2>

@@ -167,7 +167,6 @@ const MoreOptions = ({ model, shareModel }: Props) => {
     postData('api/v1/modelPortfolio', {})
       .then((res) => {
         const modelId = res.data.model_portfolio.id;
-        model.model_portfolio.name += '(Copy)';
         model.model_portfolio.share_portfolio = false;
         model.model_portfolio.total_assigned_portfolio_groups = 0;
 
@@ -205,7 +204,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
   const title = 'Check out my model portfolio on Passiv.com';
 
   return (
-    <div ref={node}>
+    <div ref={node} className="tour-more-options">
       <EllipsisButton onClick={() => setShowOptions(!showOptions)}>
         <FontAwesomeIcon icon={faEllipsisV} />
       </EllipsisButton>
