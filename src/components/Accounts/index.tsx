@@ -56,16 +56,19 @@ export const GroupNote = styled(P)`
   padding-left: 30px;
 `;
 
-export const TutorialBtn = styled.button`
-  color: white;
-  background-color: var(--brand-green);
-  padding: 10px 20px;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 26px;
-  text-align: center;
-  letter-spacing: 0.25px;
-  margin: 10px 0px;
+export const TutorialLink = styled.div`
+  margin: 50px 0px 60px 0px;
+  a {
+    color: white;
+    background-color: var(--brand-green);
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 26px;
+    text-align: center;
+    letter-spacing: 0.25px;
+    text-decoration: none;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -207,7 +210,11 @@ const Accounts = () => {
   return (
     <React.Fragment>
       <Header>
-        {isOnboarding ? <H1>Organize your Accounts</H1> : <H2>Accounts</H2>}
+        {isOnboarding ? (
+          <H1>Group your Accounts in Porfolios</H1>
+        ) : (
+          <H2>Accounts</H2>
+        )}
 
         {!isOnboarding ? (
           isEditing ? (
@@ -232,10 +239,16 @@ const Accounts = () => {
         default, each account gets its own group. Drag and drop to reorganize.
       </PaddedP>
       {isOnboarding && (
-        <TutorialBtn>
-          Learn more about model portfolios{' '}
-          <FontAwesomeIcon icon={faExternalLinkAlt} />
-        </TutorialBtn>
+        <TutorialLink>
+          <a
+            href="https://passiv.com/help/tutorials/how-to-set-up-multi-account-portfolios/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn How to Set Up Multi-Account Portfolios{' '}
+            <FontAwesomeIcon icon={faExternalLinkAlt} />
+          </a>
+        </TutorialLink>
       )}
       <DragDropContext onDragEnd={onDragEnd}>
         {localAccounts.map((group) => (
@@ -345,7 +358,7 @@ const Accounts = () => {
       </DragDropContext>
       {isOnboarding && (
         <ButtonContainer>
-          <Continue onClick={() => dispatch(push('/'))}>
+          <Continue onClick={() => dispatch(push('/welcome?step=4'))}>
             Next Step
             <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
           </Continue>
