@@ -11,7 +11,7 @@ import { push } from 'connected-react-router';
 import { postData } from '../api';
 import { reloadEverything } from '../actions';
 import ShadowBox from '../styled/ShadowBox';
-import { A, H1, P } from '../styled/GlobalElements';
+import { A, H1, H2, H3, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
 import { selectQueryTokens } from '../selectors/router';
 import { Error } from '../types/groupInfo';
@@ -22,6 +22,10 @@ import { selectIsPaid } from '../selectors/subscription';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
 import { Description } from '../components/Onboarding /Intro';
+import Grid from '../styled/Grid';
+import { Authorization } from '../types/authorization';
+import { selectAccounts } from '../selectors/accounts';
+import { selectGroupsLoading } from '../selectors/groups';
 
 import goldStar from '../assets/images/gold-star.png';
 
@@ -77,24 +81,53 @@ const ExclamationIcon = styled.div`
   font-size: 75px;
 `;
 
+const NewConnectionContainer = styled(ShadowBox)`
+  margin-top: 20px;
+  padding: 50px;
+`;
+
+const NewConnection = styled(Grid)`
+  margin-top: 35px;
+  * {
+    text-align: left;
+  }
+`;
+
+const NewConnectionDetails = styled.div`
+  margin-bottom: 20px;
+  h3 {
+    font-size: 22px;
+    line-height: 29px;
+    letter-spacing: 0.2px;
+    span {
+      font-weight: 400;
+    }
+  }
+`;
+
 type Props = {
   brokerageName: string;
 };
 
 const BrokeragesOauthPage = ({ brokerageName }: Props) => {
+  const dispatch = useDispatch();
+  const queryParams = useSelector(selectQueryTokens);
+  const isPaid = useSelector(selectIsPaid);
+  const brokerages = useSelector(selectBrokerages);
+  const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
+  const accounts = useSelector(selectAccounts);
+  const groupLoading = useSelector(selectGroupsLoading);
+
   const [loading, setLoading] = useState(false);
   const [showUpgradeOffer, setShowUpgradeOffer] = useState(false);
   const [error, setError] = useState<Error>();
-  const queryParams = useSelector(selectQueryTokens);
-  const isPaid = useSelector(selectIsPaid);
-  const dispatch = useDispatch();
-  const brokerages = useSelector(selectBrokerages);
-  const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const [token, setToken] = useState<any>(null);
   const [tokenConfirmed, setTokenConfirmed] = useState<boolean>(false);
   const [requestStarted, setRequestStarted] = useState<boolean>(false);
-
   const [connectedSuccessfully, setConnectedSuccessfully] = useState(false);
+  const [newConnectionDetails, setNewConnectionDetails] = useState<
+    Authorization
+  >();
 
   if (tokenConfirmed === false) {
     if (brokerageName === 'Interactive Brokers') {
@@ -133,7 +166,8 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
       setRequestStarted(true);
       setLoading(true);
       postData('/api/v1/brokerages/authComplete/', token)
-        .then(() => {
+        .then((res) => {
+          setNewConnectionDetails(res.data);
           setLoading(false);
           dispatch(reloadEverything());
           setConnectedSuccessfully(true);
@@ -344,6 +378,58 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
           Thanks for connecting your {brokerageName} account! Connect another
           brokerage or move on to the next step!
         </Description>
+        {newConnectionDetails && (
+          <NewConnectionContainer>
+            {groupLoading ? (
+              <H2>
+                Loading new connection details{' '}
+                <FontAwesomeIcon icon={faSpinner} spin />
+              </H2>
+            ) : (
+              <>
+                <H2>Your New Connection Details</H2>
+                <NewConnection columns="1fr 1fr">
+                  <div>
+                    <NewConnectionDetails>
+                      <H3>
+                        Brokerage: <span>{brokerageName}</span>
+                      </H3>
+                    </NewConnectionDetails>
+                    <NewConnectionDetails>
+                      <H3>
+                        Name: <span>{newConnectionDetails.name}</span>
+                      </H3>
+                    </NewConnectionDetails>
+                    <NewConnectionDetails>
+                      <H3>
+                        Status: <span>{newConnectionDetails.type}</span>
+                      </H3>
+                    </NewConnectionDetails>
+                  </div>
+                  <div>
+                    <NewConnectionDetails>
+                      <H3>Accounts: </H3>
+                    </NewConnectionDetails>
+                    <ul>
+                      {accounts
+                        .filter(
+                          (a) =>
+                            a.brokerage_authorization ===
+                            newConnectionDetails.id,
+                        )
+                        .map((account) => (
+                          <P key={account.id}>
+                            {account.name} ({account.number})
+                          </P>
+                        ))}
+                    </ul>
+                  </div>
+                </NewConnection>
+              </>
+            )}
+          </NewConnectionContainer>
+        )}
+
         <ActionContainer>
           <ConnectMore onClick={() => dispatch(push('/welcome?step=1'))}>
             Connect Another Account
