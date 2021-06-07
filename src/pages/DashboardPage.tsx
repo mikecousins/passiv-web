@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCogs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Group from '../components/Group';
@@ -8,13 +8,11 @@ import {
   selectGroupsLoading,
 } from '../selectors/groups';
 import { selectShowOnboardingApp } from '../selectors/app';
-import Welcome from '../components/Welcome';
 import DashboardReporting, {
   CustomizeDashBtn,
   CustomizeDashContainer,
 } from '../components/Performance/Dashboard/DashboardReporting';
 import HelpLinks from '../components/Dashboard/HelpLinks';
-import QuestradeAuthorizationPicker from '../components/QuestradeAuthorizationPicker';
 import ConnectQuestrade from '../components/ConnectQuestrade';
 import InvestingCourse from '../components/InvestingCourse';
 import {
@@ -30,8 +28,10 @@ import DashboardConfig from '../components/Performance/Dashboard/DashboardConfig
 import { DashboardGoalWidgets } from '../components/Goals/DashboardGoalWidgets';
 import { selectShowInvestingCourse } from '../selectors/subscription';
 import WelcomePage from './WelcomePage';
+import { push } from 'connected-react-router';
 
 export const DashboardPage = () => {
+  const dispatch = useDispatch();
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const groups = useSelector(selectDashboardGroups);
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
@@ -93,7 +93,7 @@ export const DashboardPage = () => {
   ];
 
   if (showOnboardingApp) {
-    return <Welcome />;
+    dispatch(push('/welcome'));
   }
 
   return (

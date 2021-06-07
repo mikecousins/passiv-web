@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faExclamationTriangle,
+  faLongArrowAltRight,
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
-import { push, replace } from 'connected-react-router';
+import { push } from 'connected-react-router';
 import { postData } from '../api';
 import { reloadEverything } from '../actions';
 import ShadowBox from '../styled/ShadowBox';
@@ -19,7 +21,9 @@ import { selectBrokerages, selectMaintenanceBrokerages } from '../selectors';
 import { selectIsPaid } from '../selectors/subscription';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
-import styled from '@emotion/styled';
+import { Description } from '../components/Onboarding /Intro';
+
+import goldStar from '../assets/images/gold-star.png';
 
 const ActionContainer = styled.div`
   margin-top: 44px;
@@ -30,6 +34,20 @@ const ActionContainer = styled.div`
   }
 `;
 
+const Star = styled.div`
+  background: url(${goldStar}) no-repeat;
+  background-size: contain;
+  width: 75px;
+  height: 75px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  transform: rotate(18deg);
+  @media (max-width: 900px) {
+    width: 60px;
+    height: 60px;
+  }
+`;
+
 export const Continue = styled(Button)`
   font-weight: 600;
   text-align: center;
@@ -37,6 +55,14 @@ export const Continue = styled(Button)`
   svg {
     margin-left: 10px;
   }
+`;
+
+const ConnectMore = styled(Button)`
+  background-color: var(--brand-green);
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.25px;
+  margin-right: 35px;
 `;
 
 const Container = styled(ShadowBox)`
@@ -56,7 +82,8 @@ type Props = {
 };
 
 const BrokeragesOauthPage = ({ brokerageName }: Props) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [showUpgradeOffer, setShowUpgradeOffer] = useState(false);
   const [error, setError] = useState<Error>();
   const queryParams = useSelector(selectQueryTokens);
   const isPaid = useSelector(selectIsPaid);
@@ -66,6 +93,8 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   const [token, setToken] = useState<any>(null);
   const [tokenConfirmed, setTokenConfirmed] = useState<boolean>(false);
   const [requestStarted, setRequestStarted] = useState<boolean>(false);
+
+  const [connectedSuccessfully, setConnectedSuccessfully] = useState(false);
 
   if (tokenConfirmed === false) {
     if (brokerageName === 'Interactive Brokers') {
@@ -105,40 +134,16 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
       setLoading(true);
       postData('/api/v1/brokerages/authComplete/', token)
         .then(() => {
+          setLoading(false);
           dispatch(reloadEverything());
+          setConnectedSuccessfully(true);
           if (brokerageName === 'Questrade' && !isPaid) {
-            setTimeout(() => {
-              dispatch(
-                replace(
-                  `/connected-brokerage?brokerage=${brokerageName}&status=2`,
-                ),
-              );
-            }, 1000);
-          } else {
-            setTimeout(() => {
-              dispatch(
-                replace(
-                  `/connected-brokerage?brokerage=${brokerageName}&status=1`,
-                ),
-              );
-            }, 1000);
+            setShowUpgradeOffer(true);
           }
         })
         .catch((error) => {
-          // if ibkr error, skip it
-          if (error.response.data.code === 1049) {
-            setTimeout(() => {
-              dispatch(
-                replace(
-                  `/connected-brokerage?brokerage=${brokerageName}&status=1`,
-                ),
-              );
-            }, 1000);
-          }
-          setTimeout(() => {
-            setLoading(false);
-            setError(error.response.data);
-          }, 3000);
+          setLoading(false);
+          setError(error.response.data);
         });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -173,6 +178,7 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   };
 
   let errorDisplay = null;
+  let overrideError = false; // IBKR
 
   if (error) {
     switch (error.code) {
@@ -251,6 +257,26 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
           </P>
         );
         break;
+      case '1049':
+        overrideError = true;
+        errorDisplay = (
+          <React.Fragment>
+            <P>
+              We have successfully connected your Interactive Brokers account,
+              but there is a 24-hour delay before your account information will
+              be available. You will receive an email letting you know when your
+              account data has been successfully synced.
+            </P>
+            <P>
+              If you don't receive an email within 2 days, please try again or{' '}
+              <PreLoadLink path={CONTACT_FORM_PATH}>
+                contact support
+              </PreLoadLink>
+              .
+            </P>
+          </React.Fragment>
+        );
+        break;
       case '1053':
         errorDisplay = (
           <React.Fragment>
@@ -309,7 +335,27 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
         <FontAwesomeIcon icon={faSpinner} spin />
       </H1>
     );
-  } else if (error) {
+  } else if (connectedSuccessfully || overrideError) {
+    result = (
+      <>
+        <Star></Star>
+        <H1>Connection Complete</H1>
+        <Description>
+          Thanks for connecting your {brokerageName} account! Connect another
+          brokerage or move on to the next step!
+        </Description>
+        <ActionContainer>
+          <ConnectMore onClick={() => dispatch(push('/welcome?step=1'))}>
+            Connect Another Account
+          </ConnectMore>
+          <Continue onClick={() => dispatch(push('/welcome?step=2'))}>
+            Continue to Next Step
+            <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
+          </Continue>
+        </ActionContainer>
+      </>
+    );
+  } else if (error && !overrideError) {
     result = (
       <React.Fragment>
         <ExclamationIcon>

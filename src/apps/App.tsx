@@ -104,10 +104,8 @@ const BrokeragesAuthPage = ReactLazyPreload(() =>
   ),
 );
 
-const ConnectedBrokeragePage = ReactLazyPreload(() =>
-  import(
-    /* webpackChunkName: "connected-brokerage" */ '../pages/ConnectedBrokerage'
-  ),
+const WelcomePage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "settings" */ '../pages/WelcomePage'),
 );
 
 const UpgradeOfferPage = ReactLazyPreload(() =>
@@ -451,6 +449,11 @@ const App = () => {
             )}
             {/* onboarding app */}
             {showSecureApp && (
+              <Route path="/welcome">
+                <WelcomePage />
+              </Route>
+            )}
+            {showSecureApp && (
               <Route path="/connect/:openBrokerage?">
                 <AuthorizationPage onboarding={true} />
               </Route>
@@ -469,12 +472,6 @@ const App = () => {
             {showSecureApp && <Route path="/upgrade" component={UpgradePage} />}
             {showSecureApp && <Route path="/coupon" component={CouponPage} />}
             {/* secure app */}
-            {showSecureApp && (
-              <Route
-                path="/connected-brokerage"
-                component={ConnectedBrokeragePage}
-              />
-            )}
             {showSecureApp && (
               <Route path="/reporting" component={PerformancePage} />
             )}
