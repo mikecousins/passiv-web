@@ -17,7 +17,11 @@ import { selectQueryTokens } from '../selectors/router';
 import { Error } from '../types/groupInfo';
 import PreLoadLink from '../components/PreLoadLink';
 import { CONTACT_FORM_PATH } from '../apps/Paths';
-import { selectBrokerages, selectMaintenanceBrokerages } from '../selectors';
+import {
+  selectBrokerages,
+  selectMaintenanceBrokerages,
+  selectOnboardingStep,
+} from '../selectors';
 import { selectIsPaid } from '../selectors/subscription';
 import { Brokerage as BrokerageType } from '../types/brokerage';
 import { toast } from 'react-toastify';
@@ -113,6 +117,7 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   const dispatch = useDispatch();
   const queryParams = useSelector(selectQueryTokens);
   const isPaid = useSelector(selectIsPaid);
+  const onboardingStep = useSelector(selectOnboardingStep);
   const brokerages = useSelector(selectBrokerages);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const accounts = useSelector(selectAccounts);
@@ -431,13 +436,21 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
         )}
 
         <ActionContainer>
-          <ConnectMore onClick={() => dispatch(push('/welcome?step=1'))}>
-            Connect Another Account
-          </ConnectMore>
-          <Continue onClick={() => dispatch(push('/welcome?step=2'))}>
-            Continue to Next Step
-            <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
-          </Continue>
+          {onboardingStep && onboardingStep <= 3 ? (
+            <>
+              <ConnectMore onClick={() => dispatch(push('/welcome?step=1'))}>
+                Connect Another Account
+              </ConnectMore>
+              <Continue onClick={() => dispatch(push('/welcome?step=2'))}>
+                Continue to Next Step
+                <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
+              </Continue>
+            </>
+          ) : (
+            <ConnectMore onClick={() => dispatch(push('/settings/connect'))}>
+              Connect Another Account
+            </ConnectMore>
+          )}
         </ActionContainer>
       </>
     );
