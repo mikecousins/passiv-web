@@ -193,7 +193,7 @@ export const selectCurrentGroupInfoError = createSelector(
   },
 );
 
-export const selectGroupsLoading = createSelector(
+export const selectAllGroupsLoading = createSelector(
   selectGroupsRaw,
   selectGroupInfo,
   (rawGroups, groupInfo) => {
@@ -202,6 +202,17 @@ export const selectGroupsLoading = createSelector(
       rawGroups.loading ||
       Object.entries(groupInfo).find((gp) => gp[1].loading)
     ) {
+      isLoading = true;
+    }
+    return isLoading;
+  },
+);
+
+export const selectGroupsLoading = createSelector(
+  selectGroupsRaw,
+  (rawGroups) => {
+    let isLoading = false;
+    if (rawGroups.loading) {
       isLoading = true;
     }
     return isLoading;
@@ -961,6 +972,15 @@ export const selectCurrentGroupTarget = createSelector(
           }, 0);
           currentAssetClass.push(assetClass);
         }
+        currentAssetClass.sort((a, b) => {
+          let a_is_supported = Number(a.is_supported);
+          let b_is_supported = Number(b.is_supported);
+          if (a_is_supported - b_is_supported === -1) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
       }
     });
 
@@ -973,12 +993,12 @@ export const selectCurrentGroupTarget = createSelector(
         return 0;
       }
     });
-
+    let toSort = rebalance_by_asset_class ? currentAssetClass : currentTarget;
     switch (groupInfo.settings.order_targets_by) {
       case 0:
         break;
       case 1:
-        currentTarget
+        toSort
           .sort((a, b) => {
             if (a.percent - b.percent === 0) {
               if (a.actualPercentage - b.actualPercentage === 0) {
@@ -993,7 +1013,7 @@ export const selectCurrentGroupTarget = createSelector(
           .reverse();
         break;
       case 2:
-        currentTarget
+        toSort
           .sort((a, b) => {
             if (a.actualPercentage - b.actualPercentage === 0) {
               if (a.percent - b.percent === 0) {
@@ -1008,7 +1028,7 @@ export const selectCurrentGroupTarget = createSelector(
           .reverse();
         break;
       case 3:
-        currentTarget
+        toSort
           .sort((a, b) => {
             let percentageErrorA =
               Math.round(
@@ -1032,7 +1052,7 @@ export const selectCurrentGroupTarget = createSelector(
           .reverse();
         break;
       case 4:
-        currentTarget.sort((a, b) => {
+        toSort.sort((a, b) => {
           let percentageErrorA =
             Math.round(
               ((a.percent - a.actualPercentage) / a.percent) * 100 * 10,

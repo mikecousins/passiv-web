@@ -5,7 +5,7 @@ import { faCogs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Group from '../components/Group';
 import {
   selectDashboardGroups,
-  selectGroupsLoading,
+  selectAllGroupsLoading,
 } from '../selectors/groups';
 import { selectShowOnboardingApp } from '../selectors/app';
 import DashboardReporting, {
@@ -39,7 +39,7 @@ export const DashboardPage = () => {
     selectDisplayQuestradeConnectPrompt,
   );
   const showInvestingCourse = useSelector(selectShowInvestingCourse);
-  const groupsLoading = useSelector(selectGroupsLoading);
+  const groupsLoading = useSelector(selectAllGroupsLoading);
 
   const [configMode, setConfigMode] = useState(false);
 
