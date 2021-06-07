@@ -136,7 +136,7 @@ const MyModelPortfoliosPage = () => {
   const [selectedModel, setSelectedModel] = useState<
     ModelPortfolio | undefined
   >();
-  const [showGroups, setShowGroups] = useState(false);
+  const [showGroups, setShowGroups] = useState<string>();
 
   let modelIdUseByGroup: string | undefined = '';
   if (groupId && groupInfo[groupId].data?.model_portfolio) {
@@ -254,10 +254,8 @@ const MyModelPortfoliosPage = () => {
           ? modelPortfolios.map((mdl) => {
               const totalAssignedGroups =
                 mdl.model_portfolio.total_assigned_portfolio_groups;
-              if (
-                modelIdUseByGroup &&
-                modelIdUseByGroup === mdl.model_portfolio.id
-              ) {
+              const modelId = mdl.model_portfolio.id;
+              if (modelIdUseByGroup && modelIdUseByGroup === modelId) {
                 if (modelPortfolios.length === 1) {
                   return noModelAvailable;
                 } else {
@@ -265,7 +263,7 @@ const MyModelPortfoliosPage = () => {
                 }
               }
               return (
-                <ShadowBox key={mdl.model_portfolio.id}>
+                <ShadowBox key={modelId}>
                   <Grid
                     columns={
                       groupId ? '50px 3fr 250px' : '50px 3fr 120px 150px'
@@ -287,18 +285,26 @@ const MyModelPortfoliosPage = () => {
                           <UsedByBadge>
                             In Use: {totalAssignedGroups} Group
                             {totalAssignedGroups > 1 && 's'}{' '}
-                            <button onClick={() => setShowGroups(!showGroups)}>
+                            <button
+                              onClick={() => {
+                                if (showGroups?.includes(modelId)) {
+                                  setShowGroups('');
+                                } else {
+                                  setShowGroups(modelId);
+                                }
+                              }}
+                            >
                               <FontAwesomeIcon
                                 icon={
-                                  showGroups
+                                  showGroups === modelId
                                     ? faChevronCircleLeft
                                     : faChevronCircleRight
                                 }
                                 color="var(--brand-green)"
                               />
                             </button>{' '}
-                            {showGroups && (
-                              <span>{makeLabel(mdl.model_portfolio.id)}</span>
+                            {showGroups === modelId && (
+                              <span>{makeLabel(modelId)}</span>
                             )}
                           </UsedByBadge>
                         )}
@@ -322,9 +328,9 @@ const MyModelPortfoliosPage = () => {
                     <StyledViewBtn className="tour-view-button">
                       <button
                         onClick={() => handleApplyOrViewBtn(mdl)}
-                        disabled={hasClickedApply === mdl.model_portfolio.id}
+                        disabled={hasClickedApply === modelId}
                       >
-                        {hasClickedApply === mdl.model_portfolio.id ? (
+                        {hasClickedApply === modelId ? (
                           <FontAwesomeIcon icon={faSpinner} spin />
                         ) : (
                           <>

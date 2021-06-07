@@ -193,7 +193,7 @@ export const selectCurrentGroupInfoError = createSelector(
   },
 );
 
-export const selectGroupsLoading = createSelector(
+export const selectAllGroupsLoading = createSelector(
   selectGroupsRaw,
   selectGroupInfo,
   (rawGroups, groupInfo) => {
@@ -202,6 +202,17 @@ export const selectGroupsLoading = createSelector(
       rawGroups.loading ||
       Object.entries(groupInfo).find((gp) => gp[1].loading)
     ) {
+      isLoading = true;
+    }
+    return isLoading;
+  },
+);
+
+export const selectGroupsLoading = createSelector(
+  selectGroupsRaw,
+  (rawGroups) => {
+    let isLoading = false;
+    if (rawGroups.loading) {
       isLoading = true;
     }
     return isLoading;
