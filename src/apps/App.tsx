@@ -260,8 +260,12 @@ const App = () => {
     if (newPath.length === 0) {
       newPath = '/';
     }
-    const newQuery = qs.stringify(queryParams);
-    newPath += '?' + newQuery;
+
+    if (Object.keys(queryParams).length > 0) {
+      const newQuery = qs.stringify(queryParams);
+      newPath += '?' + newQuery;
+    }
+
     window.location.replace(newPath);
   }
 
