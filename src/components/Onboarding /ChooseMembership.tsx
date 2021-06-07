@@ -109,12 +109,12 @@ const ChooseMembership = () => {
   return (
     <div>
       <H1>
-        {questradeOffer ? 'Congratulations!!' : 'Upgrade your membership'}
+        {questradeOffer ? 'Congratulations!!' : 'Choose your membership level'}
       </H1>
       <Description>
         {questradeOffer
           ? 'You are eligible for a FREE upgrade to Passiv Elite with your Questrade account!'
-          : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
+          : 'As a Passiv user you can choose between two membership options, Passiv Community and Passiv Elite. Community users can access Passiv for free whereas, Elite users get access to one-click trades as well as all of the other Passiv Elite features.'}
       </Description>
       <Cards columns="3fr 3fr">
         <Card>
