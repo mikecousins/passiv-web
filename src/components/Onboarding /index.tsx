@@ -52,6 +52,10 @@ const Onboarding = () => {
     // eslint-disable-next-line
   }, [router.location.query.step, onboardingStep]);
 
+  if (step === 6) {
+    dispatch(push('/'));
+  }
+
   return (
     <Container>
       {step === 5 && (
@@ -61,7 +65,7 @@ const Onboarding = () => {
             marginBottom: '30px',
           }}
         >
-          <button onClick={() => console.log('close')}>
+          <button onClick={() => dispatch(replace('/welcome?step=6'))}>
             <FontAwesomeIcon icon={faTimes} size="2x" />
           </button>
         </div>
