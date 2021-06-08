@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { selectIsPaid } from '../../selectors/subscription';
+import { selectDashboardGroups } from '../../selectors/groups';
 
 const Container = styled.div`
   padding: 20px 20px 0px 20px;
@@ -25,26 +26,34 @@ const Container = styled.div`
 const Onboarding = () => {
   const dispatch = useDispatch();
   const settings = useSelector(selectSettings);
+  const groups = useSelector(selectDashboardGroups);
   const onboardingStep = useSelector(selectOnboardingStep);
   const router = useSelector(selectRouter);
   const isPaid = useSelector(selectIsPaid);
 
   const [step, setStep] = useState(onboardingStep ? onboardingStep : 0);
 
+  const anySetupRemaining = groups
+    .map((group) => group.setupComplete)
+    .some((currentValue: any) => currentValue === false);
+
   useEffect(() => {
     let queryStep = router.location.query.step;
-    if (queryStep && +queryStep >= 0 && +queryStep < 6 && settings) {
+    if (queryStep === '2' && isPaid) {
+      queryStep = '3';
+    }
+    if (step === 4 && !anySetupRemaining) {
+      queryStep = '5';
+    }
+    if (queryStep && +queryStep >= 0 && +queryStep <= 6 && settings) {
       dispatch(replace('/welcome'));
       let newSettings = { ...settings };
-      if (+queryStep === 2 && isPaid) {
-        queryStep = '3';
-      }
       setStep(+queryStep);
       newSettings.onboarding_status = +queryStep;
       putData('/api/v1/settings/', newSettings)
         .then((res) => {
           dispatch(loadSettings());
-          if (res.data.onboarding_status === 4) {
+          if (res.data.onboarding_status >= 4) {
             setTimeout(() => {
               dispatch(push('/dashboard'));
             }, 100);
@@ -56,10 +65,6 @@ const Onboarding = () => {
     }
     // eslint-disable-next-line
   }, [router.location.query.step, onboardingStep]);
-
-  if (step === 6) {
-    dispatch(push('/'));
-  }
 
   return (
     <Container>
