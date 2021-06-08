@@ -47,8 +47,8 @@ export const DashboardPage = () => {
 
   let groupDisplay = <FontAwesomeIcon icon={faSpinner} spin />;
 
-  let anySetupRemaining = false;
   let anyTargets = true;
+  // let anySetupRemaining = false;
   if (groups) {
     groupDisplay = (
       <React.Fragment>
@@ -58,14 +58,14 @@ export const DashboardPage = () => {
       </React.Fragment>
     );
     let groupsSetupStatus = groups.map((group) => group.setupComplete);
-    const verifyAnyFalse = (currentValue: any) => currentValue === false;
+    // const verifyAnyFalse = (currentValue: any) => currentValue === false;
     const verifyAnyTrue = (currentValue: any) => currentValue === true;
 
-    anySetupRemaining = groupsSetupStatus.some(verifyAnyFalse);
+    // anySetupRemaining = groupsSetupStatus.some(verifyAnyFalse);
     anyTargets = !groupsSetupStatus.some(verifyAnyTrue);
   }
 
-  const onboardingNotDone = onboardingStep ? onboardingStep > 1 : false;
+  const onboardingNotDone = onboardingStep ? onboardingStep !== 6 : false;
 
   const messages: Message[] = [
     {

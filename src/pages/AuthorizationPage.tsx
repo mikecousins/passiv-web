@@ -169,7 +169,7 @@ const OpenAccountBtn = styled(Button)`
 
 const Ribbon = styled.div`
   width: 50px;
-  height: 57px;
+  height: 65px;
   background-color: #fdbc00;
   position: absolute;
   text-align: center;
