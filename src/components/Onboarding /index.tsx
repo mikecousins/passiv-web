@@ -16,6 +16,7 @@ import { loadSettings } from '../../actions';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { selectIsPaid } from '../../selectors/subscription';
 
 const Container = styled.div`
   padding: 20px 20px 0px 20px;
@@ -26,6 +27,7 @@ const Onboarding = () => {
   const settings = useSelector(selectSettings);
   const onboardingStep = useSelector(selectOnboardingStep);
   const router = useSelector(selectRouter);
+  const isPaid = useSelector(selectIsPaid);
 
   const [step, setStep] = useState(onboardingStep ? onboardingStep : 0);
 
@@ -33,8 +35,11 @@ const Onboarding = () => {
     let queryStep = router.location.query.step;
     if (queryStep && +queryStep >= 0 && +queryStep < 6 && settings) {
       dispatch(replace('/welcome'));
-      setStep(+queryStep);
       let newSettings = { ...settings };
+      if (+queryStep === 2 && isPaid) {
+        queryStep = '3';
+      }
+      setStep(+queryStep);
       newSettings.onboarding_status = +queryStep;
       putData('/api/v1/settings/', newSettings)
         .then((res) => {
