@@ -4,6 +4,7 @@ import { push, replace } from 'connected-react-router';
 import {
   faLongArrowAltLeft,
   faSpinner,
+  faStar,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -48,7 +49,17 @@ const Container3Column = styled(Grid)`
 `;
 
 const GrowBox = styled.div`
-  margin-top: 20px;
+  margin: 50px 0px;
+  height: 150px;
+`;
+
+const BiggerLogoContainer = styled.div`
+  padding: 20px;
+  max-height: 100px;
+  img {
+    max-width: 100%;
+    max-height: 100px;
+  }
 `;
 
 export const LogoContainer = styled.div`
@@ -154,6 +165,48 @@ const OpenAccountBtn = styled(Button)`
   line-height: 26px;
   text-align: center;
   letter-spacing: 0.25px;
+`;
+
+const Ribbon = styled.div`
+  width: 50px;
+  height: 57px;
+  background-color: #fdbc00;
+  position: absolute;
+  text-align: center;
+  margin-left: 10px;
+  p {
+    font-size: 12px;
+    line-height: 100%;
+    text-align: center;
+    letter-spacing: 0.2px;
+  }
+  svg {
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    right: 0px;
+    bottom: -15px;
+    border-left: 24px solid #fdbc00;
+    border-right: 26px solid #fdbc00;
+    border-bottom: 15px solid transparent;
+    border-bottom-color: transparent;
+    border-bottom-style: solid;
+    border-bottom-width: 15px;
+  }
+  &:after {
+    content: '';
+    width: 50px;
+    height: 55px;
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    bottom: -120px;
+    background-color: white;
+  }
 `;
 
 type Props = {
@@ -262,6 +315,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
         </P>
       ),
       type: 'traditional',
+      teamPick: true,
     },
     {
       id: 'alpaca',
@@ -282,6 +336,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
         </P>
       ),
       type: 'traditional',
+      teamPick: false,
     },
     {
       id: 'interactivebrokers',
@@ -355,6 +410,23 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
         </P>
       ),
       type: 'traditional',
+      teamPick: false,
+    },
+    {
+      id: 'bitbuy',
+      name: 'Bitbuy',
+      displayName: 'Bitbuy',
+      connect: () => {
+        startConnection('Bitbuy', 'trade');
+      },
+      confirmPrompt: null,
+      defaultConnectionType: 'trade',
+      openURL: '',
+      major: true,
+      logo: BitbuyLogo,
+      description: <P>Bitbuy is a Canadian cryptocurrency exchange.</P>,
+      type: 'crypto',
+      teamPick: true,
     },
     {
       id: 'tdameritrade',
@@ -375,6 +447,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
         </P>
       ),
       type: 'traditional',
+      teamPick: false,
     },
     {
       id: 'tradier',
@@ -395,7 +468,9 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
         </P>
       ),
       type: 'traditional',
+      teamPick: false,
     },
+
     {
       id: 'kraken',
       name: 'Kraken',
@@ -415,6 +490,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
         </P>
       ),
       type: 'crypto',
+      teamPick: false,
     },
     {
       id: 'unocoin',
@@ -436,6 +512,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
         </P>
       ),
       type: 'crypto',
+      teamPick: false,
     },
     {
       id: 'wealthica',
@@ -496,6 +573,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
         </P>
       ),
       type: 'aggregator',
+      teamPick: false,
     },
     {
       id: 'zerodha',
@@ -516,21 +594,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
         </P>
       ),
       type: 'traditional',
-    },
-    {
-      id: 'bitbuy',
-      name: 'Bitbuy',
-      displayName: 'Bitbuy',
-      connect: () => {
-        startConnection('Bitbuy', 'trade');
-      },
-      confirmPrompt: null,
-      defaultConnectionType: 'trade',
-      openURL: '',
-      major: true,
-      logo: BitbuyLogo,
-      description: <P>Bitbuy is a Canadian cryptocurrency exchange.</P>,
-      type: 'crypto',
+      teamPick: false,
     },
   ];
 
@@ -666,17 +730,24 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
             Follow a link below to create a brokerage account with one of our
             partners.
           </AuthP>
-          <BrokerageOptions columns="1fr 1fr">
+          <BrokerageOptions columns="1fr 1fr 1fr">
             {brokerageOptions.map((brokerage: any) => {
               return (
                 <Brokerage>
+                  {brokerage.teamPick && (
+                    <Ribbon>
+                      <FontAwesomeIcon icon={faStar} color="white" />
+                      <P>Team Pick</P>
+                    </Ribbon>
+                  )}
+
                   <OpenBox>
-                    <LogoContainer>
+                    <BiggerLogoContainer>
                       <img
                         src={brokerage.logo}
                         alt={`${brokerage.name} Logo`}
                       />
-                    </LogoContainer>
+                    </BiggerLogoContainer>
                     <GrowBox>{brokerage.description}</GrowBox>
                     <OpenAccountBtn
                       onClick={() => {
@@ -685,7 +756,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
                     >
                       Open
                       {'aeiou'.includes(brokerage.name[0].toLowerCase())}{' '}
-                      {brokerage.name} Account
+                      {brokerage.displayName} Account
                     </OpenAccountBtn>
                   </OpenBox>
                 </Brokerage>

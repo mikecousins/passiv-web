@@ -11,7 +11,7 @@ import ShadowBox from '../../styled/ShadowBox';
 import { Description } from './Intro';
 
 const Cards = styled(Grid)`
-  margin-top: 20px;
+  margin-top: 40px;
 `;
 
 const Card = styled(ShadowBox)`
@@ -69,14 +69,13 @@ const PlanDetails = styled.ul`
 
 const ButtonContainer = styled.div`
   text-align: center;
-  margin: 20px 0px;
   button {
+    margin: 20px 0px;
     text-transform: uppercase;
     font-weight: 600;
     font-size: 20px;
     letter-spacing: 0.02em;
     padding: 17px 62px 15px;
-    text-align: center;
   }
 `;
 
@@ -143,7 +142,17 @@ const ChooseMembership = () => {
             })}
           </PlanDetails>
           <ButtonContainer>
-            <Button onClick={() => dispatch(push('/questrade-offer'))}>
+            <Button
+              onClick={() =>
+                dispatch(
+                  push(
+                    questradeOffer
+                      ? '/questrade-offer?onboarding=true'
+                      : '/settings',
+                  ),
+                )
+              }
+            >
               {questradeOffer ? 'Get Elite For Free' : 'Get Elite'}
             </Button>
           </ButtonContainer>

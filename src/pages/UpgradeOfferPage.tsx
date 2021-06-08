@@ -1,32 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectRouter } from '../selectors/router';
 import styled from '@emotion/styled';
 import { postData } from '../api';
 import { loadSubscription } from '../actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faEnvelopeSquare } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSpinner,
+  faEnvelopeSquare,
+  faExternalLinkAlt,
+  faExclamationTriangle,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   faTwitterSquare,
   faFacebookSquare,
 } from '@fortawesome/free-brands-svg-icons';
-import ShadowBox from '../styled/ShadowBox';
-import { H1, P, AButton } from '../styled/GlobalElements';
-import { Step } from '../styled/SignupSteps';
+import { H1, P } from '../styled/GlobalElements';
 import { Error } from '../types/groupInfo';
 import { Button } from '../styled/Button';
 import { push } from 'connected-react-router';
 import PreLoadLink from '../components/PreLoadLink';
 import { CONTACT_FORM_PATH } from '../apps/Paths';
-
-const ModifiedShadowBox = styled(ShadowBox)`
-  margin-bottom: 10px;
-  position: relative;
-  padding-top: 20px;
-  @media (max-width: 900px) {
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
-`;
+import { Container, ExclamationIcon, Star } from './BrokeragesOauthPage';
+import { TutorialLink } from '../components/Accounts';
 
 const Bold = styled.span`
   font-weight: 600;
@@ -62,9 +58,7 @@ const ShareText = styled.div`
 const AButtonBox = styled.div`
   p {
     padding-top: 30px;
-    padding-bottom: 15px;
   }
-  margin-bottom: 20px;
 `;
 
 const shareURL = 'https://passiv.com/questrade-offer';
@@ -78,14 +72,14 @@ const shareEmailBodyCopy = `Hey%2C%20I%20just%20found%20out%20that%20Questrade%2
 const shareFacebookLink = `${shareURL}`;
 
 const UpgradeOfferPage = () => {
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error>();
   const [success, setSuccess] = useState(false);
-  const dispatch = useDispatch();
+  const router = useSelector(selectRouter);
+  const isOnboarding = router.location.query.onboarding;
 
   useEffect(() => {
-    setLoading(true);
-
     postData('/api/v1/offer/', {})
       .then(() => {
         dispatch(loadSubscription());
@@ -150,21 +144,26 @@ const UpgradeOfferPage = () => {
               have a Questrade account linked to Passiv. Just connect your
               account and come back here to claim the offer!
             </P>
-            <Button onClick={() => dispatch(push('/settings/connect'))}>
-              Connect Questrade
-            </Button>
+            <div>
+              <Button onClick={() => dispatch(push('/settings/connect'))}>
+                Connect Questrade
+              </Button>
+            </div>
             <AButtonBox>
               <P>
                 Don't have a Questrade account yet? Open one using this link and
                 you'll be eligible to claim this offer!
               </P>
-              <AButton
-                href="https://www.questrade.com/account-selection?oaa_promo=passiv"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Open a Questrade Account
-              </AButton>
+              <TutorialLink>
+                <a
+                  href="https://www.questrade.com/account-selection?oaa_promo=passiv"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open a Questrade Account{' '}
+                  <FontAwesomeIcon icon={faExternalLinkAlt} />
+                </a>
+              </TutorialLink>
             </AButtonBox>
           </React.Fragment>
         );
@@ -201,44 +200,51 @@ const UpgradeOfferPage = () => {
     }
   }
 
-  if (success) {
-    return (
-      <ModifiedShadowBox background="#04a287">
-        <H1>Questrade Elite Upgrade</H1>
+  let result = null;
+
+  if (loading) {
+    result = (
+      <H1>
+        We're upgrading your account, hang tight!{' '}
+        <FontAwesomeIcon icon={faSpinner} spin />
+      </H1>
+    );
+  } else if (!success) {
+    result = (
+      <div>
+        <Star></Star>
+        <H1>You are now a Elite member</H1>
         <P>
-          You're good to go! You will have <Bold>free</Bold> access to Passiv
+          You're good to go! You will have <Bold>FREE</Bold> access to Passiv
           Elite as long as your Questrade account is connected to Passiv.
         </P>
-        <P>
+        {/* <P>
           Spread the good news and tell your friends about this offer. Share
           this link using Twitter, Facebook, email, or whatever you prefer!
         </P>
-        {shareBox}
-        <Button onClick={() => dispatch(push('/dashboard'))}>
-          Go to Dashboard
+        {shareBox} */}
+
+        <Button
+          onClick={() =>
+            dispatch(push(!isOnboarding ? '/welcome?step=3' : '/dashboard'))
+          }
+        >
+          {isOnboarding ? 'Next Step' : 'Go to Dashboard'}
         </Button>
-      </ModifiedShadowBox>
+      </div>
     );
   } else {
-    return (
-      <ModifiedShadowBox background="#04a287">
-        <H1>Questrade Elite Upgrade</H1>
-        {loading ? (
-          <React.Fragment>
-            <Step>
-              We're upgrading your account, hang tight!{' '}
-              <FontAwesomeIcon icon={faSpinner} spin />
-            </Step>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <Step>Oops, we couldn't apply the offer to your account!</Step>
-            {errorMessage}
-          </React.Fragment>
-        )}
-      </ModifiedShadowBox>
+    result = (
+      <React.Fragment>
+        <ExclamationIcon>
+          <FontAwesomeIcon icon={faExclamationTriangle} color="orange" />
+        </ExclamationIcon>
+        <H1>Oops, we couldn't apply the offer to your account!</H1>
+        {errorMessage}
+      </React.Fragment>
     );
   }
+  return <Container> {result}</Container>;
 };
 
 export default UpgradeOfferPage;

@@ -22,6 +22,7 @@ import {
 import {
   selectHasQuestradeConnection,
   selectDisplayQuestradeConnectPrompt,
+  selectOnboardingStep,
 } from '../selectors';
 import TotalHoldings from '../components/TotalHoldings';
 import DashboardConfig from '../components/Performance/Dashboard/DashboardConfig';
@@ -40,6 +41,7 @@ export const DashboardPage = () => {
   );
   const showInvestingCourse = useSelector(selectShowInvestingCourse);
   const groupsLoading = useSelector(selectAllGroupsLoading);
+  const onboardingStep = useSelector(selectOnboardingStep);
 
   const [configMode, setConfigMode] = useState(false);
 
@@ -63,6 +65,8 @@ export const DashboardPage = () => {
     anyTargets = !groupsSetupStatus.some(verifyAnyTrue);
   }
 
+  const onboardingNotDone = onboardingStep ? onboardingStep > 1 : false;
+
   const messages: Message[] = [
     {
       name: 'connect_questrade',
@@ -72,7 +76,7 @@ export const DashboardPage = () => {
     {
       name: 'onboarding_dashboard',
       content: <WelcomePage />,
-      visible: true, //TODO: this should be set dynamically
+      visible: onboardingNotDone,
     },
     {
       name: 'investing_course',

@@ -68,6 +68,13 @@ export const TutorialLink = styled.div`
     text-align: center;
     letter-spacing: 0.25px;
     text-decoration: none;
+    svg {
+      margin-left: 10px;
+    }
+    @media (max-width: 900px) {
+      padding: 5px;
+      font-size: 18px;
+    }
   }
 `;
 

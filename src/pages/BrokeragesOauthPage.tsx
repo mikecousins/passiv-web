@@ -42,7 +42,7 @@ const ActionContainer = styled.div`
   }
 `;
 
-const Star = styled.div`
+export const Star = styled.div`
   background: url(${goldStar}) no-repeat;
   background-size: contain;
   width: 75px;
@@ -73,7 +73,7 @@ const ConnectMore = styled(Button)`
   margin-right: 35px;
 `;
 
-const Container = styled(ShadowBox)`
+export const Container = styled(ShadowBox)`
   background-color: var(--brand-light-green);
   padding: 50px;
   * {
@@ -81,7 +81,7 @@ const Container = styled(ShadowBox)`
   }
 `;
 
-const ExclamationIcon = styled.div`
+export const ExclamationIcon = styled.div`
   font-size: 75px;
 `;
 
@@ -133,6 +133,8 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   const [newConnectionDetails, setNewConnectionDetails] = useState<
     Authorization
   >();
+
+  const isOnboarding = onboardingStep && onboardingStep <= 3;
 
   if (tokenConfirmed === false) {
     if (brokerageName === 'Interactive Brokers') {
@@ -375,6 +377,43 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
       </H1>
     );
   } else if (connectedSuccessfully || overrideError) {
+    if (showUpgradeOffer) {
+      result = (
+        <div>
+          <Star></Star>
+          <P>
+            Congratulations!! You are eligible for a FREE upgrade to Passiv
+            Elite with your Questrade account!
+          </P>
+          <P>
+            <A
+              href="https://www.questrade.com/self-directed-investing/tools/partners/passiv"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Questrade
+            </A>{' '}
+            offers Passiv Elite as a free tool for Questrade customers. It's
+            available for free as long as you keep your Questrade account
+            connected to Passiv.
+          </P>
+          <P>
+            You’ll get access to all basic features plus the option to{' '}
+            <A
+              href="https://passiv.com/help/tutorials/how-to-use-one-click-trades/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              place orders through Passiv
+            </A>{' '}
+            in just one click.
+          </P>
+          <Button onClick={() => dispatch(push('/questrade-offer'))}>
+            Upgrade Now
+          </Button>
+        </div>
+      );
+    }
     result = (
       <>
         <Star></Star>
@@ -436,7 +475,7 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
         )}
 
         <ActionContainer>
-          {onboardingStep && onboardingStep <= 3 ? (
+          {isOnboarding ? (
             <>
               <ConnectMore onClick={() => dispatch(push('/welcome?step=1'))}>
                 Connect Another Account
