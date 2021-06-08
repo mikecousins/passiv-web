@@ -6,7 +6,13 @@ import Grid from '../../styled/Grid';
 import onboardingTrophy from '../../assets/images/onboardingTrophy.png';
 import { TutorialLink } from '../Accounts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChartPie,
+  faCogs,
+  faExternalLinkAlt,
+  faMoneyBillWave,
+  faTrophy,
+} from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
   * {
@@ -50,23 +56,27 @@ const OnboardingFinished = () => {
       <TrophyImage></TrophyImage>
       <H1>Congratulations, you are ready to go!</H1>
       <P>Some cool things to look forward to using Passiv</P>
-      <TopFeatures columns="repeat(2, 1fr)">
+      <TopFeatures columns="repeat(2, 3fr)">
         <Feature>
+          <FontAwesomeIcon icon={faCogs} size="4x" />
           <P>
             Customize your <br /> experience in settings
           </P>
         </Feature>
         <Feature>
+          <FontAwesomeIcon icon={faChartPie} size="4x" />
           <P>
             Create and share <br /> Model Portfolios
           </P>
         </Feature>
         <Feature>
+          <FontAwesomeIcon icon={faTrophy} size="4x" />
           <P>
             Create goals to <br /> stay on track
           </P>
         </Feature>
         <Feature>
+          <FontAwesomeIcon icon={faMoneyBillWave} size="4x" />
           <P>
             Refer friends to earn <br />
             money{' '}
