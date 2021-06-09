@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { push, replace } from 'connected-react-router';
 import {
   faLongArrowAltLeft,
+  faLongArrowAltRight,
   faSpinner,
   faStar,
 } from '@fortawesome/free-solid-svg-icons';
@@ -34,6 +35,7 @@ import { CONTACT_FORM_PATH } from '../apps/Paths';
 import PreLoadLink from '../components/PreLoadLink';
 import { Description } from '../components/Onboarding /Intro';
 import Grid from '../styled/Grid';
+import { Continue } from './BrokeragesOauthPage';
 
 const VerticalPadding = styled.div`
   padding-top: 10px;
@@ -207,6 +209,10 @@ const Ribbon = styled.div`
     bottom: -120px;
     background-color: white;
   }
+`;
+
+const NextStep = styled.span`
+  float: right;
 `;
 
 type Props = {
@@ -786,6 +792,16 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
                   <BackBtn onClick={() => dispatch(push('/welcome?step=0'))}>
                     <FontAwesomeIcon icon={faLongArrowAltLeft} /> Go Back
                   </BackBtn>
+                  {authorized && (
+                    <NextStep>
+                      <Continue
+                        onClick={() => dispatch(push('/welcome?step=2'))}
+                      >
+                        Next Step
+                        <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
+                      </Continue>
+                    </NextStep>
+                  )}
                 </VerticalPadding>
               </LinkContainer>
             ) : (
