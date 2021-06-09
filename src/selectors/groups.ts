@@ -970,15 +970,6 @@ export const selectCurrentGroupTarget = createSelector(
           }, 0);
           currentAssetClass.push(assetClass);
         }
-        currentAssetClass.sort((a, b) => {
-          let a_is_supported = Number(a.is_supported);
-          let b_is_supported = Number(b.is_supported);
-          if (a_is_supported - b_is_supported === -1) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
       }
     });
 
@@ -994,6 +985,21 @@ export const selectCurrentGroupTarget = createSelector(
     let toSort = rebalance_by_asset_class ? currentAssetClass : currentTarget;
     switch (groupInfo.settings.order_targets_by) {
       case 0:
+        toSort.sort((a, b) => {
+          if (rebalance_by_asset_class) {
+            if (a.name.toUpperCase() < b.name.toUpperCase()) {
+              return -1;
+            } else {
+              return 1;
+            }
+          } else {
+            if (a.fullSymbol.symbol < b.fullSymbol.symbol) {
+              return -1;
+            } else {
+              return 1;
+            }
+          }
+        });
         break;
       case 1:
         toSort
