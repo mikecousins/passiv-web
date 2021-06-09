@@ -335,13 +335,14 @@ const ModelPortoflioBox = ({
     }
     postData(`api/v1/portfolioGroups/${gpId}/modelPortfolio/${modelId}`, {})
       .then((res) => {
-        dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page
         dispatch(loadModelPortfolios());
         if (editMode) {
+          dispatch(loadGroup({ ids: [gpId] }));
           toast.success(
             `Changes are saved for "${modelPortfolio.model_portfolio.name}"`,
           );
         } else {
+          dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page
           toast.success(
             `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
           );
