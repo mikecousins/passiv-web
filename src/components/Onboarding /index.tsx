@@ -3,7 +3,11 @@ import styled from '@emotion/styled';
 import OnboardingProgress from './OnboardingProgress';
 import Intro from './Intro';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectOnboardingStep, selectSettings } from '../../selectors';
+import {
+  selectIsAuthorized,
+  selectOnboardingStep,
+  selectSettings,
+} from '../../selectors';
 import AuthorizationPage from '../../pages/AuthorizationPage';
 import { selectRouter } from '../../selectors/router';
 import Accounts from '../Accounts/index';
@@ -30,6 +34,7 @@ const Onboarding = () => {
   const onboardingStep = useSelector(selectOnboardingStep);
   const router = useSelector(selectRouter);
   const isPaid = useSelector(selectIsPaid);
+  const isAuthorized = useSelector(selectIsAuthorized);
 
   const [step, setStep] = useState(onboardingStep ? onboardingStep : 0);
 
@@ -39,6 +44,9 @@ const Onboarding = () => {
 
   useEffect(() => {
     let queryStep = router.location.query.step;
+    if (step === 6 && !isAuthorized) {
+      queryStep = '0';
+    }
     if (queryStep === '2' && isPaid) {
       queryStep = '3';
     }
