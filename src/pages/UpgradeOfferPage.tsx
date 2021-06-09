@@ -209,7 +209,7 @@ const UpgradeOfferPage = () => {
         <FontAwesomeIcon icon={faSpinner} spin />
       </H1>
     );
-  } else if (!success) {
+  } else if (success) {
     result = (
       <div>
         <Star></Star>
