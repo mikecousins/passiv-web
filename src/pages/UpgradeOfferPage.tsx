@@ -226,7 +226,7 @@ const UpgradeOfferPage = () => {
 
         <Button
           onClick={() =>
-            dispatch(push(!isOnboarding ? '/welcome?step=3' : '/dashboard'))
+            dispatch(push(isOnboarding ? '/welcome?step=3' : '/dashboard'))
           }
         >
           {isOnboarding ? 'Next Step' : 'Go to Dashboard'}
