@@ -382,8 +382,8 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
         <div>
           <Star></Star>
           <P>
-            Congratulations!! You are eligible for a FREE upgrade to Passiv
-            Elite with your Questrade account!
+            Congratulations!! You are eligible for a <strong>FREE</strong>{' '}
+            upgrade to Passiv Elite with your Questrade account!
           </P>
           <P>
             <A
