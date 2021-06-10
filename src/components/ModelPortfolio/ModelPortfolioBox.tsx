@@ -247,6 +247,7 @@ const ModelPortoflioBox = ({
   const [clearInputSelector, setClearInputSelector] = useState(0);
   const [duplicateNameError, setDuplicateNameError] = useState(false);
   const [applyingModel, setApplyingModel] = useState(false);
+  const [savingChanges, setSavingChanges] = useState(false);
 
   const group = useSelector(selectGroupInfoForModelPortfolio);
   const groupsUsingModel = useSelector(selectGroupsUsingAModel);
@@ -341,7 +342,6 @@ const ModelPortoflioBox = ({
           toast.success(
             `Changes are saved for "${modelPortfolio.model_portfolio.name}"`,
           );
-          toggleEditMode();
         } else {
           dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page
           toast.success(
@@ -421,6 +421,7 @@ const ModelPortoflioBox = ({
             return errors;
           }}
           onSubmit={(values, actions) => {
+            setSavingChanges(true);
             if (securityBased) {
               modelPortfolio.model_portfolio_security = values.targets;
             } else {
@@ -429,12 +430,18 @@ const ModelPortoflioBox = ({
             postData(`/api/v1/modelPortfolio/${modelId}`, modelPortfolio)
               .then(() => {
                 dispatch(loadModelPortfolios());
-                if (editMode && assignedPortfolioGroups > 0) {
-                  applyModel();
+                if (editMode) {
+                  if (assignedPortfolioGroups > 0) {
+                    applyModel();
+                  }
+                  if (!groupId) {
+                    toggleEditMode();
+                    setSavingChanges(false);
+                  }
+                } else {
+                  setSavingChanges(false);
                 }
-                if (editMode && !applyMode) {
-                  toggleEditMode();
-                }
+
                 actions.resetForm();
                 actions.setSubmitting(false);
                 actions.setStatus({ submitted: true });
@@ -702,11 +709,13 @@ const ModelPortoflioBox = ({
                       onClick={() => {
                         props.handleSubmit();
                       }}
-                      disabled={!props.dirty || !props.isValid}
+                      disabled={
+                        !props.dirty || !props.isValid || props.isSubmitting
+                      }
                     >
-                      {applyingModel ? (
+                      {savingChanges ? (
                         <>
-                          Saving Changes{' '}
+                          Saving changes{' '}
                           <FontAwesomeIcon icon={faSpinner} spin />
                         </>
                       ) : (
@@ -715,7 +724,7 @@ const ModelPortoflioBox = ({
                     </EditModel>
                   </>
                 )}
-                {editMode && !applyingModel && (
+                {editMode && !savingChanges && (
                   <CancelButton
                     type="button"
                     onClick={() => {
