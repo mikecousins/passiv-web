@@ -49,6 +49,7 @@ const InvestingCourse = () => {
   return (
     <React.Fragment>
       <ShadowBoxwImage>
+        <HideButton name={'investing_course'} xButton={true} />
         <H2styled>Take a free Investing Course</H2styled>
         <Pstyled>Learning to invest doesn't have to be daunting.</Pstyled>
         <Pstyled>
@@ -82,7 +83,6 @@ const InvestingCourse = () => {
             <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
           </TakeCourse>
         </Pstyled>
-        <HideButton name={'investing_course'} text={'Skip'} />
       </ShadowBoxwImage>
     </React.Fragment>
   );

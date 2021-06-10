@@ -18,10 +18,9 @@ import ChooseMembership from './ChooseMembership';
 import { putData } from '../../api';
 import { loadSettings } from '../../actions';
 import { toast } from 'react-toastify';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { selectIsPaid } from '../../selectors/subscription';
 import { selectDashboardGroups } from '../../selectors/groups';
+import { HideButton } from '../ContextualMessageWrapper';
 
 const Container = styled.div`
   padding: 20px 20px 0px 20px;
@@ -44,14 +43,21 @@ const Onboarding = () => {
 
   useEffect(() => {
     let queryStep = router.location.query.step;
-    if (step === 6 && !isAuthorized) {
+    if (step === 5 && !isAuthorized) {
       queryStep = '0';
+      putData('/api/v1/contextualMessages', {
+        name: ['onboarding_dashboard'],
+      }).then(() => {});
     }
     if (queryStep === '2' && isPaid) {
       queryStep = '3';
     }
+
     if (step === 4 && !anySetupRemaining) {
       queryStep = '5';
+    }
+    if (step === 5 && anySetupRemaining) {
+      queryStep = '4';
     }
     if (queryStep && +queryStep >= 0 && +queryStep <= 6 && settings) {
       dispatch(replace('/welcome'));
@@ -77,16 +83,7 @@ const Onboarding = () => {
   return (
     <Container>
       {step === 5 && (
-        <div
-          style={{
-            textAlign: 'right',
-            marginBottom: '30px',
-          }}
-        >
-          <button onClick={() => dispatch(replace('/welcome?step=6'))}>
-            <FontAwesomeIcon icon={faTimes} size="2x" />
-          </button>
-        </div>
+        <HideButton name={'onboarding_dashboard'} xButton={true} />
       )}
       <OnboardingProgress currentStep={step} />
       <React.Fragment>

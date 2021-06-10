@@ -87,7 +87,7 @@ const ConnectQuestrade = () => {
           name="Connect"
           align="left"
         />
-        <HideButton name={'connect_questrade'} />
+        <HideButton name={'connect_questrade'} xButton={false} />
       </ShadowBox>
     </React.Fragment>
   );
