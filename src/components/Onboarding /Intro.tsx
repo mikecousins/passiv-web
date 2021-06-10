@@ -27,21 +27,15 @@ export const Description = styled(P)`
   font-size: 20px;
 `;
 
-type StepProps = {
-  stepOne: boolean;
-};
-
 const Steps = styled.div`
   margin: 50px 0px;
 `;
 
-const Step = styled.div<StepProps>`
+const Step = styled.div`
   margin-bottom: 28px;
   span {
     margin-right: 20px;
-    background-color: ${(props) =>
-      props.stepOne ? 'var(--brand-blue)' : 'white'};
-    color: ${(props) => (props.stepOne ? 'white' : 'black')};
+    background-color: white;
     padding: 2px 8px;
     border-radius: 3rem;
   }
@@ -63,7 +57,7 @@ const Intro = () => {
       <Steps>
         {steps.map((step, index) => {
           return (
-            <Step stepOne={index + 1 === 1}>
+            <Step>
               <H3>
                 <span>{index + 1}</span>
                 {step.name}
