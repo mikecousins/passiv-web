@@ -65,10 +65,9 @@ const BiggerLogoContainer = styled.div`
 `;
 
 export const LogoContainer = styled.div`
-  padding: 20px;
+  padding: 30px;
   img {
     max-width: 100%;
-    max-height: 100px;
   }
 `;
 
@@ -83,6 +82,7 @@ const AuthBox = styled(ShadowBox)`
   justify-content: center;
   align-items: flex-end;
   padding-bottom: 30px;
+  cursor: pointer;
 `;
 
 const OpenBox = styled(ShadowBox)`
@@ -169,18 +169,25 @@ const OpenAccountBtn = styled(Button)`
   letter-spacing: 0.25px;
 `;
 
-const Ribbon = styled.div`
+type RibbonType = {
+  teamPick: boolean;
+};
+
+const Ribbon = styled.div<RibbonType>`
   width: 50px;
-  height: 65px;
-  background-color: #fdbc00;
+  height: 70px;
+  background-color: ${(props) =>
+    props.teamPick ? '#fdbc00' : 'var(--brand-green)'};
   position: absolute;
   text-align: center;
   margin-left: 10px;
+  padding: 5px;
   p {
     font-size: 12px;
-    line-height: 100%;
+    line-height: 15px;
     text-align: center;
     letter-spacing: 0.2px;
+    font-weight: 600;
   }
   svg {
     font-size: 15px;
@@ -192,8 +199,10 @@ const Ribbon = styled.div`
     z-index: 2;
     right: 0px;
     bottom: -15px;
-    border-left: 24px solid #fdbc00;
-    border-right: 26px solid #fdbc00;
+    border-left: 24px solid
+      ${(props) => (props.teamPick ? '#fdbc00' : 'var(--brand-green)')};
+    border-right: 26px solid
+      ${(props) => (props.teamPick ? '#fdbc00' : 'var(--brand-green)')};
     border-bottom: 15px solid transparent;
     border-bottom-color: transparent;
     border-bottom-style: solid;
@@ -432,7 +441,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
       logo: BitbuyLogo,
       description: <P>Bitbuy is a Canadian cryptocurrency exchange.</P>,
       type: 'crypto',
-      teamPick: true,
+      teamPick: false,
     },
     {
       id: 'tdameritrade',
@@ -623,20 +632,31 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
 
       <Brokerage>Traditional</Brokerage>
       <React.Fragment>
-        <Container3Column columns="1.5fr 1.5fr 1.5fr 1.5fr">
+        <Container3Column columns="1fr 1fr 1fr">
           {brokerageOptions.map((brokerage: any) => {
             let contents = null;
             if (brokerages.some((b) => b.name === brokerage.name)) {
               contents = (
-                <AuthBox
-                  key={brokerage.id}
-                  onClick={() => startConfirmConnection(brokerage.name)}
-                >
-                  <LogoContainer>
-                    <img src={brokerage.logo} alt={`${brokerage.name} Logo`} />
-                  </LogoContainer>
-                  <AuthLink>Connect {brokerage.displayName}</AuthLink>
-                </AuthBox>
+                <>
+                  {brokerage.name === 'Questrade' && (
+                    <Ribbon teamPick={false}>
+                      <FontAwesomeIcon icon={faStar} color="white" />
+                      <P>Free Elite</P>
+                    </Ribbon>
+                  )}
+                  <AuthBox
+                    key={brokerage.id}
+                    onClick={() => startConfirmConnection(brokerage.name)}
+                  >
+                    <LogoContainer>
+                      <img
+                        src={brokerage.logo}
+                        alt={`${brokerage.name} Logo`}
+                      />
+                    </LogoContainer>
+                    <AuthLink>Connect {brokerage.displayName}</AuthLink>
+                  </AuthBox>
+                </>
               );
             }
             if (brokerage.type === 'traditional') {
@@ -647,7 +667,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
           })}
         </Container3Column>
         <Brokerage>Crypto</Brokerage>
-        <Container3Column columns="1.5fr 1.5fr 1.5fr 1.5fr">
+        <Container3Column columns="1fr 1fr 1fr">
           {brokerageOptions.map((brokerage: any) => {
             let contents = null;
             if (brokerages.some((b) => b.name === brokerage.name)) {
@@ -671,7 +691,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
           })}
         </Container3Column>
         <Brokerage>Aggregators</Brokerage>
-        <Container3Column columns="1.5fr 1.5fr 1.5fr 1.5fr">
+        <Container3Column columns="1fr 1fr 1fr">
           {brokerageOptions.map((brokerage: any) => {
             let contents = null;
             if (brokerages.some((b) => b.name === brokerage.name)) {
@@ -741,7 +761,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
               return (
                 <Brokerage>
                   {brokerage.teamPick && (
-                    <Ribbon>
+                    <Ribbon teamPick={true}>
                       <FontAwesomeIcon icon={faStar} color="white" />
                       <P>Team Pick</P>
                     </Ribbon>
