@@ -341,6 +341,7 @@ const ModelPortoflioBox = ({
           toast.success(
             `Changes are saved for "${modelPortfolio.model_portfolio.name}"`,
           );
+          toggleEditMode();
         } else {
           dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page
           toast.success(
@@ -431,12 +432,12 @@ const ModelPortoflioBox = ({
                 if (editMode && assignedPortfolioGroups > 0) {
                   applyModel();
                 }
+                if (editMode && !applyMode) {
+                  toggleEditMode();
+                }
                 actions.resetForm();
                 actions.setSubmitting(false);
                 actions.setStatus({ submitted: true });
-                if (editMode) {
-                  toggleEditMode();
-                }
               })
               .catch((err) => {
                 dispatch(loadModelPortfolios());
@@ -703,11 +704,18 @@ const ModelPortoflioBox = ({
                       }}
                       disabled={!props.dirty || !props.isValid}
                     >
-                      Save Changes
+                      {applyingModel ? (
+                        <>
+                          Saving Changes{' '}
+                          <FontAwesomeIcon icon={faSpinner} spin />
+                        </>
+                      ) : (
+                        'Save Changes'
+                      )}
                     </EditModel>
                   </>
                 )}
-                {editMode && (
+                {editMode && !applyingModel && (
                   <CancelButton
                     type="button"
                     onClick={() => {
