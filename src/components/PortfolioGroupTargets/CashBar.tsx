@@ -13,6 +13,7 @@ import {
   Container,
   CashTargetRow,
 } from '../../styled/Target';
+import Tooltip from '../Tooltip';
 
 type Props = {
   edit: boolean;
@@ -51,10 +52,18 @@ export const CashBar = ({ edit, percentage, actualPercentage }: Props) => {
         <Symbol>Cash</Symbol>
         <React.Fragment>
           <Target>
-            <Number value={percentage} />%
+            <Tooltip label={percentage.toString()}>
+              <div>
+                <Number value={percentage} />%
+              </div>
+            </Tooltip>
           </Target>
           <Actual>
-            <Number value={actualPercentage} />%
+            <Tooltip label={actualPercentage.toString()}>
+              <div>
+                <Number value={actualPercentage} />%
+              </div>
+            </Tooltip>
           </Actual>
         </React.Fragment>
       </CashTargetRow>
