@@ -879,14 +879,15 @@ export const selectCurrentGroupTarget = createSelector(
             (p) => p.symbol.id === target.symbol,
           );
           if (position && !target.is_excluded) {
+            let units = position.units
+              ? position.units
+              : position.fractional_units;
             if (
               preferredCurrency &&
               position.symbol.currency.id === preferredCurrency.id
             ) {
               target.actualPercentage =
-                ((position.price * position.units) /
-                  totalHoldingsExcludedRemoved) *
-                100;
+                ((position.price * units) / totalHoldingsExcludedRemoved) * 100;
             } else {
               const conversionRate = rates.find(
                 (rate: any) =>
@@ -896,8 +897,7 @@ export const selectCurrentGroupTarget = createSelector(
               );
               if (conversionRate) {
                 target.actualPercentage =
-                  ((position.price * position.units) /
-                    totalHoldingsExcludedRemoved) *
+                  ((position.price * units) / totalHoldingsExcludedRemoved) *
                   100 *
                   conversionRate.exchange_rate;
               }
@@ -943,14 +943,13 @@ export const selectCurrentGroupTarget = createSelector(
           assetClass.actualPercentage = positions.reduce((acc: any, symbol) => {
             if (symbol) {
               let actualPercentage;
+              let units = symbol.units ? symbol.units : symbol.fractional_units;
               if (
                 preferredCurrency &&
                 symbol.symbol.currency.id === preferredCurrency.id
               ) {
                 actualPercentage =
-                  ((symbol.price * symbol.units) /
-                    totalHoldingsExcludedRemoved) *
-                  100;
+                  ((symbol.price * units) / totalHoldingsExcludedRemoved) * 100;
               } else {
                 const conversionRate = rates.find(
                   (rate: any) =>
@@ -960,8 +959,7 @@ export const selectCurrentGroupTarget = createSelector(
                 );
                 if (conversionRate) {
                   actualPercentage =
-                    ((symbol.price * symbol.units) /
-                      totalHoldingsExcludedRemoved) *
+                    ((symbol.price * units) / totalHoldingsExcludedRemoved) *
                     100 *
                     conversionRate.exchange_rate;
                 }
@@ -972,15 +970,6 @@ export const selectCurrentGroupTarget = createSelector(
           }, 0);
           currentAssetClass.push(assetClass);
         }
-        currentAssetClass.sort((a, b) => {
-          let a_is_supported = Number(a.is_supported);
-          let b_is_supported = Number(b.is_supported);
-          if (a_is_supported - b_is_supported === -1) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
       }
     });
 
@@ -996,6 +985,21 @@ export const selectCurrentGroupTarget = createSelector(
     let toSort = rebalance_by_asset_class ? currentAssetClass : currentTarget;
     switch (groupInfo.settings.order_targets_by) {
       case 0:
+        toSort.sort((a, b) => {
+          if (rebalance_by_asset_class) {
+            if (a.name.toUpperCase() < b.name.toUpperCase()) {
+              return -1;
+            } else {
+              return 1;
+            }
+          } else {
+            if (a.fullSymbol.symbol < b.fullSymbol.symbol) {
+              return -1;
+            } else {
+              return 1;
+            }
+          }
+        });
         break;
       case 1:
         toSort
