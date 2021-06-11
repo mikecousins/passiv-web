@@ -76,7 +76,7 @@ export const WarningViewBtn = styled.div`
   display: block;
   width: 20%;
   a {
-    background-color: orange;
+    background-color: var(--brand-orange);
     border-radius: 0 4px 4px 0;
     padding: 32px 40px 36px;
     font-size: 20px;

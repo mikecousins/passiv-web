@@ -274,8 +274,11 @@ const Prioritization = ({ onSettingsPage }: Props) => {
     onSettingsPage && needToPrioritize ? (
       <NeedToPrioritize>
         <P>
-          <FontAwesomeIcon icon={faExclamationTriangle} color="orange" /> Need
-          to
+          <FontAwesomeIcon
+            icon={faExclamationTriangle}
+            color="var(--brand-orange)"
+          />{' '}
+          Need to
           <button onClick={handleTakeToPriorities}>
             Reapply and Reprioritize.
           </button>

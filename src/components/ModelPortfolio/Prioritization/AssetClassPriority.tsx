@@ -215,7 +215,7 @@ const AssetClassPriority = ({
                   <FontAwesomeIcon
                     icon={faExclamationCircle}
                     size="lg"
-                    color="orange"
+                    color="var(--brand-orange)"
                   />
                 )}
               </Tooltip>
