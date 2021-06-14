@@ -12,6 +12,7 @@ import {
   selectIsAuthorized,
   selectBrokerages,
   selectMaintenanceBrokerages,
+  selectSettings,
 } from '../selectors';
 import { useParams } from 'react-router';
 import { A, P, BulletUL, Li, H1, H2 } from '../styled/GlobalElements';
@@ -37,6 +38,7 @@ import { Description } from '../components/Onboarding /Intro';
 import Grid from '../styled/Grid';
 import { Continue } from './BrokeragesOauthPage';
 import OnboardingProgress from '../components/Onboarding /OnboardingProgress';
+import { updateOnboardingStep } from '../actions/onboarding';
 
 const VerticalPadding = styled.div`
   padding-top: 10px;
@@ -232,6 +234,7 @@ type Props = {
 const ConnectBrokerage = ({ onboarding }: Props) => {
   const authorized = useSelector(selectIsAuthorized);
   const brokerages = useSelector(selectBrokerages);
+  const settings = useSelector(selectSettings);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const { openBrokerage } = useParams();
   const dispatch = useDispatch();
@@ -811,13 +814,17 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
                   </NoBrokerage>
                 </VerticalPadding>
                 <VerticalPadding>
-                  <BackBtn onClick={() => dispatch(push('/welcome?step=0'))}>
+                  <BackBtn
+                    onClick={() => dispatch(updateOnboardingStep(0, settings))}
+                  >
                     <FontAwesomeIcon icon={faLongArrowAltLeft} /> Go Back
                   </BackBtn>
                   {authorized && (
                     <NextStep>
                       <Continue
-                        onClick={() => dispatch(push('/welcome?step=2'))}
+                        onClick={() =>
+                          dispatch(updateOnboardingStep(2, settings))
+                        }
                       >
                         Next Step
                         <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />

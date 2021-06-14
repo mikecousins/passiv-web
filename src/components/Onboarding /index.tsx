@@ -21,6 +21,7 @@ import { toast } from 'react-toastify';
 import { selectIsPaid } from '../../selectors/subscription';
 import { selectDashboardGroups } from '../../selectors/groups';
 import { HideButton } from '../ContextualMessageWrapper';
+import { updateOnboardingStep } from '../../actions/onboarding';
 
 const Container = styled.div`
   padding: 20px 20px 0px 20px;
@@ -42,42 +43,28 @@ const Onboarding = () => {
     .some((currentValue: any) => currentValue === false);
 
   useEffect(() => {
-    let queryStep = router.location.query.step;
-    if (step === 5 && !isAuthorized) {
-      queryStep = '0';
+    if (step > 1 && !isAuthorized) {
       putData('/api/v1/contextualMessages', {
         name: ['onboarding_dashboard'],
       }).then(() => {});
     }
-    // skip choose membership step if user is on Elite
-    if (queryStep === '2' && isPaid) {
-      queryStep = '3';
+    if (isAuthorized) {
+      // skip choose membership step if user is on Elite
+      if (step === 2 && isPaid) {
+        dispatch(updateOnboardingStep(3, settings));
+      }
+      //  current step is 4 and when no setup is remaining, change it to be the finished step
+      if (step === 4 && !anySetupRemaining) {
+        dispatch(updateOnboardingStep(5, settings));
+      }
+      // if current step is 5 but any setup is remaining, change the step to be 4
+      if (step === 5 && anySetupRemaining) {
+        dispatch(updateOnboardingStep(4, settings));
+      }
     }
-    //  current step is 4 and when no setup is remaining, change it to be the finished step
-    if (step === 4 && !anySetupRemaining) {
-      queryStep = '5';
-    }
-    // if current step is 5 but any setup is remaini
-    if (step === 5 && anySetupRemaining) {
-      queryStep = '4';
-    }
-    if (queryStep && +queryStep >= 0 && +queryStep <= 6 && settings) {
-      dispatch(replace('/welcome'));
-      let newSettings = { ...settings };
-      setStep(+queryStep);
-      newSettings.onboarding_status = +queryStep;
-      putData('/api/v1/settings/', newSettings)
-        .then((res) => {
-          dispatch(loadSettings());
-          if (res.data.onboarding_status >= 4) {
-            setTimeout(() => {
-              dispatch(push('/dashboard'));
-            }, 100);
-          }
-        })
-        .catch(() => {
-          toast.error('Unable to update onboarding status. Please try again.');
-        });
+
+    if (onboardingStep) {
+      setStep(onboardingStep);
     }
     // eslint-disable-next-line
   }, [router.location.query.step, onboardingStep]);

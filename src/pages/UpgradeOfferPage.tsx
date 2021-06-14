@@ -24,6 +24,8 @@ import { CONTACT_FORM_PATH } from '../apps/Paths';
 import { Container, ExclamationIcon, Star } from './BrokeragesOauthPage';
 import { TutorialLink } from '../components/Accounts';
 import OnboardingProgress from '../components/Onboarding /OnboardingProgress';
+import { updateOnboardingStep } from '../actions/onboarding';
+import { selectSettings } from '../selectors';
 
 const Bold = styled.span`
   font-weight: 600;
@@ -78,6 +80,7 @@ const UpgradeOfferPage = () => {
   const [error, setError] = useState<Error>();
   const [success, setSuccess] = useState(false);
   const router = useSelector(selectRouter);
+  const settings = useSelector(selectSettings);
   const isOnboarding = router.location.query.onboarding;
 
   useEffect(() => {
@@ -226,9 +229,13 @@ const UpgradeOfferPage = () => {
         {shareBox} */}
 
         <Button
-          onClick={() =>
-            dispatch(push(isOnboarding ? '/welcome?step=3' : '/dashboard'))
-          }
+          onClick={() => {
+            if (isOnboarding) {
+              dispatch(updateOnboardingStep(3, settings));
+            } else {
+              dispatch(push('/dashboard'));
+            }
+          }}
         >
           {isOnboarding ? 'Next Step' : 'Go to Dashboard'}
         </Button>

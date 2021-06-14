@@ -23,8 +23,20 @@ export const SlideMenu = () => {
   const [oldPath, setPath] = useState(pathname);
 
   useEffect(() => {
-    if (pathname === '/welcome' && onboardingStep && onboardingStep < 4) {
-      setVisible(false);
+    if (!isMobile) {
+      // hide side bar if user is on the onboarding process
+      if (
+        (pathname === '/welcome' ||
+          pathname === '/connect/open' ||
+          pathname.includes('oauth') ||
+          pathname === '/questrade-offer') &&
+        onboardingStep &&
+        onboardingStep <= 4
+      ) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
     }
   }, [pathname, onboardingStep]);
 

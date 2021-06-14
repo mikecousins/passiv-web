@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { push } from 'connected-react-router';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectHasQuestradeConnection } from '../../selectors';
+import { selectHasQuestradeConnection, selectSettings } from '../../selectors';
 import { selectIsPaid } from '../../selectors/subscription';
 import { Button } from '../../styled/Button';
 import { H1, H2, P } from '../../styled/GlobalElements';
@@ -12,6 +12,7 @@ import { Description } from './Intro';
 import { BackBtn } from '../../pages/AuthorizationPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
+import { updateOnboardingStep } from '../../actions/onboarding';
 
 const Cards = styled(Grid)`
   margin-top: 40px;
@@ -94,6 +95,7 @@ const ChooseMembership = () => {
   const dispatch = useDispatch();
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
   const isPaid = useSelector(selectIsPaid);
+  const settings = useSelector(selectSettings);
 
   const questradeOffer = hasQuestradeConnection && !isPaid;
 
@@ -166,11 +168,11 @@ const ChooseMembership = () => {
           </ButtonContainer>
         </Card>
       </Cards>
-      <BackBtn onClick={() => dispatch(push('/welcome?step=1'))}>
+      <BackBtn onClick={() => dispatch(updateOnboardingStep(1, settings))}>
         <FontAwesomeIcon icon={faLongArrowAltLeft} /> Go Back
       </BackBtn>
       <Skip>
-        <button onClick={() => dispatch(push('/welcome?step=3'))}>
+        <button onClick={() => dispatch(updateOnboardingStep(3, settings))}>
           Skip for now
         </button>
       </Skip>

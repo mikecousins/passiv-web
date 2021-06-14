@@ -2,8 +2,10 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Button } from '../../styled/Button';
 import { H1, H3, P } from '../../styled/GlobalElements';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
+import { updateOnboardingStep } from '../../actions/onboarding';
+import { selectSettings } from '../../selectors';
 
 const Container = styled.div`
   > h1 {
@@ -50,6 +52,7 @@ const ScalingIFrame = styled.iframe`
 
 const Intro = () => {
   const dispatch = useDispatch();
+  const settings = useSelector(selectSettings);
   return (
     <Container>
       <H1>Welcome to Passiv</H1>
@@ -68,7 +71,7 @@ const Intro = () => {
         })}
       </Steps>
       <Description>That’s all! Start growing your nest egg now!</Description>
-      <Button onClick={() => dispatch(push('/welcome?step=1'))}>
+      <Button onClick={() => dispatch(updateOnboardingStep(1, settings))}>
           Get Started
       </Button>
 

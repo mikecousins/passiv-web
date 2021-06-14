@@ -35,6 +35,8 @@ import { selectRouter } from '../../selectors/router';
 import { Continue } from '../../pages/BrokeragesOauthPage';
 import { push } from 'connected-react-router';
 import { BackBtn } from '../../pages/AuthorizationPage';
+import { updateOnboardingStep } from '../../actions/onboarding';
+import { selectSettings } from '../../selectors';
 
 export const Header = styled.form`
   h2 {
@@ -88,6 +90,7 @@ const ButtonContainer = styled.div`
 const Accounts = () => {
   const accounts = useSelector(selectGroupedAccounts);
   const router = useSelector(selectRouter);
+  const settings = useSelector(selectSettings);
   const isOnboarding = router.location.pathname.includes('welcome');
   const [localAccounts, setLocalAccounts] = useState(accounts);
   const [isEditing, setIsEditing] = useState(isOnboarding ? true : false);
@@ -369,12 +372,14 @@ const Accounts = () => {
       {isOnboarding && (
         <>
           <ButtonContainer>
-            <Continue onClick={() => dispatch(push('/welcome?step=4'))}>
+            <Continue
+              onClick={() => dispatch(updateOnboardingStep(4, settings))}
+            >
               Next Step
               <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
             </Continue>
             <BackBtn
-              onClick={() => dispatch(push('/welcome?step=2'))}
+              onClick={() => dispatch(updateOnboardingStep(2, settings))}
               style={{ float: 'left' }}
             >
               <FontAwesomeIcon icon={faLongArrowAltLeft} /> Go Back

@@ -21,6 +21,7 @@ import {
   selectBrokerages,
   selectMaintenanceBrokerages,
   selectOnboardingStep,
+  selectSettings,
 } from '../selectors';
 import { selectIsPaid } from '../selectors/subscription';
 import { Brokerage as BrokerageType } from '../types/brokerage';
@@ -33,6 +34,7 @@ import { selectGroupsLoading } from '../selectors/groups';
 
 import goldStar from '../assets/images/gold-star.png';
 import OnboardingProgress from '../components/Onboarding /OnboardingProgress';
+import { updateOnboardingStep } from '../actions/onboarding';
 
 const ActionContainer = styled.div`
   margin-top: 44px;
@@ -123,6 +125,7 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
   const accounts = useSelector(selectAccounts);
   const groupLoading = useSelector(selectGroupsLoading);
+  const settings = useSelector(selectSettings);
 
   const [loading, setLoading] = useState(false);
   const [showUpgradeOffer, setShowUpgradeOffer] = useState(false);
@@ -478,16 +481,23 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
         <ActionContainer>
           {isOnboarding ? (
             <>
-              <ConnectMore onClick={() => dispatch(push('/welcome?step=1'))}>
+              <ConnectMore
+                onClick={() => dispatch(updateOnboardingStep(1, settings))}
+              >
                 Connect Another Account
               </ConnectMore>
-              <Continue onClick={() => dispatch(push('/welcome?step=2'))}>
+              <Continue
+                onClick={() => {
+                  dispatch(push('/welcome'));
+                  dispatch(updateOnboardingStep(2, settings));
+                }}
+              >
                 Continue to Next Step
                 <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
               </Continue>
             </>
           ) : (
-            <ConnectMore onClick={() => dispatch(push('/settings/connect'))}>
+            <ConnectMore onClick={() => dispatch(push('/welcome'))}>
               Connect Another Account
             </ConnectMore>
           )}
@@ -503,9 +513,15 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
         <H1>Failed to establish a connection</H1>
         {errorDisplay}
         <ActionContainer>
-          <Continue onClick={() => dispatch(push('/settings'))}>
-            Go to Settings
-          </Continue>
+          {isOnboarding ? (
+            <Continue onClick={() => dispatch(push('/welcome'))}>
+              Go Back
+            </Continue>
+          ) : (
+            <Continue onClick={() => dispatch(push('/settings'))}>
+              Go to Settings
+            </Continue>
+          )}
         </ActionContainer>
       </React.Fragment>
     );
