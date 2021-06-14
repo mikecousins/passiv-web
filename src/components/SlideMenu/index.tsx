@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import MenuButton from './MenuButton';
 import Menu from './Menu';
 import { selectIsMobile } from '../../selectors/browser';
 import { selectPathname } from '../../selectors/router';
+import { selectOnboardingStep } from '../../selectors';
 
 const StyledSlideMenu = styled.div`
   position: relative;
@@ -17,8 +18,15 @@ const StyledSlideMenu = styled.div`
 export const SlideMenu = () => {
   const isMobile = useSelector(selectIsMobile);
   const pathname = useSelector(selectPathname);
+  const onboardingStep = useSelector(selectOnboardingStep);
   const [visible, setVisible] = useState(!isMobile);
   const [oldPath, setPath] = useState(pathname);
+
+  useEffect(() => {
+    if (pathname === '/welcome' && onboardingStep && onboardingStep < 4) {
+      setVisible(false);
+    }
+  }, [pathname, onboardingStep]);
 
   // check our path to see if it's changed
   // if it has and we're on mobile, close the menu

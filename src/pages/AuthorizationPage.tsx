@@ -36,6 +36,7 @@ import PreLoadLink from '../components/PreLoadLink';
 import { Description } from '../components/Onboarding /Intro';
 import Grid from '../styled/Grid';
 import { Continue } from './BrokeragesOauthPage';
+import OnboardingProgress from '../components/Onboarding /OnboardingProgress';
 
 const VerticalPadding = styled.div`
   padding-top: 10px;
@@ -136,7 +137,7 @@ const Brokerage = styled(H2)`
   margin: 40px 0px 20px 0px;
 `;
 
-const BackBtn = styled(Button)`
+export const BackBtn = styled(Button)`
   padding: 13px 39px;
   font-weight: 600;
   font-size: 20px;
@@ -745,6 +746,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
     if (openBrokerage === 'open') {
       output = (
         <ShadowBox background="var(--brand-light-green)">
+          {onboarding && <OnboardingProgress currentStep={1} />}
           <H1>Open a brokerage account</H1>
           <Description>
             Passiv is a service that helps you manage your portfolio in a

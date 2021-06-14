@@ -28,12 +28,12 @@ type StepProps = {
 const Step = styled.div<StepProps>`
   padding: 5px 0px;
   background-color: ${(props) => (props.done ? 'var(--brand-green)' : 'white')};
-  border-bottom: ${(props) => props.active && '3px solid var(--brand-green)'};
+  border-bottom: ${(props) => props.active && '5px solid var(--brand-green)'};
   border-right: ${(props) =>
-    props.active && '3px solid rgba(100, 100, 111, 0.08)'};
-
+    props.active && '5px solid rgba(100, 100, 111, 0.08)'};
+  cursor: ${(props) => props.done && 'pointer'};
   h2 {
-    font-weight: 400;
+    font-weight: ${(props) => (props.active ? '900' : '400')};
     text-align: center;
   }
   div {
@@ -42,9 +42,11 @@ const Step = styled.div<StepProps>`
     color: white;
   }
 `;
-
-const StepName = styled(H3)`
-  font-weight: normal;
+type StepNameProps = {
+  active: boolean;
+};
+const StepName = styled(H3)<StepNameProps>`
+  font-weight: ${(props) => (props.active ? '900' : '400')};
   font-size: 20px;
   line-height: 26px;
   text-align: center;
@@ -78,7 +80,9 @@ const OnboardingProgress = ({ currentStep }: Props) => {
                   <H2>{index + 1}</H2>
                 )}
               </Step>
-              <StepName>{isMobile ? step.mobile : step.name}</StepName>
+              <StepName active={active}>
+                {isMobile ? step.mobile : step.name}
+              </StepName>
             </div>
           );
         })}

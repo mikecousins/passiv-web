@@ -13,6 +13,7 @@ import {
   faTrashAlt,
   faExternalLinkAlt,
   faLongArrowAltRight,
+  faLongArrowAltLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
@@ -33,6 +34,7 @@ import { selectSelectedAccounts } from '../../selectors/performance';
 import { selectRouter } from '../../selectors/router';
 import { Continue } from '../../pages/BrokeragesOauthPage';
 import { push } from 'connected-react-router';
+import { BackBtn } from '../../pages/AuthorizationPage';
 
 export const Header = styled.form`
   h2 {
@@ -80,6 +82,7 @@ export const TutorialLink = styled.div`
 
 const ButtonContainer = styled.div`
   text-align: right;
+  margin-top: 50px;
 `;
 
 const Accounts = () => {
@@ -364,12 +367,20 @@ const Accounts = () => {
         )}
       </DragDropContext>
       {isOnboarding && (
-        <ButtonContainer>
-          <Continue onClick={() => dispatch(push('/welcome?step=4'))}>
-            Next Step
-            <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
-          </Continue>
-        </ButtonContainer>
+        <>
+          <ButtonContainer>
+            <Continue onClick={() => dispatch(push('/welcome?step=4'))}>
+              Next Step
+              <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
+            </Continue>
+            <BackBtn
+              onClick={() => dispatch(push('/welcome?step=2'))}
+              style={{ float: 'left' }}
+            >
+              <FontAwesomeIcon icon={faLongArrowAltLeft} /> Go Back
+            </BackBtn>
+          </ButtonContainer>
+        </>
       )}
     </React.Fragment>
   );

@@ -23,6 +23,7 @@ import PreLoadLink from '../components/PreLoadLink';
 import { CONTACT_FORM_PATH } from '../apps/Paths';
 import { Container, ExclamationIcon, Star } from './BrokeragesOauthPage';
 import { TutorialLink } from '../components/Accounts';
+import OnboardingProgress from '../components/Onboarding /OnboardingProgress';
 
 const Bold = styled.span`
   font-weight: 600;
@@ -244,7 +245,12 @@ const UpgradeOfferPage = () => {
       </React.Fragment>
     );
   }
-  return <Container> {result}</Container>;
+  return (
+    <Container>
+      {isOnboarding && <OnboardingProgress currentStep={2} />}
+      {result}
+    </Container>
+  );
 };
 
 export default UpgradeOfferPage;

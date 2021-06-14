@@ -9,6 +9,9 @@ import { H1, H2, P } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
 import ShadowBox from '../../styled/ShadowBox';
 import { Description } from './Intro';
+import { BackBtn } from '../../pages/AuthorizationPage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
 
 const Cards = styled(Grid)`
   margin-top: 40px;
@@ -163,6 +166,9 @@ const ChooseMembership = () => {
           </ButtonContainer>
         </Card>
       </Cards>
+      <BackBtn onClick={() => dispatch(push('/welcome?step=1'))}>
+        <FontAwesomeIcon icon={faLongArrowAltLeft} /> Go Back
+      </BackBtn>
       <Skip>
         <button onClick={() => dispatch(push('/welcome?step=3'))}>
           Skip for now

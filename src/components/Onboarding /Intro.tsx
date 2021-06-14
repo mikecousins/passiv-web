@@ -72,7 +72,7 @@ const Intro = () => {
           Get Started
       </Button>
 
-      <ScalingIFrame
+      {/* <ScalingIFrame
         title="Passiv Basics"
         width="995"
         height="627"
@@ -80,7 +80,7 @@ const Intro = () => {
         frameBorder="0"
         allow="autoplay; fullscreen"
         allowFullScreen
-      ></ScalingIFrame>
+      ></ScalingIFrame> */}
     </Container>
   );
 };

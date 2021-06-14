@@ -32,6 +32,7 @@ import { selectAccounts } from '../selectors/accounts';
 import { selectGroupsLoading } from '../selectors/groups';
 
 import goldStar from '../assets/images/gold-star.png';
+import OnboardingProgress from '../components/Onboarding /OnboardingProgress';
 
 const ActionContainer = styled.div`
   margin-top: 44px;
@@ -510,7 +511,12 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
     );
   }
 
-  return <Container>{result}</Container>;
+  return (
+    <Container>
+      {isOnboarding && <OnboardingProgress currentStep={1} />}
+      {result}
+    </Container>
+  );
 };
 
 export default BrokeragesOauthPage;

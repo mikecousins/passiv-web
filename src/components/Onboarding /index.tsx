@@ -49,13 +49,15 @@ const Onboarding = () => {
         name: ['onboarding_dashboard'],
       }).then(() => {});
     }
+    // skip choose membership step if user is on Elite
     if (queryStep === '2' && isPaid) {
       queryStep = '3';
     }
-
+    //  current step is 4 and when no setup is remaining, change it to be the finished step
     if (step === 4 && !anySetupRemaining) {
       queryStep = '5';
     }
+    // if current step is 5 but any setup is remaini
     if (step === 5 && anySetupRemaining) {
       queryStep = '4';
     }
