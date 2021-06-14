@@ -179,8 +179,8 @@ const Prioritization = ReactLazyPreload(() =>
   ),
 );
 
-const QuickTradingPage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "quick-trading" */ '../pages/QuickTradingPage'),
+const QuickTradePage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "quick-trading" */ '../pages/QuickTradePage'),
 );
 
 // declare global {
@@ -369,7 +369,7 @@ const App = () => {
               component={SharedModelPortfolio}
               render={() => sharedModelRedirect()}
             />
-            <Route path="/quick-trading" component={QuickTradingPage} />
+            <Route path="/quick-trade" component={QuickTradePage} />
             {/* oauth routes */}
             {loggedIn && (
               <Route

@@ -19,13 +19,14 @@ import SymbolSelector from '../components/PortfolioGroupTargets/TargetBar/Symbol
 import { Form, Formik } from 'formik';
 import { StyledSelect } from '../components/PortfolioGroupSettings/OrderTargetAllocations';
 import AccountHoldings from '../components/AccountHoldings';
+import { TransparentButton } from './MyModelPortfoliosPage';
 
 const MainContainer = styled(ShadowBox)`
   input[type='password'] {
     background-color: white;
     padding: 5px;
     border: 1px solid;
-    margin-bottom: 20px;
+    margin: 10px 0px 25px 0px;
     display: block;
   }
   input[type='number'] {
@@ -47,6 +48,11 @@ const MainContainer = styled(ShadowBox)`
 
 const Broker = styled(ShadowBox)`
   cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 30px;
 `;
 const Accounts = styled.ul`
   button {
@@ -56,6 +62,8 @@ const Accounts = styled.ul`
     padding: 2px 30px;
   }
   li {
+    display: grid;
+    grid-template-columns: 200px 150px;
     margin-bottom: 20px;
   }
 `;
@@ -86,17 +94,68 @@ const Step = styled.div<StepProps>`
   }
 `;
 
-const QuickTradingPage = () => {
+const TransparentButtonSmaller = styled(TransparentButton)`
+  border: 1px solid;
+  font-weight: normal;
+`;
+
+const FormField = styled(Grid)`
+  display: grid;
+  grid-template-columns: 150px 200px;
+  margin-bottom: 20px;
+`;
+
+const Order = styled(Grid)`
+  padding: 15px 0px;
+  border-bottom: 0.5px solid #bfb6b6;
+`;
+
+const QuickTradePage = () => {
   const [status, setStatus] = useState('none');
   const [accountSelected, setAccountSelected] = useState('');
   const [activeTab, setActiveTab] = useState(1);
+
+  const orders = [
+    {
+      symbol: 'VAB.TO',
+      status: 'Executed',
+      action: 'Buy',
+      qty: '1',
+      fill: '25.91',
+      duration: 'Day',
+      type: 'Market',
+      time: '06/07/21 11:12:54AM',
+    },
+    {
+      symbol: 'SITI.TO',
+      status: 'Executed',
+      action: 'Buy',
+      qty: '3',
+      fill: '24.23',
+      duration: 'Day',
+      type: 'Limit',
+      time: '5/27/21 12:12:58PM',
+    },
+    {
+      symbol: 'HMMJ.TO',
+      status: 'Executed',
+      action: 'Buy',
+      qty: '6',
+      fill: '10.39',
+      duration: 'Day',
+      type: 'Limit',
+      time: '06/01/21 10:06:25AM',
+    },
+  ];
 
   let result = (
     <div>
       <Button onClick={() => setStatus('pin')} style={{ marginRight: '10px' }}>
         Login with your PIN
       </Button>
-      <A onClick={() => setStatus('new')}>Create an account quickly</A>
+      <TransparentButtonSmaller onClick={() => setStatus('new')}>
+        Create an account
+      </TransparentButtonSmaller>
     </div>
   );
 
@@ -114,7 +173,9 @@ const QuickTradingPage = () => {
     case 'new':
       result = (
         <div>
-          <H2 style={{ margin: '30px 0px' }}>Start by creatin a Trading PIN</H2>
+          <H2 style={{ margin: '30px 0px' }}>
+            Start by creating a Trading PIN
+          </H2>
           <div>
             <label htmlFor="PIN1">Enter your PIN:</label>
             <input type="password" name="PIN1" />
@@ -289,8 +350,8 @@ const QuickTradingPage = () => {
   }
 
   return (
-    <MainContainer background="var(--brand-light-green)">
-      <H1>Fintech Trading By Passiv</H1>
+    <MainContainer>
+      <H1>Quick Trade By Passiv</H1>
       {result}
       <div
         style={{
@@ -300,9 +361,9 @@ const QuickTradingPage = () => {
         }}
       >
         {status === '5' && (
-          <ShadowBox>
+          <div>
             {activeTab === 1 && (
-              <div>
+              <ShadowBox>
                 <PortfolioGroupCash
                   balances={[
                     {
@@ -316,30 +377,30 @@ const QuickTradingPage = () => {
                   ]}
                   error={null}
                 />
-                <div>
-                  <div style={{ marginBottom: '10px' }}>
+                <FormField>
+                  <div>
                     <input type="radio" id="buy" name="trade" value="buy" />
                     <label htmlFor="buy">Buy</label>
                   </div>
-                  <div style={{ marginBottom: '10px' }}>
+                  <div>
                     <input type="radio" id="sell" name="trade" value="sell" />
                     <label htmlFor="sell">Sell</label>
                   </div>
-                </div>
+                </FormField>
                 <div>
                   <div>
-                    <div>
-                      Symbol:{' '}
+                    <FormField>
+                      <span>Symbol: </span>
                       <SymbolSelector
                         value={undefined}
                         onSelect={(selected) => console.log(selected)}
                       />
-                    </div>
+                    </FormField>
                     <div>
                       <Formik initialValues={{}} onSubmit={() => {}}>
                         <Form onChange={() => console.log('selected')}>
-                          <div style={{ margin: '10px 0px' }}>
-                            Order Type:
+                          <FormField>
+                            <span>Order Type:</span>
                             <StyledSelect as="select" name="type">
                               <option value={'Market'} key={0}>
                                 Market
@@ -348,15 +409,15 @@ const QuickTradingPage = () => {
                                 Limit
                               </option>
                             </StyledSelect>
-                          </div>
-                          <div>
-                            Quantity: <input type="number" />
-                          </div>
-                          <div>
-                            Price: $<input type="number" />
-                          </div>
-                          <div style={{ margin: '10px 0px' }}>
-                            Time to Force:
+                          </FormField>
+                          <FormField>
+                            <span>Quantity:</span> <input type="number" />
+                          </FormField>
+                          <FormField>
+                            <span>Price:</span> <input type="number" />
+                          </FormField>
+                          <FormField>
+                            <span>Time to Force:</span>
                             <StyledSelect as="select" name="time">
                               <option value={'Day'} key={0}>
                                 Day
@@ -368,7 +429,7 @@ const QuickTradingPage = () => {
                                 FOK
                               </option>
                             </StyledSelect>
-                          </div>
+                          </FormField>
                         </Form>
                       </Formik>
                     </div>
@@ -377,13 +438,200 @@ const QuickTradingPage = () => {
                 <SmallButton onClick={() => setStatus('preview')}>
                   Preview Order
                 </SmallButton>
+              </ShadowBox>
+            )}
+            {activeTab === 2 && (
+              <div>
+                <AccountHoldings
+                  holdings={{
+                    id: 'bb875eac-8698-4f01-ab0e-eb8993e93e13',
+                    name: 'Alpaca Margin',
+                    number: '870903896',
+                    type: 'Margin',
+                    positions: [
+                      {
+                        symbol: {
+                          id: '888060b2-946e-42da-9959-bbd94e1a6190',
+                          description: '',
+                          symbol: {
+                            id: '2b9ec7c2-a075-49ee-ba43-a82ab9877237',
+                            symbol: 'AMD',
+                            security_type: 'Stock',
+                            name: 'Advanced Micro Devices Inc.',
+                            exchange: 'ff4b2ffc-5a0e-4471-9cf5-95c0c30cdedd',
+                            currency: '57f81c53-bdda-45a7-a51f-032afd1ae41b',
+                            type: '515c27d1-8471-4dec-a234-af12184c51d4',
+                          },
+                          local_id: '03fb07bb-5db1-4077-8dea-5d711b272625',
+                          security_type: '',
+                          listing_exchange: '',
+                          is_quotable: true,
+                          is_tradable: true,
+                        },
+                        price: 80.71,
+                        units: 6,
+                        open_pnl: 13.48,
+                        fractional_units: 2.3,
+                        currency: {
+                          id: '57f81c53-bdda-45a7-a51f-032afd1ae41b',
+                          code: 'USD',
+                          name: 'USD',
+                        },
+                      },
+                      {
+                        symbol: {
+                          id: 'ee5bbc99-0685-4586-a584-b915615c7eed',
+                          description: '',
+                          symbol: {
+                            id: '66a5d081-4dbf-40d3-93bf-a592487c7219',
+                            symbol: 'BUG',
+                            security_type: null,
+                            name: 'Global X Funds - Global X Cybersecurity ETF',
+                            exchange: 'ff4b2ffc-5a0e-4471-9cf5-95c0c30cdedd',
+                            currency: '57f81c53-bdda-45a7-a51f-032afd1ae41b',
+                            type: '8057ceb7-e073-4c77-8635-a1c9bc6442cb',
+                          },
+                          local_id: 'cecf1229-db59-44bb-9951-04c90d220b17',
+                          security_type: '',
+                          listing_exchange: '',
+                          is_quotable: true,
+                          is_tradable: true,
+                        },
+                        price: 28.58,
+                        units: 3,
+                        open_pnl: 11.1,
+                        fractional_units: 2.3,
+                        currency: {
+                          id: '57f81c53-bdda-45a7-a51f-032afd1ae41b',
+                          code: 'USD',
+                          name: 'USD',
+                        },
+                      },
+                      {
+                        symbol: {
+                          id: '8f38d0f9-caa7-46db-8c92-f458c0d5a386',
+                          description: '',
+                          symbol: {
+                            id: 'bc4fec4c-b28e-4a7e-8377-3876e7c2b0aa',
+                            symbol: 'HEXO',
+                            security_type: 'Stock',
+                            name: 'HEXO Corp',
+                            exchange: 'ebd63029-461e-4bed-bd4a-d0595f880b52',
+                            currency: '57f81c53-bdda-45a7-a51f-032afd1ae41b',
+                            type: '515c27d1-8471-4dec-a234-af12184c51d4',
+                          },
+                          local_id: '5adbd678-25a6-4327-8abf-10a787ddcf1e',
+                          security_type: '',
+                          listing_exchange: '',
+                          is_quotable: true,
+                          is_tradable: true,
+                        },
+                        price: 6.04,
+                        units: 4,
+                        open_pnl: 56.25,
+                        fractional_units: 2.3,
+                        currency: {
+                          id: '57f81c53-bdda-45a7-a51f-032afd1ae41b',
+                          code: 'USD',
+                          name: 'USD',
+                        },
+                      },
+                      {
+                        symbol: {
+                          id: '7761fb21-deab-4d42-8ad5-4d09ade8105f',
+                          description: '',
+                          symbol: {
+                            id: '9370a512-e2fd-44e3-91cf-e2714d6b287d',
+                            symbol: 'SAN',
+                            security_type: 'Stock',
+                            name: 'Banco Santander S.A. - ADR',
+                            exchange: 'ebd63029-461e-4bed-bd4a-d0595f880b52',
+                            currency: '57f81c53-bdda-45a7-a51f-032afd1ae41b',
+                            type: '24482255-2c04-46f3-baed-7d7d452a1a83',
+                          },
+                          local_id: '480ac4ce-b91e-4a9a-8945-dc514aec0bf8',
+                          security_type: '',
+                          listing_exchange: '',
+                          is_quotable: true,
+                          is_tradable: true,
+                        },
+                        price: 4.22,
+                        units: 1,
+                        open_pnl: 1.09,
+                        fractional_units: 2.3,
+                        currency: {
+                          id: '57f81c53-bdda-45a7-a51f-032afd1ae41b',
+                          code: 'USD',
+                          name: 'USD',
+                        },
+                      },
+                      {
+                        symbol: {
+                          id: 'cbd4dfba-e7d0-4d65-bfa4-48384202b821',
+                          description: '',
+                          symbol: {
+                            id: 'c15a817e-7171-4940-9ae7-f7b4a95408ee',
+                            symbol: 'AAPL',
+                            security_type: 'Stock',
+                            name: 'Apple Inc',
+                            exchange: 'ff4b2ffc-5a0e-4471-9cf5-95c0c30cdedd',
+                            currency: '57f81c53-bdda-45a7-a51f-032afd1ae41b',
+                            type: '515c27d1-8471-4dec-a234-af12184c51d4',
+                          },
+                          local_id: 'b0b6dd9d-8b9b-48a9-ba46-b9d54906e415',
+                          security_type: '',
+                          listing_exchange: '',
+                          is_quotable: true,
+                          is_tradable: true,
+                        },
+                        price: 129.13,
+                        units: 0,
+                        open_pnl: 5.9,
+                        fractional_units: 2.3,
+                        currency: {
+                          id: '57f81c53-bdda-45a7-a51f-032afd1ae41b',
+                          code: 'USD',
+                          name: 'USD',
+                        },
+                      },
+                    ],
+                  }}
+                />
               </div>
             )}
-          </ShadowBox>
+            {activeTab === 3 && (
+              <ShadowBox>
+                <Order columns="repeat(8, 1fr)">
+                  <H3>Symbol</H3>
+                  <H3>Status</H3>
+                  <H3>Action</H3>
+                  <H3>Qty</H3>
+                  <H3>Fill price</H3>
+                  <H3>Duration</H3>
+                  <H3>Order type</H3>
+                  <H3>Time Placed</H3>
+                </Order>
+                {orders.map((order) => {
+                  return (
+                    <Order columns="repeat(8, 1fr)">
+                      <div>{order.symbol}</div>
+                      <div>{order.status}</div>
+                      <div>{order.action}</div>
+                      <div>{order.qty}</div>
+                      <div>{order.fill}</div>
+                      <div>{order.duration}</div>
+                      <div>{order.type}</div>
+                      <div>{order.time}</div>
+                    </Order>
+                  );
+                })}
+              </ShadowBox>
+            )}
+          </div>
         )}
       </div>
     </MainContainer>
   );
 };
 
-export default QuickTradingPage;
+export default QuickTradePage;
