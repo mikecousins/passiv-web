@@ -56,10 +56,6 @@ const Reducer = (history: any) =>
     reportingEndDate,
     referral,
     tracking,
-    helpArticles: simple<any>({
-      baseType: 'FETCH_HELP_ARTICLES',
-      userData: false,
-    }),
     authorizations: simple<Authorization[]>({
       baseType: 'FETCH_AUTHORIZATIONS',
       userData: true,

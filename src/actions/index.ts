@@ -206,20 +206,6 @@ export const loadBrokerages: ActionCreator<ThunkAction<
   };
 };
 
-export const loadHelpArticles: ActionCreator<ThunkAction<
-  void,
-  any,
-  any,
-  Action<any>
->> = () => {
-  return (dispatch) => {
-    dispatch(fetchHelpArticlesStart());
-    getData('/api/v1/help/')
-      .then((response) => dispatch(fetchHelpArticlesSuccess(response)))
-      .catch((error) => dispatch(fetchHelpArticlesError(error)));
-  };
-};
-
 export const loadSettings: ActionCreator<ThunkAction<
   void,
   any,
@@ -616,20 +602,6 @@ export const fetchBrokeragesSuccess: ActionCreator<Action> = (payload) => ({
 
 export const fetchBrokeragesError: ActionCreator<Action> = (payload) => ({
   type: 'FETCH_BROKERAGES_ERROR',
-  payload,
-});
-
-export const fetchHelpArticlesStart: ActionCreator<Action> = () => ({
-  type: 'FETCH_HELP_ARTICLES_START',
-});
-
-export const fetchHelpArticlesSuccess: ActionCreator<Action> = (payload) => ({
-  type: 'FETCH_HELP_ARTICLES_SUCCESS',
-  payload,
-});
-
-export const fetchHelpArticlesError: ActionCreator<Action> = (payload) => ({
-  type: 'FETCH_HELP_ARTICLES_ERROR',
   payload,
 });
 
