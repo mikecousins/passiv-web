@@ -1,19 +1,16 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import ShadowBox from '../styled/ShadowBox';
 import { push } from 'connected-react-router';
 import { H1DarkStyle, H2DarkStyle, VerticalPadding } from '../styled/Setup';
-import OnboardingProgress from '../components/OnboardingProgress';
 import { Button } from '../styled/Button';
-import { selectShowProgressFeature } from '../selectors/features';
 
 const ScalingIFrame = styled.iframe`
   width: 100%;
 `;
 
-const WelcomePage = () => {
-  const showProgressFeature = useSelector(selectShowProgressFeature);
+const Welcome = () => {
   const dispatch = useDispatch();
   return (
     <ShadowBox background="#2a2d34">
@@ -31,9 +28,8 @@ const WelcomePage = () => {
         ></ScalingIFrame>
       </VerticalPadding>
       <Button onClick={() => dispatch(push('/connect'))}>Continue</Button>
-      {showProgressFeature && <OnboardingProgress step={1} />}
     </ShadowBox>
   );
 };
 
-export default WelcomePage;
+export default Welcome;

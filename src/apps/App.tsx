@@ -17,11 +17,7 @@ import {
   selectReferralCode,
   selectTrackingId,
 } from '../selectors';
-import {
-  selectShowInsecureApp,
-  selectShowOnboardingApp,
-  selectShowSecureApp,
-} from '../selectors/app';
+import { selectShowInsecureApp, selectShowSecureApp } from '../selectors/app';
 import { generateTrackingCode } from '../seo';
 import { setReferralCode, setTrackingId } from '../actions';
 import { selectQueryTokens } from '../selectors/router';
@@ -135,10 +131,6 @@ const AuthorizationPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "authorization" */ '../pages/AuthorizationPage'),
 );
 
-const WelcomePage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "welcome" */ '../pages/WelcomePage'),
-);
-
 const SettingsPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "settings" */ '../pages/SettingsPage'),
 );
@@ -250,7 +242,6 @@ const sharedModelRedirect = () => {
 
 const App = () => {
   const showInsecureApp = useSelector(selectShowInsecureApp);
-  const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const showSecureApp = useSelector(selectShowSecureApp);
   const referralCode = useSelector(selectReferralCode);
   const trackingId = useSelector(selectTrackingId);
@@ -269,6 +260,12 @@ const App = () => {
     if (newPath.length === 0) {
       newPath = '/';
     }
+
+    if (Object.keys(queryParams).length > 0) {
+      const newQuery = qs.stringify(queryParams);
+      newPath += '?' + newQuery;
+    }
+
     window.location.replace(newPath);
   }
 
@@ -451,39 +448,33 @@ const App = () => {
                 )}
               />
             )}
+            {loggedIn && (
+              <Route
+                path="/oauth/allyinvest"
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Ally Invest" />
+                )}
+              />
+            )}
             {/* onboarding app */}
-            {showOnboardingApp && (
+            {showSecureApp && (
               <Route path="/connect/:openBrokerage?">
                 <AuthorizationPage onboarding={true} />
               </Route>
             )}
-            {showOnboardingApp && (
-              <Route path="/welcome">
-                <WelcomePage />
-              </Route>
-            )}
-            {(showSecureApp || showOnboardingApp) && (
+            {showSecureApp && (
               <Route path="/settings/connect/:openBrokerage?">
                 <AuthorizationPage onboarding={false} />
               </Route>
             )}
-            {(showSecureApp || showOnboardingApp) && (
+            {showSecureApp && (
               <Route path="/settings" component={SettingsPage} />
             )}
-            {(showSecureApp || showOnboardingApp) && (
+            {showSecureApp && (
               <Route path="/referrals" component={ReferralPage} />
             )}
-            {(showSecureApp || showOnboardingApp) && (
-              <Route path="/upgrade" component={UpgradePage} />
-            )}
-            {(showSecureApp || showOnboardingApp) && (
-              <Route path="/coupon" component={CouponPage} />
-            )}
-            {showOnboardingApp && (
-              <Route path="*">
-                <Redirect to="/welcome" />
-              </Route>
-            )}
+            {showSecureApp && <Route path="/upgrade" component={UpgradePage} />}
+            {showSecureApp && <Route path="/coupon" component={CouponPage} />}
             {/* secure app */}
             {showSecureApp && (
               <Route path="/reporting" component={PerformancePage} />
@@ -499,7 +490,7 @@ const App = () => {
                 <Redirect to="/reporting" />
               </Route>
             )}
-            {loggedIn && (
+            {showSecureApp && (
               <Route
                 exact
                 path="/questrade-offer"

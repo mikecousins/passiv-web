@@ -2,13 +2,14 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { selectLoggedIn } from '../../selectors';
+import { selectLoggedIn, selectIsAffiliate } from '../../selectors';
 import {
   selectGoalsPageFeature,
   selectModelPortfolioFeature,
   selectPerformancePageFeature,
 } from '../../selectors/features';
 import { selectGroupInfo, selectGroups } from '../../selectors/groups';
+import { selectShowOnboardingApp } from '../../selectors/app';
 import SideBarLink from './SideBarLink';
 import SideBarLinkAlt from './SideBarLinkAlt';
 import SideBarFooter from './SideBarFooter';
@@ -90,6 +91,8 @@ const SideBar = () => {
   const loggedIn = useSelector(selectLoggedIn);
   const groups = useSelector(selectGroups);
   const groupInfo = useSelector(selectGroupInfo);
+  const isAffiliate = useSelector(selectIsAffiliate);
+  const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const performancePageFeatureActive = useSelector(
     selectPerformancePageFeature,
   );
@@ -150,13 +153,17 @@ const SideBar = () => {
           {modelPortfolioFeature && (
             <SideBarLink name="My Models" linkPath={`/models`} />
           )}
-          {performancePageFeatureActive && showReporting && (
-            <SideBarLink name="Reporting" linkPath={REPORTING_PATH} />
-          )}
-          {goalsPageFeatureActive && (
+          {!showOnboardingApp &&
+            performancePageFeatureActive &&
+            showReporting && (
+              <SideBarLink name="Reporting" linkPath={REPORTING_PATH} />
+            )}
+          {!showOnboardingApp && goalsPageFeatureActive && (
             <SideBarLink name="Goals" linkPath={GOALS_PATH} />
           )}
-          <SideBarLink name="Refer a Friend" linkPath={REFERRALS_PATH} />
+          {(isAffiliate || !showOnboardingApp) && (
+            <SideBarLink name="Refer a Friend" linkPath={REFERRALS_PATH} />
+          )}
           <SideBarLink name="Settings" linkPath={SETTINGS_PATH} />
         </StyledAside>
         <SideBarFooter />

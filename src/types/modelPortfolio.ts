@@ -61,6 +61,7 @@ export type AssetClassPriorities = {
     name: string;
     percent: string;
     exclude_asset_class: boolean;
+    priorities_need_verification: boolean;
   };
   accounts_priorities: AccountPriorities[];
 };

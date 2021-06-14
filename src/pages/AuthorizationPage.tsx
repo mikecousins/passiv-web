@@ -16,6 +16,7 @@ import { postData } from '../api';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import QuestradeLogo from '../assets/images/questrade-logo.png';
+import AllyLogo from '../assets/images/ally-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
 import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 import TDAmeritradeLogo from '../assets/images/tda-logo.png';
@@ -180,16 +181,16 @@ const AuthorizationPage = ({ onboarding }: Props) => {
       type: 'traditional',
     },
     {
-      id: 'ally',
-      name: 'Ally',
-      displayName: 'Ally',
+      id: 'allyinvest',
+      name: 'Ally Invest',
+      displayName: 'Ally Invest',
       connect: () => {
-        startConnection('Ally', 'trade');
+        startConnection('Ally Invest', 'trade');
       },
       defaultConnectionType: 'trade',
       openURL: 'https://www.ally.com/invest/',
       major: true,
-      logo: 'Ally Invest',
+      logo: AllyLogo,
       confirmPrompt: null,
       description: (
         <P>

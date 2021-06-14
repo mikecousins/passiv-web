@@ -7,10 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faAngleLeft,
   faAngleRight,
-  faCheck,
-  faInfoCircle,
   faTimes,
   faSpinner,
+  faChevronCircleRight,
+  faChevronCircleLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
@@ -29,7 +29,6 @@ import Grid from '../styled/Grid';
 import { ViewBtn } from '../styled/Group';
 import ShadowBox from '../styled/ShadowBox';
 import { StyledP } from './ModelAssetClassPage';
-import Tooltip from '../components/Tooltip';
 import { selectGroupInfo, selectGroups } from '../selectors/groups';
 import Dialog from '@reach/dialog';
 import SelectGroupDialog from '../components/ModelPortfolio/SelectGroupDialog';
@@ -43,10 +42,10 @@ export const TransparentButton = styled(Button)`
   background-color: transparent;
   color: var(--brand-blue);
   border: 3px solid var(--brand-blue);
-  padding: 20px;
   border-radius: 4px;
   font-weight: 600;
   font-size: 18px;
+  padding: 12px 25px;
   @media (max-width: 900px) {
     margin-bottom: 10px;
     width: 100%;
@@ -77,38 +76,42 @@ const ModelName = styled(H3)`
     text-align: center;
   }
 `;
-const InUseDiv = styled.div`
-  font-size: 20px;
-  > svg {
-    margin-right: 8px;
-    color: var(--brand-green);
-  }
-  span {
-    margin-right: 10px;
-  }
-  @media (max-width: 900px) {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-`;
-const InUse = styled.span`
-  font-weight: 600;
-  margin-right: 7px;
-`;
 const ApplyTransparentBtn = styled(TransparentButton)`
-  padding: 12px;
-  width: 100px;
   &:hover {
     :disabled {
       background: transparent;
       color: var(--brand-blue);
     }
-
     background: var(--brand-blue);
     color: #fff;
   }
   @media (max-width: 900px) {
     width: 100%;
+  }
+`;
+
+const Badges = styled.div`
+  margin-top: 10px;
+  @media (max-width: 900px) {
+    margin-bottom: 20px;
+  }
+`;
+export const TypeBadge = styled.span`
+  width: fit-content;
+  border: 1px solid var(--brand-grey);
+  border-radius: 25px;
+  padding: 3px 10px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--brand-grey);
+  margin-right: 10px;
+`;
+const UsedByBadge = styled(TypeBadge)`
+  border: 1px solid var(--brand-green);
+  color: var(--brand-green);
+  @media (max-width: 900px) {
+    margin-top: 10px;
+    display: flex;
   }
 `;
 
@@ -133,6 +136,7 @@ const MyModelPortfoliosPage = () => {
   const [selectedModel, setSelectedModel] = useState<
     ModelPortfolio | undefined
   >();
+  const [showGroups, setShowGroups] = useState<string>();
 
   let modelIdUseByGroup: string | undefined = '';
   if (groupId && groupInfo[groupId].data?.model_portfolio) {
@@ -250,10 +254,8 @@ const MyModelPortfoliosPage = () => {
           ? modelPortfolios.map((mdl) => {
               const totalAssignedGroups =
                 mdl.model_portfolio.total_assigned_portfolio_groups;
-              if (
-                modelIdUseByGroup &&
-                modelIdUseByGroup === mdl.model_portfolio.id
-              ) {
+              const modelId = mdl.model_portfolio.id;
+              if (modelIdUseByGroup && modelIdUseByGroup === modelId) {
                 if (modelPortfolios.length === 1) {
                   return noModelAvailable;
                 } else {
@@ -261,53 +263,74 @@ const MyModelPortfoliosPage = () => {
                 }
               }
               return (
-                <ShadowBox key={mdl.model_portfolio.id}>
+                <ShadowBox key={modelId}>
                   <Grid
                     columns={
-                      groupId
-                        ? '50px 2fr 1fr 250px'
-                        : '50px 2fr 1fr 150px 150px'
+                      groupId ? '50px 3fr 250px' : '50px 3fr 120px 150px'
                     }
                   >
                     <MoreOptions
                       model={mdl}
                       shareModel={mdl.model_portfolio.share_portfolio}
                     />
-                    <ModelName>{mdl.model_portfolio.name}</ModelName>
-                    <InUseDiv>
-                      {totalAssignedGroups > 0 && (
-                        <>
-                          <FontAwesomeIcon icon={faCheck} size="lg" />
-                          <InUse>In Use</InUse> |{' '}
-                          <span>
-                            {totalAssignedGroups} Group
-                            {totalAssignedGroups > 1 && 's'}
-                          </span>
-                          <Tooltip label={makeLabel(mdl.model_portfolio.id)}>
-                            <FontAwesomeIcon icon={faInfoCircle} size="sm" />
-                          </Tooltip>
-                        </>
-                      )}
-                    </InUseDiv>
+                    <div>
+                      <ModelName>{mdl.model_portfolio.name}</ModelName>
+                      <Badges>
+                        <TypeBadge>
+                          {mdl.model_portfolio.model_type === 0
+                            ? 'Security Based'
+                            : 'Asset Class Based'}
+                        </TypeBadge>
+                        {totalAssignedGroups > 0 && (
+                          <UsedByBadge>
+                            In Use: {totalAssignedGroups} Group
+                            {totalAssignedGroups > 1 && 's'}{' '}
+                            <button
+                              onClick={() => {
+                                if (showGroups?.includes(modelId)) {
+                                  setShowGroups('');
+                                } else {
+                                  setShowGroups(modelId);
+                                }
+                              }}
+                            >
+                              <FontAwesomeIcon
+                                icon={
+                                  showGroups === modelId
+                                    ? faChevronCircleLeft
+                                    : faChevronCircleRight
+                                }
+                                color="var(--brand-green)"
+                              />
+                            </button>{' '}
+                            {showGroups === modelId && (
+                              <span>{makeLabel(modelId)}</span>
+                            )}
+                          </UsedByBadge>
+                        )}
+                      </Badges>
+                    </div>
                     {/* display Apply button only when there is a group id  */}
                     {!groupId && (
-                      <ApplyTransparentBtn
-                        onClick={() => {
-                          setSelectGroupDialog(true);
-                          setSelectedModel(mdl?.model_portfolio);
-                        }}
-                        disabled={totalAssignedGroups === allGroups?.length}
-                        className="tour-apply-button"
-                      >
-                        Apply
-                      </ApplyTransparentBtn>
+                      <div>
+                        <ApplyTransparentBtn
+                          onClick={() => {
+                            setSelectGroupDialog(true);
+                            setSelectedModel(mdl?.model_portfolio);
+                          }}
+                          disabled={totalAssignedGroups === allGroups?.length}
+                          className="tour-apply-button"
+                        >
+                          Apply
+                        </ApplyTransparentBtn>
+                      </div>
                     )}
                     <StyledViewBtn className="tour-view-button">
                       <button
                         onClick={() => handleApplyOrViewBtn(mdl)}
-                        disabled={hasClickedApply === mdl.model_portfolio.id}
+                        disabled={hasClickedApply === modelId}
                       >
-                        {hasClickedApply === mdl.model_portfolio.id ? (
+                        {hasClickedApply === modelId ? (
                           <FontAwesomeIcon icon={faSpinner} spin />
                         ) : (
                           <>
