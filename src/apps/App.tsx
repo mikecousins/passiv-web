@@ -450,7 +450,7 @@ const App = () => {
             )}
             {loggedIn && (
               <Route
-                path="/oauth/allyinvest"
+                path="/oauth/ally"
                 component={() => (
                   <BrokeragesOauthPage brokerageName="Ally Invest" />
                 )}
