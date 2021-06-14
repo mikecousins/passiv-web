@@ -11,8 +11,7 @@ import TDAmeritradeLogo from '../assets/images/tda-logo.png';
 import Grid from '../styled/Grid';
 import { LogoContainer } from '../styled/Setup';
 import styled from '@emotion/styled';
-import { BackButton } from '../components/ModelPortfolio';
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PortfolioGroupCash from '../components/PortfolioGroupDetails/PortfolioGroupCash';
 import SymbolSelector from '../components/PortfolioGroupTargets/TargetBar/SymbolSelector';
@@ -20,6 +19,7 @@ import { Form, Formik } from 'formik';
 import { StyledSelect } from '../components/PortfolioGroupSettings/OrderTargetAllocations';
 import AccountHoldings from '../components/AccountHoldings';
 import { TransparentButton } from './MyModelPortfoliosPage';
+import { BackButton } from '../components/ModelPortfolio';
 
 const MainContainer = styled(ShadowBox)`
   input[type='password'] {
@@ -110,10 +110,16 @@ const Order = styled(Grid)`
   border-bottom: 0.5px solid #bfb6b6;
 `;
 
+const BackButtonTransparent = styled(TransparentButtonSmaller)`
+  padding: 7px 40px 9px;
+`;
+
 const QuickTradePage = () => {
   const [status, setStatus] = useState('none');
   const [accountSelected, setAccountSelected] = useState('');
   const [activeTab, setActiveTab] = useState(1);
+  const [newUser, setNewUser] = useState(false);
+  const [preview, setPreview] = useState(false);
 
   const orders = [
     {
@@ -150,10 +156,21 @@ const QuickTradePage = () => {
 
   let result = (
     <div>
-      <Button onClick={() => setStatus('pin')} style={{ marginRight: '10px' }}>
+      <Button
+        onClick={() => {
+          setStatus('pin');
+          setNewUser(false);
+        }}
+        style={{ marginRight: '10px' }}
+      >
         Login with your PIN
       </Button>
-      <TransparentButtonSmaller onClick={() => setStatus('new')}>
+      <TransparentButtonSmaller
+        onClick={() => {
+          setStatus('new');
+          setNewUser(true);
+        }}
+      >
         Create an account
       </TransparentButtonSmaller>
     </div>
@@ -218,6 +235,9 @@ const QuickTradePage = () => {
               balances to provide you with addition of functionality.
             </small>
             <br />
+            <BackButtonTransparent onClick={() => setStatus('new')}>
+              Go Back
+            </BackButtonTransparent>
             <SmallButton
               onClick={() => setStatus('3')}
               style={{ marginTop: '10px' }}
@@ -261,6 +281,9 @@ const QuickTradePage = () => {
               </LogoContainer>
             </Broker>{' '}
           </Grid>
+          <BackButtonTransparent onClick={() => setStatus(newUser ? '2' : '4')}>
+            Go Back
+          </BackButtonTransparent>
         </div>
       );
       break;
@@ -351,7 +374,7 @@ const QuickTradePage = () => {
 
   return (
     <MainContainer>
-      <H1>Quick Trade By Passiv</H1>
+      <H1>Quick Trade</H1>
       {result}
       <div
         style={{
@@ -364,82 +387,111 @@ const QuickTradePage = () => {
           <div>
             {activeTab === 1 && (
               <ShadowBox>
-                <PortfolioGroupCash
-                  balances={[
-                    {
-                      currency: { id: 'x', code: 'CAD', name: 'cad' },
-                      cash: 120000,
-                    },
-                    {
-                      currency: { id: 'y', code: 'USD', name: 'cad' },
-                      cash: 5000,
-                    },
-                  ]}
-                  error={null}
-                />
-                <FormField>
+                {preview ? (
                   <div>
-                    <input type="radio" id="buy" name="trade" value="buy" />
-                    <label htmlFor="buy">Buy</label>
-                  </div>
-                  <div>
-                    <input type="radio" id="sell" name="trade" value="sell" />
-                    <label htmlFor="sell">Sell</label>
-                  </div>
-                </FormField>
-                <div>
-                  <div>
-                    <FormField>
-                      <span>Symbol: </span>
-                      <SymbolSelector
-                        value={undefined}
-                        onSelect={(selected) => console.log(selected)}
+                    <H1>
+                      Order Executed Successfully{' '}
+                      <FontAwesomeIcon
+                        icon={faCheckCircle}
+                        size="lg"
+                        color="var(--brand-green)"
                       />
+                    </H1>
+                    <Button onClick={() => setPreview(false)}>OK</Button>
+                  </div>
+                ) : (
+                  <div>
+                    {' '}
+                    <PortfolioGroupCash
+                      balances={[
+                        {
+                          currency: { id: 'x', code: 'CAD', name: 'cad' },
+                          cash: 120000,
+                        },
+                        {
+                          currency: { id: 'y', code: 'USD', name: 'cad' },
+                          cash: 5000,
+                        },
+                      ]}
+                      error={null}
+                    />
+                    <FormField>
+                      <div>
+                        <input type="radio" id="buy" name="trade" value="buy" />
+                        <label htmlFor="buy">Buy</label>
+                      </div>
+                      <div>
+                        <input
+                          type="radio"
+                          id="sell"
+                          name="trade"
+                          value="sell"
+                        />
+                        <label htmlFor="sell">Sell</label>
+                      </div>
                     </FormField>
                     <div>
-                      <Formik initialValues={{}} onSubmit={() => {}}>
-                        <Form onChange={() => console.log('selected')}>
-                          <FormField>
-                            <span>Order Type:</span>
-                            <StyledSelect as="select" name="type">
-                              <option value={'Market'} key={0}>
-                                Market
-                              </option>
-                              <option value={'Limit'} key={1}>
-                                Limit
-                              </option>
-                            </StyledSelect>
-                          </FormField>
-                          <FormField>
-                            <span>Quantity:</span> <input type="number" />
-                          </FormField>
-                          <FormField>
-                            <span>Price:</span> <input type="number" />
-                          </FormField>
-                          <FormField>
-                            <span>Time to Force:</span>
-                            <StyledSelect as="select" name="time">
-                              <option value={'Day'} key={0}>
-                                Day
-                              </option>
-                              <option value={'GTC'} key={1}>
-                                GTC
-                              </option>
-                              <option value={'FOK'} key={2}>
-                                FOK
-                              </option>
-                            </StyledSelect>
-                          </FormField>
-                        </Form>
-                      </Formik>
+                      <div>
+                        <FormField>
+                          <span>Symbol: </span>
+                          <SymbolSelector
+                            value={undefined}
+                            onSelect={(selected) => console.log(selected)}
+                          />
+                        </FormField>
+                        <div>
+                          <Formik initialValues={{}} onSubmit={() => {}}>
+                            <Form onChange={() => console.log('selected')}>
+                              <FormField>
+                                <span>Order Type:</span>
+                                <StyledSelect as="select" name="type">
+                                  <option value={'Market'} key={0}>
+                                    Market
+                                  </option>
+                                  <option value={'Limit'} key={1}>
+                                    Limit
+                                  </option>
+                                </StyledSelect>
+                              </FormField>
+                              <FormField>
+                                <span>Quantity:</span> <input type="number" />
+                              </FormField>
+                              <FormField>
+                                <span>Price:</span> <input type="number" />
+                              </FormField>
+                              <FormField>
+                                <span>Time to Force:</span>
+                                <StyledSelect as="select" name="time">
+                                  <option value={'Day'} key={0}>
+                                    Day
+                                  </option>
+                                  <option value={'GTC'} key={1}>
+                                    GTC
+                                  </option>
+                                  <option value={'FOK'} key={2}>
+                                    FOK
+                                  </option>
+                                </StyledSelect>
+                              </FormField>
+                            </Form>
+                          </Formik>
+                        </div>
+                      </div>
                     </div>
+                    <SmallButton
+                      onClick={() => {
+                        setPreview(true);
+                        setStatus('5');
+                      }}
+                      type="button"
+                    >
+                      Preview Order
+                    </SmallButton>
                   </div>
-                </div>
-                <SmallButton onClick={() => setStatus('preview')}>
-                  Preview Order
-                </SmallButton>
+                )}
               </ShadowBox>
             )}
+
             {activeTab === 2 && (
               <div>
                 <AccountHoldings
