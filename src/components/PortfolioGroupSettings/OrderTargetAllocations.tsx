@@ -15,14 +15,9 @@ import {
 
 const InlineDiv = styled.div`
   display: inline-block;
-  width: 50%;
 `;
 
-const StyledFieldBase = styled(Field)`
-  /* max-width: 50%; */
-`;
-
-export const StyledSelect = styled(StyledFieldBase)`
+export const StyledSelect = styled(Field)`
   padding: 11px 52px 10px 14px;
   display: inline-block;
   background-color: #fff;
@@ -48,10 +43,10 @@ const OrderTargetAllocations = () => {
 
   const orderByOptions = {
     Alphabetically: 0,
-    'By Target Allocation': 1,
-    'By Asset Percentages': 2,
-    'By Most Underweight': 3,
-    'By Most Overweight': 4,
+    'Target Allocation': 1,
+    'Actual Percentage': 2,
+    'Most Underweight': 3,
+    'Most Overweight': 4,
   };
 
   const updateSettings = () => {
@@ -78,7 +73,7 @@ const OrderTargetAllocations = () => {
   return (
     <React.Fragment>
       <InlineDiv>
-        <H3>Order Targets</H3>
+        <H3>Order Targets By:</H3>
         <Formik
           initialValues={{
             orderBy: settings ? settings.order_targets_by : 0,

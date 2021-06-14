@@ -185,21 +185,25 @@ const TargetBar = ({
               </Target>
             ) : (
               <Target>
-                <Number
-                  value={renderTargetPercentage}
-                  percentage
-                  decimalPlaces={1}
-                />
+                <Tooltip label={renderTargetPercentage}>
+                  <Number
+                    value={renderTargetPercentage}
+                    percentage
+                    decimalPlaces={1}
+                  />
+                </Tooltip>
               </Target>
             )}
 
             <ActualBox>
               <Actual>
-                <Number
-                  value={renderActualPercentage}
-                  percentage
-                  decimalPlaces={1}
-                />
+                <Tooltip label={renderActualPercentage}>
+                  <Number
+                    value={renderActualPercentage}
+                    percentage
+                    decimalPlaces={1}
+                  />
+                </Tooltip>
               </Actual>
             </ActualBox>
           </React.Fragment>

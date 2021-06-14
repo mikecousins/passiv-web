@@ -92,7 +92,7 @@ const NotHolding = styled.span`
   background-color: #04a287;
 `;
 const NewSecurity = styled(NotHolding)`
-  background-color: orange;
+  background-color: var(--brand-orange);
 `;
 
 const EditPriorityContainer = styled.div``;
