@@ -95,11 +95,6 @@ const MenuButton = ({ menuVisibility, handleMouseDown }: Props) => (
       <span />
       <span />
     </Hamburger>
-    <strong>
-      {menuVisibility ? 'Collapse' : 'Expand'}
-      <br />
-      Menu
-    </strong>
   </Button>
 );
 

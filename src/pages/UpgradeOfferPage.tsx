@@ -217,17 +217,11 @@ const UpgradeOfferPage = () => {
     result = (
       <div>
         <Star></Star>
-        <H1>You are now a Elite member</H1>
+        <H1>You are now an Elite member</H1>
         <P>
           You're good to go! You will have <Bold>FREE</Bold> access to Passiv
           Elite as long as your Questrade account is connected to Passiv.
         </P>
-        {/* <P>
-          Spread the good news and tell your friends about this offer. Share
-          this link using Twitter, Facebook, email, or whatever you prefer!
-        </P>
-        {shareBox} */}
-
         <Button
           onClick={() => {
             if (isOnboarding) {

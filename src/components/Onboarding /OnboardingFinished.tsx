@@ -59,31 +59,23 @@ const OnboardingFinished = () => {
       <TopFeatures columns="repeat(2, 3fr)">
         <Feature>
           <FontAwesomeIcon icon={faCogs} size="4x" />
-          <P>
-            Customize your <br /> experience in settings
-          </P>
+          <P>Reporting</P>
         </Feature>
         <Feature>
           <FontAwesomeIcon icon={faChartPie} size="4x" />
-          <P>
-            Create and share <br /> Model Portfolios
-          </P>
+          <P>Create and share Model Portfolios</P>
         </Feature>
         <Feature>
           <FontAwesomeIcon icon={faTrophy} size="4x" />
-          <P>
-            Create goals to <br /> stay on track
-          </P>
+          <P>Manage multiple accounts in one place</P>
         </Feature>
         <Feature>
           <FontAwesomeIcon icon={faMoneyBillWave} size="4x" />
-          <P>
-            Refer friends to earn <br />
-            money{' '}
-          </P>
+          <P>Refer a friend</P>
         </Feature>
       </TopFeatures>
       <TutorialLink>
+        Look for . OR
         <a
           href="https://passiv.com/tutorials/"
           target="_blank"
