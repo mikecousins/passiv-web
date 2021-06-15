@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { Button } from '../../styled/Button';
 import { H1, H3, P } from '../../styled/GlobalElements';
 import { useDispatch, useSelector } from 'react-redux';
-import { push } from 'connected-react-router';
 import { updateOnboardingStep } from '../../actions/onboarding';
 import { selectSettings } from '../../selectors';
 
@@ -44,10 +43,6 @@ const Step = styled.div`
   p {
     margin-left: 46px;
   }
-`;
-
-const ScalingIFrame = styled.iframe`
-  width: 100%;
 `;
 
 const Intro = () => {

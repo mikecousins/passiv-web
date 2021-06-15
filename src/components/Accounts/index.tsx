@@ -33,7 +33,6 @@ import { loadPerformanceAll } from '../../actions/performance';
 import { selectSelectedAccounts } from '../../selectors/performance';
 import { selectRouter } from '../../selectors/router';
 import { Continue } from '../../pages/BrokeragesOauthPage';
-import { push } from 'connected-react-router';
 import { BackBtn } from '../../pages/AuthorizationPage';
 import { updateOnboardingStep } from '../../actions/onboarding';
 import { selectSettings } from '../../selectors';

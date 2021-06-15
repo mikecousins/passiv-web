@@ -38,7 +38,7 @@ export const SlideMenu = () => {
         setVisible(true);
       }
     }
-  }, [pathname, onboardingStep]);
+  }, [pathname, onboardingStep, isMobile]);
 
   // check our path to see if it's changed
   // if it has and we're on mobile, close the menu
