@@ -65,6 +65,9 @@ const BiggerLogoContainer = styled.div`
     max-width: 100%;
     max-height: 100px;
   }
+  @media (max-width: 900px) {
+    max-height: 200px;
+  }
 `;
 
 export const LogoContainer = styled.div`
@@ -93,6 +96,9 @@ const OpenBox = styled(ShadowBox)`
   text-align: center;
   padding-bottom: 30px;
   height: 100%;
+  @media (max-width: 900px) {
+    min-width: 100%;
+  }
 `;
 
 const AuthLink = styled(A)`
@@ -170,6 +176,9 @@ const OpenAccountBtn = styled(Button)`
   line-height: 26px;
   text-align: center;
   letter-spacing: 0.25px;
+  @media (max-width: 900px) {
+    margin-top: 30px;
+  }
 `;
 
 type RibbonType = {

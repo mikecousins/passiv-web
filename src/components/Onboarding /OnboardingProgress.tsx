@@ -43,6 +43,9 @@ const Step = styled.div<StepProps>`
     text-align: center;
     color: white;
   }
+  @media (max-width: 900px) {
+    padding: 5px 15px;
+  }
 `;
 type StepNameProps = {
   active: boolean;
@@ -55,7 +58,7 @@ const StepName = styled(H3)<StepNameProps>`
   letter-spacing: 1px;
   margin-top: 5px;
   @media (max-width: 900px) {
-    font-size: 15px;
+    font-size: 13px;
   }
 `;
 
