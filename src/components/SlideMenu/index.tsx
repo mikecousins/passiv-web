@@ -30,7 +30,7 @@ export const SlideMenu = () => {
           pathname === '/connect/open' ||
           pathname.includes('oauth') ||
           pathname === '/questrade-offer') &&
-        onboardingStep &&
+        onboardingStep !== undefined &&
         onboardingStep <= 4
       ) {
         setVisible(false);

@@ -62,7 +62,7 @@ const Onboarding = () => {
       }
     }
 
-    if (onboardingStep) {
+    if (onboardingStep !== undefined) {
       setStep(onboardingStep);
     }
     // eslint-disable-next-line
