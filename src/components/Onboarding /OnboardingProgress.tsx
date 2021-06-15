@@ -5,8 +5,10 @@ import styled from '@emotion/styled';
 import { H2, H3 } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
 import { steps } from './Intro';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectIsMobile } from '../../selectors/browser';
+import { updateOnboardingStep } from '../../actions/onboarding';
+import { selectSettings } from '../../selectors';
 
 const Container = styled.div`
   margin-bottom: 50px;
@@ -61,6 +63,8 @@ type Props = {
   currentStep: number;
 };
 const OnboardingProgress = ({ currentStep }: Props) => {
+  const dispatch = useDispatch();
+  const settings = useSelector(selectSettings);
   const isMobile = useSelector(selectIsMobile);
 
   return (
@@ -71,7 +75,15 @@ const OnboardingProgress = ({ currentStep }: Props) => {
           const done = index + 1 < currentStep;
           return (
             <div>
-              <Step active={active} done={done}>
+              <Step
+                active={active}
+                done={done}
+                onClick={() => {
+                  if (done) {
+                    dispatch(updateOnboardingStep(index + 1, settings));
+                  }
+                }}
+              >
                 {done ? (
                   <div>
                     <FontAwesomeIcon icon={faCheck} />

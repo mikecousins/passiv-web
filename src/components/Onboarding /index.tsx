@@ -46,7 +46,9 @@ const Onboarding = () => {
     if (step > 1 && !isAuthorized) {
       putData('/api/v1/contextualMessages', {
         name: ['onboarding_dashboard'],
-      }).then(() => {});
+      }).then(() => {
+        dispatch(updateOnboardingStep(0, settings));
+      });
     }
     if (isAuthorized) {
       // skip choose membership step if user is on Elite
