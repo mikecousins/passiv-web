@@ -1,3 +1,4 @@
+import styled from '@emotion/styled-base';
 import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
@@ -20,12 +21,22 @@ import {
   selectStartDate,
 } from '../../../selectors/performance';
 import { Button } from '../../../styled/Button';
-import { OptionsTitle } from '../../../styled/GlobalElements';
+import { OptionsTitle, Table } from '../../../styled/GlobalElements';
 import ShadowBox from '../../../styled/ShadowBox';
 import { StateText, ToggleButton } from '../../../styled/ToggleButton';
 import { Option } from '../Dashboard/DashboardConfig';
 import DefaultChart from './DefaultChart';
 import DetailedChart from './DetailedChart';
+
+const ChartOptions = styled(Table)`
+  width: 50%;
+  div {
+    width: 100%;
+    @media (max-width: 900px) {
+      margin-bottom: 10px;
+    }
+  }
+`;
 
 const Settings = () => {
   const dispatch = useDispatch();
@@ -219,17 +230,21 @@ const Settings = () => {
           </Option>
         </>
       )}
-
-      <Option>
-        <div>
-          <span onClick={() => disableDetailedMode()}>
+      <div>
+        <ChartOptions>
+          <div
+            onClick={() => disableDetailedMode()}
+            style={{ marginRight: '50px' }}
+          >
+            <OptionsTitle>Simple View</OptionsTitle>
             <DefaultChart selected={!detailedMode} />
-          </span>
-          <span onClick={() => enableDetailedMode()}>
+          </div>
+          <div onClick={() => enableDetailedMode()}>
+            <OptionsTitle>Detailed View</OptionsTitle>
             <DetailedChart selected={detailedMode} />
-          </span>
-        </div>
-      </Option>
+          </div>
+        </ChartOptions>
+      </div>
       {needsDataRefresh() && (
         <>
           <br></br>
