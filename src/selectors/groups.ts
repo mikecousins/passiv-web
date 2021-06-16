@@ -885,7 +885,8 @@ export const selectCurrentGroupTarget = createSelector(
             if (
               preferredCurrency &&
               (position.symbol.currency.id === preferredCurrency.id ||
-                position.currency.id === preferredCurrency.id)
+                (position.currency &&
+                  position.currency.id === preferredCurrency.id))
             ) {
               target.actualPercentage =
                 ((position.price * units) / totalHoldingsExcludedRemoved) * 100;
