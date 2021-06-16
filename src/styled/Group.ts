@@ -156,32 +156,6 @@ export const TradesContainer = styled.div`
     margin-bottom: 10px;
   }
 `;
-export const ErrorContainer = styled.div`
-  position: relative;
-  box-shadow: var(--box-shadow);
-  border-radius: 4px;
-  padding: 20px;
-  margin-bottom: 20px;
-  margin-top: 0;
-  background: #fff;
-  &:after {
-    content: '';
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 0;
-    height: 0;
-    border-bottom: 80px solid #ffb040;
-    border-left: 80px solid transparent;
-  }
-  h2 {
-    margin-bottom: 20px;
-  }
-  h3 {
-    font-size: 25px;
-    margin-bottom: 10px;
-  }
-`;
 
 export const TradeRow = styled.div`
   text-align: left;

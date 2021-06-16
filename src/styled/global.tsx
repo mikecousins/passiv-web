@@ -196,6 +196,7 @@ export const GlobalStyle = () => (
         --brand-grey: #2a2d34;
         --brand-black: #01010a;
         --brand-orange: #ffb040;
+        --brand-light-orange: #ffeeda;
 
         --black: #22292f;
         --grey-darkest: #3d4852;

@@ -29,7 +29,7 @@ export const Accuracy = styled.div<AccuracyType>`
   padding: 20px 20px 20px;
   margin-bottom: 20px;
   color: ${(props) =>
-    props.belowThreshold ? '#ffb040' : 'var(--brand-green)'};
+    props.belowThreshold ? 'var(--brand-orange)' : 'var(--brand-green)'};
   display: block;
   h2 {
     color: #fff;
@@ -57,7 +57,7 @@ export const SemiCircle = styled.div<SemiCircleType>`
   width: 200px;
   height: 100px;
   background: ${(props) =>
-    props.belowThreshold ? '#ffb040' : 'var(--brand-green)'};
+    props.belowThreshold ? 'var(--brand-orange)' : 'var(--brand-green)'};
   border-radius: 50% 50% 50% 50% / 100% 100% 0% 0%;
   &::before {
     content: '';

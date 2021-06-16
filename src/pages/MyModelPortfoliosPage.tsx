@@ -37,6 +37,8 @@ import MoreOptions from '../components/ModelPortfolio/MoreOptions';
 import { push, replace } from 'connected-react-router';
 import Tour from '../components/Tour/Tour';
 import { MyModelsPageSteps } from '../components/Tour/TourSteps';
+import NotificationMessage from '../components/NotificationMessage';
+import { selectContextualMessages } from '../selectors';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -124,8 +126,8 @@ const MyModelPortfoliosPage = () => {
   const allGroups = useSelector(selectGroups);
   const group = useSelector(selectGroupInfoForModelPortfolio);
   const groupsUsingModel = useSelector(selectGroupsUsingAModel);
-
   const groupInfo = useSelector(selectGroupInfo);
+  const messages = useSelector(selectContextualMessages);
 
   const groupData = group.groupInfo;
   const groupId = groupData?.groupId;
@@ -226,7 +228,35 @@ const MyModelPortfoliosPage = () => {
           </Link>
         </BackButton>
       ) : (
-        <H1>Model Portfolios</H1>
+        <div>
+          {modelPortfolios.length > 0 && messages?.includes('share_and_earn') && (
+            <NotificationMessage
+              error={false}
+              title={'Share & Earn'}
+              alwaysOpen={true}
+              closeBtn={true}
+            >
+              <div>
+                <P>
+                  Would your new model help your friends or family members get
+                  started with investing? Or do you want to get feedback on your
+                  asset allocation?
+                </P>
+                <P>
+                  Enable <strong>Share Model</strong> in your model’s page to
+                  generate a URL to share with your friends.
+                </P>
+                <P>
+                  {' '}
+                  <strong>Bonus:</strong> You can earn $20 if anyone you share
+                  this model with signs up for Passiv Elite.
+                </P>
+              </div>
+            </NotificationMessage>
+          )}
+
+          <H1>Model Portfolios</H1>
+        </div>
       )}
       <Table>
         {groupId ? (

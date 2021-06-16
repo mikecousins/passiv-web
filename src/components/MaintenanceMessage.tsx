@@ -5,7 +5,7 @@ import { selectLoggedIn, selectMaintenanceBrokerages } from '../selectors';
 import styled from '@emotion/styled';
 
 import { H2, P } from '../styled/GlobalElements';
-import { ErrorContainer } from '../styled/Group';
+import NotificationMessage from './NotificationMessage';
 
 const ReconnectContainer = styled.div`
   font-size: 18px;
@@ -31,30 +31,35 @@ const MaintenanceMessage = () => {
   if (loggedIn) {
     if (maintenanceBrokerages !== null && maintenanceBrokerages.length > 0) {
       return (
-        <ErrorContainer>
-          <H2>Brokerage Maintenance</H2>
-          <P>
-            The following brokerages are currently undergoing maintenance.
-            Account information linked to these brokerages may be incomplete or
-            unavailable until the maintenance is finished.
-          </P>
-          <P>
-            This may also prevent you from creating new brokerage connections.
-          </P>
-          {maintenanceBrokerages.map((brokerage: any) => {
-            return (
-              <ReconnectContainer key={brokerage.id}>
-                <ReconnectPanel></ReconnectPanel>
-                <ReconnectPanel>
-                  <span>
-                    <Title>Brokerage:</Title>&nbsp;
-                    {brokerage.name}
-                  </span>
-                </ReconnectPanel>
-              </ReconnectContainer>
-            );
-          })}
-        </ErrorContainer>
+        <NotificationMessage
+          error={true}
+          title={'Brokerage Maintenance'}
+          alwaysOpen={true}
+        >
+          <div>
+            <P>
+              The following brokerages are currently undergoing maintenance.
+              Account information linked to these brokerages may be incomplete
+              or unavailable until the maintenance is finished.
+            </P>
+            <P>
+              This may also prevent you from creating new brokerage connections.
+            </P>
+            {maintenanceBrokerages.map((brokerage: any) => {
+              return (
+                <ReconnectContainer key={brokerage.id}>
+                  <ReconnectPanel></ReconnectPanel>
+                  <ReconnectPanel>
+                    <span>
+                      <Title>Brokerage:</Title>&nbsp;
+                      {brokerage.name}
+                    </span>
+                  </ReconnectPanel>
+                </ReconnectContainer>
+              );
+            })}
+          </div>
+        </NotificationMessage>
       );
     }
   }
