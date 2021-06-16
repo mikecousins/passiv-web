@@ -1,9 +1,6 @@
-import {
-  faExclamationTriangle,
-  faSpinner,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -28,7 +25,7 @@ import {
   selectNeedToPrioritize,
   selectGroupsLoading,
 } from '../selectors/groups';
-import { H3, P } from '../styled/GlobalElements';
+import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
 import { OverviewTabSteps } from './Tour/TourSteps';
 import NewAssetsDetected from './NewAssetsDetected';
@@ -73,10 +70,6 @@ const List = styled.ul`
   > li {
     margin-bottom: 5px;
   }
-`;
-
-const Description = styled(P)`
-  font-size: 20px;
 `;
 
 const OverviewTab = () => {

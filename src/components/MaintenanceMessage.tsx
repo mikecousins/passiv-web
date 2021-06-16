@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectLoggedIn, selectMaintenanceBrokerages } from '../selectors';
 import styled from '@emotion/styled';
 
-import { H2, P } from '../styled/GlobalElements';
+import { P } from '../styled/GlobalElements';
 import NotificationMessage from './NotificationMessage';
 
 const ReconnectContainer = styled.div`

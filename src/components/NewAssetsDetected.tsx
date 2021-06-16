@@ -8,7 +8,7 @@ import {
   selectCurrentGroupSettings,
 } from '../selectors/groups';
 import { SmallButton } from '../styled/Button';
-import { A, H3, P } from '../styled/GlobalElements';
+import { A, P } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
 import styled from '@emotion/styled';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
