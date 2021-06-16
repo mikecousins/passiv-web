@@ -19,6 +19,8 @@ import { selectIsPaid } from '../../selectors/subscription';
 import { selectDashboardGroups } from '../../selectors/groups';
 import { HideButton } from '../ContextualMessageWrapper';
 import { updateOnboardingStep } from '../../actions/onboarding';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
   padding: 20px 20px 0px 20px;
@@ -33,7 +35,9 @@ const Onboarding = () => {
   const isPaid = useSelector(selectIsPaid);
   const isAuthorized = useSelector(selectIsAuthorized);
 
-  const [step, setStep] = useState(onboardingStep ? onboardingStep : 0);
+  const [step, setStep] = useState(
+    onboardingStep !== undefined ? onboardingStep : 0,
+  );
 
   const anySetupRemaining = groups
     .map((group) => group.setupComplete)
@@ -70,18 +74,24 @@ const Onboarding = () => {
 
   return (
     <Container>
-      {step === 5 && (
-        <HideButton name={'onboarding_dashboard'} xButton={true} />
+      {Onboarding === undefined ? (
+        <FontAwesomeIcon icon={faSpinner} size="lg" />
+      ) : (
+        <>
+          {step === 5 && (
+            <HideButton name={'onboarding_dashboard'} xButton={true} />
+          )}
+          <OnboardingProgress currentStep={step} />
+          <React.Fragment>
+            {step === 0 && <Intro />}
+            {step === 1 && <AuthorizationPage onboarding={true} />}
+            {step === 2 && <ChooseMembership />}
+            {step === 3 && <Accounts />}
+            {step === 4 && <SetupPortfolios />}
+            {step === 5 && <OnboardingFinished />}
+          </React.Fragment>
+        </>
       )}
-      <OnboardingProgress currentStep={step} />
-      <React.Fragment>
-        {step === 0 && <Intro />}
-        {step === 1 && <AuthorizationPage onboarding={true} />}
-        {step === 2 && <ChooseMembership />}
-        {step === 3 && <Accounts />}
-        {step === 4 && <SetupPortfolios />}
-        {step === 5 && <OnboardingFinished />}
-      </React.Fragment>
     </Container>
   );
 };

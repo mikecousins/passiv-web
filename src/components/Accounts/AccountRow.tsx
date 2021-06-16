@@ -112,7 +112,8 @@ export const AccountRow = ({ account, editing }: Props) => {
       )}
       <Table>
         <Brokerage>
-          <BrokerageTitle>{brokerageName}</BrokerageTitle>
+          <H3>Brokerage</H3>
+          <P>{brokerageName}</P>
         </Brokerage>
         <Name>
           <H3>Name</H3>
@@ -131,9 +132,7 @@ export const AccountRow = ({ account, editing }: Props) => {
           <H3>Type</H3>
           <P> {formatAccountType(account, brokerageName)} </P>
         </Type>
-        {editing && !onMobile && (
-          <FontAwesomeIcon icon={faGripVertical} size="lg" />
-        )}
+        {editing && !onMobile && <FontAwesomeIcon icon={faGripVertical} />}
       </Table>
       {groupEditing && editingFooter}
     </AccountContainer>

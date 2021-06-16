@@ -21,7 +21,7 @@ import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
 import AccountGroup from './AccountGroup';
 import { deleteData, putData, postData } from '../../api';
-import { H2, A, Edit, H3, P, H1 } from '../../styled/GlobalElements';
+import { H2, A, Edit, H3, P, H1, Table } from '../../styled/GlobalElements';
 import { selectModelPortfolioFeature } from '../../selectors/features';
 import {
   loadAccountList,
@@ -36,6 +36,7 @@ import { Continue } from '../../pages/BrokeragesOauthPage';
 import { BackBtn } from '../../pages/AuthorizationPage';
 import { updateOnboardingStep } from '../../actions/onboarding';
 import { selectSettings } from '../../selectors';
+import Grid from '../../styled/Grid';
 
 export const Header = styled.form`
   h2 {
@@ -84,6 +85,22 @@ export const TutorialLink = styled.div`
 const ButtonContainer = styled.div`
   text-align: right;
   margin-top: 50px;
+`;
+
+const Back = styled(BackBtn)`
+  float: left;
+  @media (max-width: 900px) {
+    float: none;
+    margin-top: 20px;
+  }
+`;
+
+const Headers = styled(Table)`
+  justify-content: center;
+  margin-top: 10px;
+  * {
+    width: 100%;
+  }
 `;
 
 const Accounts = () => {
@@ -273,7 +290,7 @@ const Accounts = () => {
               >
                 <AccountGroup name={group.name} isOnboarding={isOnboarding}>
                   {group.accounts.length > 0 ? (
-                    <React.Fragment>
+                    <div>
                       {group.accounts.map((account, index) => (
                         <Draggable
                           key={account.id}
@@ -301,7 +318,7 @@ const Accounts = () => {
                       ))}
                       {group.accounts.length === 0 &&
                         !snapshot.isDraggingOver && <H3>Empty group</H3>}
-                    </React.Fragment>
+                    </div>
                   ) : (
                     <React.Fragment>
                       {group.groupId === 'hidden' ? (
@@ -377,12 +394,9 @@ const Accounts = () => {
               Next Step
               <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
             </Continue>
-            <BackBtn
-              onClick={() => dispatch(updateOnboardingStep(2, settings))}
-              style={{ float: 'left' }}
-            >
+            <Back onClick={() => dispatch(updateOnboardingStep(2, settings))}>
               <FontAwesomeIcon icon={faLongArrowAltLeft} /> Go Back
-            </BackBtn>
+            </Back>
           </ButtonContainer>
         </>
       )}

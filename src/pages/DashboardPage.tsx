@@ -47,6 +47,9 @@ export const DashboardPage = () => {
 
   let groupDisplay = <FontAwesomeIcon icon={faSpinner} spin />;
 
+  if (showOnboardingApp) {
+    dispatch(push('/welcome'));
+  }
   let anyTargets = true;
   // let anySetupRemaining = false;
   if (groups) {
@@ -95,10 +98,6 @@ export const DashboardPage = () => {
       visible: hasQuestradeConnection,
     },
   ];
-
-  if (showOnboardingApp) {
-    dispatch(push('/welcome'));
-  }
 
   return (
     <React.Fragment>
