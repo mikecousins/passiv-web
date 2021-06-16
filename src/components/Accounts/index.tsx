@@ -21,7 +21,7 @@ import { selectGroupedAccounts, Group } from '../../selectors/groups';
 import AccountRow from './AccountRow';
 import AccountGroup from './AccountGroup';
 import { deleteData, putData, postData } from '../../api';
-import { H2, A, Edit, H3, P, H1, Table } from '../../styled/GlobalElements';
+import { H2, A, Edit, H3, P, H1 } from '../../styled/GlobalElements';
 import { selectModelPortfolioFeature } from '../../selectors/features';
 import {
   loadAccountList,
@@ -36,7 +36,6 @@ import { Continue } from '../../pages/BrokeragesOauthPage';
 import { BackBtn } from '../../pages/AuthorizationPage';
 import { updateOnboardingStep } from '../../actions/onboarding';
 import { selectSettings } from '../../selectors';
-import Grid from '../../styled/Grid';
 
 export const Header = styled.form`
   h2 {
@@ -92,14 +91,6 @@ const Back = styled(BackBtn)`
   @media (max-width: 900px) {
     float: none;
     margin-top: 20px;
-  }
-`;
-
-const Headers = styled(Table)`
-  justify-content: center;
-  margin-top: 10px;
-  * {
-    width: 100%;
   }
 `;
 

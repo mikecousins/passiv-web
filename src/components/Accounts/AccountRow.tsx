@@ -6,14 +6,7 @@ import { loadAccounts, loadGroups } from '../../actions';
 import { putData } from '../../api';
 import { Table, H3, P, A } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
-import {
-  AccountContainer,
-  Brokerage,
-  BrokerageTitle,
-  Name,
-  Number,
-  Type,
-} from './styles';
+import { AccountContainer, Brokerage, Name, Number, Type } from './styles';
 import { Account } from '../../types/account';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons';
