@@ -111,13 +111,13 @@ const SideBarLink = ({
       } else if (!setupComplete && hasAccounts) {
         indicator = (
           <RebalanceAlert>
-            <span style={{ background: 'orange' }} />
+            <span style={{ background: 'var(--brand-orange)' }} />
           </RebalanceAlert>
         );
       } else if (!hasAccounts) {
         indicator = (
           <RebalanceAlert>
-            <span style={{ background: 'orange' }} />
+            <span style={{ background: 'var(--brand-orange)' }} />
           </RebalanceAlert>
         );
       }

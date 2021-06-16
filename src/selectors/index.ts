@@ -422,41 +422,6 @@ export const selectPasswordResetToken = createSelector(
   },
 );
 
-export const selectHelpArticleSlug = createSelector(selectRouter, (router) => {
-  let slug = null;
-  if (
-    router &&
-    router.location &&
-    router.location.pathname &&
-    router.location.pathname.split('/').length === 5
-  ) {
-    slug = router.location.pathname.split('/')[4];
-  }
-  return slug;
-});
-
-export const selectHelpArticlesRaw = (state: AppState) => state.helpArticles;
-
-export const selectHelpArticles = createSelector(
-  selectHelpArticlesRaw,
-  (helpArticlesRaw) => {
-    if (helpArticlesRaw.data) {
-      return helpArticlesRaw.data;
-    }
-  },
-);
-
-export const selectHelpArticlesNeedData = createSelector(
-  selectHelpArticlesRaw,
-  selectAppTime,
-  (rawHelpArticles, time) => {
-    return shouldUpdate(rawHelpArticles, {
-      staleTime: ms.minutes(10),
-      now: time,
-    });
-  },
-);
-
 export const selectIsAuthorized = createSelector(
   selectAuthorizations,
   (authorizations) => {

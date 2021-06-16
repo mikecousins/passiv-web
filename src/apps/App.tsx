@@ -64,10 +64,6 @@ const DemoLoginPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "demo-login" */ '../pages/DemoLoginPage'),
 );
 
-const HelpArticlePage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "help-article" */ '../pages/HelpArticlePage'),
-);
-
 const HelpPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "help" */ '../pages/HelpPage'),
 );
@@ -352,7 +348,6 @@ const App = () => {
         <React.Suspense fallback={<FontAwesomeIcon icon={faSpinner} spin />}>
           <Switch>
             {/* common routes */}
-            <Route path="/help/topic/:slug" component={HelpArticlePage} />
             <Route path="/help" component={HelpPage} />
             <Route path="/contact-form" component={ContactFormPage} />
             <Route path="/reset-password" component={ResetPasswordPage} />

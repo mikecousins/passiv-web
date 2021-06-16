@@ -22,7 +22,7 @@ const Warning = styled.div`
     text-align: center;
   }
   svg {
-    color: orange;
+    color: var(--brand-orange);
   }
 `;
 interface Props {

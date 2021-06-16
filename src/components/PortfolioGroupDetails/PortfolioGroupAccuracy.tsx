@@ -14,8 +14,12 @@ import {
   selectCurrentGroupSetupComplete,
   selectCurrentGroupInfoError,
 } from '../../selectors/groups';
+import { selectSettings } from '../../selectors';
 
-export const Accuracy = styled.div`
+type AccuracyType = {
+  belowThreshold: boolean;
+};
+export const Accuracy = styled.div<AccuracyType>`
   text-align: center;
   font-size: 34px;
   font-weight: 600;
@@ -24,7 +28,8 @@ export const Accuracy = styled.div`
   box-shadow: var(--box-shadow);
   padding: 20px 20px 20px;
   margin-bottom: 20px;
-  color: var(--brand-green);
+  color: ${(props) =>
+    props.belowThreshold ? '#ffb040' : 'var(--brand-green)'};
   display: block;
   h2 {
     color: #fff;
@@ -42,12 +47,17 @@ export const Mask = styled.div`
   height: 100px;
   margin: 20px auto 10px;
 `;
-export const SemiCircle = styled.div`
+
+type SemiCircleType = {
+  belowThreshold: boolean;
+};
+export const SemiCircle = styled.div<SemiCircleType>`
   position: relative;
   display: block;
   width: 200px;
   height: 100px;
-  background: #04a287;
+  background: ${(props) =>
+    props.belowThreshold ? '#ffb040' : 'var(--brand-green)'};
   border-radius: 50% 50% 50% 50% / 100% 100% 0% 0%;
   &::before {
     content: '';
@@ -119,6 +129,11 @@ export const PortfolioGroupAccuracy = ({
 }: Props) => {
   const setupComplete = useSelector(selectCurrentGroupSetupComplete);
   const error = useSelector(selectCurrentGroupInfoError);
+  const settings = useSelector(selectSettings);
+  const belowDriftThreshold =
+    settings && settings.receive_drift_notifications && accuracy
+      ? accuracy < +settings?.drift_threshold
+      : false;
 
   let accuracyDisplay = null;
   if (error || accuracy === null) {
@@ -140,10 +155,19 @@ export const PortfolioGroupAccuracy = ({
       accuracyDisplay = (
         <Number value={accuracy} percentage decimalPlaces={0} />
       );
+      if (belowDriftThreshold) {
+        accuracyDisplay = (
+          <div>
+            <Tooltip label="Accuracy is below drift threshold.">
+              <Number value={accuracy} percentage decimalPlaces={0} />
+            </Tooltip>
+          </div>
+        );
+      }
     } else {
       accuracyDisplay = (
         <div>
-          <Tooltip label="There is no target set for this portfolio, follow the instructions under the Target Portfolio.">
+          <Tooltip label="There is no target set for this portfolio, follow the instructions under the Model Portfolio.">
             <FontAwesomeIcon icon={faExclamationTriangle} />
           </Tooltip>
         </div>
@@ -151,17 +175,27 @@ export const PortfolioGroupAccuracy = ({
     }
   }
   return (
-    <Accuracy className={tourClass}>
+    <Accuracy
+      className={tourClass}
+      belowThreshold={belowDriftThreshold || accuracy === null}
+    >
       <H2>
         Accuracy&nbsp;
-        <Tooltip label="How close your holdings are to your desired target, where 100% indicates your holdings are perfectly on target.">
+        <Tooltip
+          label="How close your holdings are to your desired target, where 100% indicates
+      your holdings are perfectly on target."
+        >
           <FontAwesomeIcon icon={faQuestionCircle} style={{ fontSize: 12 }} />
         </Tooltip>
       </H2>
 
       <Mask>
-        <SemiCircle></SemiCircle>
-        <SemiCircleMask accuracy={accuracy}></SemiCircleMask>
+        <SemiCircle
+          belowThreshold={belowDriftThreshold || accuracy === null}
+        ></SemiCircle>
+        <SemiCircleMask
+          accuracy={setupComplete === true ? accuracy : null}
+        ></SemiCircleMask>
       </Mask>
 
       <PercentBox>{accuracyDisplay}</PercentBox>

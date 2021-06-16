@@ -33,11 +33,11 @@ export const Active2FABadge = styled(Badge2FA)`
 `;
 
 export const Disabled2FABadge = styled(Badge2FA)`
-  background-color: orange;
+  background-color: var(--brand-orange);
 `;
 
 export const ErrorMessage = styled(ShadowBox)`
-  background-color: orange;
+  background-color: var(--brand-orange);
 `;
 
 export const ChoiceBox = styled.div`

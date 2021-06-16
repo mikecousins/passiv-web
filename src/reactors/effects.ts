@@ -9,7 +9,6 @@ import {
   loadGroupInfo,
   loadSettings,
   loadPlans,
-  loadHelpArticles,
   loadFeatures,
   loadIncentives,
   loadModelAssetClasses,
@@ -27,7 +26,6 @@ import {
   selectAuthorizationsNeedData,
   selectSettingsNeedData,
   selectPlansNeedData,
-  selectHelpArticlesNeedData,
   selectIncentivesNeedData,
 } from '../selectors';
 import { selectAccountsNeedData } from '../selectors/accounts';
@@ -69,10 +67,6 @@ export const effects = [
   {
     selector: selectCurrencyRatesNeedData,
     actionCreator: loadCurrencyRates,
-  },
-  {
-    selector: selectHelpArticlesNeedData,
-    actionCreator: loadHelpArticles,
   },
   {
     selector: selectBrokeragesNeedData,

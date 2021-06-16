@@ -200,7 +200,7 @@ export const PortfolioGroupTrades = ({
                 <FontAwesomeIcon
                   icon={faExclamationCircle}
                   size="2x"
-                  color="orange"
+                  color="var(--brand-orange)"
                 />
               </Tooltip>
             )}

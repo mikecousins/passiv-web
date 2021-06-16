@@ -88,7 +88,7 @@ const Tour = ({ steps, name }: Props) => {
               fontSize: 18,
             },
             options: {
-              primaryColor: 'orange',
+              primaryColor: 'var(--brand-orange)',
             },
             buttonBack: {
               color: 'var(--brand-blue)',

@@ -70,7 +70,7 @@ const Header = styled(Grid)`
 const OrderTargetsContainer = styled.div`
   justify-self: end;
   @media (max-width: 900px) {
-    margin-top: 50px;
+    margin-top: 20px;
   }
 `;
 
