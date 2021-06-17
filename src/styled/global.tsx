@@ -312,12 +312,6 @@ export const GlobalStyle = () => (
         top: 5px;
         font-size: 16px;
       }
-      .Toastify__toast-container--top-right {
-        top: 90px;
-        @media (max-width: 900px) {
-          top: 0px;
-        }
-      }
 
       .Toastify__toast {
         font-size: 16px;
