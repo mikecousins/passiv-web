@@ -46,7 +46,7 @@ const AuthorizationPicker = ({
           window.location = response.data.url;
         })
         .catch(() => {
-          toast.error('Brokerage authorization failed.');
+          toast.error('Brokerage authorization failed');
         });
     } else {
       postData(
@@ -57,7 +57,7 @@ const AuthorizationPicker = ({
           window.location = response.data.url;
         })
         .catch(() => {
-          toast.error('Brokerage authorization failed.');
+          toast.error('Brokerage authorization failed');
         });
     }
   };

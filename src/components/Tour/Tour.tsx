@@ -30,7 +30,7 @@ const Tour = ({ steps, name }: Props) => {
         (data.action === 'next' && data.status === 'finished'))
     ) {
       if (messages?.includes('tour-popup')) {
-        toast.info('You can reset or disable tours on the Settings page.');
+        toast.info('You can Reset or Disable tours on Settings page');
         postData(`/api/v1/contextualMessages`, {
           name: ['tour-popup'],
         })
@@ -38,7 +38,7 @@ const Tour = ({ steps, name }: Props) => {
             dispatch(loadSettings());
           })
           .catch(() => {
-            toast.error('Request Failed.');
+            toast.error('Request failed');
           });
       }
       postData(`/api/v1/contextualMessages`, {
@@ -48,7 +48,7 @@ const Tour = ({ steps, name }: Props) => {
           dispatch(loadSettings());
         })
         .catch(() => {
-          toast.error(`Failed to skip tour "${name}".`);
+          toast.error('Failed to skip tour');
         });
     }
   };

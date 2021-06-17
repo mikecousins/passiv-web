@@ -160,7 +160,7 @@ const MyModelPortfoliosPage = () => {
         }
       })
       .catch(() => {
-        toast.error('Failed to create a new model.');
+        toast.error('Failed to create a new model');
       });
   };
 

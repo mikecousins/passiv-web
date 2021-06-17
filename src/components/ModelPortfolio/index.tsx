@@ -232,11 +232,11 @@ const ModelPortfolio = () => {
         if (groups !== undefined) {
           dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
         }
-        toast.success('Delete the model successfully.');
+        toast.success('Delete the model successfully');
         dispatch(replace('/models'));
       })
       .catch(() => {
-        toast.error('Unable to delete the model. Please try again!');
+        toast.error('Unable to delete the model');
       });
   };
 
@@ -270,7 +270,7 @@ const ModelPortfolio = () => {
       })
       .catch(() => {
         dispatch(loadModelPortfolios());
-        toast.error('Change Share Model Failed');
+        toast.error('Update share model failed');
       });
   };
 

@@ -210,7 +210,7 @@ const CashManagement = () => {
         reloadGroupAndAccounts();
       })
       .catch(() => {
-        toast.error('Failed to delete cash restriction.');
+        toast.error('Failed to delete cash restriction');
       });
   };
 

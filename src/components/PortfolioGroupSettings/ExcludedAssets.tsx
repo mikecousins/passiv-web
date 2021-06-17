@@ -197,7 +197,7 @@ const ExcludedAssets = () => {
           dispatch(loadGroup({ ids: [groupId] }));
         })
         .catch(() => {
-          toast.error('Request failed. Please try again.');
+          toast.error('Failed to save changes');
           setLoading(false);
           setExcluded(excludedIds);
         });
@@ -207,7 +207,7 @@ const ExcludedAssets = () => {
           dispatch(loadGroup({ ids: [groupId] }));
         })
         .catch(() => {
-          toast.error('Request failed. Please try again.');
+          toast.error('Failed to save changes');
           setLoading(false);
           setExcluded(excludedIds);
         });

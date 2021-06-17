@@ -317,9 +317,7 @@ const ModelPortoflioBox = ({
         })
         .catch(() => {
           dispatch(loadModelPortfolios());
-          toast.error(
-            `${modelPortfolio.model_portfolio.name} Model Portfolio Name Update Failed`,
-          );
+          toast.error('Model portfolio name update failed');
         });
     } else {
       setModelPortfolioName(modelPortfolio.model_portfolio.name);
@@ -340,12 +338,11 @@ const ModelPortoflioBox = ({
           dispatch(loadGroup({ ids: [gpId] }));
           toast.success(
             `Changes are saved for "${modelPortfolio.model_portfolio.name}"`,
-            { position: 'top-center' },
           );
         } else {
           dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page
           toast.success(
-            `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
+            `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}" successfully`,
           );
         }
         if (securityBased && groupId) {

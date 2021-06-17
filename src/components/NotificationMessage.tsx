@@ -110,7 +110,7 @@ const NotificationMessage = ({
               })
               .catch((error) => {
                 toast.error(
-                  `Failed to hide contextual message "share_and_earn".`,
+                  `Failed to hide contextual message "share_and_earn"`,
                 );
               });
           }}

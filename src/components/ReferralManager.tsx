@@ -322,7 +322,7 @@ const ReferralManager = () => {
         if (err.response) {
           toast.error(err.response.data);
         }
-        toast.error('Unable to fetch charities data.');
+        toast.error('Unable to fetch charity data');
       });
   }
 
@@ -514,15 +514,13 @@ const ReferralManager = () => {
                         setTimeout(() => {
                           setUpdatingPayment(false);
                           toast.success(
-                            'Your payment info updated successfully!',
+                            'Your payment method was updated successfully',
                           );
                         }, 250);
                       })
                       .catch((error) => {
                         setUpdatingPayment(false);
-                        toast.error(
-                          'Failed to update the payment method. Please try again!',
-                        );
+                        toast.error('Failed to update your payment method');
                       });
                     actions.resetForm();
                   }

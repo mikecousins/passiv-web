@@ -83,7 +83,7 @@ const ApplyTarget = () => {
         dispatch(loadModelPortfolios());
       })
       .catch(() => {
-        toast.error('Unable to create a new model.');
+        toast.error('Unable to create a new model');
       });
   };
 

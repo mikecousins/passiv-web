@@ -118,7 +118,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
         dispatch(loadGroup({ ids: [groupId] }));
       })
       .catch(() => {
-        toast.error('Request failed. Please try again.');
+        toast.error('Exclusion operation failed');
       });
   };
   const handleAddToModel = (target: Position) => {
@@ -145,14 +145,14 @@ const NewAssetsDetected = ({ targets }: Props) => {
             dispatch(loadGroup({ ids: [groupId] })); // need to load all groups to have an updated list of groups using a model in my models page
             dispatch(loadModelPortfolios());
             toast.success(
-              `'${newTarget.symbol.symbol}' got added to '${model[0].model_portfolio.name}'`,
+              `'${newTarget.symbol.symbol}' added to '${model[0].model_portfolio.name}'`,
             );
           })
           .catch((err) => {
             if (err.response) {
               toast.error(err.response.data.detail);
             } else {
-              toast.error('Cannot add target to model');
+              toast.error('Cannot add security to model');
             }
           });
       })
@@ -160,7 +160,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
         if (err.response) {
           toast.error(err.response.data.detail);
         } else {
-          toast.error('Cannot add target to model');
+          toast.error('Cannot add security to model');
         }
       });
   };

@@ -203,10 +203,10 @@ const SharedModelPortfolio = () => {
             dispatch(push(`/models`));
           })
           .catch((err) => {
-            toast.error('Unable to clone model.');
+            toast.error('Unable to clone the model');
           });
       })
-      .catch(() => toast.error('Unable to clone model.'));
+      .catch(() => toast.error('Unable to clone the model'));
   };
 
   return (
