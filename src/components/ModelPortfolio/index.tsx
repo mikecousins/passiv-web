@@ -251,15 +251,11 @@ const ModelPortfolio = () => {
     postData(`/api/v1/modelPortfolio/${modelId}`, currentModelPortfolio)
       .then(() => {
         setSecurityBased(!securityBased);
-        toast.success('Model type changed successfully', {
-          autoClose: 3000,
-        });
+        toast.success('Model type changed successfully');
         dispatch(loadModelPortfolios());
       })
       .catch(() => {
-        toast.error('Unable to change the model type', {
-          autoClose: 3000,
-        });
+        toast.error('Unable to change the model type');
       });
   };
 
@@ -274,7 +270,7 @@ const ModelPortfolio = () => {
       })
       .catch(() => {
         dispatch(loadModelPortfolios());
-        toast.error('Change Share Model Failed', { autoClose: 3000 });
+        toast.error('Change Share Model Failed');
       });
   };
 

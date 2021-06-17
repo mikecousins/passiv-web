@@ -319,7 +319,6 @@ const ModelPortoflioBox = ({
           dispatch(loadModelPortfolios());
           toast.error(
             `${modelPortfolio.model_portfolio.name} Model Portfolio Name Update Failed`,
-            { autoClose: 3000 },
           );
         });
     } else {
@@ -341,6 +340,7 @@ const ModelPortoflioBox = ({
           dispatch(loadGroup({ ids: [gpId] }));
           toast.success(
             `Changes are saved for "${modelPortfolio.model_portfolio.name}"`,
+            { position: 'top-center' },
           );
         } else {
           dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page

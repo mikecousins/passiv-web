@@ -30,10 +30,7 @@ const Tour = ({ steps, name }: Props) => {
         (data.action === 'next' && data.status === 'finished'))
     ) {
       if (messages?.includes('tour-popup')) {
-        toast.info('You can reset or disable tours on the Settings page.', {
-          position: 'top-center',
-          autoClose: false,
-        });
+        toast.info('You can reset or disable tours on the Settings page.');
         postData(`/api/v1/contextualMessages`, {
           name: ['tour-popup'],
         })

@@ -456,7 +456,7 @@ const GoalDetailPage = () => {
     })
       .then(() => {
         dispatch(loadGoals());
-        toast.success(`'${title}' Successfully Updated`, { autoClose: 3000 });
+        toast.success(`'${title}' Successfully Updated`);
       })
       .catch((error) => toast.error('Unable to update. Please try again.'));
   };

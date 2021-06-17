@@ -54,7 +54,6 @@ const Targets = ({ assetClass }: Props) => {
         dispatch(loadModelAssetClasses());
         toast.error(
           `${assetClass.model_asset_class.name} Asset Class Update Failed`,
-          { autoClose: 3000 },
         );
       });
   };

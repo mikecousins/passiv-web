@@ -44,7 +44,7 @@ export const deleteGoal: ActionCreator<ThunkAction<
     if (id !== '') {
       deleteData('/api/v1/goal/' + id)
         .then(() => {
-          toast.success(`Goal Successfully Deleted`, { autoClose: 3000 });
+          toast.success(`Goal Successfully Deleted`);
           dispatch(loadGoals());
           dispatch(fetchDeleteGoalSuccess);
         })
@@ -82,9 +82,7 @@ export const createGoal: ActionCreator<ThunkAction<
         return response;
       })
       .then((response) => {
-        toast.success(`'${response.data.title}' Created Successfully`, {
-          autoClose: 3000,
-        });
+        toast.success(`'${response.data.title}' Created Successfully`);
         history.push({
           pathname: '/goal/' + response.data.id,
           state: { goal: response.data },

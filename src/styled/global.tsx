@@ -300,6 +300,65 @@ export const GlobalStyle = () => (
           border-color: white;
         }
       }
+      .Toastify__toast-container {
+        min-width: 25%;
+        @media (max-width: 900px) {
+          width: 100%;
+        }
+      }
+      .Toastify__close-button {
+        position: absolute;
+        right: 6px;
+        top: 5px;
+        font-size: 16px;
+      }
+      .Toastify__toast-container--top-right {
+        top: 90px;
+        @media (max-width: 900px) {
+          top: 0px;
+        }
+      }
+
+      .Toastify__toast {
+        font-size: 16px;
+        line-height: 29px;
+        letter-spacing: 0.44px;
+        position: relative;
+        border-radius: 4px;
+        padding: 10px 20px 10px 20px;
+        margin-bottom: 20px;
+        margin-top: 0;
+        &:after {
+          content: '';
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          width: 0;
+          height: 0;
+          border-left: 30px solid transparent;
+        }
+        * {
+          color: black;
+        }
+      }
+      .Toastify__toast--error {
+        background: var(--brand-light-orange);
+        &:after {
+          border-bottom: 30px solid var(--brand-orange);
+        }
+        .Toastify__progress-bar {
+          border-bottom: 5px solid var(--brand-orange);
+        }
+      }
+      .Toastify__toast--success {
+        background: #bee0db;
+        .Toastify__progress-bar {
+          border-bottom: 5px solid var(--brand-green);
+        }
+        &:after {
+          border-bottom: 30px solid var(--brand-green);
+        }
+      }
     `}
   />
 );

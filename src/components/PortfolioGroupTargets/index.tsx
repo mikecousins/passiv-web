@@ -281,7 +281,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
           ),
         );
       })
-      .catch(() => toast.error('Unable to create new model.'));
+      .catch(() => toast.error('Unable to create a new model.'));
   };
 
   const generateTargetForm = (lockable: boolean) => {
