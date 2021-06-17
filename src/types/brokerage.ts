@@ -11,7 +11,8 @@ export type Brokerage = {
     | 'Kraken'
     | 'Coinbase'
     | 'Bitbuy'
-    | 'Wealthica';
+    | 'Wealthica'
+    | 'Ally';
   url: 'https://questrade.com';
   slug: string;
   enabled: boolean;

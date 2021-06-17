@@ -16,6 +16,7 @@ import { postData } from '../api';
 import ShadowBox from '../styled/ShadowBox';
 import styled from '@emotion/styled';
 import QuestradeLogo from '../assets/images/questrade-logo.png';
+import AllyLogo from '../assets/images/ally-logo.png';
 import AlpacaLogo from '../assets/images/alpaca-logo.png';
 import InteractiveBrokersLogo from '../assets/images/ibkr-logo.png';
 import TDAmeritradeLogo from '../assets/images/tda-logo.png';
@@ -175,6 +176,27 @@ const AuthorizationPage = ({ onboarding }: Props) => {
         <P>
           Alpaca is a commission-free API-first brokerage servicing the USA and
           beyond.
+        </P>
+      ),
+      type: 'traditional',
+    },
+    {
+      id: 'allyinvest',
+      name: 'Ally Invest',
+      displayName: 'Ally Invest',
+      connect: () => {
+        startConnection('Ally Invest', 'trade');
+      },
+      defaultConnectionType: 'trade',
+      openURL: 'https://www.ally.com/invest/',
+      major: true,
+      logo: AllyLogo,
+      confirmPrompt: null,
+      description: (
+        <P>
+          Ally aims to change the online banking landscape with innovative
+          digital experiences. It offers securities-brokerage and
+          investment-advisory services through Ally Invest.
         </P>
       ),
       type: 'traditional',
