@@ -39,6 +39,7 @@ import Tour from '../components/Tour/Tour';
 import { MyModelsPageSteps } from '../components/Tour/TourSteps';
 import NotificationMessage from '../components/NotificationMessage';
 import { selectContextualMessages } from '../selectors';
+import NotAvailable from '../components/NotAvailable';
 
 export const TransparentButton = styled(Button)`
   background-color: transparent;
@@ -209,9 +210,7 @@ const MyModelPortfoliosPage = () => {
 
   const noModelAvailable = (
     <ShadowBox>
-      <P style={{ textAlign: 'center' }}>
-        There are no model portfolios available.
-      </P>
+      <NotAvailable message="There are no model portfolios available." />
     </ShadowBox>
   );
 

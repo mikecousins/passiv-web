@@ -24,6 +24,7 @@ import {
 } from '../../actions';
 import { loadPerformanceAll } from '../../actions/performance';
 import { selectSelectedAccounts } from '../../selectors/performance';
+import NotAvailable from '../NotAvailable';
 
 export const Header = styled.form`
   h2 {
@@ -45,6 +46,8 @@ export const GroupNote = styled(P)`
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 30px;
+  display: flex;
+  align-items: baseline;
 `;
 
 const Accounts = () => {
@@ -260,7 +263,7 @@ const Accounts = () => {
                         </React.Fragment>
                       ) : (
                         <GroupNote>
-                          There are no accounts in this group.
+                          <NotAvailable message="There are no accounts in this group." />
                           <Edit
                             onClick={() => {
                               deleteData(
