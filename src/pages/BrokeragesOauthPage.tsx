@@ -141,7 +141,10 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   const isOnboarding = onboardingStep && onboardingStep <= 3;
 
   if (tokenConfirmed === false) {
-    if (brokerageName === 'Interactive Brokers') {
+    if (
+      brokerageName === 'Interactive Brokers' ||
+      brokerageName === 'Ally Invest'
+    ) {
       setToken({
         oauth_token: queryParams.oauth_token,
         oauth_verifier: queryParams.oauth_verifier,

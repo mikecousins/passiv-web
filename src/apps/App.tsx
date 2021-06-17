@@ -448,6 +448,14 @@ const App = () => {
                 )}
               />
             )}
+            {loggedIn && (
+              <Route
+                path="/oauth/ally"
+                component={() => (
+                  <BrokeragesOauthPage brokerageName="Ally Invest" />
+                )}
+              />
+            )}
             {/* onboarding app */}
             {showSecureApp && (
               <Route path="/welcome">
