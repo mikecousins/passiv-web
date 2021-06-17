@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 type ContainerProps = {
   error: boolean;
 };
-const Container = styled.div<ContainerProps>`
+export const Container = styled.div<ContainerProps>`
   position: relative;
   box-shadow: var(--box-shadow);
   border-radius: 4px;
@@ -35,9 +35,9 @@ const Container = styled.div<ContainerProps>`
     bottom: 0;
     width: 0;
     height: 0;
-    border-bottom: 80px solid
+    border-bottom: 60px solid
       ${(props) => (props.error ? 'var(--brand-orange)' : 'var(--brand-green)')};
-    border-left: 80px solid transparent;
+    border-left: 60px solid transparent;
   }
   p {
     font-size: 22px;

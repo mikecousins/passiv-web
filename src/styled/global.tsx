@@ -303,7 +303,7 @@ export const GlobalStyle = () => (
       .Toastify__toast-container {
         min-width: 25%;
         @media (max-width: 900px) {
-          width: 100%;
+          max-width: 100%;
         }
       }
       .Toastify__close-button {

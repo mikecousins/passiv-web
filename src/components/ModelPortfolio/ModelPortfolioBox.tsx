@@ -179,8 +179,8 @@ const CancelButton = styled(A)`
 const Equalize = styled.div`
   margin-top: 10px;
   button {
-    padding: 8px 20px;
-    font-weight: 900;
+    padding: 8px 30px;
+    font-weight: 600;
     color: var(--brand-green);
     border: 2px solid var(--brand-green);
     background-color: transparent;

@@ -77,7 +77,7 @@ export const BackButton = styled.div`
     padding: 16px 20px 20px;
     text-align: center;
     width: 100%;
-    border: 1px solid var(--brand-blue);
+    border: 2px solid var(--brand-blue);
     display: inline-block;
     a {
       font-size: 18px;

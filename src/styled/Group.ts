@@ -56,7 +56,7 @@ export const ViewBtn = styled.div`
   @media (max-width: 900px) {
     margin: 20px 0 0;
     padding: 16px 20px 20px;
-    border: 1px solid var(--brand-blue);
+    border: 2px solid var(--brand-blue);
     width: 100%;
     display: inline-block;
   }

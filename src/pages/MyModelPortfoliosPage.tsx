@@ -55,7 +55,7 @@ export const TransparentButton = styled(Button)`
   }
 `;
 const NewModelButton = styled(Button)`
-  padding: 23px 50px;
+  padding: 20px 70px;
   font-weight: 600;
   font-size: 18px;
   @media (max-width: 900px) {

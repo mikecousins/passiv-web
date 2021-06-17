@@ -157,7 +157,6 @@ const ApplyNewModelBtn = styled(Button)`
   background-color: transparent;
   color: var(--brand-blue);
   border: 1px solid var(--brand-blue);
-  font-weight: 600;
 `;
 
 type Props = {
