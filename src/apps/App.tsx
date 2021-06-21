@@ -23,10 +23,7 @@ import { setReferralCode, setTrackingId } from '../actions';
 import { selectQueryTokens } from '../selectors/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  selectGoalsPageFeature,
-  selectModelPortfolioFeature,
-} from '../selectors/features';
+import { selectGoalsPageFeature } from '../selectors/features';
 import {
   LOGIN_PATH,
   REGISTER_PATH,
@@ -247,7 +244,6 @@ const App = () => {
   const dispatch = useDispatch();
   const isPaid = useSelector(selectIsPaid);
   const queryParams = useSelector(selectQueryTokens);
-  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
   let updateQuery = false;
 
   // redirect the old path name with '/app'
@@ -516,7 +512,7 @@ const App = () => {
             {showSecureApp && isPaid && (
               <Route path="/asset-class" component={ModelAssetClassPage} />
             )}
-            {showSecureApp && modelPortfolioFeature && (
+            {showSecureApp && (
               <Route path="/models" component={MyModelPortfoliosPage} />
             )}
             {showSecureApp && (

@@ -19,7 +19,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { loadGroup, loadModelPortfolios } from '../actions';
 import { toast } from 'react-toastify';
-import { selectModelPortfolioFeature } from '../selectors/features';
 import {
   selectModelPortfolios,
   selectModelUseByOtherGroups,
@@ -101,7 +100,6 @@ const NewAssetsDetected = ({ targets }: Props) => {
   const settings = useSelector(selectCurrentGroupSettings);
   const modelPortfolios = useSelector(selectModelPortfolios);
   const modelUseByOtherGroups = useSelector(selectModelUseByOtherGroups);
-  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
   const excludedAssets = useSelector(selectCurrentGroupExcludedAssets);
 
   const groupId = currentGroup?.id;
@@ -176,21 +174,12 @@ const NewAssetsDetected = ({ targets }: Props) => {
         <H3>
           <FontAwesomeIcon icon={faExclamationTriangle} /> New Assets Detected
         </H3>
-        {modelPortfolioFeature ? (
-          <P>
-            We noticed that you added the following securities in your account
-            and since these assets are not included in your model portfolio,
-            they may impact your portfolio accuracy or trade calculations. You
-            can either add them to your model portfolio* or exclude them.
-          </P>
-        ) : (
-          <P>
-            We noticed that you added the following securities in your account
-            and since these assets are not included in your target portfolio,
-            they may impact your portfolio accuracy or trade calculations. You
-            can either add them to your target portfolio* or exclude them.
-          </P>
-        )}
+        <P>
+          We noticed that you added the following securities in your account and
+          since these assets are not included in your model portfolio, they may
+          impact your portfolio accuracy or trade calculations. You can either
+          add them to your model portfolio* or exclude them.
+        </P>
         {allLoading ? (
           <Loading>
             <FontAwesomeIcon icon={faSpinner} spin size="2x" />
@@ -215,18 +204,13 @@ const NewAssetsDetected = ({ targets }: Props) => {
                     <Symbol>{target.symbol.symbol}</Symbol>{' '}
                     <Description>{target.symbol.description}</Description>
                   </SymbolGrid>
-                  {((modelPortfolioFeature && !modelUseByOtherGroups) ||
-                    !modelPortfolioFeature) && (
+                  {!modelUseByOtherGroups && (
                     <MaxHeightSmallBtn
                       onClick={() => {
-                        if (modelPortfolioFeature) {
-                          handleAddToModel(target);
-                        } else {
-                          return;
-                        }
+                        handleAddToModel(target);
                       }}
                     >
-                      {modelPortfolioFeature ? 'Add to Model' : 'Add to Target'}
+                      Add to Model
                     </MaxHeightSmallBtn>
                   )}
                   <ExcludeBtn
@@ -240,17 +224,10 @@ const NewAssetsDetected = ({ targets }: Props) => {
           </ListOfAssets>
         )}
 
-        {modelPortfolioFeature ? (
-          <small>
-            * The securities get added with <BoldSpan>0%</BoldSpan>. Scroll down
-            and click Edit Model to change their allocation.
-          </small>
-        ) : (
-          <small>
-            * The securities get added with <BoldSpan>0%</BoldSpan> but you can
-            go to the bottom and change them.
-          </small>
-        )}
+        <small>
+          * The securities get added with <BoldSpan>0%</BoldSpan>. Scroll down
+          and click Edit Model to change their allocation.
+        </small>
 
         <DontShowBtn>
           <A onClick={() => dispatch(push(`/group/${groupId}/settings`))}>

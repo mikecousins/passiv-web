@@ -24,7 +24,6 @@ import { deleteData, postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
 
 import { selectModelUseByOtherGroups } from '../../selectors/modelPortfolios';
-import { selectModelPortfolioFeature } from '../../selectors/features';
 import { selectAuthorizations } from '../../selectors';
 import Tooltip from '../Tooltip';
 
@@ -203,7 +202,6 @@ export const TargetSelector = ({
   const currentGroupInfo = useSelector(selectCurrentGroupInfo);
   const modelId = currentGroupInfo?.model_portfolio?.id;
   const modelUseByOtherGroups = useSelector(selectModelUseByOtherGroups);
-  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
   if (!target || cash === null || cash === undefined) {
     return null;
@@ -233,10 +231,6 @@ export const TargetSelector = ({
   };
 
   const resetTargets = (resetForm?: () => void) => {
-    if (!modelPortfolioFeature) {
-      onReset();
-      toggleEditMode();
-    }
     deleteData(`/api/v1/portfolioGroups/${groupId}/targets/`)
       .then(() => {
         dispatch(loadGroups()); // need to load groups to have update list of groups using a model in my models page
@@ -510,16 +504,6 @@ export const TargetSelector = ({
                                 parseFloat(e.target.value),
                               )
                             }
-                            // onBlur={() => {
-                            //   props.setFieldValue(
-                            //     `targets.${index}.percent` as 'targets',
-                            //     parseFloat(
-                            //       props.values.targets[index].percent.toFixed(
-                            //         4,
-                            //       ),
-                            //     ),
-                            //   );
-                            // }}
                             readOnly={!canEdit}
                           />
                         </TargetBar>
@@ -541,7 +525,7 @@ export const TargetSelector = ({
                   )}
 
                   <ErrorMessage name="targets" component="div" />
-                  {canEdit ? (
+                  {canEdit && (
                     <React.Fragment>
                       <ActionsContainer>
                         <div>
@@ -596,90 +580,65 @@ export const TargetSelector = ({
                         )}
                       </ActionsContainer>
                     </React.Fragment>
-                  ) : (
-                    !modelPortfolioFeature && (
-                      <ButtonBox>
-                        <div>
-                          <Button
-                            type="button"
-                            onClick={() => toggleEditMode()}
-                          >
-                            <FontAwesomeIcon icon={faLock} />
-                            Edit Targets
-                          </Button>
-                        </div>
-                        <div>
-                          <A
-                            href={portfolioVisualizerURL}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            Portfolio Visualizer
-                          </A>
-                        </div>
-                      </ButtonBox>
-                    )
                   )}
-                  {modelPortfolioFeature && (
-                    <ButtonBox>
-                      <div>
-                        <Button
-                          className="tour-edit-model"
-                          type="button"
-                          style={{ fontWeight: 600 }}
-                          onClick={() => {
-                            dispatch(
-                              push(
-                                `/model-portfolio/${modelId}/group/${groupId}?edit=true`,
-                              ),
-                            );
-                          }}
-                          disabled={modelUseByOtherGroups}
-                        >
-                          {modelUseByOtherGroups ? (
-                            <Tooltip label="At the moment, editing a model is disabled if the model is applied to more than one group.">
-                              <span>Edit Model *</span>
-                            </Tooltip>
-                          ) : (
-                            'Edit Model'
-                          )}
-                        </Button>
-                        <ApplyNewModelBtn
-                          type="button"
-                          className="tour-apply-another-model"
-                          onClick={() => {
-                            dispatch(push(`/models/group/${groupId}`));
-                          }}
-                        >
-                          Apply Another Model
-                        </ApplyNewModelBtn>
-                      </div>
-                      <div>
+                  <ButtonBox>
+                    <div>
+                      <Button
+                        className="tour-edit-model"
+                        type="button"
+                        style={{ fontWeight: 600 }}
+                        onClick={() => {
+                          dispatch(
+                            push(
+                              `/model-portfolio/${modelId}/group/${groupId}?edit=true`,
+                            ),
+                          );
+                        }}
+                        disabled={modelUseByOtherGroups}
+                      >
+                        {modelUseByOtherGroups ? (
+                          <Tooltip label="At the moment, editing a model is disabled if the model is applied to more than one group.">
+                            <span>Edit Model *</span>
+                          </Tooltip>
+                        ) : (
+                          'Edit Model'
+                        )}
+                      </Button>
+                      <ApplyNewModelBtn
+                        type="button"
+                        className="tour-apply-another-model"
+                        onClick={() => {
+                          dispatch(push(`/models/group/${groupId}`));
+                        }}
+                      >
+                        Apply Another Model
+                      </ApplyNewModelBtn>
+                    </div>
+                    <div>
+                      <A
+                        type="button"
+                        onClick={() => resetTargets()}
+                        style={{ fontWeight: 600, marginRight: '20px' }}
+                      >
+                        <FontAwesomeIcon icon={faUndo} size="sm" /> Reset
+                      </A>{' '}
+                      {hasZerodhaConnection ||
+                      hasUnocoinConnection ||
+                      hasKrakenConnection ||
+                      currentGroupInfo?.model_portfolio?.model_type === 1 ? (
+                        ''
+                      ) : (
                         <A
-                          type="button"
-                          onClick={() => resetTargets()}
+                          href={portfolioVisualizerURL}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           style={{ fontWeight: 600, marginRight: '20px' }}
                         >
-                          <FontAwesomeIcon icon={faUndo} size="sm" /> Reset
-                        </A>{' '}
-                        {hasZerodhaConnection ||
-                        hasUnocoinConnection ||
-                        hasKrakenConnection ||
-                        currentGroupInfo?.model_portfolio?.model_type === 1 ? (
-                          ''
-                        ) : (
-                          <A
-                            href={portfolioVisualizerURL}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ fontWeight: 600, marginRight: '20px' }}
-                          >
-                            Portfolio Visualizer
-                          </A>
-                        )}
-                      </div>
-                    </ButtonBox>
-                  )}
+                          Portfolio Visualizer
+                        </A>
+                      )}
+                    </div>
+                  </ButtonBox>
                 </React.Fragment>
               );
             }}
