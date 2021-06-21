@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { RebalanceAlert } from '../../styled/Rebalance';
+import { RebalanceAlert, RebalanceAlertSpinner } from '../../styled/Rebalance';
 import { useSelector } from 'react-redux';
 import { selectPathname } from '../../selectors/router';
 import styled from '@emotion/styled';
@@ -94,9 +94,11 @@ const SideBarLink = ({
   let indicator = null;
   if (loading && spinnerLoading) {
     indicator = (
-      <RebalanceAlert>
-        <FontAwesomeIcon icon={faSpinner} spin style={{ color: 'white' }} />
-      </RebalanceAlert>
+      <RebalanceAlertSpinner>
+        <span>
+          <FontAwesomeIcon icon={faSpinner} spin color="white" />
+        </span>
+      </RebalanceAlertSpinner>
     );
   } else {
     if (setupComplete === undefined) {

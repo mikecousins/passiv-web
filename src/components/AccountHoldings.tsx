@@ -129,6 +129,8 @@ type Props = {
 };
 
 export const AccountHoldings = ({ holdings }: Props) => {
+  console.log(holdings);
+
   const currencies = useSelector(selectCurrencies);
   const preferredCurrency = useSelector(selectPreferredCurrency);
   const currencyRates = useSelector(selectCurrencyRates);
