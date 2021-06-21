@@ -63,7 +63,7 @@ const Title = styled(H2)`
   line-height: 35px;
   letter-spacing: 0.44px;
   margin-bottom: 20px;
-  font-size: 27px;
+  font-size: 30px;
   svg {
     margin-right: 10px;
   }
@@ -83,6 +83,7 @@ type Props = {
   title: string;
   alwaysOpen: boolean;
   closeBtn?: boolean;
+  contextualMessageName?: string;
   children: JSX.Element;
 };
 
@@ -91,6 +92,7 @@ const NotificationMessage = ({
   title,
   alwaysOpen,
   closeBtn,
+  contextualMessageName,
   children,
 }: Props) => {
   const dispatch = useDispatch();
@@ -100,17 +102,17 @@ const NotificationMessage = ({
     <Container error={error}>
       {closeBtn && (
         <CloseBtn
-          //TODO use HideButton component instead
+          //TODO use HideButton component instead (on onboarding branch)
           onClick={() => {
             postData(`/api/v1/contextualMessages`, {
-              name: ['share_and_earn'],
+              name: [contextualMessageName],
             })
               .then((response) => {
                 dispatch(loadSettings());
               })
               .catch((error) => {
                 toast.error(
-                  `Failed to hide contextual message "share_and_earn"`,
+                  `Failed to hide contextual message ${contextualMessageName}`,
                 );
               });
           }}

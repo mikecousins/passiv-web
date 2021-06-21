@@ -234,6 +234,7 @@ const MyModelPortfoliosPage = () => {
               title={'Share & Earn'}
               alwaysOpen={true}
               closeBtn={true}
+              contextualMessageName="share_and_earn"
             >
               <div>
                 <P>
