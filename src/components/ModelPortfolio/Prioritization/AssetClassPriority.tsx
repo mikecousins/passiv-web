@@ -10,7 +10,7 @@ import {
   faLongArrowAltUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '../../../styled/Button';
-import { P, H2, H3 } from '../../../styled/GlobalElements';
+import { H2, H3 } from '../../../styled/GlobalElements';
 import Grid from '../../../styled/Grid';
 import { AssetClassPriorities } from '../../../types/modelPortfolio';
 import Tooltip from '../../Tooltip';
@@ -18,6 +18,7 @@ import SecurityPriority from './SecurityPriority';
 import { useSelector } from 'react-redux';
 import { selectSymbols } from '../../../selectors/symbols';
 import { selectIsMobile, selectIsTablet } from '../../../selectors/browser';
+import NotAvailable from '../../NotAvailable';
 
 const MainContainer = styled.div`
   border: ${(p) => (p.color ? `2px solid ${p.color}` : 'none')};
@@ -111,11 +112,6 @@ const Legend = styled(Grid)`
       font-size: 18px;
     }
   }
-`;
-
-const NoSecurities = styled(P)`
-  margin-top: 20px;
-  text-align: center;
 `;
 
 const SellOrder = styled.div`
@@ -258,9 +254,7 @@ const AssetClassPriority = ({
 
                 <Grid columns="5fr 10px">
                   {numberOfSecurities === 0 ? (
-                    <NoSecurities>
-                      There are no securities in this asset class.
-                    </NoSecurities>
+                    <NotAvailable message="There are no securities in this asset class." />
                   ) : (
                     <TradePriority>
                       <SecurityPriority

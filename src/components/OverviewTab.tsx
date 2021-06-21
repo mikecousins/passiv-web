@@ -1,9 +1,6 @@
-import {
-  faExclamationTriangle,
-  faSpinner,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -28,16 +25,16 @@ import {
   selectNeedToPrioritize,
   selectGroupsLoading,
 } from '../selectors/groups';
-import { H3, P } from '../styled/GlobalElements';
+import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
 import { OverviewTabSteps } from './Tour/TourSteps';
 import NewAssetsDetected from './NewAssetsDetected';
-import { ErrorContainer } from '../styled/Group';
 import { Button } from '../styled/Button';
 import { postData } from '../api';
 import { toast } from 'react-toastify';
 import { loadGroupInfo } from '../actions';
 import { push } from 'connected-react-router';
+import NotificationMessage from './NotificationMessage';
 
 export const Container3Column = styled.div`
   @media (min-width: 900px) {
@@ -73,10 +70,6 @@ const List = styled.ul`
   > li {
     margin-bottom: 5px;
   }
-`;
-
-const Description = styled(P)`
-  font-size: 20px;
 `;
 
 const OverviewTab = () => {
@@ -174,34 +167,36 @@ const OverviewTab = () => {
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
       {needToPrioritize && (
-        <ErrorContainer>
-          <H3>
-            <FontAwesomeIcon icon={faExclamationTriangle} /> Need to confirm
-            priorities
-          </H3>
-          <Description>
-            We noticed that you made changes to the asset class model used by
-            this group. In order to show you accurate trades, Passiv needs you
-            to confirm priorities for this model.
-          </Description>
-          <br />
-          <P>
-            <span style={{ fontWeight: 600 }}>Prioritization</span> needs to be
-            confirmed after doing any of the following actions:
-            <List>
-              <li>Adding or Deleting a security in an asset class.</li>
-              <li>Adding an account to the portfolio group.</li>
-              <li>
-                Adding an asset class to the model portfolio linked to a
-                portfolio group.
-              </li>
-            </List>
-          </P>
+        <NotificationMessage
+          error={true}
+          title={'Need to confirm priorities'}
+          alwaysOpen={false}
+        >
+          <div>
+            <P>
+              We noticed that you made changes to the asset class model used by
+              this group. In order to show you accurate trades, Passiv needs you
+              to confirm priorities for this model.
+            </P>
+            <br />
+            <P>
+              <span style={{ fontWeight: 600 }}>Prioritization</span> needs to
+              be confirmed after doing any of the following actions:
+              <List>
+                <li>Adding or Deleting a security in an asset class.</li>
+                <li>Adding an account to the portfolio group.</li>
+                <li>
+                  Adding an asset class to the model portfolio linked to a
+                  portfolio group.
+                </li>
+              </List>
+            </P>
 
-          <Button onClick={handleTakeToPriorities}>
-            Reapply & Reprioritize
-          </Button>
-        </ErrorContainer>
+            <Button onClick={handleTakeToPriorities}>
+              Reapply & Reprioritize
+            </Button>
+          </div>
+        </NotificationMessage>
       )}
       {setupComplete &&
         positionsNotInTarget &&

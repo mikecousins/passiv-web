@@ -36,6 +36,7 @@ import { Continue } from '../../pages/BrokeragesOauthPage';
 import { BackBtn } from '../../pages/AuthorizationPage';
 import { updateOnboardingStep } from '../../actions/onboarding';
 import { selectSettings } from '../../selectors';
+import NotAvailable from '../NotAvailable';
 
 export const Header = styled.form`
   h2 {
@@ -57,6 +58,8 @@ export const GroupNote = styled(P)`
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 30px;
+  display: flex;
+  align-items: baseline;
 `;
 
 export const TutorialLink = styled.div`
@@ -175,7 +178,7 @@ const Accounts = () => {
             dispatch(loadAccountList());
             dispatch(loadGroupsList());
             dispatch(loadGroup({ ids: affectedGroupIds }));
-            toast.success('Moved the account successfully');
+            toast.success('Moved account successfully');
           })
           .catch(() => {
             dispatch(loadSettings());
@@ -195,14 +198,14 @@ const Accounts = () => {
                 dispatch(loadAccountList());
                 dispatch(loadGroupsList());
                 dispatch(loadGroup({ ids: affectedGroupIds }));
-                toast.success('Moved the account successfully');
+                toast.success('Moved account successfully');
               })
               .catch(() => {
                 dispatch(loadSettings());
                 dispatch(loadAccountList());
                 dispatch(loadGroupsList());
                 dispatch(loadGroup({ ids: affectedGroupIds }));
-                toast.error('Failed to move the account');
+                toast.error('Failed to move account');
               });
           },
         );
@@ -330,7 +333,7 @@ const Accounts = () => {
                         </React.Fragment>
                       ) : (
                         <GroupNote>
-                          There are no accounts in this group.
+                          <NotAvailable message="There are no accounts in this group." />
                           <Edit
                             onClick={() => {
                               deleteData(
