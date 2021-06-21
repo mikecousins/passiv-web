@@ -29,13 +29,15 @@ import { Truncate } from '../../common';
 const ImageContainer = styled.div`
   background: url(${shareModelImage}) no-repeat;
   background-size: contain;
-  width: 300px;
-  height: 300px;
+  width: 350px;
+  height: 350px;
   position: absolute;
   right: 0;
   bottom: -83px;
   @media (max-width: 900px) {
     bottom: -300px;
+    width: 250px;
+    height: 250px;
   }
 `;
 
@@ -211,10 +213,10 @@ const SharedModelPortfolio = () => {
 
   return (
     <>
-      <H1>Shared Model *</H1>
+      <H1>Shared Model</H1>
       <StyledP>
-        A model portfolio is a group of assets and target allocations that are
-        designed to meet a particular investing goal.
+        Below is a breakdown of the assets and the target allocations in{' '}
+        <strong>{sharedModel.model_portfolio.name}</strong> model.
       </StyledP>
       <ShadowBox>
         <ResponsiveGrid
@@ -225,7 +227,7 @@ const SharedModelPortfolio = () => {
             <StyledContainer>
               <StyledName>{sharedModel.model_portfolio.name}</StyledName>
             </StyledContainer>
-            <Grid columns="auto 450px">
+            <Grid columns="1fr 2fr">
               <PieChart
                 data={pieChartData}
                 style={{ height: '270px', maxWidth: '350px' }}
@@ -276,11 +278,10 @@ const SharedModelPortfolio = () => {
           {!showSecureApp && (
             <>
               <ActionBox>
-                <Header>Build your own model portfolio!</Header>
+                <Header>Use Passiv to implement this portfolio!</Header>
                 <AboutPassiv>
-                  Passiv makes investing easier at online brokerages. Passiv
-                  helps you maintain your portfolio’s allocation, manage
-                  multiple accounts, and rebalance at the click of a button.{' '}
+                  Passiv is a portfolio management tool designed to make it
+                  easier for DIY investors to manage their investments.{' '}
                   <a
                     href="https://passiv.com/"
                     target="_blank"
@@ -292,7 +293,7 @@ const SharedModelPortfolio = () => {
                 <SignUpBtn
                   onClick={() => dispatch(push(`/register?ref=${shareId}`))}
                 >
-                  Free Sign Up
+                  Invest Now
                 </SignUpBtn>
                 <Clone>
                   <Link
