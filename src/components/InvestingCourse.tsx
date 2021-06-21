@@ -1,21 +1,16 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import ShadowBox from '../styled/ShadowBox';
-import { H2, P, A } from '../styled/GlobalElements';
+import styled from '@emotion/styled';
+import Grid from '../styled/Grid';
+import NotificationMessage from './NotificationMessage';
+import { P, A, H1 } from '../styled/GlobalElements';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { HideButton } from './ContextualMessageWrapper';
 import { selectIsPaid } from '../selectors/subscription';
-import styled from '@emotion/styled';
 
-import courseGraphic from '../assets/images/courseGraphic.png';
-
-const H2styled = styled(H2)`
-  font-weight: normal;
-  font-size: 44px;
-  margin-bottom: 25px;
-  letter-spacing: 0.44px;
-`;
+import priceIcon from '../assets/images/price-icon.svg';
+import timeIcon from '../assets/images/time-icon.svg';
+import easyIcon from '../assets/images/easy-icon.svg';
 
 const Pstyled = styled(P)`
   max-width: 840px;
@@ -23,36 +18,88 @@ const Pstyled = styled(P)`
 
 const TakeCourse = styled(A)`
   background: var(--brand-blue);
-  padding: 14px 24px 16px;
+  padding: 14px 34px 16px;
   color: #fff;
-  border-radius: 4px;
+  border-radius: 3px;
   text-decoration: none;
-  margin-top: 35px;
+  margin: 35px 0px;
   display: inline-block;
   svg {
     margin-left: 5px;
   }
 `;
 
-const ShadowBoxwImage = styled(ShadowBox)`
-  background: url(${courseGraphic}) no-repeat 98% bottom
-    var(--brand-light-green);
-  background-size: 300px;
-  padding: 40px;
+const Icons = styled(Grid)`
+  max-width: 840px;
+  align-items: center;
+  text-align: center;
   @media (max-width: 900px) {
-    padding-bottom: 120px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 50px;
+  }
+`;
+
+type IconProps = {
+  image: string;
+};
+
+const Icon = styled.div<IconProps>`
+  background: url(${(props) => props.image}) no-repeat;
+  background-size: contain;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  margin-bottom: 5px;
+  @media (max-width: 900px) {
+    width: 70px;
+    height: 70px;
+  }
+`;
+
+const Desc = styled(H1)`
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 150%;
+  letter-spacing: 0.2px;
+  text-align: center;
+  .cross {
+    position: relative;
+    display: inline-block;
+  }
+  .cross::before,
+  .cross::after {
+    content: '';
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 45%;
+  }
+  .cross::before {
+    border-bottom: 6px solid var(--brand-green);
+    -webkit-transform: skewY(-20deg);
+    transform: skewY(-20deg);
+  }
+
+  @media (max-width: 900px) {
+    font-size: 22px;
   }
 `;
 
 const InvestingCourse = () => {
   const isPaid = useSelector(selectIsPaid);
   return (
-    <React.Fragment>
-      <ShadowBoxwImage>
-        <H2styled>Take a free Investing Course</H2styled>
-        <Pstyled>Learning to invest doesn't have to be daunting.</Pstyled>
+    <NotificationMessage
+      error={false}
+      title="Learn how to invest for free"
+      alwaysOpen={true}
+      closeBtn={true}
+      contextualMessageName="investing_course"
+    >
+      <div>
         <Pstyled>
-          Passiv has partnered with{' '}
+          Learning to invest doesn’t have to be daunting! Passiv has Partnered
+          with{' '}
           <A
             href="https://compoundconfidence.com/"
             target="_blank"
@@ -60,31 +107,38 @@ const InvestingCourse = () => {
           >
             Compound Confidence
           </A>{' '}
-          to produce a short investing course to help you get started. If you
-          get a lunch break, then you have enough time to take the course!
+          to produce an investing mini-course to teach you the basics that you
+          need to start investing passively.
         </Pstyled>
-        <Pstyled>
-          This 35-minute course will teach you the basics that you need to know
-          in order to start investing passively, and it's available for free to
-          all Passiv members!
-        </Pstyled>
-        <Pstyled>
-          <TakeCourse
-            href={
-              isPaid
-                ? 'https://go.compoundconfidence.com/passiv-elite-discount'
-                : 'https://go.compoundconfidence.com/passiv-community-discount'
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Take the Course{' '}
-            <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
-          </TakeCourse>
-        </Pstyled>
-        <HideButton name={'investing_course'} text={'Skip'} />
-      </ShadowBoxwImage>
-    </React.Fragment>
+        <Icons columns="repeat(3, 1fr)">
+          <div>
+            <Icon image={priceIcon}></Icon>
+            <Desc>
+              <span className="cross">$25</span> FREE
+            </Desc>
+          </div>
+          <div>
+            <Icon image={timeIcon}></Icon>
+            <Desc>Only 35 Mins</Desc>
+          </div>
+          <div>
+            <Icon image={easyIcon}></Icon>
+            <Desc>Made Easy</Desc>
+          </div>
+        </Icons>
+        <TakeCourse
+          href={
+            isPaid
+              ? 'https://go.compoundconfidence.com/passiv-elite-discount'
+              : 'https://go.compoundconfidence.com/passiv-community-discount'
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Take the Course <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
+        </TakeCourse>
+      </div>
+    </NotificationMessage>
   );
 };
 

@@ -117,10 +117,7 @@ const AssetClasses = ({ assetClass }: Props) => {
           dispatch(loadModelPortfolios());
         })
         .catch(() => {
-          toast.error(
-            `${assetClass.model_asset_class.name} Asset Class Name Update Failed`,
-            { autoClose: 3000 },
-          );
+          toast.error('Name update failed');
         });
     } else {
       setAssetClassName(assetClass.model_asset_class.name);
@@ -134,15 +131,12 @@ const AssetClasses = ({ assetClass }: Props) => {
         dispatch(loadModelAssetClasses());
         dispatch(loadModelPortfolios());
         toast.success(
-          `'${assetClass.model_asset_class.name}' Deleted Successfully`,
-          { autoClose: 3000 },
+          `'${assetClass.model_asset_class.name}' deleted successfully`,
         );
       })
       .catch(() => {
         dispatch(loadModelAssetClasses());
-        toast.error('Asset Class Deletion was Unsuccessful', {
-          autoClose: 3000,
-        });
+        toast.error('Asset class deletion was unsuccessful');
       });
     setShowDialog(false);
   };

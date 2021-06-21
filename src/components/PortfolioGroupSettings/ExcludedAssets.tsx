@@ -28,6 +28,7 @@ import {
   Cancel,
   Save,
 } from '../ModelPortfolio/Prioritization';
+import NotAvailable from '../NotAvailable';
 
 const Container = styled.div`
   margin-bottom: 37px;
@@ -97,11 +98,6 @@ const Name = styled.span<SymbolType>`
   @media (max-width: 900px) {
     display: none;
   }
-`;
-
-const NoExcludedAssets = styled(P)`
-  margin-top: 20px;
-  text-align: center;
 `;
 
 const NumberOfExcludedAssets = styled(P)`
@@ -201,7 +197,7 @@ const ExcludedAssets = () => {
           dispatch(loadGroup({ ids: [groupId] }));
         })
         .catch(() => {
-          toast.error('Request failed. Please try again.');
+          toast.error('Failed to save changes');
           setLoading(false);
           setExcluded(excludedIds);
         });
@@ -211,7 +207,7 @@ const ExcludedAssets = () => {
           dispatch(loadGroup({ ids: [groupId] }));
         })
         .catch(() => {
-          toast.error('Request failed. Please try again.');
+          toast.error('Failed to save changes');
           setLoading(false);
           setExcluded(excludedIds);
         });
@@ -316,7 +312,7 @@ const ExcludedAssets = () => {
             </>
           )
         ) : (
-          <NoExcludedAssets>There are no excluded assets.</NoExcludedAssets>
+          <NotAvailable message="There are currently no excluded assets exist on this portfolio." />
         )
       ) : (
         showAssets && <FontAwesomeIcon icon={faSpinner} spin size="lg" />

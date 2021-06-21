@@ -57,7 +57,7 @@ const Options = styled.ul`
   padding: 22px 20px 24px;
   background: #c3e7ff;
   margin: 10px 16px;
-  width: 12%;
+  width: max-content;
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   z-index: 1;
@@ -73,9 +73,6 @@ const Options = styled.ul`
     &:hover {
       color: #003ba2;
     }
-  }
-  @media (max-width: 900px) {
-    width: fit-content;
   }
 `;
 
@@ -175,13 +172,13 @@ const MoreOptions = ({ model, shareModel }: Props) => {
           .then(() => {
             dispatch(loadModelPortfolios());
             dispatch(push(`/models`));
-            toast.success('Duplicated model successfully.');
+            toast.success('Created a duplicate model successfully');
           })
           .catch((err) => {
-            toast.error('Unable to duplicate model.');
+            toast.error('Unable to duplicate the model');
           });
       })
-      .catch(() => toast.error('Unable to duplicate model.'));
+      .catch(() => toast.error('Unable to duplicate the model'));
   };
 
   const handleDeleteModel = () => {
@@ -193,11 +190,11 @@ const MoreOptions = ({ model, shareModel }: Props) => {
         if (groups !== undefined) {
           dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
         }
-        toast.success('Delete the model successfully.');
+        toast.success('Delete the model successfully');
         dispatch(replace(`/models`));
       })
       .catch(() => {
-        toast.error('Unable to delete the model. Please try again!');
+        toast.error('Unable to delete the model');
       });
   };
 

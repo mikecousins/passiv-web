@@ -179,8 +179,8 @@ const CancelButton = styled(A)`
 const Equalize = styled.div`
   margin-top: 10px;
   button {
-    padding: 8px 20px;
-    font-weight: 900;
+    padding: 8px 30px;
+    font-weight: 600;
     color: var(--brand-green);
     border: 2px solid var(--brand-green);
     background-color: transparent;
@@ -317,10 +317,7 @@ const ModelPortoflioBox = ({
         })
         .catch(() => {
           dispatch(loadModelPortfolios());
-          toast.error(
-            `${modelPortfolio.model_portfolio.name} Model Portfolio Name Update Failed`,
-            { autoClose: 3000 },
-          );
+          toast.error('Model portfolio name update failed');
         });
     } else {
       setModelPortfolioName(modelPortfolio.model_portfolio.name);
@@ -345,7 +342,7 @@ const ModelPortoflioBox = ({
         } else {
           dispatch(loadGroups()); // need to load all groups to have an updated list of groups using a model in my models page
           toast.success(
-            `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}"`,
+            `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}" successfully`,
           );
         }
         if (securityBased && groupId) {

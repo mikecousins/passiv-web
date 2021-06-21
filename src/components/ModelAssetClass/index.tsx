@@ -13,9 +13,9 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import AssetClass from './AssetClass';
 import Target from './Target';
 import { selectRouter } from '../../selectors/router';
-import { P } from '../../styled/GlobalElements';
 import Tour from '../Tour/Tour';
 import { AssetClassesSteps } from '../Tour/TourSteps';
+import NotAvailable from '../NotAvailable';
 
 const AssetBox = styled.div`
   border: 1px solid #bfb6b6;
@@ -43,11 +43,6 @@ const BackButton = styled(Button)`
   @media (max-width: 900px) {
     margin-top: 10px;
   }
-`;
-
-const NoAssetClass = styled(P)`
-  text-align: center;
-  margin-top: 40px;
 `;
 
 const ModelAssetClass = () => {
@@ -88,7 +83,7 @@ const ModelAssetClass = () => {
       {assetClasses.length > 0 ? (
         assetClassBox
       ) : (
-        <NoAssetClass>There are no asset classes available.</NoAssetClass>
+        <NotAvailable message="There are currently no asset classes available." />
       )}
 
       <div style={{ marginTop: '40px' }} className="tour-asset-class">
