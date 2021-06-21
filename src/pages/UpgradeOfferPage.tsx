@@ -7,14 +7,9 @@ import { loadSubscription } from '../actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSpinner,
-  faEnvelopeSquare,
   faExternalLinkAlt,
   faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  faTwitterSquare,
-  faFacebookSquare,
-} from '@fortawesome/free-brands-svg-icons';
 import { H1, P } from '../styled/GlobalElements';
 import { Error } from '../types/groupInfo';
 import { Button } from '../styled/Button';
@@ -31,48 +26,11 @@ const Bold = styled.span`
   font-weight: 600;
 `;
 
-const ShareBox = styled.div`
-  display: flex;
-`;
-
-const ShareItem = styled.a`
-  padding: 20px 40px 10px 0;
-  text-align: center;
-  color: #fff;
-  :hover,
-  :visited,
-  :link,
-  :active {
-    text-decoration: none;
-  }
-`;
-
-const ShareIcon = styled.div`
-  font-size: 4em;
-`;
-
-const ShareText = styled.div`
-  padding-top: 5px;
-  padding-bottom: 20px;
-  font-weight: 900;
-  font-size: 1em;
-`;
-
 const AButtonBox = styled.div`
   p {
     padding-top: 30px;
   }
 `;
-
-const shareURL = 'https://passiv.com/questrade-offer';
-
-const shareTwitterCopy = `Questrade is giving away Passiv Elite subscriptions for FREE! Now it's easier than ever to manage your own investments. Go here to open a Passiv account: ${shareURL}`;
-
-const shareEmailSubjectCopy =
-  'Questrade%20is%20giving%20away%20Passiv%20Elite%20for%20free!';
-const shareEmailBodyCopy = `Hey%2C%20I%20just%20found%20out%20that%20Questrade%20has%20a%20promotion%20where%20they%27re%20giving%20away%20Passiv%20Elite%20subscriptions.%20It%27s%20usually%20%2479%2Fyear%2C%20but%20they%27re%20offering%20it%20free%20for%20now!%0A%0AYou%20can%20claim%20the%20offer%20here%3A%20${shareURL}`;
-
-const shareFacebookLink = `${shareURL}`;
 
 const UpgradeOfferPage = () => {
   const dispatch = useDispatch();
@@ -100,41 +58,6 @@ const UpgradeOfferPage = () => {
         }, 2000);
       });
   }, [dispatch]);
-
-  const shareBox = (
-    <ShareBox>
-      <ShareItem
-        href={`https://twitter.com/intent/tweet?text=${shareTwitterCopy}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <ShareIcon>
-          <FontAwesomeIcon icon={faTwitterSquare} />
-        </ShareIcon>
-        <ShareText>Twitter</ShareText>
-      </ShareItem>
-      <ShareItem
-        href={`https://www.facebook.com/sharer/sharer.php?u=${shareFacebookLink}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <ShareIcon>
-          <FontAwesomeIcon icon={faFacebookSquare} />
-        </ShareIcon>
-        <ShareText>Facebook</ShareText>
-      </ShareItem>
-      <ShareItem
-        href={`mailto:?subject=${shareEmailSubjectCopy}&body=${shareEmailBodyCopy}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <ShareIcon>
-          <FontAwesomeIcon icon={faEnvelopeSquare} />
-        </ShareIcon>
-        <ShareText>Email</ShareText>
-      </ShareItem>
-    </ShareBox>
-  );
 
   let errorMessage = null;
 
@@ -179,12 +102,6 @@ const UpgradeOfferPage = () => {
               Sorry, this offer is only available to Questrade customers who do
               not already have a Passiv Elite subscription.
             </P>
-            <P>
-              You can still spread the good news by telling your friends about
-              this offer. Share this link using Twitter, Facebook, email, or
-              whatever you prefer!
-            </P>
-            {shareBox}
             <Button onClick={() => dispatch(push('/dashboard'))}>
               Go to Dashboard
             </Button>
@@ -226,6 +143,9 @@ const UpgradeOfferPage = () => {
           onClick={() => {
             if (isOnboarding) {
               dispatch(updateOnboardingStep(3, settings));
+              setTimeout(() => {
+                dispatch(push('/welcome'));
+              }, 200);
             } else {
               dispatch(push('/dashboard'));
             }
