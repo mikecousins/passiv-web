@@ -792,7 +792,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
             Follow a link below to create a brokerage account with one of our
             partners.
           </AuthP>
-          <BrokerageOptions columns="1fr 1fr 1fr">
+          <BrokerageOptions columns="repeat(2, auto)">
             {brokerageOptions.map((brokerage: any) => {
               return (
                 <Brokerage>

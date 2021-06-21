@@ -68,7 +68,7 @@ export const DashboardPage = () => {
     anyTargets = !groupsSetupStatus.some(verifyAnyTrue);
   }
 
-  const onboardingNotDone = onboardingStep ? onboardingStep !== 6 : false;
+  const onboarding = onboardingStep !== undefined;
 
   const messages: Message[] = [
     {
@@ -79,7 +79,7 @@ export const DashboardPage = () => {
     {
       name: 'onboarding_dashboard',
       content: <WelcomePage />,
-      visible: onboardingNotDone,
+      visible: onboarding,
     },
     {
       name: 'investing_course',
