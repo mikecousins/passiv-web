@@ -26,12 +26,13 @@ export const SlideMenu = () => {
     if (!isMobile) {
       // hide side bar if user is on the onboarding process
       if (
-        (pathname === '/welcome' ||
+        ((pathname === '/welcome' ||
           pathname === '/connect/open' ||
           pathname.includes('oauth') ||
           pathname === '/questrade-offer') &&
-        onboardingStep !== undefined &&
-        onboardingStep <= 4
+          onboardingStep !== undefined &&
+          onboardingStep <= 4) ||
+        pathname.includes('shared-model-portfolio')
       ) {
         setVisible(false);
       } else {
@@ -39,6 +40,10 @@ export const SlideMenu = () => {
       }
     }
   }, [pathname, onboardingStep, isMobile]);
+
+  if (pathname === '/quick-trade') {
+    return <></>;
+  }
 
   // check our path to see if it's changed
   // if it has and we're on mobile, close the menu

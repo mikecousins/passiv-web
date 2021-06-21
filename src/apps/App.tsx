@@ -180,6 +180,10 @@ const Prioritization = ReactLazyPreload(() =>
   ),
 );
 
+const QuickTradePage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "quick-trade" */ '../pages/QuickTradePage'),
+);
+
 // declare global {
 //   interface Window {
 //     Stripe: any;
@@ -365,6 +369,7 @@ const App = () => {
               component={SharedModelPortfolio}
               render={() => sharedModelRedirect()}
             />
+            <Route path="/quick-trade" component={QuickTradePage} />
             {/* oauth routes */}
             {loggedIn && (
               <Route

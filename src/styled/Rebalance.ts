@@ -12,3 +12,10 @@ export const RebalanceAlert = styled.div`
     border-radius: 50%;
   }
 `;
+
+export const RebalanceAlertSpinner = styled(RebalanceAlert)`
+  left: 9px;
+  svg {
+    font-size: 15px;
+  }
+`;
