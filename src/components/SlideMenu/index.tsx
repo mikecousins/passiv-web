@@ -20,6 +20,10 @@ export const SlideMenu = () => {
   const [visible, setVisible] = useState(!isMobile);
   const [oldPath, setPath] = useState(pathname);
 
+  if (pathname === '/quick-trade') {
+    return <></>;
+  }
+
   // check our path to see if it's changed
   // if it has and we're on mobile, close the menu
   if (isMobile && oldPath !== pathname) {

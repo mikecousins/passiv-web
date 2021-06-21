@@ -12,15 +12,18 @@ import Demo from './Demo';
 import { selectIsOnline } from '../../selectors/online';
 import { selectIsDemo } from '../../selectors';
 import { LogoutButton } from '../LogoutButton';
+import { selectPathname } from '../../selectors/router';
 
 type StyledHeaderProps = {
   isOnline: boolean;
+  noSideBar: boolean;
 };
 
 const StyledHeader = styled.header<StyledHeaderProps>`
   position: fixed;
   width: 100%;
-  padding: 10px 20px 10px 222px;
+  padding: 10px 20px 10px;
+  padding-left: ${(props) => (props.noSideBar ? '5px' : '222px')};
   background: ${(props) =>
     props.isOnline ? '#fff' : 'var(--brand-light-orange)'};
   border-bottom: ${(props) =>
@@ -51,9 +54,10 @@ export const Header = () => {
   const name = useSelector(selectName);
   const isOnline = useSelector(selectIsOnline);
   const isDemo = useSelector(selectIsDemo);
+  const pathname = useSelector(selectPathname);
 
   return (
-    <StyledHeader isOnline={isOnline}>
+    <StyledHeader isOnline={isOnline} noSideBar={pathname === '/quick-trade'}>
       <nav>
         <Logo>
           <Link to="/">
