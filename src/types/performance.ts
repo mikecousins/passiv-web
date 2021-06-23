@@ -65,7 +65,7 @@ export type PerformanceData = {
   rateOfReturnALL: number;
   rateOfReturnYTD: number;
   badTickers: string[];
-  detailedMode: boolean;
+  settings: ReportingSettings;
 };
 
 export type PerformanceCustomData = {
