@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import MenuButton from './MenuButton';
@@ -19,6 +19,21 @@ export const SlideMenu = () => {
   const pathname = useSelector(selectPathname);
   const [visible, setVisible] = useState(!isMobile);
   const [oldPath, setPath] = useState(pathname);
+
+  useEffect(() => {
+    if (!isMobile) {
+      // hide side bar if user is on the onboarding process
+      if (pathname.includes('shared-model-portfolio')) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+    }
+  }, [pathname, isMobile]);
+
+  if (pathname === '/quick-trade') {
+    return <></>;
+  }
 
   // check our path to see if it's changed
   // if it has and we're on mobile, close the menu

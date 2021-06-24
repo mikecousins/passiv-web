@@ -56,9 +56,9 @@ export const Save = styled(Button)`
 `;
 
 export const Description = styled(P)`
-  line-height: 21px;
-  letter-spacing: 0.18px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
+  line-height: 29px;
+  letter-spacing: 0.2px;
 `;
 const GroupName = styled(H2)`
   font-size: 32px;
@@ -235,7 +235,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           dispatch(loadGroup({ ids: [group?.id] }));
         })
         .catch(() => {
-          toast.error('Unable to save prioritization. Please try again');
+          toast.error('Unable to save prioritization');
         });
     }
   };

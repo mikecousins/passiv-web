@@ -74,11 +74,11 @@ const AccountName = ({ name }: Props) => {
           dispatch(loadAccounts());
         })
         .catch(() => {
-          toast.error('Failed to edit group name');
+          toast.error('Failed to edit the group name');
           setNewName(name);
         });
     } else if (newName.trim().length === 0) {
-      toast.error('Failed to edit group name');
+      toast.error('Failed to edit the group name');
       setNewName(name);
     }
     setEditing(false);

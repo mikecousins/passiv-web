@@ -222,13 +222,13 @@ const PortfolioGroupTargets = ({ error }: Props) => {
             );
           })
           .catch(() => {
-            toast.error('Unable to import holdings.');
+            toast.error('Unable to import holdings');
             setLoading(false);
             setShowImportOverlay(false);
           });
       })
       .catch(() => {
-        toast.error('Unable to import holdings.');
+        toast.error('Unable to import holdings');
         setLoading(false);
         setShowImportOverlay(false);
       });
@@ -244,7 +244,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
           ),
         );
       })
-      .catch(() => toast.error('Unable to create new model.'));
+      .catch(() => toast.error('Unable to create a new model'));
   };
 
   const generateTargetForm = (lockable: boolean) => {

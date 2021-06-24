@@ -42,7 +42,7 @@ export const AppLayout = ({ children }: Props) => {
         </Main>
       </Container>
       <ScrollHelper />
-      <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
+      <ToastContainer position={toast.POSITION.TOP_CENTER} />
     </div>
   );
 };

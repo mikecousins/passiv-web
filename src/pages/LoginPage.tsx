@@ -11,9 +11,13 @@ import { Button } from '../styled/Button';
 import PasswordField from '../components/PasswordField';
 import { selectDevice } from '../selectors/index';
 import styled from '@emotion/styled';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faExclamationTriangle,
+  faQuestionCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tooltip from '../components/Tooltip';
+import { Container } from '../components/NotificationMessage';
 
 const RememberMe = styled(Field)`
   margin-bottom: 20px;
@@ -22,6 +26,24 @@ const RememberMe = styled(Field)`
 const InfoIcon = styled(FontAwesomeIcon)`
   padding-top: 3px;
   padding-bottom: 3px;
+`;
+
+const LoginFailed = styled(Container)`
+  padding: 10px 0px 0px 10px;
+  &:after {
+    border-bottom: 30px solid
+      ${(props) => (props.error ? 'var(--brand-orange)' : 'var(--brand-green)')};
+    border-left: 30px solid transparent;
+  }
+  p {
+    font-size: 20px;
+    line-height: 29px;
+    letter-spacing: 0.44px;
+    svg {
+      color: var(--brand-orange);
+      margin-right: 10px;
+    }
+  }
 `;
 
 const LoginPage = () => {
@@ -44,6 +66,7 @@ const LoginPage = () => {
       initialValues={{
         email: '',
         password: '',
+        login: '',
       }}
       validationSchema={Yup.object().shape({
         email: Yup.string()
@@ -75,12 +98,12 @@ const LoginPage = () => {
           .catch((error) => {
             if (error.response) {
               actions.setErrors({
-                password:
+                login:
                   error.response.data.non_field_errors || 'Failed to login.',
               });
             } else {
               actions.setErrors({
-                password: 'Failed to login.',
+                login: 'Failed to login.',
               });
             }
 
@@ -103,6 +126,15 @@ const LoginPage = () => {
           <P>
             <ErrorMessage name="password" />
           </P>
+          {props.errors.login && (
+            <LoginFailed error={true}>
+              <P>
+                <FontAwesomeIcon icon={faExclamationTriangle} />
+                Sorry, {props.errors.login}
+              </P>
+            </LoginFailed>
+          )}
+
           <div>
             <Button
               type="submit"

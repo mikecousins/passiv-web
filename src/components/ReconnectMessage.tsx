@@ -9,9 +9,8 @@ import { selectAccounts } from '../selectors/accounts';
 import { selectPathname } from '../selectors/router';
 import styled from '@emotion/styled';
 import ConnectionUpdate from './ConnectionUpdate';
-
-import { H2, P } from '../styled/GlobalElements';
-import { ErrorContainer } from '../styled/Group';
+import { P } from '../styled/GlobalElements';
+import NotificationMessage from './NotificationMessage';
 
 const ReconnectContainer = styled.div`
   font-size: 18px;
@@ -39,52 +38,102 @@ const ReconnectMessage = () => {
   if (loggedIn && !pathname.startsWith('/oauth')) {
     if (disabledAuthorizations !== false && disabledAuthorizations.length > 0) {
       return (
-        <ErrorContainer>
-          <H2>Action required: Reconnect</H2>
-          <P>
-            Passiv has lost its connection to your brokerage account. We
-            apologize for the inconvenience, but it's a simple fix! Just click
-            the button below to reconnect.
-          </P>
-          {disabledAuthorizations.map((authorization) => {
-            let selectedAccounts = accounts.filter(
-              (account) => account.brokerage_authorization === authorization.id,
-            );
+        <NotificationMessage
+          error={true}
+          title={'Action required: Reconnect'}
+          alwaysOpen={true}
+        >
+          <div>
+            <P>
+              Passiv has lost its connection to your brokerage account. We
+              apologize for the inconvenience, but it's a simple fix! Just click
+              the button below to reconnect.
+            </P>
+            {disabledAuthorizations.map((authorization) => {
+              let selectedAccounts = accounts.filter(
+                (account) =>
+                  account.brokerage_authorization === authorization.id,
+              );
 
-            let accountString = `${
-              selectedAccounts.length
-            } Accounts: ${selectedAccounts
-              .map((account) => account.name)
-              .join(', ')}`;
-            return (
-              <ReconnectContainer>
-                <ReconnectPanel>
-                  <ConnectionUpdate
-                    authorization={authorization}
-                    type={authorization.type}
-                    hideTitle={true}
-                    name="Reconnect"
-                    align="left"
-                  />
-                </ReconnectPanel>
-                <ReconnectPanel>
-                  <Tooltip label={accountString}>
+              let accountString = `${
+                selectedAccounts.length
+              } Accounts: ${selectedAccounts
+                .map((account) => account.name)
+                .join(', ')}`;
+              return (
+                <ReconnectContainer>
+                  <ReconnectPanel>
+                    <ConnectionUpdate
+                      authorization={authorization}
+                      type={authorization.type}
+                      hideTitle={true}
+                      name="Reconnect"
+                      align="left"
+                    />
+                  </ReconnectPanel>
+                  <ReconnectPanel>
+                    <Tooltip label={accountString}>
+                      <span>
+                        <Title>Name:</Title>&nbsp;{authorization.name}&nbsp;
+                        <FontAwesomeIcon icon={faQuestionCircle} />
+                      </span>
+                    </Tooltip>
+                  </ReconnectPanel>
+                  <ReconnectPanel>
                     <span>
-                      <Title>Name:</Title>&nbsp;{authorization.name}&nbsp;
-                      <FontAwesomeIcon icon={faQuestionCircle} />
+                      <Title>Brokerage:</Title>&nbsp;
+                      {authorization.brokerage.name}
                     </span>
-                  </Tooltip>
-                </ReconnectPanel>
-                <ReconnectPanel>
-                  <span>
-                    <Title>Brokerage:</Title>&nbsp;
-                    {authorization.brokerage.name}
-                  </span>
-                </ReconnectPanel>
-              </ReconnectContainer>
-            );
-          })}
-        </ErrorContainer>
+                  </ReconnectPanel>
+                </ReconnectContainer>
+              );
+            })}{' '}
+            <P>
+              Passiv has lost its connection to your brokerage account. We
+              apologize for the inconvenience, but it's a simple fix! Just click
+              the button below to reconnect.
+            </P>
+            {disabledAuthorizations.map((authorization) => {
+              let selectedAccounts = accounts.filter(
+                (account) =>
+                  account.brokerage_authorization === authorization.id,
+              );
+
+              let accountString = `${
+                selectedAccounts.length
+              } Accounts: ${selectedAccounts
+                .map((account) => account.name)
+                .join(', ')}`;
+              return (
+                <ReconnectContainer>
+                  <ReconnectPanel>
+                    <ConnectionUpdate
+                      authorization={authorization}
+                      type={authorization.type}
+                      hideTitle={true}
+                      name="Reconnect"
+                      align="left"
+                    />
+                  </ReconnectPanel>
+                  <ReconnectPanel>
+                    <Tooltip label={accountString}>
+                      <span>
+                        <Title>Name:</Title>&nbsp;{authorization.name}&nbsp;
+                        <FontAwesomeIcon icon={faQuestionCircle} />
+                      </span>
+                    </Tooltip>
+                  </ReconnectPanel>
+                  <ReconnectPanel>
+                    <span>
+                      <Title>Brokerage:</Title>&nbsp;
+                      {authorization.brokerage.name}
+                    </span>
+                  </ReconnectPanel>
+                </ReconnectContainer>
+              );
+            })}
+          </div>
+        </NotificationMessage>
       );
     }
   }

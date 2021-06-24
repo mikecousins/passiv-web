@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
-import { Title, P } from '../styled/GlobalElements';
+import { Title } from '../styled/GlobalElements';
 import Number from './Number';
 import { selectCurrencies } from '../selectors/currencies';
 import ShadowBox from '../styled/ShadowBox';
@@ -19,6 +19,7 @@ import {
   selectPreferredCurrency,
 } from '../selectors/groups';
 import { Position } from '../types/account';
+import NotAvailable from './NotAvailable';
 
 export const FontAwesomeIconDisabled = styled(FontAwesomeIcon)`
   opacity: 0.4;
@@ -118,10 +119,6 @@ const HoldingsBox = styled.div`
   }
 `;
 
-const NoPositionsBox = styled.div`
-  text-align: center;
-`;
-
 const CurrencyCodeBox = styled.span``;
 
 type Props = {
@@ -129,6 +126,8 @@ type Props = {
 };
 
 export const AccountHoldings = ({ holdings }: Props) => {
+  console.log(holdings);
+
   const currencies = useSelector(selectCurrencies);
   const preferredCurrency = useSelector(selectPreferredCurrency);
   const currencyRates = useSelector(selectCurrencyRates);
@@ -410,9 +409,7 @@ export const AccountHoldings = ({ holdings }: Props) => {
         {holdings.positions && holdings.positions.length > 0 ? (
           headersRender
         ) : (
-          <NoPositionsBox>
-            <P>There are no open positions in this account.</P>
-          </NoPositionsBox>
+          <NotAvailable message="There are no open positions in this account." />
         )}
       </HoldingsBox>
     </ShadowBox>

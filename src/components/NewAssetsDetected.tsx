@@ -8,14 +8,10 @@ import {
   selectCurrentGroupSettings,
 } from '../selectors/groups';
 import { SmallButton } from '../styled/Button';
-import { A, H3, P } from '../styled/GlobalElements';
+import { A, P } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
-import { ErrorContainer } from '../styled/Group';
 import styled from '@emotion/styled';
-import {
-  faExclamationTriangle,
-  faSpinner,
-} from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { loadGroup, loadModelPortfolios } from '../actions';
 import { toast } from 'react-toastify';
@@ -24,6 +20,7 @@ import {
   selectModelUseByOtherGroups,
 } from '../selectors/modelPortfolios';
 import { Position } from '../types/groupInfo';
+import NotificationMessage from './NotificationMessage';
 
 const Loading = styled.div`
   text-align: center;
@@ -119,7 +116,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
         dispatch(loadGroup({ ids: [groupId] }));
       })
       .catch(() => {
-        toast.error('Request failed. Please try again.');
+        toast.error('Exclusion operation failed');
       });
   };
   const handleAddToModel = (target: Position) => {
@@ -146,14 +143,14 @@ const NewAssetsDetected = ({ targets }: Props) => {
             dispatch(loadGroup({ ids: [groupId] })); // need to load all groups to have an updated list of groups using a model in my models page
             dispatch(loadModelPortfolios());
             toast.success(
-              `'${newTarget.symbol.symbol}' got added to '${model[0].model_portfolio.name}'`,
+              `'${newTarget.symbol.symbol}' added to '${model[0].model_portfolio.name}'`,
             );
           })
           .catch((err) => {
             if (err.response) {
               toast.error(err.response.data.detail);
             } else {
-              toast.error('Cannot add target to model');
+              toast.error('Cannot add security to model');
             }
           });
       })
@@ -161,7 +158,7 @@ const NewAssetsDetected = ({ targets }: Props) => {
         if (err.response) {
           toast.error(err.response.data.detail);
         } else {
-          toast.error('Cannot add target to model');
+          toast.error('Cannot add security to model');
         }
       });
   };
@@ -170,72 +167,73 @@ const NewAssetsDetected = ({ targets }: Props) => {
     return <></>;
   } else {
     return (
-      <ErrorContainer>
-        <H3>
-          <FontAwesomeIcon icon={faExclamationTriangle} /> New Assets Detected
-        </H3>
-        <P>
-          We noticed that you added the following securities in your account and
-          since these assets are not included in your model portfolio, they may
-          impact your portfolio accuracy or trade calculations. You can either
-          add them to your model portfolio* or exclude them.
-        </P>
-        {allLoading ? (
-          <Loading>
-            <FontAwesomeIcon icon={faSpinner} spin size="2x" />
-          </Loading>
-        ) : (
-          <ListOfAssets>
-            <ExcludeAll>
-              <ExcludeBtn onClick={() => handleExcludeAsset('', true)}>
-                Exclude All
-              </ExcludeBtn>
-            </ExcludeAll>
-            {targets?.map((target) => {
-              if (target.excluded) {
-                return false;
-              }
-              if (target.symbol.id === loadingId) {
-                return <FontAwesomeIcon icon={faSpinner} spin />;
-              }
-              return (
-                <StyledGrid columns="1fr 180px 200px" key={target.symbol.id}>
-                  <SymbolGrid columns="180px auto">
-                    <Symbol>{target.symbol.symbol}</Symbol>{' '}
-                    <Description>{target.symbol.description}</Description>
-                  </SymbolGrid>
-                  {!modelUseByOtherGroups && (
-                    <MaxHeightSmallBtn
-                      onClick={() => {
-                        handleAddToModel(target);
-                      }}
+      <NotificationMessage
+        error={false}
+        title={'New Assets Detected'}
+        alwaysOpen={false}
+      >
+        <div>
+          <P>
+            We noticed that you added the following securities in your account
+            and since these assets are not included in your model portfolio,
+            they may impact your portfolio accuracy or trade calculations. You
+            can either add them to your model portfolio* or exclude them.
+          </P>
+          {allLoading ? (
+            <Loading>
+              <FontAwesomeIcon icon={faSpinner} spin size="2x" />
+            </Loading>
+          ) : (
+            <ListOfAssets>
+              <ExcludeAll>
+                <ExcludeBtn onClick={() => handleExcludeAsset('', true)}>
+                  Exclude All
+                </ExcludeBtn>
+              </ExcludeAll>
+              {targets?.map((target) => {
+                if (target.excluded) {
+                  return false;
+                }
+                if (target.symbol.id === loadingId) {
+                  return <FontAwesomeIcon icon={faSpinner} spin />;
+                }
+                return (
+                  <StyledGrid columns="1fr 180px 200px" key={target.symbol.id}>
+                    <SymbolGrid columns="180px auto">
+                      <Symbol>{target.symbol.symbol}</Symbol>{' '}
+                      <Description>{target.symbol.description}</Description>
+                    </SymbolGrid>
+                    {!modelUseByOtherGroups && (
+                      <MaxHeightSmallBtn
+                        onClick={() => handleAddToModel(target)}
+                      >
+                        Add to Model
+                      </MaxHeightSmallBtn>
+                    )}
+                    <ExcludeBtn
+                      onClick={() =>
+                        handleExcludeAsset(target.symbol.id, false)
+                      }
                     >
-                      Add to Model
-                    </MaxHeightSmallBtn>
-                  )}
-                  <ExcludeBtn
-                    onClick={() => handleExcludeAsset(target.symbol.id, false)}
-                  >
-                    Exclude
-                  </ExcludeBtn>
-                </StyledGrid>
-              );
-            })}
-          </ListOfAssets>
-        )}
-
-        <small>
-          * The securities get added with <BoldSpan>0%</BoldSpan>. Scroll down
-          and click Edit Model to change their allocation.
-        </small>
-
-        <DontShowBtn>
-          <A onClick={() => dispatch(push(`/group/${groupId}/settings`))}>
-            Do not want to see this message again? Turn it off in your portfolio
-            settings.
-          </A>
-        </DontShowBtn>
-      </ErrorContainer>
+                      Exclude
+                    </ExcludeBtn>
+                  </StyledGrid>
+                );
+              })}
+            </ListOfAssets>
+          )}
+          <small>
+            * The securities get added with <BoldSpan>0%</BoldSpan>. Scroll down
+            and click Edit Model to change their allocation.
+          </small>
+          <DontShowBtn>
+            <A onClick={() => dispatch(push(`/group/${groupId}/settings`))}>
+              Do not want to see this message again? Turn it off in your
+              portfolio settings.
+            </A>
+          </DontShowBtn>
+        </div>
+      </NotificationMessage>
     );
   }
 };

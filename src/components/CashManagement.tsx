@@ -26,6 +26,7 @@ import { Form } from '../styled/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { DeleteContainer } from './ModelPortfolio';
+import NotAvailable from './NotAvailable';
 
 const CashManagementBox = styled.div`
   h2 {
@@ -155,7 +156,7 @@ const Title = styled.div`
 
 const NoCashRules = styled(P)`
   margin: 10px 0;
-  text-align: center;
+  display: flex;
 `;
 
 const CashManagement = () => {
@@ -209,7 +210,7 @@ const CashManagement = () => {
         reloadGroupAndAccounts();
       })
       .catch(() => {
-        toast.error('Failed to delete cash restriction.');
+        toast.error('Failed to delete cash restriction');
       });
   };
 
@@ -338,7 +339,7 @@ const CashManagement = () => {
     if (!editing) {
       cashRestrictionsContent = (
         <NoCashRules>
-          There are no cash rules defined.{' '}
+          <NotAvailable message="There are currently no cash rules defined." />
           <AddRuleBtn2
             onClick={() => {
               startEditing();

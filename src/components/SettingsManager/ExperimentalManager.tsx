@@ -4,13 +4,10 @@ import { selectSettings } from '../../selectors';
 import ShadowBox from '../../styled/ShadowBox';
 import { H2, P } from '../../styled/GlobalElements';
 import styled from '@emotion/styled';
+import NotAvailable from '../NotAvailable';
 
 const Description = styled(P)`
   margin: 12px 0px;
-`;
-const NoFeature = styled.div`
-  text-align: center;
-  margin: 50px 0px;
 `;
 
 const ExperimentalManager = () => {
@@ -25,11 +22,7 @@ const ExperimentalManager = () => {
       <Description>
         You can try out new Passiv features before they're fully baked!
       </Description>
-      <NoFeature>
-        <P>
-          There are currently no experimental features available for you to try.
-        </P>
-      </NoFeature>
+      <NotAvailable message="There are currently no experimental features available for you to try. Check back later." />
     </ShadowBox>
   );
 };

@@ -34,7 +34,7 @@ export const HideButton = ({ name, text }: Props) => {
               dispatch(loadSettings());
             })
             .catch((error) => {
-              toast.error(`Failed to hide contextual message "${name}".`);
+              toast.error(`Failed to hide contextual message "${name}"`);
             });
         }}
       >

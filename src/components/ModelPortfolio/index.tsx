@@ -77,7 +77,7 @@ export const BackButton = styled.div`
     padding: 16px 20px 20px;
     text-align: center;
     width: 100%;
-    border: 1px solid var(--brand-blue);
+    border: 2px solid var(--brand-blue);
     display: inline-block;
     a {
       font-size: 18px;
@@ -232,11 +232,11 @@ const ModelPortfolio = () => {
         if (groups !== undefined) {
           dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
         }
-        toast.success('Delete the model successfully.');
+        toast.success('Delete the model successfully');
         dispatch(replace('/models'));
       })
       .catch(() => {
-        toast.error('Unable to delete the model. Please try again!');
+        toast.error('Unable to delete the model');
       });
   };
 
@@ -251,15 +251,11 @@ const ModelPortfolio = () => {
     postData(`/api/v1/modelPortfolio/${modelId}`, currentModelPortfolio)
       .then(() => {
         setSecurityBased(!securityBased);
-        toast.success('Model type changed successfully', {
-          autoClose: 3000,
-        });
+        toast.success('Model type changed successfully');
         dispatch(loadModelPortfolios());
       })
       .catch(() => {
-        toast.error('Unable to change the model type', {
-          autoClose: 3000,
-        });
+        toast.error('Unable to change the model type');
       });
   };
 
@@ -274,7 +270,7 @@ const ModelPortfolio = () => {
       })
       .catch(() => {
         dispatch(loadModelPortfolios());
-        toast.error('Change Share Model Failed', { autoClose: 3000 });
+        toast.error('Update share model failed');
       });
   };
 
