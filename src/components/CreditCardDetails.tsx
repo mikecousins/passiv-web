@@ -12,7 +12,7 @@ const H3Card = styled(H3)`
   padding-bottom: 3px;
 `;
 
-export const CreditCardDetails = ({ cardState, cardDetails }: Props) => (
+const CreditCardDetails = ({ cardState, cardDetails }: Props) => (
   <React.Fragment>
     <H3Card>Payment Card</H3Card>
     {cardState !== 'VALID' && (

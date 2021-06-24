@@ -18,7 +18,7 @@ import { H3 } from '../../styled/GlobalElements';
 
 var emptyData: any[] = [];
 
-export const PerformanceContributionChart = () => {
+const PerformanceContributionChart = () => {
   const dividendTimeline = useSelector(selectDividendTimeline);
   let dividendHasData = false;
   dividendTimeline?.forEach((dividendObject) => {

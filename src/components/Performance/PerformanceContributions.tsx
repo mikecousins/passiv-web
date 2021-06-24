@@ -33,7 +33,7 @@ const SubLegendItem = styled.div`
 type Props = {
   selectedTimeframe: string;
 };
-export const PerformanceContributions = (props: Props) => {
+const PerformanceContributions = (props: Props) => {
   const contributions: Contributions | undefined = useSelector(
     selectContributions,
   );

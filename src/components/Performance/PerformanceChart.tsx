@@ -68,7 +68,7 @@ type Props = {
   displayTotal: boolean;
 };
 
-export const PerformanceChart: FunctionComponent<Props> = ({
+const PerformanceChart: FunctionComponent<Props> = ({
   data,
   axes,
   series,

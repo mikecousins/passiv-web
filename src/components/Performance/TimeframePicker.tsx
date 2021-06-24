@@ -93,7 +93,7 @@ export const TimespanSelector: FunctionComponent<Props> = ({
   );
 };
 
-export const TimeframePicker = () => {
+const TimeframePicker = () => {
   const dispatch = useDispatch();
   let selectedTimeframe = useSelector(selectSelectedTimeframe);
   let showDatePickers = false;

@@ -12,7 +12,7 @@ import { Title } from '../styled/GlobalElements';
 import Number from './Number';
 import { selectCurrencies } from '../selectors/currencies';
 import ShadowBox from '../styled/ShadowBox';
-import { SymbolDetail } from './SymbolDetail';
+import SymbolDetail from './SymbolDetail';
 import { selectCurrencyRates } from '../selectors';
 import {
   AccountHoldings as AccountHoldingsType,
@@ -125,9 +125,7 @@ type Props = {
   holdings: AccountHoldingsType | null;
 };
 
-export const AccountHoldings = ({ holdings }: Props) => {
-  console.log(holdings);
-
+const AccountHoldings = ({ holdings }: Props) => {
   const currencies = useSelector(selectCurrencies);
   const preferredCurrency = useSelector(selectPreferredCurrency);
   const currencyRates = useSelector(selectCurrencyRates);

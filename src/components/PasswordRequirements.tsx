@@ -12,7 +12,7 @@ const H1 = styled.h1`
   font-size: 1.2em;
 `;
 
-export const PasswordRequirements = () => {
+const PasswordRequirements = () => {
   return (
     <ShadowBox>
       <H1>Password requirements</H1>

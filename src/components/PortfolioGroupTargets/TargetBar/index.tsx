@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from '@emotion/styled';
 import SymbolSelector from './SymbolSelector';
 import Number from '../../Number';
-import { SymbolDetail } from '../../SymbolDetail';
+import SymbolDetail from '../../SymbolDetail';
 import {
   BarsContainer,
   InputContainer,

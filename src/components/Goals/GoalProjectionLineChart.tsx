@@ -85,7 +85,7 @@ type Props = {
   goalTarget: number;
   setGoalTarget: any;
 };
-export const GoalProjectionLineChart: FunctionComponent<Props> = ({
+const GoalProjectionLineChart: FunctionComponent<Props> = ({
   goal,
   targetDate,
   projectedValue,

@@ -31,7 +31,7 @@ const CashManagementShadowBox = styled(ShadowBox)`
   }
 `;
 
-export const PortfolioGroupSettings = () => {
+const PortfolioGroupSettings = () => {
   const dispatch = useDispatch();
   const settings = useSelector(selectCurrentGroupSettings);
   const groupId = useSelector(selectCurrentGroupId);

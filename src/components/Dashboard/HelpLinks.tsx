@@ -26,7 +26,7 @@ const ShadowBoxLinks = styled(ShadowBox)`
   }
 `;
 
-export const HelpLinks = () => {
+const HelpLinks = () => {
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
 
   return (

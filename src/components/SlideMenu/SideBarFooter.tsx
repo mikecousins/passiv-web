@@ -40,7 +40,7 @@ const Help = styled.div`
   }
 `;
 
-export const SideBarFooter = () => (
+const SideBarFooter = () => (
   <StyledFooter>
     <Help>
       <PreLoadLink path={HELP_PATH}>

@@ -165,7 +165,7 @@ type Props = {
   onReset: () => void;
 };
 
-export const TargetSelector = ({
+const TargetSelector = ({
   isAssetClassBased,
   lockable,
   target,

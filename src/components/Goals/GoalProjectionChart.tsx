@@ -22,7 +22,7 @@ type Props = {
   currentValue: number;
   projectedValue: number;
 };
-export const GoalProjectionChart: FunctionComponent<Props> = ({
+const GoalProjectionChart: FunctionComponent<Props> = ({
   goal,
   currentValue,
   projectedValue,

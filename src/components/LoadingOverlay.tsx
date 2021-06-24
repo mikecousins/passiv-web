@@ -30,7 +30,7 @@ const LoadingBox = styled.div`
   margin: -1.5em 0 0 -25%;
 `;
 
-export const LoadingOverlay = () => {
+const LoadingOverlay = () => {
   return (
     <OverlayShadowBox>
       <LoadingBox>

@@ -19,7 +19,7 @@ type Props = {
   displayTotal: boolean;
 };
 
-export const DashboardChart: FunctionComponent<Props> = ({
+const DashboardChart: FunctionComponent<Props> = ({
   data,
   axes,
   series,

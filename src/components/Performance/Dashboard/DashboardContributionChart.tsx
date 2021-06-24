@@ -4,7 +4,7 @@ import { selectPerformanceAll } from '../../../selectors/performance';
 import { parseDate, formatDate } from '../PerformanceContributionChart';
 import DashboardChart from './DashboardChart';
 
-export const DashboardContributionChart = () => {
+const DashboardContributionChart = () => {
   const performanceAll = useSelector(selectPerformanceAll);
   const contributionData = performanceAll.data?.contributionTimeframe1Y;
   const withdrawalData = performanceAll.data?.withdrawalTimeframe1Y;
@@ -16,7 +16,7 @@ export const DashboardContributionChart = () => {
         label: 'Withdrawals',
         data: withdrawalData
           ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
-          .map(a => {
+          .map((a) => {
             let dateFormatted = formatDate(a.date, timeframe);
             return [dateFormatted, a.value];
           }),
@@ -26,7 +26,7 @@ export const DashboardContributionChart = () => {
         label: 'Contributions',
         data: contributionData
           ?.sort((a, b) => parseDate(a.date) - parseDate(b.date))
-          .map(a => {
+          .map((a) => {
             let dateFormatted = formatDate(a.date, timeframe);
             return [dateFormatted, a.value];
           }),

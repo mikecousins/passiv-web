@@ -24,7 +24,7 @@ export const Option = styled.div`
   }
 `;
 
-export const DashboardConfig = () => {
+const DashboardConfig = () => {
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
 

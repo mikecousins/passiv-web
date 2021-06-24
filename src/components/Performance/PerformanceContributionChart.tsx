@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tooltip from '../Tooltip';
 import { H3 } from '../../styled/GlobalElements';
 
-export const PerformanceContributionChart = () => {
+const PerformanceContributionChart = () => {
   const contributionData = useSelector(selectContributionTimeframe);
   const withdrawalData = useSelector(selectWithdrawalTimeframe);
   const timeframe = useSelector(selectSelectedTimeframe);

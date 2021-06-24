@@ -19,7 +19,7 @@ type Props = {
   percentage: number;
   actualPercentage: number;
 };
-export const CashBar = ({ edit, percentage, actualPercentage }: Props) => {
+const CashBar = ({ edit, percentage, actualPercentage }: Props) => {
   if (!(typeof percentage === 'number')) {
     return <span>Loading</span>;
   }

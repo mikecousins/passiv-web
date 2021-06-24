@@ -91,7 +91,7 @@ const NotSupported = styled(ShadowBox)`
   }
 `;
 
-export const Performance = () => {
+const Performance = () => {
   let currentTimeframe = useSelector(selectSelectedTimeframe);
   // We can hide charts if user is on custom timeframe and hasn't yet fetched data (can check this if contributions are undefined)
   const contributions = useSelector(selectContributions);

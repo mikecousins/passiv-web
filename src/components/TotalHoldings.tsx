@@ -45,7 +45,7 @@ const H2 = styled.span`
   text-transform: uppercase;
 `;
 
-export const TotalHoldings: FunctionComponent<Props> = ({ smaller }) => {
+const TotalHoldings: FunctionComponent<Props> = ({ smaller }) => {
   const totalHoldings = useSelector(selectTotalGroupHoldings);
   const settings = useSelector(selectSettings);
   const currencies = useSelector(selectCurrencies);

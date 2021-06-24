@@ -110,7 +110,7 @@ type Props = {
   group: DashboardGroup | undefined;
 };
 
-export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
+const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
   let totalHoldings = useSelector(selectTotalGroupHoldings);
   let currentValue = totalHoldings;
   if (group !== undefined) {

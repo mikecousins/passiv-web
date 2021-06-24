@@ -46,7 +46,7 @@ const AccountFilterNote = styled.span`
   margin-bottom: 5px; // Doesn't seem to be working
 `;
 
-export const DashboardReporting = () => {
+const DashboardReporting = () => {
   const settings = useSelector(selectSettings);
   const selectedAccounts: any[] = useSelector(selectSelectedAccounts);
   const accounts = useSelector(selectAccounts);

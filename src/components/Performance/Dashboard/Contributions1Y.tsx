@@ -46,7 +46,7 @@ const Num = styled.span`
   }
 `;
 
-export const Contributions1Y: FunctionComponent<Props> = ({ smaller }) => {
+const Contributions1Y: FunctionComponent<Props> = ({ smaller }) => {
   const contributions1Y = useSelector(selectContributions1Y);
   const preferredCurrency = useSelector(selectGlobalPreferredCurrency);
   let displayContributions = <FontAwesomeIcon icon={faSpinner} spin />;

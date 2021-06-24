@@ -64,7 +64,7 @@ export const MockGoal: Goal = {
   display_on_dashboard: false,
 };
 
-export const Goals = () => {
+const Goals = () => {
   const [currentMode, setCurrentMode] = useState('view');
   let goalsSelect: Goal[] | null = [];
   goalsSelect = useSelector(selectGoals).data;

@@ -20,7 +20,7 @@ type Props = {
   className: string;
 };
 
-export const SettingsChart: FunctionComponent<Props> = ({
+const SettingsChart: FunctionComponent<Props> = ({
   data,
   axes,
   series,
