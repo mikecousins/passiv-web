@@ -19,7 +19,7 @@ import { selectSettings } from '../../selectors';
 type AccuracyType = {
   belowThreshold: boolean;
 };
-export const Accuracy = styled.div<AccuracyType>`
+const Accuracy = styled.div<AccuracyType>`
   text-align: center;
   font-size: 34px;
   font-weight: 600;
@@ -39,7 +39,7 @@ export const Accuracy = styled.div<AccuracyType>`
   }
 `;
 
-export const Mask = styled.div`
+const Mask = styled.div`
   position: relative;
   overflow: hidden;
   display: block;
@@ -51,7 +51,7 @@ export const Mask = styled.div`
 type SemiCircleType = {
   belowThreshold: boolean;
 };
-export const SemiCircle = styled.div<SemiCircleType>`
+const SemiCircle = styled.div<SemiCircleType>`
   position: relative;
   display: block;
   width: 200px;
@@ -78,7 +78,7 @@ type GaugeProps = {
   accuracy: number | null;
 };
 
-export const SemiCircleMask = styled.div<GaugeProps>`
+const SemiCircleMask = styled.div<GaugeProps>`
   position: absolute;
   top: 0;
   left: 0;
@@ -110,7 +110,7 @@ export const SemiCircleMask = styled.div<GaugeProps>`
   }
 `;
 
-export const PercentBox = styled.div`
+const PercentBox = styled.div`
   margin-top: -49px;
   position: relative;
   z-index: 2;
@@ -122,11 +122,7 @@ type Props = {
   tourClass?: string;
 };
 
-export const PortfolioGroupAccuracy = ({
-  accuracy,
-  loading,
-  tourClass,
-}: Props) => {
+const PortfolioGroupAccuracy = ({ accuracy, loading, tourClass }: Props) => {
   const setupComplete = useSelector(selectCurrentGroupSetupComplete);
   const error = useSelector(selectCurrentGroupInfoError);
   const settings = useSelector(selectSettings);

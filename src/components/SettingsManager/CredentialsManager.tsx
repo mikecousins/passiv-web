@@ -22,7 +22,7 @@ import ShadowBox from '../../styled/ShadowBox';
 import TwoFAManager from './TwoFAManager';
 import * as Yup from 'yup';
 
-export const InputContainer = styled.div`
+const InputContainer = styled.div`
   padding-top: 10px;
   padding-bottom: 5px;
   font-size: 18px;

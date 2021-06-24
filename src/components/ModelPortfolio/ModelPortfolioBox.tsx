@@ -72,14 +72,14 @@ const MainContainer = styled.div`
   }
 `;
 
-export const Cash = styled.div`
+const Cash = styled.div`
   border-left: 5px solid var(--brand-green);
   line-height: 30px;
   padding: 10px;
   margin-bottom: 20px;
 `;
 
-export const CashPercentage = styled.div`
+const CashPercentage = styled.div`
   font-size: 20px;
   font-weight: 900;
 `;

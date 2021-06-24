@@ -50,10 +50,10 @@ const ButtonBox = styled.div`
     }
   }
 `;
-export const Th = styled.div`
+const Th = styled.div`
   text-align: right;
 `;
-export const Legend = styled.div`
+const Legend = styled.div`
   display: inline-block;
   margin: 0 5px 0 auto;
   padding: 11px 16px;
@@ -79,13 +79,13 @@ const BaseLegendTitle = styled.span`
     top: 2px;
   }
 `;
-export const ActualTitle = styled(BaseLegendTitle)`
+const ActualTitle = styled(BaseLegendTitle)`
   color: var(--brand-green);
   &:before {
     background: var(--brand-green);
   }
 `;
-export const TargetTitle = styled(BaseLegendTitle)`
+const TargetTitle = styled(BaseLegendTitle)`
   margin-left: 5px;
   color: var(--brand-blue);
   &:before {

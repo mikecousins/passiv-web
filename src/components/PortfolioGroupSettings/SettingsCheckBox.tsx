@@ -1,18 +1,11 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { StateText, Row } from '../../styled/ToggleButton';
+import { Row } from '../../styled/ToggleButton';
 import Tooltip from '../Tooltip';
 import styled from '@emotion/styled';
 import { P } from '../../styled/GlobalElements';
 import { CheckBox } from '../../styled/CheckBox';
-
-export const ToggleText = styled(StateText)`
-  font-size: 20px;
-  font-weight: 500;
-  width: 30px;
-  display: inline-block;
-`;
 
 type NameProps = {
   disabled: boolean;

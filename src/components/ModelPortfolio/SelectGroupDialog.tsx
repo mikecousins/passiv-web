@@ -21,7 +21,7 @@ const Header = styled(H1)`
   }
 `;
 
-export const GreyBox = styled.div`
+const GreyBox = styled.div`
   background: #f1f1f1;
   padding: 20px;
   margin-bottom: 20px;

@@ -159,7 +159,7 @@ const Discard = styled(Button)`
     text-decoration: underline;
   }
 `;
-export const ToggleShow = styled(Button)`
+const ToggleShow = styled(Button)`
   border: 1px solid var(--brand-blue);
   background: none;
   color: var(--brand-blue);

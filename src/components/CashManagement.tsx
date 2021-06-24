@@ -42,14 +42,14 @@ const CashForm = styled(Form)`
   }
 `;
 
-export const CashRestrictionBox = styled.div`
+const CashRestrictionBox = styled.div`
   padding: 12px 0 25px;
 `;
 type CashRowProps = {
   form?: boolean;
 };
 
-export const CashRow = styled.div<CashRowProps>`
+const CashRow = styled.div<CashRowProps>`
   text-align: left;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -60,23 +60,14 @@ export const CashRow = styled.div<CashRowProps>`
   }
 `;
 
-export const GreyCashRow = styled(CashRow)`
+const GreyCashRow = styled(CashRow)`
   border: 1px solid #f1f1f1;
   padding: 10px;
   margin-bottom: 20px;
   background: #f1f1f1;
 `;
 
-export const Heading = styled.div`
-  h3 {
-    font-size: 40px;
-    font-weight: bold;
-    text-align: left;
-    line-height: 1;
-  }
-`;
-
-export const ColumnBase = styled.div`
+const ColumnBase = styled.div`
   padding: 10px;
   color: var(--brand-grey);
   text-align: left;

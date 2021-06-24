@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { CustomTooltip } from '../PerformanceChart';
 
-export const ChartBox = styled.div`
+const ChartBox = styled.div`
   position: relative;
   height: 120px;
   width: 100%;

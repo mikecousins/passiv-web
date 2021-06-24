@@ -58,18 +58,6 @@ const Tiles = styled.div`
   }
 `;
 
-export const PercentReturn = styled.span`
-  padding: 10px;
-  margin: 5px;
-  color: white;
-  &.positive {
-    background-color: #04a287 !important;
-  }
-  &.negative {
-    background-color: #003ba2 !important;
-  }
-`;
-
 export const CashReturn = styled.span`
   padding: 10px;
   background-color: #ffffff;

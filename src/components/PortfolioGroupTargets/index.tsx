@@ -34,21 +34,11 @@ import { toast } from 'react-toastify';
 import { selectModelPortfolios } from '../../selectors/modelPortfolios';
 import { TypeBadge } from '../../pages/MyModelPortfoliosPage';
 
-export const TargetContainer = styled.div`
+const TargetContainer = styled.div`
   h2 {
     margin-bottom: 20px;
   }
   min-height: 200px;
-`;
-
-export const Container2Column = styled.div`
-  @media (min-width: 900px) {
-    display: flex;
-    justify-content: space-between;
-    > div {
-      width: 49%;
-    }
-  }
 `;
 
 const H3LowProfile = styled(H3)`

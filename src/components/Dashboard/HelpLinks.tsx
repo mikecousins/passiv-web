@@ -8,7 +8,7 @@ import { selectHasQuestradeConnection } from '../../selectors';
 import { REFERRALS_PATH, REPORTING_PATH } from '../../apps/Paths';
 import PreLoadLink from '../PreLoadLink';
 
-export const ShadowBoxLinks = styled(ShadowBox)`
+const ShadowBoxLinks = styled(ShadowBox)`
   a {
     text-decoration: none;
     color: #232225;

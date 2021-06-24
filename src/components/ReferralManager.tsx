@@ -38,6 +38,7 @@ import { Field, Form, Formik } from 'formik';
 import { StyledSelect } from '../components/PortfolioGroupSettings/OrderTargetAllocations';
 import { toast } from 'react-toastify';
 import { Charity, Invoice } from '../types/referral';
+import { Container3Column } from './AccountTab';
 
 interface Referral {
   created_date: Date;
@@ -67,21 +68,7 @@ const SubHeading = styled(ReferralHeading)`
   }
 `;
 
-export const Container3Column = styled.div`
-  @media (min-width: 900px) {
-    display: flex;
-    justify-content: space-between;
-    > div {
-      width: 32%;
-      margin-right: 30px;
-    }
-    > div:last-of-type {
-      margin-right: 0;
-    }
-  }
-`;
-
-export const Container2WideColumn = styled.div`
+const Container2WideColumn = styled.div`
   @media (min-width: 900px) {
     display: flex;
     justify-content: space-between;

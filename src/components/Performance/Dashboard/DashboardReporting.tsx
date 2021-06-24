@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 import { selectAccounts } from '../../../selectors/accounts';
 import Tooltip from '@reach/tooltip';
 
-export const Flex = styled.div`
+const Flex = styled.div`
   &.twoColumns {
     @media (min-width: 900px) {
       display: grid;
@@ -23,7 +23,7 @@ export const Flex = styled.div`
     }
   }
 `;
-export const LeftAlign = styled.span`
+const LeftAlign = styled.span`
   text-align-last: left;
 `;
 export const CustomizeDashContainer = styled.div`
@@ -39,10 +39,10 @@ export const CustomizeDashBtn = styled.span`
     color: #033ebc;
   }
 `;
-export const FilteredLabel = styled.span`
+const FilteredLabel = styled.span`
   cursor: pointer;
 `;
-export const AccountFilterNote = styled.span`
+const AccountFilterNote = styled.span`
   margin-bottom: 5px; // Doesn't seem to be working
 `;
 

@@ -7,7 +7,7 @@ import { selectContributions1Y } from '../../../selectors/performance';
 import { selectGlobalPreferredCurrency } from '../../../selectors/groups';
 import Number from '../../Number';
 
-export const ContributionsContainer = styled.div`
+const ContributionsContainer = styled.div`
   text-align: right;
   margin-bottom: 22px;
   padding: 10px 0 20px;
@@ -36,7 +36,7 @@ export const ContributionsContainer = styled.div`
   }
 `;
 
-export const Num = styled.span`
+const Num = styled.span`
   font-size: 36px;
   font-weight: 500;
   letter-spacing: 0.8px;

@@ -21,11 +21,11 @@ import {
 import { Position } from '../types/account';
 import NotAvailable from './NotAvailable';
 
-export const FontAwesomeIconDisabled = styled(FontAwesomeIcon)`
+const FontAwesomeIconDisabled = styled(FontAwesomeIcon)`
   opacity: 0.4;
 `;
 
-export const HoldingsTable = styled.table`
+const HoldingsTable = styled.table`
   width: 100%;
   text-align: center;
   margin: 0 0 20px 0;

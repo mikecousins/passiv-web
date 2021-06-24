@@ -8,7 +8,7 @@ import { Select } from '../styled/Form';
 import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
 
-export const SelectAuth = styled(Select)`
+const SelectAuth = styled(Select)`
   margin-left: 6px;
 `;
 

@@ -7,7 +7,7 @@ import ContactForm from './ContactForm';
 
 import helpLogo from '../../assets/images/help-icon.png';
 
-export const HeaderContainer = styled.div`
+const HeaderContainer = styled.div`
   margin-bottom: 50px;
 `;
 const HelpLogo = styled.div`

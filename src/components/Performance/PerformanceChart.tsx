@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { toDollarString } from './Performance';
 
-export const ChartBox = styled.div`
+const ChartBox = styled.div`
   position: relative;
   height: 180px;
   width: 100%;
@@ -27,7 +27,7 @@ export const ChartBox = styled.div`
   }
 `;
 
-export const Label = styled.div`
+const Label = styled.div`
   padding-top: 4px;
   padding-bottom: 4px;
   &.selected {
@@ -35,19 +35,19 @@ export const Label = styled.div`
   }
 `;
 
-export const Total = styled.div`
+const Total = styled.div`
   padding-top: 6px;
   font-size: 11pt;
   font-weight: bold;
   color: white;
 `;
 
-export const DateString = styled.span`
+const DateString = styled.span`
   font-weight: bold;
   text-align: center; //not working for some reason
 `;
 
-export const DollarString = styled.span`
+const DollarString = styled.span`
   &.selected {
     font-weight: bold;
   }

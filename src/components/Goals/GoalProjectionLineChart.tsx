@@ -12,9 +12,8 @@ import {
 import { toDollarString } from '../Performance/Performance';
 import { Edit } from '../../styled/GlobalElements';
 import Grid from '../../styled/Grid';
-import { Button } from '../../styled/Button';
 
-export const ChartBox = styled.div`
+const ChartBox = styled.div`
   position: relative;
   height: 500px;
   margin: 6px 0 0;
@@ -24,7 +23,7 @@ export const ChartBox = styled.div`
     padding-bottom: 100px;
   }
 `;
-export const LegendItem = styled.div`
+const LegendItem = styled.div`
   font-size: 24px;
   &.small {
     font-size: 20px;
@@ -33,7 +32,7 @@ export const LegendItem = styled.div`
     margin-top: 16px;
   }
 `;
-export const LegendContainer = styled(Grid)`
+const LegendContainer = styled(Grid)`
   text-align: right;
   align-items: flex-end;
   margin-bottom: 40px;
@@ -49,22 +48,17 @@ export const LegendContainer = styled(Grid)`
     }
   }
 `;
-export const LegendContainerExtended = styled(LegendContainer)`
+const LegendContainerExtended = styled(LegendContainer)`
   margin-bottom: 20px;
 `;
-export const TargetDoneButton = styled(Button)`
-  background: none;
-  color: var(--brand-blue);
-  right: 0;
-  font-size: 18px;
-`;
-export const TargetInput = styled.input`
+
+const TargetInput = styled.input`
   display: inline-block;
   width: 104px;
   border-bottom: 2px solid var(--brand-blue);
   border-radius: 0;
 `;
-export const BreakdownToggle = styled.button`
+const BreakdownToggle = styled.button`
   font-size: 18px;
   background-color: rgba(195, 231, 254, 0.54);
   padding: 12px;

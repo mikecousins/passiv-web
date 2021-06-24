@@ -25,7 +25,7 @@ import { loadPerformanceAll } from '../../actions/performance';
 import { selectSelectedAccounts } from '../../selectors/performance';
 import NotAvailable from '../NotAvailable';
 
-export const Header = styled.form`
+const Header = styled.form`
   h2 {
     display: inline-block;
   }
@@ -37,11 +37,11 @@ export const Header = styled.form`
   }
 `;
 
-export const PaddedP = styled(P)`
+const PaddedP = styled(P)`
   padding-top: 20px;
 `;
 
-export const GroupNote = styled(P)`
+const GroupNote = styled(P)`
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 30px;

@@ -14,7 +14,7 @@ import { Button } from '../../styled/Button';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
 import { isNameDuplicate } from '../ModelPortfolio/utils/utils';
 
-export const DeleteButton = styled.button`
+const DeleteButton = styled.button`
   background: #fff;
   float: right;
   position: relative;
