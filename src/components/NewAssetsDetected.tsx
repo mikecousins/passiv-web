@@ -185,11 +185,13 @@ const NewAssetsDetected = ({ targets }: Props) => {
             </Loading>
           ) : (
             <ListOfAssets>
-              <ExcludeAll>
-                <ExcludeBtn onClick={() => handleExcludeAsset('', true)}>
-                  Exclude All
-                </ExcludeBtn>
-              </ExcludeAll>
+              {targets.length > 1 && (
+                <ExcludeAll>
+                  <ExcludeBtn onClick={() => handleExcludeAsset('', true)}>
+                    Exclude All
+                  </ExcludeBtn>
+                </ExcludeAll>
+              )}
               {targets?.map((target) => {
                 if (target.excluded) {
                   return false;
@@ -203,12 +205,14 @@ const NewAssetsDetected = ({ targets }: Props) => {
                       <Symbol>{target.symbol.symbol}</Symbol>{' '}
                       <Description>{target.symbol.description}</Description>
                     </SymbolGrid>
-                    {!modelUseByOtherGroups && (
+                    {!modelUseByOtherGroups ? (
                       <MaxHeightSmallBtn
                         onClick={() => handleAddToModel(target)}
                       >
                         Add to Model
                       </MaxHeightSmallBtn>
+                    ) : (
+                      <div></div>
                     )}
                     <ExcludeBtn
                       onClick={() =>
