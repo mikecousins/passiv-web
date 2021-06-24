@@ -15,7 +15,6 @@ import SetupPortfolios from './SetupPortfolios';
 import OnboardingFinished from './OnboardingFinished';
 import ChooseMembership from './ChooseMembership';
 import { putData } from '../../api';
-import { selectIsPaid } from '../../selectors/subscription';
 import { selectDashboardGroups } from '../../selectors/groups';
 import { HideButton } from '../ContextualMessageWrapper';
 import { updateOnboardingStep } from '../../actions/onboarding';
@@ -32,7 +31,6 @@ const Onboarding = () => {
   const groups = useSelector(selectDashboardGroups);
   const onboardingStep = useSelector(selectOnboardingStep);
   const router = useSelector(selectRouter);
-  const isPaid = useSelector(selectIsPaid);
   const isAuthorized = useSelector(selectIsAuthorized);
 
   const [step, setStep] = useState(
