@@ -10,15 +10,7 @@ const Container = styled.div`
   > h1 {
     line-height: 57px;
   }
-  button {
-    margin-top: 10px;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 26px;
-    text-align: center;
-    letter-spacing: 0.25px;
-    padding: 11px 27px;
-  }
+
   iframe {
     padding: 30px 0px;
   }

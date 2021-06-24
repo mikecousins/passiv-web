@@ -52,10 +52,6 @@ const Onboarding = () => {
       });
     }
     if (isAuthorized) {
-      // skip choose membership step if user is on Elite
-      if (step === 2 && isPaid) {
-        dispatch(updateOnboardingStep(3, settings));
-      }
       //  current step is 4 and when no setup is remaining, change it to be the finished step
       if (step === 4 && !anySetupRemaining) {
         dispatch(updateOnboardingStep(5, settings));

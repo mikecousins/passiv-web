@@ -147,23 +147,10 @@ const Brokerage = styled(H2)`
 `;
 
 export const BackBtn = styled(Button)`
-  padding: 13px 39px;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 26px;
-  text-align: center;
   background-color: var(--brand-green);
   svg {
     margin-right: 5px;
   }
-`;
-
-const NoBrokerage = styled(Button)`
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 26px;
-  text-align: center;
-  letter-spacing: 0.25px;
 `;
 
 const BrokerageOptions = styled(Grid)`
@@ -840,9 +827,9 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
             {onboarding ? (
               <LinkContainer>
                 <VerticalPadding>
-                  <NoBrokerage onClick={() => dispatch(push('/connect/open'))}>
+                  <Button onClick={() => dispatch(push('/connect/open'))}>
                     I don't have a brokerage account
-                  </NoBrokerage>
+                  </Button>
                 </VerticalPadding>
                 <VerticalPadding>
                   <BackBtn

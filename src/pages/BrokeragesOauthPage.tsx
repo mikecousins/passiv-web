@@ -60,19 +60,13 @@ export const Star = styled.div`
 `;
 
 export const Continue = styled(Button)`
-  font-weight: 600;
-  text-align: center;
-  letter-spacing: 0.25px;
   svg {
     margin-left: 10px;
   }
 `;
 
-const ConnectMore = styled(Button)`
+export const ConnectMore = styled(Button)`
   background-color: var(--brand-green);
-  font-weight: 600;
-  text-align: center;
-  letter-spacing: 0.25px;
   margin-right: 35px;
 `;
 
