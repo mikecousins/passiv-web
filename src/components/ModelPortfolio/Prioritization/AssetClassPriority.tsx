@@ -183,7 +183,7 @@ const AssetClassPriority = ({
 
   return (
     <MainContainer
-      color={showDetails ? '#04A287' : ''}
+      color={showDetails ? 'var(--brand-green)' : ''}
       className="tour-priorities"
     >
       <AssetClassBox color={showDetails ? 'var(--brand-green)' : '#f1f1f1'}>

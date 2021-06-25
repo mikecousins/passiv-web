@@ -21,7 +21,7 @@ const Heading = styled.h2`
   font-size: 30px;
   font-weight: 500;
   margin-bottom: 19px;
-  color: #04a287;
+  color: var(--brand-green);
   span {
     font-size: 18px;
     font-weight: 600;

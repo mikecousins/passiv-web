@@ -62,9 +62,9 @@ export const CashReturn = styled.span`
   padding: 10px;
   background-color: #ffffff;
   margin: 5px;
-  color: #04a287;
+  color: var(--brand-green);
   &.positive {
-    color: #04a287;
+    color: var(--brand-green);
   }
   &.negative {
     color: var(--brand-blue);

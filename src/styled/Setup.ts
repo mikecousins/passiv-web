@@ -78,13 +78,13 @@ export const H1DarkStyle = styled(H1)`
 `;
 
 export const H2DarkStyle = styled(H2)`
-  color: #04a287;
+  color: var(--brand-green);
   font-size: 22px;
   padding-bottom: 20px;
 `;
 
 export const PDarkStyle = styled(P)`
-  color: #04a287;
+  color: var(--brand-green);
   font-size: 18px;
   padding-bottom: 10px;
 
@@ -94,5 +94,5 @@ export const PDarkStyle = styled(P)`
 `;
 
 export const ADarkStyle = styled(A)`
-  color: #04a287;
+  color: var(--brand-green);
 `;

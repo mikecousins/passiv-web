@@ -540,7 +540,7 @@ const GoalDetailPage = () => {
             )}
           </div>
         </HeaderBanner>
-        <ShadowBox background="#04a287">
+        <ShadowBox background="var(--brand-green)">
           <Summary columns="1fr 1fr 1fr">
             <P>
               <H3>Goal Progress</H3> ${toDollarString(currentValue)}

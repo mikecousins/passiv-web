@@ -367,7 +367,7 @@ const ReferralManager = () => {
           title={'Signups'}
           value={<Number value={numberOfSignups} decimalPlaces={0} />}
           loading={!success}
-          background={'#04A287'}
+          background={'var(--brand-green)'}
         />
         <ReferralMetric
           title={'Verified'}
@@ -438,7 +438,7 @@ const ReferralManager = () => {
         <ReferralMetric
           title={'You Earn'}
           value={rewardContent}
-          background={'#04A287'}
+          background={'var(--brand-green)'}
         />
       </Container2WideColumn>
       <SubHeading>Metrics</SubHeading>

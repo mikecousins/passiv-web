@@ -203,7 +203,7 @@ const UpgradeOfferPage = () => {
 
   if (success) {
     return (
-      <ModifiedShadowBox background="#04a287">
+      <ModifiedShadowBox background="var(--brand-green)">
         <H1>Questrade Elite Upgrade</H1>
         <P>
           You're good to go! You will have <Bold>free</Bold> access to Passiv
@@ -221,7 +221,7 @@ const UpgradeOfferPage = () => {
     );
   } else {
     return (
-      <ModifiedShadowBox background="#04a287">
+      <ModifiedShadowBox background="var(--brand-green)">
         <H1>Questrade Elite Upgrade</H1>
         {loading ? (
           <React.Fragment>

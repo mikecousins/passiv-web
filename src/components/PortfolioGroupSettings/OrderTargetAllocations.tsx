@@ -27,7 +27,7 @@ export const StyledSelect = styled(Field)`
 
   background-image: linear-gradient(45deg, #0000 50%, #fff 50%),
     linear-gradient(135deg, #fff 50%, #0000 50%),
-    linear-gradient(to right, #04a287, #04a287);
+    linear-gradient(to right, var(--brand-green), var(--brand-green));
 
   background-position: calc(100% - 20px) calc(1em + 2px),
     calc(100% - 15px) calc(1em + 2px), 100% 0;

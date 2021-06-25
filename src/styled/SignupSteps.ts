@@ -72,7 +72,7 @@ export const Step = styled.p`
 export const WhyQuestrade = styled.div`
   margin: 20px 0 40px;
   a {
-    color: #04a287;
+    color: var(--brand-green);
   }
   p a,
   p {

@@ -89,7 +89,7 @@ const NotHolding = styled.span`
   line-height: 23px;
   letter-spacing: 0.18px;
   color: #ffffff;
-  background-color: #04a287;
+  background-color: var(--brand-green);
 `;
 const NewSecurity = styled(NotHolding)`
   background-color: var(--brand-orange);
