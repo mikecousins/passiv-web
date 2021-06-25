@@ -60,7 +60,7 @@ const Tiles = styled.div`
 
 export const CashReturn = styled.span`
   padding: 10px;
-  background-color: #ffffff;
+  background-color: var(--white);
   margin: 5px;
   color: var(--brand-green);
   &.positive {
