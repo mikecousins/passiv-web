@@ -17,7 +17,7 @@ import {
   BorderContainer,
   P,
 } from '../../styled/GlobalElements';
-import { Button, SmallButton } from '../../styled/Button';
+import { SmallButton } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import TwoFAManager from './TwoFAManager';
 import * as Yup from 'yup';
