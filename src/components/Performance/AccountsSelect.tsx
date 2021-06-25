@@ -66,7 +66,6 @@ export const AccountsSelect = () => {
         ? -1
         : 1,
     );
-  console.log(accounts.length);
   const startDate = useSelector(selectStartDate);
   const endDate = useSelector(selectEndDate);
   const selectedAccounts = useSelector(selectSelectedAccounts);
