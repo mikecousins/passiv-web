@@ -29,7 +29,7 @@ export const Accuracy = styled.div<AccuracyType>`
   padding: 20px 20px 20px;
   margin-bottom: 20px;
   color: ${(props) =>
-    props.belowThreshold ? '#ffb040' : 'var(--brand-green)'};
+    props.belowThreshold ? 'var(--brand-orange)' : 'var(--brand-green)'};
   display: block;
   h2 {
     color: #fff;
@@ -57,7 +57,7 @@ export const SemiCircle = styled.div<SemiCircleType>`
   width: 200px;
   height: 100px;
   background: ${(props) =>
-    props.belowThreshold ? '#ffb040' : 'var(--brand-green)'};
+    props.belowThreshold ? 'var(--brand-orange)' : 'var(--brand-green)'};
   border-radius: 50% 50% 50% 50% / 100% 100% 0% 0%;
   &::before {
     content: '';
@@ -136,12 +136,12 @@ export const PortfolioGroupAccuracy = ({
       : false;
 
   let accuracyDisplay = null;
+  let explanation = '';
   if (error || accuracy === null) {
+    explanation = 'Unable to calculate accuracy';
     accuracyDisplay = (
       <div>
-        <Tooltip label="Unable to calculate accuracy.">
-          <FontAwesomeIcon icon={faExclamationTriangle} />
-        </Tooltip>
+        <FontAwesomeIcon icon={faExclamationTriangle} />
       </div>
     );
   } else if (loading) {
@@ -156,20 +156,18 @@ export const PortfolioGroupAccuracy = ({
         <Number value={accuracy} percentage decimalPlaces={0} />
       );
       if (belowDriftThreshold) {
+        explanation = 'Accuracy is below drift threshold';
         accuracyDisplay = (
           <div>
-            <Tooltip label="Accuracy is below drift threshold.">
-              <Number value={accuracy} percentage decimalPlaces={0} />
-            </Tooltip>
+            <Number value={accuracy} percentage decimalPlaces={0} />
           </div>
         );
       }
     } else {
+      explanation = 'There is no target set for this portfolio';
       accuracyDisplay = (
         <div>
-          <Tooltip label="There is no target set for this portfolio, follow the instructions under the Model Portfolio.">
-            <FontAwesomeIcon icon={faExclamationTriangle} />
-          </Tooltip>
+          <FontAwesomeIcon icon={faExclamationTriangle} />
         </div>
       );
     }
@@ -177,7 +175,9 @@ export const PortfolioGroupAccuracy = ({
   return (
     <Accuracy
       className={tourClass}
-      belowThreshold={belowDriftThreshold || accuracy === null}
+      belowThreshold={
+        belowDriftThreshold || accuracy === null || !setupComplete
+      }
     >
       <H2>
         Accuracy&nbsp;
@@ -191,14 +191,19 @@ export const PortfolioGroupAccuracy = ({
 
       <Mask>
         <SemiCircle
-          belowThreshold={belowDriftThreshold || accuracy === null}
+          belowThreshold={
+            belowDriftThreshold || accuracy === null || !setupComplete
+          }
         ></SemiCircle>
         <SemiCircleMask
           accuracy={setupComplete === true ? accuracy : null}
         ></SemiCircleMask>
       </Mask>
 
-      <PercentBox>{accuracyDisplay}</PercentBox>
+      <PercentBox>
+        {accuracyDisplay}
+        <small style={{ fontSize: '12px' }}>{explanation}</small>
+      </PercentBox>
     </Accuracy>
   );
 };

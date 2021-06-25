@@ -456,9 +456,9 @@ const GoalDetailPage = () => {
     })
       .then(() => {
         dispatch(loadGoals());
-        toast.success(`'${title}' Successfully Updated`, { autoClose: 3000 });
+        toast.success(`'${title}' updated successfully`);
       })
-      .catch((error) => toast.error('Unable to update. Please try again.'));
+      .catch((error) => toast.error('Unable to update'));
   };
   const handleDiscard = () => {
     setMonth(goal?.target_date.substr(5, 2));

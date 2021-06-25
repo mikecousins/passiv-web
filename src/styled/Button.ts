@@ -5,8 +5,9 @@ export const Button = styled.button`
   opacity: ${(props) => (props.disabled ? '.7' : '1')};
   border: none;
   color: white;
-  padding: 14px 18px 16px;
-  border-radius: 4px;
+  padding: 12px 30px;
+  border-radius: 3px;
+  font-weight: 600;
   margin-right: 10px;
   &:last-of-type {
     margin-right: 0;

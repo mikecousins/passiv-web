@@ -9,7 +9,6 @@ import {
   Symbol,
   ColumnTrades,
 } from '../styled/Group';
-import { ErrorContainer } from '../styled/Group';
 import {
   selectCurrentGroupSettings,
   selectCurrentGroupId,
@@ -24,7 +23,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faExclamationCircle,
   faInfoCircle,
-  faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import Tour from './Tour/Tour';
@@ -35,6 +33,7 @@ import {
 } from '../components/ContextualMessageMultiWrapper';
 import { HideButton } from './ContextualMessageWrapper';
 import Grid from '../styled/Grid';
+import NotificationMessage from './NotificationMessage';
 
 const HideButtonBox = styled.div`
   margin-right: 60px;
@@ -254,10 +253,13 @@ export const PortfolioGroupTrades = ({
     {
       name: 'route_nontradable_trades',
       content: (
-        <ErrorContainer>
-          <H3>
-            <FontAwesomeIcon icon={faExclamationTriangle} /> Important
-            information about your blended portfolio
+        <NotificationMessage
+          error={true}
+          title="Important
+        information about your blended portfolio"
+          alwaysOpen={false}
+        >
+          <div>
             <P>
               This group contains a mix of tradable and non-tradable accounts.
               By default, Passiv will not recommend trades in your non-tradable
@@ -277,14 +279,15 @@ export const PortfolioGroupTrades = ({
               </A>
               .
             </P>
-          </H3>
-          <HideButtonBox>
-            <HideButton
-              name={'route_nontradable_trades'}
-              text={'I Understand'}
-            />
-          </HideButtonBox>
-        </ErrorContainer>
+
+            <HideButtonBox>
+              <HideButton
+                name={'route_nontradable_trades'}
+                text={'I Understand'}
+              />
+            </HideButtonBox>
+          </div>
+        </NotificationMessage>
       ),
       visible:
         settings !== null &&

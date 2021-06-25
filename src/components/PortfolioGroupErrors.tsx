@@ -1,24 +1,22 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-import { ErrorContainer, Symbol } from '../styled/Group';
-import { H3, P, Table, A } from '../styled/GlobalElements';
+import { Symbol } from '../styled/Group';
+import { P, Table, A } from '../styled/GlobalElements';
 import { Error } from '../types/groupInfo';
 import PreLoadLink from './PreLoadLink';
 import { CONTACT_FORM_PATH } from '../apps/Paths';
+import NotificationMessage from './NotificationMessage';
 
 const Ticker = styled.div`
-  padding-left: 20px;
-  min-width: 20%;
+  margin: 30px 0px;
+  min-width: 15%;
 `;
 
 const Description = styled.div`
-  min-width: 75%;
+  margin: 30px 0px;
+  min-width: 85%;
   font-size: 18px;
-  padding-left: 20px;
-  padding-top: 10px;
-  padding-bottom: 20px;
+  font-weight: 600;
 `;
 
 type Props = {
@@ -26,7 +24,7 @@ type Props = {
 };
 
 const PortfolioGroupErrors = ({ error }: Props) => {
-  let errorDisplay = null;
+  let errorDisplay = <></>;
 
   let error_header = 'Something went wrong!';
 
@@ -162,12 +160,9 @@ const PortfolioGroupErrors = ({ error }: Props) => {
   }
 
   return (
-    <ErrorContainer>
-      <H3>
-        <FontAwesomeIcon icon={faExclamationTriangle} /> {error_header}{' '}
-        {errorDisplay}
-      </H3>
-    </ErrorContainer>
+    <NotificationMessage error={true} title={error_header} alwaysOpen={false}>
+      {errorDisplay}
+    </NotificationMessage>
   );
 };
 

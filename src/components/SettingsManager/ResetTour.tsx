@@ -26,7 +26,7 @@ const ResetTour = () => {
           dispatch(loadSettings());
         })
         .catch(() => {
-          toast.error('Unable to turn tours on.');
+          toast.error('Failed to enable tours');
         });
     } else {
       newSettings.take_passiv_tour = false;
@@ -35,7 +35,7 @@ const ResetTour = () => {
           dispatch(loadSettings());
         })
         .catch(() => {
-          toast.error('Unable to turn tours off.');
+          toast.error('Failed to disable tours');
         });
     }
   };
@@ -43,11 +43,11 @@ const ResetTour = () => {
   const handleResetTours = () => {
     postData('api/v1/resetPassivTour/', {})
       .then(() => {
-        toast.success('Tours has been reset successfully.');
+        toast.success('Tours reset successfully');
         dispatch(loadSettings());
       })
       .catch(() => {
-        toast.error('Unable to reset tours.');
+        toast.error('Failed to reset tours');
       });
   };
 
