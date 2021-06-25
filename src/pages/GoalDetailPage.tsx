@@ -25,7 +25,7 @@ import {
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import GoalProjectionLineChart from '../components/Goals/GoalProjectionLineChart';
 import { deleteGoal, loadGoals } from '../actions/goals';
-import { Button } from '../styled/Button';
+import { Button, TransparentButton } from '../styled/Button';
 import { patchData } from '../api';
 import { toast } from 'react-toastify';
 import { Goal } from '../types/goals';
@@ -652,7 +652,9 @@ const GoalDetailPage = () => {
         </H2Margin>
         <ActionContainer>
           <Button onClick={handleDelete}>Delete</Button>
-          <A onClick={() => setShowDeleteDialog(false)}>Cancel</A>
+          <TransparentButton onClick={() => setShowDeleteDialog(false)}>
+            Cancel
+          </TransparentButton>
         </ActionContainer>
       </Dialog>
     </React.Fragment>

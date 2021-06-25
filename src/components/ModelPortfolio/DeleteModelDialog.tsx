@@ -5,14 +5,10 @@ import Dialog from '@reach/dialog';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectGroupsUsingAModel } from '../../selectors/modelPortfolios';
-import { Button } from '../../styled/Button';
+import { Button, TransparentButton } from '../../styled/Button';
 import { GroupData } from '../../types/group';
 import { ModelPortfolioDetailsType } from '../../types/modelPortfolio';
-import {
-  ActionContainer,
-  DeleteBtn,
-  H2Margin,
-} from '../ModelAssetClass/AssetClass';
+import { ActionContainer, H2Margin } from '../ModelAssetClass/AssetClass';
 
 const DeleteModelExplanation = styled.div`
   font-size: 1.2rem;
@@ -69,8 +65,8 @@ const DeleteModelDialog = ({ model, open, hideDialog, deleteModel }: Props) => {
         )}
 
         <ActionContainer>
-          <DeleteBtn onClick={deleteModel}>Delete</DeleteBtn>
-          <Button onClick={hideDialog}>Cancel</Button>
+          <Button onClick={deleteModel}>Delete</Button>
+          <TransparentButton onClick={hideDialog}>Cancel</TransparentButton>
         </ActionContainer>
       </Dialog>
     </div>

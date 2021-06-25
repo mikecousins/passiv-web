@@ -7,7 +7,7 @@ import {
   selectCurrentGroupExcludedAssets,
   selectCurrentGroupSettings,
 } from '../selectors/groups';
-import { SmallButton } from '../styled/Button';
+import { SmallButton, SmallTransparentButton } from '../styled/Button';
 import { A, P } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
 import styled from '@emotion/styled';
@@ -56,17 +56,6 @@ const Description = styled.div``;
 const DontShowBtn = styled.div`
   text-align: left;
   margin-top: 50px;
-`;
-
-const MaxHeightSmallBtn = styled(SmallButton)`
-  padding: 11px;
-  max-height: 45px;
-`;
-
-const ExcludeBtn = styled(MaxHeightSmallBtn)`
-  background: transparent;
-  border: 1px solid var(--brand-blue);
-  color: var(--brand-blue);
 `;
 
 const ExcludeAll = styled.div`
@@ -187,9 +176,11 @@ const NewAssetsDetected = ({ targets }: Props) => {
             <ListOfAssets>
               {targets.length > 1 && (
                 <ExcludeAll>
-                  <ExcludeBtn onClick={() => handleExcludeAsset('', true)}>
+                  <SmallTransparentButton
+                    onClick={() => handleExcludeAsset('', true)}
+                  >
                     Exclude All
-                  </ExcludeBtn>
+                  </SmallTransparentButton>
                 </ExcludeAll>
               )}
               {targets?.map((target) => {
@@ -206,21 +197,19 @@ const NewAssetsDetected = ({ targets }: Props) => {
                       <Description>{target.symbol.description}</Description>
                     </SymbolGrid>
                     {!modelUseByOtherGroups ? (
-                      <MaxHeightSmallBtn
-                        onClick={() => handleAddToModel(target)}
-                      >
+                      <SmallButton onClick={() => handleAddToModel(target)}>
                         Add to Model
-                      </MaxHeightSmallBtn>
+                      </SmallButton>
                     ) : (
                       <div></div>
                     )}
-                    <ExcludeBtn
+                    <SmallTransparentButton
                       onClick={() =>
                         handleExcludeAsset(target.symbol.id, false)
                       }
                     >
                       Exclude
-                    </ExcludeBtn>
+                    </SmallTransparentButton>
                   </StyledGrid>
                 );
               })}

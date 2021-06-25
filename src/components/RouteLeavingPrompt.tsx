@@ -8,13 +8,9 @@ import Dialog from '@reach/dialog';
 import { Location } from 'history';
 import React, { useEffect, useState } from 'react';
 import { Prompt } from 'react-router-dom';
-import { Button } from '../styled/Button';
+import { Button, TransparentButton } from '../styled/Button';
 import { H1 } from '../styled/GlobalElements';
-import {
-  ActionContainer,
-  DeleteBtn,
-  H2Margin,
-} from './ModelAssetClass/AssetClass';
+import { ActionContainer, H2Margin } from './ModelAssetClass/AssetClass';
 
 const Warning = styled.div`
   margin: 5px 0px;
@@ -92,10 +88,10 @@ const RouteLeavingPrompt = ({ when, navigate, prioritiesPage }: Props) => {
         </H2Margin>
         {!prioritiesPage && (
           <ActionContainer>
-            <DeleteBtn onClick={handleConfirmNavigationClick}>
-              Confirm
-            </DeleteBtn>
-            <Button onClick={() => setDialog(false)}>Cancel</Button>
+            <Button onClick={handleConfirmNavigationClick}>Confirm</Button>
+            <TransparentButton onClick={() => setDialog(false)}>
+              Cancel
+            </TransparentButton>
           </ActionContainer>
         )}
       </Dialog>

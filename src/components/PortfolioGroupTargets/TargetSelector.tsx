@@ -19,7 +19,7 @@ import {
 import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
-import { Button } from '../../styled/Button';
+import { Button, TransparentButton } from '../../styled/Button';
 import { A } from '../../styled/GlobalElements';
 import { deleteData, postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
@@ -150,12 +150,6 @@ const ButtonLinks = styled.div`
       padding-right: 0;
     }
   }
-`;
-
-const ApplyNewModelBtn = styled(Button)`
-  background-color: transparent;
-  color: var(--brand-blue);
-  border: 1px solid var(--brand-blue);
 `;
 
 type Props = {
@@ -584,7 +578,7 @@ const TargetSelector = ({
                           'Edit Model'
                         )}
                       </Button>
-                      <ApplyNewModelBtn
+                      <TransparentButton
                         type="button"
                         className="tour-apply-another-model"
                         onClick={() => {
@@ -592,7 +586,7 @@ const TargetSelector = ({
                         }}
                       >
                         Apply Another Model
-                      </ApplyNewModelBtn>
+                      </TransparentButton>
                     </div>
                     <div>
                       <A

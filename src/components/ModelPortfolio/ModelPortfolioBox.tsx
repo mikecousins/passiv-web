@@ -26,7 +26,7 @@ import Grid from '../../styled/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTimes } from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
-import { Button, SmallButton } from '../../styled/Button';
+import { Button, SmallButton, TransparentButton } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
 import { A, Table } from '../../styled/GlobalElements';
 import RouteLeavingPrompt from '../RouteLeavingPrompt';
@@ -159,11 +159,7 @@ const ButtonContainer = styled.div`
   margin-top: 70px;
 `;
 
-const ApplyModelBtn = styled(Button)`
-  font-weight: 600;
-  background-color: transparent;
-  color: var(--brand-blue);
-  border: 1px solid var(--brand-blue);
+const ApplyModelBtn = styled(TransparentButton)`
   float: right;
   @media (max-width: 900px) {
     float: none;

@@ -17,7 +17,7 @@ import {
   BorderContainer,
   P,
 } from '../../styled/GlobalElements';
-import { Button } from '../../styled/Button';
+import { Button, SmallButton } from '../../styled/Button';
 import ShadowBox from '../../styled/ShadowBox';
 import TwoFAManager from './TwoFAManager';
 import * as Yup from 'yup';
@@ -162,7 +162,7 @@ const CredentialsManager = () => {
             }}
             placeholder={'Your name'}
           />
-          <Button onClick={finishEditingName}>Done</Button>
+          <SmallButton onClick={finishEditingName}>Done</SmallButton>
         </InputContainer>
       ) : (
         <InputContainer>
@@ -187,7 +187,7 @@ const CredentialsManager = () => {
             placeholder={'Your email'}
           />
           <P>{emailError}</P>
-          <Button onClick={finishEditingEmail}>Done</Button>
+          <SmallButton onClick={finishEditingEmail}>Done</SmallButton>
           <CancelBtn onClick={() => cancelEditingEmail()}>Cancel</CancelBtn>
         </InputContainer>
       ) : (

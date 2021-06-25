@@ -41,12 +41,8 @@ import { StateText, ToggleButton } from '../../styled/ToggleButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { InputBox, ReadOnlyInput } from '../SettingsManager/APIAccessSettings';
 import Dialog from '@reach/dialog';
-import {
-  ActionContainer,
-  H2Margin,
-  DeleteBtn,
-} from '../ModelAssetClass/AssetClass';
-import { Button } from '../../styled/Button';
+import { ActionContainer, H2Margin } from '../ModelAssetClass/AssetClass';
+import { Button, TransparentButton } from '../../styled/Button';
 import Tooltip from '../Tooltip';
 import { CopyButton } from './MoreOptions';
 import DeleteModelDialog from './DeleteModelDialog';
@@ -388,7 +384,10 @@ const ModelPortfolio = () => {
                                   }}
                                 >
                                   <div>
-                                    <CopyButton copied={copied}>
+                                    <CopyButton
+                                      copied={copied}
+                                      color="var(--brand-green)"
+                                    >
                                       {copied ? 'Copied' : 'Copy'}{' '}
                                       {copied && (
                                         <FontAwesomeIcon icon={faCheckCircle} />
@@ -445,17 +444,17 @@ const ModelPortfolio = () => {
                 </P>
               )}
               <ActionContainer>
-                <DeleteBtn
+                <Button
                   onClick={() => {
                     handleChangeModelType();
                     setModelTypeChanged(false);
                   }}
                 >
                   OK
-                </DeleteBtn>
-                <Button onClick={() => setModelTypeChanged(false)}>
-                  Cancel
                 </Button>
+                <TransparentButton onClick={() => setModelTypeChanged(false)}>
+                  Cancel
+                </TransparentButton>
               </ActionContainer>
             </Dialog>
           </>
