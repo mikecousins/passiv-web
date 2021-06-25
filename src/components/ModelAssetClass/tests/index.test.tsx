@@ -27,7 +27,11 @@ const renderWithRedux = (ui: JSX.Element, initialState: object) => {
 };
 
 test('New Asset Class and Back to Model Portfolio buttons existence on the page', () => {
-  const { getByText, getByTestId } = renderWithRedux(<AssetClass />, {});
+  const { getByText } = renderWithRedux(<AssetClass />, {});
 
   expect(getByText('New Asset Class')).toBeTruthy();
+  expect(getByText('Back to Model Portfolio')).toBeTruthy();
+  expect(
+    getByText('There are currently no asset classes available.'),
+  ).toBeTruthy();
 });
