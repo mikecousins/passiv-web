@@ -46,7 +46,7 @@ export const ViewBtn = styled.div`
     font-weight: 900;
     line-height: 0.95;
     letter-spacing: 2px;
-    color: #033ebc;
+    color: var(--brand-blue-hover);
     display: block;
     text-decoration: none;
   }
@@ -83,7 +83,7 @@ export const WarningViewBtn = styled.div`
     font-weight: 900;
     line-height: 0.95;
     letter-spacing: 2px;
-    color: #033ebc;
+    color: var(--brand-blue-hover);
     display: block;
     text-decoration: none;
   }

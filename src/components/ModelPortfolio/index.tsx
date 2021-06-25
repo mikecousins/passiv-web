@@ -67,7 +67,7 @@ export const BackButton = styled.div`
     font-size: 20px;
     font-weight: 900;
     line-height: 0.95;
-    color: #033ebc;
+    color: var(--brand-blue-hover);
     display: block;
     text-decoration: none;
     letter-spacing: 0.05rem;

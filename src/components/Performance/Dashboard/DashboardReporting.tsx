@@ -36,7 +36,7 @@ export const CustomizeDashBtn = styled.span`
   font-weight: 700;
   cursor: pointer;
   &:hover {
-    color: #033ebc;
+    color: var(--brand-blue-hover);
   }
 `;
 const FilteredLabel = styled.span`

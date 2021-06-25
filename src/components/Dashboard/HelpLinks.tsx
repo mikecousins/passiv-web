@@ -19,9 +19,9 @@ const ShadowBoxLinks = styled(ShadowBox)`
 
     &:hover {
       h3 {
-        color: #033ebc;
+        color: var(--brand-blue-hover);
       }
-      color: #033ebc;
+      color: var(--brand-blue-hover);
     }
   }
 `;

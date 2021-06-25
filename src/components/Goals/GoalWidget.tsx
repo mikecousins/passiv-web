@@ -68,7 +68,7 @@ const View = styled(A)`
   -moz-letter-spacing: 2px;
   -ms-letter-spacing: 2px;
   letter-spacing: 2px;
-  color: #033ebc;
+  color: var(--brand-blue-hover);
   display: block;
   -webkit-text-decoration: none;
   text-decoration: none;
