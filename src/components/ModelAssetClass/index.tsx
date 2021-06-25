@@ -48,7 +48,7 @@ const BackButton = styled(Button)`
 const ModelAssetClass = () => {
   const dispatch = useDispatch();
   const router = useSelector(selectRouter);
-  const back = router.location.query.back;
+  const back = router?.location?.query.back;
 
   const assetClasses: ModelAssetClassDetailsType[] = useSelector(
     selectModelAssetClasses,
