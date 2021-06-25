@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 
 export const Button = styled.button`
-  background-color: ${(props) => (props.disabled ? '#003aa1' : '#003BA2')};
+  background-color: ${(props) =>
+    props.disabled ? '#003aa1' : 'var(--brand-blue)'};
   opacity: ${(props) => (props.disabled ? '.7' : '1')};
   border: none;
   color: white;

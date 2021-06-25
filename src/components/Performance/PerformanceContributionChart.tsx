@@ -27,7 +27,7 @@ const PerformanceContributionChart = () => {
             let dateFormatted = formatDate(a.date, timeframe, customYearBased);
             return [dateFormatted, a.value];
           }),
-        color: '#003ba2',
+        color: 'var(--brand-blue)',
       },
       {
         label: 'Contributions',

@@ -20,7 +20,7 @@ const DashboardContributionChart = () => {
             let dateFormatted = formatDate(a.date, timeframe);
             return [dateFormatted, a.value];
           }),
-        color: '#003ba2',
+        color: 'var(--brand-blue)',
       },
       {
         label: 'Contributions',

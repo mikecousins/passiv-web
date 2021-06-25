@@ -152,7 +152,7 @@ const ContributionsAndWithdrawals = () => {
               r="7"
               stroke="white"
               strokeWidth={'1'}
-              fill="#003ba2"
+              fill="var(--brand-blue)"
             />
           </svg>
           &nbsp;Withdrawals

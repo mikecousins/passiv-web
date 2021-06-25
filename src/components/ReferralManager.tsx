@@ -326,7 +326,7 @@ const ReferralManager = () => {
       {
         label: 'Signups',
         data: signUpData,
-        color: '#003ba2',
+        color: 'var(--brand-blue)',
       },
       {
         label: 'Elite Upgrades',

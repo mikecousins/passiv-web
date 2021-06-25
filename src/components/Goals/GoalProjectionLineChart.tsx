@@ -111,7 +111,7 @@ const GoalProjectionLineChart: FunctionComponent<Props> = ({
       {
         label: 'Projected',
         data: projectedData,
-        color: '#003ba2',
+        color: 'var(--brand-blue)',
       },
       {
         label: 'Principal',
@@ -162,7 +162,7 @@ const GoalProjectionLineChart: FunctionComponent<Props> = ({
           <LegendItem>
             <FontAwesomeIcon
               icon={faCircle}
-              color="#003ba2"
+              color="var(--brand-blue)"
               style={{ padding: 1 }}
             />{' '}
             Projected&nbsp; ${toDollarString(projectedValue)}
@@ -180,7 +180,7 @@ const GoalProjectionLineChart: FunctionComponent<Props> = ({
           <LegendItem className="small">
             <FontAwesomeIcon
               icon={faCircle}
-              color="#003ba2"
+              color="var(--brand-blue)"
               style={{ padding: 1 }}
             />{' '}
             Projected&nbsp; ${toDollarString(projectedValue)}

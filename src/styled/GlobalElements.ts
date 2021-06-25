@@ -112,14 +112,15 @@ export const Span = styled.span`
 export const A = styled.a`
   font-size: 18px;
   text-align: left;
-  color: #1250be;
+  color: var(--brand-blue);
   cursor: pointer;
   opacity: ${(props: any) => (props.disabled ? '.7' : '1')};
 `;
 
 // a that looks like button
 export const AButton = styled.a`
-  background-color: ${(props: any) => (props.disabled ? '#003aa1' : '#003BA2')};
+  background-color: ${(props: any) =>
+    props.disabled ? '#003aa1' : 'var(--brand-blue)'};
   opacity: ${(props: any) => (props.disabled ? '.7' : '1')};
   :hover,
   :visited,

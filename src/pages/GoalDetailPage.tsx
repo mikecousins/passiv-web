@@ -198,7 +198,7 @@ const DropDown = styled.div`
   }
   button {
     &:hover {
-      color: #003ba2;
+      color: var(--brand-blue);
       text-decoration: underline;
     }
   }
@@ -214,7 +214,7 @@ const DeleteGoal = styled.button`
     padding-top: 18px;
   }
   &:hover {
-    color: #003ba2;
+    color: var(--brand-blue);
     text-decoration: underline;
   }
 `;

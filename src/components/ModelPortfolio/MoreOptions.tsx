@@ -71,7 +71,7 @@ const Options = styled.ul`
   button {
     font-weight: 400;
     &:hover {
-      color: #003ba2;
+      color: var(--brand-blue);
     }
   }
 `;

@@ -67,7 +67,7 @@ export const CashReturn = styled.span`
     color: #04a287;
   }
   &.negative {
-    color: #003ba2;
+    color: var(--brand-blue);
   }
 `;
 

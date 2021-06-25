@@ -99,7 +99,7 @@ const SignUpBtn = styled(Button)`
 const Clone = styled.div`
   a {
     font-size: 18px;
-    color: #003ba2;
+    color: var(--brand-blue);
     font-weight: 700;
   }
 `;

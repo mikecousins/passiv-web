@@ -107,7 +107,7 @@ export const Label = styled.label`
 `;
 
 export const Submit = styled.button`
-  background-color: #003ba2;
+  background-color: var(--brand-blue);
   border: none;
   color: white;
   padding: 15px;
