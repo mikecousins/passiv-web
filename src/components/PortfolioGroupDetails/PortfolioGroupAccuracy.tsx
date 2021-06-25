@@ -132,12 +132,12 @@ const PortfolioGroupAccuracy = ({ accuracy, loading, tourClass }: Props) => {
       : false;
 
   let accuracyDisplay = null;
+  let explanation = '';
   if (error || accuracy === null) {
+    explanation = 'Unable to calculate accuracy';
     accuracyDisplay = (
       <div>
-        <Tooltip label="Unable to calculate accuracy.">
-          <FontAwesomeIcon icon={faExclamationTriangle} />
-        </Tooltip>
+        <FontAwesomeIcon icon={faExclamationTriangle} />
       </div>
     );
   } else if (loading) {
@@ -152,20 +152,18 @@ const PortfolioGroupAccuracy = ({ accuracy, loading, tourClass }: Props) => {
         <Number value={accuracy} percentage decimalPlaces={0} />
       );
       if (belowDriftThreshold) {
+        explanation = 'Accuracy is below drift threshold';
         accuracyDisplay = (
           <div>
-            <Tooltip label="Accuracy is below drift threshold.">
-              <Number value={accuracy} percentage decimalPlaces={0} />
-            </Tooltip>
+            <Number value={accuracy} percentage decimalPlaces={0} />
           </div>
         );
       }
     } else {
+      explanation = 'There is no target set for this portfolio';
       accuracyDisplay = (
         <div>
-          <Tooltip label="There is no target set for this portfolio, follow the instructions under the Model Portfolio.">
-            <FontAwesomeIcon icon={faExclamationTriangle} />
-          </Tooltip>
+          <FontAwesomeIcon icon={faExclamationTriangle} />
         </div>
       );
     }
@@ -173,7 +171,9 @@ const PortfolioGroupAccuracy = ({ accuracy, loading, tourClass }: Props) => {
   return (
     <Accuracy
       className={tourClass}
-      belowThreshold={belowDriftThreshold || accuracy === null}
+      belowThreshold={
+        belowDriftThreshold || accuracy === null || !setupComplete
+      }
     >
       <H2>
         Accuracy&nbsp;
@@ -187,14 +187,19 @@ const PortfolioGroupAccuracy = ({ accuracy, loading, tourClass }: Props) => {
 
       <Mask>
         <SemiCircle
-          belowThreshold={belowDriftThreshold || accuracy === null}
+          belowThreshold={
+            belowDriftThreshold || accuracy === null || !setupComplete
+          }
         ></SemiCircle>
         <SemiCircleMask
           accuracy={setupComplete === true ? accuracy : null}
         ></SemiCircleMask>
       </Mask>
 
-      <PercentBox>{accuracyDisplay}</PercentBox>
+      <PercentBox>
+        {accuracyDisplay}
+        <small style={{ fontSize: '12px' }}>{explanation}</small>
+      </PercentBox>
     </Accuracy>
   );
 };

@@ -1,4 +1,4 @@
-import { faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faExternalLinkAlt, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,6 +14,7 @@ import {
   selectCurrentGroupCash,
   selectCurrentGroupPositionsWithActualPercentage,
   selectCurrentGroupInfo,
+  selectCurrentGroupAccounts,
 } from '../../selectors/groups';
 import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
@@ -24,7 +25,6 @@ import { deleteData, postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
 
 import { selectModelUseByOtherGroups } from '../../selectors/modelPortfolios';
-import { selectAuthorizations } from '../../selectors';
 import Tooltip from '../Tooltip';
 
 const ButtonBox = styled.div`
@@ -172,25 +172,7 @@ const TargetSelector = ({
   onReset,
 }: Props) => {
   const dispatch = useDispatch();
-
-  const authorizations = useSelector(selectAuthorizations);
-  let hasZerodhaConnection = false;
-  let hasUnocoinConnection = false;
-  let hasKrakenConnection = false;
-  if (authorizations) {
-    authorizations.forEach((authorization) => {
-      if (authorization.brokerage.name === 'Zerodha') {
-        hasZerodhaConnection = true;
-      }
-      if (authorization.brokerage.name === 'Unocoin') {
-        hasUnocoinConnection = true;
-      }
-      if (authorization.brokerage.name === 'Kraken') {
-        hasKrakenConnection = true;
-      }
-    });
-  }
-
+  const currentGroupAccounts = useSelector(selectCurrentGroupAccounts);
   const groupId = useSelector(selectCurrentGroupId);
   const positions = useSelector(
     selectCurrentGroupPositionsWithActualPercentage,
@@ -522,7 +504,6 @@ const TargetSelector = ({
                       {excludedAssetCount > 1 && 's'}.
                     </ExcludedNote>
                   )}
-
                   <ErrorMessage name="targets" component="div" />
                   {canEdit && (
                     <React.Fragment>
@@ -620,22 +601,21 @@ const TargetSelector = ({
                         style={{ fontWeight: 600, marginRight: '20px' }}
                       >
                         <FontAwesomeIcon icon={faUndo} size="sm" /> Reset
-                      </A>{' '}
-                      {hasZerodhaConnection ||
-                      hasUnocoinConnection ||
-                      hasKrakenConnection ||
-                      currentGroupInfo?.model_portfolio?.model_type === 1 ? (
-                        ''
-                      ) : (
-                        <A
-                          href={portfolioVisualizerURL}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ fontWeight: 600, marginRight: '20px' }}
-                        >
-                          Portfolio Visualizer
-                        </A>
-                      )}
+                      </A>
+                      {currentGroupAccounts.every(
+                        (account) => account.meta.type !== 'Crypto',
+                      ) &&
+                        currentGroupInfo?.model_portfolio?.model_type === 0 && (
+                          <A
+                            href={portfolioVisualizerURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ fontWeight: 600 }}
+                          >
+                            Portfolio Visualizer{'  '}
+                            <FontAwesomeIcon icon={faExternalLinkAlt} />
+                          </A>
+                        )}
                     </div>
                   </ButtonBox>
                 </React.Fragment>
