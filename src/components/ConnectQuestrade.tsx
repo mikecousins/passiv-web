@@ -54,7 +54,7 @@ const ConnectQuestrade = () => {
 
   return (
     <React.Fragment>
-      <ShadowBox background="#2a2d34">
+      <ShadowBox background="var(--brand-grey)">
         <H1DarkStyle>Connect your Questrade account</H1DarkStyle>
         <H2DarkStyle>
           Passiv offers a real-time data connection to Questrade.

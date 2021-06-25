@@ -22,7 +22,7 @@ const QuestradeAuthorizationPicker = () => {
     return null;
   }
 
-  const questrade = brokerages.find(b => b.name === 'Questrade');
+  const questrade = brokerages.find((b) => b.name === 'Questrade');
 
   if (!questrade) {
     return null;
@@ -31,7 +31,7 @@ const QuestradeAuthorizationPicker = () => {
   const questradeId = questrade.id;
 
   const questradeDefaultType = questrade.authorization_types.find(
-    t => t.type === 'read',
+    (t) => t.type === 'read',
   )
     ? 'read'
     : '';
@@ -94,7 +94,7 @@ const QuestradeAuthorizationPicker = () => {
     );
   }
   return (
-    <ShadowBox background="#2a2d34">
+    <ShadowBox background="var(--brand-grey)">
       <H1 color="white">SETUP</H1>
       <Step>Step 1 - Connect Questrade</Step>
       {answered ? (

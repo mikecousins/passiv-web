@@ -71,7 +71,7 @@ const Percent = styled.span`
 `;
 
 const ActionBox = styled.div`
-  border: 1px solid #2a2d34;
+  border: 1px solid var(--brand-grey);
   box-sizing: border-box;
   border-radius: 4px;
   padding: 15px;
@@ -187,7 +187,7 @@ const SharedModelPortfolio = () => {
   pieChartData.push({
     title: othersList,
     value: +otherSecuritiesTotal,
-    color: '#2A2D34',
+    color: 'var(--brand-grey)',
   });
 
   const cloneModel = () => {
@@ -254,7 +254,7 @@ const SharedModelPortfolio = () => {
                   );
                 })}
                 {otherSecurities.length > 0 && (
-                  <Security key="other" color="#2A2D34">
+                  <Security key="other" color="var(--brand-grey)">
                     <div>
                       <Symbol style={{ border: 'none' }}>Other</Symbol>{' '}
                       <Percent>

@@ -89,7 +89,7 @@ const StyledSelect = styled(StyledFieldBase)`
   -webkit-appearance: none;
   background-image: linear-gradient(45deg, #0000 50%, #fff 50%),
     linear-gradient(135deg, #fff 50%, #0000 50%),
-    linear-gradient(to right, #2a2d34, #2a2d34);
+    linear-gradient(to right, var(--brand-green), var(--brand-green));
   background-position: calc(100% - 20px) calc(1em + 2px),
     calc(100% - 15px) calc(1em + 2px), 100% 0;
   background-size: 8px 5px, 5px 5px, 2.5em 3.5em;

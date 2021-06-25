@@ -80,10 +80,10 @@ const Accounts = () => {
     padding: 8,
     marginBottom: 20,
     border: fake
-      ? '1px dashed #2a2d34'
+      ? '1px dashed var(--brand-grey)'
       : isDraggingOver
-      ? '2px solid #2a2d34'
-      : '1px solid #2a2d34',
+      ? '2px solid var(--brand-grey)'
+      : '1px solid var(--brand-grey)',
     marginTop: 40,
   });
 

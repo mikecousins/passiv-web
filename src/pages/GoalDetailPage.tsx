@@ -142,7 +142,7 @@ const NameInput = styled(InputPrimary)`
   -moz-letter-spacing: -1.5px;
   -ms-letter-spacing: -1.5px;
   letter-spacing: -1.5px;
-  color: #2a2d34;
+  color: var(--brand-grey);
   padding-top: 0;
   padding: 0;
   background: none;

@@ -27,7 +27,7 @@ const Security = styled(Grid)<SecurityProps>`
   margin-bottom: 20px;
   padding: 10px;
   border: ${(props) =>
-    props.priorityKind === 'buy' ? '1px dashed #2A2D34' : 'none'};
+    props.priorityKind === 'buy' ? '1px dashed var(--brand-grey)' : 'none'};
   background: ${(props) => (props.isChanged ? '#0CEBC5' : '')};
   > h2 {
     background: #dbfcf6;
@@ -103,7 +103,8 @@ type UpDownBtnProps = {
 const UpDownButton = styled.button<UpDownBtnProps>`
   background-color: ${(props) => (props.isHidden ? 'transparent' : '#f2fffd')};
   padding: 10px 12px;
-  border: 1px solid ${(props) => (props.isHidden ? '#bbbdc2' : '#2a2d34')};
+  border: 1px solid
+    ${(props) => (props.isHidden ? '#bbbdc2' : 'var(--brand-grey)')};
   cursor: ${(props) => (props.isHidden ? 'auto' : 'pointer')};
   svg {
     color: ${(props) => props.isHidden && 'transparent'};

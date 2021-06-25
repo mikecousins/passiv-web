@@ -22,7 +22,7 @@ export const H1 = styled.h1<HProps>`
   font-weight: 500;
   line-height: 2.17;
   letter-spacing: -1.5px;
-  color: #2a2d34;
+  color: var(--brand-grey);
   @media (max-width: 900px) {
     line-height: 1.3;
     margin-bottom: 20px;
@@ -52,7 +52,7 @@ export const H3 = styled.h3<HProps>`
 
 // ul
 export const UL = styled.ul<HProps>`
-  color: #2a2d34;
+  color: var(--brand-grey);
   ${dynamicStyle};
   li {
     margin-bottom: 10px;
