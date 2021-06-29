@@ -190,7 +190,7 @@ const MoreOptions = ({ model, shareModel }: Props) => {
         if (groups !== undefined) {
           dispatch(loadGroup({ ids: groups.map((group) => group.id) }));
         }
-        toast.success('Delete the model successfully');
+        toast.success('Deleted the model successfully');
         dispatch(replace(`/models`));
       })
       .catch(() => {
