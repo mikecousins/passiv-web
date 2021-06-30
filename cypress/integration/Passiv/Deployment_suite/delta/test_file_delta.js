@@ -82,29 +82,47 @@ it('Create Asset class, delete and recreate', () => {
   cy.get('li').eq(-1).click()
   cy.get('input').last().type('PLTR').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(6000.)
 
-  cy.get('button').contains('Back to Model Portfolio').click().wait(8000)
-  cy.get('button').contains('Edit Asset Classes').click({multiple: true})
+})
 
-  cy.get('button.css-11twc1o').eq(0).click()
-  cy.get('button').contains('Delete').click().wait(5000)
-//1
-  cy.get('button.css-11twc1o').eq(0).click()
-  cy.get('button').contains('Delete').click().wait(5000)
-//2
-  cy.get('button.css-11twc1o').eq(0).click()
-  cy.get('button').contains('Delete').click().wait(5000)
-//3
-  cy.get('button.css-11twc1o').eq(0).click()
-  cy.get('button').contains('Delete').click().wait(5000)
+it('Edit Model and apply', () => {
+    cy.get('button').contains('Back to Model Portfolio').click()
+    cy.get('button').contains('Asset Class Test').click().wait(8000)
+    cy.get('button').contains('Edit Model').click().wait(4000)
+    cy.get('input').last().type('Crap Assets').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(6000.)
+    cy.get('input').eq(0).type('20')
 
-  cy.get('button').contains('Back to Model Portfolio').click().wait(8000)
-  cy.get('button').contains('Delete').click()
-  cy.get('button').contains('Cancel').prev().click()
+    cy.get('input').last().type('test1').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(6000.)
+    cy.get('input').eq(2).type('20')
 
+    cy.get('input').last().type('test2').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(6000.)
+    cy.get('input').eq(4).type('20')
 
+    cy.get('input').last().type('test3').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(6000.)
+    cy.get('input').eq(6).type('20')
 
 
 })
 
 
+// cy.get('button').contains('Back to Model Portfolio').click().wait(8000)
+// cy.get('button').contains('Edit Asset Classes').click({multiple: true})
+
+// cy.get('button.css-11twc1o').eq(0).click()
+// cy.get('button').contains('Delete').click().wait(5000)
+// //1
+// cy.get('button.css-11twc1o').eq(0).click()
+// cy.get('button').contains('Delete').click().wait(5000)
+// //2
+// cy.get('button.css-11twc1o').eq(0).click()
+// cy.get('button').contains('Delete').click().wait(5000)
+// //3
+// cy.get('button.css-11twc1o').eq(0).click()
+// cy.get('button').contains('Delete').click().wait(5000)
+
+// cy.get('button').contains('Back to Model Portfolio').click().wait(8000)
+// cy.get('button').contains('Delete').click()
+// cy.get('button').contains('Cancel').prev().click()
+
 })
+
+
