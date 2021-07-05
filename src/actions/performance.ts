@@ -71,6 +71,38 @@ export const updateReportingSettings: ActionCreator<ThunkAction<
   };
 };
 
+export const loadAllActivities: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = (startDate, endDate) => {
+  return (dispatch) => {
+    dispatch(fetchActivitiesStart());
+    getData('/api/v1/performance/activities/')
+      .then((response) => {
+        dispatch(fetchActivitiesSuccess(response));
+      })
+      .catch((error) => dispatch(fetchActivitiesError(error)));
+  };
+};
+
+export const loadFilteredActivities: ActionCreator<ThunkAction<
+  void,
+  any,
+  any,
+  Action<any>
+>> = (startDate, endDate) => {
+  return (dispatch) => {
+    dispatch(fetchActivitiesStart());
+    postData('/api/v1/performance/activities/', { startDate, endDate })
+      .then((response) => {
+        dispatch(fetchActivitiesSuccess(response));
+      })
+      .catch((error) => dispatch(fetchActivitiesError(error)));
+  };
+};
+
 export const fetchPerformanceAllStart: ActionCreator<Action> = () => ({
   type: 'FETCH_PERFORMANCE_ALL_START',
 });
@@ -159,6 +191,16 @@ export const setEndDate: ActionCreator<Action> = (endDate) => ({
   endDate,
 });
 
+export const setActivitiesEndDate: ActionCreator<Action> = (endDate) => ({
+  type: 'SET_ACTIVITIES_END_DATE',
+  endDate,
+});
+
+export const setActivitiesStartDate: ActionCreator<Action> = (startDate) => ({
+  type: 'SET_ACTIVITIES_START_DATE',
+  startDate,
+});
+
 export const loadAdjustedCostBasis: ActionCreator<ThunkAction<
   void,
   any,
@@ -186,5 +228,19 @@ export const fetchACBSuccess: ActionCreator<Action> = (payload) => ({
 
 export const fetchACBError: ActionCreator<Action> = (payload) => ({
   type: 'FETCH_ACB_ERROR',
+  payload,
+});
+
+export const fetchActivitiesStart: ActionCreator<Action> = () => ({
+  type: 'FETCH_ACTIVITIES_START',
+});
+
+export const fetchActivitiesSuccess: ActionCreator<Action> = (payload) => ({
+  type: 'FETCH_ACTIVITIES_SUCCESS',
+  payload,
+});
+
+export const fetchActivitiesError: ActionCreator<Action> = (payload) => ({
+  type: 'FETCH_ACTIVITIES_ERROR',
   payload,
 });

@@ -99,7 +99,7 @@ export const DatePickers = () => {
               setshowInvalidDateMessage(false);
               dispatch(
                 loadPerformanceCustom(
-                  accounts.map(a => a?.value),
+                  accounts.map((a) => a?.value),
                   startDate,
                   endDate,
                 ),
@@ -134,4 +134,24 @@ export const formattedYearAgo = () => {
   const lastYear = parseInt(today.substr(0, 4)) - 1;
 
   return lastYear.toString() + today.substr(4);
+};
+
+export const formattedLastQuarter = () => {
+  let d = new Date();
+  let monthNum = d.getMonth() + 1;
+  let day = '' + d.getDate();
+  let year = d.getFullYear();
+
+  if (monthNum > 3) {
+    monthNum -= 3;
+  } else {
+    year -= 1;
+    monthNum += 9;
+  }
+  let monthStr = '' + monthNum;
+
+  if (monthStr.length < 2) monthStr = '0' + monthStr;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, monthStr, day].join('-');
 };

@@ -126,3 +126,18 @@ export type ReportingSettings = {
   show_return_rate: boolean;
   contributions_by_month: boolean;
 };
+
+export type Activity = {
+  account: Account;
+  amount: number;
+  currency: Currency;
+  description: string;
+  fee: number;
+  institution: string;
+  price: number;
+  settlement_date: string;
+  symbol: Symbol;
+  trade_date: string;
+  type: string;
+  units: number;
+};

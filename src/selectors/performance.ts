@@ -26,6 +26,12 @@ export const selectStartDate = (state: AppState) => state.reportingStartDate;
 
 export const selectEndDate = (state: AppState) => state.reportingEndDate;
 
+export const selectActivitiesStartDate = (state: AppState) =>
+  state.activitiesStartDate;
+
+export const selectActivitiesEndDate = (state: AppState) =>
+  state.activitiesEndDate;
+
 export const selectSelectedAccounts = (state: AppState) =>
   state.selectedAccounts;
 
@@ -39,6 +45,8 @@ export const selectBadTickers = (state: AppState) =>
 
 export const selectPerformanceCurrentDetailedMode = (state: AppState) =>
   state.performanceAll?.data?.settings?.detailed_view;
+
+export const selectActivities = (state: AppState) => state.activities;
 
 export const selectPerformanceNeedData = createSelector<
   AppState,

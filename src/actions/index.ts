@@ -7,8 +7,11 @@ import {
   setStartDate,
   setEndDate,
   loadReportingSettings,
+  setActivitiesEndDate,
+  setActivitiesStartDate,
 } from './performance';
 import {
+  formattedLastQuarter,
   formattedToday,
   formattedYearAgo,
 } from '../components/Performance/DatePickers';
@@ -502,6 +505,9 @@ export const reloadEverything: ActionCreator<ThunkAction<
     const endDate = formattedToday();
     dispatch(setStartDate(startDate));
     dispatch(setEndDate(endDate));
+    const activitiesStartDate = formattedLastQuarter();
+    dispatch(setActivitiesStartDate(activitiesStartDate));
+    dispatch(setActivitiesEndDate(endDate));
     dispatch(loadGoals());
     dispatch(loadReportingSettings());
   };

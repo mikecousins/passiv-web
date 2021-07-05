@@ -29,12 +29,15 @@ import {
   PerformanceCustomData,
   AdjustedCostBasis,
   ReportingSettings,
+  Activity,
 } from '../types/performance';
 import {
   selectedTimeframe,
   selectedAccounts,
   reportingStartDate,
   reportingEndDate,
+  activitiesStartDate,
+  activitiesEndDate,
 } from './performance';
 import { ModelPortfolioDetailsType } from '../types/modelPortfolio';
 import { Goal } from '../types/goals';
@@ -54,6 +57,8 @@ const Reducer = (history: any) =>
     selectedAccounts,
     reportingStartDate,
     reportingEndDate,
+    activitiesStartDate,
+    activitiesEndDate,
     referral,
     tracking,
     authorizations: simple<Authorization[]>({
@@ -130,6 +135,10 @@ const Reducer = (history: any) =>
     }),
     performanceACB: simple<AdjustedCostBasis[]>({
       baseType: 'FETCH_ACB',
+      userData: true,
+    }),
+    activities: simple<Activity[]>({
+      baseType: 'FETCH_ACTIVITIES',
       userData: true,
     }),
     modelAssetClasses: simple<ModelAssetClassDetailsType[]>({
