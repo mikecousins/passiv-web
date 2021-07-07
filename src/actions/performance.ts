@@ -95,7 +95,7 @@ export const loadFilteredActivities: ActionCreator<ThunkAction<
 >> = (startDate, endDate) => {
   return (dispatch) => {
     dispatch(fetchActivitiesStart());
-    postData('/api/v1/performance/activities/', { startDate, endDate })
+    getData('/api/v1/performance/activities/', { startDate, endDate })
       .then((response) => {
         dispatch(fetchActivitiesSuccess(response));
       })
