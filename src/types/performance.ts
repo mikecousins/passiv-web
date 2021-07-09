@@ -124,7 +124,5 @@ export type ReportingSettings = {
   detailed_view: boolean;
   show_dividend_data: boolean;
   show_return_rate: boolean;
-  include_questrade: boolean;
-  include_wealthica: boolean;
   contributions_by_month: boolean;
 };
