@@ -116,10 +116,6 @@ const CouponPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "coupon" */ '../pages/CouponPage'),
 );
 
-const SharePage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "share" */ '../pages/SharePage'),
-);
-
 const AuthorizationPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "authorization" */ '../pages/AuthorizationPage'),
 );
@@ -513,7 +509,6 @@ const App = () => {
             {showSecureApp && (
               <Route path="/group/:groupId" component={GroupPage} />
             )}
-            {showSecureApp && <Route path="/share" component={SharePage} />}
             {showSecureApp && isPaid && (
               <Route path="/asset-class" component={ModelAssetClassPage} />
             )}
