@@ -194,7 +194,7 @@ const PortfolioGroupTargets = ({ error }: Props) => {
     },
     {
       id: 'USE_MODEL',
-      name: 'Use one of the existing models',
+      name: 'Use an existing model',
       button: (
         <Button
           onClick={() => {
