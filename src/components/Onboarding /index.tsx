@@ -64,7 +64,7 @@ const Onboarding = () => {
       setStep(onboardingStep);
     }
     // eslint-disable-next-line
-  }, [router.location.query.step, onboardingStep]);
+  }, [router.location.query.step, onboardingStep, groups]);
 
   return (
     <Container>
