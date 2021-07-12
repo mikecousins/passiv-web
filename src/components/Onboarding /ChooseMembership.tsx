@@ -151,21 +151,23 @@ const ChooseMembership = () => {
               return <li>{feature}</li>;
             })}
           </PlanDetails>
-          <ButtonContainer>
-            <Button
-              onClick={() =>
-                dispatch(
-                  push(
-                    questradeOffer
-                      ? '/questrade-offer?onboarding=true'
-                      : '/settings',
-                  ),
-                )
-              }
-            >
-              {questradeOffer ? 'Get Elite For Free' : 'Get Elite'}
-            </Button>
-          </ButtonContainer>
+          {!isPaid && (
+            <ButtonContainer>
+              <Button
+                onClick={() =>
+                  dispatch(
+                    push(
+                      questradeOffer
+                        ? '/questrade-offer?onboarding=true'
+                        : '/settings',
+                    ),
+                  )
+                }
+              >
+                {questradeOffer ? 'Get Elite For Free' : 'Get Elite'}
+              </Button>
+            </ButtonContainer>
+          )}
         </Card>
       </Cards>
       <BackBtn onClick={() => dispatch(updateOnboardingStep(1, settings))}>
