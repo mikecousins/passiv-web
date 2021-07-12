@@ -6,7 +6,6 @@ import {
   selectSelectedAccounts,
   selectStartDate,
   selectEndDate,
-  selectReportingSettings,
 } from '../../selectors/performance';
 import { setSelectedAccounts } from '../../actions/performance';
 import MultiSelect from 'react-multi-select-component';
@@ -14,6 +13,9 @@ import {
   loadPerformanceAll,
   loadPerformanceCustom,
 } from '../../actions/performance';
+import { selectBrokerages } from '../../selectors';
+import { Account } from '../../types/account';
+import { Brokerage } from '../../types/brokerage';
 
 const SelectContainer = styled.div`
   margin: 0 0 20px auto;
@@ -50,17 +52,11 @@ const Submit = styled.input`
 
 const AccountsSelect = () => {
   const dispatch = useDispatch();
-  const reportingSettings = useSelector(selectReportingSettings)?.data;
   // Create list of accounts for dropdown, sort by institution name and then account name
+  const brokerages = useSelector(selectBrokerages);
   const accounts = useSelector(selectAccounts)
-    .filter(
-      (a) =>
-        (reportingSettings?.include_questrade &&
-          a.institution_name === 'Questrade') ||
-        (reportingSettings?.include_wealthica &&
-          a.institution_name === 'Wealthica'),
-    )
     .filter((a) => a.portfolio_group !== null)
+    .filter((a) => hasReporting(a, brokerages))
     .sort((a, b) =>
       a.institution_name !== b.institution_name
         ? a.institution_name < b.institution_name
@@ -148,5 +144,22 @@ export const validDates = (startDate: string, endDate: string) => {
       return true;
     }
   }
+  return false;
+};
+
+export const hasReporting = (
+  account: Account,
+  brokerages: Brokerage[] | undefined,
+) => {
+  let reportingEnabled = false;
+  if (brokerages !== undefined) {
+    brokerages.forEach((b) => {
+      if (account.institution_name === b.name && b.has_reporting) {
+        reportingEnabled = true;
+      }
+    });
+    return reportingEnabled;
+  }
+
   return false;
 };

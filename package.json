@@ -28,6 +28,11 @@
       "name": "Brendan Wood",
       "email": "brendan.wood@getpassiv.com",
       "url": "https://github.com/brendanwood"
+    },
+    {
+      "name": "Shayan Abedi",
+      "email": "shayan.abedi@passiv.com",
+      "url": "https://github.com/ShayanAbedi"
     }
   ],
   "repository": "github:passiv/passiv-web",
