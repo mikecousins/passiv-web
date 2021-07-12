@@ -458,7 +458,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
       },
       confirmPrompt: null,
       defaultConnectionType: 'trade',
-      openURL: '',
+      openURL: 'https://bitbuy.ca/en/getstarted',
       major: true,
       logo: BitbuyLogo,
       description: <P>Bitbuy is a Canadian cryptocurrency exchange.</P>,
@@ -515,7 +515,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
       connect: () => {
         startConnection('Kraken', 'trade');
       },
-      openURL: 'https://passiv.com/connect/kraken',
+      openURL: 'https://www.kraken.com/sign-up',
       major: true,
       logo: KrakenLogo,
       defaultConnectionType: 'trade',
@@ -536,7 +536,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
       connect: () => {
         startConnection('Unocoin', 'trade');
       },
-      openURL: 'https://passiv.com/connect/unocoin',
+      openURL: 'https://www.unocoin.com/in',
       major: true,
       logo: UnocoinLogo,
       defaultConnectionType: 'trade',
@@ -621,7 +621,7 @@ const ConnectBrokerage = ({ onboarding }: Props) => {
       },
       confirmPrompt: null,
       defaultConnectionType: 'trade',
-      openURL: 'https://kite.trade/connect/login?api_key=pnriechdkzx5ipvq&v=3',
+      openURL: 'https://zerodha.com/open-account/',
       major: true,
       logo: ZerodhaLogo,
       description: (
