@@ -101,7 +101,7 @@ const Accounts = () => {
   const accounts = useSelector(selectGroupedAccounts);
   const router = useSelector(selectRouter);
   const settings = useSelector(selectSettings);
-  const isOnboarding = router.location.pathname.includes('welcome');
+  const isOnboarding = !router.location.pathname.includes('settings');
   const [localAccounts, setLocalAccounts] = useState(accounts);
   const [isEditing, setIsEditing] = useState(isOnboarding ? true : false);
   const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
