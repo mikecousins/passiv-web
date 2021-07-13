@@ -282,7 +282,12 @@ const Accounts = () => {
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver)}
               >
-                <AccountGroup name={group.name} isOnboarding={isOnboarding}>
+                <AccountGroup
+                  id={group.groupId}
+                  name={group.name}
+                  isOnboarding={isOnboarding}
+                  editing={isEditing}
+                >
                   {group.accounts.length > 0 ? (
                     <div>
                       {group.accounts.map((account, index) => (
@@ -368,7 +373,11 @@ const Accounts = () => {
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver, true)}
               >
-                <AccountGroup name="New Group" isOnboarding={isOnboarding}>
+                <AccountGroup
+                  name="New Group"
+                  isOnboarding={isOnboarding}
+                  editing={isEditing}
+                >
                   <GroupNote>
                     Drag accounts here to place them in a new group.
                   </GroupNote>
