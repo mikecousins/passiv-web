@@ -8,8 +8,8 @@ import {
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { push } from 'connected-react-router';
-import { postData } from '../api';
-import { reloadEverything } from '../actions';
+import { postData, putData } from '../api';
+import { loadAuthorizations, reloadEverything } from '../actions';
 import ShadowBox from '../styled/ShadowBox';
 import { A, H1, H2, H3, P } from '../styled/GlobalElements';
 import { Button } from '../styled/Button';
@@ -35,6 +35,7 @@ import { selectGroupsLoading } from '../selectors/groups';
 import goldStar from '../assets/images/gold-star.png';
 import OnboardingProgress from '../components/Onboarding /OnboardingProgress';
 import { updateOnboardingStep } from '../actions/onboarding';
+import NameInputAndEdit from '../components/NameInputAndEdit';
 
 const ActionContainer = styled.div`
   margin-top: 44px;
@@ -106,6 +107,17 @@ const NewConnectionDetails = styled.div`
   }
 `;
 
+const EditNameContainer = styled.div`
+  button {
+    font-size: 18px;
+    margin: 0 5px;
+    min-width: 70px;
+    @media (min-width: 900px) {
+      top: 0;
+    }
+  }
+`;
+
 type Props = {
   brokerageName: string;
 };
@@ -131,6 +143,8 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
   const [newConnectionDetails, setNewConnectionDetails] = useState<
     Authorization
   >();
+  const [connectionName, setConnectionName] = useState('');
+  const [editingConnectionName, setEditingConnectionName] = useState(false);
 
   const isOnboarding = onboardingStep && onboardingStep <= 3;
 
@@ -163,6 +177,11 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
       }
     });
   }
+  useEffect(() => {
+    if (newConnectionDetails) {
+      setConnectionName(newConnectionDetails.name);
+    }
+  }, [newConnectionDetails]);
 
   useEffect(() => {
     if (
@@ -415,6 +434,28 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
         </div>
       );
     }
+
+    const saveConnectionName = () => {
+      if (
+        newConnectionDetails &&
+        newConnectionDetails?.name !== connectionName
+      ) {
+        let newAuthorization = Object.assign({}, newConnectionDetails);
+        newAuthorization.name = connectionName;
+        putData(
+          `/api/v1/authorizations/${newConnectionDetails.id}`,
+          newAuthorization,
+        )
+          .then(() => {
+            dispatch(loadAuthorizations());
+          })
+          .catch(() => {
+            dispatch(loadAuthorizations());
+          });
+      }
+      setEditingConnectionName(false);
+    };
+
     result = (
       <>
         <Star></Star>
@@ -442,7 +483,23 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
                     </NewConnectionDetails>
                     <NewConnectionDetails>
                       <H3>
-                        Name: <span>{newConnectionDetails.name}</span>
+                        Name:
+                        <NameInputAndEdit
+                          value={connectionName}
+                          edit={editingConnectionName}
+                          allowEdit={true}
+                          onChange={(e: any) =>
+                            setConnectionName(e.target.value)
+                          }
+                          onClickDone={saveConnectionName}
+                          onClickEdit={() => setEditingConnectionName(true)}
+                          onClickCancel={() => {
+                            setConnectionName(newConnectionDetails.name);
+                            setEditingConnectionName(false);
+                          }}
+                          cancelButton={true}
+                          StyledContainer={EditNameContainer}
+                        />
                       </H3>
                     </NewConnectionDetails>
                     <NewConnectionDetails>
