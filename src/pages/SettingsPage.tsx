@@ -12,6 +12,7 @@ import { selectIsDemo } from '../selectors';
 import { useSelector } from 'react-redux';
 import Tour from '../components/Tour/Tour';
 import { SettingsPageSteps } from '../components/Tour/TourSteps';
+import SettingsSubNav from '../components/SettingsManager/SettingsSubNav';
 
 export const Flex = styled.div`
   @media (min-width: 900px) {
@@ -32,8 +33,9 @@ const SettingsPage = () => {
   const isDemo = useSelector(selectIsDemo);
   return (
     <React.Fragment>
+      <SettingsSubNav />
       <Tour steps={SettingsPageSteps} name="settings_page_tour" />
-      <Flex>
+      {/* <Flex>
         <CredentialsManager />
         <NotificationsManager />
         {isDemo ? <DemoNotes /> : <SubscriptionManager />}
@@ -41,7 +43,7 @@ const SettingsPage = () => {
       </Flex>
       <ConnectionsManager />
       <AccountsManager />
-      <ExperimentalManager />
+      <ExperimentalManager /> */}
     </React.Fragment>
   );
 };
