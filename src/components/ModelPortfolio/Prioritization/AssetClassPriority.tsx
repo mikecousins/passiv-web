@@ -19,6 +19,11 @@ import { useSelector } from 'react-redux';
 import { selectSymbols } from '../../../selectors/symbols';
 import { selectIsMobile, selectIsTablet } from '../../../selectors/browser';
 import NotAvailable from '../../NotAvailable';
+import Tour from '../../Tour/Tour';
+import {
+  AssetClassPrioritiesSteps,
+  OpenPrioritiesSteps,
+} from '../../Tour/TourSteps';
 
 const MainContainer = styled.div`
   border: ${(p) => (p.color ? `2px solid ${p.color}` : 'none')};
@@ -182,11 +187,12 @@ const AssetClassPriority = ({
   }
 
   return (
-    <MainContainer
-      color={showDetails ? '#04A287' : ''}
-      className="tour-priorities"
-    >
-      <AssetClassBox color={showDetails ? 'var(--brand-green)' : '#f1f1f1'}>
+    <MainContainer color={showDetails ? '#04A287' : ''}>
+      <Tour steps={OpenPrioritiesSteps} name="expand_priorities_tour" />
+      <AssetClassBox
+        color={showDetails ? 'var(--brand-green)' : '#f1f1f1'}
+        className="tour-expand-priorities"
+      >
         <Head
           columns={onSettingsPage ? '5fr 1fr 100px' : 'auto 5fr 1fr 100px'}
           color={showDetails ? 'white' : 'black'}
@@ -228,7 +234,11 @@ const AssetClassPriority = ({
         </Head>
       </AssetClassBox>
       {showDetails && (
-        <AssetClassDetails>
+        <AssetClassDetails className="tour-priorities">
+          <Tour
+            steps={AssetClassPrioritiesSteps}
+            name="asset_class_priorities_tour"
+          />
           {priority.accounts_priorities.map((account, index) => {
             const numberOfSecurities =
               account.buy_priority.length +

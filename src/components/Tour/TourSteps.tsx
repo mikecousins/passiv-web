@@ -1,4 +1,4 @@
-import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import EliteFeatureTitle from './EliteFeatureTitle';
@@ -333,6 +333,22 @@ export const AssetClassesSteps = [
 ];
 
 /* Asset Class Priorities */
+
+export const OpenPrioritiesSteps = [
+  {
+    target: '.tour-expand-priorities',
+    content: (
+      <div>
+        Click on{' '}
+        <strong>
+          <FontAwesomeIcon icon={faChevronDown} />
+        </strong>{' '}
+        to start prioritizing asset classes.
+      </div>
+    ),
+    placement: 'right',
+  },
+];
 
 export const AssetClassPrioritiesSteps = [
   {
