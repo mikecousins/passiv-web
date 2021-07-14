@@ -160,9 +160,6 @@ const TradesExplanation = ({
     <React.Fragment>
       {!container && <H3>Explanation</H3>}
       <BulletULm>
-        {/* {summary.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))} */}
         {summary.map((item, index) => {
           let exchangeRates;
           if (
@@ -174,7 +171,7 @@ const TradesExplanation = ({
             exchangeRates = (
               <div>
                 <h3 style={{ fontSize: '17px', fontWeight: 600 }}>
-                  Currency Exchange Rates
+                  Currency Exchange Rates:
                 </h3>
                 <ul>
                   {groupInfo.forex_rates.map((rate) => {

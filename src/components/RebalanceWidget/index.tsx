@@ -373,7 +373,8 @@ const RebalanceWidget = ({
                 The trades listed above will be placed as limit orders on your
                 brokerage account, with a{' '}
                 {settings && settings.price_limit_threshold}% price limit
-                threshold.
+                threshold. Below is an estimate of the fees that will be charged
+                by <strong>your brokerage</strong>.
               </P>
               <div>
                 <OrderImpacts impacts={orderSummary} />
@@ -388,7 +389,8 @@ const RebalanceWidget = ({
             <React.Fragment>
               <P>
                 The trades listed above will be placed as market orders on your
-                brokerage account.
+                brokerage account. Below is an estimate of the fees that will be
+                charged by <strong>your brokerage</strong>.
               </P>
               <div>
                 <OrderImpacts impacts={orderSummary} />
