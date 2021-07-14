@@ -19,7 +19,7 @@ const MarginBottom = styled.div`
 export const PerformanceRateOfReturn = () => {
   const rateOfReturn = useSelector(selectRateOfReturn);
 
-  if (!rateOfReturn) {
+  if (!rateOfReturn && rateOfReturn !== 0) {
     return (
       <MarginBottom>
         <FontAwesomeIcon icon={faSpinner} spin />

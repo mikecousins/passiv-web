@@ -188,7 +188,7 @@ export const Performance = () => {
               <ShadowBox>
                 <PerformanceChange />
               </ShadowBox>
-              {rateOfReturn && showRateOfReturn && (
+              {(rateOfReturn === 0 || rateOfReturn) && showRateOfReturn && (
                 <ShadowBox>
                   <PerformanceRateOfReturn />
                 </ShadowBox>
