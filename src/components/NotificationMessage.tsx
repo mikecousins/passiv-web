@@ -22,7 +22,7 @@ export const Container = styled.div<ContainerProps>`
   box-shadow: var(--box-shadow);
   border-radius: 4px;
   padding: 20px 20px 10px 20px;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   margin-top: 0;
   background: ${(props) =>
     props.error ? 'var(--brand-light-orange)' : 'white'};
@@ -63,7 +63,7 @@ const Title = styled(H2)`
   font-weight: 900;
   line-height: 35px;
   letter-spacing: 0.44px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 30px;
   svg {
     margin-right: 10px;
@@ -77,6 +77,10 @@ const ChevronBtn = styled.button`
     font-weight: 900;
     align-content: center;
   }
+`;
+
+const Body = styled.div`
+  padding: 0px 40px 0px;
 `;
 
 type Props = {
@@ -155,7 +159,7 @@ const NotificationMessage = ({
           </ChevronBtn>
         )}
       </Head>
-      {open && children}
+      <Body>{open && children}</Body>
     </Container>
   );
 };
