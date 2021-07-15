@@ -7,6 +7,11 @@ import {
 import { selectAuthorizations } from '../../selectors';
 import OrderImpact from './OrderImpact';
 import { Title } from '../../styled/GlobalElements';
+import styled from '@emotion/styled';
+
+const Order = styled.div`
+  margin-top: 30px;
+`;
 
 type Props = {
   impacts: any[];
@@ -53,12 +58,12 @@ const OrderImpacts = ({ impacts }: Props) => {
   });
 
   return (
-    <React.Fragment>
+    <Order>
       <Title>Estimated results</Title>
       {impactsByAccount.map((impact, index) => (
         <OrderImpact key={index} impacts={impact} />
       ))}
-    </React.Fragment>
+    </Order>
   );
 };
 

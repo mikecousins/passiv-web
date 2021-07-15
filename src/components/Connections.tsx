@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectAuthorizations } from '../selectors';
 import ConnectionsAuthorization from './ConnectionsAuthorization';
 
-export const Connections = () => {
+const Connections = () => {
   const authorizations = useSelector(selectAuthorizations);
   if (!authorizations || authorizations.length === 0) {
     return null;
@@ -11,7 +11,7 @@ export const Connections = () => {
 
   return (
     <React.Fragment>
-      {authorizations.map(authorization => (
+      {authorizations.map((authorization) => (
         <ConnectionsAuthorization
           key={authorization.id}
           authorization={authorization}

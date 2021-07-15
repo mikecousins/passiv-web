@@ -10,4 +10,10 @@ export const LogoutButton = styled.button`
   font-weight: 700;
   letter-spacing: 0.8px;
   border-radius: 2px;
+  transition: 0.3s;
+
+  :hover {
+    background-color: var(--brand-grey);
+    color: var(--white);
+  }
 `;

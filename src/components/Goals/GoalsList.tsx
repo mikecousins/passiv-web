@@ -10,7 +10,7 @@ import GoalWidget, { getProgressPercent } from './GoalWidget';
 type Props = {
   goals: Goal[] | null;
 };
-export const GoalsList: FunctionComponent<Props> = ({ goals }) => {
+const GoalsList: FunctionComponent<Props> = ({ goals }) => {
   const goalWidgets: any = [];
   const groups = useSelector(selectDashboardGroups);
   const totalHoldings = useSelector(selectTotalGroupHoldings);

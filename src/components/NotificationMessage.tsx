@@ -39,12 +39,15 @@ export const Container = styled.div<ContainerProps>`
       ${(props) => (props.error ? 'var(--brand-orange)' : 'var(--brand-green)')};
     border-left: 60px solid transparent;
   }
-  p {
+  p,
+  a {
     font-size: 22px;
   }
 `;
 
-const CloseBtn = styled.button``;
+const CloseBtn = styled.button`
+  float: right;
+`;
 
 type HeadProps = {
   open: boolean;
@@ -116,7 +119,6 @@ const NotificationMessage = ({
                 );
               });
           }}
-          style={{ float: 'right' }}
         >
           <FontAwesomeIcon icon={faTimes} size="2x" />
         </CloseBtn>

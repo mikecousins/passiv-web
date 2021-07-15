@@ -38,7 +38,7 @@ const DemoLoginPage = ({ location }: Props) => {
       dispatch(logout());
     } else {
       return (
-        <ShadowBox background="#04a287">
+        <ShadowBox background="var(--brand-green)">
           <DemoNotesContent />
           <Button
             onClick={() => {

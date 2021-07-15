@@ -27,10 +27,10 @@ import {
 } from '../selectors';
 import TotalHoldings from '../components/TotalHoldings';
 import DashboardConfig from '../components/Performance/Dashboard/DashboardConfig';
-import { DashboardGoalWidgets } from '../components/Goals/DashboardGoalWidgets';
+import DashboardGoalWidgets from '../components/Goals/DashboardGoalWidgets';
 import { selectShowInvestingCourse } from '../selectors/subscription';
 
-export const DashboardPage = () => {
+const DashboardPage = () => {
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const groups = useSelector(selectDashboardGroups);
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);

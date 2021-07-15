@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
-import { AccountHoldings } from './AccountHoldings';
+import AccountHoldings from './AccountHoldings';
 import PortfolioGroupMeta from './PortfolioGroupDetails/PortfolioGroupMetadata';
 import PortfolioGroupTotal from './PortfolioGroupDetails/PortfolioGroupTotal';
 import PortfolioGroupCash from './PortfolioGroupDetails/PortfolioGroupCash';
@@ -13,6 +13,7 @@ import {
   selectCurrentGroupInfoError,
   selectPreferredCurrency,
   selectCurrentAccountTotalEquity,
+  selectCurrentGroupSetupComplete,
 } from '../selectors/groups';
 import { selectCurrentAccountBalances } from '../selectors/accounts';
 import PortfolioGroupErrors from './PortfolioGroupErrors';
@@ -31,12 +32,13 @@ export const Container3Column = styled.div`
   }
 `;
 
-export const AccountTab = () => {
+const AccountTab = () => {
   const account = useSelector(selectCurrentAccountHoldings);
   const balances = useSelector(selectCurrentAccountBalances);
   const equity = useSelector(selectCurrentAccountTotalEquity);
   const error = useSelector(selectCurrentGroupInfoError);
   const preferredCurrency = useSelector(selectPreferredCurrency);
+  const setupComplete = useSelector(selectCurrentGroupSetupComplete);
 
   if (!account) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
@@ -55,7 +57,7 @@ export const AccountTab = () => {
           currency={preferredCurrency}
         />
       </Container3Column>
-      {error && <PortfolioGroupErrors error={error} />}
+      {setupComplete && error && <PortfolioGroupErrors error={error} />}
       <AccountHoldings holdings={account} />
     </div>
   );

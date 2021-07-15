@@ -17,7 +17,7 @@ const activitiesSelected = (pathname: string) => {
   }
 };
 
-export const Analytics = () => {
+const Analytics = () => {
   const pathname = useSelector(selectPathname);
 
   return (

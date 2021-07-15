@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-export const OfflineStyle = styled.div`
+const OfflineStyle = styled.div`
   margin: 0 0 0 20px;
   padding: 20px 20px 0px 20px;
   font-weight: 600;

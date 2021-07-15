@@ -53,7 +53,7 @@ const Submit = styled.input`
   margin-right: 6px;
 `;
 
-export const DatePickers = () => {
+const DatePickers = () => {
   const dispatch = useDispatch();
   const startDate: string = useSelector(selectStartDate);
   const endDate: string = useSelector(selectEndDate);

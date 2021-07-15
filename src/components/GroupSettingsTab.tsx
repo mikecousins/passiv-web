@@ -12,7 +12,7 @@ const Heading = styled.h1`
   }
 `;
 
-export const GroupSettingsTab = () => {
+const GroupSettingsTab = () => {
   return (
     <div>
       <Heading>Settings</Heading>

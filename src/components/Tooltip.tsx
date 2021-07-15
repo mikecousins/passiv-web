@@ -22,7 +22,7 @@ const StyledTooltip = styled(ReachTooltip)`
   padding: 0.5em 1em;
 `;
 
-export const Tooltip = ({ children, label, additionalComponent }: Props) => {
+const Tooltip = ({ children, label, additionalComponent }: Props) => {
   return label ? (
     <StyledTooltip
       label={

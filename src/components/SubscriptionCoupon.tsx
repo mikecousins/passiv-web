@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from '@emotion/styled';
 import { selectSubscription } from '../selectors/subscription';
 import { putData } from '../api';
 import { loadSubscription } from '../actions';
@@ -9,8 +10,6 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { format, parseISO } from 'date-fns';
 
 import { H3, Edit, P } from '../styled/GlobalElements';
-
-import styled from '@emotion/styled';
 
 const H3White = styled(H3)`
   color: #fff;

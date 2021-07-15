@@ -10,11 +10,11 @@ import { H2, P } from '../../styled/GlobalElements';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Dialog } from '@reach/dialog';
-import { Button } from '../../styled/Button';
+import { Button, TransparentButton } from '../../styled/Button';
 import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
 import { isNameDuplicate } from '../ModelPortfolio/utils/utils';
 
-export const DeleteButton = styled.button`
+const DeleteButton = styled.button`
   background: #fff;
   float: right;
   position: relative;
@@ -49,12 +49,6 @@ export const ActionContainer = styled.div`
   a {
     padding-right: 20px;
   }
-`;
-
-export const DeleteBtn = styled(Button)`
-  background-color: transparent;
-  color: var(--brand-blue);
-  border: 1px solid var(--brand-blue);
 `;
 
 const Error = styled.div`
@@ -143,7 +137,7 @@ const AssetClasses = ({ assetClass }: Props) => {
 
   return (
     <React.Fragment>
-      <DeleteButton onClick={open}>
+      <DeleteButton onClick={open} title="remove class">
         <FontAwesomeIcon icon={faTimes} size="lg" />
       </DeleteButton>
 
@@ -161,8 +155,8 @@ const AssetClasses = ({ assetClass }: Props) => {
           * All securities under this asset class will get deleted.
         </P>
         <ActionContainer>
-          <DeleteBtn onClick={handleDeleteAssetClass}>Delete</DeleteBtn>
-          <Button onClick={close}>Cancel</Button>
+          <Button onClick={handleDeleteAssetClass}>Delete</Button>
+          <TransparentButton onClick={close}>Cancel</TransparentButton>
         </ActionContainer>
       </Dialog>
 

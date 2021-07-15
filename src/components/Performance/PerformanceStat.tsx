@@ -10,7 +10,7 @@ const Stat = styled.span`
   font-weight: bold;
 `;
 
-export const PerformanceStat: FunctionComponent<Props> = ({ title, value }) => (
+const PerformanceStat: FunctionComponent<Props> = ({ title, value }) => (
   <Stat>
     {title}
     <br />${value}

@@ -30,7 +30,7 @@ const IconBox = styled.div`
   }
 `;
 
-export const PasswordField = ({ error }: Props) => {
+const PasswordField = ({ error }: Props) => {
   const [visible, setVisible] = useState<boolean>(false);
 
   const toggleVisibility = () => {

@@ -22,7 +22,7 @@ export const H1 = styled.h1<HProps>`
   font-weight: 500;
   line-height: 2.17;
   letter-spacing: -1.5px;
-  color: #2a2d34;
+  color: var(--brand-grey);
   @media (max-width: 900px) {
     line-height: 1.3;
     margin-bottom: 20px;
@@ -52,7 +52,7 @@ export const H3 = styled.h3<HProps>`
 
 // ul
 export const UL = styled.ul<HProps>`
-  color: #2a2d34;
+  color: var(--brand-grey);
   ${dynamicStyle};
   li {
     margin-bottom: 10px;
@@ -112,14 +112,15 @@ export const Span = styled.span`
 export const A = styled.a`
   font-size: 18px;
   text-align: left;
-  color: #1250be;
+  color: var(--brand-blue);
   cursor: pointer;
   opacity: ${(props: any) => (props.disabled ? '.7' : '1')};
 `;
 
 // a that looks like button
 export const AButton = styled.a`
-  background-color: ${(props: any) => (props.disabled ? '#003aa1' : '#003BA2')};
+  background-color: ${(props: any) =>
+    props.disabled ? '#003aa1' : 'var(--brand-blue)'};
   opacity: ${(props: any) => (props.disabled ? '.7' : '1')};
   :hover,
   :visited,

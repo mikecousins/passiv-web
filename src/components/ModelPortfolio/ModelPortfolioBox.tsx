@@ -26,7 +26,7 @@ import Grid from '../../styled/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTimes } from '@fortawesome/free-solid-svg-icons';
 import SymbolSelector from '../PortfolioGroupTargets/TargetBar/SymbolSelector';
-import { Button, SmallButton } from '../../styled/Button';
+import { Button, SmallButton, TransparentButton } from '../../styled/Button';
 import AssetClassSelector from './AssetClassSelector';
 import { A, Table } from '../../styled/GlobalElements';
 import RouteLeavingPrompt from '../RouteLeavingPrompt';
@@ -72,14 +72,14 @@ const MainContainer = styled.div`
   }
 `;
 
-export const Cash = styled.div`
+const Cash = styled.div`
   border-left: 5px solid var(--brand-green);
   line-height: 30px;
   padding: 10px;
   margin-bottom: 20px;
 `;
 
-export const CashPercentage = styled.div`
+const CashPercentage = styled.div`
   font-size: 20px;
   font-weight: 900;
 `;
@@ -159,11 +159,7 @@ const ButtonContainer = styled.div`
   margin-top: 70px;
 `;
 
-const ApplyModelBtn = styled(Button)`
-  font-weight: 600;
-  background-color: transparent;
-  color: var(--brand-blue);
-  border: 1px solid var(--brand-blue);
+const ApplyModelBtn = styled(TransparentButton)`
   float: right;
   @media (max-width: 900px) {
     float: none;
@@ -345,7 +341,7 @@ const ModelPortoflioBox = ({
             `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}" successfully`,
           );
         }
-        if (securityBased && groupId) {
+        if (groupId && (securityBased || (!securityBased && editMode))) {
           dispatch(push(`/group/${gpId}`));
         }
         if (!securityBased && applyMode) {
@@ -353,6 +349,7 @@ const ModelPortoflioBox = ({
         }
       })
       .catch((err) => {
+        setSavingChanges(false);
         if (err.response) {
           toast.error(err.response.data.detail);
         } else {
@@ -752,6 +749,9 @@ const ModelPortoflioBox = ({
               <RouteLeavingPrompt
                 when={props.dirty}
                 navigate={(path) => dispatch(push(path))}
+                message="You have unsaved changes. Are you sure you want to leave this page without saving?"
+                confirmBtn={true}
+                cancelBtn={true}
               />
             </Form>
           )}

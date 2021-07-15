@@ -60,12 +60,7 @@ const AccuracyBullets = styled(BulletUL)`
   padding-top: 10px;
 `;
 
-export const PortfolioGroupTrades = ({
-  trades,
-  groupId,
-  error,
-  onClose,
-}: Props) => {
+const PortfolioGroupTrades = ({ trades, groupId, error, onClose }: Props) => {
   const dispatch = useDispatch();
   const accounts = useSelector(selectAccounts);
   const authorizations = useSelector(selectAuthorizations);

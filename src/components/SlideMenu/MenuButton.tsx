@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-export const Button = styled.button`
+const Button = styled.button`
   background: var(--brand-grey);
   font-size: 16px;
   font-weight: 800;
@@ -34,7 +34,7 @@ export const Button = styled.button`
   }
 `;
 
-export const Hamburger = styled.div`
+const Hamburger = styled.div`
   text-align: left;
   float: left;
   margin-right: 14px;

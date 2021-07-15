@@ -4,7 +4,7 @@ import { Chart } from 'react-charts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-export const ChartBox = styled.div`
+const ChartBox = styled.div`
   position: relative;
   height: 120px;
   width: 18%;
@@ -20,7 +20,7 @@ type Props = {
   className: string;
 };
 
-export const SettingsChart: FunctionComponent<Props> = ({
+const SettingsChart: FunctionComponent<Props> = ({
   data,
   axes,
   series,
