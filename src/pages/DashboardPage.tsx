@@ -29,6 +29,7 @@ import TotalHoldings from '../components/TotalHoldings';
 import DashboardConfig from '../components/Performance/Dashboard/DashboardConfig';
 import DashboardGoalWidgets from '../components/Goals/DashboardGoalWidgets';
 import { selectShowInvestingCourse } from '../selectors/subscription';
+import ThreeReferTshirt from '../components/ThreeReferTshirt';
 
 const DashboardPage = () => {
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
@@ -77,6 +78,11 @@ const DashboardPage = () => {
       name: 'investing_course',
       content: <InvestingCourse />,
       visible: showInvestingCourse,
+    },
+    {
+      name: '3refer_tShirt',
+      content: <ThreeReferTshirt />,
+      visible: true,
     },
     {
       name: 'customize_dashboard',

@@ -103,7 +103,7 @@ const Clone = styled.div`
     font-weight: 700;
   }
 `;
-const Disclaimer = styled.small`
+export const Disclaimer = styled.small`
   max-width: 860px;
   line-height: 1.3;
   font-size: 16px;
