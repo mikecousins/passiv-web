@@ -78,6 +78,7 @@ const OrderTargetAllocations = () => {
           initialValues={{
             orderBy: settings ? settings.order_targets_by : 0,
           }}
+          enableReinitialize
           onSubmit={() => {}}
         >
           <Form onChange={(e) => handleChange(e)}>
