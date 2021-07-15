@@ -345,7 +345,7 @@ const ModelPortoflioBox = ({
             `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}" successfully`,
           );
         }
-        if (securityBased && groupId) {
+        if (groupId && (securityBased || (!securityBased && editMode))) {
           dispatch(push(`/group/${gpId}`));
         }
         if (!securityBased && applyMode) {
@@ -353,6 +353,7 @@ const ModelPortoflioBox = ({
         }
       })
       .catch((err) => {
+        setSavingChanges(false);
         if (err.response) {
           toast.error(err.response.data.detail);
         } else {
