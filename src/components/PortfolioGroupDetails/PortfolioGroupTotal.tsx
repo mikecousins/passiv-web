@@ -51,7 +51,7 @@ const PortfolioGroupTotal = ({ error, equity, tourClass }: Props) => {
     );
 
   return (
-    <ShadowBox background="#04a287" className={tourClass}>
+    <ShadowBox background="var(--brand-green)" className={tourClass}>
       <Total>
         <Title>Total Value</Title>
         <CashGroup>

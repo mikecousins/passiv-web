@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import AlpacaLogo from '../../assets/images/alpaca-logo.png';
 
-export const DemoStyle = styled.div`
+const DemoStyle = styled.div`
   display: inline-block;
   margin: 0 0 0 20px;
   padding-top: 17px;

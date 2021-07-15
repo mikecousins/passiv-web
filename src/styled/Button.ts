@@ -1,10 +1,22 @@
 import styled from '@emotion/styled';
 
-export const Button = styled.button`
-  background-color: ${(props) => (props.disabled ? '#003aa1' : '#003BA2')};
+type ButtonProps = {
+  backgroundColor?: string;
+  color?: string;
+  disabled?: boolean;
+};
+
+export const Button = styled.button<ButtonProps>`
+  background-color: ${(props) =>
+    props.disabled
+      ? '#003aa1'
+      : props.backgroundColor
+      ? props.backgroundColor
+      : 'var(--brand-blue)'};
   opacity: ${(props) => (props.disabled ? '.7' : '1')};
   border: none;
-  color: white;
+  text-align: center;
+  color: ${(props) => (props.color ? props.color : 'var(--white)')};
   padding: 12px 30px;
   border-radius: 3px;
   font-weight: 600;
@@ -15,5 +27,17 @@ export const Button = styled.button`
 `;
 
 export const SmallButton = styled(Button)`
-  padding: 11px 40px;
+  padding: 8px 20px;
+`;
+
+export const TransparentButton = styled(Button)`
+  padding: 11px 28px;
+  background-color: transparent;
+  color: ${(props) => (props.color ? props.color : 'var(--brand-blue)')};
+  border: 1px solid
+    ${(props) => (props.color ? props.color : 'var(--brand-blue)')};
+`;
+
+export const SmallTransparentButton = styled(TransparentButton)`
+  padding: 7px 26px;
 `;

@@ -9,7 +9,7 @@ type Props = {
   isMobile: boolean;
 };
 
-export const ScrollHelper = ({ pathname, isMobile }: Props) => {
+const ScrollHelper = ({ pathname, isMobile }: Props) => {
   useEffect(() => {
     if (isMobile) {
       window.scrollTo(0, 0);

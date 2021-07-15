@@ -16,7 +16,7 @@ const MarginBottom = styled.div`
   margin-bottom: 25px;
 `;
 
-export const PerformanceFeeSavings = () => {
+const PerformanceFeeSavings = () => {
   const feeSavings = useSelector(selectFeeSavings);
 
   if (!feeSavings && feeSavings !== 0) {

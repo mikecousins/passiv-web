@@ -8,7 +8,7 @@ type Props = {
   name: string;
 };
 
-export const SideBarLinkAlt = ({ linkPath, name }: Props) => {
+const SideBarLinkAlt = ({ linkPath, name }: Props) => {
   const pathname = useSelector(selectPathname);
   let className = undefined;
   if (pathname.startsWith(linkPath)) {

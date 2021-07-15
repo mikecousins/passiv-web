@@ -13,7 +13,7 @@ const ScalingIFrame = styled.iframe`
 const Welcome = () => {
   const dispatch = useDispatch();
   return (
-    <ShadowBox background="#2a2d34">
+    <ShadowBox background="var(--brand-grey)">
       <H1DarkStyle>Welcome to Passiv!</H1DarkStyle>
       <H2DarkStyle>Here's a 3-minute video to help you get started</H2DarkStyle>
       <VerticalPadding>

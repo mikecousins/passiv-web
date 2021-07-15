@@ -4,7 +4,7 @@ import SettingsChart from './SettingsChart';
 type Props = {
   selected: boolean | undefined;
 };
-export const DefaultChart: FunctionComponent<Props> = ({ selected }) => {
+const DefaultChart: FunctionComponent<Props> = ({ selected }) => {
   const data = React.useMemo(
     () => [
       {

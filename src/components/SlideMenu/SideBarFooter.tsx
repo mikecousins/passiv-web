@@ -7,7 +7,7 @@ import styled from '@emotion/styled';
 import { HELP_PATH } from '../../apps/Paths';
 import PreLoadLink from '../PreLoadLink';
 
-export const StyledFooter = styled.div`
+const StyledFooter = styled.div`
   position: fixed;
   bottom: 0;
   z-index: 4;
@@ -21,7 +21,7 @@ export const StyledFooter = styled.div`
     letter-spacing: 0;
   }
 `;
-export const Help = styled.div`
+const Help = styled.div`
   display: inline-block;
   margin-bottom: 8px;
   margin-left: 2px;
@@ -40,7 +40,7 @@ export const Help = styled.div`
   }
 `;
 
-export const SideBarFooter = () => (
+const SideBarFooter = () => (
   <StyledFooter>
     <Help>
       <PreLoadLink path={HELP_PATH}>

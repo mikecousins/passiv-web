@@ -7,12 +7,10 @@ import { loadSettings } from '../../actions';
 import { putData } from '../../api';
 import { ToggleButton, StateText } from '../../styled/ToggleButton';
 import { OptionsTitle, DisabledBox } from '../../styled/GlobalElements';
-import { selectModelPortfolioFeature } from '../../selectors/features';
 
 const ReminderNotificationSettings = () => {
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
-  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
   const updateNotification = () => {
     if (!settings) {
@@ -52,9 +50,7 @@ const ReminderNotificationSettings = () => {
       </ToggleButton>
       <DisabledBox>
         Passiv will send automated reminders to connect your brokerage account,
-        set up your{' '}
-        {modelPortfolioFeature ? 'model portfolio' : 'target portfolio'}, and
-        fix broken connections.
+        set up your model portfolio, and fix broken connections.
       </DisabledBox>
     </React.Fragment>
   );

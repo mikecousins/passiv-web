@@ -4,7 +4,7 @@ type Props = {
   onClick: () => void;
 };
 
-export const RebalanceIndicator = ({ onClick }: Props) => (
+const RebalanceIndicator = ({ onClick }: Props) => (
   <button onClick={onClick}>Rebalance</button>
 );
 

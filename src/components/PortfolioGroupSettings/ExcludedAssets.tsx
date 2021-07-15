@@ -23,12 +23,9 @@ import { Description } from '../ModelPortfolio/Prioritization';
 import { CheckBox } from '../../styled/CheckBox';
 import { toast } from 'react-toastify';
 import { Truncate } from '../../common';
-import {
-  ActionContainer,
-  Cancel,
-  Save,
-} from '../ModelPortfolio/Prioritization';
+import { ActionContainer } from '../ModelPortfolio/Prioritization';
 import NotAvailable from '../NotAvailable';
+import { SmallButton, SmallTransparentButton } from '../../styled/Button';
 
 const Container = styled.div`
   margin-bottom: 37px;
@@ -255,15 +252,17 @@ const ExcludedAssets = () => {
             <>
               {editing && (
                 <ActionContainer>
-                  <Cancel
+                  <SmallTransparentButton
                     onClick={() => {
                       setExcluded(excludedIds);
                       setEditing(false);
                     }}
                   >
                     <FontAwesomeIcon icon={faUndo} size="sm" /> Undo changes
-                  </Cancel>
-                  <Save onClick={handleSaveChanges}>Save changes</Save>
+                  </SmallTransparentButton>
+                  <SmallButton onClick={handleSaveChanges}>
+                    Save changes
+                  </SmallButton>
                 </ActionContainer>
               )}
 

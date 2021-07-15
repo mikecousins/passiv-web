@@ -17,7 +17,7 @@ type Props = {
   isDemo: boolean;
 };
 
-export const ConnectionDelete = ({ authorization, isDemo }: Props) => {
+const ConnectionDelete = ({ authorization, isDemo }: Props) => {
   const [deleting, setDeleting] = useState(false);
   const dispatch = useDispatch();
 

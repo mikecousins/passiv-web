@@ -21,7 +21,7 @@ const Heading = styled.h2`
   font-size: 30px;
   font-weight: 500;
   margin-bottom: 19px;
-  color: #04a287;
+  color: var(--brand-green);
   span {
     font-size: 18px;
     font-weight: 600;
@@ -68,7 +68,7 @@ const View = styled(A)`
   -moz-letter-spacing: 2px;
   -ms-letter-spacing: 2px;
   letter-spacing: 2px;
-  color: #033ebc;
+  color: var(--brand-blue-hover);
   display: block;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -110,7 +110,7 @@ type Props = {
   group: DashboardGroup | undefined;
 };
 
-export const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
+const GoalWidget: FunctionComponent<Props> = ({ goal, group }) => {
   let totalHoldings = useSelector(selectTotalGroupHoldings);
   let currentValue = totalHoldings;
   if (group !== undefined) {

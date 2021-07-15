@@ -7,7 +7,7 @@ import {
   selectCurrentGroupExcludedAssets,
   selectCurrentGroupSettings,
 } from '../selectors/groups';
-import { SmallButton } from '../styled/Button';
+import { SmallButton, SmallTransparentButton } from '../styled/Button';
 import { A, P } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
 import styled from '@emotion/styled';
@@ -15,7 +15,6 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { loadGroup, loadModelPortfolios } from '../actions';
 import { toast } from 'react-toastify';
-import { selectModelPortfolioFeature } from '../selectors/features';
 import {
   selectModelPortfolios,
   selectModelUseByOtherGroups,
@@ -59,17 +58,6 @@ const DontShowBtn = styled.div`
   margin-top: 50px;
 `;
 
-const MaxHeightSmallBtn = styled(SmallButton)`
-  padding: 11px;
-  max-height: 45px;
-`;
-
-const ExcludeBtn = styled(MaxHeightSmallBtn)`
-  background: transparent;
-  border: 1px solid var(--brand-blue);
-  color: var(--brand-blue);
-`;
-
 const ExcludeAll = styled.div`
   text-align: right;
   margin-bottom: 20px;
@@ -98,7 +86,6 @@ const NewAssetsDetected = ({ targets }: Props) => {
   const settings = useSelector(selectCurrentGroupSettings);
   const modelPortfolios = useSelector(selectModelPortfolios);
   const modelUseByOtherGroups = useSelector(selectModelUseByOtherGroups);
-  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
   const excludedAssets = useSelector(selectCurrentGroupExcludedAssets);
 
   const groupId = currentGroup?.id;
@@ -175,32 +162,27 @@ const NewAssetsDetected = ({ targets }: Props) => {
         alwaysOpen={false}
       >
         <div>
-          {modelPortfolioFeature ? (
-            <P>
-              We noticed that you added the following securities in your account
-              and since these assets are not included in your model portfolio,
-              they may impact your portfolio accuracy or trade calculations. You
-              can either add them to your model portfolio* or exclude them.
-            </P>
-          ) : (
-            <P>
-              We noticed that you added the following securities in your account
-              and since these assets are not included in your target portfolio,
-              they may impact your portfolio accuracy or trade calculations. You
-              can either add them to your target portfolio* or exclude them.
-            </P>
-          )}
+          <P>
+            We noticed that you added the following securities in your account
+            and since these assets are not included in your model portfolio,
+            they may impact your portfolio accuracy or trade calculations. You
+            can either add them to your model portfolio* or exclude them.
+          </P>
           {allLoading ? (
             <Loading>
               <FontAwesomeIcon icon={faSpinner} spin size="2x" />
             </Loading>
           ) : (
             <ListOfAssets>
-              <ExcludeAll>
-                <ExcludeBtn onClick={() => handleExcludeAsset('', true)}>
-                  Exclude All
-                </ExcludeBtn>
-              </ExcludeAll>
+              {targets.length > 1 && (
+                <ExcludeAll>
+                  <SmallTransparentButton
+                    onClick={() => handleExcludeAsset('', true)}
+                  >
+                    Exclude All
+                  </SmallTransparentButton>
+                </ExcludeAll>
+              )}
               {targets?.map((target) => {
                 if (target.excluded) {
                   return false;
@@ -214,47 +196,29 @@ const NewAssetsDetected = ({ targets }: Props) => {
                       <Symbol>{target.symbol.symbol}</Symbol>{' '}
                       <Description>{target.symbol.description}</Description>
                     </SymbolGrid>
-                    {((modelPortfolioFeature && !modelUseByOtherGroups) ||
-                      !modelPortfolioFeature) && (
-                      <MaxHeightSmallBtn
-                        onClick={() => {
-                          if (modelPortfolioFeature) {
-                            handleAddToModel(target);
-                          } else {
-                            return;
-                          }
-                        }}
-                      >
-                        {modelPortfolioFeature
-                          ? 'Add to Model'
-                          : 'Add to Target'}
-                      </MaxHeightSmallBtn>
+                    {!modelUseByOtherGroups ? (
+                      <SmallButton onClick={() => handleAddToModel(target)}>
+                        Add to Model
+                      </SmallButton>
+                    ) : (
+                      <div></div>
                     )}
-                    <ExcludeBtn
+                    <SmallTransparentButton
                       onClick={() =>
                         handleExcludeAsset(target.symbol.id, false)
                       }
                     >
                       Exclude
-                    </ExcludeBtn>
+                    </SmallTransparentButton>
                   </StyledGrid>
                 );
               })}
             </ListOfAssets>
           )}
-
-          {modelPortfolioFeature ? (
-            <small>
-              * The securities get added with <BoldSpan>0%</BoldSpan>. Scroll
-              down and click Edit Model to change their allocation.
-            </small>
-          ) : (
-            <small>
-              * The securities get added with <BoldSpan>0%</BoldSpan> but you
-              can go to the bottom and change them.
-            </small>
-          )}
-
+          <small>
+            * The securities get added with <BoldSpan>0%</BoldSpan>. Scroll down
+            and click Edit Model to change their allocation.
+          </small>
           <DontShowBtn>
             <A onClick={() => dispatch(push(`/group/${groupId}/settings`))}>
               Do not want to see this message again? Turn it off in your

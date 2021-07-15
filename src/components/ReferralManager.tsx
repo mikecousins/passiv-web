@@ -38,6 +38,7 @@ import { Field, Form, Formik } from 'formik';
 import { StyledSelect } from '../components/PortfolioGroupSettings/OrderTargetAllocations';
 import { toast } from 'react-toastify';
 import { Charity, Invoice } from '../types/referral';
+import { Container3Column } from './AccountTab';
 
 interface Referral {
   created_date: Date;
@@ -67,21 +68,7 @@ const SubHeading = styled(ReferralHeading)`
   }
 `;
 
-export const Container3Column = styled.div`
-  @media (min-width: 900px) {
-    display: flex;
-    justify-content: space-between;
-    > div {
-      width: 32%;
-      margin-right: 30px;
-    }
-    > div:last-of-type {
-      margin-right: 0;
-    }
-  }
-`;
-
-export const Container2WideColumn = styled.div`
+const Container2WideColumn = styled.div`
   @media (min-width: 900px) {
     display: flex;
     justify-content: space-between;
@@ -339,7 +326,7 @@ const ReferralManager = () => {
       {
         label: 'Signups',
         data: signUpData,
-        color: '#003ba2',
+        color: 'var(--brand-blue)',
       },
       {
         label: 'Elite Upgrades',
@@ -380,7 +367,7 @@ const ReferralManager = () => {
           title={'Signups'}
           value={<Number value={numberOfSignups} decimalPlaces={0} />}
           loading={!success}
-          background={'#04A287'}
+          background={'var(--brand-green)'}
         />
         <ReferralMetric
           title={'Verified'}
@@ -451,7 +438,7 @@ const ReferralManager = () => {
         <ReferralMetric
           title={'You Earn'}
           value={rewardContent}
-          background={'#04A287'}
+          background={'var(--brand-green)'}
         />
       </Container2WideColumn>
       <SubHeading>Metrics</SubHeading>

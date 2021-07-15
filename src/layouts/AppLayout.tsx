@@ -28,7 +28,7 @@ interface Props {
   children: JSX.Element;
 }
 
-export const AppLayout = ({ children }: Props) => {
+const AppLayout = ({ children }: Props) => {
   return (
     <div>
       <GlobalStyle />

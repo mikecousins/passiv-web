@@ -103,7 +103,7 @@ type Props = {
   impacts: any[];
 };
 
-export const OrderImpact = ({ impacts }: Props) => {
+const OrderImpact = ({ impacts }: Props) => {
   const [showWarningDetail, setShowWarningDetail] = useState<boolean>(false);
 
   const accounts = useSelector(selectAccounts);
