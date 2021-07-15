@@ -32,5 +32,5 @@ test('PortfolioGroupTargets renders without issue', () => {
     {},
   );
 
-  expect(getByText('Target Portfolio')).toBeTruthy();
+  expect(getByText('Model Portfolio')).toBeTruthy();
 });
