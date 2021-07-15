@@ -39,7 +39,8 @@ export const Container = styled.div<ContainerProps>`
       ${(props) => (props.error ? 'var(--brand-orange)' : 'var(--brand-green)')};
     border-left: 60px solid transparent;
   }
-  p {
+  p,
+  a {
     font-size: 22px;
   }
 `;

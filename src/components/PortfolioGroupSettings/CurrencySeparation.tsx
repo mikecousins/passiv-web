@@ -1,6 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectCurrentGroupSettings } from '../../selectors/groups';
+import {
+  selectCurrentGroupModelType,
+  selectCurrentGroupSettings,
+} from '../../selectors/groups';
 import { SubSetting, DisabledBox } from '../../styled/GlobalElements';
 import SettingsCheckBox from './SettingsCheckBox';
 import { selectCanSeparateCurrencies } from '../../selectors/subscription';
@@ -22,6 +25,7 @@ const CurrencySeparation = ({
 }: Props) => {
   const settings = useSelector(selectCurrentGroupSettings);
   const canSeparateCurrencies = useSelector(selectCanSeparateCurrencies);
+  const modelType = useSelector(selectCurrentGroupModelType);
 
   if (!settings) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
@@ -44,16 +48,18 @@ const CurrencySeparation = ({
           value={preventConversion}
           onChange={onChangePreventConversion}
         />
-        <SubSetting>
-          <SettingsCheckBox
-            name="Retain cash for manual exchange"
-            value={hardSeparation}
-            onChange={onChangeHardSeparation}
-            invert={true}
-            disabled={!preventConversion}
-            tip="Separating currencies must be enabled in order to retain cash for manual conversion."
-          />
-        </SubSetting>
+        {preventConversion && (
+          <SubSetting>
+            <SettingsCheckBox
+              name="Retain cash for manual exchange"
+              value={hardSeparation}
+              onChange={onChangeHardSeparation}
+              invert={true}
+              disabled={modelType === 1} // why? => hard separation not supported for asset classes on the backend yet
+              tip="Hard currency separation not supported for asset classes yet."
+            />
+          </SubSetting>
+        )}
       </div>
     );
   } else {

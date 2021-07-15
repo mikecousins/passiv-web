@@ -15,8 +15,6 @@ import { CheckBox } from '../../../styled/CheckBox';
 import { AccountPriorities } from '../../../types/modelPortfolio';
 import { HandleBtnType } from './AssetClassPriority';
 import Tooltip from '../../Tooltip';
-import Tour from '../../Tour/Tour';
-import { AssetClassPrioritiesSteps } from '../../Tour/TourSteps';
 
 type SecurityProps = {
   isChanged: boolean;
@@ -151,13 +149,6 @@ const SecurityPriority = ({
 
   return (
     <div>
-      {index === 0 && (
-        <Tour
-          steps={AssetClassPrioritiesSteps}
-          name="asset_class_priorities_tour"
-        />
-      )}
-
       <Security
         columns={
           priorityKind === 'none'

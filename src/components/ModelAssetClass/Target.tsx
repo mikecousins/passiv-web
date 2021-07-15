@@ -83,7 +83,10 @@ const Targets = ({ assetClass }: Props) => {
           return (
             <TargetList key={target.symbol.id}>
               <span>{target.symbol.symbol}</span>
-              <button onClick={() => handleDeleteTarget(target.symbol.id)}>
+              <button
+                onClick={() => handleDeleteTarget(target.symbol.id)}
+                title="remove security"
+              >
                 <div>
                   <FontAwesomeIcon icon={faTimes} size="sm" />
                 </div>

@@ -13,6 +13,7 @@ import {
   selectCurrentGroupInfoError,
   selectPreferredCurrency,
   selectCurrentAccountTotalEquity,
+  selectCurrentGroupSetupComplete,
 } from '../selectors/groups';
 import { selectCurrentAccountBalances } from '../selectors/accounts';
 import PortfolioGroupErrors from './PortfolioGroupErrors';
@@ -37,6 +38,7 @@ const AccountTab = () => {
   const equity = useSelector(selectCurrentAccountTotalEquity);
   const error = useSelector(selectCurrentGroupInfoError);
   const preferredCurrency = useSelector(selectPreferredCurrency);
+  const setupComplete = useSelector(selectCurrentGroupSetupComplete);
 
   if (!account) {
     return <FontAwesomeIcon icon={faSpinner} spin />;
@@ -55,7 +57,7 @@ const AccountTab = () => {
           currency={preferredCurrency}
         />
       </Container3Column>
-      {error && <PortfolioGroupErrors error={error} />}
+      {setupComplete && error && <PortfolioGroupErrors error={error} />}
       <AccountHoldings holdings={account} />
     </div>
   );

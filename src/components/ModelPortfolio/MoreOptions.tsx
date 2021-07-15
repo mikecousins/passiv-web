@@ -194,7 +194,10 @@ const MoreOptions = ({ model, shareModel }: Props) => {
 
   return (
     <div ref={node} className="tour-more-options">
-      <EllipsisButton onClick={() => setShowOptions(!showOptions)}>
+      <EllipsisButton
+        onClick={() => setShowOptions(!showOptions)}
+        title="more options"
+      >
         <FontAwesomeIcon icon={faEllipsisV} />
       </EllipsisButton>
       {showOptions && (

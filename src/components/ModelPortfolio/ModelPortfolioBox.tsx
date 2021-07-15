@@ -341,7 +341,7 @@ const ModelPortoflioBox = ({
             `"${modelPortfolio.model_portfolio.name}" applied to "${groupInfo?.name}" successfully`,
           );
         }
-        if (securityBased && groupId) {
+        if (groupId && (securityBased || (!securityBased && editMode))) {
           dispatch(push(`/group/${gpId}`));
         }
         if (!securityBased && applyMode) {
@@ -349,6 +349,7 @@ const ModelPortoflioBox = ({
         }
       })
       .catch((err) => {
+        setSavingChanges(false);
         if (err.response) {
           toast.error(err.response.data.detail);
         } else {
@@ -748,6 +749,9 @@ const ModelPortoflioBox = ({
               <RouteLeavingPrompt
                 when={props.dirty}
                 navigate={(path) => dispatch(push(path))}
+                message="You have unsaved changes. Are you sure you want to leave this page without saving?"
+                confirmBtn={true}
+                cancelBtn={true}
               />
             </Form>
           )}

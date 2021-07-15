@@ -66,6 +66,20 @@ export type CalculatedTrades = {
   trades: Trade[];
 };
 
+export type ForexRate = {
+  src: {
+    id: string;
+    name: string;
+    code: string;
+  };
+  dst: {
+    id: string;
+    name: string;
+    code: string;
+  };
+  exchange_rate: number;
+};
+
 export type Settings = {
   prevent_currency_conversion: boolean;
   hard_currency_separation: boolean;
@@ -123,4 +137,5 @@ export type GroupInfoData = {
   settings: Settings;
   model_portfolio: ModelPortfolio;
   error: Error;
+  forex_rates: ForexRate[];
 };
