@@ -752,6 +752,9 @@ const ModelPortoflioBox = ({
               <RouteLeavingPrompt
                 when={props.dirty}
                 navigate={(path) => dispatch(push(path))}
+                message="You have unsaved changes. Are you sure you want to leave this page without saving?"
+                confirmBtn={true}
+                cancelBtn={true}
               />
             </Form>
           )}
