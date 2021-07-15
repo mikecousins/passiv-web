@@ -165,7 +165,7 @@ const OverviewTab = () => {
         />
       </Container3Column>
 
-      {error ? <PortfolioGroupErrors error={error} /> : null}
+      {setupComplete && error ? <PortfolioGroupErrors error={error} /> : null}
       {needToPrioritize && (
         <NotificationMessage
           error={true}
