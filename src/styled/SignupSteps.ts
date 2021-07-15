@@ -24,7 +24,8 @@ export const StepButton = styled.button<BlueProps>`
   line-height: 1.17;
   letter-spacing: 1px;
   text-align: center;
-  color: ${(props: BlueProps) => (props.blue ? 'var(--white)' : '#2a2d34')};
+  color: ${(props: BlueProps) =>
+    props.blue ? 'var(--white)' : 'var(--brand-grey)'};
   flex: 1;
   padding: 20px;
   max-width: 49%;
@@ -48,7 +49,8 @@ export const SmallStepButton = styled.button<BlueProps>`
   line-height: 1.17;
   letter-spacing: 1px;
   text-align: center;
-  color: ${(props: BlueProps) => (props.blue ? 'var(--white)' : '#2a2d34')};
+  color: ${(props: BlueProps) =>
+    props.blue ? 'var(--white)' : 'var(--brand-grey)'};
   flex: 1;
   padding: 20px;
   max-width: 49%;
@@ -72,7 +74,7 @@ export const Step = styled.p`
 export const WhyQuestrade = styled.div`
   margin: 20px 0 40px;
   a {
-    color: #04a287;
+    color: var(--brand-green);
   }
   p a,
   p {

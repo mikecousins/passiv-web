@@ -45,7 +45,9 @@ export const Container = styled.div<ContainerProps>`
   }
 `;
 
-const CloseBtn = styled.button``;
+const CloseBtn = styled.button`
+  float: right;
+`;
 
 type HeadProps = {
   open: boolean;
@@ -121,7 +123,6 @@ const NotificationMessage = ({
                 );
               });
           }}
-          style={{ float: 'right' }}
         >
           <FontAwesomeIcon icon={faTimes} size="2x" />
         </CloseBtn>

@@ -12,10 +12,7 @@ import {
   selectCurrentGroupId,
   selectCurrentGroupInfo,
 } from '../../selectors/groups';
-import {
-  selectCashManagementFeature,
-  selectModelPortfolioFeature,
-} from '../../selectors/features';
+import { selectCashManagementFeature } from '../../selectors/features';
 import { putData } from '../../api';
 import { loadGroup } from '../../actions';
 import { toast } from 'react-toastify';
@@ -34,12 +31,11 @@ const CashManagementShadowBox = styled(ShadowBox)`
   }
 `;
 
-export const PortfolioGroupSettings = () => {
+const PortfolioGroupSettings = () => {
   const dispatch = useDispatch();
   const settings = useSelector(selectCurrentGroupSettings);
   const groupId = useSelector(selectCurrentGroupId);
   const featureCashManagement = useSelector(selectCashManagementFeature);
-  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
   const groupInfo = useSelector(selectCurrentGroupInfo);
 
   const modelType = groupInfo?.model_portfolio?.model_type;
@@ -59,11 +55,9 @@ export const PortfolioGroupSettings = () => {
   return (
     <div>
       <Tour steps={GroupSettingsSteps} name="group_settings_tour" />
-      {modelPortfolioFeature && (
-        <ShadowBox>
-          <ExcludedAssets />
-        </ShadowBox>
-      )}
+      <ShadowBox>
+        <ExcludedAssets />
+      </ShadowBox>
       <ShadowBox>
         <GeneralTitle>General</GeneralTitle>
         {settings ? (
@@ -107,11 +101,7 @@ export const PortfolioGroupSettings = () => {
                 name="Notify me about new detected assets"
                 explanation={
                   settings.show_warning_for_new_assets_detected
-                    ? `Passiv will show you a message for new holding assets that are not part of your ${
-                        modelPortfolioFeature
-                          ? 'model portfolio'
-                          : 'target portfolio'
-                      }.`
+                    ? `Passiv will show you a message for new holding assets that are not part of your model portfolio.`
                     : ''
                 }
                 value={settings.show_warning_for_new_assets_detected}

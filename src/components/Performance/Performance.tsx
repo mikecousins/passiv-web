@@ -58,28 +58,16 @@ const Tiles = styled.div`
   }
 `;
 
-export const PercentReturn = styled.span`
-  padding: 10px;
-  margin: 5px;
-  color: white;
-  &.positive {
-    background-color: #04a287 !important;
-  }
-  &.negative {
-    background-color: #003ba2 !important;
-  }
-`;
-
 export const CashReturn = styled.span`
   padding: 10px;
-  background-color: #ffffff;
+  background-color: var(--white);
   margin: 5px;
-  color: #04a287;
+  color: var(--brand-green);
   &.positive {
-    color: #04a287;
+    color: var(--brand-green);
   }
   &.negative {
-    color: #003ba2;
+    color: var(--brand-blue);
   }
 `;
 
@@ -103,7 +91,7 @@ const NotSupported = styled(ShadowBox)`
   }
 `;
 
-export const Performance = () => {
+const Performance = () => {
   let currentTimeframe = useSelector(selectSelectedTimeframe);
   // We can hide charts if user is on custom timeframe and hasn't yet fetched data (can check this if contributions are undefined)
   const contributions = useSelector(selectContributions);

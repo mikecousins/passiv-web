@@ -8,7 +8,7 @@ import { selectHasQuestradeConnection } from '../../selectors';
 import { REFERRALS_PATH, REPORTING_PATH } from '../../apps/Paths';
 import PreLoadLink from '../PreLoadLink';
 
-export const ShadowBoxLinks = styled(ShadowBox)`
+const ShadowBoxLinks = styled(ShadowBox)`
   a {
     text-decoration: none;
     color: #232225;
@@ -19,14 +19,14 @@ export const ShadowBoxLinks = styled(ShadowBox)`
 
     &:hover {
       h3 {
-        color: #033ebc;
+        color: var(--brand-blue-hover);
       }
-      color: #033ebc;
+      color: var(--brand-blue-hover);
     }
   }
 `;
 
-export const HelpLinks = () => {
+const HelpLinks = () => {
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
 
   return (

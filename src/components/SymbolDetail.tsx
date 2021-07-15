@@ -32,7 +32,7 @@ type Props = {
   assetClass?: boolean;
 };
 
-export const SymbolDetail = ({ symbol, assetClass = false }: Props) => {
+const SymbolDetail = ({ symbol, assetClass = false }: Props) => {
   if (assetClass) {
     return (
       <span title={`${symbol}`}>

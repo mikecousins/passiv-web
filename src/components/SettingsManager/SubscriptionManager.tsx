@@ -282,7 +282,7 @@ const SubscriptionManager = () => {
   }
 
   return (
-    <ShadowBox background="#04a287">
+    <ShadowBox background="var(--brand-green)">
       <SubscriptionContainer>
         <H2Padded>Subscription</H2Padded>
         <div>{subscriptionBody}</div>

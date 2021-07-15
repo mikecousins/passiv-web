@@ -34,7 +34,7 @@ const BadTickers = styled.span`
   font-size: 14px;
 `;
 
-export const PerformanceTotalValueChart = () => {
+const PerformanceTotalValueChart = () => {
   let totalEquityData = useSelector(selectTotalEquityTimeframe);
   let showPoints = true;
   if (totalEquityData !== undefined && totalEquityData?.length > 30) {

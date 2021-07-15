@@ -90,7 +90,8 @@ type AccountSectionProps = {
 };
 
 const AccountSection = styled.div<AccountSectionProps>`
-  border-bottom: ${(props) => (props.last ? 'none' : '1px solid #2a2d34')};
+  border-bottom: ${(props) =>
+    props.last ? 'none' : '1px solid var(--brand-grey)'};
 `;
 
 const AccountName = styled(H3)`

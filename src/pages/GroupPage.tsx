@@ -15,7 +15,7 @@ export const SubNav = styled.div`
   overflow-x: auto;
   margin-right: -15px;
   a {
-    color: #2a2d34;
+    color: var(--brand-grey);
     display: inline-block;
     font-weight: 600;
     padding: 10px 50px 17px;
@@ -29,7 +29,7 @@ export const SubNav = styled.div`
       border-bottom: 3px solid #03a287;
     }
     &.active {
-      border-bottom: 3px solid #2a2d34;
+      border-bottom: 3px solid var(--brand-grey);
     }
   }
 `;

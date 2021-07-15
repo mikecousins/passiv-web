@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectPerformanceAll } from '../../../selectors/performance';
 import DashboardChart from './DashboardChart';
 
-export const DashboardTotalValueChart = () => {
+const DashboardTotalValueChart = () => {
   const performanceAll = useSelector(selectPerformanceAll);
   const totalEquityData = performanceAll.data?.totalEquityTimeframe1Y;
   let showPoints = true;

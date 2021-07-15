@@ -19,7 +19,7 @@ export const Badge2FA = styled.div`
   text-align: center;
   font-weight: 600;
   display: inline-block;
-  background-color: #04a287;
+  background-color: var(--brand-green);
   border: none;
   color: white;
   padding: 4px 6px 4px;
@@ -29,7 +29,7 @@ export const Badge2FA = styled.div`
 `;
 
 export const Active2FABadge = styled(Badge2FA)`
-  background-color: #04a287;
+  background-color: var(--brand-green);
 `;
 
 export const Disabled2FABadge = styled(Badge2FA)`

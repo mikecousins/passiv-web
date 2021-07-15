@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tooltip from '../Tooltip';
 import { H3 } from '../../styled/GlobalElements';
 
-export const PerformanceDividendChart = () => {
+const PerformanceDividendChart = () => {
   const dividendData = useSelector(selectDividends);
   const [className, setClassName] = useState('dividends');
   const [needToSetDefaults, setNeedToSetDefaults] = useState(true);

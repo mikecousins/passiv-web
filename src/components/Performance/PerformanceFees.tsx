@@ -20,7 +20,7 @@ const MarginBottom = styled.div`
   margin-bottom: 25px;
 `;
 
-export const PerformanceFees = () => {
+const PerformanceFees = () => {
   const commissions = useSelector(selectCommissions);
   const forexFees = useSelector(selectForexFees);
   const fees = useSelector(selectFees);

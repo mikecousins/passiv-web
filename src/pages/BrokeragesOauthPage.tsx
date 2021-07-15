@@ -360,7 +360,7 @@ const BrokeragesOauthPage = ({ brokerageName }: Props) => {
     }
   }
   return (
-    <ShadowBox background="#04a287">
+    <ShadowBox background="var(--brand-green)">
       <H1 color="white">SETUP</H1>
       {result}
     </ShadowBox>

@@ -16,7 +16,7 @@ const MarginBottom = styled.div`
   margin-bottom: 25px;
 `;
 
-export const PerformanceChange = () => {
+const PerformanceChange = () => {
   const equityData = useSelector(selectTotalEquityTimeframe);
   equityData?.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
 

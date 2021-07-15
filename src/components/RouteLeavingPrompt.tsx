@@ -4,12 +4,8 @@ import Dialog from '@reach/dialog';
 import { Location } from 'history';
 import React, { useEffect, useState } from 'react';
 import { Prompt } from 'react-router-dom';
-import { Button } from '../styled/Button';
-import {
-  ActionContainer,
-  DeleteBtn,
-  H2Margin,
-} from './ModelAssetClass/AssetClass';
+import { Button, TransparentButton } from '../styled/Button';
+import { ActionContainer, H2Margin } from './ModelAssetClass/AssetClass';
 
 interface Props {
   when?: boolean | undefined;
@@ -73,12 +69,12 @@ const RouteLeavingPrompt = ({
 
         <ActionContainer>
           {confirmBtn && (
-            <DeleteBtn onClick={handleConfirmNavigationClick}>
-              Confirm
-            </DeleteBtn>
+            <Button onClick={handleConfirmNavigationClick}>Confirm</Button>
           )}
           {cancelBtn && (
-            <Button onClick={() => setDialog(false)}>Cancel</Button>
+            <TransparentButton onClick={() => setDialog(false)}>
+              Cancel
+            </TransparentButton>
           )}
         </ActionContainer>
       </Dialog>

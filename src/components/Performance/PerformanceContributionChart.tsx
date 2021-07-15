@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tooltip from '../Tooltip';
 import { H3 } from '../../styled/GlobalElements';
 
-export const PerformanceContributionChart = () => {
+const PerformanceContributionChart = () => {
   const contributionData = useSelector(selectContributionTimeframe);
   const withdrawalData = useSelector(selectWithdrawalTimeframe);
   const timeframe = useSelector(selectSelectedTimeframe);
@@ -27,7 +27,7 @@ export const PerformanceContributionChart = () => {
             let dateFormatted = formatDate(a.date, timeframe, customYearBased);
             return [dateFormatted, a.value];
           }),
-        color: '#003ba2',
+        color: 'var(--brand-blue)',
       },
       {
         label: 'Contributions',

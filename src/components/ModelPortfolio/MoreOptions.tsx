@@ -34,6 +34,7 @@ import DeleteModelDialog from './DeleteModelDialog';
 import { selectGroupsUsingAModel } from '../../selectors/modelPortfolios';
 import { GroupData } from '../../types/group';
 import { push, replace } from 'connected-react-router';
+import { SmallTransparentButton } from '../../styled/Button';
 
 const EllipsisButton = styled.button`
   align-items: center;
@@ -71,7 +72,7 @@ const Options = styled.ul`
   button {
     font-weight: 400;
     &:hover {
-      color: #003ba2;
+      color: var(--brand-blue);
     }
   }
 `;
@@ -102,19 +103,10 @@ type CopyButtonProps = {
   copied: boolean;
 };
 
-export const CopyButton = styled.button<CopyButtonProps>`
-  border: 1px solid var(--brand-green);
-  padding: 10px 20px;
-  border-radius: 3px;
-  font-weight: 600;
-  text-align: center;
+export const CopyButton = styled(SmallTransparentButton)<CopyButtonProps>`
   background-color: ${(props) =>
     props.copied ? 'var(--brand-green)' : 'transparent'};
   color: ${(props) => (props.copied ? 'white' : 'var(--brand-green)')};
-  &:hover {
-    background-color: var(--brand-green);
-    color: white;
-  }
 `;
 
 type Props = {

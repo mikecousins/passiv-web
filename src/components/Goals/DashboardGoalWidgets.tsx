@@ -8,7 +8,7 @@ import { Goal } from '../../types/goals';
 import { selectGoals } from '../../selectors/goals';
 import GoalWidget, { getProgressPercent } from './GoalWidget';
 
-export const DashboardGoalWidgets = () => {
+const DashboardGoalWidgets = () => {
   const goals = useSelector(selectGoals).data;
   const totalHoldings = useSelector(selectTotalGroupHoldings);
   const groups = useSelector(selectDashboardGroups);

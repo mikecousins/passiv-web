@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
-import { Header } from '..';
+import Header from '..';
 import store from '../../../store';
 
 const renderWithRedux = (ui: JSX.Element) => {
