@@ -85,9 +85,9 @@ it('Create Asset class, delete and recreate', () => {
 })
 
 it('Edit Model and apply', () => {
-    cy.get('button').contains('Back to Model Portfolio').click()
-    cy.get('button').contains('Asset Class Test').click().wait(8000)
+    cy.get('button').contains('Back to Model Portfolio').click() 
     cy.get('button').contains('Edit Model').click().wait(4000)
+   
     cy.get('input').last().type('Crap Assets').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(6000.)
     cy.get('input').eq(0).type('20')
 
@@ -95,14 +95,17 @@ it('Edit Model and apply', () => {
     cy.get('input').eq(2).type('20')
 
     cy.get('input').last().type('test2').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(6000.)
-    cy.get('input').eq(4).type('20')
+    cy.get('input').eq(3).type('20')
 
     cy.get('input').last().type('test3').wait(5000).type('{downarrow}').wait(5000).type('{enter}').wait(6000.)
-    cy.get('input').eq(6).type('20')
-
+    cy.get('input').eq(4).type('20')
 
 })
 
+it('Apply tester for baseline', () => {
+    cy.get('div').contains('My Models').click()
+    cy.get('div').contains('tester').next().next().next().click()
+})
 
 // cy.get('button').contains('Back to Model Portfolio').click().wait(8000)
 // cy.get('button').contains('Edit Asset Classes').click({multiple: true})
