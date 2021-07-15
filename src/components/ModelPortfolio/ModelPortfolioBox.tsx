@@ -353,6 +353,7 @@ const ModelPortoflioBox = ({
         }
       })
       .catch((err) => {
+        setSavingChanges(false);
         if (err.response) {
           toast.error(err.response.data.detail);
         } else {
