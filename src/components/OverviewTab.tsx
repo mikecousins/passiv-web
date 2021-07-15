@@ -24,6 +24,7 @@ import {
   selectCurrentGroupModelType,
   selectNeedToPrioritize,
   selectGroupsLoading,
+  selectCurrentGroupInfoLoading,
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
@@ -89,6 +90,7 @@ const OverviewTab = () => {
     selectCurrentGroupPositionsNotInTargetOrExcluded,
   );
   const needToPrioritize = useSelector(selectNeedToPrioritize);
+  const currentGroupLoading = useSelector(selectCurrentGroupInfoLoading);
   const positionsNotInTarget = positionsNotInTargetsOrExcluded?.filter(
     (position) => !position.excluded,
   );
@@ -166,7 +168,7 @@ const OverviewTab = () => {
       </Container3Column>
 
       {error ? <PortfolioGroupErrors error={error} /> : null}
-      {needToPrioritize && (
+      {needToPrioritize && !currentGroupLoading && (
         <NotificationMessage
           error={true}
           title={'Need to confirm priorities'}
