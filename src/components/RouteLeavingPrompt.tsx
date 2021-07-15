@@ -1,37 +1,31 @@
-import styled from '@emotion/styled';
-import {
-  faExclamationTriangle,
-  faTimes,
-} from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Dialog from '@reach/dialog';
 import { Location } from 'history';
 import React, { useEffect, useState } from 'react';
 import { Prompt } from 'react-router-dom';
 import { Button } from '../styled/Button';
-import { H1 } from '../styled/GlobalElements';
 import {
   ActionContainer,
   DeleteBtn,
   H2Margin,
 } from './ModelAssetClass/AssetClass';
 
-const Warning = styled.div`
-  margin: 5px 0px;
-  h1 {
-    text-align: center;
-  }
-  svg {
-    color: var(--brand-orange);
-  }
-`;
 interface Props {
   when?: boolean | undefined;
   navigate: (path: string) => void;
-  prioritiesPage?: boolean;
+  message: string;
+  confirmBtn: boolean;
+  cancelBtn: boolean;
 }
 
-const RouteLeavingPrompt = ({ when, navigate, prioritiesPage }: Props) => {
+const RouteLeavingPrompt = ({
+  when,
+  navigate,
+  message,
+  confirmBtn,
+  cancelBtn,
+}: Props) => {
   const [dialog, setDialog] = useState(false);
   const [lastLocation, setLastLocation] = useState<Location | null>(null);
   const [confirm, setConfirm] = useState(false);
@@ -57,9 +51,6 @@ const RouteLeavingPrompt = ({ when, navigate, prioritiesPage }: Props) => {
     setConfirm(true);
   };
 
-  const warningMessage =
-    'You have unsaved changes. Are you sure you want to leave this page without saving?';
-
   return (
     <>
       <Prompt when={when} message={handleBlockedNavigation} />{' '}
@@ -78,26 +69,18 @@ const RouteLeavingPrompt = ({ when, navigate, prioritiesPage }: Props) => {
           <FontAwesomeIcon icon={faTimes} size="2x" />
         </button>
         <br />
-        {prioritiesPage && (
-          <Warning>
-            <H1>
-              <FontAwesomeIcon icon={faExclamationTriangle} /> Warning
-            </H1>
-          </Warning>
-        )}
-        <H2Margin>
-          {prioritiesPage
-            ? 'You have to set priorities for asset classes in order for Passiv to show you trades calculations!'
-            : warningMessage}{' '}
-        </H2Margin>
-        {!prioritiesPage && (
-          <ActionContainer>
+        <H2Margin>{message}</H2Margin>
+
+        <ActionContainer>
+          {confirmBtn && (
             <DeleteBtn onClick={handleConfirmNavigationClick}>
               Confirm
             </DeleteBtn>
+          )}
+          {cancelBtn && (
             <Button onClick={() => setDialog(false)}>Cancel</Button>
-          </ActionContainer>
-        )}
+          )}
+        </ActionContainer>
       </Dialog>
     </>
   );

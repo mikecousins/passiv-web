@@ -21,7 +21,7 @@ import ShadowBox from '../../../styled/ShadowBox';
 import { Button } from '../../../styled/Button';
 import { toast } from 'react-toastify';
 import { loadGroup, loadGroupInfo } from '../../../actions';
-import { push } from 'connected-react-router';
+import { push, replace } from 'connected-react-router';
 import RouteLeavingPrompt from '../../RouteLeavingPrompt';
 
 const Priorities = styled.div`
@@ -229,7 +229,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           if (onSettingsPage) {
             setEditing(false);
           } else {
-            dispatch(push(`/group/${group?.id}`));
+            dispatch(replace(`/group/${group?.id}`));
           }
           toast.success('Saved prioritization successfully');
           dispatch(loadGroup({ ids: [group?.id] }));
@@ -341,12 +341,15 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           )}
         </div>
       )}
-      {!onSettingsPage && (
-        <RouteLeavingPrompt
-          when={editing}
-          navigate={(path) => dispatch(push(path))}
-        />
-      )}
+
+      <RouteLeavingPrompt
+        when={!onSettingsPage}
+        navigate={(path) => dispatch(push(path))}
+        message="In order to show you accurate trades, Passiv needs you
+        to confirm priorities for this model."
+        confirmBtn={false}
+        cancelBtn={false}
+      />
     </Priorities>
   );
 };
