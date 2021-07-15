@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, SmallButton } from '../styled/Button';
-import { H2, A, P } from '../styled/GlobalElements';
+import { H2, A } from '../styled/GlobalElements';
 import { selectCurrencies } from '../selectors/currencies';
 import {
   selectPreferredCurrency,
@@ -145,7 +145,7 @@ const Title = styled.div`
   }
 `;
 
-const NoCashRules = styled(P)`
+const NoCashRules = styled.div`
   margin: 10px 0;
   display: flex;
 `;
