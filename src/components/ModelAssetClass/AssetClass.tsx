@@ -143,7 +143,7 @@ const AssetClasses = ({ assetClass }: Props) => {
 
   return (
     <React.Fragment>
-      <DeleteButton onClick={open}>
+      <DeleteButton onClick={open} title="remove class">
         <FontAwesomeIcon icon={faTimes} size="lg" />
       </DeleteButton>
 

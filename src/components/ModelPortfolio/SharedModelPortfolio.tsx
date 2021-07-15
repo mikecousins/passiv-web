@@ -29,8 +29,8 @@ import { Truncate } from '../../common';
 const ImageContainer = styled.div`
   background: url(${shareModelImage}) no-repeat;
   background-size: contain;
-  width: 350px;
-  height: 350px;
+  width: 300px;
+  height: 300px;
   position: absolute;
   right: 0;
   bottom: -83px;
