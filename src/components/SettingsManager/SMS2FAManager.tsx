@@ -39,6 +39,11 @@ const SMS2FAManager = () => {
   const [candidatePhoneNumber, setCandidatePhoneNumber] = useState('');
   const device: any = useSelector(selectDevice);
 
+  // only show the sms manager if it's already enabled
+  if (is2FAEnabled === false) {
+    return null;
+  }
+
   const startEditing2FA = () => {
     setEditing2FA(true);
     setCandidatePhoneNumber('');
