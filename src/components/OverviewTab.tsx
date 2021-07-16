@@ -24,6 +24,7 @@ import {
   selectCurrentGroupModelType,
   selectNeedToPrioritize,
   selectGroupsLoading,
+  selectCurrentGroupInfoLoading,
 } from '../selectors/groups';
 import { P } from '../styled/GlobalElements';
 import Tour from './Tour/Tour';
@@ -35,34 +36,7 @@ import { toast } from 'react-toastify';
 import { loadGroupInfo } from '../actions';
 import { push } from 'connected-react-router';
 import NotificationMessage from './NotificationMessage';
-
-export const Container3Column = styled.div`
-  @media (min-width: 900px) {
-    display: flex;
-    justify-content: space-between;
-    > div {
-      width: 32%;
-      margin-right: 30px;
-    }
-    > div:last-of-type {
-      margin-right: 0;
-    }
-  }
-`;
-
-export const Container6040Column = styled.div`
-  @media (min-width: 900px) {
-    display: flex;
-    justify-content: space-between;
-    > div:first-of-type {
-      width: 60%;
-      margin-right: 30px;
-    }
-    > div:last-of-type {
-      width: 40%;
-    }
-  }
-`;
+import { Container3Column } from './AccountTab';
 
 const List = styled.ul`
   margin: 20px;
@@ -89,6 +63,7 @@ const OverviewTab = () => {
     selectCurrentGroupPositionsNotInTargetOrExcluded,
   );
   const needToPrioritize = useSelector(selectNeedToPrioritize);
+  const currentGroupLoading = useSelector(selectCurrentGroupInfoLoading);
   const positionsNotInTarget = positionsNotInTargetsOrExcluded?.filter(
     (position) => !position.excluded,
   );
@@ -165,8 +140,8 @@ const OverviewTab = () => {
         />
       </Container3Column>
 
-      {error ? <PortfolioGroupErrors error={error} /> : null}
-      {needToPrioritize && (
+      {setupComplete && error ? <PortfolioGroupErrors error={error} /> : null}
+      {needToPrioritize && !currentGroupLoading && (
         <NotificationMessage
           error={true}
           title={'Need to confirm priorities'}

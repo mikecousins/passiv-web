@@ -11,7 +11,7 @@ import Offline from './Offline';
 import Demo from './Demo';
 import { selectIsOnline } from '../../selectors/online';
 import { selectIsDemo } from '../../selectors';
-import { LogoutButton } from '../LogoutButton';
+import LogoutButton from '../LogoutButton';
 import { selectPathname } from '../../selectors/router';
 
 type StyledHeaderProps = {
@@ -49,7 +49,7 @@ const Logo = styled.header`
   }
 `;
 
-export const Header = () => {
+const Header = () => {
   const loggedIn = useSelector(selectLoggedIn);
   const name = useSelector(selectName);
   const isOnline = useSelector(selectIsOnline);

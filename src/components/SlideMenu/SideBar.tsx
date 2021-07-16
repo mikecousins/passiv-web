@@ -5,7 +5,6 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { selectLoggedIn, selectIsAffiliate } from '../../selectors';
 import {
   selectGoalsPageFeature,
-  selectModelPortfolioFeature,
   selectPerformancePageFeature,
 } from '../../selectors/features';
 import { selectGroupInfo, selectGroups } from '../../selectors/groups';
@@ -98,7 +97,6 @@ const SideBar = () => {
   );
   const goalsPageFeatureActive = useSelector(selectGoalsPageFeature);
 
-  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
   const showReporting = useSelector(selectShowReporting);
 
   let groupList: JSX.Element | JSX.Element[] = (
@@ -150,9 +148,7 @@ const SideBar = () => {
               {groupList}
             </GroupContainer>
           )}
-          {modelPortfolioFeature && (
-            <SideBarLink name="My Models" linkPath={`/models`} />
-          )}
+          <SideBarLink name="My Models" linkPath={`/models`} />
           {!showOnboardingApp &&
             performancePageFeatureActive &&
             showReporting && (

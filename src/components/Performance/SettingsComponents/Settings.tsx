@@ -9,10 +9,6 @@ import {
   updateReportingSettings,
 } from '../../../actions/performance';
 import {
-  selectHasQuestradeConnection,
-  selectHasWealthicaConnection,
-} from '../../../selectors';
-import {
   selectEndDate,
   selectPerformanceCurrentDetailedMode,
   selectReportingSettings,
@@ -46,20 +42,12 @@ const Settings = () => {
   const [showDividendData, setShowDividendData] = useState(
     settings?.show_dividend_data,
   );
-  const [includeQuestrade, setIncludeQuestrade] = useState(
-    settings?.include_questrade,
-  );
-  const [includeWealthica, setIncludeWealthica] = useState(
-    settings?.include_wealthica,
-  );
   const [showReturnRate, setShowReturnRate] = useState(
     settings?.show_return_rate,
   );
   const [contributionsByMonth, setContributionsByMonth] = useState(
     settings?.contributions_by_month,
   );
-  const hasQuestradeAccount = useSelector(selectHasQuestradeConnection);
-  const hasWealthicaAccount = useSelector(selectHasWealthicaConnection);
   const startDate = useSelector(selectStartDate);
   const endDate = useSelector(selectEndDate);
   const accountNumbers = useSelector(selectSelectedAccounts);
@@ -107,24 +95,6 @@ const Settings = () => {
     dispatch(
       updateReportingSettings({
         contributionsByMonth: !oldValue,
-      }),
-    );
-  };
-  const handleIncludeQuestradeToggle = () => {
-    const oldValue = includeQuestrade;
-    setIncludeQuestrade(!includeQuestrade);
-    dispatch(
-      updateReportingSettings({
-        includeQuestrade: !oldValue,
-      }),
-    );
-  };
-  const handleIncludeWealthicaToggle = () => {
-    const oldValue = includeWealthica;
-    setIncludeWealthica(!includeWealthica);
-    dispatch(
-      updateReportingSettings({
-        includeWealthica: !oldValue,
       }),
     );
   };
@@ -194,42 +164,6 @@ const Settings = () => {
           Prefer showing contribution data by months (don't group by year)
         </OptionsTitle>
       </Option>
-      {hasQuestradeAccount && hasWealthicaAccount && (
-        <>
-          <Option>
-            <ToggleButton onClick={() => handleIncludeQuestradeToggle()}>
-              {includeQuestrade ? (
-                <React.Fragment>
-                  <FontAwesomeIcon icon={faToggleOn} />
-                  <StateText>on</StateText>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <FontAwesomeIcon icon={faToggleOff} />
-                  <StateText>off</StateText>
-                </React.Fragment>
-              )}
-            </ToggleButton>
-            <OptionsTitle>Include Questrade Accounts</OptionsTitle>
-          </Option>
-          <Option>
-            <ToggleButton onClick={() => handleIncludeWealthicaToggle()}>
-              {includeWealthica ? (
-                <React.Fragment>
-                  <FontAwesomeIcon icon={faToggleOn} />
-                  <StateText>on</StateText>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <FontAwesomeIcon icon={faToggleOff} />
-                  <StateText>off</StateText>
-                </React.Fragment>
-              )}
-            </ToggleButton>
-            <OptionsTitle>Include Wealthica Accounts</OptionsTitle>
-          </Option>
-        </>
-      )}
       <div>
         <ChartOptions>
           <div

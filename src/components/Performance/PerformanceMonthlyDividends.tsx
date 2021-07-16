@@ -16,7 +16,7 @@ const MarginBottom = styled.div`
   margin-bottom: 25px;
 `;
 
-export const PerformanceMonthlyDividends = () => {
+const PerformanceMonthlyDividends = () => {
   const monthlyDividends = useSelector(selectMonthlyDividends);
 
   if (!monthlyDividends && monthlyDividends !== 0) {

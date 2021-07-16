@@ -16,8 +16,8 @@ const TwoFAManager = () => {
       <InputContainer>
         <OptionsTitle>Multi-Factor Authentication</OptionsTitle>
         <DisabledBox>
-          Protect your account by enabling multi-factor authentication (MFA).
-          You can use an authenticator app or SMS on your phone.
+          Protect your account by enabling multi-factor authentication (MFA)
+          with an authenticator app.
         </DisabledBox>
         <OTP2FAManager />
         <SMS2FAManager />

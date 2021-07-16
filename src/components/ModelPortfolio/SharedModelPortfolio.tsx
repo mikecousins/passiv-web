@@ -29,8 +29,8 @@ import { Truncate } from '../../common';
 const ImageContainer = styled.div`
   background: url(${shareModelImage}) no-repeat;
   background-size: contain;
-  width: 350px;
-  height: 350px;
+  width: 300px;
+  height: 300px;
   position: absolute;
   right: 0;
   bottom: -83px;
@@ -71,7 +71,7 @@ const Percent = styled.span`
 `;
 
 const ActionBox = styled.div`
-  border: 1px solid #2a2d34;
+  border: 1px solid var(--brand-grey);
   box-sizing: border-box;
   border-radius: 4px;
   padding: 15px;
@@ -99,11 +99,11 @@ const SignUpBtn = styled(Button)`
 const Clone = styled.div`
   a {
     font-size: 18px;
-    color: #003ba2;
+    color: var(--brand-blue);
     font-weight: 700;
   }
 `;
-const Disclaimer = styled.small`
+export const Disclaimer = styled.small`
   max-width: 860px;
   line-height: 1.3;
   font-size: 16px;
@@ -187,7 +187,7 @@ const SharedModelPortfolio = () => {
   pieChartData.push({
     title: othersList,
     value: +otherSecuritiesTotal,
-    color: '#2A2D34',
+    color: 'var(--brand-grey)',
   });
 
   const cloneModel = () => {
@@ -254,7 +254,7 @@ const SharedModelPortfolio = () => {
                   );
                 })}
                 {otherSecurities.length > 0 && (
-                  <Security key="other" color="#2A2D34">
+                  <Security key="other" color="var(--brand-grey)">
                     <div>
                       <Symbol style={{ border: 'none' }}>Other</Symbol>{' '}
                       <Percent>

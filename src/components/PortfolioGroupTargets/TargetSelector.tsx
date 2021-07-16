@@ -1,4 +1,4 @@
-import { faLock, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faExternalLinkAlt, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,18 +14,17 @@ import {
   selectCurrentGroupCash,
   selectCurrentGroupPositionsWithActualPercentage,
   selectCurrentGroupInfo,
+  selectCurrentGroupAccounts,
 } from '../../selectors/groups';
 import { selectIsEditMode } from '../../selectors/router';
 import TargetBar from './TargetBar';
 import CashBar from './CashBar';
-import { Button } from '../../styled/Button';
+import { Button, TransparentButton } from '../../styled/Button';
 import { A } from '../../styled/GlobalElements';
 import { deleteData, postData } from '../../api';
 import { TargetPosition } from '../../types/groupInfo';
 
 import { selectModelUseByOtherGroups } from '../../selectors/modelPortfolios';
-import { selectModelPortfolioFeature } from '../../selectors/features';
-import { selectAuthorizations } from '../../selectors';
 import Tooltip from '../Tooltip';
 
 const ButtonBox = styled.div`
@@ -51,10 +50,10 @@ const ButtonBox = styled.div`
     }
   }
 `;
-export const Th = styled.div`
+const Th = styled.div`
   text-align: right;
 `;
-export const Legend = styled.div`
+const Legend = styled.div`
   display: inline-block;
   margin: 0 5px 0 auto;
   padding: 11px 16px;
@@ -80,13 +79,13 @@ const BaseLegendTitle = styled.span`
     top: 2px;
   }
 `;
-export const ActualTitle = styled(BaseLegendTitle)`
+const ActualTitle = styled(BaseLegendTitle)`
   color: var(--brand-green);
   &:before {
     background: var(--brand-green);
   }
 `;
-export const TargetTitle = styled(BaseLegendTitle)`
+const TargetTitle = styled(BaseLegendTitle)`
   margin-left: 5px;
   color: var(--brand-blue);
   &:before {
@@ -153,12 +152,6 @@ const ButtonLinks = styled.div`
   }
 `;
 
-const ApplyNewModelBtn = styled(Button)`
-  background-color: transparent;
-  color: var(--brand-blue);
-  border: 1px solid var(--brand-blue);
-`;
-
 type Props = {
   isAssetClassBased: boolean;
   lockable: boolean;
@@ -166,32 +159,14 @@ type Props = {
   onReset: () => void;
 };
 
-export const TargetSelector = ({
+const TargetSelector = ({
   isAssetClassBased,
   lockable,
   target,
   onReset,
 }: Props) => {
   const dispatch = useDispatch();
-
-  const authorizations = useSelector(selectAuthorizations);
-  let hasZerodhaConnection = false;
-  let hasUnocoinConnection = false;
-  let hasKrakenConnection = false;
-  if (authorizations) {
-    authorizations.forEach((authorization) => {
-      if (authorization.brokerage.name === 'Zerodha') {
-        hasZerodhaConnection = true;
-      }
-      if (authorization.brokerage.name === 'Unocoin') {
-        hasUnocoinConnection = true;
-      }
-      if (authorization.brokerage.name === 'Kraken') {
-        hasKrakenConnection = true;
-      }
-    });
-  }
-
+  const currentGroupAccounts = useSelector(selectCurrentGroupAccounts);
   const groupId = useSelector(selectCurrentGroupId);
   const positions = useSelector(
     selectCurrentGroupPositionsWithActualPercentage,
@@ -202,7 +177,6 @@ export const TargetSelector = ({
   const currentGroupInfo = useSelector(selectCurrentGroupInfo);
   const modelId = currentGroupInfo?.model_portfolio?.id;
   const modelUseByOtherGroups = useSelector(selectModelUseByOtherGroups);
-  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
 
   if (!target || cash === null || cash === undefined) {
     return null;
@@ -232,10 +206,6 @@ export const TargetSelector = ({
   };
 
   const resetTargets = (resetForm?: () => void) => {
-    if (!modelPortfolioFeature) {
-      onReset();
-      toggleEditMode();
-    }
     deleteData(`/api/v1/portfolioGroups/${groupId}/targets/`)
       .then(() => {
         dispatch(loadGroups()); // need to load groups to have update list of groups using a model in my models page
@@ -509,16 +479,6 @@ export const TargetSelector = ({
                                 parseFloat(e.target.value),
                               )
                             }
-                            // onBlur={() => {
-                            //   props.setFieldValue(
-                            //     `targets.${index}.percent` as 'targets',
-                            //     parseFloat(
-                            //       props.values.targets[index].percent.toFixed(
-                            //         4,
-                            //       ),
-                            //     ),
-                            //   );
-                            // }}
                             readOnly={!canEdit}
                           />
                         </TargetBar>
@@ -538,9 +498,8 @@ export const TargetSelector = ({
                       {excludedAssetCount > 1 && 's'}.
                     </ExcludedNote>
                   )}
-
                   <ErrorMessage name="targets" component="div" />
-                  {canEdit ? (
+                  {canEdit && (
                     <React.Fragment>
                       <ActionsContainer>
                         <div>
@@ -595,90 +554,64 @@ export const TargetSelector = ({
                         )}
                       </ActionsContainer>
                     </React.Fragment>
-                  ) : (
-                    !modelPortfolioFeature && (
-                      <ButtonBox>
-                        <div>
-                          <Button
-                            type="button"
-                            onClick={() => toggleEditMode()}
-                          >
-                            <FontAwesomeIcon icon={faLock} />
-                            Edit Targets
-                          </Button>
-                        </div>
-                        <div>
-                          <A
-                            href={portfolioVisualizerURL}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            Portfolio Visualizer
-                          </A>
-                        </div>
-                      </ButtonBox>
-                    )
                   )}
-                  {modelPortfolioFeature && (
-                    <ButtonBox>
-                      <div>
-                        <Button
-                          className="tour-edit-model"
-                          type="button"
-                          style={{ fontWeight: 600 }}
-                          onClick={() => {
-                            dispatch(
-                              push(
-                                `/model-portfolio/${modelId}/group/${groupId}?edit=true`,
-                              ),
-                            );
-                          }}
-                          disabled={modelUseByOtherGroups}
-                        >
-                          {modelUseByOtherGroups ? (
-                            <Tooltip label="At the moment, editing a model is disabled if the model is applied to more than one group.">
-                              <span>Edit Model *</span>
-                            </Tooltip>
-                          ) : (
-                            'Edit Model'
-                          )}
-                        </Button>
-                        <ApplyNewModelBtn
-                          type="button"
-                          className="tour-apply-another-model"
-                          onClick={() => {
-                            dispatch(push(`/models/group/${groupId}`));
-                          }}
-                        >
-                          Apply Another Model
-                        </ApplyNewModelBtn>
-                      </div>
-                      <div>
-                        <A
-                          type="button"
-                          onClick={() => resetTargets()}
-                          style={{ fontWeight: 600, marginRight: '20px' }}
-                        >
-                          <FontAwesomeIcon icon={faUndo} size="sm" /> Reset
-                        </A>{' '}
-                        {hasZerodhaConnection ||
-                        hasUnocoinConnection ||
-                        hasKrakenConnection ||
-                        currentGroupInfo?.model_portfolio?.model_type === 1 ? (
-                          ''
+                  <ButtonBox>
+                    <div>
+                      <Button
+                        className="tour-edit-model"
+                        type="button"
+                        style={{ fontWeight: 600 }}
+                        onClick={() => {
+                          dispatch(
+                            push(
+                              `/model-portfolio/${modelId}/group/${groupId}?edit=true`,
+                            ),
+                          );
+                        }}
+                        disabled={modelUseByOtherGroups}
+                      >
+                        {modelUseByOtherGroups ? (
+                          <Tooltip label="At the moment, editing a model is disabled if the model is applied to more than one group.">
+                            <span>Edit Model *</span>
+                          </Tooltip>
                         ) : (
+                          'Edit Model'
+                        )}
+                      </Button>
+                      <TransparentButton
+                        type="button"
+                        className="tour-apply-another-model"
+                        onClick={() => {
+                          dispatch(push(`/models/group/${groupId}`));
+                        }}
+                      >
+                        Apply Another Model
+                      </TransparentButton>
+                    </div>
+                    <div>
+                      <A
+                        type="button"
+                        onClick={() => resetTargets()}
+                        style={{ fontWeight: 600, marginRight: '20px' }}
+                      >
+                        <FontAwesomeIcon icon={faUndo} size="sm" /> Reset
+                      </A>
+                      {currentGroupAccounts.every(
+                        (account) => account.meta.type !== 'Crypto',
+                      ) &&
+                        currentGroupInfo?.model_portfolio?.model_type === 0 && (
                           <A
                             href={portfolioVisualizerURL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{ fontWeight: 600, marginRight: '20px' }}
+                            style={{ fontWeight: 600 }}
                           >
-                            Portfolio Visualizer
+                            Portfolio Visualizer{'  '}
+                            <FontAwesomeIcon icon={faExternalLinkAlt} />
                           </A>
                         )}
-                      </div>
-                    </ButtonBox>
-                  )}
+                    </div>
+                  </ButtonBox>
                 </React.Fragment>
               );
             }}

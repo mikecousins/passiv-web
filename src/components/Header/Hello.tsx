@@ -2,7 +2,7 @@ import React from 'react';
 import { format } from 'date-fns';
 import styled from '@emotion/styled';
 
-export const HelloStyle = styled.div`
+const HelloStyle = styled.div`
   margin: 0 20px 0 auto;
   padding-top: 8px;
   line-height: 1.2;

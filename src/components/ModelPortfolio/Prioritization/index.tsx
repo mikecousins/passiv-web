@@ -18,10 +18,14 @@ import { AssetClassPriorities } from '../../../types/modelPortfolio';
 import AssetClassPriority from './AssetClassPriority';
 import { H2, P } from '../../../styled/GlobalElements';
 import ShadowBox from '../../../styled/ShadowBox';
-import { Button } from '../../../styled/Button';
+import {
+  Button,
+  SmallButton,
+  SmallTransparentButton,
+} from '../../../styled/Button';
 import { toast } from 'react-toastify';
 import { loadGroup, loadGroupInfo } from '../../../actions';
-import { push } from 'connected-react-router';
+import { push, replace } from 'connected-react-router';
 import RouteLeavingPrompt from '../../RouteLeavingPrompt';
 
 const Priorities = styled.div`
@@ -41,18 +45,6 @@ const Priorities = styled.div`
 
 export const ActionContainer = styled.div`
   margin-bottom: 20px;
-`;
-
-export const Cancel = styled(Button)`
-  padding: 13px 18px 13px;
-  background-color: transparent;
-  border: 2px solid var(--brand-blue);
-  color: var(--brand-blue);
-  font-weight: 600;
-`;
-
-export const Save = styled(Button)`
-  font-weight: 600;
 `;
 
 export const Description = styled(P)`
@@ -229,7 +221,7 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           if (onSettingsPage) {
             setEditing(false);
           } else {
-            dispatch(push(`/group/${group?.id}`));
+            dispatch(replace(`/group/${group?.id}`));
           }
           toast.success('Saved prioritization successfully');
           dispatch(loadGroup({ ids: [group?.id] }));
@@ -317,10 +309,12 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           </Description>
           {onSettingsPage && editing && (
             <ActionContainer>
-              <Save onClick={handleSaveChanges}>Save changes</Save>
-              <Cancel onClick={handleCancel}>
+              <SmallButton onClick={handleSaveChanges}>
+                Save changes
+              </SmallButton>
+              <SmallTransparentButton onClick={handleCancel}>
                 <FontAwesomeIcon icon={faUndo} size="sm" /> Undo changes
-              </Cancel>
+              </SmallTransparentButton>
             </ActionContainer>
           )}
           {onSettingsPage ? (
@@ -341,12 +335,15 @@ const Prioritization = ({ onSettingsPage }: Props) => {
           )}
         </div>
       )}
-      {!onSettingsPage && (
-        <RouteLeavingPrompt
-          when={editing}
-          navigate={(path) => dispatch(push(path))}
-        />
-      )}
+
+      <RouteLeavingPrompt
+        when={!onSettingsPage}
+        navigate={(path) => dispatch(push(path))}
+        message="In order to show you accurate trades, Passiv needs you
+        to confirm priorities for this model."
+        confirmBtn={false}
+        cancelBtn={false}
+      />
     </Priorities>
   );
 };

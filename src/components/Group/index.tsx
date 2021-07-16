@@ -29,7 +29,7 @@ type Props = {
   group: any;
 };
 
-export const Group = ({ group }: Props) => {
+const Group = ({ group }: Props) => {
   const [expanded, setExpanded] = useState(false);
   const groupInfo = useSelector(selectGroupInfo);
 

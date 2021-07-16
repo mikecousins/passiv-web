@@ -7,7 +7,7 @@ import { selectModelAssetClasses } from '../../selectors/modelAssetClasses';
 import { loadModelAssetClasses } from '../../actions';
 import styled from '@emotion/styled';
 import ShadowBox from '../../styled/ShadowBox';
-import { Button } from '../../styled/Button';
+import { Button, TransparentButton } from '../../styled/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import AssetClass from './AssetClass';
@@ -31,15 +31,7 @@ const AssetBox = styled.div`
   }
 `;
 
-const NewAssetClassBtn = styled(Button)`
-  font-weight: 600;
-`;
-
-const BackButton = styled(Button)`
-  background: transparent;
-  border: 1px solid var(--brand-blue);
-  color: var(--brand-blue);
-  font-weight: 600;
+const BackButton = styled(TransparentButton)`
   @media (max-width: 900px) {
     margin-top: 10px;
   }
@@ -48,7 +40,7 @@ const BackButton = styled(Button)`
 const ModelAssetClass = () => {
   const dispatch = useDispatch();
   const router = useSelector(selectRouter);
-  const back = router.location.query.back;
+  const back = router?.location?.query.back;
 
   const assetClasses: ModelAssetClassDetailsType[] = useSelector(
     selectModelAssetClasses,
@@ -87,10 +79,10 @@ const ModelAssetClass = () => {
       )}
 
       <div style={{ marginTop: '40px' }} className="tour-asset-class">
-        <NewAssetClassBtn onClick={handleAddAssetClass}>
+        <Button onClick={handleAddAssetClass}>
           {' '}
           <FontAwesomeIcon icon={faPlus} size="sm" /> New Asset Class
-        </NewAssetClassBtn>
+        </Button>
 
         <BackButton onClick={() => dispatch(push(`${back}`))}>
           Back to Model Portfolio

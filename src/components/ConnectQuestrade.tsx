@@ -10,20 +10,8 @@ import {
 import { HideButton } from './ContextualMessageWrapper';
 import AuthorizationPicker from './AuthorizationPicker';
 import { H3 } from '../styled/GlobalElements';
-import styled from '@emotion/styled';
 import { Brokerage } from '../types/brokerage';
-
-export const Order = styled.div`
-  text-align: center;
-  select {
-    padding: 10px;
-    margin: 12px 0;
-  }
-`;
-
-export const LeftOrder = styled(Order)`
-  text-align: left;
-`;
+import { LeftOrder, Order } from './ConnectionUpdate';
 
 type Props = {
   type?: string;
@@ -70,7 +58,7 @@ const ConnectQuestrade = () => {
 
   return (
     <React.Fragment>
-      <ShadowBox background="#2a2d34">
+      <ShadowBox background="var(--brand-grey)">
         <H1DarkStyle>Connect your Questrade account</H1DarkStyle>
         <H2DarkStyle>
           Passiv offers a real-time data connection to Questrade.

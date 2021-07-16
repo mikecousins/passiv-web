@@ -26,12 +26,13 @@ import {
 } from '../selectors';
 import TotalHoldings from '../components/TotalHoldings';
 import DashboardConfig from '../components/Performance/Dashboard/DashboardConfig';
-import { DashboardGoalWidgets } from '../components/Goals/DashboardGoalWidgets';
+import DashboardGoalWidgets from '../components/Goals/DashboardGoalWidgets';
 import { selectShowInvestingCourse } from '../selectors/subscription';
 import WelcomePage from './WelcomePage';
 import { push } from 'connected-react-router';
+import ThreeReferTshirt from '../components/ThreeReferTshirt';
 
-export const DashboardPage = () => {
+const DashboardPage = () => {
   const dispatch = useDispatch();
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const groups = useSelector(selectDashboardGroups);
@@ -85,6 +86,11 @@ export const DashboardPage = () => {
       name: 'investing_course',
       content: <InvestingCourse />,
       visible: showInvestingCourse,
+    },
+    {
+      name: '3refer_tShirt',
+      content: <ThreeReferTshirt />,
+      visible: true,
     },
     {
       name: 'customize_dashboard',

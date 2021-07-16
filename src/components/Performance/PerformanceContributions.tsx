@@ -33,7 +33,7 @@ const SubLegendItem = styled.div`
 type Props = {
   selectedTimeframe: string;
 };
-export const PerformanceContributions = (props: Props) => {
+const PerformanceContributions = (props: Props) => {
   const contributions: Contributions | undefined = useSelector(
     selectContributions,
   );
@@ -152,7 +152,7 @@ const ContributionsAndWithdrawals = () => {
               r="7"
               stroke="white"
               strokeWidth={'1'}
-              fill="#003ba2"
+              fill="var(--brand-blue)"
             />
           </svg>
           &nbsp;Withdrawals

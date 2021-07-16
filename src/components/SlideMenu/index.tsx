@@ -15,7 +15,7 @@ const StyledSlideMenu = styled.div`
   min-height: 100vh;
 `;
 
-export const SlideMenu = () => {
+const SlideMenu = () => {
   const isMobile = useSelector(selectIsMobile);
   const pathname = useSelector(selectPathname);
   const onboardingStep = useSelector(selectOnboardingStep);

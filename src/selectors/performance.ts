@@ -38,7 +38,7 @@ export const selectBadTickers = (state: AppState) =>
   state.performanceAll?.data?.badTickers;
 
 export const selectPerformanceCurrentDetailedMode = (state: AppState) =>
-  state.performanceAll?.data?.detailedMode;
+  state.performanceAll?.data?.settings?.detailed_view;
 
 export const selectPerformanceNeedData = createSelector<
   AppState,

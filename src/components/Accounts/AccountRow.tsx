@@ -17,7 +17,7 @@ type Props = {
   editing: boolean;
 };
 
-export const AccountRow = ({ account, editing }: Props) => {
+const AccountRow = ({ account, editing }: Props) => {
   const [groupEditing, setGroupEditing] = useState(false);
   const [newGroupId, setNewGroupId] = useState('');
   const brokerages = useSelector(selectAllBrokerages);

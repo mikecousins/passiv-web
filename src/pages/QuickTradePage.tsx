@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { Button, SmallButton } from '../styled/Button';
+import {
+  Button,
+  SmallButton,
+  SmallTransparentButton,
+  TransparentButton,
+} from '../styled/Button';
 
 import { A, P, H1, H2, H3 } from '../styled/GlobalElements';
 import ShadowBox from '../styled/ShadowBox';
@@ -18,7 +23,6 @@ import SymbolSelector from '../components/PortfolioGroupTargets/TargetBar/Symbol
 import { Form, Formik } from 'formik';
 import { StyledSelect } from '../components/PortfolioGroupSettings/OrderTargetAllocations';
 import AccountHoldings from '../components/AccountHoldings';
-import { TransparentButton } from './MyModelPortfoliosPage';
 import { BackButton } from '../components/ModelPortfolio';
 
 const MainContainer = styled(ShadowBox)`
@@ -94,11 +98,6 @@ const Step = styled.div<StepProps>`
   }
 `;
 
-const TransparentButtonSmaller = styled(TransparentButton)`
-  border: 1px solid;
-  font-weight: normal;
-`;
-
 const FormField = styled(Grid)`
   display: grid;
   grid-template-columns: 150px 200px;
@@ -108,10 +107,6 @@ const FormField = styled(Grid)`
 const Order = styled(Grid)`
   padding: 15px 0px;
   border-bottom: 0.5px solid #bfb6b6;
-`;
-
-const BackButtonTransparent = styled(TransparentButtonSmaller)`
-  padding: 7px 40px 9px;
 `;
 
 const QuickTradePage = () => {
@@ -165,14 +160,14 @@ const QuickTradePage = () => {
       >
         Login with your PIN
       </Button>
-      <TransparentButtonSmaller
+      <SmallTransparentButton
         onClick={() => {
           setStatus('new');
           setNewUser(true);
         }}
       >
         Create an account
-      </TransparentButtonSmaller>
+      </SmallTransparentButton>
     </div>
   );
 
@@ -235,9 +230,9 @@ const QuickTradePage = () => {
               balances to provide you with addition of functionality.
             </small>
             <br />
-            <BackButtonTransparent onClick={() => setStatus('new')}>
+            <TransparentButton onClick={() => setStatus('new')}>
               Go Back
-            </BackButtonTransparent>
+            </TransparentButton>
             <SmallButton
               onClick={() => setStatus('3')}
               style={{ marginTop: '10px' }}
@@ -281,9 +276,9 @@ const QuickTradePage = () => {
               </LogoContainer>
             </Broker>{' '}
           </Grid>
-          <BackButtonTransparent onClick={() => setStatus(newUser ? '2' : '4')}>
+          <TransparentButton onClick={() => setStatus(newUser ? '2' : '4')}>
             Go Back
-          </BackButtonTransparent>
+          </TransparentButton>
         </div>
       );
       break;

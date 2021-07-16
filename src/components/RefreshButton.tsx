@@ -7,7 +7,7 @@ import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { selectLoggedIn } from '../selectors';
 import { selectSelectedAccounts } from '../selectors/performance';
 
-export const Button = styled.button`
+const Button = styled.button`
   color: #fff;
   font-size: 16px;
   padding: 10px 28px 10px 10px;

@@ -5,11 +5,16 @@ import { Settings, Trade } from '../types/groupInfo';
 import { Account } from '../types/account';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCaretUp,
+  faCaretDown,
+  faLongArrowAltRight,
+} from '@fortawesome/free-solid-svg-icons';
 import { selectCurrencies } from '../selectors/currencies';
 import { restrictionTypes } from '../common';
 import Number from './Number';
 import { HideButton } from './ContextualMessageWrapper';
+import { selectCurrentGroupInfo } from '../selectors/groups';
 
 const ToggleBox = styled.div`
   display: inline-block;
@@ -53,6 +58,7 @@ const TradesExplanation = ({
   const [hasCashRestriction, setHasCashRestriction] = useState(false);
 
   const currencies = useSelector(selectCurrencies);
+  const groupInfo = useSelector(selectCurrentGroupInfo);
 
   const getCurrency = (currencyId: string) =>
     currencies && currencies.find((c) => c.id === currencyId);
@@ -154,9 +160,40 @@ const TradesExplanation = ({
     <React.Fragment>
       {!container && <H3>Explanation</H3>}
       <BulletULm>
-        {summary.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
+        {summary.map((item, index) => {
+          let exchangeRates;
+          if (
+            index === 1 &&
+            !settings.prevent_currency_conversion &&
+            groupInfo?.forex_rates &&
+            groupInfo.forex_rates.length > 0
+          ) {
+            exchangeRates = (
+              <div>
+                <h3 style={{ fontSize: '17px', fontWeight: 600 }}>
+                  Currency Exchange Rates:
+                </h3>
+                <ul>
+                  {groupInfo.forex_rates.map((rate) => {
+                    return (
+                      <li>
+                        {rate.src.code}{' '}
+                        <FontAwesomeIcon icon={faLongArrowAltRight} />{' '}
+                        {rate.dst.code}: {rate.exchange_rate.toFixed(4)}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          }
+
+          return (
+            <li key={index}>
+              {item} {exchangeRates}
+            </li>
+          );
+        })}
       </BulletULm>
     </React.Fragment>
   );

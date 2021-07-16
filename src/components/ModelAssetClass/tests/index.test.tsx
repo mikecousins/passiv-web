@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import createRootReducer from '../../../reducers';
-import PortfolioGroupTargets from '../';
+import AssetClass from '../';
 
 afterEach(cleanup);
 
@@ -26,11 +26,8 @@ const renderWithRedux = (ui: JSX.Element, initialState: object) => {
   };
 };
 
-test('PortfolioGroupTargets renders without issue', () => {
-  const { getByText } = renderWithRedux(
-    <PortfolioGroupTargets error={null} />,
-    {},
-  );
+test('New Asset Class and Back to Model Portfolio buttons existence on the page', () => {
+  const { getByText, getByTestId } = renderWithRedux(<AssetClass />, {});
 
-  expect(getByText('Model Portfolio')).toBeTruthy();
+  expect(getByText('New Asset Class')).toBeTruthy();
 });
