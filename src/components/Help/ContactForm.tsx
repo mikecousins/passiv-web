@@ -9,6 +9,7 @@ import { H2, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import { postData } from '../../api';
 import { selectSettings } from '../../selectors';
+import { useState } from 'react';
 
 const GreenBox = styled.div`
   background-color: var(--brand-light-green);
@@ -70,6 +71,7 @@ if (
 const ContactForm = () => {
   const settings = useSelector(selectSettings);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [selectedFiles, setSelectedFiles] = useState<any[]>([]);
 
   return (
     <GreenBox id="contact-form">
@@ -81,6 +83,7 @@ const ContactForm = () => {
           message: '',
           le: settings ? settings.email : '',
           lm: '',
+          lf: '',
         }}
         initialStatus={{ submitted: false }}
         validationSchema={Yup.object().shape({
@@ -92,11 +95,13 @@ const ContactForm = () => {
           if (recaptchaRef && recaptchaRef.current) {
             recaptchaRef.current.execute();
           }
+          console.log(values, selectedFiles);
 
           // submit our values
           postData('/api/v1/feedback/', {
             email: values.le,
             message: values.lm,
+            attachments: selectedFiles,
           })
             .then(() => {
               actions.setSubmitting(false);
@@ -155,6 +160,30 @@ const ContactForm = () => {
               error={props.touched.message && props.errors.message}
               disabled={props.status.submitted}
             />
+            <Label htmlFor="lf">Attachments</Label>
+            <Input
+              type="file"
+              id="lf"
+              name="lf"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                height: '100%',
+              }}
+              onChange={(event: any) => {
+                const files = [...selectedFiles];
+                files.push(event.target.files[0]);
+                setSelectedFiles(files);
+              }}
+              disabled={props.status.submitted}
+              multiple
+            />
+            <div>
+              Files selected:
+              {selectedFiles.map((file) => {
+                return <p>{file.name}</p>;
+              })}
+            </div>
             <Error>
               <ErrorMessage name="lm" />
             </Error>
