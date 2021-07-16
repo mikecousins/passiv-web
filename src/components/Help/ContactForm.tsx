@@ -9,7 +9,6 @@ import { H2, P } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import { postData } from '../../api';
 import { selectSettings } from '../../selectors';
-import { useState } from 'react';
 
 const GreenBox = styled.div`
   background-color: var(--brand-light-green);
@@ -59,6 +58,25 @@ const Error = styled.div`
   margin-bottom: 10px;
 `;
 
+const Attachments = styled.div`
+  margin: 30px 0px;
+  label {
+    background-color: var(--brand-green);
+    padding: 10px;
+    width: fit-content;
+    border-radius: 4rem;
+    cursor: pointer;
+  }
+  div {
+    background-color: white;
+    padding: 10px;
+    border: 1px solid;
+    li {
+      margin-bottom: 10px;
+    }
+  }
+`;
+
 // beta key
 let recaptchaSiteKey = '6LdAQwEaAAAAADug0rrAhrHLQ9XaVWFngK_fEPkF';
 if (
@@ -71,7 +89,6 @@ if (
 const ContactForm = () => {
   const settings = useSelector(selectSettings);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
-  const [selectedFiles, setSelectedFiles] = useState<any[]>([]);
 
   return (
     <GreenBox id="contact-form">
@@ -81,9 +98,10 @@ const ContactForm = () => {
           url: '',
           email: '',
           message: '',
+          attachments: '',
           le: settings ? settings.email : '',
           lm: '',
-          lf: '',
+          lf: [],
         }}
         initialStatus={{ submitted: false }}
         validationSchema={Yup.object().shape({
@@ -95,21 +113,21 @@ const ContactForm = () => {
           if (recaptchaRef && recaptchaRef.current) {
             recaptchaRef.current.execute();
           }
-          console.log(values, selectedFiles);
+          console.log(values.lf);
 
           // submit our values
-          postData('/api/v1/feedback/', {
-            email: values.le,
-            message: values.lm,
-            attachments: selectedFiles,
-          })
-            .then(() => {
-              actions.setSubmitting(false);
-              actions.setStatus({ submitted: true });
-            })
-            .catch(() => {
-              actions.setSubmitting(false);
-            });
+          // postData('/api/v1/feedback/', {
+          //   email: values.le,
+          //   message: values.lm,
+          //   attachments: values.lf,
+          // })
+          //   .then(() => {
+          //     actions.setSubmitting(false);
+          //     actions.setStatus({ submitted: true });
+          //   })
+          //   .catch(() => {
+          //     actions.setSubmitting(false);
+          //   });
         }}
         render={(props) => (
           <Form onSubmit={props.handleSubmit}>
@@ -140,6 +158,12 @@ const ContactForm = () => {
               placeholder="This field is a trap for bots, don't enter anything here."
               disabled={props.status.submitted}
             />
+            <HiddenInput
+              id="attachments"
+              name="attachments"
+              placeholder="This field is a trap for bots, don't enter anything here."
+              disabled={props.status.submitted}
+            />
             <Label htmlFor="le">Email</Label>
             <Input
               id="le"
@@ -160,33 +184,47 @@ const ContactForm = () => {
               error={props.touched.message && props.errors.message}
               disabled={props.status.submitted}
             />
-            <Label htmlFor="lf">Attachments</Label>
-            <Input
-              type="file"
-              id="lf"
-              name="lf"
-              style={{
-                background: 'transparent',
-                border: 'none',
-                height: '100%',
-              }}
-              onChange={(event: any) => {
-                const files = [...selectedFiles];
-                files.push(event.target.files[0]);
-                setSelectedFiles(files);
-              }}
-              disabled={props.status.submitted}
-              multiple
-            />
-            <div>
-              Files selected:
-              {selectedFiles.map((file) => {
-                return <p>{file.name}</p>;
-              })}
-            </div>
             <Error>
               <ErrorMessage name="lm" />
             </Error>
+            <Attachments>
+              <Label htmlFor="file">Choose images to upload (PNG, JPG)</Label>
+              <Input
+                type="file"
+                id="file"
+                name="file"
+                style={{
+                  border: 'none',
+                  height: '100%',
+                  display: 'none',
+                }}
+                onChange={(event: any) => {
+                  const newFiles = [
+                    ...props.values.lf,
+                    event.currentTarget.files[0],
+                  ];
+
+                  props.setFieldValue('lf', newFiles);
+                }}
+                disabled={props.status.submitted}
+                multiple
+                accept=".jpg, .jpeg, .png"
+              />
+              <div>
+                {props.values.lf.length > 0 ? (
+                  <>
+                    <P>Files selected: </P>
+                    <ul>
+                      {props.values.lf.map((file: any) => {
+                        return <li>{file.name}</li>;
+                      })}
+                    </ul>
+                  </>
+                ) : (
+                  <P>No files selected for upload.</P>
+                )}
+              </div>
+            </Attachments>
             <ReCAPTCHA
               ref={recaptchaRef}
               sitekey={recaptchaSiteKey}
