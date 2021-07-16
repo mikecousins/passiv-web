@@ -33,7 +33,7 @@ export const Title = styled.h2`
 export const Total = styled.div`
   text-align: center;
   color: #fff;
-  background: #04a287;
+  background: var(--brand-green);
   font-size: 20px;
   padding-top: 20px;
   padding-bottom: 20px;

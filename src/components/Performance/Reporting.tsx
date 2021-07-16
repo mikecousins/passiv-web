@@ -26,7 +26,7 @@ const goalsSelected = (pathname: string) => {
   }
 };
 
-export const Analytics = () => {
+const Analytics = () => {
   const pathname = useSelector(selectPathname);
   const acbFeature = useSelector(selectAdjustedCostBasisFeature);
 

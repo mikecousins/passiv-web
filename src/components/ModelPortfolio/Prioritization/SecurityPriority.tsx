@@ -15,8 +15,6 @@ import { CheckBox } from '../../../styled/CheckBox';
 import { AccountPriorities } from '../../../types/modelPortfolio';
 import { HandleBtnType } from './AssetClassPriority';
 import Tooltip from '../../Tooltip';
-import Tour from '../../Tour/Tour';
-import { AssetClassPrioritiesSteps } from '../../Tour/TourSteps';
 
 type SecurityProps = {
   isChanged: boolean;
@@ -27,7 +25,7 @@ const Security = styled(Grid)<SecurityProps>`
   margin-bottom: 20px;
   padding: 10px;
   border: ${(props) =>
-    props.priorityKind === 'buy' ? '1px dashed #2A2D34' : 'none'};
+    props.priorityKind === 'buy' ? '1px dashed var(--brand-grey)' : 'none'};
   background: ${(props) => (props.isChanged ? '#0CEBC5' : '')};
   > h2 {
     background: #dbfcf6;
@@ -88,8 +86,8 @@ const NotHolding = styled.span`
   font-size: 18px;
   line-height: 23px;
   letter-spacing: 0.18px;
-  color: #ffffff;
-  background-color: #04a287;
+  color: var(--white);
+  background-color: var(--brand-green);
 `;
 const NewSecurity = styled(NotHolding)`
   background-color: var(--brand-orange);
@@ -103,7 +101,8 @@ type UpDownBtnProps = {
 const UpDownButton = styled.button<UpDownBtnProps>`
   background-color: ${(props) => (props.isHidden ? 'transparent' : '#f2fffd')};
   padding: 10px 12px;
-  border: 1px solid ${(props) => (props.isHidden ? '#bbbdc2' : '#2a2d34')};
+  border: 1px solid
+    ${(props) => (props.isHidden ? '#bbbdc2' : 'var(--brand-grey)')};
   cursor: ${(props) => (props.isHidden ? 'auto' : 'pointer')};
   svg {
     color: ${(props) => props.isHidden && 'transparent'};
@@ -150,13 +149,6 @@ const SecurityPriority = ({
 
   return (
     <div>
-      {index === 0 && (
-        <Tour
-          steps={AssetClassPrioritiesSteps}
-          name="asset_class_priorities_tour"
-        />
-      )}
-
       <Security
         columns={
           priorityKind === 'none'

@@ -21,7 +21,7 @@ const MarginBottom = styled.div`
   margin-bottom: 25px;
 `;
 
-export const PerformanceCapitalGain = () => {
+const PerformanceCapitalGain = () => {
   const equityData: PastValue[] | undefined = useSelector(
     selectTotalEquityTimeframe,
   );

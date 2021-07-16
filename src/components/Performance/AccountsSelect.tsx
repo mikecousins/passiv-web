@@ -50,7 +50,7 @@ const Submit = styled.input`
   border-radius: 0 4px 4px 0;
 `;
 
-export const AccountsSelect = () => {
+const AccountsSelect = () => {
   const dispatch = useDispatch();
   // Create list of accounts for dropdown, sort by institution name and then account name
   const brokerages = useSelector(selectBrokerages);

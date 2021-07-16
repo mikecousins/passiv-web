@@ -16,7 +16,7 @@ const MarginBottom = styled.div`
   margin-bottom: 25px;
 `;
 
-export const PerformanceDividendIncome = () => {
+const PerformanceDividendIncome = () => {
   const dividendIncome = useSelector(selectDividendIncome);
 
   if (!dividendIncome && dividendIncome !== 0) {

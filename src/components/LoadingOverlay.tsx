@@ -4,7 +4,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ShadowBox from '../styled/ShadowBox';
 
-export const OverlayShadowBox = styled(ShadowBox)`
+const OverlayShadowBox = styled(ShadowBox)`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -15,7 +15,7 @@ export const OverlayShadowBox = styled(ShadowBox)`
   opacity: 0.8;
 `;
 
-export const LoadingBox = styled.div`
+const LoadingBox = styled.div`
   width: 100%;
   text-align: center;
   font-size: 3em;
@@ -30,7 +30,7 @@ export const LoadingBox = styled.div`
   margin: -1.5em 0 0 -25%;
 `;
 
-export const LoadingOverlay = () => {
+const LoadingOverlay = () => {
   return (
     <OverlayShadowBox>
       <LoadingBox>

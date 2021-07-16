@@ -12,7 +12,7 @@ import CurrencySelector from './CurrencySelector';
 import { selectCurrencies } from '../selectors/currencies';
 import HiddenAccountsTooltip from './HiddenAccountsTooltip';
 
-export const TotalContainer = styled.div`
+const TotalContainer = styled.div`
   text-align: right;
   margin-bottom: 22px;
   padding: 10px 0 20px;
@@ -25,7 +25,7 @@ export const TotalContainer = styled.div`
   }
 `;
 
-export const Span = styled.span`
+const Span = styled.span`
   font-size: 36px;
   font-weight: 500;
   letter-spacing: 0.8px;
@@ -35,7 +35,7 @@ export const Span = styled.span`
   }
 `;
 
-export const H2 = styled.span`
+const H2 = styled.span`
   font-weight: 900;
   letter-spacing: 0.8px;
   text-align: right;
@@ -45,7 +45,7 @@ export const H2 = styled.span`
   text-transform: uppercase;
 `;
 
-export const TotalHoldings: FunctionComponent<Props> = ({ smaller }) => {
+const TotalHoldings: FunctionComponent<Props> = ({ smaller }) => {
   const totalHoldings = useSelector(selectTotalGroupHoldings);
   const settings = useSelector(selectSettings);
   const currencies = useSelector(selectCurrencies);

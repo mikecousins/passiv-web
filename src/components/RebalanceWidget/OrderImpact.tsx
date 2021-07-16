@@ -81,7 +81,7 @@ const WarningDetail = styled(ShadowBox)`
 `;
 
 const AccountContainer = styled.div`
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #bfb6b6;
   margin-bottom: 10px;
   padding-bottom: 10px;
   &:first-of-type {
@@ -103,7 +103,7 @@ type Props = {
   impacts: any[];
 };
 
-export const OrderImpact = ({ impacts }: Props) => {
+const OrderImpact = ({ impacts }: Props) => {
   const [showWarningDetail, setShowWarningDetail] = useState<boolean>(false);
 
   const accounts = useSelector(selectAccounts);

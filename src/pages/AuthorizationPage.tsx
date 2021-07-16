@@ -46,8 +46,6 @@ import {
   H2DarkStyle,
   VerticalPadding,
 } from '../styled/Setup';
-import OnboardingProgress from '../components/OnboardingProgress';
-import { selectShowProgressFeature } from '../selectors/features';
 import { CONTACT_FORM_PATH } from '../apps/Paths';
 import PreLoadLink from '../components/PreLoadLink';
 
@@ -61,7 +59,6 @@ const AuthorizationPage = ({ onboarding }: Props) => {
   const authorized = useSelector(selectIsAuthorized);
   const brokerages = useSelector(selectBrokerages);
   const maintenanceBrokerages = useSelector(selectMaintenanceBrokerages);
-  const showProgressFeature = useSelector(selectShowProgressFeature);
   const { openBrokerage } = useParams();
   const dispatch = useDispatch();
   const [confirmConnection, setConfirmConnection] = useState('');
@@ -668,12 +665,7 @@ const AuthorizationPage = ({ onboarding }: Props) => {
     }
   }
 
-  return (
-    <ShadowBox background="#2a2d34">
-      {output}
-      {showProgressFeature && <OnboardingProgress step={2} />}
-    </ShadowBox>
-  );
+  return <ShadowBox background="var(--brand-grey)">{output}</ShadowBox>;
 };
 
 export default AuthorizationPage;

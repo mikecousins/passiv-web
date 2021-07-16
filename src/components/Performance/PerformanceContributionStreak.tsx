@@ -37,7 +37,7 @@ const StreakDots = styled.span`
   font-size: 9px;
 `;
 
-export const PerformanceContributionStreak = () => {
+const PerformanceContributionStreak = () => {
   const contributionStreak: number | undefined = useSelector(
     selectContributionStreak,
   );

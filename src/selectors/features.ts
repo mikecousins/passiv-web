@@ -82,7 +82,4 @@ export const selectConnectInteractiveBrokersFeature = createFeatureSelector(
 
 export const selectShowInAppTour = createFeatureSelector('in-app-tour');
 
-export const selectModelPortfolioFeature = createFeatureSelector(
-  'model_portfolio',
-);
 export const selectReferralCharity = createFeatureSelector('referral_charity');

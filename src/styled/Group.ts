@@ -46,7 +46,7 @@ export const ViewBtn = styled.div`
     font-weight: 900;
     line-height: 0.95;
     letter-spacing: 2px;
-    color: #033ebc;
+    color: var(--brand-blue-hover);
     display: block;
     text-decoration: none;
   }
@@ -83,7 +83,7 @@ export const WarningViewBtn = styled.div`
     font-weight: 900;
     line-height: 0.95;
     letter-spacing: 2px;
-    color: #033ebc;
+    color: var(--brand-blue-hover);
     display: block;
     text-decoration: none;
   }
@@ -129,7 +129,7 @@ export const AllocateBtn = styled.div`
   padding: 8px 24px;
   border-radius: 4px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.37);
-  background-color: #003ba2;
+  background-color: var(--brand-blue);
   color: #fff;
   text-transform: uppercase;
   cursor: pointer;
@@ -143,7 +143,7 @@ export const AllocateBtn = styled.div`
 
 export const TradesContainer = styled.div`
   position: relative;
-  color: #003ba2;
+  color: var(--brand-blue);
   box-shadow: var(--box-shadow);
   border-radius: 4px;
   padding: 20px;
@@ -151,7 +151,7 @@ export const TradesContainer = styled.div`
   margin-top: 0;
   background: #deeaff;
   h3 {
-    color: #003ba2;
+    color: var(--brand-blue);
     font-size: 25px;
     margin-bottom: 10px;
   }

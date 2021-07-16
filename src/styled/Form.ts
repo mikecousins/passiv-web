@@ -107,7 +107,7 @@ export const Label = styled.label`
 `;
 
 export const Submit = styled.button`
-  background-color: #003ba2;
+  background-color: var(--brand-blue);
   border: none;
   color: white;
   padding: 15px;
@@ -125,7 +125,7 @@ export const Select = styled.select`
 
   background-image: linear-gradient(45deg, #0000 50%, #fff 50%),
     linear-gradient(135deg, #fff 50%, #0000 50%),
-    linear-gradient(to right, #2a2d34, #2a2d34);
+    linear-gradient(to right, var(--brand-grey), var(--brand-grey));
 
   background-position: calc(100% - 20px) calc(1em + 2px),
     calc(100% - 15px) calc(1em + 2px), 100% 0;

@@ -15,7 +15,6 @@ import AccountRow from './AccountRow';
 import AccountGroup from './AccountGroup';
 import { deleteData, putData, postData } from '../../api';
 import { H2, A, Edit, H3, P } from '../../styled/GlobalElements';
-import { selectModelPortfolioFeature } from '../../selectors/features';
 import {
   loadAccountList,
   loadGroup,
@@ -26,7 +25,7 @@ import { loadPerformanceAll } from '../../actions/performance';
 import { selectSelectedAccounts } from '../../selectors/performance';
 import NotAvailable from '../NotAvailable';
 
-export const Header = styled.form`
+const Header = styled.form`
   h2 {
     display: inline-block;
   }
@@ -38,11 +37,11 @@ export const Header = styled.form`
   }
 `;
 
-export const PaddedP = styled(P)`
+const PaddedP = styled(P)`
   padding-top: 20px;
 `;
 
-export const GroupNote = styled(P)`
+const GroupNote = styled(P)`
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 30px;
@@ -54,7 +53,6 @@ const Accounts = () => {
   const accounts = useSelector(selectGroupedAccounts);
   const [localAccounts, setLocalAccounts] = useState(accounts);
   const [isEditing, setIsEditing] = useState(false);
-  const modelPortfolioFeature = useSelector(selectModelPortfolioFeature);
   const dispatch = useDispatch();
   const [numHidden, setNumHidden] = useState(
     accounts?.find((a) => a.groupId === 'hidden')?.accounts.length,
@@ -82,10 +80,10 @@ const Accounts = () => {
     padding: 8,
     marginBottom: 20,
     border: fake
-      ? '1px dashed #2a2d34'
+      ? '1px dashed var(--brand-grey)'
       : isDraggingOver
-      ? '2px solid #2a2d34'
-      : '1px solid #2a2d34',
+      ? '2px solid var(--brand-grey)'
+      : '1px solid var(--brand-grey)',
     marginTop: 40,
   });
 
@@ -202,9 +200,8 @@ const Accounts = () => {
       </Header>
       <PaddedP>
         Passiv lets you organize your investment accounts into groups, where
-        each group has its own{' '}
-        {modelPortfolioFeature ? 'model portfolio' : 'target portfolio'}. By
-        default, each account gets its own group. Drag and drop to reorganize.
+        each group has its own model portfolio. By default, each account gets
+        its own group. Drag and drop to reorganize.
       </PaddedP>
       <DragDropContext onDragEnd={onDragEnd}>
         {localAccounts.map((group) => (

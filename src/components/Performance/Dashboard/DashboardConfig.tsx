@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
@@ -10,20 +9,6 @@ import { selectSettings } from '../../../selectors';
 import { putData } from '../../../api';
 import { loadSettings } from '../../../actions';
 import ShadowBox from '../../../styled/ShadowBox';
-
-export const Back = styled(Link)`
-  margin-bottom: 12px;
-  text-decoration: none;
-  margin-bottom: 15px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #033ebc;
-  text-transform: uppercase;
-  margin-top: 20px;
-  svg {
-    margin-right: 10px;
-  }
-`;
 
 export const Option = styled.div`
   margin: 15px 0;
@@ -39,7 +24,7 @@ export const Option = styled.div`
   }
 `;
 
-export const DashboardConfig = () => {
+const DashboardConfig = () => {
   const settings = useSelector(selectSettings);
   const dispatch = useDispatch();
 
@@ -111,7 +96,7 @@ export const DashboardConfig = () => {
     return null;
   }
   function sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   const toggle2columns = () => {

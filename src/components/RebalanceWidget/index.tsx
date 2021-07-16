@@ -9,7 +9,6 @@ import { selectShowQuestradeOffer } from '../../selectors/subscription';
 import { H2, P, A, Title } from '../../styled/GlobalElements';
 import { Symbol, ColumnSymbolSmall, ColumnTrades } from '../../styled/Group';
 import OrderImpacts from './OrderImpacts';
-import { ConfirmContainer, OrderContainer, SummaryContainer } from './styles';
 import ErrorMessage from './ErrorMessage';
 import { Button } from '../../styled/Button';
 import UpgradeIdea from '../UpgradeIdea';
@@ -27,6 +26,33 @@ import { format } from 'date-fns';
 import { TradeType, TradeBasketType } from '../../types/tradeBasket';
 import { selectAuthorizations } from '../../selectors';
 import Grid from '../../styled/Grid';
+import styled from '@emotion/styled';
+
+export const OrderContainer = styled.div`
+  position: relative;
+  border-radius: 4px;
+  padding: 25px;
+  margin-top: 30px;
+  background: #f5f9ff;
+  color: var(--brand-grey);
+  h2 {
+    margin-bottom: 20px;
+  }
+`;
+
+export const ConfirmContainer = styled.div`
+  text-align: left;
+  a {
+    margin-left: 20px;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+`;
+
+const SummaryContainer = styled.div`
+  text-align: left;
+  margin-top: 25px;
+`;
 
 type Props = {
   groupId: string;
@@ -373,7 +399,8 @@ const RebalanceWidget = ({
                 The trades listed above will be placed as limit orders on your
                 brokerage account, with a{' '}
                 {settings && settings.price_limit_threshold}% price limit
-                threshold.
+                threshold. Below is an estimate of the fees that will be charged
+                by <strong>your brokerage</strong>.
               </P>
               <div>
                 <OrderImpacts impacts={orderSummary} />
@@ -388,7 +415,8 @@ const RebalanceWidget = ({
             <React.Fragment>
               <P>
                 The trades listed above will be placed as market orders on your
-                brokerage account.
+                brokerage account. Below is an estimate of the fees that will be
+                charged by <strong>your brokerage</strong>.
               </P>
               <div>
                 <OrderImpacts impacts={orderSummary} />

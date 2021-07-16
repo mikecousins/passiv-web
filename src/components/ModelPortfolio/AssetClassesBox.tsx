@@ -44,7 +44,6 @@ const ResponsiveGrid = styled(Grid)`
 
 const GoToAssetClasses = styled(Button)`
   margin-top: 30px;
-  font-weight: 600;
 `;
 
 type Props = {

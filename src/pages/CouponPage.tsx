@@ -75,7 +75,7 @@ const CouponPage = () => {
     return <Redirect to="/settings" />;
   } else {
     return (
-      <ShadowBox background="#2a2d34">
+      <ShadowBox background="var(--brand-grey)">
         <H1 color="white">Apply Coupon</H1>
         {loading ? (
           <React.Fragment>

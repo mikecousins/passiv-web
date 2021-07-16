@@ -27,10 +27,11 @@ import {
 } from '../selectors';
 import TotalHoldings from '../components/TotalHoldings';
 import DashboardConfig from '../components/Performance/Dashboard/DashboardConfig';
-import { DashboardGoalWidgets } from '../components/Goals/DashboardGoalWidgets';
+import DashboardGoalWidgets from '../components/Goals/DashboardGoalWidgets';
 import { selectShowInvestingCourse } from '../selectors/subscription';
+import ThreeReferTshirt from '../components/ThreeReferTshirt';
 
-export const DashboardPage = () => {
+const DashboardPage = () => {
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const groups = useSelector(selectDashboardGroups);
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
@@ -77,6 +78,11 @@ export const DashboardPage = () => {
       name: 'investing_course',
       content: <InvestingCourse />,
       visible: showInvestingCourse,
+    },
+    {
+      name: '3refer_tShirt',
+      content: <ThreeReferTshirt />,
+      visible: true,
     },
     {
       name: 'customize_dashboard',

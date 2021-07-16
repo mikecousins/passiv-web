@@ -25,7 +25,7 @@ import {
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import GoalProjectionLineChart from '../components/Goals/GoalProjectionLineChart';
 import { deleteGoal, loadGoals } from '../actions/goals';
-import { Button } from '../styled/Button';
+import { Button, TransparentButton } from '../styled/Button';
 import { patchData } from '../api';
 import { toast } from 'react-toastify';
 import { Goal } from '../types/goals';
@@ -142,7 +142,7 @@ const NameInput = styled(InputPrimary)`
   -moz-letter-spacing: -1.5px;
   -ms-letter-spacing: -1.5px;
   letter-spacing: -1.5px;
-  color: #2a2d34;
+  color: var(--brand-grey);
   padding-top: 0;
   padding: 0;
   background: none;
@@ -159,7 +159,7 @@ const Discard = styled(Button)`
     text-decoration: underline;
   }
 `;
-export const ToggleShow = styled(Button)`
+const ToggleShow = styled(Button)`
   border: 1px solid var(--brand-blue);
   background: none;
   color: var(--brand-blue);
@@ -198,7 +198,7 @@ const DropDown = styled.div`
   }
   button {
     &:hover {
-      color: #003ba2;
+      color: var(--brand-blue);
       text-decoration: underline;
     }
   }
@@ -214,7 +214,7 @@ const DeleteGoal = styled.button`
     padding-top: 18px;
   }
   &:hover {
-    color: #003ba2;
+    color: var(--brand-blue);
     text-decoration: underline;
   }
 `;
@@ -540,7 +540,7 @@ const GoalDetailPage = () => {
             )}
           </div>
         </HeaderBanner>
-        <ShadowBox background="#04a287">
+        <ShadowBox background="var(--brand-green)">
           <Summary columns="1fr 1fr 1fr">
             <P>
               <H3>Goal Progress</H3> ${toDollarString(currentValue)}
@@ -652,7 +652,9 @@ const GoalDetailPage = () => {
         </H2Margin>
         <ActionContainer>
           <Button onClick={handleDelete}>Delete</Button>
-          <A onClick={() => setShowDeleteDialog(false)}>Cancel</A>
+          <TransparentButton onClick={() => setShowDeleteDialog(false)}>
+            Cancel
+          </TransparentButton>
         </ActionContainer>
       </Dialog>
     </React.Fragment>

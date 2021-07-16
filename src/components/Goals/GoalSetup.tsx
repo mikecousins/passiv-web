@@ -64,7 +64,7 @@ const NumInput = styled(InputPrimary)`
   }
 `;
 const DurationSelect = styled.select`
-  border-bottom: 2px solid #003ba2;
+  border-bottom: 2px solid var(--brand-blue);
   margin: 14px 14px 0 0;
   font-size: 28px;
   padding: 0 20px 0 0;
@@ -75,7 +75,7 @@ const DurationSelect = styled.select`
   font-family: 'Cooper', sans-serif;
 `;
 const MonthSelect = styled.select`
-  border-bottom: 2px solid #003ba2;
+  border-bottom: 2px solid var(--brand-blue);
   margin: 14px 10px 0 16px;
   font-size: 28px;
   padding: 0 20px 0 0;

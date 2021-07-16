@@ -11,6 +11,7 @@ import {
   faSpinner,
   faChevronCircleRight,
   faChevronCircleLeft,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
@@ -23,7 +24,7 @@ import {
   ModelPortfolioDetailsType,
 } from '../types/modelPortfolio';
 import { loadGroups, loadModelPortfolios } from '../actions';
-import { Button } from '../styled/Button';
+import { Button, TransparentButton } from '../styled/Button';
 import { H1, H3, P, Table } from '../styled/GlobalElements';
 import Grid from '../styled/Grid';
 import { ViewBtn } from '../styled/Group';
@@ -41,19 +42,20 @@ import NotificationMessage from '../components/NotificationMessage';
 import { selectContextualMessages } from '../selectors';
 import NotAvailable from '../components/NotAvailable';
 
-export const TransparentButton = styled(Button)`
-  background-color: transparent;
-  color: var(--brand-blue);
-  border: 3px solid var(--brand-blue);
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 18px;
-  padding: 12px 25px;
-  @media (max-width: 900px) {
-    margin-bottom: 10px;
-    width: 100%;
-  }
-`;
+// export const TransparentButton = styled(Button)`
+//   background-color: transparent;
+//   color: var(--brand-blue);
+//   border: 3px solid var(--brand-blue);
+//   border-radius: 4px;
+//   font-weight: 600;
+//   font-size: 18px;
+//   padding: 12px 25px;
+//   transition: 0.3s;
+//   @media (max-width: 900px) {
+//     margin-bottom: 10px;
+//     width: 100%;
+//   }
+// `;
 const NewModelButton = styled(Button)`
   padding: 20px 70px;
   font-weight: 600;
@@ -80,6 +82,8 @@ const ModelName = styled(H3)`
   }
 `;
 const ApplyTransparentBtn = styled(TransparentButton)`
+  border: 2px solid var(--brand-blue);
+  font-size: 18px;
   &:hover {
     :disabled {
       background: transparent;
@@ -275,7 +279,7 @@ const MyModelPortfoliosPage = () => {
             onClick={() => handleNewModelBtn()}
             className="tour-new-model-button"
           >
-            New Model
+            <FontAwesomeIcon icon={faPlus} /> New Model
           </NewModelButton>
         </div>
       </Table>

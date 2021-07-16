@@ -23,7 +23,7 @@ const DemoNotesContainer = styled.div`
 
 const DemoNotes = () => {
   return (
-    <ShadowBox background="#04a287">
+    <ShadowBox background="var(--brand-green)">
       <DemoNotesContainer>
         <DemoNotesContent />
       </DemoNotesContainer>

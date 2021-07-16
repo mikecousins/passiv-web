@@ -7,13 +7,13 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { toDollarString } from '../Performance/Performance';
 import Grid from '../../styled/Grid';
 
-export const ChartBox = styled.div`
+const ChartBox = styled.div`
   position: relative;
   height: 300px;
   margin: 15px 0 10px;
 `;
 
-export const LegendItem = styled.div`
+const LegendItem = styled.div`
   font-size: 18px;
 `;
 
@@ -22,7 +22,7 @@ type Props = {
   currentValue: number;
   projectedValue: number;
 };
-export const GoalProjectionChart: FunctionComponent<Props> = ({
+const GoalProjectionChart: FunctionComponent<Props> = ({
   goal,
   currentValue,
   projectedValue,

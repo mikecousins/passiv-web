@@ -15,7 +15,7 @@ const Row = styled.div`
   margin-bottom: 8px;
 `;
 
-export const AdjustedCostBasisTab = () => {
+const AdjustedCostBasisTab = () => {
   const ACBs = useSelector(selectAdjustedCostBasis)?.data;
 
   return (

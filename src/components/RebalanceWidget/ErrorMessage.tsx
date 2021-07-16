@@ -1,13 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
-import {
-  OrderContainer,
-  ConfirmContainer,
-  ErrorDetail,
-  ErrorAttributeSpan,
-} from './styles';
+import { OrderContainer, ConfirmContainer } from '.';
 import { P, H2 } from '../../styled/GlobalElements';
 import { Button } from '../../styled/Button';
 import ConnectionUpdate from '../ConnectionUpdate';
@@ -16,6 +12,15 @@ import { selectDashboardGroups } from '../../selectors/groups';
 import { push } from 'connected-react-router';
 import PreLoadLink from '../PreLoadLink';
 import { CONTACT_FORM_PATH, SETTINGS_PATH } from '../../apps/Paths';
+
+const ErrorDetail = styled(P)`
+  padding-left: 20px;
+`;
+
+const ErrorAttributeSpan = styled.span`
+  font-weight: 600;
+  padding-right: 10px;
+`;
 
 type Props = {
   error: any;
