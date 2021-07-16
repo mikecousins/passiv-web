@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCogs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Group from '../components/Group';
@@ -8,13 +8,11 @@ import {
   selectAllGroupsLoading,
 } from '../selectors/groups';
 import { selectShowOnboardingApp } from '../selectors/app';
-import Welcome from '../components/Welcome';
 import DashboardReporting, {
   CustomizeDashBtn,
   CustomizeDashContainer,
 } from '../components/Performance/Dashboard/DashboardReporting';
 import HelpLinks from '../components/Dashboard/HelpLinks';
-import SetupPrompt from '../components/SetupPrompt/SetupPrompt';
 import ConnectQuestrade from '../components/ConnectQuestrade';
 import InvestingCourse from '../components/InvestingCourse';
 import {
@@ -24,14 +22,18 @@ import {
 import {
   selectHasQuestradeConnection,
   selectDisplayQuestradeConnectPrompt,
+  selectOnboardingStep,
 } from '../selectors';
 import TotalHoldings from '../components/TotalHoldings';
 import DashboardConfig from '../components/Performance/Dashboard/DashboardConfig';
 import DashboardGoalWidgets from '../components/Goals/DashboardGoalWidgets';
 import { selectShowInvestingCourse } from '../selectors/subscription';
+import WelcomePage from './WelcomePage';
+import { push } from 'connected-react-router';
 import ThreeReferTshirt from '../components/ThreeReferTshirt';
 
 const DashboardPage = () => {
+  const dispatch = useDispatch();
   const showOnboardingApp = useSelector(selectShowOnboardingApp);
   const groups = useSelector(selectDashboardGroups);
   const hasQuestradeConnection = useSelector(selectHasQuestradeConnection);
@@ -40,13 +42,17 @@ const DashboardPage = () => {
   );
   const showInvestingCourse = useSelector(selectShowInvestingCourse);
   const groupsLoading = useSelector(selectAllGroupsLoading);
+  const onboardingStep = useSelector(selectOnboardingStep);
 
   const [configMode, setConfigMode] = useState(false);
 
   let groupDisplay = <FontAwesomeIcon icon={faSpinner} spin />;
 
-  let anySetupRemaining = false;
+  if (showOnboardingApp) {
+    dispatch(push('/welcome'));
+  }
   let anyTargets = true;
+  // let anySetupRemaining = false;
   if (groups) {
     groupDisplay = (
       <React.Fragment>
@@ -56,12 +62,14 @@ const DashboardPage = () => {
       </React.Fragment>
     );
     let groupsSetupStatus = groups.map((group) => group.setupComplete);
-    const verifyAnyFalse = (currentValue: any) => currentValue === false;
+    // const verifyAnyFalse = (currentValue: any) => currentValue === false;
     const verifyAnyTrue = (currentValue: any) => currentValue === true;
 
-    anySetupRemaining = groupsSetupStatus.some(verifyAnyFalse);
+    // anySetupRemaining = groupsSetupStatus.some(verifyAnyFalse);
     anyTargets = !groupsSetupStatus.some(verifyAnyTrue);
   }
+
+  const onboarding = onboardingStep !== undefined;
 
   const messages: Message[] = [
     {
@@ -70,9 +78,9 @@ const DashboardPage = () => {
       visible: displayQuestradeConnectPrompt,
     },
     {
-      name: 'setup_prompt',
-      content: <SetupPrompt />,
-      visible: anySetupRemaining,
+      name: 'onboarding_dashboard',
+      content: <WelcomePage />,
+      visible: onboarding,
     },
     {
       name: 'investing_course',
@@ -96,10 +104,6 @@ const DashboardPage = () => {
       visible: hasQuestradeConnection,
     },
   ];
-
-  if (showOnboardingApp) {
-    return <Welcome />;
-  }
 
   return (
     <React.Fragment>

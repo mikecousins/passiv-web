@@ -279,6 +279,7 @@ const PortfolioGroupTrades = ({ trades, groupId, error, onClose }: Props) => {
               <HideButton
                 name={'route_nontradable_trades'}
                 text={'I Understand'}
+                xButton={false}
               />
             </HideButtonBox>
           </div>

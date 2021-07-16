@@ -1,8 +1,8 @@
+import React, { useEffect, useState } from 'react';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Dialog from '@reach/dialog';
 import { Location } from 'history';
-import React, { useEffect, useState } from 'react';
 import { Prompt } from 'react-router-dom';
 import { Button, TransparentButton } from '../styled/Button';
 import { ActionContainer, H2Margin } from './ModelAssetClass/AssetClass';

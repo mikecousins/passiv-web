@@ -96,6 +96,11 @@ const BrokeragesAuthPage = ReactLazyPreload(() =>
     /* webpackChunkName: "brokerage-auth" */ '../pages/BrokeragesAuthPage'
   ),
 );
+
+const WelcomePage = ReactLazyPreload(() =>
+  import(/* webpackChunkName: "settings" */ '../pages/WelcomePage'),
+);
+
 const UpgradeOfferPage = ReactLazyPreload(() =>
   import(/* webpackChunkName: "upgrade-offer" */ '../pages/UpgradeOfferPage'),
 );
@@ -169,7 +174,7 @@ const Prioritization = ReactLazyPreload(() =>
 );
 
 const QuickTradePage = ReactLazyPreload(() =>
-  import(/* webpackChunkName: "quick-trading" */ '../pages/QuickTradePage'),
+  import(/* webpackChunkName: "quick-trade" */ '../pages/QuickTradePage'),
 );
 
 // declare global {
@@ -449,6 +454,11 @@ const App = () => {
               />
             )}
             {/* onboarding app */}
+            {showSecureApp && (
+              <Route path="/welcome">
+                <WelcomePage />
+              </Route>
+            )}
             {showSecureApp && (
               <Route path="/connect/:openBrokerage?">
                 <AuthorizationPage onboarding={true} />
